@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.2 — 2026-07-24
+
+- Bumped submodule pins to the current release of each skill: super-ux 0.18.0,
+  task-pipeline 0.9.0, **make-skill 0.2.0** (correct multi-agent + cross-platform
+  distribution guidance), sheleg-design 0.6.0.
+
 ## v0.1.1 — 2026-07-24
 
 - **Fix multi-agent install.** The vercel `skills` CLI does not split a
