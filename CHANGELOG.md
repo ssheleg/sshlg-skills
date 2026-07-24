@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.1.3 — 2026-07-24
+
+- **Tolerate stray non-flag arguments.** zsh does not treat `#` as a comment by
+  default, so `... install # note` passed `#` into the launcher and it hard-failed
+  with "unknown option: #". Now only `-`/`--`-prefixed unknowns error; bare stray
+  tokens are ignored with a notice, so the intended command still runs.
+
 ## v0.1.2 — 2026-07-24
 
 - Bumped submodule pins to the current release of each skill: super-ux 0.18.0,

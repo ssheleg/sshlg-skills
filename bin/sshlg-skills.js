@@ -37,7 +37,9 @@ function parseFlags(argv) {
     else if (a === '--no-claude') f.claude = false;
     else if (a === '--claude-only') f.claudeOnly = true;
     else if (a === '--agent' || a === '-a') f.agents = (argv[++i] || '').split(',').map(s => s.trim()).filter(Boolean);
-    else { log(`unknown option: ${a}`); process.exit(2); }
+    else if (a.startsWith('-')) { log(`unknown option: ${a}`); process.exit(2); }
+    // ignore stray non-flag tokens (e.g. a trailing shell comment zsh doesn't strip)
+    else log(`  (ignoring stray argument: ${a})`);
   }
   return f;
 }
