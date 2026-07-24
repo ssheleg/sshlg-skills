@@ -1,0 +1,12 @@
+[submodule "skills/super-ux"]
+	path = skills/super-ux
+	url = https://github.com/ssheleg/super-ux.git
+[submodule "skills/task-pipeline"]
+	path = skills/task-pipeline
+	url = https://github.com/ssheleg/task-pipeline.git
+[submodule "skills/make-skill"]
+	path = skills/make-skill
+	url = https://github.com/ssheleg/make-skill.git
+[submodule "skills/sheleg-design"]
+	path = skills/sheleg-design
+	url = https://github.com/ssheleg/sheleg-design-skill.git

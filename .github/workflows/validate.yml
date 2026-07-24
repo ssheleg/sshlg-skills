@@ -1,0 +1,44 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Structural validator
+        run: python3 test/validate.py
+
+      - name: Negative self-test (validator must be able to fail)
+        run: |
+          set -eu
+          cp -R . /tmp/corrupt
+          # break the .gitmodules <-> skills.json agreement
+          python3 - <<'PY'
+          import json
+          p="/tmp/corrupt/skills.json"
+          d=json.load(open(p))
+          d["skills"][0]["dir"]="skills/does-not-exist"
+          json.dump(d, open(p,"w"), indent=2)
+          PY
+          if python3 /tmp/corrupt/test/validate.py; then
+            echo "ERROR: validator passed on a corrupted copy"
+            exit 1
+          else
+            echo "OK: validator FAILs on submodule/manifest drift"
+          fi
+
+      - name: Launcher CLI check
+        run: node --check bin/sshlg-skills.js
+
+      - name: Launcher list/help run (no side effects)
+        run: |
+          node bin/sshlg-skills.js --help >/dev/null
+          node bin/sshlg-skills.js agents >/dev/null
+          echo "OK: launcher runs"

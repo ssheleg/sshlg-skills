@@ -1,0 +1,49 @@
+{
+  "owner": "ssheleg",
+  "defaultAgents": [
+    "cursor",
+    "opencode",
+    "kilo",
+    "kimi-code-cli",
+    "hermes-agent",
+    "openclaw",
+    "codex",
+    "gemini-cli",
+    "windsurf",
+    "zed"
+  ],
+  "skills": [
+    {
+      "name": "super-ux",
+      "repo": "ssheleg/super-ux",
+      "dir": "skills/super-ux",
+      "pluginMarketplace": "ssheleg/super-ux",
+      "pluginInstall": "super-ux@super-ux",
+      "desc": "Scenario-driven UX: foundation -> flows -> screens -> scenarios -> audits, one /ux entry, a doc-drift linter."
+    },
+    {
+      "name": "task-pipeline",
+      "repo": "ssheleg/task-pipeline",
+      "dir": "skills/task-pipeline",
+      "pluginMarketplace": "ssheleg/task-pipeline",
+      "pluginInstall": "task-pipeline@task-pipeline",
+      "desc": "Intake grill + 9 gated delivery stages on the superpowers skills; typed gates, super-ux UX track, toggleable release."
+    },
+    {
+      "name": "make-skill",
+      "repo": "ssheleg/make-skill",
+      "dir": "skills/make-skill",
+      "pluginMarketplace": "ssheleg/make-skill",
+      "pluginInstall": "make-skill@make-skill",
+      "desc": "Create, retrofit, and ship agent skills & plugins the proven ssheleg way."
+    },
+    {
+      "name": "sheleg-design",
+      "repo": "ssheleg/sheleg-design-skill",
+      "dir": "skills/sheleg-design",
+      "pluginMarketplace": "ssheleg/sheleg-design-skill",
+      "pluginInstall": "sheleg-design@sheleg-design-skill",
+      "desc": "Cinematic scroll-driven landing/hero design methodology + product-UI style packs."
+    }
+  ]
+}
