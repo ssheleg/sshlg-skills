@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.1.1 — 2026-07-24
+
+- **Fix multi-agent install.** The vercel `skills` CLI does not split a
+  comma/space-joined `--agent` value (it read `cursor,opencode,…` as one invalid
+  agent). The launcher now passes one repeated `--agent <name>` flag per agent, so
+  `install` reaches the whole default agent set (and `--all`/`--agent a,b`) in one
+  `skills add` call per skill.
+
 ## v0.1.0 — 2026-07-24
 
 Initial release — the ssheleg skill-family umbrella.

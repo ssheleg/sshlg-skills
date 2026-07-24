@@ -80,10 +80,13 @@ function cmdInstall(f) {
   let ok = true;
   if (!f.claudeOnly) {
     const agents = skillsCliAgents(f);
+    // the skills CLI wants ONE `--agent` flag per agent (it does not split a
+    // comma/space-joined value) — flatten to repeated flags.
+    const agentFlags = agents.reduce((acc, a) => acc.concat('--agent', a), []);
     log(`\n== Installing to agents via skills CLI: ${agents.join(', ')} ==`);
     for (const s of SKILLS) {
       log(`\n- ${s.name} (${s.repo})`);
-      ok = run('npx', ['--yes', 'skills', 'add', s.repo, '--agent', agents.join(','), '--global', '--yes']) && ok;
+      ok = run('npx', ['--yes', 'skills', 'add', s.repo, ...agentFlags, '--global', '--yes']) && ok;
     }
   }
   if (f.claude || f.claudeOnly) {
