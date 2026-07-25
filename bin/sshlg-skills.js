@@ -16,6 +16,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const { spawnSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -56,6 +57,23 @@ function agentList(f) {
   if (f.all) return ['*'];
   if (f.agents && f.agents.length) return f.agents;
   return manifest.defaultAgents.slice();
+}
+
+// The skills CLI auto-detects Claude Code and writes ~/.claude/skills/<id> even when
+// we never ask for that agent. While the Claude PLUGIN channel is active those plain
+// copies shadow the plugin, so prune them — "one channel per agent", enforced.
+function pruneClaudeShadows(skillIds) {
+  const base = path.join(os.homedir(), '.claude', 'skills');
+  const pruned = [];
+  for (const id of skillIds) {
+    const d = path.join(base, id);
+    try {
+      if (fs.existsSync(d)) { fs.rmSync(d, { recursive: true, force: true }); pruned.push(id); }
+    } catch (_) { /* leave it; not fatal */ }
+  }
+  if (pruned.length) {
+    log(`  pruned Claude plain copies that would shadow the plugin: ${pruned.join(', ')}`);
+  }
 }
 
 function usage() {
@@ -100,6 +118,7 @@ function cmdInstall(f) {
       log(`\n- ${s.name} (${s.repo})`);
       ok = run('npx', ['--yes', 'skills', 'add', s.repo, ...agentFlags, '--global', '--yes']) && ok;
     }
+    if (f.claude) pruneClaudeShadows(SKILLS.flatMap(s => s.skillNames || [s.name]));
   }
   if (f.claude || f.claudeOnly) {
     log(`\n== Installing Claude Code plugins ==`);
@@ -138,6 +157,7 @@ function cmdUpdate(f) {
     for (const n of names) {
       ok = run('npx', ['--yes', 'skills', 'update', n, '--global', '--yes']) && ok;
     }
+    if (f.claude) pruneClaudeShadows(names);
   }
   if (f.claude || f.claudeOnly) {
     log(`\n== Updating Claude Code plugins ==`);

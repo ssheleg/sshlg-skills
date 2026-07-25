@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.4.0 — 2026-07-25
+
+- **Enforce "one channel per agent" automatically.** The skills CLI auto-detects
+  Claude Code and writes `~/.claude/skills/<id>` even when it is never named as a
+  target, so every `install`/`update` silently recreated plain copies that shadow
+  the Claude plugin. The launcher now prunes those copies after any skills-CLI
+  step while the plugin channel is active (skipped under `--no-claude`, where the
+  plain copies are the intended channel). Verified live: 7 shadows → 0.
+
 ## v0.3.1 — 2026-07-25
 
 - Pin bump: sheleg-design **0.7.0** (style-agnostic build recipe, release
