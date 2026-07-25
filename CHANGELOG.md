@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.1 — 2026-07-25
+
+- Pin bump: sheleg-design **0.7.0** (style-agnostic build recipe, release
+  workflow, RU README). Family now pinned at super-ux 0.19.0, task-pipeline
+  0.10.0, make-skill 0.3.0, sheleg-design 0.7.0.
+
 ## v0.3.0 — 2026-07-25
 
 Launcher hardening — four defects an adversarial audit proved by execution.
