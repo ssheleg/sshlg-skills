@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.1 — 2026-07-25
+
+- Pins bumped to the review-pass releases: super-ux **0.19.0** (contracts now ship
+  with every skill), task-pipeline **0.10.0** (brief template reachable on every
+  channel, current super-ux chain), make-skill **0.3.0** (stopped shipping a
+  placeholder skill; validator enforces the canon), sheleg-design 0.6.0.
+
 ## v0.2.0 — 2026-07-24
 
 - **Fix: `update` never updated super-ux.** A repo can ship several skills under
