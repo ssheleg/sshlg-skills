@@ -92,7 +92,12 @@ for s in skills:
         fail(f"skills.json: {name!r} skillNames must be a non-empty list of installed skill ids")
     else:
         skdir = os.path.join(ROOT, s.get("dir", ""), "plugins", name, "skills")
-        if os.path.isdir(skdir):
+        if not os.path.isdir(skdir):
+            # Without a materialised submodule the cross-check is toothless — say so
+            # loudly instead of silently passing (CI must check out submodules).
+            fail(f"skills.json: {name!r} submodule not materialised at {s.get('dir')!r} — "
+                 f"cannot verify skillNames (clone with --recursive / CI submodules: recursive)")
+        else:
             shipped = {d for d in os.listdir(skdir) if os.path.isdir(os.path.join(skdir, d)) and d != "references"}
             missing = [x for x in sn if x not in shipped]
             if missing:

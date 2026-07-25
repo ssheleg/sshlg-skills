@@ -8,7 +8,7 @@
  * and `git submodule` (pinned snapshots). Zero npm dependencies.
  *
  *   npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only]
- *   npx sshlg-skills update  [--agent a,b | --all] [--no-claude]
+ *   npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins]
  *   npx sshlg-skills list
  *   npx sshlg-skills agents
  */
@@ -25,22 +25,30 @@ const SKILLS = manifest.skills;
 function log(m) { process.stdout.write(m + '\n'); }
 function run(cmd, args, opts) {
   log('  » ' + cmd + ' ' + args.join(' '));
-  const r = spawnSync(cmd, args, Object.assign({ stdio: 'inherit' }, opts || {}));
+  const r = spawnSync(cmd, args, Object.assign(
+    { stdio: 'inherit', shell: process.platform === 'win32' }, opts || {}));
   return r.status === 0;
 }
 
 function parseFlags(argv) {
-  const f = { agents: null, all: false, claude: true, claudeOnly: false, yes: true };
+  const f = { agents: null, all: false, claude: true, claudeOnly: false, bumpPins: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--all') f.all = true;
     else if (a === '--no-claude') f.claude = false;
     else if (a === '--claude-only') f.claudeOnly = true;
-    else if (a === '--agent' || a === '-a') f.agents = (argv[++i] || '').split(',').map(s => s.trim()).filter(Boolean);
+    else if (a === '--bump-pins') f.bumpPins = true;
+    else if (a === '--agent' || a === '-a') {
+      const v = argv[++i];
+      if (!v || v.startsWith('-')) { log('--agent needs a value, e.g. --agent cursor,zed'); process.exit(2); }
+      f.agents = v.split(',').map(s => s.trim()).filter(Boolean);
+      if (!f.agents.length) { log('--agent got an empty list'); process.exit(2); }
+    }
     else if (a.startsWith('-')) { log(`unknown option: ${a}`); process.exit(2); }
     // ignore stray non-flag tokens (e.g. a trailing shell comment zsh doesn't strip)
     else log(`  (ignoring stray argument: ${a})`);
   }
+  if (f.claudeOnly && !f.claude) { log('--claude-only and --no-claude contradict each other'); process.exit(2); }
   return f;
 }
 
@@ -57,7 +65,7 @@ Skills: ${SKILLS.map(s => s.name).join(', ')}
 
 Usage:
   npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only]
-  npx sshlg-skills update  [--agent a,b | --all] [--no-claude]
+  npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins]
   npx sshlg-skills list
   npx sshlg-skills agents
 
@@ -67,7 +75,9 @@ Defaults:
   - --all       every agent the skills CLI supports ('*'); with Claude plugins on,
                 this also drops a plain Claude copy — prefer the default.
   - --no-claude skip the Claude plugin step.
-  - --claude-only install/update only the Claude plugins.`);
+  - --claude-only install/update only the Claude plugins.
+  - --bump-pins  (update only) also fast-forward the pinned submodules to their
+                 upstream tips — off by default so pins stay reproducible.`);
 }
 
 function skillsCliAgents(f) {
@@ -95,8 +105,8 @@ function cmdInstall(f) {
     log(`\n== Installing Claude Code plugins ==`);
     for (const s of SKILLS) {
       log(`\n- ${s.name}`);
-      run('claude', ['plugin', 'marketplace', 'add', s.pluginMarketplace]);
-      run('claude', ['plugin', 'install', s.pluginInstall]);
+      ok = run('claude', ['plugin', 'marketplace', 'add', s.pluginMarketplace]) && ok;
+      ok = run('claude', ['plugin', 'install', s.pluginInstall]) && ok;
     }
     log('\n(restart Claude Code to apply the plugins)');
   }
@@ -105,10 +115,18 @@ function cmdInstall(f) {
 
 function cmdUpdate(f) {
   let ok = true;
-  // 1. refresh pinned submodule snapshots if we are inside the repo checkout
-  if (fs.existsSync(path.join(ROOT, '.gitmodules'))) {
-    log('\n== Refreshing submodule snapshots ==');
-    run('git', ['-C', ROOT, 'submodule', 'update', '--remote', '--merge']);
+  // 1. Submodules are PINNED snapshots. Only materialise them (--init), never
+  //    move the pins — unless the operator explicitly asks with --bump-pins.
+  //    Skipped entirely for --claude-only: that flag must not touch the checkout.
+  if (!f.claudeOnly && fs.existsSync(path.join(ROOT, '.gitmodules'))) {
+    if (f.bumpPins) {
+      log('\n== Bumping submodule pins to upstream tips (--bump-pins) ==');
+      ok = run('git', ['-C', ROOT, 'submodule', 'update', '--init', '--remote', '--merge']) && ok;
+      log('  ! pins moved — commit the gitlinks to make this reproducible');
+    } else {
+      log('\n== Materialising pinned submodules (pins unchanged) ==');
+      ok = run('git', ['-C', ROOT, 'submodule', 'update', '--init', '--recursive']) && ok;
+    }
   }
   if (!f.claudeOnly) {
     // A repo can ship several skills under different ids (super-ux ships
@@ -116,13 +134,16 @@ function cmdUpdate(f) {
     // skill), and `skills update` matches INSTALLED SKILL names, not repo names.
     const names = SKILLS.flatMap(s => (s.skillNames && s.skillNames.length ? s.skillNames : [s.name]));
     log(`\n== Updating skills-CLI installs (global): ${names.join(', ')} ==`);
-    ok = run('npx', ['--yes', 'skills', 'update', ...names, '--global', '--yes']) && ok;
+    // One invocation per skill: a single bad id must not fail the whole batch.
+    for (const n of names) {
+      ok = run('npx', ['--yes', 'skills', 'update', n, '--global', '--yes']) && ok;
+    }
   }
   if (f.claude || f.claudeOnly) {
     log(`\n== Updating Claude Code plugins ==`);
     for (const s of SKILLS) {
-      run('claude', ['plugin', 'marketplace', 'update', s.pluginInstall.split('@')[1]]);
-      run('claude', ['plugin', 'update', s.pluginInstall]);
+      ok = run('claude', ['plugin', 'marketplace', 'update', s.pluginInstall.split('@')[1]]) && ok;
+      ok = run('claude', ['plugin', 'update', s.pluginInstall]) && ok;
     }
     log('\n(restart Claude Code to apply)');
   }
@@ -132,7 +153,7 @@ function cmdUpdate(f) {
 function cmdList() {
   log('ssheleg skill family:\n');
   for (const s of SKILLS) {
-    let ver = '?';
+    let ver = s.version || '?';
     const pj = path.join(ROOT, s.dir, 'plugins', s.name, '.claude-plugin', 'plugin.json');
     try { ver = JSON.parse(fs.readFileSync(pj, 'utf8')).version; } catch (_) {}
     log(`  ${s.name.padEnd(16)} v${ver.padEnd(8)} ${s.repo}`);

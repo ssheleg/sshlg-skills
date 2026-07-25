@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.3.0 — 2026-07-25
+
+Launcher hardening — four defects an adversarial audit proved by execution.
+
+- **FIX: `update` silently moved the pins, even with `--claude-only`.** The
+  submodule step ran before any flag branch and used `--remote --merge`, so a
+  "Claude-only" run fast-forwarded a submodule to its upstream tip and left the
+  superproject dirty — destroying the pinned-snapshot contract. It now runs only
+  when not `--claude-only`, uses `--init --recursive` (materialise, don't move),
+  and moves pins **only** behind the new explicit `--bump-pins`.
+- **FIX: every `claude plugin` failure was swallowed.** Those `run()` results were
+  discarded, so a completely failing `claude` still exited 0 (worst with
+  `--claude-only`, where nothing else could set the flag). All four calls now feed
+  the exit status — verified with a failing stub on PATH: exit 1.
+- **FIX: the CI could not catch a bad `skillNames`.** Both workflows checked out
+  `submodules: false`, and the cross-check was guarded by `if isdir(...)` — so it
+  skipped silently and a bogus id passed green. Workflows now check out
+  `submodules: recursive`, and the validator **fails loudly** when a submodule
+  isn't materialised instead of skipping.
+- **`skills update` now runs one call per skill id** so a single bad id can't fail
+  the batch; contradictory `--claude-only --no-claude` and a valueless `--agent`
+  now exit 2; `spawnSync` uses `shell` on Windows (npx/claude are `.cmd` shims);
+  `list` falls back to versions recorded in `skills.json` when run from an npx
+  tarball (it printed `v?` for everything, including the release smoke test).
+- README's `update` section now matches the launcher (no `--agent`, adds
+  `--bump-pins`).
+
 ## v0.2.1 — 2026-07-25
 
 - Pins bumped to the review-pass releases: super-ux **0.19.0** (contracts now ship

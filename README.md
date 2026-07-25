@@ -51,8 +51,13 @@ Flags: `--agent a,b` (pick agents), `--all` (every agent the skills CLI supports
 ```
 npx github:ssheleg/sshlg-skills update
 ```
-Refreshes the pinned submodules (inside a checkout), updates every skills-CLI
-install, and updates the Claude Code plugins. Restart Claude Code to apply.
+Updates every skills-CLI install (one call per skill id) and the Claude Code
+plugins, and materialises the pinned submodules inside a checkout **without moving
+the pins**. Restart Claude Code to apply.
+
+Flags: `--no-claude`, `--claude-only`, and `--bump-pins` (fast-forward the pins to
+their upstream tips — off by default so a checkout stays reproducible). `update`
+targets whatever is already installed, so it takes no `--agent`.
 
 ## Other commands
 
