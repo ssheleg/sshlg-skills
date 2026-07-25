@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.2.0 — 2026-07-24
+
+- **Fix: `update` never updated super-ux.** A repo can ship several skills under
+  different ids — super-ux ships `ux-foundation`/`ux-flows`/`ux-scenarios`/
+  `ux-audit` and there is no skill called `super-ux` — but the launcher passed the
+  repo names to `skills update`, which matches INSTALLED SKILL ids. super-ux was
+  silently skipped on every update. `skills.json` entries now carry `skillNames[]`
+  (the ids actually shipped) and the launcher updates those; the validator
+  enforces the field and cross-checks it against the skills each submodule ships,
+  so the regression cannot come back.
+
 ## v0.1.3 — 2026-07-24
 
 - **Tolerate stray non-flag arguments.** zsh does not treat `#` as a comment by

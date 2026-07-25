@@ -111,8 +111,12 @@ function cmdUpdate(f) {
     run('git', ['-C', ROOT, 'submodule', 'update', '--remote', '--merge']);
   }
   if (!f.claudeOnly) {
-    log(`\n== Updating skills-CLI installs (global) ==`);
-    ok = run('npx', ['--yes', 'skills', 'update', ...SKILLS.map(s => s.name), '--global', '--yes']) && ok;
+    // A repo can ship several skills under different ids (super-ux ships
+    // ux-foundation/ux-flows/ux-scenarios/ux-audit — there is no "super-ux"
+    // skill), and `skills update` matches INSTALLED SKILL names, not repo names.
+    const names = SKILLS.flatMap(s => (s.skillNames && s.skillNames.length ? s.skillNames : [s.name]));
+    log(`\n== Updating skills-CLI installs (global): ${names.join(', ')} ==`);
+    ok = run('npx', ['--yes', 'skills', 'update', ...names, '--global', '--yes']) && ok;
   }
   if (f.claude || f.claudeOnly) {
     log(`\n== Updating Claude Code plugins ==`);

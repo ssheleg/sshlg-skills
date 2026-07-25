@@ -84,6 +84,19 @@ for s in skills:
     pin = s.get("pluginInstall", "")
     if pin and "@" not in pin:
         fail(f"skills.json: {name!r} pluginInstall {pin!r} must be '<plugin>@<marketplace>'")
+    # skillNames = the ids the skills CLI actually installs (a repo may ship several
+    # under different names, e.g. super-ux -> ux-foundation/ux-flows/...). `skills
+    # update` matches these, NOT the repo name — missing/empty means broken updates.
+    sn = s.get("skillNames")
+    if not (isinstance(sn, list) and sn and all(isinstance(x, str) and x.strip() for x in sn)):
+        fail(f"skills.json: {name!r} skillNames must be a non-empty list of installed skill ids")
+    else:
+        skdir = os.path.join(ROOT, s.get("dir", ""), "plugins", name, "skills")
+        if os.path.isdir(skdir):
+            shipped = {d for d in os.listdir(skdir) if os.path.isdir(os.path.join(skdir, d)) and d != "references"}
+            missing = [x for x in sn if x not in shipped]
+            if missing:
+                fail(f"skills.json: {name!r} skillNames {missing} not shipped by the repo (has: {sorted(shipped)})")
 
 # every submodule path in .gitmodules should be described in skills.json
 described = {s.get("dir") for s in skills}
