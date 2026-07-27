@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.5.1 — 2026-07-28
+
+- **seo-aeo-audit bumped to v0.1.0 → v0.1.1** in the registry and the submodule
+  pin. That release fixes the make-skill gotcha the first cut tripped over — the
+  deliverable skeletons lived only at the repo root, which the skills CLI does not
+  ship, so non-Claude agents received a SKILL.md pointing at files they could not
+  read — plus a broken cross-reference anchor, mixed British/American spelling
+  across the contracts, and two auditor defects (navigation labels inflating the
+  word count, robots directives matched as substrings).
+
 ## v0.5.0 — 2026-07-28
 
 - **New family member: `seo-aeo-audit` v0.1.0** ([ssheleg/seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)) —
