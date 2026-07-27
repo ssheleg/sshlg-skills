@@ -34,11 +34,11 @@
       "dir": "skills/task-pipeline",
       "pluginMarketplace": "ssheleg/task-pipeline",
       "pluginInstall": "task-pipeline@task-pipeline",
-      "desc": "Intake grill + 9 gated delivery stages on the superpowers skills; typed gates, super-ux UX track, toggleable release.",
+      "desc": "Mandatory built-in intake grill (domain-aware, ADR discipline) + 9 gated delivery stages on the superpowers skills; typed gates, super-ux UX track, toggleable release.",
       "skillNames": [
         "task-pipeline"
       ],
-      "version": "0.10.0"
+      "version": "0.12.0"
     },
     {
       "name": "make-skill",

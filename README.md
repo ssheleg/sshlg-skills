@@ -13,7 +13,7 @@ OpenCode, Kilo, Kimi, Hermes, OpenClaw, Codex, Gemini CLI, Windsurf, Zed, and mo
 | Skill | Repo | What |
 |---|---|---|
 | **super-ux** | [ssheleg/super-ux](https://github.com/ssheleg/super-ux) | Scenario-driven UX: foundation → flows → screens → scenarios → audits, one `/ux` entry, a doc-drift linter |
-| **task-pipeline** | [ssheleg/task-pipeline](https://github.com/ssheleg/task-pipeline) | Intake grill + 9 gated delivery stages on the superpowers skills |
+| **task-pipeline** | [ssheleg/task-pipeline](https://github.com/ssheleg/task-pipeline) | Mandatory built-in intake grill (domain-aware, ADR discipline) + 9 gated delivery stages on the superpowers skills |
 | **make-skill** | [ssheleg/make-skill](https://github.com/ssheleg/make-skill) | Create, retrofit, and ship skills & plugins the proven way |
 | **sheleg-design** | [ssheleg/sheleg-design-skill](https://github.com/ssheleg/sheleg-design-skill) | Cinematic scroll-driven landing/hero design + product-UI style packs |
 

@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.4.1 — 2026-07-27
+
+- **task-pipeline bumped to v0.12.0** in the registry and the submodule pin
+  (was 0.10.0). That release makes the intake grill mandatory and **built in** —
+  the `grill-me` / `grilling` dependency is gone, the doctrine is ported in-house
+  with domain awareness (CONTEXT.md glossary challenges, ADR discipline) and an
+  autonomy sweep that pre-resolves every stage-1→9 blocker — and replaces
+  per-stage model tiering with one provider-agnostic model confirmed up front.
+- Registry `desc` and the README family table updated to match.
+
 ## v0.4.0 — 2026-07-25
 
 - **Enforce "one channel per agent" automatically.** The skills CLI auto-detects
