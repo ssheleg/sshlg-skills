@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.5.2 — 2026-07-28
+
+- **seo-aeo-audit bumped to v0.2.0** in the registry and the submodule pin. That
+  release adds a dated Google update timeline (every core, spam and Discover
+  update from March 2025 to June 2026, plus the platform changes that retired old
+  tactics), an update-response protocol wired into the audit flow, a refresh
+  routine with named sources, and SEJ's *SEO Trends 2026* distilled into the
+  existing contracts.
+- Registry `desc` updated to match.
+
 ## v0.5.1 — 2026-07-28
 
 - **seo-aeo-audit bumped to v0.1.0 → v0.1.1** in the registry and the submodule
