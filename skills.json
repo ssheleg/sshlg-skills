@@ -63,6 +63,18 @@
         "sheleg-design"
       ],
       "version": "0.7.0"
+    },
+    {
+      "name": "seo-aeo-audit",
+      "repo": "ssheleg/seo-aeo-audit",
+      "dir": "skills/seo-aeo-audit",
+      "pluginMarketplace": "ssheleg/seo-aeo-audit",
+      "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
+      "desc": "Evidence-first SEO + AEO/GEO website audit: ten tracks, evidence tiers, and a prioritized change plan with verification steps.",
+      "skillNames": [
+        "seo-aeo-audit"
+      ],
+      "version": "0.1.0"
     }
   ]
 }

@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.5.0 — 2026-07-28
+
+- **New family member: `seo-aeo-audit` v0.1.0** ([ssheleg/seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)) —
+  evidence-first website audit for search **and** answer engines that ends in a
+  prioritized change plan. Ten tracks (access & indexation economics,
+  canonicalization, architecture & link equity, intent & SERP fit, content value,
+  extractability/AEO-GEO, entity & brand consensus, experience signals, risk &
+  threats, measurement), an evidence-tier triage model
+  (`priority = (impact × confidence) / effort`), an explicit myth guard, and a
+  stdlib-only page auditor that measures the answer-engine read budget.
+- Registered in `skills.json`, added as a submodule at `skills/seo-aeo-audit`,
+  README family table and RU section updated.
+
 ## v0.4.1 — 2026-07-27
 
 - **task-pipeline bumped to v0.12.0** in the registry and the submodule pin

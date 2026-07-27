@@ -10,3 +10,6 @@
 [submodule "skills/sheleg-design"]
 	path = skills/sheleg-design
 	url = https://github.com/ssheleg/sheleg-design-skill.git
+[submodule "skills/seo-aeo-audit"]
+	path = skills/seo-aeo-audit
+	url = https://github.com/ssheleg/seo-aeo-audit.git

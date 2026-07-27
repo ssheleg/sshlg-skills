@@ -3,7 +3,7 @@
 [![validate](https://github.com/ssheleg/sshlg-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/ssheleg/sshlg-skills/actions/workflows/validate.yml)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-One umbrella for the **ssheleg skill family** — the four skills live in their own
+One umbrella for the **ssheleg skill family** — the five skills live in their own
 repos, aggregated here as git **submodules**, with a single **launcher/updater**
 that installs and updates them across **every agent**: Claude Code, Cursor,
 OpenCode, Kilo, Kimi, Hermes, OpenClaw, Codex, Gemini CLI, Windsurf, Zed, and more.
@@ -16,6 +16,7 @@ OpenCode, Kilo, Kimi, Hermes, OpenClaw, Codex, Gemini CLI, Windsurf, Zed, and mo
 | **task-pipeline** | [ssheleg/task-pipeline](https://github.com/ssheleg/task-pipeline) | Mandatory built-in intake grill (domain-aware, ADR discipline) + 9 gated delivery stages on the superpowers skills |
 | **make-skill** | [ssheleg/make-skill](https://github.com/ssheleg/make-skill) | Create, retrofit, and ship skills & plugins the proven way |
 | **sheleg-design** | [ssheleg/sheleg-design-skill](https://github.com/ssheleg/sheleg-design-skill) | Cinematic scroll-driven landing/hero design + product-UI style packs |
+| **seo-aeo-audit** | [ssheleg/seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit) | Evidence-first SEO + AEO/GEO site audit: ten tracks, evidence tiers, a prioritized change plan |
 
 Each is independently installable; this repo is the one-command hub.
 
@@ -78,7 +79,7 @@ sync with `.gitmodules`.
 ## По-русски
 
 **sshlg-skills** — единый зонтичный репозиторий для семейства скилов ssheleg
-(super-ux, task-pipeline, make-skill, sheleg-design). Сами скилы живут в своих
+(super-ux, task-pipeline, make-skill, sheleg-design, seo-aeo-audit). Сами скилы живут в своих
 репах и подключены сюда git-**сабмодулями**, а один **лончер/апдейтер** ставит и
 обновляет их сразу для **всех агентов**: Claude Code, Cursor, OpenCode, Kilo, Kimi,
 Hermes, OpenClaw, Codex, Gemini CLI, Windsurf, Zed и др.
