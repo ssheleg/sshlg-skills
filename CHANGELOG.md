@@ -1,5 +1,38 @@
 # Changelog
 
+## v0.8.0 — 2026-07-28
+
+Production pass on the hub as a public repository.
+
+### Added
+- `CONTRIBUTING.md` — where a change belongs (hub vs skill repo), the two checks
+  a PR must pass, and the install rules that are easy to work around by accident.
+- `SECURITY.md` — what the launcher executes (three commands, explicit argv, no
+  shell), the one path it ever deletes and why, the trust boundary, and private
+  reporting.
+- `CODE_OF_CONDUCT.md`, issue forms for bugs and ideas, and a PR template that
+  asks for the command output rather than a "tests pass" claim.
+
+### Changed
+- README restructured for a first-time reader: what these skills are *for* comes
+  before the install mechanics, and the family table carries an accurate one-line
+  description of each skill.
+- Registry descriptions rewritten to match what each skill does today, and pins
+  refreshed (super-ux 0.23.0, task-pipeline 0.18.0, make-skill 0.6.0,
+  sheleg-design 1.0.0, seo-aeo-audit 0.5.0).
+
+### Fixed
+- **The registry could advertise a version the submodule did not contain.** The
+  validator compared `skills.json` to `.gitmodules` only, so a gitlink pointing
+  at any commit of the right repo passed — and two pins were in fact wrong when
+  this was written. It now reads the version out of each submodule's own
+  `package.json` and fails on disagreement, with a CI self-test proving it.
+- The README claimed task-pipeline runs **nine** gated stages while the table two
+  sections above said ten — a contradiction left over from the tenth stage
+  landing in task-pipeline 0.16.0.
+- British spellings (`materialise`) in the README, launcher, validator and
+  changelog; the repo standard is US spelling.
+
 ## v0.7.2 — 2026-07-28
 
 ### Changed
@@ -143,7 +176,7 @@ Launcher hardening — four defects an adversarial audit proved by execution.
   submodule step ran before any flag branch and used `--remote --merge`, so a
   "Claude-only" run fast-forwarded a submodule to its upstream tip and left the
   superproject dirty — destroying the pinned-snapshot contract. It now runs only
-  when not `--claude-only`, uses `--init --recursive` (materialise, don't move),
+  when not `--claude-only`, uses `--init --recursive` (materialize, don't move),
   and moves pins **only** behind the new explicit `--bump-pins`.
 - **FIX: every `claude plugin` failure was swallowed.** Those `run()` results were
   discarded, so a completely failing `claude` still exited 0 (worst with
@@ -153,7 +186,7 @@ Launcher hardening — four defects an adversarial audit proved by execution.
   `submodules: false`, and the cross-check was guarded by `if isdir(...)` — so it
   skipped silently and a bogus id passed green. Workflows now check out
   `submodules: recursive`, and the validator **fails loudly** when a submodule
-  isn't materialised instead of skipping.
+  isn't materialized instead of skipping.
 - **`skills update` now runs one call per skill id** so a single bad id can't fail
   the batch; contradictory `--claude-only --no-claude` and a valueless `--agent`
   now exit 2; `spawnSync` uses `shell` on Windows (npx/claude are `.cmd` shims);

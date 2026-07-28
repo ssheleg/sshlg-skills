@@ -1,0 +1,32 @@
+name: Idea or improvement
+description: Suggest a change to the launcher, registry or docs
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do that is awkward or impossible today? Describe the situation, not the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like instead
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you tried or considered
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Launcher (install / update)
+        - Registry (skills.json, pins)
+        - Docs
+        - A specific skill (will be routed to its repo)
+    validations:
+      required: true

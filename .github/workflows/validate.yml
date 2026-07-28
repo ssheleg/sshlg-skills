@@ -34,6 +34,26 @@ jobs:
             echo "OK: validator FAILs on submodule/manifest drift"
           fi
 
+      - name: Negative self-test (a pin that lies must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/badpin
+          cp -R . /tmp/badpin
+          # claim a version the submodule does not contain
+          python3 - <<'PY'
+          import json
+          p = "/tmp/badpin/skills.json"
+          d = json.load(open(p))
+          d["skills"][0]["version"] = "99.99.99"
+          json.dump(d, open(p, "w"), indent=2)
+          PY
+          if python3 /tmp/badpin/test/validate.py; then
+            echo "ERROR: validator passed while the pin disagreed with the submodule"
+            exit 1
+          else
+            echo "OK: validator FAILs when a pin does not match the submodule contents"
+          fi
+
       - name: Launcher CLI check
         run: node --check bin/sshlg-skills.js
 

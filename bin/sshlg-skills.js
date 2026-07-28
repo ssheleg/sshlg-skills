@@ -134,7 +134,7 @@ function cmdInstall(f) {
 
 function cmdUpdate(f) {
   let ok = true;
-  // 1. Submodules are PINNED snapshots. Only materialise them (--init), never
+  // 1. Submodules are PINNED snapshots. Only materialize them (--init), never
   //    move the pins — unless the operator explicitly asks with --bump-pins.
   //    Skipped entirely for --claude-only: that flag must not touch the checkout.
   if (!f.claudeOnly && fs.existsSync(path.join(ROOT, '.gitmodules'))) {
@@ -143,7 +143,7 @@ function cmdUpdate(f) {
       ok = run('git', ['-C', ROOT, 'submodule', 'update', '--init', '--remote', '--merge']) && ok;
       log('  ! pins moved — commit the gitlinks to make this reproducible');
     } else {
-      log('\n== Materialising pinned submodules (pins unchanged) ==');
+      log('\n== Materializing pinned submodules (pins unchanged) ==');
       ok = run('git', ['-C', ROOT, 'submodule', 'update', '--init', '--recursive']) && ok;
     }
   }

@@ -93,15 +93,32 @@ for s in skills:
     else:
         skdir = os.path.join(ROOT, s.get("dir", ""), "plugins", name, "skills")
         if not os.path.isdir(skdir):
-            # Without a materialised submodule the cross-check is toothless — say so
+            # Without a materialized submodule the cross-check is toothless — say so
             # loudly instead of silently passing (CI must check out submodules).
-            fail(f"skills.json: {name!r} submodule not materialised at {s.get('dir')!r} — "
+            fail(f"skills.json: {name!r} submodule not materialized at {s.get('dir')!r} — "
                  f"cannot verify skillNames (clone with --recursive / CI submodules: recursive)")
         else:
             shipped = {d for d in os.listdir(skdir) if os.path.isdir(os.path.join(skdir, d)) and d != "references"}
             missing = [x for x in sn if x not in shipped]
             if missing:
                 fail(f"skills.json: {name!r} skillNames {missing} not shipped by the repo (has: {sorted(shipped)})")
+
+    # The pin IS the promise: a checkout of this hub commit must install exactly
+    # the version skills.json advertises. Comparing only against .gitmodules is
+    # toothless -- the gitlink can point at any commit of the right repo, so read
+    # the version out of the submodule itself.
+    declared = s.get("version")
+    sub_pkg = os.path.join(ROOT, s.get("dir", ""), "package.json")
+    if not declared:
+        fail(f"skills.json: {name!r} has no pinned version")
+    elif not os.path.isfile(sub_pkg):
+        fail(f"skills.json: {name!r} submodule not materialized — cannot verify the {declared} pin")
+    else:
+        with open(sub_pkg, encoding="utf-8") as fh:
+            actual = json.load(fh).get("version")
+        if actual != declared:
+            fail(f"skills.json: {name!r} pinned at {declared} but the submodule contains {actual} "
+                 f"(checkout the right tag in {s.get('dir')!r})")
 
 # every submodule path in .gitmodules should be described in skills.json
 described = {s.get("dir") for s in skills}

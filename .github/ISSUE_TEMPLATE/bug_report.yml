@@ -1,0 +1,53 @@
+name: Bug report
+description: Something in the launcher, registry or install flow does not work
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repo is the **hub**. If the problem is what a skill *says or does*
+        once installed, open the issue in that skill's own repo instead —
+        super-ux, task-pipeline, make-skill, sheleg-design-skill or
+        seo-aeo-audit. Install, update and registry problems belong here.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command and full output
+      description: The exact command and everything it printed. Redact tokens and paths you would rather not share.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: sshlg-skills version
+      description: "`npx sshlg-skills list` prints it, or paste the npm version you ran."
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: OS and Node version
+      placeholder: "macOS 15.4, Node 22.11"
+    validations:
+      required: true
+  - type: input
+    id: agents
+    attributes:
+      label: Which agent(s)
+      placeholder: "Claude Code, Cursor, Codex…"
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before filing
+      options:
+        - label: I ran the command again to confirm it is reproducible
+          required: true
+        - label: "I checked `~/.claude/skills/` for a plain copy shadowing a plugin (the most common cause of \"it serves the old version\")"

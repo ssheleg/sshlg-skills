@@ -25,8 +25,8 @@
       ],
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
-      "desc": "Scenario-driven UX: foundation -> flows -> screens -> scenarios -> audits, one /ux entry, a doc-drift linter.",
-      "version": "0.21.0"
+      "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — personas and jobs, user flows, a screens-and-states map, traced scenarios, evidence-backed audits, fix plans. One /ux entry point plus a doc-drift linter.",
+      "version": "0.23.1"
     },
     {
       "name": "task-pipeline",
@@ -34,11 +34,11 @@
       "dir": "skills/task-pipeline",
       "pluginMarketplace": "ssheleg/task-pipeline",
       "pluginInstall": "task-pipeline@task-pipeline",
-      "desc": "Mandatory built-in intake grill (domain-aware, ADR discipline) that turns the request into a verifiable REQ list + 10 gated delivery stages with decomposition for platforms, a loop guard that breaks churn, and a final acceptance stage accounting for every requirement with evidence; typed gates, super-ux UX track, toggleable release.",
+      "desc": "Full-cycle delivery orchestrator: an intake grill turns the request into a complete brief, then ten gated stages carry it from docs to acceptance, refusing to advance until each gate passes.",
       "skillNames": [
         "task-pipeline"
       ],
-      "version": "0.17.0"
+      "version": "0.18.0"
     },
     {
       "name": "make-skill",
@@ -46,11 +46,11 @@
       "dir": "skills/make-skill",
       "pluginMarketplace": "ssheleg/make-skill",
       "pluginInstall": "make-skill@make-skill",
-      "desc": "Create, retrofit, and ship agent skills & plugins the proven ssheleg way.",
+      "desc": "A skill that builds skills: create, retrofit, audit and publish agent skills and Claude Code plugins — Agent Skills standard conformance, marketplace layout, version sync, validator + CI, every distribution channel, MCP and A2A rules.",
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.5.1"
+      "version": "0.6.0"
     },
     {
       "name": "sheleg-design",
@@ -58,11 +58,11 @@
       "dir": "skills/sheleg-design",
       "pluginMarketplace": "ssheleg/sheleg-design-skill",
       "pluginInstall": "sheleg-design@sheleg-design-skill",
-      "desc": "Cinematic scroll-driven landing/hero design methodology + product-UI style packs.",
+      "desc": "The taste layer: cinematic scroll-driven landing pages (one scroll clock, motion that degrades to calm, WebGL particle formations) plus pluggable product-UI style packs, each with a ready token layer.",
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "0.9.0"
+      "version": "1.0.0"
     },
     {
       "name": "seo-aeo-audit",
@@ -70,7 +70,7 @@
       "dir": "skills/seo-aeo-audit",
       "pluginMarketplace": "ssheleg/seo-aeo-audit",
       "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
-      "desc": "Evidence-first SEO + AEO/GEO website audit: ten tracks with mechanical sweeps, evidence tiers, a dated Google update timeline, 59 tiered growth plays, and a prioritized change plan with verification steps.",
+      "desc": "Evidence-first website audit for search and answer engines: ten tracks from crawl access to AI citation mechanics, every finding backed by an observation and every recommendation tiered, ending in a prioritized change plan.",
       "skillNames": [
         "seo-aeo-audit"
       ],
