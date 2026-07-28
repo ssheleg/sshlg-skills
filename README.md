@@ -97,6 +97,12 @@ checkout stays reproducible; pass it when you deliberately want the submodules
 fast-forwarded to their upstream tips. `update` targets whatever is already
 installed, so it takes no `--agent`.
 
+> **Update through the launcher, not through a bare `npx skills update <id>`.**
+> Called without an explicit `--agent` list, the skills CLI auto-detects Claude
+> Code and re-creates `~/.claude/skills/<id>` — a plain copy that then shadows
+> your plugin and can serve a stale skill. The launcher passes the agent list
+> explicitly and prunes those copies after every run.
+
 ## Other commands
 
 ```bash
@@ -158,6 +164,11 @@ npx sshlg-skills list       # семейство и версии
 `seo-aeo-audit` — аудит сайта под поиск и AI-ответы: десять треков, каждый вывод
 с наблюдением, каждая рекомендация с уровнем доказательности, на выходе
 приоритизированный план правок.
+
+**Обновляйся лончером, а не голым `npx skills update <id>`:** без явного
+`--agent` skills CLI сам находит Claude Code и заново создаёт plain-копию в
+`~/.claude/skills/`, которая потом шэдоит плагин. Лончер передаёт список агентов
+явно и подчищает такие копии после каждого прогона.
 
 **Главное правило — один канал на агента.** Claude Code получает скилы
 **плагином**, остальные агенты — через `skills` CLI в `~/.agents/skills/`, а
