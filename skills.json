@@ -38,7 +38,7 @@
       "skillNames": [
         "task-pipeline"
       ],
-      "version": "0.18.0"
+      "version": "0.18.1"
     },
     {
       "name": "make-skill",

@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.9.1 — 2026-07-28
+
+### Changed
+- Pin `task-pipeline` 0.18.1 — the last repo to get its open-source surface, so
+  all five now ship a security policy, a code of conduct, issue forms and a PR
+  template.
+
 ## v0.9.0 — 2026-07-28
 
 ### Changed
