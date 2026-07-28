@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.5.3 — 2026-07-28
+
+- **seo-aeo-audit bumped to v0.3.1** in the registry and the submodule pin
+  (was 0.2.0). Two releases landed: v0.3.0 added the ranking model, the on-page
+  completeness sweep, the tooling/evidence ladder and the post-click track
+  (conversion elements, call and offline attribution, paid × organic alignment);
+  v0.3.1 ran a consistency pass over the whole flow — one evidence ladder, one
+  stance on structured data, reconciled page-experience and keyword framing,
+  tier discipline in every new contract — and rewrote the README around install,
+  update, the audit flow, what knowledge ships inside and how fresh it is.
+- Registry `desc` updated to match.
+
 ## v0.5.2 — 2026-07-28
 
 - **seo-aeo-audit bumped to v0.2.0** in the registry and the submodule pin. That

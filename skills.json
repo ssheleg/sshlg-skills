@@ -70,11 +70,11 @@
       "dir": "skills/seo-aeo-audit",
       "pluginMarketplace": "ssheleg/seo-aeo-audit",
       "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
-      "desc": "Evidence-first SEO + AEO/GEO website audit: ten tracks, evidence tiers, a dated Google update timeline, and a prioritized change plan with verification steps.",
+      "desc": "Evidence-first SEO + AEO/GEO website audit: ten tracks, evidence tiers, a dated Google update timeline, ~40 tiered growth plays, and a prioritized change plan with verification steps.",
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.2.0"
+      "version": "0.3.1"
     }
   ]
 }
