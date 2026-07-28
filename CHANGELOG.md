@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.9.0 — 2026-07-28
+
+### Changed
+- Pins refreshed after the family-wide open-source hygiene pass — every repo now
+  carries a security policy, a code of conduct, issue forms and a PR template
+  (super-ux 0.23.2, make-skill 0.6.1, sheleg-design 1.0.1, seo-aeo-audit 0.6.1).
+
 ## v0.8.1 — 2026-07-28
 
 ### Changed

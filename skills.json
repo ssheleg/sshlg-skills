@@ -26,7 +26,7 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — personas and jobs, user flows, a screens-and-states map, traced scenarios, evidence-backed audits, fix plans. One /ux entry point plus a doc-drift linter.",
-      "version": "0.23.1"
+      "version": "0.23.2"
     },
     {
       "name": "task-pipeline",
@@ -50,7 +50,7 @@
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.6.0"
+      "version": "0.6.1"
     },
     {
       "name": "sheleg-design",
@@ -62,7 +62,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "seo-aeo-audit",
@@ -74,7 +74,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.6.0"
+      "version": "0.6.1"
     }
   ]
 }
