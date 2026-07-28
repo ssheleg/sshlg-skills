@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.6.0 — 2026-07-28
+
+### Changed
+- README is English-only and leads with what the family gives you before the
+  install mechanics; author and links block added.
+- Registry pins refreshed to the descriptions-and-canon releases across all five
+  skills.
+
 ## v0.5.5 — 2026-07-28
 
 - **seo-aeo-audit bumped to v0.4.1** in the registry and the submodule pin: the

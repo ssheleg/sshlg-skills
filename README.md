@@ -26,11 +26,11 @@ the vercel `skills` CLI supports.
 
 | Skill | Version | What it does |
 |---|---|---|
-| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.19.0 | Scenario-driven UX as a contract: personas → jobs → journeys → flows → scenarios → audits. One `/ux` entry point that reports status and suggests the single next action, plus a linter that catches docs drifting from the code. |
-| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 0.12.0 | Full-cycle delivery orchestrator. A mandatory intake grill (domain-aware, ADR discipline) expands the request before anything is built, then nine gated stages carry it docs → brainstorm → spec → plan → build → tests → deploy → post-deploy → wiki. |
-| **[make-skill](https://github.com/ssheleg/make-skill)** | 0.3.0 | Create, retrofit and ship agent skills and Claude Code plugins the proven way: marketplace layout, four-way version sync, validator + CI, multi-channel distribution, and the npm/packaging gotchas that each cost a debugging round. |
-| **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 0.7.0 | Cinematic, scroll-driven landing and hero design methodology plus product-UI style packs — the taste layer, not a component dump. |
-| **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.4.0 | Evidence-first website audit for search **and** answer engines. Ten tracks, every finding backed by an observation, every recommendation tiered, ending in a prioritized change plan. Ships a dated Google update timeline, 59 tiered growth plays, 29 refuted myths and a stdlib page auditor. |
+| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.20.0 | Scenario-driven UX as a contract: personas → jobs → journeys → flows → scenarios → audits. One `/ux` entry point that reports status and suggests the single next action, plus a linter that catches docs drifting from the code. |
+| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 0.14.0 | Full-cycle delivery orchestrator. A mandatory intake grill (domain-aware, ADR discipline) expands the request before anything is built, then nine gated stages carry it docs → brainstorm → spec → plan → build → tests → deploy → post-deploy → wiki. |
+| **[make-skill](https://github.com/ssheleg/make-skill)** | 0.4.0 | Create, retrofit and ship agent skills and Claude Code plugins the proven way: marketplace layout, four-way version sync, validator + CI, multi-channel distribution, and the npm/packaging gotchas that each cost a debugging round. |
+| **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 0.8.0 | Cinematic, scroll-driven landing and hero design methodology plus product-UI style packs — the taste layer, not a component dump. |
+| **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.5.0 | Evidence-first website audit for search **and** answer engines. Ten tracks, every finding backed by an observation, every recommendation tiered, ending in a prioritized change plan. Ships a dated Google update timeline, 59 tiered growth plays, 29 refuted myths and a stdlib page auditor. |
 
 `skills.json` is the source of truth for all of it — repos, submodule paths,
 plugin ids, skill names, default agents and the pinned version of each skill. The
@@ -139,46 +139,38 @@ Releases are tag-driven: bump `skills.json` + `package.json` + the top
 `CHANGELOG.md` entry together, tag `vX.Y.Z`, and the release workflow cuts the
 GitHub release from the matching changelog section.
 
----
+## What this gives you
 
-## По-русски
+Five skills that cover the parts of shipping a product an agent is worst at on
+its own — knowing what the user needs, running a task to completion, making the
+result look intentional, being findable afterwards, and packaging any of it for
+reuse.
 
-**sshlg-skills** — зонтичный репозиторий семейства скилов ssheleg. Пять скилов
-живут в своих репах, здесь они собраны git-сабмодулями с пинами, а один лончер
-ставит и обновляет их **сразу для всех агентов**: Claude Code, Cursor, OpenCode,
-Kilo, Kimi, Hermes, OpenClaw, Codex, Gemini CLI, Windsurf, Zed и др.
+- **`super-ux`** keeps user-facing behavior from silently drifting: scenarios
+  become the contract your agent codes against, and an audit reports what no
+  longer matches.
+- **`task-pipeline`** front-loads every decision into one intake conversation,
+  then carries the task through nine gated stages — spec, plan, build, tests,
+  deploy, post-deploy — without interrupting you.
+- **`sheleg-design`** is the taste layer: cinematic scroll-driven landings and
+  product-UI style packs, so the result does not look generated.
+- **`seo-aeo-audit`** finds why the site is invisible to Google *and* to AI
+  answer engines, and hands back a prioritized change plan with evidence tiers.
+- **`make-skill`** turns any workflow you keep re-explaining into an installable
+  skill, with the validator, CI and distribution gotchas already solved.
 
-```bash
-npx sshlg-skills install    # поставить всё
-npx sshlg-skills update     # обновить всё установленное
-npx sshlg-skills list       # семейство и версии
-```
+They compose: `task-pipeline` recommends `super-ux` for user-facing work,
+`make-skill` builds on the layout the others use, and everything installs
+through the one launcher in this repo.
 
-**Семейство:** `super-ux` — сценарный UX как контракт (личности → задачи →
-джорни → флоу → сценарии → аудиты, один вход `/ux`, линтер расхождений доков и
-кода). `task-pipeline` — полный цикл задачи: обязательный интейк-грил, затем
-девять гейтов доки → брейншторм → спека → план → сборка → тесты → деплой →
-пост-деплой → вики. `make-skill` — как правильно создавать, дотягивать до
-стандарта и публиковать сами скилы и плагины. `sheleg-design` — методология
-кинематографичных скролл-лендингов и стайл-паки для продуктового UI.
-`seo-aeo-audit` — аудит сайта под поиск и AI-ответы: десять треков, каждый вывод
-с наблюдением, каждая рекомендация с уровнем доказательности, на выходе
-приоритизированный план правок.
+## Author
 
-**Обновляйся лончером, а не голым `npx skills update <id>`:** без явного
-`--agent` skills CLI сам находит Claude Code и заново создаёт plain-копию в
-`~/.claude/skills/`, которая потом шэдоит плагин. Лончер передаёт список агентов
-явно и подчищает такие копии после каждого прогона.
+Built by ssheleg — [svlab.online](https://svlab.online)
 
-**Главное правило — один канал на агента.** Claude Code получает скилы
-**плагином**, остальные агенты — через `skills` CLI в `~/.agents/skills/`, а
-plain-копии в `~/.claude/skills/`, которые CLI создаёт самостоятельно, лончер
-подчищает: именно эта копия потом тихо шэдоит свежий плагин. Флаги: `--agent
-a,b`, `--all`, `--no-claude`, `--claude-only`, а у `update` ещё `--bump-pins`
-(по умолчанию выключен, чтобы чекаут оставался воспроизводимым).
+- X / Twitter — [@fuck_this_year](https://x.com/fuck_this_year)
+- Telegram — [@sshlg](https://t.me/sshlg)
 
-Источник правды — `skills.json`; валидатор держит его в синхроне с
-`.gitmodules`, CI гоняет проверку на каждый пуш, релизы режутся по тегу.
+Issues, ideas and pull requests are welcome on any repo in the family.
 
 ## License
 
