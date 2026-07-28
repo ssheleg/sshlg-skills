@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.7.1 — 2026-07-28
+
+### Changed
+- Pin `task-pipeline` 0.16.1 — the tenth stage landed in 0.16.0 while fifteen
+  places, the npm description among them, still promised nine.
+
 ## v0.7.0 — 2026-07-28
 
 ### Changed
