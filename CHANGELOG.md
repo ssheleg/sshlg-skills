@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.5.4 — 2026-07-28
+
+- **seo-aeo-audit bumped to v0.4.0** in the registry and the submodule pin (was
+  0.3.1). That release ran ten per-track extraction passes over the full source
+  corpus and one reconciliation pass over all 19 contracts: +1,725 lines, sixteen
+  contradictions resolved by naming both studies and demoting contested
+  directions, duplication removed with a single owner per fact, and the coverage
+  gaps filled (hreflang and international duplication, fabricated information
+  gain, licensing posture, rank-tracker vendor continuity, EU DMA exposure).
+- Registry `desc` updated to match.
+
 ## v0.5.3 — 2026-07-28
 
 - **seo-aeo-audit bumped to v0.3.1** in the registry and the submodule pin
