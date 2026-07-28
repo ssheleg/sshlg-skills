@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.5.5 — 2026-07-28
+
+- **seo-aeo-audit bumped to v0.4.1** in the registry and the submodule pin: the
+  bundled page auditor now refuses non-http(s) URL schemes and redirects (a
+  crafted URL list could previously have made it read local files via `file://`),
+  and the repo gained a `SECURITY.md` stating what runs, what it touches and how
+  to verify it.
+- README rewritten around the five-skill family, the install channels and the
+  one-channel-per-agent rule; `npx sshlg-skills` short form is now the primary
+  path since the launcher is published on npm.
+
 ## v0.5.4 — 2026-07-28
 
 - **seo-aeo-audit bumped to v0.4.0** in the registry and the submodule pin (was
