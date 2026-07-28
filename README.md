@@ -1,6 +1,7 @@
 # sshlg-skills
 
 [![validate](https://github.com/ssheleg/sshlg-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/ssheleg/sshlg-skills/actions/workflows/validate.yml)
+[![npm](https://img.shields.io/npm/v/sshlg-skills)](https://www.npmjs.com/package/sshlg-skills)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 One umbrella for the **ssheleg skill family** — the five skills live in their own
@@ -22,13 +23,13 @@ Each is independently installable; this repo is the one-command hub.
 
 ## Install everything
 
-**No clone needed** (runs straight from GitHub):
-```
-npx github:ssheleg/sshlg-skills install
-```
-After npm publish, the short form also works:
+**No clone needed** — published on npm:
 ```
 npx sshlg-skills install
+```
+The GitHub form works too, and always tracks `main`:
+```
+npx github:ssheleg/sshlg-skills install
 ```
 
 **Or clone with submodules** (pinned snapshots + offline reference):
@@ -50,7 +51,7 @@ Flags: `--agent a,b` (pick agents), `--all` (every agent the skills CLI supports
 ## Update everything
 
 ```
-npx github:ssheleg/sshlg-skills update
+npx sshlg-skills update
 ```
 Updates every skills-CLI install (one call per skill id) and the Claude Code
 plugins, and materialises the pinned submodules inside a checkout **without moving
@@ -63,8 +64,8 @@ targets whatever is already installed, so it takes no `--agent`.
 ## Other commands
 
 ```
-npx github:ssheleg/sshlg-skills list      # the family + versions
-npx github:ssheleg/sshlg-skills agents    # supported agents
+npx sshlg-skills list      # the family + versions
+npx sshlg-skills agents    # supported agents
 ```
 
 ## How it works
@@ -84,8 +85,9 @@ sync with `.gitmodules`.
 обновляет их сразу для **всех агентов**: Claude Code, Cursor, OpenCode, Kilo, Kimi,
 Hermes, OpenClaw, Codex, Gemini CLI, Windsurf, Zed и др.
 
-Установить всё: `npx github:ssheleg/sshlg-skills install`. Обновить всё:
-`npx github:ssheleg/sshlg-skills update`. Не-Claude агенты идут через `skills` CLI,
+Установить всё: `npx sshlg-skills install`. Обновить всё:
+`npx sshlg-skills update` (форма `npx github:ssheleg/sshlg-skills …` тоже работает и
+всегда берёт `main`). Не-Claude агенты идут через `skills` CLI,
 Claude Code — через **плагин** (чтобы не дублировать plain-копией). Флаги:
 `--agent a,b`, `--all`, `--no-claude`, `--claude-only`. Список семейства и версий —
 `… list`, поддерживаемые агенты — `… agents`.
