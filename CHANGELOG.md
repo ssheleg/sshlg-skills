@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.8.1 — 2026-07-28
+
+### Changed
+- Pin `seo-aeo-audit` 0.6.0 — its release-readiness pass plus the US-spelling
+  sweep that renamed the auditor's `analyse()` to `analyze()`.
+
 ## v0.8.0 — 2026-07-28
 
 Production pass on the hub as a public repository.
