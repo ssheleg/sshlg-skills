@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.7.2 — 2026-07-28
+
+### Changed
+- Pin `task-pipeline` 0.17.0. Scope now has a spine: the grill turns the request
+  into an addressable **REQ list** where every row names how it is verified, the
+  ids are traced through spec (`covers:`), plan (`Implements:`, gated on **set
+  equality** against the brief), build and review, and a final **acceptance**
+  stage accounts for every requirement with evidence before the run can close.
+  An append-only carry-over ledger catches anything deferred, dropped or left
+  half-done — deferred out loud is forgotten.
+- Registry description updated to match.
+
 ## v0.7.1 — 2026-07-28
 
 ### Changed
