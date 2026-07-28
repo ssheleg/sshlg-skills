@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.7.0 — 2026-07-28
+
+### Changed
+- Author link moved from `svlab.online` to **https://sshlg.me** across every
+  README, every repo homepage and the GitHub organization profile.
+- Family table refreshed: new pins (super-ux 0.21.0, task-pipeline 0.16.0,
+  make-skill 0.5.1, sheleg-design 0.9.0, seo-aeo-audit 0.5.0) and descriptions
+  that match what each skill now does — the screens layer, decomposition and
+  the loop guard, Agent Skills conformance, per-pack token layers.
+
 ## v0.6.1 — 2026-07-28
 
 ### Changed

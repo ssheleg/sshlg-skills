@@ -26,10 +26,10 @@ the vercel `skills` CLI supports.
 
 | Skill | Version | What it does |
 |---|---|---|
-| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.20.0 | Scenario-driven UX as a contract: personas → jobs → journeys → flows → scenarios → audits. One `/ux` entry point that reports status and suggests the single next action, plus a linter that catches docs drifting from the code. |
-| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 0.14.0 | Full-cycle delivery orchestrator. A mandatory intake grill (domain-aware, ADR discipline) expands the request before anything is built, then nine gated stages carry it docs → brainstorm → spec → plan → build → tests → deploy → post-deploy → wiki. |
-| **[make-skill](https://github.com/ssheleg/make-skill)** | 0.4.1 | Create, retrofit and ship agent skills and Claude Code plugins the proven way: marketplace layout, four-way version sync, validator + CI, multi-channel distribution, and the npm/packaging gotchas that each cost a debugging round. |
-| **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 0.8.0 | Cinematic, scroll-driven landing and hero design methodology plus product-UI style packs — the taste layer, not a component dump. |
+| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.21.0 | Scenario-driven UX as a contract: personas → jobs → journeys → flows → screens → scenarios → audits. One `/ux` entry point, a doc-drift linter, and an audit that checks the code actually renders every screen state and wires every flow edge. |
+| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 0.16.0 | Full-cycle delivery orchestrator. A mandatory intake grill expands the request before anything is built, then gated stages carry it docs → brainstorm → decompose → spec → plan → build → tests → deploy → post-deploy → acceptance → wiki, with a loop guard that breaks churn. |
+| **[make-skill](https://github.com/ssheleg/make-skill)** | 0.5.1 | Create, retrofit, audit and ship agent skills and Claude Code plugins: conformance to the Agent Skills open standard, marketplace layout, version sync, validator + CI, multi-channel distribution, MCP/A2A rules, and the packaging gotchas that each cost a debugging round. |
+| **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 0.9.0 | Cinematic, scroll-driven landing and hero design methodology plus product-UI style packs with a ready token layer per pack — the taste layer, not a component dump. |
 | **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.5.0 | Evidence-first website audit for search **and** answer engines. Ten tracks, every finding backed by an observation, every recommendation tiered, ending in a prioritized change plan. Ships a dated Google update timeline, 59 tiered growth plays, 29 refuted myths and a stdlib page auditor. |
 
 `skills.json` is the source of truth for all of it — repos, submodule paths,
@@ -165,7 +165,7 @@ through the one launcher in this repo.
 
 ## Author
 
-Built by ssheleg — [svlab.online](https://svlab.online)
+Built by ssheleg — [sshlg.me](https://sshlg.me)
 
 - X / Twitter — [@fuck_this_year](https://x.com/fuck_this_year)
 - Telegram — [@sshlg](https://t.me/sshlg)
