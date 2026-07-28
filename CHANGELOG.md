@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.6.1 — 2026-07-28
+
+### Changed
+- Pin `make-skill` to 0.4.1 — its `validate` workflow had been red since v0.3.0
+  because the negative self-test targeted a template renamed three releases
+  earlier.
+
 ## v0.6.0 — 2026-07-28
 
 ### Changed
