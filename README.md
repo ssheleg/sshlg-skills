@@ -93,8 +93,14 @@ claude plugin marketplace add ssheleg/seo-aeo-audit && claude plugin install seo
 ## Update
 
 ```bash
-npx sshlg-skills update
+npx sshlg-skills install              # nothing installed yet — the whole family, any agent
+npx sshlg-skills update               # installed but behind — updates everything
+npx --yes sshlg-skills@latest list    # what the current release of each member is
 ```
+
+**The three commands are the whole interface**: `install` when nothing is there, `update` when it is
+there and behind, `list` to see what the current release of each member is. A member updated on its
+own leaves the bundle in a combination nobody tested, which is why `update` takes no member argument.
 
 Updates every skills-CLI install and every Claude Code plugin, and materializes
 the pinned submodules in a checkout **without moving the pins**. Restart Claude
