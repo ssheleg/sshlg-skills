@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/v/sshlg-skills)](https://www.npmjs.com/package/sshlg-skills)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-**Five agent skills, one command, every agent.**
+**Six agent skills, one command, every agent.**
 
 ```bash
 npx sshlg-skills install    # install the whole family
@@ -26,7 +26,7 @@ site no search engine or answer engine can read. And the moment you want it to
 remember how *you* work, you are writing a skill — and packaging one correctly is
 its own afternoon.
 
-Each of these five takes one of those gaps and gives the agent a contract it has
+Each of these six takes one of those gaps and gives the agent a contract it has
 to follow. They are documentation, validators and small standard-library scripts.
 No services, no telemetry, no API keys.
 
@@ -34,13 +34,14 @@ No services, no telemetry, no API keys.
 |---|---|---|
 | **[super-ux](https://github.com/ssheleg/super-ux)** | 0.23.2 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — personas and jobs → user flows → a screens-and-states map → traced scenarios → evidence-backed audits → fix plans. One `/ux` entry point, plus a linter that catches the docs drifting from the code. |
 | **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 0.18.1 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. |
+| **[agent-sync](https://github.com/appvillis-com/agent-sync)** | 1.2.2 | Coordination for concurrent agents. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
 | **[make-skill](https://github.com/ssheleg/make-skill)** | 0.6.1 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, marketplace layout, version sync, validator + CI, every distribution channel, MCP and A2A rules. |
 | **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.0.1 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, layered motion that degrades to calm, WebGL particle formations — plus pluggable style packs for product UI, each shipping a ready token layer. |
 | **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.6.1 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan — not a score. |
 
-They compose. `task-pipeline` hands user-facing work to `super-ux`; `make-skill`
-encodes the repo layout the other four are built on; everything installs through
-the one launcher in this repo.
+They compose. `task-pipeline` hands user-facing work to `super-ux` and takes its
+leases from `agent-sync`; `make-skill` encodes the repo layout the others are
+built on; everything installs through the one launcher in this repo.
 
 ## Install
 
@@ -128,7 +129,7 @@ get wrong: one channel per agent, exact agent ids, repeated `--agent` flags, ful
 
 ```
 skills.json                  registry — repos, plugin ids, skill names, pins
-skills/*                     the five skills as pinned git submodules
+skills/*                     the six skills as pinned git submodules
 bin/sshlg-skills.js          the launcher (install / update / list / agents)
 install.sh                   POSIX fallback (macOS/Linux; use npx on Windows)
 test/validate.py             registry / submodules / version validation

@@ -41,6 +41,18 @@
       "version": "0.18.1"
     },
     {
+      "name": "agent-sync",
+      "repo": "appvillis-com/agent-sync",
+      "dir": "skills/agent-sync",
+      "pluginMarketplace": "appvillis-com/agent-sync",
+      "pluginInstall": "agent-sync@agent-sync",
+      "desc": "Coordination for concurrent coding agents: leases with TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board, over a pluggable knowledge cloud.",
+      "skillNames": [
+        "agent-sync"
+      ],
+      "version": "1.2.2"
+    },
+    {
       "name": "make-skill",
       "repo": "ssheleg/make-skill",
       "dir": "skills/make-skill",

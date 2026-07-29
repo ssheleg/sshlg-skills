@@ -8,10 +8,10 @@ belong here.
 
 | Change | Repo |
 |---|---|
-| Anything a skill does, says or ships | that skill's repo ([super-ux](https://github.com/ssheleg/super-ux), [task-pipeline](https://github.com/ssheleg/task-pipeline), [make-skill](https://github.com/ssheleg/make-skill), [sheleg-design](https://github.com/ssheleg/sheleg-design-skill), [seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)) |
+| Anything a skill does, says or ships | that skill's repo ([super-ux](https://github.com/ssheleg/super-ux), [task-pipeline](https://github.com/ssheleg/task-pipeline), [agent-sync](https://github.com/appvillis-com/agent-sync), [make-skill](https://github.com/ssheleg/make-skill), [sheleg-design](https://github.com/ssheleg/sheleg-design-skill), [seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)) |
 | Install or update behavior across agents | here — `bin/sshlg-skills.js`, `install.sh` |
 | Which skills exist, their ids, pins, default agents | here — `skills.json` |
-| Adding a new skill to the family | here **after** it exists as its own marketplace repo |
+| Adding a new skill to the family | here **after** it exists as its own marketplace repo — it does not have to live under `ssheleg`, only to ship the marketplace layout |
 
 If you are not sure, open an issue here and it will be routed.
 

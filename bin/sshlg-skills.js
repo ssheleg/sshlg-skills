@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /*
  * sshlg-skills — one launcher/updater for the ssheleg skill family
- * (super-ux, task-pipeline, make-skill, sheleg-design) across every agent.
+ * (super-ux, task-pipeline, agent-sync, make-skill, sheleg-design, seo-aeo-audit)
+ * across every agent.
  *
  * It is a thin orchestrator over the tools that already know how to reach each
  * agent: the vercel `skills` CLI (70+ agents), `claude plugin` (Claude Code),

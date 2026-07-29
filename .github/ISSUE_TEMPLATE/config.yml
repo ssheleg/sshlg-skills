@@ -2,7 +2,7 @@ blank_issues_enabled: true
 contact_links:
   - name: Problem with a specific skill
     url: https://github.com/ssheleg
-    about: Open it in that skill's own repo — super-ux, task-pipeline, make-skill, sheleg-design-skill or seo-aeo-audit.
+    about: Open it in that skill's own repo — super-ux, task-pipeline, agent-sync, make-skill, sheleg-design-skill or seo-aeo-audit.
   - name: Security vulnerability
     url: https://github.com/ssheleg/sshlg-skills/security/advisories/new
     about: Report privately. Please do not open a public issue.

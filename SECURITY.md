@@ -2,7 +2,7 @@
 
 ## What this package does on your machine
 
-`sshlg-skills` is a **launcher**. It installs and updates five agent skills by
+`sshlg-skills` is a **launcher**. It installs and updates six agent skills by
 driving three tools that are already on your system or fetched by `npx`. It has
 zero runtime dependencies and no post-install script.
 
@@ -11,7 +11,7 @@ zero runtime dependencies and no post-install script.
 | `bin/sshlg-skills.js` | Node script. Runs only when you invoke it. Spawns `claude`, `npx skills` and `git` as child processes; writes nothing outside `~/.claude/`, `~/.agents/skills/` and the checkout you ran it in. |
 | `install.sh` | POSIX fallback for the same flow. |
 | `skills.json` | Data. The registry the launcher reads. |
-| `skills/*` | Pinned git submodules — the five skills, each its own repo. |
+| `skills/*` | Pinned git submodules — the six skills, each its own repo. |
 | `test/validate.py` | Standard-library Python. Reads the repo, writes nothing. |
 
 There is no telemetry, no analytics and no phone-home. The launcher never asks
@@ -35,10 +35,12 @@ path outside `~/.claude/skills/` is touched.
 
 ## Trust boundary
 
-Installing runs code from five GitHub repos under the `ssheleg` organization and
-from the vercel `skills` CLI. Pins in `skills.json` and the submodule pointers
-mean a given hub commit installs exactly the skill versions it was tested with —
-review them if you need reproducibility. Skills are documentation plus small
+Installing runs code from six GitHub repos — five under the `ssheleg`
+organization and `agent-sync` under `appvillis-com` — plus the vercel `skills`
+CLI. Pins in `skills.json` and the submodule pointers mean a given hub commit
+installs exactly the skill versions it was tested with; review them if you need
+reproducibility. `agent-sync` publishes no git tags yet, so its pin is a bare
+commit rather than a release tag. Skills are documentation plus small
 standard-library scripts; each repo documents its own runtime surface.
 
 ## Reporting a vulnerability

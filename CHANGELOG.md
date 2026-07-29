@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.10.0 — 2026-07-29
+
+### Added
+- **`agent-sync` joins the family** ([appvillis-com/agent-sync](https://github.com/appvillis-com/agent-sync),
+  npm `@ssheleg/agent-sync`, pinned at **1.2.2**). Coordination for concurrent
+  coding agents: leases with a TTL so two agents cannot claim the same work,
+  race-free id reservation, a run journal and a generated board, over a
+  pluggable knowledge cloud. It pairs with `task-pipeline`, which takes its
+  leases from it.
+- The family is now **six** skills, and the first one that does not live under
+  the `ssheleg` organization — the launcher and validator were already
+  org-agnostic (they use `repo` and `pluginMarketplace` verbatim), so nothing in
+  the install path changed. `CONTRIBUTING.md` now says so explicitly: a new
+  member has to ship the marketplace layout, not a particular owner.
+
+### Changed
+- Every place that enumerated the family — README, `package.json`, the launcher
+  header, `SECURITY.md`, the issue forms — lists six.
+- `SECURITY.md` names the split trust boundary (five repos under `ssheleg`, one
+  under `appvillis-com`) and records that `agent-sync` publishes no git tags yet,
+  so its pin is a bare commit rather than a release tag.
+
 ## v0.9.1 — 2026-07-28
 
 ### Changed

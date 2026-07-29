@@ -7,8 +7,8 @@ body:
       value: |
         This repo is the **hub**. If the problem is what a skill *says or does*
         once installed, open the issue in that skill's own repo instead —
-        super-ux, task-pipeline, make-skill, sheleg-design-skill or
-        seo-aeo-audit. Install, update and registry problems belong here.
+        super-ux, task-pipeline, agent-sync, make-skill, sheleg-design-skill
+        or seo-aeo-audit. Install, update and registry problems belong here.
   - type: textarea
     id: what
     attributes:
