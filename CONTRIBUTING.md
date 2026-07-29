@@ -63,6 +63,18 @@ work around them:
 - **Version bumps are a set, not a file.** `skills.json`, `package.json` and the
   top `CHANGELOG.md` entry change together, then the `vX.Y.Z` tag.
 
+### The pins here are what the family publishes, whatever npm says
+
+`skills.json` carries a `version` per member and `list` prints it. That number is what every agent
+compares its install against, so **a member that ships a release without a pin bump here is a
+release nobody can see**: `list` reports the old version, `update` installs it, and both repos look
+correct in isolation. It happened on 2026-07-29 with `agent-sync` 1.3.4 — published, installed
+everywhere, and absent from `list` until this file caught up.
+
+A member release therefore lands in two places, in this order: publish the member, then bump the pin
+here, release this package, and confirm with `npx --yes sshlg-skills@latest list`. The member's own
+CONTRIBUTING carries the same rule from the other side.
+
 ## Commits and PRs
 
 - Conventional commits (`feat:`, `fix:`, `docs:`, `chore:`) with an imperative
