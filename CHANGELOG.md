@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.11.1 — 2026-07-29
+
+### Changed
+- Pin `agent-sync` 1.3.4. The release fixes `release` reporting success for a
+  lease held by another run while blanking that task's board claim — the board
+  advertised work as free that was still leased, which is exactly the collision
+  the skill exists to prevent.
+
 ## v0.11.0 — 2026-07-29
 
 Consolidation pass: the hub had drifted behind the skills it advertises.
