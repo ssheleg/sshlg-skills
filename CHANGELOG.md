@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.11.0 — 2026-07-29
+
+Consolidation pass: the hub had drifted behind the skills it advertises.
+
+### Changed
+- **Every pin refreshed** — super-ux 0.26.1, task-pipeline 1.3.2, agent-sync
+  1.3.3, make-skill 0.6.1, sheleg-design 1.3.0, seo-aeo-audit 0.8.0. The hub was
+  advertising versions up to five minors old, so a fresh `install` from a hub
+  checkout got skills the table did not describe.
+- **Descriptions rewritten against what each skill does today**, not what it did
+  when it was added: super-ux carries Figma frames in its screens map,
+  sheleg-design crosses the Figma border (tokens as variables, design to code),
+  seo-aeo-audit ends in a link-building brief as well as a change plan, and
+  agent-sync is described as a coordination *plane* rather than a lease store.
+- `agent-sync` is now pinned to a release tag rather than a bare commit — it
+  publishes tags as of 1.2.3, so the caveat recorded in `SECURITY.md` when it
+  joined no longer applies.
+
 ## v0.10.0 — 2026-07-29
 
 ### Added
