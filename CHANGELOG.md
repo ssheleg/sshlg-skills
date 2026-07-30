@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.12.2 — 2026-07-30
+
+### Fixed
+- The parent now points at `seo-aeo-audit` **v0.9.0**. v0.12.1 moved the pin in
+  `skills.json` but left the submodule on v0.8.1 — the validator caught it, and
+  the tag was left in place rather than rewritten, so this is the released
+  version of that pin.
+
 ## v0.12.1 — 2026-07-30
 
 ### Changed
