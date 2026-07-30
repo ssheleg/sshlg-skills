@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.15.3 — 2026-07-31
+
+### Fixed
+- `make-skill` 0.7.1 — six corrections from re-reading the Claude Code plugin
+  reference, two of them places where the docs and the binary disagree:
+  `claude plugin validate` does not check front matter despite the docs saying
+  it does, and `claude plugin update <bare-name>` reports "not found" and exits
+  0 instead of working as documented. Also: the marketplace-root exception to
+  the `skills` field, `allowed-tools` being looser in Claude Code than in the
+  open standard, and the LSP/monitor field sets the reference promised but never
+  carried.
+
 ## v0.15.2 — 2026-07-30
 
 ### Changed
