@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.12.1 — 2026-07-30
+
+### Changed
+- Pin **`seo-aeo-audit` 0.9.0** — tracking parameters get their own mechanism,
+  separate from facets and filters: canonicals already consolidate UTM variants,
+  a `robots.txt` block cannot improve consolidation and cannot touch the one case
+  where a parameterized URL out-signals its canonical, and the fix sits at the
+  source (own internal and partner links) rather than in `robots.txt`. Ships with
+  play L13, a thirtieth refuted myth, and the rung-2 crawl-waste fallback for
+  hosted platforms that expose no server logs.
+
 ## v0.12.0 — 2026-07-30
 
 Family-wide release sweep. Every member had work sitting on `main` that no
