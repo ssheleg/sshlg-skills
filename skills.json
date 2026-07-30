@@ -38,19 +38,19 @@
       "skillNames": [
         "task-pipeline"
       ],
-      "version": "1.4.0"
+      "version": "1.4.1"
     },
     {
       "name": "agent-sync",
-      "repo": "appvillis-com/agent-sync",
+      "repo": "ssheleg/agent-sync",
       "dir": "skills/agent-sync",
-      "pluginMarketplace": "appvillis-com/agent-sync",
+      "pluginMarketplace": "ssheleg/agent-sync",
       "pluginInstall": "agent-sync@agent-sync",
       "desc": "Coordination plane for concurrent agents: leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board, over a pluggable knowledge cloud.",
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.3.5"
+      "version": "1.3.6"
     },
     {
       "name": "make-skill",

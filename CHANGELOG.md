@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.13.0 — 2026-07-30
+
+`agent-sync` moved to **`ssheleg/agent-sync`**. The whole family now lives under
+one owner, which changes what this repo says about its own trust boundary.
+
+### Changed
+- **Submodule URL and manifest** — `.gitmodules` and `skills.json` (`repo`,
+  `pluginMarketplace`) point at the new owner. GitHub redirects the old path,
+  but `git submodule` and the plugin marketplace should not be resting on a
+  redirect, and `raw.githubusercontent.com` does not follow one at all.
+- **`SECURITY.md`** — the trust boundary is no longer split: six repos, one
+  organization.
+- README family table and `CONTRIBUTING.md` link to the new location.
+- Pin **`agent-sync` 1.3.6** — every install path, identity field and raw URL
+  inside that repo now names `ssheleg`.
+- Pin **`task-pipeline` 1.4.1** — the three places it links to `agent-sync`.
+
+### Fixed
+- **The README family table advertised versions the manifest had moved past** —
+  every row was behind (`super-ux` 0.26.1 vs 0.26.2, `task-pipeline` 1.3.2 vs
+  1.4.1, `seo-aeo-audit` 0.8.0 vs 0.9.0, and so on), and `agent-sync`'s link had
+  been stale since the move. It is the first thing a visitor reads.
+- **Nothing was checking that table.** The validator now requires each skill's
+  row to carry the repo URL and the version `skills.json` declares — the two
+  ways it has actually drifted — with a CI negative self-test proving the check
+  can fail.
+
 ## v0.12.2 — 2026-07-30
 
 ### Fixed

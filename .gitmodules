@@ -15,4 +15,4 @@
 	url = https://github.com/ssheleg/seo-aeo-audit.git
 [submodule "skills/agent-sync"]
 	path = skills/agent-sync
-	url = https://github.com/appvillis-com/agent-sync.git
+	url = https://github.com/ssheleg/agent-sync.git

@@ -35,9 +35,8 @@ path outside `~/.claude/skills/` is touched.
 
 ## Trust boundary
 
-Installing runs code from six GitHub repos — five under the `ssheleg`
-organization and `agent-sync` under `appvillis-com` — plus the vercel `skills`
-CLI. Pins in `skills.json` and the submodule pointers mean a given hub commit
+Installing runs code from six GitHub repos, all under the `ssheleg`
+organization — plus the vercel `skills` CLI. Pins in `skills.json` and the submodule pointers mean a given hub commit
 installs exactly the skill versions it was tested with; review them if you need
 reproducibility — every pin is a release tag. Skills are documentation plus small
 standard-library scripts; each repo documents its own runtime surface.

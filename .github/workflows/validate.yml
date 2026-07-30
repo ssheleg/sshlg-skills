@@ -54,6 +54,27 @@ jobs:
             echo "OK: validator FAILs when a pin does not match the submodule contents"
           fi
 
+      - name: Negative self-test (a README row that lies must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/badreadme
+          cp -R . /tmp/badreadme
+          # bump a pin without touching the README table — the exact drift
+          # observed twice: the table kept advertising the previous version
+          python3 - <<'PY'
+          import json
+          p = "/tmp/badreadme/skills.json"
+          d = json.load(open(p))
+          d["skills"][0]["version"] = "99.99.99"
+          json.dump(d, open(p, "w"), indent=2)
+          PY
+          if python3 /tmp/badreadme/test/validate.py; then
+            echo "ERROR: validator passed while the README table disagreed with skills.json"
+            exit 1
+          else
+            echo "OK: validator FAILs when the README table drifts from the manifest"
+          fi
+
       - name: Launcher CLI check
         run: node --check bin/sshlg-skills.js
 

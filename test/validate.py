@@ -133,6 +133,31 @@ for r in ("README.md", "LICENSE"):
     if not os.path.isfile(os.path.join(ROOT, r)):
         fail(f"missing root file: {r}")
 
+# The README family table is the hub's shop window and nothing was checking it,
+# so it drifted twice: every row carried a version the manifest had moved past
+# (up to a minor behind), and agent-sync's link still pointed at the repo's
+# previous owner weeks after the move. Both are invisible to the submodules'
+# own validators -- this table lives only here. Each skill's row must carry the
+# repo URL and the version skills.json declares.
+readme_file = os.path.join(ROOT, "README.md")
+if os.path.isfile(readme_file):
+    with open(readme_file, encoding="utf-8") as fh:
+        readme_rows = [ln for ln in fh.read().split("\n") if ln.startswith("| **[")]
+    for s in skills:
+        name, repo, declared = s.get("name"), s.get("repo"), s.get("version")
+        if not (name and repo and declared):
+            continue  # already reported above
+        row = next((ln for ln in readme_rows if ln.startswith(f"| **[{name}]")), None)
+        if row is None:
+            fail(f"README.md: no family-table row for {name!r}")
+            continue
+        if f"https://github.com/{repo}" not in row:
+            fail(f"README.md: {name!r} row does not link to https://github.com/{repo} "
+                 f"(stale after a repository move?)")
+        if f"| {declared} |" not in row:
+            fail(f"README.md: {name!r} row does not carry the pinned version {declared} "
+                 f"(skills.json and the table disagree)")
+
 if errors:
     print("FAIL: sshlg-skills structure invalid")
     for e in errors:
