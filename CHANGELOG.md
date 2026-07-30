@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.13.1 — 2026-07-30
+
+### Fixed
+- **v0.13.0 justified the URL rewrite with a claim that does not hold**:
+  `raw.githubusercontent.com` was said not to follow a repository transfer. It
+  does — the old owner's raw path returns 200 with the current file. Corrected
+  in place below, and the rewrite still stands on the reason that survives
+  measurement: the old path works only while nobody re-registers the name.
+
+### Changed
+- Pin **`agent-sync` 1.3.7** — the same correction in that repo's notes.
+
 ## v0.13.0 — 2026-07-30
 
 `agent-sync` moved to **`ssheleg/agent-sync`**. The whole family now lives under
@@ -7,9 +19,9 @@ one owner, which changes what this repo says about its own trust boundary.
 
 ### Changed
 - **Submodule URL and manifest** — `.gitmodules` and `skills.json` (`repo`,
-  `pluginMarketplace`) point at the new owner. GitHub redirects the old path,
-  but `git submodule` and the plugin marketplace should not be resting on a
-  redirect, and `raw.githubusercontent.com` does not follow one at all.
+  `pluginMarketplace`) point at the new owner. GitHub keeps serving the old path
+  on every surface, so this breaks nothing today; it stops depending on the
+  `appvillis-com` name never being re-registered.
 - **`SECURITY.md`** — the trust boundary is no longer split: six repos, one
   organization.
 - README family table and `CONTRIBUTING.md` link to the new location.
