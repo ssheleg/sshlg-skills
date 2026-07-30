@@ -1,10 +1,25 @@
 name: release
 
-# Toggleable: runs only when the repo variable RELEASE_ENABLED == 'true'.
+# Project-configurable, individually toggleable release automation.
+#
+# OFF by default: `release` runs only when the repo variable RELEASE_ENABLED is
+# "true", `publish` only when PUBLISH_NPMJS is "true" (Settings -> Secrets and
+# variables -> Actions -> Variables). A fork decides for itself whether to arm
+# either half — no code change needed.
+#
+# Trigger: a v* tag, or a manual run naming an existing tag. Steps: validate ->
+# version check -> GitHub release carrying the CHANGELOG section -> npx smoke
+# test from a clean cwd -> npm publish with provenance.
+
 on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing vX.Y.Z tag to release and publish (defaults to the ref this runs on)"
+        required: false
+        type: string
 
 jobs:
   release:
@@ -13,46 +28,152 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Resolve the tag to release
+        id: t
+        run: |
+          set -eu
+          TAG="${{ inputs.tag || github.ref_name }}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "ver=${TAG#v}" >> "$GITHUB_OUTPUT"
+
       - uses: actions/checkout@v4
         with:
+          ref: ${{ steps.t.outputs.tag }}
           submodules: recursive
 
-      - name: Structural validator
-        run: python3 test/validate.py
+      - name: Structural validator (gate the release on a valid repo)
+        run: |
+          set -eu
+          python3 test/validate.py
 
-      - name: Derive version from tag
-        id: v
-        run: echo "ver=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
-
-      - name: Tag must match package.json
+      - name: Tag must match the manifests (version sync)
         run: |
           set -eu
           PV=$(python3 -c "import json;print(json.load(open('package.json'))['version'])")
-          if [ "$PV" != "${{ steps.v.outputs.ver }}" ]; then
-            echo "tag ${GITHUB_REF_NAME} != package.json $PV"; exit 1
+          if [ "$PV" != "${{ steps.t.outputs.ver }}" ]; then
+            echo "tag ${{ steps.t.outputs.tag }} does not match $PV"; exit 1
           fi
 
       - name: Extract this version's CHANGELOG section
         run: |
           set -eu
-          awk -v v="${{ steps.v.outputs.ver }}" '
+          awk -v v="${{ steps.t.outputs.ver }}" '
             $0 ~ "^## v" v "([^0-9]|$)" {f=1; next}
             /^## v/ {f=0}
             f {print}
           ' CHANGELOG.md > /tmp/notes.md
-          test -s /tmp/notes.md || { echo "no CHANGELOG section for v${{ steps.v.outputs.ver }}"; exit 1; }
+          test -s /tmp/notes.md || { echo "no CHANGELOG section for ${{ steps.t.outputs.ver }}"; exit 1; }
 
-      - name: Create the GitHub release
+      - name: Create or refresh the GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${GITHUB_REF_NAME}" \
-            --title "${GITHUB_REF_NAME} — sshlg-skills" \
-            --notes-file /tmp/notes.md --latest
+          set -eu
+          # Re-runnable: creating a release that exists is an error, and that used
+          # to abort the run before anything downstream could happen.
+          if gh release view "${{ steps.t.outputs.tag }}" >/dev/null 2>&1; then
+            gh release edit "${{ steps.t.outputs.tag }}" --notes-file /tmp/notes.md
+            echo "release ${{ steps.t.outputs.tag }} already existed — notes refreshed"
+          else
+            gh release create "${{ steps.t.outputs.tag }}" \
+              --title "${{ steps.t.outputs.tag }} — sshlg-skills" \
+              --notes-file /tmp/notes.md --latest
+          fi
 
       - name: Post-release smoke test (launcher runs from the tag, no side effects)
         run: |
           set -eu
           cd "$(mktemp -d)"
-          npx --yes "github:ssheleg/sshlg-skills#${GITHUB_REF_NAME}" list
-          echo "OK: launcher runs from released tag"
+          npx --yes "github:ssheleg/sshlg-skills#${{ steps.t.outputs.tag }}" list
+          echo "OK: launcher runs from the released tag"
+
+  publish:
+    # `npm publish` used to be the one human step in every release: 2FA blocks a
+    # plain token, so it was run by hand and the registry drifted behind the tags
+    # — six of seven packages were behind when this was written. Armed per
+    # repository by the PUBLISH_NPMJS variable.
+    #
+    # Auth works two ways on purpose. NODE_AUTH_TOKEN comes from the NPM_TOKEN
+    # secret (it must be a GRANULAR AUTOMATION token — a classic token is still
+    # refused by 2FA). `id-token: write` is granted regardless, which is what npm
+    # trusted publishing (OIDC) needs: name this workflow as the package's trusted
+    # publisher on npmjs.com, delete the secret, and this file keeps working with
+    # no long-lived credential at all. It also signs provenance.
+    needs: release
+    if: vars.PUBLISH_NPMJS == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Resolve the tag to publish
+        id: t
+        run: |
+          set -eu
+          TAG="${{ inputs.tag || github.ref_name }}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "ver=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.t.outputs.tag }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: npm must be new enough for trusted publishing
+        run: |
+          set -eu
+          # OIDC publishing needs npm >= 11.5.1 and the bundled npm is not
+          # guaranteed to be; without this the failure is an opaque auth error.
+          npm install -g npm@latest
+          npm --version
+
+      - name: The tag must match what would be published
+        run: |
+          set -eu
+          PV=$(node -p "require('./package.json').version")
+          if [ "$PV" != "${{ steps.t.outputs.ver }}" ]; then
+            echo "tag ${{ steps.t.outputs.tag }} != package.json $PV"; exit 1
+          fi
+
+      - name: Is this version already on the registry?
+        id: pub
+        run: |
+          set -eu
+          NAME=$(node -p "require('./package.json').name")
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          # Publishing over an existing version is a hard 403, so a re-run or a
+          # tag pushed after a manual publish must not fail the release.
+          if npm view "$NAME@${{ steps.t.outputs.ver }}" version >/dev/null 2>&1; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "$NAME@${{ steps.t.outputs.ver }} already published — nothing to do"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: npm publish
+        if: steps.pub.outputs.skip == 'false'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance
+
+      - name: The registry must actually serve it
+        if: steps.pub.outputs.skip == 'false'
+        run: |
+          set -eu
+          # The read replica lags the write master by a minute or two, so a fresh
+          # publish can still 404 on read. "Published" is a claim until it is
+          # served — poll instead of trusting publish's exit code alone.
+          for _ in $(seq 1 18); do
+            got=$(npm view "${{ steps.pub.outputs.name }}" version 2>/dev/null || echo "")
+            if [ "$got" = "${{ steps.t.outputs.ver }}" ]; then
+              echo "OK: registry serves ${{ steps.pub.outputs.name }}@$got"
+              exit 0
+            fi
+            sleep 10
+          done
+          echo "registry still does not serve ${{ steps.t.outputs.ver }} after 3 minutes"
+          exit 1

@@ -50,7 +50,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.3.9"
+      "version": "1.4.0"
     },
     {
       "name": "make-skill",
@@ -62,7 +62,7 @@
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.6.3"
+      "version": "0.6.4"
     },
     {
       "name": "sheleg-design",

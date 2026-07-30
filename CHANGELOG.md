@@ -1,5 +1,41 @@
 # Changelog
 
+## v0.14.1 — 2026-07-30
+
+### Added
+- **Releases publish themselves.** Every repo in the family — the six members
+  and this hub — now carries a `release.yml` whose second job runs `npm publish
+  --provenance` on a `v*` tag. `seo-aeo-audit` and `agent-sync` had no release
+  workflow at all and now have the full one. Armed per repository by
+  **`PUBLISH_NPMJS`**, alongside the existing `RELEASE_ENABLED`, so a fork of
+  any of these inherits an inert workflow.
+
+  Auth is written for both routes: `NODE_AUTH_TOKEN` from an `NPM_TOKEN` secret
+  (a *granular automation* token — a classic one is still refused by 2FA), and
+  `id-token: write` granted unconditionally so npm **trusted publishing** works
+  once a package names this workflow as its trusted publisher. Adopting OIDC
+  later is deleting a secret, not editing CI. That permission also signs
+  provenance.
+
+  Three properties, each of which is a red build if missing:
+  - a version already on the registry is **skipped** — publishing over one is a
+    hard 403, which would turn every re-run red;
+  - a `workflow_dispatch` **`tag` input**, because a dispatch runs the workflow
+    file *as of the ref it is dispatched on*: a tag pushed before the publish job
+    existed can never grow one, and this is what lets the current workflow
+    release an old tag;
+  - `npm view` is **polled** after publishing — the read replica lags the write
+    master, so published is a claim until the registry serves it.
+- The GitHub-release step is now **idempotent** (create, or refresh the notes),
+  so the whole workflow can be re-run instead of aborting on a release that
+  already exists.
+
+### Changed
+- Pin **`make-skill` 0.6.4** — arming CI publishing is now step 9 of its
+  first-publish checklist, and *the next tag publishes without a human* is a
+  definition-of-done fact. Its distribution reference carries both auth routes.
+- Pin **`agent-sync` 1.4.0** — branch discipline and a merge log.
+
 ## v0.14.0 — 2026-07-30
 
 A sweep across all seven repositories over three things a user relies on and
