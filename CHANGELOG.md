@@ -1,5 +1,40 @@
 # Changelog
 
+## v0.14.0 — 2026-07-30
+
+A sweep across all seven repositories over three things a user relies on and
+nobody had checked end to end: that the installers work, that the licence is
+visible, and that the links resolve.
+
+### Fixed
+- **`task-pipeline`'s `pipeline.schema.json` identified itself with a URL that
+  404s** — and that file is installed into `~/.claude/skills/`, so every install
+  carried a schema whose own `$id` could not be fetched. Fixed in 1.4.2.
+
+### Changed
+- **The licence is declared where it can be seen.** All six member repos ship a
+  `LICENSE`, and not one declared it in either manifest a user actually reads:
+  the `marketplace.json` plugin entry (a documented SPDX field) or the SKILL.md
+  front matter. Both are optional in their specs, which is exactly why it stayed
+  open — nothing errors on an absent licence. Now declared in both, everywhere.
+- **`make-skill` 0.6.3 makes it part of the spec floor**, so the next skill is
+  not born with the same gap.
+- Pins: `super-ux` 0.26.3, `task-pipeline` 1.4.2, `make-skill` 0.6.3,
+  `sheleg-design` 1.3.2, `seo-aeo-audit` 0.9.1, `agent-sync` 1.3.9.
+
+### Verified, not assumed
+- **Installers** — every package was built with `npm pack` and run from the
+  tarball in a clean `HOME` from a non-repo directory. All install what they
+  claim. `super-ux`'s tarball carries no `SKILL.md` **by design**: it delegates
+  skill installation to the skills CLI and ships only templates and the linter.
+  Both installers that accept `--agent a,b` were checked to split the list into
+  repeated `--agent` flags — a comma-joined value reaches the skills CLI as one
+  invalid agent.
+- **Links** — all 108 external URLs across the family were requested. Everything
+  outside the schema `$id` resolves; the rest of the non-200s are placeholders
+  (`example.com`), API base paths, bot-blocked npm pages and `<file>` templates.
+  Every relative markdown link resolves on disk.
+
 ## v0.13.1 — 2026-07-30
 
 ### Fixed
