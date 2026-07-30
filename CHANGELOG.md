@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.15.2 — 2026-07-30
+
+### Changed
+- `make-skill` 0.7.0 — the Claude Code plugin reference is now a bundled
+  reference file (`references/claude-code-plugin.md`: both manifest schemas,
+  plugin sources, component locations, host-only front matter, path variables,
+  cache and symlink rules, the whole `claude plugin` CLI), `$schema` sits in
+  both manifests, and the validator enforces recognized-fields-only,
+  `./`-relative component paths and a clean `.claude-plugin/` with negative
+  tests for each. Its own duplicate component is gone: `commands/make-skill.md`
+  registered `/make-skill` a second time behind the skill, so it was deleted and
+  the rule ("never name a command after a skill") is now validator-enforced.
+
 ## v0.15.1 — 2026-07-30
 
 Second pass against the Claude Code docs, checking the two layouts `--strict`

@@ -25,7 +25,7 @@
       ],
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
-      "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans. One /ux entry point plus a doc-drift linter.",
+      "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ \u2014 personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans. One /ux entry point plus a doc-drift linter.",
       "version": "0.26.5"
     },
     {
@@ -58,11 +58,11 @@
       "dir": "skills/make-skill",
       "pluginMarketplace": "ssheleg/make-skill",
       "pluginInstall": "make-skill@make-skill",
-      "desc": "A skill that builds skills: create, retrofit, audit and publish agent skills and Claude Code plugins — Agent Skills standard conformance, marketplace layout, version sync, validator + CI, every distribution channel, MCP and A2A rules.",
+      "desc": "A skill that builds skills: create, retrofit, audit and publish agent skills and Claude Code plugins \u2014 Agent Skills standard conformance, marketplace layout, version sync, validator + CI, every distribution channel, MCP and A2A rules.",
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.6.6"
+      "version": "0.7.0"
     },
     {
       "name": "sheleg-design",
@@ -70,7 +70,7 @@
       "dir": "skills/sheleg-design",
       "pluginMarketplace": "ssheleg/sheleg-design-skill",
       "pluginInstall": "sheleg-design@sheleg-design-skill",
-      "desc": "The taste layer: cinematic scroll-driven landing pages (one scroll clock, motion that degrades to calm, WebGL particle formations), product-UI style packs with a ready token layer each, and the Figma border — tokens as variables, design to code.",
+      "desc": "The taste layer: cinematic scroll-driven landing pages (one scroll clock, motion that degrades to calm, WebGL particle formations), product-UI style packs with a ready token layer each, and the Figma border \u2014 tokens as variables, design to code.",
       "skillNames": [
         "sheleg-design"
       ],
