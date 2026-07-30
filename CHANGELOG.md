@@ -1,5 +1,44 @@
 # Changelog
 
+## v0.15.1 — 2026-07-30
+
+Second pass against the Claude Code docs, checking the two layouts `--strict`
+does not look at.
+
+### Added
+- **`displayName` in both manifests of all six plugins.** `name` is kebab-case
+  because it namespaces components; the `/plugin` picker falls back to it, so the
+  listing read `sheleg-design` where it now reads "SHELEG Design".
+- `agent-sync` 1.4.2 — its README hook section now opens by naming itself the
+  only part of the plugin that executes code on the reader's machine (four bash
+  scripts, 15-20s timeouts, named events), pointing at `SECURITY.md` for every
+  path the install touches. The facts were already there; the framing a reviewer
+  looks for first was not.
+- `make-skill` 0.6.6 — **`claude plugin details` joins the canon**: it reports
+  what Claude Code believes a plugin contains and the always-on token cost per
+  component, which is where duplicate components and oversized descriptions
+  become visible.
+
+### Verified, not assumed
+- **`super-ux`'s shared `skills/references/` directory is not mistaken for a
+  skill** on either channel: Claude Code's own inventory lists 12 components and
+  none of them is `references`, and `npx skills add ssheleg/super-ux --list`
+  reports exactly 4 skills. It has no `SKILL.md`, which is what both discoverers
+  key on.
+
+### Known, not yet changed
+- **Every plugin lists one component twice.** `claude plugin details` shows
+  `task-pipeline, task-pipeline` and, for `super-ux`, three duplicated names —
+  because a `commands/<x>.md` and a `skills/<x>/SKILL.md` both claim `/<x>` now
+  that custom commands are merged into skills. Both are loaded and both pay
+  always-on tokens; only one answers the name. Removing the wrapper commands is
+  the fix, but it also changes what the npx installers copy into
+  `~/.claude/commands/`, so it is a deliberate change rather than a cleanup.
+
+### Changed
+- Pins: `super-ux` 0.26.5, `task-pipeline` 1.4.4, `make-skill` 0.6.6,
+  `sheleg-design` 1.3.4, `seo-aeo-audit` 0.9.3, `agent-sync` 1.4.2.
+
 ## v0.15.0 — 2026-07-30
 
 Audited all six plugins against the [Claude Code plugin
