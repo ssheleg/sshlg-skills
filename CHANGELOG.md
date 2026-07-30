@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.12.0 — 2026-07-30
+
+Family-wide release sweep. Every member had work sitting on `main` that no
+release carried: two had a bumped version with no tag, four had shipped files
+(README, `SKILL.md`, references) changed under a version already on the
+registry. A doc that only exists on `main` reaches nobody — the registry copy
+is what `npx` installs and what the package page shows.
+
+### Changed
+- Pin **`task-pipeline` 1.4.0** — `references/learned.md`, fourteen rules
+  earned by failure, wired into stages 5, 6, 9 and 10. Was tagged nowhere.
+- Pin **`agent-sync` 1.3.5** — the two rules the plugin enforces (identity
+  before coordination; a submodule's work is unfinished until its parent points
+  at it), stated with the incidents behind them.
+- Pin **`make-skill` 0.6.2** — first-publish step 10: a family member is not
+  released until the umbrella pin moves. The rule this release exists to
+  satisfy.
+- Pin **`super-ux` 0.26.2**, **`sheleg-design` 1.3.1**, **`seo-aeo-audit`
+  0.8.1** — the family install block (`install` / `update` / `list` + the
+  restart note) and `agent-sync` in the member list now reach the registry.
+- Hub README carries the same family commands and the six-member list.
+
 ## v0.11.1 — 2026-07-29
 
 ### Changed
