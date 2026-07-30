@@ -1,5 +1,41 @@
 # Changelog
 
+## v0.15.0 — 2026-07-30
+
+Audited all six plugins against the [Claude Code plugin
+reference](https://code.claude.com/docs/en/plugins-reference) using
+`claude plugin validate --strict`, the upstream schema checker, rather than by
+reading the spec. Two defects, both invisible to every house validator in the
+family, and one of them live in a published plugin.
+
+### Fixed
+- **`/ux-audit` was loading with no metadata at all** (`super-ux` 0.26.4). Its
+  `argument-hint` was an unquoted `[all | feature:<name> | ...] [quick|deep]` —
+  in YAML a bare `[...]` is a flow sequence, and this one failed to parse
+  outright. A command whose front matter fails to parse loads with **every field
+  silently dropped, description included**, and nothing at runtime says so. Nine
+  command files across the family were unquoted; six were parsing as *lists*
+  instead of strings, one (`seo-aeo-audit`) split on an internal comma.
+- **`homepage` and `repository` sat at the top level of all six
+  `marketplace.json` files, where Claude Code does not recognize them.** They are
+  plugin-entry fields; moved there, so the values reach the plugin listing
+  instead of being discarded at load time. Unrecognized fields are warnings the
+  runtime tolerates — which is precisely why they survived everything except
+  `--strict`.
+
+### Added
+- **The upstream validator now runs in every member's CI**, against both the
+  plugin and the marketplace manifest. It needs no auth and no API key, so a
+  runner installs `@anthropic-ai/claude-code` and runs it next to the repo's own
+  validator. House rules and upstream schema are different checks; only one of
+  them was being made.
+- `make-skill` 0.6.5 carries both failures as canon, so the next skill is not
+  born with either.
+
+### Changed
+- Pins: `super-ux` 0.26.4, `task-pipeline` 1.4.3, `make-skill` 0.6.5,
+  `sheleg-design` 1.3.3, `seo-aeo-audit` 0.9.2, `agent-sync` 1.4.1.
+
 ## v0.14.1 — 2026-07-30
 
 ### Added
