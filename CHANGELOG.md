@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.15.7 — 2026-08-03
+
+### Fixed
+- `task-pipeline` pinned to **1.8.1** — a code-and-contradiction audit: fifteen false
+  cross-references (eleven pointing at a section about something else), both
+  installers creating the plain `~/.claude/skills/` copy this launcher prunes, and an
+  npm package that excluded the files its own README links to.
+
 ## v0.15.8 — 2026-08-03
 
 ### Fixed
