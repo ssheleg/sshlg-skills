@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.15.5 — 2026-08-03
+
+### Fixed
+- `task-pipeline` pinned to **1.7.2** — nine findings from a post-release audit of
+  1.7.1: the seeded documentation gate read only one of the two register shapes it
+  promises (an ADR project got eight green `dormant` lines over a populated
+  register), the Doc Loop was declared cross-cutting and named in no stage doctrine
+  at all, and the hook contract had been written from memory. Each was proven before
+  the fix and again after; 46 of 46 guards provably reject their planted defect.
+
 ## v0.15.4 — 2026-08-03
 
 ### Fixed
