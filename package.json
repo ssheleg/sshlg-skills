@@ -15,7 +15,10 @@
   "repository": "github:ssheleg/sshlg-skills",
   "homepage": "https://github.com/ssheleg/sshlg-skills",
   "license": "MIT",
-  "author": "ssheleg",
+  "author": {
+    "name": "ssheleg",
+    "url": "https://x.com/sshlg93"
+  },
   "engines": {
     "node": ">=16"
   },

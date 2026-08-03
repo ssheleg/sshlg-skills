@@ -168,7 +168,7 @@ vulnerability, see [SECURITY.md](SECURITY.md).
 
 Built by ssheleg — [sshlg.me](https://sshlg.me)
 
-- X / Twitter — [@fuck_this_year](https://x.com/fuck_this_year)
+- X / Twitter — [@sshlg93](https://x.com/sshlg93)
 - Telegram — [@sshlg](https://t.me/sshlg)
 
 ## License
