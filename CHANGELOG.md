@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.15.6 — 2026-08-03
+
+### Fixed
+- `task-pipeline` pinned to **1.8.0** — audited against Anthropic's four Agent Skills
+  pages and brought to them: a `## Contents` list on every reference over 100 lines
+  (compared against the headings, not merely present), a behavioural evaluation suite
+  covering trigger accuracy, coexistence and instruction following, a copyable run
+  checklist, a stated degree of freedom per stage, and a `SKILL-CARD.md` with an
+  honest pass over the enterprise risk table.
+
 ## v0.15.5 — 2026-08-03
 
 ### Fixed
