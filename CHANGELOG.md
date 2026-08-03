@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.15.8 — 2026-08-03
+
+### Fixed
+- `make-skill` pinned to **0.8.1** — a file-by-file re-read of 0.8.0 found fourteen
+  defects, two of them misleading: the SKILL.md token estimate was asserted rather
+  than measured (real range 3.78–4.47 chars/token, so the budget check was
+  recalibrated and the audit checklist moved into its own reference), and
+  `SECURITY.md` described an installer path that has not existed since 0.6.x. Also
+  a trigger-eval split that left every positive in the train half, `displayName`
+  required by the canon and missing from both manifest skeletons, and three more
+  negative self-tests.
+
 ## v0.15.7 — 2026-08-03
 
 ### Fixed
