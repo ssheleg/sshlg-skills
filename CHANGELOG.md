@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.15.4 — 2026-08-03
+
+### Fixed
+- `task-pipeline` pinned at **1.4.4** while the registry served **1.7.1** — three
+  releases (1.6.0, 1.6.1, 1.7.0) were invisible from here. `list` kept reporting
+  the old number and `update` kept installing it, so anyone comparing their install
+  against the catalogue was told the wrong thing with nothing to reveal it. This is
+  the exact failure `task-pipeline`'s own CONTRIBUTING warns about — *a release is
+  not finished at `npm publish`* — and it had been true for three of them.
+- Pin moved to **1.7.1**: documentation as a governed deliverable with a portable
+  gate, the gate and hook doctrines, and a retrospective whose every lesson carries
+  a resolvable commit.
+
 ## v0.15.3 — 2026-07-31
 
 ### Fixed
