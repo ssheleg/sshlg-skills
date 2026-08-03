@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.15.7 — 2026-08-03
+## v0.15.9 — 2026-08-03
 
 ### Fixed
 - `task-pipeline` pinned to **1.8.1** — a code-and-contradiction audit: fifteen false
