@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.15.7 — 2026-08-03
+
+### Fixed
+- `make-skill` pinned to **0.8.0** — audited against the same four Anthropic Agent
+  Skills pages, which its canon had never been written against. Three new
+  references: `surfaces.md` (the Claude API container has no network and no runtime
+  package install, so a script that `pip install`s works in Claude Code and fails
+  after upload), `enterprise.md` (the risk table and review checklist for
+  installing a skill you did not write), `authoring.md` (degrees of freedom, script
+  rules, evaluation-driven development). Two rules the open standard is silent
+  about and the Skills API enforces on upload — no `anthropic`/`claude` in `name`,
+  no XML tags in `name`/`description` — are now validator-checked, along with
+  third-person descriptions, the 5000-token body budget the skill had quietly been
+  exceeding, and a `## Contents` list on every reference over 100 lines. Ships its
+  own evaluation suite in `test/evals/`.
+
 ## v0.15.6 — 2026-08-03
 
 ### Fixed
