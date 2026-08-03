@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.16.0 — 2026-08-03
+
+### Changed
+- `task-pipeline` **1.9.0** — the adoption track: greenfield seeding and a brownfield
+  walkthrough whose third step baselines the ratchets at today, so a gate is green on
+  the history it inherited. Default-on routing inside a stated boundary — work that
+  changes the repository — with an explicit exclusion clause and an opt-out phrase
+  that an eval exercises.
+- `agent-sync` **1.4.3** — its binding to the pipeline: a config example that
+  actually validates against the schema it cites, gate texts that extend the stage's
+  own criteria instead of replacing them, the right stage-9 doctrine, and
+  `docs/DOCMAP.md` + `docs/superpowers/retro.md` added to `guardedFiles`.
+
 ## v0.15.9 — 2026-08-03
 
 ### Fixed
