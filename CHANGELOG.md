@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.17.2 — 2026-08-03
+
+### Fixed
+- `task-pipeline` **1.10.2** — `CONTRIBUTING.md` claims its invariants are what the
+  validator enforces and was eight guards behind. The list is self-verifying now:
+  every invariant citing a guard cites a literal the validator actually prints.
+
 ## v0.17.1 — 2026-08-03
 
 ### Fixed
