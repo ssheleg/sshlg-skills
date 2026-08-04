@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.16.2 — 2026-08-03
+
+### Changed
+- `make-skill` pinned to **0.9.0** — it now ships the Claude Code capability set it
+  documents (a `PostToolUse` hook that audits a `SKILL.md` the moment it is written
+  and is silent otherwise, a `skill-auditor` subagent, a `/skill-audit` command, and
+  a stdlib `audit_skill.py` that audits any skill directory), and turns the missing
+  half into a rule: **every host capability is an accelerator with a written
+  fallback** — for hosts that are not Claude Code, for a recommended plugin that is
+  absent, and for a missing tool or MCP server. Skeletons moved inside the skill
+  directory, where they finally reach every channel; `SKILL-CARD.md` discloses the
+  hook to a reviewer.
+
 ## v0.16.1 — 2026-08-03
 
 ### Changed
