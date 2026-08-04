@@ -38,7 +38,7 @@
       "skillNames": [
         "task-pipeline"
       ],
-      "version": "1.9.1"
+      "version": "1.10.0"
     },
     {
       "name": "agent-sync",

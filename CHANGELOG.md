@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.17.0 — 2026-08-03
+
+### Changed
+- `task-pipeline` **1.10.0** — the entry audit (`/task-pipeline setup`) that runs over
+  the docs a project already has, *before* the feature; the portability boundary that
+  keeps workflow decisions inside the bundle and project answers inside the project,
+  with a guarded manifest; and a routing rule that finally ships as a file instead of
+  being hand-installed. Plus self-currency at preflight, the cost-of-being-wrong
+  escalation boundary, and user paths as a stage-2 design output.
+
 ## v0.16.2 — 2026-08-03
 
 ### Changed
