@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.17.1 — 2026-08-03
+
+### Fixed
+- `task-pipeline` **1.10.1** — four surfaces that never heard about the last two
+  releases, the Cursor rule among them: it is the one copied into foreign projects and
+  it knew nothing about the routing boundary, the opt-out phrase or the entry audit.
+  Plus the portability manifest, which covered 14 of 26 references while claiming
+  every workflow decision. Two new guards check the direction that finds absences.
+
 ## v0.17.0 — 2026-08-03
 
 ### Changed
