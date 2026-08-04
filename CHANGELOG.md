@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.18.2 — 2026-08-04
+
+### Changed
+- **seo-aeo-audit pinned to 0.10.0** (was 0.9.3). That release adds an eighth
+  non-negotiable — instruments must declare their own blind spots — four new
+  collectors (URL Inspection, sitemap inventory, PageSpeed field/lab, access
+  preflight), and the C-SEO Bench result that bounds the GEO study the skill
+  had been quoting unqualified. It also fixes a false finding: JS-injected
+  JSON-LD was reported as absent schema.
+
+
 ## v0.18.1 — 2026-08-04
 
 ### Added
