@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.16.1 — 2026-08-03
+
+### Changed
+- `task-pipeline` **1.9.1** — `artifacts.md` now maps the stage/artifact relation in
+  both directions: what each stage **reads and from where**, and which host-owned
+  rule files bind a run, with where each is read and enforced.
+
 ## v0.16.0 — 2026-08-03
 
 ### Changed
