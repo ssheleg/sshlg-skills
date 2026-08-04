@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.18.0 — 2026-08-04
+
+### Added
+- `task-pipeline` **1.11.0** — run continuity: the pacing rules the operator had been
+  repeating by hand. The loop is configuration now (`run.loop`, absent ⇒ off) and is
+  surfaced at launch instead of assumed. The context rule states its evidence
+  condition, so "the context is nearly exhausted" may no longer be announced without a
+  signal that says so — an estimate presented as a measurement teaches everyone to
+  ignore the one time it is true. A fire landing on a parked `manual` gate quiesces its
+  own loop and prints the re-arm line instead of idling, and the teardown is verified
+  by listing the schedule, never by trusting the cancel's reply.
+
+### Fixed
+- `task-pipeline` **1.11.0** — three shipped templates carried relative links that
+  broke the moment the template was seeded where the doctrine says to seed it; present
+  since v1.1.0, unnoticed because no run had seeded them verbatim. Guards 63 → 68, each
+  with a negative self-test that plants the defect and requires rejection.
+
 ## v0.17.3 — 2026-08-03
 
 ### Fixed
