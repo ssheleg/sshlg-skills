@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.18.0 — 2026-08-04
+## v0.18.1 — 2026-08-04
 
 ### Added
 - `task-pipeline` **1.11.0** — run continuity: the pacing rules the operator had been
@@ -17,6 +17,12 @@
   broke the moment the template was seeded where the doctrine says to seed it; present
   since v1.1.0, unnoticed because no run had seeded them verbatim. Guards 63 → 68, each
   with a negative self-test that plants the defect and requires rejection.
+- The pin moved in `skills.json` alone. The launcher's own validator refused the
+  release for the two surfaces that were left behind — the submodule still checked out
+  at v1.10.3 and the README table still printing 1.10.3 — so **v0.18.0 was tagged and
+  never published**; 0.18.1 is that release, complete. The gate did exactly its job:
+  a catalogue that says one version while shipping another is the failure it exists
+  to prevent.
 
 ## v0.17.3 — 2026-08-03
 
