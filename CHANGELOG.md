@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.17.3 — 2026-08-03
+
+### Fixed
+- `task-pipeline` **1.10.3** — the cause behind five audit passes rather than a sixth
+  symptom. Nine of ~30 findings were one missing propagation row: *adding a document*,
+  the change type a project makes most often and the row nobody writes. It is now step
+  0 of the matrix procedure, guarded in the seeded template, a pass of the entry audit
+  and a named release step.
+
 ## v0.17.2 — 2026-08-03
 
 ### Fixed
