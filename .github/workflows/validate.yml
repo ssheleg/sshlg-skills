@@ -15,6 +15,12 @@ jobs:
       - name: Structural validator
         run: python3 test/validate.py
 
+      - name: Pins match the npm registry
+        # validate.py proves the pin, the submodule and the README agree with
+        # each other. They can all agree and all be wrong: nothing local knows
+        # what was actually published. This is the half that does.
+        run: python3 test/check_pins.py
+
       - name: Negative self-test (validator must be able to fail)
         run: |
           set -eu

@@ -1,6 +1,23 @@
 # Changelog
 
-## v0.19.1 — 2026-08-05
+## v0.20.0 — 2026-08-05
+
+### Added
+- **`test/check_pins.py`** — compares every pin against the npm registry, and
+  runs in CI. `validate.py` proves the pin, the submodule and the README agree
+  with each other; all three can agree and all three be wrong, because nothing
+  local knows what was actually published. That is how the super-ux pin sat at
+  0.26.5 for four releases while npm carried 0.29.0.
+  - It verifies **ownership** before reporting drift: a name that exists is not
+    a name that belongs to us — `task-pipeline` on npm is someone else's 0.1.0,
+    and calling that drift would be worse than not checking.
+  - Kept out of `validate.py` deliberately: that one must run offline.
+
+### Fixed
+- **sheleg-design pinned to 1.7.0** (was 1.3.4) — found by the new check on its
+  first run, along with the submodule and README table that had drifted with it.
+
+ — 2026-08-05
 
 ### Fixed
 - **v0.19.0 shipped with the submodule and the README still on 0.26.5.** The
