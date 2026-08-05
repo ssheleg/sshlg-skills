@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.18.5 — 2026-08-05
+
+### Changed
+- **seo-aeo-audit pinned to 0.11.2** (was 0.11.1). A self-audit of the previous
+  two releases: a 2017 engine statement had been dated 2026, a second table was
+  split by a blank line (now a validator check), and four smaller defects in
+  precision and provenance.
+
 ## v0.18.4 — 2026-08-05
 
 ### Changed
