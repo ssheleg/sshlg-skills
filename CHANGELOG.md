@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.21.2 — 2026-08-05
+
+### Fixed
+- `task-pipeline` **1.14.1** — 1.14.0's fourteen new guards were first written below the
+  validator's verdict block, where a check runs after the verdict on a clean repo and
+  not at all on a corrupted one. A guard now rejects any check placed there. v0.21.1
+  shipped while the member was already one patch ahead.
+
 ## v0.21.1 — 2026-08-05
 
 ### Changed
