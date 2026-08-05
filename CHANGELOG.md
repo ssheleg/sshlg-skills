@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.21.0 — 2026-08-05
+
+### Added
+- `task-pipeline` **1.14.0** — **false success**, named as a class: a mechanism that
+  reports a win it never checked. Every instance this project had recorded — the hook
+  that fails open, the cancel that accepted an unscheduled id, the counter asserting
+  the new number instead of the absence of the old — had been fixed as its own bug,
+  because the class had no name to be swept by. Its second half is **effect
+  verification**: a diff shows what a task wrote and never what it did, so every step
+  with an effect outside its own diff now carries the command that *confirmed* the
+  state rather than the one that caused it. Guards 80 → 94.
+
+### Fixed
+- **The pin sat at 1.11.0 while 1.12.0 and 1.13.0 shipped.** Two releases — the
+  artifact-hygiene gate and the read-back rules — were tagged, published to npm and
+  invisible here: `list` reported 1.11.0 and `update` installed it. This is the exact
+  failure the release doctrine warns about, and it went unnoticed because nothing
+  compares the catalogue against the member's own latest tag. Pin moved straight to
+  1.14.0; the two skipped releases are in the member's changelog.
+
 ## v0.20.0 — 2026-08-05
 
 ### Added
