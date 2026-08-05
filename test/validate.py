@@ -23,6 +23,31 @@ def load_json(rel):
         return None
 
 
+
+def check_changelog_headings():
+    """A version documented twice truncates the release notes.
+
+    The release workflow extracts the FIRST matching section and stops. Two
+    entries under one version means the second release ships the first one's
+    notes -- which just happened here when two sessions both wrote v0.21.2.
+    super-ux has carried this check since its own duplicate; this repo had
+    not, and the gap is what let the collision through silently.
+    """
+    path = os.path.join(ROOT, "CHANGELOG.md")
+    if not os.path.isfile(path):
+        fail("missing file: CHANGELOG.md")
+        return
+    with open(path, encoding="utf-8") as f:
+        headings = re.findall(r"^## \[?v?(\d+\.\d+\.\d+)\]?", f.read(), re.M)
+    if not headings:
+        fail("CHANGELOG.md: no release heading")
+    for version in sorted({v for v in headings if headings.count(v) > 1}):
+        fail(f"CHANGELOG.md: v{version} is documented twice -- the release "
+             f"workflow reads the first section and would ship the wrong notes")
+
+
+check_changelog_headings()
+
 pkg = load_json("package.json")
 manifest = load_json("skills.json")
 

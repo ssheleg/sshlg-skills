@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.21.3 — 2026-08-05
+
+### Changed
+- **super-ux pinned to 0.30.1** — it patches a template that told projects to
+  write `PER-NN` where the UX contract numbers personas `P-NN`, which earned a
+  false blocking lint error. Caught by `check_pins.py` within a minute of the
+  tag; third catch since it was built.
+
 ## v0.21.2 — 2026-08-05
 
 ### Fixed
@@ -8,7 +16,7 @@
   not at all on a corrupted one. A guard now rejects any check placed there. v0.21.1
   shipped while the member was already one patch ahead.
 
-## v0.21.1 — 2026-08-05
+ — 2026-08-05
 
 ### Changed
 - **`check_pins.py` also compares against each member's own git tag.** The npm
