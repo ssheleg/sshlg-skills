@@ -1,6 +1,20 @@
 # Changelog
 
-## v0.21.0 — 2026-08-05
+## v0.21.1 — 2026-08-05
+
+### Changed
+- **`check_pins.py` also compares against each member's own git tag.** The npm
+  half, shipped hours earlier in v0.20.0, is silent for four of six members —
+  they are not published there at all, and that silence is not safety. v0.21.0
+  had just fixed exactly the drift it could not see: `task-pipeline` pinned at
+  1.11.0 while 1.12.0 and 1.13.0 were tagged, invisible for two days. A tag
+  exists for every member, so the tag comparison is the half that covers all
+  of them.
+- **make-skill pinned to 0.9.1** — it corrected a release checklist that told
+  agents to publish npm by hand, contradicting its own instruction to arm CI
+  publishing.
+
+ — 2026-08-05
 
 ### Added
 - `task-pipeline` **1.14.0** — **false success**, named as a class: a mechanism that
@@ -20,7 +34,14 @@
   compares the catalogue against the member's own latest tag. Pin moved straight to
   1.14.0; the two skipped releases are in the member's changelog.
 
-## v0.20.0 — 2026-08-05
+## v0.20.1 — 2026-08-05
+
+### Changed
+- **make-skill pinned to 0.9.1** — it corrected a release checklist that told
+  agents to publish npm by hand, contradicting its own instruction to arm CI
+  publishing.
+
+ — 2026-08-05
 
 ### Added
 - **`test/check_pins.py`** — compares every pin against the npm registry, and

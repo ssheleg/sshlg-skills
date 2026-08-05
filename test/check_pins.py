@@ -23,6 +23,8 @@ from __future__ import annotations
 
 import json
 import os
+import re
+import subprocess
 import sys
 import urllib.error
 import urllib.parse
@@ -56,6 +58,33 @@ def latest(package: str, repo: str) -> str | None:
     if repo.lower() not in str(declared or "").lower():
         return None
     return data.get("version")
+
+
+def latest_tag(repo: str) -> str | None:
+    """The highest `vX.Y.Z` tag on the member's own GitHub repo.
+
+    npm is not enough: four of six members are not published there at all, so
+    for them the registry comparison is silent by construction. That silence
+    is not safety -- task-pipeline sat at 1.11.0 in this catalogue while
+    1.12.0 and 1.13.0 were tagged and published, and nothing said so for two
+    days. A tag exists for every member, which makes this the check that
+    covers all of them.
+    """
+    try:
+        out = subprocess.run(
+            ["git", "ls-remote", "--tags", "--refs", f"https://github.com/{repo}.git"],
+            capture_output=True, text=True, timeout=TIMEOUT, check=True,
+        ).stdout
+    except (subprocess.SubprocessError, OSError):
+        return None
+    versions = []
+    for line in out.splitlines():
+        found = re.search(r"refs/tags/v?(\d+)\.(\d+)\.(\d+)$", line.strip())
+        if found:
+            versions.append(tuple(int(g) for g in found.groups()))
+    if not versions:
+        return None
+    return ".".join(str(n) for n in max(versions))
 
 
 def candidates(entry: dict) -> list[str]:
@@ -98,8 +127,14 @@ def main(argv: list[str]) -> int:
             unreachable.append(f"{entry['name']}: {exc}")
             continue
 
-        if published is None:
-            unknown.append(entry["name"])
+        tag = latest_tag(entry.get("repo", ""))
+        if tag and tag != pinned:
+            behind.append((entry["name"], pinned, tag, "git tag"))
+        elif published is None:
+            if tag:
+                print(f"ok       {entry['name']:<16} {pinned} (tag; not on npm)")
+            else:
+                unknown.append(entry["name"])
         elif published != pinned:
             behind.append((entry["name"], pinned, published, used))
         else:
@@ -115,13 +150,13 @@ def main(argv: list[str]) -> int:
 
     for name, pinned, published, used in behind:
         print(
-            f"BEHIND   {name:<16} pinned {pinned}, npm has {published} "
-            f"({used}) -- `list` and `update` are reporting {pinned}"
+            f"BEHIND   {name:<16} pinned {pinned}, {used} has {published}"
+            f" -- `list` and `update` are reporting {pinned}"
         )
 
     if behind:
         print(
-            f"\n{len(behind)} pin(s) behind the registry. Bump them in "
+            f"\n{len(behind)} pin(s) behind their own release. Bump them in "
             f"skills.json, move the submodule to the matching tag, and update "
             f"the README table -- validate.py checks that all three agree."
         )
@@ -129,7 +164,7 @@ def main(argv: list[str]) -> int:
     if unreachable and strict:
         print("\nregistry unreachable and --strict was set")
         return 1
-    print("\nevery pin matches the registry")
+    print("\nevery pin matches its release (npm where published, git tag everywhere)")
     return 0
 
 
