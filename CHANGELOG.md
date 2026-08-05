@@ -1,6 +1,15 @@
 # Changelog
 
-## v0.22.1 — 2026-08-05
+## v0.22.2 — 2026-08-05
+
+### Fixed
+- **`--dry-run` previewed the refusal instead of the block.** Down a pipe it
+  reported `would-opt-out`, which answers "what happens if I decline" — not
+  the question a preview is asked. It now shows the block that would be
+  written and states plainly that nothing was changed and no consent was
+  requested or recorded.
+
+ — 2026-08-05
 
 ### Fixed
 - **`lib/` was missing from the published package**, so `sshlg-skills routers`

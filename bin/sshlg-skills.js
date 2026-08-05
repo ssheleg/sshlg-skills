@@ -225,7 +225,13 @@ function cmdRouters(f) {
 
   const mode = f.mode || 'install';
   let decision = 'yes';
-  if (mode === 'install') {
+  if (f.dryRun) {
+    // A preview answers "what would I get", not "what happens if I decline".
+    // Nothing is written either way, so it previews the block itself and says
+    // plainly that no decision was made.
+    log('--dry-run: показываю, что было бы записано. Ничего не изменено, ' +
+        'согласие не запрошено и не записано.');
+  } else if (mode === 'install') {
     decision = consent.askConsent({
       home,
       persist: !f.dryRun,
