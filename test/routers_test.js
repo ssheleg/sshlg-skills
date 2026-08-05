@@ -135,6 +135,47 @@ it('a malformed block is reported, never repaired', () => {
   assert.strictEqual(out.text, src);
 });
 
+
+// ---- task 3: the table describes what is actually present ----
+
+it('one section renders a one-row table', () => {
+  const minimal = [B, '## Роутинг', '',
+    '<!-- SSHLG:ROUTERS:TABLE:BEGIN -->', '<!-- SSHLG:ROUTERS:TABLE:END -->', E, ''].join('\n');
+  const out = R.upsert(minimal, { 'super-ux': 'body' });
+  const rows = out.text.split('\n').filter(l => l.startsWith('| `'));
+  assert.strictEqual(rows.length, 1);
+  assert.ok(rows[0].includes('super-ux'));
+});
+
+it('three sections render three rows in the fixed order', () => {
+  const minimal = [B, '## Роутинг', '',
+    '<!-- SSHLG:ROUTERS:TABLE:BEGIN -->', '<!-- SSHLG:ROUTERS:TABLE:END -->', E, ''].join('\n');
+  const out = R.upsert(minimal, {
+    'task-pipeline': 'c', 'copywriting': 'b', 'super-ux': 'a',
+  });
+  const rows = out.text.split('\n').filter(l => l.startsWith('| `'));
+  assert.deepStrictEqual(
+    rows.map(r => r.split('`')[1]),
+    ['super-ux', 'copywriting', 'task-pipeline']
+  );
+});
+
+it('the table drops a row when its section is gone', () => {
+  const two = R.upsert(
+    [B, '## Роутинг', '', '<!-- SSHLG:ROUTERS:TABLE:BEGIN -->',
+     '<!-- SSHLG:ROUTERS:TABLE:END -->', E, ''].join('\n'),
+    { 'super-ux': 'a', 'copywriting': 'b' }
+  ).text;
+  const stripped = two.replace(
+    /<!-- SSHLG:ROUTER:copywriting:BEGIN -->[\s\S]*?<!-- SSHLG:ROUTER:copywriting:END -->/,
+    ''
+  );
+  const out = R.upsert(stripped, { 'super-ux': 'a2' });
+  const rows = out.text.split('\n').filter(l => l.startsWith('| `'));
+  assert.strictEqual(rows.length, 1);
+  assert.ok(!out.text.includes('SSHLG:ROUTER:copywriting'));
+});
+
 if (failures.length) {
   failures.forEach(f => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
