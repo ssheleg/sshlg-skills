@@ -48,6 +48,38 @@ def check_changelog_headings():
 
 check_changelog_headings()
 
+def check_npm_payload():
+    """Every path bin/ requires must be inside the published tarball.
+
+    `npm publish` ships only package.json files[]. A directory the CLI reads
+    that is not listed exists in the repo, passes every local test, and then
+    dies with MODULE_NOT_FOUND for every npx user -- which is exactly how
+    v0.22.0 shipped a `routers` command that could not load its own library.
+
+    Derived from the source rather than a hand-kept list, because a hand-kept
+    list is the thing that was already wrong.
+    """
+    bin_path = os.path.join(ROOT, "bin", "sshlg-skills.js")
+    if not os.path.isfile(bin_path):
+        return
+    with open(bin_path, encoding="utf-8") as f:
+        src = f.read()
+    pkg_local = None
+    try:
+        with open(os.path.join(ROOT, "package.json"), encoding="utf-8") as f:
+            pkg_local = json.load(f)
+    except Exception:
+        return
+    shipped = [p.strip("/") for p in (pkg_local.get("files") or [])]
+    for rel in sorted(set(re.findall(r"require\('\.\./([\w./-]+)'\)", src))):
+        top = rel.split("/")[0]
+        if top not in shipped:
+            fail(f"bin/ requires '../{rel}' but package.json files[] does not "
+                 f"ship '{top}/' -- npx users get MODULE_NOT_FOUND")
+
+
+check_npm_payload()
+
 pkg = load_json("package.json")
 manifest = load_json("skills.json")
 

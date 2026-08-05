@@ -83,6 +83,14 @@ it('a corrupt state file is treated as empty, never as consent', () => {
   assert.deepStrictEqual(C.readState(home), {});
 });
 
+it('a dry run decides nothing and records nothing', () => {
+  const home = tmpHome();
+  const answer = C.askConsent({ home, interactive: false, persist: false, log: () => {} });
+  assert.strictEqual(answer, 'no');
+  assert.strictEqual(C.readState(home).routers, undefined,
+    'a preview must not write a permanent refusal');
+});
+
 if (failures.length) {
   failures.forEach(f => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

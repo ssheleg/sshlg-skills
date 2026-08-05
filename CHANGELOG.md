@@ -1,6 +1,18 @@
 # Changelog
 
-## v0.22.0 — 2026-08-05
+## v0.22.1 — 2026-08-05
+
+### Fixed
+- **`lib/` was missing from the published package**, so `sshlg-skills routers`
+  died with `MODULE_NOT_FOUND` for anyone installing through npx. The code was
+  correct and complete in the repository and absent from the tarball —
+  `files[]` listed `bin` and not `lib`.
+- `test/validate.py` now derives the requirement from the source: every
+  `require('../…')` in `bin/` must have its top-level directory in `files[]`.
+  A hand-kept list is what was already wrong, so the check reads the code
+  instead of trusting one.
+
+ — 2026-08-05
 
 ### Added
 - **`sshlg-skills routers`** — writes a managed routing block into the global

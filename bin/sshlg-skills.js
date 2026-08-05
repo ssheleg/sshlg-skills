@@ -228,6 +228,7 @@ function cmdRouters(f) {
   if (mode === 'install') {
     decision = consent.askConsent({
       home,
+      persist: !f.dryRun,
       interactive: process.stdin.isTTY === true,
       prompt: (q) => { process.stdout.write(q); return readLineSync(); },
       log,
