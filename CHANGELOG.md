@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.19.1 — 2026-08-05
+
+### Fixed
+- **v0.19.0 shipped with the submodule and the README still on 0.26.5.** The
+  pin in `skills.json` moved to 0.30.0 while `skills/super-ux` still pointed at
+  the old commit and the README table still printed the old number — the
+  validator said so and the release went out anyway. v0.19.0 is left in place
+  and superseded, not deleted.
+
 ## v0.19.0 — 2026-08-05
 
 ### Changed
