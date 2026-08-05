@@ -47,11 +47,13 @@ it('install with consent writes the block and keeps the prose', () => {
   assert.ok(out.includes('SSHLG:ROUTER:copywriting:BEGIN'));
 });
 
-it('install without consent writes nothing', () => {
+it('install without consent writes no block', () => {
   const h = home();
   fs.writeFileSync(claudeMd(h), '# mine\n');
   A.apply({ home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
-  assert.strictEqual(fs.readFileSync(claudeMd(h), 'utf8'), '# mine\n');
+  const out = fs.readFileSync(claudeMd(h), 'utf8');
+  assert.ok(!out.includes('SSHLG:ROUTER:super-ux'));
+  assert.ok(out.startsWith('# mine\n'));
 });
 
 it('a second install refreshes the block and leaves the rest byte-identical', () => {
@@ -88,6 +90,53 @@ it('an opted-out file stays opted out through install', () => {
   A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
   const out = fs.readFileSync(claudeMd(h), 'utf8');
   assert.ok(!out.includes('SSHLG:ROUTER:super-ux'));
+});
+
+
+// ---- task 7: a refusal leaves a marker that survives ----
+
+it('declining writes the marker and no block', () => {
+  const h = home();
+  fs.writeFileSync(claudeMd(h), '# mine\n');
+  A.apply({ home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
+  const out = fs.readFileSync(claudeMd(h), 'utf8');
+  assert.ok(out.includes('SSHLG:ROUTERS:OPTOUT'));
+  assert.ok(!out.includes('SSHLG:ROUTER:super-ux'));
+  assert.ok(out.startsWith('# mine\n'));
+});
+
+it('the marker makes every later install and update silent', () => {
+  const h = home();
+  fs.writeFileSync(claudeMd(h), '# mine\n');
+  A.apply({ home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
+  const afterDecline = fs.readFileSync(claudeMd(h), 'utf8');
+  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  A.apply({ home: h, mode: 'update', routers: ROUTERS, log: () => {} });
+  assert.strictEqual(fs.readFileSync(claudeMd(h), 'utf8'), afterDecline);
+});
+
+it('declining twice does not stack markers', () => {
+  const h = home();
+  fs.writeFileSync(claudeMd(h), '# mine\n');
+  A.apply({ home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
+  A.apply({ home: h, mode: 'install', consent: 'no', routers: ROUTERS, log: () => {} });
+  const out = fs.readFileSync(claudeMd(h), 'utf8');
+  assert.strictEqual(out.split('SSHLG:ROUTERS:OPTOUT').length - 1, 1);
+});
+
+it('a dry-run decline writes no marker either', () => {
+  const h = home();
+  fs.writeFileSync(claudeMd(h), '# mine\n');
+  A.apply({ home: h, mode: 'install', consent: 'no', routers: ROUTERS, dryRun: true, log: () => {} });
+  assert.strictEqual(fs.readFileSync(claudeMd(h), 'utf8'), '# mine\n');
+});
+
+it('the block names the marker as the way out', () => {
+  const h = home();
+  fs.writeFileSync(claudeMd(h), '# mine\n');
+  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  const out = fs.readFileSync(claudeMd(h), 'utf8');
+  assert.ok(out.includes('SSHLG:ROUTERS:OPTOUT'), 'the header must name the opt-out marker');
 });
 
 if (failures.length) {

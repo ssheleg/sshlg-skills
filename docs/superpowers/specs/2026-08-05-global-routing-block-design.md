@@ -94,11 +94,19 @@ Recorded in `~/.sshlg-skills/state.json` as `{"routers": "yes"|"no"}`.
 - Non-interactive stdin (CI, piped) → treat as `no`, print one line saying so.
   Silence is not consent.
 
-**Opting out after the fact** is deleting the block. To make that permanent
-without a state file the user may not know about, the deletion leaves nothing
-behind — so `install` re-asks once and, on `no`, writes
-`<!-- SSHLG:ROUTERS:OPTOUT -->` at the end of the file. That single line is
-what step 2 reads, and it survives everything.
+**Opting out after the fact is the marker, not deleting the block.**
+
+The spec first said deletion meant opt-out. The build proved that
+self-contradictory against "a recorded answer is never re-asked": an operator
+who consented once and later deleted the block would be silently rewritten by
+one rule and permanently silenced by the other.
+
+Deletion is also ambiguous — it is indistinguishable from a botched merge or a
+stray selection. So it is not a refusal. Declining the prompt writes
+`<!-- SSHLG:ROUTERS:OPTOUT -->` into the file, and the block's own header
+names that marker as the way out. It lives where the operator will see it,
+survives a reinstall, a new machine's restored dotfiles, and a state file
+nobody knew about.
 
 ## Targets
 
