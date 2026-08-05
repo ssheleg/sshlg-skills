@@ -107,11 +107,26 @@ it('prose above and below the block survives an upsert byte for byte', () => {
   assert.strictEqual(after.after, original.after);
 });
 
-it('an unknown router is inserted before the table, not appended past it', () => {
+it('an unknown router lands inside the block, before the table', () => {
   const out = R.upsert(wellFormed, { 'task-pipeline': 'new body' });
+  // Containment, not position. Asserting only that the section precedes the
+  // table stays true even when the section has been written outside the fence
+  // entirely -- which is exactly the bug this fixture failed to catch once.
+  const parsed = R.parse(out.text);
+  assert.ok(parsed.sections.map(s => s.name).includes('task-pipeline'));
   const idxSection = out.text.indexOf('SSHLG:ROUTER:task-pipeline:BEGIN');
   const idxTable = out.text.indexOf('SSHLG:ROUTERS:TABLE:BEGIN');
-  assert.ok(idxSection > 0 && idxSection < idxTable);
+  const idxBegin = out.text.indexOf('SSHLG:ROUTERS:BEGIN');
+  assert.ok(idxBegin < idxSection && idxSection < idxTable);
+});
+
+it('a section added to an empty block is inside it, not before it', () => {
+  const empty = [B, '## Роутинг', '', '<!-- SSHLG:ROUTERS:TABLE:BEGIN -->',
+    '<!-- SSHLG:ROUTERS:TABLE:END -->', E, ''].join('\n');
+  const out = R.upsert(empty, { 'super-ux': 'body' });
+  const parsed = R.parse(out.text);
+  assert.deepStrictEqual(parsed.sections.map(s => s.name), ['super-ux']);
+  assert.strictEqual(parsed.before, '');
 });
 
 it('upserting nothing changes nothing', () => {
