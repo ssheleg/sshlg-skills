@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.18.3 — 2026-08-05
+
+### Changed
+- **seo-aeo-audit pinned to 0.11.0** (was 0.10.0). A two-week window of
+  practitioner sources screened on two gates — does it contradict what the skill
+  already holds, and does the number survive its primary source. Adds rendering
+  as a budget separate from crawl budget (with a diagnostic that can actually be
+  run), Googlebot's one-shot viewport stretch, the reliability problem in entity
+  extraction tooling, a service-area local block, and five detection patterns
+  including the paid-mention market now selling itself as AEO. Fixes three
+  defects the screening exposed: the evidence-tier vocabulary had two homes that
+  disagreed, an on-page check reported a non-finding, and a documented diagnostic
+  named a Search Console field that does not exist.
+
 ## v0.18.2 — 2026-08-04
 
 ### Changed
