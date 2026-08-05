@@ -87,6 +87,54 @@ it('prose outside the block is captured, not swallowed', () => {
   assert.ok(r.after.includes('Trailing prose that must survive.'));
 });
 
+
+// ---- task 2: upsert one section, leave every other byte alone ----
+
+it('upserting one section leaves the other byte-identical', () => {
+  const before = R.parse(wellFormed);
+  const other = before.sections.find(s => s.name === 'copywriting').raw;
+  const out = R.upsert(wellFormed, { 'super-ux': 'REPLACED BODY' });
+  const after = R.parse(out.text);
+  assert.strictEqual(after.sections.find(s => s.name === 'copywriting').raw, other);
+  assert.strictEqual(after.sections.find(s => s.name === 'super-ux').body, 'REPLACED BODY');
+});
+
+it('prose above and below the block survives an upsert byte for byte', () => {
+  const original = R.parse(wellFormed);
+  const out = R.upsert(wellFormed, { 'super-ux': 'REPLACED BODY' });
+  const after = R.parse(out.text);
+  assert.strictEqual(after.before, original.before);
+  assert.strictEqual(after.after, original.after);
+});
+
+it('an unknown router is inserted before the table, not appended past it', () => {
+  const out = R.upsert(wellFormed, { 'task-pipeline': 'new body' });
+  const idxSection = out.text.indexOf('SSHLG:ROUTER:task-pipeline:BEGIN');
+  const idxTable = out.text.indexOf('SSHLG:ROUTERS:TABLE:BEGIN');
+  assert.ok(idxSection > 0 && idxSection < idxTable);
+});
+
+it('upserting nothing changes nothing', () => {
+  const out = R.upsert(wellFormed, {});
+  assert.strictEqual(out.changed, false);
+  assert.strictEqual(out.text, wellFormed);
+});
+
+it('an opted-out file is never written to', () => {
+  const src = wellFormed + '\n<!-- SSHLG:ROUTERS:OPTOUT -->\n';
+  const out = R.upsert(src, { 'super-ux': 'nope' });
+  assert.strictEqual(out.changed, false);
+  assert.strictEqual(out.text, src);
+});
+
+it('a malformed block is reported, never repaired', () => {
+  const src = `# notes\n\n${E}\nstuff\n${B}\n`;
+  const out = R.upsert(src, { 'super-ux': 'nope' });
+  assert.strictEqual(out.changed, false);
+  assert.strictEqual(out.state, 'malformed');
+  assert.strictEqual(out.text, src);
+});
+
 if (failures.length) {
   failures.forEach(f => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
