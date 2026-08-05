@@ -176,6 +176,38 @@ it('the table drops a row when its section is gone', () => {
   assert.ok(!out.text.includes('SSHLG:ROUTER:copywriting'));
 });
 
+
+// ---- task 4: idempotence, and a diff that shows what would change ----
+
+it('a second identical upsert changes nothing', () => {
+  const once = R.upsert(wellFormed, { 'super-ux': 'stable body' });
+  assert.strictEqual(once.changed, true);
+  const twice = R.upsert(once.text, { 'super-ux': 'stable body' });
+  assert.strictEqual(twice.changed, false);
+  assert.strictEqual(twice.text, once.text);
+});
+
+it('idempotence survives a third pass', () => {
+  let cur = wellFormed;
+  for (let i = 0; i < 3; i += 1) cur = R.upsert(cur, { 'super-ux': 'x' }).text;
+  assert.strictEqual(R.upsert(cur, { 'super-ux': 'x' }).changed, false);
+});
+
+it('diff of identical text is empty', () => {
+  assert.strictEqual(R.diff(wellFormed, wellFormed), '');
+});
+
+it('diff names the lines that would change, with markers', () => {
+  const out = R.upsert(wellFormed, { 'super-ux': 'NEW BODY' });
+  const d = R.diff(wellFormed, out.text);
+  assert.ok(d.includes('-super-ux body line one'));
+  assert.ok(d.includes('+NEW BODY'));
+});
+
+it('a one-newline difference is still a difference', () => {
+  assert.notStrictEqual(R.diff('a\n', 'a\n\n'), '');
+});
+
 if (failures.length) {
   failures.forEach(f => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
