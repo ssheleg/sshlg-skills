@@ -84,6 +84,19 @@ jobs:
       - name: Launcher CLI check
         run: node --check bin/sshlg-skills.js
 
+      - name: Routing block unit tests
+        # These guard the only code in the family that edits a file the user
+        # owns and did not write. node --check proves syntax, not behaviour --
+        # it passed a `rest[++i]` against a variable that does not exist in
+        # that scope, which would have thrown on the first --member flag.
+        run: |
+          set -eu
+          node test/routers_test.js
+          node test/install_routers_test.js
+          node test/consent_test.js
+          node test/migrate_test.js
+          node test/router_texts_test.js
+
       - name: Launcher list/help run (no side effects)
         run: |
           node bin/sshlg-skills.js --help >/dev/null

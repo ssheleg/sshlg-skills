@@ -1,6 +1,31 @@
 # Changelog
 
-## v0.21.3 — 2026-08-05
+## v0.22.0 — 2026-08-05
+
+### Added
+- **`sshlg-skills routers`** — writes a managed routing block into the global
+  agent instructions (`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`), so the
+  family's skills engage by default in every project instead of only when
+  someone remembers to ask.
+  - **Consent is asked once and silence is never the answer.** Installing a
+    skill is not permission to change persistent instructions; a
+    non-interactive stdin answers no and says so. Declining writes an
+    `SSHLG:ROUTERS:OPTOUT` marker, which the block's own header names as the
+    way out and which survives reinstalls and restored dotfiles.
+  - **Sections are per-member**, so the bundle and a single member's installer
+    can both write without one reformatting the other's work.
+    `--member super-ux` writes two routers and a two-row table.
+  - **Hand-written rules win.** Migration moves the operator's own wording in
+    verbatim; the packaged texts are used only for a router they never wrote.
+  - Everything outside the sentinels is preserved byte for byte, `--dry-run`
+    shows a diff and writes nothing, and a malformed block is reported and
+    never repaired — repairing is a guess about text we did not write.
+- Five Node test suites (71 fixtures), gated in CI.
+
+### Changed
+- super-ux pinned to 0.30.2.
+
+ — 2026-08-05
 
 ### Changed
 - **super-ux pinned to 0.30.1** — it patches a template that told projects to
