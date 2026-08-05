@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.18.4 — 2026-08-05
+
+### Changed
+- **seo-aeo-audit pinned to 0.11.1** (was 0.11.0). Patch: two myth-guard rows
+  rendered outside their table, and the validator gained the count check that
+  found them.
+
 ## v0.18.3 — 2026-08-05
 
 ### Changed
