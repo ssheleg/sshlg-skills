@@ -40,6 +40,13 @@ function parseFlags(argv) {
     else if (a === '--no-claude') f.claude = false;
     else if (a === '--claude-only') f.claudeOnly = true;
     else if (a === '--bump-pins') f.bumpPins = true;
+    else if (a === '--dry-run') f.dryRun = true;
+    else if (a === '--update') f.mode = 'update';
+    else if (a === '--member') {
+      const v = argv[++i];
+      if (!v || v.startsWith('-')) { log('--member needs a value'); process.exit(2); }
+      f.member = v;
+    }
     else if (a === '--agent' || a === '-a') {
       const v = argv[++i];
       if (!v || v.startsWith('-')) { log('--agent needs a value, e.g. --agent cursor,zed'); process.exit(2); }
@@ -191,6 +198,75 @@ function cmdAgents() {
   log(`Default set: ${manifest.defaultAgents.join(', ')}  (Claude via plugin)`);
 }
 
+/**
+ * `routers` — write the managed routing block.
+ *
+ * Exposed as its own command so a single member's installer can delegate here
+ * instead of vendoring the writer. The block lists several routers and a
+ * precedence table describing what this machine actually has; a lone member
+ * rendering it would produce a table for routers nobody installed, which is
+ * worse than no table.
+ */
+function cmdRouters(f) {
+  const routersLib = require('../lib/router-texts.js');
+  const apply = require('../lib/apply.js');
+  const consent = require('../lib/consent.js');
+  const migrate = require('../lib/migrate.js');
+  const fs = require('fs');
+  const path = require('path');
+  const home = process.env.HOME || require('os').homedir();
+
+  const members = f.member ? [f.member] : manifest.skills.map((s) => s.name);
+  const packaged = routersLib.forMembers(members);
+  if (!Object.keys(packaged).length) {
+    log('routers: ни один установленный участник не даёт роутера — нечего писать');
+    return true;
+  }
+
+  const mode = f.mode || 'install';
+  let decision = 'yes';
+  if (mode === 'install') {
+    decision = consent.askConsent({
+      home,
+      interactive: process.stdin.isTTY === true,
+      prompt: (q) => { process.stdout.write(q); return readLineSync(); },
+      log,
+    });
+  }
+
+  // Hand-written rules win over the packaged text, so migration runs first and
+  // its result is what gets written.
+  for (const t of apply.TARGETS) {
+    const file = path.join(home, t.dir, t.file);
+    if (!fs.existsSync(file)) continue;
+    const src = fs.readFileSync(file, 'utf8');
+    const moved = migrate.migrate(src, { fallbacks: packaged });
+    if (moved.text !== src && decision === 'yes' && !f.dryRun) {
+      fs.writeFileSync(file, moved.text, 'utf8');
+    }
+    Object.assign(packaged, moved.routers);
+  }
+
+  const res = apply.apply({ home, mode, consent: decision, routers: packaged, dryRun: f.dryRun, log });
+  for (const r of res.targets) {
+    if (r.action === 'agent-absent') continue;
+    log(`routers: ${r.file} — ${r.action}`);
+    if (r.diff) log(r.diff);
+  }
+  return true;
+}
+
+function readLineSync() {
+  const fs = require('fs');
+  const buf = Buffer.alloc(1024);
+  try {
+    const n = fs.readSync(0, buf, 0, 1024, null);
+    return buf.slice(0, n).toString('utf8').trim();
+  } catch (e) {
+    return '';
+  }
+}
+
 function main(argv) {
   const [cmd, ...rest] = argv.slice(2);
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { usage(); return 0; }
@@ -199,6 +275,7 @@ function main(argv) {
   const f = parseFlags(rest);
   if (cmd === 'install' || cmd === 'i') return cmdInstall(f) ? 0 : 1;
   if (cmd === 'update' || cmd === 'up') return cmdUpdate(f) ? 0 : 1;
+  if (cmd === 'routers') return cmdRouters(f) ? 0 : 1;
   log(`unknown command: ${cmd}`); usage(); return 2;
 }
 
