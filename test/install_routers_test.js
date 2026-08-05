@@ -139,6 +139,39 @@ it('the block names the marker as the way out', () => {
   assert.ok(out.includes('SSHLG:ROUTERS:OPTOUT'), 'the header must name the opt-out marker');
 });
 
+
+// ---- R-11: the second agent target, which had shipped untested ----
+
+it('an existing codex home gets the block too', () => {
+  const h = home();
+  fs.mkdirSync(path.join(h, '.codex'), { recursive: true });
+  fs.writeFileSync(path.join(h, '.codex', 'AGENTS.md'), '# agents\n');
+  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  const out = fs.readFileSync(path.join(h, '.codex', 'AGENTS.md'), 'utf8');
+  assert.ok(out.includes('SSHLG:ROUTER:super-ux:BEGIN'));
+  assert.ok(out.startsWith('# agents\n'));
+});
+
+it('both agent targets are written in one pass', () => {
+  const h = home();
+  fs.mkdirSync(path.join(h, '.codex'), { recursive: true });
+  fs.writeFileSync(path.join(h, '.codex', 'AGENTS.md'), '# agents\n');
+  fs.writeFileSync(claudeMd(h), '# claude\n');
+  const r = A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  const written = r.targets.filter(t => t.action === 'updated' || t.action === 'created');
+  assert.strictEqual(written.length, 2);
+});
+
+it('one agent opting out does not silence the other', () => {
+  const h = home();
+  fs.mkdirSync(path.join(h, '.codex'), { recursive: true });
+  fs.writeFileSync(path.join(h, '.codex', 'AGENTS.md'), '# agents\n\n<!-- SSHLG:ROUTERS:OPTOUT -->\n');
+  fs.writeFileSync(claudeMd(h), '# claude\n');
+  A.apply({ home: h, mode: 'install', consent: 'yes', routers: ROUTERS, log: () => {} });
+  assert.ok(!fs.readFileSync(path.join(h, '.codex', 'AGENTS.md'), 'utf8').includes('SSHLG:ROUTER:super-ux'));
+  assert.ok(fs.readFileSync(claudeMd(h), 'utf8').includes('SSHLG:ROUTER:super-ux'));
+});
+
 if (failures.length) {
   failures.forEach(f => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
