@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.19.0 — 2026-08-05
+
+### Changed
+- **super-ux pinned to 0.30.0** (was 0.26.5). The pin had gone four releases
+  stale, so `list` and `update` were reporting and installing 0.26.5 while npm
+  carried 0.29.0 — the exact failure the catalogue exists to prevent.
+- **Two new skills in the super-ux entry:** `brand-voice` and `copywriting`,
+  the verbal identity layer added in 0.30.0.
+
 ## v0.18.5 — 2026-08-05
 
 ### Changed
