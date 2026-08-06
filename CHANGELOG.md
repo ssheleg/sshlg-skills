@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.24.0 — 2026-08-06
+
+### Added
+- `task-pipeline` **1.15.0** — two halves under one tag. The code graph's ledger row now
+  states a **measured lag** ("N commits behind HEAD") instead of a build date, so stage 0
+  can tell a fresh graph from one that merely looks recent. And `references/documentation.md`
+  gains **the ten canons** — what makes a document evidence rather than an assertion: a
+  claim carries its address, numbers are computed rather than restated, one home per fact,
+  a reference resolves from where the document is *read*, green nobody watched turn red is
+  not evidence, a check proves its scope and nothing beyond it, silence is not a pass, an
+  estimate is never announced as a measurement, what was not checked is printed beside what
+  was, and the document ships in the change that made it true. Each canon names where it is
+  enforced instead of restating the mechanism. Guards 95 → 108.
+
 ## v0.23.1 — 2026-08-06
 
 ### Fixed
