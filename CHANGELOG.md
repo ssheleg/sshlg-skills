@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.27.0 — 2026-08-06
+
+### Changed
+
+- **Three members re-pinned to the releases this port produced:**
+  `super-ux` **0.31.0** (a seventh skill, `vision` — the layer above
+  `ux-foundation`), `task-pipeline` **1.18.0** (stages 7–8 gain the verbs behind
+  their gates), `seo-aeo-audit` **0.12.0** (Google Discover as its own track,
+  plus the sitemap protocol).
+- `super-ux`'s `skillNames` gains `vision`, so the launcher installs it.
+
+### Notes
+
+- `task-pipeline` shipped as **1.18.0, not 1.17.0**. While the change was in
+  review, another session released 1.17.0 on `main` and the numbers collided.
+  Both touched stage 8, and both were right: reading the CI verdict for the
+  deploy's own commit, and running all three verifications rather than one. The
+  resolution keeps **both** — a merge conflict between two correct changes is
+  not a choice between them.
+- The family is now **8 members, 19 skills**.
+
 ## v0.26.0 — 2026-08-06
 
 ### Added

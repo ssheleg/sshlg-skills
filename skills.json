@@ -18,6 +18,7 @@
       "repo": "ssheleg/super-ux",
       "dir": "skills/super-ux",
       "skillNames": [
+        "vision",
         "ux-foundation",
         "ux-flows",
         "ux-scenarios",
@@ -28,7 +29,7 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 31-check copy linter. /ux and /brand entry points, two doc-drift linters.",
-      "version": "0.30.2"
+      "version": "0.31.0"
     },
     {
       "name": "task-pipeline",
@@ -41,7 +42,7 @@
         "task-pipeline",
         "evidence-docs"
       ],
-      "version": "1.16.1"
+      "version": "1.18.0"
     },
     {
       "name": "agent-sync",
@@ -89,7 +90,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.11.2"
+      "version": "0.12.0"
     },
     {
       "name": "sheleg-dev",
