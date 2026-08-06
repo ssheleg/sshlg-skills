@@ -270,6 +270,7 @@ function cmdRouters(f) {
   // Hand-written rules win over the packaged text, so migration runs first and
   // its result is what gets written.
   const superseded = {};
+  const sources = {};
   for (const t of apply.TARGETS) {
     const file = path.join(home, t.dir, t.file);
     if (!fs.existsSync(file)) continue;
@@ -278,13 +279,17 @@ function cmdRouters(f) {
     if (moved.text !== src && decision === 'yes' && !f.dryRun) {
       fs.writeFileSync(file, moved.text, 'utf8');
     }
+    // Hand the migrated text on rather than letting apply re-read the file:
+    // on a dry run nothing was written, and re-reading would preview the
+    // additions without the removals that come with them.
+    sources[file] = decision === 'yes' ? moved.text : src;
     Object.assign(packaged, moved.routers);
     Object.assign(superseded, moved.superseded);
   }
 
   const res = apply.apply({
     home, mode, consent: decision, routers: packaged,
-    remove, dryRun: f.dryRun, log,
+    remove, sources, dryRun: f.dryRun, log,
   });
 
   // Whatever left the block is kept, not dropped. A switch that loses the

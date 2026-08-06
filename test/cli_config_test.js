@@ -206,6 +206,27 @@ it('end to end: off removes the section, on brings the same bytes back', () => {
   assert.strictEqual(text, withSection, 'the round trip was not byte-exact');
 });
 
+it('end to end: the preview reports its removals, not only its additions', () => {
+  // Migration deliberately writes nothing on a dry run, so re-reading the
+  // file previewed the block going in with none of the hand-written sections
+  // coming out. Against the operator's real file that read +361/-1 where the
+  // run removes eighty-odd lines. A preview that under-reports removals gets
+  // read as permission.
+  const home = seededHome();
+  const md = path.join(home, '.claude', 'CLAUDE.md');
+  const src = '# Мои правила\n\n' + HANDWRITTEN_TP + '\n';
+  fs.writeFileSync(md, src);
+
+  const r = run(home, ['routers', '--dry-run']);
+  assert.strictEqual(r.code, 0, r.out);
+  assert.ok(
+    r.out.includes('-## Роутинг работы — по умолчанию через task-pipeline'),
+    'the preview never showed the section it would remove:\n' + r.out
+  );
+  assert.ok(r.out.split('\n').some((l) => l.startsWith('+<!-- SSHLG:ROUTERS:BEGIN')), 'no addition shown');
+  assert.strictEqual(fs.readFileSync(md, 'utf8'), src, 'the preview wrote to the file');
+});
+
 it('end to end: a switched-off router loses its table row too', () => {
   const home = seededHome();
   const md = path.join(home, '.claude', 'CLAUDE.md');
