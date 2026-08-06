@@ -16,3 +16,9 @@
 [submodule "skills/agent-sync"]
 	path = skills/agent-sync
 	url = https://github.com/ssheleg/agent-sync.git
+[submodule "skills/agent-stack"]
+	path = skills/agent-stack
+	url = git@github.com:ssheleg/agent-stack.git
+[submodule "skills/sheleg-dev"]
+	path = skills/sheleg-dev
+	url = git@github.com:ssheleg/sheleg-dev.git

@@ -7,12 +7,13 @@ guess, and so "docs updated" is a command rather than a claim.
 ## What this repository is
 
 The **umbrella** of the ssheleg skill family: a zero-dependency Node launcher
-plus six skills as pinned git submodules. It ships no doctrine of its own —
+plus eight skills as pinned git submodules. It ships no doctrine of its own —
 each skill carries its own — but it owns the family's **routing block**, the
 one piece of the family that edits a file the operator owns and did not write.
 
-The six members have their own `CLAUDE.md` house rules; this repository does
-not yet (carry-over C-06).
+The first six members have their own `CLAUDE.md` house rules; the two added on
+2026-08-06 (`sheleg-dev`, `agent-stack`) carry a validator and CI but no house
+rules yet; this repository has none either (carry-over C-06).
 
 ## Single homes
 
@@ -58,7 +59,7 @@ python3 test/check_pins.py
 Deliberately outside `npm test`: it queries the npm registry, and everything
 in `npm test` must work offline.
 
-**Ratchets.** 8 suites, 182 fixtures, 6 pinned members. A change that lowers
+**Ratchets.** 8 suites, 182 fixtures, 8 pinned members. A change that lowers
 any of these without saying so in the changelog is a regression, not a
 simplification.
 

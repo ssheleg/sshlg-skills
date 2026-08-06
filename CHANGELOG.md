@@ -1,5 +1,44 @@
 # Changelog
 
+## v0.26.0 — 2026-08-06
+
+### Added
+
+- **Two new members: `sheleg-dev` and `agent-stack`.** The family goes from six
+  to eight. Both were ported out of a Cursor-only skills directory where they had
+  no version, no validator and no route to any agent but one.
+
+  - **[`sheleg-dev`](https://github.com/ssheleg/sheleg-dev) 0.1.0** — five skills:
+    `crypto-payments`, `ad-tracking`, `google-signin`, `google-auth`,
+    `frontend-performance`. The layer a product reaches once it has users.
+  - **[`agent-stack`](https://github.com/ssheleg/agent-stack) 0.1.0** —
+    `agent-orchestrator`, plus the wallet side of reselling LLM access.
+
+- `make-skill` re-pinned to **0.10.0** — `references/mcp-ship.md`, the half of
+  MCP work that starts after the server compiles.
+
+### Changed
+
+- **Ratchet: 6 → 8 pinned members** (`docs/DOCMAP.md`). Suites and fixtures are
+  unchanged at 8 and 182, and all three numbers were **counted by running
+  `npm test`**, not carried across from the previous entry.
+
+### Decided
+
+- **No new routers.** The global block stays at eight axes. A router obliges —
+  "this work goes through it". The new skills are reference material found by
+  their own descriptions, and seven more rows would have grown the block in every
+  project on the machine to buy nothing a description does not already buy. This
+  closes the decision deferred at stage 0 (C-11).
+
+### Notes
+
+- Both new members ship a validator whose every guard was **planted against and
+  watched failing** before being trusted — seven defects each. One of them was
+  decoration on the first attempt: the guard checking that CI still calls the
+  validator matched a substring the negative self-tests themselves satisfy. That
+  is the same class the 2026-08-05 retro entry records, caught the same way.
+
 ## v0.25.0 — 2026-08-06
 
 ### Added

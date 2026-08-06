@@ -27,7 +27,7 @@
       ],
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
-      "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ \u2014 personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans \u2014 plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 31-check copy linter. /ux and /brand entry points, two doc-drift linters.",
+      "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 31-check copy linter. /ux and /brand entry points, two doc-drift linters.",
       "version": "0.30.2"
     },
     {
@@ -61,11 +61,11 @@
       "dir": "skills/make-skill",
       "pluginMarketplace": "ssheleg/make-skill",
       "pluginInstall": "make-skill@make-skill",
-      "desc": "A skill that builds skills: create, retrofit, audit and publish agent skills and Claude Code plugins \u2014 Agent Skills standard conformance, marketplace layout, version sync, validator + CI, every distribution channel, MCP and A2A rules.",
+      "desc": "A skill that builds skills: create, retrofit, audit and publish agent skills and Claude Code plugins — Agent Skills standard conformance, marketplace layout, version sync, validator + CI, every distribution channel, MCP and A2A rules.",
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.9.1"
+      "version": "0.10.0"
     },
     {
       "name": "sheleg-design",
@@ -73,7 +73,7 @@
       "dir": "skills/sheleg-design",
       "pluginMarketplace": "ssheleg/sheleg-design-skill",
       "pluginInstall": "sheleg-design@sheleg-design-skill",
-      "desc": "The taste layer: cinematic scroll-driven landing pages (one scroll clock, motion that degrades to calm, WebGL particle formations), product-UI style packs with a ready token layer each, and the Figma border \u2014 tokens as variables, design to code.",
+      "desc": "The taste layer: cinematic scroll-driven landing pages (one scroll clock, motion that degrades to calm, WebGL particle formations), product-UI style packs with a ready token layer each, and the Figma border — tokens as variables, design to code.",
       "skillNames": [
         "sheleg-design"
       ],
@@ -90,6 +90,34 @@
         "seo-aeo-audit"
       ],
       "version": "0.11.2"
+    },
+    {
+      "name": "sheleg-dev",
+      "repo": "ssheleg/sheleg-dev",
+      "dir": "skills/sheleg-dev",
+      "pluginMarketplace": "ssheleg/sheleg-dev",
+      "pluginInstall": "sheleg-dev@sheleg-dev",
+      "desc": "The integration layer a product reaches once it has users: crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4/Ads/Meta/LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side Google auth surface; Core Web Vitals work that moves the score.",
+      "skillNames": [
+        "crypto-payments",
+        "ad-tracking",
+        "google-signin",
+        "google-auth",
+        "frontend-performance"
+      ],
+      "version": "0.1.0"
+    },
+    {
+      "name": "agent-stack",
+      "repo": "ssheleg/agent-stack",
+      "dir": "skills/agent-stack",
+      "pluginMarketplace": "ssheleg/agent-stack",
+      "pluginInstall": "agent-stack@agent-stack",
+      "desc": "Production patterns for AI agent orchestrators: tool-calling loops that survive context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, four memory layers with confidence decay — plus the wallet side of reselling LLM access.",
+      "skillNames": [
+        "agent-orchestrator"
+      ],
+      "version": "0.1.0"
     }
   ]
 }
