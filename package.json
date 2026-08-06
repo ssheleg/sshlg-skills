@@ -5,6 +5,9 @@
   "bin": {
     "sshlg-skills": "bin/sshlg-skills.js"
   },
+  "scripts": {
+    "test": "node test/run.js"
+  },
   "files": [
     "bin",
     "lib",
