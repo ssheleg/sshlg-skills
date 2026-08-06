@@ -27,9 +27,20 @@ and log the deletion as one line under *Retired*.
    second→third would have caught. *(Retire when every file-writing command in
    this repo has a three-run end-to-end fixture in CI.)*
 
+3. **(2026-08-06)** **A date literal in a fixture that a check compares against
+   "now" is a test that schedules its own failure.** `brand_lint_test.py` in
+   `super-ux` hardcoded `Last calibrated: 2026-08-05` against a check that reads
+   `foundation.md`'s **mtime** — which for a fixture is always today. The suite
+   was green on the day it was written and red the next, with no code change,
+   and nothing in the suite could report that. Compute the boundary date at
+   runtime; keep an explicitly stale literal only in the case that must fire,
+   and plant against it. *(Retire when CI runs the suite under a faked future
+   clock.)*
+
 ## Retired
 
-*(nothing yet)*
+*(nothing yet — the prune at 2026-08-06 checked all three against their triggers:
+#1 fired this run, #2 is one run old, #3 is new.)*
 
 ## Run stamps
 
@@ -37,6 +48,7 @@ and log the deletion as one line under *Retired*.
 |---|---|---|---|
 | 2026-08-05 | Managed global routing block; v0.22.0 (+ super-ux v0.30.2) | — | yes |
 | 2026-08-06 | Router registry, pack settings; v0.23.0 → v0.23.1 | `dccc0e8` | yes — see below |
+| 2026-08-06 | Cursor skills ported; family 6 → 8 members; v0.26.0 | `f5591b1` | yes — see below |
 
 ---
 
@@ -105,3 +117,50 @@ said 74, the count at that commit is 75. Both restated numbers were wrong; the
 counted one was right. The `evidence-docs` router shipped in this release says
 exactly that, and the argument for it came from this repository's own
 paperwork.
+
+---
+
+## 2026-08-06 (second run) — the port went fine; the thing it found was a test that had already expired
+
+**Symptom.** CI failed on the `super-ux` PR. Two of 38 brand-linter checks, in
+code the PR never touched. Reproducing on `origin/main` showed `main` had been
+red since the previous day.
+
+`B005` compares `docs/ux/foundation.md`'s **mtime** against the voice pack's
+`Last calibrated` header. A fixture's files are written now. The fixture
+hardcoded `Last calibrated: 2026-08-05`. So the check was satisfied on
+2026-08-05 and violated from 2026-08-06 onward — **the suite scheduled its own
+failure on the day it was written, and was green at the moment anyone would have
+looked.**
+
+**Owned by** whichever run wrote that fixture, at the stage that reviews tests.
+Found by this run only because a red CI on an unrelated PR forced the question
+"is this mine?", and answering it honestly meant checking `origin/main` before
+assuming.
+
+**Root cause.** Same shape as this file's previous entry: **a mechanism trusted
+at a layer where its property was never exercised.** Last time, idempotence
+proven on a pure function rather than the command that repeats. This time, a
+time-dependent comparison proven on the one day it could not fail.
+
+**Fix, by grade.**
+
+- *Mechanical (taken):* the fixture computes its calibration date at runtime, so
+  the baseline cannot expire. The B005-positive case keeps an explicit
+  `2020-01-01` and was **planted against** — setting it to today makes the suite
+  fail, which is how we know the check is alive rather than merely quiet.
+- *Standing instruction (taken, #3 above).*
+- *Carry-over (C-13):* B005 reads mtime, not a recorded change date. A fresh
+  `git checkout` rewrites mtime, so the check can fire falsely on a clean clone.
+  The fixture is fixed; the mechanism is still time-of-checkout sensitive.
+
+**One more, from the same run and worth the line.** A guard I wrote in the new
+`agent-stack` validator — "CI must still call the validator" — passed against its
+own planted defect on the first attempt, because it grepped for the substring
+`test/validate.py`, which the negative self-tests in the same file satisfy with
+paths like `/tmp/drift-copy/test/validate.py`. **The v0.22.0 retro records that
+exact failure, in this repository, six weeks ago.** Writing the guard did not
+protect me from it; planting against it did. That is the argument for planting,
+stated better than any rule could: a check nobody has watched fail is not
+evidence, and knowing the lesson is not the same as being protected by it.
+
