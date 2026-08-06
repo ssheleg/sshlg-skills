@@ -164,3 +164,22 @@ protect me from it; planting against it did. That is the argument for planting,
 stated better than any rule could: a check nobody has watched fail is not
 evidence, and knowing the lesson is not the same as being protected by it.
 
+### Addendum, same run — the url that worked on exactly one machine
+
+`gh repo create --source .` sets an **SSH** remote, and `git submodule add`
+inherits it. The six older members are HTTPS; the two I added were
+`git@github.com:`. Everything local stayed green — clone, validator, launcher,
+`npm test` — because this machine has the key. The release smoke test runs
+`npx github:ssheleg/sshlg-skills#<tag>`, which initialises submodules, and it
+exited **128**.
+
+**No standing instruction for this one, deliberately.** The grade above a
+standing instruction is a mechanical check, and one exists now: the validator
+requires every `.gitmodules` url to be HTTPS, planted against, with a negative
+self-test in CI. A rule telling a future agent to "remember the url scheme"
+would be strictly worse than a check that refuses the commit.
+
+It belongs in this file anyway, because the shape is the same one this document
+keeps recording: **a property that holds only where it was created**. Idempotence
+on the pure function, not the command. A calibration date true on the day it was
+written. A url valid on the machine that typed it.
