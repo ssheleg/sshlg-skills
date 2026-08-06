@@ -117,6 +117,59 @@ installed, so it takes no `--agent`.
 > plugin. The launcher passes the agent list explicitly and prunes those copies
 > after every run.
 
+## Routing — making the family engage by default
+
+A skill's `description` influences whether a model reaches for it. It does not
+oblige. So the pack writes a **managed routing block** into your global agent
+instructions (`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`), and the rules
+engage in every project instead of only when someone remembers to ask.
+
+```bash
+npx sshlg-skills routers              # write it (asks once)
+npx sshlg-skills routers --dry-run    # show the diff, change nothing
+npx sshlg-skills routers --update     # refresh an existing block, never create one
+```
+
+Eight routers, and they are **different axes rather than competing
+priorities** — a landing page passes several, an internal script passes none:
+
+| Router | Answers | When | Needs installed |
+|---|---|---|---|
+| `super-ux` | what the interface must do | there is user-facing behaviour | super-ux |
+| `sheleg-design` | how it looks and moves | there is a visual layer | sheleg-design |
+| `copywriting` | how it sounds | text a product user will read | super-ux |
+| `seo-llmo` | whether a machine will find it | a logged-out reader can see it | — |
+| `evidence-docs` | what proves it | something is stated as true | — |
+| `task-pipeline` | how the change reaches the repo | the repository changes | task-pipeline |
+| `make-skill` | how the skill itself is built | a skill or plugin changes shape | make-skill |
+| `agent-sync` | who is holding this file | the project has coordination on | agent-sync |
+
+Two of them need no skill behind them. `seo-llmo` and `evidence-docs` are
+rules, not tools, so they hold whether or not anything is installed.
+
+**Your own wording wins.** Where you already wrote a rule by hand, migration
+moves *your* text in verbatim — asides included — and the packaged default is
+used only for a router you never wrote.
+
+**Consent is asked once**, recorded, and never asked again. Declining leaves an
+`SSHLG:ROUTERS:OPTOUT` marker, which the block's own header names as the way
+out and which survives a reinstall and a restored dotfile. Everything outside
+the sentinels is preserved byte for byte.
+
+### Turning routers off
+
+```bash
+npx sshlg-skills config                                  # what this machine wants
+npx sshlg-skills config set routers.seo-llmo off
+npx sshlg-skills routers --update                        # apply it
+```
+
+Switching a router off **removes its section** and drops its table row.
+Switching it back on restores the exact bytes that were there — including
+wording of yours that migration had moved in. Settings live in
+`~/.sshlg-skills/config.json` (mode 0600) and store deviations only, so a
+router added in a later release arrives switched on rather than silently off.
+
 ## Other commands
 
 ```bash
@@ -136,8 +189,14 @@ get wrong: one channel per agent, exact agent ids, repeated `--agent` flags, ful
 ```
 skills.json                  registry — repos, plugin ids, skill names, pins
 skills/*                     the six skills as pinned git submodules
-bin/sshlg-skills.js          the launcher (install / update / list / agents)
+bin/sshlg-skills.js          the launcher (install / update / routers / config / list / agents)
+lib/routers-registry.js      the eight routers — text, table row and required members, in one entry
+lib/routers.js               block parsing and rendering; touches no file, by construction
+lib/apply.js                 the only module that writes to the instruction files
+lib/migrate.js               moves hand-written rules in; never reads inside the block
+lib/config.js, lib/store.js  the pack's settings, and the 0600 discipline they share
 install.sh                   POSIX fallback (macOS/Linux; use npx on Windows)
+test/run.js                  `npm test` — the validator, then every discovered suite
 test/validate.py             registry / submodules / version validation
 .github/workflows            validation on push and PR + tag-driven release
 ```
@@ -150,12 +209,21 @@ commit installs exactly the skill versions that commit was tested with.
 ## Development
 
 ```bash
-python3 test/validate.py
+npm test
 ```
 
+One entry point: it runs the structural validator, then **discovers** every
+`test/*_test.js` rather than listing them — a list would live in
+`package.json` and in the workflow at once, and drift the first time a suite
+was added to one side. An empty run fails rather than reporting green, and
+`validate.py` fails if CI stops calling `npm test`.
+
 ```bash
-node --check bin/sshlg-skills.js
+python3 test/check_pins.py
 ```
+
+Kept out of `npm test` on purpose: it queries the npm registry, and the rest
+must work offline.
 
 Releases are tag-driven: bump `skills.json`, `package.json` and the top
 `CHANGELOG.md` entry together, tag `vX.Y.Z`, and the release workflow cuts the

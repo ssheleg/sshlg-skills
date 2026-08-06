@@ -1,5 +1,76 @@
 # Changelog
 
+## v0.23.0 — 2026-08-06
+
+### Fixed
+
+- **The second `routers` run destroyed the block the first one wrote.** The
+  block's own heading is `## Роутинг работы — семья ssheleg`; migration's
+  pattern for the hand-written rule is `## Роутинг работы`. On the second run
+  it took the block's heading for a hand-written rule and cut from there to the
+  next H1 or end of file — carrying the closing sentinel, and every rule the
+  operator kept below it, out of `~/.claude/CLAUDE.md`. The command then
+  reported the block malformed and refused to touch it again. Shipped in
+  v0.22.0 and reproduced against it.
+
+  It hid because idempotence was proven on `upsert`, which is pure, while the
+  damage happened one layer up in the command that runs migration first. On
+  this machine it cost nothing only because the block had never been written.
+  Migration now never reads inside the managed block, and **skips past it
+  rather than stopping at it**, so a hand-written rule *below* the block is
+  still found.
+
+- **A section ended at the next `## `, and an `# ` heading did not stop it.**
+  In the operator's real file the section to be cut is followed by exactly
+  that, so the cut ran to end of file. A `### ` subheading still does not end
+  its parent.
+
+- **`npm test` did not exist.** Eight suites and two validators ran only in
+  CI; locally the standard command failed with `Missing script: "test"`.
+
+### Added
+
+- **Eight routers, declared once each.** A router used to be written twice —
+  its text in `router-texts.js`, its table row in `routers.js` — with nothing
+  comparing the halves. One registry entry now carries what a router is: the
+  members it needs, its two table cells, its text. Key order is table order.
+  - New: `sheleg-design` (how it looks and moves), `make-skill` (how the skill
+    itself is built), `agent-sync` (who is holding this file).
+  - New and backed by **no skill at all**: `seo-llmo` and `evidence-docs` are
+    rules rather than tools, so they hold whether or not anything is
+    installed. That is why a router stopped being a property of a member.
+  - `task-pipeline`'s text now claims **planning** as its own stages 2–4,
+    which retires the competing planning rule beside it: a superseded heading
+    is removed only when the router replacing it is actually written, and its
+    body is kept rather than dropped.
+- **`sshlg-skills config`** — every router on or off by name. Switching one
+  off removes its section and its table row; switching it back on restores the
+  **exact bytes**, including wording of the operator's that migration had
+  moved in. `~/.claude/CLAUDE.md` has no version control behind it, so a
+  toggle that regenerated the packaged text would erase a person's words
+  silently.
+  - Settings store **deviations only**, so a router added in a later release
+    arrives switched on rather than silently off.
+- Sections are kept in registry order, so the block's reading order cannot
+  drift from the table it renders.
+
+### Changed
+
+- `npm test` is the one entry point, and it **discovers** `test/*_test.js`
+  instead of listing them. An empty run fails rather than reporting green, and
+  `validate.py` fails if CI stops calling `npm test` — a guard that shipped
+  wrong the first time (it matched the substring anywhere in the workflow,
+  which the negative self-tests satisfy) and was tightened after being planted
+  and watched.
+- `node --check` on the launcher is replaced by running the launcher, per the
+  retrospective's first standing instruction.
+- **178 fixtures across eight suites, up from 75 across five** — both numbers
+  counted by running the suites, not carried over. The previous release notes
+  claimed 71 and its acceptance record claimed 74; the count at that commit is
+  75. Three numbers, one measurement, and the two that were restated are the
+  two that were wrong. That is the `evidence-docs` router's entire argument,
+  arriving from this repository's own paperwork.
+
 ## v0.22.2 — 2026-08-05
 
 ### Fixed
