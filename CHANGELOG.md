@@ -1,5 +1,33 @@
 # Changelog
 
+## v0.23.1 — 2026-08-06
+
+### Fixed
+
+- **"Hand-written rules win" was true exactly once.** Migration moves a
+  hand-written rule into the block and removes the heading it came from — so
+  from the second run onward there is nothing left in the file to recognise
+  the section as the operator's, and the packaged default regenerated over it.
+  Observed on a real machine: run two replaced both migrated sections with
+  boilerplate, silently, in a file with no version control behind it.
+
+  The same flow existed in v0.22.x and nobody reached it, because run two
+  corrupted the block first (fixed in v0.23.0). Fixing the louder failure is
+  what exposed the quieter one.
+
+  A migrated section is now recorded as **authored** the one moment it is
+  still identifiable — as its heading leaves the file — and an authored
+  section is never rewritten: `upsert` keeps the same segment and the same
+  bytes. That also protects an edit made inside the block by hand afterwards,
+  which nothing protected before.
+
+  Precedence for a section's body is now explicit: **what the operator wrote >
+  what a setting took out > the packaged default.**
+
+- Three fixtures for it, planted and watched: the second run, a hand edit
+  made inside the block afterwards, and a router the operator never wrote
+  still receiving the packaged text. 182 across eight suites, counted.
+
 ## v0.23.0 — 2026-08-06
 
 ### Fixed

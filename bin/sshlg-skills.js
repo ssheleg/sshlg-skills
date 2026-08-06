@@ -232,11 +232,23 @@ function cmdRouters(f) {
   const packaged = registry.resolve(scopeOpts);
   const remove = registry.disabled(scopeOpts);
 
-  // A stashed body outranks the packaged text: it is what was in the block
-  // before the router was switched off, which on this machine may be the
-  // operator's own wording that migration moved in.
+  // Precedence for a body: what the operator wrote > what a setting took out
+  // > the packaged default.
+  //
+  // `preserve` is the half that matters on every run after the first. Once
+  // migration has moved a hand-written rule in and removed its heading, the
+  // file no longer says the section is theirs — so without this record the
+  // packaged text regenerates over it, and "hand-written rules win" would be
+  // true exactly once.
   const restored = [];
+  const preserve = [];
   for (const name of Object.keys(packaged)) {
+    const authored = configLib.authoredGet(config, name);
+    if (authored !== undefined) {
+      packaged[name] = authored; // used only if the section is missing entirely
+      preserve.push(name);
+      continue;
+    }
     const stashed = configLib.stashGet(config, name);
     if (stashed !== undefined) {
       packaged[name] = stashed;
@@ -285,11 +297,18 @@ function cmdRouters(f) {
     sources[file] = decision === 'yes' ? moved.text : src;
     Object.assign(packaged, moved.routers);
     Object.assign(superseded, moved.superseded);
+    // Whatever migration just moved is the operator's, and this is the only
+    // moment it is still identifiable as such: the heading it came from is
+    // about to leave the file.
+    for (const name of Object.keys(moved.routers)) {
+      if (preserve.indexOf(name) === -1) preserve.push(name);
+      if (!f.dryRun && decision === 'yes') configLib.authoredSet(home, name, moved.routers[name]);
+    }
   }
 
   const res = apply.apply({
     home, mode, consent: decision, routers: packaged,
-    remove, sources, dryRun: f.dryRun, log,
+    remove, preserve, sources, dryRun: f.dryRun, log,
   });
 
   // Whatever left the block is kept, not dropped. A switch that loses the

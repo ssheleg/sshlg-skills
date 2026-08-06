@@ -227,6 +227,57 @@ it('end to end: the preview reports its removals, not only its additions', () =>
   assert.strictEqual(fs.readFileSync(md, 'utf8'), src, 'the preview wrote to the file');
 });
 
+it('end to end: your wording survives the SECOND run, not just the first', () => {
+  // Migration moves a hand-written rule in and removes its heading, so from
+  // the second run onward the file no longer says the section is yours. The
+  // packaged default then regenerated over it — "hand-written rules win" was
+  // true exactly once. Observed against the operator's real file: run two
+  // replaced both migrated sections with the packaged text.
+  const home = seededHome();
+  const md = path.join(home, '.claude', 'CLAUDE.md');
+  fs.writeFileSync(md, '# Мои правила\n\n' + HANDWRITTEN_TP + '\n');
+
+  run(home, ['routers']);
+  const afterFirst = fs.readFileSync(md, 'utf8');
+  assert.ok(afterFirst.includes('Моя формулировка, а не упакованная.'), 'run 1 did not migrate');
+
+  run(home, ['routers']);
+  const afterSecond = fs.readFileSync(md, 'utf8');
+  assert.ok(
+    afterSecond.includes('Моя формулировка, а не упакованная.'),
+    'the second run regenerated the packaged default over the operator’s words'
+  );
+  assert.strictEqual(afterSecond, afterFirst, 'the second run was not idempotent');
+
+  run(home, ['routers']);
+  assert.strictEqual(fs.readFileSync(md, 'utf8'), afterFirst, 'the third run drifted');
+});
+
+it('end to end: an edit made inside the block by hand is not overwritten', () => {
+  const home = seededHome();
+  const md = path.join(home, '.claude', 'CLAUDE.md');
+  fs.writeFileSync(md, '# Мои правила\n\n' + HANDWRITTEN_TP + '\n');
+  run(home, ['routers']);
+
+  const edited = fs
+    .readFileSync(md, 'utf8')
+    .replace('Моя формулировка, а не упакованная.', 'Формулировка, поправленная руками уже внутри блока.');
+  fs.writeFileSync(md, edited);
+
+  run(home, ['routers']);
+  assert.strictEqual(fs.readFileSync(md, 'utf8'), edited, 'a hand edit inside the block was reverted');
+});
+
+it('end to end: a router the operator never wrote still gets the packaged text', () => {
+  const home = seededHome();
+  const md = path.join(home, '.claude', 'CLAUDE.md');
+  fs.writeFileSync(md, '# Мои правила\n\n' + HANDWRITTEN_TP + '\n');
+  run(home, ['routers']);
+  const text = fs.readFileSync(md, 'utf8');
+  // sheleg-design has no hand-written counterpart, so it must be the default
+  assert.ok(text.includes('Если `sheleg-design` установлен'), 'a never-written router was left out');
+});
+
 it('end to end: a switched-off router loses its table row too', () => {
   const home = seededHome();
   const md = path.join(home, '.claude', 'CLAUDE.md');
