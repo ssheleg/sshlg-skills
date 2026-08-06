@@ -64,7 +64,7 @@
   and watched.
 - `node --check` on the launcher is replaced by running the launcher, per the
   retrospective's first standing instruction.
-- **178 fixtures across eight suites, up from 75 across five** — both numbers
+- **179 fixtures across eight suites, up from 75 across five** — both numbers
   counted by running the suites, not carried over. The previous release notes
   claimed 71 and its acceptance record claimed 74; the count at that commit is
   75. Three numbers, one measurement, and the two that were restated are the

@@ -58,7 +58,7 @@ python3 test/check_pins.py
 Deliberately outside `npm test`: it queries the npm registry, and everything
 in `npm test` must work offline.
 
-**Ratchets.** 8 suites, 178 fixtures, 6 pinned members. A change that lowers
+**Ratchets.** 8 suites, 179 fixtures, 6 pinned members. A change that lowers
 any of these without saying so in the changelog is a regression, not a
 simplification.
 
