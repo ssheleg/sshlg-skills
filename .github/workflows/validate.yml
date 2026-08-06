@@ -12,8 +12,12 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Structural validator
-        run: python3 test/validate.py
+      - name: Tests — the same entry point a human uses
+        # `npm test` runs the structural validator and DISCOVERS every
+        # test/*_test.js. A hand-kept list here would drift from package.json
+        # the first time a suite was added on one side only; validate.py fails
+        # if this step stops calling it.
+        run: npm test
 
       - name: Pins match the npm registry
         # validate.py proves the pin, the submodule and the README agree with
@@ -81,24 +85,66 @@ jobs:
             echo "OK: validator FAILs when the README table drifts from the manifest"
           fi
 
-      - name: Launcher CLI check
-        run: node --check bin/sshlg-skills.js
-
-      - name: Routing block unit tests
-        # These guard the only code in the family that edits a file the user
-        # owns and did not write. node --check proves syntax, not behaviour --
-        # it passed a `rest[++i]` against a variable that does not exist in
-        # that scope, which would have thrown on the first --member flag.
+      - name: Negative self-test (an empty test run must not read as a pass)
         run: |
           set -eu
-          node test/routers_test.js
-          node test/install_routers_test.js
-          node test/consent_test.js
-          node test/migrate_test.js
-          node test/router_texts_test.js
+          rm -rf /tmp/notests
+          cp -R . /tmp/notests
+          rm -f /tmp/notests/test/*_test.js
+          if (cd /tmp/notests && npm test); then
+            echo "ERROR: the runner passed with no suites at all"
+            exit 1
+          else
+            echo "OK: no suites FAILs instead of reporting green"
+          fi
 
-      - name: Launcher list/help run (no side effects)
+      - name: Negative self-test (a missing npm test entry point must fail)
         run: |
+          set -eu
+          rm -rf /tmp/noentry
+          cp -R . /tmp/noentry
+          python3 - <<'PY'
+          import json
+          p = "/tmp/noentry/package.json"
+          d = json.load(open(p))
+          d.pop("scripts", None)
+          json.dump(d, open(p, "w"), indent=2)
+          PY
+          if python3 /tmp/noentry/test/validate.py; then
+            echo "ERROR: validator passed with no npm test entry point"
+            exit 1
+          else
+            echo "OK: validator FAILs when the entry point CI must use is gone"
+          fi
+
+      - name: Negative self-test (CI dropping `npm test` must fail)
+        # The first version of this guard searched for the substring anywhere
+        # in the file and stayed satisfied after the real step was deleted,
+        # because the self-tests above mention it too. Planted, observed,
+        # tightened to "a step whose command IS npm test".
+        run: |
+          set -eu
+          rm -rf /tmp/nocit
+          cp -R . /tmp/nocit
+          python3 - <<'PY'
+          p = "/tmp/nocit/.github/workflows/validate.yml"
+          s = open(p, encoding="utf-8").read()
+          open(p, "w", encoding="utf-8").write(s.replace("        run: npm test", "        run: echo skipped"))
+          PY
+          if python3 /tmp/nocit/test/validate.py; then
+            echo "ERROR: validator passed while CI no longer runs npm test"
+            exit 1
+          else
+            echo "OK: validator FAILs when the CI step is gone"
+          fi
+
+      - name: Launcher runs (no side effects)
+        # Running the command, not `node --check`: the checker proves syntax
+        # and not scope, and it once passed a `rest[++i]` against a variable
+        # absent from that function, which would have thrown on first use.
+        run: |
+          set -eu
           node bin/sshlg-skills.js --help >/dev/null
           node bin/sshlg-skills.js agents >/dev/null
+          node bin/sshlg-skills.js config >/dev/null
           echo "OK: launcher runs"

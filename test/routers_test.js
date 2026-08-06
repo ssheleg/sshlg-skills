@@ -223,6 +223,132 @@ it('a one-newline difference is still a difference', () => {
   assert.notStrictEqual(R.diff('a\n', 'a\n\n'), '');
 });
 
+// --- removal -------------------------------------------------------------
+//
+// A setting that cannot take a section back out is not a switch. These watch
+// the property that makes removal safe to run against a file nobody versions:
+// only newlines are ever dropped alongside the section.
+
+it('removing a section takes it out and hands back its body', () => {
+  const out = R.upsert(wellFormed, {}, { remove: ['copywriting'] });
+  assert.ok(!out.text.includes('SSHLG:ROUTER:copywriting:BEGIN'), 'section survived');
+  assert.strictEqual(out.removed.copywriting, 'copywriting body');
+  assert.strictEqual(out.changed, true);
+});
+
+it('removing one section leaves the other byte for byte', () => {
+  const out = R.upsert(wellFormed, {}, { remove: ['copywriting'] });
+  const kept = [
+    '<!-- SSHLG:ROUTER:super-ux:BEGIN -->',
+    'super-ux body line one',
+    'super-ux body line two',
+    '<!-- SSHLG:ROUTER:super-ux:END -->',
+  ].join('\n');
+  assert.ok(out.text.includes(kept), 'the surviving section was reformatted');
+});
+
+it('removal loses the row from the table, by the same mechanism as a hand deletion', () => {
+  const src = R.upsert(wellFormed, {
+    'super-ux': 'a', copywriting: 'b', 'task-pipeline': 'c',
+  }).text;
+  assert.ok(src.includes('| `copywriting` |'), 'precondition: three rows');
+  const out = R.upsert(src, {}, { remove: ['copywriting'] });
+  assert.ok(!out.text.includes('| `copywriting` |'), 'the row outlived its section');
+  assert.ok(out.text.includes('| `super-ux` |') && out.text.includes('| `task-pipeline` |'));
+});
+
+it('prose above and below the block survives a removal byte for byte', () => {
+  const out = R.upsert(wellFormed, {}, { remove: ['super-ux'] });
+  assert.ok(out.text.startsWith('# My notes\n\nSome prose I wrote myself.\n\n'));
+  assert.ok(out.text.endsWith('\nTrailing prose that must survive.\n'));
+});
+
+it('removal never eats a byte that is not a newline', () => {
+  const out = R.upsert(wellFormed, {}, { remove: ['copywriting'] });
+  // The heading and the table markers are chrome adjacent to the removed
+  // section; a greedy separator rule would take them with it.
+  assert.ok(out.text.includes('## Роутинг работы — семья ssheleg'));
+  assert.ok(out.text.includes('<!-- SSHLG:ROUTERS:TABLE:BEGIN -->'));
+  assert.ok(out.text.includes('<!-- SSHLG:ROUTERS:TABLE:END -->'));
+});
+
+it('removal does not open a widening gap', () => {
+  const out = R.upsert(wellFormed, {}, { remove: ['copywriting'] });
+  assert.ok(!/\n{4,}/.test(out.text), 'three or more blank lines left behind');
+});
+
+it('removing what is not there changes nothing', () => {
+  // Against a settled block, not `wellFormed`: that fixture carries a
+  // placeholder table, so ANY write regenerates it and reports a change —
+  // correctly. The property under test is about removal, so the table has to
+  // already be what it will be.
+  const settled = R.upsert(wellFormed, { 'super-ux': 'a', copywriting: 'b' }).text;
+  const out = R.upsert(settled, {}, { remove: ['never-installed'] });
+  assert.strictEqual(out.changed, false);
+  assert.strictEqual(out.text, settled);
+  assert.deepStrictEqual(out.removed, {});
+});
+
+it('removing twice is idempotent', () => {
+  const once = R.upsert(wellFormed, {}, { remove: ['copywriting'] });
+  const twice = R.upsert(once.text, {}, { remove: ['copywriting'] });
+  assert.strictEqual(twice.changed, false);
+  assert.strictEqual(twice.text, once.text);
+});
+
+it('removing the last section leaves a well-formed, empty block', () => {
+  let t = R.upsert(wellFormed, {}, { remove: ['copywriting'] }).text;
+  t = R.upsert(t, {}, { remove: ['super-ux'] }).text;
+  const parsed = R.parse(t);
+  assert.strictEqual(parsed.state, 'present');
+  assert.strictEqual(parsed.sections.length, 0);
+  assert.ok(t.includes('<!-- SSHLG:ROUTERS:TABLE:BEGIN -->\n<!-- SSHLG:ROUTERS:TABLE:END -->'));
+});
+
+it('a removed section can be written back, and the block round-trips', () => {
+  const gone = R.upsert(wellFormed, {}, { remove: ['copywriting'] });
+  const back = R.upsert(gone.text, { copywriting: gone.removed.copywriting });
+  assert.strictEqual(R.parse(back.text).sections.length, 2);
+  assert.ok(back.text.includes('copywriting body'));
+});
+
+it('an opted-out file is not removed from either', () => {
+  const out = R.upsert('<!-- SSHLG:ROUTERS:OPTOUT -->\n', {}, { remove: ['super-ux'] });
+  assert.strictEqual(out.state, 'opted-out');
+  assert.strictEqual(out.changed, false);
+});
+
+it('a re-added section returns to its place, not to the end', () => {
+  // The block is read top to bottom; a section order that drifts from the
+  // table below it makes the table look wrong when it is the only thing right.
+  const registry = require('../lib/routers-registry.js');
+  let t = R.upsert(wellFormed, { 'super-ux': 'a', copywriting: 'b', 'task-pipeline': 'c' }).text;
+  t = R.upsert(t, {}, { remove: ['copywriting'] }).text;
+  t = R.upsert(t, { copywriting: 'b' }).text;
+
+  const inFile = R.parse(t).sections.map((s) => s.name);
+  const expected = registry.order().filter((n) => inFile.includes(n));
+  assert.deepStrictEqual(inFile, expected, 'section order drifted from registry order');
+});
+
+it('sections and table rows read in the same order', () => {
+  let t = R.upsert(wellFormed, { 'task-pipeline': 'c', 'super-ux': 'a' }).text;
+  const sections = R.parse(t).sections.map((s) => s.name);
+  const rows = (t.match(/^\| `([a-z-]+)` \|/gm) || []).map((m) => m.slice(3, -3).trim());
+  assert.deepStrictEqual(sections, rows.filter((r) => sections.includes(r)));
+});
+
+it('write and remove in one pass do not fight over indices', () => {
+  const out = R.upsert(
+    wellFormed,
+    { 'task-pipeline': 'brand new body' },
+    { remove: ['super-ux'] }
+  );
+  assert.ok(out.text.includes('brand new body'));
+  assert.ok(!out.text.includes('SSHLG:ROUTER:super-ux:BEGIN'));
+  assert.strictEqual(R.parse(out.text).sections.length, 2);
+});
+
 if (failures.length) {
   failures.forEach(f => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

@@ -215,6 +215,31 @@ if os.path.isfile(readme_file):
             fail(f"README.md: {name!r} row does not carry the pinned version {declared} "
                  f"(skills.json and the table disagree)")
 
+# --- one entry point for the tests, and CI must use it ---------------------
+#
+# The suites are discovered by test/run.js, so nothing lists them. What still
+# needs guarding is the entry point itself: a `npm test` that does not exist
+# means the local command and the CI command are different commands, and a
+# suite green in one can be absent from the other. That drift is exactly what
+# this repository has already been bitten by twice, in the pins and the README.
+pkg = load_json("package.json")
+if not (pkg.get("scripts") or {}).get("test"):
+    fail('package.json: no "scripts.test" — `npm test` is the entry point CI is '
+         "required to use, and without it there is nothing to require")
+
+workflow = os.path.join(ROOT, ".github", "workflows", "validate.yml")
+if os.path.isfile(workflow):
+    with open(workflow, encoding="utf-8") as fh:
+        wf_lines = fh.read().split("\n")
+    # A STEP that runs it, not the substring anywhere in the file. The
+    # negative self-tests below also mention `npm test`, so a substring search
+    # stays satisfied after the real step is deleted — proven by planting
+    # exactly that and watching this check pass.
+    if not any(ln.strip() == "run: npm test" for ln in wf_lines):
+        fail(".github/workflows/validate.yml: no step whose command is `npm test` — CI "
+             "and the local entry point would drift, and a new suite would be green in "
+             "one place and unrun in the other")
+
 if errors:
     print("FAIL: sshlg-skills structure invalid")
     for e in errors:
