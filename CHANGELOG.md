@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.27.1 — 2026-08-06
+
+### Fixed
+
+- **The two new submodules were added over SSH, and that breaks every clone
+  without a key — CI included.** `gh repo create --source .` sets an SSH remote,
+  `git submodule add` inherits it, and the six older members are HTTPS. The
+  release smoke test runs `npx github:ssheleg/sshlg-skills#<tag>`, which
+  initialises submodules and exited **128**. Both urls rewritten to HTTPS.
+
+  The failure mode is the reason this is worth a guard rather than a fix: an SSH
+  url works forever on the machine that added it. Nothing local can see it.
+
+### Added
+
+- **Validator guard: every submodule url must be HTTPS.** Planted against — an
+  SSH url in `.gitmodules` now fails the validator — with a matching negative
+  self-test in CI. This is the default mistake, not an exotic one.
+
 ## v0.27.0 — 2026-08-06
 
 ### Changed

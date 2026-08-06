@@ -121,6 +121,18 @@ else:
     if not gm_paths:
         fail(".gitmodules: no submodule paths")
 
+    # Every submodule url must be HTTPS. An SSH url (git@github.com:...) works
+    # forever on the machine that added it and fails with exit 128 everywhere
+    # else -- CI, a fresh clone, and `npx github:<repo>`, which is exactly what
+    # the release smoke test runs. `gh repo create --source .` sets an SSH
+    # remote and `git submodule add` inherits it, so this is the DEFAULT
+    # mistake, not an exotic one. It shipped once, in v0.27.0.
+    for _ln, _line in enumerate(open(gm, encoding="utf-8").read().splitlines(), 1):
+        _m = re.match(r"\s*url\s*=\s*(\S+)", _line)
+        if _m and not _m.group(1).startswith("https://"):
+            fail(f".gitmodules:{_ln}: submodule url {_m.group(1)!r} is not HTTPS -- "
+                 "it fails for every clone without an SSH key, CI included")
+
 skills = (manifest or {}).get("skills") or []
 if not skills:
     fail("skills.json: skills[] empty")

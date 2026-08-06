@@ -25,6 +25,19 @@ jobs:
         # what was actually published. This is the half that does.
         run: python3 test/check_pins.py
 
+      - name: Negative self-test (an SSH submodule url must fail)
+        run: |
+          set -eu
+          cp -R . /tmp/ssh-copy
+          sed -i 's|url = https://github.com/ssheleg/agent-stack.git|url = git@github.com:ssheleg/agent-stack.git|' \
+            /tmp/ssh-copy/.gitmodules
+          if python3 /tmp/ssh-copy/test/validate.py; then
+            echo "ERROR: validator accepted an SSH submodule url — it fails every clone without a key, CI included"
+            exit 1
+          else
+            echo "OK: validator rejects a non-HTTPS submodule url"
+          fi
+
       - name: Negative self-test (validator must be able to fail)
         run: |
           set -eu
