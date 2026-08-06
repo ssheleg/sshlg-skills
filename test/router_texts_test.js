@@ -153,6 +153,29 @@ it('an uninstalled member is not "disabled" — there is no section to remove', 
   assert.deepStrictEqual(off.sort(), ['evidence-docs', 'seo-llmo']);
 });
 
+it('a lone member speaks only for its own routers, never for the family rules', () => {
+  const r = registry.resolve({ member: 'super-ux' });
+  assert.deepStrictEqual(
+    Object.keys(r).sort(),
+    ['copywriting', 'super-ux'],
+    'a member installer wrote a rule that is not its own'
+  );
+});
+
+it('a lone member with one router writes exactly that one', () => {
+  assert.deepStrictEqual(Object.keys(registry.resolve({ member: 'sheleg-design' })), ['sheleg-design']);
+  assert.deepStrictEqual(Object.keys(registry.resolve({ member: 'agent-sync' })), ['agent-sync']);
+});
+
+it('a member that contributes no router writes nothing', () => {
+  assert.deepStrictEqual(registry.resolve({ member: 'seo-aeo-audit' }), {});
+});
+
+it('member scope beats installed scope — the flag is the whole point', () => {
+  const r = registry.resolve({ member: 'sheleg-design', installed: registry.order() });
+  assert.deepStrictEqual(Object.keys(r), ['sheleg-design']);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

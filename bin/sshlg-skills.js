@@ -92,6 +92,9 @@ Skills: ${SKILLS.map(s => s.name).join(', ')}
 Usage:
   npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only]
   npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins]
+  npx sshlg-skills routers [--member <name>] [--update] [--dry-run]
+  npx sshlg-skills config  [list]
+  npx sshlg-skills config  set routers.<name> on|off
   npx sshlg-skills list
   npx sshlg-skills agents
 
@@ -208,7 +211,8 @@ function cmdAgents() {
  * worse than no table.
  */
 function cmdRouters(f) {
-  const routersLib = require('../lib/router-texts.js');
+  const registry = require('../lib/routers-registry.js');
+  const configLib = require('../lib/config.js');
   const apply = require('../lib/apply.js');
   const consent = require('../lib/consent.js');
   const migrate = require('../lib/migrate.js');
@@ -216,9 +220,31 @@ function cmdRouters(f) {
   const path = require('path');
   const home = process.env.HOME || require('os').homedir();
 
-  const members = f.member ? [f.member] : manifest.skills.map((s) => s.name);
-  const packaged = routersLib.forMembers(members);
-  if (!Object.keys(packaged).length) {
+  // The settings decide which routers this machine wants; the registry decides
+  // which ones it may speak for. With --member, only that member's own — a
+  // lone installer speaks for itself and never for the family's rules.
+  const config = configLib.readConfig(home);
+  const isEnabled = (n) => configLib.isEnabled(config, n);
+  const scopeOpts = f.member
+    ? { member: f.member, isEnabled }
+    : { installed: manifest.skills.map((s) => s.name), isEnabled };
+
+  const packaged = registry.resolve(scopeOpts);
+  const remove = registry.disabled(scopeOpts);
+
+  // A stashed body outranks the packaged text: it is what was in the block
+  // before the router was switched off, which on this machine may be the
+  // operator's own wording that migration moved in.
+  const restored = [];
+  for (const name of Object.keys(packaged)) {
+    const stashed = configLib.stashGet(config, name);
+    if (stashed !== undefined) {
+      packaged[name] = stashed;
+      restored.push(name);
+    }
+  }
+
+  if (!Object.keys(packaged).length && !remove.length) {
     log('routers: ни один установленный участник не даёт роутера — нечего писать');
     return true;
   }
@@ -243,6 +269,7 @@ function cmdRouters(f) {
 
   // Hand-written rules win over the packaged text, so migration runs first and
   // its result is what gets written.
+  const superseded = {};
   for (const t of apply.TARGETS) {
     const file = path.join(home, t.dir, t.file);
     if (!fs.existsSync(file)) continue;
@@ -252,15 +279,96 @@ function cmdRouters(f) {
       fs.writeFileSync(file, moved.text, 'utf8');
     }
     Object.assign(packaged, moved.routers);
+    Object.assign(superseded, moved.superseded);
   }
 
-  const res = apply.apply({ home, mode, consent: decision, routers: packaged, dryRun: f.dryRun, log });
+  const res = apply.apply({
+    home, mode, consent: decision, routers: packaged,
+    remove, dryRun: f.dryRun, log,
+  });
+
+  // Whatever left the block is kept, not dropped. A switch that loses the
+  // operator's wording on the way out is a switch nobody dares use twice, and
+  // the file it was taken from has no version control behind it.
+  if (!f.dryRun && decision === 'yes') {
+    for (const r of res.targets) {
+      for (const [name, body] of Object.entries(r.removed || {})) {
+        configLib.stashSet(home, name, body);
+      }
+    }
+    for (const [id, body] of Object.entries(superseded)) {
+      configLib.stashSet(home, 'superseded:' + id, body);
+    }
+    // A restored section is live again, so its copy in the settings is now a
+    // stale duplicate of text that has a home.
+    for (const name of restored) configLib.stashClear(home, name);
+  }
+
   for (const r of res.targets) {
     if (r.action === 'agent-absent') continue;
     log(`routers: ${r.file} — ${r.action}`);
     if (r.diff) log(r.diff);
   }
+  if (remove.length) log(`routers: выключены настройкой — ${remove.join(', ')}`);
+  for (const id of Object.keys(superseded)) {
+    log(`routers: вытеснен рукописный раздел "${id}" — тело сохранено в ${configLib.configPath(home)}`);
+  }
   return true;
+}
+
+/**
+ * `config` — the pack's settings.
+ *
+ * Kept out of `parseFlags` on purpose: its arguments are positional, and that
+ * parser exits on anything that is not a known flag.
+ */
+function cmdConfig(argv) {
+  const registry = require('../lib/routers-registry.js');
+  const configLib = require('../lib/config.js');
+  const home = process.env.HOME || require('os').homedir();
+  const [sub, key, value] = argv;
+
+  if (!sub || sub === 'list') {
+    const config = configLib.readConfig(home);
+    log(`Настройки пака — ${configLib.configPath(home)}\n`);
+    for (const name of registry.order()) {
+      log(`  routers.${name.padEnd(16)} ${configLib.isEnabled(config, name) ? 'on' : 'off'}`);
+    }
+    log('\nПоменять:  npx sshlg-skills config set routers.<имя> on|off');
+    return 0;
+  }
+
+  if (sub !== 'set') {
+    log(`config: неизвестная подкоманда "${sub}" — есть list и set`);
+    return 2;
+  }
+
+  if (!key || key.indexOf('routers.') !== 0) {
+    log('config set: ключ должен начинаться с "routers." — других разделов пока нет');
+    return 2;
+  }
+
+  const name = key.slice('routers.'.length);
+  if (!Object.prototype.hasOwnProperty.call(registry.REGISTRY, name)) {
+    log(`config set: роутера "${name}" нет. Валидные имена:`);
+    for (const n of registry.order()) log(`  routers.${n}`);
+    return 2;
+  }
+
+  if (configLib.STATES.indexOf(value) === -1) {
+    log(`config set: состояние должно быть on или off — получено "${value === undefined ? '' : value}"`);
+    return 2;
+  }
+
+  const was = configLib.isEnabled(configLib.readConfig(home), name) ? 'on' : 'off';
+  if (was === value) {
+    log(`routers.${name}: ${value} (без изменений)`);
+    return 0;
+  }
+  configLib.setRouter(home, name, value);
+  log(`routers.${name}: ${was} → ${value}`);
+  log('Запусти `npx sshlg-skills routers --update`, чтобы применить.');
+  return 0;
 }
 
 function readLineSync() {
@@ -279,6 +387,9 @@ function main(argv) {
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { usage(); return 0; }
   if (cmd === 'list' || cmd === 'ls') { cmdList(); return 0; }
   if (cmd === 'agents') { cmdAgents(); return 0; }
+  // Before parseFlags: `config` takes positional arguments, and that parser
+  // exits on any token it does not recognise as a flag.
+  if (cmd === 'config') return cmdConfig(rest);
   const f = parseFlags(rest);
   if (cmd === 'install' || cmd === 'i') return cmdInstall(f) ? 0 : 1;
   if (cmd === 'update' || cmd === 'up') return cmdUpdate(f) ? 0 : 1;
