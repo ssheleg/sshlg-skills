@@ -38,9 +38,10 @@
       "pluginInstall": "task-pipeline@task-pipeline",
       "desc": "Full-cycle delivery orchestrator: an intake grill turns the request into a complete brief, then ten gated stages carry it from docs to acceptance, refusing to advance until each gate passes.",
       "skillNames": [
-        "task-pipeline"
+        "task-pipeline",
+        "evidence-docs"
       ],
-      "version": "1.15.0"
+      "version": "1.16.1"
     },
     {
       "name": "agent-sync",

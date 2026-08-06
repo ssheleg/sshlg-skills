@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.25.0 — 2026-08-06
+
+### Added
+- `task-pipeline` **1.16.1** — **`evidence-docs`**, a second skill in the same plugin and
+  the front door to the ten canons: the canons as a one-line index, a pointer to their one
+  home, and a table of where to go next. It fills the router row that named
+  `evidence-docs` while nothing resolved it. Shipped inside the existing plugin rather
+  than as a new member, so there is one set of files and no copy to drift — the launcher
+  now installs two skills from this entry. Guards 108 → 113, including one that rejects
+  frontmatter a regex calls valid and a YAML parser silently drops.
+
 ## v0.24.0 — 2026-08-06
 
 ### Added
