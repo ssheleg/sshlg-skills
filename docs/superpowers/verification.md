@@ -50,7 +50,19 @@ start, so the running session still holds the previous set until it restarts.
 | R-04 | the prune no longer depends on whether the run touches plugins | a shadow planted by hand (`~/.claude/skills/task-pipeline` beside the `task-pipeline` plugin); `update --no-claude` printed `pruned Claude plain copies…` and the invariant check went silent | verified |
 | R-05 | docs move in the same change | the README sentence "update targets whatever is already installed, so it takes no `--agent`" greps to 0; `lib/plan.js` is in the file map and DOCMAP's single homes | verified |
 | R-06 | gate green, ratchets up not down | `npm test` → 11 checks (validate.py + 10 suites), 228 fixtures counted; was 9 suites / 209 | verified |
-| R-07 | the release | see the row below once the workflow conclusion is read | **never** |
+| R-07 | the release | `validate` was read **before** the tag and was RED twice — `task-pipeline` cut 1.39.0 and `super-ux` cut 0.34.0 while this release was being built. Green only on `31421342492`; then tag, release run green, `npm view sshlg-skills version` → `0.30.0`, `gh release view v0.30.0` published | verified |
+| R-08 | the released artifact behaves, not just the working tree | `npx --yes sshlg-skills@0.30.0 agents` from an empty cwd prints `kiro-cli, goose` in the default set, and its usage block carries the `--agent`/`--all` update flags | verified |
+
+**The cost, stated rather than discovered.** `update` now issues eight `skills
+add` calls it did not before, so it is slower than a pure refresh. That is the
+price of reconciliation and it is deliberate: a fast command that silently
+delivers nothing is worse than a slow one that delivers.
+
+**The code graph** was refreshed at commit `8a02463` — `lib/plan.js` and
+`test/plan_test.js` are in it, and both are named in the README file map and
+DOCMAP. Its **document half is stale since 2026-08-08**: a full pass needs an
+LLM key for eleven doc files, so this run used `--code-only`. Said here rather
+than left for a reader to assume the whole graph is current.
 
 **Found by breaking it, and worth the line.** R-04 was not in the brief. Making
 `update` call `skills add` handed it the auto-detect side effect `install`

@@ -46,13 +46,28 @@ and log the deletion as one line under *Retired*.
    fact about the instrument. *(Retire when a fixture harness makes ad-hoc
    shell measurement unnecessary, or after five run stamps without firing.)*
 
+5. **(2026-08-10) A gate that reads repositories you do not control is racy,
+   and fixing the one item it named is a loop.** `check_pins.py` requires every
+   member pinned at its latest release. Two CI runs failed in a row while this
+   release was being built — `task-pipeline` cut 1.39.0, then `super-ux` cut
+   0.34.0 — and each fix addressed exactly the member the log named. The second
+   failure is the tell: re-measure **every** member in one sweep before pushing
+   again, and if the sweep is still moving, say so instead of pushing a third
+   time. *(Retire when the release workflow bumps pins itself, or after five
+   run stamps without firing.)*
+
 ## Retired
 
-*(nothing yet — the prune at 2026-08-10 checked all four against their triggers:
-#1 last fired at stamp 2 of 4, so its five-stamp clock has not run out; #2 fired
-this run, twice (the three-run hash comparison, and testing the command rather
-than only the pure core); #3 did not fire and is two runs old; #4 is new. Four
-of ten slots used.)*
+*(nothing yet — the prune at 2026-08-10 (second run) checked all five against
+their triggers: #1 has now missed four stamps of its five; #2 fired this run
+(the planted removal proved reconciliation at the command layer, and three runs
+proved idempotence); #3 did not fire and is three runs old; #4 fired twice —
+a probe that returned "absent" for four files including two that predate this
+run, which was the node schema and not the graph; #5 is new. Five of ten slots
+used.)*
+
+*(superseded — the earlier prune note from this date:
+#1 last fired at stamp 2 of 4; #2 fired twice; #3 did not fire; #4 was new.)*
 
 ## Run stamps
 
@@ -62,6 +77,7 @@ of ten slots used.)*
 | 2026-08-06 | Router registry, pack settings; v0.23.0 → v0.23.1 | `dccc0e8` | yes — see below |
 | 2026-08-06 | Cursor skills ported; family 6 → 8 members; v0.26.0 | `f5591b1` | yes — see below |
 | 2026-08-10 | Repo actualised: pins, docs, drift report; v0.29.0 | `709b017` | yes — see below |
+| 2026-08-10 | B-09: update reconciles; defaultAgents +2; v0.30.0 | `8af291d` | yes — see below |
 
 ---
 
@@ -266,3 +282,64 @@ diagnosis down with run ids instead of fixing it. They shipped the same fix
 ninety minutes later, and the pin moved here as a result. **Recording a finding
 you are not allowed to act on is not a consolation prize** — it is what let the
 umbrella close its last red pin the moment there was something to point at.
+
+---
+
+## 2026-08-10 (second run) — the command that reported success for work it had not done
+
+**Symptom.** `update` could not deliver a family member that had reached no
+channel, and it said it had. `skills update <id>` is a no-op for a skill
+installed nowhere — but not a silent one: it prints
+`✓ All global skills are up to date` about a skill that does not exist. The
+launcher issued only that verb, once per declared id, so the run scrolled
+nineteen confident lines while seven of those nineteen skills were absent from
+the hub entirely.
+
+Watched, not inferred: `agent-orchestrator` was removed from the hub and from
+all six symlink channels to reproduce the state a never-installed member is in,
+`skills update agent-orchestrator` was run against it, and it reported the
+green line and restored nothing.
+
+**Owned by** the stage that reviews a contract. `install` and `update` built
+their skills-CLI argv in two independent places. Each read correctly on its
+own; they disagreed only about a case neither of them mentioned, which is
+precisely the case no reviewer looks for.
+
+**Root cause.** **A verb chosen for the common case, applied as if it covered
+the boundary.** `update` is the right word when the thing exists. Nothing in
+the code said what it meant when the thing did not, so the answer was inherited
+from a dependency — and the dependency's answer was to congratulate the caller.
+
+**Fix, by grade.**
+
+- *Mechanical (taken):* one builder, `lib/plan.js`, for both commands, with a
+  fixture asserting their `add` commands are byte-identical. `update` now
+  reconciles: refresh, then add.
+- *Mechanical (taken):* the shadow prune no longer hangs off "is this run
+  touching plugins" — it matches a plain copy against an installed plugin of
+  the same **member**, by marketplace rather than skill id.
+- *Standing instruction (taken, #5):* a gate reading repositories you do not
+  control is racy; re-measure all of it at once rather than fixing the item the
+  log named.
+
+**The one this run created itself.** Teaching `update` to call `skills add`
+handed it the auto-detect side effect `install` always had: the skills CLI
+writes `~/.claude/skills/<id>` for an agent nobody asked for. `install` prunes
+that; `update --no-claude` did not, because the prune's condition was a proxy.
+A `task-pipeline` copy appeared beside the `task-pipeline` plugin **during the
+very run that was proving the fix**, and it was caught by the invariant check
+at the end of a verification block — not by a test, which did not exist yet.
+
+That is the same shape this file keeps recording, arriving from a new
+direction: **a condition that stands in for the real one holds until something
+changes on the other side of it.** Idempotence proven on the pure function.
+A calibration date true on the day it was written. A url valid on the machine
+that typed it. And now: a prune guarded by a flag about intent, protecting
+against a side effect that has nothing to do with intent.
+
+**Two failed CI runs before the tag, and both were right.** `task-pipeline` cut
+1.39.0 and `super-ux` cut 0.34.0 while this release was being assembled, each
+invalidating the pin gate. Reading the verdict **before** tagging is what kept
+a broken release from being published twice; fixing only the member the log
+named is what made it happen twice. Instruction #5 exists so the third time is
+a sweep.
