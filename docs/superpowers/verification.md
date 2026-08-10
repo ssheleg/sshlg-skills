@@ -40,6 +40,32 @@ machine's plugins to the released versions — `agent-sync` moved `v1.5.2 → v1
 — and the shadow invariant prints nothing. Claude Code loads skills at session
 start, so the running session still holds the previous set until it restarts.
 
+## 2026-08-10 — family wiring audit
+
+Ran with no task in flight, against the question "does the wiring actually
+hold": registry → manifest → disclosure → install → what Claude Code loads.
+
+| Check | Command | Result |
+|---|---|---|
+| Registry vs submodules vs README | `python3 test/validate.py` | 8 skills, 8 submodules, pass |
+| Pins vs releases | `python3 test/check_pins.py` | every pin matches its release |
+| Plugin manifests, strict | `claude plugin validate . --strict` in each member | 8/8 exit 0 |
+| SKILL.md front-matter | audit script, 19 skills | 0 findings — every `name` matches its directory, every description inside 1024 |
+| Progressive disclosure | 281 `references/X.md` mentions resolved against each skill's own `references/` | 0 real findings (2 hits, both the literal placeholder `FILE.md` inside `assets/*.template.md`) |
+| Router wiring | 8 routers vs `skills.json` | every required member ships |
+| Declared vs shipped | `skillNames` vs directories carrying a `SKILL.md` | 19 declared, 19 shipped, no extras |
+| Declared vs installed | plugin cache at each pinned version | 19/19 present; command counts match the repo (15/1/1/1/1/1/0/0) |
+
+**The instrument needed two rewrites before it was worth trusting**, and that is
+the finding worth keeping. Version one scanned prose for paths and slash
+commands and reported **4221** problems; version two, scoped to the shipped
+surface, reported 185. A hand-check of both said essentially all were false: a
+skill legitimately names files in the *user's* project (`docs/ux/scenarios.md`,
+`src/lib/motion/tokens.ts`) and legitimately quotes Claude Code built-ins
+(`/mcp`, `/plugin`), while `</summary>` alone produced forty command findings.
+Version three checks only what has exactly one correct answer, and found
+nothing — which is a much smaller and much more useful number.
+
 ## What is deliberately not verified here
 
 `agent-sync`'s two defects (B-01, B-02) were recorded, not fixed: another agent
