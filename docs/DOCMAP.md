@@ -13,7 +13,8 @@ one piece of the family that edits a file the operator owns and did not write.
 
 The first six members have their own `CLAUDE.md` house rules; the two added on
 2026-08-06 (`sheleg-dev`, `agent-stack`) carry a validator and CI but no house
-rules yet; this repository has none either (carry-over C-06).
+rules yet. This repository grew its own on 2026-08-10, which closed carry-over
+C-06.
 
 ## Single homes
 
@@ -21,6 +22,8 @@ rules yet; this repository has none either (carry-over C-06).
 |---|---|---|
 | Which skills exist, their repos, plugin ids, pinned versions | `skills.json` | README table and `.gitmodules` are checked against it by `test/validate.py` |
 | What a router is — text, table row, required members | `lib/routers-registry.js` | `lib/router-texts.js` is a façade over it; `ROUTER_ROWS` in `lib/routers.js` is derived |
+| Whether the operator's wording has diverged from the packaged one | `lib/drift.js` | pure, like `routers.js`; a fixture asserts it never reaches the filesystem |
+| The wording adoption replaced | `~/.sshlg-skills/config.json`, key `adopted:<name>` | deliberately not the router's own stash key — the on/off switch must not hand back what adoption replaced |
 | The block's format and every rule protecting the operator's file | `lib/routers.js` | it touches no filesystem, so the rules are provable without a HOME |
 | Which routers this machine wants | `~/.sshlg-skills/config.json` | not in the repo; deviations only, mode 0600 |
 | Recorded consent | `~/.sshlg-skills/state.json` | not in the repo; a file that cannot be parsed is not consent |
@@ -59,9 +62,11 @@ python3 test/check_pins.py
 Deliberately outside `npm test`: it queries the npm registry, and everything
 in `npm test` must work offline.
 
-**Ratchets.** 8 suites, 182 fixtures, 8 pinned members. A change that lowers
+**Ratchets.** 9 suites, 209 fixtures, 8 pinned members. A change that lowers
 any of these without saying so in the changelog is a regression, not a
-simplification.
+simplification. Counted by running `npm test`, not carried across from the
+previous edit of this file — the numbers rose from 8/182 when `drift_test.js`
+landed.
 
 ## What proves a claim here
 

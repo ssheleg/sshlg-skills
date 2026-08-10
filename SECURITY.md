@@ -2,7 +2,7 @@
 
 ## What this package does on your machine
 
-`sshlg-skills` is a **launcher**. It installs and updates six agent skills by
+`sshlg-skills` is a **launcher**. It installs and updates eight agent skills by
 driving three tools that are already on your system or fetched by `npx`. It has
 zero runtime dependencies and no post-install script.
 
@@ -11,7 +11,7 @@ zero runtime dependencies and no post-install script.
 | `bin/sshlg-skills.js` | Node script. Runs only when you invoke it. Spawns `claude`, `npx skills` and `git` as child processes; writes nothing outside `~/.claude/`, `~/.agents/skills/` and the checkout you ran it in. |
 | `install.sh` | POSIX fallback for the same flow. |
 | `skills.json` | Data. The registry the launcher reads. |
-| `skills/*` | Pinned git submodules — the six skills, each its own repo. |
+| `skills/*` | Pinned git submodules — the eight skills, each its own repo. |
 | `test/validate.py` | Standard-library Python. Reads the repo, writes nothing. |
 
 There is no telemetry, no analytics and no phone-home. The launcher never asks
@@ -35,11 +35,15 @@ path outside `~/.claude/skills/` is touched.
 
 ## Trust boundary
 
-Installing runs code from six GitHub repos, all under the `ssheleg`
-organization — plus the vercel `skills` CLI. Pins in `skills.json` and the submodule pointers mean a given hub commit
-installs exactly the skill versions it was tested with; review them if you need
-reproducibility — every pin is a release tag. Skills are documentation plus small
-standard-library scripts; each repo documents its own runtime surface.
+Installing runs code from eight GitHub repos, all under the `ssheleg`
+organization — plus the vercel `skills` CLI. Pins in `skills.json` and the
+submodule pointers mean a given hub commit installs exactly the skill versions
+it was tested with; review them if you need reproducibility. Six of the eight
+pins are release tags. `sheleg-dev` and `agent-stack` have not cut a release
+yet, so each is pinned to a specific reviewed commit on `main` — the pin is
+still exact, but there is no tag to compare it against. Skills are documentation
+plus small standard-library scripts; each repo documents its own runtime
+surface.
 
 ## Reporting a vulnerability
 

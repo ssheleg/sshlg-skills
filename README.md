@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/v/sshlg-skills)](https://www.npmjs.com/package/sshlg-skills)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-**Six agent skills, one command, every agent.**
+**Eight agent skills, one command, every agent.**
 
 ```bash
 npx sshlg-skills install    # install the whole family
@@ -22,19 +22,20 @@ vercel `skills` CLI supports.
 A coding agent is good at writing code and bad at almost everything around it. It
 builds an interface with no idea who uses it. It calls a task done without
 checking what was actually asked for. It ships a page that looks generated, on a
-site no search engine or answer engine can read. And the moment you want it to
-remember how *you* work, you are writing a skill — and packaging one correctly is
-its own afternoon.
+site no search engine or answer engine can read. It reaches for a payment
+webhook or an agent's tool-calling loop and writes the version that holds until
+it meets real traffic. And the moment you want it to remember how *you* work,
+you are writing a skill — and packaging one correctly is its own afternoon.
 
-Each of these six takes one of those gaps and gives the agent a contract it has
-to follow. They are documentation, validators and small standard-library scripts.
-No services, no telemetry, no API keys.
+Each of these eight takes one of those gaps and gives the agent a contract it
+has to follow. They are documentation, validators and small standard-library
+scripts. No services, no telemetry, no API keys.
 
 | Skill | Version | What it does |
 |---|---|---|
 | **[super-ux](https://github.com/ssheleg/super-ux)** | 0.32.0 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
 | **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.38.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. |
-| **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.4.3 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
+| **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.7.0 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
 | **[make-skill](https://github.com/ssheleg/make-skill)** | 0.11.0 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, MCP and A2A rules. |
 | **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.10.0 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
 | **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.13.0 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan plus a link-building brief — not a score. |
@@ -132,6 +133,8 @@ engage in every project instead of only when someone remembers to ask.
 npx sshlg-skills routers              # write it (asks once)
 npx sshlg-skills routers --dry-run    # show the diff, change nothing
 npx sshlg-skills routers --update     # refresh an existing block, never create one
+npx sshlg-skills routers --diff <name>            # your wording vs the packaged one
+npx sshlg-skills routers --update --adopt <name>  # take the packaged wording for it
 ```
 
 Eight routers, and they are **different axes rather than competing
@@ -154,6 +157,15 @@ rules, not tools, so they hold whether or not anything is installed.
 **Your own wording wins.** Where you already wrote a rule by hand, migration
 moves *your* text in verbatim — asides included — and the packaged default is
 used only for a router you never wrote.
+
+**And it keeps winning, which is the part that needs a report.** Because your
+text always takes precedence, a router reworded in a later release never
+reaches your machine — the update lands in the package and stops at your
+config file. So `routers` now *names* the routers whose wording has diverged,
+every run. Nothing is applied: `--diff <name>` shows both sides, and
+`--adopt <name>` takes the packaged one for that router only, parking the
+wording it replaces under `adopted:<name>` so an on/off toggle can never hand
+back the wrong text. Your word still wins; silence stops being the decision.
 
 **Consent is asked once**, recorded, and never asked again. Declining leaves an
 `SSHLG:ROUTERS:OPTOUT` marker, which the block's own header names as the way
@@ -192,10 +204,11 @@ get wrong: one channel per agent, exact agent ids, repeated `--agent` flags, ful
 
 ```
 skills.json                  registry — repos, plugin ids, skill names, pins
-skills/*                     the six skills as pinned git submodules
+skills/*                     the eight skills as pinned git submodules
 bin/sshlg-skills.js          the launcher (install / update / routers / config / list / agents)
 lib/routers-registry.js      the eight routers — text, table row and required members, in one entry
 lib/routers.js               block parsing and rendering; touches no file, by construction
+lib/drift.js                 your wording vs the packaged one; pure, like routers.js
 lib/apply.js                 the only module that writes to the instruction files
 lib/migrate.js               moves hand-written rules in; never reads inside the block
 lib/config.js, lib/store.js  the pack's settings, and the 0600 discipline they share

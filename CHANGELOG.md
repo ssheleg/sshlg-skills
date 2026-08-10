@@ -1,5 +1,88 @@
 # Changelog
 
+## v0.29.0 — 2026-08-10
+
+Carries the v0.28.3 section below, which landed on `main` but was never tagged.
+
+### Fixed
+
+- **A router the operator never wrote was being recorded as theirs — all eight,
+  on the first run of any machine.** `migrate()` returns
+  `Object.assign({}, fallbacks, extracted)`: the bodies to write, with the
+  packaged defaults merged in. `bin/sshlg-skills.js` read that whole map as
+  "what the operator just wrote" and called `authoredSet` on every key. Since
+  an authored entry wins over the packaged text on every later run, one
+  `routers` run froze the block permanently — the pack could ship a reworded
+  router forever and it would never arrive anywhere. Reproduced on a clean
+  `HOME`: eight authored entries after a single `routers --update`, zero after
+  the fix. `migrate()` now also returns `migrated`, the names it actually cut
+  out of the file, and the command iterates that.
+
+  The two are different questions and merging them is what cost the release:
+  `routers` answers *what body goes in this section*, `migrated` answers *which
+  of these did a person write*.
+
+### Added
+
+- **`routers` now says when your wording has diverged from the packaged one.**
+  Your text still wins — that is the point of `authored`, and it is why the
+  block can be trusted against a file with no version control behind it. What
+  changes is that silence is no longer the decision: every run names the
+  routers whose text has drifted.
+
+  - `routers --diff <name>` — both sides, writes nothing, asks no consent.
+  - `routers --update --adopt <name>` — take the packaged wording for that
+    router only. What it replaces is parked under `adopted:<name>`,
+    **write-once**, so a second adoption can never overwrite the only surviving
+    copy of what you wrote. The key is deliberately not the router's own stash
+    key: an on/off toggle must give back what the *switch* removed, not what
+    adoption replaced.
+
+  `lib/drift.js` is pure like `lib/routers.js` — both sides are handed in — and
+  a fixture asserts it never reaches the filesystem. That fixture first failed
+  against the doc comment explaining the rule; it now strips comments before
+  scanning, because a guard that fires on its own prose is the substring-grep
+  failure this repository has already recorded twice.
+
+- **`docs/superpowers/backlog.md`** — what this repo owes, with priority
+  computed (`blast × (1 + age) / effort`) rather than felt. Eight open rows.
+- **`docs/superpowers/verification.md`** — one row per shipped REQ and what
+  confirmed it, so *green* never reads as *verified*. Starts at this release;
+  earlier work is not given retrospective statuses it never earned.
+- **`CLAUDE.md`** for the umbrella itself, closing carry-over C-06 — every
+  member had house rules and the parent did not.
+
+### Changed
+
+- **README and `SECURITY.md` count eight members, not six.** Three places in
+  each still described the family as it was before the 2026-08-06 port.
+- **`SECURITY.md` no longer claims "every pin is a release tag".** It is not
+  true: `sheleg-dev` and `agent-stack` have no tags at all
+  (`git ls-remote --tags` returns nothing for either), so each is pinned to a
+  reviewed commit on `main`. The pin is still exact; there is simply no tag to
+  compare it against, and the trust-boundary section now says so.
+- **`package.json`'s description** named six of the eight members. That string
+  is what npm renders.
+
+- **`agent-sync` pinned to 1.7.0**, and the last red pin in the family closes
+  with it. It had been stuck at 1.4.3 since 2026-08-03 while three tags claimed
+  otherwise: `release.yml` extracted its notes with `awk '$0 ~ "^## " v'` while
+  the CHANGELOG writes `## v1.5.2`, and the terminator `/^## [0-9]/` missed the
+  same prefix, so v1.5.0, v1.5.1 and v1.5.2 each tagged and died at
+  `no CHANGELOG section` (run `31287012133`) with npm never receiving one.
+
+  That repository was held by another agent for the whole of this run, so this
+  one diagnosed and recorded rather than fixed. They landed both halves while
+  it was in flight — the notes extraction (run `31374955487`, green) and the
+  validator failure underneath it (run `31374949511`, green) — and npm now
+  serves 1.7.0, so the pin moved here the moment there was a release to point
+  at. Board rows B-01 and B-02 close with the run ids that fixed them.
+
+### Ratchets
+
+- 9 suites, 209 fixtures (from 8 and 182), 8 pinned members. Counted by running
+  `npm test`, not carried across from the previous edit.
+
 ## v0.28.3 — 2026-08-10
 
 ### Changed

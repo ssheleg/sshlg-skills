@@ -42,6 +42,19 @@ function parseFlags(argv) {
     else if (a === '--bump-pins') f.bumpPins = true;
     else if (a === '--dry-run') f.dryRun = true;
     else if (a === '--update') f.mode = 'update';
+    else if (a === '--diff') {
+      const v = argv[++i];
+      if (!v || v.startsWith('-')) { log('--diff needs a router name, e.g. --diff task-pipeline'); process.exit(2); }
+      f.diff = v;
+    }
+    else if (a === '--adopt') {
+      // Comma list and never "all". Adoption replaces words a person wrote in
+      // a file with no version control behind it, so each one is named.
+      const v = argv[++i];
+      if (!v || v.startsWith('-')) { log('--adopt needs a router name, e.g. --adopt task-pipeline'); process.exit(2); }
+      f.adopt = v.split(',').map(s => s.trim()).filter(Boolean);
+      if (!f.adopt.length) { log('--adopt got an empty list'); process.exit(2); }
+    }
     else if (a === '--member') {
       const v = argv[++i];
       if (!v || v.startsWith('-')) { log('--member needs a value'); process.exit(2); }
@@ -93,6 +106,8 @@ Usage:
   npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only]
   npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins]
   npx sshlg-skills routers [--member <name>] [--update] [--dry-run]
+  npx sshlg-skills routers --diff <name>              # your wording vs the packaged one
+  npx sshlg-skills routers --update --adopt <name>    # take the packaged wording for it
   npx sshlg-skills config  [list]
   npx sshlg-skills config  set routers.<name> on|off
   npx sshlg-skills list
@@ -216,9 +231,51 @@ function cmdRouters(f) {
   const apply = require('../lib/apply.js');
   const consent = require('../lib/consent.js');
   const migrate = require('../lib/migrate.js');
+  const drift = require('../lib/drift.js');
   const fs = require('fs');
   const path = require('path');
   const home = process.env.HOME || require('os').homedir();
+
+  if (f.diff && f.adopt) {
+    log('--diff смотрит, --adopt меняет. Вместе они не идут: сначала посмотри, потом принимай.');
+    process.exit(2);
+  }
+
+  // Adoption runs BEFORE the settings are read for this run. Clearing an
+  // authored entry is what lets the packaged text through, and reading the
+  // config first would hand the rest of the command the record it just
+  // deleted.
+  const adopted = [];
+  if (f.adopt && f.adopt.length) {
+    for (const name of f.adopt) {
+      if (!Object.prototype.hasOwnProperty.call(registry.REGISTRY, name)) {
+        log(`--adopt: роутера "${name}" нет. Валидные имена: ${registry.order().join(', ')}`);
+        process.exit(2);
+      }
+      if (f.dryRun) {
+        // A preview must not report an adoption that would not happen: with no
+        // authored entry there is nothing to take over.
+        if (configLib.authoredGet(configLib.readConfig(home), name) !== undefined) adopted.push(name);
+        else log(`routers: "${name}" и так на пакетном тексте — принимать нечего`);
+        continue;
+      }
+      const previous = configLib.authoredClear(home, name);
+      if (previous === undefined) {
+        log(`routers: "${name}" и так на пакетном тексте — принимать нечего`);
+        continue;
+      }
+      // Parked, not dropped: the one act that overwrites a person's words
+      // keeps them, under a key the on/off switch will not hand back.
+      //
+      // Write-once. What is already parked is the only surviving copy of what
+      // the operator wrote; a second adoption — after an authored entry
+      // reappeared by any route — would park today's text over it and leave
+      // nothing to restore from.
+      const parked = configLib.stashGet(configLib.readConfig(home), drift.stashKey(name));
+      if (parked === undefined) configLib.stashSet(home, drift.stashKey(name), previous);
+      adopted.push(name);
+    }
+  }
 
   // The settings decide which routers this machine wants; the registry decides
   // which ones it may speak for. With --member, only that member's own — a
@@ -231,6 +288,45 @@ function cmdRouters(f) {
 
   const packaged = registry.resolve(scopeOpts);
   const remove = registry.disabled(scopeOpts);
+
+  // The registry's own text, copied before the precedence loop below writes
+  // the operator's over it. This is the only moment both sides exist in one
+  // place, and without the copy the comparison has nothing to compare.
+  const registryText = Object.assign({}, packaged);
+
+  // `--diff` inspects and returns. It writes nothing, asks no consent and does
+  // not reach the block: the whole reason to look is to decide, and a look
+  // that changed the file would be a decision taken on the operator's behalf.
+  if (f.diff) {
+    if (!Object.prototype.hasOwnProperty.call(registry.REGISTRY, f.diff)) {
+      // Exit 2, the same as `--adopt` above and `config set` below: naming a
+      // thing that is not a router is one mistake and deserves one code.
+      log(`--diff: роутера "${f.diff}" нет. Валидные имена: ${registry.order().join(', ')}`);
+      process.exit(2);
+    }
+    const mine = configLib.authoredGet(config, f.diff);
+    const theirs = registryText[f.diff];
+    if (theirs === undefined) {
+      log(`routers --diff ${f.diff}: этот роутер сейчас не в области действия — его участник не установлен или он выключен настройкой.`);
+      return true;
+    }
+    if (mine === undefined) {
+      log(`routers --diff ${f.diff}: раздел идёт пакетным текстом — расходиться не с чем.`);
+      return true;
+    }
+    if (!drift.diverged({ packaged: { [f.diff]: theirs }, authored: { [f.diff]: mine } }).length) {
+      log(`routers --diff ${f.diff}: тексты совпадают.`);
+      return true;
+    }
+    log(`--- твой текст (${configLib.configPath(home)})`);
+    log(mine);
+    log('');
+    log('+++ пакетный текст (lib/routers-registry.js)');
+    log(theirs);
+    log('');
+    log(`Принять пакетный:  npx sshlg-skills routers --update --adopt ${f.diff}`);
+    return true;
+  }
 
   // Precedence for a body: what the operator wrote > what a setting took out
   // > the packaged default.
@@ -300,7 +396,11 @@ function cmdRouters(f) {
     // Whatever migration just moved is the operator's, and this is the only
     // moment it is still identifiable as such: the heading it came from is
     // about to leave the file.
-    for (const name of Object.keys(moved.routers)) {
+    //
+    // `moved.migrated`, NOT `moved.routers`. The latter is the bodies to
+    // write, fallbacks merged in, so iterating it claimed authorship of all
+    // eight routers on the first run of any machine.
+    for (const name of moved.migrated || []) {
       if (preserve.indexOf(name) === -1) preserve.push(name);
       if (!f.dryRun && decision === 'yes') configLib.authoredSet(home, name, moved.routers[name]);
     }
@@ -336,6 +436,30 @@ function cmdRouters(f) {
   if (remove.length) log(`routers: выключены настройкой — ${remove.join(', ')}`);
   for (const id of Object.keys(superseded)) {
     log(`routers: вытеснен рукописный раздел "${id}" — тело сохранено в ${configLib.configPath(home)}`);
+  }
+  if (adopted.length) {
+    log(`routers: принят пакетный текст — ${adopted.join(', ')}` +
+        (f.dryRun ? ' (--dry-run: ничего не записано)'
+                  : `; прежние формулировки сохранены в ${configLib.configPath(home)}`));
+  }
+
+  // The report, last, because it is about the NEXT run rather than this one.
+  //
+  // The operator's wording wins on every run, which is the point — but a
+  // router reworded upstream then never arrives, and until now nothing said
+  // so. Reporting does not change what was just written; it removes the one
+  // outcome nobody chose, which is finding out by reading two files side by
+  // side.
+  const diverging = drift.diverged({
+    packaged: registryText,
+    authored: (configLib.readConfig(home) || {}).authored || {},
+  });
+  if (diverging.length) {
+    log('');
+    log(`routers: твой текст расходится с пакетным — ${diverging.map((e) => e.name).join(', ')}`);
+    log('  Твоё слово по-прежнему выигрывает: блок записан с твоими формулировками.');
+    log('  Посмотреть разницу:  npx sshlg-skills routers --diff <имя>');
+    log('  Принять пакетный:    npx sshlg-skills routers --update --adopt <имя>');
   }
   return true;
 }
