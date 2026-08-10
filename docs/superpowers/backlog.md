@@ -23,7 +23,9 @@ so a row cannot keep a rank it earned when it was new.
 | B-07 | C-04: the CLI launcher has no `docs/ux/` chain. Waived at intake (D-09) in favour of REQ rows asserting exact output; the fixtures in `test/cli_config_test.js` and `test/drift_test.js` are what stands in for it. Revisit only if the command surface grows past what fixtures can describe. | C-04 (2026-08-06) | 1 | 2 | 3 | **1.0** | open — waived, revisit on growth |
 | B-08 | C-05: no design-time track in `seo-aeo-audit`. Different repository; the `seo-llmo` router carries the rule, and the skill stays an audit. | C-05 (2026-08-06) | 1 | 2 | 3 | **1.0** | open — deliberate |
 
-**Open: 5.** B-01 and B-02 opened and closed inside the same run: they live in
+| B-09 | A channel fed once but absent from `defaultAgents` drifts forever, and no command repairs it. `kiro-cli` and `goose` each carried 12 of the family's 19 skills: `install` only targets `defaultAgents`, and `update` only refreshes what is already present — so a member added after that channel was last fed never arrives, and the channel looks served because most of it is. Completed by hand on 2026-08-10 (`skills add --agent kiro-cli --agent goose`); the next member will re-open it. Fix is a decision, not a patch: either add the two ids to `defaultAgents` — which changes what `install` does for every user of the pack, not just this machine — or teach `update` to reconcile every channel that already holds any family skill. | 2026-08-10 audit | 2 | 1 | 2 | **2.0** | open |
+
+**Open: 6.** B-01 and B-02 opened and closed inside the same run: they live in
 a repository another agent held throughout, so this run diagnosed them and
 wrote down the evidence instead of touching the code. The other agent shipped
 both fixes while it was in flight, and `agent-sync` is pinned at 1.7.0 here as a
