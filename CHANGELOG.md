@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.28.2 — 2026-08-10
+
+### Changed
+
+- **`seo-aeo-audit` pinned to 0.13.0.** A fresh-eyes audit of that skill — every
+  command, every bundled script, all twenty-two references — found 43 defects, nine
+  of which made it emit or suppress findings in ordinary use. The four-command gate
+  was green against all of them.
+
+  The ones that change what a user of the skill gets: `max-image-preview:none` was
+  reported as a `noindex` blocker, which is a stop condition, so an audit ended there
+  on a fabrication; jQuery's `$` or a correct `Offer.priceCurrency` produced a
+  finding claiming the page hides its price from answer engines; a response truncated
+  by `--max-bytes` was analyzed as if it were the page (10,001 words at the default
+  cap, 475 at 3000, no warning either time); a Search Console run of 403s ended by
+  declaring its own output `CONFIRMED`; and `gsc_pull.py` computed cannibalization,
+  the CTR curve and the branded split and printed none of them in its default format.
+
+  Thirteen reconciliation guards were added, each watched failing on the real
+  repository before the fact was corrected. The pattern they close: a guard written
+  against the one home a fact had drifted in, while the fact lived in four — the myth
+  count was green with three of its four homes wrong.
+
+  Two output contracts change, which is why this is a minor and not a patch: the
+  `thin` finding code is now `low-extractable-text`, and `onpage-checks.md`'s
+  sections are `O1`–`O5` where they were `D1`–`E2`.
+
 ## v0.28.1 — 2026-08-10
 
 ### Changed
