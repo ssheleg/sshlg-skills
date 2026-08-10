@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.29.3 — 2026-08-10
+
+### Changed
+
+- **`seo-aeo-audit` pinned to 0.14.1.** Its acceptance walk found that 0.14.0 had
+  fixed the unreachable script invocations in `SKILL.md` and guarded that one file,
+  while the README carried eight more and the slash command a ninth — the release
+  written to fix "a guard is written against the home that broke" broke it and
+  shipped. All three homes resolve now, and the guard reads all three.
+
 ## v0.29.2 — 2026-08-10
 
 ### Changed
