@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.28.1 — 2026-08-10
+
+### Changed
+
+- **`make-skill` pinned to 0.11.0.** A file-by-file audit of that repo, run with
+  its own evidence rules, found two defects that manufacture wrong answers: a
+  path variable used as prose (the skill body is substituted at load time, so
+  agents read a filesystem path where a host capability was named), and an audit
+  procedure whose very first command was built from that same variable — which is
+  empty in the Bash tool, so the one step the canon forbids reasoning through was
+  the one step that could not run. Both are fixed at the root: the auditor now
+  ships as `bin/make-skill-audit`, which Claude Code puts on the Bash PATH.
+
+  The release also adds NOT-RUN as a third audit verdict, and makes claims about
+  a repo machine-checkable — counted claims against their artifacts, the skill
+  card's version against the manifest, every shipped reference against the
+  README.
+
+  This pin is the step that release owed the family: until it moves, `list`
+  advertises the previous version and `update` installs it.
+
 ## v0.28.0 — 2026-08-10
 
 ### Changed
