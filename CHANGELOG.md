@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.28.3 — 2026-08-10
+
+### Changed
+
+- **`task-pipeline` pinned to 1.38.0** and **`sheleg-design` to 1.10.0.** Both had
+  shipped their releases and neither pin had moved, so `list` advertised 1.18.0 and
+  1.7.0 and `update` installed them — twenty and three releases behind their own
+  tags, with nothing in either repo revealing the gap.
+
+### Known gap
+
+- **`agent-sync` stays pinned at 1.4.3 on purpose.** Its 1.5.0, 1.5.1 and 1.5.2
+  tags each pushed and then failed before publishing: the release workflow looked
+  for `## 1.5.2` in the CHANGELOG while the file writes `## v1.5.2`, so every tag
+  looked delivered and npm never received one. Pinning to a version the registry
+  does not serve would move the lie rather than fix it. The pin moves when
+  agent-sync publishes, and `test/check_pins.py` keeps this build red until it
+  does — which is the check working, not an obstacle to route around.
+
 ## v0.28.2 — 2026-08-10
 
 ### Changed

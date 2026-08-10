@@ -42,7 +42,7 @@
         "task-pipeline",
         "evidence-docs"
       ],
-      "version": "1.18.0"
+      "version": "1.38.0"
     },
     {
       "name": "agent-sync",
@@ -78,7 +78,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.7.0"
+      "version": "1.10.0"
     },
     {
       "name": "seo-aeo-audit",
