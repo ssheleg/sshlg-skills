@@ -28,8 +28,8 @@
       ],
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
-      "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 33-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.32.0"
+      "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 35-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
+      "version": "0.33.0"
     },
     {
       "name": "task-pipeline",
@@ -78,7 +78,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.10.0"
+      "version": "1.11.0"
     },
     {
       "name": "seo-aeo-audit",
@@ -90,7 +90,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.13.0"
+      "version": "0.14.0"
     },
     {
       "name": "sheleg-dev",

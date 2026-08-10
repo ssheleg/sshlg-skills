@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.29.2 — 2026-08-10
+
+### Changed
+
+- **`seo-aeo-audit` pinned to 0.14.0.** A second audit of that skill, run through
+  the lens the first one did not use — what happens when an *agent* uses it. All
+  eleven documented script invocations were written relative to the caller's
+  working directory, which is the user's project and not the skill directory, so
+  every one of them failed in the only environment the skill is ever used in. That
+  failure is quiet in the way that costs: the agent absorbs it, checks by hand, and
+  the audit silently drops to the bottom rung of its own evidence ladder. The
+  invocations now resolve through `$SKILL_DIR`, and a validator guard rejects a
+  bare `scripts/*.py` path.
+
+  Two output contracts changed with it, which is why the member went to `0.14.0`
+  and not `0.13.1`: `url_inspection.py` and `psi_pull.py` exit **1** when a run
+  produced nothing usable. Both already printed honest prose — a run of 403s says
+  it supports no findings at any tier — but the exit status said success, and the
+  documented invocation redirects stdout to a file. Four renderers also put raw
+  Google error pages into markdown, so a live preflight lost two of its seven rows
+  to a newline, and that instrument's coverage denominator shrank when a source
+  failed rather than reporting the check as unattempted.
+
 ## v0.29.1 — 2026-08-10
 
 ### Changed
