@@ -29,11 +29,16 @@ and nothing more, and that is stated rather than papered over.
 | R-09 | the `agent-sync` root cause recorded rather than fixed | board rows B-01 and B-02 cite run ids `31287012133` and `31352513346` and the awk in `release.yml`; both closed the same day when the agent holding that repo shipped the fix | verified |
 | R-13 | `agent-sync` pinned to 1.7.0 — every pin now matches its release | `python3 test/check_pins.py` → `every pin matches its release (npm where published, git tag everywhere)`; the tag's commit `1f1f7b9` equals `origin/main`, and its `package.json` reads 1.7.0 | verified |
 | R-10 | gate green, ratchets up not down | `npm test` → 10 checks green (validate.py + 9 suites), 209 fixtures counted; was 8 suites / 182 | verified |
-| R-11 | the release | see the row added when the tag's workflow conclusion is read | **never** |
+| R-11 | the release | `validate` run `31378960647` green **before** the tag was pushed — it was the first green on `main` in three commits, and the two red ones failed on the very pin this run moved; release run `31379020333` green in both jobs; `npm view sshlg-skills version` → `0.29.0`; `gh release view v0.29.0` → published | verified |
 | R-12 | a router the operator never wrote is no longer recorded as theirs | clean-HOME reproduction recorded all eight before the fix and zero after; both fixtures watched failing first | verified |
 
-**At `never`: 1** — R-11, which cannot be anything else until the release
-workflow has run and its conclusion has been read rather than assumed.
+**At `never`: 0.** Every row above names a command whose output was read, not a
+step that was taken and assumed to have worked.
+
+**Local installs, same day.** `npx --yes sshlg-skills@latest update` brought this
+machine's plugins to the released versions — `agent-sync` moved `v1.5.2 → v1.7.0`
+— and the shadow invariant prints nothing. Claude Code loads skills at session
+start, so the running session still holds the previous set until it restarts.
 
 ## What is deliberately not verified here
 

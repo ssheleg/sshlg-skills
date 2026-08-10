@@ -37,10 +37,22 @@ and log the deletion as one line under *Retired*.
    and plant against it. *(Retire when CI runs the suite under a faked future
    clock.)*
 
+4. **(2026-08-10) A measurement that returns the same answer for every input is
+   a broken measurement, not a finding.** Five CLI invocations were checked for
+   their exit codes and all five returned 2 — including the one that had just
+   printed a success message. The tempting reading was five bugs; the real one
+   was that zsh does not word-split an unquoted `$args`, so every case ran as a
+   single unknown command. Uniformity across inputs that should differ is a
+   fact about the instrument. *(Retire when a fixture harness makes ad-hoc
+   shell measurement unnecessary, or after five run stamps without firing.)*
+
 ## Retired
 
-*(nothing yet — the prune at 2026-08-06 checked all three against their triggers:
-#1 fired this run, #2 is one run old, #3 is new.)*
+*(nothing yet — the prune at 2026-08-10 checked all four against their triggers:
+#1 last fired at stamp 2 of 4, so its five-stamp clock has not run out; #2 fired
+this run, twice (the three-run hash comparison, and testing the command rather
+than only the pure core); #3 did not fire and is two runs old; #4 is new. Four
+of ten slots used.)*
 
 ## Run stamps
 
@@ -49,6 +61,7 @@ and log the deletion as one line under *Retired*.
 | 2026-08-05 | Managed global routing block; v0.22.0 (+ super-ux v0.30.2) | — | yes |
 | 2026-08-06 | Router registry, pack settings; v0.23.0 → v0.23.1 | `dccc0e8` | yes — see below |
 | 2026-08-06 | Cursor skills ported; family 6 → 8 members; v0.26.0 | `f5591b1` | yes — see below |
+| 2026-08-10 | Repo actualised: pins, docs, drift report; v0.29.0 | `709b017` | yes — see below |
 
 ---
 
@@ -183,3 +196,73 @@ It belongs in this file anyway, because the shape is the same one this document
 keeps recording: **a property that holds only where it was created**. Idempotence
 on the pure function, not the command. A calibration date true on the day it was
 written. A url valid on the machine that typed it.
+
+---
+
+## 2026-08-10 — the update that could never arrive, and the map that answered the wrong question
+
+**Symptom.** The task was housekeeping: move stale pins, fix a member count,
+tidy the docs. Two of the three named defects were real and small. The third —
+"the routing block on this machine is out of date" — turned out not to be a
+content problem at all.
+
+`bin/sshlg-skills.js` recorded **every** router as the operator's own work, on
+the first run of any machine. `migrate()` returns
+`Object.assign({}, fallbacks, extracted)`, because its job is to supply a body
+for each section; the command read that map as *"which of these did a person
+write"* and called `authoredSet` on all eight keys. An authored entry beats the
+packaged text on every later run, so one `routers` run froze the block forever.
+The pack could ship a reworded router in every release from then on and it
+would never reach a single machine.
+
+Reproduced on a clean `HOME`: eight authored entries after one
+`routers --update`, on a file that had never contained a hand-written rule.
+
+**Owned by** the stage that reviews a contract — the function's own doc comment
+says the two halves are different, and the caller's comment asserts they are the
+same ("whatever migration just moved is the operator's"). Both were written in
+the same release. Found only because the drift report added this run named two
+routers, and the obvious next question — *why can I not adopt them?* — had no
+answer that fit the code as documented.
+
+**Root cause.** The shape this file keeps recording, in a new place: **a
+property that holds only where it was created.** `routers` is authoritative for
+*what body goes in this section*. Nothing about it is authoritative for *who
+wrote it*, and the merge that makes it useful for the first question is exactly
+what makes it wrong for the second.
+
+**Fix, by grade.**
+
+- *Mechanical (taken):* `migrate()` also returns `migrated` — the names it
+  actually cut out of the file — and the command iterates that. Two fixtures:
+  a clean `HOME` must record zero, and a genuinely hand-written heading must
+  still be recorded. Both watched failing first.
+- *Mechanical (taken):* adoption is write-once. `adopted:<name>` is the only
+  surviving copy of what the operator wrote, and the over-recording defect
+  proved an authored entry can reappear by a route nobody planned — so a second
+  adoption must not park today's text over yesterday's. Planted against.
+- *No standing instruction, deliberately.* The grade above one is a check, and
+  two exist now. A rule saying "think about what a map means" would be strictly
+  worse than a fixture that refuses the commit.
+
+**Two smaller ones from the same run, both about instruments.**
+
+The no-filesystem guard for `lib/drift.js` failed on its first run — against
+the doc comment that **explains the rule**, which contains the literal
+`require('fs')`. A guard firing on its own prose. This repository has recorded
+the substring-grep failure twice already, and the tempting fix both times is to
+reword the prose; the right one is to strip comments before scanning, because
+the check is supposed to read code. Then plant a real require and watch it fire.
+
+And the exit codes: five invocations, five identical results, including for a
+case that had just printed success. Standing instruction #4 came from that. The
+uniformity was the tell, and it was nearly read as five bugs instead of one
+broken shell loop.
+
+**What the run got for free, and did not take.** `agent-sync`'s three failed
+releases traced to one letter — `awk '$0 ~ "^## " v'` against a CHANGELOG
+writing `## v1.5.2`. Another agent held that repository, so this run wrote the
+diagnosis down with run ids instead of fixing it. They shipped the same fix
+ninety minutes later, and the pin moved here as a result. **Recording a finding
+you are not allowed to act on is not a consolation prize** — it is what let the
+umbrella close its last red pin the moment there was something to point at.
