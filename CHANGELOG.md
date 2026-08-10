@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.28.0 — 2026-08-10
+
+### Changed
+
+- **`super-ux` pinned to 0.32.0.** A structural audit of 0.31.0 closed
+  twenty-two findings: the system map no longer links contracts (one pointer
+  had been shipping all nine brand contracts into every UX skill), `vision`
+  reaches the map, both linters, the doctor, a template, a Cursor rule and
+  `/ux`, and three new gates check composition rather than shape — a count in
+  prose against the artifact it counts, a skill against the five places it
+  must appear, a script against the command that installs it. The description
+  and the README row also said "31-check copy linter" against a linter
+  emitting 33.
+
 ## v0.27.1 — 2026-08-06
 
 ### Fixed
