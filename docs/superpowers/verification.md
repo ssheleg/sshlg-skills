@@ -40,6 +40,25 @@ machine's plugins to the released versions — `agent-sync` moved `v1.5.2 → v1
 — and the shadow invariant prints nothing. Claude Code loads skills at session
 start, so the running session still holds the previous set until it restarts.
 
+## 2026-08-10 — v0.30.0, B-09
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| R-01 | `defaultAgents` gains `kiro-cli` and `goose` | `node bin/sshlg-skills.js agents` prints both in the default set; `test/validate.py` passes | verified |
+| R-02 | `update` reconciles instead of only refreshing | `agent-orchestrator` removed from the hub and all six symlink channels, reproducing the state a never-installed member is in. `npx skills update agent-orchestrator` then printed `✓ All global skills are up to date` and restored **nothing** — a false green, watched. `node bin/sshlg-skills.js update --no-claude` restored it to all seven channels | verified |
+| R-03 | `update` stays idempotent, and one channel per agent holds | two further runs left the hub and channel listings byte-identical (`93561d912215` / `6aac4cc74298` both times); restored content `diff -rq` identical to the pre-removal backup | verified |
+| R-04 | the prune no longer depends on whether the run touches plugins | a shadow planted by hand (`~/.claude/skills/task-pipeline` beside the `task-pipeline` plugin); `update --no-claude` printed `pruned Claude plain copies…` and the invariant check went silent | verified |
+| R-05 | docs move in the same change | the README sentence "update targets whatever is already installed, so it takes no `--agent`" greps to 0; `lib/plan.js` is in the file map and DOCMAP's single homes | verified |
+| R-06 | gate green, ratchets up not down | `npm test` → 11 checks (validate.py + 10 suites), 228 fixtures counted; was 9 suites / 209 | verified |
+| R-07 | the release | see the row below once the workflow conclusion is read | **never** |
+
+**Found by breaking it, and worth the line.** R-04 was not in the brief. Making
+`update` call `skills add` handed it the auto-detect side effect `install`
+always had, and the prune's condition — *"is this run touching plugins"* — was
+a proxy for the real one. The shadow appeared on the operator's own machine at
+20:35 during the very run that was proving R-02, and was caught by the
+invariant check rather than by a test. The fixture came afterwards.
+
 ## 2026-08-10 — family wiring audit
 
 Ran with no task in flight, against the question "does the wiring actually

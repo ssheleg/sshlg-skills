@@ -10,7 +10,9 @@
     "codex",
     "gemini-cli",
     "windsurf",
-    "zed"
+    "zed",
+    "kiro-cli",
+    "goose"
   ],
   "skills": [
     {

@@ -20,6 +20,8 @@ const path = require('path');
 const os = require('os');
 const { spawnSync } = require('child_process');
 
+const plan = require('../lib/plan.js');
+
 const ROOT = path.resolve(__dirname, '..');
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'skills.json'), 'utf8'));
 const SKILLS = manifest.skills;
@@ -83,13 +85,25 @@ function agentList(f) {
 // The skills CLI auto-detects Claude Code and writes ~/.claude/skills/<id> even when
 // we never ask for that agent. While the Claude PLUGIN channel is active those plain
 // copies shadow the plugin, so prune them — "one channel per agent", enforced.
-function pruneClaudeShadows(skillIds) {
+function pruneClaudeShadows() {
   const base = path.join(os.homedir(), '.claude', 'skills');
+  const marketDir = path.join(os.homedir(), '.claude', 'plugins', 'marketplaces');
+  const ls = (d) => { try { return fs.readdirSync(d); } catch (_) { return []; } };
+
+  // A copy is a shadow only where a plugin of the SAME MEMBER is installed —
+  // which is not the same question as "is this run touching plugins". That
+  // proxy is what let `update --no-claude` create a copy and walk away from
+  // it, beside a live plugin, serving a frozen version forever.
+  const members = SKILLS.map(s => ({
+    name: s.name,
+    marketplace: s.pluginInstall.split('@')[1],
+    skillNames: s.skillNames,
+  }));
   const pruned = [];
-  for (const id of skillIds) {
-    const d = path.join(base, id);
+  for (const id of plan.shadowsToPrune(members, ls(marketDir), ls(base))) {
     try {
-      if (fs.existsSync(d)) { fs.rmSync(d, { recursive: true, force: true }); pruned.push(id); }
+      fs.rmSync(path.join(base, id), { recursive: true, force: true });
+      pruned.push(id);
     } catch (_) { /* leave it; not fatal */ }
   }
   if (pruned.length) {
@@ -126,25 +140,30 @@ Defaults:
 
 function skillsCliAgents(f) {
   // Never let the skills CLI drop a plain Claude copy while we manage Claude via plugin.
-  let agents = agentList(f);
-  if (f.claude && !f.all) agents = agents.filter(a => a !== 'claude-code');
+  const agents = plan.resolveAgents(agentList(f), f);
   if (f.all && f.claude) log('  ! --all includes claude-code: a plain Claude copy will be added alongside the plugin (duplicate). Use the default agent set to avoid this.');
   return agents;
+}
+
+/**
+ * Run one planned skills-CLI command, labelled by what it acts on: the repo
+ * for an `add`, the skill id for an `update`.
+ */
+function runPlanned(argv) {
+  log(`\n- ${argv[2]} ${argv[3]}`);
+  return run('npx', argv);
 }
 
 function cmdInstall(f) {
   let ok = true;
   if (!f.claudeOnly) {
     const agents = skillsCliAgents(f);
-    // the skills CLI wants ONE `--agent` flag per agent (it does not split a
-    // comma/space-joined value) — flatten to repeated flags.
-    const agentFlags = agents.reduce((acc, a) => acc.concat('--agent', a), []);
     log(`\n== Installing to agents via skills CLI: ${agents.join(', ')} ==`);
-    for (const s of SKILLS) {
-      log(`\n- ${s.name} (${s.repo})`);
-      ok = run('npx', ['--yes', 'skills', 'add', s.repo, ...agentFlags, '--global', '--yes']) && ok;
-    }
-    if (f.claude) pruneClaudeShadows(SKILLS.flatMap(s => s.skillNames || [s.name]));
+    for (const argv of plan.installPlan(SKILLS, agents)) ok = runPlanned(argv) && ok;
+    // Unconditional: the skills CLI auto-detects Claude Code and drops a plain
+    // copy whether or not this run was asked to manage plugins, and the copy
+    // decides nothing about the flag it was created under.
+    pruneClaudeShadows();
   }
   if (f.claude || f.claudeOnly) {
     log(`\n== Installing Claude Code plugins ==`);
@@ -174,16 +193,19 @@ function cmdUpdate(f) {
     }
   }
   if (!f.claudeOnly) {
-    // A repo can ship several skills under different ids (super-ux ships
-    // ux-foundation/ux-flows/ux-scenarios/ux-audit — there is no "super-ux"
-    // skill), and `skills update` matches INSTALLED SKILL names, not repo names.
-    const names = SKILLS.flatMap(s => (s.skillNames && s.skillNames.length ? s.skillNames : [s.name]));
+    // `update` RECONCILES: refresh every declared skill, then add whatever is
+    // missing. `skills update <name>` is a no-op for a skill installed
+    // nowhere, so refreshing alone can never deliver a member added to the
+    // family after a channel was last fed — which is how seven of nineteen
+    // skills were found absent from the hub on 2026-08-10, after an `update`
+    // that had named all nineteen out loud.
+    const agents = skillsCliAgents(f);
+    const names = SKILLS.flatMap(s => plan.skillIds(s));
     log(`\n== Updating skills-CLI installs (global): ${names.join(', ')} ==`);
+    log(`   then reconciling against: ${agents.join(', ') || '(no agents resolved — add step skipped)'}`);
     // One invocation per skill: a single bad id must not fail the whole batch.
-    for (const n of names) {
-      ok = run('npx', ['--yes', 'skills', 'update', n, '--global', '--yes']) && ok;
-    }
-    if (f.claude) pruneClaudeShadows(names);
+    for (const argv of plan.updatePlan(SKILLS, agents)) ok = runPlanned(argv) && ok;
+    pruneClaudeShadows();
   }
   if (f.claude || f.claudeOnly) {
     log(`\n== Updating Claude Code plugins ==`);

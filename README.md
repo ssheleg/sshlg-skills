@@ -111,16 +111,24 @@ Updates every skills-CLI install and every Claude Code plugin, and materializes
 the pinned submodules in a checkout **without moving the pins**. Restart Claude
 Code afterwards.
 
-Flags: `--no-claude`, `--claude-only`, and `--bump-pins` — off by default so a
-checkout stays reproducible; pass it when you deliberately want the submodules
-fast-forwarded to their upstream tips. `update` targets whatever is already
-installed, so it takes no `--agent`.
+**`update` reconciles — it does not only refresh.** It updates every skill that
+is already there, then adds the ones that are not. That second half exists
+because `skills update <id>` is a no-op for a skill installed nowhere: it
+prints `✓ All global skills are up to date` about a skill that does not exist,
+so a member added to the family after your last `install` would never arrive,
+and nothing would say so. Reconciling uses the same agent set `install` does,
+which is why `update` takes `--agent` and `--all` too.
+
+Flags: `--no-claude`, `--claude-only`, `--agent a,b`, `--all`, and
+`--bump-pins` — off by default so a checkout stays reproducible; pass it when
+you deliberately want the submodules fast-forwarded to their upstream tips.
 
 > **Update through the launcher, not through a bare `npx skills update <id>`.**
 > Without an explicit `--agent` list the skills CLI auto-detects Claude Code and
 > re-creates `~/.claude/skills/<id>` — a plain copy that then shadows your
 > plugin. The launcher passes the agent list explicitly and prunes those copies
-> after every run.
+> after every run — including under `--no-claude`, because the copy appears
+> whether or not the run was asked to manage plugins.
 
 ## Routing — making the family engage by default
 
@@ -209,6 +217,7 @@ bin/sshlg-skills.js          the launcher (install / update / routers / config /
 lib/routers-registry.js      the eight routers — text, table row and required members, in one entry
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js
+lib/plan.js                  the argv handed to the skills CLI — one builder for install and update
 lib/apply.js                 the only module that writes to the instruction files
 lib/migrate.js               moves hand-written rules in; never reads inside the block
 lib/config.js, lib/store.js  the pack's settings, and the 0600 discipline they share

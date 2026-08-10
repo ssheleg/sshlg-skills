@@ -1,5 +1,53 @@
 # Changelog
 
+## v0.30.0 — 2026-08-10
+
+### Fixed
+
+- **`update` could not deliver a family member that had reached no channel, and
+  said it had.** `skills update <id>` is a no-op for a skill installed nowhere
+  — it prints `✓ All global skills are up to date` about a skill that does not
+  exist. `update` issued only that verb, so a member added after your last
+  `install` never arrived anywhere, while the run printed a confident line for
+  it. Seven of nineteen skills were found absent from the hub on 2026-08-10
+  after exactly such an update.
+
+  `update` now **reconciles**: refresh what is there, then add what is not,
+  using the same agent set `install` resolves. Proven by planting the state a
+  never-installed member is in — `agent-orchestrator` removed from the hub and
+  from all six symlink channels — confirming the old verb reported success and
+  restored nothing, then watching the new one return it to all seven.
+
+  The two commands built their skills-CLI argv in two independent places, which
+  is how they came to disagree about a case neither of them mentioned. They now
+  share `lib/plan.js`, and a fixture asserts their `add` commands are identical.
+
+- **A plain Claude copy created under `--no-claude` was left in place.** The
+  prune hung off *"is this run touching plugins"*, which is a proxy for the
+  real question: a copy is a shadow when a plugin of the **same member** is
+  installed. Teaching `update` to call `skills add` gave it the auto-detect
+  side effect `install` always had, and the proxy let the copy survive — a
+  `task-pipeline` copy beside the `task-pipeline` plugin, serving a frozen
+  version forever. The prune now runs whenever the skills-CLI step ran, matches
+  by **marketplace** rather than skill id (`sheleg-design` ships under
+  `sheleg-design-skill`, so a skill-id lookup finds nothing and prunes
+  nothing), and leaves alone a plain copy whose member has no plugin at all.
+
+### Changed
+
+- **`defaultAgents` gains `kiro-cli` and `goose`.** Both channels held 12 of
+  the family's 19 skills: fed once by hand, never in the default set, so every
+  later member missed them — and the channel read as served because most of it
+  was there.
+- **`update` accepts `--agent` and `--all`**, since it now resolves an agent
+  set rather than only refreshing what it finds. The README sentence saying it
+  takes no `--agent` was true before this release and is gone.
+
+### Ratchets
+
+- 10 suites, 228 fixtures (from 9 and 209), 8 pinned members. Counted by
+  running `npm test`.
+
 ## v0.29.3 — 2026-08-10
 
 ### Changed
