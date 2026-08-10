@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.29.1 — 2026-08-10
+
+### Changed
+
+- **`make-skill` pinned to 0.11.1.** A behavioural pass over 0.11.0 measured
+  coexistence instead of assuming it: the nearest neighbour is
+  `claude-mem:version-bump` at 9.6%, not `task-pipeline` at 4.7% as that repo's
+  own evaluation notes predicted. `version-bump` advertises the same
+  manifest-bump-and-release job and is enabled alongside. make-skill's
+  description now carries the "NOT for a version bump or release in a repo that
+  ships anything but a skill or plugin" clause, its trigger set gains the
+  ambiguous case on both sides of the split, and the 5% headroom rule now covers
+  the description as well as the body.
+- **`agent-sync` pinned to 1.7.1** — published to npm and released; the pin was the
+  step still outstanding.
+
 ## v0.29.0 — 2026-08-10
 
 Carries the v0.28.3 section below, which landed on `main` but was never tagged.
