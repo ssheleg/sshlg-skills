@@ -46,7 +46,7 @@
         "task-pipeline",
         "evidence-docs"
       ],
-      "version": "1.45.1",
+      "version": "1.46.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository"
     },
@@ -121,7 +121,7 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.3.1",
+      "version": "0.4.0",
       "entry": null,
       "role": "integrations: money in, tracking, sign-in, speed"
     },
@@ -135,7 +135,7 @@
       "skillNames": [
         "agent-orchestrator"
       ],
-      "version": "0.2.0",
+      "version": "0.3.0",
       "entry": null,
       "role": "agent orchestrators, and the wallet under LLM resale"
     }
