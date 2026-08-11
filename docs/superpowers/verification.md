@@ -40,6 +40,25 @@ machine's plugins to the released versions — `agent-sync` moved `v1.5.2 → v1
 — and the shadow invariant prints nothing. Claude Code loads skills at session
 start, so the running session still holds the previous set until it restarts.
 
+## 2026-08-11 — v0.32.0, the always-on budget
+
+Measured with `cl100k` via tiktoken, because the canon says budget against a
+tokenizer and `claude plugin details` over-reports by ~40%.
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| F1 | eight router texts rewritten in English and compressed | per-router counts before/after: 3408 → 1885 tokens, −44%. On the live machine the block went 4384 → 2663 and the always-on budget 8964 → 7243 | verified |
+| F1a | the contract survived the rewrite | the 60 fixtures were switched to English markers FIRST and watched failing 35/60 against the Russian texts, then green against the new ones | verified |
+| F1b | the weakened whitespace check still catches a real gap | a boundary's negative half deleted from `TASK_PIPELINE` → suite red; restored → green | verified |
+| F1c | the operator's file is undamaged | everything outside the block byte-identical to the pre-run backup; 8 router sections and the map present; three runs leave all four channels hash-identical | verified |
+| F1d | the drift mechanism earned its place | after the rewrite the report named exactly the six routers still carrying a byte-identical copy of the old packaged Russian — which is why the first write saved only 625 tokens and adoption was needed for the other 1096 | verified |
+| F1e | the release | see the row once the workflow conclusion is read | **never** |
+
+**Still open from the same measurement**, each its own repository and release:
+four skill bodies over the 5000-token cap (`ad-tracking` 9160/891 lines is the
+worst), five descriptions with no 5% headroom (`google-signin` at 1023 of
+1024), and 106 reference files over 100 lines with no `## Contents`.
+
 ## 2026-08-11 — v0.31.0, the map and two more channels
 
 | REQ | What shipped | How it was confirmed | Status |

@@ -1,5 +1,60 @@
 # Changelog
 
+## v0.32.0 — 2026-08-11
+
+**The routing block was the most expensive thing the pack shipped, and nothing
+was measuring it.** Counted with `cl100k`, not estimated: 4384 tokens, in every
+session of every project, whether or not a single router fired — more than all
+twenty skill descriptions combined (3895), and 55% of the operator's entire
+`CLAUDE.md`.
+
+The cause was the language. Russian encodes at **1.9–2.3 chars/token against
+English's 5.0**, so the same doctrine cost roughly 2.3× to carry.
+
+### Changed
+
+- **The eight router texts are rewritten in English**, and compressed while
+  being rewritten: **3408 → 1885 tokens, −44%.** On the operator's machine the
+  whole block went **4384 → 2663, −1721 tokens per session**, and the always-on
+  budget from 8964 to 7243.
+
+  Rewritten, not translated word for word: each keeps what
+  `test/router_texts_test.js` demands — the rule, the boundary in **both**
+  directions, the refusal phrase and one sentence placing it against its
+  neighbours — and each keeps the argument that makes its boundary memorable.
+
+  **The refusal phrases stay Russian** («без пайплайна», «без сценариев»,
+  «без бренда»…). They are not prose for the agent; they are what the operator
+  says out loud to opt out, and translating them would change what has to be
+  typed.
+
+- **The table and the map follow**, header and cells. The block heading stays
+  Russian: migration matches it, and moving it would orphan every block already
+  written.
+
+### How this was kept honest
+
+The fixtures assert the contract in **English markers now**, so they were
+switched first and **watched failing 35 of 60 against the Russian texts** —
+before a word was rewritten. A test edited alongside the thing it checks proves
+only that both changed.
+
+Two of them then failed on the new texts for a real reason: `NOT through` and
+`internal docs` had landed across a line break. The fix was in the check, not
+the prose — a contract assertion that reads raw hard-wrapped text makes the
+*wrapping* load-bearing, so whitespace is collapsed before every phrase match.
+That weakening was planted against: removing a boundary's negative half still
+turns the suite red.
+
+### For anyone whose block is already installed
+
+Your wording still wins, so the English text does **not** overwrite a router
+you wrote. `routers` reports the drift and `--adopt <name>` takes the new text
+one router at a time — which is exactly how this release landed on the author's
+own machine: six routers still carried a byte-identical copy of the old
+packaged Russian, the drift report named them, and adoption dropped a further
+1096 tokens.
+
 ## v0.31.0 — 2026-08-11
 
 The block taught agents **when** to route and never **what** they had. Measured

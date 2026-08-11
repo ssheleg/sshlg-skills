@@ -14,6 +14,16 @@ const registry = require('../lib/routers-registry.js');
 
 let checks = 0;
 const failures = [];
+// Doctrine texts are hard-wrapped, so a phrase the contract requires can land
+// across a line break — "NOT\nthrough", "internal\ndocs". Matching the raw
+// string makes the WRAPPING load-bearing: reflow a paragraph and a contract
+// check goes red for a reason that has nothing to do with the contract. The
+// requirement is that the text says the thing, not that it says it on one
+// line, so whitespace is collapsed before every phrase assertion.
+function flat(text) {
+  return String(text).replace(/\s+/g, ' ');
+}
+
 function it(name, fn) {
   checks += 1;
   try { fn(); } catch (e) { failures.push(`${name}: ${e.message}`); }
@@ -36,25 +46,28 @@ for (const name of EXPECTED) {
     assert.ok(/^\*\*/.test(text), 'the text does not open with a bold rule');
     if (entry.requires.length) {
       assert.ok(
-        /установлен/.test(text),
+        /is installed/.test(text),
         'a router backed by a member must say it is conditional on that member'
       );
     } else {
       assert.ok(
-        !/Если `[a-z-]+` установлен/.test(text),
+        !/If `[a-z-]+` is installed/.test(text),
         'a rule with no member must not pretend to depend on one'
       );
     }
   });
   it(`${name}: names its boundary in both directions`, () => {
-    assert.ok(/\*\*Граница/.test(text), 'no boundary heading');
-    assert.ok(/НЕ через/.test(text), 'no negative half — the boundary is one-sided');
+    assert.ok(/\*\*The boundary/.test(flat(text)), 'no boundary heading');
+    assert.ok(/NOT through/.test(flat(text)), 'no negative half — the boundary is one-sided');
   });
   it(`${name}: names a refusal phrase`, () => {
-    assert.ok(/Фраза отказа/.test(text));
+    // The MARKER is English because the block is read by an agent and English
+    // costs 5.0 chars/token against Russian's 1.9. The PHRASE stays Russian:
+    // it is what the operator actually says out loud to opt out.
+    assert.ok(/Refusal phrase/.test(text));
   });
   it(`${name}: places itself against its neighbours`, () => {
-    assert.ok(/Место среди роутеров/.test(text));
+    assert.ok(/Among the routers/.test(text));
   });
   it(`${name}: has both table cells`, () => {
     assert.ok(entry.answers && entry.answers.length > 3, 'no "answers" cell');
@@ -63,41 +76,42 @@ for (const name of EXPECTED) {
 }
 
 it('copywriting carries the D3 boundary in both directions', () => {
-  assert.ok(T.COPYWRITING.includes('отгружается пользователю продукта'));
-  for (const excluded of ['коммит', 'README', 'внутренние доки', 'ответы в чате']) {
-    assert.ok(T.COPYWRITING.includes(excluded), `missing exclusion: ${excluded}`);
+  assert.ok(flat(T.COPYWRITING).includes('ships to a user of the product'));
+  for (const excluded of ['commit', 'README', 'internal docs', 'an answer in chat']) {
+    assert.ok(flat(T.COPYWRITING).includes(excluded), `missing exclusion: ${excluded}`);
   }
 });
 
 it('copywriting names both refusal phrases', () => {
+  // The phrases stay Russian — they are what the operator says.
   assert.ok(T.COPYWRITING.includes('без бренда'));
   assert.ok(T.COPYWRITING.includes('черновиком'));
 });
 
 it('task-pipeline puts planning inside the pipeline, not beside it', () => {
   assert.ok(
-    /Планирование[^.]*часть пайплайна/.test(T.TASK_PIPELINE),
+    /[Pp]lanning[^.]*part of the pipeline/.test(flat(T.TASK_PIPELINE)),
     'the text does not claim planning as its own'
   );
   assert.ok(
-    /стадии 2–4/.test(T.TASK_PIPELINE),
+    /stages 2–4/.test(flat(T.TASK_PIPELINE)),
     'planning is claimed without naming where it happens'
   );
 });
 
 it('sheleg-design draws its seam against super-ux by fidelity, not by surface', () => {
-  assert.ok(T.SHELEG_DESIGN.includes('Вайрфрейм'));
-  assert.ok(/КАК это выглядит/.test(T.SHELEG_DESIGN));
+  assert.ok(flat(T.SHELEG_DESIGN).includes('wireframe'));
+  assert.ok(/HOW it looks/.test(flat(T.SHELEG_DESIGN)));
 });
 
 it('seo-llmo is design-time and names the audit as the check, not the method', () => {
-  assert.ok(/НА ПРОЕКТИРОВАНИИ/.test(T.SEO_LLMO));
+  assert.ok(/AT DESIGN TIME/.test(flat(T.SEO_LLMO)));
   assert.ok(T.SEO_LLMO.includes('/seo-aeo-audit'));
 });
 
 it('evidence-docs demands a receipt and a command, not a claim', () => {
   assert.ok(T.EVIDENCE_DOCS.includes('file:line'));
-  assert.ok(/код(ом)? выхода/.test(T.EVIDENCE_DOCS));
+  assert.ok(/exit code/.test(flat(T.EVIDENCE_DOCS)));
 });
 
 it('installing super-ux alone contributes its two routers plus the memberless rules', () => {

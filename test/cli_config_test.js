@@ -275,7 +275,9 @@ it('end to end: a router the operator never wrote still gets the packaged text',
   run(home, ['routers']);
   const text = fs.readFileSync(md, 'utf8');
   // sheleg-design has no hand-written counterpart, so it must be the default
-  assert.ok(text.includes('Если `sheleg-design` установлен'), 'a never-written router was left out');
+  // The packaged text is English since v0.32.0 — the operator's own wording,
+  // when they have written some, is whatever they wrote and stays theirs.
+  assert.ok(text.includes('If `sheleg-design` is installed'), 'a never-written router was left out');
 });
 
 it('end to end: a switched-off router loses its table row too', () => {
