@@ -95,6 +95,47 @@ npx skills add ssheleg/seo-aeo-audit
 claude plugin marketplace add ssheleg/seo-aeo-audit && claude plugin install seo-aeo-audit@seo-aeo-audit
 ```
 
+### Optional extras — not part of the family, and not a substitute for it
+
+The eight members above are the set. Nothing below replaces any of them; these
+are third-party skills that sit in a gap the family deliberately does not
+cover, and installing none of them costs you nothing.
+
+Reviewed 2026-08-11 against
+[alirezarezvani/claude-code-tresor](https://github.com/alirezarezvani/claude-code-tresor)
+(MIT). It ships **eight** skills — no network calls, no `eval`, no `sudo`
+anywhere in them. Two are worth having:
+
+| Skill | Why it is not already covered |
+|---|---|
+| `dependency-auditor` | multi-language vulnerability and licence scanning; the family has no equivalent |
+| `api-documenter` | API reference generation; `super-ux` documents the interface, not the API |
+
+The other six duplicate work you already have — `code-reviewer` and
+`security-auditor` against the built-in `/review` and `/security-review`,
+`test-generator` and `git-commit-helper` against `task-pipeline`'s stages 5–6,
+`readme-updater` against `evidence-docs` and stage 9. Installing them buys a
+second opinion and a permanent line in every session's context.
+
+**Install them with the skills CLI, not with that repository's `install.sh`.**
+It has no `.claude-plugin`, so it cannot be a Claude Code plugin, and its
+installer copies straight into `~/.claude/skills/` — the plain-copy channel
+this launcher spends its life pruning.
+
+```bash
+npx --yes skills add alirezarezvani/claude-code-tresor \
+  --skill dependency-auditor --skill api-documenter \
+  --agent cursor --agent opencode --agent kilo --agent kimi-code-cli \
+  --agent hermes-agent --agent openclaw --agent codex --agent gemini-cli \
+  --agent windsurf --agent zed --agent kiro-cli --agent goose \
+  --global --yes
+```
+
+They are **outside the family's release train**: `sshlg-skills update` will not
+touch them, because `update` reconciles the members in `skills.json` and these
+are not members. Update them by name —
+`npx skills update dependency-auditor api-documenter --global --yes`.
+
 ## Update
 
 ```bash
