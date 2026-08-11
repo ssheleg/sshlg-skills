@@ -25,7 +25,9 @@ so a row cannot keep a rank it earned when it was new.
 
 | B-09 | A channel fed once but absent from `defaultAgents` drifts forever, and no command repairs it. `kiro-cli` and `goose` each carried 12 of the family's 19 skills. | 2026-08-10 audit | 2 | 1 | 2 | **2.0** | **closed 2026-08-10** — both ids added to `defaultAgents`, and `update` now reconciles rather than only refreshing: `skills update <id>` is a no-op for a skill installed nowhere and reports success anyway, so refreshing alone could never deliver a new member. Proven by planting the never-installed state for `agent-orchestrator` and watching the old verb restore nothing and the new one restore all seven channels. v0.30.0. |
 
-**Open: 5.** B-01 and B-02 opened and closed inside the same run: they live in
+| B-10 | `sheleg-dev`'s `npm publish` step fails `ENEEDAUTH` on every release (run of v0.3.0, 2026-08-11). The GitHub release and tag land, so the member ships and `check_pins.py` treats it as GitHub-only and stays green — which is why nobody noticed. Either the package is meant to be on npm and the workflow's auth is wrong, or it is GitHub-only and the publish job should not run. Today the release is reported failed for a step nobody wants. | 2026-08-11 run | 1 | 1 | 1 | **2.0** | open |
+
+**Open: 6.** B-01 and B-02 opened and closed inside the same run: they live in
 a repository another agent held throughout, so this run diagnosed them and
 wrote down the evidence instead of touching the code. The other agent shipped
 both fixes while it was in flight, and `agent-sync` is pinned at 1.7.0 here as a

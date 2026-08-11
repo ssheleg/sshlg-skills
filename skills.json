@@ -121,7 +121,7 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.2.0",
+      "version": "0.3.0",
       "entry": null,
       "role": "integrations: money in, tracking, sign-in, speed"
     },
