@@ -102,7 +102,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.14.1",
+      "version": "0.15.1",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it"
     },
@@ -135,7 +135,7 @@
       "skillNames": [
         "agent-orchestrator"
       ],
-      "version": "0.1.0",
+      "version": "0.2.0",
       "entry": null,
       "role": "agent orchestrators, and the wallet under LLM resale"
     }
