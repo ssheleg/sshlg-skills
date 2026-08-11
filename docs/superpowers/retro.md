@@ -78,6 +78,7 @@ used.)*
 | 2026-08-06 | Cursor skills ported; family 6 → 8 members; v0.26.0 | `f5591b1` | yes — see below |
 | 2026-08-10 | Repo actualised: pins, docs, drift report; v0.29.0 | `709b017` | yes — see below |
 | 2026-08-10 | B-09: update reconciles; defaultAgents +2; v0.30.0 | `8af291d` | yes — see below |
+| 2026-08-11 | The map, four channels, auto-refresh; v0.31.0 | `ea63262` | no — the plan held |
 
 ---
 
@@ -343,3 +344,48 @@ invalidating the pin gate. Reading the verdict **before** tagging is what kept
 a broken release from being published twice; fixing only the member the log
 named is what made it happen twice. Instruction #5 exists so the third time is
 a sweep.
+
+---
+
+## 2026-08-11 — the run that did not diverge, and the one measurement that made it possible
+
+**No entry is owed here**: the plan held, nothing was undone, and the two
+defects the build produced were both predicted by the design and closed inside
+it. Recorded anyway, because *why* it held is reusable.
+
+The task arrived as "package it into one architecture so agents understand it".
+The tempting build was a catalogue — nineteen skills and twenty commands
+written into the operator's global instructions. What stopped it was one
+measurement taken before any design: the block named 6 of 20 commands, 8 of 19
+skills and 6 of 8 members. That number showed the gap was real, and a second
+look showed the catalogue would have been the wrong fix — the runtime already
+supplies every description, so the copy would have been a second home for one
+fact, stale by the next release and charged to context in every session of
+every project.
+
+**The generalisation worth keeping: measure the gap before choosing the fix,
+because the size of a gap and the shape of its fix are different questions.**
+Had the block named 0 of 20, a catalogue would still have been wrong. Had it
+named 20 of 20, there would have been no task. The number justified acting; it
+did not choose the action.
+
+Two things the design predicted and the build confirmed, both of the same
+shape — *a new artifact has nowhere to land on a machine that predates it*:
+
+- a block written before the map carries no MAP sentinels, so a refresh finds
+  nothing to replace. Insert after the heading instead.
+- a target added in a later release is never created by `update`, which
+  refuses to create blocks. Where consent is **on record** that refusal was
+  protecting nobody: Gemini would have been refreshed on zero machines and
+  reported as shipped.
+
+The second one is the more valuable, because it is the general form of a defect
+this repository has now seen three times: **a rule written to protect a first
+run, still applied on the hundredth.** "Never create without consent" is right;
+"consent means this file" was the unexamined half.
+
+**And standing instruction #5 paid for itself the first time it fired.** CI went
+red on the pin gate; instead of bumping the member the log named, the sweep
+measured all eight — `task-pipeline` had moved 1.39.0 → **1.44.0**, five
+releases in a day, and it was the only one behind. One push, green first try,
+where the previous release took three.

@@ -51,7 +51,8 @@ start, so the running session still holds the previous set until it restarts.
 | M5 | the operator's file is not damaged | against the pre-run backup: everything outside the block byte-identical, all 8 router sections unchanged, 19 lines added. Three consecutive runs leave all four files hash-identical | verified |
 | M6 | the upgrade path for blocks written before the map | hand-built pre-map block: map inserted after the heading, prose above and below preserved, second run byte-identical | verified |
 | M7 | gate and ratchets | `npm test` → 13 checks (validate.py + 12 suites), 247 fixtures; was 10/228 | verified |
-| M8 | the release | see the row once the workflow conclusion is read | **never** |
+| M8 | the release | `validate` green on `ea63262` and **read before** the tag; release workflow green; `npm view sshlg-skills version` → `0.31.0`; `gh release view v0.31.0` published 18:53Z | verified |
+| M9 | the pin sweep | all eight members measured in one pass rather than chasing the one CI named — only `task-pipeline` was behind (1.39.0 → 1.44.0), and CI was green first try | verified |
 
 ## 2026-08-10 — v0.30.0, B-09
 
