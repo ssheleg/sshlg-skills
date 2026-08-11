@@ -40,6 +40,19 @@ machine's plugins to the released versions — `agent-sync` moved `v1.5.2 → v1
 — and the shadow invariant prints nothing. Claude Code loads skills at session
 start, so the running session still holds the previous set until it restarts.
 
+## 2026-08-11 — v0.31.0, the map and two more channels
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| M1 | the entry-point map, generated from `skills.json` | 10 fixtures in `test/inventory_test.js`, one of which checks every declared `entry` against the commands the family actually ships — all six resolve. The rendered map picked up `sheleg-dev`'s new `stripe-billing` skill without an edit, which is the point of generating it | verified |
+| M2 | `install` and `update` refresh the block | measured before: neither called `cmdRouters`. After: a real `update` run reports all four targets | verified |
+| M3 | Gemini as a third target, and it reaches existing machines | `~/.gemini/GEMINI.md` went from empty to 200 lines carrying the map and 8 routers, via the consent-on-record path — the first run reported `no-block` and that was the defect | verified |
+| M4 | Cursor as a fourth channel in its own format | `~/.cursor/rules/sshlg-routing.mdc` created, 205 lines, front-matter carries `alwaysApply: true`; 9 fixtures including the one that refuses to overwrite a foreign file at that name | verified |
+| M5 | the operator's file is not damaged | against the pre-run backup: everything outside the block byte-identical, all 8 router sections unchanged, 19 lines added. Three consecutive runs leave all four files hash-identical | verified |
+| M6 | the upgrade path for blocks written before the map | hand-built pre-map block: map inserted after the heading, prose above and below preserved, second run byte-identical | verified |
+| M7 | gate and ratchets | `npm test` → 13 checks (validate.py + 12 suites), 247 fixtures; was 10/228 | verified |
+| M8 | the release | see the row once the workflow conclusion is read | **never** |
+
 ## 2026-08-10 — v0.30.0, B-09
 
 | REQ | What shipped | How it was confirmed | Status |

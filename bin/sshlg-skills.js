@@ -174,7 +174,30 @@ function cmdInstall(f) {
     }
     log('\n(restart Claude Code to apply the plugins)');
   }
+  ok = refreshBlock(f, 'install') && ok;
   return ok;
+}
+
+/**
+ * Bring the managed block level with what was just installed.
+ *
+ * Until this call existed, `routers` was a separate command the operator had
+ * to remember. A member could ship, `update` could run to completion, and the
+ * block would go on describing the family as it was — so "the instruction
+ * agents read is current" was false by construction, not by accident.
+ *
+ * The block's own rules are untouched: the operator's wording still wins,
+ * consent is still asked once and recorded, and drift is still only reported.
+ * What changes is that nobody has to remember a fourth command.
+ */
+function refreshBlock(f, mode) {
+  if (f.member) return true; // a lone member's installer speaks only for itself
+  log('\n== Refreshing the routing block ==');
+  return cmdRouters({
+    claude: f.claude,
+    dryRun: f.dryRun,
+    mode,
+  });
 }
 
 function cmdUpdate(f) {
@@ -215,6 +238,9 @@ function cmdUpdate(f) {
     }
     log('\n(restart Claude Code to apply)');
   }
+  // `update`, never `install`: a machine that has no block has not consented
+  // to one, and an update is not the moment to ask.
+  ok = refreshBlock(f, 'update') && ok;
   return ok;
 }
 
@@ -430,6 +456,12 @@ function cmdRouters(f) {
 
   const res = apply.apply({
     home, mode, consent: decision, routers: packaged,
+    // What the operator decided once, so a target added in a later release
+    // reaches a machine that already said yes.
+    consentRecorded: consent.readState(home).routers,
+    // With --member the caller speaks only for itself and must not render a
+    // roster of the whole family from a manifest it happens to ship.
+    members: f.member ? [] : SKILLS,
     remove, preserve, sources, dryRun: f.dryRun, log,
   });
 

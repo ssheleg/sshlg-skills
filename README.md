@@ -34,7 +34,7 @@ scripts. No services, no telemetry, no API keys.
 | Skill | Version | What it does |
 |---|---|---|
 | **[super-ux](https://github.com/ssheleg/super-ux)** | 0.34.0 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
-| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.39.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. |
+| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.44.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. |
 | **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.8.0 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
 | **[make-skill](https://github.com/ssheleg/make-skill)** | 0.11.1 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, MCP and A2A rules. |
 | **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.11.0 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
@@ -134,8 +134,32 @@ you deliberately want the submodules fast-forwarded to their upstream tips.
 
 A skill's `description` influences whether a model reaches for it. It does not
 oblige. So the pack writes a **managed routing block** into your global agent
-instructions (`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`), and the rules
-engage in every project instead of only when someone remembers to ask.
+instructions, and the rules engage in every project instead of only when
+someone remembers to ask.
+
+The block opens with the **map**: eight members, the single command that starts
+each, and one line saying what it closes. It is generated from `skills.json`,
+so a release moves it — and `install` and `update` refresh it, which is what
+makes "the instruction your agents read is current" a mechanism rather than a
+habit.
+
+**A map, not a catalogue.** Your agent already gets every skill's name and
+description from its own runtime; copying those here would put one fact in two
+homes and cost context in every session of every project. What no runtime can
+derive is the shape — where to start, and in what order the members compose.
+
+Four channels get it, and each only where that agent is actually installed:
+
+| Agent | Where |
+|---|---|
+| Claude Code | `~/.claude/CLAUDE.md` |
+| Codex | `~/.codex/AGENTS.md` |
+| Gemini CLI | `~/.gemini/GEMINI.md` |
+| Cursor | `~/.cursor/rules/sshlg-routing.mdc` — one file per rule, `alwaysApply: true` |
+
+Cursor's file is ours end to end rather than a block inside yours, so it
+carries the same sentinel and a file at that name **without** it is left alone:
+someone else's rule is not ours to overwrite.
 
 ```bash
 npx sshlg-skills routers              # write it (asks once)
@@ -218,6 +242,8 @@ lib/routers-registry.js      the eight routers — text, table row and required 
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js
 lib/plan.js                  the argv handed to the skills CLI — one builder for install and update
+lib/inventory.js             the family's map — entry points, not a catalogue
+lib/cursor.js                Cursor's channel, which is one file per rule rather than a block
 lib/apply.js                 the only module that writes to the instruction files
 lib/migrate.js               moves hand-written rules in; never reads inside the block
 lib/config.js, lib/store.js  the pack's settings, and the 0600 discipline they share

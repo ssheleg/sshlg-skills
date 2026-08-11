@@ -1,5 +1,65 @@
 # Changelog
 
+## v0.31.0 — 2026-08-11
+
+The block taught agents **when** to route and never **what** they had. Measured
+before this release: it named 6 of 20 commands, 8 of 19 skills and 6 of 8
+members, and `sheleg-dev` and `agent-stack` — six skills between them — did not
+appear in it at all.
+
+### Added
+
+- **The map.** The block now opens with eight members, the single command that
+  starts each, and one line saying what it closes, generated from `skills.json`
+  and refreshed on every write. `entry` and `role` are **declared** in the
+  registry rather than derived: super-ux's entry point is `/ux` and its member
+  name is `super-ux`, so no rule over the name finds it — and a map that sends
+  an agent to a command which does not exist would do it authoritatively. A
+  fixture checks every declared entry against the commands the family ships.
+
+  **A map and not a catalogue, deliberately.** The runtime already puts every
+  skill's name and description in front of the agent. Copying them into the
+  operator's global instructions would put one fact in two homes — the thing
+  `docs/DOCMAP.md` exists to forbid — and the copy that goes stale would be the
+  one costing context in every session of every project. What no runtime
+  derives is the shape.
+
+- **Two more channels, four in total.** `~/.gemini/GEMINI.md` is the same
+  markdown model and cost one line. Cursor is not: `~/.cursor/rules/*.mdc` is
+  one file per rule with YAML front-matter and `alwaysApply: true`, so it gets
+  its own emitter — and, because that file is ours end to end rather than a
+  fenced region inside someone else's, a file at that name **without** our
+  sentinel is left alone. Owning a file means an overwrite leaves no surviving
+  text to notice the loss by.
+
+  Both are skipped where the agent's directory does not exist, so listing a
+  target costs nothing on a machine that has not got it.
+
+### Fixed
+
+- **`install` and `update` now refresh the block.** Neither called it before,
+  so a member could ship, `update` could run to completion, and the block would
+  go on describing the family as it was. "The instruction agents read is
+  current" was false by construction rather than by accident.
+
+- **A target added in a later release never reached an existing machine.**
+  `update` refuses to create a block, on the sound principle that a machine
+  without one has not agreed to one — but that also meant Gemini would have
+  been refreshed on nobody and reported as delivered. Where consent is already
+  **on record**, `update` now writes the block into a target that has none:
+  consent was given to the pack maintaining a routing block, not to one file.
+
+- **A block written before the map existed had nowhere to put it.** The
+  refresh finds sentinels to replace, and older blocks carry none — so the map
+  is *inserted* after the block heading instead, which is where an agent reads
+  it first. Verified against a hand-built pre-map block: map inserted, prose
+  above and below preserved byte for byte, second run identical.
+
+### Ratchets
+
+- 12 suites, 247 fixtures (from 10 and 228), 8 pinned members. Counted by
+  running `npm test`.
+
 ## v0.30.0 — 2026-08-10
 
 ### Fixed
