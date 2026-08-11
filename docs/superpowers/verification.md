@@ -52,7 +52,7 @@ tokenizer and `claude plugin details` over-reports by ~40%.
 | F1b | the weakened whitespace check still catches a real gap | a boundary's negative half deleted from `TASK_PIPELINE` → suite red; restored → green | verified |
 | F1c | the operator's file is undamaged | everything outside the block byte-identical to the pre-run backup; 8 router sections and the map present; three runs leave all four channels hash-identical | verified |
 | F1d | the drift mechanism earned its place | after the rewrite the report named exactly the six routers still carrying a byte-identical copy of the old packaged Russian — which is why the first write saved only 625 tokens and adoption was needed for the other 1096 | verified |
-| F1e | the release | see the row once the workflow conclusion is read | **never** |
+| F1e | the release | `validate` green and read before the tag; release workflow green; `npm view sshlg-skills version` → `0.32.0` | verified |
 
 **Still open from the same measurement**, each its own repository and release:
 four skill bodies over the 5000-token cap (`ad-tracking` 9160/891 lines is the
