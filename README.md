@@ -218,6 +218,52 @@ wording of yours that migration had moved in. Settings live in
 `~/.sshlg-skills/config.json` (mode 0600) and store deviations only, so a
 router added in a later release arrives switched on rather than silently off.
 
+### Making it engage by itself — hooks
+
+The routing block loads in every session and is still routed around, because
+prose in a long file loses to whatever spoke last. Three hooks are what speak
+first:
+
+```bash
+npx sshlg-skills hooks                    # what would be wired, and what holds it now
+npx sshlg-skills hooks install            # wire it (refuses to take someone else's status line)
+npx sshlg-skills hooks install --force    # take it anyway, parking what it displaced
+npx sshlg-skills hooks remove             # unwire, and give the displaced one back
+```
+
+| Hook | What it does | What it costs |
+|---|---|---|
+| `SessionStart` | one note saying the block is not advisory | ~90 tokens per session |
+| `UserPromptSubmit` | names the route this prompt asks for | nothing on the turns that don't need it |
+| `statusLine` | where the pipeline is, always visible | nothing — it prints, it doesn't inject |
+
+The status line reads `.task-pipeline/run.md`, the ledger a pipeline run already
+keeps:
+
+```
+▶ 5 Build auto · gates 4/5 · iter 2 · holds 1 · touch 1
+```
+
+Every number is borrowed rather than computed — the iteration count is the
+number of `iter:` lines, the gates come from `stage:` verdicts — and an
+**unreported** `holds:` prints `holds —`, not `holds 0`, because a silent stage
+must not look like a clean one. In a directory with no run it prints nothing.
+
+**The prompt hook is deliberately quiet.** A question beats any trigger, saying a
+router's refusal phrase silences it, and a prompt with no signal costs nothing.
+Every word it fires on must already appear in the target skill's own
+`description`; a fixture reads the shipped descriptions and fails on any trigger
+the skill does not itself advertise, so this cannot become a second routing
+policy that drifts from the skills it routes to.
+
+**It will not quietly take a `statusLine` it did not set.** One held by another
+tool is reported and nothing is written. `--force` takes it and parks the
+displaced value in `~/.sshlg-skills/config.json`, so `hooks remove` restores it
+and the settings file round-trips byte for byte. Every write goes through the
+same backup path the routing block uses.
+
+Restart Claude Code after installing — hooks are read at session start.
+
 ## Other commands
 
 ```bash

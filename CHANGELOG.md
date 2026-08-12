@@ -1,5 +1,67 @@
 # Changelog
 
+## v0.41.0 — 2026-08-12
+
+### Added
+
+- **The family now engages by itself, through three hooks it owns**
+  (`npx sshlg-skills hooks install`). The routing block loads in every session
+  and was still routed around, because prose in a long file loses to whatever
+  spoke last. These are what speak first.
+
+  - **`SessionStart`** — one ~90-token note saying the block is not advisory.
+    Deliberately a **pointer**: the block already carries every router's text and
+    is its single home, so this supplies only the salience of arriving last. This
+    is the mechanism measured at **854 tokens** in another pack and switched off
+    in v0.36.0, which is why a fixture caps this note's length. The difference
+    between the two is not the mechanism, it is that one enforces the operator's
+    own routing and the other competed with it.
+  - **`UserPromptSubmit`** — names the route a prompt asks for, and **prints
+    nothing on the turns that are most of them**. Conservative for the doctrine's
+    own reason: every router's boundary warns that over-routing teaches an agent
+    to route around it. A question beats any positive signal, a refusal phrase
+    silences it completely, and no signal emits nothing — three separate reasons,
+    each fixtured separately.
+  - **`statusLine`** — where the pipeline is, read from `.task-pipeline/run.md`,
+    the ledger the run already keeps and which already survives a compaction.
+
+    ```
+    ▶ 5 Build auto · gates 4/5 · iter 2 · holds 1 · touch 1
+    ```
+
+    Nothing here is computed: the iteration count is the number of `iter:` lines,
+    the gate count comes from `stage:` verdicts, and an **unreported** `holds:`
+    renders `holds —` rather than `holds 0` — a silent stage must not look like a
+    clean one. That rule and the ledger's grammar are `task-pipeline`'s
+    (`references/progress.md`), not this repo's; a status line that invented its
+    own numbers would be the fourth copy of the truth.
+
+- **`lib/triggers.js` cannot grow a routing policy of its own.** Every trigger it
+  fires on must already appear in the target skill's shipped `description`, and
+  `test/triggers_test.js` reads those descriptions and fails on any that does not.
+  The first version of this table was authored rather than derived and the fixture
+  rejected **eight** invented words on the first run. Whole phrases, never bare
+  ones, for a second reason found the same way: a bare `дизайн` sits inside the
+  refusal «без дизайна», so saying the phrase that declines a route would have
+  tripped it.
+
+### Changed
+
+- **`hooks install` refuses to take a status line it did not set.** A `statusLine`
+  held by something else is reported as a conflict and nothing is written;
+  `--force` takes it *and parks the displaced value* under `displaced:statusLine`,
+  so `hooks remove` gives it back and the settings file round-trips byte for byte.
+  The same shape `--adopt` already follows for router wording — a value replaced
+  with consent and then not returned is the same defect under a different key.
+
+  Both write paths go through `protect()` in `lib/apply.js`. `settings.json` has no
+  version control behind it either, and this pack does not get a second write path
+  to a file the operator owns.
+
+### Ratchets
+
+13 suites/269 fixtures → **16/303**.
+
 ## v0.40.0 — 2026-08-12
 
 ### Changed

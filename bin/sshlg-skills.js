@@ -111,6 +111,15 @@ function pruneClaudeShadows() {
   }
 }
 
+/**
+ * The stash key holding whatever status line `hooks install --force` displaced.
+ *
+ * Deliberately its own key, not the router stash: `hooks remove` must be able to
+ * give a tool back its status line without touching wording adoption parked under
+ * `adopted:<name>`.
+ */
+const DISPLACED_STATUSLINE = 'displaced:statusLine';
+
 function usage() {
   log(`sshlg-skills — install/update the ssheleg skill family everywhere
 
@@ -124,6 +133,9 @@ Usage:
   npx sshlg-skills routers --update --adopt <name>    # take the packaged wording for it
   npx sshlg-skills config  [list]
   npx sshlg-skills config  set routers.<name> on|off
+  npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
+  npx sshlg-skills hooks   install [--force] [--dry-run]
+  npx sshlg-skills hooks   remove
   npx sshlg-skills list
   npx sshlg-skills agents
 
@@ -600,6 +612,123 @@ function readLineSync() {
   }
 }
 
+/**
+ * `hooks` — wire the family's three entries into the operator's settings.json.
+ *
+ * The whole edit is computed by `lib/hooks.js`, which is pure and fixtured; this
+ * function does the two things that need a filesystem: take the backup, and
+ * write. It goes through `protect()` for the same reason the routing block does
+ * — `settings.json` is the operator's file, has no version control behind it,
+ * and this pack does not get a second write path to one of those.
+ */
+function cmdHooks(argv) {
+  const fs = require('fs');
+  const pathMod = require('path');
+  const hooksLib = require('../lib/hooks.js');
+  const apply = require('../lib/apply.js');
+  const configLib = require('../lib/config.js');
+
+  const sub = (argv[0] && !argv[0].startsWith('-')) ? argv[0] : 'status';
+  const force = argv.includes('--force');
+  const dryRun = argv.includes('--dry-run');
+  const home = os.homedir();
+  const root = pathMod.resolve(__dirname, '..');
+  const file = pathMod.join(home, '.claude', 'settings.json');
+
+  let current = {};
+  if (fs.existsSync(file)) {
+    try {
+      current = JSON.parse(fs.readFileSync(file, 'utf8'));
+    } catch (e) {
+      // Refusing beats guessing. A settings.json that does not parse is either
+      // mid-edit or damaged, and rewriting it from a partial read is how the
+      // rest of it disappears.
+      log(`hooks: ${file} не парсится (${e.message}) — ничего не записано.`);
+      return false;
+    }
+  }
+
+  if (sub === 'status') {
+    const { changed, conflicts } = hooksLib.plan(current, root, {});
+    log('hooks: что ставит семья\n  ' + hooksLib.describe(root).join('\n  '));
+    log(changed.length
+      ? `\nhooks: НЕ установлено или устарело — ${changed.join(', ')}\n  ` +
+        `поставить: npx sshlg-skills hooks install`
+      : '\nhooks: всё на месте и совпадает');
+    for (const c of conflicts) log(`hooks: ${c.key} держит ${c.held_by} — ${c.note}`);
+    return true;
+  }
+
+  if (sub === 'remove') {
+    const { settings, changed } = hooksLib.removal(current, root);
+    // Give back what --force displaced. `--adopt` already solves this shape for
+    // router wording by parking the replaced text; a status line taken with the
+    // operator's consent and then silently not returned would be the same defect
+    // with a different key. Without this, `remove` is not an undo.
+    const parked = configLib.stashGet(configLib.readConfig(home), DISPLACED_STATUSLINE);
+    if (parked) {
+      try {
+        settings.statusLine = JSON.parse(parked);
+        changed.push('statusLine (returned to its previous owner)');
+      } catch (e) {
+        log(`hooks: припаркованный statusLine не парсится (${e.message}) — оставляю без него`);
+      }
+    }
+    if (!changed.length) { log('hooks: ничего нашего не установлено'); return true; }
+    if (dryRun) { log(`hooks: --dry-run — снял бы ${changed.join(', ')}`); return true; }
+    const saved = apply.protect(file, { home });
+    if (saved.action === 'backup-failed') {
+      log(`hooks: НЕ записан ${file} — не удалось сделать копию (${saved.error}). Файл не изменён.`);
+      return false;
+    }
+    fs.writeFileSync(file, JSON.stringify(settings, null, 2) + '\n', 'utf8');
+    if (parked) configLib.stashClear(home, DISPLACED_STATUSLINE);
+    log(`hooks: снято — ${changed.join(', ')}`);
+    log(`hooks: копия до записи — ${saved.path}`);
+    return true;
+  }
+
+  if (sub !== 'install') { log(`hooks: неизвестное подкоманда '${sub}'`); return false; }
+
+  const { settings, changed, conflicts } = hooksLib.plan(current, root, { force });
+  const blocking = conflicts.filter(() => !force);
+  if (blocking.length) {
+    for (const c of blocking) {
+      log(`hooks: ${c.key} уже держит ${c.held_by}\n  ${c.note}`);
+    }
+    log('hooks: ничего не записано. Заменить осознанно: npx sshlg-skills hooks install --force');
+    return false;
+  }
+  if (!changed.length) { log('hooks: всё уже на месте — ничего не записано'); return true; }
+  if (dryRun) { log(`hooks: --dry-run — записал бы ${changed.join(', ')}`); return true; }
+
+  const saved = apply.protect(file, { home });
+  if (saved.action === 'backup-failed') {
+    log(`hooks: НЕ записан ${file} — не удалось сделать копию (${saved.error}). Файл не изменён.`);
+    return false;
+  }
+  // Park what force displaced BEFORE writing over it, and only if nothing is
+  // parked already: a second forced install must not overwrite the original
+  // owner's entry with our own, which is the write-once rule `adopted:<name>`
+  // follows for the same reason.
+  for (const c of conflicts) {
+    if (c.key !== 'statusLine') continue;
+    if (configLib.stashGet(configLib.readConfig(home), DISPLACED_STATUSLINE)) continue;
+    configLib.stashSet(home, DISPLACED_STATUSLINE, JSON.stringify(current.statusLine));
+  }
+
+  fs.writeFileSync(file, JSON.stringify(settings, null, 2) + '\n', 'utf8');
+  log(`hooks: записано — ${changed.join(', ')}`);
+  for (const c of conflicts) {
+    log(`hooks: вытеснено — ${c.key} держал ${c.held_by}`);
+    log(`hooks: прежний ${c.key} сохранён в ${configLib.configPath(home)} — ` +
+        `\`hooks remove\` вернёт его на место`);
+  }
+  log(`hooks: копия до записи — ${saved.path}`);
+  log('hooks: перезапусти Claude Code — хуки читаются на старте сессии');
+  return true;
+}
+
 function main(argv) {
   const [cmd, ...rest] = argv.slice(2);
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { usage(); return 0; }
@@ -608,6 +737,8 @@ function main(argv) {
   // Before parseFlags: `config` takes positional arguments, and that parser
   // exits on any token it does not recognise as a flag.
   if (cmd === 'config') return cmdConfig(rest);
+  // Also before parseFlags: `hooks` takes a positional subcommand.
+  if (cmd === 'hooks') return cmdHooks(rest) ? 0 : 1;
   const f = parseFlags(rest);
   if (cmd === 'install' || cmd === 'i') return cmdInstall(f) ? 0 : 1;
   if (cmd === 'update' || cmd === 'up') return cmdUpdate(f) ? 0 : 1;
