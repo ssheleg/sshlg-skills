@@ -31,7 +31,7 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 35-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.34.2",
+      "version": "0.35.3",
       "entry": "/ux",
       "role": "what the interface must do and how it sounds"
     },
@@ -46,7 +46,7 @@
         "task-pipeline",
         "evidence-docs"
       ],
-      "version": "1.46.0",
+      "version": "1.47.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository"
     },
@@ -60,7 +60,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.8.1",
+      "version": "1.8.2",
       "entry": "/agent-sync",
       "role": "who is holding this file right now"
     },
@@ -88,7 +88,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.12.1",
+      "version": "1.14.1",
       "entry": "/sheleg-design",
       "role": "how it looks and moves"
     },
@@ -102,7 +102,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.15.1",
+      "version": "0.15.2",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it"
     },
@@ -133,9 +133,10 @@
       "pluginInstall": "agent-stack@agent-stack",
       "desc": "Production patterns for AI agent orchestrators: tool-calling loops that survive context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, four memory layers with confidence decay — plus the wallet side of reselling LLM access.",
       "skillNames": [
-        "agent-orchestrator"
+        "agent-orchestrator",
+        "agent-evals"
       ],
-      "version": "0.3.0",
+      "version": "0.6.0",
       "entry": null,
       "role": "agent orchestrators, and the wallet under LLM resale"
     }

@@ -29,7 +29,9 @@ so a row cannot keep a rank it earned when it was new.
 
 | B-11 | Four members' release workflows disagree on the CHANGELOG heading they extract, and a mismatch fails the job *after* the tag is public — the tag then looks delivered while nothing shipped. `super-ux` wants `## <version>` and silently failed on `## [0.34.1]` (2026-08-11); `agent-sync` lost three releases to the same class before someone noticed; only `sheleg-dev` accepts every shape this family has used. One accepting pattern, copied to all eight, removes the whole class. | 2026-08-11 run | 2 | 1 | 1 | **4.0** | open |
 
-**Open: 7.** B-01 and B-02 opened and closed inside the same run: they live in
+| B-12 | A member that gains a skill does not announce it, and the umbrella finds out by audit. `agent-stack` shipped `agent-evals` in v0.6.0; `skills.json` still declared one skill, so `install` and `update` would both have skipped it forever — the same class v0.30.0 fixed for members, one level down at skills. `test/validate.py` compares declared against shipped and PASSED, because it only fails on a declared skill that is missing, never on a shipped one that is undeclared. Make that check symmetric. | 2026-08-12 audit | 2 | 1 | 1 | **4.0** | open |
+
+**Open: 8.** B-01 and B-02 opened and closed inside the same run: they live in
 a repository another agent held throughout, so this run diagnosed them and
 wrote down the evidence instead of touching the code. The other agent shipped
 both fixes while it was in flight, and `agent-sync` is pinned at 1.7.0 here as a
