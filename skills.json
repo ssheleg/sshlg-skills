@@ -74,7 +74,7 @@
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.12.0",
+      "version": "0.13.1",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built"
     },
