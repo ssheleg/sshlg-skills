@@ -1,5 +1,53 @@
 # Changelog
 
+## v0.37.0 — 2026-08-12
+
+### Changed
+
+- **`check_pins.py` stopped failing this repository for other people's
+  releases** (closing B-13). It asked one question — *is every pin the latest
+  release?* — and that is a fact about the world, not about the commit under
+  test. Five runs went red in one day because `task-pipeline`, then `super-ux`,
+  then others shipped while this repository's own release was in flight, and
+  every fix was a pin bump unrelated to the change being tested. A gate that
+  fails for someone else's release teaches people to re-run it rather than read
+  it.
+
+  It now answers two questions and CI treats them differently:
+
+  - **exit 1 — a pin names a version that was never published.** The commit is
+    wrong on its own terms: a checkout installs something that does not exist,
+    and no later release repairs that commit. Blocks, with a `::error::`.
+  - **exit 2 — every pin is real, one is not the newest.** The world moved.
+    A `::warning::` plus a run-summary listing the behind pins, and the job
+    passes.
+
+  Evidence, because three exit codes nobody watched fire are three guesses:
+  `99.99.99` planted into `skills.json` produced `MISSING` and exit **1**; a
+  genuine older release, `0.36.1`, produced `BEHIND` and exit **2**; restoring
+  the file produced exit **0**. Each plant asserted that it changed the file
+  first — a plant that no-ops is indistinguishable from a pass. The CI step's
+  branching was then run for all three codes against a stub, confirming
+  1 → fail, 2 → pass with the summary written, 0 → silent.
+
+### Added
+
+- **`check_pins.py --self-test`**, in CI's blocking path because it is pure and
+  needs no network. Five cases over `classify`, including the two that keep it
+  honest: a pin absent from every published version is `missing` even when
+  nothing was published at all, and a pin that exists while the newest is
+  unknown is `ok` rather than `missing` — otherwise a slow registry would fail
+  valid commits. It also asserts the verdicts differ from one another, because
+  this repository has shipped a measurement that returned the same answer for
+  every input (standing instruction #4).
+
+- **Standing instruction #6: a plant anchored on prose stops planting when the
+  prose is reworded, then reports the guard it can no longer disarm as broken.**
+  Three times in one session — `make-skill`'s myth list, `agent-sync`'s awk
+  pattern, and `agent-stack`'s description, which turned **every push red for a
+  validator that was fine**. Anchor plants on the file's shape and make them
+  assert they changed something.
+
 ## v0.36.0 — 2026-08-12
 
 ### Added

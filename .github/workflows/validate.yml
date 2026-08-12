@@ -19,11 +19,45 @@ jobs:
         # if this step stops calling it.
         run: npm test
 
-      - name: Pins match the npm registry
+      - name: Pin classifier (offline, deterministic)
+        # The pure half of check_pins: which of ok/behind/missing a pin is, given
+        # what the world publishes. No network, so it belongs in the blocking path
+        # and cannot go red because a registry was slow.
+        run: python3 test/check_pins.py --self-test
+
+      - name: Pins match published releases
         # validate.py proves the pin, the submodule and the README agree with
         # each other. They can all agree and all be wrong: nothing local knows
         # what was actually published. This is the half that does.
-        run: python3 test/check_pins.py
+        #
+        # It blocks on exit 1 and only warns on exit 2, and the difference is the
+        # whole point (B-13). A pin naming a version nobody published makes THIS
+        # commit wrong, and no later release repairs it. A pin that is merely not
+        # the newest says another agent released while this was in flight — five
+        # runs went red for that in one day, and every fix was a bump unrelated
+        # to the change under test. A gate that fails for someone else's release
+        # teaches people to re-run it, not to read it.
+        run: |
+          set +e
+          python3 test/check_pins.py | tee /tmp/pins.txt
+          code=${PIPESTATUS[0]}
+          set -e
+          if [ "$code" = "1" ]; then
+            echo "::error::a pinned version was never published — a checkout of this commit installs something that does not exist"
+            exit 1
+          fi
+          if [ "$code" = "2" ]; then
+            echo "::warning::pins are behind their newest release but all exist; a member shipped while this was in flight"
+            {
+              echo "### Pins behind their newest release"
+              echo
+              grep '^BEHIND' /tmp/pins.txt | sed 's/^/- /'
+              echo
+              echo "Every pin above names a real, published version, so this commit installs what it advertises."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          exit "$code"
 
       - name: Negative self-test (an SSH submodule url must fail)
         run: |

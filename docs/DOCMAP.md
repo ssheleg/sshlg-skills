@@ -61,13 +61,20 @@ same command CI runs, and `validate.py` fails if CI stops calling it — so the
 local entry point and the remote one cannot drift.
 
 ```bash
-python3 test/check_pins.py
+python3 test/check_pins.py --self-test   # pure, offline, in CI's blocking path
+python3 test/check_pins.py               # 0 fresh · 1 pin never published · 2 behind
 pip install tiktoken && python3 test/audit_bundle.py
 ```
 
-Both deliberately outside `npm test`, which must work offline and with no
-dependencies: the first queries the npm registry, the second needs a
-tokenizer. `audit_bundle.py` **refuses to run without one** rather than falling
+The network half and the tokenizer half stay outside `npm test`, which must run
+offline with no dependencies. **`check_pins` answers two questions and CI treats
+them differently**: exit 1 means a pin names a version nobody published, which
+makes the commit wrong on its own terms and blocks; exit 2 means every pin is
+real but one is not the newest, which means a member released while this was in
+flight — a warning and a run-summary note, never a failure. Conflating them made
+five runs red in one day for other agents' releases. `classify` is pure and its
+five cases run with no network, including an assertion that the verdicts differ
+from one another. `audit_bundle.py` **refuses to run without one** rather than falling
 back to a chars-per-token ratio — the two disagree by ~40%, and a number from
 the wrong instrument gets quoted as if it were a measurement.
 

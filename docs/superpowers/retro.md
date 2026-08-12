@@ -56,6 +56,21 @@ and log the deletion as one line under *Retired*.
    time. *(Retire when the release workflow bumps pins itself, or after five
    run stamps without firing.)*
 
+6. **(2026-08-12) A negative self-test anchored on prose stops planting the
+   moment the prose is reworded, and then reports the guard it can no longer
+   disarm as broken.** Three times in one session: `make-skill`'s plant rewrote
+   the literal *the fourteen asked for most often* and no-oped against `ten`;
+   `agent-sync`'s searched the old awk pattern and no-oped once B-11 widened it;
+   `agent-stack`'s replaced `"token wallet".` and no-oped once the description
+   was compressed — that one turned **every push red for a validator that was
+   fine**. Anchor a plant on the file's SHAPE (a front-matter key, a JSON field,
+   a structural marker), and make it `assert` that it changed something, so a
+   layout change fails there saying so instead of quietly testing nothing.
+   Corollary for any plant: verify the file actually changed before believing
+   the result — a green suite after a no-op plant is the same output as a green
+   suite after a real one. *(Retire after five run stamps without firing, or
+   once every plant in the family is structural.)*
+
 ## Retired
 
 *(nothing yet — the prune at 2026-08-10 (second run) checked all five against
