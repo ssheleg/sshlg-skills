@@ -26,10 +26,16 @@
   routes through `task-pipeline`, and brainstorm, spec and plan are its stages
   2–4, not a cycle beside it.
 
-  127 tokens, in the map section rather than as a ninth router — it arbitrates
-  between packs rather than deciding when to route. A lone member's installer
-  renders no map and therefore does not arbitrate on the family's behalf; a
-  fixture asserts the rule does not leak into an empty roster.
+  **+116 tokens as actually paid**: the installed block measured 2672 before and
+  2788 after. The rule tokenizes to 127 standalone — quoting that number would
+  have been a measurement of the wrong thing, since tokens merge across the
+  boundary where the text is spliced in. Against the 854 removed by disabling
+  the plugin, the machine pays 727 fewer tokens per session.
+
+  It sits in the map section rather than becoming a ninth router, because it
+  arbitrates between packs rather than deciding when to route. A lone member's
+  installer renders no map and therefore does not arbitrate on the family's
+  behalf; a fixture asserts the rule cannot leak into an empty roster.
 
 ## v0.35.0 — 2026-08-12
 
