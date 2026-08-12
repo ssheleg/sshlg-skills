@@ -47,7 +47,7 @@
         "task-pipeline",
         "evidence-docs"
       ],
-      "version": "1.49.1",
+      "version": "1.49.2",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill"
@@ -92,7 +92,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.18.0",
+      "version": "1.19.0",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill"

@@ -1,5 +1,46 @@
 # Changelog
 
+## v0.40.0 — 2026-08-12
+
+### Changed
+
+- **Pins: `task-pipeline` 1.49.2, `sheleg-design` 1.19.0.**
+
+  `task-pipeline` 1.49.2 fixes a defect the token audit had been pointing at
+  without anyone reading the file: four rows of its doctrine index sat between a
+  bullet list and the next heading with no delimiter row above them, so GFM never
+  opened a table and an agent read four lines of literal pipes. Those rows had
+  taken the third item of *"Three things the grill does"* with them — the list
+  promised three and delivered two. The item was restored from
+  `references/grill.md` rather than the count reduced to two, because the
+  reference proves what was lost.
+
+  `sheleg-design` 1.19.0 is another agent's fourteenth style pack, adopted
+  unchanged. Verified that it keeps the router delegation added in 1.18.0 before
+  the pin moved — a member released mid-flight is the ordinary case, not a reason
+  to skip checking that the previous change survived it.
+
+### Note — the pin gate did its new job on its first real encounter
+
+`sheleg-design` shipped 1.19.0 while this release was in flight. Before v0.37.0
+that turned this repository's CI red for someone else's release, five times in one
+day. It now returned **exit 2** — every pin real, one not the newest — which is a
+warning and a run-summary note rather than a failure. The sweep then re-measured
+all eight members in one pass rather than fixing the one the log named, per
+standing instruction #5.
+
+### Note — task-pipeline's body, measured rather than estimated
+
+It is **5969 against the 5000 cap**, up 108 from restoring the lost bullet.
+Correctness over a soft cap it already exceeded. The gap is now bounded by
+measurement so it stops being re-litigated: the whole doctrine index is 555 tokens
+(320 descriptive, 235 reference names), so compressing every description to nothing
+closes at most **26% of the 1219-token gap**. The remainder lives in the Stages
+table's `Gate` column — `grep -c '^\*\*Gate' references/stages.md` returns **0**,
+so the body is its only home — and in the five-step operating procedure. Closing it
+means moving content into references: a restructuring of that skill, not a trim.
+Three prose trims across this programme produced 35 tokens between them.
+
 ## v0.39.0 — 2026-08-12
 
 ### Changed
