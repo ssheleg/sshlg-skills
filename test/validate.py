@@ -199,6 +199,33 @@ for s in skills:
             fail(f"skills.json: {name!r} pinned at {declared} but the submodule contains {actual} "
                  f"(checkout the right tag in {s.get('dir')!r})")
 
+    # The npm name is DECLARED, never derived, and must match what the member
+    # actually publishes as.
+    #
+    # `check_pins.py` tries this field, then the member name, then the repo
+    # basename -- and a name that resolves but is not ours is rejected on its
+    # `repository` field. With the field unset, that guessing found only two of
+    # eight members: six publish as `@ssheleg/<name>` and `task-pipeline`
+    # publishes as `task-pipeline-skill`, while the bare `task-pipeline` on npm
+    # belongs to someone else entirely. So the npm half of the pin check -- the
+    # half that exists to notice a catalogue lagging what was published -- was
+    # inert for six members and reported them as "not on npm". Git tags happened
+    # to agree, so nothing ever went red.
+    #
+    # Deriving `@ssheleg/<name>` instead would pass today and break on the two
+    # members that already publish under a third shape. Declared and cross-checked
+    # is the only version of this that cannot rot.
+    npm_declared = s.get("npm")
+    if os.path.isfile(sub_pkg):
+        with open(sub_pkg, encoding="utf-8") as fh:
+            npm_actual = json.load(fh).get("name")
+        if npm_actual and not npm_declared:
+            fail(f"skills.json: {name!r} has no 'npm' but the submodule publishes as "
+                 f"{npm_actual!r} -- check_pins would guess, miss, and report it unpublished")
+        elif npm_declared and npm_declared != npm_actual:
+            fail(f"skills.json: {name!r} declares npm {npm_declared!r} but the submodule's "
+                 f"package.json says {npm_actual!r} -- the pin check would query the wrong package")
+
 # every submodule path in .gitmodules should be described in skills.json
 described = {s.get("dir") for s in skills}
 for p in gm_paths:

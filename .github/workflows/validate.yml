@@ -59,6 +59,42 @@ jobs:
           fi
           exit "$code"
 
+      - name: Negative self-test (a wrong or missing npm name must fail)
+        run: |
+          set -eu
+          # Two plants, because the guard has two halves and a run that only
+          # exercises one of them proves half a guard.
+          #
+          # Structural by construction: it edits a JSON field rather than
+          # searching for prose, and asserts it changed something first. A plant
+          # whose replace no-ops is indistinguishable from a pass, and this repo
+          # has watched that turn a working validator red (standing instruction #6).
+          for mode in drop wrong; do
+            rm -rf /tmp/npm-copy && cp -R . /tmp/npm-copy
+            python3 - "$mode" <<'PY'
+          import json, sys
+          p = "/tmp/npm-copy/skills.json"
+          d = json.load(open(p, encoding="utf-8"))
+          e = next(x for x in d["skills"] if x.get("npm"))
+          before = e["npm"]
+          if sys.argv[1] == "drop":
+              del e["npm"]
+          else:
+              e["npm"] = "@someone-else/" + e["name"]
+          json.dump(d, open(p, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+          after = next(x for x in json.load(open(p, encoding="utf-8"))["skills"]
+                       if x["name"] == e["name"]).get("npm")
+          assert after != before, f"plant did not land: npm is still {before!r}"
+          print(f"planted {sys.argv[1]}: {e['name']} npm {before!r} -> {after!r}")
+          PY
+            if python3 /tmp/npm-copy/test/validate.py; then
+              echo "ERROR: validator accepted a $mode npm name — check_pins would query the wrong package and report the member unpublished"
+              exit 1
+            else
+              echo "OK: validator rejects a $mode npm name"
+            fi
+          done
+
       - name: Negative self-test (an SSH submodule url must fail)
         run: |
           set -eu

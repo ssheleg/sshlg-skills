@@ -33,7 +33,8 @@
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 35-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
       "version": "0.37.0",
       "entry": "/ux",
-      "role": "what the interface must do and how it sounds"
+      "role": "what the interface must do and how it sounds",
+      "npm": "super-ux"
     },
     {
       "name": "task-pipeline",
@@ -48,7 +49,8 @@
       ],
       "version": "1.48.0",
       "entry": "/task-pipeline",
-      "role": "how a change reaches the repository"
+      "role": "how a change reaches the repository",
+      "npm": "task-pipeline-skill"
     },
     {
       "name": "agent-sync",
@@ -62,7 +64,8 @@
       ],
       "version": "1.8.3",
       "entry": "/agent-sync",
-      "role": "who is holding this file right now"
+      "role": "who is holding this file right now",
+      "npm": "@ssheleg/agent-sync"
     },
     {
       "name": "make-skill",
@@ -76,7 +79,8 @@
       ],
       "version": "0.15.0",
       "entry": "/skill-audit",
-      "role": "how the skill or plugin itself is built"
+      "role": "how the skill or plugin itself is built",
+      "npm": "@ssheleg/make-skill"
     },
     {
       "name": "sheleg-design",
@@ -90,7 +94,8 @@
       ],
       "version": "1.17.0",
       "entry": "/sheleg-design",
-      "role": "how it looks and moves"
+      "role": "how it looks and moves",
+      "npm": "sheleg-design-skill"
     },
     {
       "name": "seo-aeo-audit",
@@ -104,7 +109,8 @@
       ],
       "version": "0.15.2",
       "entry": "/seo-aeo-audit",
-      "role": "whether a machine will find it"
+      "role": "whether a machine will find it",
+      "npm": "@ssheleg/seo-aeo-audit"
     },
     {
       "name": "sheleg-dev",
@@ -123,7 +129,8 @@
       ],
       "version": "0.4.1",
       "entry": null,
-      "role": "integrations: money in, tracking, sign-in, speed"
+      "role": "integrations: money in, tracking, sign-in, speed",
+      "npm": "@ssheleg/sheleg-dev"
     },
     {
       "name": "agent-stack",
@@ -138,7 +145,8 @@
       ],
       "version": "0.6.0",
       "entry": null,
-      "role": "agent orchestrators, their evals, and the wallet under LLM resale"
+      "role": "agent orchestrators, their evals, and the wallet under LLM resale",
+      "npm": "@ssheleg/agent-stack"
     }
   ]
 }

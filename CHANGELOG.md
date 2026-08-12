@@ -1,5 +1,43 @@
 # Changelog
 
+## v0.38.0 — 2026-08-12
+
+### Fixed
+
+- **The npm half of the pin check had been inert for six of eight members**
+  (B-15, found while disproving B-10). `check_pins.py` resolves a package name
+  by trying the `npm` field, then the member name, then the repo basename, and
+  rejects any name whose `repository` is not ours. That last guard is correct and
+  load-bearing — the bare `task-pipeline` on npm belongs to node-task — but `npm`
+  was **unset for all eight members**, six publish as `@ssheleg/<name>`, and
+  `task-pipeline` publishes as `task-pipeline-skill`.
+
+  So six pins were never compared against the registry at all. They were printed
+  as `(tag; not on npm)`, the git-tag comparison carried them, the tags happened
+  to agree, and nothing ever went red. This is the failure the file's own
+  docstring names: *they can all agree and all be wrong.*
+
+  Fixed by **declaring** the package name per member and having `test/validate.py`
+  compare it with the submodule's own `package.json` in both directions — a
+  missing `npm` where the member publishes one fails, and a declared name the
+  member does not publish fails. Deriving `@ssheleg/<name>` would have passed
+  today and broken on the two members already publishing under a third shape;
+  this is the same rule the map applies to `entry`, which is declared and never
+  guessed.
+
+  After the fix all eight compare against npm and the `(tag; not on npm)`
+  annotations are gone. CI carries a two-plant negative self-test — drop the
+  field, then declare a package the member does not publish — and both plants
+  assert they changed the file before the validator is run. Disarming the guard
+  makes that step exit 1, which was checked rather than assumed.
+
+- **B-10 was no longer true.** `@ssheleg/sheleg-dev` is on npm at 0.4.1, exactly
+  the pinned version, and its last release run reports `job publish: success`.
+  The `ENEEDAUTH` failure recorded against v0.3.0 was fixed at some point and the
+  row was never updated. All eight members have publishing armed and all eight
+  publish. Closed as verified, not as assumed — what the row was really pointing
+  at was B-15.
+
 ## v0.37.0 — 2026-08-12
 
 ### Changed
