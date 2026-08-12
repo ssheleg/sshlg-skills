@@ -76,11 +76,11 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-**Ratchets.** 13 suites, 267 fixtures, 8 pinned members. A change that lowers
+**Ratchets.** 13 suites, 269 fixtures, 8 pinned members. A change that lowers
 any of these without saying so in the changelog is a regression, not a
 simplification. Counted by running `npm test`, not carried across from the
 previous edit of this file — the numbers rose from 8/182 when `drift_test.js`
-landed, to 10/228 with `plan_test.js`, to 12/247 with the map and Cursor, and to 13/267 when the write path gained a backup.
+landed, to 10/228 with `plan_test.js`, to 12/247 with the map and Cursor, to 13/267 when the write path gained a backup, and to 13/269 with precedence over an injected mandate.
 
 ## What proves a claim here
 

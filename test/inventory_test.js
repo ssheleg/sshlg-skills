@@ -24,6 +24,9 @@
 const assert = require('assert');
 const path = require('path');
 const I = require('../lib/inventory.js');
+// The map SECTION is assembled in routers.js; inventory.js renders the table
+// inside it. The precedence rule belongs to the section, so it is asserted there.
+const R = require('../lib/routers.js');
 
 let checks = 0;
 const failures = [];
@@ -113,6 +116,35 @@ it('the real registry renders, and every entry it declares is a real command', (
     if (!m.entry) continue;
     assert.ok(shipped.has(m.entry), `${m.name} declares entry ${m.entry}, which no member ships`);
   }
+});
+
+// --- precedence over another pack's always-on injection --------------------
+//
+// Superpowers' plugin registers a SessionStart hook on `startup|clear|compact`
+// that prints the whole `using-superpowers` skill — 854 tokens, wrapped in
+// EXTREMELY_IMPORTANT, demanding a brainstorm before any creative work — into
+// every session. That is not a skill an agent chose from a description; it is
+// mandatory text competing with this family's routing, and it won: a session
+// opened in a repository was told to brainstorm before consulting the map.
+//
+// Its own closing paragraph concedes that user instructions outrank skills. A
+// precedence that only holds if the reader gets to the last line is not a
+// precedence, so the block states the resolution itself.
+it('the map states precedence over a pack injected at SessionStart', () => {
+  const body = R.renderMapSection([
+    { name: 'task-pipeline', entry: '/task-pipeline', role: 'how a change reaches the repository' },
+  ]);
+  assert.ok(/does not outrank this map/.test(body), 'the precedence rule is missing from the map section');
+  assert.ok(/stages 2–4/.test(body),
+    'the rule must say WHERE brainstorming lives, or it only forbids without redirecting');
+  assert.ok(/task-pipeline/.test(body), 'the rule names no owner for repository work');
+});
+
+it('the rule is carried by the map section, so an empty roster omits it', () => {
+  // A lone member's installer renders no map — it must not assert a family it
+  // cannot see, and that includes arbitrating between packs on its behalf.
+  const empty = R.renderMapSection([]);
+  assert.ok(!/does not outrank/.test(empty), 'the rule leaked into an empty map');
 });
 
 if (failures.length) {

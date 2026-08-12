@@ -1,5 +1,36 @@
 # Changelog
 
+## v0.36.0 — 2026-08-12
+
+### Added
+
+- **The map now says it outranks doctrine another pack injects into every
+  session.** Superpowers' plugin registers a `SessionStart` hook on
+  `startup|clear|compact` that prints its whole `using-superpowers` skill — 854
+  tokens measured with `cl100k_base`, wrapped in `EXTREMELY_IMPORTANT`, opening
+  with *invoke skills BEFORE any response or action* and *before entering plan
+  mode, invoke the brainstorming skill first*.
+
+  That is not a skill an agent picked from a description. It is mandatory text
+  in the context of every session, and it beat this family's routing in
+  practice: a session opened in a repository was told to brainstorm before it
+  consulted the map. Twelve of Superpowers' fourteen skills cover ground the
+  family already owns — `brainstorming`, `writing-plans` and `executing-plans`
+  are `task-pipeline` stages 2–5; `writing-skills` collides with `make-skill`
+  head-on.
+
+  The injected text concedes precedence itself — *user instructions take
+  precedence over skills* — but says so in a closing paragraph while opening at
+  maximum priority. A precedence that holds only if the reader reaches the last
+  line is not a precedence, so the block states the resolution: repository work
+  routes through `task-pipeline`, and brainstorm, spec and plan are its stages
+  2–4, not a cycle beside it.
+
+  127 tokens, in the map section rather than as a ninth router — it arbitrates
+  between packs rather than deciding when to route. A lone member's installer
+  renders no map and therefore does not arbitrate on the family's behalf; a
+  fixture asserts the rule does not leak into an empty roster.
+
 ## v0.35.0 — 2026-08-12
 
 ### Added
