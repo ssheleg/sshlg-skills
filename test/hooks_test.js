@@ -97,9 +97,79 @@ it('everything outside our keys is preserved byte for byte', () => {
   const { settings } = H.plan(before, ROOT, {});
   assert.deepStrictEqual(settings.env, before.env);
   assert.deepStrictEqual(settings.enabledPlugins, before.enabledPlugins);
-  assert.deepStrictEqual(settings.hooks.PostToolUse, before.hooks.PostToolUse);
+  // We wire PostToolUse ourselves now, so this event is shared. Theirs must come
+  // back untouched and FIRST — appending ours is the whole contract.
+  assert.deepStrictEqual(settings.hooks.PostToolUse[0], before.hooks.PostToolUse[0],
+    'another pack\'s PostToolUse hook was modified');
   const back = H.removal(settings, ROOT).settings;
   assert.deepStrictEqual(back, before, 'install then remove did not round-trip to the original');
+});
+
+// --- the events added in this release --------------------------------------
+
+it('every wired event round-trips: install then remove is the identity', () => {
+  // The property that makes `remove` an undo. It broke the moment the event list
+  // lived in two places, which is why WIRED is now the only list.
+  const foreign = {};
+  for (const e of H.EVENTS) {
+    foreign[e] = [{ hooks: [{ type: 'command', command: `their-${e}-hook` }] }];
+  }
+  const before = { hooks: foreign };
+  const installed = H.plan(before, ROOT, {}).settings;
+  for (const e of H.EVENTS) {
+    assert.strictEqual(installed.hooks[e].length, 2, `${e}: theirs and ours should both be there`);
+  }
+  const back = H.removal(installed, ROOT).settings;
+  assert.deepStrictEqual(back, before, 'a wired event was left behind by removal');
+});
+
+it('the guard covers every tool that can write to a file', () => {
+  const guard = H.entries(ROOT).PreToolUse;
+  for (const tool of ['Edit', 'Write', 'MultiEdit', 'NotebookEdit', 'Bash']) {
+    assert.ok(guard.matcher.split('|').includes(tool),
+      `${tool} can write and is not matched: ${guard.matcher}`);
+  }
+});
+
+it('SessionStart runs on resume and fork, or a resumed session gets no pointer', () => {
+  const m = H.entries(ROOT).SessionStart.matcher.split('|');
+  for (const source of ['startup', 'clear', 'compact', 'resume', 'fork']) {
+    assert.ok(m.includes(source), `SessionStart does not run on ${source}`);
+  }
+});
+
+it('FileChanged matches a FILENAME — its matcher is not a tool name', () => {
+  // The one event whose matcher means something else entirely. Wiring a tool name
+  // here would watch a file literally called `Bash`.
+  assert.strictEqual(H.entries(ROOT).FileChanged.matcher, 'run.md');
+});
+
+it('ConfigChange watches the file this pack writes to', () => {
+  assert.strictEqual(H.entries(ROOT).ConfigChange.matcher, 'user_settings');
+});
+
+it('Notification does not fire on permission prompts', () => {
+  const m = H.entries(ROOT).Notification.matcher.split('|');
+  assert.ok(!m.includes('permission_prompt'),
+    'a desktop ping on every permission prompt is a ping that gets muted');
+});
+
+it('every entry is a command hook pointing inside the runtime directory', () => {
+  const root = H.runtimeDir('/home/x');
+  const w = H.entries(root);
+  for (const e of H.EVENTS) {
+    const h = w[e].hooks[0];
+    assert.strictEqual(h.type, 'command', `${e} is not a command hook`);
+    assert.ok(h.command.includes(root), `${e} wired outside the runtime dir: ${h.command}`);
+  }
+  assert.ok(w.statusLine.command.includes(root));
+});
+
+it('describe names every wired event, so status cannot under-report', () => {
+  const d = H.describe(ROOT).join('\n');
+  for (const e of H.EVENTS.concat(['statusLine'])) {
+    assert.ok(d.includes(e), `describe() omits ${e} — status would say it is installed when it is not`);
+  }
 });
 
 it('the wired directory is the operator\'s, never the package\'s', () => {

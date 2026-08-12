@@ -1,5 +1,78 @@
 # Changelog
 
+## v0.42.0 — 2026-08-13
+
+The family's hooks stopped only speaking and learned to hold.
+
+### Added
+
+- **A `PreToolUse` guard over the operator's instruction files.** `lib/backup.js`
+  has ruled since v0.35.0 that a copy which cannot be taken cancels the write —
+  but only for writes *this pack* performs. An agent editing `~/.claude/CLAUDE.md`
+  with the `Edit` tool, or redirecting into it from a shell, passed nowhere near
+  `protect()`. Two defects in this repository's history destroyed or overwrote
+  exactly that file, and both times the copy that saved it was made by hand.
+
+  Now every route is covered: five files (`~/.claude/CLAUDE.md`,
+  `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.cursor/rules/sshlg-routing.mdc`
+  and `~/.claude/settings.json`), every write tool, and the Bash forms that write
+  without one — redirects, `tee`, `sed -i`, `cp`, `mv`, `rm`, `~`- and
+  `$HOME`-spellings. A copy that cannot be proven **denies** the call and says so.
+
+  The matching happens inside the hook, never in the entry's `if` field: the
+  hooks reference states that filter is best-effort and **fails open** on a
+  command it cannot parse, and a guard with a documented bypass is not a guard.
+
+- **Three machine rules that were written down and broken anyway** (`lib/hygiene.js`):
+  a bare `npx skills update <family member>` is refused with the launcher command
+  in the reason; after any skills-CLI run the shadowing plain copies are named;
+  and `obsidian-wiki setup` can no longer silently truncate the active config —
+  the keys it drops are restored from a snapshot taken before it ran, with the
+  values it wrote kept.
+
+- **This repository's own gate, in a committed `.claude/settings.json`.** A
+  `git commit` runs `npm test` first and is refused while it is red; a `SKILL.md`
+  whose front matter breaks the Agent Skills limits is reported in the same turn
+  it was written. The gate is honest only because of a number: the suite costs
+  3.3 s here, and at three minutes this would be a gate people route around.
+
+- **`Notification`, `ConfigChange` and `FileChanged`.** A desktop ping when a long
+  run goes idle; a notice when something else overwrites these entries; one line
+  when the run ledger advances a stage. `SessionStart` also returns `sessionTitle`
+  and `watchPaths` now, and runs on `resume` and `fork` — without those a resumed
+  session got no routing pointer at all.
+
+### Fixed
+
+- **The prompt hook lost every inflected form of every trigger.** The trigger
+  table is written in the nominative singular, because that is what a skill's
+  `description` advertises; a person writes *сделай фичу*, *запусти миграцию*,
+  *добавь интеграцию*. Substring matching scored **11 of 20** realistic prompts.
+  Matching is now stem-based with a closing word boundary — **18 of 20**, with no
+  new hit on a question or a refusal phrase. The boundary is the precision budget:
+  without it `аудит` fires on `аудитория`.
+
+- **Two backups of one file inside the same second were one backup.** The stamp
+  resolves to the second and an agent edits faster than that, so the second copy
+  took the first one's name and overwrote it — losing the content the first copy
+  existed to preserve. Found by the end-to-end fixture, which had meant to test
+  something else entirely.
+
+- **The event list lived in two places.** `plan()` and `removal()` each carried
+  their own copy, which agree until someone adds an event to one of them and
+  `hooks remove` quietly stops being an undo. One list now, `WIRED`.
+
+### Notes
+
+- `ConfigChange` **cannot report anything at the time it fires** — the reference
+  states it discards `systemMessage` and `continue`, delivers no
+  `additionalContext`, and a change it blocks surfaces no message to you or to
+  Claude. So it records and `SessionStart` speaks on the next session. That is the
+  honest shape, and it is written down rather than worked around.
+
+- Ratchets: **23 suites, 427 fixtures** (was 16/303), 8 pinned members. Counted by
+  running `npm test`.
+
 ## v0.41.1 — 2026-08-12
 
 ### Fixed

@@ -27,7 +27,13 @@ C-06.
 | Where the copy of an unrecoverable file goes, and what a failed copy means | `lib/backup.js` | naming, key derivation and pruning are pure; `lib/apply.js` precedes every write with exactly one `protect()`, and a `backup-failed` record means the file was not touched |
 | Which prompt asks for which route, and the words that mean a question | `lib/triggers.js` | pure; a fixture reads each member's shipped `description` and fails on any trigger the skill does not itself advertise |
 | What the status line reads, and how each number is derived | `lib/runledger.js` | the ledger's grammar belongs to `task-pipeline` (`references/progress.md`); this only parses it, and every count is borrowed |
-| Which hooks the family wires, and what a conflict means | `lib/hooks.js` | pure planner; `bin/sshlg-skills.js` writes through `protect()`, and a foreign `statusLine` is parked under `displaced:statusLine` so `remove` is an undo |
+| Which hooks the family wires, and what a conflict means | `lib/hooks.js` | pure planner; `bin/sshlg-skills.js` writes through `protect()`, and a foreign `statusLine` is parked under `displaced:statusLine` so `remove` is an undo. `WIRED` is the ONE list of events — it lived in `plan()` and again in `removal()` until 2026-08-12, which is two lists that agree until someone adds an event to one of them and `remove` quietly stops being an undo |
+| Which tool call is about to overwrite an unrecoverable file | `lib/guard.js` | pure; the hook takes the copy. The matching is here rather than in the entry's `if` field because the reference states that filter is best-effort and **fails open** on a command it cannot parse |
+| The three machine habits nothing enforced — the bare skills CLI, shadowing copies, the truncated wiki config | `lib/hygiene.js` | pure; family ids come from `skills.json` so a member that gains a skill does not gain an unguarded one |
+| Which plain copies shadow a plugin | `lib/shadow.js` | pure; compares **skill ids each enabled plugin provides**, never marketplace names — `sheleg-design` ships from `sheleg-design-skill`, and the cheap check reports that machine clean |
+| The terminal sequence a notification becomes | `lib/notify.js` | pure; refuses anything outside the documented OSC allowlist rather than emitting a field Claude Code silently drops |
+| Whether someone overwrote the entries we wired | `lib/displace.js` | pure; the expectation is read from `lib/hooks.js`. `ConfigChange` records and `SessionStart` reports, because that event discards `systemMessage`, delivers no `additionalContext`, and a change it blocks surfaces no message to anyone |
+| Whether this repository's own gate lets a commit through | `lib/repogate.js` | pure; `npm test` is run by `hooks/repo-gate.js`, wired from a **committed** `.claude/settings.json` so a clone arrives with the gate |
 | The family's map — each member's entry point and what it closes | `lib/inventory.js` + `entry`/`role` in `skills.json` | rendered into the block; a fixture checks every declared entry is a command the family actually ships |
 | Cursor's rule file, which is ours end to end | `lib/cursor.js` | a file at that name without our sentinel is someone else's and is not overwritten |
 | What the launcher hands the skills CLI, and which plain copies are shadows | `lib/plan.js` | `install` and `update` both build from it; a fixture asserts their `add` commands are identical, because the drift between them was invisible in review |
@@ -49,7 +55,8 @@ What a change of each type obliges, in the same change:
 | A router added, removed or reworded | `lib/routers-registry.js` (only) → README routing table → `test/router_texts_test.js` → CHANGELOG |
 | A new CLI command or flag | `bin/sshlg-skills.js` usage block → README → a fixture asserting its exact output and exit code → CHANGELOG |
 | A new trigger word for the prompt hook | `lib/triggers.js` **only** — and it must already appear in the target skill's own `description`, or `test/triggers_test.js` fails. Inventing one here creates a second routing policy nothing else reads |
-| A new hook or status line | `lib/hooks.js` (the plan) → `hooks/<name>.js` (thin I/O) → a fixture for the planner → CHANGELOG. Writing to `settings.json` goes through `protect()`; there is no second write path |
+| A new hook or status line | `lib/hooks.js` → `WIRED` (the plan, one list) → `hooks/<name>.js` (thin I/O) → a fixture for the planner **and** a process-level fixture in `test/hooks_e2e_test.js` → CHANGELOG. Writing to `settings.json` goes through `protect()`; there is no second write path |
+| A hook that can refuse something | the deciding goes in a pure `lib/*.js` with its own fixture; the hook script only moves bytes and touches the filesystem where a backup happens. Every refusal names its remedy in the same sentence, and every script fails **silent** on a malformed payload — a guard that throws breaks every turn in every session, including sessions of packs that never asked for this one |
 | A member's pinned version | `skills.json` → the submodule pointer → README family table (all three checked by the validator) |
 | A member changing its npm package name | `npm` in `skills.json` — the validator compares it with the submodule's `package.json` name in both directions, with a two-plant negative self-test in CI |
 | A new test suite | nothing — `npm test` discovers `test/*_test.js`. That is deliberate: a list would need updating in two places |
@@ -90,11 +97,11 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-**Ratchets.** 16 suites, 303 fixtures, 8 pinned members. A change that lowers
+**Ratchets.** 23 suites, 427 fixtures, 8 pinned members. A change that lowers
 any of these without saying so in the changelog is a regression, not a
 simplification. Counted by running `npm test`, not carried across from the
 previous edit of this file — the numbers rose from 8/182 when `drift_test.js`
-landed, to 10/228 with `plan_test.js`, to 12/247 with the map and Cursor, to 13/267 when the write path gained a backup, to 13/269 with precedence over an injected mandate, and to 16/303 when the family grew hooks of its own.
+landed, to 10/228 with `plan_test.js`, to 12/247 with the map and Cursor, to 13/267 when the write path gained a backup, to 13/269 with precedence over an injected mandate, to 16/303 when the family grew hooks of its own, and to 23/427 when those hooks learned to refuse.
 
 ## What proves a claim here
 

@@ -1,0 +1,14 @@
+# Carry-over ledger — agent-time enforcement (2026-08-12)
+
+Append-only. Every stage writes here the moment something is deferred, dropped or
+half-done; stage 10 reads it in full and gives every unresolved row a board id.
+**Deferred out loud is forgotten.**
+
+| id | What | Raised at | Why it was not done here | Home | Status |
+|---|---|---|---|---|---|
+| C-01 | Move the family's hooks out of `~/.claude/settings.json` into each plugin's `hooks/hooks.json`, removing the write to the operator's file entirely | stage 0 | It costs the per-hook off switch, which is exactly why `superpowers` is disabled on this machine. A real trade-off, not an oversight | backlog | open |
+| C-02 | `docs/superpowers/retro.md` run stamps stop at v0.31.0 while `HEAD` is v0.41.1 — nine releases unstamped | stage 0 harvest | Repaired at stage 10 as part of the retrospective, not mid-run | this run, stage 10 | open |
+| C-03 | `docs/superpowers/briefs/` holds nothing after 2026-08-06 — nine releases shipped without a brief | stage 0 harvest | Cannot be reconstructed honestly after the fact; this brief restarts the practice rather than inventing the missing ones | noted, no action | closed by decision |
+| C-04 | **REQ-010 was already shipped, upstream, in a better channel.** `agent-sync` enforces the lease invariant from `plugins/agent-sync/hooks/hooks.json` + `hooks/guard.sh`, and does it more thoroughly than the spec proposed — it tokenises `git commit` (catching `git -C dir commit`, a spelling that once skipped the guard for a full day), and exits 2 on internal failure so it cannot fail open | stage 5, on opening the repository | Building a frontmatter version would be a second enforcement path for one invariant — the "second home" this family refuses. No `agent-sync` release was cut | closed — verified in place | closed |
+| C-05 | `npm run test:negatives` in `task-pipeline` reports one broken guard **when run from the submodule checkout**: the guard reads `git log -p`, the harness copies the repo to `/tmp` without a resolving `.git`, and a submodule's `.git` is a file pointing at a relative path. Reproduced on pristine `HEAD` (`c90835b`) with a submodule-style `.git` — pre-existing, not this change | stage 6 | CI clones normally, so the guard runs there; the fix belongs to that repository's harness | backlog | open |
+| C-06 | The `sshlg-skills` submodule remotes are HTTPS by invariant, and an OAuth push to `.github/workflows/` over HTTPS is refused for want of the `workflow` scope. Worked around by setting the submodule's **push** url to SSH (`git remote set-url --push`), which leaves `.gitmodules` HTTPS and the invariant intact | stage 7 | A per-machine workaround, not a repository change. The umbrella's retro says these repos "push over SSH" — true of the source clones in `~/DATA/`, not of the submodule checkouts | backlog | open |

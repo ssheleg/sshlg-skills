@@ -172,6 +172,79 @@ it('no refusal phrase is also a trigger, or saying it would fire the hook', () =
   assert.deepStrictEqual(clash, [], `a refusal phrase that trips a trigger cannot opt out: ${clash.join(', ')}`);
 });
 
+// --- inflection: the corpus that made the case ------------------------------
+//
+// Twenty prompts written the way an operator writes them, not the way a skill's
+// description is written. Substring matching scored 11 on 2026-08-12, and the two
+// it still misses are honest: neither `исправь` nor a bare `fix` is a word any of
+// these skills advertises, so routing on them would be inventing policy here.
+
+const CORPUS = [
+  'сделай фичу в репозитории', 'нужен рефакторинг лендинга', 'почини баг в билде',
+  'добавь интеграцию со stripe', 'запусти миграцию базы', 'давай новую фичу',
+  'сделай рефактор этого модуля', 'нужна миграция схемы', 'проведи аудит репозитория',
+  'добавь фикс и залей', 'опубликуй скилл в маркетплейс', 'заверни это в плагин',
+  'нарисуй мокап экрана', 'сделай дизайн-токены', 'add a feature to the launcher',
+  'refactor this module', 'run a migration', 'integrate stripe billing',
+  'исправь ошибку в апи', 'fix the failing test',
+];
+
+it('the inflection corpus scores at least 18 of 20', () => {
+  const hits = CORPUS.filter((c) => T.match(c).length);
+  assert.ok(hits.length >= 18,
+    `${hits.length}/20 — misses: ${CORPUS.filter((c) => !T.match(c).length).join(' | ')}`);
+});
+
+it('the accusative is the ordinary case, and it used to be lost entirely', () => {
+  for (const [prompt, route] of [
+    ['сделай фичу', 'task-pipeline'], ['запусти миграцию', 'task-pipeline'],
+    ['добавь интеграцию', 'task-pipeline'], ['почини баг', 'task-pipeline'],
+  ]) {
+    assert.ok(T.match(prompt).includes(route), `${JSON.stringify(prompt)} routed nowhere`);
+  }
+});
+
+it('a phrase tolerates words between its own — «заверни ЭТО в плагин»', () => {
+  assert.ok(T.match('заверни это в плагин').includes('make-skill'));
+  assert.ok(T.match('заверни в плагин').includes('make-skill'));
+});
+
+it('the word must END — `аудит` does not fire on `аудитория`', () => {
+  // The precision budget of the whole scheme. Without the closing boundary a
+  // routing note appears on the word "auditorium", and the line stops being read.
+  assert.deepStrictEqual(T.match('аудитория лендинга выросла'), []);
+  assert.deepStrictEqual(T.match('the auditorium seats 400'), []);
+});
+
+it('a refusal still wins when it is inflected too', () => {
+  assert.strictEqual(T.render('сделай фичу без пайплайна'), '');
+  assert.strictEqual(T.render('рефактор, но без пайплайна'), '');
+});
+
+it('a question with an inflected trigger is still a question', () => {
+  assert.strictEqual(T.render('почему упала миграцию накатывающая джоба?'), '');
+  assert.strictEqual(T.render('объясни эту интеграцию'), '');
+});
+
+it('the stemmers cut what inflects and leave what does not', () => {
+  assert.strictEqual(T.stemRu('фича').stem, 'фич');
+  assert.strictEqual(T.stemRu('починить').stem, 'почини');
+  assert.strictEqual(T.stemRu('аудит').stem, 'аудит', 'a consonant-final noun must not be cut');
+  assert.strictEqual(T.stemRu('ux').stem, 'ux', 'a short word must survive intact');
+  assert.strictEqual(T.stemLat('integration').stem, 'integrat');
+  assert.strictEqual(T.stemLat('audit').stem, 'audit');
+});
+
+it('a word can always still match itself, whatever was cut from it', () => {
+  // The allowance has to be at least what the stemmer removed, or a trigger
+  // stops matching the very form it is written in.
+  for (const [, spec] of Object.entries(T.ROUTES)) {
+    for (const t of spec.triggers) {
+      assert.ok(T.matches(t, t), `trigger ${JSON.stringify(t)} no longer matches itself`);
+    }
+  }
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

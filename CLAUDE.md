@@ -44,6 +44,17 @@ outside it: it queries the npm registry, and `npm test` must work offline.
   a reworded router never arrives, `routers` reports drift and `--adopt` is the
   only path that replaces a person's words, one router at a time, parking what
   it replaced.
+- **A guard decides in a pure module; the hook only moves bytes.** Every refusal
+  this pack can make is a function of a payload (`lib/guard.js`, `lib/hygiene.js`,
+  `lib/repogate.js`), fixtured without a `HOME`, and the filesystem appears only
+  where a backup is actually taken. Nothing depends on a hook entry's `if` filter:
+  the reference states it is best-effort and **fails open** on a command it cannot
+  parse, so a guard resting on it ships with a documented bypass.
+- **A hook fails silent, and a refusal names its remedy.** A guard that throws
+  breaks every turn in every session, including sessions of packs that never asked
+  for this one; a refusal with no next step is how an operator learns to switch a
+  hook off. Both are asserted in `test/hooks_e2e_test.js`, which runs the real
+  scripts as processes.
 
 ## Writing to the operator's file
 

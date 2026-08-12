@@ -1,0 +1,104 @@
+#!/usr/bin/env node
+'use strict';
+/**
+ * `PreToolUse` — the half of this pack that holds rather than speaks.
+ *
+ * Three decisions, in the order their cost falls:
+ *
+ * 1. **A write to a file the operator cannot recover** takes a copy first. If the
+ *    copy cannot be proven, the call is DENIED — the rule `lib/backup.js` already
+ *    applies to this pack's own writes, finally applied to everyone else's.
+ * 2. **A bare `npx skills update <family member>`** is denied, because it creates
+ *    the plain copy that shadows the plugin and serves its version forever. The
+ *    reason carries the launcher command, so the denial is a redirection.
+ * 3. **`obsidian-wiki setup`** gets a snapshot of the config it is about to
+ *    truncate. Nothing is denied here; `hooks/post-tool-use.js` puts back what
+ *    the tool drops.
+ *
+ * All deciding is in `lib/guard.js` and `lib/hygiene.js`, both pure and fixtured.
+ * This file moves bytes and touches the filesystem exactly where a backup happens.
+ *
+ * **It fails silent.** A guard that throws on an unfamiliar payload would break
+ * every tool call in every session, including sessions of packs that never asked
+ * for this one. Silence costs one unguarded write; a throw costs the machine.
+ */
+
+const path = require('path');
+const os = require('os');
+const fs = require('fs');
+
+const LIB = path.join(__dirname, '..', 'lib');
+
+/** The one output shape this event accepts. */
+function say(decision, reason) {
+  process.stdout.write(JSON.stringify({
+    hookSpecificOutput: {
+      hookEventName: 'PreToolUse',
+      permissionDecision: decision,
+      permissionDecisionReason: reason,
+    },
+  }) + '\n');
+}
+
+let raw = '';
+process.stdin.setEncoding('utf8');
+process.stdin.on('data', (c) => { raw += c; });
+process.stdin.on('end', () => {
+  try {
+    const data = raw.trim().startsWith('{') ? JSON.parse(raw) : {};
+    const home = os.homedir();
+    const command = (data.tool_input && data.tool_input.command) || '';
+
+    // 1. The command that quietly pins a skill at an old version.
+    const hygiene = require(path.join(LIB, 'hygiene.js'));
+    if (command) {
+      let ids = new Set();
+      try {
+        const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'skills.json'), 'utf8'));
+        ids = hygiene.familyIds(manifest);
+      } catch (e) { /* no manifest beside us: guard nothing rather than guess */ }
+      const bare = hygiene.bareFamilyInstall(command, ids);
+      if (bare) {
+        say('deny',
+          `\`${bare.verb} ${bare.target}\` through the bare skills CLI creates ` +
+          '~/.claude/skills/' + bare.target + ', a plain copy that shadows the plugin of the ' +
+          'same name and serves the version it was copied from forever.\n' +
+          `Use the family launcher instead: ${bare.remedy}`);
+        return process.exit(0);
+      }
+    }
+
+    // 2. The config `setup` is about to truncate.
+    if (command && hygiene.isObsidianSetup(command)) {
+      try {
+        const backup = require(path.join(LIB, 'backup.js'));
+        const cfg = path.join(home, '.obsidian-wiki', 'config');
+        // `realpath`, because `config` is a symlink to the active profile and the
+        // write follows it — a copy of the link is a copy of nothing.
+        const real = fs.existsSync(cfg) ? fs.realpathSync(cfg) : cfg;
+        backup.guard({ file: real, home });
+      } catch (e) { /* a missing wiki config is the normal case on most machines */ }
+    }
+
+    // 3. The write that cannot be undone.
+    const guard = require(path.join(LIB, 'guard.js'));
+    const target = guard.decide(data, home);
+    if (!target) return process.exit(0);
+
+    const backup = require(path.join(LIB, 'backup.js'));
+    const saved = backup.guard({ file: target, home });
+    if (saved.action === 'backup-failed') {
+      say('deny',
+        `${target} is an instruction file with no version control behind it, and a ` +
+        `copy of it could not be taken (${saved.error}). The write was not performed.\n` +
+        'Fix the backup directory (~/.sshlg-skills/backups) and try again.');
+      return process.exit(0);
+    }
+    say('allow', saved.action === 'no-file'
+      ? `${target} does not exist yet — creating it destroys nothing.`
+      : `copy taken before the write: ${saved.path}`);
+  } catch (e) {
+    /* Silence, deliberately. See the header. */
+  }
+  process.exit(0);
+});

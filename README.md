@@ -34,7 +34,7 @@ scripts. No services, no telemetry, no API keys.
 | Skill | Version | What it does |
 |---|---|---|
 | **[super-ux](https://github.com/ssheleg/super-ux)** | 0.37.0 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
-| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.49.2 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. |
+| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.50.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. |
 | **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.9.0 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
 | **[make-skill](https://github.com/ssheleg/make-skill)** | 0.16.0 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, MCP and A2A rules. |
 | **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.19.0 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
@@ -221,8 +221,8 @@ router added in a later release arrives switched on rather than silently off.
 ### Making it engage by itself — hooks
 
 The routing block loads in every session and is still routed around, because
-prose in a long file loses to whatever spoke last. Three hooks are what speak
-first:
+prose in a long file loses to whatever spoke last. Hooks are what speak first —
+and, since v0.42.0, what **holds**:
 
 ```bash
 npx sshlg-skills hooks                    # what would be wired, and what holds it now
@@ -233,9 +233,27 @@ npx sshlg-skills hooks remove             # unwire, and give the displaced one b
 
 | Hook | What it does | What it costs |
 |---|---|---|
-| `SessionStart` | one note saying the block is not advisory | ~90 tokens per session |
+| `SessionStart` | one note saying the block is not advisory; the session's title and the ledger to watch | ~90 tokens per session |
 | `UserPromptSubmit` | names the route this prompt asks for | nothing on the turns that don't need it |
+| `PreToolUse` | **copies before any write** to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.cursor/rules/sshlg-routing.mdc` and `~/.claude/settings.json` — and **refuses the write** if the copy cannot be taken. Also refuses a bare `npx skills update <member>` | nothing until one of those files is touched |
+| `PostToolUse` | after any skills-CLI run, names the plain copies shadowing a plugin; after `obsidian-wiki setup`, puts back the config keys it truncates | nothing on any other command |
+| `Notification` | a desktop ping when a long run goes idle or a background agent finishes | nothing — it emits a terminal sequence |
+| `ConfigChange` | notices when something else overwrites these entries | nothing — it records; `SessionStart` reports |
+| `FileChanged` | says when the run ledger advances a stage | nothing — one line, when it moves |
 | `statusLine` | where the pipeline is, always visible | nothing — it prints, it doesn't inject |
+
+**The guard is the reason this pack exists at all.** `~/.claude/CLAUDE.md` has no
+version control behind it, and two defects in this repository's own history
+destroyed or overwrote it — both times the copy that saved it was made by hand.
+`lib/backup.js` has ruled since v0.35.0 that a copy which cannot be taken cancels
+the write; until v0.42.0 that rule only covered writes **this pack** performed.
+An agent editing the file with `Edit`, or redirecting into it from a shell, went
+nowhere near it. Now every route is covered, and a denial says which copy failed
+and that the file was not touched.
+
+The matching is done inside the hook rather than by the entry's `if` filter,
+because the hooks reference states that filter is best-effort and **fails open**
+on a command it cannot parse. A guard with a documented bypass is not a guard.
 
 The status line reads `.task-pipeline/run.md`, the ledger a pipeline run already
 keeps:

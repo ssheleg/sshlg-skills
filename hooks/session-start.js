@@ -1,26 +1,72 @@
 #!/usr/bin/env node
 'use strict';
 /**
- * `SessionStart` — one short note saying the routing block is not advisory.
+ * `SessionStart` — the pointer, the session's name, and anything the session
+ * needs told that no other event has a channel for.
  *
- * This is the mechanism this family measured at 854 tokens in someone else's
- * pack and switched off, so its size is the design. It prints a POINTER: the
- * block in the operator's global instructions already carries every router's
- * text, loads in the same session, and is the single home. What it lacks is the
- * salience of arriving last, and that is the only thing supplied here.
+ * Three payloads, and each is small on purpose:
  *
- * A fixture caps the note's length for exactly that reason — see
- * `test/triggers_test.js` → *the session note stays a pointer*.
+ * - `additionalContext` — the ~90-token pointer saying the family's routing block
+ *   is not advisory. A pack that prints its whole doctrine into every session is
+ *   the 854-token cost this family measured elsewhere and removed; the block
+ *   already carries the content and loads in the same session. What it lacks is
+ *   the salience of arriving last, and that is all this supplies.
+ * - `sessionTitle` — the open run's topic. The reference says this field is
+ *   ignored on `clear` and `compact`, so it is emitted only where it lands.
+ * - `watchPaths` — the run ledger, so `FileChanged` can say when a stage moves.
  *
- * Fails silent: a session must start even when this cannot.
+ * It also reports what `hooks/config-change.js` could only write down: that event
+ * discards every channel it has, so the notice waits here for a hook that can
+ * speak.
+ *
+ * Plain stdout would be enough for context alone. The JSON form is used because
+ * the other two fields have no other spelling.
  */
 
 const path = require('path');
+const os = require('os');
+const fs = require('fs');
 
-try {
-  const triggers = require(path.join(__dirname, '..', 'lib', 'triggers.js'));
-  process.stdout.write(triggers.sessionNote() + '\n');
-} catch (e) {
-  /* a broken hint is not worth a broken session */
-}
-process.exit(0);
+const LIB = path.join(__dirname, '..', 'lib');
+
+let raw = '';
+process.stdin.setEncoding('utf8');
+process.stdin.on('data', (c) => { raw += c; });
+process.stdin.on('end', () => {
+  try {
+    const data = raw.trim().startsWith('{') ? JSON.parse(raw) : {};
+    const home = os.homedir();
+    const triggers = require(path.join(LIB, 'triggers.js'));
+
+    const context = [triggers.sessionNote()];
+    const out = { hookEventName: 'SessionStart' };
+
+    // What ConfigChange noticed and had no way to say.
+    try {
+      const configLib = require(path.join(LIB, 'config.js'));
+      const displace = require(path.join(LIB, 'displace.js'));
+      const parked = configLib.stashGet(configLib.readConfig(home), 'displaced:entries');
+      const text = parked ? displace.render(JSON.parse(parked)) : '';
+      if (text) context.push(text);
+    } catch (e) { /* a notice that cannot be read is not worth a broken session */ }
+
+    const cwd = data.cwd || process.env.CLAUDE_PROJECT_DIR || process.cwd();
+    const ledgerPath = path.join(cwd, '.task-pipeline', 'run.md');
+    if (fs.existsSync(ledgerPath)) {
+      out.watchPaths = [ledgerPath];
+      // `clear` and `compact` are documented to ignore a title; sending one there
+      // would be a field that silently does nothing.
+      if (['startup', 'resume', 'fork'].includes(data.source)) {
+        const ledger = require(path.join(LIB, 'runledger.js'));
+        const topic = ledger.parse(fs.readFileSync(ledgerPath, 'utf8')).topic;
+        if (topic) out.sessionTitle = topic.slice(0, 60);
+      }
+    }
+
+    out.additionalContext = context.join('\n\n');
+    process.stdout.write(JSON.stringify({ hookSpecificOutput: out }) + '\n');
+  } catch (e) {
+    /* Silence, deliberately: a session must start even when this file is wrong. */
+  }
+  process.exit(0);
+});
