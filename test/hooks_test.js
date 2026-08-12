@@ -102,6 +102,28 @@ it('everything outside our keys is preserved byte for byte', () => {
   assert.deepStrictEqual(back, before, 'install then remove did not round-trip to the original');
 });
 
+it('the wired directory is the operator\'s, never the package\'s', () => {
+  // v0.41.0 shipped with `__dirname/..` wired. From a clone that is the repo and
+  // works; via `npx` it is npm's cache, which npx may prune — leaving three
+  // hooks that fail silently on every prompt. Worse than not installing them.
+  const dir = H.runtimeDir('/home/x');
+  assert.strictEqual(dir, '/home/x/.sshlg-skills/runtime');
+  assert.ok(!/node_modules|_npx/.test(dir), `the runtime dir looks like a package path: ${dir}`);
+});
+
+it('every entry points inside the runtime directory', () => {
+  const root = H.runtimeDir('/home/x');
+  const { settings } = H.plan({}, root, {});
+  const wired = [
+    settings.statusLine.command,
+    settings.hooks.SessionStart[0].hooks[0].command,
+    settings.hooks.UserPromptSubmit[0].hooks[0].command,
+  ];
+  for (const cmd of wired) {
+    assert.ok(cmd.includes(root), `wired outside the runtime dir: ${cmd}`);
+  }
+});
+
 it('describe names all three entries and the matcher', () => {
   const d = H.describe(ROOT).join('\n');
   for (const k of ['SessionStart', 'UserPromptSubmit', 'statusLine', H.MATCHER]) {

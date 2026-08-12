@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.41.1 — 2026-08-12
+
+### Fixed
+
+- **v0.41.0 wired the package's own path, which breaks for everyone who is not
+  the author.** `hooks install` computed the script location from `__dirname/..`.
+  From a clone that is the repository and works; run the documented way —
+  `npx sshlg-skills hooks install` — it is npm's cache, and npx is free to prune
+  it. The result would be three hooks that work until the cache is cleaned and
+  then fail **silently** on every prompt, which is worse than not installing them.
+
+  `install` now copies `hooks/`, `lib/` and `skills.json` into
+  `~/.sshlg-skills/runtime/` and wires that — the same reason the routing block is
+  written into a file the operator keeps rather than referenced from wherever the
+  pack happened to run. The copy is refreshed on every `install`, including when
+  the settings need no change: after a package update the paths were still right
+  while the code behind them was stale.
+
+  Two fixtures hold it: the runtime directory must not look like a package path,
+  and all three wired commands must point inside it.
+
 ## v0.41.0 — 2026-08-12
 
 ### Added

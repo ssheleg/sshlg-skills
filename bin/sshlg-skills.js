@@ -632,8 +632,35 @@ function cmdHooks(argv) {
   const force = argv.includes('--force');
   const dryRun = argv.includes('--dry-run');
   const home = os.homedir();
-  const root = pathMod.resolve(__dirname, '..');
+  // The settings point at the copy in the operator's directory, never at this
+  // package: run via npx, `__dirname` is npm's cache and npx may prune it, which
+  // would leave hooks that fail silently on every prompt.
+  const root = hooksLib.runtimeDir(home);
+  const pkgRoot = pathMod.resolve(__dirname, '..');
   const file = pathMod.join(home, '.claude', 'settings.json');
+
+  /** Refresh the wired copy from this package. Idempotent; called on install. */
+  function syncRuntime() {
+    const copyDir = (from, to) => {
+      fs.mkdirSync(to, { recursive: true });
+      for (const e of fs.readdirSync(from, { withFileTypes: true })) {
+        const a = pathMod.join(from, e.name);
+        const b = pathMod.join(to, e.name);
+        if (e.isDirectory()) copyDir(a, b);
+        else if (e.name.endsWith('.js')) fs.copyFileSync(a, b);
+      }
+    };
+    // Both, because the hooks require the lib beside them. Copying only `hooks/`
+    // wires three scripts that throw on their first require.
+    for (const dir of ['hooks', 'lib']) {
+      copyDir(pathMod.join(pkgRoot, dir), pathMod.join(root, dir));
+    }
+    // `skills.json` too: lib/plan.js and the bin read it, and a lib copied
+    // without it fails the moment anything walks the manifest.
+    const manifestSrc = pathMod.join(pkgRoot, 'skills.json');
+    if (fs.existsSync(manifestSrc)) fs.copyFileSync(manifestSrc, pathMod.join(root, 'skills.json'));
+    return root;
+  }
 
   let current = {};
   if (fs.existsSync(file)) {
@@ -699,8 +726,24 @@ function cmdHooks(argv) {
     log('hooks: ничего не записано. Заменить осознанно: npx sshlg-skills hooks install --force');
     return false;
   }
-  if (!changed.length) { log('hooks: всё уже на месте — ничего не записано'); return true; }
-  if (dryRun) { log(`hooks: --dry-run — записал бы ${changed.join(', ')}`); return true; }
+  if (dryRun) {
+    log(changed.length
+      ? `hooks: --dry-run — записал бы ${changed.join(', ')}, скопировав в ${root}`
+      : `hooks: --dry-run — записи не нужны; обновил бы копию в ${root}`);
+    return true;
+  }
+
+  // The copy is refreshed even when settings need no change: a `hooks install`
+  // after a package update must move the new scripts into place, and "already
+  // wired" was true of the paths while the code behind them was stale.
+  try {
+    syncRuntime();
+    log(`hooks: скрипты синхронизированы в ${root}`);
+  } catch (e) {
+    log(`hooks: не удалось скопировать скрипты в ${root} (${e.message}) — ничего не записано`);
+    return false;
+  }
+  if (!changed.length) { log('hooks: настройки уже на месте'); return true; }
 
   const saved = apply.protect(file, { home });
   if (saved.action === 'backup-failed') {
