@@ -31,7 +31,9 @@ so a row cannot keep a rank it earned when it was new.
 
 | B-12 | **closed 2026-08-12** — `test/validate.py` now fails in both directions, planted against; `test/audit_bundle.py` is in the repo. Original: a member that gains a skill does not announce it, and the umbrella finds out by audit. `agent-stack` shipped `agent-evals` in v0.6.0; `skills.json` still declared one skill, so `install` and `update` would both have skipped it forever — the same class v0.30.0 fixed for members, one level down at skills. `test/validate.py` compares declared against shipped and PASSED, because it only fails on a declared skill that is missing, never on a shipped one that is undeclared. Make that check symmetric. | 2026-08-12 audit | 2 | 1 | 1 | **4.0** | open |
 
-**Open: 7.** B-01 and B-02 opened and closed inside the same run: they live in
+| B-13 | **`check_pins.py` asks about the world, not about the commit, and blocks CI anyway.** A commit does not become invalid because someone else released a member five minutes later — yet `validate.yml` fails on exactly that, and did four times on 2026-08-10..12 while another agent released the family continuously. Every one of those failures was correct about the world and wrong about the change under test. Two candidate fixes: move the pin check out of the blocking path into `audit_bundle.py` (it is a freshness question, like the audit's), or have the release workflow bump pins itself, which is also the retirement trigger written into standing instruction #5. | 2026-08-12 audit | 2 | 1 | 2 | **3.0** | open |
+
+**Open: 8.** B-01 and B-02 opened and closed inside the same run: they live in
 a repository another agent held throughout, so this run diagnosed them and
 wrote down the evidence instead of touching the code. The other agent shipped
 both fixes while it was in flight, and `agent-sync` is pinned at 1.7.0 here as a
