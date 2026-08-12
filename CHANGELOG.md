@@ -1,5 +1,41 @@
 # Changelog
 
+## v0.34.0 — 2026-08-12
+
+### Fixed
+
+- **`agent-stack` shipped a second capability and the catalogue never said so.**
+  v0.6.0 added `agent-evals` — eval suites, judging output, regression gates —
+  and the member's `desc` still described orchestrators and the wallet only. That
+  string is what `list` prints and what the README table carries, so a whole
+  capability existed and was advertised nowhere. Its `role` in the map was stale
+  for the same reason.
+
+  The validator had already caught the *declaration* half of this in v0.33.0 and
+  stayed green on the prose half, because prose is not checkable. So the
+  propagation matrix now names all three obligations for a member that gains a
+  skill — `skillNames`, the member's `desc`, its README row — with the note that
+  only the first has a gate behind it.
+
+### Changed
+
+- Six pins swept in one pass: `super-ux` 0.37.0, `task-pipeline` 1.48.0,
+  `agent-sync` 1.8.3, `make-skill` 0.15.0, `sheleg-design` 1.17.0, `sheleg-dev`
+  0.4.1. Measured all eight rather than chasing the one CI named.
+
+### Measured
+
+- **21 skills** now, up from 20. Bodies: `task-pipeline` came down 6279 → 5861
+  without this repo touching it, which is the first movement on that number
+  since it was recorded as a known gap. Still over the 5000 cap.
+- ALWAYS-ON **7601 tok** — descriptions 4244, command descriptions 685, routing
+  block 2672 — paid in every session of every project. It grew with the family,
+  not with the block: the block itself is unchanged in shape since the English
+  rewrite took it from 4384 to 2663.
+- Conflicts: none. Routing: 8 routers, every required member present, 6 declared
+  entries all resolving to commands that exist, the installed block carrying the
+  map and the table in all four channels.
+
 ## v0.33.0 — 2026-08-12
 
 ### Added

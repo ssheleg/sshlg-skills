@@ -45,7 +45,7 @@ What a change of each type obliges, in the same change:
 | A new CLI command or flag | `bin/sshlg-skills.js` usage block → README → a fixture asserting its exact output and exit code → CHANGELOG |
 | A member's pinned version | `skills.json` → the submodule pointer → README family table (all three checked by the validator) |
 | A new test suite | nothing — `npm test` discovers `test/*_test.js`. That is deliberate: a list would need updating in two places |
-| A member gaining or losing a skill | `skills.json` `skillNames` — `test/validate.py` fails in **both** directions, because a shipped-but-undeclared skill reaches no channel while every gate stays green |
+| A member gaining or losing a skill | `skills.json` `skillNames` **and** that member's `desc` **and** its README row — the validator catches the first (both directions), the other two are prose nothing can check. `agent-stack` shipped `agent-evals` and advertised orchestrators only, so `list` and the table hid a whole capability |
 | A new validator guard | a negative self-test in `.github/workflows/validate.yml` that plants the defect and requires a failure |
 | The repository layout | README → *How it works* file map → this file |
 

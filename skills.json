@@ -31,7 +31,7 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 35-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.36.1",
+      "version": "0.37.0",
       "entry": "/ux",
       "role": "what the interface must do and how it sounds"
     },
@@ -46,7 +46,7 @@
         "task-pipeline",
         "evidence-docs"
       ],
-      "version": "1.47.0",
+      "version": "1.48.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository"
     },
@@ -60,7 +60,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.8.2",
+      "version": "1.8.3",
       "entry": "/agent-sync",
       "role": "who is holding this file right now"
     },
@@ -74,7 +74,7 @@
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.13.1",
+      "version": "0.15.0",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built"
     },
@@ -88,7 +88,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.15.0",
+      "version": "1.17.0",
       "entry": "/sheleg-design",
       "role": "how it looks and moves"
     },
@@ -121,7 +121,7 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.4.0",
+      "version": "0.4.1",
       "entry": null,
       "role": "integrations: money in, tracking, sign-in, speed"
     },
@@ -131,14 +131,14 @@
       "dir": "skills/agent-stack",
       "pluginMarketplace": "ssheleg/agent-stack",
       "pluginInstall": "agent-stack@agent-stack",
-      "desc": "Production patterns for AI agent orchestrators: tool-calling loops that survive context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, four memory layers with confidence decay — plus the wallet side of reselling LLM access.",
+      "desc": "Production patterns for AI agent orchestrators: tool-calling loops that survive context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, four memory layers with confidence decay; eval suites that measure whether an agent actually works — judging output, regression gates, scoring runs; plus the wallet side of reselling LLM access.",
       "skillNames": [
         "agent-orchestrator",
         "agent-evals"
       ],
       "version": "0.6.0",
       "entry": null,
-      "role": "agent orchestrators, and the wallet under LLM resale"
+      "role": "agent orchestrators, their evals, and the wallet under LLM resale"
     }
   ]
 }
