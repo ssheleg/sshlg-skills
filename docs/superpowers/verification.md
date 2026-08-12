@@ -130,6 +130,28 @@ skill legitimately names files in the *user's* project (`docs/ux/scenarios.md`,
 Version three checks only what has exactly one correct answer, and found
 nothing — which is a much smaller and much more useful number.
 
+## v0.35.0 — the backup stopped being a habit
+
+**B-05, carried since 2026-08-06.** `lib/backup.js` + `protect()` in
+`lib/apply.js`, 20 fixtures in `test/backup_test.js`.
+
+What confirmed it, in the order the evidence was taken:
+
+| Claim | What proved it |
+|---|---|
+| The gate has teeth | The `if (saved.action === 'backup-failed')` return was deleted and the fixture reported *the operator file was modified with no backup behind it*. Restored; 20/20 green again. |
+| A real run leaves the pre-run bytes | A copy of the live `~/.claude/CLAUDE.md` was perturbed by one character in a temp HOME; `routers --update` wrote, and `claude_CLAUDE.md.20260812T090037Z` held the perturbation while the live file no longer did. |
+| An idempotent run leaves nothing | Three consecutive `routers --update` runs against the real file: hash `cf59cc11` all three times, backup directory empty. Backing up happens after the bytes are known to differ. |
+| A failed copy is reported, not swallowed | The backup directory's path was occupied by a file. Output: `НЕ записан: не удалось сделать резервную копию (EEXIST …). Файл не изменён.` — and the file's hash was unchanged. |
+| One failed target does not hide another | Two targets, both unbackupable: both appear in the run's records with `backup-failed`. |
+| A key cannot escape its directory | `keyFor('/elsewhere/etc/passwd', '/home/x')` — the first attempt returned `_.._elsewhere_etc_passwd`, and the fixture caught the surviving `..`. Separators are sanitised before dot-runs are collapsed, so a traversal is recognisable while it is still a traversal. |
+
+**The decision worth keeping** is where copies do *not* go. The obvious fallback
+for a missing `home` is the file's own parent — which puts copies inside
+`~/.cursor/rules/`, a directory whose owner loads every `*.mdc` it finds. A
+backup that the protected tool can read back as an always-apply rule is a worse
+failure than no backup, so a missing `home` refuses to write at all.
+
 ## What is deliberately not verified here
 
 `agent-sync`'s two defects (B-01, B-02) were recorded, not fixed: another agent

@@ -1,5 +1,44 @@
 # Changelog
 
+## v0.35.0 — 2026-08-12
+
+### Added
+
+- **A command that edits the operator's unrecoverable file now takes its own
+  copy first** (`lib/backup.js`, closing B-05, carried since 2026-08-06). Two
+  defects in this repository's history destroyed or overwrote
+  `~/.claude/CLAUDE.md` — a file with no version control behind it — and both
+  times the copy that saved it existed because an agent happened to make one,
+  once ten minutes before it was needed. That is a habit, and a habit protects
+  whoever remembers it.
+
+  Copies land in `~/.sshlg-skills/backups/`, ten per file, pruned oldest-first.
+  Three decisions are load-bearing:
+
+  - **Never beside the original.** `~/.cursor/rules/` loads every `*.mdc` it
+    finds, so a copy dropped next to the file it protects can be read by the
+    tool that owns the directory as an always-apply rule. A missing `home` is
+    therefore a refusal to write, not a quieter place to put the copy — the
+    tempting fallback, the file's own parent, is the exact mistake.
+  - **A failed copy cancels the write.** Degrading to "no backup, wrote anyway"
+    reproduces the situation this replaces, minus the agent who used to notice.
+    The run reports `НЕ записан` with the reason and the file is untouched.
+  - **The copy is read back and byte-compared before the original is touched.**
+    A `writeFileSync` that returned is not evidence that bytes landed.
+
+  Backing up happens after the write is decided and the bytes are known to
+  differ, so an idempotent run — which is most `update` runs — leaves nothing
+  behind. Proven on the real file: three consecutive `routers --update` runs
+  hold hash `cf59cc11`, and the backup directory stays empty.
+
+### Fixed
+
+- **Two backlog rows said `closed` in their text and `open` in their status
+  column** (B-04, closed 2026-08-11; B-12, closed 2026-08-12). The board is
+  read to decide what to work on next, and a row that contradicts itself is
+  worse than a stale one — it costs a reader the time to work out which half to
+  believe.
+
 ## v0.34.0 — 2026-08-12
 
 ### Fixed

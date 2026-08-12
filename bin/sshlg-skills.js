@@ -482,10 +482,26 @@ function cmdRouters(f) {
     for (const name of restored) configLib.stashClear(home, name);
   }
 
+  // A copy of every file this run modified, taken before it was modified. Said
+  // once rather than per target: four identical lines about the same directory
+  // is how a useful line becomes noise the operator learns to skip.
+  const saved = res.targets.filter((t) => t.backup && t.backup.action === 'saved');
+  const blocked = res.targets.filter((t) => t.action === 'backup-failed');
+
   for (const r of res.targets) {
     if (r.action === 'agent-absent') continue;
     log(`routers: ${r.file} — ${r.action}`);
     if (r.diff) log(r.diff);
+  }
+  if (saved.length) {
+    log(`routers: копии до записи — ${path.dirname(saved[0].backup.path)} (${saved.length})`);
+  }
+  for (const b of blocked) {
+    // The write did not happen. Saying only "backup-failed" leaves the operator
+    // to guess whether their file was touched, which is the one thing they need
+    // to know for certain.
+    log(`routers: ${b.file} — НЕ записан: не удалось сделать резервную копию ` +
+        `(${b.backup && b.backup.error}). Файл не изменён.`);
   }
   if (remove.length) log(`routers: выключены настройкой — ${remove.join(', ')}`);
   for (const id of Object.keys(superseded)) {

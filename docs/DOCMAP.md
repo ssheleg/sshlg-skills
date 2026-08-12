@@ -23,6 +23,7 @@ C-06.
 | Which skills exist, their repos, plugin ids, pinned versions | `skills.json` | README table and `.gitmodules` are checked against it by `test/validate.py` |
 | What a router is — text, table row, required members | `lib/routers-registry.js` | `lib/router-texts.js` is a façade over it; `ROUTER_ROWS` in `lib/routers.js` is derived |
 | Whether the operator's wording has diverged from the packaged one | `lib/drift.js` | pure, like `routers.js`; a fixture asserts it never reaches the filesystem |
+| Where the copy of an unrecoverable file goes, and what a failed copy means | `lib/backup.js` | naming, key derivation and pruning are pure; `lib/apply.js` precedes every write with exactly one `protect()`, and a `backup-failed` record means the file was not touched |
 | The family's map — each member's entry point and what it closes | `lib/inventory.js` + `entry`/`role` in `skills.json` | rendered into the block; a fixture checks every declared entry is a command the family actually ships |
 | Cursor's rule file, which is ours end to end | `lib/cursor.js` | a file at that name without our sentinel is someone else's and is not overwritten |
 | What the launcher hands the skills CLI, and which plain copies are shadows | `lib/plan.js` | `install` and `update` both build from it; a fixture asserts their `add` commands are identical, because the drift between them was invisible in review |
@@ -75,11 +76,11 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-**Ratchets.** 12 suites, 247 fixtures, 8 pinned members. A change that lowers
+**Ratchets.** 13 suites, 267 fixtures, 8 pinned members. A change that lowers
 any of these without saying so in the changelog is a regression, not a
 simplification. Counted by running `npm test`, not carried across from the
 previous edit of this file — the numbers rose from 8/182 when `drift_test.js`
-landed, to 10/228 with `plan_test.js`, and to 12/247 with the map and Cursor.
+landed, to 10/228 with `plan_test.js`, to 12/247 with the map and Cursor, and to 13/267 when the write path gained a backup.
 
 ## What proves a claim here
 
