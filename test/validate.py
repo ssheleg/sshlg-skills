@@ -171,6 +171,16 @@ for s in skills:
             missing = [x for x in sn if x not in shipped]
             if missing:
                 fail(f"skills.json: {name!r} skillNames {missing} not shipped by the repo (has: {sorted(shipped)})")
+            # And the other direction, which used to be silent. `install` and
+            # `update` both resolve what to fetch from skillNames, so a skill a
+            # member ships without declaring reaches no channel and no agent,
+            # indefinitely -- while every gate stays green because nothing was
+            # missing, only unclaimed. agent-stack shipped `agent-evals` in
+            # v0.6.0 and an audit found it, not this check.
+            undeclared = sorted(x for x in shipped if x not in sn)
+            if undeclared:
+                fail(f"skills.json: {name!r} ships {undeclared} but does not declare them — "
+                     f"install and update resolve from skillNames, so they reach nothing")
 
     # The pin IS the promise: a checkout of this hub commit must install exactly
     # the version skills.json advertises. Comparing only against .gitmodules is

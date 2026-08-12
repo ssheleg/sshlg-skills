@@ -1,5 +1,40 @@
 # Changelog
 
+## v0.33.0 — 2026-08-12
+
+### Added
+
+- **`test/audit_bundle.py`** — the bundle audit as a gate instead of a script
+  rebuilt by hand each time. It answers what nothing else does: the **always-on
+  budget** (every skill description, every command description, plus the
+  routing block — paid in every session of every project whether or not
+  anything fires), bodies against the 5000-token cap, two skills competing for
+  one trigger phrase, and the installed block against the registry.
+
+  Outside `npm test`, beside `check_pins.py`, because that gate must work
+  offline and dependency-free. **It refuses to run without a tokenizer** rather
+  than falling back to a chars-per-token ratio: `claude plugin details` assumes
+  ~2.8 chars/token against cl100k's 3.8–4.5, and a number from the wrong
+  instrument is worse than none because it gets quoted.
+
+  Three of its checks were wrong before they were right, and each correction
+  stayed as a comment where it happened — a generated index *is* a contents
+  list; a disambiguation clause has to name **the** neighbour, not merely
+  exist; and `Not for` is not `NOT for`. Its first run reported nine findings
+  of which eight were its own fault.
+
+### Fixed
+
+- **`test/validate.py` compares declared against shipped in both directions.**
+  It failed on a declared skill the repo does not ship and said nothing about a
+  shipped skill nobody declared — so `agent-stack` v0.6.0 could add
+  `agent-evals` and have it reach no channel and no agent indefinitely, while
+  every gate stayed green. `install` and `update` both resolve what to fetch
+  from `skillNames`; anything outside that list does not exist to them. Planted
+  against: undeclaring the skill turns the validator red.
+
+  Found by the audit, not by the gate — which is the argument for the audit.
+
 ## v0.32.0 — 2026-08-11
 
 **The routing block was the most expensive thing the pack shipped, and nothing

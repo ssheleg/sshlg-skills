@@ -45,6 +45,7 @@ What a change of each type obliges, in the same change:
 | A new CLI command or flag | `bin/sshlg-skills.js` usage block → README → a fixture asserting its exact output and exit code → CHANGELOG |
 | A member's pinned version | `skills.json` → the submodule pointer → README family table (all three checked by the validator) |
 | A new test suite | nothing — `npm test` discovers `test/*_test.js`. That is deliberate: a list would need updating in two places |
+| A member gaining or losing a skill | `skills.json` `skillNames` — `test/validate.py` fails in **both** directions, because a shipped-but-undeclared skill reaches no channel while every gate stays green |
 | A new validator guard | a negative self-test in `.github/workflows/validate.yml` that plants the defect and requires a failure |
 | The repository layout | README → *How it works* file map → this file |
 
@@ -60,10 +61,19 @@ local entry point and the remote one cannot drift.
 
 ```bash
 python3 test/check_pins.py
+pip install tiktoken && python3 test/audit_bundle.py
 ```
 
-Deliberately outside `npm test`: it queries the npm registry, and everything
-in `npm test` must work offline.
+Both deliberately outside `npm test`, which must work offline and with no
+dependencies: the first queries the npm registry, the second needs a
+tokenizer. `audit_bundle.py` **refuses to run without one** rather than falling
+back to a chars-per-token ratio — the two disagree by ~40%, and a number from
+the wrong instrument gets quoted as if it were a measurement.
+
+It answers what no other gate does: the ALWAYS-ON budget (every description
+plus the routing block, paid in every session of every project), bodies against
+the 5000-token cap, two skills competing for one trigger phrase, and the
+installed block against the registry.
 
 **Ratchets.** 12 suites, 247 fixtures, 8 pinned members. A change that lowers
 any of these without saying so in the changelog is a regression, not a

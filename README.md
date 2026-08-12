@@ -272,10 +272,14 @@ was added to one side. An empty run fails rather than reporting green, and
 
 ```bash
 python3 test/check_pins.py
+pip install tiktoken && python3 test/audit_bundle.py
 ```
 
-Kept out of `npm test` on purpose: it queries the npm registry, and the rest
-must work offline.
+Both kept out of `npm test` on purpose — it must work offline and dependency-free.
+`check_pins.py` queries the npm registry; `audit_bundle.py` needs a tokenizer and
+refuses to estimate without one. The audit reports the always-on token budget,
+bodies against their cap, trigger-phrase collisions and the installed routing
+block against the registry.
 
 Releases are tag-driven: bump `skills.json`, `package.json` and the top
 `CHANGELOG.md` entry together, tag `vX.Y.Z`, and the release workflow cuts the
