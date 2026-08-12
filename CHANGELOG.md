@@ -1,5 +1,33 @@
 # Changelog
 
+## v0.39.0 — 2026-08-12
+
+### Changed
+
+- **Four members' installers now write the routing block themselves** (closing
+  B-06, carried since 2026-08-06). Pins move to `task-pipeline` 1.49.1,
+  `agent-sync` 1.9.0, `make-skill` 0.16.0, `sheleg-design` 1.18.0.
+
+  Until now only `super-ux` delegated. Installing any other member alone left it
+  with no router at all — the agent had the skill and no rule saying when to
+  reach for it. The bundle writes all eight, which is why nothing looked broken:
+  the gap only opened for someone installing one member.
+
+  The row said four members, and four was right for a reason worth recording.
+  Five of the eight own a router; the other three — `seo-aeo-audit`,
+  `sheleg-dev`, `agent-stack` — own none, and `scope({member})` returns nothing
+  for them. Adding an offer to those installers would print *nothing to write*:
+  noise, not a fix.
+
+  Each delegates to `npx sshlg-skills routers --member <this>` rather than
+  rendering the block, because `--member` scopes the write to that skill's own
+  section, and because the launcher is the only writer that copies the operator's
+  global instruction file first. **Isolation verified per member**, not argued:
+  two sections of a real block were damaged, the installer run, and its own
+  section came back repaired while the other stayed byte-for-byte. The
+  absent-launcher path prints the command instead of failing, and the
+  non-interactive path records an opt-out and takes its backup — both exercised.
+
 ## v0.38.0 — 2026-08-12
 
 ### Fixed
