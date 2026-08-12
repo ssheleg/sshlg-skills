@@ -10,12 +10,17 @@ the moment any of its three triggers fires — it became a mechanical check, the
 paths or commands it names are gone, or it has not fired in five run stamps —
 and log the deletion as one line under *Retired*.
 
-1. **(2026-08-05)** `node --check` proves syntax, not scope. Before trusting a
-   Node change, **run the command**, not the checker: `--check` passed a
-   `rest[++i]` against a variable that does not exist in that function, which
-   would have thrown on first use. *(Fired 2026-08-06: `node --check` was
-   removed from CI in favour of running the launcher. Retire when a linter with
-   scope analysis runs in CI.)*
+1. **(2026-08-13) A component that never receives its input fails OPEN, and from
+   the outside it is indistinguishable from one that approves.** The stage-7
+   release gate shipped its first draft feeding its own python source to
+   `python3 -` through a heredoc **and** reading the hook payload from stdin. The
+   heredoc *is* stdin, so the payload came back empty, every act classified as
+   "not a release", and the gate allowed `git tag`, `npm publish` and `gh release
+   create` — while `/hooks` listed it, the process exited 0, and nothing anywhere
+   said a word. Eight fixtures caught it; no amount of reading would have.
+   **Assert the input arrived** before deciding on it, and let a guard that
+   received nothing refuse rather than pass. *(Retire when every guard in the
+   family asserts a non-empty payload, or after five run stamps without firing.)*
 
 2. **(2026-08-06)** **Prove idempotence at the layer that repeats, not the
    layer that is easy to test.** A pure core with nine passing
@@ -73,7 +78,24 @@ and log the deletion as one line under *Retired*.
 
 ## Retired
 
-*(nothing yet — the prune at 2026-08-10 (second run) checked all five against
+- **#1 (2026-08-05) — `node --check` proves syntax, not scope.** Retired
+  2026-08-13 on its cold trigger: it last fired on 2026-08-06 and has now missed
+  far more than five run stamps. The mechanical check that replaced it is real —
+  CI runs the launcher rather than the checker — which is the grade above a
+  standing instruction, and the slot is worth more than the reminder.
+
+*(prune at 2026-08-13: #1 retired above on its cold trigger. #2 fired — the
+three-run end-to-end fixture is what found the same-second backup collision.
+#4 fired twice — "the gate allows everything" and "eight fixtures fail identically"
+are both uniformity readings. #5 fired: the pin sweep found three members released
+mid-flight rather than the one a log named. #6 fired: two CHANGELOG plants reported
+PLANT DID NOT LAND against a new section that stated no guard count. **#3 did not
+fire and is NOT retired**, deliberately — its cold trigger is five run stamps, and
+between v0.32.0 and v0.41.1 nobody stamped a run, so the counter it would be judged
+by was stopped. Retiring on a stopped clock is not a retirement. Six of ten slots
+used.)*
+
+*(superseded — the prune at 2026-08-10 (second run) checked all five against
 their triggers: #1 has now missed four stamps of its five; #2 fired this run
 (the planted removal proved reconciliation at the command layer, and three runs
 proved idempotence); #3 did not fire and is three runs old; #4 fired twice —
@@ -94,6 +116,28 @@ used.)*
 | 2026-08-10 | Repo actualised: pins, docs, drift report; v0.29.0 | `709b017` | yes — see below |
 | 2026-08-10 | B-09: update reconciles; defaultAgents +2; v0.30.0 | `8af291d` | yes — see below |
 | 2026-08-11 | The map, four channels, auto-refresh; v0.31.0 | `ea63262` | no — the plan held |
+| 2026-08-11 | The block was the most expensive thing we shipped; v0.32.0 | `810a0e1` | **not recorded** |
+| 2026-08-12 | The audit becomes a gate; the validator looks both ways; v0.33.0 | `c8f2495` | **not recorded** |
+| 2026-08-12 | A member grew a capability the catalogue never mentioned; v0.34.0 | `993fcae` | **not recorded** |
+| 2026-08-12 | The backup stopped being a habit; v0.35.0 | `c370e37` | **not recorded** |
+| 2026-08-12 | The map outranks doctrine another pack injects; v0.36.0 | `2549513` | **not recorded** |
+| 2026-08-12 | The pin gate stopped failing for other people's releases; v0.37.0 | `c17c327` | **not recorded** |
+| 2026-08-12 | The npm half of the pin check had been inert for six members; v0.38.0 | `33283ef` | **not recorded** |
+| 2026-08-12 | Four installers stop leaving their skill unrouted (B-06); v0.39.0 | `526b5aa` | **not recorded** |
+| 2026-08-12 | task-pipeline 1.49.2, sheleg-design 1.19.0; v0.40.0 | `3aa560e` | **not recorded** |
+| 2026-08-12 | The family engages by itself, through three hooks; v0.41.0 → v0.41.1 | `2a4c68a` | **not recorded** |
+| 2026-08-13 | Agent-time enforcement: hooks that hold; v0.42.0 (+ task-pipeline 1.50.0) | `d23ee2f` | yes — see below |
+
+**The eleven rows above were reconstructed, and one column is deliberately
+empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
+commits are computable from `git log` and are therefore stated, but *did this run
+diverge* is not computable from a commit, and answering it would be inventing the
+answer this table exists to preserve. `not recorded` is the true value.
+
+The cost is exact and worth naming: the cold-retirement trigger for a standing
+instruction is *five run stamps without firing*, and for ten days that counter
+could not advance. Every prune in that window compared instructions against a
+clock that had stopped.
 
 ---
 
@@ -404,3 +448,78 @@ red on the pin gate; instead of bumping the member the log named, the sweep
 measured all eight — `task-pipeline` had moved 1.39.0 → **1.44.0**, five
 releases in a day, and it was the only one behind. One push, green first try,
 where the previous release took three.
+
+---
+
+## 2026-08-13 — the run that nearly built a second lock, and the gate that approved everything
+
+**Symptom.** Three defects, none in the planned work, and every one found by a
+fixture written to test something else. Plus one whole requirement that turned
+out to be finished before the run started.
+
+1. **The stage-7 release gate allowed every release, silently.** Its first draft
+   fed its own python source to `python3 -` through a heredoc and read the hook
+   payload from stdin. The heredoc *is* stdin. `sys.stdin.read()` returned empty,
+   an empty payload classified as "not a release", and `git tag`, `npm publish`
+   and `gh release create` all sailed through — while the hook was listed,
+   exited 0, and said nothing. Eight of sixteen fixtures failed on the first run.
+2. **Two backups of one file inside the same second were one backup.** The stamp
+   resolves to the second and an agent edits faster than that, so the second copy
+   took the first one's name. Found by the end-to-end fixture *while it was
+   failing for an unrelated reason* — the plant it used (an unwritable backup
+   directory) did not work, because rewriting an existing file needs no directory
+   permission, and the existing file was the copy taken one second earlier.
+3. **`cp FILE FILE.2026-08-12` read as overwriting FILE.** The guard treated
+   every argument of every write verb alike, so an agent taking a backup by hand —
+   the exact habit this pack replaces — was classified as destroying the file.
+
+**And the requirement that was already met.** REQ-010 asked for lease enforcement
+in `agent-sync`. Opening that repository showed
+`plugins/agent-sync/hooks/hooks.json` already wiring a `PreToolUse` guard, doing
+it more thoroughly than the spec proposed: it tokenises `git commit` so
+`git -C dir commit` cannot slip past — a spelling that once skipped that guard for
+a full day — and exits 2 on internal failure so it cannot fail open. Building the
+frontmatter version would have created a second enforcement path for one
+invariant.
+
+**Owned by** stage 5 for the three defects and stage 0 for the fourth: the
+harvest read this repository's docs and the machine's, and never opened the
+member that owns the invariant a requirement was written about.
+
+**Root cause.** Two, and they are different.
+
+The three defects are the shape this file keeps recording — *a property proven at
+a layer where it was never exercised*. Uniqueness of a backup name was proven by
+fixtures that each passed their own distinct stamp. The write-verb table was
+proven against commands with one path in them.
+
+The fourth is new and worth its own sentence: **a requirement can be written
+against a gap that no longer exists, and the brief will carry it to the end of
+the run.** The REQ spine is frozen so scope cannot shrink silently; nothing in it
+asks whether the gap is still there. Freezing protects against forgetting, not
+against being out of date.
+
+**Fix, by grade.**
+
+- *Mechanical (taken):* the payload travels in the environment, with a CI negative
+  self-test that blanks the handoff and requires the suite to notice; `save()`
+  suffixes a colliding name and a fixture proves two copies in one second are two
+  copies; write verbs are split into "writes every argument" and "writes the last
+  one", with `cp X X.dated` as a fixture.
+- *Standing instruction (taken, #1 above):* a component that never receives its
+  input fails open and looks installed.
+- *No instruction for the fourth, deliberately.* The grade above one is a check,
+  and the honest check is procedural: stage 0's harvest already says to read what
+  the project knows — the gap was that "the project" meant this repository. The
+  brief's source ledger now carries a row per member repository consulted, which
+  is a change to the artifact rather than a rule to remember.
+
+**The check that catches it next time.** The first three are caught mechanically
+now. The fourth is caught by the ledger only if someone reads it, and that is
+stated rather than papered over.
+
+**One more, cheap and repeated — the count that was wrong in a document again.**
+The ratchet line was written as 422 fixtures from a count taken before five more
+were added, and corrected to 427 by re-running `npm test`. That is the third time
+this repository has recorded the same class, and the rule it keeps proving is its
+own: a number is computed at the moment it is written, or it is a recollection.

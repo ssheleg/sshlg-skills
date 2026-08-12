@@ -282,6 +282,24 @@ same backup path the routing block uses.
 
 Restart Claude Code after installing — hooks are read at session start.
 
+### Working *on* this repository — the gate arrives with the clone
+
+`.claude/settings.json` is committed, so a checkout brings two project hooks with
+it. They apply only here and only in Claude Code:
+
+| Hook | What it does |
+|---|---|
+| `PreToolUse` on `Bash` | a `git commit` runs `npm test` first and is **refused** while it is red, with the failing tail in the reason |
+| `PostToolUse` on `Edit\|Write` | a `SKILL.md` breaking the Agent Skills front-matter limits is reported in the turn it was written |
+
+The commit gate is honest only because of a number: the suite costs **3.3 s**
+here. At three minutes it would be a gate people route around, and a gate people
+route around is worse than none — it teaches that gates are noise.
+
+Neither hook runs for any other agent (hooks are a Claude Code feature), so the
+same rules stay a self-check elsewhere. Working with a different agent, or want
+them off? Delete the file — nothing else reads it.
+
 ## Other commands
 
 ```bash
