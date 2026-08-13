@@ -218,3 +218,17 @@ Nothing else about that repository is asserted here.
 |---|---|---|---|
 | R-01 | The progress numerator counts distinct stages, not lines | `test/runledger_test.js`: a ledger with a re-entered stage renders `gates 3/4`, never over 100%. Reproduced on this repository's own run first — `gates 12/11 · 109%` | verified |
 | R-02 | The last verdict for a stage id is the one that counts | both directions fixtured: a later pass clears an earlier fail, and an earlier pass does **not** outvote a later fail — the same "history satisfies the gate" shape the release gate was fixed for hours earlier | verified |
+
+## 2026-08-13 — the rest of the hook set (task-pipeline 1.52.0)
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| R-01 | The compaction boundary is recorded | fixture: `PreCompact` appends `event: compact — auto`. The ledger's own header says it exists because compaction happens, and that boundary was the one thing it could not show | verified |
+| R-02 | A run whose session ended unclosed is recorded; a finished one is not | fixtures both ways — an open run yields `event: session-end … not closed`, a run with a passing acceptance stage yields nothing. The second matters more: filing finished runs as abandoned would make `checkup` useless | verified |
+| R-03 | A subagent stopping is observed, and no `hand:` line is fabricated | fixture asserts `hand:` never appears in the hook's output. That shape carries judgements only the agent holds | verified |
+| R-04 | Payload text cannot break the ledger's grammar | fixture: an `agent_type` containing an em dash and a newline still produces exactly one line with exactly two separators | verified |
+| R-05 | Editing the product before the build stage asks | fixture: a source edit at stage 3 returns `ask`; once the build stage is entered, silence | verified |
+| R-06 | The build stage is resolved by role, never by number | fixture: an unresolvable flow is silent rather than gating. The lesson v1.51.0 learned from the release gate, applied before it could repeat | verified |
+| R-07 | The pipeline's own artefacts are never gated | fixture over `docs/ux/`, `docs/superpowers/`, `.task-pipeline/`, README and CHANGELOG — the files stages 0–4 exist to write | verified |
+| R-08 | Guards rose with the change | floor 311 → 312; the new CI self-test disarms the finished-run check so every closed run would be filed as abandoned, watched failing locally before it was committed | verified |
+| R-09 | B-16: three members bumped in one sweep | `super-ux` 0.38.0, `sheleg-design` 1.24.0, `seo-aeo-audit` 0.16.0 — submodule, `skills.json` and README table moved together, and `npm test` reports no skill-declaration drift | verified |

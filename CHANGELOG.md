@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.45.0 — 2026-08-13
+
+### Changed
+
+- **Four pins moved in one sweep** — `task-pipeline` 1.52.0, `super-ux` 0.38.0,
+  `sheleg-design` 1.24.0, `seo-aeo-audit` 0.16.0. Three of them had been behind
+  since the 2026-08-12 run reported them (B-16), and standing instruction #5 is
+  why they move together: fixing the one member a log names is what made an
+  earlier release fail twice in a row.
+
+  `task-pipeline` 1.52.0 completes the hook set the pipeline can own — the
+  compaction boundary, an abandoned run, a subagent finishing, and a question
+  before the product is edited ahead of the plan. Its ledger gains one shape for
+  all three observations rather than three, because a grammar is read by four
+  documents and every shape added is one each of them must learn.
+
+  **The sweep was still moving when it closed.** `sheleg-design` cut 1.25.0 while
+  these four were being verified, so this release pins 1.24.0 and `check_pins`
+  reports exit 2 — every pin exists, the bundle installs what it advertises, and
+  one member is a release behind the world. Standing instruction #5 says to say so
+  rather than push a third time, and this is saying so.
+
 ## v0.44.1 — 2026-08-13
 
 ### Fixed
