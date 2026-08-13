@@ -280,3 +280,15 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | I1-07 | A check that cannot run says so | the umbrella validator gained an `unlooked:` channel; the parse guard uses a real parser and discloses when pyyaml is absent, rather than passing quietly | verified |
 | I1-08 | Six releases, pins in one sweep | sheleg-dev 0.4.2 · agent-stack 0.6.1 · make-skill 0.17.1 · seo-aeo-audit 0.16.2 · sshlg-skills 0.47.1. Each gate green on the commit its tag points at, `bash scripts/check-docs.sh` for `seo-aeo-audit` rather than a narrower one. `check_pins.py` → every pin at its release, all eight | verified |
 | I1-09 | The loop guard fired on the run itself | after editing one repo's guards twice and another's step three times, the run stopped, named the conflict and escalated to a shared helper instead of a fourth careful copy. Both red PRs went green on the first attempt afterwards | verified |
+
+## 2026-08-14 — iteration 2: B-26, and the coordination it forced
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| I2-01 | A release cannot publish over a red suite | `validate.yml` callable, `release.yml` declares `needs: validate`, in all six repositories that lacked it. Every live release run — selected **by tag**, not by recency — reads `validate / validate=success, release=success, publish=success` | verified |
+| I2-02 | No plant is duplicated to achieve it | the reusable call runs the same steps; porting a 258-line negatives runner into six repos was the rejected alternative, and is recorded as rejected rather than unconsidered | verified |
+| I2-03 | The connection is guarded | three checks — trigger, call, `needs` — because calling the suite without depending on it lets the jobs run in parallel, which looks gated and is not. Watched failing against the planted removal; negative self-test in CI | verified |
+| I2-04 | Closed by the registry, not the pipeline | `npm view` for each of the six, after the run reported success. Instruction #9, written by the concurrent session mid-run and honoured here | verified |
+| I2-05 | Coordination is on, with its real scope stated | `agent-sync` local-files backend, six registers guarded, `docs/AGENT_SYNC.md` linked from `CLAUDE.md`; `check` → 7 passed, 1 warning naming the lease as exclusive **on this machine**. B-26 was worked under a held lease and the board row carried the claim | verified |
+| I2-06 | Pins moved in one sweep | `check_pins.py` → every one of the eight at its release, run before the umbrella push (instruction #5, which fired twice tonight when members moved mid-flight) | verified |
+| I2-07 | What coordination cost to be without | one CHANGELOG written at a version **behind its own tree**; a member moving under the work twice; uncommitted work found sitting on `main` in two repositories. None of it visible without a lease — which is why B-19 stopped being theoretical | verified |
