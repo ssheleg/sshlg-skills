@@ -232,3 +232,26 @@ Nothing else about that repository is asserted here.
 | R-07 | The pipeline's own artefacts are never gated | fixture over `docs/ux/`, `docs/superpowers/`, `.task-pipeline/`, README and CHANGELOG — the files stages 0–4 exist to write | verified |
 | R-08 | Guards rose with the change | floor 311 → 312; the new CI self-test disarms the finished-run check so every closed run would be filed as abandoned, watched failing locally before it was committed | verified |
 | R-09 | B-16: three members bumped in one sweep | `super-ux` 0.38.0, `sheleg-design` 1.24.0, `seo-aeo-audit` 0.16.0 — submodule, `skills.json` and README table moved together, and `npm test` reports no skill-declaration drift | verified |
+
+## 2026-08-13 — the artifact root, and who else speaks first (v0.46.0 + six members)
+
+Ten REQ rows from `docs/evidence/briefs/2026-08-13-artifact-root-and-precedence.md`.
+Seven repositories, and the row that matters most is the one where a rename could have
+gone silently wrong: 29 CI plants anchored on the literal path.
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| REQ-01 | `artifactRoot()`: config → an existing `docs/evidence/` → an existing `docs/superpowers/` → the new default, adopting a directory only when it CARRIES A REGISTER | 7 cases as real trees, and **two implementations compared to each other** — `test/artifact_root_test.py` fails on a disagreement, not only on a wrong answer. Watched failing before either implementation existed. **And the proof that mattered: after `git mv`, `npm test` passed with no further path edits** | verified |
+| REQ-02 | `paths.artifacts` in `pipeline.schema.json`, any relative path | `jq` resolves `properties.paths` → `definitions.paths`; the `docs/runs/` case is green. This makes real a promise `references/artifacts.md` had carried unenforced since v0.1.0 | verified |
+| REQ-03a | task-pipeline's live prose stops hardcoding the path | 105 occurrences in 34 files; `references/` writes `<artifacts>/`, templates and this-repo statements write the resolved name. `grep` outside frozen records and plants → 0 | verified |
+| REQ-03b | five members' live prose | 26 occurrences swept, **8 deliberately left** inside dated `docs/audit/` and `docs/research/` reports, which record a measurement taken on a date | verified |
+| REQ-03c | the umbrella's live prose | 9 occurrences in 5 files | verified |
+| REQ-04a | 28 task-pipeline plants moved **and proven to land** | `npm run test:negatives`: **24 broken → 0**. One plant reported `PLANT DID NOT LAND` because it anchored on a bare `superpowers/` the path sweep never matched; another guard passed with an EMPTY SUBJECT after the sweep rewrote what it matched on, and the negative self-test said `does not actually fire`. Both repaired, the second watched failing against a planted tree drift | verified |
+| REQ-04b | `seo-aeo-audit` and `sheleg-design` plants | both repointed; each repo's own gate green, and `seo-aeo-audit`'s full declared gate (`bash scripts/check-docs.sh`, five suites) exits 0 | verified |
+| REQ-05 | frozen records untouched; the move recorded | **155 occurrences of the old name survive inside past-run records on purpose**, counted after the sweep. One DOCMAP row per repo names the move and its release. A mid-run mistake rewrote 51 of them and was reverted from the index, then re-verified by count | verified |
+| REQ-06 | `migrate-artifacts [--dry-run]` | 7 cases including **three real runs with hashes compared** — which found a real defect: a backup taken when nothing moved made every repeat run change the tree it claimed to leave alone. Refuses a configured root, never overwrites a collision, and **lists mentions elsewhere without editing one of them** | verified |
+| REQ-07 | Axis A: the SessionStart injector report | `sshlg-skills injectors` run live — four injectors with exact `hooks.json` paths, where the machine's own recorded audit named three. Run against a `HOME` with no registry, where it **refuses to answer rather than claiming "none"**. 9 fixtures, watched failing by replacing the silence branch with a sentence | verified |
+| REQ-08 | `/task-pipeline setup` reports the resolved root and why | all four outcomes written out, including the default landing on an occupied directory — a stop-and-ask, not a write | verified |
+| REQ-09a | six members released | task-pipeline 1.53.0 · super-ux 0.38.1 · sheleg-design 1.27.1 · seo-aeo-audit 0.16.1 · agent-sync 1.10.0 · make-skill 0.17.0. Every CI verdict READ before its tag; every tag on a commit whose own gate was green | verified |
+| REQ-09b | the umbrella last, pins re-measured in one sweep | `python3 test/check_pins.py` → exit 0, *every pin matches its release*, all eight. `git submodule status` shows no line starting `+`. **`sheleg-design` was three releases behind, not the one recorded after the last sweep** | verified |
+| REQ-10 | B-19/C-01 stays open, marked not decided | the board row says so and carries the reason, plus the fact for whoever takes it: `statusLine` cannot move to a plugin at all | verified |

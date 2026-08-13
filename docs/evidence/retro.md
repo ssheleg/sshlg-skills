@@ -32,15 +32,9 @@ and log the deletion as one line under *Retired*.
    second→third would have caught. *(Retire when every file-writing command in
    this repo has a three-run end-to-end fixture in CI.)*
 
-3. **(2026-08-06)** **A date literal in a fixture that a check compares against
-   "now" is a test that schedules its own failure.** `brand_lint_test.py` in
-   `super-ux` hardcoded `Last calibrated: 2026-08-05` against a check that reads
-   `foundation.md`'s **mtime** — which for a fixture is always today. The suite
-   was green on the day it was written and red the next, with no code change,
-   and nothing in the suite could report that. Compute the boundary date at
-   runtime; keep an explicitly stale literal only in the case that must fire,
-   and plant against it. *(Retire when CI runs the suite under a faked future
-   clock.)*
+*(3 — retired 2026-08-13 on its cold trigger; see Retired. The number is left
+vacant rather than reused: two CHANGELOGs and a merged PR body already cite these
+instructions by number, and renumbering would rot every one of those references.)*
 
 4. **(2026-08-10) A measurement that returns the same answer for every input is
    a broken measurement, not a finding.** Five CLI invocations were checked for
@@ -76,13 +70,57 @@ and log the deletion as one line under *Retired*.
    suite after a real one. *(Retire after five run stamps without firing, or
    once every plant in the family is structural.)*
 
+7. **(2026-08-13) A mechanical rewrite over prose cannot tell a path being USED
+   from a path being DISCUSSED, and its exclusion list describes the tree it was
+   written against, not the tree it will walk.** One sweep did all three harms in
+   an hour: it flattened the sentence explaining the legacy name into *"else
+   docs/evidence/ (the name this pipeline used until 2026-08-13)"*, it emptied a
+   guard's subject by rewriting the very strings the guard matched on, and — with
+   an exclusion list spelled `docs/superpowers/` while the directory had already
+   been renamed — it rewrote **51 frozen records of past runs across five
+   repositories**. The revert was exact only because the moves were staged and
+   uncommitted. Before a sweep: name BOTH locations in the exclusion list, print
+   every file it touched, and read that list before believing it. *(Retire when a
+   rewrite tool in this family refuses to write inside a frozen record, or after
+   five run stamps without firing.)*
+
+8. **(2026-08-13) A wrapper's exit status is not the suite's verdict.** A
+   background command reported `exit code 0` while its own output said
+   `FAIL: 2 guard(s) did not fire, 24 test(s) broken`, and a piped
+   `npm test | tail` printed `[exit ]` because `PIPESTATUS` is not `pipestatus` in
+   this shell. Both would have been read as green by anything that trusted the
+   number. Read the output, and where a number is needed, get it from the command
+   itself rather than from whatever wrapped it. *(Retire after five run stamps
+   without firing.)*
+
 ## Retired
 
+- **#3 (2026-08-06) — a date literal in a fixture compared against "now" schedules
+  its own failure.** Retired 2026-08-13 on its cold trigger, at the second time of
+  asking and the first time the clock was honestly running. The 2026-08-13 prune
+  refused to retire it because nine releases had gone unstamped and *"retiring on a
+  stopped clock is not a retirement"*. The clock restarted: counting only stamps
+  whose divergence is actually **recorded** — the reconstructed `not recorded` rows
+  cannot testify about whether an instruction fired during them — it has now missed
+  seven. Its mechanical replacement never arrived (CI still does not run under a
+  faked clock), and that is stated rather than implied: this is a cold retirement,
+  not a solved problem. The original text is in `docs/evidence/retro/2026-Q3.md`.
 - **#1 (2026-08-05) — `node --check` proves syntax, not scope.** Retired
   2026-08-13 on its cold trigger: it last fired on 2026-08-06 and has now missed
   far more than five run stamps. The mechanical check that replaced it is real —
   CI runs the launcher rather than the checker — which is the grade above a
   standing instruction, and the slot is worth more than the reminder.
+
+*(prune at 2026-08-13, fourth run: **#3 retired** above on its cold trigger, its slot
+left vacant rather than reused — published citations use these numbers (B-23). #1 fired:
+the injector check refuses to answer from a registry it could not read, and the refusal
+was watched. #2 fired: the three-run fixture found `migrate-artifacts` backing up when
+nothing moved. #4 fired TWICE, both in this run's own instruments — a shell loop
+reporting `0 0 0` for all seven repositories, and a second reporting an empty `want=` for
+all six packages; both were zsh declining to word-split an unquoted variable. #5 fired:
+the pin sweep found `sheleg-design` three releases behind, not the one the last sweep
+recorded. #6 fired twice — a guard left with no subject and a plant that reported
+`PLANT DID NOT LAND`. #7 and #8 are new. Seven of ten slots used, one vacant.)*
 
 *(prune at 2026-08-13: #1 retired above on its cold trigger. #2 fired — the
 three-run end-to-end fixture is what found the same-second backup collision.
@@ -129,6 +167,7 @@ used.)*
 | 2026-08-13 | Agent-time enforcement: hooks that hold; v0.42.0 (+ task-pipeline 1.50.0) | `d23ee2f` | yes — see below |
 | 2026-08-13 | The progress rail stops claiming a finished run; routing reaches all eight; v0.43.0 | `17eceef` | yes — see below |
 | 2026-08-13 | The gate stops judging other repositories; v0.44.0 → v0.44.1 (+ task-pipeline 1.51.0) | `eee6aca` | yes — see below |
+| 2026-08-13 | The artifact root stops carrying another pack's name; v0.46.0 + six members | `92010b1` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -583,3 +622,88 @@ one before. Every fix was real and every gate was green when it shipped; the
 defects lived in the space between "the suite passes" and "someone looked at the
 output". That gap is exactly what stage 8 is for, and it was the stage that kept
 finding them — after the tag, every time.
+
+---
+
+## 2026-08-13 (fourth run) — the sweep that disarmed three checks and rewrote 51 records of the past
+
+**Symptom.** Renaming a directory in seven repositories produced five defects, and
+**not one of them was in the rename.** Every one came from the mechanical rewrite that
+followed it, and four of the five were caught by a check rather than by reading.
+
+1. **A guard passed by having no subject.** The sweep rewrote
+   `` `docs/superpowers/…` `` to `` `<artifacts>/…` `` in `artifacts.md`, and the guard
+   comparing that file's tables against its own layout tree searched for the *resolved*
+   literal. It found nothing, its subject went empty, and it passed. `npm test` was
+   green. The negative self-test said `does not actually fire`.
+2. **A CI plant stopped landing.** The plant that removes the layout tree anchored on a
+   bare `superpowers/` — a spelling the path sweep never matched. It said so, loudly,
+   because it asserts its own effect.
+3. **Two sentences whose SUBJECT was the old name were flattened into nonsense** — the
+   schema description and `artifacts.md`'s legacy note both became *"else
+   `docs/evidence/` (the name this pipeline used until 2026-08-13)"*.
+4. **51 frozen records of past runs were rewritten across five repositories.** The M3
+   sweep's exclusion list said `docs/superpowers/` while the directory had already been
+   renamed, so it matched nothing at all. Reverted exactly — `git checkout -- docs/evidence/`
+   against a staged rename — and re-verified by count: 60 occurrences preserved inside
+   the moved records, plus 6 in CHANGELOGs, equal to the frozen figure measured at
+   stage 0.
+5. **`migrate-artifacts` backed up when nothing moved,** so a second run against a
+   still-colliding tree changed the tree it claimed to leave alone.
+
+**And one whole requirement that shipped without reaching anything.** REQ-07's session
+line was published, installed, and dead: `update` refreshes plugins and the routing
+block but not the wired runtime, so `~/.sshlg-skills/runtime/lib/` sat at 24 modules
+against the package's 25. Found at stage 8 by listing the directory instead of trusting
+the release — `hooks install` made it live, and `B-22` now carries the gap.
+
+**Owned by** stage 5 for the five defects. The sixth is stage 7's: the release checklist
+verifies the published version and the plugin versions, and never the copy the hooks
+actually execute.
+
+**Root cause.** Two, and only one of them is new.
+
+The five defects are one shape: **a mechanical rewrite cannot tell a path being USED
+from a path being DISCUSSED, and its exclusion list describes the tree it was written
+against rather than the tree it will walk.** Prose that explains a name, a guard that
+matches on a name, a plant that anchors on a name and a record that reports a name all
+look identical to `str.replace`.
+
+The sixth is the shape this file has recorded three times in other clothes — *a new
+artifact has nowhere to land on a machine that predates it*. Here the artifact is a
+module, the machine is any machine that runs `update`, and the reason nobody noticed is
+that every OTHER thing `update` touches did move.
+
+**Fix, by grade.**
+
+- *Mechanical (taken):* the tree guard is anchored on the SYMBOL the doctrine writes
+  rather than the resolved literal, and watched failing against a planted drift; the
+  plant's anchor moved with it; a new CI negative self-test reverses the precedence in
+  one of the two resolver implementations and requires the suite to notice
+  (312 → 313 guards); the three-run fixture that found defect 5 is now in CI.
+- *Standing instructions (taken, #7 and #8 above).*
+- *Board (taken):* `B-22` for the runtime that `update` does not refresh — the honest
+  grade, because the fix is a refactor plus a fixture plus a release, and pretending
+  otherwise inside this run is how the fix would have shipped untested.
+- *No instruction for the frozen-record rewrite beyond #7, deliberately.* The grade
+  above one is a check, and the check that exists is the one that saved it: the move was
+  staged and uncommitted, so the revert was exact. That is worth stating as a habit —
+  stage the rename, then sweep, then read the list of touched files — rather than as a
+  fourth rule.
+
+**The check that catches it next time.** Defects 1, 2 and 5 are caught mechanically now.
+Defect 3 is caught by a reader, and that is stated rather than papered over. Defect 4 is
+caught by the sweep printing every file it touched — which it already did, and which is
+how it was noticed thirty seconds later. The sixth is caught only by `B-22` being done.
+
+**What actually found them, and it is not a rule.** The pipeline ran on itself again.
+The negative self-test disarmed by this run's own prose sweep, the plant that refused to
+plant, the fixture that ran the real command three times, the directory listing at stage
+8. **Four of six were found by a check that already existed and one by looking at a
+directory** — and the one that no check caught is the one still described in prose.
+
+**One more, cheap and repeated for the fifth time.** The scope was first stated as
+1122 occurrences in 241 files. The real figure is 340, of which 185 are live: the first
+count included `graphify-out/graph.json`, which indexes the whole tree and holds 5086
+occurrences of the path by itself. A number is computed at the moment it is written, or
+it is a recollection — and this repository has now written that sentence five times.
