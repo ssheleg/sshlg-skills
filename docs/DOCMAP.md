@@ -27,6 +27,7 @@ C-06.
 | Where the copy of an unrecoverable file goes, and what a failed copy means | `lib/backup.js` | naming, key derivation and pruning are pure; `lib/apply.js` precedes every write with exactly one `protect()`, and a `backup-failed` record means the file was not touched |
 | Which prompt asks for which route, and the words that mean a question | `lib/triggers.js` | pure; a fixture reads each member's shipped `description` and fails on any trigger the skill does not itself advertise |
 | What the status line reads, and how each number is derived | `lib/runledger.js` | the ledger's grammar belongs to `task-pipeline` (`references/progress.md`); this only parses it, and every count is borrowed |
+| Who else speaks at `SessionStart`, and what may be claimed about them | `lib/injectors.js` | pure decision plus ONE impure `readRegistry()` — the hook and `sshlg-skills injectors` had a copy of that walk each for about ten minutes, which is a second home for one fact. It reports what INJECTS, never what competes: a plugin printing its own state and one printing instructions that outrank yours are indistinguishable from here, and the output says so. The session line is silent when nothing else injects; the paths live behind the verb, which prints on a clean machine too |
 | Which hooks the family wires, and what a conflict means | `lib/hooks.js` | pure planner; `bin/sshlg-skills.js` writes through `protect()`, and a foreign `statusLine` is parked under `displaced:statusLine` so `remove` is an undo. `WIRED` is the ONE list of events — it lived in `plan()` and again in `removal()` until 2026-08-12, which is two lists that agree until someone adds an event to one of them and `remove` quietly stops being an undo |
 | Which tool call is about to overwrite an unrecoverable file | `lib/guard.js` | pure; the hook takes the copy. The matching is here rather than in the entry's `if` field because the reference states that filter is best-effort and **fails open** on a command it cannot parse |
 | The three machine habits nothing enforced — the bare skills CLI, shadowing copies, the truncated wiki config | `lib/hygiene.js` | pure; family ids come from `skills.json` so a member that gains a skill does not gain an unguarded one |
@@ -45,9 +46,9 @@ C-06.
 | Which routers this machine wants | `~/.sshlg-skills/config.json` | not in the repo; deviations only, mode 0600 |
 | Recorded consent | `~/.sshlg-skills/state.json` | not in the repo; a file that cannot be parsed is not consent |
 | Why a release happened | `CHANGELOG.md` | the release workflow reads the first matching section |
-| What a run decided | `docs/superpowers/briefs/…` + `specs/…` | the brief is the record; the spec locks contracts |
-| What a run deferred | `docs/superpowers/briefs/…-carryover.md` | read in full at stage 10 |
-| What a run learned | `docs/superpowers/retro.md` | standing instructions, capped at ten, read in full at stage 0 |
+| What a run decided | `docs/evidence/briefs/…` + `specs/…` | the brief is the record; the spec locks contracts |
+| What a run deferred | `docs/evidence/briefs/…-carryover.md` | read in full at stage 10 |
+| What a run learned | `docs/evidence/retro.md` | standing instructions, capped at ten, read in full at stage 0 |
 
 ## The propagation matrix
 
@@ -65,6 +66,8 @@ What a change of each type obliges, in the same change:
 | A new test suite | nothing — `npm test` discovers `test/*_test.js`. That is deliberate: a list would need updating in two places |
 | A member gaining or losing a skill | `skills.json` `skillNames` **and** that member's `desc` **and** its README row — the validator catches the first (both directions), the other two are prose nothing can check. `agent-stack` shipped `agent-evals` and advertised orchestrators only, so `list` and the table hid a whole capability |
 | A new validator guard | a negative self-test in `.github/workflows/validate.yml` that plants the defect and requires a failure |
+| The artifact root's name | `docs/evidence/` here and in six members since 2026-08-13 (v0.46.0), following `task-pipeline` v1.53.0 which made the root RESOLVABLE. The records inside moved with `git mv` and were not rewritten — 155 occurrences of the old name survive inside past-run records on purpose, because a brief describes where things were when it was written. A project still on `docs/superpowers/` is not behind and is never warned |
+| A new session-start claim about another pack | `lib/injectors.js`, and the honest limit stated in its own OUTPUT rather than only in its source — the check cannot tell doctrine from state, and a reader of the report must be told that by the report |
 | The repository layout | README → *How it works* file map → this file |
 
 ## The gate

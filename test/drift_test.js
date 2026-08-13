@@ -101,7 +101,7 @@ it('reports follow the packaged order, not the order authored was written in', (
 // version of this check grepped the whole file and failed against the doc
 // comment that EXPLAINS the rule — a guard firing on its own prose. This
 // repository has recorded the substring-grep failure twice already
-// (docs/superpowers/retro.md, 2026-08-06 and its addendum); a check that reads
+// (docs/evidence/retro.md, 2026-08-06 and its addendum); a check that reads
 // code has to be given code.
 function codeOf(file) {
   return fs

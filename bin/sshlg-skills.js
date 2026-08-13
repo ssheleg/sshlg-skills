@@ -136,6 +136,7 @@ Usage:
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
   npx sshlg-skills hooks   install [--force] [--dry-run]
   npx sshlg-skills hooks   remove
+  npx sshlg-skills injectors                          # who else speaks at SessionStart
   npx sshlg-skills list
   npx sshlg-skills agents
 
@@ -621,6 +622,31 @@ function readLineSync() {
  * — `settings.json` is the operator's file, has no version control behind it,
  * and this pack does not get a second write path to one of those.
  */
+/**
+ * `injectors` — who else speaks at `SessionStart`, in full, on demand.
+ *
+ * The session block carries one line and only when there is somebody; this is where the
+ * file paths live. It also gives the check a place to be **watched working on a machine
+ * where nothing competes**: a guard whose output nobody has ever seen is
+ * indistinguishable from a guard that is broken, and the empty case prints too.
+ */
+function cmdInjectors() {
+  const inj = require(path.join(ROOT, 'lib', 'injectors.js'));
+  // `$HOME` before `os.homedir()`, the same order every other command here uses —
+  // the fixtures override the environment variable.
+  const home = process.env.HOME || os.homedir();
+  let read;
+  try {
+    read = inj.readRegistry(home);
+  } catch (e) {
+    // The registry is the input. Saying "nothing else injects" because a file could
+    // not be read would be the false-clear this module exists to refuse.
+    log(`cannot read the plugin registry (${e.message}) — no answer rather than a wrong one`);
+    return;
+  }
+  log(inj.report(inj.injectors(...read)));
+}
+
 function cmdHooks(argv) {
   const fs = require('fs');
   const pathMod = require('path');
@@ -782,6 +808,7 @@ function main(argv) {
   if (cmd === 'config') return cmdConfig(rest);
   // Also before parseFlags: `hooks` takes a positional subcommand.
   if (cmd === 'hooks') return cmdHooks(rest) ? 0 : 1;
+  if (cmd === 'injectors') { cmdInjectors(); return 0; }
   const f = parseFlags(rest);
   if (cmd === 'install' || cmd === 'i') return cmdInstall(f) ? 0 : 1;
   if (cmd === 'update' || cmd === 'up') return cmdUpdate(f) ? 0 : 1;

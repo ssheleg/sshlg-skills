@@ -29,6 +29,7 @@ const fs = require('fs');
 
 const LIB = path.join(__dirname, '..', 'lib');
 
+
 let raw = '';
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', (c) => { raw += c; });
@@ -49,6 +50,16 @@ process.stdin.on('end', () => {
       const text = parked ? displace.render(JSON.parse(parked)) : '';
       if (text) context.push(text);
     } catch (e) { /* a notice that cannot be read is not worth a broken session */ }
+
+    // Who else speaks before the first prompt. One line, and only when there is
+    // somebody: the routing block says another pack's mandate does not outrank the
+    // map, and until now nothing on the machine could say whether such a pack was
+    // switched on. `lib/injectors.js` decides; this only reads the registry.
+    try {
+      const inj = require(path.join(LIB, 'injectors.js'));
+      const text = inj.line(inj.injectors(...inj.readRegistry(home)));
+      if (text) context.push(text);
+    } catch (e) { /* an unreadable plugin registry means no claim, not a wrong one */ }
 
     // One small file per session accumulates forever otherwise — the kind of
     // litter nobody notices until it is thousands of files.
