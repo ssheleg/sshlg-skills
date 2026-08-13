@@ -254,6 +254,37 @@ function cmdUpdate(f) {
   // `update`, never `install`: a machine that has no block has not consented
   // to one, and an update is not the moment to ask.
   ok = refreshBlock(f, 'update') && ok;
+
+  // The wired copy the hooks actually EXECUTE. Until v0.47.0 this was the one thing
+  // `update` did not update: the copy lived in a closure inside `cmdHooks` and ran on
+  // `hooks install` alone, so a machine that only ran `update` kept executing hook code
+  // from whichever release last installed them. Watched on a real machine at v0.46.0 —
+  // 24 modules against the package's 25, and the missing one was that release's whole
+  // point (`B-22`). Refresh only: `create` stays false, because a machine with no
+  // runtime has not consented to hooks and an update is not the moment to ask.
+  try {
+    const rt = require('../lib/runtime.js');
+    const root = require('../lib/hooks.js').runtimeDir(os.homedir());
+    const before = rt.stale(ROOT, root);
+    const r = rt.sync(ROOT, root, { create: false });
+    if (r.reason) {
+      log(`\n== Wired hook runtime ==\n  skipped: ${r.reason}`);
+    } else {
+      const moved = before.missing.length + before.differing.length;
+      log(`\n== Wired hook runtime ==`);
+      log(`  ${root}`);
+      log(moved
+        ? `  refreshed ${r.copied.length} file(s) — ${before.missing.length} new, `
+          + `${before.differing.length} changed`
+        : '  already level with this package');
+      for (const m of before.missing) log(`    + ${m}`);
+    }
+  } catch (e) {
+    // A runtime that cannot be refreshed must not fail the whole update — but it must
+    // say so, because silence here is what made B-22 invisible for five releases.
+    log(`\n== Wired hook runtime ==\n  NOT refreshed: ${e.message}`);
+    ok = false;
+  }
   return ok;
 }
 
@@ -665,26 +696,16 @@ function cmdHooks(argv) {
   const pkgRoot = pathMod.resolve(__dirname, '..');
   const file = pathMod.join(home, '.claude', 'settings.json');
 
-  /** Refresh the wired copy from this package. Idempotent; called on install. */
+  /**
+   * Refresh the wired copy from this package. Idempotent; called on install.
+   *
+   * The copy itself moved to `lib/runtime.js` in v0.47.0 so `update` could call the
+   * SAME one. It lived here as a closure, which is why `update` could not reach it and
+   * why a machine that only ran `update` executed hook code from whichever release last
+   * ran `hooks install` — `B-22`, found at stage 8 rather than by a gate.
+   */
   function syncRuntime() {
-    const copyDir = (from, to) => {
-      fs.mkdirSync(to, { recursive: true });
-      for (const e of fs.readdirSync(from, { withFileTypes: true })) {
-        const a = pathMod.join(from, e.name);
-        const b = pathMod.join(to, e.name);
-        if (e.isDirectory()) copyDir(a, b);
-        else if (e.name.endsWith('.js')) fs.copyFileSync(a, b);
-      }
-    };
-    // Both, because the hooks require the lib beside them. Copying only `hooks/`
-    // wires three scripts that throw on their first require.
-    for (const dir of ['hooks', 'lib']) {
-      copyDir(pathMod.join(pkgRoot, dir), pathMod.join(root, dir));
-    }
-    // `skills.json` too: lib/plan.js and the bin read it, and a lib copied
-    // without it fails the moment anything walks the manifest.
-    const manifestSrc = pathMod.join(pkgRoot, 'skills.json');
-    if (fs.existsSync(manifestSrc)) fs.copyFileSync(manifestSrc, pathMod.join(root, 'skills.json'));
+    require('../lib/runtime.js').sync(pkgRoot, root, { create: true });
     return root;
   }
 

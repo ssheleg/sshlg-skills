@@ -181,6 +181,32 @@ jobs:
             echo "OK: no suites FAILs instead of reporting green"
           fi
 
+      - name: Negative self-test (update dropping the runtime refresh must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/nortsync
+          cp -R . /tmp/nortsync
+          python3 - <<'PY'
+          # Anchored on the require, which is a structural line rather than prose, and
+          # it asserts it changed something: standing instruction #6 and its corollary.
+          # The fixtures in test/runtime_test.js prove lib/runtime.js copies correctly
+          # and cannot prove anybody calls it — delete the call and they all stay green,
+          # which is exactly how B-22 survived five releases.
+          p = "/tmp/nortsync/bin/sshlg-skills.js"
+          t = open(p, encoding="utf-8").read()
+          old = "const rt = require('../lib/runtime.js');"
+          assert old in t, "PLANT DID NOT LAND: the require is not where the guard reads it"
+          t = t.replace(old, "const rt = null; // planted", 1)
+          open(p, "w", encoding="utf-8").write(t)
+          assert "const rt = null; // planted" in open(p, encoding="utf-8").read(), "PLANT DID NOT LAND"
+          PY
+          if python3 /tmp/nortsync/test/validate.py; then
+            echo "ERROR: cmdUpdate stopped refreshing the wired runtime and the validator passed"
+            exit 1
+          else
+            echo "OK: validator FAILs when update no longer refreshes the code the hooks execute"
+          fi
+
       - name: Negative self-test (a missing npm test entry point must fail)
         run: |
           set -eu
