@@ -5,3 +5,8 @@ graphify-out/
 
 # The pipeline run ledger — state of a run, not of the repository (same class as graphify-out/)
 .task-pipeline/
+
+# agent-sync
+.env.agent-sync
+
+.agent-sync/

@@ -1,0 +1,31 @@
+{
+  "backend": "fs",
+  "leaseTtlSeconds": 2700,
+  "renewIntervalSeconds": 300,
+  "gated": true,
+  "idRegisters": {},
+  "guardedFiles": [
+    "docs/evidence/backlog.md",
+    "docs/evidence/verification.md",
+    "docs/evidence/retro.md",
+    "skills.json",
+    "README.md",
+    "pipeline.json"
+  ],
+  "claimTags": {
+    "docs/evidence/backlog.md": {
+      "mode": "cell",
+      "cell": -1,
+      "held": "{prev} (claimed: {holder})"
+    }
+  },
+  "gates": [],
+  "mirror": {
+    "enabled": false,
+    "sources": []
+  },
+  "mergeLog": {
+    "file": "docs/MERGES.md",
+    "retentionDays": 7
+  }
+}

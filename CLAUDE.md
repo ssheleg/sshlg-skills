@@ -83,6 +83,11 @@ command must be runnable and every named file resolvable.
 
 ## Where things live
 
+`docs/AGENT_SYNC.md` — how coordination is wired here, and what it does NOT
+guarantee. **Read it before editing a shared registry.** Coordination went on
+2026-08-14, after a second session released the umbrella and two members while
+this one was mid-run: nothing was lost, but a CHANGELOG got written at a version
+behind its own tree, and a member moved under the work twice.
 `docs/DOCMAP.md` — single homes, the propagation matrix, the gate.
 `docs/evidence/backlog.md` — what this repo owes, with computed priority.
 `docs/evidence/verification.md` — what shipped and what confirmed it.

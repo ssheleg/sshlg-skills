@@ -3,6 +3,10 @@ name: validate
 on:
   push:
   pull_request:
+  # Callable, so `release.yml` gates a publish on THIS suite instead of a
+  # copy of it. The negative self-tests live here as steps; running them
+  # from the release workflow any other way means a second home per plant.
+  workflow_call:
 
 jobs:
   validate:
