@@ -127,6 +127,8 @@ used.)*
 | 2026-08-12 | task-pipeline 1.49.2, sheleg-design 1.19.0; v0.40.0 | `3aa560e` | **not recorded** |
 | 2026-08-12 | The family engages by itself, through three hooks; v0.41.0 → v0.41.1 | `2a4c68a` | **not recorded** |
 | 2026-08-13 | Agent-time enforcement: hooks that hold; v0.42.0 (+ task-pipeline 1.50.0) | `d23ee2f` | yes — see below |
+| 2026-08-13 | The progress rail stops claiming a finished run; routing reaches all eight; v0.43.0 | `17eceef` | yes — see below |
+| 2026-08-13 | The gate stops judging other repositories; v0.44.0 → v0.44.1 (+ task-pipeline 1.51.0) | `eee6aca` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -523,3 +525,61 @@ The ratchet line was written as 422 fixtures from a count taken before five more
 were added, and corrected to 427 by re-running `npm test`. That is the third time
 this repository has recorded the same class, and the rule it keeps proving is its
 own: a number is computed at the moment it is written, or it is a recollection.
+
+
+---
+
+## 2026-08-13 (second and third runs) — four defects, all mine, all found by using the thing
+
+**Symptom.** Three consecutive releases, and every one of them shipped a defect
+the next few hours found — not in old code, in code written the same night.
+
+1. **The status line printed `gates N/N` at every point of every run.** Both
+   numbers came from how many `stage:` lines the ledger held. At stage 4 of ten it
+   said `gates 5/5`.
+2. **The release gate matched `stage: 6` literally.** A project whose flow has six
+   stages, tests green at stage 4, could never tag anything again.
+3. **The release gate read a verdict typed by the agent it constrains** — and,
+   once corroboration was added, accepted *any* green observation, so an earlier
+   green satisfied it over a later red.
+4. **The repository gate judged commits belonging to other repositories**, and
+   deadlocked a release live: the umbrella red *because* the submodule had not
+   shipped, the submodule unable to commit the fix because the umbrella was red.
+5. **The progress numerator counted lines too** — fixed one side of the fraction
+   and left the identical defect on the other. `gates 12/11 · 109%`.
+
+**Owned by** stage 5 in every case, and by stage 6 for not looking at the
+artefact. None was found by a fixture written for it. Two were found by *reading
+the widget while it described the run that built it*; one by running the observer
+against this repository's own ledger; one by the gate blocking a commit and the
+deadlock being traced rather than worked around.
+
+**Root cause.** One shape, five appearances: **a count taken over the record
+rather than over the thing the record is about.** Lines instead of stages, twice.
+A stage number instead of the stage's role. Any observation instead of the
+current one. A project directory instead of the repository a commit belongs to.
+Each is cheap to write, reads correctly, and is wrong only against a case the
+author did not have in front of them.
+
+**Fix, by grade.**
+
+- *Mechanical (taken):* every count is now over distinct, current things —
+  distinct stage ids with the last verdict winning; the tests stage resolved by
+  role from `pipeline.json`; the last observation; staged changes in this
+  repository. Each with fixtures in both directions, because "later red blocks"
+  and "later green clears" are different failures.
+- *Standing instruction — none, deliberately.* The grade above one is a check and
+  five exist now. A rule saying "think about what you are counting" would be
+  strictly worse than fixtures that refuse the commit.
+- *What actually caught them is worth naming, because it is not a rule:* the
+  pipeline ran on itself. The widget described its own run, the observer watched
+  its own suite, the gate blocked its own commit. **Dogfooding found four defects
+  that eighty-eight fixtures did not**, and the reason is structural — a fixture
+  encodes the case its author imagined, and every one of these was a case nobody
+  imagined until the artefact was in front of them.
+
+**The honest note about pace.** Three releases in one session, each fixing the
+one before. Every fix was real and every gate was green when it shipped; the
+defects lived in the space between "the suite passes" and "someone looked at the
+output". That gap is exactly what stage 8 is for, and it was the stage that kept
+finding them — after the tag, every time.
