@@ -31,7 +31,7 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 35-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.38.0",
+      "version": "0.38.1",
       "entry": "/ux",
       "role": "what the interface must do and how it sounds",
       "npm": "super-ux"
@@ -47,7 +47,7 @@
         "task-pipeline",
         "evidence-docs"
       ],
-      "version": "1.52.0",
+      "version": "1.53.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill"
@@ -62,7 +62,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.9.0",
+      "version": "1.10.0",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync"
@@ -77,7 +77,7 @@
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.16.0",
+      "version": "0.17.0",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill"
@@ -92,7 +92,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.24.0",
+      "version": "1.27.1",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill"
@@ -107,7 +107,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.16.0",
+      "version": "0.16.1",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit"

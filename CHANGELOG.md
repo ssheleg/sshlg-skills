@@ -1,5 +1,53 @@
 # Changelog
 
+## v0.46.0 — 2026-08-13
+
+The family stops naming its paperwork after another pack, and the machine can finally
+say who else speaks before your first prompt.
+
+### Added
+
+- **`sshlg-skills injectors`** — the enabled plugins that register a `SessionStart`
+  hook, with the path to each `hooks.json`. The routing block has said since v0.36.0
+  that another pack's always-on mandate does not outrank the family's map; nothing here
+  could tell you whether such a pack was switched ON, and the one time it mattered the
+  answer took a hand-written Python one-liner. It runs on a clean machine too, printing
+  `none` — a check whose output nobody has ever seen is indistinguishable from a broken
+  one.
+- **One line in the session block** when something else does inject, naming the plugins
+  and nothing else. The block is ~90 tokens on purpose: it exists because a pack that
+  prints its whole doctrine into every session is the 854-token cost this family
+  measured elsewhere and removed, and three file paths every session would re-commit
+  that mistake in miniature. Silent when nothing else injects.
+- **It reports what INJECTS, never what competes,** and says so in its own output. Of
+  the four injectors enabled on the machine this was built on, all four print their own
+  state rather than competing instructions, and no machine can sort those apart. A list
+  presented as a list of offenders would be a judgment about other people's packs
+  dressed as a measurement. **The recorded audit in the machine's own `CLAUDE.md` named
+  three; the mechanism found four.**
+
+### Changed
+
+- **`docs/superpowers/` → `docs/evidence/`** here and in six members, following
+  `task-pipeline` v1.53.0, which renamed the default and made the root **resolvable**
+  (`paths.artifacts`, else an existing `docs/evidence/`, else an existing
+  `docs/superpowers/` — the legacy name stays supported and no run warns about it).
+  The records inside moved with `git mv` and were **not rewritten**: a brief describes
+  where things were when it was written.
+- Six pins move in one sweep: `task-pipeline` 1.53.0, `super-ux` 0.38.1,
+  `sheleg-design` **1.24.0 → 1.27.1** (three releases behind, not one — the pin lag
+  recorded after the last sweep undercounted), `seo-aeo-audit` 0.16.1, `agent-sync`
+  1.10.0, `make-skill` 0.17.0.
+
+### Not done, deliberately
+
+- **B-19 / C-01 — the two-channel question stays open.** This release adds output to a
+  hook that is already wired rather than a new channel, so the write to the operator's
+  file did not grow. Deciding where the family's hooks belong inside a run about a
+  directory name would be the opposite of the deliberate decision the board asks for.
+  `statusLine` cannot move to a plugin at all — no `plugin.json` among the 36 installed
+  declares such a field — so that channel stays double whatever is decided.
+
 ## v0.45.0 — 2026-08-13
 
 ### Changed

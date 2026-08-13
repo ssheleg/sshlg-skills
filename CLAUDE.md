@@ -84,6 +84,6 @@ command must be runnable and every named file resolvable.
 ## Where things live
 
 `docs/DOCMAP.md` — single homes, the propagation matrix, the gate.
-`docs/superpowers/backlog.md` — what this repo owes, with computed priority.
-`docs/superpowers/verification.md` — what shipped and what confirmed it.
-`docs/superpowers/retro.md` — standing instructions, read in full before work.
+`docs/evidence/backlog.md` — what this repo owes, with computed priority.
+`docs/evidence/verification.md` — what shipped and what confirmed it.
+`docs/evidence/retro.md` — standing instructions, read in full before work.
