@@ -255,3 +255,14 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | REQ-09a | six members released | task-pipeline 1.53.0 · super-ux 0.38.1 · sheleg-design 1.27.1 · seo-aeo-audit 0.16.1 · agent-sync 1.10.0 · make-skill 0.17.0. Every CI verdict READ before its tag; every tag on a commit whose own gate was green | verified |
 | REQ-09b | the umbrella last, pins re-measured in one sweep | `python3 test/check_pins.py` → exit 0, *every pin matches its release*, all eight. `git submodule status` shows no line starting `+`. **`sheleg-design` was three releases behind, not the one recorded after the last sweep** | verified |
 | REQ-10 | B-19/C-01 stays open, marked not decided | the board row says so and carries the reason, plus the fact for whoever takes it: `statusLine` cannot move to a plugin at all | verified |
+
+## 2026-08-13 — B-22, the one thing `update` did not update (v0.47.0)
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| R-01 | `update` refreshes the wired hook runtime, printing new files individually | **Verified from the published package on the machine that had the defect.** Before: the runtime was short exactly `lib/runtime.js`. `npx sshlg-skills@latest update` printed *refreshed 36 file(s) — 1 new, 0 changed* and named it; after, `stale()` reports 0 missing and 0 differing | verified |
+| R-02 | Refresh, never install — `create: false` | fixture: a runtime that does not exist is NOT created, `created:false`, and the reason is stated rather than left to be inferred from an empty list | verified |
+| R-03 | A runtime that cannot be refreshed fails the update rather than passing quietly | the catch sets `ok = false` and prints `NOT refreshed: <reason>`; silence is what made this invisible for five releases | verified |
+| R-04 | One home for the copy — both `hooks install` and `update` call it | `bin/sshlg-skills.js`'s `syncRuntime()` is now three lines delegating to `lib/runtime.js`; the closure that only `cmdHooks` could reach is gone | verified |
+| R-05 | Idempotent at the layer that repeats | three syncs against a real tree hashed identical (instruction #2), and separately against a **copy of the operator's actual runtime**: 1 missing → 0, 36 copied, `created:false`, second pass no change | verified |
+| R-06 | **A guard on the wiring, not the module** | `check_update_refreshes_runtime()` reads `cmdUpdate`'s body and fails when it stops referencing `lib/runtime.js` or drops `create: false`. Watched failing: replacing the require with `null` produces *cmdUpdate() does not refresh the wired hook runtime*. Scoped to that body, since a repo-wide grep is satisfied by the `cmdHooks` call that was always there. Negative self-test in CI, 8 → 9 | verified |
