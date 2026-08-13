@@ -48,6 +48,47 @@ def check_changelog_headings():
 
 check_changelog_headings()
 
+
+def check_update_refreshes_runtime():
+    """`update` must refresh the wired runtime, and only a check can hold that.
+
+    `test/runtime_test.js` proves `lib/runtime.js` copies the right files. It cannot
+    prove anybody CALLS it: delete the call from `cmdUpdate` and every fixture stays
+    green while the defect returns whole. That is precisely how B-22 survived five
+    releases — the copy lived in a closure inside `cmdHooks`, `update` never reached it,
+    and a machine that only ran `update` executed hook code from whichever release last
+    ran `hooks install`. Found at stage 8 of the 2026-08-13 run by listing a directory,
+    not by any gate.
+
+    Scoped to the body of `cmdUpdate` on purpose: a repo-wide grep would be satisfied
+    by the `cmdHooks` call that was always there.
+    """
+    bin_path = os.path.join(ROOT, "bin", "sshlg-skills.js")
+    if not os.path.isfile(bin_path):
+        return
+    with open(bin_path, encoding="utf-8") as f:
+        src = f.read()
+    m = re.search(r"\nfunction cmdUpdate\(.*?\n\}\n", src, re.S)
+    if not m:
+        fail("bin/sshlg-skills.js: cmdUpdate() not found — this guard cannot find its "
+             "subject, and a guard with no subject passes everything")
+        return
+    body = m.group(0)
+    if "runtime.js" not in body:
+        fail("bin/sshlg-skills.js: cmdUpdate() does not refresh the wired hook runtime "
+             "(no reference to lib/runtime.js in its body). The settings point at "
+             "~/.sshlg-skills/runtime, so a release whose hooks changed reaches nobody "
+             "who only runs `update` — B-22, which took five releases and a stage-8 "
+             "directory listing to notice")
+    elif "create: false" not in body and "create:false" not in body:
+        fail("bin/sshlg-skills.js: cmdUpdate() refreshes the runtime without "
+             "`create: false` — an update that CREATES a runtime installs hooks on a "
+             "machine that never consented to them, which is the opposite failure")
+
+
+check_update_refreshes_runtime()
+
+
 def check_npm_payload():
     """Every path bin/ requires must be inside the published tarball.
 

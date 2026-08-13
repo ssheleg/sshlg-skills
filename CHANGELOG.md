@@ -1,5 +1,55 @@
 # Changelog
 
+## v0.47.0 — the one thing `update` did not update
+
+`B-22`, filed at stage 8 of the previous run and fixed here because a hook nobody
+receives is a hook nobody has.
+
+The settings entries point at `~/.sshlg-skills/runtime/`, never at the package — run via
+`npx`, `__dirname` is npm's cache and npx may prune it, which would leave hooks failing
+silently on every prompt. So the package's `hooks/` and `lib/` are copied into the
+operator's own directory and THAT is what runs. The copy lived in a closure inside
+`cmdHooks` and ran on `hooks install` alone, which made the wired runtime the one thing
+`update` did not touch.
+
+Watched on a real machine at v0.46.0: `npx sshlg-skills@latest update` brought six
+plugins to their new versions and left the runtime at **24 modules against the package's
+25**. The module missing was `injectors.js` — the whole point of that release — so its
+`SessionStart` line was published, installed, and dead. **Every hook improvement since
+v0.42.0 had been reaching machines the same way:** only via a command nobody had a reason
+to re-run.
+
+### Fixed
+
+- **`update` now refreshes the wired runtime**, and prints what moved — new files
+  named individually, because a count alone would have hidden this defect just as well
+  as silence did.
+- **Refresh, never install.** `create` stays `false`: a machine with no runtime has not
+  consented to hooks and an update is not the moment to ask — the same rule the routing
+  block's own refresh follows. What it is NOT is "leave an existing runtime alone"; this
+  repository has recorded three times that a rule written to protect a first run gets
+  applied on the hundredth, and refusing to refresh what is already there would be the
+  fourth.
+- A runtime that cannot be refreshed **says so and fails the update** rather than
+  passing quietly. Silence is what made this invisible for five releases.
+
+### Added
+
+- **`lib/runtime.js`** — one home for the copy, called by both `hooks install`
+  (`create: true`) and `update` (`create: false`). `stale()` reports what is missing or
+  differing without writing, which is how the fix was verified against the real machine
+  before it was released.
+- **8 fixtures** in `test/runtime_test.js`, including the B-22 machine exactly (a runtime
+  missing the module the release exists to ship) and three-run idempotence proven by
+  hashing the tree.
+- **A guard on the WIRING, not just the module.** `check_update_refreshes_runtime()`
+  reads `cmdUpdate`'s own body and fails when it stops referencing `lib/runtime.js` or
+  drops `create: false`. The fixtures prove the copy works and cannot prove anybody calls
+  it: delete the call and all eight stay green while the defect returns whole. That gap
+  is how B-22 survived. Scoped to `cmdUpdate`'s body, because a repo-wide grep would be
+  satisfied by the `cmdHooks` call that was always there. Watched failing against a
+  planted removal, with a matching negative self-test in CI (**8 → 9**).
+
 ## v0.46.0 — 2026-08-13
 
 The family stops naming its paperwork after another pack, and the machine can finally
