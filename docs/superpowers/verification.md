@@ -211,3 +211,10 @@ Nothing else about that repository is asserted here.
 | R-06 | The repository gate stops judging other repositories' commits | e2e: a commit with nothing staged in this project is not gated; the red-suite case now runs against a real repository with a real index. The deadlock was live — the umbrella red because the submodule had not shipped, the submodule unable to commit the fix | verified |
 | R-07 | The ledger's grammar carries the new shape, with a reader | `templates/run.md` documents `gate:` and shows it in the log example; `references/progress.md` names the reader — the validator refuses a shape nobody reads, and refused this one until it was named | verified |
 | R-08 | Guards rose with the change | `test/negatives.py` floor 310 → 311; the new CI self-test disarms the corroboration (`if command:` → `if False:`) and requires the suite to notice, watched failing locally before it was committed | verified |
+
+## 2026-08-13 — v0.44.1
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| R-01 | The progress numerator counts distinct stages, not lines | `test/runledger_test.js`: a ledger with a re-entered stage renders `gates 3/4`, never over 100%. Reproduced on this repository's own run first — `gates 12/11 · 109%` | verified |
+| R-02 | The last verdict for a stage id is the one that counts | both directions fixtured: a later pass clears an earlier fail, and an earlier pass does **not** outvote a later fail — the same "history satisfies the gate" shape the release gate was fixed for hours earlier | verified |
