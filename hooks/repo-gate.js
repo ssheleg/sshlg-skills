@@ -62,6 +62,19 @@ process.stdin.on('end', () => {
 
     if (data.hook_event_name === 'PreToolUse') {
       if (!gate.isCommit(input.command || '')) return process.exit(0);
+      // Whose commit is this? The payload carries no shell cwd, and this hook is
+      // wired from ONE project — so a commit made inside a submodule would be
+      // gated by the umbrella's suite, which is a different repository's verdict
+      // about a change it does not contain. Watched: it deadlocked a release, the
+      // umbrella being red precisely because the submodule had not shipped yet.
+      // Staged changes are the decidable version of the question: a commit for
+      // THIS project must have something staged in it.
+      try {
+        execFileSync('git', ['diff', '--cached', '--quiet'], { cwd: PROJECT, stdio: 'pipe' });
+        return process.exit(0);  // nothing staged here — the commit is not ours
+      } catch (e) {
+        if (e.status !== 1) return process.exit(0);  // not a git repo, or git is absent
+      }
       try {
         execFileSync('npm', ['test'], { cwd: PROJECT, encoding: 'utf8', stdio: 'pipe' });
       } catch (e) {

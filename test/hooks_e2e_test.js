@@ -278,6 +278,12 @@ it('a repaired settings file stops being reported', () => {
 /** Run the project gate against a throwaway project whose suite we control. */
 function runGate(payload, suiteExit) {
   const project = fs.mkdtempSync(path.join(os.tmpdir(), 'gate-proj-'));
+  // A real repository with something staged: the gate only claims a commit whose
+  // changes are in THIS project's index, because a commit made inside a submodule
+  // must not be judged by the umbrella's suite.
+  execFileSync('git', ['init', '-q'], { cwd: project });
+  fs.writeFileSync(path.join(project, 'staged.txt'), 'x');
+  execFileSync('git', ['add', 'staged.txt'], { cwd: project });
   fs.writeFileSync(path.join(project, 'package.json'), JSON.stringify({
     name: 'fixture', version: '0.0.0',
     scripts: { test: suiteExit === 0 ? 'node -e "console.log(\'PASS: green\')"'
@@ -470,6 +476,28 @@ it('a prompt with no route never escalates', () => {
     hook_event_name: 'PreToolUse', session_id: session, prompt_id: 'p1',
     tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'src.js') }, cwd: dir,
   }), null, 'an unclassified prompt was escalated — that is a prompt on every edit');
+});
+
+it('a commit that stages nothing HERE is not this project\'s commit', () => {
+  // The deadlock this prevents was real: committing inside a submodule ran the
+  // umbrella's suite, which was red for a reason the submodule commit was about
+  // to fix.
+  const project = fs.mkdtempSync(path.join(os.tmpdir(), 'gate-empty-'));
+  execFileSync('git', ['init', '-q'], { cwd: project });
+  fs.writeFileSync(path.join(project, 'package.json'), JSON.stringify({
+    name: 'fixture', version: '0.0.0',
+    scripts: { test: 'node -e "process.exit(1)"' },
+  }));
+  const r = spawnSync('node', [path.join(ROOT, 'hooks', 'repo-gate.js')], {
+    input: JSON.stringify({
+      hook_event_name: 'PreToolUse', tool_name: 'Bash',
+      tool_input: { command: 'git commit -m x' },
+    }),
+    encoding: 'utf8',
+    env: Object.assign({}, process.env, { CLAUDE_PROJECT_DIR: project }),
+  });
+  assert.strictEqual((r.stdout || '').trim(), '',
+    'a commit belonging to another repository was gated by this one\'s suite');
 });
 
 try {

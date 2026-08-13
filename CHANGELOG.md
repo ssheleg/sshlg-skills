@@ -1,5 +1,33 @@
 # Changelog
 
+## v0.44.0 — 2026-08-13
+
+### Fixed
+
+- **The repository gate judged commits belonging to other repositories.**
+  `.claude/settings.json` wires the gate for *this* project, and the hook ran
+  `npm test` in `CLAUDE_PROJECT_DIR` for any `git commit` — so a commit made
+  inside a submodule was refused on the umbrella's verdict about a change it does
+  not contain. It deadlocked a release while it was happening: the umbrella was
+  red **because** the submodule had not shipped yet, and the submodule could not
+  commit the fix because the umbrella was red.
+
+  A commit for this project must stage something in this project. That is the
+  decidable form of the question, and the payload carries no shell working
+  directory to answer it any other way. Nothing staged here → the gate says
+  nothing.
+
+### Notes
+
+- `task-pipeline` pinned at **1.51.0**, which fixes two defects in the release
+  gate this repository's own run shipped the night before: a gate keyed to
+  `stage: 6` blocked every release in any project whose flow has six stages, and
+  the gate read a verdict typed by the agent it constrains. It now resolves the
+  tests stage from `pipeline.json` and requires an observed exit code beside the
+  claim.
+- This repository declares `gate.command` for its tests stage, so its own releases
+  are corroborated rather than asserted.
+
 ## v0.43.0 — 2026-08-13
 
 The progress line stopped claiming a finished run, and the routing block became

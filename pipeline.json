@@ -3,17 +3,96 @@
   "version": "1.50.0",
   "_note": "This repository's own pipeline config. It exists for two reasons and both are mechanical: the progress rail's denominator comes from `stages[]` and from nowhere else (a bar built from the ledger's own line count printed `gates 5/5` at stage 4 of ten for two releases), and `run.loop` gives the pacing decision a home so it stops being re-asked at every intake.",
   "stages": [
-    { "id": 0, "state": "intake", "name": "Intake grill", "gate": { "type": "manual" } },
-    { "id": 1, "state": "docs", "name": "Docs study", "gate": { "type": "auto" } },
-    { "id": 2, "state": "brainstorm", "name": "Brainstorm + decompose", "gate": { "type": "auto" } },
-    { "id": 3, "state": "spec", "name": "Spec", "gate": { "type": "auto" } },
-    { "id": 4, "state": "plan", "name": "Plan", "gate": { "type": "auto" } },
-    { "id": 5, "state": "build", "name": "Build", "gate": { "type": "auto" } },
-    { "id": 6, "state": "tests", "name": "Tests", "gate": { "type": "manual" } },
-    { "id": 7, "state": "deploy", "name": "Lint + deploy", "gate": { "type": "manual" } },
-    { "id": 8, "state": "postdeploy", "name": "Post-deploy", "gate": { "type": "auto" } },
-    { "id": 9, "state": "docs-wiki", "name": "Docs + wiki + graph", "gate": { "type": "auto" } },
-    { "id": 10, "state": "acceptance", "name": "Acceptance", "gate": { "type": "manual" } }
+    {
+      "id": 0,
+      "state": "intake",
+      "name": "Intake grill",
+      "gate": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": 1,
+      "state": "docs",
+      "name": "Docs study",
+      "gate": {
+        "type": "auto"
+      }
+    },
+    {
+      "id": 2,
+      "state": "brainstorm",
+      "name": "Brainstorm + decompose",
+      "gate": {
+        "type": "auto"
+      }
+    },
+    {
+      "id": 3,
+      "state": "spec",
+      "name": "Spec",
+      "gate": {
+        "type": "auto"
+      }
+    },
+    {
+      "id": 4,
+      "state": "plan",
+      "name": "Plan",
+      "gate": {
+        "type": "auto"
+      }
+    },
+    {
+      "id": 5,
+      "state": "build",
+      "name": "Build",
+      "gate": {
+        "type": "auto"
+      }
+    },
+    {
+      "id": 6,
+      "state": "tests",
+      "name": "Tests",
+      "gate": {
+        "type": "manual",
+        "command": "npm test",
+        "_note": "Declared so hooks/gate-observer.sh records the OBSERVED exit code beside the agent's `stage: 6 … verdict pass` claim. The release gate requires the two to agree; without the declaration it degrades to the claim alone."
+      }
+    },
+    {
+      "id": 7,
+      "state": "deploy",
+      "name": "Lint + deploy",
+      "gate": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": 8,
+      "state": "postdeploy",
+      "name": "Post-deploy",
+      "gate": {
+        "type": "auto"
+      }
+    },
+    {
+      "id": 9,
+      "state": "docs-wiki",
+      "name": "Docs + wiki + graph",
+      "gate": {
+        "type": "auto"
+      }
+    },
+    {
+      "id": 10,
+      "state": "acceptance",
+      "name": "Acceptance",
+      "gate": {
+        "type": "manual"
+      }
+    }
   ],
   "run": {
     "loop": {

@@ -198,3 +198,16 @@ Nothing else about that repository is asserted here.
 | R-10 | Every sequence in a concatenated `terminalSequence` is validated | fixture: a forbidden OSC 52 hidden behind a legal OSC 9 is rejected in both orders. The ledger hook sends two sequences, and Claude Code drops the whole field if any part is outside the allowlist | verified |
 | R-11 | The turn store cannot escape its directory and does not grow forever | fixtures: `../../etc/passwd` sanitises to a flat name with no dot-runs; a 30-day-old record is pruned at session start and a current one is not | verified |
 | R-12 | Docs moved in the same change | DOCMAP — three new single homes, ratchet **24/469** recounted by running `npm test`; README's status-line section rewritten around the real render; CHANGELOG | verified |
+
+## 2026-08-13 — v0.44.0 (+ task-pipeline 1.51.0)
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| R-01 | The release gate is no longer keyed to a stage number | `test/release_gate_test.py`: a six-stage project with tests green at stage 4 releases. Reproduced as a defect first — v1.50.0 blocked it, exit 2, with the reason naming stage 6 | verified |
+| R-02 | The tests stage resolves from `pipeline.json`, then from the ledger by name | fixtures for a declared `state: "tests"` stage passing and failing; an unresolvable flow still refuses and its reason names `pipeline.json` | verified |
+| R-03 | The gate no longer believes the party it constrains | fixtures: the agent's claim alone blocks with *"the claim is the agent's own"*; claim + green observation releases; observed failure blocks even when the claim says pass | verified |
+| R-04 | The observer records what ran, and never judges | `gate-observer.sh` run as a process: a green run and a **red** run are both recorded; `npm test --watch`, `echo "npm test"`, `npm run build` and `git status` record nothing; the ledger is appended to, never rewritten | verified |
+| R-05 | The gate reads the **last** observation, not any green one | found by dogfooding against this repository's own ledger — an earlier green sat above a later red and the gate waved it through. Both directions fixtured: later red blocks, later green clears | verified |
+| R-06 | The repository gate stops judging other repositories' commits | e2e: a commit with nothing staged in this project is not gated; the red-suite case now runs against a real repository with a real index. The deadlock was live — the umbrella red because the submodule had not shipped, the submodule unable to commit the fix | verified |
+| R-07 | The ledger's grammar carries the new shape, with a reader | `templates/run.md` documents `gate:` and shows it in the log example; `references/progress.md` names the reader — the validator refuses a shape nobody reads, and refused this one until it was named | verified |
+| R-08 | Guards rose with the change | `test/negatives.py` floor 310 → 311; the new CI self-test disarms the corroboration (`if command:` → `if False:`) and requires the suite to notice, watched failing locally before it was committed | verified |
