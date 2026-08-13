@@ -196,6 +196,43 @@ it('the line stays one line, whatever the ledger holds', () => {
   assert.ok(line.length < 120, `status line is ${line.length} chars, too wide for a terminal strip`);
 });
 
+it('a re-entered stage is one stage, not two — the numerator\'s version of the defect', () => {
+  // A loop sends the run back through a stage and the ledger is append-only, so
+  // two `stage: 8` lines are normal and mean one stage. Counting lines printed
+  // `gates 12/11 · 109%` on this repository's own run.
+  const looped = [
+    'stage: 0 intake — gate manual — verdict pass — 2026-08-13T01:00:00Z',
+    'stage: 1 docs — gate auto — verdict pass — 2026-08-13T01:05:00Z',
+    'stage: 1 docs — gate auto — verdict pass — 2026-08-13T01:30:00Z',
+    'stage: 2 spec — gate auto — verdict pass — 2026-08-13T01:40:00Z',
+  ].join('\n');
+  const s = L.parse(looped);
+  assert.strictEqual(L.passed(s), 3, 'a re-entered stage was counted twice');
+  const line = L.render(looped, { stageIds: [0, 1, 2, 3] });
+  assert.ok(/gates 3\/4/.test(line), line);
+  assert.ok(!/1\d\d%/.test(line), `over 100 per cent: ${line}`);
+});
+
+it('the LAST verdict for a stage is the one that counts', () => {
+  const fixedLater = [
+    'stage: 6 tests — gate manual — verdict fail — 2026-08-13T01:00:00Z',
+    'stage: 6 tests — gate manual — verdict pass — 2026-08-13T01:30:00Z',
+  ].join('\n');
+  assert.strictEqual(L.passed(L.parse(fixedLater)), 1, 'a fixed stage still counted as failed');
+  const stillBroken = [
+    'stage: 6 tests — gate manual — verdict pass — 2026-08-13T01:00:00Z',
+    'stage: 6 tests — gate manual — verdict fail — 2026-08-13T01:30:00Z',
+  ].join('\n');
+  assert.strictEqual(L.passed(L.parse(stillBroken)), 0,
+    'an earlier pass outvoted the later failure — history satisfying a gate again');
+});
+
+it('percent never exceeds 100', () => {
+  const many = Array.from({ length: 20 }, (_, i) =>
+    `stage: ${i % 3} s — gate auto — verdict pass — 2026-08-13T01:00:00Z`).join('\n');
+  assert.ok(L.percent(L.parse(many), [0, 1, 2]) <= 100);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

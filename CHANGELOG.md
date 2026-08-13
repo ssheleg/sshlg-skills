@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.44.1 — 2026-08-13
+
+### Fixed
+
+- **The progress numerator counted lines too.** v0.43.0 fixed the denominator and
+  left the same defect on the other side of the fraction: a stage that a loop
+  re-enters writes a second `stage:` line, which is normal and means one stage, and
+  the count treated it as two. This repository's own run printed
+  `gates 12/11 · 109%`.
+
+  Distinct stages now, with the **last** verdict for an id winning — an earlier
+  pass must not outvote a later failure, which is the same "history satisfies the
+  gate" shape the release gate was fixed for an hour earlier, arriving in the
+  status line.
+
+  Found by looking at the widget while it described the run that built it.
+
 ## v0.44.0 — 2026-08-13
 
 ### Fixed
