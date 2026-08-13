@@ -71,6 +71,7 @@ jobs:
           # has watched that turn a working validator red (standing instruction #6).
           for mode in drop wrong; do
             rm -rf /tmp/npm-copy && cp -R . /tmp/npm-copy
+            python3 test/plant_guard.py snap /tmp/npm-copy
             python3 - "$mode" <<'PY'
           import json, sys
           p = "/tmp/npm-copy/skills.json"
@@ -87,6 +88,7 @@ jobs:
           assert after != before, f"plant did not land: npm is still {before!r}"
           print(f"planted {sys.argv[1]}: {e['name']} npm {before!r} -> {after!r}")
           PY
+            python3 test/plant_guard.py verify /tmp/npm-copy "Negative self-test (a wrong or missing npm name must fail)"
             if python3 /tmp/npm-copy/test/validate.py; then
               echo "ERROR: validator accepted a $mode npm name — check_pins would query the wrong package and report the member unpublished"
               exit 1
@@ -95,12 +97,47 @@ jobs:
             fi
           done
 
+      - name: Negative self-test (a workflow GitHub cannot parse must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/badwf && cp -R . /tmp/badwf
+          python3 test/plant_guard.py snap /tmp/badwf
+          python3 - <<'PY'
+          # Re-indent one body line of a block scalar to a single space. GitHub answers
+          # "this run likely failed because of a workflow file issue" and runs nothing;
+          # `npm test` was green over exactly this until the parse guard existed. A
+          # hand-rolled indentation check was tried first and PASSED this plant, because
+          # it only looked at the first line of each block and the damage is mid-block.
+          p = "/tmp/badwf/.github/workflows/validate.yml"
+          lines = open(p, encoding="utf-8").read().split("\n")
+          hit = next((i for i, l in enumerate(lines)
+                      if l.startswith("          ") and l.strip().startswith("python3 ")), None)
+          assert hit is not None, "PLANT DID NOT LAND: no deeply indented body line to spoil"
+          lines[hit] = " " + lines[hit].lstrip()
+          open(p, "w", encoding="utf-8").write("\n".join(lines))
+          PY
+          python3 test/plant_guard.py verify /tmp/badwf "a workflow body line re-indented to one space"
+          if python3 /tmp/badwf/test/validate.py; then
+            echo "ERROR: validator accepted a workflow GitHub cannot parse"
+            exit 1
+          else
+            echo "OK: validator refuses a workflow that would run nothing"
+          fi
+
       - name: Negative self-test (an SSH submodule url must fail)
         run: |
           set -eu
           cp -R . /tmp/ssh-copy
-          sed -i 's|url = https://github.com/ssheleg/agent-stack.git|url = git@github.com:ssheleg/agent-stack.git|' \
-            /tmp/ssh-copy/.gitmodules
+          python3 test/plant_guard.py snap /tmp/ssh-copy
+          python3 - <<'PY'
+          p = "/tmp/ssh-copy/.gitmodules"
+          s = open(p, encoding="utf-8").read()
+          old = "url = https://github.com/ssheleg/agent-stack.git"
+          assert old in s, "PLANT DID NOT LAND: no HTTPS url for agent-stack in .gitmodules"
+          open(p, "w", encoding="utf-8").write(
+              s.replace(old, "url = git@github.com:ssheleg/agent-stack.git", 1))
+          PY
+          python3 test/plant_guard.py verify /tmp/ssh-copy "Negative self-test (an SSH submodule url must fail)"
           if python3 /tmp/ssh-copy/test/validate.py; then
             echo "ERROR: validator accepted an SSH submodule url — it fails every clone without a key, CI included"
             exit 1
@@ -112,6 +149,7 @@ jobs:
         run: |
           set -eu
           cp -R . /tmp/corrupt
+          python3 test/plant_guard.py snap /tmp/corrupt
           # break the .gitmodules <-> skills.json agreement
           python3 - <<'PY'
           import json
@@ -120,6 +158,7 @@ jobs:
           d["skills"][0]["dir"]="skills/does-not-exist"
           json.dump(d, open(p,"w"), indent=2)
           PY
+          python3 test/plant_guard.py verify /tmp/corrupt "Negative self-test (validator must be able to fail)"
           if python3 /tmp/corrupt/test/validate.py; then
             echo "ERROR: validator passed on a corrupted copy"
             exit 1
@@ -132,6 +171,7 @@ jobs:
           set -eu
           rm -rf /tmp/badpin
           cp -R . /tmp/badpin
+          python3 test/plant_guard.py snap /tmp/badpin
           # claim a version the submodule does not contain
           python3 - <<'PY'
           import json
@@ -140,6 +180,7 @@ jobs:
           d["skills"][0]["version"] = "99.99.99"
           json.dump(d, open(p, "w"), indent=2)
           PY
+          python3 test/plant_guard.py verify /tmp/badpin "Negative self-test (a pin that lies must fail)"
           if python3 /tmp/badpin/test/validate.py; then
             echo "ERROR: validator passed while the pin disagreed with the submodule"
             exit 1
@@ -152,6 +193,7 @@ jobs:
           set -eu
           rm -rf /tmp/badreadme
           cp -R . /tmp/badreadme
+          python3 test/plant_guard.py snap /tmp/badreadme
           # bump a pin without touching the README table — the exact drift
           # observed twice: the table kept advertising the previous version
           python3 - <<'PY'
@@ -161,6 +203,7 @@ jobs:
           d["skills"][0]["version"] = "99.99.99"
           json.dump(d, open(p, "w"), indent=2)
           PY
+          python3 test/plant_guard.py verify /tmp/badreadme "Negative self-test (a README row that lies must fail)"
           if python3 /tmp/badreadme/test/validate.py; then
             echo "ERROR: validator passed while the README table disagreed with skills.json"
             exit 1
@@ -186,6 +229,7 @@ jobs:
           set -eu
           rm -rf /tmp/nortsync
           cp -R . /tmp/nortsync
+          python3 test/plant_guard.py snap /tmp/nortsync
           python3 - <<'PY'
           # Anchored on the require, which is a structural line rather than prose, and
           # it asserts it changed something: standing instruction #6 and its corollary.
@@ -200,6 +244,7 @@ jobs:
           open(p, "w", encoding="utf-8").write(t)
           assert "const rt = null; // planted" in open(p, encoding="utf-8").read(), "PLANT DID NOT LAND"
           PY
+          python3 test/plant_guard.py verify /tmp/nortsync "Negative self-test (update dropping the runtime refresh must fail)"
           if python3 /tmp/nortsync/test/validate.py; then
             echo "ERROR: cmdUpdate stopped refreshing the wired runtime and the validator passed"
             exit 1
@@ -212,6 +257,7 @@ jobs:
           set -eu
           rm -rf /tmp/noentry
           cp -R . /tmp/noentry
+          python3 test/plant_guard.py snap /tmp/noentry
           python3 - <<'PY'
           import json
           p = "/tmp/noentry/package.json"
@@ -219,6 +265,7 @@ jobs:
           d.pop("scripts", None)
           json.dump(d, open(p, "w"), indent=2)
           PY
+          python3 test/plant_guard.py verify /tmp/noentry "Negative self-test (a missing npm test entry point must fail)"
           if python3 /tmp/noentry/test/validate.py; then
             echo "ERROR: validator passed with no npm test entry point"
             exit 1
@@ -235,11 +282,13 @@ jobs:
           set -eu
           rm -rf /tmp/nocit
           cp -R . /tmp/nocit
+          python3 test/plant_guard.py snap /tmp/nocit
           python3 - <<'PY'
           p = "/tmp/nocit/.github/workflows/validate.yml"
           s = open(p, encoding="utf-8").read()
           open(p, "w", encoding="utf-8").write(s.replace("        run: npm test", "        run: echo skipped"))
           PY
+          python3 test/plant_guard.py verify /tmp/nocit "Negative self-test (CI dropping `npm test` must fail)"
           if python3 /tmp/nocit/test/validate.py; then
             echo "ERROR: validator passed while CI no longer runs npm test"
             exit 1

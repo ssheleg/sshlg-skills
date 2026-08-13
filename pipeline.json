@@ -96,8 +96,10 @@
   ],
   "run": {
     "loop": {
-      "enabled": true,
-      "_note": "Recorded 2026-08-12: the run advances item by item with no check-in between items. It collapses no manual gate and widens no authorization — a breached release precondition still stops the run."
+      "mode": "dynamic",
+      "queue": "module-map",
+      "arm": "after-decomposition",
+      "_note": "Declared 2026-08-13 while arming a loop over this very config and finding it had `enabled` and a note but not the `mode` its own schema marks required (B-25). `command` is deliberately ABSENT: this harness has a loop primitive, and this run does not use it — the queue advances within the session rather than across scheduled wakeups, so the mode is prose discipline plus the build ledger and says so rather than implying it is armed by a timer. It collapses no manual gate and widens no authorization: a breached release precondition still stops the run."
     }
   }
 }

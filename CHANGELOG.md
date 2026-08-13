@@ -1,5 +1,64 @@
 # Changelog
 
+## v0.47.1 — 2026-08-14
+
+The family's own standing instruction, applied where it was written. Until now #6 and its
+corollary lived in this repository's retro and were honoured in exactly one repo of eight.
+
+### Added
+
+- **`test/plant_guard.py`** — one implementation of *did the plant actually land*, now in
+  the umbrella, `make-skill` and `seo-aeo-audit`. `snap` before a plant, `verify` after:
+  it compares **content and mode**, ignores `.git` churn, refuses when handed no tree or
+  no snapshot (instruction #1), and keeps its manifest outside the tree it measures.
+  Nine fixtures, wired into `test/run.js` — Python, so the `*_test.js` discovery cannot
+  find it and the tally counts it explicitly rather than silently omitting it.
+
+### Fixed
+
+- **Every file-editing plant in this repository proves it landed.** Six inline guards
+  replaced by the helper; three per-anchor asserts inside Python kept, because a named
+  anchor is stronger evidence than a tree diff.
+- **The last `sed -i` here is gone.** BSD sed needs an argument to `-i`, so the
+  SSH-submodule-url plant errored and changed nothing on macOS — it could only ever be
+  exercised in CI, which is how a broken plant elsewhere went unnoticed for two days.
+
+### Why a script rather than a careful copy
+
+The guard was written inline, once per step, and produced a different defect in each:
+`cmp -s A B && …` killing the step under `set -eu` when the files DIFFER; an unquoted
+path; a raw triple-quoted string closed by the pattern's own leading quote; a heredoc
+passed where a shell function expected an argv; and a content-only comparison against a
+plant whose whole effect is `chmod` — **that one shipped into a pull request and CI caught
+it.** A sixth was in the helper's own docstring, where naming the triple-quote bug with
+the literal characters closed the docstring. A finding class seen twice becomes a script.
+
+### Six pins, one sweep
+
+`sheleg-dev` 0.4.2 · `agent-stack` 0.6.1 (which also ships two CI fixes that had sat on
+`main` unreleased, closing B-32) · `make-skill` 0.17.1 · `seo-aeo-audit` 0.16.2, on top of
+the four already current. `python3 test/check_pins.py` re-measured all eight before this
+push and reports every pin at its release.
+
+
+### And a check on the check
+
+`npm test` was green on a `validate.yml` **GitHub could not parse**: an inserted line
+carried one space of indentation instead of twelve, the run answered *this run likely
+failed because of a workflow file issue*, and the local suite had no opinion. Twice in one
+session a mechanical edit to a workflow produced YAML only the remote could reject.
+
+- **`check_workflows_parse()`** parses every workflow and fails when one does not, or
+  when it parses but declares no jobs — a workflow that runs nothing is indistinguishable
+  from a passing one. Watched failing against the exact defect, quoting GitHub's own
+  wording. Negative self-test in CI: **9 → 10**.
+- A hand-rolled indentation check was tried first and **passed the planted defect**,
+  because it examined only the first line of each block scalar and the damage was
+  mid-block. Re-implementing YAML to avoid a dependency is how that becomes a third bug,
+  so the guard uses a real parser — and **says so when it cannot run**: the validator
+  gained an `unlooked:` channel, because a check that goes quiet on missing input is the
+  shape this repository refuses.
+
 ## v0.47.0 — the one thing `update` did not update
 
 `B-22`, filed at stage 8 of the previous run and fixed here because a hook nobody
