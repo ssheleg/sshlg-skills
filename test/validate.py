@@ -370,6 +370,42 @@ if os.path.isfile(workflow):
              "and the local entry point would drift, and a new suite would be green in "
              "one place and unrun in the other")
 
+
+def check_release_gates_on_validate():
+    """A release must not publish over a red `validate`.
+
+    On 2026-08-12 `sheleg-dev` tagged v0.4.1 while its own `validate` run for that exact
+    tag FAILED, and npm served 0.4.1 four minutes later. The two are separate workflows,
+    so nothing connected them: the release ran the structural validator and never the
+    negative self-tests, which are steps in `validate.yml`. Six of the family's nine
+    repositories were in that state.
+
+    The fix is a `workflow_call` — the release calls the real suite rather than a copy of
+    it — and this guard keeps the call there. A dependency nobody checks is a dependency
+    somebody removes.
+    """
+    _wf = os.path.join(ROOT, ".github/workflows")
+    _rel, _val = os.path.join(_wf, "release.yml"), os.path.join(_wf, "validate.yml")
+    if not (os.path.isfile(_rel) and os.path.isfile(_val)):
+        return
+    _v = open(_val, encoding="utf-8").read()
+    _r = open(_rel, encoding="utf-8").read()
+    if not re.search(r"^\s*workflow_call:\s*$", _v, re.M):
+        fail(".github/workflows/validate.yml: no `workflow_call:` trigger — the release "
+               "workflow cannot run this suite, so a publish goes out over whatever subset "
+               "it runs itself")
+    if not re.search(r"^\s*uses:\s*\./\.github/workflows/validate\.yml\s*$", _r, re.M):
+        fail(".github/workflows/release.yml: does not call ./.github/workflows/validate.yml "
+               "— a red validate would not stop a publish, which is how v0.4.1 of a sibling "
+               "reached npm with its own suite failing")
+    if not re.search(r"^\s*needs:\s*(?:\[[^\]]*\bvalidate\b[^\]]*\]|validate)\s*$", _r, re.M):
+        fail(".github/workflows/release.yml: no job declares `needs: validate` — calling "
+               "the suite without depending on it lets the release run beside it rather than "
+               "after it, which looks gated and is not")
+
+
+check_release_gates_on_validate()
+
 if errors:
     print("FAIL: sshlg-skills structure invalid")
     for e in errors:

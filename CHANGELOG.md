@@ -1,5 +1,49 @@
 # Changelog
 
+## v0.49.0 — 2026-08-14
+
+A release could publish over a red suite in six of this family's nine repositories, and
+one of them proved it. Coordination went on the same day, after a second session released
+three packages while this run was mid-flight.
+
+### Fixed
+
+- **A release cannot publish over a red `validate` any more.** On 2026-08-12 `sheleg-dev`
+  tagged v0.4.1 while its own validate run for that exact tag **failed**, and npm served
+  0.4.1 four minutes later: two separate workflows, nothing connecting them. `validate.yml`
+  is callable now and `release.yml` declares `needs: validate`, so the release runs **after**
+  the real suite rather than beside a copy of it — **not one plant is duplicated.** Porting
+  a negatives runner into every repo was the alternative and was rejected: six copies of a
+  258-line script is new drift surface.
+- **A guard keeps the connection there** — the trigger, the call and the `needs`, each
+  checked. Calling the suite without depending on it lets the jobs run in parallel, which
+  looks gated and is not. Watched failing against the planted removal.
+- Shipped in `sheleg-dev` 0.4.3 · `agent-stack` 0.7.1 · `super-ux` 0.38.2 ·
+  `make-skill` 0.18.1 · `seo-aeo-audit` 0.16.3, and here. Each release run now shows
+  `validate / validate` completing before `release` and `publish`.
+
+### Added
+
+- **Coordination is on.** `agent-sync` with the local-files backend: six shared registers
+  under a lease (the board, the verification ledger, the retro, `skills.json`, the family
+  table, `pipeline.json`), and `docs/AGENT_SYNC.md` linked from `CLAUDE.md` so nobody has
+  to infer the wiring. The lease is exclusive **on this machine**, which is the guarantee
+  that matches the situation rather than the stronger one the record plane suggests.
+
+### Why now, and what it cost to find out
+
+A second session ran its own pipeline in these repositories while this run was working:
+it released the umbrella to 0.48.0, `agent-stack` to 0.7.0 and `make-skill` to 0.18.0, and
+added standing instruction #9. Nothing was lost — but this run wrote one CHANGELOG at a
+version **behind its own tree**, caught a member moving under it twice, and found its own
+uncommitted work sitting on `main` in two repositories. None of that is visible without a
+lease.
+
+Two board rows came out of turning it on: **B-34**, where `agent-sync`'s id registers read
+a config key no shipped config writes and an absent key becomes `re.search("")`, which
+matches — so `check` crashes instead of reporting. That is standing instruction #1 inside
+the coordination tool, and `task-pipeline`'s own config has the same wrong key.
+
 ## v0.48.0 — 2026-08-14
 
 The family gains a protocol layer, and loses the second copy of one it already had.

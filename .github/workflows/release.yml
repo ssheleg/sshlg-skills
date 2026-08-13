@@ -22,7 +22,15 @@ on:
         type: string
 
 jobs:
+  # The whole validate suite, every negative self-test included, before
+  # anything is published. Until 2026-08-14 a red `validate` did not stop
+  # a release anywhere in this family: `sheleg-dev` tagged v0.4.1 while its
+  # own validate run for that tag failed, and npm served it four minutes later.
+  validate:
+    uses: ./.github/workflows/validate.yml
+
   release:
+    needs: validate
     if: vars.RELEASE_ENABLED == 'true'
     runs-on: ubuntu-latest
     permissions:
