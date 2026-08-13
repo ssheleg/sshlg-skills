@@ -50,6 +50,12 @@ process.stdin.on('end', () => {
       if (text) context.push(text);
     } catch (e) { /* a notice that cannot be read is not worth a broken session */ }
 
+    // One small file per session accumulates forever otherwise — the kind of
+    // litter nobody notices until it is thousands of files.
+    try {
+      require(path.join(LIB, 'turnstate.js')).prune(home, Date.now(), 1000 * 60 * 60 * 24 * 7);
+    } catch (e) { /* nothing to prune is the normal case */ }
+
     const cwd = data.cwd || process.env.CLAUDE_PROJECT_DIR || process.cwd();
     const ledgerPath = path.join(cwd, '.task-pipeline', 'run.md');
     if (fs.existsSync(ledgerPath)) {

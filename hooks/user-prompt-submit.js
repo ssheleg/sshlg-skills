@@ -29,6 +29,21 @@ process.stdin.on('end', () => {
     const prompt = data.prompt || data.user_prompt || data.userPrompt ||
                    data.message || (raw.trim().startsWith('{') ? '' : raw);
     const triggers = require(path.join(__dirname, '..', 'lib', 'triggers.js'));
+
+    // Record what this turn asked for, so `PreToolUse` can act on it several tool
+    // calls and one process later. Naming a route is a hint the model may ignore;
+    // this is what lets the un-routed path be escalated instead.
+    try {
+      const os = require('os');
+      const turnstate = require(path.join(__dirname, '..', 'lib', 'turnstate.js'));
+      turnstate.write(os.homedir(), data.session_id, {
+        promptId: data.prompt_id || null,
+        routes: triggers.match(prompt),
+        optedOut: triggers.optedOut(prompt),
+        asked: false,
+      });
+    } catch (e) { /* a hint that cannot be stored is a hint that does not happen */ }
+
     const out = triggers.render(prompt);
     if (out) process.stdout.write(out + '\n');
   } catch (e) {

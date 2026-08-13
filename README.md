@@ -259,16 +259,58 @@ The status line reads `.task-pipeline/run.md`, the ledger a pipeline run already
 keeps:
 
 ```
-▶ 5 Build auto · gates 4/5 · iter 2 · holds 1 · touch 1
+0✓ 1✓ 2✓ 3✓ 4✓ 5· 6· 7· 8· 9· 10· · 45% · ▶ 4 Plan auto · gates 5/11 · iter 0 · holds — · 40m
 ```
+
+**The denominator comes from your `pipeline.json` → `stages[]`, and from nowhere
+else.** Until v0.43.0 both numbers came from how many `stage:` lines the ledger
+happened to hold, so a run at stage 4 of ten printed `gates 5/5` — a finished run,
+at a glance, every time. With no stage list declared, the line prints `5 gates
+passed`: a count claims nothing about what is left, and the example flow's eleven
+are not a fallback.
+
+Glyphs are `✓` passed · `▶` in flight · `·` not entered · `✗` failed · `⊘` skipped
+— a failed gate and a skipped stage must not look like a passed one. When a
+**manual** gate has no verdict the line says `⏸ waiting on you`, because that is
+the only moment nothing advances until you act.
+
+Beside the line, two things you do not have to be looking at the terminal for: the
+run's position on the **taskbar or dock** (OSC `9;4`), and a desktop ping the
+moment a manual gate is reached. The four-line progress block is printed by the
+hook rather than by the agent — the doctrine requires every glyph to come from the
+verdict the gate wrote and from nothing else, and a process with no memory cannot
+write one from memory.
 
 Every number is borrowed rather than computed — the iteration count is the
 number of `iter:` lines, the gates come from `stage:` verdicts — and an
 **unreported** `holds:` prints `holds —`, not `holds 0`, because a silent stage
 must not look like a clean one. In a directory with no run it prints nothing.
 
-**The prompt hook is deliberately quiet.** A question beats any trigger, saying a
-router's refusal phrase silences it, and a prompt with no signal costs nothing.
+### Routing that acts, not only reminds
+
+The prompt hook names the route. Naming is a hint a model may ignore, so since
+v0.43.0 the un-routed path is escalated instead: when a prompt reads as work the
+family routes **and no run is open**, the first `Edit` or `Write` of that turn asks
+— naming the route, what it owns, and the phrase that declines it.
+
+- **`ask`, never `deny`.** The routing block's own boundary says a typo, a one-line
+  edit or a mechanical rename does *not* go through the pipeline, and no hook can
+  tell a typo from a feature. You answer once.
+- **Once per turn.** A turn that edits forty files asks once.
+- **`Bash` is never gated** — that would put a permission prompt in front of
+  running the tests rather than in front of the change.
+- **A refusal phrase silences the whole session**, not the turn. Someone who said
+  «без пайплайна» has decided.
+
+**A hook cannot make a model invoke a skill.** It can refuse the un-routed path
+and name the route; that is the whole of it, and claiming more would be the false
+guarantee `task-pipeline`'s own hook doctrine warns about.
+
+**The prompt hook is deliberately quiet.** A question beats any trigger — with one
+derived exception: a trigger that is *itself* phrased as a question wins, because
+`seo-aeo-audit` advertises «почему упал трафик» and the generic filter was
+silencing it on the words it owns. Saying a router's refusal phrase silences it,
+and a prompt with no signal costs nothing.
 Every word it fires on must already appear in the target skill's own
 `description`; a fixture reads the shipped descriptions and fails on any trigger
 the skill does not itself advertise, so this cannot become a second routing

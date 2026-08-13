@@ -39,6 +39,15 @@ function runHook(script, payload) {
   return out ? JSON.parse(out) : null;
 }
 
+/** Some hooks answer in plain text (SessionStart context, the prompt note). */
+function runHookText(script, payload) {
+  const r = spawnSync('node', [path.join(ROOT, 'hooks', script)], {
+    input: JSON.stringify(payload), encoding: 'utf8', env: ENV,
+  });
+  assert.strictEqual(r.status, 0, `${script} exited ${r.status}: ${r.stderr}`);
+  return (r.stdout || '').trim();
+}
+
 function sha(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 }
@@ -330,6 +339,137 @@ it('an ordinary file written is silence', () => {
     }), encoding: 'utf8', env: process.env,
   });
   assert.strictEqual((r.stdout || '').trim(), '');
+});
+
+// --- the progress widget, as processes -------------------------------------
+
+/** A project with a ledger, and optionally its own stage list. */
+function project(ledger, stages) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'prog-'));
+  write(path.join(dir, '.task-pipeline', 'run.md'), ledger);
+  if (stages) {
+    fs.writeFileSync(path.join(dir, 'pipeline.json'),
+      JSON.stringify({ stages: stages.map((id) => ({ id })) }));
+  }
+  return dir;
+}
+
+const MIDRUN = [
+  'Run: `something` · 2026-08-13',
+  'stage: 0 intake — gate manual — verdict pass — 2026-08-13T01:00:00Z',
+  'stage: 1 docs — gate auto — verdict pass — 2026-08-13T01:05:00Z',
+  'stage: 2 spec — gate auto — verdict pass — 2026-08-13T01:10:00Z',
+].join('\n');
+
+function statusLine(dir) {
+  const r = spawnSync('node', [path.join(ROOT, 'hooks', 'statusline.js')],
+    { input: JSON.stringify({ cwd: dir }), encoding: 'utf8', env: ENV });
+  return (r.stdout || '').trim();
+}
+
+it('THE DEFECT, as a process: no fraction is built from the ledger\'s line count', () => {
+  const line = statusLine(project(MIDRUN, null));
+  assert.ok(!/gates 3\/3/.test(line), `the false success shipped again: ${line}`);
+  assert.ok(/3 gates passed/.test(line), line);
+});
+
+it('with the project\'s stage list the fraction is the project\'s', () => {
+  const line = statusLine(project(MIDRUN, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+  assert.ok(/gates 3\/11/.test(line), line);
+  assert.ok(/27%/.test(line), line);
+  assert.ok(/0✓ 1✓ 2✓ 3·/.test(line), `the rail is missing or wrong: ${line}`);
+});
+
+it('the ledger hook prints the block and moves the taskbar', () => {
+  const dir = project(MIDRUN, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const out = runHook('file-changed.js', {
+    hook_event_name: 'FileChanged', cwd: dir,
+    file_path: path.join(dir, '.task-pipeline', 'run.md'), event: 'change',
+  });
+  assert.match(out.systemMessage, /gates 3\/11/);
+  assert.match(out.systemMessage, /[█░]/, 'no bar in the printed block');
+  assert.ok(out.terminalSequence.includes(']9;4;1;27'),
+    `no taskbar progress: ${JSON.stringify(out.terminalSequence)}`);
+});
+
+it('no stage list, no bar and no taskbar claim', () => {
+  const dir = project(MIDRUN, null);
+  const out = runHook('file-changed.js', {
+    hook_event_name: 'FileChanged', cwd: dir,
+    file_path: path.join(dir, '.task-pipeline', 'run.md'), event: 'change',
+  });
+  assert.ok(!/[█░]/.test(out.systemMessage), 'a bar was drawn with no denominator');
+  assert.ok(!out.terminalSequence, 'a percentage was claimed with nothing behind it');
+});
+
+it('a manual gate with no verdict pings the operator', () => {
+  const dir = project(MIDRUN + '\nstage: 7 deploy — gate manual — 2026-08-13T01:20:00Z',
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  const out = runHook('file-changed.js', {
+    hook_event_name: 'FileChanged', cwd: dir,
+    file_path: path.join(dir, '.task-pipeline', 'run.md'), event: 'change',
+  });
+  assert.ok(out.terminalSequence.includes('777;notify;'),
+    'the one moment a person is required passed without a ping');
+  assert.match(out.systemMessage, /waiting on you/);
+});
+
+// --- the routing escalation, as processes ----------------------------------
+
+it('the un-routed path is escalated once per turn, then goes quiet', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'route-'));
+  const session = 'e2e-route';
+  runHookText('user-prompt-submit.js',
+    { session_id: session, prompt_id: 'p1', prompt: 'сделай фичу экспорта в csv' });
+
+  const first = runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', session_id: session, prompt_id: 'p1',
+    tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'src.js') }, cwd: dir,
+  });
+  assert.strictEqual(first.hookSpecificOutput.permissionDecision, 'ask');
+  assert.match(first.hookSpecificOutput.permissionDecisionReason, /task-pipeline/);
+  assert.match(first.hookSpecificOutput.permissionDecisionReason, /без пайплайна/);
+
+  const second = runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', session_id: session, prompt_id: 'p1',
+    tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'other.js') }, cwd: dir,
+  });
+  assert.strictEqual(second, null, 'a turn editing many files would prompt on each one');
+});
+
+it('a refusal phrase silences the session, not merely the turn', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'route-'));
+  const session = 'e2e-optout';
+  runHookText('user-prompt-submit.js',
+    { session_id: session, prompt_id: 'p1', prompt: 'сделай фичу, без пайплайна' });
+  runHookText('user-prompt-submit.js',
+    { session_id: session, prompt_id: 'p2', prompt: 'теперь сделай ещё одну фичу' });
+  assert.strictEqual(runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', session_id: session, prompt_id: 'p2',
+    tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'src.js') }, cwd: dir,
+  }), null, 'a session that declined was asked again on the next prompt');
+});
+
+it('with a run already open, nothing is escalated', () => {
+  const dir = project(MIDRUN, null);
+  const session = 'e2e-open';
+  runHookText('user-prompt-submit.js',
+    { session_id: session, prompt_id: 'p1', prompt: 'сделай фичу экспорта' });
+  assert.strictEqual(runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', session_id: session, prompt_id: 'p1',
+    tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'src.js') }, cwd: dir,
+  }), null, 'the pipeline interrupted itself mid-run');
+});
+
+it('a prompt with no route never escalates', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'route-'));
+  const session = 'e2e-noroute';
+  runHookText('user-prompt-submit.js',
+    { session_id: session, prompt_id: 'p1', prompt: 'что делает этот модуль?' });
+  assert.strictEqual(runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', session_id: session, prompt_id: 'p1',
+    tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'src.js') }, cwd: dir,
+  }), null, 'an unclassified prompt was escalated — that is a prompt on every edit');
 });
 
 try {

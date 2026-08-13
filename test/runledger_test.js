@@ -44,12 +44,112 @@ it('stage verdicts drive the gate count, and a fail does not count as passed', (
   const s = L.parse(LEDGER);
   assert.strictEqual(s.stages.length, 4);
   assert.strictEqual(s.stages.filter((x) => x.verdict === 'pass').length, 3);
-  assert.ok(L.render(LEDGER).includes('gates 3/4'), L.render(LEDGER));
+  assert.ok(L.render(LEDGER, { stageIds: [0, 1, 2, 3, 4, 5] }).includes('gates 3/6'),
+    L.render(LEDGER, { stageIds: [0, 1, 2, 3, 4, 5] }));
 });
 
-it('the live stage is the last one written, with its gate type', () => {
+it('the live stage is named with its gate type', () => {
   const line = L.render(LEDGER);
-  assert.ok(line.startsWith('▶ 3 Spec manual'), line);
+  assert.ok(line.includes('▶ 3 Spec manual'), line);
+});
+
+// --- the denominator, which was the defect --------------------------------
+
+it('THE DEFECT: a fraction is never built from the ledger\'s own line count', () => {
+  // Shipped in v0.41.0 and v0.42.0: both numbers came from how many `stage:` lines
+  // the ledger happened to hold, so a run at stage 4 of ten printed `gates 5/5` —
+  // which reads at a glance as finished. `progress.md` names this exact failure.
+  const mid = [
+    'stage: 0 intake — gate manual — verdict pass — 2026-08-13T01:00:00Z',
+    'stage: 1 docs — gate auto — verdict pass — 2026-08-13T01:05:00Z',
+    'stage: 2 brainstorm — gate auto — verdict pass — 2026-08-13T01:10:00Z',
+    'stage: 3 spec — gate auto — verdict pass — 2026-08-13T01:15:00Z',
+    'stage: 4 plan — gate auto — verdict pass — 2026-08-13T01:20:00Z',
+  ].join('\n');
+  const line = L.render(mid);
+  assert.ok(!/gates 5\/5/.test(line), `the false success is back: ${line}`);
+  assert.ok(!/\b100%/.test(line), `a run at stage 4 of ten reported complete: ${line}`);
+  assert.ok(/5 gates passed/.test(line),
+    `with no stage list the honest rendering is a count, not a fraction: ${line}`);
+});
+
+it('the example flow\'s eleven are NOT a fallback', () => {
+  // A host project replaces the stage list; guessing it reproduces the defect with
+  // a different number, which is worse because it looks authoritative.
+  const line = L.render('stage: 0 intake — gate manual — verdict pass — 2026-08-13T01:00:00Z');
+  assert.ok(!/\/11\b/.test(line), `a stage list was invented: ${line}`);
+  assert.strictEqual(L.percent(L.parse('stage: 0 x — gate auto — verdict pass — x'), null), null);
+});
+
+it('with the project\'s stage list, the fraction and the percent appear', () => {
+  const line = L.render(LEDGER, { stageIds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] });
+  assert.ok(/gates 3\/11/.test(line), line);
+  assert.ok(/27%/.test(line), line);
+});
+
+// --- the rail --------------------------------------------------------------
+
+it('every glyph is derived from a recorded verdict, and they differ', () => {
+  const r = L.rail(L.parse(LEDGER), [0, 1, 2, 3, 4]);
+  assert.ok(r.includes('3' + L.GLYPH.fail), `a failed gate is not marked as failed: ${r}`);
+  assert.ok(r.includes('4' + L.GLYPH.absent), `an unentered stage is not marked absent: ${r}`);
+  assert.notStrictEqual(L.GLYPH.skip, L.GLYPH.absent,
+    'a skipped stage and an unentered one render alike — they mean opposite things');
+  assert.notStrictEqual(L.GLYPH.fail, L.GLYPH.pass);
+});
+
+it('without a stage list the rail claims nothing about what remains', () => {
+  const r = L.rail(L.parse(LEDGER), null);
+  assert.ok(!r.includes(L.GLYPH.absent), `positions were invented: ${r}`);
+});
+
+// --- the moment a person is actually needed --------------------------------
+
+it('a manual gate with no verdict is the run waiting on the operator', () => {
+  assert.strictEqual(L.awaitingOperator(L.parse(
+    'stage: 7 deploy — gate manual — 2026-08-13T01:00:00Z')), true);
+  assert.strictEqual(L.awaitingOperator(L.parse(
+    'stage: 7 deploy — gate manual — verdict pass — 2026-08-13T01:00:00Z')), false);
+  assert.strictEqual(L.awaitingOperator(L.parse(
+    'stage: 5 build — gate auto — 2026-08-13T01:00:00Z')), false,
+    'an auto gate does not wait for a person');
+});
+
+it('waiting on the operator is said in the line, not left to be inferred', () => {
+  const line = L.render('stage: 7 deploy — gate manual — 2026-08-13T01:00:00Z');
+  assert.ok(/waiting on you/.test(line), line);
+});
+
+// --- elapsed ---------------------------------------------------------------
+
+it('elapsed takes its clock from the caller, so this module stays pure', () => {
+  const from = '2026-08-13T01:00:00Z';
+  assert.strictEqual(L.elapsed(from, Date.parse('2026-08-13T01:00:40Z')), '40s');
+  assert.strictEqual(L.elapsed(from, Date.parse('2026-08-13T01:12:00Z')), '12m');
+  assert.strictEqual(L.elapsed(from, Date.parse('2026-08-13T02:12:00Z')), '1h 12m');
+  assert.strictEqual(L.elapsed(null, Date.now()), null);
+  assert.strictEqual(L.elapsed(from, undefined), null, 'no clock is not a duration of zero');
+});
+
+// --- the printed block -----------------------------------------------------
+
+it('the block is derived from the ledger, never from what anyone remembers', () => {
+  const b = L.block(LEDGER, { stageIds: [0, 1, 2, 3, 4, 5], version: '1.50.0' });
+  assert.ok(b.includes('v1.50.0'));
+  assert.ok(b.includes(L.GLYPH.fail), 'the block hid a failed gate');
+  assert.ok(b.includes('gates 3/6'), b);
+  assert.ok(/[█░]/.test(b), 'no bar was drawn');
+});
+
+it('the block draws no bar when the total is unknown', () => {
+  const b = L.block(LEDGER, {});
+  assert.ok(!/[█░]/.test(b), `a bar was drawn with no denominator behind it: ${b}`);
+  assert.ok(b.includes('3 gates passed'), b);
+});
+
+it('no run, no block', () => {
+  assert.strictEqual(L.block('', {}), '');
+  assert.strictEqual(L.block('iter: 1 — item B-01 — closed at gate 5', {}), '');
 });
 
 it('a missing holds line reads as unreported, never as zero', () => {

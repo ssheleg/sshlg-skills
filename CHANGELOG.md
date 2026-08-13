@@ -1,5 +1,81 @@
 # Changelog
 
+## v0.43.0 — 2026-08-13
+
+The progress line stopped claiming a finished run, and the routing block became
+reachable in full.
+
+### Fixed
+
+- **The status line reported `gates N/N` at every point of every run.** Both
+  numbers came from *how many `stage:` lines the ledger happened to hold*, so a run
+  at stage 4 of ten printed `gates 5/5` — which reads at a glance as finished.
+  `task-pipeline`'s own `references/progress.md` names this exact failure: *"a bar
+  reading `gates 5/11` in a project with six stages is a false success in the
+  purest form the pipeline has, printed in the place designed to be trusted at a
+  glance."* We shipped it in v0.41.0 and did not catch it in v0.42.0.
+
+  The denominator now comes from the project's `pipeline.json` → `stages[]` and
+  from nowhere else. **The example flow's eleven are deliberately not a fallback**:
+  a host project replaces them, and guessing reproduces the defect with a number
+  that looks authoritative. With no stage list the line prints a count — `5 gates
+  passed` — because a count claims nothing about what remains.
+
+- **Four of the eight routers could never be named.** The routing block carries
+  `copywriting`, `seo-llmo`, `evidence-docs` and `agent-sync`; the prompt hook's
+  table held four routes and none of them. "The agent picks the right skill
+  itself" was structurally impossible for half the family. Each new route's
+  triggers are still words its own skill advertises, and a fixture now compares the
+  table against the registry so the two cannot drift apart again.
+
+- **A trigger phrased as a question was silenced by the question filter.**
+  `seo-aeo-audit` advertises «почему упал трафик» and «почему нет позиций» — the
+  generic "a question is not an instruction" rule silenced the skill on exactly the
+  words it claims. A trigger that itself carries a question word now wins, for any
+  route; a plain question over a plain trigger still does not.
+
+### Added
+
+- **The progress block is printed by a hook, from the ledger.** The doctrine is
+  that every glyph is derived from the verdict the gate wrote *and from nothing
+  else* — and a block typed by the agent is a summary written from memory, the
+  easiest artefact in a run to get confidently wrong. A block emitted by a hook
+  cannot be written from memory: that process has no memory, only the file.
+
+- **The rail, the bar, and what is actually waiting.** Glyphs `✓ ▶ · ✗ ⊘` — a
+  failed gate and a skipped stage no longer render like a passed one — plus the
+  percentage, how long the run has been going, and `⏸ waiting on you` when a
+  **manual** gate has no verdict.
+
+- **Taskbar progress and a ping at the moment a person is required.** OSC `9;4`
+  moves the terminal's own progress indicator; OSC `777` pings when the run reaches
+  a manual gate. That gate is the only moment nothing advances until the operator
+  acts, which makes it a better trigger than "Claude went quiet 60 seconds ago".
+
+- **The un-routed path escalates, once.** When a prompt reads as work the family
+  routes and no run is open, the first `Edit`/`Write` of that turn asks — naming
+  the route, what it owns, and the phrase that declines it for the rest of the
+  session. `ask`, never `deny`: the routing block's own boundary says a typo or a
+  one-line edit does not go through the pipeline, and no hook can tell a typo from
+  a feature. `Bash` is not gated, because that would put a permission prompt in
+  front of running the tests rather than in front of the change.
+
+- **`pipeline.json`** — this repository declares its own eleven stages and records
+  `run.loop`, so the pacing decision has a home instead of being re-asked at every
+  intake.
+
+### Notes
+
+- **A hook cannot make a model invoke a skill.** It can refuse the un-routed path
+  and name the route. Promising more would be the false guarantee
+  `task-pipeline`'s `references/hooks.md` warns about, and the module says so in
+  its own first paragraph.
+- `isAllowed` now validates **every** sequence in a concatenation rather than the
+  first. The ledger hook sends taskbar progress and a ping together, and Claude
+  Code drops the whole field if any part is outside the allowlist.
+- Ratchets: **24 suites, 469 fixtures** (was 23/427), 8 pinned members. Counted by
+  running `npm test`.
+
 ## v0.42.0 — 2026-08-13
 
 The family's hooks stopped only speaking and learned to hold.

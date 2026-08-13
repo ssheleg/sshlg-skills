@@ -80,6 +80,24 @@ it('every sequence this module builds passes its own allowlist', () => {
   }
 });
 
+it('EVERY sequence in a concatenation is validated, not just the first', () => {
+  // The ledger hook sends taskbar progress and a notification together. Checking
+  // only the first would let the second through unvalidated — and Claude Code
+  // drops the whole field, so the feature would be dead with nothing saying so.
+  const progress = `${ESC}]9;4;1;45${BEL}`;
+  const ping = `${ESC}]777;notify;t;b${BEL}`;
+  const forbidden = `${ESC}]52;c;AAAA${BEL}`;
+  assert.strictEqual(N.isAllowed(progress + ping), true, 'a legal pair was rejected');
+  assert.strictEqual(N.isAllowed(progress + forbidden), false,
+    'a forbidden sequence hid behind a legal one');
+  assert.strictEqual(N.isAllowed(forbidden + progress), false);
+});
+
+it('an unterminated sequence is not allowed', () => {
+  assert.strictEqual(N.isAllowed(`${ESC}]9;4;1;45`), false, 'a sequence with no terminator passed');
+  assert.strictEqual(N.isAllowed(''), false);
+});
+
 it('a malformed payload is silence, not a throw', () => {
   assert.strictEqual(N.sequence(undefined), '');
   assert.strictEqual(N.sequence({}), '');

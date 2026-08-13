@@ -40,6 +40,43 @@ function say(decision, reason) {
   }) + '\n');
 }
 
+/**
+ * The routing escalation — the only thing a hook can do about "take the route".
+ *
+ * A hook cannot make a model invoke a skill. It can refuse the un-routed path and
+ * name the route, once, and let the operator decide in one keystroke. Everything
+ * that makes this bearable lives in `lib/routegate.js`: once per turn, only when
+ * the prompt asked for it, only when no run is open, and silenced for the session
+ * by any router's refusal phrase.
+ */
+function routeGate(data, home) {
+  try {
+    const routegate = require(path.join(LIB, 'routegate.js'));
+    if (!routegate.TOOLS.includes(data.tool_name)) return process.exit(0);
+
+    const turnstate = require(path.join(LIB, 'turnstate.js'));
+    const state = turnstate.read(home, data.session_id);
+
+    const cwd = data.cwd || process.env.CLAUDE_PROJECT_DIR || process.cwd();
+    const runOpen = fs.existsSync(path.join(cwd, '.task-pipeline', 'run.md'));
+
+    const triggers = require(path.join(LIB, 'triggers.js'));
+    const lines = {};
+    for (const [name, spec] of Object.entries(triggers.ROUTES)) lines[name] = spec.line;
+
+    const verdict = routegate.decide(data, state, { runOpen, lines });
+    if (!verdict) return process.exit(0);
+
+    // Recorded BEFORE the prompt is emitted: a turn that edits forty files must
+    // ask once, and an escalation that failed to record itself asks forty times.
+    turnstate.write(home, data.session_id, { asked: true });
+    say('ask', verdict.reason);
+  } catch (e) {
+    /* Silence: an escalation that throws must not cost the turn. */
+  }
+  return process.exit(0);
+}
+
 let raw = '';
 process.stdin.setEncoding('utf8');
 process.stdin.on('data', (c) => { raw += c; });
@@ -83,7 +120,7 @@ process.stdin.on('end', () => {
     // 3. The write that cannot be undone.
     const guard = require(path.join(LIB, 'guard.js'));
     const target = guard.decide(data, home);
-    if (!target) return process.exit(0);
+    if (!target) return routeGate(data, home);
 
     const backup = require(path.join(LIB, 'backup.js'));
     const saved = backup.guard({ file: target, home });

@@ -245,6 +245,50 @@ it('a word can always still match itself, whatever was cut from it', () => {
   }
 });
 
+// --- the four routers that were unreachable ---------------------------------
+
+it('every router in the block can be named by this table', () => {
+  // Until v0.43.0 the block carried eight routers and this table held four, so
+  // "the agent picks the right skill itself" was structurally impossible for half
+  // the family — no trigger, no name, no route.
+  const registry = require('../lib/routers-registry.js').REGISTRY;
+  const missing = Object.keys(registry).filter((r) => !(r in T.ROUTES));
+  assert.deepStrictEqual(missing, [],
+    `routers the prompt hook can never name: ${missing.join(', ')}`);
+});
+
+it('the four added routes each fire on their own words', () => {
+  for (const [prompt, route] of [
+    ['напиши текст для лендинга', 'copywriting'],
+    ['сделай seo-аудит сайта', 'seo-llmo'],
+    ['запиши решение в decision record', 'evidence-docs'],
+    ['возьми задачу B-16', 'agent-sync'],
+  ]) {
+    assert.ok(T.match(prompt).includes(route), `${JSON.stringify(prompt)} did not route to ${route}`);
+  }
+});
+
+// --- the question exception, and how narrow it is ---------------------------
+
+it('a trigger phrased as a question still fires — the skill claimed those words', () => {
+  // `seo-aeo-audit` advertises «почему упал трафик» and «почему нет позиций».
+  // The generic question filter silenced it on exactly the phrasings it owns.
+  assert.deepStrictEqual(T.match('почему упал трафик'), ['seo-llmo']);
+  assert.deepStrictEqual(T.match('почему нет позиций'), ['seo-llmo']);
+});
+
+it('and a plain question still wins over a plain trigger', () => {
+  // The exception must not become "questions route now". These carry real
+  // triggers (`аудит`, `интеграция`, `миграция`) in a question, and stay silent.
+  assert.deepStrictEqual(T.match('почему этот аудит падает?'), []);
+  assert.deepStrictEqual(T.match('объясни, как работает интеграция'), []);
+  assert.deepStrictEqual(T.match('что делает эта миграция'), []);
+});
+
+it('a refusal beats the question exception too', () => {
+  assert.deepStrictEqual(T.match('почему упал трафик, без seo'), []);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

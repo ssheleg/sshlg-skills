@@ -33,6 +33,9 @@ C-06.
 | Which plain copies shadow a plugin | `lib/shadow.js` | pure; compares **skill ids each enabled plugin provides**, never marketplace names — `sheleg-design` ships from `sheleg-design-skill`, and the cheap check reports that machine clean |
 | The terminal sequence a notification becomes | `lib/notify.js` | pure; refuses anything outside the documented OSC allowlist rather than emitting a field Claude Code silently drops |
 | Whether someone overwrote the entries we wired | `lib/displace.js` | pure; the expectation is read from `lib/hooks.js`. `ConfigChange` records and `SessionStart` reports, because that event discards `systemMessage`, delivers no `additionalContext`, and a change it blocks surfaces no message to anyone |
+| Whether the un-routed path should stop and ask | `lib/routegate.js` | pure; `ask` never `deny`, once per turn, and silent where a run is open. A hook cannot make a model invoke a skill — it can refuse the un-routed path and name the route, and the wording says only that |
+| What one turn decided, for the next hook of the same turn | `lib/turnstate.js` | `~/.sshlg-skills/turns/<session>.json`, pruned at session start. Deliberately not `config.json`: that file's value is that it persists, and this state is worthless tomorrow |
+| Which stages this project has | `pipeline.json` → `stages[]` | the ONLY source for the progress denominator. The example flow's eleven are not a fallback — a host project replaces them, and guessing reproduces the defect with an authoritative-looking number |
 | Whether this repository's own gate lets a commit through | `lib/repogate.js` | pure; `npm test` is run by `hooks/repo-gate.js`, wired from a **committed** `.claude/settings.json` so a clone arrives with the gate |
 | The family's map — each member's entry point and what it closes | `lib/inventory.js` + `entry`/`role` in `skills.json` | rendered into the block; a fixture checks every declared entry is a command the family actually ships |
 | Cursor's rule file, which is ours end to end | `lib/cursor.js` | a file at that name without our sentinel is someone else's and is not overwritten |
@@ -97,11 +100,11 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-**Ratchets.** 23 suites, 427 fixtures, 8 pinned members. A change that lowers
+**Ratchets.** 24 suites, 469 fixtures, 8 pinned members. A change that lowers
 any of these without saying so in the changelog is a regression, not a
 simplification. Counted by running `npm test`, not carried across from the
 previous edit of this file — the numbers rose from 8/182 when `drift_test.js`
-landed, to 10/228 with `plan_test.js`, to 12/247 with the map and Cursor, to 13/267 when the write path gained a backup, to 13/269 with precedence over an injected mandate, to 16/303 when the family grew hooks of its own, and to 23/427 when those hooks learned to refuse.
+landed, to 10/228 with `plan_test.js`, to 12/247 with the map and Cursor, to 13/267 when the write path gained a backup, to 13/269 with precedence over an injected mandate, to 16/303 when the family grew hooks of its own, to 23/427 when those hooks learned to refuse, and to 24/469 when the progress rail stopped inventing its own denominator.
 
 ## What proves a claim here
 
