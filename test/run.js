@@ -46,13 +46,20 @@ const failed = [];
 if (!run('structural validator', 'python3', [path.join(TEST_DIR, 'validate.py')])) {
   failed.push('validate.py');
 }
+// Python, so the *_test.js discovery above cannot find it — and it has to run, because
+// it is the check that decides whether a negative self-test's damage actually landed.
+// Five hand-written copies of that check shipped five different bugs before it became
+// a script; one of them reached a pull request.
+if (!run('plant guard', 'python3', [path.join(TEST_DIR, 'plant_guard_test.py')])) {
+  failed.push('plant_guard_test.py');
+}
 for (const suite of suites) {
   if (!run(suite, process.execPath, [path.join(TEST_DIR, suite)])) failed.push(suite);
 }
 
 process.stdout.write(`\n${'='.repeat(60)}\n`);
 if (failed.length) {
-  process.stdout.write(`FAIL: ${failed.length} of ${suites.length + 1} — ${failed.join(', ')}\n`);
+  process.stdout.write(`FAIL: ${failed.length} of ${suites.length + 2} — ${failed.join(', ')}\n`);
   process.exit(1);
 }
-process.stdout.write(`PASS: ${suites.length + 1} checks green (validate.py + ${suites.length} suites)\n`);
+process.stdout.write(`PASS: ${suites.length + 2} checks green (validate.py + plant_guard + ${suites.length} suites)\n`);
