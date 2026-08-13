@@ -93,6 +93,19 @@ instructions by number, and renumbering would rot every one of those references.
    itself rather than from whatever wrapped it. *(Retire after five run stamps
    without firing.)*
 
+9. **(2026-08-14) A verdict belongs to an artifact by identity, not by recency —
+   `--limit 1` answers about whatever finished last.** The umbrella was tagged
+   `v0.48.0`, `gh run list --workflow release.yml --limit 1` was read for the run
+   id, and it returned the run for **`v0.47.1`**, tagged twenty-six minutes
+   earlier. That run had genuinely succeeded, so every subsequent check agreed
+   and `release: success` was reported for a release that had not started. The
+   contradiction surfaced only from a different instrument: `npm view` still said
+   `0.47.1`. **Select the run by the ref you pushed and confirm the identifier
+   before reading the status**, and close any release by reading the registry
+   rather than the pipeline — the pipeline says a job ended, the registry says
+   what the world can install. *(Retire when a release helper in this family
+   resolves its own run by tag, or after five run stamps without firing.)*
+
 ## Retired
 
 - **#3 (2026-08-06) — a date literal in a fixture compared against "now" schedules
@@ -121,6 +134,16 @@ all six packages; both were zsh declining to word-split an unquoted variable. #5
 the pin sweep found `sheleg-design` three releases behind, not the one the last sweep
 recorded. #6 fired twice — a guard left with no subject and a plant that reported
 `PLANT DID NOT LAND`. #7 and #8 are new. Seven of ten slots used, one vacant.)*
+
+*(prune at 2026-08-14: **no retirement**, and the reasoning is stated rather than
+implied. Five of seven live instructions fired in this run — #4 twice (a `for` loop
+over 21 URLs returned one answer for all of them; zsh again), #5 (the pin sweep was
+re-measured whole instead of chasing the member the log named), #6 (both new plants
+structural and asserting, and another session applied the corollary to the same files
+mid-run), #7 by extension (a guard's own matcher could not tell a path being used from
+one being discussed — recorded here as a citation, not a new slot), and #8 (`PIPESTATUS`
+empty in zsh). #1 and #2 did not fire and are nowhere near their five-stamp cold
+trigger. **#9 is new.** Eight of ten slots used, one vacant.)*
 
 *(prune at 2026-08-13: #1 retired above on its cold trigger. #2 fired — the
 three-run end-to-end fixture is what found the same-second backup collision.
@@ -168,6 +191,9 @@ used.)*
 | 2026-08-13 | The progress rail stops claiming a finished run; routing reaches all eight; v0.43.0 | `17eceef` | yes — see below |
 | 2026-08-13 | The gate stops judging other repositories; v0.44.0 → v0.44.1 (+ task-pipeline 1.51.0) | `eee6aca` | yes — see below |
 | 2026-08-13 | The artifact root stops carrying another pack's name; v0.46.0 + six members | `92010b1` | yes — see below |
+| 2026-08-13 | B-22: `update` refreshes the wired runtime; v0.47.0 | `e5e12b4` | **not recorded** |
+| 2026-08-14 | Plants assert they landed, family-wide; v0.47.1 | `5b639f8` | **not recorded** |
+| 2026-08-14 | The family gains a protocol layer and loses its second copy; v0.48.0 (+ agent-stack 0.7.0, make-skill 0.18.0) | `4ffa59a` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -707,3 +733,65 @@ directory** — and the one that no check caught is the one still described in p
 count included `graphify-out/graph.json`, which indexes the whole tree and holds 5086
 occurrences of the path by itself. A number is computed at the moment it is written, or
 it is a recollection — and this repository has now written that sentence five times.
+
+---
+
+## 2026-08-14 — the two homes, and the four instruments that lied about their own results
+
+The task was to give `agent-stack` a protocol layer. The grill found that half of it
+already existed in `make-skill`, pinned to a revision the specification had moved past —
+so the run became two repositories, and the interesting failures were all in the
+instruments rather than the work.
+
+**The finding that changed the shape of the run.** `make-skill/references/mcp.md` opened
+with *"Spec revision referenced here: **2025-11-25**"* and *"Read from the spec on
+2026-07-28"* — read that day, pin left on the older revision — and stated *"MCP is a
+**stateful** protocol"*, describing an `initialize` handshake. The live specification
+serves `2026-07-28` and reads *"Stateless, self-contained requests. Per-request
+capability negotiation."* Nothing on the page distinguished it from a current
+description. That is the whole failure mode of protocol prose, and it was invisible until
+two descriptions of one thing were put side by side.
+
+The remedy is mechanical rather than a resolution to be careful: `PROTOCOL_PINNED` in
+`agent-stack/test/validate.py` requires `**Spec pinned:** … · read YYYY-MM-DD` on every
+reference of a skill that documents somebody else's wire, rejects an impossible date, and
+has two negative self-tests that were watched failing.
+
+### Four instruments, four wrong answers, and how each was caught
+
+| Instrument | What it said | What was true | Caught by |
+|---|---|---|---|
+| `gh run list --limit 1` | `release: success` for the umbrella | that run was **v0.47.1**, tagged 26 minutes earlier; v0.48.0 had not started | `npm view` still said `0.47.1` — **a different instrument** |
+| `... \| tail; echo $PIPESTATUS` | `exit=` (empty) | the suite had failed; zsh spells it `pipestatus` | the output above it said `FAIL` |
+| a `for u in $URLS` loop over 21 URLs | one `000`, then twenty bare lines | zsh does not word-split an unquoted variable; curl received the whole list as one argument | the shape of the output — one answer for twenty-one inputs |
+| `test/validate.py`'s link regex | `agent-interop` links a `governance.md` it does not have | the text was *prose about a sibling skill's file*; the regex could not tell a path being **used** from one being **discussed** | the build, on a file never claimed |
+
+Instruction **#4** fired on the third row and **#8** on the second — both are already
+written down, both fired anyway, in this repository, in the same session that read them.
+That is the argument for keeping them rather than evidence they failed. The first row is
+new and became **#9**; the fourth is instruction **#7** one level out — a *guard's
+matcher* making the mistake #7 describes for a *rewrite tool* — and is recorded as a
+citation there rather than a tenth slot.
+
+**Instruction #5 fired and the loop it warns about did not happen.** `check_pins.py`
+named `sheleg-dev` as behind. The whole sweep was re-measured in one pass rather than
+chasing the named item: seven members correct, one behind, and the one behind belonged to
+another session. It was **not** adopted — moving a pin to a release whose gate this run
+never executed is how *green* comes to read as *verified* — and it left as board row B-34
+with the reason stated.
+
+**Instruction #6 held on both sides.** Both new plants are anchored on the stamp's shape
+and assert they changed something. Independently, another session merged v0.6.1 into
+`agent-stack` mid-run, converting the existing plants to Python with landing asserts —
+the same instruction, applied by someone else, colliding on the same files. Both sides
+were kept; nine plants re-verified against the merged tree.
+
+**What the stage-0 sweep bought, concretely.** The autonomy row *"is this checkout the
+one that ships"* was re-run before the first edit in the second repository, and
+`~/DATA/make-skill` was **two commits behind `origin/main`** at v0.16.0 while the umbrella
+pinned v0.17.0. Editing there would have been undone by a later fast-forward with nothing
+complaining. One command, run because a table said to, not because anything looked wrong.
+
+**The one thing this run cannot claim.** Twelve REQ rows are verified and every one
+measures the artifact. No agent has yet built anything with `agent-interop` loaded, and
+the ledger says so in its own closing section rather than letting twelve greens imply it.
