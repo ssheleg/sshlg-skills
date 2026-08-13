@@ -1,5 +1,33 @@
 # Changelog
 
+## v0.48.0 — 2026-08-14
+
+The family gains a protocol layer, and loses the second copy of one it already had.
+
+### Changed
+
+- **`agent-stack` 0.6.1 → 0.7.0** — a third skill, **`agent-interop`**: the protocols an
+  agent speaks outside its own process. MCP pinned at revision `2026-07-28` with the four
+  features it deprecated (`sampling`, `roots`, `logging`, dynamic client registration),
+  running many servers at once, mounting one so a client can reach it, the registry, A2A
+  1.0, and the gateway layer. `skills.json` declares all three skills — the symmetric
+  check added in v0.30.0 would otherwise let a shipped-but-undeclared skill reach nobody.
+
+- **`make-skill` 0.17.1 → 0.18.0** — hands the protocol over and keeps the skill-author
+  delta. Its `references/mcp.md` had been pinned to spec revision `2025-11-25` and called
+  MCP *"a stateful protocol"* with an `initialize` handshake; the live specification now
+  serves `2026-07-28`, whose own summary reads *"Stateless, self-contained requests."*
+  Two descriptions of one protocol drift, and the stale one is indistinguishable from the
+  current one — so there is now one description, it carries the revision it was read
+  against, and a validator fails the build without that stamp.
+
+### Known
+
+- **`sheleg-dev` is pinned at 0.4.2 while npm serves 0.4.3.** Pre-existing, not from this
+  run, and deliberately not adopted here: moving a pin to a release whose gate this run
+  never executed is how *green* comes to read as *verified*. `npm test` is unaffected —
+  `check_pins.py` is outside it by design, because the gate must work offline.
+
 ## v0.47.1 — 2026-08-14
 
 The family's own standing instruction, applied where it was written. Until now #6 and its
