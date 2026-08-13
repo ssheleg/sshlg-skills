@@ -266,3 +266,17 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | R-04 | One home for the copy — both `hooks install` and `update` call it | `bin/sshlg-skills.js`'s `syncRuntime()` is now three lines delegating to `lib/runtime.js`; the closure that only `cmdHooks` could reach is gone | verified |
 | R-05 | Idempotent at the layer that repeats | three syncs against a real tree hashed identical (instruction #2), and separately against a **copy of the operator's actual runtime**: 1 missing → 0, 36 copied, `created:false`, second pass no change | verified |
 | R-06 | **A guard on the wiring, not the module** | `check_update_refreshes_runtime()` reads `cmdUpdate`'s body and fails when it stops referencing `lib/runtime.js` or drops `create: false`. Watched failing: replacing the require with `null` produces *cmdUpdate() does not refresh the wired hook runtime*. Scoped to that body, since a repo-wide grep is satisfied by the `cmdHooks` call that was always there. Negative self-test in CI, 8 → 9 | verified |
+
+## 2026-08-14 — iteration 1 of the audit loop: B-27, B-28, B-32
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| I1-01 | One plant guard for the family — `test/plant_guard.py`, `snap`/`verify`, content AND mode | 9 fixtures; the first is the incident (a mode-only change must be seen). Deployed in the umbrella, `make-skill`, `seo-aeo-audit`; `sheleg-dev` and `agent-stack` use per-anchor asserts in Python | verified |
+| I1-02 | `sheleg-dev`'s two-day red `main` | `validate pass`, both runs, after the plant was re-anchored on the folded block's shape and proven to produce a 1204-char description | verified |
+| I1-03 | Plants run on a developer's machine | 18 `sed -i` plants converted to Python across four repos. BSD sed needs an argument to `-i`, so they errored and changed nothing on macOS — the condition that hid the broken one | verified |
+| I1-04 | Every plant proves it landed | run locally: 40 cases in `make-skill`, 9 in `seo-aeo-audit`, 8 in the umbrella, 6 in `agent-stack`, 4 in `sheleg-dev`; every one `OK` | verified |
+| I1-05 | The guard that shipped wrong, and what caught it | a content-only comparison announced `PLANT DID NOT LAND` about the `hookexec` plant, whose whole effect is `chmod`. **CI caught it**; the local run had truncated its output before that case. Fixed by making the helper mode-aware, and that case is now fixture #2 | verified |
+| I1-06 | `npm test` was green on YAML GitHub cannot parse | `check_workflows_parse()` fails on a workflow that does not parse, or parses with no jobs. Watched failing against the exact defect (a body line at one space), quoting GitHub's own wording. Negative self-test 9 → 10 | verified |
+| I1-07 | A check that cannot run says so | the umbrella validator gained an `unlooked:` channel; the parse guard uses a real parser and discloses when pyyaml is absent, rather than passing quietly | verified |
+| I1-08 | Six releases, pins in one sweep | sheleg-dev 0.4.2 · agent-stack 0.6.1 · make-skill 0.17.1 · seo-aeo-audit 0.16.2 · sshlg-skills 0.47.1. Each gate green on the commit its tag points at, `bash scripts/check-docs.sh` for `seo-aeo-audit` rather than a narrower one. `check_pins.py` → every pin at its release, all eight | verified |
+| I1-09 | The loop guard fired on the run itself | after editing one repo's guards twice and another's step three times, the run stopped, named the conflict and escalated to a shared helper instead of a fourth careful copy. Both red PRs went green on the first attempt afterwards | verified |
