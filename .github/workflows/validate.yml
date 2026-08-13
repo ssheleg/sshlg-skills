@@ -71,7 +71,7 @@ jobs:
           # has watched that turn a working validator red (standing instruction #6).
           for mode in drop wrong; do
             rm -rf /tmp/npm-copy && cp -R . /tmp/npm-copy
- python3 test/plant_guard.py snap /tmp/npm-copy
+            python3 test/plant_guard.py snap /tmp/npm-copy
             python3 - "$mode" <<'PY'
           import json, sys
           p = "/tmp/npm-copy/skills.json"
@@ -96,6 +96,33 @@ jobs:
               echo "OK: validator rejects a $mode npm name"
             fi
           done
+
+      - name: Negative self-test (a workflow GitHub cannot parse must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/badwf && cp -R . /tmp/badwf
+          python3 test/plant_guard.py snap /tmp/badwf
+          python3 - <<'PY'
+          # Re-indent one body line of a block scalar to a single space. GitHub answers
+          # "this run likely failed because of a workflow file issue" and runs nothing;
+          # `npm test` was green over exactly this until the parse guard existed. A
+          # hand-rolled indentation check was tried first and PASSED this plant, because
+          # it only looked at the first line of each block and the damage is mid-block.
+          p = "/tmp/badwf/.github/workflows/validate.yml"
+          lines = open(p, encoding="utf-8").read().split("\n")
+          hit = next((i for i, l in enumerate(lines)
+                      if l.startswith("          ") and l.strip().startswith("python3 ")), None)
+          assert hit is not None, "PLANT DID NOT LAND: no deeply indented body line to spoil"
+          lines[hit] = " " + lines[hit].lstrip()
+          open(p, "w", encoding="utf-8").write("\n".join(lines))
+          PY
+          python3 test/plant_guard.py verify /tmp/badwf "a workflow body line re-indented to one space"
+          if python3 /tmp/badwf/test/validate.py; then
+            echo "ERROR: validator accepted a workflow GitHub cannot parse"
+            exit 1
+          else
+            echo "OK: validator refuses a workflow that would run nothing"
+          fi
 
       - name: Negative self-test (an SSH submodule url must fail)
         run: |

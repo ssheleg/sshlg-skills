@@ -4,6 +4,7 @@ import json, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 errors = []
+_skips = []
 
 
 def fail(m):
@@ -87,6 +88,45 @@ def check_update_refreshes_runtime():
 
 
 check_update_refreshes_runtime()
+
+
+def check_workflows_parse():
+    """Every workflow file must be readable by the thing that runs it.
+
+    `npm test` was green on a `validate.yml` GitHub could not parse: an inserted line
+    carried one space of indentation instead of twelve, the run died with *this run
+    likely failed because of a workflow file issue*, and the local suite had no opinion.
+    Twice in one session a mechanical edit produced YAML only the remote could reject.
+
+    A hand-rolled indentation check was tried first and **passed the planted defect** —
+    it only examined the first line of each block scalar, and the damage was mid-block.
+    Re-implementing YAML to avoid a dependency is how that becomes a third bug, so this
+    uses a real parser and SAYS SO WHEN IT CANNOT: a check that goes quiet on missing
+    input is the shape this repository refuses (standing instruction #1).
+    """
+    import glob
+    try:
+        import yaml
+    except ImportError:
+        _skips.append("workflow YAML parse — pyyaml not installed here; CI installs it")
+        return
+    for wf in sorted(glob.glob(os.path.join(ROOT, ".github/workflows/*.yml"))):
+        rel = os.path.relpath(wf, ROOT)
+        try:
+            doc = yaml.safe_load(open(wf, encoding="utf-8"))
+        except yaml.YAMLError as exc:
+            where = getattr(exc, "problem_mark", None)
+            at = f":{where.line + 1}" if where else ""
+            fail(f"{rel}{at}: does not parse as YAML — GitHub reports this as 'this run "
+                 f"likely failed because of a workflow file issue' and runs nothing "
+                 f"({getattr(exc, 'problem', exc)})")
+            continue
+        if not isinstance(doc, dict) or not doc.get("jobs"):
+            fail(f"{rel}: parses but declares no jobs — a workflow that runs nothing is "
+                 f"indistinguishable from a passing one")
+
+
+check_workflows_parse()
 
 
 def check_npm_payload():
@@ -336,3 +376,7 @@ if errors:
         print(" - " + e)
     sys.exit(1)
 print(f"PASS: sshlg-skills structure valid ({len(skills)} skills, {len(gm_paths)} submodules)")
+# A check that could not run is not a check that passed. Printed after the verdict so it
+# reads as a disclosure rather than a failure, and never as a target.
+for _s in _skips:
+    print(f"  unlooked: {_s}")

@@ -41,6 +41,24 @@ the four already current. `python3 test/check_pins.py` re-measured all eight bef
 push and reports every pin at its release.
 
 
+### And a check on the check
+
+`npm test` was green on a `validate.yml` **GitHub could not parse**: an inserted line
+carried one space of indentation instead of twelve, the run answered *this run likely
+failed because of a workflow file issue*, and the local suite had no opinion. Twice in one
+session a mechanical edit to a workflow produced YAML only the remote could reject.
+
+- **`check_workflows_parse()`** parses every workflow and fails when one does not, or
+  when it parses but declares no jobs — a workflow that runs nothing is indistinguishable
+  from a passing one. Watched failing against the exact defect, quoting GitHub's own
+  wording. Negative self-test in CI: **9 → 10**.
+- A hand-rolled indentation check was tried first and **passed the planted defect**,
+  because it examined only the first line of each block scalar and the damage was
+  mid-block. Re-implementing YAML to avoid a dependency is how that becomes a third bug,
+  so the guard uses a real parser — and **says so when it cannot run**: the validator
+  gained an `unlooked:` channel, because a check that goes quiet on missing input is the
+  shape this repository refuses.
+
 ## v0.47.0 — the one thing `update` did not update
 
 `B-22`, filed at stage 8 of the previous run and fixed here because a hook nobody
