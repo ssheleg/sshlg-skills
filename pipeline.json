@@ -1,6 +1,7 @@
 {
+  "version": 1,
+  "_writtenAgainst": "task-pipeline 1.50.0 originally; the `version` key is the CONFIG FORMAT version (schema: integer, minimum 1), not the release that wrote the file — putting the skill's version there is what made this config fail its own schema in 24 places.",
   "$schema": "https://raw.githubusercontent.com/ssheleg/task-pipeline/main/pipeline.schema.json",
-  "version": "1.50.0",
   "_note": "This repository's own pipeline config. It exists for two reasons and both are mechanical: the progress rail's denominator comes from `stages[]` and from nowhere else (a bar built from the ledger's own line count printed `gates 5/5` at stage 4 of ten for two releases), and `run.loop` gives the pacing decision a home so it stops being re-asked at every intake.",
   "stages": [
     {
@@ -8,48 +9,78 @@
       "state": "intake",
       "name": "Intake grill",
       "gate": {
-        "type": "manual"
-      }
+        "type": "manual",
+        "check": "Harvest first, and write the SOURCE LEDGER into the brief before question one: the code; graphify-out/graph.json WITH ITS MEASURED LAG (git rev-list --count <built_at_commit>..HEAD — a build date is the graph's own reply about itself and does not satisfy this) plus the marker '⚠ not trusted for reach until refreshed' on anything but current; CLAUDE.md; docs/DOCMAP.md; docs/AGENT_SYNC.md (this repo is coordinated — read what the lease does NOT guarantee); docs/evidence/retro.md READ IN FULL, its standing instructions bind the run; docs/evidence/backlog.md with the open count quoted; docs/evidence/verification.md with the count sitting at 'never'; past briefs and carry-over ledgers; the wiki under projects/sshlg-skills/. THEN the grill: one question per turn with a recommended answer, every answer validated against the harvested sources, the autonomy sweep covered, and the REQ table written with a check per row. A number restated rather than computed is the failure this repository has recorded five times."
+      },
+      "skills": [
+        "task-pipeline:knowledge-sources",
+        "task-pipeline:grill",
+        "graphify",
+        "wiki-query"
+      ]
     },
     {
       "id": 1,
       "state": "docs",
       "name": "Docs study",
       "gate": {
-        "type": "auto"
-      }
+        "type": "auto",
+        "check": "Every contract the design will lock is grounded on a fetched source, not recall. This repository's contracts are LOCAL and context7 is reached only for an actual third-party dependency, of which it has none at runtime: skills.json's shape and the validator's own guard API; the Claude Code plugin manifest schemas; the Agent Skills front-matter limits; and pipeline.schema.json, which task-pipeline ships and this file must satisfy."
+      },
+      "skills": [
+        "context7-docs"
+      ]
     },
     {
       "id": 2,
       "state": "brainstorm",
       "name": "Brainstorm + decompose",
       "gate": {
-        "type": "auto"
-      }
+        "type": "auto",
+        "check": "The design is approved and every REQ is answered by it. A brief describing several independent changes IS a platform: cut it into modules, commit the map, walking skeleton first, every REQ in exactly one module — then stages 3→10 run per module. Prove the shape on one module before repeating it: five hand-written copies of one guard produced five different defects on 2026-08-13 because the shape was never proven once."
+      },
+      "skills": [
+        "task-pipeline:brainstorm",
+        "task-pipeline:decomposition"
+      ]
     },
     {
       "id": 3,
       "state": "spec",
       "name": "Spec",
       "gate": {
-        "type": "auto"
-      }
+        "type": "auto",
+        "check": "Contracts locked, each section naming the REQ it covers. This repository ships a CLI and prose, not an interface: the UX and design tracks are recorded as DECLINED rather than left silent. Every check the spec names must resolve at the moment it is named."
+      },
+      "skills": [
+        "task-pipeline:spec"
+      ]
     },
     {
       "id": 4,
       "state": "plan",
       "name": "Plan",
       "gate": {
-        "type": "auto"
-      }
+        "type": "auto",
+        "check": "Set-equality between the brief's REQ ids and the union of the plan's `Implements:` ids, computed in BOTH directions. Every command, path and file a Definition of Done names must resolve."
+      },
+      "skills": [
+        "task-pipeline:planning"
+      ]
     },
     {
       "id": 5,
       "state": "build",
       "name": "Build",
       "gate": {
-        "type": "auto"
-      }
+        "type": "auto",
+        "check": "TDD per task: the fixture is watched FAILING before the implementation exists. `npm test` after each task, not at the end. Anything that writes to a file the operator cannot recover goes through protect() in lib/apply.js — there is exactly one write path and adding a second is the regression this repository watches for. A mechanical rewrite over prose names BOTH locations in its exclusion list and prints every file it touched (instruction #7)."
+      },
+      "skills": [
+        "task-pipeline:build",
+        "task-pipeline:tdd",
+        "task-pipeline:review"
+      ]
     },
     {
       "id": 6,
@@ -58,40 +89,62 @@
       "gate": {
         "type": "manual",
         "command": "npm test",
-        "_note": "Declared so hooks/gate-observer.sh records the OBSERVED exit code beside the agent's `stage: 6 … verdict pass` claim. The release gate requires the two to agree; without the declaration it degrades to the claim alone."
-      }
+        "_note": "Declared so hooks/gate-observer.sh records the OBSERVED exit code beside the agent's `stage: 6 … verdict pass` claim. The release gate requires the two to agree; without the declaration it degrades to the claim alone.",
+        "check": "`npm test` green — validate.py, plant_guard and every discovered test/*_test.js — and the count reported is the one the command printed, not a recollection. Every guard added in this run has been WATCHED FAILING against a planted defect, and every plant asserts it changed the tree (test/plant_guard.py). A wrapper's exit status is not the suite's verdict: read the output (instruction #8)."
+      },
+      "skills": [
+        "task-pipeline:gates"
+      ]
     },
     {
       "id": 7,
       "state": "deploy",
       "name": "Lint + deploy",
       "gate": {
-        "type": "manual"
-      }
+        "type": "manual",
+        "check": "Outward and irreversible, so the authorization is specific rather than inherited. The CI verdict is READ before any tag, selected BY THE REF PUSHED rather than by recency (instruction #9). `npm test` is green on the exact commit the tag points at. `python3 test/check_pins.py` re-measures EVERY member in one sweep before the push (instruction #5), and `git submodule status` shows no line starting '+'."
+      },
+      "skills": [
+        "task-pipeline:release"
+      ]
     },
     {
       "id": 8,
       "state": "postdeploy",
       "name": "Post-deploy",
       "gate": {
-        "type": "auto"
-      }
+        "type": "auto",
+        "check": "Verified from the PUBLISHED artifacts, not the working tree: the registry answers what the world can install (instruction #9), the local installs are refreshed, and the WIRED runtime under ~/.sshlg-skills/runtime is level with the package — that gap shipped a dead hook once (B-22). One verification row per REQ the run shipped, each naming what confirmed it rather than that it passed."
+      },
+      "skills": [
+        "task-pipeline:acceptance"
+      ]
     },
     {
       "id": 9,
       "state": "docs-wiki",
       "name": "Docs + wiki + graph",
       "gate": {
-        "type": "auto"
-      }
+        "type": "auto",
+        "check": "Three artifacts, not two: the docs (DOCMAP's single homes and propagation matrix, README, CHANGELOG, the verification ledger), the wiki under projects/sshlg-skills/, and the code graph. A graph that cannot be refreshed says so and keeps its staleness marker rather than being quietly skipped (B-24)."
+      },
+      "skills": [
+        "wiki-update",
+        "graphify"
+      ]
     },
     {
       "id": 10,
       "state": "acceptance",
       "name": "Acceptance",
       "gate": {
-        "type": "manual"
-      }
+        "type": "manual",
+        "check": "The ladder walk FIRST — decision → spec → contract and its failure behaviour → task → change → executed test → surface — ordered by seam, every absence becoming a REQ row before the table is written. Then the coverage table, every row carrying evidence. Then the ledgers: no carry-over row left open, every one homed to a board id. Every repository clean, pushed and POINTED AT — `agent_sync finish` decides this, not a reading. **Release the lease BEFORE closing its board row**: the claim tag and the status share a cell here, so a close written while holding the claim is reverted by the restore (B-35). Last act, the retrospective in order: stamp the run, prune the standing instructions against their three triggers with every deletion logged, then write an entry only if the run diverged."
+      },
+      "skills": [
+        "task-pipeline:audit",
+        "task-pipeline:retrospective"
+      ]
     }
   ],
   "run": {
