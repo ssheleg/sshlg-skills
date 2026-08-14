@@ -34,6 +34,19 @@ who wrote the board.
 - **`npm test` exists in `make-skill` and `sheleg-dev` (B-41)**, running exactly what
   their CI's blocking steps run.
 
+### Caught by its own CI, one commit later
+
+The coordination guard above read the **working tree**. Seven member configs had been
+seeded locally, five committed, and the guard was green here while CI — which checks out
+the pinned commits — failed on the two that were never committed. That is the same defect
+as the pin guard two sections up, in a check written the same afternoon: *a check that
+reads a working tree reports a state no clone can reproduce.* It asks git now, and was
+watched failing on both shapes — file absent, and file present but untracked.
+
+`sheleg-design` gitignores `.claude/` deliberately, so it un-ignores exactly one file
+rather than the directory: `agent-sync` resolves a project by
+`<root>/.claude/agent-sync.json` and nowhere else, so that config has no other home.
+
 ### Board
 
 Nine rows closed today across five repositories. What stays open: **B-29** (99 rows at

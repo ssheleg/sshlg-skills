@@ -246,15 +246,30 @@ def check_members_guard_their_release_surfaces():
         if not os.path.isdir(sub):
             continue
         cfg = os.path.join(sub, ".claude", "agent-sync.json")
-        if not os.path.isfile(cfg):
+        # COMMITTED, not on disk. Seeding these configs locally made this guard green on
+        # 2026-08-14 while CI — which checks out the pinned commits — failed on two members
+        # whose file had never been committed. Same class as the pin guard one section up:
+        # a check that reads a working tree reports a state no clone can reproduce.
+        tracked = True
+        try:
+            out = subprocess.run(["git", "-C", sub, "ls-files", "--error-unmatch",
+                                  ".claude/agent-sync.json"],
+                                 capture_output=True, text=True, timeout=15)
+            tracked = out.returncode == 0
+        except (OSError, subprocess.SubprocessError):
+            tracked = os.path.isfile(cfg)   # cannot ask git; fall back and say so below
+            _skips.append(f"{name}: could not ask git whether its agent-sync config is "
+                          f"committed — checked the working tree instead")
+        if not (tracked and os.path.isfile(cfg)):
             # A submodule that is not checked out cannot be judged, and saying so beats
             # both a false pass and a failure the operator cannot act on.
             if not os.path.isfile(os.path.join(sub, "package.json")):
                 _skips.append(f"{name}: submodule not materialized — coordination unchecked")
             else:
-                fail(f"skills/{name}: no .claude/agent-sync.json — an unclaimed edit to a "
-                     f"shared file is how two sessions overwrite each other, and this "
-                     f"family runs more than one")
+                fail(f"skills/{name}: .claude/agent-sync.json is not committed — an "
+                     f"unclaimed edit to a shared file is how two sessions overwrite each "
+                     f"other, and a config that exists only on this machine protects "
+                     f"nobody who clones")
             continue
         try:
             with open(cfg, encoding="utf-8") as fh:
