@@ -304,3 +304,20 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | I3-05 | The criteria are evidence, not decoration | every file, path and function they name was verified to resolve — `check_pins.py`, `plant_guard.py`, `validate.py`, `lib/apply.js`'s `protect()`, the five `docs/` registers, `graphify-out/graph.json`, and the wiki page in the vault | verified |
 | I3-06 | Released and closed by the registry | `validate / validate=success, release=success, publish=success` on the run for the ref pushed; `npm view sshlg-skills` → 0.50.0 | verified |
 | I3-07 | The lease released **before** the row was closed | B-35's lesson applied the same night it was learned: the claim tag and the status share a cell, so a close written while holding the claim is reverted by the restore | verified |
+
+### Iteration 4 — B-31, acceptance can refuse a run that skipped a stage it declared
+
+| REQ | What it claims | Evidence | State |
+|---|---|---|---|
+| I4-01 | The defect is real, not inferred | `bash scripts/stage-coverage.sh` against this run's own ledger before the fix: *stage 3 (Spec) — DECLARED BY pipeline.json, NO VERDICT IN THE LEDGER*, same for 4; `stages declared 11 · accounted for 9 · 82%`, exit 1 | verified |
+| I4-02 | Detection existed and nothing refused on it | `lib/runledger.js` renders the rail that printed `3· 4·` and 73% on 2026-08-13; no gate read it. Stage 7's release gate asks only about the tests stage and fires before 8, 9 and 10 exist | verified |
+| I4-03 | One implementation, seeded not copied | `templates/stage-coverage.sh` ships in task-pipeline v1.54.0 and is listed in `templates/README.md`; the umbrella's `scripts/stage-coverage.sh` is that file. The validator refused the release until the template was listed | verified |
+| I4-04 | The gate names it, and the guard requires both halves | `pipeline.json` stage[10] `gate.check` opens with the command; `check_stage_coverage_is_wired()` fails on a missing script AND on a gate that stops naming it | verified |
+| I4-05 | The guard was watched failing | negative self-test removes only the naming half from a copy: *the final gate does not name scripts/stage-coverage.sh* → `OK: validator refuses an acceptance gate that cannot see a skipped stage` | verified |
+| I4-06 | The incident itself is a fixture | task-pipeline negative plants a five-stage flow whose ledger stamps four and requires the refusal to name stage 3; ran green locally and in CI | verified |
+| I4-07 | It refuses rather than approves with no input | second negative asserts exit **2** — not 0 — with no config and no ledger (standing instruction #1) | verified |
+| I4-08 | Guard counts moved with the guards | `test/negatives.py` MIN_EXPECTED 313 → 315 and the CHANGELOG count with it; both were caught stale by the repo's own ratchet, not by reading | verified |
+| I4-09 | The run's own record was made true | stages 3 and 4 stamped as folded into the module brief, wording naming the fold rather than inventing documents; coverage 9/11 → **11/11** | verified |
+| I4-10 | The remaining exit 1 is the check being right | stage 5 is genuinely `pending` while the loop runs; the command still exits 1 and says so, which is the intended behaviour at stage 10, not a defect | verified |
+| I4-11 | Released and closed by the registry | task-pipeline CI `completed success` on 8d3ef45 read **before** the tag; umbrella CI success on 70794a7, release workflow success, `npm view sshlg-skills version` → **0.51.0** | verified |
+| I4-12 | The lease released before the row closed | `.agent-sync/leases/B-31.lock` removed first, board row closed second (B-35) | verified |
