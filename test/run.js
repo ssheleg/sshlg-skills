@@ -29,15 +29,22 @@ function run(label, cmd, args) {
   return r.status === 0;
 }
 
-const suites = fs
-  .readdirSync(TEST_DIR)
-  .filter((f) => f.endsWith('_test.js'))
-  .sort();
+const entries = fs.readdirSync(TEST_DIR).sort();
+const suites = entries.filter((f) => f.endsWith('_test.js'));
+// Python suites are DISCOVERED too, not listed. `plant_guard_test.py` was named here by
+// hand, and a second Python suite arriving on 2026-08-14 would have been a second hand-
+// written line — which is invariant #4 of this repository's own house rules ("guard
+// corpora are discovered, not listed"), broken in the file that runs the guards. Three
+// hand-written lists in this family each missed a shipped surface, and none of the
+// misses was found by the guard holding the list.
+const pySuites = entries.filter((f) => f.endsWith('_test.py'));
 
-if (!suites.length) {
+if (!suites.length || !pySuites.length) {
   // An empty run is not a pass. A rename or a bad glob would otherwise turn
   // "no tests" into "all tests green".
-  process.stdout.write('FAIL: no *_test.js suites found in test/\n');
+  process.stdout.write(
+    `FAIL: discovery found ${suites.length} *_test.js and ${pySuites.length} *_test.py in test/ — a side at zero is a glob that broke, not a suite that passed\n`
+  );
   process.exit(1);
 }
 
@@ -46,12 +53,8 @@ const failed = [];
 if (!run('structural validator', 'python3', [path.join(TEST_DIR, 'validate.py')])) {
   failed.push('validate.py');
 }
-// Python, so the *_test.js discovery above cannot find it — and it has to run, because
-// it is the check that decides whether a negative self-test's damage actually landed.
-// Five hand-written copies of that check shipped five different bugs before it became
-// a script; one of them reached a pull request.
-if (!run('plant guard', 'python3', [path.join(TEST_DIR, 'plant_guard_test.py')])) {
-  failed.push('plant_guard_test.py');
+for (const suite of pySuites) {
+  if (!run(suite, 'python3', [path.join(TEST_DIR, suite)])) failed.push(suite);
 }
 for (const suite of suites) {
   if (!run(suite, process.execPath, [path.join(TEST_DIR, suite)])) failed.push(suite);
@@ -59,7 +62,7 @@ for (const suite of suites) {
 
 process.stdout.write(`\n${'='.repeat(60)}\n`);
 if (failed.length) {
-  process.stdout.write(`FAIL: ${failed.length} of ${suites.length + 2} — ${failed.join(', ')}\n`);
+  process.stdout.write(`FAIL: ${failed.length} of ${suites.length + pySuites.length + 1} — ${failed.join(', ')}\n`);
   process.exit(1);
 }
-process.stdout.write(`PASS: ${suites.length + 2} checks green (validate.py + plant_guard + ${suites.length} suites)\n`);
+process.stdout.write(`PASS: ${suites.length + pySuites.length + 1} checks green (validate.py + ${pySuites.length} python + ${suites.length} node suites)\n`);

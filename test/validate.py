@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Structural validator for the sshlg-skills umbrella repo. Exit 0 = pass."""
-import json, os, re, sys
+import json, os, re, subprocess, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import pin_source
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 errors = []
@@ -363,11 +366,29 @@ for s in skills:
     elif not os.path.isfile(sub_pkg):
         fail(f"skills.json: {name!r} submodule not materialized — cannot verify the {declared} pin")
     else:
+        # Read the COMMITTED version, not the working tree's. The promise is about a
+        # checkout: a clone of this hub commit gets the submodule at its gitlink, and
+        # whatever a local tree has uncommitted is not part of that. Reading the file on
+        # disk made this gate red on 2026-08-14 for version 1.55.0 of `task-pipeline` —
+        # a number that existed only as an uncommitted bump in a concurrent session's
+        # working tree, and which no clone could have installed.
+        #
+        # The dirty state is still DISCLOSED rather than swallowed: a check that quietly
+        # ignores an edit is how the edit ships. It just is not a pin failure, because
+        # the pin is not what it disagrees with.
+        subdir = os.path.join(ROOT, s.get("dir", ""))
         with open(sub_pkg, encoding="utf-8") as fh:
-            actual = json.load(fh).get("version")
-        if actual != declared:
-            fail(f"skills.json: {name!r} pinned at {declared} but the submodule contains {actual} "
+            on_disk = json.load(fh).get("version")
+        verdict, actual, note = pin_source.resolve(
+            declared, pin_source.read_committed(subdir), on_disk)
+        if verdict == "mismatch":
+            fail(f"skills.json: {name!r} pinned at {declared} but {note} says {actual} "
                  f"(checkout the right tag in {s.get('dir')!r})")
+        elif verdict == "dirty":
+            _skips.append(f"{name}: pin {declared} matches the committed submodule, but its "
+                          f"{note}")
+        elif verdict == "blind":
+            _skips.append(f"{name}: the {declared} pin was {note}")
 
     # The npm name is DECLARED, never derived, and must match what the member
     # actually publishes as.

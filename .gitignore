@@ -10,3 +10,7 @@ graphify-out/
 .env.agent-sync
 
 .agent-sync/
+
+# Python bytecode from the validator and its suites
+__pycache__/
+*.pyc

@@ -66,6 +66,54 @@ jobs:
           fi
           exit "$code"
 
+      - name: Pin-source suite (7 cases — the four verdicts, on real git repos)
+        run: python3 test/pin_source_test.py
+
+      - name: Negative self-test (a wrong pin must still fail)
+        run: |
+          set -eu
+          rm -rf /tmp/pin-copy && cp -R . /tmp/pin-copy
+          python3 - <<'PY'
+          # Making a dirty working tree stop being a pin failure must not make a REAL
+          # mismatch stop being one. This is the half of the change that could rot
+          # silently: the loud half fires on every run, this one never would.
+          import json
+          p = "/tmp/pin-copy/skills.json"
+          d = json.load(open(p, encoding="utf-8"))
+          hit = next(s for s in d["skills"] if s.get("version"))
+          before = hit["version"]
+          hit["version"] = "99.99.99"
+          assert hit["version"] != before, "PLANT DID NOT LAND: no versioned pin in skills.json"
+          json.dump(d, open(p, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+          PY
+          if python3 /tmp/pin-copy/test/validate.py; then
+            echo "ERROR: validator accepted a pin that no checkout could satisfy"
+            exit 1
+          else
+            echo "OK: a real mismatch is still red"
+          fi
+
+      - name: Negative self-test (losing a whole language of suites must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/disc-copy && cp -R . /tmp/disc-copy
+          python3 - <<'PY'
+          # Discovery replaced a hand-written list, so the failure mode moved: a glob that
+          # matches nothing now silently runs zero suites and reports green. An empty side
+          # is a broken glob, not a passing suite.
+          import glob, os
+          hits = glob.glob("/tmp/disc-copy/test/*_test.py")
+          assert hits, "PLANT DID NOT LAND: no python suites to remove"
+          for f in hits:
+              os.rename(f, f + ".disabled")
+          PY
+          if node /tmp/disc-copy/test/run.js; then
+            echo "ERROR: the runner reported green with zero python suites discovered"
+            exit 1
+          else
+            echo "OK: a side at zero is reported as a broken glob"
+          fi
+
       - name: Negative self-test (stage 10 must name the coverage check)
         run: |
           set -eu

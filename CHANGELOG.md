@@ -1,5 +1,45 @@
 # Changelog
 
+## v0.53.0 — the pin is about a checkout, so it stops reading a working tree
+
+`npm test` went red on 2026-08-14 with `'task-pipeline' pinned at 1.54.0 but the
+submodule contains 1.55.0`. 1.55.0 existed nowhere: no tag carried it, npm had never
+served it, and a clone of that hub commit would have installed 1.54.0 — the pinned
+number. It was an uncommitted bump in a **concurrent session's working tree**, and the
+gate had read the file on disk.
+
+The invariant says *a checkout of any hub commit must install exactly the versions
+`skills.json` advertises*. A checkout gets the submodule at its gitlink. Whatever a local
+tree holds uncommitted is not part of that, and the remedy an operator would reach for —
+bump the pin to 1.55.0 — would have advertised a version nobody had released.
+
+### Changed
+
+- **`test/pin_source.py`** decides in a pure module: `read_committed()` asks git, and
+  `resolve()` returns one of four verdicts. `mismatch` fails. `dirty` and `blind` are
+  **disclosed through `unlooked:`** rather than swallowed — a check that quietly ignores
+  an edit is how the edit ships — and neither is red, because the pin is not what they
+  disagree with. 7 fixtures on real git repositories, the third being the incident.
+- **A real mismatch is still red, and now has its own plant.** That was the half that
+  could rot silently: the loud half fires on every run, this one never would.
+
+### Fixed
+
+- **`test/run.js` discovers python suites instead of naming one.** `plant_guard_test.py`
+  was hard-coded, and a second python suite arriving today would have been a second
+  hand-written line — invariant #4 of this repository's own house rules, broken inside the
+  file that runs the guards. An empty side is now reported as a broken glob rather than a
+  passing suite.
+
+### Board
+
+**B-43** and **B-44** filed. The second is the one worth reading: the umbrella has
+coordination and its submodules do not, so a lease taken on a board row here says nothing
+about the member the row is worked in. Two sessions edited `skills/task-pipeline` at once
+today and `npm test` was green on the mixture, which is exactly why nothing noticed.
+**B-29** stays open with its blocker removed and its work parked, because filling `Human`
+is the one thing in that ledger a machine may not do.
+
 ## v0.52.0 — two members learn to hear a machine writing
 
 `super-ux` **0.38.2 → 0.39.0** and `seo-aeo-audit` **0.16.3 → 0.17.0**, pins and
