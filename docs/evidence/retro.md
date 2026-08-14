@@ -130,6 +130,35 @@ instructions by number, and renumbering would rot every one of those references.
    which checks out the pinned commits, failed on the two that had never been committed.
    **Ask git what is committed; disclose the working tree's disagreement rather than
    failing on it.** Both now do, and both were watched failing on the uncommitted shape.
+   *(Retire when every guard in this family reads through `git ls-files` or
+   `git show`, or after five run stamps without firing.)* — **the missing
+   retirement condition was added on 2026-08-14**, one run after the entry was
+   written: the file's own rule is that every entry carries its three triggers, and
+   this one carried none, so it could never have been pruned. **Fired on that same
+   run, twice:** the umbrella's ten `skills/*` guarded patterns were correctly
+   reported as matching nothing, because `git ls-files skills/super-ux` returns one
+   gitlink and no files beneath it while the files sit on disk in another
+   repository's index — the guard read committed state and committed state was
+   right. Kept.
+
+11. **(2026-08-14) When a new check goes red, suspect the checker before the
+   subject — and prove it against a case you already know is clean.** Twice in one
+   run, on two different checkers, the instrument was wrong and the subject was
+   not. A new Contents-anchor check reported **22 failures across a shelf that was
+   in fact clean**, because GitHub's slugger turns every remaining space into one
+   hyphen and never collapses them, so `## FR-01 — Collect the funnels` anchors with
+   **two** hyphens and a collapsing slugger disagrees with every heading containing
+   an em dash. And a check that had passed since it was written — *every trigger is
+   a word the skill itself advertises* — reported real advertised words as missing,
+   because its description parser used `$` under `/m`, which matches at end of the
+   first LINE: 74 characters of a 993-character folded scalar, for every skill,
+   while its own `desc.length > 40` guard passed because one line clears forty.
+   **The tell is the shape of the failure, not its size:** a checker that is wrong
+   fails broadly and uniformly, on inputs that have no reason to be broken
+   together. Before believing a first red, run the checker against a known-clean
+   case and against a case you have planted; if both agree with you, it is the
+   subject. *(Retire when every check in this family ships with a known-clean
+   fixture beside its planted one, or after five run stamps without firing.)*
 
 ## Retired
 
@@ -221,6 +250,7 @@ used.)*
 | 2026-08-13 | B-22: `update` refreshes the wired runtime; v0.47.0 | `e5e12b4` | **not recorded** |
 | 2026-08-14 | Plants assert they landed, family-wide; v0.47.1 | `5b639f8` | **not recorded** |
 | 2026-08-14 | The family gains a protocol layer and loses its second copy; v0.48.0 (+ agent-stack 0.7.0, make-skill 0.18.0) | `4ffa59a` | yes — see below |
+| 2026-08-14 | Web funnel mechanics into the knowledge references, a ninth router, and coordination repaired in eight repositories; v0.55.0 (+ super-ux 0.40.0, sheleg-dev 0.5.0, agent-stack 0.8.0 pinned) | `1a127d8` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -232,6 +262,127 @@ The cost is exact and worth naming: the cold-retirement trigger for a standing
 instruction is *five run stamps without firing*, and for ten days that counter
 could not advance. Every prune in that window compared instructions against a
 clock that had stopped.
+
+**Prune, 2026-08-14 (v0.55.0).** Nine held, ten after this run's addition, which is
+exactly the cap. **Six fired.** #2 — the `routers` command was run three times
+against the real `~/.claude/CLAUDE.md` and the SHA-256 was identical after each.
+#4 — see #11's second half, which is the same failure one step sharper: the
+description parser did not return the same answer for every input, it returned the
+same *kind* of truncated answer for every input, and its own length guard could not
+tell. #5 — `check_pins.py` reported `agent-stack` behind while this release was
+being built, and the sweep was re-run over all eight rather than the one the log
+named. #8 — every gate in this run was run alone, with its output redirected and
+its exit code read directly. #9 — CI verdicts were resolved by `headSha` and by
+tag, never by "the latest run". #10 — twice, as recorded in its own entry. **Three
+did not fire:** #1, #6, #7.
+
+**Nothing retired, and the reason is a gap this file already names.** The cold
+trigger is *five run stamps without firing*, and no entry records which stamps it
+fired on, so the counter cannot be computed for the three that did not fire today.
+The note under the stamp table says the counter stopped for ten days between
+v0.32.0 and v0.41.1; the deeper problem is that even a moving clock has nothing to
+compare against. **The list is now AT its cap of ten, so the next addition forces a
+retirement** — and the honest way to earn one is to record firing per entry from
+this run forward, which costs one line each time an instruction fires and makes the
+trigger computable for the first time.
+
+---
+
+## 2026-08-14 — the check that proved a trigger was advertised had been reading one line of fifteen
+
+**Symptom.** A ninth router was added with triggers taken from the descriptions of
+the skills it fronts. `every trigger is a word the skill itself advertises` reported
+twelve of them missing — including `subscription billing`, `webhook` and
+`подключить stripe`, which `stripe-billing` advertises verbatim in its own
+front matter. The check had passed on every run since it was written.
+
+**Root cause.** Its parser was
+`/^description:\s*(?:>-?\s*\n)?([\s\S]*?)(?=\n[a-z-]+:|$)/m`. The `/m` flag is
+required for `^description:` — the key is not first in the front matter — and it
+also rebinds `$` to end-of-**line**. So the capture stopped at the first newline of
+a folded YAML scalar: **74 characters of `stripe-billing` instead of 993**, 85 of
+`ad-tracking` instead of 879, and so on for every skill in the family. The guard
+that should have caught it, `assert.ok(desc.length > 40)`, passed because one line
+of a description comfortably clears forty characters.
+
+**Surfaced at** stage 5, by a route whose triggers were correct. **Owned by** the
+run that wrote the check: it was verified by watching it pass, and a check that
+reads one fifteenth of its input passes for the same reason it is useless.
+
+**Fix, by grade.** *Mechanism:* the end anchor is `(?![\s\S])`, which matches only
+at true end of input, and the floor moved from 40 to 200 characters with the reason
+in the message — one line clears forty, which is why forty proved nothing.
+*Mechanism:* whitespace is collapsed, because a folded scalar wraps and
+`"оплата\n  подпиской"` is a phrase `stripe-billing` genuinely advertises; this is
+the decision `router_texts_test.js` had already made, in a comment, for its own
+doctrine texts. *Doctrine:* standing instruction #11.
+
+**A second finding, from the same red.** `sheleg-dev` is the first router that
+fronts a **pack** rather than a skill. A route key must equal the router name, so it
+cannot be split into six routes, and no single skill's description can advertise six
+skills' words. Routes may now declare `sources`, one entry per skill; `triggers` and
+`skill` are derived from them so every other consumer of the table is untouched. The
+derivation makes `spec.skill` the *first* source's, which is exactly the field that
+would hide a typo in sources 2..N behind a valid first entry — so a new check holds
+every source against a shipped skill.
+
+**The check that catches it next time.** For the parser, the 200-character floor and
+`a pack-fronted route reaches every skill it fronts`. For the class, #11.
+
+### The same shape, in a check this run wrote
+
+The Contents-anchor checker's first run reported 22 failures across all 21
+references. Every one was the checker: GitHub's slugger drops punctuation and turns
+each surviving space into one hyphen without collapsing, so `## FR-01 — Collect the
+funnels` anchors as `#fr-01--collect-the-funnels`. Two instruments wrong in one run,
+on the same afternoon, is what made #11 an instruction rather than a note.
+
+### A recorded decision was reversed, and the reversal is recorded
+
+v0.26.0 brought `sheleg-dev` and `agent-stack` into the family with **"No new
+routers — a router *obliges*; these are reference skills found by description, and
+seven more global rows would grow every project's instruction file for no gain."**
+That reasoning held until the thing being obliged turned out to be invisible: a
+funnel's payment and analytics layer fails without changing what the funnel looks
+like. The reversal is **one** row, not seven, and only for `sheleg-dev`. Written into
+the wiki page that carries the original decision, next to it rather than over it.
+
+### A premise was measured and disproved before any code was written
+
+The work was scoped on the assumption that funnels are unrouted. `routers-registry.js:31`
+has named them in the `super-ux` text all along. What was missing was never the
+funnel; it was the pack behind the money. This is the third run in a row where a
+stage-0 measurement contradicted the brief's premise, which is an argument for
+measuring first rather than for writing better briefs.
+
+### Coordination was red in all nine repositories on the day it was declared on
+
+41 problems, and none of the configs had ever been run through `check`. Two
+mechanical classes: patterns matching no tracked file — the umbrella's ten
+`skills/*` paths, unmatchable because a submodule is a gitlink, and a
+`test/negatives.py` guarded in seven members that `B-26` records the decision **not**
+to create — and `.env.agent-sync` uncovered by `.gitignore`, one `git add -A` from a
+remote. Eight are clean now; `task-pipeline` is untouched because it carries another
+session's uncommitted v1.55.0.
+
+**The repair proved itself within the hour:** an edit to
+`skills/super-ux/test/validate.py` was refused with *this run holds no lease* before
+any lease had been taken. A guard that has refused is a guard. Filed `B-46` for the
+absence underneath it — nothing runs `agent_sync.py check` in CI, which is why 41
+problems accumulated unseen, and a one-time sweep returns the moment a config is
+copied between members, which is exactly how they arrived.
+
+### The graph could not be refreshed, and the report says so in its own header
+
+`graphify . --update` saw the change and stopped at `no LLM API key found (52
+doc/paper/image file(s) need semantic extraction)`. No key is present here, checked
+rather than assumed, and `graph.json` was left byte-identical. `--code-only` needs no
+key and is the wrong trade for a repository that is mostly doctrine: it would answer
+fewer questions than the stale graph while looking current. So the staleness went
+into `GRAPH_REPORT.md`'s own header with the two numbers that matter — labels saying
+"206 practices" against a catalog of 215, and `funnel-research.md` appearing zero
+times — because a wrong doc gets argued with and a wrong graph gets believed. Filed
+as super-ux `B-022`.
 
 ---
 
