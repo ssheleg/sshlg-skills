@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.56.0 — the browser step in the pipeline stops being one vendor
+
+`task-pipeline` 1.54.0 → **1.55.0**. The pipeline has told every web project to
+check the rendered surface at three stages since 1.36.0 and named exactly one way
+to do it — the `chrome-devtools` MCP, behind a plugin install. `playwright` now
+sits beside it, **ranked by nothing**: the matrix states what each channel reaches
+rather than which is better, one detection rule covers both, and a run stops at the
+first that answers. Either satisfies the browser step; neither is a gate.
+
+Two things the release settled that this family cares about beyond the browser. A
+green **browser test suite** is the coverage half of stage 6 and never the look —
+it proves what someone thought to assert, and the console error nobody asserted on
+is exactly what the look is for. And what the look finds is fixed in the stage that
+found it, on the same terms the stage's own gate already sets.
+
+**The member's own release found a defect in the check that was supposed to prove
+it.** A pipe inside a companion-matrix cell truncates every reader of that table, so
+the `graphify` row had been passing its stage check without comparing anything since
+the row was added. The first guard written for it tested the escaped spelling only,
+and the independent reader broke it with a bare pipe in one move — then measured
+every row and found `agent-sync` deriving nothing from `stage-10`. Both are closed,
+guards 315 → 318, and the umbrella's own `B-40` was the same class from the other
+side.
+
 ## v0.55.0 — a ninth router, for the layer that takes the money
 
 The routing block named eight routers and none of them owned the payment and
