@@ -1,5 +1,37 @@
 # Changelog
 
+## v0.50.0 — 2026-08-14
+
+This repository ran an eleven-stage pipeline against a config that declared no gate
+criteria at all.
+
+### Fixed
+
+- **`pipeline.json` was a skeleton.** Every one of its eleven stages was
+  `{id, state, name, gate: {type}}` — **no `gate.check` anywhere** — `run.loop` carried no
+  `mode`, and `version` held the task-pipeline RELEASE (`"1.50.0"`) where the schema wants
+  the config-format version. **Twenty-four violations of the schema this family ships, and
+  nothing checked.** The 2026-08-13 artifact-root run passed eleven gates whose criteria
+  did not exist in the config; the agent supplied them from doctrine, which is better than
+  nothing and is not what the config is for.
+- **Eleven real criteria, drawn from what this repository actually does** — the source
+  ledger and the graph's measured lag at stage 0; the single write path through
+  `protect()` at stage 5; the CI verdict read *by the ref pushed* and the pin sweep at
+  stage 7; the registry rather than the pipeline at stage 8; and at stage 10, releasing
+  the lease **before** closing its board row, because the claim tag and the status share a
+  cell here.
+
+### Added
+
+- **`check_pipeline_matches_its_schema()`** validates the config against
+  `pipeline.schema.json` and, separately, refuses a gate whose criterion is blank or a
+  placeholder — a gate that passes by being unreadable is how eleven of them went
+  unnoticed. Watched failing against both: a criterion cut to `tests pass`, and `version`
+  put back to the release string. Negative self-test in CI: **10 → 11**.
+- CI installs `jsonschema` so the contract is **checked** rather than disclosed as
+  skipped; absent, the validator still says so through its `unlooked:` channel rather than
+  going quiet.
+
 ## v0.49.0 — 2026-08-14
 
 A release could publish over a red suite in six of this family's nine repositories, and

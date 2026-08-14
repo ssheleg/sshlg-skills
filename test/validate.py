@@ -129,6 +129,59 @@ def check_workflows_parse():
 check_workflows_parse()
 
 
+def check_pipeline_matches_its_schema():
+    """This repository's own flow must satisfy the contract its own family ships.
+
+    Measured 2026-08-13 while arming a loop over it: `pipeline.json` here was a skeleton —
+    every one of its eleven stages was `{id, state, name, gate:{type}}` with **no
+    `gate.check` at all**, `run.loop` carried no `mode`, and `version` held the
+    task-pipeline RELEASE (`"1.50.0"`) where the schema wants the config-format version.
+    Twenty-four violations, and nothing checked. The consequence, stated plainly: the
+    2026-08-13 artifact-root run passed eleven gates whose criteria did not exist in the
+    config — the agent supplied them from doctrine, which is better than nothing and is
+    not what the config is for.
+
+    `jsonschema` is not a dependency of this suite, so its absence is DISCLOSED rather
+    than passed over: a check that goes quiet on missing input is the shape this
+    repository refuses (standing instruction #1).
+    """
+    cfg_p = os.path.join(ROOT, "pipeline.json")
+    schema_p = os.path.join(
+        ROOT, "skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json")
+    if not os.path.isfile(cfg_p):
+        fail("pipeline.json: absent — this repository runs its own pipeline and the flow "
+             "it declares is where its gate criteria live")
+        return
+    if not os.path.isfile(schema_p):
+        _skips.append("pipeline.json vs schema — the task-pipeline submodule is not checked out")
+        return
+    try:
+        import jsonschema
+    except ImportError:
+        _skips.append("pipeline.json vs schema — jsonschema not installed here; CI installs it")
+        return
+    cfg = json.load(open(cfg_p, encoding="utf-8"))
+    schema = json.load(open(schema_p, encoding="utf-8"))
+    errs = sorted(jsonschema.Draft7Validator(schema).iter_errors(cfg),
+                  key=lambda e: list(e.path))
+    for e in errs[:8]:
+        where = "/".join(str(x) for x in e.path) or "(root)"
+        fail(f"pipeline.json:{where}: {e.message[:160]} — the flow this repository runs "
+             f"does not satisfy the schema its own family ships")
+    if len(errs) > 8:
+        fail(f"pipeline.json: {len(errs) - 8} further schema violation(s) not listed")
+    # A stage may satisfy the schema and still carry an empty promise.
+    for st in cfg.get("stages", []):
+        chk = (st.get("gate") or {}).get("check") or ""
+        if len(chk.strip()) < 40:
+            fail(f"pipeline.json: stage {st.get('id')} ({st.get('name')}) has a gate with no "
+                 f"real criterion — a gate whose check is blank or a placeholder passes by "
+                 f"being unreadable, which is how eleven of them went unnoticed")
+
+
+check_pipeline_matches_its_schema()
+
+
 def check_npm_payload():
     """Every path bin/ requires must be inside the published tarball.
 

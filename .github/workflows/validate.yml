@@ -16,6 +16,9 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Install jsonschema (so the pipeline.json contract is CHECKED, not disclosed as skipped)
+        run: python3 -m pip install --quiet jsonschema
+
       - name: Tests — the same entry point a human uses
         # `npm test` runs the structural validator and DISCOVERS every
         # test/*_test.js. A hand-kept list here would drift from package.json
@@ -100,6 +103,32 @@ jobs:
               echo "OK: validator rejects a $mode npm name"
             fi
           done
+
+      - name: Negative self-test (a gate with no criterion must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/emptygate && cp -R . /tmp/emptygate
+          python3 test/plant_guard.py snap /tmp/emptygate
+          python3 - <<'PY'
+          # Until 2026-08-14 every one of this repository's eleven stages was
+          # {id, state, name, gate:{type}} — a gate with no criterion at all — and a run
+          # passed all eleven by supplying them from doctrine. A placeholder reads as a
+          # gate and checks nothing, so the guard measures the criterion, not its presence.
+          import json
+          p = "/tmp/emptygate/pipeline.json"
+          d = json.load(open(p, encoding="utf-8"))
+          old = d["stages"][6]["gate"]["check"]
+          assert len(old) > 40, "PLANT DID NOT LAND: stage 6 has no real criterion to spoil"
+          d["stages"][6]["gate"]["check"] = "tests pass"
+          json.dump(d, open(p, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+          PY
+          python3 test/plant_guard.py verify /tmp/emptygate "a stage criterion reduced to a placeholder"
+          if python3 /tmp/emptygate/test/validate.py; then
+            echo "ERROR: validator accepted a gate whose criterion says nothing"
+            exit 1
+          else
+            echo "OK: validator refuses a gate that would pass by being unreadable"
+          fi
 
       - name: Negative self-test (a workflow GitHub cannot parse must fail)
         run: |
