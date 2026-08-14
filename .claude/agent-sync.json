@@ -10,7 +10,17 @@
     "docs/evidence/retro.md",
     "skills.json",
     "README.md",
-    "pipeline.json"
+    "pipeline.json",
+    "skills/*/CHANGELOG.md",
+    "skills/*/package.json",
+    "skills/*/.claude-plugin/marketplace.json",
+    "skills/*/plugins/*/.claude-plugin/plugin.json",
+    "skills/*/docs/evidence/backlog.md",
+    "skills/*/docs/evidence/verification.md",
+    "skills/*/docs/evidence/retro.md",
+    "skills/*/.github/workflows/*.yml",
+    "skills/*/test/validate.py",
+    "skills/*/test/negatives.py"
   ],
   "claimTags": {
     "docs/evidence/backlog.md": {

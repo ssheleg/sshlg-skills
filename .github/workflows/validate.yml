@@ -69,6 +69,33 @@ jobs:
       - name: Pin-source suite (7 cases — the four verdicts, on real git repos)
         run: python3 test/pin_source_test.py
 
+      - name: Negative self-test (a member that guards only its doc registers must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/nosync && cp -R . /tmp/nosync
+          python3 - <<'PY'
+          # The premise B-44 was filed on was wrong: the config existed. What it lacked was
+          # CHANGELOG.md and package.json, so two sessions wrote both at once under one
+          # version number and the guard said nothing. The plant reproduces that exact
+          # config — doc registers present, release surfaces absent.
+          import json, glob
+          hits = sorted(glob.glob("/tmp/nosync/skills/*/.claude/agent-sync.json"))
+          assert hits, "PLANT DID NOT LAND: no member carries an agent-sync config"
+          p = hits[0]
+          d = json.load(open(p, encoding="utf-8"))
+          before = list(d.get("guardedFiles") or [])
+          d["guardedFiles"] = [g for g in before if g.startswith("docs/")]
+          assert d["guardedFiles"] != before, \
+              "PLANT DID NOT LAND: this config already guarded nothing but docs"
+          json.dump(d, open(p, "w", encoding="utf-8"), indent=2)
+          PY
+          if python3 /tmp/nosync/test/validate.py; then
+            echo "ERROR: validator accepted a member that guards no release surface"
+            exit 1
+          else
+            echo "OK: validator refuses the config shape that let a collision through"
+          fi
+
       - name: Negative self-test (a wrong pin must still fail)
         run: |
           set -eu

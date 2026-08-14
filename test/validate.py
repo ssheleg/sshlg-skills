@@ -221,6 +221,58 @@ def check_stage_coverage_is_wired():
 check_stage_coverage_is_wired()
 
 
+RELEASE_SURFACES = ("CHANGELOG.md", "package.json", ".github/workflows/*.yml")
+
+
+def check_members_guard_their_release_surfaces():
+    """Every member coordinates, and coordinates the files a release actually touches.
+
+    B-44 was filed on the wrong premise — that `task-pipeline` had no
+    `.claude/agent-sync.json`. It had one, committed in v1.53.0. What it did not have was
+    `CHANGELOG.md` or `package.json` in `guardedFiles`: it guarded the doc registers, and
+    two sessions then wrote both release files in that tree at once, each under its own
+    `v1.55.0` heading. The guard was silent because neither file was in the list, and
+    `npm test` was green on the mixture, which is why nothing noticed.
+
+    So the check is not "is there a config" — that question was already answered yes
+    while the collision happened. It is "does the config name the files two releases
+    collide on".
+    """
+    skdir = os.path.join(ROOT, "skills")
+    if not os.path.isdir(skdir):
+        return
+    for name in sorted(os.listdir(skdir)):
+        sub = os.path.join(skdir, name)
+        if not os.path.isdir(sub):
+            continue
+        cfg = os.path.join(sub, ".claude", "agent-sync.json")
+        if not os.path.isfile(cfg):
+            # A submodule that is not checked out cannot be judged, and saying so beats
+            # both a false pass and a failure the operator cannot act on.
+            if not os.path.isfile(os.path.join(sub, "package.json")):
+                _skips.append(f"{name}: submodule not materialized — coordination unchecked")
+            else:
+                fail(f"skills/{name}: no .claude/agent-sync.json — an unclaimed edit to a "
+                     f"shared file is how two sessions overwrite each other, and this "
+                     f"family runs more than one")
+            continue
+        try:
+            with open(cfg, encoding="utf-8") as fh:
+                guarded = set(json.load(fh).get("guardedFiles") or [])
+        except (OSError, ValueError) as exc:
+            fail(f"skills/{name}/.claude/agent-sync.json is unreadable ({exc}) — a config "
+                 f"that cannot be parsed guards nothing, silently")
+            continue
+        missing = [s for s in RELEASE_SURFACES if s not in guarded]
+        if missing:
+            fail(f"skills/{name}/.claude/agent-sync.json: guardedFiles omits {missing} — "
+                 f"these are the files two concurrent releases write at once; guarding the "
+                 f"doc registers and not these is the exact gap that let one through")
+
+
+check_members_guard_their_release_surfaces()
+
+
 def check_npm_payload():
     """Every path bin/ requires must be inside the published tarball.
 
