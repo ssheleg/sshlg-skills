@@ -1,5 +1,35 @@
 # Changelog
 
+## v0.57.0 — two references measured, not composed
+
+`sheleg-design` 1.27.1 → **1.29.0**, carrying the eighteenth and nineteenth style
+packs. Both are live-site extractions, which in this family is the only legal way to
+make a pack: the values are read off a shipped stylesheet and the ones that cannot be
+are marked derived at their declaration.
+
+**`ora`** — <https://ora.ai> — a warm coal field where **the accent is the inverted
+field**, so the single solid object on a page is the one meant to be pressed; a serif
+doing the sans job over a monospace that carries every machine fact; and a terminal
+surface cut *below* the page plane. The library's first pack whose default theme is
+dark, because that is the reference's own arrangement.
+
+**`tenor`** — <https://heytenor.com> — the first extraction from a **hand-authored**
+stylesheet rather than a compiled bundle, so the vocabulary is the reference's own.
+Zero `border-radius` and zero `box-shadow` in the whole file, one hairline weight, and
+an accent that only exists on hover and on focus: the page screenshots with no colour
+in it at all. Severity is carried by value rather than hue, and by the word beside it.
+
+Twelve defects in the two references are recorded in the packs rather than copied
+forward. Two are worth naming from here because they are the class this family exists
+to catch: `ora`'s `--border-strong` is declared once in the light `:root` and never
+re-declared for dark, so it paints a paper-coloured hairline at 12.02:1 on coal; and
+`tenor`'s accent clears its non-text floor by 0.02, and since contrast is symmetric,
+every CTA label drops from 17.61:1 to 3.02:1 at the moment it is hovered.
+
+Three ratios in the author's own prose were wrong on first write and were caught by
+recomputing rather than by a gate, which skips a line naming no partner. They are in
+the member's verification ledger as found rather than as avoided.
+
 ## v0.56.0 — the browser step in the pipeline stops being one vendor
 
 `task-pipeline` 1.54.0 → **1.55.0**. The pipeline has told every web project to
