@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.52.0 — two members learn to hear a machine writing
+
+`super-ux` **0.38.2 → 0.39.0** and `seo-aeo-audit` **0.16.3 → 0.17.0**, pins and
+README table moved with the pointers.
+
+The pack now has a rule against the register that reads as generated, and it is
+a **distinction rather than a ban**: a dash standing in for a full stop, a comma
+or a colon is out, and a dash the language requires stays, because a global ban
+makes Russian ungrammatical on its first line. `B062` errors on what can be
+established without parsing grammar and reports the rest rather than claiming a
+difference it has not measured; `B063` carries the no-terminal-full-stop rule
+from the string registry out to titles and headings. Fifteen machine-drafting
+markers now carry ids, and the rule enters the Brand voice hard rule, so it
+reads in every session rather than only when an agent opens a reference.
+
+`seo-aeo-audit` takes the same rules into track E as `E4b`, and opens with the
+ceiling: there is no measured ranking penalty for an em dash, the section
+carries no evidence tier, and it does not fork the marker list.
+
+Three defects surfaced inside that work and were fixed in it. `super-ux` had
+never run its own linters in CI while installing a rule requiring exactly that
+of every other project; `B005` dated a file by mtime, which a fresh clone
+rewrites, so it would have fired on every run; and `docs/brand/lint.py` was a
+seeded copy 227 lines behind its source, which the gate could not see because
+it checked that a command *instructs* the copy rather than that the copy is
+current. All three now have checks, and the seeded-copy gate compares bytes.
+
 ## v0.51.0 — acceptance can refuse a run that skipped a stage it declared
 
 Stage 10 asked for a ladder walk, a coverage table and closed ledgers. It never asked
