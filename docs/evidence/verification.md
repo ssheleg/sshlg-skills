@@ -321,3 +321,20 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | I4-10 | The remaining exit 1 is the check being right | stage 5 is genuinely `pending` while the loop runs; the command still exits 1 and says so, which is the intended behaviour at stage 10, not a defect | verified |
 | I4-11 | Released and closed by the registry | task-pipeline CI `completed success` on 8d3ef45 read **before** the tag; umbrella CI success on 70794a7, release workflow success, `npm view sshlg-skills version` → **0.51.0** | verified |
 | I4-12 | The lease released before the row closed | `.agent-sync/leases/B-31.lock` removed first, board row closed second (B-35) | verified |
+
+### Iteration 5 — B-30, the two members whose exposure read zero because nothing was measured
+
+| REQ | What it claims | Evidence | State |
+|---|---|---|---|
+| I5-01 | The board row was re-measured, not trusted | one sweep over all nine repositories for `docs/evidence/verification.md`: the row said three members, the sweep found **two** — `agent-stack` had been seeded by the concurrent session that morning (13 rows, 0 `never`). Standing instruction #5 | verified |
+| I5-02 | `make-skill` has a ledger keyed to its shipped state | 10 REQ rows against v0.18.1, `main` at `ba01f8f` | verified |
+| I5-03 | `sheleg-dev` has a ledger keyed to its shipped state | 10 REQ rows against v0.4.3, `main` at `33bba49` | verified |
+| I5-04 | Every row was measured, none back-filled | each row carries the command AND what it printed: `PASS: make-skill structure valid (1 cursor rule(s))`, `OK: sheleg-dev structurally valid (12 checks, 6 skill(s), v0.4.3)`, four version surfaces read back per repo, `npm view` → `0.18.1` / `0.4.3` | verified |
+| I5-05 | The negatives' verdict came from the registry, by identity | step-level conclusions of the release's own CI run — `31753479647` → **9/9 `success`**, `31749477902` → **8/8 `success`**, 0 failed steps in either. Not `--limit 1` on a branch (standing instruction #9) | verified |
+| I5-06 | `sheleg-dev`'s reference graph is intact | 26 `](references/…)` links across six skills, **0 unresolved**; every `references/*.md` named by its own `SKILL.md`, **0 orphans** | verified |
+| I5-07 | Both installer paths exercised against a fresh HOME | `HOME=/tmp/fakehome-sd node bin/sheleg-dev.js` installs six skills; the second run prints `skip:` **6** times | verified |
+| I5-08 | Each ledger names what it does NOT cover | closing section per repo: vendor drift for `sheleg-dev` (six integrations, none re-checked against a live vendor), advice-as-advice for `make-skill` (no behavioural eval suite), and the CI-only paths in both | verified |
+| I5-09 | The pins stayed honest without version noise | the umbrella requires `skills.json` version == the submodule's `package.json` version, not a tag; a docs-only commit keeps the pin valid, and `python3 test/validate.py` → `PASS: sshlg-skills structure valid (8 skills, 8 submodules)` with both pointers moved | verified |
+| I5-10 | The family sweep is the closing number, recomputed | after the work: **nine of nine** repositories carry a ledger; `never` appears in exactly one, `task-pipeline` at 99 — which is B-29, the next row | verified |
+| I5-11 | What the iteration found became a row, not a note | **B-41** filed: `make-skill` and `sheleg-dev` both carry an empty `scripts` block, so the family's `npm test` gate does not exist in either | verified |
+| I5-12 | The lease released before the row closed | `.agent-sync/leases/B-30.lock` removed first, board row closed second (B-35) | verified |
