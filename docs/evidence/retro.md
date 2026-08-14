@@ -121,6 +121,16 @@ instructions by number, and renumbering would rot every one of those references.
    what the world can install. *(Retire when a release helper in this family
    resolves its own run by tag, or after five run stamps without firing.)*
 
+10. **(2026-08-14) A check that reads a working tree reports a state no clone
+   can reproduce.** Two guards written on one afternoon had it. The pin guard failed on
+   `task-pipeline` 1.55.0 — a version that existed only as an uncommitted bump in a
+   concurrent session's tree, that no tag carried and npm had never served — and the
+   remedy an operator would reach for, bumping the pin, would have advertised a version
+   nobody released. The coordination guard was green here on seven member configs while CI,
+   which checks out the pinned commits, failed on the two that had never been committed.
+   **Ask git what is committed; disclose the working tree's disagreement rather than
+   failing on it.** Both now do, and both were watched failing on the uncommitted shape.
+
 ## Retired
 
 - **#3 (2026-08-06) — a date literal in a fixture compared against "now" schedules
@@ -184,6 +194,8 @@ used.)*
 
 ## Run stamps
 
+
+- **2026-08-14 — the loop, nine rows** (`c8167df`, umbrella v0.54.0). Five releases: `task-pipeline` 1.54.0, `seo-aeo-audit` 0.17.1, `agent-stack` 0.7.2, `agent-sync` 1.11.0, umbrella 0.51.0 → 0.54.0. **Divergence recorded**: three rows (B-44, B-24, and the count in B-30) were filed on premises that measurement disproved — instruction #5 firing on the person who wrote the board, not on a gate. Two checks written that afternoon read a working tree instead of the committed state; the pin guard was caught by a concurrent session's uncommitted bump, the coordination guard by CI one commit later. One unwind slice was bounded by the wrong neighbour and removed 4088 lines of a workflow before the diffstat caught it.
 | Date | Task | Commit | Diverged? |
 |---|---|---|---|
 | 2026-08-05 | Managed global routing block; v0.22.0 (+ super-ux v0.30.2) | — | yes |
