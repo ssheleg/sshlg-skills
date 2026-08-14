@@ -182,6 +182,42 @@ def check_pipeline_matches_its_schema():
 check_pipeline_matches_its_schema()
 
 
+def check_stage_coverage_is_wired():
+    """Stage 10 must be able to refuse a run that skipped a stage it declared.
+
+    On 2026-08-13 a run closed at acceptance with `0,1,2,5,6,7,8,9,10` recorded and 3
+    (spec) and 4 (plan) never stamped. Detection already existed — the status line
+    printed `3· 4·` and 73%, correctly — and nothing refused on it, which is the whole
+    distance between a display and a gate. Stage 7's release gate could not have caught
+    it: it fires before 8, 9 and 10 exist and asks only about the tests stage.
+
+    So two things must both be true, and neither implies the other: the script is here,
+    and stage 10 names it. A gate whose criterion cites a script nobody seeded is prose;
+    a script nobody's criterion runs is a file.
+    """
+    script = os.path.join(ROOT, "scripts", "stage-coverage.sh")
+    if not os.path.isfile(script):
+        fail("scripts/stage-coverage.sh is missing — stage 10's criterion names a check "
+             "this repository cannot run, which is how a run closes with a stage it "
+             "never stamped (B-31)")
+        return
+    cfg = os.path.join(ROOT, "pipeline.json")
+    if not os.path.isfile(cfg):
+        return
+    with open(cfg, encoding="utf-8") as fh:
+        stages = json.load(fh).get("stages", [])
+    last = max((s for s in stages if "id" in s), key=lambda s: s["id"], default=None)
+    if last is None:
+        return
+    if "stage-coverage.sh" not in (last.get("gate", {}).get("check") or ""):
+        fail(f"pipeline.json stage[{last['id']}]: the final gate does not name "
+             "scripts/stage-coverage.sh — a coverage check nothing runs cannot refuse "
+             "the run that skips a declared stage")
+
+
+check_stage_coverage_is_wired()
+
+
 def check_npm_payload():
     """Every path bin/ requires must be inside the published tarball.
 

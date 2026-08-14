@@ -66,6 +66,31 @@ jobs:
           fi
           exit "$code"
 
+      - name: Negative self-test (stage 10 must name the coverage check)
+        run: |
+          set -eu
+          rm -rf /tmp/nocov && cp -R . /tmp/nocov
+          python3 - <<'PY'
+          # A gate whose criterion names a script nobody seeded is prose, and a script
+          # nobody's criterion runs is a file. Neither implies the other, so the guard
+          # asserts both and this plant removes the naming half.
+          import json
+          p = "/tmp/nocov/pipeline.json"
+          d = json.load(open(p, encoding="utf-8"))
+          last = max(d["stages"], key=lambda s: s["id"])
+          before = last["gate"]["check"]
+          last["gate"]["check"] = before.replace("scripts/stage-coverage.sh", "the ladder walk")
+          assert last["gate"]["check"] != before, \
+              "PLANT DID NOT LAND: the final gate no longer names scripts/stage-coverage.sh"
+          json.dump(d, open(p, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+          PY
+          if python3 /tmp/nocov/test/validate.py; then
+            echo "ERROR: validator accepted a final gate that runs no coverage check"
+            exit 1
+          else
+            echo "OK: validator refuses an acceptance gate that cannot see a skipped stage"
+          fi
+
       - name: Negative self-test (a wrong or missing npm name must fail)
         run: |
           set -eu

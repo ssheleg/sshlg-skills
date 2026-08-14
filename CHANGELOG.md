@@ -1,5 +1,36 @@
 # Changelog
 
+## v0.51.0 — acceptance can refuse a run that skipped a stage it declared
+
+Stage 10 asked for a ladder walk, a coverage table and closed ledgers. It never asked
+the cheapest question: **does the ledger account for every stage the flow declares?**
+
+This repository's own 2026-08-13 run closed at acceptance with `0,1,2,5,6,7,8,9,10`
+recorded and 3 (spec) and 4 (plan) never stamped. The artifacts existed — the REQ table
+and the module map — folded into the brief; their verdicts did not. Detection was
+already there: the status line printed `3· 4·` and 73%, correctly. Nothing read it, and
+a display nothing refuses on is not a check. Stage 7's release gate could not have
+caught it either — it fires before 8, 9 and 10 exist and asks only about the tests
+stage.
+
+### Added
+
+- **`scripts/stage-coverage.sh`**, seeded from `task-pipeline` 1.54.0, and named in
+  stage 10's own criterion in `pipeline.json` — the criterion runs first, before the
+  ladder walk.
+- **A guard that requires both halves.** The script must exist AND the final gate must
+  name it: a criterion citing a script nobody seeded is prose, a script no criterion
+  runs is a file, and neither implies the other. Watched failing on a plant that
+  removes only the naming half.
+- **Exit 2 when it cannot look** — no config, no ledger — which is not a pass.
+
+The two missing stages were then stamped for what actually happened, folded-into noted
+in the line rather than invented as separate documents. Coverage went 9/11 to 11/11.
+The command still exits 1, because stage 5 is genuinely `pending` while the loop runs —
+which is the check being right, not the check being broken.
+
+Closes **B-31**. Pin: `task-pipeline` 1.53.0 → **1.54.0**.
+
 ## v0.50.0 — 2026-08-14
 
 This repository ran an eleven-stage pipeline against a config that declared no gate
