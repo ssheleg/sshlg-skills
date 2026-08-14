@@ -51,10 +51,10 @@ it('`config` lists every router, and defaults them all to on', () => {
   }
 });
 
-it('`config` lists exactly eight routers — no more, no fewer', () => {
+it('`config` lists exactly nine routers — no more, no fewer', () => {
   const home = tmpHome();
   const lines = run(home, ['config']).out.split('\n').filter((l) => /^\s+routers\./.test(l));
-  assert.strictEqual(lines.length, 8, lines.join('\n'));
+  assert.strictEqual(lines.length, 9, lines.join('\n'));
 });
 
 it('`config list` is the same thing spelled out', () => {

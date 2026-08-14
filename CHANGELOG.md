@@ -1,5 +1,66 @@
 # Changelog
 
+## v0.55.0 — a ninth router, for the layer that takes the money
+
+The routing block named eight routers and none of them owned the payment and
+analytics layer. An agent asked to build a paywall got UX from `super-ux`, the
+visual from `sheleg-design`, the words from `copywriting`, and improvised the
+Stripe wiring and the pixel — which are precisely the two seams that fail
+without changing what the funnel looks like.
+
+**`sheleg-dev` becomes the ninth router,** fourth in table order, among the ones
+that say what the change contains. Its boundary is *wired, not decided*: the
+tiers belong to `super-ux`, the look to `sheleg-design`, the words to
+`copywriting`, and the price to nobody's skill. Refusal phrase «без интеграций».
+
+**A premise was measured and disproved before anything was written.** The
+assumption behind this work was that funnels are unrouted. They are not:
+`routers-registry.js:31` has named them in the `super-ux` text all along. The
+surviving gap was the pack behind the money, which is what this release closes.
+
+**The first router that fronts a pack rather than a skill.** A route key must
+equal the router name, so `sheleg-dev` cannot be split into six routes, and one
+skill's description cannot advertise all six skills' trigger words. Routes may
+now declare `sources` — one entry per skill, each carrying triggers that *that*
+skill's own description advertises. `triggers` and `skill` are derived from them,
+so `match`, the refusal-clash check and the self-match check read the table
+exactly as before, and one new check holds every source against a shipped skill
+so a typo in sources 2..N cannot hide behind a valid first one.
+
+**The check that proves a trigger is advertised had been reading one line of
+fifteen.** Its description parser used `$` under `/m`, which matches at the end
+of the *first line*, so a folded YAML scalar was cut there: 74 characters of
+`stripe-billing` instead of 993, for every skill, since the check was written.
+`desc.length > 40` never fired because one line clears forty. Found because a
+route whose triggers were real words from real descriptions was reported missing.
+The end anchor is now `(?![\s\S])`, the floor is 200 characters, and whitespace
+is collapsed for the reason `router_texts_test.js` already collapses it — a
+folded scalar wraps, and `"оплата\n  подпиской"` is a phrase the skill does
+advertise.
+
+**Pins.** `super-ux` 0.39.0 → 0.40.0 and `sheleg-dev` 0.4.3 → 0.5.0, released in
+this run. `agent-stack` 0.7.2 → 0.8.0 was released by another session while this
+one was in flight: `check_pins.py` reported it BEHIND, the tag and npm confirmed
+the release was complete, no run held a lease, and the coordination commit from
+this run is contained in their `main`. Its `skillNames` gained `agent-harness`,
+which 0.8.0 ships and the registry did not list — a version bumped without it
+would have left the launcher advertising three skills against four.
+
+**Coordination was red in all nine repositories** on the day the umbrella started
+saying it was on: 41 problems, none of the configs ever run through `check`. Two
+classes, both mechanical. Patterns matching no tracked file — the umbrella
+guarded ten `skills/*` paths that a gitlink makes unmatchable, and seven members
+guarded a `test/negatives.py` that `B-26` records the decision **not** to create.
+And `.env.agent-sync` uncovered by `.gitignore`, one `git add -A` from a remote.
+Eight of nine are clean now; `task-pipeline` is untouched on purpose, carrying
+another session's uncommitted v1.55.0, and its own problem needs a decision
+rather than an edit.
+
+`sheleg-design`'s `.gitignore` also had an inert negation: `.claude/` excludes the
+directory, and git cannot re-include a file whose parent directory is excluded, so
+`!.claude/agent-sync.json` was doing nothing and the file survived only because it
+was already tracked. `.claude/*` makes the negation real.
+
 ## v0.54.0 — four rows close, and three of them were filed on a premise that was wrong
 
 A board is a claim about a repository, and this sweep found three of its own claims false

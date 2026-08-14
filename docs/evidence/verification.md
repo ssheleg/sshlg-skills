@@ -14,6 +14,27 @@ verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
 
+## 2026-08-14 — v0.55.0, the ninth router and the coordination repair
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| R-01 | A ninth router declares `sheleg-dev`, fourth in table order, carrying all four required parts | `node test/router_texts_test.js` alone → `OK (60 checks)`; `registry.order()` prints the nine in table order with `sheleg-dev` after `copywriting` | verified |
+| R-02 | The router is reachable from a prompt, not only present in the block | `node test/triggers_test.js` alone → `OK (27 checks)`, including `every router in the block can be named by this table`, which is the check that would have caught its absence | verified |
+| R-03 | A route may front a pack: `sources` declares one skill per trigger group, and `triggers`/`skill` are derived so every other consumer is unchanged | The new `a pack-fronted route reaches every skill it fronts` asserts each source resolves to a shipped skill **and** that the derived union equals the sources — the first half is what stops a typo in sources 2..N hiding behind a valid first entry | verified |
+| R-04 | The advertisement check reads the whole description, not its first line | Measured before and after: `stripe-billing` 74 → 993 chars, `ad-tracking` 85 → 879, `google-signin` 95 → 839, `frontend-performance` 87 → 861. The floor moved 40 → 200, since one line clears forty and that is why the defect was invisible | **observed** — the defect was found by a route whose triggers were real words from real descriptions and were reported missing |
+| R-05 | A trigger that wraps across a line in a folded scalar still matches | `"оплата подпиской"` is advertised by `stripe-billing` as `"оплата\n  подпиской"` and failed until whitespace was collapsed, which is the decision `router_texts_test.js` had already made for the same reason | **observed** |
+| R-06 | The write to the operator's file is idempotent | `node bin/sshlg-skills.js routers` run **three times** against the real `~/.claude/CLAUDE.md`; SHA-256 identical after each: `19b1f7b5faa0788a…` | verified |
+| R-07 | Everything outside the managed block survives byte for byte | The `SSHLG:ROUTERS:BEGIN…END` block stripped from a pre-run copy and from the result: **8749 bytes on both sides, byte-identical**. The block itself grew 208 → 233 lines | verified |
+| R-08 | A backup is taken before the write, by the mechanism rather than by hand | Four files in `~/.sshlg-skills/backups` stamped `20260814T151014Z`, one per target; a separate pre-run copy was taken independently and its hash matched the original | verified |
+| R-09 | Every pin matches its release | `python3 test/check_pins.py` alone → exit 0, `every pin matches its release`, all eight `ok` | verified |
+| R-10 | A member released by another session is pinned deliberately, not blindly | `agent-stack` reported **BEHIND** at 0.7.2 against npm's 0.8.0. Before moving it: `npm view` → `0.8.0`, `v0.8.0^{}` → `078dcb6`, `agent_sync status` → no other run holding anything, and `git merge-base --is-ancestor` confirmed this run's own coordination commit is contained in their `main` | verified |
+| R-11 | `skillNames` moved with the version | `agent-stack` ships four skills at 0.8.0 (`agent-harness` is new) and the registry listed three. Both moved in one edit; a version bumped alone would have left the launcher advertising three against four | verified |
+| R-12 | Coordination is healthy where it claims to be | `agent_sync.py check` in all nine repositories, before and after: **41 problems → 2**, both remaining in `task-pipeline` and both left on purpose. Umbrella: exit 0 | verified |
+| R-13 | The repaired guard actually refuses | It fired on this run's own hands: an `Edit` to `skills/super-ux/test/validate.py` was blocked with `this run holds no lease` before any lease was taken. A guard that has refused is a guard | **observed** |
+| R-14 | The umbrella's ten `skills/*` patterns could never have matched | `git ls-files skills/super-ux` returns one entry, `160000 … skills/super-ux` — a gitlink and no files beneath it, while the file exists on disk in another repository's index | verified |
+| R-15 | `sheleg-design`'s gitignore negation is no longer inert | `git check-ignore -v --no-index .claude/agent-sync.json` → ignored by `.gitignore:5:.claude/` before, not ignored after; `.claude/probe.json` still ignored by `.gitignore:9:.claude/*` | **planted** — the probe path is the negative half |
+| R-16 | The suite stays green through all of it | `npm test` alone → `PASS: 29 checks green`. Its four intermediate failures were each read and fixed rather than silenced: the pin invariant, the router count in two tests, and the trigger-advertisement parser | verified |
+
 ## 2026-08-10 — v0.29.0
 
 | REQ | What shipped | How it was confirmed | Status |

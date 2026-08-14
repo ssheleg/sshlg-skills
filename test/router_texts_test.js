@@ -30,11 +30,11 @@ function it(name, fn) {
 }
 
 const EXPECTED = [
-  'super-ux', 'sheleg-design', 'copywriting', 'seo-llmo',
+  'super-ux', 'sheleg-design', 'copywriting', 'sheleg-dev', 'seo-llmo',
   'evidence-docs', 'task-pipeline', 'make-skill', 'agent-sync',
 ];
 
-it('the registry holds exactly the eight routers, in table order', () => {
+it('the registry holds exactly the nine routers, in table order', () => {
   assert.deepStrictEqual(registry.order(), EXPECTED);
 });
 
@@ -127,10 +127,10 @@ it('installing nothing still contributes the rules that need no skill', () => {
   assert.deepStrictEqual(Object.keys(r).sort(), ['evidence-docs', 'seo-llmo']);
 });
 
-it('installing the whole family contributes all eight', () => {
+it('installing the whole family contributes all nine', () => {
   const r = T.forMembers([
     'super-ux', 'task-pipeline', 'agent-sync',
-    'make-skill', 'sheleg-design', 'seo-aeo-audit',
+    'make-skill', 'sheleg-design', 'sheleg-dev', 'seo-aeo-audit',
   ]);
   assert.deepStrictEqual(Object.keys(r).sort(), EXPECTED.slice().sort());
 });

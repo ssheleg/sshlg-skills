@@ -40,13 +40,30 @@ function skillFile(ref) {
   return null;
 }
 
-/** The `description:` value, front matter only — the string a host actually reads. */
+/** The `description:` value, front matter only — the string a host actually reads.
+ *
+ * The end anchor is `(?![\s\S])` and not `$`. Under `/m` — which the `^` needs,
+ * because `description:` is not the first key — `$` matches at the end of the
+ * FIRST LINE, so a folded scalar was cut there: 74 characters of `stripe-billing`
+ * instead of 993, and the same for every other skill. The advertisement check
+ * below was therefore comparing triggers against one line of fifteen and passing,
+ * and `desc.length > 40` never fired because one line clears forty.
+ *
+ * Found on 2026-08-14 by a route whose triggers were real words from real
+ * descriptions and were reported missing. The check was asking a smaller question
+ * than it claimed, which is the shape this repository's retro keeps recording.
+ */
 function description(file) {
   const text = fs.readFileSync(file, 'utf8');
   const fm = /^---\n([\s\S]*?)\n---/.exec(text);
   if (!fm) return '';
-  const d = /^description:\s*(?:>-?\s*\n)?([\s\S]*?)(?=\n[a-z-]+:|$)/m.exec(fm[1]);
-  return (d ? d[1] : '').toLowerCase();
+  const d = /^description:\s*(?:>-?\s*\n)?([\s\S]*?)(?=\n[a-z-]+:|(?![\s\S]))/m.exec(fm[1]);
+  // Whitespace is collapsed for the same reason `router_texts_test.js` collapses
+  // it: a folded scalar is hard-wrapped, so an advertised phrase can land across
+  // a line break (`"оплата\n  подпиской"`). Matching the raw string would make the
+  // WRAPPING load-bearing and reject a trigger the skill does advertise. A host
+  // reads the folded value as one line, which is what this now compares against.
+  return (d ? d[1] : '').toLowerCase().replace(/\s+/g, ' ');
 }
 
 // --- the derivation proof ---------------------------------------------------
@@ -55,19 +72,44 @@ it('every trigger is a word the skill itself advertises', () => {
   const missing = [];
   let checkedRoutes = 0;
   for (const [route, spec] of Object.entries(T.ROUTES)) {
-    const file = skillFile(spec.skill);
-    if (!file) continue; // submodule not materialized — reported below, not passed over
-    checkedRoutes += 1;
-    const desc = description(file);
-    assert.ok(desc.length > 40, `${spec.skill}: description did not parse (${desc.length} chars)`);
-    for (const t of spec.triggers) {
-      if (!desc.includes(t)) missing.push(`${route}: ${JSON.stringify(t)} not in ${spec.skill}'s description`);
+    // A pack-fronted route holds each group of triggers against its OWN skill.
+    // Checking them all against one description would either reject real words
+    // or force the route to point at a skill it does not mean.
+    const groups = spec.sources || [{ skill: spec.skill, triggers: spec.triggers }];
+    let sawOne = false;
+    for (const group of groups) {
+      const file = skillFile(group.skill);
+      if (!file) continue; // submodule not materialized — reported below, not passed over
+      sawOne = true;
+      const desc = description(file);
+      assert.ok(desc.length > 200,
+        `${group.skill}: description did not parse (${desc.length} chars) — the folded ` +
+        `scalar is longer than this, so the regex stopped early`);
+      for (const t of group.triggers) {
+        if (!desc.includes(t)) missing.push(`${route}: ${JSON.stringify(t)} not in ${group.skill}'s description`);
+      }
     }
+    if (sawOne) checkedRoutes += 1;
   }
   assert.ok(checkedRoutes > 0,
     'no submodule was materialized, so this check proved nothing — clone with --recursive');
   assert.deepStrictEqual(missing, [],
     `the hook fires on words the skill does not claim:\n  ${missing.join('\n  ')}`);
+});
+
+it('a pack-fronted route reaches every skill it fronts', () => {
+  // The derivation above makes `spec.skill` the first source's, which is exactly
+  // the field that would hide a typo'd skill in sources 2..N behind a valid one.
+  for (const [route, spec] of Object.entries(T.ROUTES)) {
+    if (!spec.sources) continue;
+    for (const group of spec.sources) {
+      assert.ok(skillFile(group.skill), `${route}: source names no shipped skill: ${group.skill}`);
+    }
+    assert.deepStrictEqual(
+      spec.triggers, spec.sources.flatMap((s) => s.triggers),
+      `${route}: derived triggers do not equal the union of its sources`
+    );
+  }
 });
 
 it('every route names a skill that exists', () => {
