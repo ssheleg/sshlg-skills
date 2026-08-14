@@ -777,7 +777,7 @@ citation there rather than a tenth slot.
 named `sheleg-dev` as behind. The whole sweep was re-measured in one pass rather than
 chasing the named item: seven members correct, one behind, and the one behind belonged to
 another session. It was **not** adopted — moving a pin to a release whose gate this run
-never executed is how *green* comes to read as *verified* — and it left as board row B-34
+never executed is how *green* comes to read as *verified* — and it left as board row B-36
 with the reason stated.
 
 **Instruction #6 held on both sides.** Both new plants are anchored on the stamp's shape

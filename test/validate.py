@@ -459,6 +459,58 @@ def check_release_gates_on_validate():
 
 check_release_gates_on_validate()
 
+
+def check_board_is_parseable():
+    """The board is a register that is cited by id, and nothing was reading it.
+
+    Found 2026-08-14 by parsing it for the first time: **four ids appeared twice** —
+    B-22, B-23, B-34 and B-35 — each pair meaning two unrelated things, and each already
+    cited somewhere that reads them by number. B-34 was cited in this repository's
+    published CHANGELOG as one row and in its retro as the other. A register whose ids
+    are ambiguous cannot be cited, and citing it by id is its entire purpose.
+
+    One row was also structurally broken, and its subject makes the point: B-33 is about
+    `sed` failing on a pattern full of pipes, and a bare `|` inside its own text added a
+    ninth cell and shifted every field after it. Its Status column read `1.0`.
+
+    Two mechanical rules, both cheap:
+      * every `| B-nn |` row has the same cell count as the header
+      * no id appears twice
+
+    Pipes are counted UNESCAPED — `\\|` is a literal in a cell, not a delimiter, which is
+    exactly the distinction the broken row got wrong.
+    """
+    path = os.path.join(ROOT, "docs/evidence/backlog.md")
+    if not os.path.isfile(path):
+        _skips.append("docs/evidence/backlog.md absent — board integrity unchecked")
+        return
+    rows = [l for l in open(path, encoding="utf-8").read().splitlines()
+            if re.match(r"^\|\s*B-\d+\s*\|", l)]
+    if not rows:
+        fail("docs/evidence/backlog.md: no `| B-nn |` rows — the board stopped being a table")
+        return
+    split = lambda l: re.split(r"(?<!\\)\|", l)
+    widths = {len(split(l)) for l in rows}
+    if len(widths) > 1:
+        common = max(widths, key=lambda w: sum(1 for l in rows if len(split(l)) == w))
+        for l in rows:
+            if len(split(l)) != common:
+                fail(f"docs/evidence/backlog.md: row {split(l)[1].strip()} has "
+                     f"{len(split(l)) - 2} cells against the table's {common - 2} — an "
+                     "unescaped `|` inside a cell shifts every column after it, and the "
+                     "Status field then reads as whatever landed in its place")
+    seen = {}
+    for l in rows:
+        bid = split(l)[1].strip()
+        if bid in seen:
+            fail(f"docs/evidence/backlog.md: id {bid} is used twice — rows are cited by "
+                 "number in CHANGELOGs, commit messages and pipeline.json, so a duplicate "
+                 "makes every one of those citations ambiguous")
+        seen[bid] = True
+
+
+check_board_is_parseable()
+
 if errors:
     print("FAIL: sshlg-skills structure invalid")
     for e in errors:
