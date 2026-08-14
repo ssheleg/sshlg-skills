@@ -1,4 +1,4 @@
-<!-- agent-sync:generated source=sshlg-skills@1f354fe cfg=e135917d592a at=2026-08-13T23:07:44Z — regenerate with `agent_sync.py setup`, do not hand-edit -->
+<!-- agent-sync:generated source=sshlg-skills@465b331 cfg=e135917d592a at=2026-08-14T14:30:30Z — regenerate with `agent_sync.py setup`, do not hand-edit -->
 
 # How documentation and coordination work in sshlg-skills
 
