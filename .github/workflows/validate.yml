@@ -69,6 +69,58 @@ jobs:
       - name: Pin-source suite (7 cases — the four verdicts, on real git repos)
         run: python3 test/pin_source_test.py
 
+      - name: Negative self-test (a plugin member wiring settings.json too must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/twochan && cp -R . /tmp/twochan
+          python3 - <<'PY'
+          # One mechanism with two homes and two lifetimes: uninstalling the plugin leaves
+          # the settings entry firing, owned by nobody. B-19 decided the channel follows
+          # the SHAPE of the thing, and this is the shape that has no second channel to
+          # choose from.
+          import glob, os
+          hits = glob.glob("/tmp/twochan/skills/*/plugins/*/hooks/hooks.json")
+          assert hits, "PLANT DID NOT LAND: no member ships plugin hooks"
+          member = hits[0].split("/skills/")[1].split("/")[0]
+          d = f"/tmp/twochan/skills/{member}/lib"
+          os.makedirs(d, exist_ok=True)
+          open(os.path.join(d, "wire.js"), "w").write(
+              "// a second channel for one mechanism\n"
+              "const p = require('os').homedir() + '/.claude/settings.json';\n"
+              "cfg.hooks.PreToolUse.push({ matcher: 'Edit' });\n")
+          print("planted a settings.json hook writer in", member)
+          PY
+          if python3 /tmp/twochan/test/validate.py; then
+            echo "ERROR: validator accepted one mechanism wired through two channels"
+            exit 1
+          else
+            echo "OK: validator refuses a plugin member that also writes settings.json"
+          fi
+
+      - name: Negative self-test (reusing a retired instruction id must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/reuse && cp -R . /tmp/reuse
+          python3 - <<'PY'
+          # Slot 3 was left vacant on purpose in v0.46.0 so published citations stayed
+          # true. This plant fills it — the exact move an agent pruning the list will
+          # reach for, because a gap looks like a mistake.
+          import re
+          p = "/tmp/reuse/docs/evidence/retro.md"
+          s = open(p, encoding="utf-8").read()
+          m = re.search(r"^2\. \*\*", s, re.M)
+          assert m, "PLANT DID NOT LAND: instruction 2 is not where this expects it"
+          s2 = s[:m.start()] + "3. **(2026-01-01) a refilled slot.** x\n\n" + s[m.start():]
+          assert s2 != s, "PLANT DID NOT LAND"
+          open(p, "w", encoding="utf-8").write(s2)
+          PY
+          if python3 /tmp/reuse/test/validate.py; then
+            echo "ERROR: validator accepted a retired id being reused"
+            exit 1
+          else
+            echo "OK: validator refuses to let a published citation change meaning"
+          fi
+
       - name: Negative self-test (a member that guards only its doc registers must fail)
         run: |
           set -eu

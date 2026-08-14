@@ -1,5 +1,47 @@
 # Changelog
 
+## v0.54.0 — four rows close, and three of them were filed on a premise that was wrong
+
+A board is a claim about a repository, and this sweep found three of its own claims false
+by measuring instead of reading — which is standing instruction #5 firing on the person
+who wrote the board.
+
+### Decided
+
+- **Which channel a hook ships through (B-19).** Recorded in `docs/DOCMAP.md`: **the
+  channel follows the shape of the thing, not a preference.** A plugin has a manifest and
+  needs no write to the operator's file; a launcher has no manifest and no alternative,
+  and the umbrella's `PreToolUse` entry is the backup that exists because
+  `~/.claude/CLAUDE.md` was destroyed twice. Three events fire in both channels — six
+  scripts, six jobs, not duplication. What is now forbidden and guarded: a member shipping
+  a plugin manifest may never also wire itself into `settings.json`, because uninstalling
+  the plugin would leave that entry firing and owned by nobody.
+
+### Fixed
+
+- **Standing-instruction ids are stable, and the collision that already happened is
+  named (B-23).** `#1` was retired on 2026-08-13 and refilled the same day, so a citation
+  of `#1` means two different rules depending on its date. Both sides have citations in
+  shipped documents, so it is **recorded rather than rewritten** — renumbering either
+  would make a published sentence point at a rule it never meant. The guard refuses any
+  further reuse, a reorder, and the rule's own disappearance from the file it governs.
+- **The code graph refreshes on this machine after all (B-24).** The row said it could
+  not: `graphify . --update` needs an LLM key, but the CLI verb `graphify update .` does
+  not, and it already refuses to overwrite with a smaller graph. **715 → 930 nodes**,
+  1094 edges, curated graph backed up. Stated in both directions: `document` +161, `code`
+  +76, and **`rationale` −22** — 54 labels only a semantic pass can produce. The stage-9
+  hub check then ran for the first time: all 8 god-nodes are named in the docs.
+- **`npm test` exists in `make-skill` and `sheleg-dev` (B-41)**, running exactly what
+  their CI's blocking steps run.
+
+### Board
+
+Nine rows closed today across five repositories. What stays open: **B-29** (99 rows at
+`never` — the count comes down only when a person looks, which is the one thing a machine
+may not do here), **B-43** and **B-17**, both parked behind a concurrent session's
+unreleased `task-pipeline` v1.55.0, and **B-07** / **B-08**, waived at intake and
+re-derived rather than quietly dropped.
+
 ## v0.53.0 — the pin is about a checkout, so it stops reading a working tree
 
 `npm test` went red on 2026-08-14 with `'task-pipeline' pinned at 1.54.0 but the

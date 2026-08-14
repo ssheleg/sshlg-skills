@@ -5,6 +5,21 @@ below **in full** before its first question.
 
 ## Standing instructions
 
+**Ids are allocated once and never reused.** A retirement leaves its slot **vacant** —
+the list is deliberately non-contiguous — because published CHANGELOGs and merged PR
+bodies cite these numbers, and renumbering silently rewrites what they say. The next
+instruction takes `max(every id this file has ever held) + 1`, never the lowest gap.
+
+**One collision already exists and is not being rewritten.** `#1` was retired on
+2026-08-13 (*"`node --check` proves syntax, not scope"*, 2026-08-05) and the slot was
+immediately refilled by *"a component that never receives its input fails OPEN"*. Both
+have citations in shipped documents. Renumbering either would make a published sentence
+point at a rule it never meant, so the collision is recorded here instead: **a citation
+of `#1` dated before 2026-08-13 means the `node --check` rule; after it, the fail-open
+rule.** `test/validate.py` refuses any *further* reuse, which is the part that can still
+be prevented.
+
+
 Hard cap: ten. Each carries the run stamp it was written at. Retire an entry
 the moment any of its three triggers fires — it became a mechanical check, the
 paths or commands it names are gone, or it has not fired in five run stamps —

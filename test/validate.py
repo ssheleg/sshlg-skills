@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Structural validator for the sshlg-skills umbrella repo. Exit 0 = pass."""
-import json, os, re, subprocess, sys
+import glob, json, os, re, subprocess, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pin_source
@@ -271,6 +271,99 @@ def check_members_guard_their_release_surfaces():
 
 
 check_members_guard_their_release_surfaces()
+
+
+def check_standing_instruction_ids_are_stable():
+    """An id, once used, is never reused — because published documents cite these numbers.
+
+    B-23: two CHANGELOGs and a merged PR body cite standing instructions BY NUMBER while
+    the file renumbers on every retirement. v0.46.0 left slot 3 vacant rather than
+    renumbering, which keeps existing citations true and makes the list non-contiguous —
+    the right instinct, unenforced. And it had already failed once: `#1` was retired on
+    2026-08-13 and the slot refilled the same day, so a citation of `#1` means two
+    different rules depending on its date.
+
+    That collision is recorded in the file rather than rewritten, because renumbering
+    either side would make a shipped sentence point at a rule it never meant. What this
+    refuses is the NEXT one.
+    """
+    retro = os.path.join(ROOT, "docs", "evidence", "retro.md")
+    if not os.path.isfile(retro):
+        _skips.append("standing-instruction ids — no docs/evidence/retro.md here")
+        return
+    with open(retro, encoding="utf-8") as fh:
+        text = fh.read()
+    m = re.search(r"^## Standing instructions$(.*?)^## Retired$(.*?)^## ", text,
+                  re.M | re.S)
+    if not m:
+        _skips.append("standing-instruction ids — could not find both sections to compare")
+        return
+    live = [int(x) for x in re.findall(r"^(\d+)\. \*\*", m.group(1), re.M)]
+    retired = [int(x) for x in re.findall(r"^- \*\*#(\d+) ", m.group(2), re.M)]
+    if not live:
+        fail("docs/evidence/retro.md: no standing instructions parsed — the list shape "
+             "changed and this guard now reads nothing, which would pass forever")
+        return
+    if live != sorted(live):
+        fail(f"docs/evidence/retro.md: standing instruction ids {live} are not ascending "
+             f"— an id was reordered, and citations name the number, not the position")
+    if len(set(live)) != len(live):
+        fail(f"docs/evidence/retro.md: duplicate standing instruction id in {live}")
+    # The one grandfathered collision must stay NAMED. Any other overlap is new.
+    overlap = sorted(set(live) & set(retired))
+    if overlap != [1]:
+        fail(f"docs/evidence/retro.md: id(s) {overlap} appear both live and retired. An id "
+             f"is allocated once and never reused — a retirement leaves its slot vacant, "
+             f"because shipped CHANGELOGs cite these numbers. (#1 is the one recorded "
+             f"collision from 2026-08-13 and is expected here; anything else is new.)")
+    if "never reused" not in text:
+        fail("docs/evidence/retro.md: the id-allocation rule is gone from the file it "
+             "governs — the next agent to prune will renumber, which is what B-23 filed")
+
+
+check_standing_instruction_ids_are_stable()
+
+
+def check_hook_channels_do_not_mix():
+    """A member that ships a plugin manifest must not also wire itself into settings.json.
+
+    B-19 asked for one deliberate answer instead of each member deciding separately. The
+    answer is that the channel follows the SHAPE: a plugin has a manifest and needs no
+    write to the operator's file; a launcher has no manifest and no alternative. What is
+    forbidden is one mechanism with two homes — uninstalling the plugin would leave the
+    settings entry behind, still firing, owned by nobody. Recorded in docs/DOCMAP.md.
+    """
+    skdir = os.path.join(ROOT, "skills")
+    if not os.path.isdir(skdir):
+        return
+    for name in sorted(os.listdir(skdir)):
+        sub = os.path.join(skdir, name)
+        manifests = glob.glob(os.path.join(sub, "plugins", "*", "hooks", "hooks.json"))
+        if not manifests:
+            continue
+        # It ships plugin hooks. Nothing in it may also write hooks into settings.json.
+        for root_dir, dirs, files in os.walk(os.path.join(sub, "lib")):
+            for f in files:
+                if not f.endswith(".js"):
+                    continue
+                fp = os.path.join(root_dir, f)
+                with open(fp, encoding="utf-8", errors="ignore") as fh:
+                    body = fh.read()
+                if "settings.json" in body and re.search(r"hooks\s*[\[\.]", body):
+                    rel = os.path.relpath(fp, ROOT)
+                    fail(f"{rel}: {name} ships plugin hooks AND appears to wire hooks into "
+                         f"settings.json — one mechanism with two homes and two lifetimes; "
+                         f"uninstalling the plugin would leave the settings entry firing "
+                         f"(docs/DOCMAP.md, B-19)")
+    doc = os.path.join(ROOT, "docs", "DOCMAP.md")
+    if os.path.isfile(doc):
+        with open(doc, encoding="utf-8") as fh:
+            if "the channel follows the shape" not in fh.read():
+                fail("docs/DOCMAP.md: the hook-channel decision is gone — B-19 exists "
+                     "because each member was answering it separately")
+
+
+check_hook_channels_do_not_mix()
 
 
 def check_npm_payload():

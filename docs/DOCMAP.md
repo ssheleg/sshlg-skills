@@ -4,6 +4,27 @@ Where settled things live in this repository, what each fact's single home is,
 and what proves the docs are in sync. Written so the next run does not have to
 guess, and so "docs updated" is a command rather than a claim.
 
+## Which channel a hook ships through — decided 2026-08-14 (B-19)
+
+Two channels exist and both are correct, because **the channel follows the shape of the
+thing, not a preference**:
+
+| Shape | Channel | Why it has no alternative |
+|---|---|---|
+| A **plugin** (`agent-sync`, `make-skill`, `task-pipeline`) | `plugins/<name>/hooks/hooks.json` | It has a manifest, so it needs no write to the operator's file at all. The cost is that enablement is the only switch — acceptable for a guard that fails silent, and the reason a doctrine-injecting plugin is a different question (`superpowers` is disabled on this machine for exactly that). |
+| A **launcher** (`sshlg-skills`, run as `npx`) | `~/.claude/settings.json`, via `lib/hooks.js` | It has no plugin manifest. There is no second channel to prefer. Its `PreToolUse` entry is the backup that exists because `~/.claude/CLAUDE.md` was destroyed twice (B-05), so the write is the mechanism, not a convenience — and it goes through `protect()` like every other write to an operator file. |
+
+Measured the day this was decided: three events (`SessionStart`, `PreToolUse`,
+`PostToolUse`) fire in both channels. That is **not** duplication — six different scripts
+doing six different jobs — but it is why an operator debugging *which hook fired* has two
+places to look, and why `npx sshlg-skills injectors` names the files.
+
+**What is forbidden:** a member that ships a plugin manifest must never also wire itself
+into `settings.json`. That would be one mechanism with two homes and two lifetimes, and
+uninstalling the plugin would leave the settings entry behind. `test/validate.py` refuses
+it.
+
+
 ## What this repository is
 
 The **umbrella** of the ssheleg skill family: a zero-dependency Node launcher
