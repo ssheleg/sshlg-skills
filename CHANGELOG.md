@@ -1,5 +1,39 @@
 # Changelog
 
+## v0.58.0 — colour as ornament, and the scenario that outperformed the gates
+
+`sheleg-design` 1.29.0 → **1.31.0**, carrying a twentieth style pack, **`paperclip`**,
+measured off <https://paperclip.ing> — plus the fix pass its own routing scenario forced.
+
+The pack holds a thesis the library did not: **colour is ornament.** A neutral coal field
+with no functional colour anywhere in the interface — every control monochrome, every
+container a hairline, every status a word with a mark beside it — and the whole chromatic
+budget spent on two things a reader cannot click: a curtain of 96 gradient capsules behind
+the headline, generated from one hue-rotation rule (+12.39° on the top stop, −10.45° on the
+bottom, across 45 gradients and 89 distinct stops), and twelve gradient section badges under
+a single noise recipe. Delete every colour from the page and it loses its poster, not its
+meaning.
+
+Two things about this release are worth the pin note.
+
+**It was authored against a live concurrent run.** Another agent held the `PACK-TENOR`
+lease on the same checkout and was mid-flight on `ora` and `tenor`. This work took its own
+`git worktree` per that repo's `docs/DOCMAP.md`, left the shared tree untouched for the
+whole authoring pass, and merged only after that run committed and released 1.29.0 — which
+was the version this branch had already taken in order to avoid a collision, so the
+collision arrived from the other side anyway. Filed in the pack's brief as a finding rather
+than a footnote: a version is not reservable by guessing.
+
+**Its routing scenario found twenty-six defects that three gates had passed three times.**
+T29 ran blind against the installed bundle, went green on both branches, and returned
+findings the consistency gate's check count did not move by one to accommodate — because
+not one of them was structural. A token prescribed in prose and never declared; a 2.92:1
+label on a tab a reader has to click; a second resting shadow hardcoding the wrong theme's
+amber; three stagger formulas written as literals, which quietly made the reduced-motion
+token a no-op on every diagram in the pack. Fifteen further findings against
+`instrument-console` are filed on that repo's board (B-038 … B-043) rather than fixed,
+because they belong to a pack the run does not own.
+
 ## v0.57.0 — two references measured, not composed
 
 `sheleg-design` 1.27.1 → **1.29.0**, carrying the eighteenth and nineteenth style

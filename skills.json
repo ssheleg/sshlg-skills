@@ -92,7 +92,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.29.0",
+      "version": "1.31.0",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill"
@@ -143,7 +143,7 @@
         "agent-orchestrator",
         "agent-evals",
         "agent-interop",
-      "agent-harness"
+        "agent-harness"
       ],
       "version": "0.8.0",
       "entry": null,
