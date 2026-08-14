@@ -221,6 +221,61 @@ jobs:
             echo "OK: validator FAILs when a pin does not match the submodule contents"
           fi
 
+      - name: Negative self-test (a duplicate board id must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/dupid
+          cp -R . /tmp/dupid
+          python3 test/plant_guard.py snap /tmp/dupid
+          # Structural: copy the LAST board row and give it an id already in use.
+          # Anchored on the row shape `| B-nn |`, not on any row's wording.
+          python3 - <<'PY'
+          import pathlib, re
+          p = pathlib.Path("/tmp/dupid/docs/evidence/backlog.md")
+          lines = p.read_text().splitlines()
+          idx = [i for i, l in enumerate(lines) if re.match(r"^\|\s*B-\d+\s*\|", l)]
+          assert len(idx) >= 2, "fewer than two board rows — nothing to duplicate"
+          first = re.split(r"(?<!\\)\|", lines[idx[0]])[1].strip()
+          dup = re.sub(r"^\|\s*B-\d+\s*\|", f"| {first} |", lines[idx[-1]], count=1)
+          assert dup != lines[idx[-1]], "PLANT DID NOT LAND: id substitution no-oped"
+          lines.insert(idx[-1] + 1, dup)
+          p.write_text("\n".join(lines) + "\n")
+          PY
+          python3 test/plant_guard.py verify /tmp/dupid "Negative self-test (a duplicate board id must fail)"
+          if python3 /tmp/dupid/test/validate.py; then
+            echo "ERROR: validator accepted two board rows sharing one id"
+            exit 1
+          else
+            echo "OK: validator FAILs on a duplicate board id"
+          fi
+
+      - name: Negative self-test (a board row shifted by a bare pipe must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/shiftrow
+          cp -R . /tmp/shiftrow
+          python3 test/plant_guard.py snap /tmp/shiftrow
+          # The real defect this reproduces: a bare `|` inside a cell adds a column and
+          # every field after it shifts, so Status silently reads whatever landed there.
+          python3 - <<'PY'
+          import pathlib, re
+          p = pathlib.Path("/tmp/shiftrow/docs/evidence/backlog.md")
+          lines = p.read_text().splitlines()
+          i = next(i for i, l in enumerate(lines) if re.match(r"^\|\s*B-\d+\s*\|", l))
+          cells = re.split(r"(?<!\\)\|", lines[i])
+          assert len(cells) > 3, "board row has too few cells to damage"
+          cells[2] = cells[2] + " | injected"        # unescaped delimiter inside a cell
+          lines[i] = "|".join(cells)
+          p.write_text("\n".join(lines) + "\n")
+          PY
+          python3 test/plant_guard.py verify /tmp/shiftrow "Negative self-test (a board row shifted by a bare pipe must fail)"
+          if python3 /tmp/shiftrow/test/validate.py; then
+            echo "ERROR: validator accepted a board row with a shifted column count"
+            exit 1
+          else
+            echo "OK: validator FAILs when a row's cell count differs from the table's"
+          fi
+
       - name: Negative self-test (a README row that lies must fail)
         run: |
           set -eu
