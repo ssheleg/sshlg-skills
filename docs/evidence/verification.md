@@ -292,3 +292,15 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | I2-05 | Coordination is on, with its real scope stated | `agent-sync` local-files backend, six registers guarded, `docs/AGENT_SYNC.md` linked from `CLAUDE.md`; `check` → 7 passed, 1 warning naming the lease as exclusive **on this machine**. B-26 was worked under a held lease and the board row carried the claim | verified |
 | I2-06 | Pins moved in one sweep | `check_pins.py` → every one of the eight at its release, run before the umbrella push (instruction #5, which fired twice tonight when members moved mid-flight) | verified |
 | I2-07 | What coordination cost to be without | one CHANGELOG written at a version **behind its own tree**; a member moving under the work twice; uncommitted work found sitting on `main` in two repositories. None of it visible without a lease — which is why B-19 stopped being theoretical | verified |
+
+## 2026-08-14 — iteration 3: B-25, the flow that declared no gates
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| I3-01 | Eleven real gate criteria in this repository's own `pipeline.json` | drawn from what the run actually does, not generic prose: the graph's **measured** lag at 0, the single `protect()` write path at 5, the verdict read by the ref pushed at 7, the registry at 8, release-then-close at 10 | verified |
+| I3-02 | The config satisfies the schema its own family ships | 24 violations → **0** against `pipeline.schema.json`. `version` had held the task-pipeline RELEASE (`"1.50.0"`) where the schema wants the config-format version | verified |
+| I3-03 | A gate cannot pass by being unreadable | the guard refuses a criterion that is blank or a placeholder, separately from the schema. Watched failing against a criterion cut to `tests pass` | verified |
+| I3-04 | The contract is CHECKED in CI, not skipped | CI installs `jsonschema`; absent, the validator discloses through `unlooked:` rather than going quiet (instruction #1). Negative self-test **10 → 11** | verified |
+| I3-05 | The criteria are evidence, not decoration | every file, path and function they name was verified to resolve — `check_pins.py`, `plant_guard.py`, `validate.py`, `lib/apply.js`'s `protect()`, the five `docs/` registers, `graphify-out/graph.json`, and the wiki page in the vault | verified |
+| I3-06 | Released and closed by the registry | `validate / validate=success, release=success, publish=success` on the run for the ref pushed; `npm view sshlg-skills` → 0.50.0 | verified |
+| I3-07 | The lease released **before** the row was closed | B-35's lesson applied the same night it was learned: the claim tag and the status share a cell, so a close written while holding the claim is reverted by the restore | verified |
