@@ -1,5 +1,59 @@
 # Changelog
 
+## v0.59.0 — the shape of the work, and the arrow that carried nothing
+
+Two members move together, because the same material lands in both: `agent-stack` learns
+to decide the **shape** of a job before doing it, and `task-pipeline` gets audited against
+that model and repaired where it declared a graph and executed a list.
+
+Source: *Graph Engineering with Claude*
+(`https://x.com/Mahaximus_/status/2082442856417956173`, 2026-07-29). It lives in exactly
+one place — `agent-stack`'s `agent-orchestrator/references/graph-engineering.md` — and
+this repository keeps a pointer in `docs/DOCMAP.md` and no copy.
+
+### Pinned
+
+- **`agent-stack` 0.9.0 → 0.10.1.** A nineteenth reference: node and edge, the fake-edge
+  test, the diamond and its two silent failures, the checker node, static versus dynamic,
+  and the cost table that says when a graph is not worth building. Plus what the host
+  **actually** executes, with the version evidence — the `workflow` keyword the source
+  names was renamed to `ultracode` in Claude Code **v2.1.160**, six weeks after the
+  article was published, and the YAML it shows is a way of describing a graph in a prompt
+  rather than a syntax anything parses. A sixth scanner detector, `unguarded-fanout`. And
+  a removal: the hardcoded context-window table, nine 2024-vintage vendor ids that would
+  have sized a budget for a window an order of magnitude too small.
+- **`task-pipeline` 1.55.0 → 1.57.0**, and the jump is two releases, not one. A concurrent
+  session shipped its own **1.56.0** — the browser-channel work — while this branch was in
+  its fifth review round, and both claimed the number. This run's work is **1.57.0**; the
+  collision is recorded in that repository's own CHANGELOG and traced to the umbrella's open
+  row **B-45**: an id register declared against a backend that cannot allocate is a register
+  in name only, and it cost a version number and a board id in the same afternoon. Audited against the same model. Nine of its ten
+  macro stage edges carry data, which is why nothing was reordered; what was missing was
+  the test for the tenth. The fake-edge test as a procedure, a **`Carries` column** in the
+  plan's execution table so an unfillable payload is visible rather than remembered, an
+  `Edges:` count the stage-4 gate reads, and a **group convergence check** after a
+  fanned-out group and before the first worktree lands — because a per-task review reads
+  one diff and the defect between two diffs passes both. Guards 318 → **333**: six for the
+  new doctrine, nine more after an independent reviewer found three rounds of gaps in those
+  six — including two that were defects rather than nits, both the same shape. A change
+  that closes one of the two places its defect lives reads as closed.
+
+### Fixed here
+
+- **`skills.json`'s `agent-stack` description advertised two skills of four**, which is
+  the open half of board row **B-48** — `list` and the family table both hid the harness
+  layer entirely. Rewritten to name all four, and the README row with it. The closed half
+  (`skillNames` checked in both directions) shipped in v0.33.0; this is the half nothing
+  can check, so it is fixed by counting at release rather than by a guard.
+
+### Recorded, not fixed
+
+- **A concurrent session released `agent-stack` 0.9.0 and moved this repository's pin
+  mid-run**, between this run's stage 0 and its stage 2. Nothing was lost — the working
+  tree held one untracked brief — and the harvest ledger was corrected rather than left
+  saying 0.8.0. Detected by `git submodule status` disagreeing with a reading taken forty
+  minutes earlier, not by anything in the run.
+
 ## v0.58.0 — colour as ornament, and the scenario that outperformed the gates
 
 `sheleg-design` 1.29.0 → **1.31.0**, carrying a twentieth style pack, **`paperclip`**,

@@ -70,6 +70,7 @@ C-06.
 | What a run decided | `docs/evidence/briefs/…` + `specs/…` | the brief is the record; the spec locks contracts |
 | What a run deferred | `docs/evidence/briefs/…-carryover.md` | read in full at stage 10 |
 | What a run learned | `docs/evidence/retro.md` | standing instructions, capped at ten, read in full at stage 0 |
+| How the family decides the **shape** of multi-step work — node and edge, the fake-edge test, the diamond, the checker node, static versus dynamic, and what the host actually executes when it fans out | `agent-stack` → `plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md` | this repository keeps a **pointer and never a copy** (2026-08-15, D-1). `task-pipeline` applies it at stages 4 and 5 and cites it; `agent-harness` and `agent-evals` each state their own half and point back. Its own source — an article and a vendor changelog — is pinned inside it with a read date, so a reader can tell a description of last month's behaviour from this month's |
 
 ## The propagation matrix
 
@@ -86,6 +87,7 @@ What a change of each type obliges, in the same change:
 | A member changing its npm package name | `npm` in `skills.json` — the validator compares it with the submodule's `package.json` name in both directions, with a two-plant negative self-test in CI |
 | A new test suite | nothing — `npm test` discovers `test/*_test.js`. That is deliberate: a list would need updating in two places |
 | A member gaining or losing a skill | `skills.json` `skillNames` **and** that member's `desc` **and** its README row — the validator catches the first (both directions), the other two are prose nothing can check. `agent-stack` shipped `agent-evals` and advertised orchestrators only, so `list` and the table hid a whole capability |
+| A member gaining or losing a **reference** (not a skill) | nothing here moves until the pin does — but the member's own README states a **count** of its references, and a count is recounted, never incremented. `agent-stack`'s said *eighteen* while nineteen shipped, found by counting at release rather than by a check. The same applies to any number a README states about a member: detector counts, stage counts, guard counts |
 | A new validator guard | a negative self-test in `.github/workflows/validate.yml` that plants the defect and requires a failure |
 | The artifact root's name | `docs/evidence/` here and in six members since 2026-08-13 (v0.46.0), following `task-pipeline` v1.53.0 which made the root RESOLVABLE. The records inside moved with `git mv` and were not rewritten — 155 occurrences of the old name survive inside past-run records on purpose, because a brief describes where things were when it was written. A project still on `docs/superpowers/` is not behind and is never warned |
 | A new session-start claim about another pack | `lib/injectors.js`, and the honest limit stated in its own OUTPUT rather than only in its source — the check cannot tell doctrine from state, and a reader of the report must be told that by the report |

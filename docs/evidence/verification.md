@@ -14,6 +14,35 @@ verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
 
+## 2026-08-15 — v0.59.0, the shape of the work and the arrow that carried nothing
+
+Brief `docs/evidence/briefs/2026-08-15-graph-engineering.md` · spec
+`docs/evidence/specs/2026-08-15-graph-engineering-design.md` · plan
+`docs/evidence/plans/2026-08-15-graph-engineering.md`. Members' own REQ rows live in their
+own ledgers (`agent-stack` 9 rows, `task-pipeline` 7); these are the umbrella's.
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| R-01 | `skills.json` pins `agent-stack` 0.10.1 and `task-pipeline` 1.57.0, and the README family table agrees | `npm test` → `PASS: 29 checks green`. The validator was **watched failing first**, in the shape that matters: with the pins moved and the submodules not yet committed it printed *"pinned at 0.10.0 but the submodule's committed package.json says 0.9.0"* — committed state, exactly as standing instruction #10 requires | verified |
+| R-02 | `skills.json`'s `agent-stack` **desc** names all four skills, and so does the README row | before: neither mentioned `agent-harness`; after: both name orchestrator, harness, evals and interop. Closes the open half of board row **B-48** — the half nothing can check, so it is closed by counting at release | verified |
+| R-03 | `docs/DOCMAP.md` records the graph doctrine's single home in `agent-stack` and a pointer here, never a copy | the row is present and names the file; no copy of the material exists in this repository. `grep -rl 'fake-edge' --exclude-dir=skills --exclude-dir=.git --exclude-dir=graphify-out .` → **6 files**, every one of them a record *about* this run rather than a second home for the doctrine: `DOCMAP.md` (the pointer), `CHANGELOG.md`, the brief, the spec, the plan and this ledger | verified |
+| R-04 | A propagation row for *a member gaining a reference*, whose lesson is that a README's stated count is recounted rather than incremented | `agent-stack`'s README said *eighteen* against nineteen shipped; found by counting at release, which is the failure the row now names | **observed** — the row exists because the miss happened in this run |
+| R-05 | Every release closed by reading the **registry**, never the workflow | `npm view @ssheleg/agent-stack version` → `0.10.1`; both release runs resolved by tag SHA (`536cb291…`, `7a94a76f…`), never by `--limit 1`. Closed harder than the version string: `npm pack` of the published 0.10.1, extracted, and the scanner run **from the tarball** printing `9/9 passed` | verified |
+| R-06 | A version collision with a concurrent session was resolved by moving, not by overwriting | `task-pipeline` main gained a different **1.56.0** mid-review; this run's work rebased onto it and shipped **1.57.0**, its board row renumbered `B-073` → `B-075`, and **their** CHANGELOG reference to their own row restored after a blind replace had rewritten it | **observed** — the collision is the umbrella's open row B-45 arriving, not a new finding |
+
+**6 of 6 verified. 0 at `never`.**
+
+### What the checks did not cover
+
+- **The code graph could not be refreshed.** `graphify . --update` in `agent-stack` exits 1:
+  *no LLM API key found (39 doc/paper/image files need semantic extraction)*, and this
+  environment has none. `--code-only` was **not** used — it would index 10 code files and
+  drop the 39 documents that are most of this pack, which is a worse graph, not a fresher
+  one. Nothing stale ships: `graphify-out/` is gitignored in all three repositories, checked
+  with `git check-ignore`.
+- **The methodichka is not yet load-bearing anywhere.** It is linked, validated and
+  released; no run has yet designed a graph with it.
+
 ## 2026-08-14 — v0.55.0, the ninth router and the coordination repair
 
 | REQ | What shipped | How it was confirmed | Status |
