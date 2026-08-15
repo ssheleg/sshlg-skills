@@ -252,7 +252,7 @@ used.)*
 | 2026-08-14 | The family gains a protocol layer and loses its second copy; v0.48.0 (+ agent-stack 0.7.0, make-skill 0.18.0) | `4ffa59a` | yes — see below |
 | 2026-08-14 | Web funnel mechanics into the knowledge references, a ninth router, and coordination repaired in eight repositories; v0.55.0 (+ super-ux 0.40.0, sheleg-dev 0.5.0, agent-stack 0.8.0 pinned) | `1a127d8` | yes — see below |
 | 2026-08-15 | The shape of the work: graph engineering into agent-stack, a graph audit of task-pipeline; v0.59.0 (+ agent-stack 0.10.1, task-pipeline 1.57.0) | `5285792` | yes — see below |
-| 2026-08-16 | The graph backlog as a programme: the same convergence defect in four more places, a body under its budget; v0.60.0 (+ task-pipeline 1.58.0, agent-stack 0.11.0, super-ux 0.41.0, seo-aeo-audit 0.20.0, sheleg-design 1.36.1 pinned) | `52bc5b6` | yes — see below |
+| 2026-08-16 | The graph backlog as a programme: the same convergence defect in four more places, a body under its budget; v0.60.0 (+ task-pipeline 1.58.0, agent-stack 0.11.0, super-ux 0.41.0, seo-aeo-audit 0.20.0, sheleg-design 1.36.1 pinned) | `64ee7fb` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -385,6 +385,21 @@ Minutes after the check went in, the M8 split moved two sections into `patterns.
 left one rule in both files. The gate refused at 29 runs. **That is the whole argument for
 grade-1 fixes in one incident**: the doctrine had been in the canon for months and did not
 prevent the duplication; the check prevented the next one within sixty seconds.
+
+### The stamping procedure is the defect, not the attention
+
+**Instruction #10 fired twice in this one close-out, both times the same way.** The retro
+stamps a run with its own commit; the commit is then amended to carry the filled stamp; the
+amend changes the SHA; the stamp now names a commit that resolves on this machine and in no
+clone. It happened in `task-pipeline`, was repaired with a follow-up commit, and then
+happened again in the umbrella twenty minutes later — because the *procedure* invites it,
+not because anybody was careless.
+
+The repair both times is a **follow-up commit, never a second amend**: amending to fix a
+stamp is the loop that produced the problem. The procedure that would remove it is to stamp
+with a follow-up commit from the start, and that is a change to `retrospective.md` this run
+is **not** making — it is a doctrine edit discovered at stage 10, and stage 10 is where a
+run accounts for what it did rather than where it starts new work. Filed instead.
 
 ### Two smaller ones, recorded because they were measured rather than argued
 
