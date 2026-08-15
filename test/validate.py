@@ -471,7 +471,13 @@ if not skills:
     fail("skills.json: skills[] empty")
 seen = set()
 for s in skills:
-    for key in ("name", "repo", "dir", "pluginMarketplace", "pluginInstall", "desc"):
+    # `shape` and `shapeWhy`: every member says whether its run is static or dynamic and
+    # why, because a graph that decides its own next node cannot be audited afterwards —
+    # the shape that ran is not the shape anyone drew. The doctrine is one home away, in
+    # agent-stack's graph-engineering reference; this is the per-member declaration, and
+    # it is required so that a new member cannot join without answering the question.
+    for key in ("name", "repo", "dir", "pluginMarketplace", "pluginInstall", "desc",
+                "shape", "shapeWhy"):
         if not s.get(key):
             fail(f"skills.json: entry {s.get('name', '?')!r} missing {key}")
     name = s.get("name")
@@ -727,6 +733,68 @@ def check_board_is_parseable():
 
 
 check_board_is_parseable()
+
+
+def check_prune_reads_the_installed_set():
+    """The shadow prune must be fed installed plugins, never the marketplace listing.
+
+    `claude plugin marketplace add` and `claude plugin install` are separate operations,
+    so a marketplace outlives its plugin — a failed install, an uninstall. Fed the
+    marketplace list, `shadowsToPrune` deleted the plain copy of a member whose plugin was
+    gone: the only copy, and the skill with it. Measured 2026-08-15 against the pure
+    function, which cannot tell the two apart and is not supposed to.
+
+    The pure contract has a fixture. What no fixture reaches is the CALLER's choice of
+    argument, because it reads `$HOME`. This is that check, at the only level available:
+    the call must not be handed a directory listing of `plugins/marketplaces`.
+    """
+    src = os.path.join(ROOT, "bin", "sshlg-skills.js")
+    if not os.path.isfile(src):
+        _skips.append("bin/sshlg-skills.js absent — prune-input check not run")
+        return
+    text = open(src, encoding="utf-8").read()
+    m = re.search(r"plan\.shadowsToPrune\(([^)]*)\)", text)
+    if not m:
+        fail("bin/sshlg-skills.js: no call to shadowsToPrune — the prune is the one thing "
+             "that enforces one channel per agent, and it is gone")
+        return
+    args = m.group(1)
+    if "marketDir" in args or "marketplaces" in args:
+        fail("bin/sshlg-skills.js: shadowsToPrune is being handed the MARKETPLACE listing. "
+             "A marketplace outlives its plugin, so this prunes the plain copy of a member "
+             "whose plugin is not installed — the only copy. Pass the installed set, read "
+             "from installed_plugins.json, and pass nothing when it cannot be read")
+    if "installed" not in args.lower():
+        fail("bin/sshlg-skills.js: shadowsToPrune's second argument does not name the "
+             "installed set. It must be obvious at the call site which of the two sets "
+             "this is, because the wrong one deletes work and both are one word")
+
+
+check_prune_reads_the_installed_set()
+
+
+def check_shape_is_a_real_answer():
+    """A shape that says nothing is worse than no field: it reads as answered.
+
+    `static` and `dynamic` are the two answers; anything else must at least contain one of
+    them, so `static, with a bounded discovery` passes and `it depends` does not. And the
+    reason has to be a reason — a field that everyone fills with the same word is a field
+    nobody read.
+    """
+    for s in skills:
+        sh = (s.get("shape") or "").lower()
+        why = (s.get("shapeWhy") or "").strip()
+        if "static" not in sh and "dynamic" not in sh:
+            fail(f"skills.json: {s.get('name')!r} shape {s.get('shape')!r} answers neither "
+                 "static nor dynamic — the question is which shape a run has, and 'it "
+                 "depends' is the answer that stops anyone asking again")
+        if len(why) < 60:
+            fail(f"skills.json: {s.get('name')!r} shapeWhy is {len(why)} chars — too short "
+                 "to be a reason. The field exists because an unstated design choice is "
+                 "indistinguishable from an oversight")
+
+
+check_shape_is_a_real_answer()
 
 if errors:
     print("FAIL: sshlg-skills structure invalid")

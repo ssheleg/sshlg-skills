@@ -252,6 +252,7 @@ used.)*
 | 2026-08-14 | The family gains a protocol layer and loses its second copy; v0.48.0 (+ agent-stack 0.7.0, make-skill 0.18.0) | `4ffa59a` | yes — see below |
 | 2026-08-14 | Web funnel mechanics into the knowledge references, a ninth router, and coordination repaired in eight repositories; v0.55.0 (+ super-ux 0.40.0, sheleg-dev 0.5.0, agent-stack 0.8.0 pinned) | `1a127d8` | yes — see below |
 | 2026-08-15 | The shape of the work: graph engineering into agent-stack, a graph audit of task-pipeline; v0.59.0 (+ agent-stack 0.10.1, task-pipeline 1.57.0) | `5285792` | yes — see below |
+| 2026-08-16 | The graph backlog as a programme: the same convergence defect in four more places, a body under its budget; v0.60.0 (+ task-pipeline 1.58.0, agent-stack 0.11.0, super-ux 0.41.0, seo-aeo-audit 0.20.0, sheleg-design 1.36.1 pinned) | `52bc5b6` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -318,7 +319,90 @@ defect takes before writing the fix* — belongs to the repository where it happ
 `task-pipeline`'s **R-008**. Adding a second copy here would be the two-homes defect this
 run spent a release removing.
 
+
+**Prune, 2026-08-16 (v0.60.0).** Ten held, ten after this run. **Six fired**, and this is
+the third consecutive run to record which — the counter the 2026-08-14 note called
+uncomputable now has three stamps behind it.
+
+#4 — a wrapper reported two release runs complete when both were still running, which is
+the instrument answering about itself. #5 — two members moved under this run again
+(`sheleg-design` by five releases, `seo-aeo-audit` by two) and the whole set was
+re-measured rather than the one a log named. #6 — every new plant is structural and
+asserts; two broke on their first run and both failures were the author's. #7 — **fired on
+its author for the second day running**, and this time it broke two plants whose payload is
+the workflow text; the shipped fix abandons the rewrite entirely. #10 — the retro stamped a
+commit that an amend had already replaced, so the SHA resolved here and not in a clone;
+repaired with a follow-up commit rather than a second amend. #11 — the duplication check
+caught the person who wrote it, within the minute, which is the cheapest version of this
+whole programme.
+
+**#1, #2 and #8 did not fire.** None is near its five-stamp cold trigger; #8 came close to
+firing and did not, because the wrapper that lied about the release runs was caught by
+reading the registry rather than by reading an exit code.
+
+**Nothing retired and nothing added.** #7 has now fired twice in two days and is the most
+load-bearing row in the list; the temptation to add *"before a sweep, ask which targets
+treat the pattern as data"* was refused because that is #7 restated, and a list of ten that
+holds one rule twice is a list of nine.
+
 ---
+
+## 2026-08-16 — the rewrite that could not tell data from a path, twice
+
+Eleven findings from a graph audit of our own skills, run as a programme of nine modules
+plus a shared close-out. Everything landed. Two things are worth the file.
+
+### The same mistake, one day apart, by the same author
+
+Standing instruction **#7** says a mechanical rewrite cannot tell a path being *used* from
+a path being *discussed*. On 2026-08-15 it fired when a blind `B-073 → B-075` replace
+rewrote a concurrent session's reference to their own board row. On 2026-08-16 it fired
+again: the first fix for B-075 rewrote every `/tmp/...` path in a step's script to a
+per-run name, and broke two plants whose entire payload is the workflow text — they search
+the copied workflow for a literal path in order to duplicate it.
+
+**Neither was caught by reading.** The first was caught by re-reading a diff; the second by
+`npm run test:all` reporting `2 test(s) broken` with *the planted defect changed nothing*.
+
+The shipped fix abandons the rewrite: the paths stay exactly as CI has them and the runs
+are **serialised with a lock**, so the second one waits and says so. That is smaller than
+the rewrite, cannot touch the workflow text at all, and matches what the runner's own
+comment had said all along — the collision is *between* two suite runs, never inside one.
+
+**What this run refused to do about it.** Adding a standing instruction *"before a sweep,
+ask which targets treat the pattern as data"* was considered and rejected: it is #7
+restated, and a capped list holding one rule twice is a list of nine.
+
+### A check that caught the person who wrote it, on the day they wrote it
+
+`agent-stack` gained a duplication check — every reference was checked for *existence* in
+both directions and nothing checked whether two of them **say the same thing**. It was
+built from a measurement: the largest overlap in the pack was **50 shared twelve-word
+runs** between `agent-harness/SKILL.md` and the graph reference, which was one decision
+table written into two homes the previous afternoon by this same author.
+
+Minutes after the check went in, the M8 split moved two sections into `patterns.md` and
+left one rule in both files. The gate refused at 29 runs. **That is the whole argument for
+grade-1 fixes in one incident**: the doctrine had been in the canon for months and did not
+prevent the duplication; the check prevented the next one within sixty seconds.
+
+### Two smaller ones, recorded because they were measured rather than argued
+
+- **The shadow prune could delete the only copy of a skill.** `shadowsToPrune` was fed the
+  *marketplace* listing while its own code comment said *"a copy is a shadow only where a
+  plugin of the same member is installed"* — and the two are different, because
+  `marketplace add` and `plugin install` are separate operations. Measured on the pure
+  function before touching anything: with no plugin installed anywhere, it returned the
+  copy for deletion. The doctrine was right in the comment and wrong in the argument.
+- **A wrapper reported two release runs complete while both were running.** Caught by
+  reading the registry, which still served the previous versions. Instruction #4's shape:
+  the instrument answering about itself rather than about its subject.
+
+### What is left, and it is one thing
+
+`B-51` — the code graph cannot be refreshed on this machine without an LLM key, and
+`--code-only` would index ten code files while dropping the thirty-nine documents that are
+most of the pack. No commit decides it. It is the single human step this programme leaves.
 
 ## 2026-08-15 — the shape of the work, and the reader who ran the experiment
 

@@ -87,8 +87,21 @@ function agentList(f) {
 // copies shadow the plugin, so prune them — "one channel per agent", enforced.
 function pruneClaudeShadows() {
   const base = path.join(os.homedir(), '.claude', 'skills');
-  const marketDir = path.join(os.homedir(), '.claude', 'plugins', 'marketplaces');
   const ls = (d) => { try { return fs.readdirSync(d); } catch (_) { return []; } };
+
+  // The INSTALLED set, not the marketplace list. Those are separate operations and a
+  // marketplace outlives its plugin, so pruning on the marketplace deleted the plain
+  // copy of a member whose plugin was gone — the only copy, and the skill with it.
+  // Unreadable registry ⇒ empty set ⇒ nothing is pruned: a guard that never received
+  // its input refuses rather than approves.
+  const installedMarketplaces = () => {
+    try {
+      const reg = JSON.parse(fs.readFileSync(
+        path.join(os.homedir(), '.claude', 'plugins', 'installed_plugins.json'), 'utf8'));
+      return Object.keys(reg.plugins || {})
+        .map(spec => spec.split('@')[1]).filter(Boolean);
+    } catch (_) { return []; }
+  };
 
   // A copy is a shadow only where a plugin of the SAME MEMBER is installed —
   // which is not the same question as "is this run touching plugins". That
@@ -100,7 +113,7 @@ function pruneClaudeShadows() {
     skillNames: s.skillNames,
   }));
   const pruned = [];
-  for (const id of plan.shadowsToPrune(members, ls(marketDir), ls(base))) {
+  for (const id of plan.shadowsToPrune(members, installedMarketplaces(), ls(base))) {
     try {
       fs.rmSync(path.join(base, id), { recursive: true, force: true });
       pruned.push(id);

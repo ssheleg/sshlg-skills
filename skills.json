@@ -31,10 +31,12 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 35-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.40.0",
+      "version": "0.41.0",
       "entry": "/ux",
       "role": "what the interface must do and how it sounds",
-      "npm": "super-ux"
+      "npm": "super-ux",
+      "shape": "static",
+      "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable."
     },
     {
       "name": "task-pipeline",
@@ -47,10 +49,12 @@
         "task-pipeline",
         "evidence-docs"
       ],
-      "version": "1.57.0",
+      "version": "1.58.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
-      "npm": "task-pipeline-skill"
+      "npm": "task-pipeline-skill",
+      "shape": "static",
+      "shapeWhy": "The stage list is decided before the run and stays decided, because stage 10 has to account for what ran. Two places discover structure and both land in a committed artifact: the module map and the carry-over ledger."
     },
     {
       "name": "agent-sync",
@@ -65,7 +69,9 @@
       "version": "1.11.0",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
-      "npm": "@ssheleg/agent-sync"
+      "npm": "@ssheleg/agent-sync",
+      "shape": "static",
+      "shapeWhy": "Leases, ids and the journal are a fixed protocol; what varies is who holds what, which is state rather than shape."
     },
     {
       "name": "make-skill",
@@ -80,7 +86,9 @@
       "version": "0.18.1",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
-      "npm": "@ssheleg/make-skill"
+      "npm": "@ssheleg/make-skill",
+      "shape": "static",
+      "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time."
     },
     {
       "name": "sheleg-design",
@@ -92,10 +100,12 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.31.0",
+      "version": "1.36.1",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
-      "npm": "sheleg-design-skill"
+      "npm": "sheleg-design-skill",
+      "shape": "static",
+      "shapeWhy": "Packs and tokens are chosen, not discovered. The choice is recorded in the pack, so a second run reproduces the first."
     },
     {
       "name": "seo-aeo-audit",
@@ -107,10 +117,12 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.17.1",
+      "version": "0.20.0",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
-      "npm": "@ssheleg/seo-aeo-audit"
+      "npm": "@ssheleg/seo-aeo-audit",
+      "shape": "static, with a bounded discovery",
+      "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste."
     },
     {
       "name": "sheleg-dev",
@@ -130,7 +142,9 @@
       "version": "0.5.0",
       "entry": null,
       "role": "integrations: money in, tracking, sign-in, speed",
-      "npm": "@ssheleg/sheleg-dev"
+      "npm": "@ssheleg/sheleg-dev",
+      "shape": "static",
+      "shapeWhy": "Each integration is a fixed sequence of seams; nothing decides its own next step."
     },
     {
       "name": "agent-stack",
@@ -145,10 +159,12 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.10.1",
+      "version": "0.11.0",
       "entry": null,
       "role": "agent orchestrators, their evals, the protocols they speak, and the wallet under LLM resale",
-      "npm": "@ssheleg/agent-stack"
+      "npm": "@ssheleg/agent-stack",
+      "shape": "static",
+      "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance."
     }
   ]
 }

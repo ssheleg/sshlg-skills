@@ -14,6 +14,31 @@ verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
 
+## 2026-08-16 — v0.60.0, the same defect in four more places
+
+Brief `docs/evidence/briefs/2026-08-15-graph-backlog.md`. Members' own REQ rows are in their
+own ledgers (`task-pipeline` 5, `agent-stack` 5); these are the umbrella's.
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| R-01 | The composition order breaks its fake edge and names the payload on the arrows it keeps | the block renders with `{ sheleg-design ∥ copywriting }`; `npm test` → `PASS: 29 checks green`. A sweep of all nine router texts for the same order claim found **none** — the fake edge was confined to the one line | verified |
+| R-02 | Every member declares `shape` and `shapeWhy`, and both are required and checked | 8 of 8 declared; three plants watched failing — a non-answer (`it depends`), a non-reason (7 chars) and a missing field | verified |
+| R-03 | The shadow prune is fed the installed set | **measured before the fix**: `shadowsToPrune([agent-stack], ['agent-stack'], ['agent-orchestrator'])` → `['agent-orchestrator']` with no plugin installed anywhere, and the function takes no argument that could tell it. Now reads `installed_plugins.json`, prunes nothing when unreadable; a test pins the contract and a guard refuses the old argument, watched failing | verified |
+| R-04 | Five pins moved, each verified against its own published tag before the pointer | `npm view` per package: task-pipeline **1.58.0**, agent-stack **0.11.0**, super-ux **0.41.0**, seo-aeo-audit **0.20.0**, sheleg-design **1.36.1**. `check_pins.py` reports no `BEHIND` | verified |
+| R-05 | Work that landed on a member another session had moved was **rebased**, not pinned past | `seo-aeo-audit` had gone 0.17.1 → 0.19.1 under this run with an uncommitted change on the old base; the change was stashed, the member reset to the published tag, the change re-applied and released as 0.20.0 | verified |
+
+**5 of 5 verified. 0 at `never`.**
+
+### What the checks did not cover
+
+- **The convergence checks are doctrine, and no run has yet been stopped by one.** Four
+  skills now compare their branches before consuming them; whether that catches a real
+  contradiction is evidence the first audit to use them will supply.
+- **`shapeWhy` is checked for length, not for truth.** A reason of the right size that is
+  wrong reads as answered — the same failure the field exists to prevent, one level in.
+- **The code graph is still not refreshable here** (`B-51`), and it remains the one item
+  that needs a person rather than a commit.
+
 ## 2026-08-15 — v0.59.0, the shape of the work and the arrow that carried nothing
 
 Brief `docs/evidence/briefs/2026-08-15-graph-engineering.md` · spec

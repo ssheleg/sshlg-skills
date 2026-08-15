@@ -152,6 +152,23 @@ it('a plain copy survives when no plugin of that member is installed', () => {
   assert.deepStrictEqual(P.shadowsToPrune(MEMBERS, [], ['task-pipeline']), []);
 });
 
+it('the second argument is the INSTALLED set, and a marketplace is not one', () => {
+  // Measured 2026-08-15, before this test existed: fed the marketplace list, the
+  // function pruned the plain copy of a member whose plugin was not installed —
+  // the only copy, and the skill with it. `marketplace add` and `plugin install`
+  // are separate operations, so a marketplace routinely outlives its plugin.
+  //
+  // The function cannot tell the two apart; the caller must, and the caller now
+  // reads `installed_plugins.json`. This test is what keeps the argument honest:
+  // an empty installed set prunes nothing, however many marketplaces exist.
+  assert.deepStrictEqual(P.shadowsToPrune(MEMBERS, [], ['task-pipeline', 'evidence-docs']), []);
+  // …and a member whose plugin IS installed still loses its shadow.
+  assert.deepStrictEqual(
+    P.shadowsToPrune(MEMBERS, ['task-pipeline'], ['task-pipeline']),
+    ['task-pipeline']
+  );
+});
+
 it('the marketplace name is matched, not the skill id', () => {
   // sheleg-design ships under the `sheleg-design-skill` marketplace. Looking
   // for a marketplace named after the SKILL finds nothing and prunes nothing,

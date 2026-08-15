@@ -1,5 +1,52 @@
 # Changelog
 
+## v0.60.0 — the same defect in four more places, and a body under its budget
+
+v0.59.0 shipped the graph model and audited one skill against it. This release applies it
+to the rest of the family and finds the same sentence four more times: **work fans out, the
+branches each go green, and the node that consumes them trusts them because they arrived.**
+
+### Pinned
+
+- **`task-pipeline` 1.57.0 → 1.58.0.** Three convergences that had no check now have one —
+  the stage-0 harvest (eight independent sources landing in one brief, none compared with
+  the others), stage 3's COPY and VISUAL (also a **fake edge**: neither consumes the other,
+  and their real failure is each being right alone while they disagree on one screen), and
+  stage 9's three artifacts. Plus the id/version allocation this repository actually uses,
+  written down. Guards 339 → 344.
+- **`agent-stack` 0.10.1 → 0.11.0.** The orchestrator body is **5670 → 4728 tokens**, under
+  its own 4750 budget for the first time and by splitting three layers out rather than
+  trimming every section. A new check for **one home per fact** — existence was checked in
+  both directions and nothing checked whether two references *say the same thing* — which
+  caught its own author mid-split. A seventh scanner detector, `declared-deps-ignored`.
+- **`super-ux` 0.40.0 → 0.41.0.** `ux-audit` checks its parallel batches against each other
+  before the report reads as one answer. The scenario base already had the mechanism one
+  layer up; this is it applied to the audit's own outputs.
+- **`seo-aeo-audit` 0.17.1 → 0.20.0.** The ten tracks are checked against each other before
+  triage: two recommendations that cannot both be executed, one root cause wearing three
+  track names, incompatible evidence rungs on one URL. Two of those three releases came from
+  a concurrent session; this run rebased onto them rather than pinning past them.
+- **`sheleg-design` 1.31.0 → 1.36.1.** Five releases by a concurrent session, verified
+  against the published tag before the pointer moved.
+
+### Changed here
+
+- **The family's composition order had a fake edge in it.** `super-ux → sheleg-design →
+  copywriting → task-pipeline` said copy waits for the visual. It does not: copy is written
+  from the scenarios and the brand pack, the visual from the frame and the style pack. The
+  block now says `super-ux → { sheleg-design ∥ copywriting } → task-pipeline`, names the
+  scenario set as what crosses every arrow, and points at the one thing that *is* shared —
+  the screen they both land on.
+- **Every member declares its shape.** `shape` and `shapeWhy` are required fields, checked:
+  the answer must contain `static` or `dynamic`, and the reason must be a reason. A run that
+  has to be auditable is static, and until now only one member said so.
+- **The shadow prune reads the installed set, not the marketplace listing.** Measured: fed
+  the marketplace list, `shadowsToPrune` deleted the plain copy of a member whose plugin was
+  **not installed** — the only copy, and the skill with it. `marketplace add` and `plugin
+  install` are separate operations and a marketplace outlives its plugin. The caller now
+  reads `installed_plugins.json` and prunes nothing when it cannot; a guard refuses the old
+  argument, and the code comment that already stated the correct rule now matches the code.
+
 ## v0.59.0 — the shape of the work, and the arrow that carried nothing
 
 Two members move together, because the same material lands in both: `agent-stack` learns
