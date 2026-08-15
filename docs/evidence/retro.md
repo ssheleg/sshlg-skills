@@ -251,6 +251,7 @@ used.)*
 | 2026-08-14 | Plants assert they landed, family-wide; v0.47.1 | `5b639f8` | **not recorded** |
 | 2026-08-14 | The family gains a protocol layer and loses its second copy; v0.48.0 (+ agent-stack 0.7.0, make-skill 0.18.0) | `4ffa59a` | yes — see below |
 | 2026-08-14 | Web funnel mechanics into the knowledge references, a ninth router, and coordination repaired in eight repositories; v0.55.0 (+ super-ux 0.40.0, sheleg-dev 0.5.0, agent-stack 0.8.0 pinned) | `1a127d8` | yes — see below |
+| 2026-08-15 | The shape of the work: graph engineering into agent-stack, a graph audit of task-pipeline; v0.59.0 (+ agent-stack 0.10.1, task-pipeline 1.57.0) | `5285792` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -286,7 +287,135 @@ retirement** — and the honest way to earn one is to record firing per entry fr
 this run forward, which costs one line each time an instruction fires and makes the
 trigger computable for the first time.
 
+
+**Prune, 2026-08-15 (v0.59.0).** Ten held, ten after this run, which is the cap. **Seven
+fired, and this is the second run to record which** — the counter the 2026-08-14 note said
+could not be computed is now computable for two stamps.
+
+#4 — four runs of one suite over an unchanged tree returned four different answers; the
+instability was a fact about the instrument (two runs overlapping on fixed scratch paths),
+not about the subject. #5 — a member moved under this run **twice**, and both times the
+whole set was re-measured rather than the one the log named; a third member and a fourth
+are behind right now and were deliberately left alone for the same reason. #6 — all
+seventeen new plants are structural and assert they landed; the one that broke was anchored
+on a cell's *content*, which is the same class one column over. #8 — `${PIPESTATUS[0]}`
+came back empty in zsh and every exit code after that was read from the command itself.
+#9 — every CI verdict was resolved by tag SHA or by `headSha`, never by `--limit 1`; two
+releases and five branch cycles. #10 — the umbrella validator refused the moved pins while
+the submodules were uncommitted, which is the guard being right. #11 — twice: two
+hypotheses about a red suite tested and disproved before the cause was found, and a CI
+failure that turned out to be the plant rather than the doctrine.
+
+**#1, #2 and #7 did not fire — except that #7 fired against me.** Renumbering a board row
+`B-073 → B-075` was a blind replace across a file that also held a **concurrent session's**
+CHANGELOG section, and it rewrote their reference to their own row. Restored from
+`origin/main`. That is #7 exactly — a mechanical rewrite cannot tell a path being used from
+one being discussed — so it is recorded as fired, on its author rather than on a sweep.
+That leaves **#1 and #2** as the only two that did not, and neither is near five stamps.
+
+**Nothing retired and nothing added.** The lesson this run earned — *enumerate the shapes a
+defect takes before writing the fix* — belongs to the repository where it happened and is
+`task-pipeline`'s **R-008**. Adding a second copy here would be the two-homes defect this
+run spent a release removing.
+
 ---
+
+## 2026-08-15 — the shape of the work, and the reader who ran the experiment
+
+The task was to take an article's model of graph-shaped work into `agent-stack` and audit
+`task-pipeline` against it. Both landed. What the run is worth recording for is neither.
+
+### A concurrent session moved the ground twice, and the harvest was corrected rather than kept
+
+Stage 0's source ledger recorded `agent-stack` at **v0.8.0 with twelve references**. By
+stage 2 that was false: another session had released **v0.9.0**, added two references to
+`agent-harness`, rewritten that skill's References table and committed the umbrella's pin
+bump (`0f557c5`, PR #8) — all inside the forty minutes the harvest took. Nothing of this
+run was lost; the working tree held one untracked brief. It was detected by
+`git submodule status` disagreeing with a reading taken earlier, **not by anything in the
+run**, and the ledger row was rewritten to say so rather than left saying 0.8.0.
+
+Then it happened again, smaller: `origin/main` gained a docs commit between the local
+rebase and the push. Instruction **#5** covers this and fired both times — re-measure the
+whole, do not chase the member the log named.
+
+### The instrument that disagreed with itself, and the wrong conclusion that was available
+
+`test/negatives.py` reported **1, 2, 3 and 4 guards down across four runs of an unchanged
+tree**, plus property checks silent in two of them. *The suite is flaky* was available,
+cheap, and would have justified shipping over a red.
+
+It was false. Two suite runs were overlapping, and every step copies the repository to a
+**fixed** `/tmp` path — the runner's own comment says *"collisions only happen between two
+SUITE runs"*. Two hypotheses were tested and disproved before that was found (325 steps
+with 325 distinct paths; zero parent/child nestings), which is instruction **#11** doing
+its job and instruction **#4** one step sharper: instability across runs that should agree
+is a fact about the instrument.
+
+### Twice, a fix covered one of the two places its defect lived
+
+Both found by the PR's independent reader, across **four rounds and fourteen findings**:
+
+- The group convergence check went into §4.2a's prose and into `SKILL.md`'s stage table and
+  into **neither GATE bullet** — the criterion existed everywhere except where a run stops.
+- The `.git` restore parsed a `gitdir:` pointer by hand: right for a submodule, wrong for a
+  **linked worktree**, the shape `build.md` itself tells every run to use.
+
+The second is the sharper one, because the CHANGELOG **and** a verification row already
+claimed all three shapes were covered. The reader disproved a shipped sentence by running
+the experiment I had not: from a worktree on `feature`, the restored snapshot reported the
+main checkout's branch and a log missing the worktree's own commit. That is now `task-
+pipeline`'s standing instruction **R-008**.
+
+### What fired, per entry — continuing what the last prune asked for
+
+**Fired:** #4 (the four disagreeing suite runs) · #5 (twice — the pin moved under the run
+twice, re-measured whole both times) · #6 (all sixteen new plants structural and asserting;
+the one that broke was anchored on a cell's *content*, the same class one column over) ·
+#8 (`${PIPESTATUS[0]}` came back empty in zsh; every exit code after that was read from the
+command) · #9 (every CI verdict resolved by tag SHA, never by `--limit 1`) · #10 (the
+umbrella validator refused the moved pins until the submodules were committed, which is
+exactly right) · #11 (twice — two disproved hypotheses, and a CI failure that was the plant
+rather than the doctrine).
+
+**Did not fire:** #1, #2, #7. None is near its five-stamp cold trigger.
+
+**Nothing retired and nothing added.** The list stays at ten. The lesson this run earned —
+*enumerate the shapes a defect takes before writing the fix* — belongs to the repository
+where it happened and is `task-pipeline`'s R-008; adding a second copy here would be the
+two-homes defect this run spent a section removing.
+
+### The version number two branches both claimed
+
+`task-pipeline`'s main gained a **different v1.56.0** while this branch sat in its fifth
+review round, and both claimed the number. This work shipped as **1.57.0**; a board id
+collided the same way and `B-073` became `B-075`. Neither was an accident of haste: the
+repository *declares* an id register for `B-` in `.claude/agent-sync.json`, and the `fs`
+backend behind it cannot allocate, which is the umbrella's own open row **B-45**. A
+register that cannot reserve is a register in name only, and it cost a version number and
+a board id in one afternoon.
+
+The merge kept both sides everywhere — their stage-5 clause beside this run's, their two
+board rows above this run's renumbered one, both CHANGELOG sections in version order. The
+one thing it did not keep was **their** reference to their own board row, which a blind
+`B-073 → B-075` replace rewrote inside their CHANGELOG section. Restored from
+`origin/main`, and recorded above as standing instruction #7 firing on its author.
+
+**And the squash commit's subject on `main` still says v1.56.0.** It is wrong; it is the
+branch's original title, and it is deliberately not being rewritten — force-pushing `main`
+minutes after a collision with a live session is the larger risk. Every other surface says
+1.57.0, and the tag message says why the subject does not.
+
+### The disclosures
+
+- **The code graph was not refreshed** and `--code-only` was deliberately not used: it
+  indexes 10 code files and drops the 39 documents that are most of the pack, which is a
+  fresher graph that knows less. Filed as **B-51**.
+- **`agent-orchestrator/SKILL.md` grew 5009 → 5670 tokens** against a self-set 4750 budget,
+  after two compressions that recovered 21 tokens net. Filed as **B-50**.
+- **`seo-aeo-audit` is pinned at 0.17.1 while npm serves 0.19.0** — another member released
+  by the concurrent session, deliberately not moved by this run: its submodule pointer was
+  never verified here, and instruction #5 is about not chasing what is still moving.
 
 ## 2026-08-14 — the check that proved a trigger was advertised had been reading one line of fifteen
 
