@@ -615,3 +615,15 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B08-5 | Waived rows stay visible | `npm test` discloses *board — B-07 is waived, not done* and the same for B-08, beside the verdict rather than inside it | verified |
 | B08-6 | The shipped doctrine and template carry it | `references/backlog.md` gains the section, `templates/backlog.md` a worked B-005; guards 349 → **351**, `npm run test:all` exit 0 | verified |
 | B08-7 | A guard caught the documentation using a real id | the worked example first used `B-07`, making a second row with that id; the duplicate-id check refused it, and both board guards were narrowed to `B-\d+` so the placeholder is not read as a row | verified |
+
+## 2026-08-16 (fifteenth) — v0.75.0, reading a board by position
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B61-1 | The defect is real and was reproduced on the seeded shape | a scratch project with the ten-column board printed `[blast L]` where the row's Blast is `3` and its Size is `L` | verified |
+| B61-2 | Blast is resolved by header | the same project after the fix prints `[blast 3]`; the umbrella's eight-column board still prints its own `Blast` | verified |
+| B61-3 | Both shapes are held by fixtures | *blast is read by header across both board shapes* asserts `[blast 3]` and refuses `[blast L]`, then re-checks the eight-column form | verified |
+| B61-4 | An absent column stays absent | *a board with no blast column prints no blast* — the row is listed, no weight is invented | verified |
+| B61-5 | Neither formula was wrong | both are documented in their own headers; convergence was refused because it breaks every seeded board or rewrites 60 rows here, stated in the row rather than left implicit | verified |
+| B61-6 | The rule is doctrine, not two fixes | `references/backlog.md` — *the shape is not fixed, so nothing may assume it*; resolve by header, absent is absent, name the column in the output | verified |
+| B61-7 | Gate green | fixtures 18 → **20**; `npm run test:all` → all **351** guards reject their planted defect, 9 property checks printed, exit 0 | verified |

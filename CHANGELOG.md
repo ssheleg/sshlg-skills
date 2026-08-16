@@ -1,5 +1,33 @@
 # Changelog
 
+## v0.75.0 — two board shapes were never the problem; reading either by position was
+
+**B-61 asked which of two priority formulas should win. Neither.** The shipped board
+computes `sev × blast + age_bonus` over ten columns; this one computes
+`blast × (1 + age_runs) / effort` over eight. Both are documented in their own headers, and
+this one is arguably better — dividing by effort ranks cheap-and-old above
+expensive-and-old, which the other cannot express. Forcing convergence would break every
+seeded board or rewrite sixty rows here, for no gain in either direction.
+
+**What was actually broken was `exposure.sh` reading column 5 for blast.** That is `Blast`
+here and **`Size`** in the ten-column board `task-pipeline` seeds, so every host project's
+check-list printed `[blast L]` — the size of the work, labelled as who it hurts. Reproduced
+on a scratch project before the fix and after.
+
+It shipped for a full release **two lines away from where the same lesson had just been
+applied to the ledger's status column** one cycle earlier. Fixing one instance of a class
+and leaving its neighbour in the same file is the recurrence this repository's retro
+already names, and this is its clearest instance yet.
+
+Fixed in `task-pipeline` 1.66.0: blast resolved by header, fixtures 18 → **20** covering
+both shapes and a board with no blast column at all — an invented weight is worse than a
+missing one, because it looks like data. The rule is written into `references/backlog.md`
+rather than left as two fixes: resolve every column by header name, once per section,
+knowing a file may hold more than one shape; treat an absent column as absent; and name the
+column in the output where the reading depends on it.
+
+**Pin: `task-pipeline` 1.65.0 → 1.66.0.**
+
 ## v0.74.0 — a decision is not debt, and the board had no way to say so
 
 **B-08 and B-07 reached the top of this board by ageing, and both were correct.** They
