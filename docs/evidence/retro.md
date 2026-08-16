@@ -267,6 +267,7 @@ used.)*
 | 2026-08-16 (thirteenth) | B-51: the graph's distance from the code becomes a number every run; v0.71.0 | `feaafe7` | yes — see below |
 | 2026-08-16 (fourteenth) | B-60: the age term was a constant, so the board ranked newest-first; v0.72.0 (+ task-pipeline 1.63.0) | `564b356` | yes — see below |
 | 2026-08-16 (fifteenth) | B-29: the exposure line reported a clean bill on ledgers it could not read; v0.73.0 (+ task-pipeline 1.64.0) | `9ee92fa` | yes — see below |
+| 2026-08-16 (sixteenth) | B-08: a decision is not debt — `waived` becomes a state; v0.74.0 (+ task-pipeline 1.65.0) | `3eb5aad` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -360,6 +361,60 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (sixteenth) — fixing a constant surfaced what the constant was hiding
+
+B-08 came up because the age term started working one cycle ago. It and B-07 recorded
+deliberate decisions on 2026-08-06 — a UX chain waived in favour of fixtures, a skill kept
+an audit because another router carries the design-time rule — and both sat `open`. With
+age computed they went straight to **2.67 each, the top of the board**.
+
+So this cycle opened by re-deriving two conditions and found **both still hold**: 8 CLI
+commands with 0 uncovered by fixtures, and a routing block that still says *"Decided AT
+DESIGN TIME, not audited afterwards"*. Neither row was debt. Neither ever had been.
+
+**The defect was the board's vocabulary.** `open` is work not done, `dropped` is an idea
+abandoned, and a deliberate *no* is neither — so it went in `open` and aged like debt. The
+constant had been concealing that for eleven days; the first correct ranking put it on
+screen.
+
+That is the shape worth keeping: **a fix that starts producing real numbers will expose the
+next defect, and the next defect will look like the fix misbehaving.** The reflex is to
+distrust the new measurement. Here the new measurement was right and the thing it ranked
+was wrong.
+
+### The waiver had to be gated, not just named
+
+`waived` on its own is a row nobody reconsiders. The `revisit:` clause is mandatory in both
+validators, and the doctrine requires the condition to be **measurable** — *"the command
+surface grows past what the fixtures describe"* is checkable, *"if it becomes a problem"* is
+not. It also requires re-derivation when the row is touched, because a waiver resting on a
+condition nobody has checked since August is the same expired claim in a quieter voice.
+
+### The documentation used a real id and became a row
+
+The worked example I wrote for the new state read `| B-07 | … |`, which is a **second row
+with that id** in the same file. The duplicate-id guard refused it within one command. Both
+board guards were then narrowed to `B-\d+`, because the placeholder that replaced it was
+still being read as a row and reported as waived.
+
+Two lessons in one small mistake: an example in a table-shaped document is a table row to
+everything that reads the file, and a guard scanning `| B-` finds documentation.
+
+### What fired, per entry
+
+**#4** — the re-derivation is the entry: two conditions measured rather than assumed, and
+both held, which is the outcome that makes measuring worth it even when nothing changes.
+**#6** — every plant asserted its shape; the waiver plants each named the exact cell they
+altered. **#7** — the example row, which is a path being *shown* read as a path being
+*used*, in a new place. **#8** — every gate alone, `test:all` at 351. **Did not fire:**
+#1, #2, #5, #9, #10, #11.
+
+*(prune at 2026-08-16 (sixteenth): **no retirement.** #7 fired, resetting. #2 fourteen, #5
+eleven, #9 eleven, #11 one, #1 seven, #10 two. Held for the reason recorded at the eighth
+prune and re-affirmed at every one since: sixteen stamps in one day is not the count the
+cold trigger was written against — and this run is the second in which correcting a
+day-versus-stamp distortion changed a real ranking. Ten of ten slots used, nothing added.)*
 
 ## 2026-08-16 (fifteenth) — the tool I shipped to stop silent greens was one
 
