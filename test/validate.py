@@ -923,6 +923,59 @@ def check_the_plant_sweep_is_still_called():
 
 check_the_plant_sweep_is_still_called()
 
+
+def check_every_stamped_commit_resolves():
+    """A run stamp names a commit, and a commit typed from memory names nothing.
+
+    Twice on 2026-08-16 a stamp in `docs/evidence/retro.md` was written with a SHA that
+    had never existed — `dd0b1a2`, then `f9c3a4e` — both caught by hand, minutes apart,
+    by the author who wrote them. That is not an attention problem: the SHA is not
+    knowable until the commit is made, so it gets typed, and typing it is guessing.
+
+    `task-pipeline` shipped this rule for its own docs in v1.60.0 and the umbrella never
+    grew the check. It asserts two things, because resolution alone is not enough:
+    the object exists, **and** it is reachable from `HEAD`. A stamp naming a commit an
+    amend replaced resolves on the machine that wrote it and in no clone — standing
+    instruction #10, which is the incident this file's own history records twice.
+
+    Outside a checkout, or with no stamps found, it discloses rather than going quiet: a
+    guard whose corpus is empty passes everything.
+    """
+    retro = os.path.join(ROOT, "docs", "evidence", "retro.md")
+    if not os.path.isfile(retro):
+        _skips.append("run-stamp SHAs — no docs/evidence/retro.md here")
+        return
+    with open(retro, encoding="utf-8") as fh:
+        text = fh.read()
+    # Only the stamp table's own column, not every backtick in the file: prose cites
+    # commits from other repositories, and a gate that reddens on those is a gate that
+    # gets switched off.
+    shas = re.findall(r"^\|[^|]*\|[^|]*\|\s*`([0-9a-f]{7,40})`\s*\|", text, re.M)
+    if not shas:
+        _skips.append("run-stamp SHAs — no stamp rows matched the table shape")
+        return
+    checked, bad = 0, []
+    for sha in dict.fromkeys(shas):
+        r = subprocess.run(["git", "rev-parse", "-q", "--verify", f"{sha}^{{commit}}"],
+                           cwd=ROOT, capture_output=True, text=True)
+        if r.returncode != 0:
+            bad.append(f"{sha} does not resolve")
+            continue
+        a = subprocess.run(["git", "merge-base", "--is-ancestor", f"{sha}^{{commit}}", "HEAD"],
+                           cwd=ROOT, capture_output=True, text=True)
+        if a.returncode != 0:
+            bad.append(f"{sha} resolves but is not reachable from HEAD")
+        checked += 1
+    if not checked and not bad:
+        _skips.append("run-stamp SHAs — git could not verify any of them")
+        return
+    for b in bad:
+        fail(f"docs/evidence/retro.md: run stamp {b} — a stamp is only useful in a clone, "
+             "and a SHA typed before the commit exists is a guess")
+
+
+check_every_stamped_commit_resolves()
+
 if errors:
     print("FAIL: sshlg-skills structure invalid")
     for e in errors:

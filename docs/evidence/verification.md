@@ -501,3 +501,16 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B54-8 | Seven members and the umbrella released, pins moved | every pin compared against `npm view`: 8 of 8 match; `git submodule status` shows no `+`; umbrella run 31935028659 → success | verified |
 | B54-9 | The instruments were wrong twice and the asserts caught both | one-occurrence replacement read `super-ux` as not refusing (a phrase advertised twice); `glob('**/*.json')` skipped dotted dirs so `.claude-plugin/*.json` went unbumped in all seven | verified |
 | B54-10 | `agent-sync` tagged with a partial version sync and its own CI refused | run 31934820251: *version sync broken: … agent_sync.py 1.11.0, SKILL.md 1.11.0*; nothing published (`gh release view` → not found), tag moved, re-released green | verified |
+
+## 2026-08-16 (sixth) — v0.65.0, the phrase that reached no route
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B53-1 | `сделай дизайн лендинга` reaches `sheleg-design` | `T.match()` → `[sheleg-design]`, where it returned `[]` before; `design a landing page` and `сделай дизайн для лендинга` (one intervening word) also route | verified |
+| B53-2 | The bare noun is still not a trigger, so copy work is not stolen | `напиши текст для лендинга` → `[copywriting]` alone; `почини баг на лендинге` → `[task-pipeline]` | verified |
+| B53-3 | The replaced pair's real case survives | `make the hero more cinematic` → `[sheleg-design]`, through `hero` rather than `cinematic landing` | verified |
+| B53-4 | The opt-out still wins | `сделай дизайн лендинга без дизайна` → `[]` | verified |
+| B53-5 | The composition question is answered from the source, not assumed | `ux-flows`'s description advertises no landing vocabulary, and reading it says why — task analysis, flows, branches, error paths, screen states; a marketing page has no flow | verified |
+| B53-6 | Both drivers repaired before reuse | the bump driver moved **6** surfaces on this release where its `glob` version found 4, and now matches `version: "x"` and `VERSION = "x"` | verified |
+| B53-7 | Released and pinned | `npm view sheleg-design-skill version` → **1.37.3**, `npm view sshlg-skills version` → **0.65.0**; run 31936085317 → success; no submodule ahead | verified |
+| B53-8 | The hub serves it | `~/.agents/skills/sheleg-design` byte-identical to the pinned source at 1.37.3 — copied by hand again, which is B-56 | verified |
