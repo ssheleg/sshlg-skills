@@ -1,5 +1,36 @@
 # Changelog
 
+## v0.65.0 — the phrase that reached no route, and the word that could not fix it
+
+**B-53, closed with a measurement rather than a deferral.** `сделай дизайн лендинга`
+matched no route at all, and the obvious repair is unavailable: bare `дизайн` is a
+substring of this route's own refusal «без дизайна», and a trigger inside a refusal makes
+the refusal unsayable. The two-word `дизайн лендинга` / `design a landing` clears the
+clash check and is the more precise thing anyway — it reaches `sheleg-design` while
+`напиши текст для лендинга` still goes to `copywriting` alone, which the bare noun
+`лендинг` would have broken.
+
+It **replaces** `cinematic landing` / `кинематографичный лендинг` rather than joining it,
+because `sheleg-design`'s description had six characters of budget left. The loss was
+measured before it was taken: `make the hero more cinematic`, the case that pair was
+really for, still reaches here through `hero`.
+
+**The composition half of the row is answered, and the answer is no.** B-53 asked whether
+the phrase should open the whole chain. `ux-flows` advertises nothing about landing pages,
+and reading it says why: its subject is how users **move** through a product — task
+analysis, flows, branches, error paths, screen states. A marketing page has no flow. So a
+landing is `sheleg-design` ∥ `copywriting` plus `task-pipeline` for delivery, `super-ux`
+is correctly absent, and the hook naming the craft that was actually asked for is the
+behaviour rather than the gap.
+
+Two drivers written earlier today were repaired before being reused: the version bump now
+walks with `os.walk` instead of `glob('**/*.json')`, which skips dotted directories and is
+why `.claude-plugin/*.json` went unbumped across seven members, and it now matches the
+quoted `version: "x"` and `VERSION = "x"` forms that made `make-skill` and `agent-sync`
+tag half-synced. Six surfaces moved on this release where the old driver found four.
+
+**Pin: `sheleg-design` 1.37.2 → 1.37.3.**
+
 ## v0.64.0 — the invariant moves to where it can be broken
 
 **Seven members can now refuse a description that breaks the routing hook.** B-54: every
