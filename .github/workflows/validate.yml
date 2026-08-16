@@ -84,7 +84,16 @@ jobs:
             echo "no origin/main in the copied submodule — the plant cannot be built here"
             exit 1
           fi
-          git -C "/tmp/lagplant/$sub" checkout -q HEAD~1
+          # Move origin/main FORWARD rather than walking HEAD back: CI clones submodules
+          # shallow, so `HEAD~1` is not a commit here and the first draft of this plant
+          # died on `pathspec 'HEAD~1' did not match any file(s)`. Synthesising the ref
+          # works at any depth, and it is also the truer shape — the real incident was a
+          # branch that moved, not a pin that reversed.
+          old=$(git -C "/tmp/lagplant/$sub" rev-parse HEAD)
+          git -C "/tmp/lagplant/$sub" -c user.email=plant@ci -c user.name=plant \
+            commit -q --allow-empty -m "planted: an unreleased commit on main"
+          git -C "/tmp/lagplant/$sub" update-ref refs/remotes/origin/main HEAD
+          git -C "/tmp/lagplant/$sub" reset -q --hard "$old"
           out=$(cd /tmp/lagplant && python3 test/validate.py || true)
           if printf '%s' "$out" | grep -q 'unreleased commit'; then
             echo "planted lag was reported:"
