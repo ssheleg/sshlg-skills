@@ -603,3 +603,15 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B29-8 | The family measured afterwards | `task-pipeline` **126 unverified**; `sheleg-design` 1; `seo-aeo-audit`, `super-ux`, `agent-sync` **dormant — no status column**; measured by running the script in each | verified |
 | B29-9 | B-29's own claims re-derived before acting | 99 rows → **126**, 14 ids → **19**, the parked command landed in 1.61.0, and `(REQ, Shipped in)` is unique across all 126 — collisions 0 | verified |
 | B29-10 | Fixtures and gate | 14 → **18** cases; `npm run test:all` → all **349** guards reject their planted defect, 9 property checks printed, exit 0 | verified |
+
+## 2026-08-16 (fourteenth) — v0.74.0, a decision is not debt
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B08-1 | Both revisit conditions re-derived before the rows were touched | B-07: **8** launcher commands, **0** with no fixture naming them; B-08: the routing block still states *Decided AT DESIGN TIME*, and the skill's only `design` mentions are split-test design | verified |
+| B08-2 | `waived` is a state, not a flavour of open | both rows carry `waived — revisit: …` and priority `—`; the rank guard skips them and the open count no longer includes them | verified |
+| B08-3 | A waiver with no trigger is refused | plant: `revisit:` removed from B-07 → *names no `revisit:` condition*; same plant against the shipped template's B-005 → same refusal | verified |
+| B08-4 | A waiver that keeps its priority is refused | plant: B-07 priority restored to `**2.67**` → *waived but still carries priority*; template B-005 set to `3` → same | verified |
+| B08-5 | Waived rows stay visible | `npm test` discloses *board — B-07 is waived, not done* and the same for B-08, beside the verdict rather than inside it | verified |
+| B08-6 | The shipped doctrine and template carry it | `references/backlog.md` gains the section, `templates/backlog.md` a worked B-005; guards 349 → **351**, `npm run test:all` exit 0 | verified |
+| B08-7 | A guard caught the documentation using a real id | the worked example first used `B-07`, making a second row with that id; the duplicate-id check refused it, and both board guards were narrowed to `B-\d+` so the placeholder is not read as a row | verified |

@@ -1,5 +1,42 @@
 # Changelog
 
+## v0.74.0 — a decision is not debt, and the board had no way to say so
+
+**B-08 and B-07 reached the top of this board by ageing, and both were correct.** They
+recorded deliberate decisions on 2026-08-06: one waiving a UX chain for the CLI in favour
+of fixtures, one keeping `seo-aeo-audit` an audit because the `seo-llmo` router carries the
+design-time rule. Both sat `open`. One cycle ago the age term started being computed for
+the first time, and they went straight to **2.67 each — the top** — so this cycle picked
+one up and spent itself re-deriving two decisions that were right when made.
+
+**Fixing the constant exposed what the constant was hiding.** `open` is work not done,
+`dropped` is an idea abandoned, and a deliberate *no* is neither.
+
+`waived` is now a state, here and in `task-pipeline` 1.65.0 so seeded projects get it:
+not counted open, **no priority** (`—`), and it must name what would bring it back. The
+`revisit:` clause is mandatory and gated in both validators, because a waiver with no
+trigger is a row nobody will reconsider — and the trigger must be something a later run can
+**measure**.
+
+Both conditions were re-derived before the rows were waived, which the doctrine now
+requires:
+
+- **B-07** — *the launcher's command surface grows past what its fixtures describe*.
+  Measured: **8 commands** (install, update, routers, config, hooks, injectors, list,
+  agents), **0 with no fixture naming them**. Holds.
+- **B-08** — *`seo-aeo-audit` gains a design-time track, or the router stops carrying the
+  rule*. Measured: the routing block still states *"Decided AT DESIGN TIME, not audited
+  afterwards"*, and the skill's only mentions of design are split-test design. Holds.
+
+Waived rows are **disclosed on every run** rather than counted — a waiver that becomes
+invisible is how a decision outlives the reason for it.
+
+**Pin: `task-pipeline` 1.64.0 → 1.65.0.** Guards there: 349 → **351**.
+
+Caught in passing by an existing guard: the doctrine's own worked example used the real id
+`B-07`, making it a second row with that id, and the duplicate-id check refused the commit
+within one command.
+
 ## v0.73.0 — the exposure line reported a clean bill on ledgers it could not read
 
 **A tool this pack shipped two releases ago was lying, in the reassuring direction, about

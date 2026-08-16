@@ -1155,7 +1155,7 @@ def check_the_board_rank_follows_from_its_own_inputs():
         lines = fh.read().splitlines()
     looked = 0
     for line in lines:
-        if not line.startswith("| B-"):
+        if not re.match(r"^\|\s*B-\d+\s*\|", line):
             continue
         cells = [c.strip() for c in line.split("|")]
         if len(cells) < 9 or not cells[8].startswith(("open", "**open", "**part")):
@@ -1187,6 +1187,56 @@ def check_the_board_rank_follows_from_its_own_inputs():
 
 
 check_the_board_rank_follows_from_its_own_inputs()
+
+
+def check_a_waiver_names_what_would_bring_it_back():
+    """`waived` is a decision. A decision with no trigger is a row nobody reconsiders.
+
+    B-07 and B-08 recorded deliberate *no*s in 2026-08-06 and sat `open` for seven
+    stamp-days. Once the age term started working they reached the **top** of this board
+    at 2.67 each, and the cycle that picked them up spent itself re-deriving two decisions
+    that were correct when made and are still correct. Fixing the age term is what exposed
+    it: the constant had been hiding the fact that a decision ages like debt.
+
+    So a waived row is not open, carries no priority, and must say what would bring it
+    back. The `revisit:` clause is a written convention rather than prose the guard has to
+    interpret — a check that tried to recognise *a condition* in free text could not tell
+    one from a sentence about one, which is the boundary this repository keeps crossing.
+
+    Waived rows are also DISCLOSED on every run. A waiver that becomes invisible is how a
+    decision outlives the reason for it.
+    """
+    board = os.path.join(ROOT, "docs", "evidence", "backlog.md")
+    if not os.path.isfile(board):
+        _skips.append("waivers — no docs/evidence/backlog.md here")
+        return
+    with open(board, encoding="utf-8") as fh:
+        lines = fh.read().splitlines()
+    waived = []
+    for line in lines:
+        # `B-\d+` only: the doctrine's fenced example carries a placeholder id, and a
+        # guard that reads it reports on a row that does not exist.
+        if not re.match(r"^\|\s*B-\d+\s*\|", line):
+            continue
+        cells = [c.strip() for c in line.split("|")]
+        if len(cells) < 9:
+            continue
+        rid, prio, status = cells[1], cells[7], cells[8]
+        if not re.match(r"^\**waived\b", status, re.I):
+            continue
+        waived.append(rid)
+        if "revisit:" not in status.lower():
+            fail(f"docs/evidence/backlog.md: row {rid} is waived and names no `revisit:` "
+                 "condition — a decision with no trigger is a row nobody will reconsider, "
+                 "and the trigger has to be something a later run can measure")
+        if prio.strip("*") not in ("—", "-", ""):
+            fail(f"docs/evidence/backlog.md: row {rid} is waived but still carries priority "
+                 f"{prio!r} — a decision is not debt, and ranking it puts it above real work")
+    for rid in waived:
+        _skips.append(f"board — {rid} is waived, not done; its revisit condition is in the row")
+
+
+check_a_waiver_names_what_would_bring_it_back()
 
 if errors:
     print("FAIL: sshlg-skills structure invalid")
