@@ -1,5 +1,41 @@
 # Changelog
 
+## v0.79.0 — the graphs are current, and a live key was one command from being published
+
+**B-51 resolved as *provision*, and the graphs are rebuilt.** All nine, with semantic
+extraction: every one now sits **at HEAD**, where this repository's was 31 commits behind,
+`super-ux` 33, `seo-aeo-audit` 19, `sheleg-design` 12, `task-pipeline` 10.
+
+**Measured cost for the family: $1.05, eleven minutes.** My pre-flight estimate was $0.44
+and it was low by 2.4× — it priced raw input tokens and ignored the per-file prompt
+overhead and the JSON output at $1.60/1M. The number that matters came from one clean run
+on the smallest member measured against OpenRouter's own accounting before and after, then
+extrapolated; the estimate is recorded here beside the measurement rather than quietly
+replaced by it.
+
+**A live API key was sitting untracked-but-unignored at this repository's root**, mode 644,
+while a loop that runs `git add -A` after every cycle had been working here all day. It was
+never committed — `git log --all -- .env` is empty — but nothing would have stopped the
+next commit from publishing it. `.env` and `.env.*` are gitignored now in **all nine**
+repositories, not just the one that had the file, because the hole was open in all nine.
+
+**Where a key belongs on this machine, and why it is not `.env`.** graphify reads
+`os.environ` only — it has no config file and does not load `.env`, so a key there was
+never going to be read in the first place. It lives in `~/.config/graphify/env`, mode 600,
+sourced from `~/.zshrc` behind a `[ -r … ]` guard so a deleted secrets file cannot break
+the shell. One home per secret.
+
+**Two things were measured rather than assumed along the way.** `deepseek/deepseek-chat`
+answers a short prompt through OpenRouter and returns *empty or filtered* on graphify's
+real chunks — twice, 2 of 2 — while `openai/gpt-4.1-mini` completed the same corpus; the
+model is pinned with that reason next to it. And OpenRouter's real rate for that route is
+**$0.40 in / $1.30 out per 1M**, not DeepSeek's direct $0.14/$0.28, which happens to land
+close to graphify's hardcoded `openai` pricing — so `cost.json` is roughly honest here by
+coincidence rather than by design.
+
+The staleness disclosure now names its remedy instead of only the lack, and retires itself:
+zero occurrences of its tail once a key is in the shell.
+
 ## v0.78.0 — an unqualified landing page reaches both crafts
 
 **B-57: `сделай лендинг` reached no route at all — and neither did `build a landing page`,

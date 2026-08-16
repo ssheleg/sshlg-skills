@@ -14,3 +14,9 @@ graphify-out/
 # Python bytecode from the validator and its suites
 __pycache__/
 *.pyc
+
+# Secrets — never committed. A key sat here untracked-but-unignored on
+# 2026-08-16, one `git add -A` away from a public repository.
+.env
+.env.*
+!.env.example
