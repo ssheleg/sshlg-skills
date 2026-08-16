@@ -269,6 +269,7 @@ used.)*
 | 2026-08-16 (fifteenth) | B-29: the exposure line reported a clean bill on ledgers it could not read; v0.73.0 (+ task-pipeline 1.64.0) | `9ee92fa` | yes — see below |
 | 2026-08-16 (sixteenth) | B-08: a decision is not debt — `waived` becomes a state; v0.74.0 (+ task-pipeline 1.65.0) | `3eb5aad` | yes — see below |
 | 2026-08-16 (seventeenth) | B-61: reading a board by position — blast resolved by header; v0.75.0 (+ task-pipeline 1.66.0) | `604b20f` | yes — see below |
+| 2026-08-16 (eighteenth) | B-62: two facts, and most ledgers record one — convergence refused; v0.76.0 (+ task-pipeline 1.67.0) | `5302a8b` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -362,6 +363,60 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (eighteenth) — the number the doctrine is built on is undefined almost everywhere
+
+B-62 said five verification-ledger shapes. Measured: **ten**, across **815** rows in nine
+repositories. And the number that matters is smaller than the row implied — `never` is
+expressible in **one repository, over 15% of the rows**. The exposure line, the check-list,
+`/task-pipeline checkup`, and a paragraph of doctrine in three files are all defined over a
+column that 689 rows do not have.
+
+### The refusal was the work
+
+The obvious close is to converge: one shape, a `Human` column everywhere. It is also the
+one action that would make things worse. Back-filling 689 rows means writing human
+confirmations nobody gave — and unlike an absent column, a filled-in one **answers the
+question wrongly**, with nothing afterwards able to tell which rows were real. The
+`evidence-docs` router names exactly that failure, and this repository's own ledger
+preamble had already refused it once for its own history.
+
+So what shipped is a written split — evidence and human-confirmation are different facts,
+a ledger may carry either, and the doctrine stops implying the second is always there. Two
+cycles running now, the honest answer to *"make these the same"* has been **no, and here is
+what to do instead**: B-61's two board shapes, B-62's ten ledger shapes. In both the harm
+was never the divergence; it was code and prose that assumed uniformity.
+
+### The doctrine was lying about this repository, in this repository
+
+`docs/evidence/verification.md` opened by saying `/task-pipeline checkup` counts the rows
+sitting at `never`. Its own table has no such value and never has. 295 of its 322 rows read
+`verified`, and not one says whether a person or a command produced it. **A file that
+describes its own contents wrongly is the cheapest kind of false claim to make and the
+hardest to notice**, because the reader who could check it is the one who wrote it.
+
+### Four rows were unreadable for explaining themselves
+
+`**observed** — the row exists because the miss happened in this run` was reported as a
+status nobody can parse, because the matcher compared the whole cell. A status that names
+itself and then says why is ordinary writing, and the vocabulary now matches the leading
+word — with the empty-cell test moved **before** the word is taken, so a blank still counts
+as unconfirmed rather than becoming a word that is not in the list.
+
+### What fired, per entry
+
+**#4** — the entry: five became ten and 698 became 815 because both were counted rather
+than carried over, and my first table shipped a wrong last row that a recount caught before
+release. **#11** — the sampler that reported three repositories with zero rows was reading
+a column that does not exist in them. **#6** — the plants and the recount both asserted
+their own shape. **#8** — every gate alone; `test:all` at 351. **Did not fire:** #1, #2,
+#5, #7, #9, #10.
+
+*(prune at 2026-08-16 (eighteenth): **no retirement.** #7 one stamp, #2 sixteen, #5
+thirteen, #9 thirteen, #11 fired, #1 nine, #10 four. Held for the reason recorded at the
+eighth prune. Ten of ten slots used, nothing added — the *refuse convergence, name what to
+do instead* pattern has now appeared twice in two cycles and belongs in the board doctrine
+if it appears a third time, not in this list.)*
 
 ## 2026-08-16 (seventeenth) — the same defect, two lines away, one release later
 
