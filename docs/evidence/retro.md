@@ -266,6 +266,7 @@ used.)*
 | 2026-08-16 (twelfth) | B-56: the description was not valid YAML, and every gate we own reads it with a regex; v0.70.0 (+ sheleg-design 1.37.4, agent-stack 0.11.1) | `2553fb4` | yes — see below |
 | 2026-08-16 (thirteenth) | B-51: the graph's distance from the code becomes a number every run; v0.71.0 | `feaafe7` | yes — see below |
 | 2026-08-16 (fourteenth) | B-60: the age term was a constant, so the board ranked newest-first; v0.72.0 (+ task-pipeline 1.63.0) | `564b356` | yes — see below |
+| 2026-08-16 (fifteenth) | B-29: the exposure line reported a clean bill on ledgers it could not read; v0.73.0 (+ task-pipeline 1.64.0) | `9ee92fa` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -359,6 +360,80 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (fifteenth) — the tool I shipped to stop silent greens was one
+
+Two cycles ago I built `exposure.sh`, wrote fourteen fixtures for it, and recorded in the
+notes that three of them had caught real defects *lying in the reassuring direction*. Run
+against this repository's own ledger today it printed:
+
+```
+exposure: 0 unverified · never checked · 125 releases carry one
+         every shipped row carries a human confirmation
+```
+
+Nothing has ever been checked, and everything is confirmed. **The two halves of one
+sentence contradict each other**, and I had read that output before without seeing it.
+
+It came from four rows out of 298. The script keyed on position — `NF >= 7` — and this
+ledger has four columns, so nothing should have matched at all; the four that did are the
+four whose cells contain a `|` inside inline code and so crossed the field count by
+accident. **A number derived from punctuation, presented as a clean bill.**
+
+### The fixtures were the reason it survived
+
+Eighteen cases now, fourteen then, and every one of the fourteen built the same canonical
+seven-column ledger with a `Human` column. They tested the logic thoroughly and the
+*interface* not at all — the assumption that a ledger has this shape was baked into the
+fixture factory, so no case could question it. A fixture that constructs its own input from
+the implementation's assumptions verifies internal consistency and nothing else.
+
+The four cases added today all attack the shape: a ledger with no status column, a status
+column somewhere else, a status column that is not `Human`, and a status nobody can parse.
+
+### The order of the column names had to be measured
+
+`sheleg-design` carries both `Last verified` — which its own preamble defines as *a date
+and the thing that was watched, not "tests pass"* — and a `Status` column holding
+`**green**`. Preferring `status` reads the gate and reports 174 confirmations. Five other
+members hold **shell commands** under `Verified by` and `How it is checked`, so those
+header names had to be excluded rather than accepted as near-enough. Each of those was
+found by sampling the actual values, not by reasoning about what a column called
+`Verified by` probably contains.
+
+### What the measurement exposed is bigger than the bug
+
+Five ledger shapes across nine repositories, and only `task-pipeline`'s can express *a
+person looked*. Six members have no state column at all. So the exposure line — the number
+the doctrine is written around — is unmeasurable in most of the family, and this
+repository's own ledger preamble promises a checkup that counts a value its shape cannot
+hold. Filed as B-62 rather than papered over; the script now says **dormant** there, which
+makes the gap visible instead of closing it with a zero.
+
+### An edit replaced a string I had introduced two edits earlier
+
+Patching the script, one substitution matched an `if` I had written minutes before rather
+than the one I meant, and spliced a block into the middle of an if/elif chain. The assert
+confirmed the string existed; it could not confirm it was the right occurrence. **In a file
+being edited repeatedly, "this string appears once" is a fact about the moment, not about
+the edit.** Repaired by rewriting the whole block from the file's current contents instead
+of patching a patch.
+
+### What fired, per entry
+
+**#4** — twice and decisively: `0 unverified` across five members was the uniform answer,
+and sampling the real values is what turned it into five distinct causes. **#11** — my
+reader was wrong before the subject was, three separate times today. **#7** — the
+substitution that hit my own earlier edit. **#6** — the plants asserted their shape, and
+the one that did not is exactly the one that went wrong. **#8** — every suite alone,
+`test:all` at 349. **Did not fire:** #1, #2, #5, #9, #10.
+
+*(prune at 2026-08-16 (fifteenth): **no retirement.** #7 fired, resetting. #2 thirteen,
+#5 ten, #9 ten, #1 six, #10 one, #4/#6/#11 fired. Held for the reason recorded at the
+eighth prune: fifteen stamps in one day is not the count the cold trigger was written
+against, and the board's own age term was corrected for the same distortion one cycle ago.
+Ten of ten slots used, nothing added — the fixture lesson above is #4 applied to test
+inputs rather than to outputs, and it is written into the entry rather than given a slot.)*
 
 ## 2026-08-16 (fourteenth) — I ranked by a number nobody was computing
 
