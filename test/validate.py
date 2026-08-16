@@ -1255,6 +1255,55 @@ def check_release_tags_are_annotated():
 check_release_tags_are_annotated()
 
 
+def check_no_member_holds_a_commit_the_remote_does_not():
+    """A pin is only a promise if the commit it names can be fetched.
+
+    `git submodule status` prints no `+` when the pointer matches the submodule's
+    **local** HEAD, so a commit that was made and never pushed looks identical to
+    one that shipped. It is not: `actions/checkout` fails the clone with
+    *upload-pack: not our ref*, and every consumer of that hub commit fails with it.
+
+    That is not hypothetical. v0.80.0 was tagged with `skills/agent-stack` pinned at
+    a `scripts.test` chore commit that existed only on this machine; the umbrella's
+    own `npm test` was green, `git submodule status | grep -c '^+'` returned 0, and
+    CI failed at checkout — **after the tag was public**. `task-pipeline`'s stage 10
+    states the order this exists to enforce: *push the submodule, **then** commit the
+    pointer*, and the second half is the one that gets forgotten.
+
+    A failure rather than a disclosure: a pinned commit nobody can fetch breaks every
+    clone, which is the one thing the pin invariant promises will not happen. Where
+    the upstream ref cannot be resolved — a detached CI checkout, a fresh clone with
+    no remote-tracking branch — it discloses instead, because a check that cannot look
+    must never read as one that looked.
+    """
+    for m in manifest.get("skills", []):
+        d = os.path.join(ROOT, m["dir"])
+        if not os.path.exists(os.path.join(d, ".git")):
+            continue
+
+        def g(*a):
+            try:
+                r = subprocess.run(["git", "-C", d, *a], capture_output=True, text=True, timeout=15)
+            except (OSError, subprocess.SubprocessError):
+                return None
+            return r.stdout.strip() if r.returncode == 0 else None
+
+        if g("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}") is None:
+            _skips.append(f"{m['name']}: no upstream ref here, so whether its commits are "
+                          "pushed could not be read")
+            continue
+        ahead = g("log", "@{u}..HEAD", "--oneline")
+        if ahead:
+            n = len(ahead.split("\n"))
+            fail(f"{m['dir']}: {n} commit(s) exist only locally — a pin naming one of them "
+                 f"fails every clone with `upload-pack: not our ref`, while `git submodule "
+                 f"status` shows no `+` because the pointer matches the LOCAL head. Push the "
+                 f"submodule first, then commit the pointer:\n      {ahead.splitlines()[0]}")
+
+
+check_no_member_holds_a_commit_the_remote_does_not()
+
+
 def check_the_board_rank_follows_from_its_own_inputs():
     """`Age` and `P` are computed columns, so compute them.
 

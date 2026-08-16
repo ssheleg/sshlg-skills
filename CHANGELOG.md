@@ -77,6 +77,24 @@ read before the tag, and the guard added for it did not see `perl`-form plants, 
 first widening skipped a file with a comment claiming a loop checked it when no such loop
 existed. All three are fixed and each was watched refusing.
 
+### The tag went out pinning a commit that existed only on this machine
+
+`v0.80.0`'s first CI run failed at **checkout**, not at a test: `skills/agent-stack`
+was pinned at a chore commit that had been made here and never pushed, and
+`actions/checkout` refused it with *upload-pack: not our ref*. Every consumer of that
+hub commit would have failed the same way.
+
+Nothing local could see it. `npm test` was green, and
+`git submodule status | grep -c '^+'` returned **0** — because the pointer matched the
+submodule's **local** head, which is exactly what a forgotten push looks like.
+`task-pipeline`'s stage 10 already states the order (*push the submodule, then commit
+the pointer*) and names the second half as the one that gets forgotten; nothing
+enforced it.
+
+`check_no_member_holds_a_commit_the_remote_does_not()` fails the gate when a member
+holds a commit its upstream does not, and discloses instead where no upstream ref
+resolves. Watched refusing a planted local commit.
+
 ### Also
 
 - `test/hooks_e2e_test.js` discovers all nine hooks instead of listing six. The three it
