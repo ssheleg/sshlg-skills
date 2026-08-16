@@ -264,6 +264,7 @@ used.)*
 | 2026-08-16 (tenth) | B-43: the command that was built, parked, and lost — rebuilt with guards 344 → 347; v0.68.0 (+ task-pipeline 1.61.0) | `491bed1` | yes — see below |
 | 2026-08-16 (eleventh) | B-58: a board row that says work exists names where it lives — guards 347 → 349; v0.69.0 (+ task-pipeline 1.62.0) | `0a0ebcf` | yes — see below |
 | 2026-08-16 (twelfth) | B-56: the description was not valid YAML, and every gate we own reads it with a regex; v0.70.0 (+ sheleg-design 1.37.4, agent-stack 0.11.1) | `2553fb4` | yes — see below |
+| 2026-08-16 (thirteenth) | B-51: the graph's distance from the code becomes a number every run; v0.71.0 | `feaafe7` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -357,6 +358,67 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (thirteenth) — the catastrophe that was a wrong dictionary key
+
+B-51 is an operator's decision — provision an LLM key or accept that doc-heavy members
+keep a drifting graph — and it stayed one. What changed is that waiting is no longer free
+of information: every `npm test` now prints how far each graph has fallen behind the code
+it describes.
+
+### Yesterday's lesson, applied and then immediately needed
+
+The twelfth entry, written an hour earlier, says: *when a tool fails and our own checks are
+green, the disagreement is the evidence.* Measuring the graphs, my own reader reported
+**zero edges across all nine** — 11,267 nodes and no relations anywhere, which would have
+meant every reach question the graph exists to answer had been silently returning nothing
+for weeks. That is a catastrophe-shaped number.
+
+Instead of writing it up, I asked the tool. `graphify god-nodes` printed real hubs with
+edge counts against the same file, one command later. The graph is node-link JSON and its
+key is `links`; I had read `edges`. **11,267 nodes and 12,494 links, all nine graphs
+healthy.** The disagreement localised the defect to the thing the two readers did
+differently, exactly as the previous entry claimed it would — and the elapsed time was one
+command rather than two cycles.
+
+The design consequence is in the shipped code: `graph_staleness.resolve()` reads nothing.
+It takes four measured facts and returns a verdict, because the reading is where this went
+wrong and a pure function cannot repeat it.
+
+### A row's facts had expired, again, and this time it was checked first
+
+B-51 said the graphs were frozen since 2026-08-08. They were rebuilt on 08-15/16. It said
+they were therefore useless; they are 2 to 33 commits behind, which is drift and not
+freezing. **Both were re-measured before anything was built on them** — the second cycle
+running in which a board row turned out to describe a state that had moved, after B-43's
+artifacts and B-47's file count. Three rows in one day, and the pattern is now unmistakable:
+**a board row is a claim with a timestamp, and stage 0's harvest should re-measure the row
+it is about to act on** rather than reading it as current. That is already the doctrine for
+the open *count*; it is not yet the doctrine for a row's *contents*.
+
+### The disclosure names the decision without forcing it
+
+An unrefreshable graph says so **even when it is at HEAD**, because *current today* and
+*current because nothing can rebuild it* are different facts and only one is fine. The
+`B-51` tail disappears by itself the moment a key exists — verified by running the suite
+with one set — so the disclosure retires itself rather than needing a follow-up edit.
+
+### What fired, per entry
+
+**#11** — the load-bearing one, and it worked at speed: suspect the checker, then ask a
+second reader. **#4** — *zero edges across all nine* is the uniform-answer signature, and
+it was a wrong key rather than a real uniformity, which is the same instruction reading in
+the opposite direction. **#8** — an earlier attempt to reproduce the refresh failure used
+`timeout`, which macOS does not have; the command never ran and the pipeline still printed
+`exit=0`. Re-run without it. **#6** — both blind-path plants asserted their own shape.
+**#10** — the stamp SHA read from `git rev-parse` in the writing script. **Did not fire:**
+#1, #2, #5, #7, #9.
+
+*(prune at 2026-08-16 (thirteenth): **no retirement.** #7 one stamp, #2 eleven, #5 eight,
+#9 eight, #1 four, #6 and #11 fired. Held for the reason recorded at the eighth prune and
+re-affirmed twice since: thirteen stamps in one day is not the count the cold trigger was
+written against. Ten of ten slots used, nothing added — the expired-row pattern above is a
+`/task-pipeline` harvest change and belongs on the board, not in this list.)*
 
 ## 2026-08-16 (twelfth) — two cycles blaming a tool that was working
 
