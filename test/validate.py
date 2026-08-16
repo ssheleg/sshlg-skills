@@ -657,6 +657,33 @@ if not (pkg.get("scripts") or {}).get("test"):
     fail('package.json: no "scripts.test" — `npm test` is the entry point CI is '
          "required to use, and without it there is nothing to require")
 
+# And the same requirement for every member, because "the gate is `npm test`" is
+# stated family-wide in docs/DOCMAP.md and hooks/repo-gate.js denies a commit whose
+# `npm test` is red — while three of nine members had no `scripts` block at all
+# (B-65, measured 2026-08-16). An agent told the gate is `npm test` got exit 1 there
+# and could not tell a missing script from a failing suite; a change committed
+# inside such a submodule was gated by nothing.
+#
+# Disclosed rather than failed when the submodule is not checked out: a shallow or
+# partial clone is an ordinary state, and a check that cannot look must never read
+# as one that looked.
+for _m in manifest.get("skills", []):
+    _mp = os.path.join(ROOT, _m["dir"], "package.json")
+    if not os.path.isfile(_mp):
+        notes.append(f"{_m['name']}: not checked out, so its gate entry point was not read")
+        continue
+    try:
+        with open(_mp, encoding="utf-8") as fh:
+            _mpkg = json.load(fh)
+    except (ValueError, OSError) as exc:
+        fail(f"{_m['dir']}/package.json: unreadable ({exc})")
+        continue
+    if not (_mpkg.get("scripts") or {}).get("test"):
+        fail(f'{_m["dir"]}/package.json: no "scripts.test" — the family states `npm test` '
+             "as the gate and hooks/repo-gate.js denies a commit whose `npm test` is red, "
+             "so a member without one is gated by nothing and reports a missing script "
+             "identically to a failing suite")
+
 workflow = os.path.join(ROOT, ".github", "workflows", "validate.yml")
 if os.path.isfile(workflow):
     with open(workflow, encoding="utf-8") as fh:

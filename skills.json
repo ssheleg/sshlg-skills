@@ -66,7 +66,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.11.1",
+      "version": "1.12.0",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
@@ -117,7 +117,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.20.2",
+      "version": "0.21.0",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
