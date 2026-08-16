@@ -270,6 +270,7 @@ used.)*
 | 2026-08-16 (sixteenth) | B-08: a decision is not debt — `waived` becomes a state; v0.74.0 (+ task-pipeline 1.65.0) | `3eb5aad` | yes — see below |
 | 2026-08-16 (seventeenth) | B-61: reading a board by position — blast resolved by header; v0.75.0 (+ task-pipeline 1.66.0) | `604b20f` | yes — see below |
 | 2026-08-16 (eighteenth) | B-62: two facts, and most ledgers record one — convergence refused; v0.76.0 (+ task-pipeline 1.67.0) | `5302a8b` | yes — see below |
+| 2026-08-16 (nineteenth) | B-59: closing a false positive found the bypass it was hiding; v0.77.0 | `3101a5c` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -363,6 +364,57 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (nineteenth) — the annoyance was hiding a hole
+
+B-59 was the smallest row on the board: a guard that refuses documents quoting the command
+it warns about. Priority 0.5, filed as a nuisance. Fixing it turned up a **bypass that had
+been open the whole time**.
+
+The fix required deciding what a guard may ignore. Heredoc bodies fed to a non-shell, yes —
+they are data. Every heredoc, no: `bash <<EOF` is a script, and stripping it would trade a
+false positive for a documented hole. Quoted strings, no: `bash -c '…'` is a real
+invocation.
+
+**Writing the test for that last case is what found it.** `bash -c 'npx skills add
+ux-flows'` was *not* refused — `bareName` kept the trailing quote, so `ux-flows'` matched
+no family id. Verified against `HEAD` before any of my changes, so it predated the row
+entirely.
+
+The shape is worth naming: **deciding what a guard should ignore forces you to enumerate
+what it must not, and that list is where the holes are.** The row asked for one exemption;
+answering it honestly required listing three cases the guard must still catch, and one of
+them it did not.
+
+### The defect demonstrated itself three times
+
+Twice it blocked the command that was repairing it — once silently, in a compound call
+where the guard refused the whole payload and the `python3` edit inside it never ran while
+I read a later error as the failure. And the fixture file could not contain the literal
+payload at all, because anything reading that file becomes a refused command; the strings
+are assembled at runtime, with a comment saying why.
+
+### Three new fixtures passed for the wrong reason
+
+They targeted a member the fixture's own manifest does not declare, so every call returned
+`null` and every `assert.strictEqual(..., null)` was satisfied by an id that matched
+nothing. **A negative assertion needs a positive control in the same block**, and there
+are two at the top of that block now — the bare payloads must be refused, or the cases
+below them prove nothing.
+
+### What fired, per entry
+
+**#6** — squarely: three plants asserting nothing, caught only because the fourth case
+expected a refusal and got silence. **#8** — the compound call whose inner edit never ran
+while its later command produced the visible error; the fix was to stop chaining and check
+that the write landed. **#11** — the guard was suspected of being wrong about documents,
+and it was, and it was also wrong in the other direction. **Did not fire:** #1, #2, #4,
+#5, #7, #9, #10.
+
+*(prune at 2026-08-16 (nineteenth): **no retirement.** #4 one stamp, #7 two, #2 seventeen,
+#5 fourteen, #9 fourteen, #11 fired, #1 ten, #10 five. Held for the reason recorded at the
+eighth prune. Ten of ten slots used, nothing added — *a negative assertion needs a positive
+control* is #6 with a sharper edge and belongs in its entry, not a new slot.)*
 
 ## 2026-08-16 (eighteenth) — the number the doctrine is built on is undefined almost everywhere
 
