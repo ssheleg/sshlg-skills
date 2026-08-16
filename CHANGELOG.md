@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.66.0 — a stamp typed from memory names nothing
+
+**A stamp typed from memory names nothing, and now the gate says so.** Twice today a run
+stamp in `docs/evidence/retro.md` carried a SHA that had never existed — `dd0b1a2`, then
+`f9c3a4e` — both caught by hand, minutes apart, by the author who wrote them. That is not
+an attention problem: the SHA is unknowable until the commit is made, so it gets typed, and
+typing it is guessing. `task-pipeline` shipped this rule for its own docs in v1.60.0 and
+this repository never grew the check.
+
+It asserts two things, because resolution alone is not enough: the object exists **and** it
+is reachable from `HEAD`. A stamp naming a commit an amend replaced resolves on the machine
+that wrote it and in no clone — standing instruction #10, which this file's history records
+twice. **31 stamps** are under it, and both shapes were watched failing separately: a
+fabricated SHA (*does not resolve*) and a real orphan commit built with `git commit-tree`
+(*resolves but is not reachable from HEAD*).
+
 ## v0.65.0 — the phrase that reached no route, and the word that could not fix it
 
 **B-53, closed with a measurement rather than a deferral.** `сделай дизайн лендинга`
@@ -28,20 +44,6 @@ walks with `os.walk` instead of `glob('**/*.json')`, which skips dotted director
 why `.claude-plugin/*.json` went unbumped across seven members, and it now matches the
 quoted `version: "x"` and `VERSION = "x"` forms that made `make-skill` and `agent-sync`
 tag half-synced. Six surfaces moved on this release where the old driver found four.
-
-**A stamp typed from memory names nothing, and now the gate says so.** Twice today a run
-stamp in `docs/evidence/retro.md` carried a SHA that had never existed — `dd0b1a2`, then
-`f9c3a4e` — both caught by hand, minutes apart, by the author who wrote them. That is not
-an attention problem: the SHA is unknowable until the commit is made, so it gets typed, and
-typing it is guessing. `task-pipeline` shipped this rule for its own docs in v1.60.0 and
-this repository never grew the check.
-
-It asserts two things, because resolution alone is not enough: the object exists **and** it
-is reachable from `HEAD`. A stamp naming a commit an amend replaced resolves on the machine
-that wrote it and in no clone — standing instruction #10, which this file's history records
-twice. **31 stamps** are under it, and both shapes were watched failing separately: a
-fabricated SHA (*does not resolve*) and a real orphan commit built with `git commit-tree`
-(*resolves but is not reachable from HEAD*).
 
 **Pin: `sheleg-design` 1.37.2 → 1.37.3.**
 
