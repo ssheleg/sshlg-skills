@@ -1304,6 +1304,63 @@ def check_no_member_holds_a_commit_the_remote_does_not():
 check_no_member_holds_a_commit_the_remote_does_not()
 
 
+def check_every_changelog_release_has_a_tag_or_says_it_is_not_one():
+    """A version heading nobody can check out makes the register uncheckable there.
+
+    A CHANGELOG is a decision register: *"shipped in v1.28.0"* has to resolve to
+    something. Measured 2026-08-17 across the family: **17 sections above their own
+    repository's first tag** described a release that was never tagged — ten in
+    `sheleg-design`, three in `super-ux`, two in `agent-sync`, one each in
+    `task-pipeline` and `seo-aeo-audit`. Four of `sheleg-design`'s are on npm with
+    no tag, which is the worse half: the artifact is real, so a bug report against
+    it has no source tree to read.
+
+    **Only above the first tag.** Below it the project had not adopted tagging, and
+    flagging that is noise about history rather than a defect — `super-ux` alone
+    would report twenty-two.
+
+    The remedy a section can carry instead of a tag is an explicit note saying it
+    was not a release; `seo-aeo-audit` wrote one for v0.18.0 before this check
+    existed, and its wording is the shape the others now use. A disclosure, because
+    the fix is a sentence a person writes and a red gate would be routed around.
+    """
+    for m in manifest.get("skills", []):
+        d = os.path.join(ROOT, m["dir"])
+        cl = os.path.join(d, "CHANGELOG.md")
+        if not os.path.isfile(cl) or not os.path.exists(os.path.join(d, ".git")):
+            continue
+        try:
+            r = subprocess.run(["git", "-C", d, "tag"], capture_output=True, text=True, timeout=15)
+        except (OSError, subprocess.SubprocessError):
+            continue
+        if r.returncode != 0:
+            continue
+        key = lambda v: tuple(int(x) for x in v.split("."))
+        tags = {t.lstrip("v") for t in r.stdout.split() if re.fullmatch(r"v?\d+\.\d+\.\d+", t)}
+        if not tags:
+            _skips.append(f"{m['name']}: no version tags here, so CHANGELOG headings "
+                          "could not be reconciled against any")
+            continue
+        first = min(tags, key=key)
+        text = open(cl, encoding="utf-8").read()
+        gaps = []
+        for mm in re.finditer(r"^##+ \[?v?(\d+\.\d+\.\d+)\]?[^\n]*\n", text, re.M):
+            v = mm.group(1)
+            if v in tags or key(v) <= key(first):
+                continue
+            after = text[mm.end():mm.end() + 400]
+            if "Never released on its own" in after or "Published, never tagged" in after:
+                continue          # the section says so itself, which is the remedy
+            gaps.append(v)
+        if gaps:
+            _skips.append(f"{m['name']}: CHANGELOG documents {len(gaps)} version(s) with no "
+                          f"tag and no note saying they were not releases — {', '.join(gaps[:4])}"
+                          + (" …" if len(gaps) > 4 else ""))
+
+
+check_every_changelog_release_has_a_tag_or_says_it_is_not_one()
+
+
 def check_the_board_rank_follows_from_its_own_inputs():
     """`Age` and `P` are computed columns, so compute them.
 
