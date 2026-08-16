@@ -486,3 +486,18 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B56-5 | The disclosure has a negative self-test in CI | first draft died on `pathspec 'HEAD~1'` — CI clones submodules shallow — rewritten to synthesise the ahead-ref; run 31933782763 → success | verified |
 | B56-6 | The umbrella ships the pin | `npm view sshlg-skills version` → **0.63.0**; release run 31933782797 → success; `git submodule status` shows no `+` | verified |
 | B56-7 | The launcher's own failure is characterised, not guessed | not rate limiting (`GH_TOKEN` removes the limit line, not the failure), not size (super-ux is 2.2M/123 files and succeeds), not the lock's shape (identical to working members); it is the `skillFolderHash` loop — still open | verified |
+
+## 2026-08-16 (fifth) — v0.64.0, the invariant moves to where it can be broken
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B54-1 | The advertisement assertion is addressable from a member | `node test/advertised_check.js --member <m> --root <c>` answers for all eight members; `agent-stack` reports *carries no routed triggers* rather than passing silently | verified |
+| B54-2 | No copy of the trigger table travels with a member | the checker `require`s `lib/triggers.js`, the module the hook itself calls; the members pass a name and a path and hold nothing | verified |
+| B54-3 | All seven members carrying routed triggers call it | `test/advertised_plants.py` drops one of each member's own advertised phrases and runs that member's own `validate.py`: **7 of 7 refuse**, each with the specific message and a non-zero exit | verified |
+| B54-4 | The sweep itself can fail | with `check_routed_triggers_still_advertised()` deleted from `agent-sync`'s validator the sweep exits 1 and names it — which matters, because that member's other checks reject the planted description anyway and an exit-code-only sweep would have called it caught | verified |
+| B54-5 | A member with no umbrella above it discloses, never passes | `--root /tmp` → `blind: no plugins/ under /tmp`, exit 2; the member wiring turns that into an `unlooked:` line | verified |
+| B54-6 | The per-commit gate stays honest | the sweep costs 21 s and took `npm test` from 3.3 s to **26.2 s**; moved to `npm run test:plants` + a CI step, measured back at **5.2 s** | verified |
+| B54-7 | Nothing can silently drop the sweep | `validate.py` asserts the `package.json` entry point and the CI step, each watched failing against its own deletion | verified |
+| B54-8 | Seven members and the umbrella released, pins moved | every pin compared against `npm view`: 8 of 8 match; `git submodule status` shows no `+`; umbrella run 31935028659 → success | verified |
+| B54-9 | The instruments were wrong twice and the asserts caught both | one-occurrence replacement read `super-ux` as not refusing (a phrase advertised twice); `glob('**/*.json')` skipped dotted dirs so `.claude-plugin/*.json` went unbumped in all seven | verified |
+| B54-10 | `agent-sync` tagged with a partial version sync and its own CI refused | run 31934820251: *version sync broken: … agent_sync.py 1.11.0, SKILL.md 1.11.0*; nothing published (`gh release view` → not found), tag moved, re-released green | verified |
