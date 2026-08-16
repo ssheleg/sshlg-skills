@@ -89,6 +89,37 @@ def a_behind_graph_that_cannot_be_refreshed_carries_both_facts():
     assert "7 commits behind" in msg and "cannot run" in msg, msg
 
 
+def the_report_agreeing_with_the_graph_is_silent():
+    ok, msg = graph_staleness.report_agrees("ccd03a40835ac49df3ae65925ee0e7b162910382", "ccd03a40")
+    assert ok, msg
+    assert msg == "", msg
+
+
+def a_report_naming_another_build_is_disclosed():
+    ok, msg = graph_staleness.report_agrees("ccd03a40835ac49df3ae65925ee0e7b162910382", "42948c82")
+    assert not ok, "a report describing a different build passed"
+    assert "42948c82" in msg and "ccd03a40" in msg, msg
+    assert "cluster-only" in msg, "the disclosure must name the remedy: " + msg
+
+
+def a_report_with_no_commit_line_is_disclosed():
+    ok, msg = graph_staleness.report_agrees("ccd03a40", None)
+    assert not ok, "a report with no commit line passed"
+    assert "cannot be made" in msg, msg
+
+
+def with_no_graph_commit_there_is_nothing_to_compare():
+    # `resolve` already owns the blind case; this must not double-report it.
+    ok, msg = graph_staleness.report_agrees("", "42948c82")
+    assert ok and msg == "", msg
+
+
+def a_short_prefix_either_way_still_agrees():
+    # The report abbreviates; the graph does not. Either may be the prefix.
+    assert graph_staleness.report_agrees("ece85b50f1", "ece85b50")[0]
+    assert graph_staleness.report_agrees("ece85b50", "ece85b50f1")[0]
+
+
 for n, f in [
     ("a graph at HEAD is current", a_graph_at_head_is_current),
     ("distance names the commit that built it", distance_is_reported_with_the_commit_that_built_it),
@@ -99,10 +130,15 @@ for n, f in [
     ("an unusable count is blind", an_unusable_count_is_blind),
     ("an unrefreshable graph says so even at HEAD", a_graph_that_cannot_be_refreshed_says_so_even_at_head),
     ("behind and unrefreshable carries both facts", a_behind_graph_that_cannot_be_refreshed_carries_both_facts),
+    ("a report agreeing with its graph is silent", the_report_agreeing_with_the_graph_is_silent),
+    ("a report naming another build is disclosed", a_report_naming_another_build_is_disclosed),
+    ("a report with no commit line is disclosed", a_report_with_no_commit_line_is_disclosed),
+    ("no graph commit means nothing to compare", with_no_graph_commit_there_is_nothing_to_compare),
+    ("a short prefix either way still agrees", a_short_prefix_either_way_still_agrees),
 ]:
     case(n, f)
 
 if failures:
-    print(f"\nFAIL: {len(failures)} of 9")
+    print(f"\nFAIL: {len(failures)} of 14")
     sys.exit(1)
-print("\nPASS: graph_staleness — 9 cases")
+print("\nPASS: graph_staleness — 14 cases")

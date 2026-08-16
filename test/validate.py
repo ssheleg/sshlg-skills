@@ -1138,6 +1138,19 @@ def check_how_far_behind_each_knowledge_graph_is():
         state, message = graph_staleness.resolve(built, resolves, behind, refreshable)
         if state != "current" or not refreshable:
             _skips.append(f"{name}: {message}")
+
+        # And the half a person actually opens. Written by a different command from
+        # the graph, so a rebuild that touches only graph.json leaves it describing
+        # another build — nine of nine disagreed on 2026-08-16 (B-67).
+        rpath = os.path.join(repo, "graphify-out", "GRAPH_REPORT.md")
+        rcommit = None
+        if os.path.isfile(rpath):
+            with open(rpath, encoding="utf-8") as fh:
+                m = re.search(r"Built from commit: `([0-9a-f]+)`", fh.read())
+            rcommit = m.group(1) if m else None
+            ok, why = graph_staleness.report_agrees(built, rcommit)
+            if not ok:
+                _skips.append(f"{name}: {why}")
     if not looked:
         _skips.append("knowledge graphs — none found in this checkout")
 

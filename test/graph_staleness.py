@@ -60,3 +60,35 @@ def resolve(built_at, resolves, behind, refreshable):
     plural = "commit" if n == 1 else "commits"
     return "behind", (f"graph is {n} {plural} behind HEAD (built at {built_at[:8]}){tail} — "
                       "stage 0 queries it for reach and stage 9 checks it against the docs")
+
+
+def report_agrees(graph_commit, report_commit):
+    """`(ok, message)` for the human-readable half of a graph directory.
+
+    `graph.json` is what stage 0 queries; `GRAPH_REPORT.md` is what a person opens,
+    and it prints its own `Built from commit:` line and then tells the reader to
+    *"Run `git rev-parse HEAD` and compare"*. Those two commits are written by
+    different commands, so a rebuild that touches only the graph leaves the report
+    describing a different build — and the reader is following an instruction that
+    now returns the wrong number.
+
+    Measured 2026-08-16 across the family: **nine of nine disagreed**, by 1, 2, 3,
+    6, 13, 14, 16 and 35 commits, and one report carried no commit line at all.
+    `graphify cluster-only <path>` regenerates the report from the existing graph
+    with no LLM call, which is what closed eight of them.
+
+    A disclosure like everything else in this module — `graphify-out/` is gitignored
+    in eight of nine repositories, so nothing stale ships; the cost is that the one
+    number a human reads is the wrong one.
+    """
+    if not graph_commit:
+        return True, ""           # nothing to compare against; `resolve` owns that case
+    if report_commit is None:
+        return False, ("GRAPH_REPORT.md carries no `Built from commit:` line, so the "
+                       "comparison it tells the reader to make cannot be made")
+    if graph_commit.startswith(report_commit) or report_commit.startswith(graph_commit):
+        return True, ""
+    return False, (f"GRAPH_REPORT.md says it was built from {report_commit[:8]} while "
+                   f"graph.json beside it says {graph_commit[:8]} — the report is the "
+                   "half a person reads, and it is describing a different build "
+                   "(`graphify cluster-only .` regenerates it without an LLM call)")
