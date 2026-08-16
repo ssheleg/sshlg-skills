@@ -33,6 +33,24 @@ model is pinned with that reason next to it. And OpenRouter's real rate for that
 close to graphify's hardcoded `openai` pricing — so `cost.json` is roughly honest here by
 coincidence rather than by design.
 
+**Three models were tried before one was pinned, and the two cheap ones failed in
+different ways.**
+
+| model | outcome |
+|---|---|
+| `deepseek/deepseek-chat` | *empty or filtered response* on 2 of 2 real chunks, twice, while answering a short prompt perfectly. DeepSeek v4 runs reasoning by default and graphify ships `GRAPHIFY_DISABLE_THINKING` for exactly this. |
+| `deepseek/deepseek-v4-pro` | **$0.35 and 25+ minutes on the smallest member**, no graph written when it was stopped. ~$8 and hours for the family. |
+| `deepseek/deepseek-v4-flash` | cheapest on paper at $0.06/$0.12 and unusable here: completions **truncate at `max_completion_tokens`** on graphify's extraction schema, so the JSON arrives cut off, graphify halves the chunk and retries at depth 0, 1, 2 — and a single `SKILL.md` still truncated alone. |
+| `openai/gpt-4.1-mini` | all nine repositories, **10,140 nodes and 11,894 edges, $1.05, eleven minutes**. |
+
+The failure that looked like malformed output was truncation, and the distinction
+mattered: "the model returns bad JSON" suggests a different model, while "the model
+cannot finish this response" suggests a smaller schema or a bigger window. Reading the
+first 200 characters graphify prints is what separated them — the JSON was well-formed
+right up to where it stopped.
+
+Total spend for all of it, experiments included: **$1.52**.
+
 The staleness disclosure now names its remedy instead of only the lack, and retires itself:
 zero occurrences of its tail once a key is in the shell.
 
