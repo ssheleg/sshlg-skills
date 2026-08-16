@@ -1,5 +1,35 @@
 # Changelog
 
+## v0.81.0 — a version heading nobody can check out
+
+**`B-71` closes, and the real figure is 17, not the 22 the audit reported** — it had
+counted pre-tagging history as a defect. `super-ux` alone documents twenty-two versions
+below its own first tag, from before the project tagged at all, and flagging those is
+noise about history. Measured **above** each repository's first tag, against `git tag` and
+`npm view <pkg> versions --json`: ten in `sheleg-design`, three in `super-ux`, two in
+`agent-sync`, one each in `task-pipeline` and `seo-aeo-audit`.
+
+**Two different facts, and the note now says which.** Twelve were never tagged *and* never
+published — `npm install` fails, `git checkout` fails, and a reader reconciling *"which
+version am I on"* is shown a number that never existed. **Four of `sheleg-design`'s are on
+npm with no tag**, which is the worse half: the artifact is real, so a bug report against
+it has no source tree to read.
+
+Separately, `@ssheleg/seo-aeo-audit@0.11.3` is **still installable** while its CHANGELOG
+says the tag was deleted. That sentence is true about the tag and silent about the
+artifact, which is the half a user gets. `npm deprecate` is named there as the operator's
+call rather than taken, being an outward change to a published package.
+
+`check_every_changelog_release_has_a_tag_or_says_it_is_not_one()` reconciles every heading
+against the tags and accepts an explicit *«not a release»* note as the remedy — the form
+`seo-aeo-audit` had already written for v0.18.0 before any check existed. Watched refusing
+when a note is removed.
+
+**The board is at three, and all three are decisions rather than work:** `B-29` (126
+requirements waiting for a person to open the list), `B-75` (a second session committing
+here without a lease — whether the lease backend moves off `fs`), and `B-76` (two checkers
+giving opposite verdicts on one field, where answering costs 22 rewritten descriptions).
+
 ## v0.80.0 — a nine-repository audit, and the ten rows it closed
 
 **131 findings, three of them blockers**, from nine parallel read-only audits — one per
