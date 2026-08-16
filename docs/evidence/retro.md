@@ -263,6 +263,7 @@ used.)*
 | 2026-08-16 (ninth) | B-47: a contributing guide that described a different repository — eleven absent names, not six; v0.67.0 (+ sheleg-dev 0.5.2) | `acfc77f` | yes — see below |
 | 2026-08-16 (tenth) | B-43: the command that was built, parked, and lost — rebuilt with guards 344 → 347; v0.68.0 (+ task-pipeline 1.61.0) | `491bed1` | yes — see below |
 | 2026-08-16 (eleventh) | B-58: a board row that says work exists names where it lives — guards 347 → 349; v0.69.0 (+ task-pipeline 1.62.0) | `0a0ebcf` | yes — see below |
+| 2026-08-16 (twelfth) | B-56: the description was not valid YAML, and every gate we own reads it with a regex; v0.70.0 (+ sheleg-design 1.37.4, agent-stack 0.11.1) | `2553fb4` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -356,6 +357,75 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (twelfth) — two cycles blaming a tool that was working
+
+B-56 said the family launcher was broken. It was not. `sheleg-design`'s `description`
+carried `style packs: dashboards` — a colon-space inside an unquoted YAML scalar, which
+reads as a nested mapping — so the file was not valid YAML and the installer refused it
+outright. **I introduced that in cycle 1**, in the rewrite that gave the skill its plain
+visual vocabulary: routing fixed and installation broken in the same release.
+
+### Every gate we own reads that field with a regex
+
+`claude plugin validate`, the member's own 4636 checks, `claude plugin update`, and this
+repository's trigger fixture — all green over a file a strict parser rejects. The single
+tool in the chain that uses a real YAML reader is the skills CLI, and its message was one
+line inside a 900-line launcher log: *No valid skills found*.
+
+**The failure was legible for two cycles and I did not read it.** Both earlier passes
+attacked the launcher: I ruled out rate limiting, file count, and the lock record, and each
+of those was a real measurement that eliminated a real hypothesis. What I never did was ask
+the failing tool what it saw. One read-only command — the CLI's own repository listing —
+printed the parse error and the column number immediately.
+
+The generalisation is not *"read the error"*, which nobody disagrees with. It is narrower:
+**when a tool fails and our own checks are green, the disagreement is the evidence.** Two
+readers of the same bytes reaching different verdicts localises the defect to the thing
+they read differently — here, one parses YAML and four match a regular expression. That
+question was available on day one and cost one command.
+
+### The member nothing was checking
+
+The shared checker written in cycle 4 exited early for a member carrying no routed
+triggers — `ok: agent-stack carries no routed triggers`, and no inspection. So the one
+member with nothing to route was the one place this class could never be caught. The early
+exit is gone: front matter is checked for every skill of every member first, and
+`agent-stack` 0.11.1 is wired to call it.
+
+### A row edit damaged its neighbour
+
+Closing B-56 used a `re.S` pattern anchored on `| B-56 |` and terminated by `| open |` —
+which is not in B-56's row. It ran past the row end and put B-56's closure onto **B-57**.
+The script asserted the match existed and printed *B-56 closed*; `git diff --stat` showed
+one changed line and it was the wrong one. **An assert that a match was found is not an
+assert that the right thing changed**, and a row edit is a cell edit on one line — nothing
+else can be right. Repaired line-scoped, both rows re-read.
+
+### The guard refused the sentence describing it
+
+Committing the ledger failed: the hygiene guard scans the whole Bash payload for
+`skills add`/`skills update` on a family member, and the ledger *quoted* the diagnostic
+invocation. It fails closed, which is the right direction, and the cost is that the
+family's own documents cannot quote the command they warn about. Filed as B-59 — #7 living
+inside a guard rather than inside a rewrite.
+
+### What fired, per entry
+
+**#11** — inverted, and that is the entry: I suspected the checker (the launcher) for two
+cycles when the subject was wrong. The instruction says suspect the checker *first*, not
+*only*; when the checker survives three measurements, the subject is what is left. **#7** —
+twice, in the row edit and in the guard. **#4** — the class was measured (2 invalid of 24,
+2 hazardous of 69) rather than assumed to be one file. **#6** — plants asserted they
+landed, and the row edit is the counter-example: it asserted the wrong thing.
+**#8** — the launcher's exit code read directly, which is how *exit=0* became the proof
+rather than an impression. **Did not fire:** #1, #2, #5, #9, #10.
+
+*(prune at 2026-08-16 (twelfth): **no retirement.** #7 fired twice, resetting. #2 ten
+stamps, #5 seven, #9 seven, #10 one, #1 three, #11 fired. The three past their nominal cold
+trigger stay for the reason recorded at the eighth prune: twelve stamps in one day is not
+the count the rule was written against. Ten of ten slots used, nothing added — the
+disagreement-is-evidence lesson above is #11 read correctly rather than a new rule.)*
 
 ## 2026-08-16 (eleventh) — the detector I measured, and the guard I did not
 
