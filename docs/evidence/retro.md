@@ -261,6 +261,7 @@ used.)*
 | 2026-08-16 (seventh) | B-53: the phrase that reached no route, and the composition question answered by reading rather than assuming; v0.65.0 (+ sheleg-design 1.37.3) | `d4b463e` | no — the plan held, and the two drivers it reused were repaired first |
 | 2026-08-16 (eighth) | A run stamp must resolve and be reachable; the guard's own CI run found it blind to shallow clones, and its fix hid a duplicate YAML key; v0.66.0 | `bc3c033` | yes — see below |
 | 2026-08-16 (ninth) | B-47: a contributing guide that described a different repository — eleven absent names, not six; v0.67.0 (+ sheleg-dev 0.5.2) | `acfc77f` | yes — see below |
+| 2026-08-16 (tenth) | B-43: the command that was built, parked, and lost — rebuilt with guards 344 → 347; v0.68.0 (+ task-pipeline 1.61.0) | `491bed1` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -354,6 +355,64 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (tenth) — a board row that described work which no longer existed
+
+B-43 read as ready to merge: a script, thirteen green fixtures, three negatives, "blocked
+only by timing". Two days later none of it existed — not in the working tree, not in
+`git log --all --diff-filter=A`, not in `rev-list --all --objects`, not in a stash, not in
+a dangling object. It had been parked in a **session scratchpad**, which is a temp
+directory with a lifetime nobody wrote down.
+
+**The board cannot tell a claim about a filesystem from a claim about a repository**, and
+this row was the first kind while reading like the second. Filed as B-58: a row that parks
+work names the branch or the commit holding it, or it is not parked, it is described.
+
+### The fixtures earned their cost in one sitting
+
+Three of fourteen caught real defects in the rebuild, and every one of them lied in the
+**reassuring** direction — which is the only direction that matters:
+
+- `$(grep -c "" f || echo 0)` yields two zeroes. grep prints its own `0` **and** exits 1,
+  so the fallback runs too; the variable becomes `"0\n0"` and every numeric test after it
+  dies. It fires only when the count is zero — that is, only when the answer is
+  *everything is confirmed*.
+- BSD `sort` exits *Illegal byte sequence* on a non-ASCII column under a UTF-8 locale. The
+  error went to stderr, the check-list came out empty, and the exposure line above it
+  still said 126 unverified. A list that silently empties is worse than no list, because
+  the number above it still claims there is work.
+- A byte-wise `substr` split a Cyrillic letter and printed a replacement glyph.
+
+None of these is visible by reading. All three were found by running the script against
+inputs chosen to be awkward, which is what a fixture is for.
+
+### A control went red and the harness was right
+
+`negatives.py` reported a property check failing — *a legitimate exception in an unrelated
+rule failed the suite — false positive*. The instinct is to suspect the check (#11), and
+that instinct was **wrong here**: the check runs the whole validator over a planted-but-
+legitimate edit, the validator was correctly refusing because the CHANGELOG still claimed
+344 guards while the workflow defined 347, and the tree was simply mid-change. Suspecting
+the checker first is cheap; believing the suspicion without reading the message is not.
+The diagnosis took one command — running the validator in the copied tree and reading the
+line.
+
+### What fired, per entry
+
+**#11** — as above, correctly raised and correctly abandoned after one measurement.
+**#6** — every plant asserted it landed; the exposure percentage plant asserts `^LINE=`
+exists before rewriting it. **#4** — the guard count was read from the workflow rather
+than incremented from the old one, which is how 344 → 347 is a measurement. **#8** — every
+suite run alone with its exit code on its own line, including `test:all` at 347 plants.
+**#10** — the stamp SHA read from `git rev-parse` inside the writing script. **#1** — the
+dormant path prints why rather than exiting 0 in silence, which is that instruction
+applied at design time rather than after an incident. **Did not fire:** #2, #5, #7, #9.
+
+*(prune at 2026-08-16 (tenth): **no retirement.** #2 eight stamps without firing — past its
+cold trigger on the count, and held for the reason the eighth prune recorded: ten stamps in
+one day is not the ten the rule was written for, and #1 vindicated that caution two runs
+ago by firing one stamp after its own trigger. #5 five, #7 one, #9 five. Ten of ten slots
+used, nothing added — B-58 is a board-doctrine change, not a standing instruction.)*
 
 ## 2026-08-16 (ninth) — the row under-counted, and the guard caught its own author
 
