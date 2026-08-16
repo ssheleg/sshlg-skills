@@ -262,6 +262,7 @@ used.)*
 | 2026-08-16 (eighth) | A run stamp must resolve and be reachable; the guard's own CI run found it blind to shallow clones, and its fix hid a duplicate YAML key; v0.66.0 | `bc3c033` | yes — see below |
 | 2026-08-16 (ninth) | B-47: a contributing guide that described a different repository — eleven absent names, not six; v0.67.0 (+ sheleg-dev 0.5.2) | `acfc77f` | yes — see below |
 | 2026-08-16 (tenth) | B-43: the command that was built, parked, and lost — rebuilt with guards 344 → 347; v0.68.0 (+ task-pipeline 1.61.0) | `491bed1` | yes — see below |
+| 2026-08-16 (eleventh) | B-58: a board row that says work exists names where it lives — guards 347 → 349; v0.69.0 (+ task-pipeline 1.62.0) | `0a0ebcf` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -355,6 +356,63 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (eleventh) — the detector I measured, and the guard I did not
+
+B-58 was filed one cycle ago by the run that lost B-43's artifacts, and closed by the rule
+it asked for. Two things happened worth recording, and they are opposites.
+
+### The detector was measured before it was believed
+
+The obvious implementation is a prose detector: match *"parked"*, *"is built"*, *"ready to
+merge"* in the description cell. It was written, run over 187 real rows, and fired **three
+times — every hit false.** Two were closed rows narrating the very incident that produced
+the rule; the third was the row asking for it. A check whose every current hit is wrong is
+not a check that needs tuning, and this family already has the precedent: B-48's
+token-matching of descriptions produced four false failures out of eight members and was
+dropped whole rather than adjusted.
+
+So what shipped reads the **status cell**, which is never prose, and its baseline was
+measured too: **zero across 191 rows** including the seeded templates. A rule with a zero
+baseline is one whose first firing means something; a rule already firing on correct rows
+teaches an operator to route around it before it has ever caught anything.
+
+### The guard was not measured, and passed silently
+
+The first draft read `cells[-2]` — the status column in this repository's eight-column
+board, and the **Home** column in the ten-column template it also checks. So the parked
+rule examined the wrong cell and found nothing. Its plant reported `NOT CAUGHT`, and only
+because the plant was run: reading the code would have shown a rule that looked right.
+
+The comment explaining why positional reads fail on this exact corpus sits **fifty lines
+above** where I wrote it — *"POSITION-FREE, and the first version of this guard was not …
+five of them have two status-ish columns … 'take the last one' then read a different cell
+per file"*. It describes what I then did. Doctrine one screen away is doctrine in another
+file as far as attention is concerned; the plant is what closed the gap, in seconds.
+
+**The pairing is the lesson.** I measured the thing I expected to be wrong (the prose
+detector) and did not measure the thing I expected to be right (the guard). The
+false-positive sweep was careful work aimed at the risk I had already named, while the
+positional read went in unexamined because it looked like the obvious shape. Both were
+caught in the same ten minutes and only one of them by intent.
+
+### What fired, per entry
+
+**#4** — twice, and productively: three-of-three false is a measurement that killed a
+design, and zero-of-191 is what gives the replacement meaning. **#6** — the plants assert
+they landed, which is how `PLANT DID NOT LAND: B-002 is not open` would have surfaced a
+template that had drifted. **#7** — the discarded detector is that instruction as a
+design constraint rather than an incident: it could not tell a row *about* parked work
+from a row *of* parked work. **#8** — every suite alone, exit codes read singly, including
+`test:all` at 349. **#10** — the stamp SHA read from `git rev-parse` in the writing script.
+**Did not fire:** #1, #2, #5, #9, #11.
+
+*(prune at 2026-08-16 (eleventh): **no retirement.** #2 nine stamps, #5 six, #9 six, #11
+three, #1 two — the three past their nominal cold trigger are held for the reason recorded
+at the eighth prune and vindicated at the tenth: eleven stamps in one day is not the count
+the rule was written against, and #1 fired one stamp after its trigger would have retired
+it. The counter resumes meaning when stamps resume being days apart. Ten of ten slots used,
+nothing added.)*
 
 ## 2026-08-16 (tenth) — a board row that described work which no longer existed
 
