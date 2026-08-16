@@ -514,3 +514,14 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B53-6 | Both drivers repaired before reuse | the bump driver moved **6** surfaces on this release where its `glob` version found 4, and now matches `version: "x"` and `VERSION = "x"` | verified |
 | B53-7 | Released and pinned | `npm view sheleg-design-skill version` → **1.37.3**, `npm view sshlg-skills version` → **0.65.0**; run 31936085317 → success; no submodule ahead | verified |
 | B53-8 | The hub serves it | `~/.agents/skills/sheleg-design` byte-identical to the pinned source at 1.37.3 — copied by hand again, which is B-56 | verified |
+
+## 2026-08-16 (seventh) — v0.67.0, a contributing guide that described a different repository
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B47-1 | The scale of the defect is measured, not inherited from the row | every backticked file name in `CONTRIBUTING.md` checked against `git ls-files`: **11 absent of 19**, where the row named 6 | verified |
+| B47-2 | The rewrite describes this repository | six skills and twenty reference files counted with `find`; one executable (`install.sh`) from `git ls-files`; four version surfaces and eight CI negative self-tests read out of `test/validate.py` and `validate.yml` | verified |
+| B47-3 | Every name in the new document resolves, or is explicitly another repository's | the same sweep re-run: 4 unresolved, each confirmed by context to be a pointer to `seo-aeo-audit` or the umbrella's `skills.json` | verified |
+| B47-4 | The recurrence is gated | `check_contributing_routes_to_files_that_exist` watched rejecting the original row verbatim (`benchmarks.md`, exit 1) and green after restore; same plant wired into `sheleg-dev`'s CI and run locally as written | verified |
+| B47-5 | The guard cannot flag a discussed path | narrowed to table rows after its first draft flagged the three sibling files named on purpose; a bare filename resolves by basename so the generic `SKILL.md` passes | verified |
+| B47-6 | Released and pinned | `sheleg-dev` v0.5.2 tagged at HEAD; pin, README row and umbrella v0.67.0 moved | verified |

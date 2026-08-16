@@ -1,5 +1,34 @@
 # Changelog
 
+## v0.67.0 — a contributing guide that described a different repository
+
+**B-47, and the row under-counted it.** `sheleg-dev`'s `CONTRIBUTING.md` routed
+contributions to `benchmarks.md`, `growth-plays.md`, `myths.md`, `algorithm-updates.md`,
+`aeo-geo.md` and `scripts/page_audit.py` — six files that all belong to `seo-aeo-audit`,
+none of which `git ls-files` returns there. Sweeping every file name in the document
+instead of reading the one table found **eleven** absent, including a reference under a
+skill directory named `sheleg-dev` that has never existed: the six skills are
+`stripe-billing`, `crypto-payments`, `ad-tracking`, `google-signin`, `google-auth` and
+`frontend-performance`.
+
+The document was a sibling's, adapted at the edges. It promised a standard-library
+auditor and a second test command over a repository with **no runtime code at all**.
+Rewritten against what the repository actually contains, and the numbers in it are
+counted rather than inherited: six skills, twenty reference files, one executable
+(`install.sh`), a four-way version sync, eight negative self-tests in CI.
+
+**The new guard is narrow, and the first draft proved why it had to be.** It checks only
+the *Where things go* table, because a general "every path in this file must exist" rule
+cannot tell a path being **used** from a path being **discussed** — the rewrite names
+three `seo-aeo-audit` files on purpose, to send a reader who wants them to the right
+repository. The first draft read the whole section and flagged exactly those three, one
+paragraph after the comment explaining why it must not. Standing instruction #7, caught
+by its author inside the change that cites it. A bare filename resolves by basename, so
+the generic `SKILL.md` passes while `benchmarks.md` does not; watched rejecting the
+original row verbatim, with the same plant wired into `sheleg-dev`'s CI.
+
+**Pin: `sheleg-dev` 0.5.1 → 0.5.2.**
+
 ## v0.66.0 — a stamp typed from memory names nothing
 
 **Two guards, because the first one's own CI run taught the second.** The stamp check
