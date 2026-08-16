@@ -19,7 +19,8 @@ assert a refusal that cannot happen. Here the submodules exist, so here it runs.
 **Deliberately not named `*_test.py`, and therefore not discovered by `npm test`.**
 It runs seven member validators and costs ~21 s; `npm test` is wired to this
 repository's own commit gate, whose entire honesty argument is that it costs about
-three seconds — *a synchronous gate at three minutes is a gate people route around*.
+about eight — *a synchronous gate at three minutes is a gate people route around*.
+    Measured 2026-08-16: this suite 34 s, `npm test` 8.3-8.8 s over three runs.
 Excluding it by name from the runner was the other option and was refused: that
 runner discovers rather than lists, on purpose. So it has its own entry point,
 `npm run test:plants`, and `validate.py` asserts that both that script and the CI

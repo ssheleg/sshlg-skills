@@ -32,10 +32,12 @@ plus eight skills as pinned git submodules. It ships no doctrine of its own —
 each skill carries its own — but it owns the family's **routing block**, the
 one piece of the family that edits a file the operator owns and did not write.
 
-The first six members have their own `CLAUDE.md` house rules; the two added on
-2026-08-06 (`sheleg-dev`, `agent-stack`) carry a validator and CI but no house
-rules yet. This repository grew its own on 2026-08-10, which closed carry-over
-C-06.
+**Three of the eight members have their own `CLAUDE.md` house rules** —
+`seo-aeo-audit`, `super-ux` and `task-pipeline` — counted with
+`git -C skills/<name> ls-files CLAUDE.md` on 2026-08-16. The other five carry a
+validator and CI but no house rules. This paragraph said *"the first six"* until
+that count was run, which named five repositories as having a file they do not
+have. This repository grew its own on 2026-08-10, closing carry-over C-06.
 
 ## Single homes
 

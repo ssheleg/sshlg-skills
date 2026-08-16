@@ -335,7 +335,7 @@ it. They apply only here and only in Claude Code:
 | `PreToolUse` on `Bash` | a `git commit` runs `npm test` first and is **refused** while it is red, with the failing tail in the reason |
 | `PostToolUse` on `Edit\|Write` | a `SKILL.md` breaking the Agent Skills front-matter limits is reported in the turn it was written |
 
-The commit gate is honest only because of a number: the suite costs **3.3 s**
+The commit gate is honest only because of a number: the suite costs **~8.5 s**
 here. At three minutes it would be a gate people route around, and a gate people
 route around is worse than none — it teaches that gates are noise.
 
@@ -362,7 +362,8 @@ get wrong: one channel per agent, exact agent ids, repeated `--agent` flags, ful
 ```
 skills.json                  registry — repos, plugin ids, skill names, pins
 skills/*                     the eight skills as pinned git submodules
-bin/sshlg-skills.js          the launcher (install / update / routers / config / list / agents)
+bin/sshlg-skills.js          the launcher (install / update / routers / config / hooks /
+                             injectors / list / agents)
 lib/routers-registry.js      the eight routers — text, table row and required members, in one entry
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js

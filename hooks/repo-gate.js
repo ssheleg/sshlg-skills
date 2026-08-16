@@ -14,7 +14,10 @@
  *   Agent Skills limits is reported in the same turn it was written. `agent-stack`
  *   spent days red on exactly that class, diagnosed from another repository.
  *
- * **The gate is only honest because of a number.** `npm test` costs 3.3 s here.
+ * **The gate is only honest because of a number.** `npm test` costs ~8.5 s here
+ * (8.29 / 8.57 / 8.83 s, three runs, 2026-08-16). It was written as 3.3 s and
+ * never recomputed; the argument survives the correction, which is the only
+ * reason this is a number and not a feeling.
  * A synchronous gate at three minutes is a gate people route around, and this
  * file would then be teaching the habit it exists to prevent.
  *

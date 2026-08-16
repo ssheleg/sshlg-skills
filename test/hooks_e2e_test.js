@@ -140,8 +140,14 @@ it('the launcher itself is not denied by that guard', () => {
 });
 
 it('a malformed payload is silence and exit 0, never a broken turn', () => {
-  for (const script of ['pre-tool-use.js', 'post-tool-use.js', 'notification.js',
-                        'config-change.js', 'file-changed.js', 'session-start.js']) {
+  // Discovered, not listed. The hand-written six left out `statusline.js`,
+  // `user-prompt-submit.js` and `repo-gate.js` — and repo-gate is the one wired
+  // from a COMMITTED .claude/settings.json into every clone of this repository,
+  // where a throw would break every Bash call in the project. A new hook joins
+  // this fixture by existing (2026-08-16, F-umbrella-11).
+  const HOOKS = fs.readdirSync(path.join(ROOT, 'hooks')).filter((f) => f.endsWith('.js'));
+  assert.ok(HOOKS.length >= 9, `expected every hook, found ${HOOKS.length}`);
+  for (const script of HOOKS) {
     const r = spawnSync('node', [path.join(ROOT, 'hooks', script)],
       { input: 'not json at all', encoding: 'utf8', env: ENV });
     assert.strictEqual(r.status, 0, `${script} exited ${r.status} on garbage input`);

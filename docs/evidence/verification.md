@@ -7,8 +7,12 @@ exists to keep visible.
 
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
-question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the 322
-rows below, **295 read `verified` and none of them says which**.
+question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
+**119** id'd requirement rows below, **113 read `verified` and none of them says which**
+— counted 2026-08-16 with
+`grep -cE '^\| *[A-Z]+-[0-9]+ *\|' docs/evidence/verification.md` and the same pattern
+piped through `grep -c verified`. It said *322 / 295* until that command was run, a
+figure written at v0.76.0 and never recomputed while the file kept growing.
 
 `/task-pipeline checkup` counts rows sitting at `never`, and this shape holds no such
 value. So the exposure line prints `0 unverified` **and then names the column it read** —
@@ -18,7 +22,7 @@ vocabulary's limit attached. The sentence that used to stand here promised a `ne
 its own table could never produce.
 
 **Adding the column later would not reach backwards.** New rows would start at `never`;
-writing retrospective human confirmations for 322 rows nobody actually reviewed is the
+writing retrospective human confirmations for rows nobody actually reviewed is the
 failure the `evidence-docs` router names, and a back-filled ledger is worse than an absent
 column because it answers the question wrongly instead of not at all.
 
