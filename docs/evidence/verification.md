@@ -563,3 +563,15 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B56-13 | The umbrella runs the strict form | `check_shipped_front_matter_is_real_yaml` over 24 files including `.cursor` mirrors, watched failing on the reinstated defect, disclosing when pyyaml is absent | verified |
 | B56-14 | Released and pinned | `sheleg-design` v1.37.4 and `agent-stack` v0.11.1 tagged at HEAD; both pins, both README rows and umbrella v0.70.0 moved | verified |
 | B56-15 | A row edit damaged its neighbour and was caught by diff, not by the assert | a `re.S` pattern ran from B-56 past its own row into B-57's `| open |`; `git diff --stat` showed one changed line and it was the wrong one. Repaired line-scoped; both rows re-read | verified |
+
+## 2026-08-16 (eleventh) — v0.71.0, the graph's distance from the code
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B51-1 | Every graph's drift is a number, printed every run | `npm test` discloses nine lines: umbrella **31** commits behind, super-ux **33**, seo-aeo-audit **19**, sheleg-design 12, task-pipeline 10, agent-sync / make-skill / sheleg-dev / agent-stack at 2 | verified |
+| B51-2 | Two of the row's facts had expired | the graphs were rebuilt 2026-08-15/16, not frozen at 08-08; they hold **11,267 nodes and 12,494 links** between them | verified |
+| B51-3 | The refresh is genuinely blocked, and the block is named | `graphify . --update` → exit 1, *no LLM API key found (40 doc/paper/image file(s) need semantic extraction)*; no key in the environment and none among the gateway's secrets (`context7`, `digitalocean-token`, `lazyweb`, `prowl`, `roles`, `searchapi`) | verified |
+| B51-4 | An unresolvable build commit reads blind, never current | plant: `built_at_commit` set to a fabricated SHA → *does not resolve here*; a graph with the field removed → *its distance from the code is unknowable* | verified |
+| B51-5 | The disclosure self-corrects when the decision is taken | the same suite run with `GEMINI_API_KEY` set drops the *cannot run here (B-51)* tail — 0 occurrences | verified |
+| B51-6 | It is a disclosure, not a gate | `npm test` exit 0 with all nine graphs behind; a threshold would redden every repository daily and be switched off | verified |
+| B51-7 | The instrument was wrong before the subject | its first draft read `edges` from a node-link document keyed `links` and reported **zero edges across all nine graphs**; `graphify god-nodes` printed real hubs one command later | verified |

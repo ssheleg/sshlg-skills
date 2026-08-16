@@ -4,6 +4,7 @@ import glob, json, os, re, subprocess, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pin_source
+import graph_staleness
 import release_lag
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -1056,6 +1057,64 @@ def check_shipped_front_matter_is_real_yaml():
 
 
 check_shipped_front_matter_is_real_yaml()
+
+
+def check_how_far_behind_each_knowledge_graph_is():
+    """Say how far each graph has drifted from the code it describes.
+
+    `references/knowledge-graph.md` has named `built_at_commit` and the exact commands
+    since it was written; nothing ran them, so the number existed only when somebody
+    thought to ask. On 2026-08-16 the answer was 31 commits for this repository, 33 for
+    `super-ux`, 19 for `seo-aeo-audit` — and the doctrine's own warning is that *a wrong
+    doc gets argued with, a wrong graph gets believed*.
+
+    **A disclosure, never a gate.** A graph is behind the moment the next commit lands, so
+    a threshold would redden every repository every day and be switched off in a week. And
+    the refresh cannot run on this machine at all (B-51), which is a decision an operator
+    owes rather than a build failure — this makes the cost of waiting visible instead of
+    silent.
+
+    Reads only local state and never invokes graphify.
+    """
+    # Can the refresh even run? Answered once, from the environment, rather than assumed:
+    # B-51 is about a missing key, and a key appearing should change this line by itself.
+    keys = ("GEMINI_API_KEY", "GOOGLE_API_KEY", "MOONSHOT_API_KEY", "ANTHROPIC_API_KEY",
+            "OPENAI_API_KEY", "DEEPSEEK_API_KEY")
+    refreshable = any(os.environ.get(k) for k in keys)
+
+    targets = [(".", "sshlg-skills")] + [(s.get("dir", ""), s.get("name", "")) for s in skills]
+    looked = 0
+    for rel, name in targets:
+        repo = os.path.join(ROOT, rel) if rel != "." else ROOT
+        gpath = os.path.join(repo, "graphify-out", "graph.json")
+        if not os.path.isfile(gpath):
+            continue
+        looked += 1
+        try:
+            with open(gpath, encoding="utf-8") as fh:
+                built = json.load(fh).get("built_at_commit", "")
+        except (OSError, ValueError):
+            _skips.append(f"{name}: graphify-out/graph.json is unreadable — staleness unknown")
+            continue
+
+        def git(*a):
+            try:
+                r = subprocess.run(["git", "-C", repo, *a], capture_output=True,
+                                   text=True, timeout=15)
+            except (OSError, subprocess.SubprocessError):
+                return None
+            return r.stdout.strip() if r.returncode == 0 else None
+
+        resolves = bool(built) and git("rev-parse", "-q", "--verify", f"{built}^{{commit}}") is not None
+        behind = git("rev-list", "--count", f"{built}..HEAD") if resolves else None
+        state, message = graph_staleness.resolve(built, resolves, behind, refreshable)
+        if state != "current" or not refreshable:
+            _skips.append(f"{name}: {message}")
+    if not looked:
+        _skips.append("knowledge graphs — none found in this checkout")
+
+
+check_how_far_behind_each_knowledge_graph_is()
 
 if errors:
     print("FAIL: sshlg-skills structure invalid")

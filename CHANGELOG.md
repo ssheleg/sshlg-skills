@@ -1,5 +1,40 @@
 # Changelog
 
+## v0.71.0 — the graph's distance from the code stops being an impression
+
+**B-51 stays an operator's decision, but its cost is printed now.**
+`references/knowledge-graph.md` has always named `built_at_commit` and the three commands
+that turn it into a number. Nothing ran them, so the number existed only when somebody
+thought to ask. Asked on 2026-08-16: this repository's graph was **31 commits behind** its
+own HEAD, `super-ux` **33**, `seo-aeo-audit` **19**, `sheleg-design` 12, `task-pipeline`
+10, and four members at 2. The doctrine's own warning is why that matters — *a wrong doc
+gets argued with, a wrong graph gets believed*.
+
+`test/graph_staleness.py` (+9 fixtures) reports it on every `npm test`, as a **disclosure
+and never a gate**: a graph is behind the moment the next commit lands, so a threshold
+would redden every repository every day and be switched off within a week. Two blind
+paths are asserted separately — a `built_at_commit` that does not resolve reads *blind*,
+never *current*, and a graph with no such field says its distance is unknowable rather
+than reporting zero.
+
+It also names whether a refresh is possible at all. `graphify . --update` exits 1 here
+with *no LLM API key found (40 doc/paper/image files need semantic extraction)*, and no
+key is present in the environment or in the machine's gateway secrets. So an unrefreshable
+graph says so **even when it is at HEAD** — "current today" and "current because nothing
+can rebuild it" are different facts. The B-51 tail disappears by itself the moment a key
+exists, verified by running the suite with one set.
+
+**Two of the row's own facts had expired and were corrected**: the graphs are not frozen
+since 2026-08-08 — every one was rebuilt on 08-15/16, and between them they hold 11,267
+nodes and 12,494 links.
+
+**The instrument that found this was wrong first, and loudly.** Its first draft read
+`edges` from a node-link document whose key is `links`, and reported **zero edges across
+all nine graphs** — 11,267 nodes and no relations at all, which would have meant every
+reach question the graph exists to answer had been returning nothing. `graphify god-nodes`
+printed real hubs against the same file one command later. That is the whole reason
+`resolve()` takes measured facts and reads nothing itself.
+
 ## v0.70.0 — the description was not valid YAML, and every gate we own reads it with a regex
 
 **B-56's root cause, after two cycles of blaming the launcher.** The launcher was fine.
