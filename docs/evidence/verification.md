@@ -588,3 +588,18 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B60-6 | The harvest rule ships | `task-pipeline` 1.63.0, `references/knowledge-sources.md`; `npm run test:all` → all **349** guards reject their planted defect, 9 property checks printed | verified |
 | B60-7 | No guard was written where the corpus cannot support one | across seven open rows the checkable claims total 2 file paths and 1 count — measured before deciding, and stated in the notes rather than left as an omission | verified |
 | B60-8 | A malformed row was caught by an existing guard, not by me | the first B-61 row carried `|` inside backticks and shifted to 14 cells; the board-shape check refused it | verified |
+
+## 2026-08-16 (thirteenth) — v0.73.0, a clean bill on ledgers it could not read
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B29-1 | The silent green is real and was reproduced | the shipped script on this repository's ledger printed *0 unverified · every shipped row carries a human confirmation* from **4 rows out of 298**, the four whose inline code carries a `\|` | verified |
+| B29-2 | The status column is resolved by name, per section | fixture *the status column is found by name, not position*; `Last verified` placed where `Run` sits is read correctly | verified |
+| B29-3 | The preference order was measured, not guessed | `sheleg-design` carries `Last verified` **and** a `Status` holding `**green**`; preferring `status` reported 174 confirmations from the gate column | verified |
+| B29-4 | Evidence columns are not status columns | `Verified by` / `How it is checked` hold shell commands in five members; sampled, then excluded by name | verified |
+| B29-5 | Bold no longer hides a real row | these ledgers write `**never**`; stripped before matching, fixture asserts a bolded never is counted | verified |
+| B29-6 | A shrug never gets a clean bill | fixture *a shrug never gets a clean bill* — `ask Ben` produces its own count and list, and no confirmation sentence | verified |
+| B29-7 | Only a `Human` column licenses the word human | fixture asserts a `Status` column produces *confirmed in its `status` column — which does not separate a person from a command* | verified |
+| B29-8 | The family measured afterwards | `task-pipeline` **126 unverified**; `sheleg-design` 1; `seo-aeo-audit`, `super-ux`, `agent-sync` **dormant — no status column**; measured by running the script in each | verified |
+| B29-9 | B-29's own claims re-derived before acting | 99 rows → **126**, 14 ids → **19**, the parked command landed in 1.61.0, and `(REQ, Shipped in)` is unique across all 126 — collisions 0 | verified |
+| B29-10 | Fixtures and gate | 14 → **18** cases; `npm run test:all` → all **349** guards reject their planted defect, 9 property checks printed, exit 0 | verified |

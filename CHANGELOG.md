@@ -1,5 +1,46 @@
 # Changelog
 
+## v0.73.0 — the exposure line reported a clean bill on ledgers it could not read
+
+**A tool this pack shipped two releases ago was lying, in the reassuring direction, about
+this very repository.** `templates/exposure.sh` keyed on position — `NF >= 7`, status in
+field 7. Against the umbrella's four-column ledger it found **four rows out of 298**,
+because those four happen to carry a `|` inside inline code and so crossed the field count
+by accident, and printed from them:
+
+```
+exposure: 0 unverified · never checked · 125 releases carry one
+         every shipped row carries a human confirmation
+```
+
+Two halves of one sentence contradicting each other — nothing has ever been checked, and
+everything is confirmed — in the tool whose stated purpose is to stop silent greens. Its
+eighteen fixtures did not notice because every one of them built the canonical shape.
+
+Fixed in `task-pipeline` 1.64.0: the status column is resolved **by name, per section**,
+in an order that had to be measured. `sheleg-design` carries both `Last verified` and a
+`Status` holding `**green**`; preferring `status` reads the gate instead of the person.
+`Verified by`, `Confirmed` and `How it is checked` are **not** status names — five members
+hold shell commands under them. Bold is stripped before matching, because these ledgers
+write `**never**`. A status that is neither a date nor a known word gets its own count, so
+a shrug never receives a clean bill. And only a `Human` column licenses the word *human* —
+this repository's own ledger defines `verified` as *a person **or** a command*.
+
+**B-29 re-derived before acting on it**, which is the rule that shipped one cycle ago, and
+three of its claims had expired: 99 rows → **126**, 14 ids → **19**, and the parked command
+landed in 1.61.0. Its stated blocker is gone too — `(REQ, Shipped in)` is unique across all
+126 rows and is the pair the check-list already prints. What remains is the one thing a
+machine may not do: a person opening the list and writing a date.
+
+**Filed: B-62.** Measuring this exposed something larger — the family runs **five**
+verification-ledger shapes and only `task-pipeline`'s can express *a person looked*. Six of
+nine members have no state column at all, so the exposure line is unmeasurable there, and
+this repository's own ledger preamble promises a checkup that counts a value its shape
+cannot hold. `exposure.sh` now says **dormant** in those repositories instead of zero,
+which makes the gap visible rather than closing it.
+
+**Pin: `task-pipeline` 1.63.0 → 1.64.0.** Fixtures there 14 → 18.
+
 ## v0.72.0 — the age term was a constant, so the board ranked newest-first
 
 **B-60 asked about rows whose prose expires. The sharpest expiry turned out to be
