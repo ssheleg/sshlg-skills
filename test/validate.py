@@ -670,7 +670,7 @@ if not (pkg.get("scripts") or {}).get("test"):
 for _m in manifest.get("skills", []):
     _mp = os.path.join(ROOT, _m["dir"], "package.json")
     if not os.path.isfile(_mp):
-        notes.append(f"{_m['name']}: not checked out, so its gate entry point was not read")
+        _skips.append(f"{_m['name']}: not checked out, so its gate entry point was not read")
         continue
     try:
         with open(_mp, encoding="utf-8") as fh:
@@ -1156,6 +1156,56 @@ def check_how_far_behind_each_knowledge_graph_is():
 
 
 check_how_far_behind_each_knowledge_graph_is()
+
+
+def check_each_member_ledger_reaches_its_shipped_version():
+    """A verification ledger describing an artifact nobody ships reads green for a
+    version that no longer exists.
+
+    Each member's `docs/evidence/verification.md` records what was confirmed against
+    the **shipped** artifact. Measured 2026-08-17: **seven of eight** recorded a
+    version older than the one in their own `package.json` — `seo-aeo-audit` by
+    eight releases, `sheleg-design` by eight, `agent-sync` by five — and
+    `task-pipeline`'s recorded no version at all. The file's own rule everywhere is
+    that a row sits at `never` until somebody watched its check pass on what
+    shipped; a ledger that stops at v0.14.1 while npm serves 0.22.0 is answering
+    about a tree no consumer has.
+
+    A **disclosure, not a gate**. The remedy is a person re-measuring rows, which no
+    threshold here can produce, and a red build would be switched off long before
+    anyone did the work. What this can do is stop the gap being invisible — which is
+    exactly the argument `docs/evidence/verification.md` makes about itself.
+
+    The ledgers do not share a shape (B-62), so this reads the newest semver in any
+    heading rather than a fixed field, and says so when it finds none.
+    """
+    for m in manifest.get("skills", []):
+        led = os.path.join(ROOT, m["dir"], "docs", "evidence", "verification.md")
+        pkg = os.path.join(ROOT, m["dir"], "package.json")
+        if not os.path.isfile(pkg):
+            continue
+        if not os.path.isfile(led):
+            _skips.append(f"{m['name']}: no verification ledger")
+            continue
+        try:
+            with open(pkg, encoding="utf-8") as fh:
+                shipped = json.load(fh).get("version", "")
+        except (OSError, ValueError):
+            continue
+        heads = [l for l in open(led, encoding="utf-8") if l.startswith("#")]
+        vs = {mm.group(1) for l in heads for mm in re.finditer(r"v?(\d+\.\d+\.\d+)", l)}
+        if not vs:
+            _skips.append(f"{m['name']}: the verification ledger records no version at all, "
+                         "so nothing says which artifact its rows were confirmed against")
+            continue
+        newest = max(vs, key=lambda v: tuple(int(x) for x in v.split(".")))
+        if newest != shipped:
+            _skips.append(f"{m['name']}: the verification ledger's newest record is "
+                         f"{newest} and package.json ships {shipped} — its rows describe "
+                         "an artifact that is no longer the shipped one")
+
+
+check_each_member_ledger_reaches_its_shipped_version()
 
 
 def check_the_board_rank_follows_from_its_own_inputs():
