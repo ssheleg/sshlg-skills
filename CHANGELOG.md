@@ -1,5 +1,46 @@
 # Changelog
 
+## v0.63.0 — the pin is a tag, the hub is a branch, and nothing compared them
+
+**A crash sat released for six hours and every gate was green.** `seo-aeo-audit`'s `main`
+carried `b063131` — a fix for a `KeyError` that killed the default markdown output on any
+page without FAQ schema, which is most pages — committed at 02:25 and never tagged. So
+`skills.json` advertised **0.20.0, the version that crashes**, while the hub copy every
+non-Claude-Code agent reads already had the repair. Both channels were internally
+consistent; they disagreed with each other. `check_pins.py` stayed green throughout and
+was right to: the pin did match the latest release. The latest release was the problem.
+
+Found while measuring B-56 — and not the way B-56 predicted. The row said channels go
+*stale*; the hub was **ahead**. What the measurement actually exposed is structural: the
+pin is a **tag**, the skills-CLI channels install from the **branch**, and until today
+nothing in the family compared those two promises.
+
+`test/release_lag.py` does now, with `test/release_lag_test.py` behind it (6 cases). Two
+properties are deliberate:
+
+- **It discloses, it never fails.** Between a member's tag and the umbrella's re-pin the
+  branch is ahead *by design*, on every release. A gate that reddens there is the
+  racy-gate class this repository already named, and the seo fix never needed the build
+  stopped — it needed one line saying it was waiting.
+- **A checkout with no `origin/main` reads `blind`, never `current`.** Reporting "nothing
+  unreleased" from a ref that does not exist would give every member the same clean
+  answer for the same empty reason, which is the uniform-measurement failure this
+  repository has now caught five times. It reads local refs only and never fetches, so it
+  can miss a lag and cannot invent one — `npm test` stays offline and the network stays
+  `check_pins.py`'s.
+
+Watched firing on the real thing before shipping, not only on fixtures: with the
+submodule set one commit behind its branch, `npm test` printed *seo-aeo-audit: 1
+unreleased commit on main, newest 'fix: release the crash…'*, and printed nothing after
+the checkout was restored.
+
+**Pin: `seo-aeo-audit` 0.20.0 → 0.20.1**, which is that fix, released. Its guard was
+watched failing against the reinstated defect first — `page_audit.py emits severity
+['low'] that SEVERITY_ORDER cannot order` — and the guard is the general form rather than
+the incident: it parses `SEVERITY_ORDER` out of each script and compares it against every
+severity that script emits, so the next severity added anywhere fails the suite instead
+of the next real page.
+
 ## v0.62.0 — the router nobody could reach by asking
 
 **The routing hook can now be reached by asking for visual work.** Board row `B-49`:

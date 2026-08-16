@@ -4,6 +4,7 @@ import glob, json, os, re, subprocess, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pin_source
+import release_lag
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 errors = []
@@ -838,6 +839,52 @@ def check_desc_moves_with_skills():
 
 
 check_desc_moves_with_skills()
+
+
+def check_no_member_is_released_behind_its_branch():
+    """Say when a member's `main` has moved past the commit this hub pins.
+
+    B-56's real half. The pin is a **tag**; the skills-CLI channels install from the
+    **branch**. Nothing compared them until `seo-aeo-audit` sat for six hours with a
+    crash fix committed to `main` and untagged: `skills.json` advertised 0.20.0, the
+    version that dies with `KeyError: 'low'` on most pages, while the hub copy every
+    non-Claude-Code agent reads already had the repair. `check_pins.py` was green — the
+    pin did match the latest release, and the latest release was the problem.
+
+    **Reads only local refs and never fetches**, because `npm test` must work offline
+    and because the network belongs to `check_pins.py`. A stale `origin/main` therefore
+    under-reports, which is the safe direction: it can miss a lag, it cannot invent one.
+
+    **Discloses, never fails.** Between a member's tag and the umbrella's re-pin the
+    branch is ahead by design, every single release — a gate that reddens there is the
+    racy-gate class this repository already named. The seo fix did not need the build
+    stopped; it needed one line saying it was waiting.
+    """
+    for s in skills:
+        name = s.get("name")
+        subdir = os.path.join(ROOT, s.get("dir", ""))
+        if not os.path.isdir(os.path.join(subdir, ".git")) and \
+           not os.path.isfile(os.path.join(subdir, ".git")):
+            _skips.append(f"{name}: submodule not materialized — release lag unchecked")
+            continue
+
+        def git(*a):
+            try:
+                r = subprocess.run(["git", "-C", subdir, *a],
+                                   capture_output=True, text=True, timeout=15)
+            except (OSError, subprocess.SubprocessError):
+                return None
+            return r.stdout.strip() if r.returncode == 0 else None
+
+        has_ref = git("rev-parse", "--verify", "-q", "refs/remotes/origin/main") is not None
+        ahead = git("rev-list", "--count", "HEAD..refs/remotes/origin/main") if has_ref else None
+        tip = git("log", "-1", "--format=%s", "refs/remotes/origin/main") if has_ref else ""
+        state, message = release_lag.resolve(has_ref, ahead, tip)
+        if state != "current":
+            _skips.append(f"{name}: {message}")
+
+
+check_no_member_is_released_behind_its_branch()
 
 if errors:
     print("FAIL: sshlg-skills structure invalid")

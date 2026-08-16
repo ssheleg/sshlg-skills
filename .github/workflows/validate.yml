@@ -69,6 +69,32 @@ jobs:
       - name: Pin-source suite (7 cases — the four verdicts, on real git repos)
         run: python3 test/pin_source_test.py
 
+      - name: Release-lag suite (6 cases — blind is not current)
+        run: python3 test/release_lag_test.py
+
+      - name: Negative self-test (a member behind its branch must be reported)
+        run: |
+          set -eu
+          # The state that went unreported for six hours: a member whose `main` carries a
+          # commit the pinned tag does not. Planted by moving a submodule back one commit,
+          # so the check meets the real shape rather than a fixture of it.
+          rm -rf /tmp/lagplant && cp -R . /tmp/lagplant
+          sub=$(python3 -c "import json;print(json.load(open('/tmp/lagplant/skills.json'))['skills'][0]['dir'])")
+          if ! git -C "/tmp/lagplant/$sub" rev-parse --verify -q refs/remotes/origin/main >/dev/null; then
+            echo "no origin/main in the copied submodule — the plant cannot be built here"
+            exit 1
+          fi
+          git -C "/tmp/lagplant/$sub" checkout -q HEAD~1
+          out=$(cd /tmp/lagplant && python3 test/validate.py || true)
+          if printf '%s' "$out" | grep -q 'unreleased commit'; then
+            echo "planted lag was reported:"
+            printf '%s\n' "$out" | grep 'unreleased commit'
+          else
+            echo "the check did not report a member sitting behind its own branch"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
       - name: Negative self-test (a plugin member wiring settings.json too must fail)
         run: |
           set -eu
