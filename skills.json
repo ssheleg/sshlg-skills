@@ -31,7 +31,7 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 35-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.41.3",
+      "version": "0.41.4",
       "entry": "/ux",
       "role": "what the interface must do and how it sounds",
       "npm": "super-ux",
@@ -49,7 +49,7 @@
         "task-pipeline",
         "evidence-docs"
       ],
-      "version": "1.60.0",
+      "version": "1.60.1",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
@@ -66,7 +66,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.11.0",
+      "version": "1.11.1",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
@@ -83,7 +83,7 @@
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.19.0",
+      "version": "0.19.1",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
@@ -100,7 +100,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.37.1",
+      "version": "1.37.2",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -117,7 +117,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.20.1",
+      "version": "0.20.2",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
@@ -139,7 +139,7 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.5.0",
+      "version": "0.5.1",
       "entry": null,
       "role": "integrations: money in, tracking, sign-in, speed",
       "npm": "@ssheleg/sheleg-dev",

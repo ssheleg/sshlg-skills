@@ -72,6 +72,11 @@ jobs:
       - name: Release-lag suite (6 cases — blind is not current)
         run: python3 test/release_lag_test.py
 
+      # Not in `npm test`: it runs seven member validators and would put ~21 s on this
+      # repository's per-commit gate, whose honesty rests on costing three.
+      - name: Advertised plants (each member's own gate must refuse a dropped trigger)
+        run: npm run test:plants
+
       - name: Negative self-test (a member behind its branch must be reported)
         run: |
           set -eu

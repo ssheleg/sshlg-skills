@@ -1,5 +1,61 @@
 # Changelog
 
+## v0.64.0 — the invariant moves to where it can be broken
+
+**Seven members can now refuse a description that breaks the routing hook.** B-54: every
+trigger in `lib/triggers.js` must be a word the member's own `description` advertises, and
+`test/triggers_test.js` has always asserted that — one repository away from the only file
+that can break it, and after the member has already tagged. That is not hypothetical
+distance: `sheleg-design` 1.37.0 shipped green on 4636 of its own checks having dropped
+`фигма в код`, this repository went red minutes later, and 1.37.1 was the cost.
+
+`test/advertised_check.js` makes the assertion addressable from a member:
+
+    node <umbrella>/test/advertised_check.js --member <name> --root <checkout>
+
+Each of the seven members carrying routed triggers now calls it from its own
+`validate.py`. **No copy of the table travels with them** — the checker reads
+`lib/triggers.js`, the module the hook itself calls, so there is nothing to drift. Where
+no umbrella sits above the checkout, which is every member's standalone CI, they disclose
+rather than pass.
+
+That last property has a consequence worth stating rather than discovering: **the negative
+self-test cannot live in the members.** A plant in a member's CI would assert a refusal
+that cannot happen there. So it lives here, where the submodules exist:
+`test/advertised_plants_test.py` drops one of each member's own advertised phrases from its
+shipped `SKILL.md`, runs that member's own `validate.py`, requires a non-zero exit *and*
+the specific message, and restores the file before judging. **7 of 7 refuse.** Watched
+failing too — with the call deleted from `agent-sync`'s validator the sweep exits 1 and
+names it, which matters because that member's other checks reject the planted description
+anyway: a sweep testing only the exit code would have called it caught.
+
+Two of this run's own instruments were wrong before the subject was, and both were caught
+by asserts rather than by reading. The plant first replaced one occurrence of a phrase and
+read `super-ux` as not refusing — a phrase advertised twice survives one replacement. And
+the version-surface driver used `glob('**/*.json')`, which does not descend into dotted
+directories, so `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` — two of
+the three JSON surfaces every member has — went unbumped in all seven. `os.walk` now, and
+the members' own version-sync gates would have caught it in any case.
+
+**The sweep is not in `npm test`, and the number is why.** It runs seven member
+validators and costs ~21 s; with it in, this repository's suite went from 3.3 s to 26.2 s
+— and `npm test` is wired to the per-commit gate whose whole honesty argument is that
+number. *A synchronous gate at three minutes is a gate people route around*, written in
+`hooks/repo-gate.js` by the same hand that would have broken it here. So the sweep has its
+own entry point, `npm run test:plants`, plus a CI step; the suite is back to 5.2 s.
+
+Excluding it by name from the runner was the other option and was refused: `test/run.js`
+discovers rather than lists, deliberately, because three hand-written lists in this family
+each missed a shipped surface. The cost of not being discovered is that nothing calls it,
+which this repository has been bitten by before — so `validate.py` asserts **both** ends,
+the `package.json` entry point and the CI step, each watched failing against its own
+deletion.
+
+**Pins, all seven:** `sheleg-design` 1.37.2, `task-pipeline` 1.60.1, `super-ux` 0.41.4,
+`make-skill` 0.19.1, `seo-aeo-audit` 0.20.2, `agent-sync` 1.11.1, `sheleg-dev` 0.5.1.
+`agent-stack` carries no routed triggers and is unchanged, which the checker says out loud
+rather than passing silently.
+
 ## v0.63.0 — the pin is a tag, the hub is a branch, and nothing compared them
 
 **A crash sat released for six hours and every gate was green.** `seo-aeo-audit`'s `main`

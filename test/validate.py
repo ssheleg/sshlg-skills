@@ -886,6 +886,43 @@ def check_no_member_is_released_behind_its_branch():
 
 check_no_member_is_released_behind_its_branch()
 
+
+def check_the_plant_sweep_is_still_called():
+    """`test/advertised_plants.py` is not discovered, so only a check holds that it runs.
+
+    It sits outside the `*_test.py` glob on purpose — it costs ~21 s and `npm test` is this
+    repository's per-commit gate, whose honesty argument is that it costs three. The price
+    of that decision is that nothing discovers it, and a suite nothing calls is the exact
+    shape this file already guards elsewhere: `check_update_refreshes_runtime` exists
+    because a function with passing fixtures sat under a command that never called it.
+
+    So both ends are asserted: the entry point in `package.json` and the CI step that
+    invokes it. Delete either and this goes red in the same run.
+    """
+    script = os.path.join(ROOT, "test", "advertised_plants.py")
+    if not os.path.isfile(script):
+        fail("test/advertised_plants.py is gone — the only proof that each member's own "
+             "gate refuses a dropped trigger went with it (B-54)")
+        return
+    pkg = os.path.join(ROOT, "package.json")
+    with open(pkg, encoding="utf-8") as fh:
+        scripts = json.load(fh).get("scripts", {})
+    if "advertised_plants.py" not in " ".join(scripts.values()):
+        fail("package.json: no script runs test/advertised_plants.py — it is not "
+             "discovered by the runner, so an entry point is the only way it executes")
+    wf = os.path.join(ROOT, ".github", "workflows", "validate.yml")
+    if not os.path.isfile(wf):
+        _skips.append("plant-sweep CI wiring — no validate.yml here")
+        return
+    with open(wf, encoding="utf-8") as fh:
+        text = fh.read()
+    if "test:plants" not in text and "advertised_plants.py" not in text:
+        fail(".github/workflows/validate.yml: nothing runs the advertised-plant sweep. "
+             "It is excluded from `npm test` by design, so CI is where it has to be named")
+
+
+check_the_plant_sweep_is_still_called()
+
 if errors:
     print("FAIL: sshlg-skills structure invalid")
     for e in errors:
