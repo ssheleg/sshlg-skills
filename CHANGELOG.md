@@ -1,5 +1,41 @@
 # Changelog
 
+## v0.62.0 — the router nobody could reach by asking
+
+**The routing hook can now be reached by asking for visual work.** Board row `B-49`:
+every one of `sheleg-design`'s fifteen triggers was a compound noun phrase, so the
+router that owns the visual layer matched none of the ways an operator actually asks
+for it. Measured before the change — `поменяй палитру`, `подбери цвета`, `сделай
+красиво`, `make the hero more cinematic`, `поправь типографику`, `какой шрифт тут`,
+`анимация на скролле`, `сделай paywall красивее`: **eight prompts, zero routes.**
+
+Fourteen bare words are added — `палитра`/`palette`, `цвета`/`colors`,
+`типографика`/`typography`, `шрифт`/`font`, `выглядит`/`how it looks`,
+`красиво`/`красивее`/`make it prettier`, `анимация`, `hero` — and the exception to this
+table's own *whole phrases, never bare words* rule is measured rather than asserted:
+these words carry no second trade, so the precision a phrase buys elsewhere buys nothing
+here. After: **8 route, and nine controls stay silent** — a payment bug, a landing-page
+text, a production check, a test, a README, a refactor, a question (`почему палитра
+сломалась?`) and both opt-outs (`без дизайна`, `как есть`).
+
+Two of those needed the mechanism read rather than guessed. `красиво` and `красивее` are
+both listed because the stemmer cannot bridge them — `красивее` cuts to `красиве`, which
+is not a prefix of `красиво` — and a bare stem in the table would have passed the
+advertisement check on a substring while defeating what that check is for.
+
+**`дизайн` cannot be a trigger and is not one.** It is a substring of this route's own
+refusal «без дизайна», and a trigger inside a refusal makes the refusal unsayable; the
+fixture rejects it. The measured consequence is recorded next to the decision: `сделай
+дизайн лендинга` matches no route at all — not `super-ux`, as a first draft of that
+comment claimed before the matcher was run.
+
+**Pin: `sheleg-design` 1.36.1 → 1.37.1**, the release that advertises those words. Its
+1.37.0 rewrite dropped `фигма в код` from the description while the trigger stayed live
+here; `test/triggers_test.js` caught it and 1.37.1 restored the phrase. Worth naming
+because the member's own green gate could not have: **the invariant that every trigger
+is a word its skill advertises is enforced one repository away from the file that can
+break it.**
+
 ## v0.61.0 — the gate we ship, running on us
 
 Four board rows close, and three of them close because something finally ran.
