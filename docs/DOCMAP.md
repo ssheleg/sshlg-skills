@@ -142,6 +142,22 @@ whole suites, which is the entire point of having one. The count above is
 `npm test` with its summary line excluded, since that line reports suites and
 would otherwise be counted as fixtures.
 
+## Release tags are annotated — decided 2026-08-17 (B-69)
+
+`git tag -a`, never a bare `git tag`. **`git describe` without `--tags` sees annotated
+tags only, and that is what `git submodule status` prints** — the one line a maintainer
+glances at to decide whether a member is current. Measured 2026-08-16: `task-pipeline`'s
+last seven releases were lightweight and the umbrella reported it as **v1.60.0**, seven
+releases stale; `sheleg-design` as v1.36.1, `agent-sync` as v1.11.0. Nothing was wrong in
+any of those repositories — the reading instrument was. A lightweight tag also carries no
+tagger, date or message, so a release has no signed-off record.
+
+**Re-cutting a published tag is not the remedy.** Force-moving it re-triggers the release
+workflow into an `npm publish` npm must reject, painting a red run over a release that
+succeeded. `agent-stack` v0.11.1 and `super-ux` v0.41.5 are therefore left lightweight and
+correct themselves at their next release; `test/validate.py` names them on every run until
+they do.
+
 ## What proves a claim here
 
 Numbers are counted by running something, never carried across a document —

@@ -1208,6 +1208,53 @@ def check_each_member_ledger_reaches_its_shipped_version():
 check_each_member_ledger_reaches_its_shipped_version()
 
 
+def check_release_tags_are_annotated():
+    """A lightweight tag makes `git submodule status` report a stale version.
+
+    `git describe` without `--tags` sees **annotated tags only**, and that is what
+    `git submodule status` prints — the one line a maintainer glances at to decide
+    whether a member is current. Measured 2026-08-16: `task-pipeline`'s last seven
+    releases were lightweight and the umbrella reported it as **v1.60.0**, seven
+    releases stale; `sheleg-design` as v1.36.1 and `agent-sync` as v1.11.0. A
+    lightweight tag also carries no tagger, date or message, so a release has no
+    signed-off record.
+
+    Six of eight were re-cut annotated as they were released on 2026-08-16/17. The
+    two that were not — `agent-stack` v0.11.1 and `super-ux` v0.41.5 — are
+    **deliberately left**: both versions are published, and force-moving a tag
+    re-triggers the release workflow into an `npm publish` npm must reject, which
+    would paint a red run over a release that succeeded. They correct themselves at
+    the next release, and until then this says so rather than letting the stale
+    readout pass unexplained.
+
+    A disclosure: a shallow clone has no tags at all, and a member between releases
+    legitimately has none newer than its last.
+    """
+    for m in manifest.get("skills", []):
+        d = os.path.join(ROOT, m["dir"])
+        if not os.path.isdir(os.path.join(d, ".git")) and not os.path.isfile(os.path.join(d, ".git")):
+            continue
+
+        def g(*a):
+            try:
+                r = subprocess.run(["git", "-C", d, *a], capture_output=True, text=True, timeout=15)
+            except (OSError, subprocess.SubprocessError):
+                return None
+            return r.stdout.strip() if r.returncode == 0 else None
+
+        newest = (g("tag", "--sort=-v:refname") or "").split("\n")[0]
+        if not newest:
+            continue
+        if g("cat-file", "-t", newest) != "tag":
+            described = g("describe") or "nothing"
+            _skips.append(f"{m['name']}: newest tag {newest} is lightweight, so "
+                          f"`git submodule status` reports this member as {described} — "
+                          "cut release tags with `git tag -a`")
+
+
+check_release_tags_are_annotated()
+
+
 def check_the_board_rank_follows_from_its_own_inputs():
     """`Age` and `P` are computed columns, so compute them.
 

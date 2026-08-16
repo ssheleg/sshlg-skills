@@ -14,7 +14,15 @@ stage 9 checks it against the docs; both read whatever is on disk.
 
 **A disclosure, never a gate.** A graph is behind the moment the next commit lands, so a
 threshold here would go red on every repository every day and be switched off within a
-week. And on this machine the refresh cannot run at all — `graphify . --update` exits 1
+week.
+
+That sentence is also why **"every graph is at HEAD" must never be written as a standing
+claim**, and v0.79.0's release note wrote it anyway (B-68). It was false in the tree that
+published it — this module printed eight of nine one commit behind in the same checkout —
+and where `graphify-out` is committed it is false *by construction*, because the commit
+carrying the graph advances HEAD past the commit the graph was built at. The only durable
+form is what this module already emits: a per-member lag, measured now, beside the commit
+it was measured at. And on this machine the refresh cannot run at all — `graphify . --update` exits 1
 with *no LLM API key found (40 doc/paper/image files need semantic extraction)*, which is
 B-51 and an operator's decision, not a build failure. What this can do is stop the cost
 being invisible while that decision waits.

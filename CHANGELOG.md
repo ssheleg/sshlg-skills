@@ -1,10 +1,115 @@
 # Changelog
 
+## v0.80.0 — a nine-repository audit, and the ten rows it closed
+
+**131 findings, three of them blockers**, from nine parallel read-only audits — one per
+repository, against a fixed eight-dimension brief, every finding carrying `file:line` or a
+command and its output. The full set is committed at `docs/evidence/audit-2026-08-16/`;
+what follows is what shipped.
+
+### The three blockers
+
+**Two were the same module, and the same mistake: a write into the operator's files that
+the backup could not see.** `lib/apply.js`'s `applyCursor` upserted into the `EMPTY_BLOCK`
+constant rather than into the file on disk, so a `--member`-scoped run rebuilt
+`~/.cursor/rules/sshlg-routing.mdc` containing only that member — measured live at **9
+router blocks and 13743 bytes before, 2 and 3233 after**. And `bin/sshlg-skills.js:493`
+wrote the migrated `~/.claude/CLAUDE.md` **before any backup**: the only write to a
+protected file not preceded by `protect()`, reproduced against a scratch HOME with the
+backup directory unwritable — four sections to three lines, no copy anywhere, and the run
+printing *«Файл не изменён»*. `test/apply_test.js` (15 fixtures) is the suite
+`lib/apply.js` never had, which is the gap both lived in; it was watched failing **7 of
+15** against the pre-fix code.
+
+**The third was in the family's own standard-keeper.** Both checkers dropped the
+continuation lines of a plain multi-line YAML description, so a description whose real
+length was **1392 characters was measured at 180** and passed the 1024 cap, the 970
+working limit and every `/skill-audit` this family issues. Shipped as `make-skill` v0.20.0
+with `test/checker_parity_test.py`, watched failing 9 of 14.
+
+### Ten board rows closed
+
+| Row | What it was |
+|---|---|
+| `B-63` | the checker that measured 180 where the file said 1392 |
+| `B-64` | two writes into the operator's files that bypassed `protect()` |
+| `B-65` | `npm test` did not exist in three of nine members |
+| `B-66` | five `SKILL.md` bodies over the 5000-token budget |
+| `B-67` | nine of nine graph reports described a different build |
+| `B-68` | «every graph at HEAD», false in the tree that published it |
+| `B-69` | lightweight release tags reporting members up to seven releases stale |
+| `B-70` | seven of eight verification ledgers behind their shipped version |
+| `B-72` | 246 kB of someone else's bytecode in a published npm tarball |
+| `B-73` `B-74` `B-77` | the missing CAPI contract, a `CONFIRMED` row 30 days from harm, six stale umbrella claims |
+
+**No body in the family is over 5000 tokens now**: `task-pipeline` 6685 → **4735**,
+`sheleg-design` 6203 → **4590**, `seo-aeo-audit` 5885 → **4996**, `stripe-billing` 5367 →
+**4748**, `ad-tracking` 5273 → **4643** — split rather than trimmed wherever a file already
+owned the material, and **every routed trigger survived**, checked after each pass.
+
+**Six members released**: `make-skill` 0.20.0, `agent-sync` 1.12.0, `seo-aeo-audit` 0.22.0,
+`sheleg-dev` 0.6.0, `sheleg-design` 1.38.0, `task-pipeline` 1.68.0.
+
+### Two findings that reversed
+
+**The audit was wrong about `task-pipeline`'s description.** It read the member as breaking
+the house rule that a description must open with `Use when …`. That repository's own
+validator refuses exactly that opening, citing Anthropic's guidance and their
+capability-first example — and it is the **shared rule that is wrong**. The correction was
+written and reverted rather than shipped: it flags **22 of 24** family skills, and each
+carries routed phrases that must survive a rewrite verbatim. Filed as `B-76`, unresolved,
+because it is a family decision and not a member's.
+
+**And it was wrong about the graphify model.** `F-umbrella-14` claimed the v0.79.0 note
+named a model the machine was not using; the note was right about what built the graphs.
+The real defect was narrower and elsewhere — `~/.config/graphify/env` contradicts itself,
+its comment naming `deepseek-v4-pro` at `$1.17/$2.34` while its export sets
+`deepseek-v4-flash` at `$0.06/$0.12`.
+
+### What kept happening
+
+**A negative self-test pinned to a literal stops landing the moment the fact it guards is
+reworded** — and then reads green while proving nothing. It happened five times: a date, a
+count, a line break, and twice a guard looking where content used to be. It refused
+`seo-aeo-audit`'s release three times, correctly, and **after the tag was public** — the
+one moment the release workflow cannot recover from. So the check moved to where it is
+read before the tag, and the guard added for it did not see `perl`-form plants, and its
+first widening skipped a file with a comment claiming a loop checked it when no such loop
+existed. All three are fixed and each was watched refusing.
+
+### Also
+
+- `test/hooks_e2e_test.js` discovers all nine hooks instead of listing six. The three it
+  omitted included `repo-gate.js`, wired from a committed `.claude/settings.json` into
+  every clone, where a throw breaks every Bash call in the project. Watched catching a
+  planted throw in `statusline.js`.
+- The umbrella requires `scripts.test` of every member, and discloses each member's ledger
+  lag, graph-report disagreement and lightweight newest tag.
+- Ratchets recounted by running the command: **32 suites, 562 fixtures**. `24/469` had been
+  wrong by 73 before any of this.
+
+**A second Claude Code session committed here mid-run**, between 21:46 and 21:55, holding
+no lease and invisible to `agent_sync status`. Nothing was lost and its three commits were
+correct. Filed as `B-75`: the `fs` backend is advisory across processes, and the decision
+is whether it moves.
+
 ## v0.79.0 — the graphs are current, and a live key was one command from being published
 
 **B-51 resolved as *provision*, and the graphs are rebuilt.** All nine, with semantic
 extraction: every one now sits **at HEAD**, where this repository's was 31 commits behind,
 `super-ux` 33, `seo-aeo-audit` 19, `sheleg-design` 12, `task-pipeline` 10.
+
+> **Corrected 2026-08-17 (B-68), and the sentence above is left as it shipped.** Two of
+> its numbers do not survive being recomputed. *"Every one now sits at HEAD"* was already
+> false in the tree that published it: `npm test` in that same checkout printed eight of
+> nine **one commit behind**, and for the members that commit `graphify-out` it is false
+> **by construction** — the commit carrying the graph advances HEAD past the commit the
+> graph was built at, so only the umbrella, which gitignores it, can ever read zero. The
+> honest form is the per-member lag the gate already prints, not a blanket claim. And the
+> edge total was **11,894**, not 11,884: summing `len(links)` over the nine `graph.json`
+> files gives 10,140 nodes and 11,894 links, which is also what the concurrent session's
+> own model table recorded an hour later. A release note is a record, so this stands as a
+> correction beneath it rather than a quiet edit of what was published.
 
 **Measured cost for the family: $1.05, eleven minutes.** My pre-flight estimate was $0.44
 and it was low by 2.4× — it priced raw input tokens and ignored the per-file prompt
