@@ -5,8 +5,22 @@ suite passed; **`verified` here means a person or a command looked at the thing
 itself.** The two are different, and the gap between them is what this file
 exists to keep visible.
 
-`/task-pipeline checkup` counts the rows sitting at `never` when no run is in
-flight — which is the only moment accumulated unconfirmed work is invisible.
+**This ledger has no `Human` column, and that is a decision with a consequence.**
+`verified` above means *a person or a command* — the two are not separated here, so the
+question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the 322
+rows below, **295 read `verified` and none of them says which**.
+
+`/task-pipeline checkup` counts rows sitting at `never`, and this shape holds no such
+value. So the exposure line prints `0 unverified` **and then names the column it read** —
+*every shipped row is confirmed in its `status` column, which does not separate a person
+from a command*. That is the honest form: a zero in this file's own vocabulary, with the
+vocabulary's limit attached. The sentence that used to stand here promised a `never` count
+its own table could never produce.
+
+**Adding the column later would not reach backwards.** New rows would start at `never`;
+writing retrospective human confirmations for 322 rows nobody actually reviewed is the
+failure the `evidence-docs` router names, and a back-filled ledger is worse than an absent
+column because it answers the question wrongly instead of not at all.
 
 **Started 2026-08-10.** Rows before that date do not exist: this repository
 shipped eleven releases without a ledger, and inventing retrospective
@@ -627,3 +641,16 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B61-5 | Neither formula was wrong | both are documented in their own headers; convergence was refused because it breaks every seeded board or rewrites 60 rows here, stated in the row rather than left implicit | verified |
 | B61-6 | The rule is doctrine, not two fixes | `references/backlog.md` — *the shape is not fixed, so nothing may assume it*; resolve by header, absent is absent, name the column in the output | verified |
 | B61-7 | Gate green | fixtures 18 → **20**; `npm run test:all` → all **351** guards reject their planted defect, 9 property checks printed, exit 0 | verified |
+
+## 2026-08-16 (sixteenth) — v0.76.0, two facts, and most ledgers record one
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B62-1 | The row under-counted its own subject | **ten** header shapes across nine repositories, not five; counted by scanning every header row in every ledger | verified |
+| B62-2 | The family total is computed, not estimated | **815** rows: 126 `Human`, 180 `Last verified`, 391 `verified`-ish, 118 with no state column — the four buckets sum to the total | verified |
+| B62-3 | `never` is expressible in one repository of nine | only `task-pipeline`'s shape carries a `Human` column; 126 of 815 rows, just over 15% | verified |
+| B62-4 | The split is doctrine now | `references/verification.md` — *a ledger records two different things*, with three rules following from it | verified |
+| B62-5 | Convergence was refused with the reason stated | back-filling 689 rows with confirmations nobody gave is the `evidence-docs` failure; recorded in the row and the notes rather than left as an omission | verified |
+| B62-6 | This repository's preamble stopped promising a count it cannot produce | it claimed the checkup counts rows at `never`; the shape has no such value, and 295 of 322 rows read `verified` with no person/command distinction | verified |
+| B62-7 | A self-explaining status is no longer unreadable | four rows reading `**observed** — …` were reported unparseable; matching moved to the leading word, empty tested first, and the four now read correctly | verified |
+| B62-8 | All nine ledgers run through the script by hand | umbrella `0 unverified` naming its column; `task-pipeline` **126 unverified**; `agent-sync`, `seo-aeo-audit`, `super-ux` dormant with their row counts | verified |

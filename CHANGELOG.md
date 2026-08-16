@@ -1,5 +1,45 @@
 # Changelog
 
+## v0.76.0 — a ledger records two different things, and most record only one
+
+**B-62 said five ledger shapes. Measured: ten, across 815 rows.**
+
+| what the state column can say | rows | repositories |
+|---|---|---|
+| whether a **person** looked (`Human`) | **126** | 1 |
+| a date and what was watched (`Last verified`) | 180 | 1 |
+| `verified` — by a person **or** a command, indistinguishable | 391 | 4 |
+| nothing: evidence recorded, no state column at all | 118 | 3 |
+
+*What confirmed it* and *whether a person looked* are separate facts. The first is a
+command, a run id, a fixture name; the second is the axis the exposure line is defined
+over. **`never` is expressible in one repository of nine, over 15% of the rows** — so the
+number this pack's doctrine is written around is undefined almost everywhere it is quoted.
+
+**That is not a defect in those ledgers.** Recording what confirmed something is the Auto
+job done properly, and a project that never asks the human question has made a choice.
+The defect is doctrine speaking as though the column were there, and `task-pipeline` 1.67.0
+now states the split with three rules following from it — no state column means the line
+says so and prints no number; a `verified` that cannot separate a person from a command is
+not reported as human confirmation; and adding the column later never reaches backwards.
+
+**Convergence was refused, and the refusal is the load-bearing part.** Back-filling 689
+rows with human confirmations nobody gave is the failure the `evidence-docs` router exists
+to name — a filled-in ledger answers the question *wrongly* instead of not at all, and
+unlike an absent column, nothing afterwards can tell which rows were real.
+
+**This repository's own ledger preamble was one of the false promises.** It said
+`/task-pipeline checkup` counts rows at `never`; this shape holds no such value, and 295 of
+its 322 rows read `verified` with nothing saying whether a person or a command produced
+them. It now says that, and names what the exposure line actually prints.
+
+Also: `exposure.sh` stops calling a self-explaining status unreadable. `**observed** — the
+row exists because the miss happened in this run` is an ordinary way to write a state, and
+four rows here were reported unparseable for explaining themselves. Matching is on the
+**leading word**, with the empty cell tested first so a blank still counts as unconfirmed.
+
+**Pin: `task-pipeline` 1.66.0 → 1.67.0.**
+
 ## v0.75.0 — two board shapes were never the problem; reading either by position was
 
 **B-61 asked which of two priority formulas should win. Neither.** The shipped board
