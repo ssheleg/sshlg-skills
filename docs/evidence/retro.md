@@ -253,6 +253,7 @@ used.)*
 | 2026-08-14 | Web funnel mechanics into the knowledge references, a ninth router, and coordination repaired in eight repositories; v0.55.0 (+ super-ux 0.40.0, sheleg-dev 0.5.0, agent-stack 0.8.0 pinned) | `1a127d8` | yes — see below |
 | 2026-08-15 | The shape of the work: graph engineering into agent-stack, a graph audit of task-pipeline; v0.59.0 (+ agent-stack 0.10.1, task-pipeline 1.57.0) | `5285792` | yes — see below |
 | 2026-08-16 | The graph backlog as a programme: the same convergence defect in four more places, a body under its budget; v0.60.0 (+ task-pipeline 1.58.0, agent-stack 0.11.0, super-ux 0.41.0, seo-aeo-audit 0.20.0, sheleg-design 1.36.1 pinned) | `64ee7fb` | yes — see below |
+| 2026-08-16 (second) | The gate we ship, running on us: coordination checked in CI, the desc co-edit, four board rows closed; v0.61.0 (+ task-pipeline 1.60.0, super-ux 0.41.3, make-skill 0.19.0 pinned) | `fefb32c` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -346,6 +347,52 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (second) — the gate we ship had never run on us
+
+### One line of wiring, five findings
+
+`task-pipeline` ships a documentation gate and tells every project to run it. It had
+never run on `task-pipeline`. Wiring it into `test:all` took one line; the first execution
+found five things, and the two that matter are the ones that explain why nobody knew:
+
+- **`[ -d .git ]`** — false in a submodule checkout, where `.git` is a file. The section
+  printed `skip`, which is indistinguishable from having nothing to check. **This is the
+  third time in two days that this exact shape disarmed something here**: it disarmed two
+  negative self-tests on 2026-08-15, and now the shipped gate.
+- **The corpus default still named the artifact root as it was before the 2026-08-13
+  rename**, so in every migrated project the section went `dormant` — the *other* word for
+  silence.
+
+What it had been unable to report: eleven unfollowable commit references, two decisions
+that had propagated nowhere, and one id reported undefined because the checker could not
+tell a planted payload from a claim.
+
+### The lesson is about silences, not about any of the five
+
+Every finding was cheap once the gate ran. What cost months was that a check reported
+`skip` and `dormant` and nobody reads those as *the check did not happen*. A gate has three
+outcomes and only two of them are honest by default; the third has to be made loud.
+
+**What this run did about it, and what it did not.** It fixed both silences and wired the
+gate in with a guard requiring the wiring. It did **not** go looking for other checks in
+this family that can skip themselves — that is a real sweep, it is exactly what
+`learned.md` rule 6 would ask for, and it belongs to a run that plans for it rather than
+one discovering it at close-out.
+
+### A check whose false-positive rate was measured before it shipped
+
+`B-48`'s remaining half was *nothing verifies that a member's description describes the
+skills it ships*. The obvious check — token-match the names against the prose — was built
+and **measured first: four false failures out of eight members**, because the concept was
+in every description and the word was not (`ad-tracking` as "GA4/Ads/Meta",
+`ux-foundation` as "personas and jobs").
+
+It was not shipped. What shipped is the **co-edit**: if `skillNames` changes and `desc`
+does not, that is mechanical and needs no opinion about prose. Recorded because the
+instinct is to ship the first check that catches the known case and discover its false
+positives in someone else's release.
+
 
 ## 2026-08-16 — the rewrite that could not tell data from a path, twice
 
