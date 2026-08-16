@@ -60,10 +60,10 @@ for (const spec of Object.values(ROUTES)) {
     if (g.skill.split('/')[0] === member) groups.push(g);
   }
 }
-if (!groups.length) {
-  console.log(`ok: ${member} carries no routed triggers`);
-  process.exit(0);
-}
+// NOT an early exit any more. This script also checks front-matter validity, which
+// every member needs whether or not it carries a routed trigger — and the member with no
+// triggers was the one place nothing would have looked.
+const hasRoutes = groups.length > 0;
 
 /**
  * The `description` of a shipped SKILL.md, whitespace-collapsed.
@@ -72,6 +72,40 @@ if (!groups.length) {
  * wrapped, so an advertised phrase can land across a line break. Matching the raw string
  * would make the WRAPPING load-bearing and reject a phrase the skill does advertise.
  */
+/**
+ * Does this front matter survive a STRICT YAML reader?
+ *
+ * Our own tooling reads `description:` with a regex, so a value that is not legal YAML
+ * passes every gate we own and fails in the installer. On 2026-08-16 `sheleg-design`'s
+ * description gained `style packs: dashboards` — a colon-space inside an unquoted scalar,
+ * which YAML reads as a nested mapping. `claude plugin validate`, both member validators
+ * and this repository's trigger fixture all stayed green; the skills CLI reported
+ * *No valid skills found* and the launcher exited 1 on that member for hours, leaving
+ * twelve non-Claude-Code channels on the previous version.
+ *
+ * No YAML parser here — this package has no dependencies. The hazard is narrow enough to
+ * name exactly: an unquoted, non-block scalar may not contain `: `. Measured over all 69
+ * scalar lines the family ships: two hits, both the real defect.
+ */
+function frontMatterHazards(text, file) {
+  const fm = /^---\n([\s\S]*?)\n---/.exec(text);
+  if (!fm) return [`${file}: no front matter`];
+  const out = [];
+  for (const line of fm[1].split('\n')) {
+    const m = /^([A-Za-z_][\w-]*):\s*(.*)$/.exec(line);
+    if (!m) continue;
+    const [, key, value] = m;
+    if (!value || '"\'>|[{&*!'.includes(value[0])) continue;
+    const at = value.indexOf(': ');
+    if (at !== -1) {
+      out.push(`${file}: \`${key}\` is an unquoted scalar containing ": " ` +
+               `(…${value.slice(Math.max(0, at - 30), at + 12)}…) — YAML reads that as a ` +
+               `nested mapping, so a strict reader rejects the whole file`);
+    }
+  }
+  return out;
+}
+
 function description(skillName) {
   const base = path.join(root, 'plugins');
   if (!fs.existsSync(base)) return { err: `no plugins/ under ${root}` };
@@ -90,6 +124,33 @@ function description(skillName) {
     return { desc };
   }
   return { err: `${skillName}: no shipped SKILL.md under ${base}` };
+}
+
+// Front matter first, over every skill this member ships — a file a strict reader
+// rejects is broken for an installer whether or not the routing hook names it.
+const hazards = [];
+const pluginRoot = path.join(root, 'plugins');
+if (fs.existsSync(pluginRoot)) {
+  for (const plugin of fs.readdirSync(pluginRoot)) {
+    const skillsDir = path.join(pluginRoot, plugin, 'skills');
+    if (!fs.existsSync(skillsDir)) continue;
+    for (const skill of fs.readdirSync(skillsDir)) {
+      const file = path.join(skillsDir, skill, 'SKILL.md');
+      if (!fs.existsSync(file)) continue;
+      hazards.push(...frontMatterHazards(fs.readFileSync(file, 'utf8'),
+                                         path.relative(root, file)));
+    }
+  }
+}
+if (hazards.length) {
+  console.error(`${member}: front matter a strict YAML reader would refuse:`);
+  for (const h of hazards) console.error(`  - ${h}`);
+  console.error('\nOur own tools read this with a regex and stay green; the installer does not.');
+  process.exit(1);
+}
+if (!hasRoutes) {
+  console.log(`ok: ${member} front matter is clean; it carries no routed triggers`);
+  process.exit(0);
 }
 
 const missing = [];

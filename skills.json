@@ -100,7 +100,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.37.3",
+      "version": "1.37.4",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -159,7 +159,7 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.11.0",
+      "version": "0.11.1",
       "entry": null,
       "role": "agent orchestrators, their evals, the protocols they speak, and the wallet under LLM resale",
       "npm": "@ssheleg/agent-stack",

@@ -1,5 +1,38 @@
 # Changelog
 
+## v0.70.0 — the description was not valid YAML, and every gate we own reads it with a regex
+
+**B-56's root cause, after two cycles of blaming the launcher.** The launcher was fine.
+`sheleg-design`'s `description` carried `style packs: dashboards` — a colon-space inside
+an unquoted scalar, which YAML reads as a nested mapping. **Everything this family owns
+stayed green**: `claude plugin validate`, the member's own 4636 checks, `claude plugin
+update`, and this repository's trigger fixture, because every one of them matches that
+field with a regular expression. The skills CLI uses a real parser, reported *No valid
+skills found*, and the family launcher exited 1 on that member — so the hub copy that
+twelve non-Claude-Code agents read sat on the previous version and was refreshed by hand
+after each of the last four releases.
+
+The regression arrived in 1.37.0, the release that gave the skill its plain visual
+vocabulary. **It fixed routing and broke installation in the same commit**, and the two
+defects were invisible to each other because they are read by different parsers.
+
+Three things changed so this cannot repeat quietly:
+
+- `test/advertised_check.js` refuses an unquoted, non-block scalar containing `": "`,
+  measured across all **69** scalar lines the family ships — two hits, both this defect.
+  It runs from each member's own gate, before that member can tag.
+- **Its early exit is gone.** A member carrying no routed triggers used to get
+  `ok: … carries no routed triggers` and no inspection at all — so `agent-stack`, the one
+  member with no routes, was the one place nothing looked. Front matter is now checked
+  for every skill of every member first, and `agent-stack` 0.11.1 is wired to call it.
+- `test/validate.py` runs the **strict** form here, with a real YAML parser, over every
+  shipped `SKILL.md` including the `.cursor` mirrors. It discloses when pyyaml is absent
+  rather than passing.
+
+Each of the three was watched failing against the real defect rather than a fixture of it.
+
+**Pins: `sheleg-design` 1.37.3 → 1.37.4, `agent-stack` 0.11.0 → 0.11.1.**
+
 ## v0.69.0 — a board row that says work exists names where it lives
 
 **B-58, filed one cycle ago and closed by the rule it asked for.** `open` claims nothing

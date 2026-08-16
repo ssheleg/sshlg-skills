@@ -550,3 +550,16 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B58-5 | The guard is position-free | the first draft read `cells[-2]` — status in an 8-column board, `Home` in the 10-column template — and its plant passed silently; caught by running the plant rather than by reading | verified |
 | B58-6 | Ratchet counted from the workflow | `MIN_EXPECTED` 347 → 349; `npm run test:all` → *all 349 guards provably reject their planted defect · 9 property checks printed what they assert*, exit 0 | verified |
 | B58-7 | Released and pinned | `task-pipeline` v1.62.0 tagged at HEAD; pin, README row and umbrella v0.69.0 moved | verified |
+
+## 2026-08-16 (tenth) — v0.70.0, the description was not valid YAML
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B56-8 | The root cause is the front matter, not the launcher | asking the skills CLI to list the repository's skills (`npx skills add <repo> --list`) → *YAML parse error: Nested mappings are not allowed in compact mappings*, then *No valid skills found* — for both copies of the file | verified |
+| B56-9 | It is a class of one, measured not assumed | a strict `yaml.safe_load` over all 24 shipped front matters: **2 invalid, both `sheleg-design`**; the narrow unquoted-colon rule over all 69 scalar lines: **2 hits, the same two** | verified |
+| B56-10 | Every gate the family owns read it with a regex and stayed green | the member's own `npm test` exit 0, `claude plugin update` reporting *already at the latest version*, and `test/triggers_test.js` OK, all over the invalid file | verified |
+| B56-11 | The hazard is refused at the member, before it can tag | `advertised_check.js` watched exiting 1 on the reinstated colon, and the same message surfaced through `sheleg-design`'s own `validate.py` | verified |
+| B56-12 | The member nothing was checking is now checked | the shared checker's early exit for trigger-less members is gone; `agent-stack` 0.11.1 calls it and was watched refusing a planted `Broken: now a nested mapping.` in `agent-orchestrator` | verified |
+| B56-13 | The umbrella runs the strict form | `check_shipped_front_matter_is_real_yaml` over 24 files including `.cursor` mirrors, watched failing on the reinstated defect, disclosing when pyyaml is absent | verified |
+| B56-14 | Released and pinned | `sheleg-design` v1.37.4 and `agent-stack` v0.11.1 tagged at HEAD; both pins, both README rows and umbrella v0.70.0 moved | verified |
+| B56-15 | A row edit damaged its neighbour and was caught by diff, not by the assert | a `re.S` pattern ran from B-56 past its own row into B-57's `| open |`; `git diff --stat` showed one changed line and it was the wrong one. Repaired line-scoped; both rows re-read | verified |

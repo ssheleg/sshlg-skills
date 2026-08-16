@@ -1006,6 +1006,57 @@ def check_every_stamped_commit_resolves():
 
 check_every_stamped_commit_resolves()
 
+
+def check_shipped_front_matter_is_real_yaml():
+    """Every shipped `SKILL.md` must survive a strict YAML reader, not only our regexes.
+
+    B-56's root cause, found on 2026-08-16 after two cycles of blaming the launcher: a
+    `description` gained `style packs: dashboards`, a colon-space inside an unquoted
+    scalar, which YAML reads as a nested mapping. **Every check this family owns reads
+    that field with a regex** — the member validator, `claude plugin validate`, this
+    repository's trigger fixture — so all of them stayed green. The skills CLI, which
+    uses a real parser, reported *No valid skills found*, the launcher exited 1 on that
+    member for hours, and twelve non-Claude-Code channels sat on the previous version.
+
+    `test/advertised_check.js` carries the narrow form of this rule so a member catches it
+    before releasing. This is the strict form, run where the parser exists, over every
+    shipped skill of every submodule.
+    """
+    try:
+        import yaml
+    except ImportError:
+        _skips.append("shipped front matter vs a real YAML parser — pyyaml not installed "
+                      "here; CI installs it")
+        return
+    files = sorted(glob.glob(os.path.join(ROOT, "skills/*/plugins/*/skills/*/SKILL.md"))
+                   + glob.glob(os.path.join(ROOT, "skills/*/.cursor/skills/*/SKILL.md")))
+    if not files:
+        _skips.append("shipped front matter — no submodule materialized, nothing parsed")
+        return
+    for f in files:
+        rel = os.path.relpath(f, ROOT)
+        text = open(f, encoding="utf-8").read()
+        m = re.match(r"^---\n(.*?)\n---", text, re.S)
+        if not m:
+            fail(f"{rel}: no front matter — a skill needs `name` and `description`")
+            continue
+        try:
+            doc = yaml.safe_load(m.group(1))
+        except yaml.YAMLError as exc:
+            problem = getattr(exc, "problem", str(exc))
+            fail(f"{rel}: front matter is not valid YAML ({problem}). Our own tools read it "
+                 f"with a regex and stay green; the installer refuses the file outright")
+            continue
+        if not isinstance(doc, dict):
+            fail(f"{rel}: front matter parses to {type(doc).__name__}, not a mapping")
+            continue
+        for key in ("name", "description"):
+            if not doc.get(key):
+                fail(f"{rel}: front matter has no `{key}`")
+
+
+check_shipped_front_matter_is_real_yaml()
+
 if errors:
     print("FAIL: sshlg-skills structure invalid")
     for e in errors:
