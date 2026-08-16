@@ -80,13 +80,13 @@ def a_graph_that_cannot_be_refreshed_says_so_even_at_head():
     """Current today and current-because-nothing-can-rebuild-it are different facts."""
     state, msg = graph_staleness.resolve("abc1234def", True, 0, False)
     assert state == "current", state
-    assert "cannot run here" in msg, "an unrefreshable graph must say so at HEAD too: " + msg
-    assert "B-51" in msg, msg
+    assert "cannot run" in msg, "an unrefreshable graph must say so at HEAD too: " + msg
+    assert "API_KEY" in msg, "the message must name the remedy, not only the lack: " + msg
 
 
 def a_behind_graph_that_cannot_be_refreshed_carries_both_facts():
     _, msg = graph_staleness.resolve("abc1234def", True, 7, False)
-    assert "7 commits behind" in msg and "cannot run here" in msg, msg
+    assert "7 commits behind" in msg and "cannot run" in msg, msg
 
 
 for n, f in [

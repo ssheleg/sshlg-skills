@@ -489,13 +489,38 @@ function cmdRouters(f) {
     if (!fs.existsSync(file)) continue;
     const src = fs.readFileSync(file, 'utf8');
     const moved = migrate.migrate(src, { fallbacks: packaged });
-    if (moved.text !== src && decision === 'yes' && !f.dryRun) {
-      fs.writeFileSync(file, moved.text, 'utf8');
+    const wants = moved.text !== src && decision === 'yes' && !f.dryRun;
+    // Nothing to write counts as nothing left undone; only a wanted write can
+    // fail to happen.
+    let wrote = !wants;
+    if (wants) {
+      // Through `protect()`, like every other write to a file the operator owns
+      // and did not write. For eight releases this one was not, and it was the
+      // only write in the pack that could destroy `~/.claude/CLAUDE.md` leaving
+      // no copy anywhere: reproduced 2026-08-16 against a scratch HOME with the
+      // backup directory unwritable, the file went from four sections to three
+      // lines while the run printed «Файл не изменён». The house rule names the
+      // shape — there is no second write path — and this was the second one.
+      const saved = apply.protect(file, { home });
+      if (saved.action === 'backup-failed') {
+        log(`${file} — НЕ записан: не удалось сделать резервную копию ` +
+            `(${saved.error}). Файл не изменён. Освободи ` +
+            `~/.sshlg-skills/backups/ и повтори.`);
+      } else {
+        fs.writeFileSync(file, moved.text, 'utf8');
+        wrote = true;
+      }
     }
     // Hand the migrated text on rather than letting apply re-read the file:
     // on a dry run nothing was written, and re-reading would preview the
     // additions without the removals that come with them.
-    sources[file] = decision === 'yes' ? moved.text : src;
+    //
+    // But only what is true of the disk now. A refused write means the
+    // operator's headings are still in the file, so passing the migrated text
+    // would hand `apply` a baseline in which they had already gone — and it
+    // would then compute a diff against a state that does not exist.
+    sources[file] = decision === 'yes' && wrote ? moved.text : src;
+    if (!wrote) continue;
     Object.assign(packaged, moved.routers);
     Object.assign(superseded, moved.superseded);
     // Whatever migration just moved is the operator's, and this is the only

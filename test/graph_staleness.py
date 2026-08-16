@@ -48,7 +48,13 @@ def resolve(built_at, resolves, behind, refreshable):
         return "blind", f"graph built at {built_at[:8]}; git could not count the distance to HEAD"
     if n < 0:
         return "blind", f"graph built at {built_at[:8]}; negative distance — git said something unusable"
-    tail = "" if refreshable else " and `graphify --update` cannot run here (B-51)"
+    # Names the remedy, not just the lack. Since 2026-08-16 this machine has a key
+    # in ~/.config/graphify/env, sourced by ~/.zshrc — so a shell that reports this
+    # is a non-interactive one (or CI, which never has it), and the fix is one
+    # `source` away rather than a decision nobody has taken.
+    tail = ("" if refreshable else
+            " and no LLM key is set in THIS shell, so `graphify extract` cannot run"
+            " (set one of GEMINI_/GOOGLE_/OPENAI_/ANTHROPIC_/DEEPSEEK_/MOONSHOT_API_KEY)")
     if n == 0:
         return "current", f"graph is at HEAD{tail}"
     plural = "commit" if n == 1 else "commits"

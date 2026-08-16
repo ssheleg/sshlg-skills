@@ -126,11 +126,19 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-**Ratchets.** 24 suites, 469 fixtures, 8 pinned members. A change that lowers
+**Ratchets.** 32 suites, 557 fixtures, 8 pinned members. A change that lowers
 any of these without saying so in the changelog is a regression, not a
 simplification. Counted by running `npm test`, not carried across from the
 previous edit of this file — the numbers rose from 8/182 when `drift_test.js`
-landed, to 10/228 with `plan_test.js`, to 12/247 with the map and Cursor, to 13/267 when the write path gained a backup, to 13/269 with precedence over an injected mandate, to 16/303 when the family grew hooks of its own, to 23/427 when those hooks learned to refuse, and to 24/469 when the progress rail stopped inventing its own denominator.
+landed, to 10/228 with `plan_test.js`, to 12/247 with the map and Cursor, to 13/267 when the write path gained a backup, to 13/269 with precedence over an injected mandate, to 16/303 when the family grew hooks of its own, to 23/427 when those hooks learned to refuse, to 24/469 when the progress rail stopped inventing its own denominator, and to 32/557 when `apply_test.js` gave the write path fixtures of its own.
+
+That jump is not eight new suites. **24/469 was wrong when it was written** — the
+2026-08-16 audit recounted the same command at 26 node suites and 542 fixtures,
+against a line whose own next sentence says the numbers are counted rather than
+carried. A ratchet 73 fixtures below the truth cannot detect the loss of two
+whole suites, which is the entire point of having one. The count above is
+`npm test` with its summary line excluded, since that line reports suites and
+would otherwise be counted as fixtures.
 
 ## What proves a claim here
 
