@@ -44,6 +44,14 @@ outside it: it queries the npm registry, and `npm test` must work offline.
   a reworded router never arrives, `routers` reports drift and `--adopt` is the
   only path that replaces a person's words, one router at a time, parking what
   it replaced.
+- **A guard reads what would RUN, not what a payload contains.** The hygiene guard
+  refused any Bash text carrying `skills update <member>` — including a document quoting
+  it, which blocked a verification-ledger row from being committed. `executablePart()`
+  now drops heredoc bodies fed to a non-shell and whole-line comments, and keeps
+  everything else: a `bash <<EOF` body still runs, and quoted strings are still read,
+  because `bash -c '…'` is a real invocation. Closing the false positive turned up the
+  matching bypass — `bareName` kept the trailing quote, so a genuine quoted invocation had
+  been passing untouched.
 - **A guard decides in a pure module; the hook only moves bytes.** Every refusal
   this pack can make is a function of a payload (`lib/guard.js`, `lib/hygiene.js`,
   `lib/repogate.js`), fixtured without a `HOME`, and the filesystem appears only

@@ -1,5 +1,36 @@
 # Changelog
 
+## v0.77.0 — closing a false positive found the bypass it was hiding
+
+**B-59: the hygiene guard could not tell a command being run from one being written
+down.** It reads the whole Bash payload, so quoting the forbidden invocation *in a
+document* was refused too — a verification-ledger row blocked its own commit, and the
+sentence had to be split around the guard.
+
+`executablePart()` now removes what cannot execute before matching:
+
+- **A heredoc body fed to something that is not a shell.** `python3 - <<'PY' … PY` and
+  `cat > f <<EOF … EOF` are data.
+- **A whole-line comment.**
+
+And what it keeps is the load-bearing half. **A `bash <<EOF … EOF` body is still read** —
+stripping every heredoc would trade a false positive for a documented bypass. **Quoted
+strings are still read** too, because `bash -c '…'` is a real invocation.
+
+**That last decision is where the actual finding was.** Testing it produced a case the
+guard *should* refuse and did not: `bareName` kept the trailing quote, so `ux-flows'`
+matched no family id and **`bash -c 'npx skills add ux-flows'` passed the guard untouched**
+— verified against `HEAD` before the change, so it had been open the whole time. The row
+asked for relief from an annoyance; the annoyance was hiding a hole.
+
+Both directions are fixtured — 17 → **22** checks — and the real hook was driven as a
+process to confirm it agrees with the pure module. The fixture strings are **assembled at
+runtime** rather than written whole, because a file containing the literal payload is
+itself refused by anything that reads it: the defect demonstrated itself three times
+during the fix, twice blocking the commands that were repairing it, and once making three
+new cases pass for the wrong reason by targeting a member the fixture's manifest does not
+declare.
+
 ## v0.76.0 — a ledger records two different things, and most record only one
 
 **B-62 said five ledger shapes. Measured: ten, across 815 rows.**

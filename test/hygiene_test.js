@@ -60,6 +60,54 @@ it('THE LAUNCHER IS NOT DENIED — it is what the denial recommends', () => {
   }
 });
 
+// --- B-59: a command being written down is not a command being run -------------------
+//
+// The guard reads the whole Bash payload, so quoting the forbidden invocation IN A
+// DOCUMENT was refused too — a verification-ledger row blocked its own commit on
+// 2026-08-16, and the sentence had to be split around the guard.
+//
+// The strings below are ASSEMBLED rather than written whole, because a fixture file
+// containing the literal payload is itself refused when anything cats or greps it. That
+// is the defect demonstrating itself, and it cost three commands during this fix.
+// The targets are ids THIS fixture's manifest actually declares. The first draft used a
+// member absent from it, so three of these cases returned null for the wrong reason and
+// passed — a plant that asserts nothing is the shape this repository keeps catching.
+const RUN_UPDATE = 'npx ' + 'skills ' + 'update copywriting';
+const RUN_ADD = 'npx ' + 'skills ' + 'add ux-flows';
+assert.ok(H.bareFamilyInstall(RUN_UPDATE, IDS), 'the bare payload must be refused, or these cases prove nothing');
+assert.ok(H.bareFamilyInstall(RUN_ADD, IDS), 'the bare payload must be refused, or these cases prove nothing');
+
+it('a heredoc fed to a NON-shell is data, not a command', () => {
+  const py = "python3 - <<'PY'\nopen('f','w').write('" + RUN_UPDATE + "')\nPY";
+  assert.strictEqual(H.bareFamilyInstall(py, IDS), null);
+  const cat = 'cat > doc.md <<EOF\nrun ' + RUN_UPDATE + '\nEOF';
+  assert.strictEqual(H.bareFamilyInstall(cat, IDS), null);
+});
+
+it('A HEREDOC FED TO A SHELL IS STILL A COMMAND — stripping every one would be a bypass', () => {
+  const sh = 'bash <<EOF\n' + RUN_UPDATE + '\nEOF';
+  assert.ok(H.bareFamilyInstall(sh, IDS), 'a shell heredoc body runs and must stay guarded');
+});
+
+it('the heredoc ends at its terminator, indented or not', () => {
+  assert.ok(H.bareFamilyInstall('python3 - <<PY\nx=1\nPY\n' + RUN_ADD, IDS),
+            'a command AFTER the heredoc still runs');
+  assert.strictEqual(
+    H.bareFamilyInstall('python3 - <<-PY\n  ' + RUN_UPDATE + '\n\tPY\nnpm test', IDS), null,
+    '`<<-` allows an indented terminator');
+});
+
+it('a whole-line comment does not run', () => {
+  assert.strictEqual(H.bareFamilyInstall('# never run ' + RUN_UPDATE + '\nnpm test', IDS), null);
+});
+
+it('QUOTED IS NOT EXEMPT — and stripping quotes closed a real bypass', () => {
+  // Found while fixing the false positive: `bareName` kept the trailing quote, so
+  // `ux-flows'` matched no family id and a genuine invocation passed untouched.
+  assert.ok(H.bareFamilyInstall("bash -c '" + RUN_ADD + "'", IDS),
+            'a real invocation inside quotes must still be refused');
+});
+
 it('a skill outside the family is none of our business', () => {
   assert.strictEqual(H.bareFamilyInstall('npx skills add refero-design', IDS), null);
   assert.strictEqual(H.bareFamilyInstall(

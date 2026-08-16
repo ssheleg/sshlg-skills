@@ -654,3 +654,16 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B62-6 | This repository's preamble stopped promising a count it cannot produce | it claimed the checkup counts rows at `never`; the shape has no such value, and 295 of 322 rows read `verified` with no person/command distinction | verified |
 | B62-7 | A self-explaining status is no longer unreadable | four rows reading `**observed** — …` were reported unparseable; matching moved to the leading word, empty tested first, and the four now read correctly | verified |
 | B62-8 | All nine ledgers run through the script by hand | umbrella `0 unverified` naming its column; `task-pipeline` **126 unverified**; `agent-sync`, `seo-aeo-audit`, `super-ux` dormant with their row counts | verified |
+
+## 2026-08-16 (seventeenth) — v0.77.0, a false positive hiding a bypass
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B59-1 | A document quoting the invocation is no longer refused | a `python3 - <<'PY'` body and a `cat > doc.md <<EOF` body both pass; fixtured | verified |
+| B59-2 | A shell heredoc body is still a command | `bash <<EOF … EOF` is refused — stripping every heredoc would trade the annoyance for a documented bypass, asserted in its own case | verified |
+| B59-3 | The heredoc ends where it ends | a command after the terminator is still refused; `<<-` with a tab-indented terminator is honoured | verified |
+| B59-4 | A whole-line comment does not run | `# never run …` passes; fixtured | verified |
+| B59-5 | **A quoted invocation was passing the guard, and now does not** | at `HEAD`, `bash -c 'npx skills add ux-flows'` → not refused, because `bareName` kept the trailing quote; after, refused | verified |
+| B59-6 | The hook agrees with the module | the real `hooks/pre-tool-use.js` driven as a process over three payloads: refuse, allow, refuse | verified |
+| B59-7 | Three new cases were passing for the wrong reason | they targeted a member the fixture's manifest does not declare, so every result was `null`; positive controls added at the top of the block | verified |
+| B59-8 | Fixtures and gate | hygiene 17 → **22** checks; `npm test` exit 0 | verified |
