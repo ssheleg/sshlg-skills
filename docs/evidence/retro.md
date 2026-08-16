@@ -271,6 +271,7 @@ used.)*
 | 2026-08-16 (seventeenth) | B-61: reading a board by position — blast resolved by header; v0.75.0 (+ task-pipeline 1.66.0) | `604b20f` | yes — see below |
 | 2026-08-16 (eighteenth) | B-62: two facts, and most ledgers record one — convergence refused; v0.76.0 (+ task-pipeline 1.67.0) | `5302a8b` | yes — see below |
 | 2026-08-16 (nineteenth) | B-59: closing a false positive found the bypass it was hiding; v0.77.0 | `3101a5c` | yes — see below |
+| 2026-08-16 (twentieth) | B-57: an unqualified landing page reaches both crafts; v0.78.0 (+ sheleg-design 1.37.5, super-ux 0.41.5) | `e062180` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -364,6 +365,60 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (twentieth) — the refusal stands, on new evidence
+
+B-57 was the last row on this board that a machine could close, and it turned on a
+decision made fifteen cycles earlier. Cycle 5 refused a bare `лендинг` trigger because
+*"the bare noun would take the route from `copywriting`"*. That reason no longer holds:
+with both crafts firing, nothing is taken from anybody.
+
+So the refusal had to be re-earned or dropped. Measured both ways:
+
+| prompt | bare noun | verb phrase |
+|---|---|---|
+| `сделай лендинг` | both | both |
+| `напиши текст для лендинга` | both — a copy task handed a visual route | copywriting alone |
+| `почини баг на лендинге` | three routes | task-pipeline alone |
+
+The bare noun fixes one case and damages two. **Same conclusion as cycle 5, different
+reason, and the difference matters** — an inherited refusal whose stated reason has
+expired is not a decision any more, it is a habit. Re-deriving it cost two trial edits and
+one measurement.
+
+### The row's own premise had expired, again
+
+It said both descriptions were at or near the 1024-character limit. `copywriting` is at
+**536**, with 488 characters free. That is the fifth row today whose facts had moved, and
+the third whose stated constraint simply was not there — the harvest rule shipped this
+morning earns its place on a count of five in a day.
+
+### What the row did not know
+
+`build a landing page` reached nothing either. B-57 discusses only the Russian phrase, and
+the English gap surfaced from re-deriving rather than from reading. A row describes what
+its author noticed; the sweep is what finds the rest, and it costs one command.
+
+### Room was made, not found
+
+`sheleg-design` had 15 characters free and needed 42. The answer was not to abandon the
+fix but to look at what the prose was spending: `scrubbed sections` and one `implemented`,
+30 characters that were not carrying their weight beside a phrase an operator actually
+types. A budget is a statement about priorities, not a wall.
+
+### What fired, per entry
+
+**#4** — the two-variant comparison, and the expired premise found by measuring rather
+than reading. **#11** — the inherited refusal was suspected before the code was, and it
+turned out half-right: the conclusion survived and its reason did not. **#6** — both trial
+edits asserted their anchors, and the trial was reverted from a backup rather than
+hand-undone. **Did not fire:** #1, #2, #5, #7, #8, #9, #10.
+
+*(prune at 2026-08-16 (twentieth): **no retirement.** #7 three stamps, #8 one, #2 eighteen,
+#5 fifteen, #9 fifteen, #1 eleven, #10 six, #11 fired, #4 fired, #6 fired. Held for the
+reason recorded at the eighth prune. Ten of ten slots used, nothing added — *an inherited
+refusal whose reason has expired is a habit* is #4 pointed at a decision instead of a
+number, and it belongs in this entry.)*
 
 ## 2026-08-16 (nineteenth) — the annoyance was hiding a hole
 
