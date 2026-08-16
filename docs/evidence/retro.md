@@ -260,6 +260,7 @@ used.)*
 | 2026-08-16 (sixth) | B-54: the trigger invariant moves to where it can be broken — seven members refuse a planted drop in their own gate; v0.64.0 (+ all seven members patched) | `355dabf` | yes — see below |
 | 2026-08-16 (seventh) | B-53: the phrase that reached no route, and the composition question answered by reading rather than assuming; v0.65.0 (+ sheleg-design 1.37.3) | `d4b463e` | no — the plan held, and the two drivers it reused were repaired first |
 | 2026-08-16 (eighth) | A run stamp must resolve and be reachable; the guard's own CI run found it blind to shallow clones, and its fix hid a duplicate YAML key; v0.66.0 | `bc3c033` | yes — see below |
+| 2026-08-16 (ninth) | B-47: a contributing guide that described a different repository — eleven absent names, not six; v0.67.0 (+ sheleg-dev 0.5.2) | `acfc77f` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -353,6 +354,54 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (ninth) — the row under-counted, and the guard caught its own author
+
+B-47 said six file names in `sheleg-dev`'s `CONTRIBUTING.md` belonged to another
+repository. Sweeping every backticked name instead of re-reading the one table the row
+mentioned found **eleven of nineteen** absent — including a reference under a skill
+directory named `sheleg-dev` that has never existed, and a promised standard-library
+auditor plus a second test command in a repository with **no runtime code at all**. Most
+of the document was `seo-aeo-audit`'s, adapted at the edges.
+
+**The lesson is about the intake, not the fix.** The row was filed by someone who had
+found the table; a sweep at filing time costs one command and would have said eleven.
+Every count in the rewrite is now produced by something — six skills and twenty
+references from `find`, one executable from `git ls-files`, four version surfaces and
+eight negative self-tests read out of the validator and the workflow.
+
+### The guard flagged the paragraph explaining why it must not
+
+A general "every path in this file must exist" check cannot tell a path being **used**
+from a path being **discussed**, and the rewrite names three `seo-aeo-audit` files on
+purpose — to send a reader who wants them to the right repository. I wrote that as the
+guard's own comment, then wrote a regex that read the whole section up to the next
+heading, and it flagged exactly those three. **#7, inside the change that cites it, one
+paragraph later.** Narrowed to table rows; a bare filename resolves by basename so the
+generic `SKILL.md` passes while `benchmarks.md` still fails.
+
+That is three drafts for one small guard — whole-section, table-rows-exact-path,
+table-rows-with-basename — and each draft was corrected by running it rather than by
+reading it. The cost of running it was seconds; the cost of the version that shipped
+without running would have been a red gate on a correct document.
+
+### What fired, per entry
+
+**#7** — as above, and it is now four recorded firings. **#6** — every plant in this run
+asserted it landed, and the CI self-test was executed locally exactly as written before
+being committed. **#4** — the sweep replaced a re-read: eleven versus six is the
+difference between measuring and quoting. **#8** — each gate run alone with its exit code
+read on its own line, and the member validator invoked with an explicit `cd` after
+yesterday's compound-command incident. **#10** — the stamp SHA read from `git rev-parse`
+inside the writing script, which is now the standing practice rather than a resolution.
+**Did not fire:** #1, #2, #5, #9, #11.
+
+*(prune at 2026-08-16 (ninth): **no retirement.** #7 fired, resetting its count from four.
+#2 seven, #5 four, #9 four, #11 two, #1 one, #6 fired. Nothing has become a mechanical
+check and no named path is gone. Ten of ten slots used, nothing added — the intake lesson
+above belongs to `/task-pipeline`'s board doctrine rather than to this list, and it is
+already true there: *the board's priorities are re-derived*, which a filing that measures
+its own scope makes possible.)*
 
 ## 2026-08-16 (eighth) — the guard for a mistake I made twice, and the two it made itself
 
