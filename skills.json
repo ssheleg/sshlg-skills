@@ -31,7 +31,7 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 35-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.41.0",
+      "version": "0.41.3",
       "entry": "/ux",
       "role": "what the interface must do and how it sounds",
       "npm": "super-ux",
@@ -49,7 +49,7 @@
         "task-pipeline",
         "evidence-docs"
       ],
-      "version": "1.58.0",
+      "version": "1.60.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
@@ -83,7 +83,7 @@
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.18.1",
+      "version": "0.19.0",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",

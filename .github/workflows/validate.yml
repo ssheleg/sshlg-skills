@@ -193,6 +193,41 @@ jobs:
             echo "OK: a side at zero is reported as a broken glob"
           fi
 
+      - name: Coordination configs are checked, in every repository that declares one
+        run: |
+          set -eu
+          # B-46: forty-one coordination problems accumulated across nine repositories
+          # because every repository's own validator was green and none of them asks
+          # whether the coordination config describes files that exist. The check is a
+          # script with an exit code; nothing was running it.
+          #
+          # The script ships inside the published package rather than as its bin — the bin
+          # is the installer — so the package is fetched and the script called directly.
+          npm i --no-save --silent @ssheleg/agent-sync >/dev/null 2>&1
+          S="$PWD/node_modules/@ssheleg/agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py"
+          if [ ! -f "$S" ]; then
+            echo "ERROR: agent_sync.py not found in the published package at the expected path"
+            echo "       (the package layout changed; this check must be repointed, not deleted)"
+            exit 1
+          fi
+          rc=0; seen=0
+          for d in . skills/*/; do
+            [ -f "$d/.claude/agent-sync.json" ] || continue
+            seen=$((seen+1))
+            echo "--- $d"
+            ( cd "$d" && python3 "$S" check ) || rc=1
+          done
+          # A loop that matched nothing prints a clean bill of health for work it never
+          # did. Nine repositories declare coordination; fewer than two means the glob
+          # broke, not that the problem is solved.
+          if [ "$seen" -lt 2 ]; then
+            echo "ERROR: only $seen coordination config(s) found — the glob is wrong, and a"
+            echo "       loop over nothing reports success for every repository it skipped"
+            exit 1
+          fi
+          echo "checked $seen coordination config(s)"
+          exit $rc
+
       - name: Negative self-test (stage 10 must name the coverage check)
         run: |
           set -eu

@@ -1,5 +1,42 @@
 # Changelog
 
+## v0.61.0 — the gate we ship, running on us
+
+Four board rows close, and three of them close because something finally ran.
+
+### Pinned
+
+- **`task-pipeline` 1.58.0 → 1.60.0.** Two releases: *never amend a commit a record
+  already names* — a procedure that invited its own defect and fired twice in one
+  close-out — and then **the documentation gate this skill ships to every project, running
+  on that project for the first time.** One line of wiring; five findings, each silent in
+  a different way. Two of its silences were structural: the SHA section asked `[ -d .git ]`
+  and a submodule's `.git` is a file (**the third time in two days** that shape disarmed
+  something), and its corpus default still named the artifact root as it was before the
+  2026-08-13 rename, so every migrated project got `dormant` — which reads exactly like
+  having nothing to check.
+
+### Added here
+
+- **CI runs `agent_sync.py check` across every repository that declares a coordination
+  config** (`B-46`). Forty-one coordination problems once accumulated because each
+  repository's own validator was green and none of them asks whether the config describes
+  files that exist. The step refuses a run that finds fewer than two configs, because a
+  loop over nothing reports success for everything it skipped. Its first execution found
+  `task-pipeline` unhealthy on two counts; **all nine now exit 0.**
+- **A member that changes the skills it ships must reword its description in the same
+  change** (`B-48`'s remaining half). Token-matching a description against skill names was
+  tried and produced **four false failures out of eight members** — the concept was in
+  every description and the word was not — so it is not that check. The **co-edit** is
+  mechanical and needs no opinion about prose: `skillNames` moved and `desc` did not.
+
+### Closed by measurement
+
+- **`B-17`** — `negatives.py` reporting a broken guard from a submodule checkout, fixed by
+  the `--git-common-dir` work rather than directly, and verified from that checkout.
+- **`B-52`** — the stamping procedure, closed by the doctrine and the gate that now asks
+  for reachability instead of resolution.
+
 ## v0.60.0 — the same defect in four more places, and a body under its budget
 
 v0.59.0 shipped the graph model and audited one skill against it. This release applies it

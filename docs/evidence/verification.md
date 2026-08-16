@@ -442,3 +442,22 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | I9-06 | Closed by the registry, not by recency | five releases, each CI verdict read **before** its tag; `npm view` confirms `task-pipeline` 1.54.0, `seo-aeo-audit` 0.17.1, `agent-stack` 0.7.2, `agent-sync` 1.11.0, `sshlg-skills` 0.54.0 | verified |
 | I9-07 | The run's own record is complete | `bash scripts/stage-coverage.sh` → **11/11, exit 0**, using the mechanism this run built in iteration 4 | verified |
 | I9-08 | No lease left held, every repo pointed at | leases directory empty; `git submodule status` shows no `+`; every member clean and pushed. `task-pipeline`'s 18 modified files are a concurrent session's unreleased v1.55.0, untouched | verified |
+
+## 2026-08-16 (second) — v0.61.0, the gate we ship running on us
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| R-01 | CI runs `agent_sync.py check` across every repository declaring a coordination config, and refuses a run that finds fewer than two | the same loop run locally as CI would: **9 configs, all exit 0**. Its first execution found `task-pipeline` unhealthy on two counts, both fixed in v1.59.0 | verified |
+| R-02 | A member changing its skill set must reword its `desc` in the same change | token-matching was tried first and **produced four false failures out of eight members**, so it is the co-edit that is checked, not the prose. Watched failing on a planted fifth skill with an untouched description | verified |
+| R-03 | `B-17` and `B-52` closed by measurement rather than by assertion | `negatives.py -k "high-water mark lowered"` from the submodule checkout → PASS, where it previously reported `fatal: not a git repository`; the SHA gate watched failing on an amended-away commit | verified |
+| R-04 | Every pin matches its release | `python3 test/check_pins.py` → `every pin matches its release (npm where published, git tag everywhere)` | verified |
+
+**4 of 4 verified. 0 at `never`.**
+
+### What the checks did not cover
+
+- **The coordination check is now in CI and has never run there.** It ran locally over the
+  same nine configs; the first CI execution is evidence this row cannot supply.
+- **`B-51` is still the one human step** — the code graph needs a key on this machine, and
+  `--code-only` would index ten code files while dropping the thirty-nine documents that
+  are most of the pack.

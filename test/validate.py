@@ -796,6 +796,49 @@ def check_shape_is_a_real_answer():
 
 check_shape_is_a_real_answer()
 
+
+def check_desc_moves_with_skills():
+    """A member that gains or loses a skill must reword its `desc` in the same change.
+
+    B-48: `skillNames` is compared against the submodule in both directions and `desc` is
+    compared against nothing, because *what a description says* is prose. Token-matching it
+    was tried on 2026-08-16 and produced four false failures out of eight members — the
+    concept was in every description and the word was not (`ad-tracking` as "GA4/Ads/Meta",
+    `ux-foundation` as "personas and jobs"). A check that fails on four correct members is
+    discarded whole, so it is not that check.
+
+    What is mechanical is the *co-edit*: `agent-stack` shipped `agent-evals` while the
+    registry advertised orchestrators only, and `list` hid a whole capability. If the skill
+    set moved and the sentence describing it did not, that is the same defect arriving
+    again, and it needs no opinion about prose to detect.
+
+    Reads the PREVIOUS COMMIT, not the working tree, and discloses instead of failing where
+    it cannot look — a shallow clone has no parent to compare against.
+    """
+    r = subprocess.run(["git", "show", "HEAD~1:skills.json"],
+                       cwd=ROOT, capture_output=True, text=True)
+    if r.returncode != 0 or not r.stdout.strip():
+        _skips.append("no parent commit reachable — desc/skillNames co-edit not checked")
+        return
+    try:
+        before = {s["name"]: s for s in json.loads(r.stdout).get("skills", [])}
+    except Exception:
+        _skips.append("HEAD~1:skills.json unparseable — desc/skillNames co-edit not checked")
+        return
+    for s in skills:
+        old = before.get(s.get("name"))
+        if not old:
+            continue
+        if set(old.get("skillNames") or []) != set(s.get("skillNames") or []) \
+           and (old.get("desc") or "") == (s.get("desc") or ""):
+            fail(f"skills.json: {s['name']!r} changed the skills it ships and left its "
+                 "`desc` untouched. The registry is what `list` and the family table read, "
+                 "so the new skill exists and is advertised nowhere — which is how "
+                 "`agent-evals` shipped into a description that named orchestrators only")
+
+
+check_desc_moves_with_skills()
+
 if errors:
     print("FAIL: sshlg-skills structure invalid")
     for e in errors:
