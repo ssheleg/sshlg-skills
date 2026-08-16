@@ -259,6 +259,7 @@ used.)*
 | 2026-08-16 (fifth) | B-56: the pin is a tag and the hub is a branch — release-lag disclosure; v0.63.0 (+ seo-aeo-audit 0.20.1, a released crash) | `cad1c64` | yes — see below |
 | 2026-08-16 (sixth) | B-54: the trigger invariant moves to where it can be broken — seven members refuse a planted drop in their own gate; v0.64.0 (+ all seven members patched) | `355dabf` | yes — see below |
 | 2026-08-16 (seventh) | B-53: the phrase that reached no route, and the composition question answered by reading rather than assuming; v0.65.0 (+ sheleg-design 1.37.3) | `d4b463e` | no — the plan held, and the two drivers it reused were repaired first |
+| 2026-08-16 (eighth) | A run stamp must resolve and be reachable; the guard's own CI run found it blind to shallow clones, and its fix hid a duplicate YAML key; v0.66.0 | `bc3c033` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -352,6 +353,67 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (eighth) — the guard for a mistake I made twice, and the two it made itself
+
+Twice today a run stamp carried a SHA that had never existed — `dd0b1a2`, then `f9c3a4e` —
+both caught by hand, minutes apart, by the author who wrote them. The diagnosis is not
+attention. **The SHA is unknowable until the commit is made**, so it gets typed, and typing
+it is guessing. `task-pipeline` shipped the rule for its own docs in v1.60.0 and this
+repository never grew the check. It has one now, over 31 stamps, asserting both that the
+object resolves and that it is reachable from `HEAD` — the second because a stamp naming a
+commit an amend replaced resolves on the machine that wrote it and in no clone.
+
+The immediate remedy is smaller than the guard and worth writing down: **read the SHA from
+git in the same command that writes it.** The third stamp today was correct because
+`git rev-parse` produced it inside the script, not because I was more careful.
+
+### The guard was blind to the only environment that runs it unattended
+
+CI went red on twenty real commits. `actions/checkout` clones shallow, so August's history
+is absent there, and every old stamp read as fabricated. Written locally, where full
+history makes the check trivially green — **the shape this repository keeps recording, and
+the first time it appeared in a guard whose entire subject is what a clone can see.** It now
+reads `git rev-parse --is-shallow-repository` and discloses; the workflow takes
+`fetch-depth: 0` so CI can look at all.
+
+### Fixing that hid a setting, and the parser said ok
+
+The inserted `with: fetch-depth: 0` landed **above** the step's existing
+`with: submodules: recursive`, giving one step two `with:` keys. Valid YAML; the last wins;
+`fetch-depth` simply did not exist. `yaml.safe_load` returned a document and my check
+printed *YAML ok* — a verification that ran, passed, and verified nothing about the thing I
+had just changed. GitHub would have done the same, so nothing downstream would have said a
+word either.
+
+`check_workflows_parse` now refuses duplicate keys and names the key and its line. That
+guard has existed since v0.33.0 and has been passing over this hole the whole time.
+
+### A section of an already-released version grew a paragraph
+
+The stamp guard was first written into the `v0.65.0` section, which had been tagged twenty
+minutes earlier — so the notes on `main` promised something the tag does not contain. The
+same class `docs/AGENT_SYNC.md` records as *a CHANGELOG written at a version behind its own
+tree*. Moved into `v0.66.0` and released, rather than left as a sentence nobody would ever
+reconcile.
+
+### What fired, per entry
+
+**#10** — its own subject, twice as the defect and once as the fix. **#5** — the guard was
+written against a repository state (full history) that the environment running it does not
+have. **#1** — *a component that never receives its input fails OPEN* is exactly what
+`safe_load` over a duplicate key does, and it fired for the first time in five stamps, one
+run before its cold trigger would have retired it. **#8** — every release step's exit code
+read on its own line; the bad `v0.66.0` tag was caught by reading CI rather than assuming.
+**#4** — *YAML ok* was a uniform answer that could not distinguish the case it was asked
+about. **Did not fire:** #2, #6, #7, #9, #11.
+
+*(prune at 2026-08-16 (eighth): **no retirement, and #1 has earned its stay.** It stood at
+five stamps without firing — its cold trigger — and fired here, on a parser that accepted a
+document and answered a question nobody had asked. The previous prune flagged that five
+stamps in one day is not the five the rule was written for; that caution is now vindicated
+rather than merely cautious. #2 six, #7 five and now at the trigger, #6 one, #9 three,
+#11 one. Ten of ten slots used, nothing added.)*
 
 ## 2026-08-16 (sixth) — the invariant was enforced one repository from the file that breaks it
 
