@@ -268,6 +268,7 @@ used.)*
 | 2026-08-16 (fourteenth) | B-60: the age term was a constant, so the board ranked newest-first; v0.72.0 (+ task-pipeline 1.63.0) | `564b356` | yes — see below |
 | 2026-08-16 (fifteenth) | B-29: the exposure line reported a clean bill on ledgers it could not read; v0.73.0 (+ task-pipeline 1.64.0) | `9ee92fa` | yes — see below |
 | 2026-08-16 (sixteenth) | B-08: a decision is not debt — `waived` becomes a state; v0.74.0 (+ task-pipeline 1.65.0) | `3eb5aad` | yes — see below |
+| 2026-08-16 (seventeenth) | B-61: reading a board by position — blast resolved by header; v0.75.0 (+ task-pipeline 1.66.0) | `604b20f` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -361,6 +362,55 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (seventeenth) — the same defect, two lines away, one release later
+
+B-61 asked which of two priority formulas should win. The answer is neither: both are
+documented in their own headers, and the umbrella's divides by effort, which ranks
+cheap-and-old above expensive-and-old in a way `sev × blast` cannot express. Forcing
+convergence would break every seeded board or rewrite sixty rows here.
+
+**What was actually broken was reading a board by position.** `exposure.sh` took blast from
+column 5 — `Blast` in the eight-column board, **`Size`** in the ten-column one it seeds —
+so every host project's check-list printed `[blast L]`: the size of the work, presented as
+who it hurts.
+
+### The distance is the finding
+
+One cycle ago I fixed exactly this class in the same file: the ledger's status column, read
+by index, reporting a clean bill on shapes it could not parse. I wrote a comment about it,
+four fixtures for it, and a paragraph in the release notes about silent greens. **The blast
+read sits two lines below the check-list header, in the same function, and I did not look
+at it.**
+
+The retro already carries this as R-003 — *a fix covered one of the two places its defect
+lived*. Every prior instance was across files or across members, which at least explains
+the miss. This one was within one screen. The lesson has to be stronger than "sweep the
+class": **when a fix is about how a value is located, the sweep is every other value the
+same code locates**, and that list is short enough to enumerate — here it was exactly two.
+
+### Refusing convergence was the other half of the work
+
+The obvious reading of B-61 is "make them the same". Measured against what that costs —
+sixty rows here or every seeded project's board — and against what it buys, which is
+nothing the header-resolution rule does not already deliver, it was the wrong answer. The
+row closes with the refusal stated, because a row that closes without saying what was *not*
+done invites the next run to do it.
+
+### What fired, per entry
+
+**#7** — in the sense that matters here: a value being *located* by position is a claim
+about a shape nobody guaranteed. **#4** — the reproduction on a scratch project is what
+turned a suspicion into `[blast L]`, and the same command after the fix into `[blast 3]`.
+**#6** — the new fixtures each assert the wrong answer is absent, not merely the right one
+present. **#8** — every gate alone, `test:all` at 351. **Did not fire:** #1, #2, #5, #9,
+#10, #11.
+
+*(prune at 2026-08-16 (seventeenth): **no retirement.** #7 fired, resetting. #2 fifteen,
+#5 twelve, #9 twelve, #11 two, #1 eight, #10 three. Held for the reason recorded at the
+eighth prune. Ten of ten slots used, nothing added — the sharpened R-003 above belongs to
+the retro's own recurrence list, and it is written into this entry rather than given a
+standing slot.)*
 
 ## 2026-08-16 (sixteenth) — fixing a constant surfaced what the constant was hiding
 
