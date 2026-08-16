@@ -257,6 +257,7 @@ used.)*
 | 2026-08-16 (third) | B-49: the router nobody could reach by asking — fourteen bare words, 8/8 visual prompts route, 9/9 controls silent; v0.62.0 (+ sheleg-design 1.37.0 → 1.37.1) | `3c99f0b` | yes — see below |
 | 2026-08-16 (fourth) | B-55: super-ux ignores graphify's dated snapshots (no release, pointer only) | `7a69c65` | no — one line, and the row's own framing was corrected in its close |
 | 2026-08-16 (fifth) | B-56: the pin is a tag and the hub is a branch — release-lag disclosure; v0.63.0 (+ seo-aeo-audit 0.20.1, a released crash) | `cad1c64` | yes — see below |
+| 2026-08-16 (sixth) | B-54: the trigger invariant moves to where it can be broken — seven members refuse a planted drop in their own gate; v0.64.0 (+ all seven members patched) | `355dabf` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -350,6 +351,82 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (sixth) — the invariant was enforced one repository from the file that breaks it
+
+B-54, closed. Every trigger in the umbrella's routing table must be a word the member's own
+description advertises; only the umbrella asserted it, and the member releases first. The
+fix moves the question to the member and leaves the answer in one place: seven members now
+call `test/advertised_check.js`, which reads `lib/triggers.js` itself, so nothing is copied
+and nothing can drift.
+
+### The self-test could not live where the rule says it should
+
+This family's house rule is that a new validator guard gets a negative self-test in that
+repository's CI. Here it cannot: the member-side check needs an umbrella above it and
+**discloses** without one, and a member's CI clones it standalone — so a plant there would
+assert a refusal that cannot happen. Written down rather than skipped, and the plant moved
+to the umbrella, where the submodules exist. That is the rule's intent surviving a case its
+letter does not cover.
+
+### A sweep that only read the exit code would have lied
+
+`agent-sync`'s other checks reject the planted description on their own, so it exits 1 with
+the wiring deleted. The sweep requires the exit code **and** the specific message, which is
+the only reason deleting the call showed up as a failure instead of a pass. The test for
+that was cheap and it is the one that made the sweep worth having.
+
+### Two instruments wrong before the subject, both caught by asserts
+
+The plant first replaced **one** occurrence of a phrase and reported `super-ux` as not
+refusing — a phrase advertised twice survives one replacement, and the check was right to
+say nothing. And the version-surface driver used `glob('**/*.json')`, which does not descend
+into dotted directories, so `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`
+— two of the three JSON surfaces **every** member has — went unbumped in all seven. Neither
+reached a conclusion, because both drivers assert what they planted. `os.walk` now.
+
+### The class was fixed in one place and left in another, again
+
+`make-skill` carries `version: "0.19.0"` **quoted**; the bump driver matched the bare form.
+Fixed by hand there — and not swept, so `agent-sync` tagged with four of six surfaces moved
+and its own CI refused it. That is R-003 exactly, one release apart. The sweep that should
+have run first was written afterwards, over all seven, and found the two remaining surfaces
+in one command. Nothing published from the bad tag (`gh release view v1.11.1` → not found),
+so it was moved rather than superseded — the third tag moved today, all three unconsumed.
+
+### A gate that costs eight times what its own doctrine allows
+
+Adding the sweep to `npm test` took the suite from 3.3 s to **26.2 s**. `hooks/repo-gate.js`
+runs `npm test` before every commit and says, in its own header, that the gate is *only
+honest because of a number* and that a slow one is *a gate people route around*. So the
+sweep was moved out to `npm run test:plants` and the suite measured back at 5.2 s. The
+alternative — excluding it by name from the runner — was refused because that runner
+discovers rather than lists, deliberately. The price of not being discovered is that
+nothing calls it, so both ends of the wiring are asserted and each was watched failing.
+
+### Seven gates bumped, four re-run
+
+The version bump touched seven members and only four were re-run locally before tagging;
+`agent-sync` was one of the three. Every member's own CI is what caught it, which is the
+system working — and the reason it had something to catch is that a batch operation was
+verified in part. There is no new instruction for this: **#8** already says a wrapper's
+exit status is not the verdict, and *four of seven* is that with a different arithmetic.
+
+### What fired, per entry
+
+**#6** — twice, and both times the assert is what reported it rather than the outcome.
+**#8** — the four-of-seven verification, and a `python3 test/advertised_plants.py | tail`
+that showed FAIL and returned 0. **#11** — the `super-ux` non-refusal, suspected as the
+checker's first and correctly. **#4** — the gate-cost measurement was taken rather than
+assumed, which is what turned an invisible 8× regression into a decision. **#10** — the
+board id and the stamped SHAs were read from git. **Did not fire:** #1, #2, #5, #7, #9.
+
+*(prune at 2026-08-16 (sixth): **no retirement.** #1 has missed five recorded stamps and is
+AT its cold trigger — but the trigger reads *has not fired in five run stamps*, and five
+stamps in one day is not the five the rule was written for. It stays this run and is named
+here so the next prune inherits the question rather than the count. #2 five, #7 four, #5
+three, #9 two. Ten of ten slots used, nothing added: R-003's recurrence is a citation, and
+the four-of-seven lesson is #8 with different arithmetic.)*
 
 ## 2026-08-16 (fifth) — a crash was released, and every gate was green about it
 
