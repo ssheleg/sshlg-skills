@@ -265,6 +265,7 @@ used.)*
 | 2026-08-16 (eleventh) | B-58: a board row that says work exists names where it lives — guards 347 → 349; v0.69.0 (+ task-pipeline 1.62.0) | `0a0ebcf` | yes — see below |
 | 2026-08-16 (twelfth) | B-56: the description was not valid YAML, and every gate we own reads it with a regex; v0.70.0 (+ sheleg-design 1.37.4, agent-stack 0.11.1) | `2553fb4` | yes — see below |
 | 2026-08-16 (thirteenth) | B-51: the graph's distance from the code becomes a number every run; v0.71.0 | `feaafe7` | yes — see below |
+| 2026-08-16 (fourteenth) | B-60: the age term was a constant, so the board ranked newest-first; v0.72.0 (+ task-pipeline 1.63.0) | `564b356` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -358,6 +359,63 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (fourteenth) — I ranked by a number nobody was computing
+
+B-60 asked about board rows whose prose expires. The sharpest expiry was not prose. This
+board's header states `P = blast × (1 + age_runs) / effort` and promises the rank is
+recomputed at stage 10 *"so a row cannot keep a rank it earned when it was new."* Nothing
+recomputed it for eleven days. `B-07` and `B-08` read age 2 against seven stamp-days,
+`B-29` 0 against three, `B-51` 0 against one.
+
+**So the age term was a constant, and a formula with a constant in it is a shorter
+formula.** With the real ages those four rows rank 2.67, 2.67, 2.67 and 2.0 — the top of
+the board. This loop worked them **last**, every cycle, on a ranking it re-read at the top
+of each one.
+
+### Re-reading is not re-deriving
+
+Fourteen times today I opened the board, sorted by `P`, and picked the highest. That is
+re-reading, and it is what the doctrine already warns about in its own words — *"its open
+count comes from a command at the top of the run, not from what the last run's report
+said."* I applied that to the **count** and never to the **rank**, because the count looks
+like something you fetch and the rank looks like something that is already there.
+
+The tell was available all day and I read past it: seven open rows, and four of them tied
+at exactly `1.0`. A computed ranking that produces a four-way tie at a round number is a
+ranking that is not computing.
+
+### The unit had to be chosen, not inherited
+
+`age_runs` said "run stamps survived". Thirteen stamps landed today. Counting stamps would
+have put today's cadence above a row ignored for a week, so the term is now **distinct
+stamp-days** — 38 stamps over 9 days. This is the third time today the same distortion has
+been ruled on: the prune doctrine flagged it at the eighth stamp, re-affirmed it at the
+tenth, and now the priority formula inherits the ruling instead of each place deciding
+alone.
+
+### What did not get built, and why that is the finding
+
+The obvious guard is "every checkable claim in an open row still resolves". Measured
+first: across the seven open rows the family carries, the checkable claims total **two
+file paths and one count**. A gate over three items would pass everything and read like
+coverage — so what shipped is doctrine for the prose half and a gate only where the corpus
+is real arithmetic on every row.
+
+### What fired, per entry
+
+**#4** — twice: the four-way tie at 1.0 was a uniform answer I did not read as one, and
+the stamps-versus-days comparison was measured before choosing. **#10** — the fix reads
+committed state (the stamp table) rather than a working assumption, and unknown stays
+unknown. **#6** — both plants asserted their own shape before running. **#8** — every gate
+alone, exit codes read singly, `test:all` at 349. **Did not fire:** #1, #2, #5, #7, #9,
+#11.
+
+*(prune at 2026-08-16 (fourteenth): **no retirement.** #7 two stamps, #11 one, #2 twelve,
+#5 nine, #9 nine, #1 five. Held for the reason recorded at the eighth prune: fourteen
+stamps in one day is not the count the cold trigger was written against — and today's board
+finding is the same distortion in a second mechanism, which strengthens the hold rather
+than weakening it. Ten of ten slots used, nothing added.)*
 
 ## 2026-08-16 (thirteenth) — the catastrophe that was a wrong dictionary key
 
