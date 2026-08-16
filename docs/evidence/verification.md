@@ -474,3 +474,15 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B49-6 | Both releases green and published | `sheleg-design` v1.37.1 release + validate → success, `npm view sheleg-design-skill version` → **1.37.1**; umbrella v0.62.0 validate → success | verified |
 | B49-7 | A wrong tag reached the remote and was refused by a gate this pack ships | run 31932524054: `tag v1.37.1 does not match 1.37.0`, exit 1, nothing published — `npm view … versions` showed 1.37.0 as the newest at that moment | verified |
 | B49-8 | Three findings filed rather than absorbed | B-53 (composition), B-54 (the invariant enforced one repo away), B-55 (`super-ux`'s unignored `graphify-out/`) | verified |
+
+## 2026-08-16 (fourth) — v0.63.0, the pin is a tag and the hub is a branch
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B56-1 | Every hub copy is compared against its pinned source, by content | 23 of 23 match; the first instrument read a `version:` field 22 members do not carry and called them all clean, which is why the shipped one hashes file trees instead | verified |
+| B56-2 | `seo-aeo-audit` 0.20.1 releases the crash that was sitting on `main` untagged | guard watched failing against the reinstated defect (`page_audit.py emits severity ['low'] that SEVERITY_ORDER cannot order`, exit 1) and green after restore; all eight member gates exit 0; `npm view @ssheleg/seo-aeo-audit version` → **0.20.1** | verified |
+| B56-3 | `test/release_lag.py` discloses any member whose branch has moved past its pinned tag | 6 fixtures pass; watched on a real checkout set one commit behind — *seo-aeo-audit: 1 unreleased commit on main* — and silent after restore | verified |
+| B56-4 | A checkout that cannot look reports `blind`, never `current` | fixture `no origin/main is blind, never current`; the check reads local refs only and never fetches, so `npm test` stays offline | verified |
+| B56-5 | The disclosure has a negative self-test in CI | first draft died on `pathspec 'HEAD~1'` — CI clones submodules shallow — rewritten to synthesise the ahead-ref; run 31933782763 → success | verified |
+| B56-6 | The umbrella ships the pin | `npm view sshlg-skills version` → **0.63.0**; release run 31933782797 → success; `git submodule status` shows no `+` | verified |
+| B56-7 | The launcher's own failure is characterised, not guessed | not rate limiting (`GH_TOKEN` removes the limit line, not the failure), not size (super-ux is 2.2M/123 files and succeeds), not the lock's shape (identical to working members); it is the `skillFolderHash` loop — still open | verified |

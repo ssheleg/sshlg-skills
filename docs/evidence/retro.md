@@ -255,6 +255,8 @@ used.)*
 | 2026-08-16 | The graph backlog as a programme: the same convergence defect in four more places, a body under its budget; v0.60.0 (+ task-pipeline 1.58.0, agent-stack 0.11.0, super-ux 0.41.0, seo-aeo-audit 0.20.0, sheleg-design 1.36.1 pinned) | `64ee7fb` | yes — see below |
 | 2026-08-16 (second) | The gate we ship, running on us: coordination checked in CI, the desc co-edit, four board rows closed; v0.61.0 (+ task-pipeline 1.60.0, super-ux 0.41.3, make-skill 0.19.0 pinned) | `fefb32c` | yes — see below |
 | 2026-08-16 (third) | B-49: the router nobody could reach by asking — fourteen bare words, 8/8 visual prompts route, 9/9 controls silent; v0.62.0 (+ sheleg-design 1.37.0 → 1.37.1) | `3c99f0b` | yes — see below |
+| 2026-08-16 (fourth) | B-55: super-ux ignores graphify's dated snapshots (no release, pointer only) | `7a69c65` | no — one line, and the row's own framing was corrected in its close |
+| 2026-08-16 (fifth) | B-56: the pin is a tag and the hub is a branch — release-lag disclosure; v0.63.0 (+ seo-aeo-audit 0.20.1, a released crash) | `cad1c64` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -348,6 +350,78 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (fifth) — a crash was released, and every gate was green about it
+
+B-56 said the launcher leaves channels **stale**. Measuring it found the opposite and
+something worse: the hub was **ahead**, because `seo-aeo-audit`'s fix for a `KeyError`
+that killed the default markdown output on most pages had been committed to `main` at
+02:25 and never tagged. The umbrella pinned 0.20.0 — the version that crashes — and
+`check_pins.py` was green the whole time, correctly, because the pin did match the latest
+release. **The latest release was the problem, and no check in the family had a way to
+say that.** The pin is a tag; the skills-CLI channels install from the branch; nothing
+compared the two promises. `test/release_lag.py` does now.
+
+### The first instrument called 22 members clean for the same empty reason
+
+The check that found this was the third attempt. The first read a `version:` field out of
+each hub `SKILL.md` and reported **0 stale of 23** — while printing `no version field`
+for 22 of them, because only `sheleg-design` carries that key. The summary line counted
+"could not read" as "not stale". That is standing instrument #4 in its purest form, and
+the tell was in the output the whole time: a uniform answer with a uniform excuse beside
+it. The shipped version hashes file trees and needs no field to exist.
+
+### Two of its first three findings were the checker's
+
+Hashing found three: `references` "absent from the hub", `agent-sync` drifted,
+`seo-aeo-audit` drifted. The first is not a skill — a shared references directory under
+`skills/` with no `SKILL.md`, which my walker counted as one. The second was
+`__pycache__` in a working tree. Only the third was real. Suspecting the checker first
+(#11) is now cheap enough that it happened before the false ones were reported anywhere,
+which is the difference between an instruction firing and an instruction working.
+
+### A negative self-test that assumed a depth CI does not clone at
+
+The lag check shipped with a CI plant that walked a submodule back with `HEAD~1`. CI
+clones submodules shallow, so the plant died on `pathspec 'HEAD~1' did not match any
+file(s)` — taking down validate, release, and the v0.63.0 tag with it. **#6, and with a
+twist worth naming:** the plant *did* assert a precondition (`rev-parse --verify
+origin/main`), and asserted the wrong one. Checking that the ref exists says nothing
+about whether history behind HEAD does. It now synthesises the ahead-ref instead of
+walking back — which works at any depth and is the truer shape, since the incident was a
+branch that moved rather than a pin that reversed.
+
+Nothing shipped from the failed tag: no npm publish, no GitHub release, `gh release view
+v0.63.0` → *release not found*. The tag was therefore **moved** rather than superseded,
+and that is the second tag moved today. Both times the same rule applied and gave the same
+answer — a SHA is frozen once a record names it, and neither of these was named.
+
+### The launcher, characterised rather than fixed
+
+`✗ Failed to update sheleg-design` reproduces on every run. Three causes ruled out by
+measurement: not rate limiting (`GH_TOKEN=$(gh auth token)` removes the limit line and
+not the failure), not size (`super-ux` is 2.2 MB across 123 files and succeeds), not the
+lock record (structurally identical to seven members that work). What it *is*: the CLI's
+"needs an update" answer comes from `skillFolderHash`, which only a **successful** install
+refreshes — so one failure makes a member permanently pending and permanently failing. The
+hub copy is byte-identical to the source right now and the CLI still says `Found 1 global
+update`. Left open under B-56 with the loop named, because the fix is in a third-party CLI
+and the family's own remedy — asserting every channel against its source — is the thing
+that found it.
+
+### What fired, per entry
+
+**#4** — the version-field instrument, 22 uniform answers read as clean. **#11** — twice,
+both before anything was reported. **#6** — the CI plant. **#8** — every gate in this run
+was run alone with its exit code read on its own line, after the shell-block incident four
+hours earlier. **#10** — the release-lag check reads committed refs, never a working tree,
+and discloses when it cannot. **Did not fire:** #1, #2, #5, #7, #9.
+
+*(prune at 2026-08-16 (fifth): **no retirement.** #1 has now missed four recorded stamps,
+#2 four, #7 three, #5 two, #9 one — none at the five-stamp cold trigger. Ten of ten slots
+used and nothing added: the lesson this run produced, *a precondition asserted is not the
+precondition needed*, is #6 sharpened rather than a new rule, and it is written into #6's
+entry above rather than given a slot.)*
 
 ## 2026-08-16 (third) — the router nobody could reach by asking
 
