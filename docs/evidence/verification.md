@@ -461,3 +461,16 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 - **`B-51` is still the one human step** — the code graph needs a key on this machine, and
   `--code-only` would index ten code files while dropping the thirty-nine documents that
   are most of the pack.
+
+## 2026-08-16 (third) — v0.62.0, the router nobody could reach by asking
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B49-1 | `sheleg-design` advertises the plain words an operator types (1.37.0) | `description` 1018/1024 chars, and every added trigger is present verbatim — `test/triggers_test.js` asserts it and was watched failing on `фигма в код` before 1.37.1 restored the phrase | verified |
+| B49-2 | Fourteen bare words added to `lib/triggers.js` | `T.match()` over eight visual prompts → **8 route**; over nine controls (payment bug, landing-page copy, prod check, test, README, refactor, a question, and both opt-out phrases) → **0 route** | verified |
+| B49-3 | `красиво` and `красивее` are both listed because the stemmer cannot bridge them | `stemRu('красивее')` → `красиве`, which is not a prefix of `красиво`; `сделай красиво` missed until the second form was advertised, then hit | verified |
+| B49-4 | `дизайн` is excluded and the exclusion is enforced, not remembered | the refusal-clash fixture rejects any trigger inside a refusal; `'без дизайна'.includes('дизайн')` is the clash | verified |
+| B49-5 | The consequence of that exclusion is recorded, not guessed | `T.match('сделай дизайн лендинга')` → `[]`, contradicting the first draft of the comment beside it; filed as B-53 | verified |
+| B49-6 | Both releases green and published | `sheleg-design` v1.37.1 release + validate → success, `npm view sheleg-design-skill version` → **1.37.1**; umbrella v0.62.0 validate → success | verified |
+| B49-7 | A wrong tag reached the remote and was refused by a gate this pack ships | run 31932524054: `tag v1.37.1 does not match 1.37.0`, exit 1, nothing published — `npm view … versions` showed 1.37.0 as the newest at that moment | verified |
+| B49-8 | Three findings filed rather than absorbed | B-53 (composition), B-54 (the invariant enforced one repo away), B-55 (`super-ux`'s unignored `graphify-out/`) | verified |

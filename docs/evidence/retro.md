@@ -254,6 +254,7 @@ used.)*
 | 2026-08-15 | The shape of the work: graph engineering into agent-stack, a graph audit of task-pipeline; v0.59.0 (+ agent-stack 0.10.1, task-pipeline 1.57.0) | `5285792` | yes — see below |
 | 2026-08-16 | The graph backlog as a programme: the same convergence defect in four more places, a body under its budget; v0.60.0 (+ task-pipeline 1.58.0, agent-stack 0.11.0, super-ux 0.41.0, seo-aeo-audit 0.20.0, sheleg-design 1.36.1 pinned) | `64ee7fb` | yes — see below |
 | 2026-08-16 (second) | The gate we ship, running on us: coordination checked in CI, the desc co-edit, four board rows closed; v0.61.0 (+ task-pipeline 1.60.0, super-ux 0.41.3, make-skill 0.19.0 pinned) | `fefb32c` | yes — see below |
+| 2026-08-16 (third) | B-49: the router nobody could reach by asking — fourteen bare words, 8/8 visual prompts route, 9/9 controls silent; v0.62.0 (+ sheleg-design 1.37.0 → 1.37.1) | `3c99f0b` | yes — see below |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
@@ -347,6 +348,102 @@ treat the pattern as data"* was refused because that is #7 restated, and a list 
 holds one rule twice is a list of nine.
 
 ---
+
+## 2026-08-16 (third) — the router nobody could reach by asking
+
+B-49 said `sheleg-design`'s triggers matched none of the ways an operator asks for
+visual work. That was true, it was fixed, and the run diverged three times on the way —
+once in the measurement, once in the shell, once in a claim written before the matcher
+was run.
+
+### The instrument was wrong before the subject was
+
+The first probe compared exact substrings between a trigger list and a prompt, and
+reported three misses and one leak. All four were the checker's. Russian declines, so
+`палитра` "missed" `палитру` and `красивее` "missed" `красиво`; and the probe tokenised
+the compound trigger `кинематографичный лендинг` into words, then reported the bare
+`лендинг` leaking onto copy work — a word that was never a trigger at all. **Standing
+instruction #11 firing exactly as written**, and cheaply: the real matcher in
+`lib/triggers.js` already stems, and reading it was the whole fix.
+
+The lesson underneath is narrower than "read the code". A hand-rolled proxy for a
+mechanism that exists is a *second* mechanism, and it will disagree with the first in
+whatever direction its author did not think about. The measurement that shipped runs
+`T.match()` — the function the hook calls — over the same prompts.
+
+### A `cd` that failed did not stop the tag that followed it
+
+The release ran as one Bash block:
+
+```
+cd skills/sheleg-design && git add -A && git commit -F - <<'EOF' … EOF
+git push origin main && git tag v1.37.1 && git push origin v1.37.1
+```
+
+The `cd` failed — the shell was already in that directory from the previous call — and
+`&&` correctly stopped the commit. It did not stop **line two**, which pushed and tagged
+anyway. `v1.37.1` landed on the tree of `v1.37.0`, on a remote, with a release workflow
+already running against it.
+
+Nothing was published, and the reason is worth naming: the release workflow's own
+version-sync step refused with `tag v1.37.1 does not match 1.37.0`. A gate this pack
+ships caught a mistake this pack's author made, on a tag that had already left the
+machine. The repair was the cheap one — cancel the run, delete the tag locally and on
+the remote, commit properly, re-tag — and it is recorded rather than smoothed over
+because the near-miss is the evidence, not the outcome.
+
+**Cited to #8, not filed as an eleventh instruction.** *A wrapper's exit status is not
+the suite's verdict* already names the class; this is its shell-block form — **a
+multi-line command is not a transaction, and `&&` binds a line, not a block.** The
+standing list is at its cap of ten and no entry has earned retirement (#1 has now missed
+three recorded stamps of the five its cold trigger needs), so adding an eleventh would
+have forced an unearned deletion. Every step of the re-release printed its own exit code
+on its own line.
+
+### A comment asserted a route the matcher does not take
+
+`дизайн` cannot be a trigger: it is a substring of this route's own refusal «без
+дизайна», and the fixture rejects any trigger inside a refusal — a trigger there makes
+the refusal unsayable. The first draft of that comment then added that `сделай дизайн
+лендинга` "stays with `super-ux`". It does not. `T.match()` returns `[]`. The claim was
+written from the composition order rather than from the mechanism, it survived one
+reading, and it was caught only because the same run measured the phrase for another
+reason. The comment now states the measured result, and B-53 carries the open question
+of whether that phrase should open the whole chain.
+
+### What the member's own gate could not see
+
+`sheleg-design` 1.37.0 shipped green on 4636 checks having dropped `фигма в код` from
+its description — a phrase that is a live trigger in this repository's routing hook. The
+member has no way to know the trigger table exists. `test/triggers_test.js` failed here
+minutes later, 1.37.1 restored the phrase, and B-54 carries the structural version: the
+invariant *every trigger is a word its skill advertises* is enforced one repository away
+from the only file that can break it, and the member releases first.
+
+### The documented bypass, exercised
+
+Guarded files in this repository were edited before the lease was taken. The guard hook
+watches `Bash` as well as `Edit`, and did not fire, because every write went through a
+`python3 - <<'EOF'` heredoc — the exact unparseable shape `CLAUDE.md` already describes
+as failing open. No conflict resulted (`status` showed no other run holding anything),
+and the lease was taken before the release commit. Recorded because a documented risk
+that has now been observed is a different thing from one that has not.
+
+### What fired, per entry
+
+**#8** — twice: the shell block above, and a `npm test | grep` whose exit code came back
+empty, re-run redirected. **#11** — the substring probe. **#6** — every plant in this
+run asserted it landed (`PLANT DID NOT LAND`), and one did not: the umbrella's CHANGELOG
+uses `## vX.Y.Z — title`, not Keep a Changelog, so the insert raised `ValueError` instead
+of writing a section into the wrong place. **#10** — the next free board id was read from
+`git show HEAD:`, not from the working copy. **#9** — CI was resolved by tag and by
+`npm view`, never by "the latest run". **Did not fire:** #1, #2, #4, #5, #7.
+
+*(prune at 2026-08-16 (third): **no retirement, and none is earned.** #1 has missed three
+recorded stamps, #2 three, #7 two — all short of the five-stamp cold trigger. Nothing has
+become a mechanical check and no named path is gone. Ten of ten slots used, and the
+lesson this run produced was cited to #8 rather than given a slot, which is the same
+resolution the 2026-08-14 prune used for #7.)*
 
 ## 2026-08-16 (second) — the gate we ship had never run on us
 
