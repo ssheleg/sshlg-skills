@@ -4,6 +4,7 @@ import glob, json, os, re, subprocess, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pin_source
+import board_age
 import graph_staleness
 import release_lag
 
@@ -1115,6 +1116,77 @@ def check_how_far_behind_each_knowledge_graph_is():
 
 
 check_how_far_behind_each_knowledge_graph_is()
+
+
+def check_the_board_rank_follows_from_its_own_inputs():
+    """`Age` and `P` are computed columns, so compute them.
+
+    The board's header states `P = blast × (1 + age_runs) / effort` and promises the rank
+    is *"recomputed at stage 10 rather than inherited, so a row cannot keep a rank it
+    earned when it was new."* Nothing recomputed it. Measured 2026-08-16: `B-07` and
+    `B-08` said age 2 against **7** stamp-days, `B-29` said 0 against 3, `B-51` said 0
+    against 1 — so the age term, the whole reason the formula has one, was a constant, and
+    the board ranked newest-first while its header claimed the opposite. A loop worked
+    those four rows last all day.
+
+    **A gate, not a disclosure**, and the distinction is the same one `graph_staleness`
+    lands on the other side of: a stale graph drifts on its own with every commit, while a
+    wrong rank is a stated number disagreeing with its own stated inputs. `task-pipeline`'s
+    validator has failed on exactly that in the seeded template since v1.14.0; this
+    repository's board carried its own formula and no check at all.
+
+    Closed rows are left alone. Their rank stopped mattering when they closed, and
+    recomputing history would rewrite what a run actually ranked by.
+    """
+    board = os.path.join(ROOT, "docs", "evidence", "backlog.md")
+    retro = os.path.join(ROOT, "docs", "evidence", "retro.md")
+    if not os.path.isfile(board):
+        _skips.append("board rank — no docs/evidence/backlog.md here")
+        return
+    if not os.path.isfile(retro):
+        _skips.append("board rank — no docs/evidence/retro.md, so age has nothing to count")
+        return
+    with open(retro, encoding="utf-8") as fh:
+        days = board_age.stamp_days(fh.read())
+    if not days:
+        _skips.append("board rank — the stamp table matched no dates; age unverifiable")
+        return
+    with open(board, encoding="utf-8") as fh:
+        lines = fh.read().splitlines()
+    looked = 0
+    for line in lines:
+        if not line.startswith("| B-"):
+            continue
+        cells = [c.strip() for c in line.split("|")]
+        if len(cells) < 9 or not cells[8].startswith(("open", "**open", "**part")):
+            continue
+        rid = cells[1]
+        age = board_age.age_days(cells[3], days)
+        if age is None:
+            _skips.append(f"board rank — row {rid}'s Source names no date, so its age is unknown")
+            continue
+        try:
+            blast, effort, stated_age = int(cells[4]), int(cells[6]), int(cells[5])
+        except ValueError:
+            fail(f"docs/evidence/backlog.md: row {rid} has non-numeric blast/age/effort — "
+                 "the three are what make the rank checkable, and prose in any of them "
+                 "makes it an opinion again")
+            continue
+        looked += 1
+        if stated_age != age:
+            fail(f"docs/evidence/backlog.md: row {rid} states age {stated_age} but has "
+                 f"survived {age} stamp-day(s) since {cells[3]!r} — the age term is the "
+                 "reason this formula has one, and a constant there ranks newest-first")
+            continue
+        want = board_age.fmt(board_age.priority(blast, age, effort))
+        if cells[7].strip("*") != want:
+            fail(f"docs/evidence/backlog.md: row {rid} states P {cells[7].strip('*')} but "
+                 f"blast {blast} × (1 + {age}) / effort {effort} computes to {want}")
+    if not looked:
+        _skips.append("board rank — no open row carried a checkable age")
+
+
+check_the_board_rank_follows_from_its_own_inputs()
 
 if errors:
     print("FAIL: sshlg-skills structure invalid")

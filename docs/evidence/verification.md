@@ -575,3 +575,16 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B51-5 | The disclosure self-corrects when the decision is taken | the same suite run with `GEMINI_API_KEY` set drops the *cannot run here (B-51)* tail — 0 occurrences | verified |
 | B51-6 | It is a disclosure, not a gate | `npm test` exit 0 with all nine graphs behind; a threshold would redden every repository daily and be switched off | verified |
 | B51-7 | The instrument was wrong before the subject | its first draft read `edges` from a node-link document keyed `links` and reported **zero edges across all nine graphs**; `graphify god-nodes` printed real hubs one command later | verified |
+
+## 2026-08-16 (twelfth) — v0.72.0, the age term that was a constant
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B60-1 | The board's rank is computed from its own inputs, every run | `validate.py` recomputes `Age` and `P` for every open row against the retro's stamp table; watched failing on a pinned age (*states age 2 but has survived 7 stamp-day(s)*) and on a wrong P (*states P 9.9 but … computes to 2.67*), separately | verified |
+| B60-2 | The defect was real and the correction changes the ranking | B-07 2→**7**, B-08 2→**7**, B-29 0→**3**, B-51 0→**1**; P 1.0→2.67, 1.0→2.67, 0.67→2.67, 1.0→2.0 — the four rows this loop worked last are now the top of the board | verified |
+| B60-3 | `age_runs` is distinct stamp-days, and the unit is stated | 38 stamps over 9 distinct days, 13 on one afternoon; both readings measured and compared before choosing, and the fixture *three stamps in one day age a row by one* holds it | verified |
+| B60-4 | Unknown and zero are different | a `Source` with no date returns `None` and is disclosed, never counted as 0 — asserted separately, since 0 means *filed today* | verified |
+| B60-5 | Only the stamp table counts | fixture: a date in an entry heading and a date in prose are both excluded; counting either would inflate every row at once and look like the board working | verified |
+| B60-6 | The harvest rule ships | `task-pipeline` 1.63.0, `references/knowledge-sources.md`; `npm run test:all` → all **349** guards reject their planted defect, 9 property checks printed | verified |
+| B60-7 | No guard was written where the corpus cannot support one | across seven open rows the checkable claims total 2 file paths and 1 count — measured before deciding, and stated in the notes rather than left as an omission | verified |
+| B60-8 | A malformed row was caught by an existing guard, not by me | the first B-61 row carried `|` inside backticks and shifted to 14 cells; the board-shape check refused it | verified |

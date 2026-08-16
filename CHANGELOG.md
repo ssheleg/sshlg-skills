@@ -1,5 +1,46 @@
 # Changelog
 
+## v0.72.0 — the age term was a constant, so the board ranked newest-first
+
+**B-60 asked about rows whose prose expires. The sharpest expiry turned out to be
+arithmetic.** This board's header states `P = blast × (1 + age_runs) / effort` and promises
+the rank is *"recomputed at stage 10 rather than inherited, so a row cannot keep a rank it
+earned when it was new."* Nothing recomputed it, for eleven days:
+
+| row | `Age` said | stamp-days survived | `P` said | `P` is |
+|---|---|---|---|---|
+| B-07 | 2 | **7** | 1.0 | **2.67** |
+| B-08 | 2 | **7** | 1.0 | **2.67** |
+| B-29 | 0 | **3** | 0.67 | **2.67** |
+| B-51 | 0 | **1** | 1.0 | **2.0** |
+
+The age term — the whole reason the formula has one — was a constant. So the board ranked
+**newest-first** while its header claimed oldest-hurt-most-first, and this loop worked
+those four rows **last** all day, on a ranking it re-read every cycle.
+
+`test/board_age.py` (+9 fixtures) computes it and `validate.py` **gates** it — a gate and
+not a disclosure, because unlike a graph drifting with every commit, a wrong rank is a
+stated number disagreeing with its own stated inputs. Watched failing on a pinned age and
+on a wrong P, separately.
+
+**`age_runs` counts distinct stamp-days.** The table holds 38 stamps over 9 days, thirteen
+of them in one afternoon; raw stamps would let a single busy day outrank a row ignored for
+a week. It is the same correction the retro's prune doctrine already applies to its cold
+triggers, written into the formula instead of reapplied by hand each time.
+
+The harvest half of B-60 ships in `task-pipeline` 1.63.0: re-derive a row's checkable
+claims before acting on them, and correct the row in the same run. No guard there, measured
+— across the seven open rows the family carries, the checkable claims total two file paths
+and one count.
+
+**Pin: `task-pipeline` 1.62.0 → 1.63.0.**
+
+Filed on the way: **B-61**, two different priority formulas in one family. The shipped
+doctrine computes `sev × blast + age_bonus` over ten columns with age in days; this board
+computes `blast × (1 + age_runs) / effort` over eight with age in stamp-days. Both are
+documented in their own headers, so neither is wrong alone — together they mean the shipped
+priority check can never run here.
+
 ## v0.71.0 — the graph's distance from the code stops being an impression
 
 **B-51 stays an operator's decision, but its cost is printed now.**
