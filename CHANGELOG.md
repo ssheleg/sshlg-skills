@@ -1,5 +1,34 @@
 # Changelog
 
+## v0.78.0 — an unqualified landing page reaches both crafts
+
+**B-57: `сделай лендинг` reached no route at all — and neither did `build a landing page`,
+which the row never mentioned.** A landing is the canonical two-craft surface, so the ask
+for one arriving at nothing was the gap; both phrases now reach **`sheleg-design` ∥
+`copywriting`** together, which is the composition this family prescribes for a landing.
+
+**Verb phrases, not the bare noun, and the difference was measured rather than argued.**
+
+| prompt | bare `лендинг` | verb phrase |
+|---|---|---|
+| `сделай лендинг` | both | **both** |
+| `build a landing page` | both | **both** |
+| `напиши текст для лендинга` | both — a copy task handed a visual route | **copywriting alone** |
+| `почини баг на лендинге` | three routes | **task-pipeline alone** |
+
+The bare noun fixes one case and damages two. Cycle 5 refused it for a reason that no
+longer held — it said the bare noun would *take* the route from `copywriting`, and with
+both crafts firing that is no longer true — but measuring found a different reason that
+does hold, so the refusal stands on new evidence rather than old.
+
+**A premise of the row had expired.** It said both descriptions were at or near the
+1024-character limit; `copywriting` is at **536**, with 488 free. Only `sheleg-design` was
+tight, and there the room was **made rather than found** — `scrubbed sections` and one
+`implemented` came out of the prose, 30 characters that were not carrying their weight
+beside a phrase an operator actually types.
+
+**Pins: `sheleg-design` 1.37.4 → 1.37.5, `super-ux` 0.41.4 → 0.41.5.**
+
 ## v0.77.0 — closing a false positive found the bypass it was hiding
 
 **B-59: the hygiene guard could not tell a command being run from one being written

@@ -667,3 +667,15 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B59-6 | The hook agrees with the module | the real `hooks/pre-tool-use.js` driven as a process over three payloads: refuse, allow, refuse | verified |
 | B59-7 | Three new cases were passing for the wrong reason | they targeted a member the fixture's manifest does not declare, so every result was `null`; positive controls added at the top of the block | verified |
 | B59-8 | Fixtures and gate | hygiene 17 → **22** checks; `npm test` exit 0 | verified |
+
+## 2026-08-16 (eighteenth) — v0.78.0, an unqualified landing page
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B57-1 | Both unqualified phrases reach both crafts | `сделай лендинг`, `build a landing page`, `сделай мне лендинг` and `сделай дизайн лендинга` → `[sheleg-design, copywriting]` | verified |
+| B57-2 | The controls are unchanged | `напиши текст для лендинга` → copywriting alone; `почини баг на лендинге` → task-pipeline alone; both opt-outs and the question → `[]`; `поменяй палитру` → sheleg-design alone | verified |
+| B57-3 | The bare noun was tried and measured before being refused | with it, the copy task collected a visual route and the bug fix three routes; the table is in the release notes | verified |
+| B57-4 | A premise of the row had expired | `copywriting` was said to be at its limit and is at **536/1024**, 488 free; only `sheleg-design` was tight at 1009 | verified |
+| B57-5 | The English gap was found by re-derivation, not by the row | `build a landing page` reached `[]` and is not mentioned in B-57 at all | verified |
+| B57-6 | Every trigger is advertised | `test/triggers_test.js` → OK (27 checks) after all four additions; both descriptions within 1024 (1021 and 579) | verified |
+| B57-7 | Released and pinned | `sheleg-design` v1.37.5 and `super-ux` v0.41.5 tagged at HEAD; both pins, both README rows, umbrella v0.78.0 | verified |
