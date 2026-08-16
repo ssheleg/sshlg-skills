@@ -538,3 +538,15 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B43-6 | A seeded script can no longer vanish silently | validator asserts existence, shebang and doctrine-naming; each watched failing on its own plant | verified |
 | B43-7 | The ratchet is counted, not carried over | `MIN_EXPECTED` 344 → 347 read from the workflow; `npm run test:all` → *all 347 guards provably reject their planted defect · 9 property checks printed what they assert*, exit 0 | verified |
 | B43-8 | A control that went red was a real failure, not a false positive | the carve-out property check failed because the CHANGELOG still said 344 while the workflow defined 347 — the harness was right and the tree was mid-change | verified |
+
+## 2026-08-16 (ninth) — v0.69.0, a board row that says work exists names where it lives
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B58-1 | `parked` is a status that must name a branch or a commit | plant: the template's `parked — feat/upload-retry` reduced to `parked` → validator fails with *names no branch or commit*; green after restore | verified |
+| B58-2 | An open row may not home its work in a per-session directory | plant: `open — held at scratchpad/b29/` on the template's B-002 → validator fails with *per-session directory*; green after restore | verified |
+| B58-3 | The prose detector was measured before being rejected, not assumed bad | 3 hits across 187 rows, each read and confirmed false — two closed rows narrating the incident, one the row asking for the rule | verified |
+| B58-4 | Both shipped rules have a zero baseline, which is what makes a first firing mean something | re-measured position-free across **191** rows including the seeded templates: rule 1 → 0, rule 2 → 0 | verified |
+| B58-5 | The guard is position-free | the first draft read `cells[-2]` — status in an 8-column board, `Home` in the 10-column template — and its plant passed silently; caught by running the plant rather than by reading | verified |
+| B58-6 | Ratchet counted from the workflow | `MIN_EXPECTED` 347 → 349; `npm run test:all` → *all 349 guards provably reject their planted defect · 9 property checks printed what they assert*, exit 0 | verified |
+| B58-7 | Released and pinned | `task-pipeline` v1.62.0 tagged at HEAD; pin, README row and umbrella v0.69.0 moved | verified |

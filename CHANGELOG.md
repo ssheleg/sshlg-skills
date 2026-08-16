@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.69.0 — a board row that says work exists names where it lives
+
+**B-58, filed one cycle ago and closed by the rule it asked for.** `open` claims nothing
+exists; `parked` claims something does, and its status cell now carries a branch or a
+commit. Two rules gate it in `task-pipeline` 1.62.0: an open row may not home its work in
+a per-session directory, and a `parked` status without a ref is refused.
+
+**The prose detector was measured first, and thrown away.** Matching *"parked"*, *"is
+built"*, *"ready to merge"* in the description cell fired on **three rows out of 187 and
+every hit was false** — two closed rows narrating the incident that produced the rule, and
+the row that asked for it. This family discards that shape rather than tuning it; the
+precedent is B-48, where token-matching descriptions produced four false failures out of
+eight members and was dropped whole. What ships reads the **status cell**, which is never
+prose, and both rules measure **zero** across 191 rows including the seeded templates.
+
+**The first draft read `cells[-2]`** — the status in this repository's eight-column board
+and the *Home* column in the ten-column template. So the parked rule examined the wrong
+cell and reported nothing, fifty lines below the validator's own comment explaining why
+positional reads fail on exactly this corpus. It is position-free now, and what proved it
+was the plant that had been silently passing.
+
+**Pin: `task-pipeline` 1.61.0 → 1.62.0.** Guards there: 347 → **349**.
+
 ## v0.68.0 — the command that was built, parked, and lost
 
 **B-43's premise had expired, and only going to merge it would have shown that.** The row
