@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.81.1 — the pin follows the packs
+
+`sheleg-design` **1.38.0 → 1.39.0**: five style packs ported from live references in one
+release, taking the library from twenty-two to twenty-seven — `router` (openrouter.ai),
+`daylight` (taskip.net), `notation` (twenty.com), `almanac` (auxia.io) and `vitrine`
+(attio.com), each with a token layer, a reference kit and the widened contract.
+
+A release that does not bump this pin is invisible: `list` keeps reporting the previous
+version and `update` keeps installing it, with nothing to reveal the gap.
+
+
 ## v0.81.0 — a version heading nobody can check out
 
 **`B-71` closes, and the real figure is 17, not the 22 the audit reported** — it had
