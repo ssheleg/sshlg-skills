@@ -525,3 +525,16 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B47-4 | The recurrence is gated | `check_contributing_routes_to_files_that_exist` watched rejecting the original row verbatim (`benchmarks.md`, exit 1) and green after restore; same plant wired into `sheleg-dev`'s CI and run locally as written | verified |
 | B47-5 | The guard cannot flag a discussed path | narrowed to table rows after its first draft flagged the three sibling files named on purpose; a bare filename resolves by basename so the generic `SKILL.md` passes | verified |
 | B47-6 | Released and pinned | `sheleg-dev` v0.5.2 tagged at HEAD; pin, README row and umbrella v0.67.0 moved | verified |
+
+## 2026-08-16 (eighth) — v0.68.0, the command that was built, parked, and lost
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B43-1 | The parked work is gone, not merely misplaced | absent from the working tree, `git log --all --diff-filter=A`, `rev-list --all --objects`, `stash list` and `fsck --lost-found` | verified |
+| B43-2 | `templates/exposure.sh` computes the documented line | run against this repository's own 126-row ledger: `exposure: 126 unverified · never checked · 104 releases carry one`, followed by the oldest-first list | verified |
+| B43-3 | It is a measurement, not a gate | exits 0 at every count; exit 1 reserved for an unreadable ledger, asserted by the malformed-date fixture | verified |
+| B43-4 | The percentage refusal is live, not decorative | the `*%*` case watched exiting 1 with the doctrine's own sentence, both in the fixture and as a CI plant | verified |
+| B43-5 | Fourteen fixtures, three of which found real defects | double-zero from `grep -c … \|\| echo 0`, BSD `sort` dying on UTF-8 and leaving an empty list under a non-zero count, byte-wise `substr` splitting a Cyrillic letter | verified |
+| B43-6 | A seeded script can no longer vanish silently | validator asserts existence, shebang and doctrine-naming; each watched failing on its own plant | verified |
+| B43-7 | The ratchet is counted, not carried over | `MIN_EXPECTED` 344 → 347 read from the workflow; `npm run test:all` → *all 347 guards provably reject their planted defect · 9 property checks printed what they assert*, exit 0 | verified |
+| B43-8 | A control that went red was a real failure, not a false positive | the carve-out property check failed because the CHANGELOG still said 344 while the workflow defined 347 — the harness was right and the tree was mid-change | verified |

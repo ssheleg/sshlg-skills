@@ -1,5 +1,37 @@
 # Changelog
 
+## v0.68.0 — the command that was built, parked, and lost
+
+**B-43's premise had expired, and only going to merge it would have shown that.** The row
+recorded `templates/exposure.sh`, fourteen green fixtures and three negatives as finished
+and parked in a session scratchpad, blocked purely on a concurrent release. Two days
+later the scratchpad was gone — and so was the work: not on disk, not in git history, not
+in a stash, not in a dangling object. **A board row described artifacts that no longer
+existed**, and nothing in the family could have said so.
+
+Rebuilt in `task-pipeline` 1.61.0, and this time the repository holds it: the validator
+asserts that each seeded shell script exists, carries a shebang, and is still named by
+the doctrine that tells a project to copy it. All three watched failing.
+
+Three of the fourteen fixtures caught real defects in the rebuild, and all three lied in
+the **reassuring** direction — which is the reason a suite is worth its cost:
+
+- `$(grep -c "" f || echo 0)` yields **two** zeroes when nothing matches, because grep
+  prints its own `0` and exits 1, so the fallback runs too. Every numeric test after it
+  died with *integer expression expected* — and only in the case that means *everything
+  is confirmed*.
+- BSD `sort` exits *Illegal byte sequence* on a non-ASCII column under a UTF-8 locale.
+  The error went to stderr, the check-list came out empty, and the count above it still
+  read 126 unverified.
+- A byte-wise `substr` cut a Cyrillic letter in half.
+
+**Pin: `task-pipeline` 1.60.1 → 1.61.0.** Guards there: 344 → **347**.
+
+**The row's own lesson is about the board, not the script.** "Built and parked" is a claim
+about a filesystem that no gate reads, and a scratchpad is not version control. A row
+that parks work should name the branch or the commit holding it; one that names a temp
+directory is a promise with an expiry date nobody wrote down.
+
 ## v0.67.0 — a contributing guide that described a different repository
 
 **B-47, and the row under-counted it.** `sheleg-dev`'s `CONTRIBUTING.md` routed
