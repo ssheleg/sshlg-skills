@@ -83,7 +83,7 @@
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.19.1",
+      "version": "0.20.0",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
