@@ -114,10 +114,31 @@ def check_workflows_parse():
     except ImportError:
         _skips.append("workflow YAML parse — pyyaml not installed here; CI installs it")
         return
+    # A DUPLICATE KEY is valid YAML and silently keeps the last value, so `safe_load`
+    # says "ok" over a step whose earlier setting was discarded. That is not theoretical:
+    # on 2026-08-16 an inserted `with: fetch-depth: 0` landed above the step's existing
+    # `with: submodules: recursive`, the parser accepted it, and the setting simply did
+    # not exist. GitHub does the same thing, so nothing downstream complains either.
+    class _NoDupes(yaml.SafeLoader):
+        pass
+
+    def _refuse_duplicates(loader, node, deep=False):
+        seen = set()
+        for key_node, _ in node.value:
+            key = loader.construct_object(key_node, deep=deep)
+            if key in seen:
+                raise yaml.YAMLError(
+                    f"duplicate key {key!r} at line {key_node.start_mark.line + 1} — "
+                    f"YAML keeps the last one and drops the first silently")
+            seen.add(key)
+        return yaml.SafeLoader.construct_mapping(loader, node, deep)
+
+    _NoDupes.add_constructor(yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _refuse_duplicates)
+
     for wf in sorted(glob.glob(os.path.join(ROOT, ".github/workflows/*.yml"))):
         rel = os.path.relpath(wf, ROOT)
         try:
-            doc = yaml.safe_load(open(wf, encoding="utf-8"))
+            doc = yaml.load(open(wf, encoding="utf-8"), _NoDupes)
         except yaml.YAMLError as exc:
             where = getattr(exc, "problem_mark", None)
             at = f":{where.line + 1}" if where else ""
@@ -953,6 +974,15 @@ def check_every_stamped_commit_resolves():
     shas = re.findall(r"^\|[^|]*\|[^|]*\|\s*`([0-9a-f]{7,40})`\s*\|", text, re.M)
     if not shas:
         _skips.append("run-stamp SHAs — no stamp rows matched the table shape")
+        return
+    # A shallow clone has no history to resolve against, and every old stamp "fails"
+    # there for a reason that is not a defect: CI reported 20 fabricated SHAs on its
+    # first run, all of them real commits from earlier this month. Disclose, do not
+    # fail — and the workflow now checks out full history so CI can actually look.
+    shallow = subprocess.run(["git", "rev-parse", "--is-shallow-repository"],
+                             cwd=ROOT, capture_output=True, text=True)
+    if shallow.stdout.strip() == "true":
+        _skips.append(f"run-stamp SHAs — shallow checkout, {len(set(shas))} stamp(s) unverifiable")
         return
     checked, bad = 0, []
     for sha in dict.fromkeys(shas):

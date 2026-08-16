@@ -2,6 +2,20 @@
 
 ## v0.66.0 — a stamp typed from memory names nothing
 
+**Two guards, because the first one's own CI run taught the second.** The stamp check
+went red in CI on twenty real commits: `actions/checkout` clones shallow, so August's
+history is simply absent there. It now reads `git rev-parse --is-shallow-repository` and
+**discloses** rather than failing — a checkout that cannot look must never report a
+verdict — and the workflow takes `fetch-depth: 0` so CI can actually look. 224 commits,
+37 MB; the cost is a second.
+
+Wiring that flag exposed the other one. The inserted `with: fetch-depth: 0` landed **above**
+the step's existing `with: submodules: recursive`, giving the step two `with:` keys —
+valid YAML, silently keeping the last, so the setting did not exist. `yaml.safe_load` said
+*ok*, and so would GitHub. `check_workflows_parse` now refuses duplicate keys with a
+constructor that names the key and its line, watched failing against a planted
+`submodules:` written twice.
+
 **A stamp typed from memory names nothing, and now the gate says so.** Twice today a run
 stamp in `docs/evidence/retro.md` carried a SHA that had never existed — `dd0b1a2`, then
 `f9c3a4e` — both caught by hand, minutes apart, by the author who wrote them. That is not

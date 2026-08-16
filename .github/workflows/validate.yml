@@ -15,6 +15,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+          # Full history: the run-stamp guard resolves every SHA in retro.md, and a
+          # shallow clone makes 31 real commits look fabricated. 224 commits, 37 MB.
+          fetch-depth: 0
 
       - name: Install jsonschema (so the pipeline.json contract is CHECKED, not disclosed as skipped)
         run: python3 -m pip install --quiet jsonschema
