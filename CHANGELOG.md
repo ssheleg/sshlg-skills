@@ -1,5 +1,55 @@
 # Changelog
 
+## v0.82.0 — the pointer is not the path, and this release is the first to prove it
+
+**`task-pipeline` 1.68.0 → 1.69.0**, pinned at `92fc3ea` — **the tag's own tree, not the
+branch tip.** `main` had already moved two doc commits past the tag by the time the pin was
+written, and `skills.json` claims *version 1.69.0*: the pin has to be the tree that version
+names, or «pinned 1.69.0» is true of the manifest and false of what a clone receives. That is
+the *pin is the promise* invariant read backwards.
+
+**What that release brought is module 1 of the role-agent programme** — the graph on disk, a
+script that walks it so the model never reads it, a verifier that closes one node at a time
+against a seven-key verdict, and a loop that reads a queue rather than its own recollection.
+376 guards, 114 graph fixtures, 24 exposure fixtures.
+
+### The first convergence record this family has written
+
+`task-pipeline` v1.69.0 shipped the stage-10 criterion that says a green submodule pointer
+proves **commits, not composition** — each side's suite ran against its own side, and no check
+ran across the pointer. This release is the first to owe that criterion an answer, and
+`docs/evidence/convergence.md` is it.
+
+The seam is not either side's suite. The parent's catalogue claims a version; the registry
+either serves it or does not. Nothing inside `task-pipeline` can check that — and nor can this
+repository's own `npm test`, which is exactly why `test/check_pins.py` sits outside the offline
+gate:
+
+```
+$ npm view task-pipeline-skill version   → 1.69.0
+$ python3 test/check_pins.py             → exit 0 · eight pins, eight matches
+```
+
+**And the order was forced by a measurement rather than chosen.** Before the child was
+published, that same check said: *«pinned 1.69.0, which task-pipeline-skill never published …
+this commit is wrong on its own terms and no later release repairs it.»* So the pin could not
+be committed first. Child release → observation → parent commit, in that order, because the
+alternative produces a commit that installs a version which does not exist.
+
+### Two things this release did not do, said out loud
+
+**Six members carry unreleased work and got no tag.** `super-ux` (5 commits), `agent-sync`,
+`agent-stack`, `seo-aeo-audit` (2 each), `make-skill`, `sheleg-dev` (1 each) — all of it docs
+and chores from the audit: `.gitignore` for `.env`, rebuilt graph reports, ledgers brought up
+to their shipped version. None changes behaviour a user installs, and six tags with six npm
+publishes for documentation corrections is noise in a registry rather than a release.
+`sheleg-design` has nothing unreleased at all.
+
+**The coordination guard refused the pin commit once, correctly.** `README.md` is a guarded
+file and the run held no lease — which is `R-009`, the standing instruction `task-pipeline`
+filed three iterations earlier about taking the lease *before* the edit rather than after the
+collision, refusing its own author. Acquired, committed, released.
+
 ## v0.81.1 — the pin follows the packs
 
 `sheleg-design` **1.38.0 → 1.39.0**: five style packs ported from live references in one
