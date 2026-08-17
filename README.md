@@ -264,6 +264,7 @@ npx sshlg-skills hooks install            # wire it (refuses to take someone els
 npx sshlg-skills hooks install --force    # take it anyway, parking what it displaced
 npx sshlg-skills hooks remove             # unwire, and give the displaced one back
 npx sshlg-skills injectors                # who else speaks at SessionStart, and from which file
+npx sshlg-skills conflicts                # installed skills that land on a router's ground
 ```
 
 | Hook | What it does | What it costs |
@@ -380,9 +381,17 @@ them off? Delete the file — nothing else reads it.
 ## Other commands
 
 ```bash
-npx sshlg-skills list      # the family, versions and descriptions
-npx sshlg-skills agents    # supported agent ids
+npx sshlg-skills list       # the family, versions and descriptions
+npx sshlg-skills agents     # supported agent ids
+npx sshlg-skills conflicts  # installed skills that land on ground a router owns
 ```
+
+`conflicts` is the machine-specific half of the map's arbitration rule. The rule
+ships — *the router decides the route, a competing skill is never a second entry
+point* — but **which** packs collide is a fact about one laptop, so it is read here
+instead of written into everyone's block. It reports candidates, not offenders:
+most of what it finds answers HOW where a router answers WHEN, and a router
+reaching for one as a tool is the system working.
 
 ## How it works
 
@@ -397,12 +406,13 @@ get wrong: one channel per agent, exact agent ids, repeated `--agent` flags, ful
 skills.json                  registry — repos, plugin ids, skill names, pins
 skills/*                     the eight skills as pinned git submodules
 bin/sshlg-skills.js          the launcher (install / update / routers / config / hooks /
-                             injectors / list / agents)
+                             injectors / conflicts / list / agents)
 lib/routers-registry.js      the ten routers — text, table row and required members, in one entry
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js
 lib/plan.js                  the argv handed to the skills CLI — one builder for install and update
 lib/inventory.js             the family's map — entry points, not a catalogue
+lib/conflicts.js             installed skills on a router's ground — candidates, not offenders
 lib/cursor.js                Cursor's channel, which is one file per rule rather than a block
 lib/apply.js                 the only module that writes to the instruction files
 lib/migrate.js               moves hand-written rules in; never reads inside the block

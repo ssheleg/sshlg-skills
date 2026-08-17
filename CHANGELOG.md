@@ -1,5 +1,60 @@
 # Changelog
 
+## v0.85.0 — the map arbitrated one competing pack, and it was the disabled one
+
+The block has carried a precedence paragraph naming **Superpowers** since v0.34.0. Its
+`enabledPlugins` value here is `false`. Meanwhile `npx sshlg-skills conflicts`, new in this
+release, reports **39 landings over 180 installed skills** — twelve `figma` skills against
+`sheleg-design`'s Figma seam, `prowl-brand` and `prowl-design` against `copywriting` and
+`sheleg-design`, `skill-creator` against `make-skill`, `mcp-builder` against `agent-interop`,
+eight `stripe` skills against `sheleg-dev`. None of them was named anywhere, and the
+criterion for arbitration was never *injects at session start* — it was *lands on ground a
+router owns*.
+
+### The rule ships, the roster does not
+
+**Naming this machine's packs in a published package would be a fact about one laptop shipped
+as doctrine.** So the paragraph became general — *the router decides the route and the other
+skill is a tool it may reach for, never a second entry point; the routers answer WHEN and most
+other packs answer HOW* — with Superpowers kept as the worked example that produced it, and
+the roster moved behind a command. That is the same split `lib/injectors.js` made for the same
+question a release earlier, and `docs/DOCMAP.md` now says so in one row.
+
+```
+$ npx sshlg-skills conflicts
+  figma@claude-plugins-official
+    figma-generate-library          → sheleg-design  (design system, design token, figma)
+  …
+  180 skill(s) scanned, 39 landing(s).
+```
+
+**It reports CANDIDATES, never offenders**, and refuses the judgement for the reason
+`injectors.js` already refuses its own: overlap is not a defect, most of these answer HOW, and
+a list of other people's packs presented as offenders is a judgement dressed as a measurement.
+The lexicon behind it is hand-kept, short, and **says so in its own output** — territory
+cannot be derived from a router's two table cells, and a generated lexicon would be a guess
+carrying a machine's authority.
+
+### Its first run over a real machine reproduced the family's oldest bug
+
+Two thirds of the first report was words inside other words: `lease` matched *please*, `ux`
+matched inside longer words, `seo` matched *Seoul*. That is `аудит` matching `аудитория`,
+which `lib/triggers.js` has documented since v0.43.0, rediscovered from the other side — so
+terms now match on word boundaries, with the three cases fixtured. Then the fixture caught the
+mirror image: the term `mcp server` could not match the id `build-an-mcp-server`, which is
+**`B-84`'s third case seen from the opposite direction**. A space inside a term now matches a
+space, a hyphen or an underscore; the fix found one more real landing.
+
+### And a third hand-kept copy of the router list
+
+`lib/router-texts.js` destructured nine entries by hand and exported nine constants, so the
+tenth router shipped without an `AGENT_STACK` export — invisible, because nothing consumed it.
+Derived from the registry now, like `BY_MEMBER` beside it. With the README table (v0.84.0) and
+a fixture's member list (v0.83.0) that is three hand-kept copies of one list found in one day.
+
+**B-83 closed**, and its own proposed fix was withdrawn: the row said *one line per pack in the
+map*, which is exactly the thing a published block may not contain.
+
 ## v0.84.0 — the description was the routing surface, and nobody had read it as one
 
 **`super-ux` 0.41.5 → 0.42.0**, and with it fifteen prompts that reached nothing now reach

@@ -736,3 +736,19 @@ exists to refuse, so the rows below cover **this** release only.
 | B80-9 | The guard cannot pass vacuously | it fails explicitly when it parses zero router names out of the registry, rather than looping over nothing and reporting success | verified |
 | B80-10 | Child before parent, as v0.82.1 established | `super-ux` v0.42.0 tagged and published before the umbrella's pointer commit; `python3 test/check_pins.py` → exit 0 | verified |
 | B80-11 | What is still unreachable is named | four growth phrasings remain at `[]` and are listed in the release notes and in `B-80`'s close rather than left for a later reader to rediscover | verified |
+
+## 2026-08-17 (twenty-second) — v0.85.0, the arbitration rule and the roster behind it
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B83-1 | The one arbitrated pack is the disabled one | `enabledPlugins["superpowers@claude-plugins-official"]` is `false` in `~/.claude/settings.json`, while the map's precedence paragraph names only it | verified |
+| B83-2 | The unnamed collisions are real and countable | `npx sshlg-skills conflicts` → **180 skill(s) scanned, 39 landing(s)** — twelve `figma` skills onto `sheleg-design`, `prowl-brand`/`prowl-design` onto `copywriting`/`sheleg-design`, `skill-creator` onto `make-skill`, `mcp-builder` onto `agent-stack`, eight `stripe` skills onto `sheleg-dev` | verified |
+| B83-3 | The row's own fix was wrong, and the reason is structural | *one line per pack in the map* would ship one machine's roster into every operator's block; the rule generalised and the roster moved behind a command, mirroring the split `lib/injectors.js` already made | verified |
+| B83-4 | The command refuses the judgement its data invites | `test/conflicts_test.js` asserts the report contains *CANDIDATES, not offenders*, *never a second entry point* and *hand-kept*, and contains no verdict wording | verified |
+| B83-5 | The oldest matching bug was reproduced and closed | the first real run reported `lease` inside *please* and `seo` inside *Seoul*; three boundary cases are fixtured (`polite-bot`, `linux-helper`, `seoul-guide` → no landing) and their whole-word twins still land | verified |
+| B83-6 | The fixture then caught the mirror of `B-84`'s third case | the term `mcp server` could not match `build-an-mcp-server-now`; a space inside a term now matches space, hyphen or underscore, and the real scan moved 38 → 39 landings | verified |
+| B83-7 | The pure half stays pure | a fixture replaces `fs.readFileSync`, `readdirSync` and `existsSync` with throwers and runs `collisions` + `report` through them | verified |
+| B83-8 | The new verb is fixtured as a process, as DOCMAP requires | `conflicts` against a fresh empty `HOME` → exit **0**, printing the header, the empty-case line and the disclaimer; `--help` advertises the verb | verified |
+| B83-9 | A third hand-kept copy of the router list is gone | `lib/router-texts.js` exported nine constants and shipped the tenth router without `AGENT_STACK`; derived now — `Object.keys` gives ten uppercase names including `AGENT_STACK`, and both consumers (`router_texts_test`, `migrate_test`) stay green | verified |
+| B83-10 | Every lexicon key is a router that exists | fixtured against `registry.order()`, so a renamed router cannot leave orphaned territory behind | verified |
+| B83-11 | The gate grew with the suite | `npm test` → `PASS: 34 checks green (validate.py + 5 python + 28 node suites)`, up from 33 | verified |

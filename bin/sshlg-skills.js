@@ -150,6 +150,7 @@ Usage:
   npx sshlg-skills hooks   install [--force] [--dry-run]
   npx sshlg-skills hooks   remove
   npx sshlg-skills injectors                          # who else speaks at SessionStart
+  npx sshlg-skills conflicts                          # installed skills on a router's ground
   npx sshlg-skills list
   npx sshlg-skills agents
 
@@ -716,6 +717,35 @@ function cmdInjectors() {
   log(inj.report(inj.injectors(...read)));
 }
 
+/**
+ * `conflicts` — which installed skills land on ground a router owns.
+ *
+ * The map's arbitration paragraph is general because the block is written on every
+ * operator's machine and this one's roster is not theirs. This is the other half:
+ * the rule ships, the roster is read here. Same split, same reason, as `injectors`.
+ *
+ * Its own members are excluded — the family's skills obviously land on the family's
+ * ground, and twenty rows of that would bury the four that matter.
+ */
+function cmdConflicts() {
+  const conflicts = require(path.join(ROOT, 'lib', 'conflicts.js'));
+  const registry = require(path.join(ROOT, 'lib', 'routers-registry.js'));
+  const home = process.env.HOME || os.homedir();
+  let skills;
+  try {
+    skills = conflicts.readSkills(home);
+  } catch (e) {
+    log(`cannot read the installed skills (${e.message}) — no answer rather than a wrong one`);
+    return;
+  }
+  const owned = manifest.skills.map((s) => s.pluginInstall).filter(Boolean);
+  const installed = manifest.skills.map((s) => s.name);
+  const routers = registry.scope({ installed });
+  log(conflicts.report(
+    conflicts.collisions(skills, { owned, routers }),
+    { scanned: skills.length }));
+}
+
 function cmdHooks(argv) {
   const fs = require('fs');
   const pathMod = require('path');
@@ -868,6 +898,7 @@ function main(argv) {
   // Also before parseFlags: `hooks` takes a positional subcommand.
   if (cmd === 'hooks') return cmdHooks(rest) ? 0 : 1;
   if (cmd === 'injectors') { cmdInjectors(); return 0; }
+  if (cmd === 'conflicts') { cmdConflicts(); return 0; }
   const f = parseFlags(rest);
   if (cmd === 'install' || cmd === 'i') return cmdInstall(f) ? 0 : 1;
   if (cmd === 'update' || cmd === 'up') return cmdUpdate(f) ? 0 : 1;
