@@ -1,3 +1,29 @@
+## v0.89.0 — one member moves, and the pin is the whole point
+
+**`sheleg-design` 1.42.0 → 1.43.0.** No other member moves. The release adds
+**`bulletin`**, the twenty-ninth style pack, measured off
+[socialchamp.com](https://www.socialchamp.com) by enumerating all 748 URLs in its page
+sitemap, fetching every one, and reading the 58 distinct stylesheets they resolve to plus
+the shared layer its theme ships.
+
+The pack's own note is worth repeating here because it is the kind of thing a pin carries
+silently: the reference's primary CTA is white on `#ff6900` at **2.89:1** on every one of
+those 748 pages — under WCAG AA for body text and under the large-text floor as well, so
+no type size rescues it. The pack keeps the measured hue and darkens it in oklab until
+white clears AA, and marks the value DERIVED at its declaration. Two more corrections
+travel with it: secondary body copy set at 3.52:1 in 176 declarations, and in-content
+links at 2.91:1.
+
+**Order, per the convergence rule.** The child published first — `v1.43.0` tagged, the
+release workflow green, `npm view sheleg-design-skill version` returning 1.43.0 — and only
+then did this repository move its pointer, bump `skills.json` and the README table, and run
+its own gate. `python3 test/check_pins.py` reports every pin matching its release.
+
+### Changed
+
+- `skills.json` and the README pin table: `sheleg-design` 1.42.0 → **1.43.0**.
+- Submodule pointer `skills/sheleg-design` → `v1.43.0`.
+
 ## v0.88.0 — nine issues and a pull request, and four of them were one class
 
 **Five members move at once**: `super-ux` 0.43.0 → **0.44.0**, `task-pipeline` 1.69.0 →
