@@ -752,3 +752,17 @@ exists to refuse, so the rows below cover **this** release only.
 | B83-9 | A third hand-kept copy of the router list is gone | `lib/router-texts.js` exported nine constants and shipped the tenth router without `AGENT_STACK`; derived now — `Object.keys` gives ten uppercase names including `AGENT_STACK`, and both consumers (`router_texts_test`, `migrate_test`) stay green | verified |
 | B83-10 | Every lexicon key is a router that exists | fixtured against `registry.order()`, so a renamed router cannot leave orphaned territory behind | verified |
 | B83-11 | The gate grew with the suite | `npm test` → `PASS: 34 checks green (validate.py + 5 python + 28 node suites)`, up from 33 | verified |
+
+## 2026-08-17 (twenty-third) — v0.85.1, one of three fixed and two refused
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B84-1 | A hyphen inside a trigger was load-bearing | before: `подключи mcp сервер` → `[]` while `agent-interop` advertises `MCP-сервер` and the route carries it; after: `["agent-stack"]`, and `подключи mcp-сервер` too | verified |
+| B84-2 | Both directions of the seam, and the refusals through it | `нужен суб агент` and `нужен суб-агент` → `["agent-stack"]`; `optedOut('без make-skill')` and `optedOut('без make skill')` both `true`; `сделай скилл, без make-skill` → `[]` | verified |
+| B84-3 | The split loosened nothing | the `аудит`/`аудитория` precision controls re-run against it: `аудитория лендинга выросла`, `субагентство недвижимости`, `mcpserverless` → `[]` | verified |
+| B84-4 | Coverage moved by exactly the one prompt | `node test/route_coverage.js` → `56 named an expected route · 15 reached nothing`, from 55/16 | verified |
+| B84-5 | Prefixed verb forms were prototyped and refused on the numbers | a closed ten-prefix allowance run out of tree over 7 realistic prefixed imperatives and 10 noise cases: **1 new win, 0 regressions**. The six non-wins (`перенеси миграцию`, `доработай интеграцию`, `подкрути палитру`, `наладь воронку`, `заверши фичу`, `развей анимацию`) already routed | verified |
+| B84-6 | A predicted regression did not survive its own measurement | the refusal was drafted around `расцвет` matching `цвета`; run, it does not — `рас` is not in the prefix list. The refusal stands on the win/cost ratio instead, which is the honest reason | verified |
+| B84-7 | The с/ш case is one word, and its cheap fix is elsewhere | `stemRu('записать')` → `записа`, which cannot reach `запиш-`; no other advertised trigger in the family has the alternation. `evidence-docs`' description has 124 characters free, so advertising the imperative is the cheap fix and it belongs to `task-pipeline` | verified |
+| B84-8 | What remains is named with its blocker | seven absent triggers, against descriptions measured the same day at `task-pipeline` 964, `stripe-billing` 967, `make-skill` 965, `seo-aeo-audit` 959, `sheleg-design` 948 / 970 | verified |
+| B84-9 | The gate holds | `test/triggers_test.js` 27 → **30 checks**; `npm test` exit 0 | verified |

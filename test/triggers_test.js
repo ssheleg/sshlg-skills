@@ -287,6 +287,37 @@ it('a word can always still match itself, whatever was cut from it', () => {
   }
 });
 
+// --- a hyphen inside a trigger is a separator, not a letter (B-84) -----------
+//
+// `agent-interop` advertises `MCP-сервер`, so the route carried the word and
+// `подключи mcp сервер` still reached nothing: splitting a trigger on whitespace
+// alone made the hyphen load-bearing. The `gap` between words had always accepted
+// hyphens, which is why only one half of the seam was ever exercised.
+
+it('a hyphenated trigger matches both spellings, and so does a hyphenated prompt', () => {
+  assert.deepStrictEqual(T.match('подключи mcp сервер'), ['agent-stack']);
+  assert.deepStrictEqual(T.match('подключи mcp-сервер'), ['agent-stack']);
+  assert.deepStrictEqual(T.match('нужен суб агент'), ['agent-stack']);
+  assert.deepStrictEqual(T.match('нужен суб-агент'), ['agent-stack']);
+});
+
+it('a refusal survives the same split, in both spellings', () => {
+  // «без make-skill» is the refusal whose own trigger-shaped name made this
+  // worth asserting: if the split broke it, saying the phrase would stop
+  // declining the route it names.
+  assert.strictEqual(T.optedOut('без make-skill'), true);
+  assert.strictEqual(T.optedOut('без make skill'), true);
+  assert.deepStrictEqual(T.match('сделай скилл, без make-skill'), []);
+});
+
+it('splitting on the hyphen did not loosen anything into a neighbouring word', () => {
+  // The precision controls from the `аудит`/`аудитория` case, re-run against the
+  // split: a trigger's words must still each END where a word ends.
+  assert.deepStrictEqual(T.match('аудитория лендинга выросла'), []);
+  assert.deepStrictEqual(T.match('субагентство недвижимости'), []);
+  assert.deepStrictEqual(T.match('mcpserverless'), []);
+});
+
 // --- the four routers that were unreachable ---------------------------------
 
 it('every router in the block can be named by this table', () => {

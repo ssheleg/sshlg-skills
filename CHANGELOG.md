@@ -1,5 +1,49 @@
 # Changelog
 
+## v0.85.1 — one of B-84's three defects is fixed and two are refused, with the numbers
+
+**A hyphen inside a trigger was load-bearing and should never have been.** `agent-interop`
+advertises `MCP-сервер`, the route carried it, and `подключи mcp сервер` still reached
+nothing — `phrasePattern` split a trigger on whitespace alone, so the hyphen had to be typed
+exactly. The `gap` between a phrase's words has always accepted `[\s\-–—,:;]`, so only one
+half of that seam was ever exercised. Triggers split on hyphens too now, and both spellings
+match in both directions:
+
+```
+подключи mcp сервер   →  [agent-stack]     (was [])
+подключи mcp-сервер   →  [agent-stack]
+нужен суб агент       →  [agent-stack]
+без make skill        →  []                (the refusal survives the split, in both forms)
+```
+
+`test/route_coverage.js`: **55/16 → 56/15**. `lib/conflicts.js` hit the mirror of this on its
+first day, one release ago, and fixed it the same way — the two are one seam seen from
+opposite sides.
+
+### The other two are refused, and refused by measurement rather than taste
+
+**Prefixed verb forms — refused.** `отрефактори модуль оплаты` reaches nothing because the
+trigger is the noun `рефактор` and the pattern requires a word boundary before the stem. A
+prototype allowing a closed list of ten Russian verbal prefixes was built and run: **1 new
+win in 7 realistic prefixed imperatives, 0 regressions in 10 noise cases.** Six of the seven
+already routed — `перенеси миграцию`, `доработай интеграцию`, `подкрути палитру`, `наладь
+воронку`, `заверши фичу`, `развей анимацию` — because the prefix is part of the advertised
+word or another trigger catches the sentence. One win does not pay for a permanent mechanism
+in a pure module whose own header says *deliberately NOT a morphological analyser*, so the
+prototype was measured and thrown away rather than shipped. The numbers are on the board so
+the next run does not re-derive them.
+
+**с/ш alternation — refused, and it is one word.** `запиши решение` misses the advertised
+`записать решение` because `stemRu` cannot bridge `записа-` → `запиш-`. Implementing the
+mutation means teaching a load-bearing stemmer a conjugation class for a single trigger; the
+honest fix is that `evidence-docs` advertises the imperative, which costs characters in a
+description with **124 free** — cheap, but it belongs to `task-pipeline`'s release, not to a
+matcher change here.
+
+**What is left in `B-84` is the seven absent triggers**, and they are blocked where they hurt
+most: `task-pipeline` 964, `stripe-billing` 967, `make-skill` 965, `seo-aeo-audit` 959,
+`sheleg-design` 948 against a 970 working limit.
+
 ## v0.85.0 — the map arbitrated one competing pack, and it was the disabled one
 
 The block has carried a precedence paragraph naming **Superpowers** since v0.34.0. Its
