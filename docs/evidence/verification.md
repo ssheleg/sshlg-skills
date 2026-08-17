@@ -720,3 +720,19 @@ exists to refuse, so the rows below cover **this** release only.
 | B81-8 | The block's growth is a number, not an impression | the ten rendered router texts are **10668 characters**, `agent-stack` **1326** of them — ~2735 and ~340 tokens on the repo's own ÷3.9 divisor | verified |
 | B81-9 | The gate is green and the counts recompute | `npm test` → `PASS: 33 checks green`, exit 0; `router_texts_test.js` 65 → **70 checks**; the board's own recipe prints `open 7 / waived 3` | verified |
 | B81-10 | The published open-count recipe survived the new rows | an escaped `\|` inside `B-82`'s prose split the status out of the second-to-last field and hid `B-82` from the waived list; the row was rewritten in words rather than the parser being taught the exception | verified |
+
+## 2026-08-17 (twenty-first) — v0.84.0, the growth vocabulary becomes reachable
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B80-1 | The router promised ground the hook could not name | `lib/routers-registry.js:31` claims *"product decisions, funnels, onboarding, payment steps"*; `node test/route_coverage.js` before → 15 of 15 growth prompts `[]` | verified |
+| B80-2 | The knowledge was never the gap | `grep -roicE` over `skills/super-ux/plugins`: funnel 448, onboarding 499, paywall 493, retention 196, activation 171, referral 100; eight first-class tags; `references/funnel-research.md` 190 lines | verified |
+| B80-3 | The blocker was the description, and it is now advertised | all twelve planned words read back out of the two shipped descriptions with the fixture's own lowercased reader; `test/triggers_test.js` → `OK (27 checks)` | verified |
+| B80-4 | Coverage moved and the number is the probe's | `node test/route_coverage.js` → `55 named an expected route · 16 reached nothing · 0 spoke where silence was right · 71 prompts`, from 44/27 at v0.83.0 and 39/32 at v0.82.1 | verified |
+| B80-5 | The split follows the chain's own rule | `funnel-research.md` FR-07 sends the step chain to `flows.md` and the buyer / after-the-session layer to `foundation.md`; the route's two `sources` mirror it exactly | verified |
+| B80-6 | Bare English stems were measured, not assumed, and then narrowed | before: `activate the virtualenv` → `["super-ux"]`, `activate the feature flag` → `["task-pipeline","super-ux"]`, `retention policy for logs` → `["super-ux"]`. After: `[]`, `["task-pipeline"]`, `[]` — while `design an activation funnel`, `improve user retention`, `улучши активацию новых пользователей`, `как повысить ретеншн пользователей` and `reduce churn on the trial` all → `["super-ux"]` | verified |
+| B80-7 | The descriptions do not advertise one word and list another | the `Triggers -` lists were corrected to `"activation funnel"` and `"user retention"` in the same edit as the prose | verified |
+| B80-8 | The README routers table had drifted two routers and now cannot | it read *"Eight routers"* and listed eight, missing `sheleg-dev` (ninth, 2026-08-14) and `agent-stack` (tenth, 2026-08-17). The new guard in `test/validate.py` reads names out of `lib/routers-registry.js` and was **watched failing on two plants** — a removed `agent-stack` row, and *"Nine routers"* against a registry of ten | verified |
+| B80-9 | The guard cannot pass vacuously | it fails explicitly when it parses zero router names out of the registry, rather than looping over nothing and reporting success | verified |
+| B80-10 | Child before parent, as v0.82.1 established | `super-ux` v0.42.0 tagged and published before the umbrella's pointer commit; `python3 test/check_pins.py` → exit 0 | verified |
+| B80-11 | What is still unreachable is named | four growth phrasings remain at `[]` and are listed in the release notes and in `B-80`'s close rather than left for a later reader to rediscover | verified |

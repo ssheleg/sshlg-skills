@@ -33,7 +33,7 @@ scripts. No services, no telemetry, no API keys.
 
 | Skill | Version | What it does |
 |---|---|---|
-| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.41.5 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
+| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.42.0 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
 | **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.69.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. |
 | **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.12.0 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
 | **[make-skill](https://github.com/ssheleg/make-skill)** | 0.20.0 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A — the protocols themselves live in `agent-stack`. |
@@ -201,7 +201,7 @@ npx sshlg-skills routers --diff <name>            # your wording vs the packaged
 npx sshlg-skills routers --update --adopt <name>  # take the packaged wording for it
 ```
 
-Eight routers, and they are **different axes rather than competing
+Ten routers, and they are **different axes rather than competing
 priorities** — a landing page passes several, an internal script passes none:
 
 | Router | Answers | When | Needs installed |
@@ -209,6 +209,8 @@ priorities** — a landing page passes several, an internal script passes none:
 | `super-ux` | what the interface must do | there is user-facing behaviour | super-ux |
 | `sheleg-design` | how it looks and moves | there is a visual layer | sheleg-design |
 | `copywriting` | how it sounds | text a product user will read | super-ux |
+| `sheleg-dev` | what it runs on to charge, track and sign in | money, tracking, sign-in or speed is being wired | sheleg-dev |
+| `agent-stack` | how an agent system is built, judged and metered | the thing being built is an agent | agent-stack |
 | `seo-llmo` | whether a machine will find it | a logged-out reader can see it | — |
 | `evidence-docs` | what proves it | something is stated as true | — |
 | `task-pipeline` | how the change reaches the repo | the repository changes | task-pipeline |

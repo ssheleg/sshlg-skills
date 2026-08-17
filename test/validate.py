@@ -645,6 +645,37 @@ if os.path.isfile(readme_file):
             fail(f"README.md: {name!r} row does not carry the pinned version {declared} "
                  f"(skills.json and the table disagree)")
 
+# The README's ROUTER table drifted for three days and two routers, which is the
+# same failure one paragraph up and nobody had generalised it. `sheleg-dev` became
+# the ninth router on 2026-08-14 and `agent-stack` the tenth on 2026-08-17; the
+# table said "Eight routers" and listed eight through both. The registry is the
+# single home -- `lib/routers-registry.js` says so in its own header -- so the
+# table is checked against it rather than counted by hand. Only membership and the
+# count sentence are asserted: the README's wording of a cell is allowed to differ
+# from the block's, and forcing them identical would make this a second copy of
+# the registry instead of a check on one.
+if os.path.isfile(readme_file):
+    reg = os.path.join(ROOT, "lib", "routers-registry.js")
+    with open(reg, encoding="utf-8") as fh:
+        registry_names = re.findall(r"^  '?([a-z-]+)'?: \{$", fh.read(), re.M)
+    with open(readme_file, encoding="utf-8") as fh:
+        readme_text = fh.read()
+    WORDS = {8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve"}
+    if not registry_names:
+        fail("test/validate.py: could not read any router name out of "
+             "lib/routers-registry.js -- the guard below would pass vacuously")
+    else:
+        for name in registry_names:
+            if f"| `{name}` |" not in readme_text:
+                fail(f"README.md: the routers table has no row for {name!r}, which "
+                     f"lib/routers-registry.js declares -- the table is written by "
+                     f"hand and the registry is its single home")
+        want = WORDS.get(len(registry_names))
+        if want and f"{want} routers" not in readme_text:
+            fail(f"README.md: the routers table is introduced with a count that is not "
+                 f"{want!r}, while lib/routers-registry.js declares "
+                 f"{len(registry_names)} routers")
+
 # --- one entry point for the tests, and CI must use it ---------------------
 #
 # The suites are discovered by test/run.js, so nothing lists them. What still

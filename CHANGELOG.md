@@ -1,5 +1,60 @@
 # Changelog
 
+## v0.84.0 — the description was the routing surface, and nobody had read it as one
+
+**`super-ux` 0.41.5 → 0.42.0**, and with it fifteen prompts that reached nothing now reach
+`/ux`. `node test/route_coverage.js`:
+
+```
+v0.82.1   39 named an expected route · 32 reached nothing
+v0.83.0   44 · 27      (the tenth router)
+v0.84.0   55 · 16      (the growth vocabulary)
+```
+
+**The knowledge was never missing.** `super-ux` carries 448 mentions of funnels, 499 of
+onboarding, 493 of paywalls, 196 of retention, 171 of activation; `retention`, `onboarding`,
+`paywall`, `winback`, `lifecycle`, `activation`, `virality` and `referral` are first-class
+tags; `references/funnel-research.md` is 190 lines of method. The router text in
+`lib/routers-registry.js` has promised exactly this ground since it was written — *"Not only
+screens: product decisions, funnels, onboarding, payment steps."*
+
+What was missing is that **a trigger may only be a word the skill's own `description`
+advertises** (`test/triggers_test.js`, a literal substring check), and `ux-flows` advertised
+flows, wireframes and task analysis. So the router claimed the territory, the pack held the
+knowledge, and the mechanism that selects between routers could not say a single word of it.
+`triggers_test.js` had always asked whether every trigger is advertised — soundness — and
+nothing asked whether anything was reachable.
+
+### Which word goes where is decided by the chain, not by convenience
+
+`funnel-research.md`'s own `FR-07` already routes each finding to a file, so the route now
+fronts two skills instead of one: `ux-flows` takes `funnel`/`воронка`,
+`onboarding`/`онбординг`, `paywall`/`пейволл`, `activation funnel`/`активация`;
+`ux-foundation` takes `user retention`/`ретеншн`, `churn`/`отток`. Neither could carry the
+other's words honestly.
+
+### The English half is phrases and the Russian half is bare words
+
+Measured, not chosen. Bare `activation` and `retention` stem to `activat-` and `retent-`, and
+the probe caught it at once: `activate the virtualenv`, `activate the feature flag` and
+`retention policy for logs` all routed to `/ux`. As phrases, all three are silent and every
+growth prompt still routes. «активация» and «ретеншн» stay single words for the same reason
+`палитра` does — nobody here writes «активация» about a virtualenv.
+
+### The README's routers table had been wrong for three days and two routers
+
+It said *"Eight routers"* and listed eight, through `sheleg-dev` becoming the ninth on
+2026-08-14 and `agent-stack` the tenth yesterday. Same failure as the family table one
+paragraph above it in `test/validate.py`, never generalised. **A guard now reads the router
+names out of `lib/routers-registry.js` and requires a row for each plus a matching count
+word** — watched failing on two plants: a removed `agent-stack` row, and *"Nine routers"*
+against a registry of ten. Only membership and the count are asserted; a cell's wording may
+differ from the block's, or the check becomes a second copy of the registry.
+
+**B-80 closed.** Four growth phrasings still reach nothing and are named rather than hidden:
+`почему пользователи отваливаются`, `сделай реферальную программу`, `a/b тест на лендинге`,
+`настрой аналитику продукта`.
+
 ## v0.83.0 — a tenth router, for the member that was in the map and in no rule
 
 **`agent-stack` had been installed since 2026-08-06 and routable never.** It appeared in
