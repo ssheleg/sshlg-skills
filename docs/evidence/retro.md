@@ -2257,3 +2257,94 @@ complaining. One command, run because a table said to, not because anything look
 **The one thing this run cannot claim.** Twelve REQ rows are verified and every one
 measures the artifact. No agent has yet built anything with `agent-interop` loaded, and
 the ledger says so in its own closing section rather than letting twelve greens imply it.
+
+## 2026-08-17 — the routing was sound for eleven days and unreachable for half the family
+
+The task was an audit of the routing, asked in one sentence. It produced five releases and a
+number that did not exist before it: `test/route_coverage.js`, from **39 named / 32 reaching
+nothing** to **56 / 15** over 71 prompts an operator would really type. Whether that is a
+large movement is unknowable — nothing had ever measured the quantity, which is the finding
+rather than a footnote to it.
+
+**The shape of the failure, and why nothing caught it.** `test/triggers_test.js` has always
+asserted that every trigger is a word the fronting skill's own `description` advertises. It
+passed on every run. It is a **soundness** check, and nothing ever asked the completeness
+question — *given a prompt, does any route get named at all?* So the block promised ground
+the hook could not name, and the pack held the knowledge the whole time:
+
+| Claimed by a router | Held by the pack | Reachable |
+|---|---|---|
+| *"product decisions, funnels, onboarding, payment steps"* | funnel 448, onboarding 499, paywall 493, retention 196, activation 171 mentions; eight first-class tags; a 190-line method | **0 of 15 prompts** |
+| a tenth member in the map table | four skills, each publishing its own `Triggers -` list | **1 of 7 prompts** |
+
+**The generalisable finding is one sentence: a `description` is a routing surface.** A
+trigger may only be a word the description advertises, so the description decides what the
+selector can say — and it had been written as documentation by people thinking about
+discovery, never as the input to a matcher. `super-ux` 0.42.0 changed two of them and
+fifteen prompts started routing; no code in the pack changed at all.
+
+### Three hand-kept copies of one list, found in one day
+
+The registry has said *"one place, one order, nothing to keep in sync"* in its own header
+since v0.36.0. Three copies of the router list were nonetheless being maintained by hand,
+and each was found by a different accident:
+
+| Copy | How it was found | What it had been serving |
+|---|---|---|
+| `router_texts_test.js`'s member list | it went red on the tenth router | the fixture proving *the whole family is covered* had **omitted `agent-stack`** — the gap, inside the check meant to disprove it |
+| the README routers table | read while updating a version row | *"Eight routers"* through **two** additions, wrong for three days |
+| `lib/router-texts.js`'s named exports | noticed while reading the façade for something else | the tenth router shipped with **no `AGENT_STACK` export**, invisible because nothing consumed it |
+
+Two are derived now and the third is guarded by a validator that was watched failing on two
+plants. The lesson is not *derive lists* — that was already written — it is that **a
+hand-kept copy nothing consumes is the one that survives**, because the copies with
+consumers go red and this one had none.
+
+### Two rows died on re-derivation, and that is the process working
+
+`B-82` said `аудит` routes reconnaissance into the pipeline against the pipeline's own
+boundary; it was filed off a live injection during the audit. Re-measured before acting, per
+`B-60`: the prediction was **correct** — that audit changed the repository in the same
+session, seven files across two commits, and the description advertises the word with a
+condition that was met. Waived, with the residue stated: a description can carry a condition
+and `ROUTES` can only carry words.
+
+`B-83` proposed *one line per pack in the map*. That is exactly what a published block may
+not contain — the block is written on every operator's machine and this one's roster is not
+theirs. The rule generalised and the roster became `npx sshlg-skills conflicts`.
+
+**Both rows were written by the same run that later refuted them, hours apart.** The board's
+re-derivation rule is not protection against a careless predecessor; it is protection
+against yourself at the moment you were most confident.
+
+### A prototype built, measured, and thrown away
+
+`B-84` wanted prefixed Russian verb forms to route — `отрефактори` against the trigger
+`рефактор`. A ten-prefix allowance was built and run out of tree: **1 new win in 7 realistic
+prefixed imperatives, 0 regressions in 10 noise cases.** Six of the seven already routed. One
+win does not pay for a permanent mechanism in a module whose own header says *deliberately
+NOT a morphological analyser*, so it was discarded — and the numbers were written to the
+board so the next run does not rebuild it to find out.
+
+The regression the refusal was originally drafted around, `расцвет` matching `цвета`, **does
+not happen**. Running the prototype replaced a plausible reason with the true one.
+
+### What the instruments got wrong
+
+| Instrument | What it said | What was true |
+|---|---|---|
+| `release_preflight.py \| tail` | `exit=0` under a printed `BLOCKED` | `tail`'s status, not the gate's — the failure this repository's own `CLAUDE.md` warns about, in the session that read it |
+| the board's published open-count recipe | 3 waived rows, one of them the header's `B-NNN` example | a template row is shaped exactly like a row; and an escaped `\|` inside a cell had split the status out of the field the recipe reads |
+| `gh run rerun --failed` | `HTTP 503` | GitHub, not the release — the v0.83.0 publish needed two attempts through an outage |
+
+**And the check that existed only because of `B-79` earned itself twice.** v0.82.0 sat tagged
+and unpublished for a day before this run found it; every release since carried a monitor
+that polls the runs to terminal **and then reads `npm view`**. It caught the v0.83.0 503 in
+minutes. A green workflow is not a shipped package, and nothing in this repository had ever
+asserted the difference.
+
+**The one thing this run cannot claim.** Fifteen prompts still reach nothing, and they are
+named in `B-84` and in the v0.84.0 notes rather than left for a later reader to rediscover.
+Seven of them want words in descriptions that have no room — `task-pipeline` 964,
+`stripe-billing` 967, `make-skill` 965, `seo-aeo-audit` 959, `sheleg-design` 948 against a
+970 working limit — which is `B-66`'s description half, still binding.
