@@ -1,6 +1,77 @@
+## v0.88.0 — nine issues and a pull request, and four of them were one class
+
+**Five members move at once**: `super-ux` 0.43.0 → **0.44.0**, `task-pipeline` 1.69.0 →
+**1.71.1**, `agent-sync` 1.12.0 → **1.13.0**, `make-skill` 0.20.0 → **0.21.0**,
+`sheleg-design` 1.40.0 → **1.42.0**. Every open issue in the family is closed and the one open
+pull request is merged.
+
+**`sheleg-design` moves two versions, and only one of them is this run's.** A second session
+released **1.42.0** — *proscenium, the twenty-eighth pack* — one commit above the 1.41.0 this
+run cut, while this release was in flight. That is `B-75` again. It was **not** chased blindly:
+the tag is published rather than still moving, so the pointer was moved to it, `npm view`
+confirmed the version, and this repository's own gate ran green against the tree before the pin
+was committed. Standing instruction #5 is about not chasing what is *still moving*, not about
+refusing what has landed.
+
+### The four that were one class
+
+`task-pipeline` #48, #49, #40 and #39 all describe **a signal that reports success while
+checking nothing**, and none is visible to inspection — the command reads correctly, the test
+name is accurate, the document's rows look settled. `gates.md`'s false-success table gains two
+shapes and its rules go from two to four:
+
+- **Read a gate's own exit code, never a pipeline's.** Actions runs `run:` under `bash -e`
+  *without* `pipefail`, so `npm test | tee` concluded `success` over its own `# fail 55`. The
+  least visible entry in the table, because `check.sh | grep FAIL` reads as diligence — and it
+  bit this session too, when `release_preflight.py | tail` reported `exit=0` under a printed
+  `BLOCKED`.
+- **An absence assertion needs a subject that exists somewhere.** The complement of *watch the
+  green fail against a planted defect*: that finds a check which cannot fail, this finds one
+  which cannot succeed meaningfully.
+
+Plus: **a check with a wrong premise can still be the thing that finds the defect** — separate
+the premise from the observation before touching either — and **a hand-corrected document
+drifts back within one run**, because a document's claims are never executed and nothing
+distinguishes a row that *is* true from one that *was*.
+
+### Closed by measurement rather than by code
+
+`agent-sync` #1 was filed against **1.3.5** and fixed by **B-42** on 2026-08-14 without anyone
+connecting the two. Re-run against the current version on the exact board shape it names — a
+`depends` column where two rows cite a third — the claim lands in the cited row alone.
+
+`seo-aeo-audit` **#8** had been stacked on #7 since 2026-08-14; #7 merged that same day.
+Verified before merging rather than assumed: neither the audit document nor `B-16..B-23` exist
+on `main`, `main`'s highest board id is `B-15` so the range continues cleanly, and a test-merge
+produced zero conflict markers.
+
+### The rest
+
+- **#5** (`make-skill`) — a gate's self-test runs in **both** directions. A false positive does
+  not arrive as a bug report; it arrives as an argument about your gate, from someone whose code
+  was fine. It went to `authoring.md` rather than the body because `SKILL.md` measured **4738 of
+  a 4750 working limit** and every inline draft failed the budget check.
+- **#6, #7** (`super-ux`) — `U055`/`U056` make a `Coverage` claim falsifiable, `U057` reports the
+  flows whose verdict can only be **inherited**. The linter goes 43 → **54** fixtures. The path
+  pattern is narrow on purpose: a wider one flagged three correct prose entries.
+- **#4** (`agent-sync`) — the file carried two notions of *held*. `acquire` knew a TTL runs out;
+  `release` read any lock as held. Measured in the field at **604×** its TTL with no command able
+  to clear it.
+
+`python3 test/check_pins.py` → exit 0 on all eight pins and this repository's own tag.
+
 # Changelog
 
 ## v0.87.1 — the check that detects an unshipped tag shipped by causing one
+
+> **Never published, and the reason is an ordering error rather than an outage.** The
+> `запиши решение` trigger was committed to `lib/triggers.js` **before** `task-pipeline`
+> shipped the description that advertises it, so this tree fails `triggers_test.js` —
+> *"`запиши решение` not in task-pipeline/evidence-docs's description"* — and no re-run
+> can change that. **The child must ship first**; this commit is the counter-example.
+> Everything below shipped inside **v0.88.0**, whose pins are correct. The tag is left
+> where it is: this repository decided at v0.82.1 that a burned tag gets a successor
+> rather than a rewrite.
 
 **v0.87.0 is tagged and was never published, by its own new check.** `check_pins.py` gained
 exit **3** — *this repository's own newest tag is not on the registry* — documented as

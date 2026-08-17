@@ -753,6 +753,21 @@ exists to refuse, so the rows below cover **this** release only.
 | B83-10 | Every lexicon key is a router that exists | fixtured against `registry.order()`, so a renamed router cannot leave orphaned territory behind | verified |
 | B83-11 | The gate grew with the suite | `npm test` → `PASS: 34 checks green (validate.py + 5 python + 28 node suites)`, up from 33 | verified |
 
+## 2026-08-17 (twenty-seventh) — v0.88.0, every open issue in the family
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| I-01 | The family had nine open issues and one pull request | surveyed with `gh issue list` / `gh pr list` across all ten repositories: super-ux 2, task-pipeline 4, agent-sync 2, make-skill 1, seo-aeo-audit 1 PR; the other five clean | verified |
+| I-02 | All ten are closed, and none was closed blind | each read in full before acting; four fixed by doctrine, four by code, one by measurement showing it was already fixed, one merged | verified |
+| I-03 | Four were one class | `task-pipeline` #39/#40/#48/#49 all describe a signal reporting success while checking nothing; they landed as two rows in `gates.md`'s false-success table, two new rules, and one section in `documentation.md` | verified |
+| I-04 | `agent-sync` #1 needed no code | filed against 1.3.5, fixed by B-42 on 2026-08-14. Re-run on the issue's exact board shape (`depends` column, `T-02` and `T-03` citing `T-01`): the claim lands in `T-01`'s row alone, the other two untouched | verified |
+| I-05 | The pull request was checked before it was merged | neither `docs/audit/2026-08-14-prowl-orank-validation.md` nor `B-16..B-23` exist on `main`; `main`'s highest id is `B-15`; `git merge-tree` against `main` → **0** conflict markers. Retargeted from the merged `feat/track-k-hardening` to `main`, then squashed | verified |
+| I-06 | `make-skill`'s doctrine went where the budget allowed | `SKILL.md` measured **4738 of a 4750** working limit, so every inline draft failed the gate; `authoring.md` is linked from `SKILL.md` twice, so the rule is reachable without a body it does not have | verified |
+| I-07 | `super-ux`'s new codes do not fire on correct prose | a wider path pattern flagged three correct entries and was narrowed to require a slash **and** an extension; the linter runs clean on this family's own UX chain | verified |
+| I-08 | `agent-sync` reaps only what is expired | fixtures 6 → 9, driving the shipped script as a process: an expired foreign lease is reaped and names its owner, a live one is still refused, an unparseable timestamp is expired rather than eternal | verified |
+| I-09 | Five pins move together and all five are published | `npm view` for each of `super-ux` 0.44.0, `task-pipeline-skill` 1.71.0, `@ssheleg/agent-sync` 1.13.0, `@ssheleg/make-skill` 0.21.0, `sheleg-design-skill` 1.41.0 before this pointer commit | verified |
+| I-10 | Every submodule is on `main` at its release tag | `git tag --points-at HEAD` returns the matching `vX.Y.Z` for all five and `rev-parse --abbrev-ref HEAD` returns `main` — no detached HEAD this time, which `B-103` exists because of | verified |
+
 ## 2026-08-17 (twenty-sixth) — v0.87.1, the check caused the state it detects
 
 | REQ | What shipped | How it was confirmed | Status |
