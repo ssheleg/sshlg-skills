@@ -753,6 +753,20 @@ exists to refuse, so the rows below cover **this** release only.
 | B83-10 | Every lexicon key is a router that exists | fixtured against `registry.order()`, so a renamed router cannot leave orphaned territory behind | verified |
 | B83-11 | The gate grew with the suite | `npm test` → `PASS: 34 checks green (validate.py + 5 python + 28 node suites)`, up from 33 | verified |
 
+## 2026-08-17 (twenty-fifth) — v0.87.0, a guard downstream of the failure
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B79-3 | The assertion existed and the row did not know | `release.yml` carries *"The registry must actually serve it"* — polls `npm view` for three minutes, exits 1 — inside `publish`, gated `needs: release` → `needs: validate` | verified |
+| B79-4 | Which is why v0.82.0 was silent | that run's `validate` failed, `publish` reported `skipped`, and the assertion never executed; the tag sat unshipped for a day | verified |
+| B79-5 | The third question is answered outside CI | `test/check_pins.py` gains exit **3** for *this repository's newest tag is not on the registry*, reusing `classify()` rather than a second notion of published | verified |
+| B79-6 | Watched working in BOTH states, minutes apart | during v0.86.0's publish: `TAGGED BUT NOT SHIPPED: sshlg-skills v0.86.0 … registry serves 0.85.1`, exit 3. After it landed: `ok sshlg-skills 0.86.0 (newest tag, on the registry)`, exit 0 | verified |
+| B79-7 | Exit 3 does not block, and the reason is stated in the output | a release in flight and a release that failed are indistinguishable from here; the message says so instead of the script guessing | verified |
+| B79-8 | The first draft passed by failing to run | `repository` is `github:ssheleg/sshlg-skills`; a `github\.com`-anchored regex resolved nothing and the check printed `skip` and passed. Now a loud `FAIL`, with `repo_slug()` covering all five spellings | verified |
+| B79-9 | The resolver is fixtured, not trusted | eight cases in `--self-test`: npm shorthand, https+.git, git+https, scp-like ssh, bare slug, empty, non-repo text, host with no path | verified |
+| B79-10 | The self-test counts rather than restates | the summary said *5 cases* with thirteen running; it now prints `13 cases (5 classify, 8 slug)` computed from the lists | verified |
+| B79-11 | Both documentation homes moved with the code | `docs/DOCMAP.md`'s exit-code paragraph and `README.md`'s network-checks note both name exit 3 and why it is non-blocking | verified |
+
 ## 2026-08-17 (twenty-fourth) — v0.86.0, the reference sweep becomes askable
 
 | REQ | What shipped | How it was confirmed | Status |

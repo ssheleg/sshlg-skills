@@ -108,19 +108,27 @@ local entry point and the remote one cannot drift.
 
 ```bash
 python3 test/check_pins.py --self-test   # pure, offline, in CI's blocking path
-python3 test/check_pins.py               # 0 fresh · 1 pin never published · 2 behind
+python3 test/check_pins.py               # 0 fresh · 1 never published · 2 behind · 3 own tag unshipped
 pip install tiktoken && python3 test/audit_bundle.py
 ```
 
 The network half and the tokenizer half stay outside `npm test`, which must run
-offline with no dependencies. **`check_pins` answers two questions and CI treats
+offline with no dependencies. **`check_pins` answers three questions and CI treats
 them differently**: exit 1 means a pin names a version nobody published, which
 makes the commit wrong on its own terms and blocks; exit 2 means every pin is
 real but one is not the newest, which means a member released while this was in
 flight — a warning and a run-summary note, never a failure. Conflating them made
-five runs red in one day for other agents' releases. `classify` is pure and its
-five cases run with no network, including an assertion that the verdicts differ
-from one another. `audit_bundle.py` **refuses to run without one** rather than falling
+five runs red in one day for other agents' releases.
+
+**Exit 3 is about this repository rather than its members**, and it exists because
+`release.yml`'s own *"The registry must actually serve it"* step runs inside
+`publish`, which is `needs: release`, which is `needs: validate` — so the case it
+was written for, a run that never reaches `publish`, is the one case it cannot
+report. v0.82.0 sat tagged and unshipped for a day that way. Exit 3 is deliberately
+**not** blocking: a release in flight is indistinguishable from a release that
+failed, and the output says so rather than guessing. `classify` and `repo_slug` are
+pure and their thirteen cases run with no network, including an assertion that the
+verdicts differ from one another. `audit_bundle.py` **refuses to run without one** rather than falling
 back to a chars-per-token ratio — the two disagree by ~40%, and a number from
 the wrong instrument gets quoted as if it were a measurement.
 

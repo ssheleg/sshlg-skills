@@ -1,6 +1,6 @@
 {
   "name": "sshlg-skills",
-  "version": "0.86.0",
+  "version": "0.87.0",
   "description": "One launcher/updater for the ssheleg skill family (super-ux, task-pipeline, agent-sync, make-skill, sheleg-design, seo-aeo-audit, sheleg-dev, agent-stack) across every agent — Claude Code, Cursor, OpenCode, Kilo, Kimi, Hermes, OpenClaw, Codex, and more.",
   "bin": {
     "sshlg-skills": "bin/sshlg-skills.js"

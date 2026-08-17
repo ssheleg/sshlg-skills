@@ -446,7 +446,9 @@ pip install tiktoken && python3 test/audit_bundle.py
 ```
 
 Both kept out of `npm test` on purpose — it must work offline and dependency-free.
-`check_pins.py` queries the npm registry; `audit_bundle.py` needs a tokenizer and
+`check_pins.py` queries the npm registry — every member's pin, and since v0.87.0
+**this repository's own newest tag**, because a tag that never published is silent
+everywhere else; `audit_bundle.py` needs a tokenizer and
 refuses to estimate without one. The audit reports the always-on token budget,
 bodies against their cap, trigger-phrase collisions and the installed routing
 block against the registry.

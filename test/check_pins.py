@@ -30,6 +30,22 @@ Exit codes, so a caller can block on one and warn on the other:
     0  every pin names the latest published release
     1  a pin names a version that was never published -- the commit is wrong
     2  every pin is real, some are not the newest -- the world moved
+    3  this repository's own newest tag is not on the registry
+
+**The third question, and it is about this repository rather than its members.**
+`v0.82.0` was tagged, its CI went red on one step, `publish` was skipped behind
+it, and the tag sat there for a day while `npm` served `0.81.1`. Nothing here
+noticed: the members were all fine, and the umbrella was never among the things
+this script checks. `release.yml` does carry a *"The registry must actually serve
+it"* step -- but it runs inside `publish`, so the one case it exists for, a run
+that never reaches `publish`, is the one case it cannot report.
+
+A tag that is not on the registry is wrong the way a MISSING pin is wrong: it
+advertises a release nobody can install. It is reported separately and with its
+own exit code, because **a release in flight is indistinguishable from a release
+that failed** -- the registry's read replica lags the write master by a minute or
+two, and this script has no way to tell "publishing right now" from "published
+never". The output says so; the caller decides.
 """
 
 from __future__ import annotations
@@ -226,6 +242,26 @@ def self_test() -> int:
         if got != expected:
             failures.append(f"{label}: expected {expected}, got {got}")
 
+    # The slug resolver, fixtured because its first draft returned None for the one
+    # spelling this repository actually uses — and a resolver returning None made the
+    # whole own-tag check print `skip` and pass. Every form npm accepts is a case.
+    slugs = [
+        ("npm shorthand",   "github:ssheleg/sshlg-skills",                 "ssheleg/sshlg-skills"),
+        ("https + .git",    "https://github.com/ssheleg/sshlg-skills.git", "ssheleg/sshlg-skills"),
+        ("git+https",       "git+https://github.com/ssheleg/sshlg-skills.git", "ssheleg/sshlg-skills"),
+        ("scp-like ssh",    "git@github.com:ssheleg/sshlg-skills.git",     "ssheleg/sshlg-skills"),
+        ("bare slug",       "ssheleg/sshlg-skills",                        "ssheleg/sshlg-skills"),
+        ("empty",           "",                                            None),
+        ("not a repo",      "not a repo at all",                           None),
+        ("host without path", "https://github.com/",                       None),
+    ]
+    for label, field, expected in slugs:
+        got = repo_slug(field)
+        mark = "ok  " if got == expected else "FAIL"
+        print(f"  {mark} slug: {label:<24} -> {got}")
+        if got != expected:
+            failures.append(f"slug {label}: expected {expected}, got {got}")
+
     verdicts = {classify(p, n, k) for _, p, n, k, _ in cases}
     if len(verdicts) < 3:
         failures.append(
@@ -238,8 +274,82 @@ def self_test() -> int:
     if failures:
         print(f"\nself-test: {len(failures)} failure(s)")
         return 1
-    print(f"\nself-test: {len(cases)} cases, {len(verdicts)} distinct verdicts, no network")
+    # Counted, not restated: this line said "5 cases" the moment eight slug cases
+    # joined it, which is the failure the board keeps re-finding in its own files.
+    print(f"\nself-test: {len(cases) + len(slugs)} cases "
+          f"({len(cases)} classify, {len(slugs)} slug), "
+          f"{len(verdicts)} distinct verdicts, no network")
     return 0
+
+
+def repo_slug(field: str) -> str | None:
+    """`owner/repo` out of any form npm accepts in `repository`.
+
+    Four spellings are legal and this repository uses the shortest: npm's
+    `github:owner/repo` shorthand, which carries no hostname at all. A regex
+    anchored on `github.com` matches three of the four and returns nothing for
+    the one in use here -- and "returns nothing" read as "nothing to check".
+    """
+    if not field:
+        return None
+    text = field.strip()
+    for prefix in ("git+", "git://", "https://", "http://", "ssh://"):
+        if text.startswith(prefix):
+            text = text[len(prefix):]
+    text = re.sub(r"^git@", "", text)
+    text = re.sub(r"^github:", "", text)
+    text = re.sub(r"^github\.com[:/]", "", text)
+    text = re.sub(r"\.git$", "", text)
+    match = re.fullmatch(r"([\w.-]+)/([\w.-]+)", text)
+    return f"{match.group(1)}/{match.group(2)}" if match else None
+
+
+def check_own_tag(strict: bool) -> int | None:
+    """Is THIS repository's newest tag on the registry? `None` when it is.
+
+    Reuses `classify()` rather than inventing a second notion of published: the
+    question is identical to a member's, only the subject changed. What differs
+    is the reporting -- a member pin naming an unpublished version is this
+    commit's fault, while an unpublished tag is usually a release that failed
+    minutes ago or one that is still running.
+    """
+    with open(os.path.join(ROOT, "package.json"), encoding="utf-8") as handle:
+        pkg = json.load(handle)
+    name = pkg.get("name")
+    # `repository` is a string in some manifests and an object in others, and both
+    # are legal npm. Reading only one shape is how a check quietly stops running.
+    field = pkg.get("repository") or ""
+    slug = repo_slug(field if isinstance(field, str) else (field.get("url") or ""))
+    if not (name and slug):
+        # Loud, not a quiet skip: this check reporting nothing is indistinguishable
+        # from this check passing, which is the failure it exists to prevent. The
+        # first draft skipped silently on `github:owner/repo` shorthand.
+        print(f"\nFAIL     own tag  cannot resolve a github slug from "
+              f"repository={field!r} — the check cannot run, which is not the same as passing")
+        return 1
+
+    newest_tag, tag_known = repo_tags(slug)
+    if not newest_tag:
+        print("\nskip     own tag  no vX.Y.Z tag on this repository yet")
+        return None
+    try:
+        newest_npm, npm_known = npm_info(name, slug)
+    except (urllib.error.URLError, TimeoutError, OSError) as exc:
+        print(f"\nskip     own tag  registry unreachable ({exc})")
+        return 1 if strict else None
+
+    if classify(newest_tag, newest_npm, npm_known) != MISSING:
+        print(f"ok       {name:<16} {newest_tag} (newest tag, on the registry)")
+        return None
+
+    print(
+        f"\nTAGGED BUT NOT SHIPPED: {name} v{newest_tag} is tagged here and the "
+        f"registry serves {newest_npm or 'nothing'}.\n"
+        f"  A release still running looks exactly like this, and so does one whose\n"
+        f"  CI went red before `publish` — check the run before acting. If it failed,\n"
+        f"  the tag advertises a version nobody can install."
+    )
+    return 3
 
 
 def main(argv: list[str]) -> int:
@@ -328,6 +438,10 @@ def main(argv: list[str]) -> int:
             f"matching tag, and update the README table together."
         )
         return 2
+    own = check_own_tag(strict)
+    if own is not None:
+        return own
+
     print("\nevery pin matches its release (npm where published, git tag everywhere)")
     return 0
 

@@ -1,5 +1,48 @@
 # Changelog
 
+## v0.87.0 — the assertion existed and could never reach the case it was written for
+
+**`B-79` closed, and half its premise was wrong.** The row said nothing asserts that a pushed
+tag reached the registry. `release.yml` has carried exactly that assertion all along — *"The
+registry must actually serve it"*, polling `npm view` for three minutes and failing the run.
+
+It lives inside `publish`, which is `needs: release`, which is `needs: validate`. So the one
+case it exists for — a run that never reaches `publish` — is precisely the case it cannot
+report. v0.82.0 went red on `validate`, `publish` was skipped behind it, and the tag sat
+unshipped for a day while the assertion never ran. **A guard downstream of the failure cannot
+report the failure.**
+
+### The fix had to be outside CI, and it is one exit code
+
+`test/check_pins.py` already answered two questions about the members. It now answers a third
+about this repository, reusing `classify()` rather than inventing a second notion of
+*published*:
+
+```
+0  every pin names the latest published release
+1  a pin names a version that was never published — the commit is wrong
+2  every pin is real, some are not the newest — the world moved
+3  this repository's own newest tag is not on the registry
+```
+
+**Exit 3 is deliberately not blocking.** A release in flight is indistinguishable from a
+release that failed — the registry's read replica lags the write master by a minute or two —
+so the output says so and the caller decides, rather than the script guessing.
+
+**Watched working in both states, minutes apart.** While v0.86.0 was publishing it printed
+`TAGGED BUT NOT SHIPPED: sshlg-skills v0.86.0 … registry serves 0.85.1`, exit 3; when the
+release landed, `ok sshlg-skills 0.86.0 (newest tag, on the registry)`, exit 0.
+
+### Its first draft passed by failing to run
+
+`repository` in this manifest is `github:ssheleg/sshlg-skills` — npm's shorthand, carrying no
+hostname. A regex anchored on `github.com` matched none of it, the resolver returned nothing,
+and the check printed `skip` and passed. **A check that cannot run is not a check that
+passed**, so `repo_slug()` handles all five spellings npm accepts, an unresolvable field is a
+loud `FAIL` rather than a skip, and eight fixtures pin every form. The self-test summary line
+now counts its cases instead of restating them — it said *5 cases* the moment eight joined it,
+which is the failure this board keeps re-finding in its own files.
+
 ## v0.86.0 — a reference sweep wired to three MCP servers, documented twice, and unaskable
 
 **`super-ux` 0.42.0 → 0.43.0, `sheleg-design` 1.39.0 → 1.40.0.** The probe grows to 79
