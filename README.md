@@ -34,7 +34,7 @@ scripts. No services, no telemetry, no API keys.
 | Skill | Version | What it does |
 |---|---|---|
 | **[super-ux](https://github.com/ssheleg/super-ux)** | 0.41.5 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
-| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.68.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. |
+| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.69.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. |
 | **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.12.0 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
 | **[make-skill](https://github.com/ssheleg/make-skill)** | 0.20.0 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A — the protocols themselves live in `agent-stack`. |
 | **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.39.0 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
@@ -47,6 +47,38 @@ leases from `agent-sync`; `make-skill` encodes the repo layout the others are
 built on; `sheleg-dev` and `agent-stack` are the reference layer the first six
 route *to* rather than doctrine of their own; everything installs through the one
 launcher in this repo.
+
+## The manifesto this pack implements
+
+These skills are the reference implementation of
+**[Proof of Done: The Agentic Software Development Manifesto](https://github.com/ssheleg/pod-manifesto)**
+by Sergey Sheleg — *a foundation for building software when agents write the code.*
+The manifesto lives in its own repository; this one is where it stops being an argument.
+
+The manifesto's claim is that the unit of progress is not generated code but an
+**evidence-carrying change**: one that carries the intent it implements, the evidence
+that verifies it, the limits of that evidence, and the decision that accepts it. This
+repository is where that stops being an argument. Each idea below resolves to a file
+you can open and a command you can run:
+
+| The manifesto says | Here it is |
+|---|---|
+| Evidence over confidence — a green nobody watched fail is not evidence | `npm run test:negatives` feeds **every** guard a planted defect and requires it to reject one |
+| Done is a coverage relation, not a status on a task | [`references/acceptance.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/acceptance.md) — the ladder walk, seam by seam |
+| An edge with no named payload is chronology drawn as architecture | [`graph.schema.json`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json) refuses an edge whose `payload` is empty |
+| The queue is an artifact, not the agent's recollection | [`scripts/graph.py`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py) — the model never reads the graph; a 400-node graph and a 4-node graph print the same 27-byte frontier |
+| Never resolve a higher-layer conflict inside a lower-layer loop | [`references/loop-guard.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/loop-guard.md) |
+| When an audit starts finding its own last pass's damage, rotate the axis | [`references/audit.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/audit.md) |
+| Completion includes residue | [`references/residue.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/residue.md) — eight classes, three owners, teardown verified by re-reading state rather than by trusting the reply |
+| A repeated failure becomes a mechanism, not another paragraph | [`references/retrospective.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/retrospective.md) — three grades, retirement triggers, a list capped at ten |
+| Durable truth over conversational state | [`references/continuity.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/continuity.md) |
+
+Two of the manifesto's evidence notes (`E1`, `E4`) are incidents from this repository's
+own runs — it is describing measurements taken here. The parts it names that are **not** built yet are filed as open rows in
+[`docs/evidence/backlog.md`](skills/task-pipeline/docs/evidence/backlog.md) rather than
+described as shipped — which is the manifesto's rule applied to the manifesto.
+
+If the ideas are useful to you, a ⭐ on this repository helps other people find them.
 
 ## Install
 
