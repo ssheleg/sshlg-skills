@@ -1,5 +1,64 @@
 # Changelog
 
+## v0.86.0 — a reference sweep wired to three MCP servers, documented twice, and unaskable
+
+**`super-ux` 0.42.0 → 0.43.0, `sheleg-design` 1.39.0 → 1.40.0.** The probe grows to 79
+prompts and reads **64 named / 15 reaching nothing**, from 56/15.
+
+Asked whether the routing reaches design-reference and style search, the answer was **13 of
+15 prompts reached `[]`** — and the two that landed did so through unrelated words
+(`палитра`, `пейволл`). Meanwhile the capability is not merely present, it is precise:
+`sheleg-design/DESIGN_SYNC_BRIDGE.md` §4 tells the three connected servers apart by what each
+returns — Lazyweb web products and growth mechanics, Mobbin evenly-spaced preview images per
+step, Refero visually similar screens and flows as structure — and `ux-flows` carries the
+parallel rule with `funnel-research.md` FR-01 behind it. **Third instance of the same shape
+in one day**, after the growth vocabulary and the tenth router.
+
+### The split is the pack's own sentence, not a routing preference
+
+`DESIGN_SYNC_BRIDGE.md` §4 opens: *"A reference sweep answers what a good version of this
+screen contains — sections, hierarchy, content order. It never answers what it looks like."*
+Structure is `super-ux`'s ground by the block's own boundary, so:
+
+| Trigger | Router | Cost |
+|---|---|---|
+| `reference screens` / `референсы` | `super-ux` (`ux-flows`) | the funnel clause rewritten shorter; 893 → 940 |
+| `visual reference` / `визуальные референсы` | `sheleg-design` | 42 chars, two clauses compressed |
+| `style pack` | `sheleg-design` | **zero** — already in *"Product UI through its style packs"* |
+
+`нужны визуальные референсы` now raises **both**, which is the wanted answer rather than a
+collision.
+
+### What an operator actually types was refused, and the refusal is the measurement
+
+`подбери стиль` reaches nothing and stays that way. Each candidate was run against ten
+control sentences from this machine's own vocabulary before the decision:
+
+```
+стиль            → fires on «стиль кода», «стиль коммитов»
+подбери стиль    → fires on both (the matcher tolerates a qualifier between the words)
+pick a style     → fires on "pick a style guide for python"
+вдохновение      → fires on «вдохновение закончилось»
+```
+
+All four left unrouted: reaching nothing beats reaching the wrong craft. `мудборд` /
+`moodboard` measured **clean** and was still not added — neither description has the ~26
+characters, which is `B-66` binding for the third time today.
+
+### Two fixtures caught two mistakes of mine, by name
+
+Compressing `sheleg-design`'s description to pay for the addition took *"heroes"* out of it,
+and `triggers_test.js` failed with *"hero not in sheleg-design's description"* — `hero` is a
+routed trigger. And the `.cursor/` byte-identical mirror drifted twice; the member's own gate
+named the file both times. Neither was found by reading.
+
+**Filed: `B-86`** — `pencil`, `google_lens`/`google_images` and `higsfield` are connected here
+and named by no pack, with no recorded decision either way, so an agent cannot tell
+*considered and refused* from *never looked at*. **`B-87`** — `funnel-research.md` FR-01 says
+*"open a competitor's ad, click through"* and names no tool, in a session where
+`claude-in-chrome` and `chrome-devtools` are both connected and a sibling skill already uses
+the second.
+
 ## v0.85.1 — one of B-84's three defects is fixed and two are refused, with the numbers
 
 **A hyphen inside a trigger was load-bearing and should never have been.** `agent-interop`

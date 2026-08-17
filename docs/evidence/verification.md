@@ -753,6 +753,23 @@ exists to refuse, so the rows below cover **this** release only.
 | B83-10 | Every lexicon key is a router that exists | fixtured against `registry.order()`, so a renamed router cannot leave orphaned territory behind | verified |
 | B83-11 | The gate grew with the suite | `npm test` → `PASS: 34 checks green (validate.py + 5 python + 28 node suites)`, up from 33 | verified |
 
+## 2026-08-17 (twenty-fourth) — v0.86.0, the reference sweep becomes askable
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B85-1 | The gap was 13 of 15, and the two hits were accidents | before: only `подбери палитру под референс` → `sheleg-design` (via `палитра`) and `найди примеры пейволлов` → `super-ux` (via `пейволл`); every other reference or style prompt → `[]` | verified |
+| B85-2 | The capability was precise, not merely present | `DESIGN_SYNC_BRIDGE.md` §4 separates Lazyweb, Mobbin and Refero by what each returns; `sheleg-design/SKILL.md` §*Optional — real-world references* and *How to Apply* step 1; `ux-flows` *"Real flows off the shelf"* with `funnel-research.md` FR-01 | verified |
+| B85-3 | The split is the pack's own sentence | §4: *"A reference sweep answers what a good version of this screen contains … It never answers what it looks like."* `reference screens`/`референсы` → `ux-flows`; `visual reference`/`визуальные референсы` → `sheleg-design` | verified |
+| B85-4 | Both routers rise on a prompt naming both halves | `нужны визуальные референсы` → `["super-ux","sheleg-design"]` | verified |
+| B85-5 | One trigger cost nothing at all | `style pack` was already a substring of *"Product UI through its style packs"*; `какой style pack взять` → `["sheleg-design"]` with no description change for it | verified |
+| B85-6 | The natural phrasing was refused on measurement | ten control sentences per candidate: `стиль` → «стиль кода», «стиль коммитов»; `подбери стиль` → the same; `pick a style` → *pick a style guide for python*; `вдохновение` → «вдохновение закончилось». All four unrouted, and the three controls are now permanent probe cases asserting silence | verified |
+| B85-7 | A clean candidate was still refused, on budget | `мудборд`/`moodboard` fired on no control sentence and was not added: `ux-flows` had 30 free and `sheleg-design` 15, against ~26 needed. `B-66`, third time today | verified |
+| B85-8 | Coverage moved and the corpus grew | `node test/route_coverage.js` → `64 named an expected route · 15 reached nothing · 0 spoke where silence was right · 79 prompts`, from 56/15 of 71 | verified |
+| B85-9 | Two fixtures caught two of my own mistakes by name | `triggers_test.js` → *"hero not in sheleg-design's description"* after a compression removed the word; `sheleg-design`'s gate → *".cursor/skills/sheleg-design/SKILL.md: drifted"*, twice | verified |
+| B85-10 | Children before parent, and a detached HEAD fixed on the way | `super-ux` 0.43.0 and `sheleg-design-skill` 1.40.0 both read back from `npm view` before this pointer commit. `sheleg-design` was on a detached HEAD (`B-103` in that repo) and its push was refused by a concurrent commit; the release was replayed onto `origin/main` rather than forced | verified |
+| B86-1 | Three connected surfaces are named by no pack | grepping every shipped skill: `pencil`, `google_lens`/`google_images`, `higsfield` → zero hits, while `refero`, `mobbin`, `lazyweb`, `figma`, `chrome-devtools` and `prowl` all resolve to at least one member | verified |
+| B87-1 | A method describes a manual click where two tools are connected | `funnel-research.md` FR-01: *"open a competitor's ad, click through, and you are in it at step one"*, naming no tool; `seo-aeo-audit` already names `chrome-devtools` for its own crawling | verified |
+
 ## 2026-08-17 (twenty-third) — v0.85.1, one of three fixed and two refused
 
 | REQ | What shipped | How it was confirmed | Status |

@@ -67,6 +67,23 @@ const CASES = [
   ['ускорить сайт', 'sheleg-dev'],
   ['сайт медленно грузится', 'sheleg-dev'],
 
+  // --- design references and style search ----------------------------------
+  // Both packs carry this deeply — sheleg-design has a reference-sweep section and
+  // DESIGN_SYNC_BRIDGE.md §4 telling Lazyweb, Mobbin and Refero apart by what each
+  // returns; ux-flows has the parallel rule. The split follows §4's own sentence:
+  // a sweep answers content and structure, never what it looks like.
+  ['найди референсы дизайна', 'super-ux'],
+  ['подбери референсы', 'super-ux'],
+  ['find reference screens', 'super-ux'],
+  ['нужны визуальные референсы', 'sheleg-design|super-ux'],
+  ['какой style pack взять', 'sheleg-design'],
+  // Refused by measurement rather than left undone: the bare `стиль` fires on
+  // «стиль кода» and «стиль коммитов», `подбери стиль` on the same, and
+  // `pick a style` on *pick a style guide for python*. Silence is the wanted answer.
+  ['подбери стиль кода', ''],
+  ['стиль коммитов', ''],
+  ['pick a style guide for python', ''],
+
   // --- the visual layer ----------------------------------------------------
   ['поменяй палитру', 'sheleg-design'],
   ['сделай красиво', 'sheleg-design'],
