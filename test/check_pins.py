@@ -32,6 +32,13 @@ Exit codes, so a caller can block on one and warn on the other:
     2  every pin is real, some are not the newest -- the world moved
     3  this repository's own newest tag is not on the registry
 
+**These codes are a contract with `.github/workflows/validate.yml`**, whose step
+ends in `exit "$code"` — so a code that file does not name fails the run. That is
+the right default and it is also why adding one here is a two-file change: exit 3
+shipped without its half, and the first release after it went red on its own tag,
+skipped `publish`, and produced exactly the unshipped tag the code exists to
+report.
+
 **The third question, and it is about this repository rather than its members.**
 `v0.82.0` was tagged, its CI went red on one step, `publish` was skipped behind
 it, and the tag sat there for a day while `npm` served `0.81.1`. Nothing here

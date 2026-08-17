@@ -67,6 +67,28 @@ jobs:
             } >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
+          if [ "$code" = "3" ]; then
+            # This repository's own newest tag is not on the registry. During a
+            # release that is ALWAYS true — the tag exists, publish has not run yet
+            # — so blocking here makes the check cause the very state it detects.
+            # It did, on v0.87.0, the first release after it was added: red on the
+            # tag, publish skipped, tag unshipped. The check is a report for an
+            # operator or a later run, never a gate on the release that creates it.
+            echo "::warning::this repository's newest tag is not on the registry yet — expected during a release, a finding afterwards"
+            {
+              echo "### Own tag not yet on the registry"
+              echo
+              grep -A4 '^TAGGED BUT NOT SHIPPED' /tmp/pins.txt | sed 's/^/> /'
+              echo
+              echo "Expected while this very release is publishing. If the run is not a release, the tag advertises a version nobody can install."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          # Anything else is an exit code this step has never seen. Failing is the
+          # right default — an unrecognised verdict passed silently is how a check
+          # stops being one — but it also means **adding an exit code to
+          # check_pins.py is a change to this file too**, which is what v0.87.0
+          # learned the expensive way.
           exit "$code"
 
       - name: Pin-source suite (7 cases — the four verdicts, on real git repos)

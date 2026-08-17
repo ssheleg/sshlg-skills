@@ -1,5 +1,27 @@
 # Changelog
 
+## v0.87.1 — the check that detects an unshipped tag shipped by causing one
+
+**v0.87.0 is tagged and was never published, by its own new check.** `check_pins.py` gained
+exit **3** — *this repository's own newest tag is not on the registry* — documented as
+non-blocking. `validate.yml`'s step ends in `exit "$code"` and had never heard of 3, so the
+tag run went red, `publish` was skipped behind it exactly as `B-79` describes, and npm stayed
+on 0.86.0.
+
+**During a release the condition is always true.** The tag exists; `publish` has not run yet.
+A gate on that makes the check produce the state it detects — which it did, on the first
+release after it was added.
+
+The step now treats 3 as a warning with a run-summary note. **The `exit "$code"` default is
+kept on purpose**: an unrecognised verdict passing silently is how a check stops being one.
+What was missing is that the exit codes are a **contract with a second file**, and nothing
+said so — the script listed four codes and the workflow named three. Both halves say it now.
+
+v0.87.0's tag stays where it is. This repository decided at v0.82.1 that a burned tag gets a
+successor rather than a rewrite.
+
+**Filed and closed as `B-88`.**
+
 ## v0.87.0 — the assertion existed and could never reach the case it was written for
 
 **`B-79` closed, and half its premise was wrong.** The row said nothing asserts that a pushed

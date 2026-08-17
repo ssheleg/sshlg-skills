@@ -753,6 +753,18 @@ exists to refuse, so the rows below cover **this** release only.
 | B83-10 | Every lexicon key is a router that exists | fixtured against `registry.order()`, so a renamed router cannot leave orphaned territory behind | verified |
 | B83-11 | The gate grew with the suite | `npm test` → `PASS: 34 checks green (validate.py + 5 python + 28 node suites)`, up from 33 | verified |
 
+## 2026-08-17 (twenty-sixth) — v0.87.1, the check caused the state it detects
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B88-1 | The new exit code turned the next release red | `gh run view` on the v0.87.0 tag run: the only failing step is *"Pins match published releases"*; `validate` and `release` both `failure`, `npm view sshlg-skills version` → `0.86.0` | verified |
+| B88-2 | The cause is a contract that lived in one file | `validate.yml`'s step ends `exit "$code"` and named 1 and 2 only; `check_pins.py` documented four codes. An unnamed code therefore failed the run | verified |
+| B88-3 | The condition is unavoidable during a release | the tag exists before `publish` runs, so exit 3 is true of every release at the moment CI reads it — a gate on it produces the unshipped tag it exists to report | verified |
+| B88-4 | The fix is a warning, not a weaker default | exit 3 gets a `::warning::` and a run-summary block; the trailing `exit "$code"` is kept so an unrecognised verdict still fails, with a comment naming the two-file change | verified |
+| B88-5 | Both halves of the contract now state it | the workflow comment names `check_pins.py`, and the script's docstring names `validate.yml` and why its default is right | verified |
+| B88-6 | The burned tag is not rewritten | v0.87.0 stays in place and v0.87.1 succeeds it, which is the decision this repository made at v0.82.1 | verified |
+| B88-7 | The gate is green on the fix | `npm test` exit 0; `check_pins.py --self-test` → 13 cases, 3 distinct verdicts, exit 0 | verified |
+
 ## 2026-08-17 (twenty-fifth) — v0.87.0, a guard downstream of the failure
 
 | REQ | What shipped | How it was confirmed | Status |
