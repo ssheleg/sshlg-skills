@@ -1,5 +1,60 @@
 # Changelog
 
+## v0.83.0 — a tenth router, for the member that was in the map and in no rule
+
+**`agent-stack` had been installed since 2026-08-06 and routable never.** It appeared in
+the operator's file exactly once — in the map table, which lists what is installed rather
+than deciding when to reach for it — and the registry, the block and the prompt hook had no
+entry for it at all. Nine `SSHLG:ROUTER:` sections, none of them its.
+
+**Measured before it was believed, and the probe ships.** `test/route_coverage.js` runs 71
+prompts an operator would really type through the real `lib/triggers.js`:
+
+```
+before   39 named an expected route · 32 reached nothing
+after    44 named an expected route · 27 reached nothing
+```
+
+Six of seven agent prompts reached `[]` — `напиши оркестратор агентов`, `сделай эвалы для
+агента`, `add tool calling loop`, `sub-agent coordination`, `системный промпт для агента`.
+Five of them now route; the sixth (`подключи mcp сервер`) is a matcher gap rather than a
+missing router, filed under `B-84`: the pack advertises `MCP-сервер` with a hyphen and
+`phrasePattern` splits trigger words on whitespace only, so the spaced form cannot match.
+
+**`triggers_test.js` has always asked whether every trigger is advertised. Nothing asked
+whether anything is reachable.** Soundness passed for eleven days over a table that could
+not name half the family. The probe is deliberately **not** a `_test.js`, and not for the
+reason `check_pins.py` is outside the gate — that one needs the network. This one is
+excluded because its expectations are a judgement about what an operator means, and a
+judgement that fails a build is a judgement nobody may revise.
+
+### What the router costs, and what it did not cost
+
+**No description was edited.** All four `agent-stack` skills already publish an explicit
+`Triggers -` list, which is what made this the cheapest routing row on the board — and it
+had to be, because `agent-orchestrator` sits at **1019 of 1024** characters, five from the
+cap where the host truncates silently.
+
+**The bare `агент` is deliberately absent from the table.** It is the word this household
+uses for `agent-sync`, for subagents and for the assistant itself, so it would fire on most
+sentences typed here; it is also inside the new refusal «без агентного слоя», and
+`triggers_test.js` forbids a trigger that makes its own refusal unsayable. Every trigger is
+a compound that carries no second trade.
+
+**The block grows by ~340 tokens** (1326 characters over the repo's own ÷3.9 divisor), to
+ten routers and ~2735 tokens of router text.
+
+### Two fixtures were counting instead of deriving, and one of them proved the point
+
+`router_texts_test.js`'s *"installing the whole family contributes all nine"* listed the
+members **by hand and omitted `agent-stack`** — the same shape as the gap the router closes,
+inside the fixture meant to prove the family is fully covered. It now reads `skills.json`.
+`cli_config_test.js` asserted the switch list is *exactly nine*; it now reads
+`registry.order().length`, because a hand-kept number is a second place every new router has
+to be added and the tenth was added while that line still said nine.
+
+**B-81 closed. `B-84` gains the `MCP-сервер` case.**
+
 ## v0.82.1 — the tag's tree satisfied the version claim and failed the composition check
 
 **v0.82.0 was tagged and never published.** `npm view sshlg-skills version` still returned

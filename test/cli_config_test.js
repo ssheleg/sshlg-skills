@@ -51,10 +51,15 @@ it('`config` lists every router, and defaults them all to on', () => {
   }
 });
 
-it('`config` lists exactly nine routers — no more, no fewer', () => {
+// Counted from the registry rather than typed: a hand-kept number here is a second
+// place a router has to be added, and the tenth was added while this line still said
+// nine. The assertion that matters is *every router the registry declares is
+// switchable*, which is what this now says.
+it('`config` lists every router the registry declares — no more, no fewer', () => {
   const home = tmpHome();
+  const expected = require('../lib/routers-registry.js').order().length;
   const lines = run(home, ['config']).out.split('\n').filter((l) => /^\s+routers\./.test(l));
-  assert.strictEqual(lines.length, 9, lines.join('\n'));
+  assert.strictEqual(lines.length, expected, lines.join('\n'));
 });
 
 it('`config list` is the same thing spelled out', () => {

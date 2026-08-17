@@ -704,3 +704,19 @@ exists to refuse, so the rows below cover **this** release only.
 | B78-7 | The gate is green on the released tree | `npm test` → `PASS: 33 checks green (validate.py + 5 python + 27 node suites)`, exit 0; `python3 test/check_pins.py` → `every pin matches its release`, exit 0 | verified |
 | B78-8 | Nothing but the pointer moved | `git diff v0.82.0..HEAD --stat` limited to `skills/` shows only `skills/task-pipeline`; `skills.json` still reads `1.69.0` and no README row changed | verified |
 | B79-1 | The missing signal is filed, not fixed | `B-79` open on the board: nothing asserts a pushed tag reached the registry, and `check_pins.py` covers members only and sits outside the offline gate by design | verified |
+| B79-2 | And it was watched working once, by hand | the v0.82.1 monitor polled the tag's runs to terminal and then read the registry: `SHIPPED: runs [release=success validate=success] and npm serves 0.82.1` | verified |
+
+## 2026-08-17 (twentieth) — v0.83.0, the tenth router
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B81-1 | `agent-stack` had no router of any kind | before the change: `registry.order()` → nine names, none of them `agent-stack`; `grep -c 'SSHLG:ROUTER:' ~/.claude/CLAUDE.md` → nine sections; `lib/triggers.js` `ROUTES` had no entry. Its only appearance in the operator's file was the map table at line 178 | verified |
+| B81-2 | The cost was measured, not asserted | `node test/route_coverage.js` before → `39 named an expected route · 32 reached nothing`; after → `44 · 27`. The agent block goes from 6 misses of 7 to 1 | verified |
+| B81-3 | Five of six agent prompts route, and the sixth is a different defect | `напиши оркестратор агентов`, `сделай эвалы для агента`, `add tool calling loop`, `sub-agent coordination`, `системный промпт для агента` → `["agent-stack"]`; `подключи mcp сервер` → `[]`, moved to `B-84` as a matcher gap, not a missing trigger | verified |
+| B81-4 | No description was edited, and none could have been | `agent-orchestrator` measured at **1019/1024** before and after; all four triggers groups are drawn from the `Triggers -` lists the skills already publish, and `triggers_test.js` → `OK (27 checks)` proves every one is advertised | verified |
+| B81-5 | The bare `агент` is refused, and the refusal is sayable | `без агентного слоя` → `T.match` returns `[]`; `triggers_test.js`'s clash fixture (*no refusal phrase is also a trigger*) passes with the new phrase in `REFUSALS` | verified |
+| B81-6 | The neighbours still separate | `возьми задачу` and `кто сейчас делает этот файл` → `["agent-sync"]`, unchanged; the router text names the seam (who holds the file vs what is being built) | verified |
+| B81-7 | A fixture that counted by hand had the bug it was checking for | `router_texts_test.js`'s member list omitted `agent-stack`, so *"the whole family contributes all nine"* passed over the gap; it now reads `skills.json` and asserts the manifest holds the member. `cli_config_test.js` reads `registry.order().length` instead of the literal `9` | verified |
+| B81-8 | The block's growth is a number, not an impression | the ten rendered router texts are **10668 characters**, `agent-stack` **1326** of them — ~2735 and ~340 tokens on the repo's own ÷3.9 divisor | verified |
+| B81-9 | The gate is green and the counts recompute | `npm test` → `PASS: 33 checks green`, exit 0; `router_texts_test.js` 65 → **70 checks**; the board's own recipe prints `open 7 / waived 3` | verified |
+| B81-10 | The published open-count recipe survived the new rows | an escaped `\|` inside `B-82`'s prose split the status out of the second-to-last field and hid `B-82` from the waived list; the row was rewritten in words rather than the parser being taught the exception | verified |

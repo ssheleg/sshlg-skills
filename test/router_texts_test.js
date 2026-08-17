@@ -30,11 +30,11 @@ function it(name, fn) {
 }
 
 const EXPECTED = [
-  'super-ux', 'sheleg-design', 'copywriting', 'sheleg-dev', 'seo-llmo',
-  'evidence-docs', 'task-pipeline', 'make-skill', 'agent-sync',
+  'super-ux', 'sheleg-design', 'copywriting', 'sheleg-dev', 'agent-stack',
+  'seo-llmo', 'evidence-docs', 'task-pipeline', 'make-skill', 'agent-sync',
 ];
 
-it('the registry holds exactly the nine routers, in table order', () => {
+it('the registry holds exactly the ten routers, in table order', () => {
   assert.deepStrictEqual(registry.order(), EXPECTED);
 });
 
@@ -127,11 +127,14 @@ it('installing nothing still contributes the rules that need no skill', () => {
   assert.deepStrictEqual(Object.keys(r).sort(), ['evidence-docs', 'seo-llmo']);
 });
 
-it('installing the whole family contributes all nine', () => {
-  const r = T.forMembers([
-    'super-ux', 'task-pipeline', 'agent-sync',
-    'make-skill', 'sheleg-design', 'sheleg-dev', 'seo-aeo-audit',
-  ]);
+// The member list here read the family as seven and omitted `agent-stack` — the
+// same shape as the gap the tenth router closed, in the fixture that was meant to
+// prove the family is fully covered. It is now read from `skills.json` rather than
+// typed, so a member added to the manifest cannot be missing from this list too.
+it('installing the whole family contributes all ten', () => {
+  const members = require('../skills.json').skills.map((s) => s.name);
+  assert.ok(members.includes('agent-stack'), 'the manifest is what this reads; it must hold the members');
+  const r = T.forMembers(members);
   assert.deepStrictEqual(Object.keys(r).sort(), EXPECTED.slice().sort());
 });
 

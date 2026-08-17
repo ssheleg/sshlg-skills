@@ -396,7 +396,7 @@ skills.json                  registry — repos, plugin ids, skill names, pins
 skills/*                     the eight skills as pinned git submodules
 bin/sshlg-skills.js          the launcher (install / update / routers / config / hooks /
                              injectors / list / agents)
-lib/routers-registry.js      the eight routers — text, table row and required members, in one entry
+lib/routers-registry.js      the ten routers — text, table row and required members, in one entry
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js
 lib/plan.js                  the argv handed to the skills CLI — one builder for install and update
