@@ -1,5 +1,53 @@
 # Changelog
 
+## v0.82.1 — the tag's tree satisfied the version claim and failed the composition check
+
+**v0.82.0 was tagged and never published.** `npm view sshlg-skills version` still returned
+`0.81.1` a day later. All three of its workflow runs — `validate` on `main` (32034181241),
+`validate` on the tag and `release` (32034202248, 32034202388) — failed at **one** step,
+*Coordination configs are checked, in every repository that declares one*, and `publish` and
+`release` were skipped because a red suite gates them, which is the behaviour v0.49.0 shipped
+on purpose. Nothing else in the release was wrong.
+
+**The cause is the decision v0.82.0 wrote down as a principle.** It pinned `task-pipeline` at
+`92fc3ea` — the v1.69.0 **tag's tree** rather than the branch tip — reasoning that
+`skills.json` claims *version 1.69.0*, so the pin must be the tree that version names. The
+reasoning is sound about the version and blind about everything else in the tree. Reproduced
+at the pin, in a worktree, rather than inferred:
+
+```
+$ git worktree add --detach … 92fc3ea && agent_sync.py check
+  ✗ the configuration changed since the snapshot was generated — regenerate with `setup`
+  1 problem(s) — this setup is NOT healthy.
+$ … at 7cd7aaf (branch tip)          → 9 of 9 configs OK
+$ package.json version, both trees   → 1.69.0
+```
+
+Both trees satisfy the version claim identically. What differs is `.claude/agent-sync.json`
+and its snapshot — and the fix for them (`7e74889`) landed **after** the tag. So pinning the
+tag's tree bought the *pin is the promise* invariant nothing it did not already have, and cost
+the one check that reads the repository at the pin rather than the package.
+
+**And the package is the reason no `1.69.1` exists.** The obvious repair was a child patch
+release; it was measured instead of assumed, and the measurement refused it:
+`task-pipeline-skill`'s `files` field is `bin, plugins, cursor, evals` plus the root
+documents — **`docs/AGENT_SYNC.md` and `.claude/` ship in neither**. `npm pack --dry-run |
+grep -i agent_sync` is empty. The published 1.69.0 carries no defect, so a version bump would
+have announced a fix to a channel that never had the bug. The four commits were pushed,
+`skills.json` stays at 1.69.0, and the pointer moves to the tip.
+
+**What the pin invariant actually means, corrected here.** `skills.json` promises a *version*,
+and a pin keeps that promise when the pinned tree's `package.json` carries it. Which
+version-bearing tree — tag or tip — is free, and the parent's own CI is the tiebreak, because
+it checks out the repository rather than installing the package.
+
+**Filed:** `B-78`, so the next release does not re-derive this.
+
+**No member moved.** All eight pins, all eight README rows and `skills.json` are unchanged
+from v0.82.0 except `task-pipeline`'s pointer, which advances 92fc3ea → 7cd7aaf within the
+same version. `python3 test/check_pins.py` → exit 0, eight pins, eight matches. `npm test` →
+33 checks green.
+
 ## v0.82.0 — the pointer is not the path, and this release is the first to prove it
 
 **`task-pipeline` 1.68.0 → 1.69.0**, pinned at `92fc3ea` — **the tag's own tree, not the

@@ -683,3 +683,24 @@ gone silently wrong: 29 CI plants anchored on the literal path.
 | B57-5 | The English gap was found by re-derivation, not by the row | `build a landing page` reached `[]` and is not mentioned in B-57 at all | verified |
 | B57-6 | Every trigger is advertised | `test/triggers_test.js` → OK (27 checks) after all four additions; both descriptions within 1024 (1021 and 579) | verified |
 | B57-7 | Released and pinned | `sheleg-design` v1.37.5 and `super-ux` v0.41.5 tagged at HEAD; both pins, both README rows, umbrella v0.78.0 | verified |
+
+## 2026-08-17 (nineteenth) — v0.82.1, the tag's tree and the composition check
+
+**Four releases are missing from this ledger, and the gap is named rather than filled.**
+v0.79.0, v0.80.0, v0.81.0, v0.81.1 and v0.82.0 shipped without a section here; the eighteenth
+entry above is v0.78.0. That is `B-70` — *the verification ledgers have gone stale in five of
+nine* — visible in this repository's own. Back-filling five releases from their CHANGELOG
+entries would record confirmations nobody performed, which is the failure `evidence-docs`
+exists to refuse, so the rows below cover **this** release only.
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| B78-1 | v0.82.0 was tagged and never published | `npm view sshlg-skills version` → `0.81.1` with tag `v0.82.0` present at `5568783` | verified |
+| B78-2 | One step failed, in all three runs, and it gated the rest | `gh run view --json jobs` on 32034181241, 32034202248, 32034202388 → the only `failure` step is *Coordination configs are checked, in every repository that declares one*; `publish` and `release` report `skipped` | verified |
+| B78-3 | The pinned tag's tree fails the check, and the branch tip passes | `git worktree add --detach … 92fc3ea` then `agent_sync.py check` → *the configuration changed since the snapshot was generated*, `1 problem(s)`; the same check across all nine configs at the tip → `seen=9 rc=0` | verified |
+| B78-4 | Both trees carry the version `skills.json` claims | `require('<worktree>/package.json').version` → `1.69.0`; the same at `7cd7aaf` → `1.69.0` | verified |
+| B78-5 | No child patch release was needed, and that was measured not assumed | `task-pipeline-skill` `files` → `["bin","plugins","cursor","evals","README.md","HOW-IT-WORKS.md","SKILL-CARD.md","LICENSE","CHANGELOG.md","CONTRIBUTING.md","SECURITY.md","CODE_OF_CONDUCT.md"]`; `npm pack --dry-run \| grep -iE 'AGENT_SYNC\|agent-sync.json'` → **empty** | verified |
+| B78-6 | The unpushed commits were the second half of the failure | umbrella `test/validate.py` before the push → *`skills/task-pipeline`: 4 commit(s) exist only locally … `upload-pack: not our ref`*; after `git push origin main` (92fc3ea..7cd7aaf) the same command is clean | verified |
+| B78-7 | The gate is green on the released tree | `npm test` → `PASS: 33 checks green (validate.py + 5 python + 27 node suites)`, exit 0; `python3 test/check_pins.py` → `every pin matches its release`, exit 0 | verified |
+| B78-8 | Nothing but the pointer moved | `git diff v0.82.0..HEAD --stat` limited to `skills/` shows only `skills/task-pipeline`; `skills.json` still reads `1.69.0` and no README row changed | verified |
+| B79-1 | The missing signal is filed, not fixed | `B-79` open on the board: nothing asserts a pushed tag reached the registry, and `check_pins.py` covers members only and sits outside the offline gate by design | verified |
