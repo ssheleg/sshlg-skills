@@ -23,16 +23,23 @@ import sys
 import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import residue  # noqa: E402
 import doc_refs  # noqa: E402
 
 failures = []
 
 
 def case(name, fn):
+    # The workspace of a case that fails is KEPT: a planted defect is debugged by
+    # reading the tree it landed in, and a cleanup that runs only on the pass path
+    # deletes the evidence exactly when it is wanted.
+    residue.open_case(name)
     try:
         fn()
+        residue.close_case(name)
         print(f"  ok  {name}")
     except AssertionError as e:
+        residue.close_case(name, ok=False)
         failures.append(f"{name}: {e}")
         print(f"FAIL  {name}: {e}")
 
@@ -149,7 +156,7 @@ def every_occurrence_is_yielded_with_its_line():
 # --- resolution -----------------------------------------------------------------------
 
 def resolution_reads_the_tree_and_the_line_count():
-    root = tempfile.mkdtemp()
+    root = residue.workspace("tree")
     try:
         os.makedirs(os.path.join(root, "lib"))
         with open(os.path.join(root, "lib", "a.js"), "w") as fh:
@@ -167,7 +174,7 @@ def resolution_reads_the_tree_and_the_line_count():
 def an_uncheckedout_submodule_is_unknown_never_dead():
     """None, not False. A sweep that reports a missing submodule as a broken reference
     turns a fresh clone into a red gate, which is the fastest way to a switched-off gate."""
-    root = tempfile.mkdtemp()
+    root = residue.workspace("tree")
     try:
         os.makedirs(os.path.join(root, "skills", "task-pipeline"))
         ok, detail = doc_refs.resolve(root, "skills/task-pipeline/references/a.md")
@@ -182,7 +189,7 @@ def an_uncheckedout_submodule_is_unknown_never_dead():
 def prefixes_are_discovered_from_the_tree():
     """A hand-kept prefix list goes stale the moment a directory is added, and the
     staleness reads as a passing check."""
-    root = tempfile.mkdtemp()
+    root = residue.workspace("tree")
     try:
         os.makedirs(os.path.join(root, "lib"))
         os.makedirs(os.path.join(root, "node_modules"))
@@ -221,3 +228,4 @@ if failures:
     print(f"\nFAIL: {len(failures)} of 17")
     sys.exit(1)
 print("\nPASS: doc_refs — 17 cases")
+residue.report()

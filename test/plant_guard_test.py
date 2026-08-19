@@ -14,6 +14,9 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 GUARD = os.path.join(HERE, "plant_guard.py")
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import residue  # noqa: E402
+
 failures = []
 
 
@@ -22,16 +25,22 @@ def run(*args):
 
 
 def case(name, fn):
+    # The workspace of a case that fails is KEPT: a planted defect is debugged by
+    # reading the tree it landed in, and a cleanup that runs only on the pass path
+    # deletes the evidence exactly when it is wanted.
+    residue.open_case(name)
     try:
         fn()
+        residue.close_case(name)
         print(f"  ok  {name}")
     except AssertionError as e:
+        residue.close_case(name, ok=False)
         failures.append(f"{name}: {e}")
         print(f"FAIL  {name}: {e}")
 
 
 def tree():
-    d = tempfile.mkdtemp()
+    d = residue.workspace("tree")
     root = os.path.join(d, "copy")
     os.makedirs(os.path.join(root, "sub"))
     with open(os.path.join(root, "a.txt"), "w") as fh:
@@ -142,3 +151,4 @@ if failures:
     print(f"\nFAIL: {len(failures)} of 9")
     sys.exit(1)
 print("\nPASS: plant_guard — 9 cases")
+residue.report()

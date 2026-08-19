@@ -22,23 +22,30 @@ import sys
 import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import residue  # noqa: E402
 import pin_source  # noqa: E402
 
 failures = []
 
 
 def case(name, fn):
+    # The workspace of a case that fails is KEPT: a planted defect is debugged by
+    # reading the tree it landed in, and a cleanup that runs only on the pass path
+    # deletes the evidence exactly when it is wanted.
+    residue.open_case(name)
     try:
         fn()
+        residue.close_case(name)
         print(f"  ok  {name}")
     except AssertionError as e:
+        residue.close_case(name, ok=False)
         failures.append(f"{name}: {e}")
         print(f"FAIL  {name}: {e}")
 
 
 def repo(committed_version, working_version=None):
     """A real git repo whose HEAD carries one version and whose tree may carry another."""
-    d = tempfile.mkdtemp()
+    d = residue.workspace("tree")
     run = lambda *a: subprocess.run(["git", "-C", d, *a], capture_output=True, text=True)
     run("init", "-q")
     run("config", "user.email", "t@t"); run("config", "user.name", "t")
@@ -90,7 +97,7 @@ def unreadable_git_falls_back_and_says_so():
     """A submodule copied to /tmp has a `.git` file pointing at a path that no longer
     resolves — the ordinary state inside a CI plant. Refusing there would make every
     plant unrunnable; going quiet would make the fallback invisible."""
-    d = tempfile.mkdtemp()  # not a git repo at all
+    d = residue.workspace("tree")  # not a git repo at all
     assert pin_source.read_committed(d) is None, "read_committed invented a version"
     v, actual, note = pin_source.resolve("1.2.3", None, "1.2.3")
     assert v == "blind", v
@@ -129,3 +136,4 @@ if failures:
     print(f"\nFAIL: {len(failures)} of 7")
     sys.exit(1)
 print("\nPASS: pin_source — 7 cases")
+residue.report()
