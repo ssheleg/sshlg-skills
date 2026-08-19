@@ -43,7 +43,7 @@ untrue** to an outside reader.
 
 | id | M | title | evidence | done when | state |
 |---|---|---|---|---|---|
-| SD-01 | M-44 M-07 | `sheleg-dev/SECURITY.md` is a wholesale copy from `seo-aeo-audit` — five paths that do not exist, shipped in the published npm tarball, including a "verify for yourself" command that cannot run | `SECURITY.md:10,11,17,35,54,56`; `package.json:17` | every path in `SECURITY.md` resolves (`test -e`), the verify command runs, and the B-47 path guard at `test/validate.py:255-307` is widened beyond CONTRIBUTING with its own planted defect | open |
+| SD-01 ✅ | M-44 M-07 | **VERIFIED 2026-08-19** at `sheleg-dev@e401603` — 8 dead references where the audit sampled 6, 11 closed repo-wide; see the closes ledger. `sheleg-dev/SECURITY.md` is a wholesale copy from `seo-aeo-audit` — five paths that do not exist, shipped in the published npm tarball, including a "verify for yourself" command that cannot run | `SECURITY.md:10,11,17,35,54,56`; `package.json:17` | every path in `SECURITY.md` resolves (`test -e`), the verify command runs, and the B-47 path guard at `test/validate.py:255-307` is widened beyond CONTRIBUTING with its own planted defect | **verified** |
 | UM-03 | M-07 | two of the umbrella's own references do not resolve — a manifesto about resolvable addresses shipping unresolvable ones | `README.md:66` (`npm run test:negatives` → exit 1, "Missing script"); `docs/evidence/convergence.md:10` (`scripts/check-convergence.sh` absent) | both citations name a target that exists; `npm run` shows the script or the claim points at the 20 CI plants / the member's real `templates/convergence.sh` | open |
 
 ## Wave 2 — close the last manifesto gap, then make the manifesto true
@@ -55,7 +55,8 @@ built, with commits — instead of a corrected one.
 | id | M | title | evidence | done when | state |
 |---|---|---|---|---|---|
 | TP-01 | M-22 | **B-080, the one manifesto gap still open** — a node cannot say how it will be closed, while `agents/verifier.md:61` orders an agent to "run the checks the task named". Node props measured `blocked_by,evidence,id,owner,parked_reason,serves,status,title,touches` — no `check` | `docs/evidence/backlog.md:15`; `graph.schema.json`; `agents/verifier.md:61` | `check` exists on the node schema, is required for a node the verifier closes, `graph.py validate` exits 1 without it, and a planted defect is refused in `negatives.py` | open |
-| PM-01 | M-08 M-43 | `manifesto:445` asserts in the present tense that four rows are open. Three closed 2026-08-17 (B-076 schema `auto·judgment·manual` + required `judge`; B-077 via B-085 `violations()` refuses unresolvable `serves`; B-081 `Observed at` + four invalidators). The permalinks still resolve and still read `open` — the receipt confirms a belief a day out of date | `manifesto.md:445`; task-pipeline `docs/evidence/backlog.md:15,16,41,42` at HEAD `62d7afc` | the paragraph states what is true at a named commit and date, links each close, and names whatever remains — verified by re-reading the four rows, not by trusting this row | open |
+| PM-01 | M-08 M-43 | `manifesto:445` asserts in the present tense that four rows are open. Three closed 2026-08-17 (B-076 schema `auto·judgment·manual` + required `judge`; B-077 via B-085 `violations()` refuses unresolvable `serves`; B-081 `Observed at` + four invalidators). The permalinks still resolve and still read `open` — the receipt confirms a belief a day out of date. **Widened 2026-08-19: the claim lives in five surfaces, not one** — `manifesto.md:445`, `index.html:653` (prose), `index.html:721-722` (footnotes N4 and N5), `llms.txt:51`, and umbrella `README.md:71` (that last one is UM-06) | `manifesto.md:445`; `index.html:653,721,722`; `llms.txt:51`; task-pipeline `docs/evidence/backlog.md:15,16,41,42` at HEAD `62d7afc` | all four pod-manifesto surfaces state what is true at a named commit and date, link each close, and name whatever remains; `tools/check-parity.py` exits 0 — verified by re-reading the four rows, not by trusting this row | open |
+| PM-04 | M-43 | **New row, found 2026-08-19 while baselining the mirror.** `tools/check-links.py` proves every citation **resolves** — 24 references checked, 0 unresolved, run with a token so the check measures the reference and not the rate limit. It cannot detect that a resolved citation has gone **stale**: the four backlog permalinks resolve perfectly and now describe a state three of whose four rows no longer hold. Resolution and currency are different properties, and the repository checks only the first — which is how the defect in PM-01 survived a green CI | `tools/check-links.py`; the four permalinks at `manifesto.md:445` | a currency check exists: for every citation whose claim this document characterises, the cited row's present state is fetched and compared against what the prose asserts, and a divergence fails. Planted defect required — the check must have been watched failing | open |
 | UM-06 | M-08 M-43 | the same stale claim mirrored in the umbrella README | `README.md:71` | agrees with `manifesto:445` after PM-01, and cites the same commits | open |
 | PM-02 | M-40 | E2's anchor `audit.md#L44-L64` includes the pass-7 row `\| 7 \| 19 \| 4 \|`, which reverses the decay the paragraph teaches — a reader following the receipt lands on the anomaly. task-pipeline's B-082 is open about exactly this | `manifesto.md:354`; task-pipeline `references/audit.md:44-64` | the citation lands only on what it claims, or the prose accounts for pass 7; B-082 closed in the same change | open |
 | TP-02 | M-40 | `residue.md` says the inventory was queried "one minute later" beside a 3:12-old process, so the two lines cannot describe one instant — the source of the manifesto's opening story | `references/residue.md:28-48` | the record states both observation times so the pair is readable as one event | open |
@@ -108,7 +109,7 @@ last — and why each must land in the same change as whatever check can hold it
 
 | id | M | title | evidence | done when | state |
 |---|---|---|---|---|---|
-| AG-01 | M-25 | **the checker asks for confidence where the manifesto asks for evidence.** `manifesto:186` requires *arrived / matches contract / **carries its evidence** / does not contradict a sibling*; `graph-engineering.md:154-161` substitutes "under-confident — a confidence signal below the bar". In a family whose first value is Evidence over confidence, and whose own text says "an uncalibrated judge is an opinion with a number attached", the gate guarding every convergence never asks what a branch can show | `references/graph-engineering.md:154-161`; `agent-evals/SKILL.md:172-178` | "carries its evidence" is the sixth checker item; the confidence signal stays optional | open |
+| AG-01 ✅ | M-25 | **VERIFIED 2026-08-19** at `agent-stack@2b3d45e` — see the closes ledger. **the checker asks for confidence where the manifesto asks for evidence.** `manifesto:186` requires *arrived / matches contract / **carries its evidence** / does not contradict a sibling*; `graph-engineering.md:154-161` substitutes "under-confident — a confidence signal below the bar". In a family whose first value is Evidence over confidence, and whose own text says "an uncalibrated judge is an opinion with a number attached", the gate guarding every convergence never asks what a branch can show | `references/graph-engineering.md:154-161`; `agent-evals/SKILL.md:172-178` | "carries its evidence" is the sixth checker item; the confidence signal stays optional | **verified** |
 | AG-02 | M-22 | **the node contract lost two fields** — `manifesto:156` names one input, one job, one output, **one owner**, **its own completion test**; `graph-engineering.md:52` names three. Both give the same justification in nearly the same words, which makes the omission conspicuous — and the two dropped fields are exactly B-080 | `references/graph-engineering.md:52-55` (grep for `owner`/`completion test` → exit 1) | both rows exist in §1, consistent with whatever TP-01 lands | open |
 | AG-03 | M-17 M-19 | **agent-evals instructs the opposite of the manifesto.** `manifesto:122`: building the evidence graph after the code "lets the output decide what counts as success". `agent-evals/SKILL.md:203`: "**Never author the suite up front.**" Opposite imperatives, both stated as rules; agent-evals has no requirement or observable concept, so the reconciling clause is not there to find | `agent-evals/SKILL.md:22-23,203`; `agent-orchestrator/SKILL.md:368` | the two tiers are named — the observable is decided before implementation, the production-grown corpus is the regression tier on top | open |
 | AG-04 | M-57 | `audit.md:20-25` refuses a score ("a prioritized plan, not a score") and `:112-121` computes `P = blast × confidence / effort` over three axes; irreversibility and coordination are absent, against `manifesto:422` | `references/audit.md:20-25,112-121` | the four axes are published beside the number, or the division is dropped | open |
@@ -140,16 +141,47 @@ destination).
 | wave | rows | open | landed | verified |
 |---|---|---|---|---|
 | 1 | 2 | 2 | 0 | 0 |
-| 2 | 5 | 5 | 0 | 0 |
+| 2 | 6 | 6 | 0 | 0 |
 | 3 | 3 | 3 | 0 | 0 |
 | 4 | 11 | 11 | 0 | 0 |
 | 5 | 3 | 3 | 0 | 0 |
 | 6 | 7 | 7 | 0 | 0 |
-| **active total** | **31** | **31** | **0** | **0** |
+| **active total** | **32** | **32** | **0** | **0** |
 | deferred | 7 | — | — | — |
 
-Counted, not restated: `grep -c '^| [A-Z][A-Z]-[0-9]' docs/evidence/manifesto-conformance.md`
-against the wave tables.
+Counted, not restated — the command, so the figure can be recomputed rather than trusted:
+
+```bash
+awk '/^## Wave/{w=$3} /^## Deferred/{exit} /^\| [A-Z]{2}-[0-9]/{c[w]++; t++} \
+  END{for (k in c) print "wave "k": "c[k]; print "active: "t}' \
+  docs/evidence/manifesto-conformance.md | sort
+```
+
+Ran 2026-08-19 → `wave 1: 2 · wave 2: 6 · wave 3: 3 · wave 4: 11 · wave 5: 3 · wave 6: 7 ·
+active: 32`. Wave 2 grew by one when PM-01's blast radius turned out to be five surfaces rather
+than one, which produced PM-04.
+
+## The closes ledger
+
+One row per close. `landed` is the producer's commit; `verified` names what the **orchestrator**
+observed independently, because the manifesto's M-41 says the producer of a claim should not be its
+only judge. A row reaches `verified` only after a check run by this session, not by the agent that
+wrote the code — and where the row shipped a guard, the orchestrator plants its own defect and
+watches the guard refuse it.
+
+| row | landed | verified by the orchestrator | observed at |
+|---|---|---|---|
+| SD-01 | `sheleg-dev@e401603` — `SECURITY.md` rewritten against measured facts about this pack; the B-47 path guard widened from one CONTRIBUTING table to every path, inline and inside fenced blocks, across the four documents whose subject is this repository, now also resolving `path:line` citations | `test/validate.py` **re-run by this session** → exit 0, `13 checks, 6 skill(s)` (was 12 checks). My own independent path sweep of `SECURITY.md`: 18 path tokens extracted and resolved, **0 dead**. **Own planted defect:** appended a line naming `scripts/does_not_exist.py` → validator exit **1**, `SECURITY.md:161 names 'scripts/does_not_exist.py', which this repository has nowhere (B-79)` — and the refusal names its remedy, which is this family's own standard for a guard. Tree clean before and after | 2026-08-19, `sheleg-dev@e401603` |
+| AG-01 | `agent-stack@2b3d45e` — six-item checker contract, `unevidenced` as item 3, `missing` as an arrival count, `under-confident` demoted to a non-gating hint; both files declare the list machine-readably and `test/validate.py` compares them | `npm test` exit 0 and `test/validate.py` exit 0 **re-run by this session**; contract declarations counted in both files — `graph-engineering.md:157` and `agent-evals/SKILL.md:172` agree on six mandatory + one optional; the home's numbered list counted as 6 items. **Own planted defect:** dropped `unevidenced` from the eval-side declaration → validator exit **1**, "declare different checker contracts … a reader cannot tell which"; tree clean after revert (`git status --porcelain` → 0 before and after) | 2026-08-19, `agent-stack@2b3d45e` |
+
+**Carried forward from AG-01, not silently absorbed** — the producer's own `NOT VERIFIED`, which this
+program keeps rather than discards: nothing ran in GitHub CI (the three new plants were extracted
+from `validate.yml` and run locally); the arrival count assumes a known fan-out and a layer that
+grows its own branches has no such number; the mirror check compares declarations rather than
+meaning, so two files could name the same six keys and describe them differently; `agent-evals`'
+product hypothesis stays `unobserved` — no real graph has yet been gated on the evidence item.
+`agent-orchestrator/SKILL.md` was deliberately left untouched at 4728 tokens against its own 4750
+budget, because a summary there would have been a third home.
 
 ## What closes this program
 
