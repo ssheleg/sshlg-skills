@@ -237,8 +237,8 @@ UM-07's convergence checker stated as a measurement rather than a principle.
 | sheleg-design | `4c0d63e` | success |
 | sheleg-dev | `42b393f` | success |
 | super-ux | `4602712` | success |
-| sshlg-skills | `8eb046c` | success |
-| task-pipeline | `2f7dc7a` | running — two prior failures, both real, both fixed |
+| sshlg-skills | `b86f68a` | success |
+| task-pipeline | `2f7dc7a` | **success** — after two failures, both real, both fixed |
 | pod-manifesto | `4b3694d` | published |
 
 `task-pipeline` failed twice and neither failure was noise. The first was a ledger row whose
@@ -321,3 +321,40 @@ budget, because a summary there would have been a third home.
    the repositories they cite.
 5. A closing four-field report — `DONE / PROOF / SCOPE / NOT VERIFIED` — because a program about the
    manifesto that closes with "all done" would be the first thing the manifesto refuses (M-09).
+
+## Closing report
+
+```
+DONE
+  The ssheleg family and the Proof of Done manifesto are in conformance on 24 of
+  44 programme rows. 31 commits across 10 repositories, all pushed, every working
+  tree clean. Nine repositories green in CI; podmanifesto.org published and
+  self-consistent. All eight members pinned in the umbrella at commits their
+  remotes hold — the condition the convergence guard refused to pass all run.
+
+PROOF
+  24 closes, each re-checked by the orchestrating session with its own planted
+  defect rather than accepted on the producer's report; every plant and its
+  refusal message is in the closes ledger above.
+  CI: agent-stack a1fac36 · agent-sync abfb72f · make-skill 73ebeee ·
+  seo-aeo-audit d0abfa6 · sheleg-design 4c0d63e · sheleg-dev 42b393f ·
+  super-ux 4602712 · task-pipeline 2f7dc7a · sshlg-skills b86f68a — all success.
+  Umbrella `npm test` exit 0, 35 checks. `check_pins` — every pin matches its
+  release. pod-manifesto: 8 gates green, parity 323 sentences / 0 missing,
+  links 28/0 unresolved, currency 4 rows correctly transcribed AND current.
+
+SCOPE
+  Requirements M-01..M-61 as extracted 2026-08-18 from manifesto.md. Ten
+  repositories. Delivery only: no version bumped, no tag cut, nothing published,
+  and the local installs on this machine deliberately untouched.
+
+NOT VERIFIED
+  20 rows open, 7 deferred — each with evidence and a proposed mechanism, none
+  silently dropped. Nothing is verified against a published artifact, because
+  nothing was published. No row was observed in a live session of another agent
+  using these skills; every product hypothesis in every member ledger remains
+  `unobserved`, which is the honest state and not a defect. The two largest
+  findings — ALL-44 (nine repositories share doctrine and nothing checks they
+  agree) and ALL-26 (a plant that cannot run is not a verdict) — are filed, not
+  fixed, because half a mechanism in one repository is what produced them.
+```
