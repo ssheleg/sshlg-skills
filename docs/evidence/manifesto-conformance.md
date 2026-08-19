@@ -91,6 +91,8 @@ built, with commits — instead of a corrected one.
 |---|---|---|---|---|---|
 | SU-01 ✅ | M-17 | **VERIFIED 2026-08-19** at `super-ux@fe2189e` — U060–U065 shipped; the pack's own 15 scenarios went from 0 to 15 resolving `Coverage` citations. See the closes ledger.  **Nothing refuses a requirement with no observable.** `ux_lint.py` never opens a scenario or story body — no rule reads `Expected result`, `Acceptance criteria` or `Success metric`. The dogfood: 15 own scenarios `Status: implemented`, **0 carry `Coverage:`**, no test touches `bin/super-ux.js`, `npm test` exits 0. The skill that demands the chain before code cannot tell that its own chain closes on nothing | `plugins/super-ux/scripts/ux_lint.py:269-350,92-102`; `docs/ux/scenarios.md:13-27` | a `U06x` rule family refuses a scenario or story with no observable; the pack's own 15 scenarios either carry one or are marked honestly; a planted defect is refused | **verified** |
 | SU-02 ✅ | M-21 | **VERIFIED 2026-08-19** at `super-ux@4602712` — 15 of 15 scenarios now read `unobserved`; before this the chain had no such state and read as 15 validated bets. See the closes ledger. | a shipped scenario silently counts as validated; `unobserved` appears nowhere; audit PASS flips `validated → implemented` | `plugins/super-ux/skills/ux-audit/SKILL.md:211-212` | a `Product:` state `unobserved \| observed \| contradicted` exists, with no floor and no target — a hypothesis may stay unobserved forever without failing a gate | **verified** |
+| PM-06 | M-46 (`manifesto.md:324` — *every fact should have one authoritative home, while other documents link to it or compute from it*) | **the parity check runs in one direction and its docstring claimed both.** `tools/check-parity.py` asserts that every block of `manifesto.md` appears in `index.html` and asserts nothing in reverse, so the published page can carry prose that exists in no canonical source with the gate green. The docstring said it *"fails when the two drift"*; narrowed to what runs at `f0f62a4`, which leaves the mechanism owed | `pod-manifesto` `tools/check-parity.py:4-6` vs `:79-83` | a reverse pass over the page's prose blocks, each required to be present in `manifesto.md` or listed in an **enumerated** allowlist of page chrome (masthead, footnotes, proofline), with a planted extra paragraph refused in CI. An allowlist invented in passing is an exemption nobody re-reads | open |
+| PM-07 | M-44 (`manifesto.md:308` — *the record should say both what it applies to and what would invalidate it*) | **eight of the nine characterised citations are unregistered.** `tools/check-currency.py` holds one claim; the page characterises nine cases — E1's *"more than 3 minutes"*, E2's *"10 of 13"* and *"4 of 19"*, E4's *"18 containers / four projects / 3 days"*, E3's *"one command"*. All eight were re-verified correct on 2026-08-20, so this is a coverage gap rather than a live falsehood — and it is the same shape as the defect the tool was built for: a resolving citation nobody re-reads | `pod-manifesto` `tools/check-currency.py:68-81` vs `index.html:119` | each characterised quantity registered and asserted against the pinned text; `check-currency.py --verbose` prints more than `4 cited row(s) across 1 claim(s)` | open |
 | UM-12 | M-05 (`manifesto.md:44` — *every completion claim points to its supporting record at an address another actor can resolve*) | **the programme's own requirement ids resolve nowhere.** The manifesto carries no ids (`grep -c 'M-[0-9]'` → 0 in `manifesto.md`, `index.html`, `llms.txt`); the `M-nn` set was extracted by the 2026-08-18 audit and that extraction was never committed. Six of the 37 ids this programme cites carry a `manifesto.md:<line>` somewhere in the family; 31 do not, and an independent re-derivation on 2026-08-20 produced a numbering that DISAGREES with this one — the same requirement reads `M-16` there and `M-17` here. Found from the other side: `seo-aeo-audit`'s two closed rows rest on `M-40`, `M-32` and `M-08`, and `grep -rn` over the whole manifesto repository finds none of them | `docs/evidence/manifesto-conformance.md` (the header note); `seo-aeo-audit/docs/evidence/backlog.md:40,45` | either the extracted set is published as an artifact with THIS programme's numbering,each  id resolving to a `manifesto.md:<line>`, or the ids are retired in favour of the line citation the new guard already requires. Publishing the other derivation would silently renumber every citation in the family, which is worse than an unresolvable id | open |
 | SU-03 | M-44 | `facts.md` has no duplicate-key check and its `Value` column is carried, not computed — states 3500 validator checks, measured 3506 | `plugins/super-ux/scripts/brand_lint.py:820-887`; `docs/brand/facts.md:36` | a B033 duplicate-key rule exists and each numeric fact row runs its own command | open |
 
@@ -278,15 +280,15 @@ produced.
 | wave | rows |
 |---|---|
 | 1 | 2 |
-| 2 | 7 |
+| 2 | 9 |
 | 3 | 4 |
 | 4 | 15 |
 | 5 | 7 |
 | 6 | 7 |
-| **active total** | **42** |
+| **active total** | **44** |
 | deferred | 24 |
 
-By state, over those 42 rows: **9 open · 33 verified**. Both figures are recomputed by
+By state, over those 44 rows: **11 open · 33 verified**. Both figures are recomputed by
 `test/validate.py`'s counted-claims registry, so this line cannot describe the day it was
 typed either.
 
