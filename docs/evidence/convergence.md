@@ -5,10 +5,21 @@ every repository clean and pushed. That is a statement about **commits**: the pa
 at the child's newest one. It proves nothing about whether the two versions work *together*
 — each side's suite ran against its own side, and no check ran across the pointer. Neither
 repository looks wrong alone, which is why the gap survived being written down twice.
-Doctrine: `references/acceptance.md` → *The pointer is not the path*.
+Doctrine: `task-pipeline` →
+[`references/acceptance.md`](../../skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/acceptance.md)
+→ *The pointer is not the path*.
 
-`scripts/check-convergence.sh` demands a record here whenever a component pointer **moves**
-in the range being accepted. A range that crossed no boundary has no seam to prove.
+**What demands a record here, and what does not.** The convention is a record whenever a
+component pointer **moves** in the range being accepted; a range that crossed no boundary
+has no seam to prove. The mechanical form of that demand is the script `task-pipeline`
+seeds into a host project —
+[`templates/convergence.sh`](../../skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/convergence.sh),
+which calls itself `check-convergence.sh` in its own header, checks the pointers
+mechanically and the seam by record, and prints `dormant:` for a range where nothing moved.
+**This repository has not seeded it into `scripts/`**, so the record below is written by
+hand at stage 10 and nothing refuses a range that skipped one. That gap is filed as `B-91`
+rather than implied by a path — the sentence that stood here named a script under
+`scripts/` as if it ran, and no such file has ever existed in this tree.
 
 ---
 

@@ -32,6 +32,53 @@ verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
 
+## 2026-08-19 — UM-03, the two addresses this repository could not resolve (unreleased)
+
+Manifesto conformance, requirement **M-07**: *an address another actor can resolve, or the
+claim is not proven.* Board rows `B-90` (closed) and `B-91` (open). **No release** — the
+family ships this at its own version, and nothing here bumps one.
+
+| REQ | What shipped | How it was confirmed | Status |
+|---|---|---|---|
+| U3-01 | Both audited citations reproduced before anything was changed | the README's `test:negatives` claim, run as written → **exit 1**, `npm error Missing script: "test:negatives"`, and that script exists only in `skills/task-pipeline/package.json`; `ls scripts/check-convergence.sh` → **exit 1**, `No such file or directory`, `scripts/` holding `stage-coverage.sh` alone | verified |
+| U3-02 | The audit sampled; this did not. Every address in the nine documents resolved at once | 556 candidate tokens extracted, 94 unresolved before triage; classified into **258 real addresses** — **78** in the five live documents, **180** in the four dated records. The other 298 tokens were placeholders (`hooks/<name>.js`, `docs/evidence/briefs/…`), `$HOME` paths, markdown link **labels** whose targets resolve, and other repositories' directory names | verified |
+| U3-03 | `README.md:66` points at what actually plants defects **here** | the row now names `.github/workflows/validate.yml` (**20** steps, counted with `grep -c 'name: Negative self-test'`), `test/plant_guard.py`, and `npm run test:plants` — which exists in `package.json` and whose sweep feeds every member's own gate a dropped trigger. Option (a), not (b): the plants are CI steps **by design** (`validate.yml:7-8` — *"running them from the release workflow any other way means a second home per plant"*), so an npm entry point would have created the second home | verified |
+| U3-04 | `docs/evidence/convergence.md` names the real script and stops implying a mechanism | points at `templates/convergence.sh` in `skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/`, which calls itself `check-convergence.sh` in its own header — and states plainly that this repository has **not** seeded it, so the record is written by hand and nothing refuses a range that skipped one. The gap is `B-91` rather than a path shaped like a mechanism. The same paragraph's bare `references/acceptance.md` gained its owner and its resolvable target | verified |
+| U3-05 | The extractor is pure and fixtured | `test/doc_refs.py` + `test/doc_refs_test.py`, **17 cases**, discovered by `npm test` with no list to keep. **Watched failing first**: `ModuleNotFoundError: No module named 'doc_refs'` before the module existed. Cases cover the three false-positive classes that would get this gate switched off — a link's label vs its target, placeholders, another repo's unprefixed path — plus a `:line` past end of file, which `test -e` calls fine | verified |
+| U3-06 | The guard was watched failing **against the real tree**, not against a fixture | written before either repair, `python3 test/validate.py` → **exit 1**, naming `README.md:66` and `docs/evidence/convergence.md:10` and **nothing else**. That is the strongest available form of this evidence: the defect was not planted, it was there | verified |
+| U3-07 | Four plants in CI, run locally too | three claim classes plus the corpus itself: `npm`, `path`, `link` planted into a copy of `docs/DOCMAP.md` (each refused, each naming the planted line), and `LIVE_DOCS = ()` — an empty corpus that would otherwise pass everything — refused with *"the extractor matched nothing"*. Each wrapped in `test/plant_guard.py snap`/`verify`, so a plant that did not land cannot read as a guard that held | verified |
+| U3-08 | The corpus boundary is a written decision, not a silent skip | the five live documents are **gated**; the four dated records are **counted and disclosed on every run**: the count is **printed by the run**, per file, as `claimed addresses -- not gated in the dated records … (dead/total)`, and is deliberately not frozen here: a number about these files, written **inside** them, changes every time one is appended to — which it did twice while this entry was being written. Their rows cite member repositories (`test/negatives.py` is task-pipeline's, `scripts/check-docs.sh` is seo-aeo-audit's) and states true at a commit (`.agent-sync/leases/B-31.lock`, whose **removal** is the verified fact). Rewriting those is a thing this repository has already decided against in writing — `docs/DOCMAP.md`, propagation matrix. `manifesto-conformance.md` is excluded for a second reason: its single writer is the orchestrator, not this gate | verified |
+| U3-09 | The guard refuses a document that quotes a dead command as runnable — including this repository's own | found twice by the guard itself, mid-repair: the convergence paragraph and the new `CLAUDE.md` invariant each named the dead script inside backticks and were **refused**. Both reworded to *name* it rather than claim it, and the convention is now written in the invariant | verified |
+| U3-10 | Docs shipped in the same change | `CLAUDE.md` invariant (with the naming convention), `docs/DOCMAP.md` single-home row for `test/doc_refs.py` and a propagation row — *a file renamed that a live document cites obliges the citation in the same change* | verified |
+| U3-11 | The lease was taken before the guarded files were touched | `agent_sync.py acquire UM-03` → `won UM-03 (run r-6e62c4dab, ttl 2700s)`; `README.md`, `docs/evidence/backlog.md` and `docs/evidence/verification.md` are all in `guardedFiles`, and the lease covers all three | verified |
+
+**What this run did NOT verify, and what stopped it.** `npm test` exits **1**, and the
+change above is **not committed**. Sibling submodules hold commits that exist only
+locally, and the count **rose while this ran** — four at the first attempt (`super-ux`
+`fe2189e`, `make-skill` `73ebeee` and `16a9682`, `sheleg-dev` `e401603`, `agent-stack`
+`2b3d45e`), five at the last (`sheleg-design` joined). All are concurrent agents of the same
+conformance program, and `check_no_member_holds_a_commit_the_remote_does_not` fails on each.
+The number is left as a range on purpose: freezing it would date this paragraph within
+minutes, which is the failure this whole row is about. `git fetch` in all
+four confirmed the commits are genuinely absent from their remotes, so the check is right
+about the state it reads. `validate.py` reports **those four errors and no others**; **34 of
+35** suites are green; the address guard, its **17** extractor cases and its **four** plants
+were each run and are recorded above.
+
+`hooks/repo-gate.js` then denied the commit — *"`npm test` is red, so this commit was not
+made"* — which is the gate doing exactly what it is wired to do. The remedy it names, *push
+the submodule first*, belongs to four other agents and to a family release this row is
+forbidden to touch; no submodule pointer is staged here. Rather than working around it, the
+deadlock is filed as **`B-92`**: the gate asks whether a submodule's local HEAD is ahead of
+its upstream, while the hazard it exists for is a **pin** naming an unfetchable commit, and
+those are different questions. That is the mirror of retro item 4 and the fifth appearance of
+the root cause the retrospective already names. The same session that owns this program
+committed `e473189` at 13:57:19 with all four members already ahead of their remotes, which
+is the measurement rather than the complaint.
+
+**So the whole-suite exit code is the one claim this row cannot make**, and the commit sha is
+the other. Both are stated rather than implied.
+
 ## 2026-08-16 — v0.60.0, the same defect in four more places
 
 Brief `docs/evidence/briefs/2026-08-15-graph-backlog.md`. Members' own REQ rows are in their

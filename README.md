@@ -63,7 +63,7 @@ you can open and a command you can run:
 
 | The manifesto says | Here it is |
 |---|---|
-| Evidence over confidence — a green nobody watched fail is not evidence | `npm run test:negatives` feeds **every** guard a planted defect and requires it to reject one |
+| Evidence over confidence — a green nobody watched fail is not evidence | [`validate.yml`](.github/workflows/validate.yml) — **20** negative self-tests, each planting the defect its guard exists for and requiring the refusal; [`test/plant_guard.py`](test/plant_guard.py) fails the step when the plant did **not** land, so a guard nobody disarmed cannot report as one that held. `npm run test:plants` is the half you can run here — every member's own gate, fed a dropped trigger |
 | Done is a coverage relation, not a status on a task | [`references/acceptance.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/acceptance.md) — the ladder walk, seam by seam |
 | An edge with no named payload is chronology drawn as architecture | [`graph.schema.json`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json) refuses an edge whose `payload` is empty |
 | The queue is an artifact, not the agent's recollection | [`scripts/graph.py`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py) — the model never reads the graph; a 400-node graph and a 4-node graph print the same 27-byte frontier |

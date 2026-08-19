@@ -7,6 +7,7 @@ import pin_source
 import board_age
 import graph_staleness
 import release_lag
+import doc_refs
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 errors = []
@@ -1511,6 +1512,145 @@ def check_a_waiver_names_what_would_bring_it_back():
 
 
 check_a_waiver_names_what_would_bring_it_back()
+
+
+# ---------------------------------------------------------------------------
+# Every address these documents claim, resolved
+# ---------------------------------------------------------------------------
+# The extractor and the resolver are in `test/doc_refs.py`, fixtured without a tree by
+# `test/doc_refs_test.py`. What lives here is the CORPUS and its boundary -- the only two
+# decisions a reader of this file has to argue with.
+#
+# The corpus is SPLIT, and the split is the whole design. Two kinds of document live in
+# this repository and only one of them makes a claim a reader can act on today.
+#
+#   LIVE_DOCS describe THIS repository and are read as instructions. An address here is a
+#   promise: open this file, run this command. Enforced.
+#
+#   LEDGER_DOCS are the family board and its dated records. Their rows cite MEMBER
+#   repositories -- `test/negatives.py` is task-pipeline's, `scripts/check-docs.sh` is
+#   seo-aeo-audit's -- and states that were true at a commit, such as
+#   `.agent-sync/leases/B-31.lock`, whose REMOVAL is the verified fact. Enforcing
+#   resolution there would demand rewriting past-run records, which this repository has
+#   already decided against in writing (`docs/DOCMAP.md`, propagation matrix: *"155
+#   occurrences of the old name survive inside past-run records on purpose, because a brief
+#   describes where things were when it was written"*). They are COUNTED and DISCLOSED, so
+#   the boundary is visible on every run rather than remembered.
+#
+# `docs/evidence/manifesto-conformance.md` is a ledger for a second reason as well: the
+# program it tracks gives it a single writer, and that writer is not this gate.
+LIVE_DOCS = ("README.md", "CLAUDE.md", "docs/DOCMAP.md", "docs/AGENT_SYNC.md",
+             "docs/evidence/convergence.md")
+LEDGER_DOCS = ("docs/evidence/backlog.md", "docs/evidence/verification.md",
+               "docs/evidence/retro.md", "docs/evidence/manifesto-conformance.md")
+
+# Directory names that belong to a consuming project or to a member, not to an address
+# here. Each carries its reason: an exception with no reason cannot be told from an
+# oversight by whoever reads this next.
+ELSEWHERE = {
+    "docs/ux/": "the design chain `super-ux` creates in the product that installs it",
+    "docs/brand/": "the brand pack `super-ux` creates in the product that installs it",
+    "docs/superpowers/": "the artifact root a host project may still be on -- DOCMAP's "
+                         "propagation matrix says such a project is never warned",
+}
+
+
+def _claimed(doc, prefixes):
+    """Every address one document claims, de-duplicated, first line kept."""
+    path = os.path.join(ROOT, doc)
+    if not os.path.isfile(path):
+        return None
+    with open(path, encoding="utf-8") as fh:
+        text = fh.read()
+    seen, out = set(), []
+    # The document's own directory, so a `../`-relative link is resolved the way a reader's
+    # click resolves it. `docs/evidence/convergence.md` gained two such links in the same
+    # change that added this guard, and without this they were skipped in silence.
+    docdir = os.path.dirname(doc)
+    for kind, lineno, tok in doc_refs.addresses(text, prefixes, ELSEWHERE, docdir):
+        key = ("npm" if kind == "npm" else "path", tok)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append((kind, lineno, tok))
+    return out
+
+
+def check_every_address_these_documents_claim_resolves():
+    """A repository about resolvable addresses shipped two that do not resolve.
+
+    Measured 2026-08-19, UM-03, manifesto requirement M-07 -- *if the address does not
+    resolve, the claim is not proven*. `README.md:66` told a reader that
+    `npm run test:negatives` *"feeds every guard a planted defect and requires it to reject
+    one"*; that script is `task-pipeline`'s and here it exits 1 with `Missing script`, so
+    the one row of the manifesto table about watching a guard fail could not be run.
+    `docs/evidence/convergence.md:10` named `scripts/check-convergence.sh` as the thing
+    demanding a record, and `scripts/` has never held it.
+
+    Neither was found by reading. Both were found by resolving every address in the same
+    nine documents at once -- **83** in the enforced corpus, plus the records, whose own
+    dead/total this run prints rather than restates -- and nothing else in the enforced corpus was dead. That is
+    the argument for a check rather than a third careful proofread: a reference rots one at a
+    time, and a document is read whole.
+
+    Three claim classes, because each of the two defects belonged to a different one and
+    closing either leaves the rest. Disclosure, never silence, where a submodule is absent:
+    a check that cannot look must not read as one that looked.
+    """
+    prefixes = doc_refs.local_prefixes(ROOT)
+    scripts = (load_json("package.json") or {}).get("scripts", {})
+    absent, checked = [], 0
+    for doc in LIVE_DOCS:
+        claims = _claimed(doc, prefixes)
+        if claims is None:
+            _skips.append(f"claimed addresses -- no {doc} in this checkout")
+            continue
+        for kind, lineno, tok in claims:
+            if kind == "npm":
+                checked += 1
+                if tok not in scripts:
+                    fail(f"{doc}:{lineno}: `npm run {tok}` names no script in package.json "
+                         f"(it has {sorted(scripts)}) -- a reader told to run it gets exit 1 "
+                         f"and `Missing script`. Point the claim at what runs here, or add "
+                         f"the script (M-07)")
+                continue
+            ok, detail = doc_refs.resolve(ROOT, tok)
+            if ok is None:
+                absent.append(f"{doc}:{lineno} {tok}")
+                continue
+            checked += 1
+            if not ok:
+                fail(f"{doc}:{lineno}: `{tok}` does not resolve -- {detail}. A document "
+                     f"about resolvable addresses cannot ship one that is not: point it at "
+                     f"what exists, or create what it names (M-07)")
+    if not checked:
+        fail("claimed addresses: the extractor matched nothing in any of "
+             f"{len(LIVE_DOCS)} documents -- that is the extractor breaking, not five "
+             "documents that stopped citing anything, and an empty corpus passes everything")
+    if absent:
+        _skips.append(f"claimed addresses -- {len(absent)} point into submodules that are "
+                      f"not checked out: {', '.join(absent[:3])}")
+    # The records, counted rather than gated. The number is how a later run learns that a
+    # class this gate declines to enforce is growing, instead of inferring it from silence.
+    tally = []
+    for doc in LEDGER_DOCS:
+        claims = _claimed(doc, prefixes)
+        if claims is None:
+            continue
+        dead = 0
+        for kind, _, tok in claims:
+            if kind == "npm":
+                dead += tok not in scripts
+            elif doc_refs.resolve(ROOT, tok)[0] is False:
+                dead += 1
+        tally.append(f"{doc} {dead}/{len(claims)}")
+    if tally:
+        _skips.append("claimed addresses -- not gated in the dated records, whose rows cite "
+                      "member repositories and past states on purpose (dead/total): "
+                      + "; ".join(tally))
+
+
+check_every_address_these_documents_claim_resolves()
 
 if errors:
     print("FAIL: sshlg-skills structure invalid")

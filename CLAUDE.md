@@ -31,6 +31,19 @@ outside it: it queries the npm registry, and `npm test` must work offline.
 - **One channel per agent.** A plain copy under `~/.claude/skills/<id>` shadows
   the plugin of the same name and serves its frozen version forever. `install`
   and `update` prune those copies after every skills-CLI run.
+- **An address a live document claims resolves, or the commit does not land.** This
+  repository's README is an argument about evidence carrying its own receipt, and it told a
+  reader to run a **`test:negatives`** script — `task-pipeline`'s, and `Missing script`
+  here — beside a convergence file naming a `scripts/` check that has never existed in this
+  tree (UM-03, requirement M-07). **Name a dead command, never claim it:** a document that
+  quotes one as runnable is refused by this guard, correctly, and both repairs above are
+  written that way. Neither was found by reading them;
+  both were found by resolving all 83 addresses in the five live documents at once.
+  `test/doc_refs.py` extracts and resolves, `test/validate.py` owns the corpus, and four
+  plants in CI cover the three claim classes plus the empty corpus that would pass
+  everything. The dated records are counted, not gated, and the count prints on every run —
+  their rows cite member repositories and states that were true at a commit, and rewriting
+  those is a thing this repository has already decided against.
 - **Submodule urls are HTTPS.** `gh repo create --source .` sets an SSH remote
   and `git submodule add` inherits it; everything stays green on the machine
   that has the key and the release smoke test exits 128 everywhere else.

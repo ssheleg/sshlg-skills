@@ -636,6 +636,65 @@ jobs:
             echo "OK: validator FAILs when the CI step is gone"
           fi
 
+      - name: Negative self-test (a document claiming an address that does not resolve must fail)
+        # Three plants, one per claim class, because a reference dies in three ways and the
+        # two real defects (UM-03, M-07) were one of each: `README.md:66` claimed
+        # `npm run test:negatives`, which is task-pipeline's script and exits 1 here, and
+        # `docs/evidence/convergence.md:10` named a `scripts/` file that has never existed.
+        # A run that exercises one class proves a third of the guard.
+        #
+        # The `link` plant is the one worth having: it repoints a markdown TARGET while
+        # leaving the label alone. The first draft of this extractor read labels, which made
+        # `README.md:69` — a live row whose link resolves — report as dead, and would have
+        # let a genuinely broken target through under a label that still read fine.
+        run: |
+          set -eu
+          for mode in npm path link; do
+            rm -rf /tmp/refs-copy && cp -R . /tmp/refs-copy
+            python3 test/plant_guard.py snap /tmp/refs-copy
+            python3 - "$mode" <<'PY'
+          import sys
+          mode = sys.argv[1]
+          p = "/tmp/refs-copy/docs/DOCMAP.md"
+          s = open(p, encoding="utf-8").read()
+          before = s
+          if mode == "npm":
+              s += "\nRun `npm run test:negatives` to feed every guard a planted defect.\n"
+          elif mode == "path":
+              s += "\nThe convergence gate is `scripts/check-convergence.sh`.\n"
+          else:
+              s += "\nSee [`lib/apply.js`](lib/apply-renamed-away.js) for the write path.\n"
+          open(p, "w", encoding="utf-8").write(s)
+          assert open(p, encoding="utf-8").read() != before, f"plant did not land: {mode}"
+          print(f"planted {mode} into docs/DOCMAP.md")
+          PY
+            python3 test/plant_guard.py verify /tmp/refs-copy "Negative self-test (an unresolvable claimed address must fail)"
+            if python3 /tmp/refs-copy/test/validate.py; then
+              echo "ERROR: validator accepted a $mode claim naming nothing — a document about resolvable addresses would ship one that is not (M-07)"
+              exit 1
+            else
+              echo "OK: validator rejects a $mode claim whose address does not resolve"
+            fi
+          done
+          # And the corpus itself: an extractor that matches nothing must refuse, not pass.
+          # An empty corpus passes everything, which is how this class of guard dies quiet.
+          rm -rf /tmp/refs-empty && cp -R . /tmp/refs-empty
+          python3 test/plant_guard.py snap /tmp/refs-empty
+          python3 - <<'PY'
+          p = "/tmp/refs-empty/test/validate.py"
+          s = open(p, encoding="utf-8").read()
+          old = 'LIVE_DOCS = ("README.md", "CLAUDE.md", "docs/DOCMAP.md", "docs/AGENT_SYNC.md",\n             "docs/evidence/convergence.md")'
+          assert old in s, "PLANT DID NOT LAND: LIVE_DOCS is not where this expects it"
+          open(p, "w", encoding="utf-8").write(s.replace(old, 'LIVE_DOCS = ()', 1))
+          PY
+          python3 test/plant_guard.py verify /tmp/refs-empty "the enforced corpus emptied"
+          if python3 /tmp/refs-empty/test/validate.py; then
+            echo "ERROR: validator passed with an empty address corpus — a guard whose corpus is empty passes everything"
+            exit 1
+          else
+            echo "OK: validator FAILs when the address corpus matches nothing"
+          fi
+
       - name: Launcher runs (no side effects)
         # Running the command, not `node --check`: the checker proves syntax
         # and not scope, and it once passed a `rest[++i]` against a variable
