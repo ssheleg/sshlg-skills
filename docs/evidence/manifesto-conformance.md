@@ -110,6 +110,7 @@ family, and all three FULL rows are the artifact layer rather than the money lay
 | SD-06 | M-26 M-40 | **New row, opened 2026-08-19 by the push itself.** GitHub's push protection refused `sheleg-dev` on six Stripe-key matches in `test/moneygate_test.js`. **No secret leaked** — every one spelled the `sk_live_` prefix followed by a 24-character body reading PLACEHOLDER twice and `00` — written that way here rather than quoted, because **this very row was refused by the same scanner on its first push**: a document *describing* a key shape is matched as one, which is the UM-10 defect class arriving at the platform layer; the scanner matches on **shape**, and a gate that refuses live keys by shape can only be tested with live-shaped strings. So the suite proving the guard works was the one thing that could not reach the remote. What the block exposed is an evidence gap, not a leak: **SD-03's secret sweep was scoped to `git ls-files plugins`**, so it never covered `test/`, and its claim that every key-shaped string spells PLACEHOLDER was true of what it observed and blind to the file that blocked the push. Resolved without the unblock URL: the values are assembled at runtime (`'sk_' + 'live_' + …`), identical bytes reach the gate, no contiguous literal exists at rest, and the two commits carrying them were rewritten so history is clean too | GitHub push protection on `90e9621`; `SECURITY.md:165` (`git ls-files plugins`) | **done** — 0 literals across all four commits, `npm test` green at the rewritten HEAD (`16 checks · 65 money-gate fixtures · 13 money-fixture checks`), pushed. What remains open is the sweep's scope: it should cover the whole repository, not the payload | **verified** |
 | SE-05 | M-05 M-24 | **New row, opened 2026-08-19 by the push itself.** `seo-aeo-audit` had diverged: a merged pull request filed board rows **B-16…B-23** while this program's SE-01 and SE-02 filed **B-16…B-21** — same ids, entirely different subjects. This is the id race `agent-sync` exists to prevent, occurring **across a PR merge**, where no lease on this machine could have helped: the board hands out ids by reading the file, which is safe for one writer and races for two. Both sets survive; this branch's six rows were renumbered **B-24…B-29** because the remote's are already published, and seven cross-references in three files followed them. The remote's own B-17/B-19 citations inside its audit document were left alone — they name its rows, not ours | the merge conflict in `docs/evidence/backlog.md`; `origin/main` at `3391db5` vs `265dfa5`/`7953484` | **merged and pushed** at `d0abfa6`, counted after: B-1…B-29, **no duplicate ids**, no conflict markers, `npm test` exit 0. The mechanism gap is real and unclosed — `agent-sync`'s race-free id reservation is per-checkout, and nothing reserves an id against a remote branch | **verified** |
 | TP-06 | M-26 M-41 | **New row, opened 2026-08-19 by CI — the one evidence path this whole programme never had.** Every agent's report ended with *"CI has not seen it"*, and when it finally did, it failed `task-pipeline` on a defect eight local gate runs had passed. TP-02's own ledger row wrote a pytest filter as a backticked `-k receipt<PIPE>record<PIPE>containers`; markdown does not care about backticks, so **two pipes split one cell into three** and that row carried ten cells against a header of eight. With the shipped column order the extra cells landed to the *right* of `Human`, so the value still read `never` and the gate stayed green. It surfaced only through the header-reorder property check — and **only because that check's own regex cannot match a note containing a pipe**, so it left exactly this row in the old order under the new header. A defect found because a second check happened to be blind to it in the same way is a defect found by luck | CI run on `c8de225`, step *Property check (the Human column survives a header reorder)*; `docs/evidence/verification.md:158` | **done** at `6372f19` — the shape is checked directly now: every `REQ` row must carry the header's cell count, the refusal names the remedy, and the plant is the real defect put back (ten cells against eight), refused. The note was rewritten without pipes rather than escaped, because it quoted a command a reader might copy and `-k receipt\|record\|containers` is not that command | **verified** |
+| ALL-26 | M-26 | **New row, opened 2026-08-19 after the same failure happened three times in three days.** Every negative self-test in this family carries a `PLANT DID NOT LAND` assert — the second-order guard that refuses when the defect was never injected. **Each of the three failures below died UPSTREAM of that assert**, so the guard designed to catch a plant that does not land cannot catch a plant that cannot *run*: (1) `cl1` read a guard count out of the newest CHANGELOG section and a commit bolded the whole phrase instead of the number, so it proved nothing for two days; (2) the header-reorder property check could not match a note containing a pipe, left one row in the old order, and reported the doctrine broken; (3) three schema plants indexed `c['if']['properties']['status']['const']` directly, and B-080's new `not: {const: parked}` branch raised `KeyError` before their asserts. The orchestrator hit the identical class four times in its own probes. **A plant is code, and code that throws is not a verdict** | `task-pipeline` CI on `c8de225` and `6372f19`; `.github/workflows/validate.yml` gx6/gx7/gx8; TP-02's `cl1` finding; this ledger's field notes | a plant runs inside a harness that distinguishes **refused** from **crashed** and treats the second as a red step naming the traceback — `make-skill`'s `plant_guard.py` is the nearest existing shape and solves the adjacent half. Family-wide, so it belongs beside ALL-44 rather than in one member | open |
 
 ## Wave 6 — doctrine reconciliation
 
@@ -224,6 +225,29 @@ cost of being wrong rises. The orchestrator re-running a member's own suite is *
 than CI is, not farther: same machine, same tree, same tools. It caught plenty — but the one thing it
 structurally could not catch is the thing that only shows up somewhere else. That is the argument for
 UM-07's convergence checker stated as a measurement rather than a principle.
+
+## CI — the independent path, and what it cost to get there
+
+| repo | commit | CI |
+|---|---|---|
+| agent-stack | `a1fac36` | success |
+| agent-sync | `abfb72f` | success |
+| make-skill | `73ebeee` | success |
+| seo-aeo-audit | `d0abfa6` | success |
+| sheleg-design | `4c0d63e` | success |
+| sheleg-dev | `42b393f` | success |
+| super-ux | `4602712` | success |
+| sshlg-skills | `8eb046c` | success |
+| task-pipeline | `2f7dc7a` | running — two prior failures, both real, both fixed |
+| pod-manifesto | `4b3694d` | published |
+
+`task-pipeline` failed twice and neither failure was noise. The first was a ledger row whose
+unescaped pipes split a cell (TP-06); the second was three plants that crashed before their own
+asserts (ALL-26). Both had passed every local gate run — the first because the damage sat in a
+column nothing read, the second because those plants are CI-only steps. **Eight repositories green
+and one that failed twice is a better result than nine green would have been**, because the two
+failures are the only findings in this programme that no amount of local verification could have
+produced.
 
 ## Program state
 
