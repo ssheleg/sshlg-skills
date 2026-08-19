@@ -8,11 +8,14 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**119** id'd requirement rows below, **113 read `verified` and none of them says which**
-— counted 2026-08-16 with
-`grep -cE '^\| *[A-Z]+-[0-9]+ *\|' docs/evidence/verification.md` and the same pattern
-piped through `grep -c verified`. It said *322 / 295* until that command was run, a
-figure written at v0.76.0 and never recomputed while the file kept growing.
+**419** id'd requirement rows below, **413** read `verified` and none of them says which
+— **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
+`grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
+id shape this file uses. Three figures have stood here and the first two were both wrong:
+*322 / 295*, written at v0.76.0 and never recomputed; then *119 / 113*, counted on
+2026-08-16 with `[A-Z]+-[0-9]+`, which was **ten short and blind to 278 rows** whose ids
+read `U3-01`, `B29-1` or `I4-3`. A number nothing recomputes is a number that describes
+the day it was typed, which is why this pair is now registered rather than written.
 
 `/task-pipeline checkup` counts rows sitting at `never`, and this shape holds no such
 value. So the exposure line prints `0 unverified` **and then names the column it read** —
@@ -31,6 +34,38 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-08-20 — the gate that could be walked past, and four numbers about this repository
+
+Manifesto conformance, second pass. Rows `UM-01`, `UM-02`, `UM-04`, `UM-05`, `UM-06`,
+`UM-08`, `UM-09`, `UM-10`, `UM-11` of `docs/evidence/manifesto-conformance.md`, and board
+rows `B-93`…`B-102`. **Unreleased at the time of writing**: the version bump and the tag
+follow this section, not the other way round.
+
+**This section carries two columns the ones above it do not, and that is UM-05.** Proof
+expires — `task-pipeline` shipped the mechanism on 2026-08-17 and the umbrella never
+adopted it, so 407 rows here read `verified` with nothing that could ever un-read it.
+`Observed at` is the commit the check was watched at; `Invalidated by` is what would make
+the row false again. **The rows above are not back-filled**, for the reason this file
+already gives one screen up: writing a retrospective observation for a row nobody
+re-checked answers the question wrongly instead of not at all. From this section forward
+the columns are required, and `test/validate.py` refuses a section dated 2026-08-20 or
+later without them.
+
+| REQ | What shipped | How it was confirmed | Observed at | Invalidated by | Status |
+|---|---|---|---|---|---|
+| U4-01 | **The commit gate no longer decides ownership from the staged index.** `git add -A && git commit` staged nothing at PreToolUse, so the gate concluded "not ours" and exited 0 without running the suite | reproduced first: the compound payload fed to `hooks/repo-gate.js` printed nothing and exited 0 with the suite never spawned. After: `permissionDecision: deny` carrying the failing tail. `test/hooks_e2e_test.js` runs the real script as a process over three compound spellings (`add -A &&`, `add . ;`, `commit -am`) | `6174583` | `lib/repogate.js commitDirs` losing a spelling; the payload dropping `cwd`; a new chaining form | verified |
+| U4-02 | Ownership is derived from the command's own text and the shell's cwd — `-C <path>`, a preceding `cd`, resolved to a repository root | `git -C <other repo> commit` and a payload whose `cwd` is another repository are both left alone **while this project's index is dirty** — the state that used to claim the commit and deadlock a release | `6174583` | a payload with no `cwd` and no `-C`, where the fallback still asks the index | verified |
+| U4-03 | `isCommit` reads what would RUN, reusing `executablePart()` from `lib/hygiene.js` rather than a second implementation | a whole-line comment and a heredoc body fed to `cat` are no longer commits; `bash <<EOF … git commit … EOF` still is, and so is `bash -c "git commit"` — the quoted form was passing untouched before, which was a bypass and not a false negative. 15 fixtures in `test/repogate_test.js` | `6174583` | `executablePart` changing its treatment of quotes or heredocs | verified |
+| U4-04 | **The route gate speaks again.** `runOpen` is derived from the ledger's content, not from the file existing | this repository's own `.task-pipeline/run.md` has recorded `stage: 10 acceptance — verdict pass` since 2026-08-14 and is still being appended to; `runledger.isOpen` reads it as closed, and a stage-2 ledger as open. 25 fixtures, including the default that would have closed every mid-run ledger and was caught by its own fixture | `6174583` | task-pipeline changing the ledger grammar or its final stage id/name | verified |
+| U4-05 | A submodule detached on a commit **no branch holds** is a failure, not a disclosure | planted a detached commit in a copied tree: before, one line among many disclosures; after, `FAIL: skills/agent-stack: detached at 40cfda6 and that commit is on no branch`. The first instrument (`git branch --contains`) prints `* (HEAD detached from …)` and read as "a branch holds it" — caught by the plant, not by review | `6174583` | `for-each-ref --contains` semantics; a submodule with no refs at all | verified |
+| U4-06 | **Three numbers this repository stated about itself were wrong**, and a registry now recomputes all four | `README.md` said 20 negative self-tests against 23 in the workflow; the ledger said 119/113 id'd rows against **407/401** by a pattern that matches every id shape it uses; the conformance register's own table said 32 active rows against 41, in a file where 19 read `verified`. `check_counted_claims_agree_with_the_tree` was watched refusing a planted `**3** negative self-tests` and a planted row-count drift | `6174583` | any of the four documents rewording the sentence the pattern anchors on — which fails as "matched nothing", deliberately, rather than passing | verified |
+| U4-07 | The suite's own ratchet is counted by the run and read from a marker | `test/run.js` sums every `OK (n checks)` and `PASS … — n` line and compares it with `<!-- ratchets: … -->`; it caught its own drift twice in one session (606 → 607) and printed which direction the stated figure was out by | `6174583` | a suite that prints its count in a third shape | verified |
+| U4-08 | Two `judgment` gates, in the pipeline that had none | `pipeline.json` stages `brainstorm` and `spec` are typed `judgment` with a named `judge`; `grep -c judgment pipeline.json` was **0** before. The pinned schema has required a `judge` since task-pipeline `9d8695d` and `test/validate.py:184` already ran it — no new code, an unused type adopted | `6174583` | the pinned schema changing the enum or the `judge` requirement | verified |
+| U4-09 | Two board guards stopped reading the table by naive `split("\|")` | four rows carrying an escaped pipe had their Status column misread — `**1.5**` where the verdict was `closed 2026-08-16` — so a waived row with no `revisit:` was silently skipped. Both now use the escape-aware split the third guard already had | `6174583` | a row whose Status cell itself contains an escaped pipe | verified |
+| U4-10 | The register the program is worked from is a guarded file, and an `M-nn` must cite its line | `docs/evidence/manifesto-conformance.md` joins `guardedFiles` (7); the 41 existing rows are grandfathered in an enumerated marker and anything new must carry `manifesto.md:<line>`. Watched refusing a planted `ZZ-99 \| M-44` row with no citation | `6174583` | the marker being dropped, which fails as "no enumerated exemption" rather than passing | verified |
+| U4-11 | The README says what the manifesto says, and its receipt points where its label does | the four requirements are named as built with their four commits; the link whose label read `docs/evidence/backlog.md` while its target was the member's now names both files, each with its own label | `6174583` | `pod-manifesto` changing that paragraph again — its own `check-currency.py` is the other end of this | verified |
+| U4-12 | A release tag that is lightweight fails the release, and a script cuts the right kind | all eight members and the umbrella's own `v0.90.0` were lightweight, so `git submodule status` reported every member at its **previous** version while every pin was correct. `release.yml` now refuses a non-annotated tag at the one moment the fact is decidable, and `scripts/tag.sh` writes the CHANGELOG section into the tag object | `6174583` | nothing — the check runs on the tag being released | verified |
 
 ## 2026-08-19 — UM-03, the two addresses this repository could not resolve (unreleased)
 

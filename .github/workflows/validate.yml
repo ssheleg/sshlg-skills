@@ -102,6 +102,112 @@ jobs:
       - name: Advertised plants (each member's own gate must refuse a dropped trigger)
         run: npm run test:plants
 
+      - name: Negative self-test (a submodule detached on a commit no branch holds must fail)
+        run: |
+          set -eu
+          # UM-08. `sheleg-design` sat in detached HEAD at a tag while a close's commit
+          # landed on no branch — reachable only through the reflog, and collectable. The
+          # guard disclosed rather than failing, honestly, and the work was nearly lost.
+          rm -rf /tmp/detplant && cp -R . /tmp/detplant
+          sub=$(python3 -c "import json;print(json.load(open('/tmp/detplant/skills.json'))['skills'][0]['dir'])")
+          git -C "/tmp/detplant/$sub" checkout -q --detach HEAD
+          git -C "/tmp/detplant/$sub" -c user.email=plant@ci -c user.name=plant \
+            commit -q --allow-empty -m "planted: a close that landed on no branch"
+          holders=$(git -C "/tmp/detplant/$sub" for-each-ref --contains HEAD \
+            --format='%(refname:short)' refs/heads refs/remotes | tr -d '[:space:]')
+          [ -z "$holders" ] || { echo "PLANT DID NOT LAND: a branch still holds it"; exit 1; }
+          out=$(cd /tmp/detplant && python3 test/validate.py || true)
+          if printf '%s' "$out" | grep -q 'on no branch'; then
+            echo "the collectable commit was refused:"
+            printf '%s\n' "$out" | grep 'on no branch'
+          else
+            echo "a commit reachable only from the reflog passed the gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
+      - name: Negative self-test (a new ledger section that cannot expire must fail)
+        run: |
+          set -eu
+          # UM-05 / M-43. 407 rows read `verified` with nothing that could un-read one.
+          rm -rf /tmp/expplant && cp -R . /tmp/expplant
+          cd /tmp/expplant
+          python3 - <<'PY'
+          import pathlib, re
+          p = pathlib.Path('docs/evidence/verification.md')
+          t = p.read_text(encoding='utf-8')
+          new = t.replace('| REQ | What shipped | How it was confirmed | Observed at | Invalidated by | Status |',
+                          '| REQ | What shipped | How it was confirmed | Status |', 1)
+          assert new != t, 'PLANT DID NOT LAND: the expiring header is not where the plant expects it'
+          p.write_text(new, encoding='utf-8')
+          PY
+          out=$(python3 test/validate.py || true)
+          if printf '%s' "$out" | grep -q 'no Observed at'; then
+            echo "the un-expirable section was refused:"
+            printf '%s\n' "$out" | grep 'Observed at'
+          else
+            echo "a section whose rows nothing can invalidate passed the gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
+      - name: Negative self-test (a stated count that has gone stale must fail)
+        run: |
+          set -eu
+          # Three of this repository's own numbers were false on 2026-08-20, each in a
+          # document about computing numbers rather than carrying them. The registry that
+          # closed them is only worth having if it has been watched refusing one.
+          rm -rf /tmp/countplant && cp -R . /tmp/countplant
+          cd /tmp/countplant
+          python3 - <<'PY'
+          import re, pathlib
+          p = pathlib.Path('README.md')
+          t = p.read_text(encoding='utf-8')
+          n = re.search(r'\*\*(\d+)\*\* negative self-tests', t)
+          assert n, 'PLANT DID NOT LAND: the README claim is not where the plant expects it'
+          p.write_text(t.replace(n.group(0), '**3** negative self-tests', 1), encoding='utf-8')
+          PY
+          grep -q '\*\*3\*\* negative self-tests' README.md \
+            || { echo "PLANT DID NOT LAND"; exit 1; }
+          out=$(python3 test/validate.py || true)
+          if printf '%s' "$out" | grep -q 'negative self-tests` states 3'; then
+            echo "the stale count was refused:"
+            printf '%s\n' "$out" | grep 'negative self-tests'
+          else
+            echo "a stated count three sevenths of the truth passed the gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
+      - name: Negative self-test (a conformance row citing an M-id with no line must fail)
+        run: |
+          set -eu
+          # The manifesto carries no requirement ids, and the extracted set was never
+          # committed — so an `M-nn` with no `manifesto.md:<line>` beside it resolves
+          # nowhere. Grandfathering is enumerated in a marker; anything else must cite.
+          rm -rf /tmp/miteplant && cp -R . /tmp/miteplant
+          cd /tmp/miteplant
+          python3 - <<'PY'
+          import pathlib
+          p = pathlib.Path('docs/evidence/manifesto-conformance.md')
+          t = p.read_text(encoding='utf-8')
+          assert '| SU-03 ' in t, 'PLANT DID NOT LAND: no anchor row to plant beside'
+          i = t.index('| SU-03 ')
+          row = '| ZZ-99 | M-44 | a planted row citing an id with no line | x | y | open |\n'
+          p.write_text(t[:i] + row + t[i:], encoding='utf-8')
+          PY
+          grep -q '^| ZZ-99 ' docs/evidence/manifesto-conformance.md \
+            || { echo "PLANT DID NOT LAND"; exit 1; }
+          out=$(python3 test/validate.py || true)
+          if printf '%s' "$out" | grep -q 'row ZZ-99 cites an M-id'; then
+            echo "the uncitable row was refused:"
+            printf '%s\n' "$out" | grep 'ZZ-99'
+          else
+            echo "a row citing a requirement id that resolves nowhere passed the gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
       - name: Negative self-test (a member behind its branch must be reported)
         run: |
           set -eu

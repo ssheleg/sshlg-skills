@@ -58,7 +58,24 @@ function routeGate(data, home) {
     const state = turnstate.read(home, data.session_id);
 
     const cwd = data.cwd || process.env.CLAUDE_PROJECT_DIR || process.cwd();
-    const runOpen = fs.existsSync(path.join(cwd, '.task-pipeline', 'run.md'));
+    // Derived from the ledger's CONTENT, not from its existence. A closed run's file
+    // stays on disk and keeps being appended to, and asking `existsSync` silenced this
+    // gate here for six days after `stage: 10 acceptance — verdict pass` (UM-01).
+    const ledgerPath = path.join(cwd, '.task-pipeline', 'run.md');
+    let runOpen = false;
+    if (fs.existsSync(ledgerPath)) {
+      const runledger = require(path.join(LIB, 'runledger.js'));
+      let finalStage = null;
+      try {
+        const pipeline = JSON.parse(fs.readFileSync(path.join(cwd, 'pipeline.json'), 'utf8'));
+        const stages = pipeline.stages || [];
+        const last = stages[stages.length - 1] || {};
+        finalStage = last.state || last.name || null;
+      } catch (e) {
+        /* No pipeline here: fall back to the highest stage id the ledger itself carries. */
+      }
+      runOpen = runledger.isOpen(fs.readFileSync(ledgerPath, 'utf8'), finalStage);
+    }
 
     const triggers = require(path.join(LIB, 'triggers.js'));
     const lines = {};

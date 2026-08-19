@@ -233,6 +233,46 @@ it('percent never exceeds 100', () => {
   assert.ok(L.percent(L.parse(many), [0, 1, 2]) <= 100);
 });
 
+it('a closed run stops reading as an open one', () => {
+  // UM-01. This repository's own ledger has recorded stage 10 `pass` since 2026-08-14,
+  // and the file is still there and still growing — so `existsSync` reported an open run
+  // for six days and silenced the route gate. The verdict is in the ledger; read it.
+  const closedRun = [
+    'Run: `something`',
+    'stage: 9 postdeploy — gate auto — verdict pass — 2026-08-14T04:00:00Z',
+    'stage: 10 acceptance — gate manual — verdict pass — 2026-08-14T05:00:00Z',
+    'event: subagent — general-purpose — 2026-08-19T22:46:01Z',
+  ].join('\n');
+  assert.strictEqual(L.isOpen(closedRun, 'acceptance'), false,
+    'a run whose last stage passed still reads as open');
+  assert.strictEqual(L.isOpen(closedRun, null), false,
+    'with no pipeline to borrow from, the doctrine\'s own last stage must still close it');
+  assert.strictEqual(L.isOpen('stage: 2 spec — gate auto — verdict pass — 2026-08-13T01:10:00Z', null),
+    true,
+    'the highest stage id SEEN is the current one — reading it as the last would close '
+    + 'every mid-run ledger and put a prompt in front of live work');
+
+  const midRun = 'stage: 4 spec — gate auto — verdict pass — 2026-08-14T01:00:00Z';
+  assert.strictEqual(L.isOpen(midRun, 'acceptance'), true,
+    'a run in the middle must stay open — the gate is quiet while somebody is mid-run');
+
+  const failedLast = 'stage: 10 acceptance — gate manual — verdict fail — 2026-08-14T05:00:00Z';
+  assert.strictEqual(L.isOpen(failedLast, 'acceptance'), true,
+    'a failed acceptance is not a closed run');
+
+  const noVerdict = 'stage: 10 acceptance — gate manual — 2026-08-14T05:00:00Z';
+  assert.strictEqual(L.isOpen(noVerdict, 'acceptance'), true,
+    'a stage entered and not ruled on is open, not closed');
+
+  assert.strictEqual(L.isOpen('Run: `x`\nnotes about nothing', 'acceptance'), true,
+    'a ledger with no stage line is a run beginning');
+
+  // The event lines after the close are the session's, not the run's.
+  const reopened = closedRun + '\nstage: 3 brainstorm — gate judgment — verdict pass — 2026-08-20T01:00:00Z';
+  assert.strictEqual(L.isOpen(reopened, 'acceptance'), true,
+    'a stage entered after the close is a new run, and it is open');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

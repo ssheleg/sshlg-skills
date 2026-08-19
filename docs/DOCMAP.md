@@ -139,11 +139,29 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-**Ratchets.** 32 suites, 562 fixtures, 8 pinned members. A change that lowers
-any of these without saying so in the changelog is a regression, not a
-simplification. Counted by running `npm test`, not carried across from the
-previous edit of this file — the numbers rose from 8/182 when `drift_test.js`
-landed, to 10/228 with `plan_test.js`, to 12/247 with the map and Cursor, to 13/267 when the write path gained a backup, to 13/269 with precedence over an injected mandate, to 16/303 when the family grew hooks of its own, to 23/427 when those hooks learned to refuse, to 24/469 when the progress rail stopped inventing its own denominator, to 32/557 when `apply_test.js` gave the write path fixtures of its own, and to 32/562 when the graph disclosure learned to read the report beside the graph.
+<!-- ratchets: suites=35 fixtures=607 members=8 -->
+**Ratchets.** 35 suites, 607 fixtures, 8 pinned members — and these three numbers are
+now **read out of the marker above by `test/run.js`, which re-derives all three from the
+run it just did and fails when a stated figure and the measured one disagree.** Counting
+convention: a suite is anything `npm test` runs, `validate.py` included, which is the
+same denominator its own `PASS:` line uses; a fixture is a case counted by a suite's own
+`OK (n checks)` or `PASS: … — n` line. A figure that DROPS is a suite that stopped
+running, and it fails the same way.
+
+The line before this one said *32 suites, 562 fixtures* beside its own sentence
+promising the numbers were counted rather than carried. The recount on 2026-08-20 was
+**35 and 602**, and the conformance row that corrected it (34/585) was **17 fixtures
+stale by the time it was written**. Three restatements of one pair of numbers, each
+wrong, each in a document about single homes — which is why the pair is no longer
+written by hand. The history of the climb is kept because the shape of it is the
+argument: 8/182 when `drift_test.js` landed, 10/228 with `plan_test.js`, 12/247 with the
+map and Cursor, 13/267 when the write path gained a backup, 13/269 with precedence over
+an injected mandate, 16/303 when the family grew hooks of its own, 23/427 when those
+hooks learned to refuse, 24/469 when the progress rail stopped inventing its own
+denominator, 32/557 when `apply_test.js` gave the write path fixtures of its own, 32/562
+when the graph disclosure learned to read the report beside the graph, and 35/607 when
+the repository gate stopped deciding ownership from an index the command could change and
+the route gate stopped reading a closed run as an open one.
 
 That jump is not eight new suites. **24/469 was wrong when it was written** — the
 2026-08-16 audit recounted the same command at 26 node suites and 542 fixtures,

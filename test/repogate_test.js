@@ -32,6 +32,37 @@ it('--dry-run is the one that is not', () => {
   assert.strictEqual(R.isCommit('git commit --dry-run'), false);
 });
 
+it('the verb is read in what would RUN, not anywhere in the payload', () => {
+  // UM-10. Both of these cost a diagnostic before they were fixed: the gate denied a
+  // `node` invocation because its JSON argument contained the words, and then denied
+  // the commit of the ledger row describing the bug. The treatment already existed
+  // in lib/hygiene.js and is reused rather than reimplemented.
+  assert.strictEqual(R.isCommit('# git commit -m x'), false, 'a comment is not an invocation');
+  assert.strictEqual(R.isCommit('cat <<EOF > note.md\ngit commit -m x\nEOF'), false,
+    'a heredoc body fed to cat is data, not a script');
+  assert.strictEqual(R.isCommit('bash <<EOF\ngit commit -m x\nEOF'), true,
+    'a heredoc body fed to bash IS a script — stripping every heredoc would be a bypass');
+  assert.strictEqual(R.isCommit('bash -c "git commit -m x"'), true,
+    'a quoted invocation is an invocation');
+  assert.strictEqual(R.isCommit("sh -c 'git commit'"), true);
+});
+
+it('ownership is read from the command and the cwd, never from the index', () => {
+  // UM-09 and UM-11. The directories are returned relative to the shell's cwd; '.'
+  // means "wherever this ran", which the hook resolves against the payload.
+  assert.deepStrictEqual(R.commitDirs('git commit -m x'), ['.']);
+  assert.deepStrictEqual(R.commitDirs('git add -A && git commit -m x'), ['.']);
+  assert.deepStrictEqual(R.commitDirs('git -C skills/super-ux commit -m x'), ['skills/super-ux']);
+  assert.deepStrictEqual(R.commitDirs('cd skills/agent-sync && git commit -m x'), ['skills/agent-sync']);
+  assert.deepStrictEqual(R.commitDirs('cd skills/agent-sync && git -C ../make-skill commit -m x'),
+    ['skills/agent-sync/../make-skill']);
+  assert.deepStrictEqual(R.commitDirs('cd /tmp/x && git commit -m a && git commit -m b'),
+    ['/tmp/x', '/tmp/x'], 'each commit in a chain is a commit somewhere');
+  assert.deepStrictEqual(R.commitDirs('git status'), [], 'a read commits nowhere');
+  assert.deepStrictEqual(R.commitDirs('# git commit -m x'), [],
+    'a comment commits nowhere either');
+});
+
 it('other git commands are not commits', () => {
   for (const cmd of ['git status', 'git log --oneline -5', 'git show HEAD',
                      'git diff --cached', 'git push']) {

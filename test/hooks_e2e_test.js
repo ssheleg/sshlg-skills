@@ -484,19 +484,25 @@ it('a prompt with no route never escalates', () => {
   }), null, 'an unclassified prompt was escalated — that is a prompt on every edit');
 });
 
-it('a commit that stages nothing HERE is not this project\'s commit', () => {
+it('a commit made in ANOTHER repository is not this project\'s commit', () => {
   // The deadlock this prevents was real: committing inside a submodule ran the
   // umbrella's suite, which was red for a reason the submodule commit was about
-  // to fix.
-  const project = fs.mkdtempSync(path.join(os.tmpdir(), 'gate-empty-'));
-  execFileSync('git', ['init', '-q'], { cwd: project });
+  // to fix. What decides is where the command would RUN — not what happens to be
+  // staged here, which is a different question the command itself can change.
+  const project = fs.mkdtempSync(path.join(os.tmpdir(), 'gate-owner-'));
+  const other = fs.mkdtempSync(path.join(os.tmpdir(), 'gate-other-'));
+  for (const dir of [project, other]) execFileSync('git', ['init', '-q'], { cwd: dir });
   fs.writeFileSync(path.join(project, 'package.json'), JSON.stringify({
     name: 'fixture', version: '0.0.0',
-    scripts: { test: 'node -e "process.exit(1)"' },
+    scripts: { test: 'node -e "process.exit(1)"' },   // red: a gate that ran would deny
   }));
+  // ...and this project's index is DIRTY, which used to be enough to claim the commit
+  fs.writeFileSync(path.join(project, 'staged.txt'), 'x');
+  execFileSync('git', ['add', 'staged.txt'], { cwd: project });
+
   const r = spawnSync('node', [path.join(ROOT, 'hooks', 'repo-gate.js')], {
     input: JSON.stringify({
-      hook_event_name: 'PreToolUse', tool_name: 'Bash',
+      hook_event_name: 'PreToolUse', tool_name: 'Bash', cwd: other,
       tool_input: { command: 'git commit -m x' },
     }),
     encoding: 'utf8',
@@ -504,6 +510,71 @@ it('a commit that stages nothing HERE is not this project\'s commit', () => {
   });
   assert.strictEqual((r.stdout || '').trim(), '',
     'a commit belonging to another repository was gated by this one\'s suite');
+
+  // the same, addressed by `-C` from inside this project
+  const byFlag = spawnSync('node', [path.join(ROOT, 'hooks', 'repo-gate.js')], {
+    input: JSON.stringify({
+      hook_event_name: 'PreToolUse', tool_name: 'Bash', cwd: project,
+      tool_input: { command: `git -C ${other} commit -m x` },
+    }),
+    encoding: 'utf8',
+    env: Object.assign({}, process.env, { CLAUDE_PROJECT_DIR: project }),
+  });
+  assert.strictEqual((byFlag.stdout || '').trim(), '',
+    '`git -C <other repo> commit` was gated by this repository\'s suite');
+});
+
+it('the compound form does not walk past the gate', () => {
+  // UM-09, and it is the reason the index question had to go. `git add -A && git
+  // commit` stages nothing AT DECISION TIME, because this hook fires before the
+  // command runs — so the old ownership test concluded "not ours" and exited 0
+  // without running the suite. Measured on 2026-08-19 against a throwaway project:
+  // no output, exit 0, no suite. This case is that bypass, watched being refused.
+  const project = fs.mkdtempSync(path.join(os.tmpdir(), 'gate-compound-'));
+  execFileSync('git', ['init', '-q'], { cwd: project });
+  fs.writeFileSync(path.join(project, 'package.json'), JSON.stringify({
+    name: 'fixture', version: '0.0.0',
+    scripts: { test: 'node -e "console.log(\'FAIL: the planted check\'); process.exit(1)"' },
+  }));
+  fs.writeFileSync(path.join(project, 'unstaged.txt'), 'x');   // present, deliberately NOT staged
+  for (const command of ['git add -A && git commit -m x',
+                         'git add . ; git commit -m x',
+                         'git commit -am x']) {
+    const r = spawnSync('node', [path.join(ROOT, 'hooks', 'repo-gate.js')], {
+      input: JSON.stringify({
+        hook_event_name: 'PreToolUse', tool_name: 'Bash', cwd: project,
+        tool_input: { command },
+      }),
+      encoding: 'utf8',
+      env: Object.assign({}, process.env, { CLAUDE_PROJECT_DIR: project }),
+    });
+    const out = (r.stdout || '').trim();
+    assert.ok(out, `the gate never ran for: ${command}`);
+    assert.strictEqual(JSON.parse(out).hookSpecificOutput.permissionDecision, 'deny',
+      `a red suite did not refuse: ${command}`);
+  }
+});
+
+it('the payload without a cwd still gates what it can', () => {
+  // Older payload shapes carry no `cwd`. The fallback is the index question, and its
+  // documented weakness is narrowed rather than kept: a command that stages
+  // something itself is not excused by an empty index.
+  const project = fs.mkdtempSync(path.join(os.tmpdir(), 'gate-nocwd-'));
+  execFileSync('git', ['init', '-q'], { cwd: project });
+  fs.writeFileSync(path.join(project, 'package.json'), JSON.stringify({
+    name: 'fixture', version: '0.0.0',
+    scripts: { test: 'node -e "console.log(\'FAIL: planted\'); process.exit(1)"' },
+  }));
+  const r = spawnSync('node', [path.join(ROOT, 'hooks', 'repo-gate.js')], {
+    input: JSON.stringify({
+      hook_event_name: 'PreToolUse', tool_name: 'Bash',
+      tool_input: { command: 'git add -A && git commit -m x' },
+    }),
+    encoding: 'utf8',
+    env: Object.assign({}, process.env, { CLAUDE_PROJECT_DIR: project }),
+  });
+  assert.match((r.stdout || ''), /deny/,
+    'with no cwd and nothing staged, a self-staging commit walked past the gate');
 });
 
 try {

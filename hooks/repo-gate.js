@@ -26,6 +26,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 const { execFileSync } = require('child_process');
 
 // Two roots, and conflating them is how this became untestable in the first
@@ -35,6 +36,22 @@ const { execFileSync } = require('child_process');
 const SCRIPT_ROOT = path.resolve(__dirname, '..');
 const PROJECT = process.env.CLAUDE_PROJECT_DIR || SCRIPT_ROOT;
 const gate = require(path.join(SCRIPT_ROOT, 'lib', 'repogate.js'));
+
+/** The repository root a directory belongs to, or null when that cannot be answered. */
+function toplevel(dir) {
+  try {
+    const out = execFileSync('git', ['-C', dir, 'rev-parse', '--show-toplevel'],
+      { encoding: 'utf8', stdio: ['pipe', 'pipe', 'pipe'] });
+    return realpath(out.trim());
+  } catch (e) {
+    return null;
+  }
+}
+
+/** Symlinks make two spellings of one directory, and /tmp is one on macOS. */
+function realpath(p) {
+  try { return fs.realpathSync(p); } catch (e) { return path.resolve(p); }
+}
 
 function deny(reason) {
   process.stdout.write(JSON.stringify({
@@ -65,18 +82,44 @@ process.stdin.on('end', () => {
 
     if (data.hook_event_name === 'PreToolUse') {
       if (!gate.isCommit(input.command || '')) return process.exit(0);
-      // Whose commit is this? The payload carries no shell cwd, and this hook is
-      // wired from ONE project — so a commit made inside a submodule would be
-      // gated by the umbrella's suite, which is a different repository's verdict
-      // about a change it does not contain. Watched: it deadlocked a release, the
-      // umbrella being red precisely because the submodule had not shipped yet.
-      // Staged changes are the decidable version of the question: a commit for
-      // THIS project must have something staged in it.
-      try {
-        execFileSync('git', ['diff', '--cached', '--quiet'], { cwd: PROJECT, stdio: 'pipe' });
-        return process.exit(0);  // nothing staged here — the commit is not ours
-      } catch (e) {
-        if (e.status !== 1) return process.exit(0);  // not a git repo, or git is absent
+      // Whose commit is this? This hook is wired from ONE project, so a commit made
+      // inside a submodule must not be gated by the umbrella's suite — that is a
+      // different repository's verdict about a change it does not contain, and it
+      // deadlocked a release once: the umbrella red because the submodule had not
+      // shipped, the submodule unable to commit the fix because the umbrella was red.
+      //
+      // The question used to be answered by `git diff --cached --quiet`, and that was
+      // a bypass. This fires at PreToolUse, BEFORE the command runs, so in the
+      // ordinary compound form (`git add -A && git commit -m x`) nothing is staged
+      // yet: the gate concluded "not ours" and exited 0 without running the suite.
+      // It also misattributed in the other direction, because another agent's staged
+      // index made this project look like the owner of somebody else's commit.
+      //
+      // Ownership is now derived from the two things the command cannot change under
+      // the hook: its own text (`-C <path>`, a preceding `cd`) and the shell's cwd,
+      // resolved to a repository root. If that cannot be resolved at all, the old
+      // index question is the fallback — worse, but better than opening the gate.
+      const shellCwd = data.cwd || PROJECT;
+      const dirs = gate.commitDirs(input.command || '');
+      const project = realpath(PROJECT);
+      let owned = null;
+      for (const d of dirs.length ? dirs : ['.']) {
+        const top = toplevel(path.resolve(shellCwd, d.replace(/^~(?=\/|$)/, os.homedir())));
+        if (top === null) continue;
+        owned = owned || top === project;
+      }
+      if (owned === false) return process.exit(0);   // resolved, and it is not ours
+      if (owned === null) {
+        // Could not look. Fall back to the index, and keep its documented weakness
+        // narrow: an empty index no longer means "not ours" when the command stages
+        // something itself.
+        const stagesItself = /(^|[\s;&|])git(\s+-C\s+\S+)?\s+add(\s|$)/.test(input.command || '');
+        try {
+          execFileSync('git', ['diff', '--cached', '--quiet'], { cwd: PROJECT, stdio: 'pipe' });
+          if (!stagesItself) return process.exit(0);  // nothing staged, nothing will be
+        } catch (e) {
+          if (e.status !== 1) return process.exit(0);  // not a git repo, or git is absent
+        }
       }
       try {
         execFileSync('npm', ['test'], { cwd: PROJECT, encoding: 'utf8', stdio: 'pipe' });

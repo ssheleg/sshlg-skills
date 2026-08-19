@@ -36,7 +36,8 @@
       "state": "brainstorm",
       "name": "Brainstorm + decompose",
       "gate": {
-        "type": "auto",
+        "type": "judgment",
+        "judge": "the operator — approval of a design is a ruling, and the pinned schema has had a type for that since task-pipeline 9d8695d",
         "check": "The design is approved and every REQ is answered by it. A brief describing several independent changes IS a platform: cut it into modules, commit the map, walking skeleton first, every REQ in exactly one module — then stages 3→10 run per module. Prove the shape on one module before repeating it: five hand-written copies of one guard produced five different defects on 2026-08-13 because the shape was never proven once."
       },
       "skills": [
@@ -49,7 +50,8 @@
       "state": "spec",
       "name": "Spec",
       "gate": {
-        "type": "auto",
+        "type": "judgment",
+        "judge": "the operator — `locked` is a decision; the REQ-naming half beside it is mechanical and stays checked by the validator",
         "check": "Contracts locked, each section naming the REQ it covers. This repository ships a CLI and prose, not an interface: the UX and design tracks are recorded as DECLINED rather than left silent. Every check the spec names must resolve at the moment it is named."
       },
       "skills": [

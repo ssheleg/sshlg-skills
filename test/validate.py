@@ -1321,6 +1321,37 @@ def check_no_member_holds_a_commit_the_remote_does_not():
             return r.stdout.strip() if r.returncode == 0 else None
 
         if g("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}") is None:
+            # UM-08. Two very different states arrive here and they were reading the same.
+            # `sheleg-design` sat in DETACHED HEAD at a tag while a close's commit landed on
+            # no branch: remote `main` was still behind it, and the commit was reachable only
+            # through the reflog — unreferenced, and collectable. This guard behaved honestly
+            # (it disclosed rather than passing) but a disclosure among many is a disclosure
+            # nobody reads, and the work was nearly lost.
+            #
+            # So the two cases are separated. No upstream on a BRANCH is a fresh clone: still
+            # a disclosure. No upstream, detached HEAD, and commits reachable from no branch
+            # at all is a FAILURE — the work can be garbage-collected, which is worse than
+            # unpushed.
+            head = g("rev-parse", "--abbrev-ref", "HEAD")
+            if head == "HEAD":
+                # `git branch --contains HEAD` is the wrong instrument here: in a detached
+                # checkout it prints `* (HEAD detached from …)`, which is not a branch and
+                # is not empty — the first version of this guard read that as "a branch
+                # holds it" and disclosed instead of failing, against its own plant.
+                holders = g("for-each-ref", "--contains", "HEAD",
+                            "--format=%(refname:short)", "refs/heads", "refs/remotes")
+                unreachable = holders is not None and holders.strip() == ""
+                if unreachable:
+                    sha = g("rev-parse", "--short", "HEAD") or "?"
+                    fail(f"{m['dir']}: detached at {sha} and that commit is on no branch — it "
+                         "is reachable only through the reflog and a `git gc` may collect it. "
+                         "Put it on a branch before anything pins it: "
+                         f"`git -C {m['dir']} switch -c recovered-{sha}` or "
+                         f"`git -C {m['dir']} branch -f main {sha}`")
+                    continue
+                _skips.append(f"{m['name']}: detached at a commit that IS on a branch, so "
+                              "whether it is pushed could not be read from here")
+                continue
             _skips.append(f"{m['name']}: no upstream ref here, so whether its commits are "
                           "pushed could not be read")
             continue
@@ -1432,7 +1463,7 @@ def check_the_board_rank_follows_from_its_own_inputs():
     for line in lines:
         if not re.match(r"^\|\s*B-\d+\s*\|", line):
             continue
-        cells = [c.strip() for c in line.split("|")]
+        cells = [c.strip() for c in re.split(r"(?<!\\)\|", line)]
         if len(cells) < 9 or not cells[8].startswith(("open", "**open", "**part")):
             continue
         rid = cells[1]
@@ -1493,7 +1524,7 @@ def check_a_waiver_names_what_would_bring_it_back():
         # guard that reads it reports on a row that does not exist.
         if not re.match(r"^\|\s*B-\d+\s*\|", line):
             continue
-        cells = [c.strip() for c in line.split("|")]
+        cells = [c.strip() for c in re.split(r"(?<!\\)\|", line)]
         if len(cells) < 9:
             continue
         rid, prio, status = cells[1], cells[7], cells[8]
@@ -1651,6 +1682,217 @@ def check_every_address_these_documents_claim_resolves():
 
 
 check_every_address_these_documents_claim_resolves()
+
+
+def check_counted_claims_agree_with_the_tree():
+    """Every number this repository states about itself, recomputed.
+
+    Three of them were wrong on 2026-08-20, all three in documents whose subject is
+    that numbers are computed rather than carried:
+
+    * `README.md` said **20** negative self-tests against a workflow defining 21 — in
+      the one row of the manifesto table about watching a guard fail.
+    * `docs/evidence/verification.md` said **119** id'd rows / **113** verified. The
+      pattern it quotes gives 129, and a pattern matching every id shape the file
+      actually uses — `U3-01`, `B29-1`, `I4-3` are invisible to `[A-Z]+-[0-9]+` — gives
+      **407 / 401**. The narrow count had been wrong by 10 and blind to 278.
+    * `docs/evidence/manifesto-conformance.md`'s own Program state table said 32 active
+      rows, all open, none verified, beside the awk recipe printing 41 and a file where
+      19 rows read `verified`.
+
+    A registry rather than three checks, because the class is the point: the fix for a
+    restated number is a command, and the cost of citing your own tree is registering
+    the citation. Same shape as `task-pipeline`'s claim registry and `pod-manifesto`'s
+    CLAIMS — deliberately, so the family has one idea here and not three.
+
+    Each entry is (label, pattern over a document, a callable returning the truth). The
+    pattern must capture the number; a pattern that matches nothing is a FAILURE, not a
+    pass, because that is how the claim registry in the member repo went dormant while
+    the false number shipped.
+    """
+    wf = os.path.join(ROOT, ".github", "workflows", "validate.yml")
+    ledger = os.path.join(ROOT, "docs", "evidence", "verification.md")
+    conf = os.path.join(ROOT, "docs", "evidence", "manifesto-conformance.md")
+
+    def read(path):
+        if not os.path.isfile(path):
+            return None
+        with open(path, encoding="utf-8") as fh:
+            return fh.read()
+
+    def plants():
+        text = read(wf)
+        return None if text is None else len(re.findall(r"name: Negative self-test", text))
+
+    def ledger_rows():
+        text = read(ledger)
+        if text is None:
+            return None
+        return len(re.findall(r"(?m)^\|\s*[A-Za-z0-9]+-[0-9]+\s*\|", text))
+
+    def ledger_verified():
+        text = read(ledger)
+        if text is None:
+            return None
+        rows = [l for l in text.splitlines()
+                if re.match(r"^\|\s*[A-Za-z0-9]+-[0-9]+\s*\|", l)]
+        return sum(1 for l in rows if "verified" in l)
+
+    def conformance_state(which):
+        text = read(conf)
+        if text is None:
+            return None
+        n = 0
+        for line in text.splitlines():
+            if line.startswith("## Deferred"):
+                break
+            if not re.match(r"^\| [A-Z]{2}-[0-9]", line):
+                continue
+            cells = [c.strip() for c in re.split(r"(?<!\\)\|", line)]
+            state = re.sub(r"[*`]", "", cells[-2] if len(cells) > 2 else "").strip().lower()
+            if state == which:
+                n += 1
+        return n
+
+    def conformance_rows():
+        text = read(conf)
+        if text is None:
+            return None
+        rows = 0
+        for line in text.splitlines():
+            if line.startswith("## Deferred"):
+                break
+            if re.match(r"^\| [A-Z]{2}-[0-9]", line):
+                rows += 1
+        return rows
+
+    registry = [
+        ("negative self-tests", "README.md",
+         r"\*\*(\d+)\*\* negative self-tests", plants),
+        ("ledger rows", "docs/evidence/verification.md",
+         r"Of the\s+\*\*(\d+)\*\* id'd requirement rows", ledger_rows),
+        ("ledger rows verified", "docs/evidence/verification.md",
+         r"id'd requirement rows below, \*\*(\d+)\*\* read", ledger_verified),
+        ("conformance rows", "docs/evidence/manifesto-conformance.md",
+         r"\*\*active total\*\* \| \*\*(\d+)\*\*", conformance_rows),
+        ("conformance rows open", "docs/evidence/manifesto-conformance.md",
+         r"By state, over those \d+ rows: \*\*(\d+) open", lambda: conformance_state("open")),
+        ("conformance rows verified", "docs/evidence/manifesto-conformance.md",
+         r"By state, over those \d+ rows: \*\*\d+ open · (\d+) verified",
+         lambda: conformance_state("verified")),
+    ]
+
+    for label, doc, pattern, truth in registry:
+        text = read(os.path.join(ROOT, doc))
+        if text is None:
+            _skips.append(f"counted claim `{label}` — {doc} absent")
+            continue
+        measured = truth()
+        if measured is None:
+            _skips.append(f"counted claim `{label}` — its source is absent, so the "
+                          "stated figure could not be recomputed")
+            continue
+        found = re.search(pattern, text)
+        if not found:
+            fail(f"{doc}: the counted claim `{label}` matched nothing. A registered "
+                 f"pattern that matches nothing is how a false number ships beside a "
+                 f"green gate — the truth right now is {measured}")
+            continue
+        stated = int(found.group(1))
+        if stated != measured:
+            fail(f"{doc}: `{label}` states {stated}, the tree gives {measured} — "
+                 f"recompute it rather than editing the guard")
+
+
+check_counted_claims_agree_with_the_tree()
+
+
+def check_a_new_conformance_row_cites_the_manifesto_line():
+    """An `M-nn` with no line beside it points at nothing a reader can reach.
+
+    The manifesto carries no requirement ids at all, and the extracted set the programme
+    numbers against was never committed — so a row citing `M-40` and nothing else is
+    citing a definition that exists in one session's scratchpad. Measured from the other
+    side on 2026-08-20: `seo-aeo-audit`'s two closed rows rest on `M-40`, `M-32` and
+    `M-08`, and `grep -rn` over the whole manifesto repository finds none of them.
+
+    Grandfathering is enumerated in the file, never implied: the marker lists the rows
+    that existed when this guard landed. Anything else must carry `manifesto.md:<line>`.
+    An implicit cutoff (a date, a wave number) would be indistinguishable from a guard
+    nobody wired, which is the failure this whole register is about.
+    """
+    path = os.path.join(ROOT, "docs", "evidence", "manifesto-conformance.md")
+    if not os.path.isfile(path):
+        _skips.append("manifesto-conformance.md absent — M-id citations unchecked")
+        return
+    with open(path, encoding="utf-8") as fh:
+        text = fh.read()
+    marker = re.search(r"<!--\s*m-cite-grandfathered:\s*([^>]*?)-->", text)
+    if not marker:
+        fail("docs/evidence/manifesto-conformance.md: no `m-cite-grandfathered` marker, "
+             "so the M-id citation rule has no enumerated exemption and cannot be checked")
+        return
+    grandfathered = set(marker.group(1).split())
+    for line in text.splitlines():
+        if line.startswith("## Deferred"):
+            break
+        m = re.match(r"^\| ([A-Z]{2}-[0-9]+)", line)
+        if not m:
+            continue
+        rid = m.group(1)
+        if rid in grandfathered:
+            continue
+        if not re.search(r"M-[0-9]{2}", line):
+            continue
+        if "manifesto.md:" not in line:
+            fail(f"docs/evidence/manifesto-conformance.md: row {rid} cites an M-id with no "
+                 "`manifesto.md:<line>` beside it — the id resolves nowhere without one")
+
+
+check_a_new_conformance_row_cites_the_manifesto_line()
+
+
+def check_a_new_ledger_section_can_expire():
+    r"""Proof expires, and this ledger had only one end of that.
+
+    UM-05, manifesto requirement M-43 (`manifesto.md:308` — *the record states both what it
+    applies to and what would invalidate it*). 407 rows here read `verified` and
+    `grep -c 'Observed at\|invalidat'` returned **0**: nothing could ever un-read one.
+    `task-pipeline` shipped the mechanism on 2026-08-17 and the umbrella did not adopt it
+    for three days.
+
+    Deliberately not retroactive. Back-filling an observation for a row nobody re-checked
+    answers the question wrongly instead of not at all, which this file argues one screen
+    above its own table. So the requirement starts at the section that introduced the
+    columns: **a section dated 2026-08-20 or later must carry `Observed at` and
+    `Invalidated by` in its table header.** The cutoff is a date in the file rather than a
+    row list because sections are dated by their own heading, and that is the one fact a
+    new section cannot forget to state.
+    """
+    path = os.path.join(ROOT, "docs", "evidence", "verification.md")
+    if not os.path.isfile(path):
+        _skips.append("verification.md absent — the expiry contract is unchecked")
+        return
+    with open(path, encoding="utf-8") as fh:
+        lines = fh.read().splitlines()
+    CUTOFF = "2026-08-20"
+    section, header_seen = None, False
+    for line in lines:
+        m = re.match(r"^##\s+(\d{4}-\d{2}-\d{2})\s*—\s*(.*)$", line)
+        if m:
+            section = (m.group(1), m.group(2)) if m.group(1) >= CUTOFF else None
+            header_seen = False
+            continue
+        if section and not header_seen and re.match(r"^\|\s*REQ\s*\|", line):
+            header_seen = True
+            missing = [c for c in ("Observed at", "Invalidated by") if c not in line]
+            if missing:
+                fail(f"docs/evidence/verification.md: the section dated {section[0]} carries "
+                     f"no {' and no '.join(missing)} column — a row nothing can invalidate "
+                     "is a row that reads as current forever (M-43)")
+
+
+check_a_new_ledger_section_can_expire()
 
 if errors:
     print("FAIL: sshlg-skills structure invalid")

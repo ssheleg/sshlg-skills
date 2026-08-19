@@ -63,7 +63,7 @@ you can open and a command you can run:
 
 | The manifesto says | Here it is |
 |---|---|
-| Evidence over confidence — a green nobody watched fail is not evidence | [`validate.yml`](.github/workflows/validate.yml) — **20** negative self-tests, each planting the defect its guard exists for and requiring the refusal; [`test/plant_guard.py`](test/plant_guard.py) fails the step when the plant did **not** land, so a guard nobody disarmed cannot report as one that held. `npm run test:plants` is the half you can run here — every member's own gate, fed a dropped trigger |
+| Evidence over confidence — a green nobody watched fail is not evidence | [`validate.yml`](.github/workflows/validate.yml) — **25** negative self-tests, each planting the defect its guard exists for and requiring the refusal; [`test/plant_guard.py`](test/plant_guard.py) fails the step when the plant did **not** land, so a guard nobody disarmed cannot report as one that held. `npm run test:plants` is the half you can run here — every member's own gate, fed a dropped trigger |
 | Done is a coverage relation, not a status on a task | [`references/acceptance.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/acceptance.md) — the ladder walk, seam by seam |
 | An edge with no named payload is chronology drawn as architecture | [`graph.schema.json`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json) refuses an edge whose `payload` is empty |
 | The queue is an artifact, not the agent's recollection | [`scripts/graph.py`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py) — the model never reads the graph; a 400-node graph and a 4-node graph print the same 27-byte frontier |
@@ -74,9 +74,23 @@ you can open and a command you can run:
 | Durable truth over conversational state | [`references/continuity.md`](skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/continuity.md) |
 
 Two of the manifesto's evidence notes (`E1`, `E4`) are incidents from this repository's
-own runs — it is describing measurements taken here. The parts it names that are **not** built yet are filed as open rows in
-[`docs/evidence/backlog.md`](skills/task-pipeline/docs/evidence/backlog.md) rather than
-described as shipped — which is the manifesto's rule applied to the manifesto.
+own runs — it is describing measurements taken here. The four requirements it named as
+**not built yet** have since been built, each with its commit:
+[`9d8695d`](https://github.com/ssheleg/task-pipeline/commit/9d8695dc4b73da5b65f2dde6894d351f2e738612)
+a judgment gate the schema distinguishes from a measurement,
+[`fbd8a67`](https://github.com/ssheleg/task-pipeline/commit/fbd8a67e6988a0893f273eb37bd9a075a036c223)
+a `serves` edge that must resolve,
+[`0bc5eb6`](https://github.com/ssheleg/task-pipeline/commit/0bc5eb632e6c94181c528cf8cff315e2b7c5a2a9)
+expiring verification, and
+[`8b7de18`](https://github.com/ssheleg/task-pipeline/commit/8b7de18eceb8b3f58ceea35410201344bf470f49)
+a node that states its own completion check. What is still owed is filed as open rows in
+the member's board ([`skills/task-pipeline/docs/evidence/backlog.md`](skills/task-pipeline/docs/evidence/backlog.md))
+and in this repository's own ([`docs/evidence/backlog.md`](docs/evidence/backlog.md)),
+rather than described as shipped — which is the manifesto's rule applied to the manifesto.
+
+That sentence was wrong for three days after the manifesto stopped saying it, and its own
+receipt pointed at a different row than the one it named. `pod-manifesto` now checks the
+claim from its end (`tools/check-currency.py`), and this end is where it is written.
 
 If the ideas are useful to you, a ⭐ on this repository helps other people find them.
 

@@ -54,6 +54,26 @@ jobs:
           set -eu
           python3 test/validate.py
 
+      - name: The tag must be annotated (B-93 — a lightweight tag hides the release)
+        run: |
+          set -eu
+          # `git submodule status` reports a member by `git describe`, which prefers an
+          # ANNOTATED tag. A lightweight one is invisible to it, so the umbrella printed
+          # every member as its PREVIOUS release: measured 2026-08-20, all eight members
+          # and the umbrella's own v0.90.0 were lightweight and all nine read stale.
+          # Closed at the one moment the fact is decidable — the tag being released.
+          # `git tag -a` (or `scripts/tag.sh`) is the remedy; a lightweight tag can be
+          # replaced in place at the same commit.
+          TAG="${{ steps.t.outputs.tag }}"
+          KIND=$(git cat-file -t "$TAG")
+          if [ "$KIND" != "tag" ]; then
+            echo "$TAG is a $KIND, not an annotated tag object."
+            echo "git submodule status and git describe would name the PREVIOUS release."
+            echo "Remedy: scripts/tag.sh $TAG   (git tag -a -F <changelog section>)"
+            exit 1
+          fi
+          echo "$TAG is annotated"
+
       - name: Tag must match the manifests (version sync)
         run: |
           set -eu
