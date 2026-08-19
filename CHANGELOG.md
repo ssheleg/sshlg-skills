@@ -1,3 +1,50 @@
+## v0.90.0 — the conformance release: eight members, one manifesto, and what the audit could not see
+
+Every member moves at once, because a family that ships one member at a time is a family
+whose combination nobody tested. This release carries the result of auditing all nine
+packs against the **Proof of Done manifesto** — 61 requirements extracted from the
+document, one auditor per member, then a programme of 44 rows to close what the audit
+found.
+
+| member | version | what it closed |
+|---|---|---|
+| `task-pipeline` | 1.72.0 | a node states its own completion check — the last of four gaps the manifesto named against this family |
+| `super-ux` | 0.45.0 | the requirement layer can finally see a requirement with no observable; a shipped scenario stops counting as a validated one |
+| `sheleg-dev` | 0.7.0 | the security document stopped describing a different skill; a credential boundary; a manual gate that refuses; money invariants as fixtures |
+| `seo-aeo-audit` | 0.23.0 | the report can separate `pass` from *never looked*, and every payload says which run produced it |
+| `sheleg-design` | 1.44.0 | *degrade to calm* gained an observable; a hyphenated count is no longer invisible to the gate that counts it |
+| `agent-stack` | 0.12.0 | three places the pack disagreed with the manifesto it is built on |
+| `agent-sync` | 1.14.0 | expiry ended a lease and left the file, and every reader folded that away |
+| `make-skill` | 0.22.0 | the gate left 47 MB in `$TMPDIR` and never said what it left |
+
+### What the audit measured
+
+Nine members, 61 requirements, `path:line` evidence. The family scored strongest on the
+manifesto's hardest requirement — *the checker needs proof too*, 7 of 9 members enforcing
+it with planted defects — and weakest on its cheapest: stamping a policy version, labelling
+a judgment as judgment. **Depth was bought; bookkeeping was not.**
+
+### What only running it could find
+
+Eight rows came from executing the programme rather than reading the code. The repository
+gate is bypassable by `add`-then-commit, because it decides ownership from the index
+*before* the command fills it — and deadlocks submodule commits when the index is dirty, a
+regression of a defect the retrospective already records as fixed. A close was nearly
+garbage-collected on a detached HEAD. Residue is 6 leak sites and 5.4 GB. **Nine
+repositories share doctrine and nothing checks that they agree.** A permalink resolves
+forever, so resolution alone cannot detect a receipt gone stale.
+
+And three times in three days, a plant died *upstream* of the `PLANT DID NOT LAND` assert
+written to catch it — including one that blocked its own release, correctly, by refusing
+rather than passing. **A plant is code, and code that throws is not a verdict.**
+
+### The manifesto
+
+`podmanifesto.org` no longer claims four requirements are open. It names all four as built
+with the commit for each, and names what the failure taught: *a citation that resolves is
+not the same as a citation that is current.* The check that enforces that distinction now
+exists, failed correctly on its first live run, and certifies its own subject.
+
 ## v0.89.0 — one member moves, and the pin is the whole point
 
 **`sheleg-design` 1.42.0 → 1.43.0.** No other member moves. The release adds
