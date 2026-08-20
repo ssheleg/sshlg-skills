@@ -50,6 +50,13 @@ release repairs it"*. So each member was tagged and published first, `python3
 test/check_pins.py` was run against the registry, and only then were `skills.json`, the
 README table and these pointers committed together.
 
+**One pointer moved twice, and the second move is why.** `skills/sheleg-dev` was pinned at
+`7e0a6c9` when this record was first written, and the umbrella's release then went red on
+`agent_sync.py check`: that member had fixed its coordination config in v0.8.0 and left
+`docs/AGENT_SYNC.md` describing the previous shape. **No member's own gate asks that
+question** — the umbrella's does, which is the entire argument for the check living here.
+Regenerated and re-pinned at `72662bc`.
+
 **What was observed across the pointer**
 
 | | |
