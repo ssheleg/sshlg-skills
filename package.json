@@ -7,7 +7,8 @@
   },
   "scripts": {
     "test": "node test/run.js",
-    "test:plants": "python3 test/advertised_plants.py"
+    "test:plants": "python3 test/advertised_plants.py",
+    "queue": "python3 scripts/queue.py"
   },
   "files": [
     "bin",

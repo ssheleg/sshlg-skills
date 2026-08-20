@@ -786,33 +786,72 @@ def check_board_is_parseable():
     Pipes are counted UNESCAPED — `\\|` is a literal in a cell, not a delimiter, which is
     exactly the distinction the broken row got wrong.
     """
-    path = os.path.join(ROOT, "docs/evidence/backlog.md")
-    if not os.path.isfile(path):
-        _skips.append("docs/evidence/backlog.md absent — board integrity unchecked")
-        return
-    rows = [l for l in open(path, encoding="utf-8").read().splitlines()
-            if re.match(r"^\|\s*B-\d+\s*\|", l)]
-    if not rows:
-        fail("docs/evidence/backlog.md: no `| B-nn |` rows — the board stopped being a table")
-        return
+    # EVERY board, not this one. The rule below was written on 2026-08-14, is
+    # correct, and read a single file for six days -- so it stayed green while
+    # FIVE members' boards carried the exact defect it exists for. Measured
+    # 2026-08-20: 13 rows across `agent-stack`, `seo-aeo-audit`, `sheleg-design`,
+    # `super-ux` and `task-pipeline` did not match their own header, and in
+    # `sheleg-design` that hid both of the file's `high` rows from the queue that
+    # orders the family's work. A check that looks at one of nine is a check
+    # nobody can read as covering nine.
+    boards = [("docs/evidence/backlog.md", os.path.join(ROOT, "docs/evidence/backlog.md"))]
+    for entry in manifest.get("skills", []):
+        rel = os.path.join("skills", entry.get("name", ""), "docs/evidence/backlog.md")
+        boards.append((rel, os.path.join(ROOT, rel)))
+
+    looked = 0
+    for rel, path in boards:
+        if not os.path.isfile(path):
+            _skips.append(f"{rel} absent — board integrity unchecked there")
+            continue
+        looked += 1
+        _one_board(rel, path)
+    if looked < 2:
+        fail("board integrity read only this repository's own board — the members' "
+             "boards were not checked out, and a check that could not look must not "
+             "read as one that looked")
+
+
+def _one_board(rel, path):
+    """One board file: every row matches its own table's header, ids are unique.
+
+    The header is the authority, not the majority. The first version took the
+    most common width as the truth, which is right when one row is broken and
+    silently wrong when a whole table is.
+    """
+    ID = re.compile(r"^\|\s*\**([A-Z]{1,3}-\d+[a-z]?)\s*\**\s*\|")
     split = lambda l: re.split(r"(?<!\\)\|", l)
-    widths = {len(split(l)) for l in rows}
-    if len(widths) > 1:
-        common = max(widths, key=lambda w: sum(1 for l in rows if len(split(l)) == w))
-        for l in rows:
-            if len(split(l)) != common:
-                fail(f"docs/evidence/backlog.md: row {split(l)[1].strip()} has "
-                     f"{len(split(l)) - 2} cells against the table's {common - 2} — an "
-                     "unescaped `|` inside a cell shifts every column after it, and the "
-                     "Status field then reads as whatever landed in its place")
-    seen = {}
-    for l in rows:
-        bid = split(l)[1].strip()
-        if bid in seen:
-            fail(f"docs/evidence/backlog.md: id {bid} is used twice — rows are cited by "
-                 "number in CHANGELOGs, commit messages and pipeline.json, so a duplicate "
-                 "makes every one of those citations ambiguous")
-        seen[bid] = True
+    width = None
+    rows = seen = 0
+    ids = {}
+    for lineno, l in enumerate(open(path, encoding="utf-8").read().splitlines(), 1):
+        if l.startswith("#"):
+            width = None            # a heading ends the previous table
+            continue
+        if not l.startswith("|"):
+            continue
+        cells = [c.strip() for c in split(l)]
+        if len(cells) > 2 and cells[1].lower().strip("* ") == "id":
+            width = len(cells)
+            continue
+        m = ID.match(l)
+        if not m or width is None:
+            continue
+        rows += 1
+        if len(cells) != width:
+            seen += 1
+            fail(f"{rel}:{lineno}: row {m.group(1)} has {len(cells) - 2} cells against "
+                 f"the {width - 2} its own header declares — an unescaped `|` inside a "
+                 f"cell shifts every column after it, and Status then reads as whatever "
+                 f"landed in its place")
+        bid = m.group(1)
+        if bid in ids:
+            fail(f"{rel}:{lineno}: id {bid} is used twice (first at line {ids[bid]}) — "
+                 f"rows are cited by number in CHANGELOGs, commit messages and "
+                 f"pipeline.json, so a duplicate makes every citation ambiguous")
+        ids[bid] = lineno
+    if not rows:
+        fail(f"{rel}: no id rows under any header — the board stopped being a table")
 
 
 check_board_is_parseable()
