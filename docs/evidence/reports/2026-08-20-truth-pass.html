@@ -1,0 +1,165 @@
+<meta charset="utf-8">
+<title>The truth pass — 2026-08-20</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#141a22; --line:#232c38; --ink:#e6edf3; --dim:#8b98a5;
+    --ok:#3fb950; --bad:#f85149; --warn:#d29922; --accent:#58a6ff; --ink-strong:#fff;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  }
+  @media (prefers-color-scheme: light){
+    :root{--bg:#fbfcfd;--panel:#fff;--line:#d8dee4;--ink:#1f2328;--dim:#59636e;--ink-strong:#000}
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+       padding:48px 20px 96px}
+  main{max-width:1000px;margin:0 auto}
+  h1{font-size:30px;line-height:1.2;margin:0 0 6px;letter-spacing:-.02em;color:var(--ink-strong)}
+  .sub{color:var(--dim);margin:0 0 36px;font-size:14px}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.09em;color:var(--dim);
+     margin:44px 0 14px;font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .n{font:600 27px/1.1 var(--mono);color:var(--ink-strong);letter-spacing:-.02em}
+  .n.ok{color:var(--ok)} .n.bad{color:var(--bad)} .n.warn{color:var(--warn)}
+  .l{font-size:12px;color:var(--dim);margin-top:5px}
+  .scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}
+  th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);font-weight:600}
+  tr:last-child td{border-bottom:0}
+  code,.m{font-family:var(--mono);font-size:12.5px}
+  .pill{display:inline-block;font:600 11px/1 var(--mono);padding:4px 7px;border-radius:5px}
+  .pill.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+  .pill.bad{background:color-mix(in srgb,var(--bad) 16%,transparent);color:var(--bad)}
+  ul{padding-left:20px;margin:10px 0} li{margin:8px 0}
+  .lead{font-size:16px;line-height:1.7}
+  .quiet{color:var(--dim)}
+  b{color:var(--ink-strong)}
+  .note{border-left:2px solid var(--line);padding:2px 0 2px 14px;margin:14px 0;color:var(--dim);font-size:14px}
+</style>
+
+<main>
+
+<h1>The truth pass</h1>
+<p class="sub">2026-08-20 · nine repositories · one subject: <b>checks that reported green over something they had never read</b></p>
+
+<div class="grid">
+  <div class="card"><div class="n ok">9</div><div class="l">repositories released</div></div>
+  <div class="card"><div class="n ok">0</div><div class="l">open issues, family-wide</div></div>
+  <div class="card"><div class="n">33</div><div class="l">conformance rows verified <span class="quiet">(was 19)</span></div></div>
+  <div class="card"><div class="n warn">11</div><div class="l">still open <span class="quiet">(was 21)</span></div></div>
+  <div class="card"><div class="n">354</div><div class="l">id'd board rows across the family</div></div>
+  <div class="card"><div class="n ok">9/9</div><div class="l">tags annotated</div></div>
+</div>
+
+<h2>What was actually broken</h2>
+<p class="lead">Every item below was reproduced before it was fixed, and every fix was watched refusing the
+defect it exists for. None of these was found by reading; each was found by asking one
+question per repository — <i>what does this assert that nothing recomputes?</i></p>
+
+<ul>
+  <li><b>The commit gate could be walked past by the most ordinary command.</b>
+      <code>git add -A &amp;&amp; git commit</code> ran no tests at all: ownership was decided by asking
+      the index at <code>PreToolUse</code>, before the command runs, when nothing is staged yet.</li>
+  <li><b>The route gate had been silent for six days</b> — it read <i>the file exists</i> where the
+      ledger said <code>stage: 10 acceptance — verdict pass</code>.</li>
+  <li><b>An assertion could be neutered while the self-test printed “each watched failing”</b> at
+      exit 0 — the PII guard among them, advertised by name in a shipped reference.</li>
+  <li><b>A made-up public number passed the check that exists to catch it</b>: the sourced corpus
+      was one concatenated string, so any substring of it counted as sourced.</li>
+  <li><b>An audit refused a score and computed one</b>, with a formula in which
+      <code>3 × 1 / 3</code> and <code>1 × 1 / 1</code> both print 1.</li>
+  <li><b>A claim tag could outlive its lease with no command able to reach it</b> — the one open
+      issue in the family, reproduced and closed.</li>
+  <li><b>Four style packs contradicted the token layers shipped beside them</b>, and the six new
+      sweeps found 24 more on their first run.</li>
+  <li><b>Eleven documented facts were false with the gate green</b>, and a class registered for
+      exactly its own incident printed <code>dormant</code> while the false number shipped in three
+      surfaces.</li>
+  <li><b>All nine newest tags were lightweight</b>, so <code>git submodule status</code> reported every
+      member at its <i>previous</i> version while every pin was correct.</li>
+</ul>
+
+<h2>Found by releasing, not by reading</h2>
+<p class="lead">The release itself was the sharpest instrument of the day, and what it found is the part
+worth keeping.</p>
+<ul>
+  <li><b>Four members' own guards made their version-bump commit impossible</b> — a tag cannot
+      exist before the commit that bumps to it. <i>Ahead</i> of the newest tag is a disclosure now;
+      <i>behind</i> it still fails, which is the direction the defect was about.</li>
+  <li><b>A tag push could cancel its own release</b> through a shared concurrency group, skipping
+      the publish while the run list showed a green validate beside the tag. Measured live on one
+      member, latent in two more.</li>
+  <li><b>Five plants across three repositories were pinned to the literal of the fact they
+      measure</b>, so they stopped landing on every release. Three of the five were broken by this
+      very release and repaired inside it. A plant that does not land is a check nobody ran,
+      reported green.</li>
+  <li><b>A member fixed its coordination config and left the snapshot describing the old shape</b> —
+      and no member's own gate asks that question. The umbrella's does, one layer up, and it went
+      red on the release.</li>
+</ul>
+
+<div class="note">Two failures were mine and are recorded as such: one commit went in with the gate red
+because its exit code was read into an <code>echo</code> instead of a <code>&amp;&amp;</code>, and one
+“fix” to a guard used <code>pathlib.Path</code> where the module imports <code>Path</code>, with a bare
+<code>except</code> swallowing the error so the exemption silently never applied.</div>
+
+<h2>Released</h2>
+<div class="scroll">
+<table>
+<thead><tr><th>repository</th><th>version</th><th>tag object</th><th>on npm</th></tr></thead>
+<tbody>
+<tr><td><code>task-pipeline</code></td><td class="m">1.73.0</td><td><span class="pill ok">annotated</span></td><td class="m">1.73.0</td></tr>
+<tr><td><code>super-ux</code></td><td class="m">0.46.0</td><td><span class="pill ok">annotated</span></td><td class="m">0.46.0</td></tr>
+<tr><td><code>sheleg-design</code></td><td class="m">1.45.0</td><td><span class="pill ok">annotated</span></td><td class="m">1.45.0</td></tr>
+<tr><td><code>agent-sync</code></td><td class="m">1.15.0</td><td><span class="pill ok">annotated</span></td><td class="m">1.15.0</td></tr>
+<tr><td><code>seo-aeo-audit</code></td><td class="m">0.24.0</td><td><span class="pill ok">annotated</span></td><td class="m">0.24.0</td></tr>
+<tr><td><code>make-skill</code></td><td class="m">0.23.0</td><td><span class="pill ok">annotated</span></td><td class="m">0.23.0</td></tr>
+<tr><td><code>agent-stack</code></td><td class="m">0.13.0</td><td><span class="pill ok">annotated</span></td><td class="m">0.13.0</td></tr>
+<tr><td><code>sheleg-dev</code></td><td class="m">0.8.0</td><td><span class="pill ok">annotated</span></td><td class="m">0.8.0</td></tr>
+<tr><td><code>sshlg-skills</code> <span class="quiet">(umbrella)</span></td><td class="m">0.91.0</td><td><span class="pill ok">annotated</span></td><td class="m">0.91.0</td></tr>
+<tr><td><code>pod-manifesto</code></td><td class="m">1.0 <span class="quiet">— unchanged, by instruction</span></td><td class="quiet">n/a</td><td class="quiet">the site</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>The manifesto</h2>
+<p class="lead">Its version was deliberately not raised; the corrections went into 1.0. Eight gates green,
+and the one that did not exist now does.</p>
+<ul>
+  <li><b>“For a day and a half” was a restated interval.</b> The commits give <b>two days and six
+      hours</b>. It is registered with both endpoints and re-derived from them on every run — in the
+      one paragraph whose subject is a claim that went stale.</li>
+  <li><b>Eight of nine tools had no negative control</b>, in the repository whose own text requires
+      a check to be shown able to discriminate. <code>tools/negatives.py</code> plants one defect per
+      gate: <b>13 cases, 13 refused</b>, each asserting that the plant <i>landed</i> first.</li>
+  <li>Two footnote labels named a different line range than their own links; the asset
+      fingerprints covered 6 of 13 urls; the sitemap told crawlers the text had not moved since the
+      day the error shipped; <code>llms.txt</code> dropped the one measured row the prose refuses to
+      delete.</li>
+</ul>
+
+<h2>What stays open, and why</h2>
+<p class="lead">Named rather than closed, because the operator's scope for this pass was truth before
+features.</p>
+<ul>
+  <li><b>11 conformance rows</b> — among them the requirement ids themselves: the manifesto carries
+      none, the extracted set was never committed, and an independent re-derivation disagrees with
+      the programme's numbering. Publishing that derivation would silently renumber every citation
+      in the family, which is worse than an unresolvable id. A new row must now cite
+      <code>manifesto.md:&lt;line&gt;</code>, and the 42 existing rows are grandfathered in an
+      enumerated marker.</li>
+  <li><b>Feature wishes stay open with a computed priority</b> — an agent-traffic log parser, a
+      graph-backed harvest, GSC pagination, DTCG token export. They were never in this pass's scope.</li>
+  <li><b>One green run does not close a flake row.</b> The 412-plant suite passed first try and its
+      row stays open, because that is what the row exists to distrust.</li>
+  <li><b>27 expired lease files across the machine are reported and untouched.</b> Their run ids
+      match a shared fallback identity, so the match proves nothing — state you cannot prove is
+      yours is reported, not deleted.</li>
+</ul>
+
+<p class="sub" style="margin-top:44px">Counts on this page are computed from the tree and the registry, not carried from an earlier
+report. <code>npm test</code> in the umbrella: 36 suites, 615 fixtures, exit 0.</p>
+
+</main>
