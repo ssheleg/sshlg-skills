@@ -313,6 +313,57 @@ def check_members_guard_their_release_surfaces():
 check_members_guard_their_release_surfaces()
 
 
+def check_members_refuse_an_unreachable_tag():
+    """A tag pushed without its branch is a release no clone can reach.
+
+    The release workflow fires on the TAG, so nothing fails loudly: the GitHub
+    release is created, npm publishes, and `origin/main` still reads the previous
+    era. `sheleg-design` hit it twice — the `v1.4.0` ghost on 2026-08-04 and
+    `v1.18.0` on 2026-08-12, where `main` sat two commits ahead of `origin/main`
+    while the tag was public and served by npm. The fix is two commands and the
+    second is the one that gets forgotten, which is what makes it a guard rather
+    than a habit.
+
+    Every member's release job now refuses a tag whose commit is not an ancestor
+    of the repository's ACTUAL default branch — read from the API, not hardcoded
+    to `main`, so a fork that renamed it is not told its correct tag is
+    unreachable. Ancestry needs history, so the tag checkout carries
+    `fetch-depth: 0`; without it `merge-base` answers on a shallow clone and the
+    guard is a coin toss.
+
+    This asks for both halves, because either alone is a guard that cannot work.
+    """
+    skdir = os.path.join(ROOT, "skills")
+    if not os.path.isdir(skdir):
+        return
+    looked = 0
+    for name in sorted(os.listdir(skdir)):
+        wf = os.path.join(skdir, name, ".github/workflows/release.yml")
+        if not os.path.isfile(wf):
+            if os.path.isdir(os.path.join(skdir, name)):
+                _skips.append(f"{name}: no release.yml — tag reachability unchecked")
+            continue
+        looked += 1
+        text = open(wf, encoding="utf-8").read()
+        if "merge-base --is-ancestor" not in text:
+            fail(f"skills/{name}/.github/workflows/release.yml: the release job does not "
+                 f"refuse a tag whose commit is unreachable from the default branch. A tag "
+                 f"pushed without its branch publishes a release no clone can reach, and "
+                 f"this workflow fires on the tag so nothing fails loudly")
+        elif "fetch-depth: 0" not in text:
+            fail(f"skills/{name}/.github/workflows/release.yml: it asks `merge-base "
+                 f"--is-ancestor` on a checkout with no `fetch-depth: 0`. Ancestry on a "
+                 f"shallow clone is not an answer, and a guard that cannot see the history "
+                 f"reports whatever the depth happened to give it")
+    if looked < 2:
+        fail("tag-reachability read fewer than two members' workflows — the submodules "
+             "were not checked out, and a check that could not look must not read as one "
+             "that looked")
+
+
+check_members_refuse_an_unreachable_tag()
+
+
 def check_standing_instruction_ids_are_stable():
     """An id, once used, is never reused — because published documents cite these numbers.
 
