@@ -30,13 +30,13 @@
       ],
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
-      "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ \u2014 the product vision, personas and jobs, user flows and the paid-acquisition funnel among them, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans \u2014 plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 35-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.45.0",
+      "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows and the paid-acquisition funnel among them, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 35-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
+      "version": "0.46.0",
       "entry": "/ux",
       "role": "what the interface must do and how it sounds",
       "npm": "super-ux",
       "shape": "static",
-      "shapeWhy": "The chain is fixed \u2014 foundation, flows, screens, scenarios \u2014 and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable."
+      "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable."
     },
     {
       "name": "task-pipeline",
@@ -49,12 +49,12 @@
         "task-pipeline",
         "evidence-docs"
       ],
-      "version": "1.72.0",
+      "version": "1.73.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
       "shape": "static",
-      "shapeWhy": "The stage list is decided before the run and stays decided, because stage 10 has to account for what ran. THREE places discover structure, and they do not land the same way: the module map and the carry-over ledger are committed artifacts, and since v1.69.0 the work graph is a third \u2014 `.task-pipeline/graph.json`, mutated mid-run by `graph.py add` and deliberately NOT committed. Every mutation records why it happened, which is what keeps a run from explaining its completion by a plan that existed only at the end; that the graph itself does not survive the run is an open row rather than a settled decision."
+      "shapeWhy": "The stage list is decided before the run and stays decided, because stage 10 has to account for what ran. THREE places discover structure, and they do not land the same way: the module map and the carry-over ledger are committed artifacts, and since v1.69.0 the work graph is a third — `.task-pipeline/graph.json`, mutated mid-run by `graph.py add` and deliberately NOT committed. Every mutation records why it happened, which is what keeps a run from explaining its completion by a plan that existed only at the end; that the graph itself does not survive the run is an open row rather than a settled decision."
     },
     {
       "name": "agent-sync",
@@ -66,7 +66,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.14.0",
+      "version": "1.15.0",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
@@ -79,11 +79,11 @@
       "dir": "skills/make-skill",
       "pluginMarketplace": "ssheleg/make-skill",
       "pluginInstall": "make-skill@make-skill",
-      "desc": "A skill that builds skills: create, retrofit, audit and publish agent skills and Claude Code plugins \u2014 Agent Skills standard conformance, marketplace layout, version sync, validator + CI, every distribution channel, MCP and A2A rules.",
+      "desc": "A skill that builds skills: create, retrofit, audit and publish agent skills and Claude Code plugins — Agent Skills standard conformance, marketplace layout, version sync, validator + CI, every distribution channel, MCP and A2A rules.",
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.22.0",
+      "version": "0.23.0",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
@@ -96,11 +96,11 @@
       "dir": "skills/sheleg-design",
       "pluginMarketplace": "ssheleg/sheleg-design-skill",
       "pluginInstall": "sheleg-design@sheleg-design-skill",
-      "desc": "The taste layer: cinematic scroll-driven landing pages (one scroll clock, motion that degrades to calm, WebGL particle formations), product-UI style packs with a ready token layer each, and the Figma border \u2014 tokens as variables, design to code.",
+      "desc": "The taste layer: cinematic scroll-driven landing pages (one scroll clock, motion that degrades to calm, WebGL particle formations), product-UI style packs with a ready token layer each, and the Figma border — tokens as variables, design to code.",
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.44.0",
+      "version": "1.45.0",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -117,7 +117,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.23.0",
+      "version": "0.24.0",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
@@ -130,7 +130,7 @@
       "dir": "skills/sheleg-dev",
       "pluginMarketplace": "ssheleg/sheleg-dev",
       "pluginInstall": "sheleg-dev@sheleg-dev",
-      "desc": "The integration layer a product reaches once it has users: Stripe subscription billing reconciled into your own database \u2014 checkout, renewals, seats and proration, refunds, claim-first webhook idempotency, reconciliation and price drift; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4/Ads/Meta/LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side Google auth surface; Core Web Vitals work that moves the score.",
+      "desc": "The integration layer a product reaches once it has users: Stripe subscription billing reconciled into your own database — checkout, renewals, seats and proration, refunds, claim-first webhook idempotency, reconciliation and price drift; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4/Ads/Meta/LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side Google auth surface; Core Web Vitals work that moves the score.",
       "skillNames": [
         "stripe-billing",
         "crypto-payments",
@@ -139,7 +139,7 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.7.0",
+      "version": "0.8.0",
       "entry": null,
       "role": "integrations: money in, tracking, sign-in, speed",
       "npm": "@ssheleg/sheleg-dev",
@@ -152,14 +152,14 @@
       "dir": "skills/agent-stack",
       "pluginMarketplace": "ssheleg/agent-stack",
       "pluginInstall": "agent-stack@agent-stack",
-      "desc": "Production patterns for AI agent systems, in four skills. The orchestrator: tool-calling loops that survive context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, four memory layers with confidence decay, and the shape of the work as a graph \u2014 an edge that carries no data is no edge, and a parallel layer gets a checker before the node that consumes it. The harness: what the agent is TOLD \u2014 system prompts, tool descriptions, technique choice, workflow versus agent, static versus dynamic, plus a seven-track audit of somebody else's agent and a scanner for the defects that are mechanically visible. The evals: suites that measure whether it actually works. The interop layer: MCP 2026-07-28 and what it deprecated, A2A 1.0, the registry, the gateway. Plus the wallet side of reselling LLM access.",
+      "desc": "Production patterns for AI agent systems, in four skills. The orchestrator: tool-calling loops that survive context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, four memory layers with confidence decay, and the shape of the work as a graph — an edge that carries no data is no edge, and a parallel layer gets a checker before the node that consumes it. The harness: what the agent is TOLD — system prompts, tool descriptions, technique choice, workflow versus agent, static versus dynamic, plus a seven-track audit of somebody else's agent and a scanner for the defects that are mechanically visible. The evals: suites that measure whether it actually works. The interop layer: MCP 2026-07-28 and what it deprecated, A2A 1.0, the registry, the gateway. Plus the wallet side of reselling LLM access.",
       "skillNames": [
         "agent-orchestrator",
         "agent-evals",
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.12.0",
+      "version": "0.13.0",
       "entry": null,
       "role": "agent orchestrators, their evals, the protocols they speak, and the wallet under LLM resale",
       "npm": "@ssheleg/agent-stack",

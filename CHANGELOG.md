@@ -1,3 +1,61 @@
+## v0.91.0 — 2026-08-20 — the truth pass: nine repositories, and the gates that were green over nothing
+
+Every member moves at once, because a family that ships one member at a time is a family
+whose combination nobody tested. This release carries a pass whose subject was **checks that
+reported green over something they had never read** — found by asking, per repository, what
+it asserts that nothing recomputes.
+
+**In this repository.** The commit gate could be walked past by `git add -A && git commit`:
+ownership was decided by asking the index at PreToolUse, before the command ran, so nothing
+was staged at decision time and the suite never spawned. Reproduced, then refused across
+three compound spellings. The route gate had been silent for six days, because `runOpen` read
+*the file exists* where the ledger said `stage: 10 acceptance — verdict pass`. Four numbers
+this repository stated about itself were false — 20 plants against 25, 119/113 ledger rows
+against 419/413, 32 register rows against 42, 32 suites / 562 fixtures against 36 / 615 — and
+a registry recomputes all six now, with a pattern that matches nothing FAILING rather than
+passing. A submodule detached on a commit no ref holds is an error, not a disclosure. All
+nine newest tags were lightweight, so `git submodule status` named every member at its
+previous version; the release refuses a non-annotated tag at the one moment the fact is
+decidable. And 2536 temp trees on this machine came from suites that said nothing about what
+they left.
+
+**In the members.** An assertion could be neutered while the money self-test printed *"each
+watched failing"* with exit 0 — including the PII guard a reference advertises by name
+(`sheleg-dev`). A made-up public figure passed the check that exists to catch it, because the
+sourced corpus was one concatenated string and any substring of it counted (`super-ux`).
+Eleven documented facts were false while the gate was green (`seo-aeo-audit`). Four style
+packs contradicted the token layers shipped beside them, and six new sweeps found 24 more on
+their first run (`sheleg-design`). An audit refused a score and computed one, with a formula
+where `3 × 1 / 3` and `1 × 1 / 1` both print 1 (`agent-stack`). A claim tag could outlive its
+lease with no command able to reach it — GitHub issue #5 (`agent-sync`). A ledger said
+*unshipped* over its own release commit (`make-skill`). And the claim class registered for
+*exactly* the incident it was written for printed `dormant` while the false number shipped in
+three surfaces (`task-pipeline`).
+
+**Pins, all eight bumped:**
+
+| member | version |
+|---|---|
+| `super-ux` | 0.46.0 | 
+| `task-pipeline` | 1.73.0 | 
+| `agent-sync` | 1.15.0 | 
+| `make-skill` | 0.23.0 | 
+| `sheleg-design` | 1.45.0 | 
+| `seo-aeo-audit` | 0.24.0 | 
+| `sheleg-dev` | 0.8.0 | 
+| `agent-stack` | 0.13.0 | 
+
+**Found by releasing, not by reading.** Four members' guards made their own version-bump
+commit impossible — a release cannot exist before the commit that bumps to it — so *ahead of
+the newest tag* is a disclosure now and only *behind* it fails. A tag push could cancel its
+own release through a shared concurrency group, skipping the publish while the run list
+showed a green validate beside it; measured live, `tags-ignore` in three members. Two plants
+were pinned to the literal of the fact they measure, so they stopped landing on every release
+— a plant that does not land is a check nobody ran, reported green.
+
+`npm test` → 36 suites, 615 fixtures, exit 0. Program register: 33 verified · 11 open, from
+19 · 21 at the start of the pass.
+
 ## v0.90.0 — the conformance release: eight members, one manifesto, and what the audit could not see
 
 Every member moves at once, because a family that ships one member at a time is a family

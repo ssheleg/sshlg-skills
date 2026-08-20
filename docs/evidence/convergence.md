@@ -23,6 +23,55 @@ rather than implied by a path — the sentence that stood here named a script un
 
 ---
 
+## 2026-08-20 · all eight members at once — the truth pass
+
+**Why every pointer moved.** The pass had one subject across nine repositories: checks that
+reported green over something they had never read. Closing that in one member and not the
+rest would have left the family in a combination nobody tested, which is the whole reason
+this file exists.
+
+**The component pointers that moved**
+
+| component | pointer before | pointer after |
+|---|---|---|
+| `skills/super-ux` | `cc4c3eb` | `5e9d8c9` (v0.46.0) |
+| `skills/task-pipeline` | `2425bd6` | `8354996` (v1.73.0) |
+| `skills/agent-sync` | `f1a66b7` | `77deede` (v1.15.0) |
+| `skills/make-skill` | `fc25f4a` | `339d301` (v0.23.0) |
+| `skills/sheleg-design` | `30bfbc3` | `0f8fa82` (v1.45.0) |
+| `skills/seo-aeo-audit` | `aef3fd3` | `f3bbbd0` (v0.24.0) |
+| `skills/sheleg-dev` | `6f66255` | `7e0a6c9` (v0.8.0) |
+| `skills/agent-stack` | `7937c35` | `24e4068` (v0.13.0) |
+
+**The order, and it is not negotiable.** Child released → observed on the registry →
+parent's pointer committed. This file already records the measurement that made it a rule:
+a pin naming a version the registry never served *"is wrong on its own terms and no later
+release repairs it"*. So each member was tagged and published first, `python3
+test/check_pins.py` was run against the registry, and only then were `skills.json`, the
+README table and these pointers committed together.
+
+**What was observed across the pointer**
+
+| | |
+|---|---|
+| `python3 test/validate.py` | PASS — 8 skills, 8 submodules, every pin matching the submodule's committed `package.json` |
+| `npm test` | 36 suites, 615 fixtures, exit 0 |
+| `python3 test/check_pins.py` | every pin matches its release — npm where published, git tag everywhere |
+| each member's own gate | run in its own repository before its tag; the counts are in each member's CHANGELOG |
+
+**What this does NOT prove.** The same limit as every record here: the parent's suite and
+each child's suite ran on their own side of the pointer, and the family's behaviour *as an
+installed set* is exercised only by `npm run test:plants` (each member's gate fed a dropped
+trigger) and by the release's own `npx` smoke test. Nothing here ran the eight skills
+together in one agent session. Read the scope before quoting the green.
+
+**Two things this pass learned about releasing, both by being bitten.** Four members' own
+guards made their version-bump commit impossible, because a tag cannot exist before the
+commit that bumps to it — *ahead of the newest tag* is a disclosure now, *behind* it still
+fails. And a tag push could cancel its own release through a shared concurrency group,
+skipping the publish while the run list showed a green validate beside the tag; three
+members carried that shape and one lost the race live.
+
 ## 2026-08-17 · task-pipeline 1.68.0 → 1.69.0
 
 **The component pointer that moved**
