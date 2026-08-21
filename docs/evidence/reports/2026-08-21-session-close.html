@@ -1,0 +1,233 @@
+<meta charset="utf-8">
+<title>Session close — 2026-08-21</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#141a22; --panel2:#111721; --line:#232c38; --ink:#e6edf3;
+    --dim:#8b98a5; --ok:#3fb950; --bad:#f85149; --warn:#d29922; --accent:#58a6ff;
+    --ink-strong:#fff;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  }
+  @media (prefers-color-scheme: light){
+    :root{--bg:#fbfcfd;--panel:#fff;--panel2:#f6f8fa;--line:#d8dee4;--ink:#1f2328;
+          --dim:#59636e;--ink-strong:#000}
+  }
+  :root[data-theme="light"]{--bg:#fbfcfd;--panel:#fff;--panel2:#f6f8fa;--line:#d8dee4;
+    --ink:#1f2328;--dim:#59636e;--ink-strong:#000}
+  :root[data-theme="dark"]{--bg:#0d1117;--panel:#141a22;--panel2:#111721;--line:#232c38;
+    --ink:#e6edf3;--dim:#8b98a5;--ink-strong:#fff}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+       padding:44px 20px 96px}
+  main{max-width:1040px;margin:0 auto}
+  h1{font-size:31px;line-height:1.18;margin:0 0 6px;letter-spacing:-.022em;color:var(--ink-strong)}
+  .sub{color:var(--dim);margin:0 0 34px;font-size:14px}
+  h2{font-size:12.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);
+     margin:46px 0 14px;font-weight:600}
+  h3{font-size:16px;margin:26px 0 8px;color:var(--ink-strong)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .n{font:600 27px/1.1 var(--mono);color:var(--ink-strong);letter-spacing:-.02em}
+  .n.ok{color:var(--ok)} .n.bad{color:var(--bad)} .n.warn{color:var(--warn)}
+  .l{font-size:12px;color:var(--dim);margin-top:5px}
+  .scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+  th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);font-weight:600}
+  tr:last-child td{border-bottom:0}
+  code,.m{font-family:var(--mono);font-size:12.5px}
+  .pill{display:inline-block;font:600 11px/1 var(--mono);padding:4px 7px;border-radius:5px;white-space:nowrap}
+  .pill.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+  .pill.bad{background:color-mix(in srgb,var(--bad) 16%,transparent);color:var(--bad)}
+  .pill.warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+  .pill.dim{background:color-mix(in srgb,var(--dim) 15%,transparent);color:var(--dim)}
+  ul{padding-left:20px;margin:10px 0} li{margin:9px 0}
+  .lead{font-size:16px;line-height:1.7}
+  .quiet{color:var(--dim)}
+  b{color:var(--ink-strong)}
+  .note{border-left:2px solid var(--line);padding:3px 0 3px 14px;margin:16px 0;color:var(--dim);font-size:14px}
+  .bad-note{border-left-color:var(--bad)}
+  .ok-note{border-left-color:var(--ok)}
+  .tier{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+  .tier b{font-family:var(--mono);font-size:13px}
+  footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);color:var(--dim);font-size:13px}
+</style>
+
+<main>
+
+<h1>Session close</h1>
+<p class="sub">2026-08-21 · eight loop iterations, then one requested feature · every number below is
+computed by a command named beside it, none carried from an earlier report</p>
+
+<div class="grid">
+  <div class="card"><div class="n ok">8</div><div class="l">board rows closed in the loop</div></div>
+  <div class="card"><div class="n ok">1</div><div class="l">feature built on request</div></div>
+  <div class="card"><div class="n warn">157</div><div class="l">rows still open, family-wide <span class="quiet">(was 150)</span></div></div>
+  <div class="card"><div class="n">15</div><div class="l">rows filed by this session</div></div>
+  <div class="card"><div class="n ok">3/3</div><div class="l">gates green</div></div>
+  <div class="card"><div class="n bad">0</div><div class="l">releases published</div></div>
+</div>
+
+<div class="note bad-note"><b>The open count went UP, and that is the honest result.</b> The loop closed
+eight rows and filed fifteen — because closing a row by measuring it turns one described defect into
+several measured ones. A falling count would have meant the passes were describing rather than
+measuring.</div>
+
+<h2>Everything is stopped</h2>
+<div class="scroll"><table>
+<thead><tr><th>What</th><th>State</th><th>How it was checked</th></tr></thead>
+<tbody>
+<tr><td>the dynamic loop</td><td><span class="pill ok">stopped</span></td><td><code>ScheduleWakeup stop</code> — one pending wakeup cancelled, no further firings</td></tr>
+<tr><td>background suites</td><td><span class="pill ok">none running</span></td><td><code>pgrep -fl "negatives.py|test:all|graph_test"</code> → empty</td></tr>
+<tr><td>coordination leases</td><td><span class="pill ok">none held</span></td><td>no <code>.lock</code> in any of the nine repositories' <code>.agent-sync/leases/</code></td></tr>
+<tr><td>working trees</td><td><span class="pill ok">clean, pushed</span></td><td>0 unpushed commits in the umbrella, <code>sheleg-design</code> and <code>task-pipeline</code>; <code>git submodule status</code> shows no <code>+</code></td></tr>
+</tbody></table></div>
+
+<h2>The loop — eight iterations, eight rows</h2>
+<p class="lead">Every iteration found a defect the row had not described, and in six of the eight the
+defect was in the checking rather than in the thing checked.</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Row</th><th>What closed</th><th>What the pass found that the row had not</th></tr></thead>
+<tbody>
+<tr><td class="m">B-042</td><td>a mandated scrub carves its own <code>ease: none</code></td><td>the shape held for <b>five</b> packs, not one → ratchet + B-118. My plant was reported <i>caught</i> by the <code>.cursor</code> mirror check, never by the check it was written for</td></tr>
+<tr><td class="m">B-043</td><td>a prescribed token that resolved to nothing</td><td>two of five claims were <b>false</b>: the layer is 7th smallest of 29, not smallest; the focus-ring claim misread the template. The plant found a hole in the check — a declaration inside <code>@media</code> counted as a definition</td></tr>
+<tr><td class="m">B-045</td><td>every duration answers reduce; a kit promise is verified</td><td>the check <b>shipped broken and passing</b> — a module constant shadowed by one of the same name, printing <code>0 kept</code> where six were measured by hand. Python raises nothing → B-120</td></tr>
+<tr><td class="m">B-047</td><td>two ratios describing pairings that never render</td><td>the row promised five; there were <b>two</b>. The broad form of the new check was tried and <b>rejected</b> — 58 candidates, nearly all correct writing → B-121</td></tr>
+<tr><td class="m">B-049</td><td>the duration bands reach the token layer</td><td>one token was a <i>dropdown</i> in the CSS and a <i>sheet</i> in the prose, and the doctrine bands those differently — one word decided legality → B-122</td></tr>
+<tr><td class="m">B-051</td><td>every plant names the check it exercises</td><td><b>13 of 60 plants</b> carried no <code>expect</code>, and one had never exercised its own check since the day it was written. The stamp count said 26 against a table of 34</td></tr>
+<tr><td class="m">B-052</td><td>a T1 carrier phrase, restored and pinned</td><td>the 1.12.0 regression had <b>recurred</b>: v1.37.5 dropped the carrier while the description GREW, and it shipped in <b>seven releases</b></td></tr>
+<tr><td class="m">B-053</td><td>the pairing pass the prose ratios needed</td><td>the check <b>already existed and had never run</b> — 29 lines behind a <code>continue</code>, reading as live. Coverage 46 prose → 6</td></tr>
+</tbody></table></div>
+
+<h2>The requested feature — three-tier certification</h2>
+<p class="lead">A verifier reads the diff it was handed. That is the definition of its context, and it
+means a class of defect is invisible to it by construction. A node is now closed by three independent
+readings, and the run may not advance until all three pass.</p>
+
+<div class="tier"><b>verifier-unit</b> — the changed functions, classes and branches, plus the node's own
+<code>check</code>. Finds a branch nothing exercises, a boundary that moved.</div>
+<div class="tier"><b>verifier-seam</b> — everything that can <i>reach</i> the change: callers, callees,
+implementors, shared state, the neighbours' tests. Finds a contract that moved under a dependent, the
+duplicate that did not get the fix.</div>
+<div class="tier"><b>verifier-product</b> — documentation, scenarios, user-visible strings, the features
+sharing this path. Finds a documented behaviour that is now false, an interaction nobody listed.</div>
+
+<p><b>Blind is the design, not a detail.</b> Three readings that inform each other are one opinion with
+three signatures, so <code>certify</code> refuses a report whose prose cites another tier's verdict. A
+tier cannot pass on an empty <code>scope</code> — a report naming nothing it read is a rubber stamp, and
+three of those cost triple and read as triple the assurance. A tier cannot pass while carrying a
+<code>breaks</code> finding; two severities, no third.</p>
+
+<h3>What the first live dispatch caught</h3>
+<p>Aimed at <code>sheleg-design@f88c14b</code> — a strict gate that had shipped green through a single
+verdict hours earlier. Two of three tiers returned <b>fail</b>, with <b>five <code>breaks</code></b>
+between them.</p>
+<ul>
+  <li>the <b>seam</b> tier instrumented the gate's own <code>check()</code> calls and found the ratchet
+      prices the <i>exception</i> rather than the rule — collapsing the four durations the requirement
+      names as its first remediation dropped the count by 4 and turned the suite <b>red on the stricter
+      answer</b></li>
+  <li>the <b>product</b> tier planted a defect and <b>watched it pass</b>: a duration whose token name
+      carries no duration word was outside the walk entirely, and 13 such tokens across 10 layers were
+      clean by habit rather than by the check. Matching by value took the walk from 112 to <b>127</b></li>
+  <li><b>both outer tiers independently</b> found a propagation-matrix row still stating the obligation
+      the change had replaced — two blind readings converging is the signal that they are reading
+      different things</li>
+</ul>
+<div class="note ok-note">None of the five is a bug in the changed lines, which is the class the gate was
+built for. Fixed in <code>sheleg-design@874ba17</code>; four further findings filed as decisions rather
+than repairs.</div>
+
+<h3>The verification of the verification</h3>
+<p><code>npm run test:certify</code> disables each of the gate's 16 rules and requires <i>its own</i>
+<code>certify:</code> fixture to notice — <b>16 of 16</b>. It exists because the first two attempts were
+both wrong, and both failures are the reason it asserts its own control now:</p>
+<ul>
+  <li>the first reported <b>11 of 11 killed</b> and proved nothing — every mutant died of the same
+      unrelated fixture, because the copy has no <code>.git</code></li>
+  <li>fixing the criterion reported <b>0 of 16</b>, which explained why: the twenty new fixtures sat
+      <b>below</b> <code>graph_test.py</code>'s <code>sys.exit</code>, so any earlier failure skipped
+      them all. Green locally; silent in CI on exactly the run that mattered</li>
+</ul>
+
+<h2>Not done — and the first row is the one that matters</h2>
+<div class="scroll"><table>
+<thead><tr><th>What</th><th>State</th><th>Why, and what it costs</th></tr></thead>
+<tbody>
+<tr><td><b>Nothing is released</b></td><td><span class="pill bad">blocking</span></td>
+<td><code>task-pipeline</code> 1.74.0 is committed and <b>3 commits ahead of tag v1.73.0</b>;
+<code>sheleg-design</code> is <b>35 ahead of v1.45.0</b> with all of today's work in
+<code>[Unreleased]</code>; the umbrella is <b>30 ahead of v0.91.0</b>. Tag, GitHub release, npm publish
+and the local-install refresh are outward-facing steps I did not take unasked. <b>Until they run, every
+local agent on this machine still loads the old versions</b> — including the three-tier certification,
+which no session but this one can use</td></tr>
+<tr><td>certification is not <i>obligatory</i></td><td><span class="pill warn">open</span></td>
+<td><code>certify</code> refuses an incomplete certification — the half a script can enforce. That a run
+uses it at all is doctrine: a verdict can still be hand-written into <code>close --verdict</code>.
+Making it mechanical is <code>task-pipeline</code> <b>B-112</b>, filed rather than done because the flag
+is a migration for any graph mid-run</td></tr>
+<tr><td>T1 discovery, re-run in fresh contexts</td><td><span class="pill warn">needs authorisation</span></td>
+<td><code>sheleg-design</code> <b>B-052</b>'s remaining half. The carrier phrases are pinned
+mechanically; whether a phrasing <i>routes</i> here rather than to <code>super-ux</code> is a
+fresh-context measurement, and no string test substitutes for it. It needs one agent per task</td></tr>
+<tr><td>three rows need a rendered page</td><td><span class="pill warn">blocked</span></td>
+<td><code>sheleg-design</code> <b>B-004</b>, <b>B-110</b>, <b>B-112</b> — the three <code>high</code>
+rows on the board. Each needs a live reference read in a browser, and
+<code>navigate</code> to an external site is refused by the auto-mode classifier. A permission rule
+would close all three</td></tr>
+<tr><td>five other boards untouched</td><td><span class="pill dim">by priority</span></td>
+<td><code>seo-aeo-audit</code> 29, <code>sshlg-skills</code> 16, <code>sheleg-dev</code> 11,
+<code>super-ux</code> 10, <code>agent-stack</code> 3, <code>make-skill</code> 1. The loop walked
+priority order, and <code>sheleg-design</code>'s rows outranked them</td></tr>
+</tbody></table></div>
+
+<h2>New problems this session created or uncovered</h2>
+<p class="lead">Fifteen rows. Six are about the checking, not the thing checked — which is the shape of
+almost everything found today.</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Row</th><th>Problem</th><th>Sev</th></tr></thead>
+<tbody>
+<tr><td class="m">B-125</td><td><b>Mine.</b> Every ratchet floor set on 2026-08-20 sits below its true count, because the sequence was measure → keep editing → restate. A floor is a minimum, so the gate never says so. Found by the unit tier on its first live run</td><td><span class="pill warn">medium</span></td></tr>
+<tr><td class="m">B-130</td><td>Four competing definitions of <i>a duration token</i> now live in one file, so <code>atrium</code>'s flute values are inside the reduced-motion requirement and outside the band and anti-drift ones</td><td><span class="pill warn">medium</span></td></tr>
+<tr><td class="m">B-129</td><td>The reason window crosses reduce-block boundaries: a <code>KEPT</code> marker in one block can discharge a kept duration in another. No live false pass today</td><td><span class="pill warn">medium</span></td></tr>
+<tr><td class="m">B-127</td><td><code>atrium</code>'s four kept durations rest on a canvas-removal promise this repository cannot check, while the printed line reads as though every promise is covered</td><td><span class="pill warn">medium</span></td></tr>
+<tr><td class="m">B-126</td><td>The re-declare-with-reason form is enforced by a gate and sanctioned by <b>no document</b> a reader of the skill will open</td><td><span class="pill warn">medium</span></td></tr>
+<tr><td class="m">B-120</td><td>A gate constant can be shadowed by a later one of the same name and Python reports nothing. Closed for the three Python gates; open for the JS suites and the umbrella</td><td><span class="pill warn">medium</span></td></tr>
+<tr><td class="m">B-119</td><td>12 packs give an implementer no font size to read — no type-scale token and fewer than three sizes in prose — against a craft bar that bans ad-hoc font sizes</td><td><span class="pill warn">medium</span></td></tr>
+<tr><td class="m">B-118</td><td>Four packs declare one site-wide curve, mandate scrubbed motion, and carve no <code>ease: none</code> exception</td><td><span class="pill warn">medium</span></td></tr>
+<tr><td class="m">B-122</td><td>Nothing checks that a pack's two files agree about what a token drives — and the doctrine bands the two answers differently</td><td><span class="pill warn">medium</span></td></tr>
+<tr><td class="m">B-112</td><td>Nothing checks that a run actually dispatched three tiers <span class="quiet">(task-pipeline)</span></td><td><span class="pill warn">medium</span></td></tr>
+<tr><td class="m">B-121</td><td>58 palette rows name a surface other than their header's base, and the ordinary case is not mechanically separable from the wrong one</td><td><span class="pill dim">low</span></td></tr>
+<tr><td class="m">B-123</td><td>34 run stamps will never carry a <code>Diverged?</code> answer, and nothing marks where the record becomes trustworthy</td><td><span class="pill dim">low</span></td></tr>
+<tr><td class="m">B-124</td><td>Six prose ratios the broad pass cannot pair; each needs a person</td><td><span class="pill dim">low</span></td></tr>
+<tr><td class="m">B-128</td><td><code>prism</code>'s ambient point cloud is a rAF loop with no stated still</td><td><span class="pill dim">low</span></td></tr>
+</tbody></table></div>
+
+<h2>Where each gate stands</h2>
+<div class="scroll"><table>
+<thead><tr><th>Repository</th><th>Gate</th><th>Size</th><th>Version</th><th>Ahead of its newest tag</th></tr></thead>
+<tbody>
+<tr><td><code>sheleg-design</code></td><td><span class="pill ok">exit 0</span></td><td class="m">4154 checks · 2380 palette</td><td class="m">1.45.0</td><td class="m">35 commits</td></tr>
+<tr><td><code>task-pipeline</code></td><td><span class="pill ok">exit 0</span></td><td class="m">149 graph fixtures · test:all exit 0</td><td class="m">1.74.0</td><td class="m">3 commits</td></tr>
+<tr><td><code>sshlg-skills</code> <span class="quiet">(umbrella)</span></td><td><span class="pill ok">exit 0</span></td><td class="m">36 suites</td><td class="m">0.91.0</td><td class="m">30 commits</td></tr>
+</tbody></table></div>
+
+<h2>The one pattern worth keeping</h2>
+<p class="lead">Six of the eight loop iterations found the defect <b>in the checking</b>, not in the
+thing checked: a plant that had never exercised its own check, a constant shadowed with no error, a
+check unreachable behind a <code>continue</code>, a regex that ate a newline and read half a table, a
+name filter that made a walk complete by accident, a ratchet that priced exceptions. Every one of them
+was <b>green</b>.</p>
+<p>That is also the argument the three-tier certification makes mechanical, and the reason its own
+verification is a mutation pass with a control rather than a suite of passing fixtures. A green nobody
+watched fail is not evidence — and on this machine, today, that sentence was load-bearing eight times.</p>
+
+<footer>
+Counts computed from the tree and the boards at close: <code>scripts/queue.py</code>,
+<code>npm test</code> per repository, <code>git rev-list --count &lt;tag&gt;..HEAD</code>,
+<code>git submodule status</code>. Nothing on this page is carried from an earlier report.
+</footer>
+
+</main>
