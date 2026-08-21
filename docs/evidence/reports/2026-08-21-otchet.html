@@ -1,0 +1,232 @@
+<meta charset="utf-8">
+<title>Отчёт по сессии — 21 августа 2026</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#141a22; --panel2:#111721; --line:#232c38; --ink:#e6edf3;
+    --dim:#8b98a5; --ok:#3fb950; --bad:#f85149; --warn:#d29922; --accent:#58a6ff;
+    --ink-strong:#fff;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  }
+  @media (prefers-color-scheme: light){
+    :root{--bg:#fbfcfd;--panel:#fff;--panel2:#f6f8fa;--line:#d8dee4;--ink:#1f2328;
+          --dim:#59636e;--ink-strong:#000}
+  }
+  :root[data-theme="light"]{--bg:#fbfcfd;--panel:#fff;--panel2:#f6f8fa;--line:#d8dee4;
+    --ink:#1f2328;--dim:#59636e;--ink-strong:#000}
+  :root[data-theme="dark"]{--bg:#0d1117;--panel:#141a22;--panel2:#111721;--line:#232c38;
+    --ink:#e6edf3;--dim:#8b98a5;--ink-strong:#fff}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.68 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+       padding:44px 20px 96px}
+  main{max-width:1040px;margin:0 auto}
+  h1{font-size:31px;line-height:1.18;margin:0 0 6px;letter-spacing:-.022em;color:var(--ink-strong)}
+  .sub{color:var(--dim);margin:0 0 34px;font-size:14px}
+  h2{font-size:12.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--dim);
+     margin:46px 0 14px;font-weight:600}
+  h3{font-size:16px;margin:26px 0 8px;color:var(--ink-strong)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(152px,1fr));gap:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .n{font:600 27px/1.1 var(--mono);color:var(--ink-strong);letter-spacing:-.02em}
+  .n.ok{color:var(--ok)} .n.bad{color:var(--bad)} .n.warn{color:var(--warn)}
+  .l{font-size:12px;color:var(--dim);margin-top:5px}
+  .scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}
+  th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);font-weight:600}
+  tr:last-child td{border-bottom:0}
+  code,.m{font-family:var(--mono);font-size:12.5px}
+  .pill{display:inline-block;font:600 11px/1 var(--mono);padding:4px 7px;border-radius:5px;white-space:nowrap}
+  .pill.ok{background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok)}
+  .pill.bad{background:color-mix(in srgb,var(--bad) 16%,transparent);color:var(--bad)}
+  .pill.warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+  .pill.dim{background:color-mix(in srgb,var(--dim) 15%,transparent);color:var(--dim)}
+  ul{padding-left:20px;margin:10px 0} li{margin:9px 0}
+  .lead{font-size:16px;line-height:1.72}
+  .quiet{color:var(--dim)}
+  b{color:var(--ink-strong)}
+  .note{border-left:2px solid var(--line);padding:3px 0 3px 14px;margin:16px 0;color:var(--dim);font-size:14px}
+  .bad-note{border-left-color:var(--bad)}
+  .ok-note{border-left-color:var(--ok)}
+  .tier{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+  .tier b{font-family:var(--mono);font-size:13px}
+  footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);color:var(--dim);font-size:13px}
+</style>
+
+<main>
+
+<h1>Отчёт по сессии</h1>
+<p class="sub">21 августа 2026 · восемь итераций цикла, затем одна запрошенная функция · каждое число
+ниже посчитано командой, названной рядом с ним, ни одно не перенесено из прошлого отчёта</p>
+
+<div class="grid">
+  <div class="card"><div class="n ok">8</div><div class="l">строк доски закрыто в цикле</div></div>
+  <div class="card"><div class="n ok">1</div><div class="l">функция построена по запросу</div></div>
+  <div class="card"><div class="n warn">157</div><div class="l">строк открыто по семье <span class="quiet">(было 150)</span></div></div>
+  <div class="card"><div class="n">15</div><div class="l">строк заведено этой сессией</div></div>
+  <div class="card"><div class="n ok">3/3</div><div class="l">гейта зелёные</div></div>
+  <div class="card"><div class="n bad">0</div><div class="l">релизов выпущено</div></div>
+</div>
+
+<div class="note bad-note"><b>Открытых стало больше — и это честный результат.</b> Цикл закрыл восемь
+строк и завёл пятнадцать: закрытие строки <i>измерением</i> превращает один описанный дефект в
+несколько измеренных. Падающий счётчик означал бы, что проходы описывали, а не мерили.</div>
+
+<h2>Всё остановлено</h2>
+<div class="scroll"><table>
+<thead><tr><th>Что</th><th>Состояние</th><th>Чем проверено</th></tr></thead>
+<tbody>
+<tr><td>динамический цикл</td><td><span class="pill ok">снят</span></td><td><code>ScheduleWakeup stop</code> — одно ожидавшее срабатывание отменено, дальнейших нет</td></tr>
+<tr><td>фоновые прогоны</td><td><span class="pill ok">нет</span></td><td><code>pgrep -fl "negatives.py|test:all|graph_test"</code> → пусто</td></tr>
+<tr><td>координационные лизы</td><td><span class="pill ok">не держатся</span></td><td>ни одного <code>.lock</code> в <code>.agent-sync/leases/</code> всех девяти репозиториев</td></tr>
+<tr><td>рабочие деревья</td><td><span class="pill ok">чисты, запушены</span></td><td>0 незапушенных коммитов в умбрелле, <code>sheleg-design</code> и <code>task-pipeline</code>; <code>git submodule status</code> без <code>+</code></td></tr>
+</tbody></table></div>
+
+<h2>Цикл — восемь итераций, восемь строк</h2>
+<p class="lead">Каждая итерация нашла дефект, которого строка не описывала, и в шести из восьми
+дефект был <b>в проверке</b>, а не в проверяемом.</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Строка</th><th>Что закрылось</th><th>Что проход нашёл сверх строки</th></tr></thead>
+<tbody>
+<tr><td class="m">B-042</td><td>предписанный скраб вырезает своё <code>ease: none</code></td><td>форма держится для <b>пяти</b> паков, не одного → рэтчет и B-118. Моя посадка отчитывалась <i>caught</i> от зеркальной проверки <code>.cursor</code>, ни разу от своей</td></tr>
+<tr><td class="m">B-043</td><td>предписанный токен, который никуда не резолвится</td><td>два из пяти утверждений <b>ложны</b>: слой 7-й наименьший из 29, а не наименьший; довод про focus-ring неверно читал правило шаблона. Посадка нашла дыру в самой проверке — объявление внутри <code>@media</code> считалось определением</td></tr>
+<tr><td class="m">B-045</td><td>каждая длительность отвечает на reduce; обещание кита проверяется</td><td>проверка <b>ушла в дерево сломанной и проходящей</b> — константа модуля затенена одноимённой, печаталось <code>0 kept</code> там, где шесть измерены руками. Python на это не ругается → B-120</td></tr>
+<tr><td class="m">B-047</td><td>два отношения, описывающих пары, которые не рендерятся</td><td>строка обещала пять, их <b>два</b>. Широкая форма новой проверки была <b>отвергнута</b> — 58 кандидатов, почти все корректное письмо → B-121</td></tr>
+<tr><td class="m">B-049</td><td>полосы длительностей достают до токенного слоя</td><td>один токен — <i>dropdown</i> в CSS и <i>sheet</i> в прозе, а доктрина банднует их по-разному: одно слово решало легальность → B-122</td></tr>
+<tr><td class="m">B-051</td><td>каждая посадка называет свою проверку</td><td><b>13 из 60</b> посадок без <code>expect</code>, и одна ни разу не исполнила свою цель со дня написания. Счётчик штампов говорил 26 при 34 в таблице</td></tr>
+<tr><td class="m">B-052</td><td>носитель фразы для T1 восстановлен и закреплён</td><td>регрессия 1.12.0 <b>повторилась</b>: v1.37.5 выбросил носителя, при этом описание <i>выросло</i>, и это шипнулось в <b>семи релизах</b></td></tr>
+<tr><td class="m">B-053</td><td>парный проход, которого не хватало прозаическим отношениям</td><td>проверка <b>уже существовала и никогда не запускалась</b> — 29 строк за <code>continue</code>, читались как живые. Покрытие: 46 прозаических → 6</td></tr>
+</tbody></table></div>
+
+<h2>Запрошенная функция — трёхуровневая сертификация</h2>
+<p class="lead">Верификатор читает тот дифф, который ему дали. Это определение его контекста, а не
+недостаток — и именно поэтому целый класс дефектов невидим ему по построению. Теперь узел закрывается
+тремя независимыми чтениями, и прогон не идёт дальше, пока не пройдут все три.</p>
+
+<div class="tier"><b>verifier-unit</b> — изменённые функции, классы и ветки плюс собственный
+<code>check</code> узла. Находит ветку, которую ничто не исполняет, и сдвинутую границу.</div>
+<div class="tier"><b>verifier-seam</b> — всё, что <i>достаёт</i> до изменения: вызывающие, вызываемые,
+реализации, общее состояние, тесты соседей. Находит контракт, уехавший под зависимым, и дубликат, не
+получивший правки.</div>
+<div class="tier"><b>verifier-product</b> — документация, сценарии, строки для пользователя, соседние
+фичи на том же пути. Находит задокументированное поведение, ставшее ложным, и неучтённое
+взаимодействие.</div>
+
+<p><b>Слепота — это конструкция, а не деталь.</b> Три чтения, информирующие друг друга, — это одно
+мнение с тремя подписями, поэтому <code>certify</code> отказывает отчёту, чья проза цитирует вердикт
+другого уровня. Уровень не может пройти с пустым <code>scope</code>: отчёт, не назвавший ничего
+прочитанного, — это штамп, а три штампа стоят втрое дороже и читаются как втрое большая уверенность.
+Уровень не может пройти, неся находку <code>breaks</code>. Две степени и никакой третьей.</p>
+
+<h3>Что поймал первый живой прогон</h3>
+<p>Нацелен на <code>sheleg-design@f88c14b</code> — строгий гейт, часами ранее прошедший зелёным через
+один вердикт. Два из трёх уровней вернули <b>fail</b>, с <b>пятью <code>breaks</code></b> между ними.</p>
+<ul>
+  <li><b>швейный</b> уровень проинструментировал собственные вызовы <code>check()</code> гейта и
+      обнаружил, что рэтчет считает <i>исключения</i>, а не правило: сворачивание четырёх
+      длительностей — того лечения, которое требование называет первым, — уронило счёт на 4 и
+      покрасило набор <b>на более строгом ответе</b></li>
+  <li><b>продуктовый</b> уровень посадил дефект и <b>увидел его проходящим</b>: длительность, в имени
+      которой нет слова о времени, была вне обхода целиком, и 13 таких токенов в 10 слоях были чисты
+      по привычке авторов, а не благодаря проверке. Сверка по значению довела обход со 112 до
+      <b>127</b></li>
+  <li><b>оба внешних уровня независимо</b> нашли строку матрицы распространения, всё ещё требующую
+      обязанность, которую изменение заменило — два слепых чтения, сошедшихся на одном, это и есть
+      сигнал, что они читают разное</li>
+</ul>
+<div class="note ok-note">Ни одна из пяти не является багом в изменённых строках — это ровно тот класс,
+ради которого гейт и строился. Починено в <code>sheleg-design@874ba17</code>; ещё четыре находки
+заведены как решения, а не починки.</div>
+
+<h3>Проверка самой проверки</h3>
+<p><code>npm run test:certify</code> глушит каждое из 16 правил гейта и требует, чтобы заметила
+<i>своя</i> <code>certify:</code>-фикстура — <b>16 из 16</b>. Он существует потому, что первые две
+попытки были неверны, и обе неудачи — причина, по которой он теперь утверждает собственный контроль:</p>
+<ul>
+  <li>первая отчиталась <b>«11 из 11 убито»</b> и не доказала ничего — все мутанты умирали от одной и
+      той же посторонней фикстуры, потому что в копии нет <code>.git</code></li>
+  <li>после починки критерия — <b>«0 из 16»</b>, и это объяснило почему: двадцать новых фикстур стояли
+      <b>ниже</b> <code>sys.exit</code> в <code>graph_test.py</code>, так что любая более ранняя
+      ошибка пропускала их все. Зелено локально; молча в CI ровно на том прогоне, где нужны</li>
+</ul>
+
+<h2>Не сделано — и первая строка здесь главная</h2>
+<div class="scroll"><table>
+<thead><tr><th>Что</th><th>Состояние</th><th>Почему и чем это стоит</th></tr></thead>
+<tbody>
+<tr><td><b>Ничего не выпущено</b></td><td><span class="pill bad">блокирует</span></td>
+<td><code>task-pipeline</code> 1.74.0 закоммичен и на <b>3 коммита впереди тега v1.73.0</b>;
+<code>sheleg-design</code> на <b>35 впереди v1.45.0</b>, вся сегодняшняя работа в
+<code>[Unreleased]</code>; умбрелла на <b>31 впереди v0.91.0</b>. Тег, GitHub release, публикация в npm
+и обновление локальных установок — outward-facing шаги, которых я без просьбы не делал. <b>Пока они не
+пройдут, каждый локальный агент на этой машине грузит старые версии</b> — включая саму трёхуровневую
+сертификацию, которой не воспользуется ни одна сессия, кроме этой</td></tr>
+<tr><td>сертификация не <i>обязательна</i></td><td><span class="pill warn">открыто</span></td>
+<td><code>certify</code> отказывает неполной сертификации — это половина, которую способен обеспечить
+скрипт. То, что прогон вообще идёт через него, а не пишет вердикт руками в
+<code>close --verdict</code>, — доктрина. Сделать механическим — <code>task-pipeline</code>
+<b>B-112</b>, заведено, а не сделано, потому что флаг это миграция для любого графа в полёте</td></tr>
+<tr><td>прогон T1 в свежих контекстах</td><td><span class="pill warn">нужна авторизация</span></td>
+<td>оставшаяся половина <code>sheleg-design</code> <b>B-052</b>. Фразы-носители закреплены механически;
+приходит ли фразировка <i>сюда</i>, а не в <code>super-ux</code>, — измерение в свежем контексте, и
+строковый тест его не заменяет. Нужен один агент на задачу</td></tr>
+<tr><td>трём строкам нужна отрендеренная страница</td><td><span class="pill warn">заблокировано</span></td>
+<td><code>sheleg-design</code> <b>B-004</b>, <b>B-110</b>, <b>B-112</b> — все три <code>high</code> на
+доске. Каждой нужен живой референс, прочитанный в браузере, а <code>navigate</code> на внешний сайт
+режет классификатор авто-режима. Одно точечное разрешение закрывает все три</td></tr>
+<tr><td>пять досок не тронуты</td><td><span class="pill dim">по приоритету</span></td>
+<td><code>seo-aeo-audit</code> 29, <code>sshlg-skills</code> 16, <code>sheleg-dev</code> 11,
+<code>super-ux</code> 10, <code>agent-stack</code> 3, <code>make-skill</code> 1. Цикл шёл в порядке
+приоритета, и строки <code>sheleg-design</code> стояли выше</td></tr>
+</tbody></table></div>
+
+<h2>Новые проблемы, которые сессия создала или вскрыла</h2>
+<p class="lead">Пятнадцать строк. Шесть из них — про сам механизм проверки, а не про проверяемое, и
+это форма почти всего найденного сегодня.</p>
+
+<div class="scroll"><table>
+<thead><tr><th>Строка</th><th>Проблема</th><th>Важность</th></tr></thead>
+<tbody>
+<tr><td class="m">B-125</td><td><b>Про меня.</b> Каждый пол рэтчета, выставленный 20 августа, стоит ниже истинного счёта: порядок был «измерил → продолжил править → пересказал». Пол — минимум, поэтому гейт об этом не говорит. Нашёл unit-уровень на первом живом прогоне</td><td><span class="pill warn">средняя</span></td></tr>
+<tr><td class="m">B-130</td><td>Четыре конкурирующих определения <i>токена длительности</i> живут в одном файле, из-за чего flute-значения <code>atrium</code> внутри требования reduced-motion и вне требований полос и анти-дрейфа</td><td><span class="pill warn">средняя</span></td></tr>
+<tr><td class="m">B-129</td><td>Окно причины пересекает границы reduce-блоков: маркер <code>KEPT</code> из одного блока способен закрыть удержанную длительность в другом. Живых ложных проходов сегодня нет</td><td><span class="pill warn">средняя</span></td></tr>
+<tr><td class="m">B-127</td><td>Четыре удержанные длительности <code>atrium</code> опираются на обещание об удалении канваса, которое этот репозиторий проверить не может, — а печатаемая строка читается так, будто покрыты все обещания</td><td><span class="pill warn">средняя</span></td></tr>
+<tr><td class="m">B-126</td><td>Форма «переобъявить с причиной» требуется гейтом и не санкционирована <b>ни одним документом</b>, который откроет читатель скила</td><td><span class="pill warn">средняя</span></td></tr>
+<tr><td class="m">B-120</td><td>Константу гейта может затенить более поздняя одноимённая, и Python об этом молчит. Закрыто для трёх Python-гейтов; открыто для JS-сьютов и умбреллы</td><td><span class="pill warn">средняя</span></td></tr>
+<tr><td class="m">B-119</td><td>12 паков не дают реализатору ни одного размера шрифта — ни типотокена, ни трёх размеров прозой — при craft bar, запрещающем произвольные размеры</td><td><span class="pill warn">средняя</span></td></tr>
+<tr><td class="m">B-118</td><td>Четыре пака заявляют единственную кривую, предписывают скраб и не вырезают исключение <code>ease: none</code></td><td><span class="pill warn">средняя</span></td></tr>
+<tr><td class="m">B-122</td><td>Ничто не проверяет, что два файла пака согласны в том, чем управляет токен, — а доктрина банднует два ответа по-разному</td><td><span class="pill warn">средняя</span></td></tr>
+<tr><td class="m">B-112</td><td>Ничто не проверяет, что прогон реально диспатчил три уровня <span class="quiet">(task-pipeline)</span></td><td><span class="pill warn">средняя</span></td></tr>
+<tr><td class="m">B-121</td><td>58 строк палитровых таблиц называют поверхность, отличную от базы заголовка, и обычный случай механически не отделим от неверного</td><td><span class="pill dim">низкая</span></td></tr>
+<tr><td class="m">B-123</td><td>34 run stamps никогда не получат ответа в <code>Diverged?</code>, и ничто не отмечает границу, где запись становится достоверной</td><td><span class="pill dim">низкая</span></td></tr>
+<tr><td class="m">B-124</td><td>Шесть прозаических отношений, которые широкий проход спарить не может; каждому нужен человек</td><td><span class="pill dim">низкая</span></td></tr>
+<tr><td class="m">B-128</td><td>Облако точек <code>prism</code> — это rAF-цикл без заявленного статичного состояния</td><td><span class="pill dim">низкая</span></td></tr>
+</tbody></table></div>
+
+<h2>Где стоит каждый гейт</h2>
+<div class="scroll"><table>
+<thead><tr><th>Репозиторий</th><th>Гейт</th><th>Размер</th><th>Версия</th><th>Впереди своего тега</th></tr></thead>
+<tbody>
+<tr><td><code>sheleg-design</code></td><td><span class="pill ok">exit 0</span></td><td class="m">4154 проверки · 2380 палитра</td><td class="m">1.45.0</td><td class="m">35 коммитов</td></tr>
+<tr><td><code>task-pipeline</code></td><td><span class="pill ok">exit 0</span></td><td class="m">149 фикстур графа · test:all exit 0</td><td class="m">1.74.0</td><td class="m">3 коммита</td></tr>
+<tr><td><code>sshlg-skills</code> <span class="quiet">(умбрелла)</span></td><td><span class="pill ok">exit 0</span></td><td class="m">36 сьютов</td><td class="m">0.91.0</td><td class="m">31 коммит</td></tr>
+</tbody></table></div>
+
+<h2>Одна закономерность, которую стоит унести</h2>
+<p class="lead">Шесть из восьми итераций цикла нашли дефект <b>в проверке</b>, а не в проверяемом:
+посадка, ни разу не исполнившая свою цель; константа, затенённая без ошибки; проверка, недостижимая за
+<code>continue</code>; regex, съевший перевод строки и прочитавший половину таблицы; фильтр по имени,
+сделавший обход полным случайно; рэтчет, оценивавший исключения. Все они были <b>зелёными</b>.</p>
+<p>Это же и есть довод, который трёхуровневая сертификация делает механическим, и причина, по которой
+её собственная проверка — мутационный проход с контролем, а не набор проходящих фикстур. Зелёный,
+который никто не видел падающим, — не доказательство; на этой машине сегодня эта фраза сработала
+восемь раз.</p>
+
+<footer>
+Числа посчитаны из дерева и досок на момент закрытия: <code>scripts/queue.py</code>,
+<code>npm test</code> по каждому репозиторию, <code>git rev-list --count &lt;tag&gt;..HEAD</code>,
+<code>git submodule status</code>. Ничего на этой странице не перенесено из более раннего отчёта.
+</footer>
+
+</main>
