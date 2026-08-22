@@ -1,3 +1,47 @@
+
+## v0.92.0 — 2026-08-22 — three members ship, and the release itself was the sharpest instrument
+
+`sheleg-design` **1.46.0**, `super-ux` **0.48.0**, `task-pipeline` **1.74.0**. Three days of
+work reaches an installed agent, and the three tags took four CI rounds between them — every
+refusal correct, and two of them naming defects nothing else could have found.
+
+### What shipped
+
+**A three-tier certification for `task-pipeline`.** A node is closed by three independent
+readings at escalating visibility — the changed code, everything that can reach it, and the
+product around it — dispatched blind and in parallel, all three required to pass. `close`'s
+contract is unchanged; what changed is that the verdict is assembled from three readings at
+different distances instead of written from one. Its **first live dispatch found five `breaks`
+in work that had shipped green through a single verdict hours earlier**, including a gate that
+matched durations by name and missed thirteen tokens, and a ratchet that priced exceptions
+rather than the rule.
+
+**Two production references, measured and packed.** `outrank` and `babylove` are the same
+product category in the same year and answer *how much system do you need* with **536 custom
+properties over two borrowed design systems** and with **seven over Tailwind's defaults**. The
+library carries both ends priced. Six corrections between them, each the smallest the rule
+permits — including a brand orange that fails as text in both directions, on a site whose own
+hero CTA is black for exactly that reason.
+
+**Twenty-six practices** in `super-ux`: dashboards (BP-216..227), the long SaaS landing measured
+end to end (BP-228..234), and products whose value takes months (BP-235..241). Three older
+entries now say where they stop, because a newer practice that quietly disagrees with an older
+one leaves an auditor applying whichever they read first.
+
+### What the release found that the work did not
+
+* **A `with:` key had leaked into `release.yml`'s script block.** `fetch-depth: 0` sat inside a
+  `run:`, where bash tried to execute it and exited 127 — after the ancestry check it followed
+  had already passed. It parses perfectly as YAML, which is why nothing saw it.
+* **A tag with no run stamp is a release the cold-retirement trigger cannot count**, and only
+  the tag run can catch it: `validate.yml` ignores tag pushes, so a branch run cannot see a tag
+  that does not exist yet. Writing the stamp then hit the ten-stamp cap and taught the table's
+  ordering the hard way — newest-first, so appending put the newest where the oldest belongs.
+* **`NUMBER_WORDS` stopped at thirty, and a second copy of it stopped there too.** At the
+  thirty-first pack the first turned every count check red, loudly and correctly, and the second
+  **went quiet on exactly the sentence it exists for**.
+
+Nothing here was found by reading. Each came from pushing a tag and reading the verdict.
 ## v0.91.0 — 2026-08-20 — the truth pass: nine repositories, and the gates that were green over nothing
 
 Every member moves at once, because a family that ships one member at a time is a family
