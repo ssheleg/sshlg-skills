@@ -1,3 +1,56 @@
+## v0.94.0 — 2026-08-22 — a reference with no tokens, and the three layers a media query cannot reach
+
+`sheleg-design` **1.47.0**. The library's thirty-second style pack, `patchbay`, read off
+<https://nautilustrader.io/> — and the first one whose reference **declares no CSS custom
+properties at all**. It is Material UI with Emotion, so there was no token layer to lift and
+every value was read off a painted element with `getComputedStyle`.
+
+**Named for its register, not its source.** ADR-0001 has required that since the seventh pack and
+requires answering such a request by pointing at the ADR before writing a file. `schematic` was
+rejected for colliding with `blueprint` in the drawing-name family, `switchboard` for the
+`scoreboard` suffix, `engine-room` for being a good metaphor for one product and a bad one for
+the register. The same commit records that the ADR was **broken twice** — `outrank` and
+`babylove` both shipped under their source brands on 2026-08-21 with no entry — and renames
+neither, because the ADR's own Consequences make a pack name a public API across four channels.
+
+**The signature is measured, not admired.** 21 cords carrying 32 particles, distributed 12 / 7 /
+2 at one, two and three particles each, and every multi-particle cord divides its own period
+**evenly**: seven pairs at exactly half (1.25s on a 2.5s cord) and both triples at a third. Cords
+start 0.1s apart, so the board has no visible beginning. Each is an inline `<svg>` driven by
+`<animateMotion>` — no JavaScript, no library, one element per dot.
+
+### The finding that left the pack and became doctrine
+
+`MOTION_DOCTRINE.md` §9 said an animation without a reduced-motion path is a bug and stopped
+there. The usual remedy is one rule that zeroes every duration, and this page demonstrates
+**three layers it cannot reach**, all three live on it at once:
+
+- **SMIL.** `<animateMotion>` is not a CSS animation and does not read `animation-duration`. All
+  32 particles keep moving with the preference on. `pauseAnimations()` is the fix and has to be
+  wired by hand.
+- **Script.** The reveal writes `opacity` and `transform` inline per scroll frame across 48
+  wrappers, so zeroing durations only makes the hidden state arrive faster — with the preference
+  on the content is still hidden until scrolled.
+- **A loop that does not end where it began.** Collapsing to `.01ms` jumps to the final keyframe.
+  It is safe on this page only because all four ambient loops are written `0%` == `100%`.
+
+**The query is a signal, not a mechanism.**
+
+### Three corrections and three stale numbers
+
+The reference paints two muted greys and only one is legible — 4.86:1 against **3.23:1** — and
+there is no room for a corrected third step, so the pack ships one tier and says which token
+replaces the other in each of its two uses. Its diagram group labels are **2.70:1**, corrected to
+a value already on its own ladder at 5.19:1. The derived status set had to clear a constraint
+most packs never meet: the accent is a mint-cyan, so `instrument-console`'s green separates from
+it by **3.51** under simulated CVD against a floor of 8.
+
+Beside the change, three numbers were already stale and none was that run's regression — a count
+that named no noun (`the twenty-nine are`, over thirty-one), `sixteen` role declarations against
+a tree of nineteen, and `ten` theme twins against a derived eleven. The widened remainder in
+`SKILL.md` went stale for the **third consecutive release**, and the gate written for exactly
+that caught it.
+
 ## v0.93.0 — 2026-08-22 — the day's findings become doctrine, and one of them fails on its own release
 
 `task-pipeline` **1.75.0**. Nothing new ships behind a flag: what ships is the doctrine the
