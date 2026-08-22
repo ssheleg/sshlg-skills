@@ -1,3 +1,38 @@
+## v0.93.0 — 2026-08-22 — the day's findings become doctrine, and one of them fails on its own release
+
+`task-pipeline` **1.75.0**. Nothing new ships behind a flag: what ships is the doctrine the
+previous release earned, written where the next run reads it.
+
+**`documentation.md` canon 2 gains its dual.** *Numbers are computed, never restated* had a
+half nobody had written down — **an example that instantiates a number IS one.** A release note
+explaining that a count was written in the wrong shape, with the digits in it, places a second
+readable count in a section a gate reads: the probe removes the real one, the narrative still
+matches, the guard reports green over a section that states nothing. Measured three times in one
+hour, each time inside prose about this very failure. The umbrella already said it for commands.
+
+**`gates.md` gains three sections** — probe rot (an anchor pinned to a literal the guarded thing
+moves; a precondition inherited from the tree that evaporates *when the system works correctly*),
+ratchet pricing (assert once per subject examined, not once per exception, or the correct
+remediation lowers the count), and the local-suite rule, which is also standing instruction
+**R-010**.
+
+### And R-010 failed on its own release
+
+The local suite was green and CI was not. One precondition asked `os.path.isdir(".git")`, and in
+a **submodule** checkout `.git` is a file holding a gitdir pointer — so the release-gap check had
+been switching itself off in the only checkout this family is developed in, since the day it was
+written, with no line of output. It ran in CI alone.
+
+The class was already recorded **twice** in that repository, both times naming that same wrong
+question, and this instance was missed both times. Knowing a class is not sweeping it — which is
+standing instruction R-003, also already in force.
+
+Two fixes, the second general: ask `exists`, never `isdir`, of anything named `.git`; and **a
+precondition that fails must disclose rather than skip.** A check guarded by a bare `and`
+evaporates without output, and it evaporates most reliably in the environment its authors use.
+R-010 now carries the half it learned by failing: a green local suite is not evidence until you
+know which checks looked.
+
 
 ## v0.92.0 — 2026-08-22 — three members ship, and the release itself was the sharpest instrument
 

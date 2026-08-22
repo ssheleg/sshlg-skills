@@ -49,7 +49,7 @@
         "task-pipeline",
         "evidence-docs"
       ],
-      "version": "1.74.0",
+      "version": "1.75.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
