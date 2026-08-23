@@ -44,12 +44,13 @@
       "dir": "skills/task-pipeline",
       "pluginMarketplace": "ssheleg/task-pipeline",
       "pluginInstall": "task-pipeline@task-pipeline",
-      "desc": "Full-cycle delivery orchestrator: an intake grill turns the request into a complete brief, then ten gated stages carry it from docs to acceptance, refusing to advance until each gate passes.",
+      "desc": "Full-cycle delivery orchestrator: an intake grill turns the request into a complete brief, then ten gated stages carry it from docs to acceptance, refusing to advance until each gate passes. Ships `project-audit`: a cold-start audit of a whole project — discovery, a probe registry whose unmet needs read as `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved since the last run. Read-only.",
       "skillNames": [
         "task-pipeline",
-        "evidence-docs"
+        "evidence-docs",
+        "project-audit"
       ],
-      "version": "1.75.0",
+      "version": "1.76.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",

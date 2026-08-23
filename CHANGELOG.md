@@ -1,3 +1,34 @@
+## v0.95.0 — the eleventh router, and the question none of the ten answered
+
+**`project-audit` joins the routing block**, requiring `task-pipeline` — the
+same shape `copywriting` has had against `super-ux` since v0.31.0. It answers
+*what is actually true of this project right now*, which is the question an
+operator has when they open a repository they have not touched for a month and
+which none of the ten existing routers takes: `task-pipeline` owns how a change
+reaches the repository, and this owns the diagnosis before any change is
+proposed.
+
+**The refusal phrase is «без диагностики», not «без аудита», and the reason is a
+constraint rather than a preference.** `аудит` is `task-pipeline`'s own trigger —
+kept deliberately after B-82 re-derived the premise and found the prediction
+correct — and `triggers_test.js` refuses any refusal phrase that contains a
+trigger, because saying it would fire the hook it exists to silence. Every
+phrasing built on the word collides, so the router declines by the other name its
+own text uses. Verified against the live hook: `optedOut=true`, `routes=[]`.
+
+**Triggers are phrases, never the bare word.** `проаудируй проект` reaches
+`project-audit` alone; `аудит проекта` reaches both, which is right — the work
+changes the repository *and* its subject is the whole project, and
+`route_coverage.js` has said since v0.71.0 that the hook may name more than one
+craft for one prompt. Six cases join that file and all six hit.
+
+**Ratchets 615 → 620**, recounted by `npm test` rather than carried: five
+fixtures and no new suite, because `project-audit`'s own 43 cases are a gate in
+`task-pipeline`, where the code they exercise ships.
+
+`skills.json` declares the third skill and its `desc` moved in the same commit —
+B-48's co-edit guard refuses one without the other, and it fired here.
+
 ## v0.94.0 — 2026-08-22 — a reference with no tokens, and the three layers a media query cannot reach
 
 `sheleg-design` **1.47.0**. The library's thirty-second style pack, `patchbay`, read off

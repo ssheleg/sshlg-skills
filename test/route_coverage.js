@@ -32,6 +32,16 @@ const CASES = [
   // Every one of these is territory the super-ux router text claims in
   // `lib/routers-registry.js` ("product decisions, funnels, onboarding,
   // payment steps") and knowledge the pack genuinely carries.
+  // --- diagnosis: the whole project as the subject ----------------------
+  // Territory the project-audit router claims. `аудит` alone belongs to
+  // task-pipeline and correctly reaches it; these phrases must reach the
+  // diagnosis route as well, and a request to audit ONE thing must not.
+  ['проаудируй проект', 'project-audit'],
+  ['аудит проекта целиком', 'project-audit'],
+  ['что у нас не доделано в проекте', 'project-audit'],
+  ['audit the project', 'project-audit'],
+  ['what is unfinished here', 'project-audit'],
+  ['состояние проекта на сегодня', 'project-audit'],
   ['как повысить ретеншн пользователей', 'super-ux'],
   ['улучши активацию новых пользователей', 'super-ux'],
   ['сделай онбординг для новых юзеров', 'super-ux'],

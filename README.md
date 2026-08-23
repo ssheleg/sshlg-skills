@@ -34,7 +34,7 @@ scripts. No services, no telemetry, no API keys.
 | Skill | Version | What it does |
 |---|---|---|
 | **[super-ux](https://github.com/ssheleg/super-ux)** | 0.48.0 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
-| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.75.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. |
+| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.76.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project — discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
 | **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.15.0 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
 | **[make-skill](https://github.com/ssheleg/make-skill)** | 0.23.0 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A — the protocols themselves live in `agent-stack`. |
 | **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.47.0 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
@@ -215,7 +215,7 @@ npx sshlg-skills routers --diff <name>            # your wording vs the packaged
 npx sshlg-skills routers --update --adopt <name>  # take the packaged wording for it
 ```
 
-Ten routers, and they are **different axes rather than competing
+Eleven routers, and they are **different axes rather than competing
 priorities** — a landing page passes several, an internal script passes none:
 
 | Router | Answers | When | Needs installed |
@@ -228,6 +228,7 @@ priorities** — a landing page passes several, an internal script passes none:
 | `seo-llmo` | whether a machine will find it | a logged-out reader can see it | — |
 | `evidence-docs` | what proves it | something is stated as true | — |
 | `task-pipeline` | how the change reaches the repo | the repository changes | task-pipeline |
+| `project-audit` | what is actually true of this project right now | the question is the whole project, not one change | task-pipeline |
 | `make-skill` | how the skill itself is built | a skill or plugin changes shape | make-skill |
 | `agent-sync` | who is holding this file | the project has coordination on | agent-sync |
 
