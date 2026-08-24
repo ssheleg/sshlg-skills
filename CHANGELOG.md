@@ -1,3 +1,24 @@
+## v0.96.4 — sheleg-design 1.49.0, and sheleg-dev's half-landed release completed
+
+`rimlight`, the thirty-fourth pack: elevation made of coloured light rather than
+shadow — a sixteen-layer rig, six layers lit and ten held at alpha 0 — measured off a
+design studio's own service page.
+
+**`sheleg-dev` was pinned at 0.8.0 with its submodule at v0.9.1**, so a released
+version carrying a whole new skill (`error-tracking`) was invisible to `list`, to
+`update` and to the family table — which is the exact failure the catalogue rule
+exists to prevent. Pin, submodule, `skillNames` and the README row now agree at 0.9.1.
+
+**And `check_desc_moves_with_skills` was asserting a proxy rather than its own
+intent.** It compared `desc` against `HEAD~1` and failed when `skillNames` moved while
+`desc` did not — which is wrong whenever the two halves land in different commits, as
+they did here: the desc gained "Sentry error tracking" in one commit and the skill name
+followed in the next, with the registry correct at every step. It now asserts the
+property it wants — every newly added skill is **named** in the description — and the
+`desc unchanged` escape is gone, because a desc that moved without naming the new skill
+is the same defect wearing an edit. Verified by planting: strip the mention and keep the
+name, and it fires.
+
 ## v0.96.3 — sheleg-design 1.48.1
 
 The assembly rule for adding a style pack is now written where each part already

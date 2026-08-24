@@ -1273,12 +1273,29 @@ def check_desc_moves_with_skills():
         old = before.get(s.get("name"))
         if not old:
             continue
-        if set(old.get("skillNames") or []) != set(s.get("skillNames") or []) \
-           and (old.get("desc") or "") == (s.get("desc") or ""):
-            fail(f"skills.json: {s['name']!r} changed the skills it ships and left its "
-                 "`desc` untouched. The registry is what `list` and the family table read, "
-                 "so the new skill exists and is advertised nowhere — which is how "
-                 "`agent-evals` shipped into a description that named orchestrators only")
+        added = set(s.get("skillNames") or []) - set(old.get("skillNames") or [])
+        moved = set(old.get("skillNames") or []) != set(s.get("skillNames") or [])
+        if not moved:
+            continue
+        # What this check actually wants is that the new skill is ADVERTISED, and
+        # "desc changed in the same diff" was only a proxy for it. The proxy is wrong
+        # in one real case, met on 2026-08-24: `sheleg-dev`'s desc gained "Sentry error
+        # tracking" in one commit and its skillNames gained `error-tracking` in the
+        # next, so against HEAD~1 the desc looks untouched while the set moved — and
+        # the registry is correct. Assert the property instead: every newly added skill
+        # is named somewhere in the description.
+        desc = (s.get("desc") or "").lower()
+        unadvertised = sorted(n for n in added
+                              if n.lower() not in desc
+                              and n.replace("-", " ").lower() not in desc)
+        # No `desc unchanged` clause: the old check had one, and it let a desc that
+        # moved WITHOUT naming the new skill through — the same defect wearing an edit.
+        if unadvertised:
+            fail(f"skills.json: {s['name']!r} changed the skills it ships and its `desc` "
+                 f"advertises none of {unadvertised}. The registry is what `list` and the "
+                 "family table read, so the new skill exists and is advertised nowhere — "
+                 "which is how `agent-evals` shipped into a description that named "
+                 "orchestrators only")
 
 
 check_desc_moves_with_skills()

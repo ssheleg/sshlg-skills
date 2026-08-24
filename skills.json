@@ -101,7 +101,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.48.1",
+      "version": "1.49.0",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -135,12 +135,13 @@
       "skillNames": [
         "stripe-billing",
         "crypto-payments",
+        "error-tracking",
         "ad-tracking",
         "google-signin",
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.8.0",
+      "version": "0.9.1",
       "entry": null,
       "role": "integrations: money in, tracking, sign-in, speed",
       "npm": "@ssheleg/sheleg-dev",
