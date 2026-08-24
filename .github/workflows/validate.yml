@@ -610,6 +610,22 @@ jobs:
       - name: Negative self-test (a manifesto citation that no longer resolves must fail)
         run: |
           set -eu
+          # The subject lives outside this repository, and CI has no copy of it. The
+          # check degrades honestly there -- `unlooked: … is not on this machine` --
+          # so a plant that demands a refusal would be demanding one from a check
+          # that correctly declined to look. Measured: this exact step failed the
+          # v0.96.0 tag twice for that reason. A probe that cannot run says SKIP.
+          SUBJECT=$(python3 - <<'SUBJ'
+          import os, re
+          t = open("docs/evidence/manifesto-conformance.md", encoding="utf-8").read()
+          m = re.search(r"\(`([^`]*manifesto\.md)`\)", t)
+          print(os.path.expanduser(m.group(1)) if m else "")
+          SUBJ
+          )
+          if [ -z "$SUBJECT" ] || [ ! -f "$SUBJECT" ]; then
+            echo "SKIP: the manifesto is not on this runner, so a dead citation cannot be planted against it"
+            exit 0
+          fi
           rm -rf /tmp/deadcite
           cp -R . /tmp/deadcite
           python3 test/plant_guard.py snap /tmp/deadcite
