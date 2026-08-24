@@ -131,7 +131,7 @@
       "dir": "skills/sheleg-dev",
       "pluginMarketplace": "ssheleg/sheleg-dev",
       "pluginInstall": "sheleg-dev@sheleg-dev",
-      "desc": "The integration layer a product reaches once it has users: Stripe subscription billing reconciled into your own database — checkout, renewals, seats and proration, refunds, claim-first webhook idempotency, reconciliation and price drift; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4/Ads/Meta/LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side Google auth surface; Core Web Vitals work that moves the score.",
+      "desc": "The integration layer a product reaches once it has users: Stripe subscription billing reconciled into your own database — checkout, renewals, seats and proration, refunds, claim-first webhook idempotency, reconciliation and price drift; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4/Ads/Meta/LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side Google auth surface; Core Web Vitals work that moves the score, and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it.",
       "skillNames": [
         "stripe-billing",
         "crypto-payments",
