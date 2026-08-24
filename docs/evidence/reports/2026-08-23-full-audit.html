@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Полный аудит — семья ssheleg, 2026-08-23</title>
+<style>
+  :root{
+    --bg:#fbfaf8; --surface:#ffffff; --surface-2:#f4f2ee;
+    --ink:#1a1917; --ink-soft:#5e5b55; --ink-faint:#8b8780;
+    --line:#e2ded6; --line-strong:#c9c4b8;
+    --ok:#0f7a4a; --ok-bg:#e8f5ee;
+    --warn:#8a5a00; --warn-bg:#fdf3e0;
+    --bad:#a32a24; --bad-bg:#fdeceb;
+    --info:#1f5c8f; --info-bg:#e9f1f8;
+    --accent:#2a4d8f;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#16171a; --surface:#1d1f23; --surface-2:#23262b;
+      --ink:#eceae6; --ink-soft:#a8a49c; --ink-faint:#7c7871;
+      --line:#2e3238; --line-strong:#40454d;
+      --ok:#6fd39b; --ok-bg:#17332a;
+      --warn:#e0a94a; --warn-bg:#33290f;
+      --bad:#f08a84; --bad-bg:#3a1c1a;
+      --info:#8ec2ee; --info-bg:#15293a;
+      --accent:#8fb4ee;
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.62 var(--sans);
+    padding:0 0 6rem;
+  }
+  .wrap{max-width:60rem;margin:0 auto;padding:0 1.5rem}
+  header.top{
+    border-bottom:1px solid var(--line); background:var(--surface);
+    padding:2.6rem 0 2rem; margin-bottom:2.5rem;
+  }
+  header.top .wrap{max-width:60rem}
+  .kicker{
+    font:600 0.72rem/1 var(--mono); letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-faint); margin:0 0 .9rem;
+  }
+  h1{font-size:2.05rem;line-height:1.18;margin:0 0 .7rem;letter-spacing:-.02em;font-weight:640}
+  .lede{font-size:1.06rem;color:var(--ink-soft);margin:0;max-width:46rem}
+  h2{
+    font-size:1.32rem;margin:3.2rem 0 .5rem;letter-spacing:-.01em;font-weight:640;
+    padding-bottom:.45rem;border-bottom:2px solid var(--line-strong);
+  }
+  h3{font-size:1.02rem;margin:2rem 0 .4rem;font-weight:650}
+  h4{font-size:.94rem;margin:1.4rem 0 .3rem;font-weight:650;color:var(--ink-soft)}
+  p{margin:.65rem 0}
+  ul,ol{margin:.6rem 0 .8rem;padding-left:1.35rem}
+  li{margin:.3rem 0}
+  code{font:0.855em/1.45 var(--mono);background:var(--surface-2);padding:.1em .34em;border-radius:4px;
+       border:1px solid var(--line)}
+  pre{
+    background:var(--surface-2);border:1px solid var(--line);border-radius:8px;
+    padding:.85rem 1rem;overflow-x:auto;font:0.8rem/1.55 var(--mono);margin:.7rem 0;
+  }
+  pre code{background:none;border:none;padding:0}
+  .tw{overflow-x:auto;margin:.9rem 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+  table{border-collapse:collapse;width:100%;font-size:.87rem}
+  th,td{padding:.5rem .7rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--surface-2);font-weight:650;font-size:.78rem;letter-spacing:.02em;
+     text-transform:uppercase;color:var(--ink-soft);white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  td.num,th.num{text-align:right;font-family:var(--mono);font-size:.82rem;white-space:nowrap}
+  td.mono{font-family:var(--mono);font-size:.8rem}
+  .pill{
+    display:inline-block;font:600 .7rem/1.35 var(--mono);padding:.13rem .45rem;border-radius:4px;
+    white-space:nowrap;letter-spacing:.02em;
+  }
+  .p-ok{background:var(--ok-bg);color:var(--ok)}
+  .p-warn{background:var(--warn-bg);color:var(--warn)}
+  .p-bad{background:var(--bad-bg);color:var(--bad)}
+  .p-info{background:var(--info-bg);color:var(--info)}
+  .p-neutral{background:var(--surface-2);color:var(--ink-faint)}
+  .card{
+    border:1px solid var(--line);border-left:3px solid var(--line-strong);
+    background:var(--surface);border-radius:6px;padding:1rem 1.15rem;margin:1.1rem 0;
+  }
+  .card.bad{border-left-color:var(--bad)}
+  .card.warn{border-left-color:var(--warn)}
+  .card.ok{border-left-color:var(--ok)}
+  .card.info{border-left-color:var(--info)}
+  .card h3{margin-top:0;font-size:1rem;display:flex;gap:.55rem;align-items:baseline;flex-wrap:wrap}
+  .card .meta{font:.74rem/1.4 var(--mono);color:var(--ink-faint);margin:.35rem 0 .6rem}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:.7rem;margin:1.3rem 0}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.75rem .85rem}
+  .stat .v{font:650 1.4rem/1.1 var(--sans);letter-spacing:-.02em;display:block}
+  .stat .k{font:.7rem/1.3 var(--mono);color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em}
+  .note{font-size:.86rem;color:var(--ink-soft);border-left:2px solid var(--line-strong);padding-left:.8rem;margin:.8rem 0}
+  hr{border:none;border-top:1px solid var(--line);margin:2.6rem 0}
+  .toc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1rem 1.2rem;margin:1.6rem 0}
+  .toc ol{margin:.3rem 0 0;padding-left:1.4rem;column-count:2;column-gap:2rem}
+  .toc li{margin:.18rem 0;font-size:.9rem;break-inside:avoid}
+  a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:2px}
+  .sev{font:600 .7rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+  footer{margin-top:4rem;padding-top:1.4rem;border-top:1px solid var(--line);font-size:.82rem;color:var(--ink-faint)}
+  @media (max-width:640px){
+    h1{font-size:1.6rem} .toc ol{column-count:1}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="kicker">Аудит · 2026-08-23 · 9 репозиториев · читающий проход, ни одного коммита</p>
+    <h1>Семья ssheleg: что готово, что нет, и что сломано</h1>
+    <p class="lede">Каждое число здесь получено выполнением команды в этой сессии. Ни одно не перенесено
+    из отчёта, из CHANGELOG или из памяти. Где число расходится с тем, что утверждает документ проекта,
+    расхождение названо — это и есть предмет аудита.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="toc">
+  <strong>Содержание</strong>
+  <ol>
+    <li><a href="#verdict">Вердикт в одну таблицу</a></li>
+    <li><a href="#scope">Что аудировалось и чем</a></li>
+    <li><a href="#ready">Что готово</a></li>
+    <li><a href="#bugs">Дефекты, найденные этим аудитом</a></li>
+    <li><a href="#prod">Прод: адопшн, CI, телеметрия</a></li>
+    <li><a href="#debt">Долг: 159 открытых строк</a></li>
+    <li><a href="#docs">Документация и её правдивость</a></li>
+    <li><a href="#design">Дизайн-слой</a></li>
+    <li><a href="#risks">Риски по приоритету</a></li>
+    <li><a href="#commands">Приложение: команды</a></li>
+  </ol>
+</div>
+
+<h2 id="verdict">1. Вердикт в одну таблицу</h2>
+
+<div class="stats">
+  <div class="stat"><span class="v">9/9</span><span class="k">гейтов зелёные</span></div>
+  <div class="stat"><span class="v">9/9</span><span class="k">пакетов в npm</span></div>
+  <div class="stat"><span class="v">22 930</span><span class="k">загрузок/нед</span></div>
+  <div class="stat"><span class="v">159</span><span class="k">открытых строк</span></div>
+  <div class="stat"><span class="v">21,5 %</span><span class="k">релизов CI падают</span></div>
+  <div class="stat"><span class="v">0</span><span class="k">телеметрии ошибок</span></div>
+</div>
+
+<p>Продукт <strong>в проде и им пользуются</strong>: 22 930 загрузок за неделю, 69 128 за месяц
+по девяти пакетам. Все девять гейтов зелёные локально, все девять пинов совпадают с
+опубликованными релизами, рабочее дерево чистое, незапушенного нет. По формальным критериям
+проекта всё в порядке.</p>
+
+<p>Ниже — то, что формальные критерии не проверяют. <strong>Три дефекта уровня «затрагивает
+пользователя пакета»</strong>, и один из них — расхождение артефакта под одной и той же
+версией на трёх каналах распространения.</p>
+
+<div class="tw">
+<table>
+<thead><tr><th>Репозиторий</th><th>Версия</th><th>Гейт</th><th>CI релизов</th><th class="num">Откр.</th><th>Состояние</th></tr></thead>
+<tbody>
+<tr><td><strong>sshlg-skills</strong> (umbrella)</td><td class="mono">0.94.0</td><td><span class="pill p-ok">зелёный</span></td><td class="mono">1/8 упал</td><td class="num">16</td><td><span class="pill p-warn">готово, с долгом</span></td></tr>
+<tr><td><strong>super-ux</strong></td><td class="mono">0.48.0</td><td><span class="pill p-ok">зелёный</span></td><td class="mono">0/12</td><td class="num">10</td><td><span class="pill p-warn">леджер на 5 версий назад</span></td></tr>
+<tr><td><strong>task-pipeline</strong></td><td class="mono">1.75.0</td><td><span class="pill p-ok">зелёный</span></td><td class="mono">6/23 упали</td><td class="num">58</td><td><span class="pill p-warn">крупнейший долг</span></td></tr>
+<tr><td><strong>agent-sync</strong></td><td class="mono">1.15.0</td><td><span class="pill p-ok">зелёный</span></td><td class="mono">6/22 упали</td><td class="num">0</td><td><span class="pill p-bad">231 строка вне тега</span></td></tr>
+<tr><td><strong>make-skill</strong></td><td class="mono">0.23.0</td><td><span class="pill p-ok">зелёный</span></td><td class="mono">0/14</td><td class="num">1</td><td><span class="pill p-ok">готово</span></td></tr>
+<tr><td><strong>sheleg-design</strong></td><td class="mono">1.47.0</td><td><span class="pill p-ok">зелёный</span></td><td class="mono">2/8 упали</td><td class="num">31</td><td><span class="pill p-bad">SKILL.md на 1004 токена сверх бюджета</span></td></tr>
+<tr><td><strong>seo-aeo-audit</strong></td><td class="mono">0.24.0</td><td><span class="pill p-ok">зелёный</span></td><td class="mono">4/16 упали</td><td class="num">29</td><td><span class="pill p-warn">тело у house-лимита</span></td></tr>
+<tr><td><strong>sheleg-dev</strong></td><td class="mono">0.8.0</td><td><span class="pill p-ok">зелёный</span></td><td class="mono">10/19 упали</td><td class="num">11</td><td><span class="pill p-bad">52 % релизов падают</span></td></tr>
+<tr><td><strong>agent-stack</strong></td><td class="mono">0.13.0</td><td><span class="pill p-ok">зелёный</span></td><td class="mono">0/13</td><td class="num">3</td><td><span class="pill p-ok">готово</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="note">«Гейт зелёный» — это <code>npm test</code>, выполненный в этой сессии в каждом
+репозитории, exit 0. «CI релизов» — доля упавших запусков workflow <code>release</code> из
+последних 60 запусков каждого репозитория. «Откр.» — <code>python3 scripts/queue.py</code>,
+инструмент самого проекта.</p>
+
+<h2 id="scope">2. Что аудировалось и чем</h2>
+
+<p><strong>Что это за продукт.</strong> Не хостируемый сервис, а <em>дистрибутив</em>:
+zero-dependency Node-лаунчер плюс восемь скилов как пинованные git-сабмодули, которые ставятся
+в 12 не-Claude агентов через skills CLI плюс плагин Claude Code, на машине пользователя. Отсюда два следствия для аудита. Первое: «прод»
+здесь — это npm-реестр, GitHub-релизы и CI, а не веб-сервер. Второе: <strong>Sentry, APM и
+крэш-репортинга нет и быть не может</strong> в текущей архитектуре — код исполняется на машине
+пользователя, наружу не звонит. Это проверено, а не предположено (см. §5).</p>
+
+<div class="tw">
+<table>
+<thead><tr><th>Измерение</th><th class="num">Значение</th><th>Как получено</th></tr></thead>
+<tbody>
+<tr><td>Репозиториев</td><td class="num">9</td><td class="mono">git submodule status</td></tr>
+<tr><td>Коммитов всего</td><td class="num">1 351</td><td class="mono">git rev-list --count HEAD ×9</td></tr>
+<tr><td>Отслеживаемых строк</td><td class="num">259 788</td><td class="mono">git ls-files | xargs wc -l</td></tr>
+<tr><td>— из них Markdown</td><td class="num">184 236 (70,9 %)</td><td class="mono">git ls-files '*.md'</td></tr>
+<tr><td>— Python</td><td class="num">59 622</td><td class="mono">git ls-files '*.py'</td></tr>
+<tr><td>— JavaScript</td><td class="num">15 930</td><td class="mono">git ls-files '*.js'</td></tr>
+<tr><td>Отгружаемых скилов</td><td class="num">23</td><td class="mono">find skills -path '*/plugins/*/skills/*/SKILL.md'</td></tr>
+<tr><td>Дизайн-паков</td><td class="num">32</td><td class="mono">ls styles/*.md (минус шаблон)</td></tr>
+<tr><td>React-китов</td><td class="num">32</td><td class="mono">ls kits/</td></tr>
+<tr><td>Модулей <code>lib/</code> в umbrella</td><td class="num">27</td><td class="mono">wc -l lib/*.js</td></tr>
+<tr><td>TODO / FIXME / HACK в коде</td><td class="num">0</td><td class="mono">grep -rInE '\b(TODO|FIXME|HACK|XXX)\b' lib bin hooks scripts</td></tr>
+<tr><td>Секретов в отслеживаемых файлах</td><td class="num">0</td><td class="mono">grep для lin_api_/sk-/ghp_/npm_/AKIA</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Чем аудировалось.</strong> Инструментами самого проекта, где они есть — это честнее,
+чем свои: <code>npm test</code> (девять раз), <code>test/check_pins.py</code>,
+<code>test/validate.py</code> и его дисклоузеры, <code>scripts/queue.py</code>,
+<code>audit_skill.py --house</code> из make-skill по всем 23 скилам. Где инструмента нет — <code>gh
+run list</code>, npm registry API, реальный токенайзер <code>cl100k_base</code> и прямое чтение
+файлов. Три вещи проверены сравнением с внешней истиной: содержимое npm-тарбола, содержимое
+установленного плагина и содержимое тега.</p>
+
+<h2 id="ready">3. Что готово</h2>
+
+<p>Это не формальность — большая часть системы действительно доделана, и стоит сказать, чем
+именно, прежде чем перечислять дефекты.</p>
+
+<h3>3.1 Гейты работают и проверялись на подсадках</h3>
+
+<p>Все девять <code>npm test</code> зелёные. Важнее их зелёности — их устройство: гейты
+проверялись <em>на посаженных дефектах</em>, и это видно в выводе, а не только в описании.</p>
+
+<pre><code>$ cd skills/sheleg-design &amp;&amp; npm test | tail
+  caught  a label composited onto a composited fill, below AA
+  caught  a hover that swaps the fill AND the label with it
+  caught  100vh in a token layer
+  caught  a scroll listener
+self-test OK — every check was watched failing against a planted defect
+
+$ cd skills/agent-sync &amp;&amp; npm test | grep SELF
+SELF-TEST PASS: every injected defect was caught (51 fixtures, 8 at a time)</code></pre>
+
+<p>Umbrella печатает свои ратчеты и они совпадают с зафиксированными в
+<code>docs/DOCMAP.md:142</code> (<code>&lt;!-- ratchets: suites=36 fixtures=615 members=8 --&gt;</code>):</p>
+
+<pre><code>$ npm test | tail -3
+COUNTED: 36 suites, 615 fixtures, 8 pinned members
+PASS: 36 checks green (validate.py + 7 python + 28 node suites)</code></pre>
+
+<h3>3.2 Пины совпадают с релизами</h3>
+
+<pre><code>$ python3 test/check_pins.py
+ok       super-ux         0.48.0
+ok       task-pipeline    1.75.0
+ok       agent-sync       1.15.0
+ok       make-skill       0.23.0
+ok       sheleg-design    1.47.0
+ok       seo-aeo-audit    0.24.0
+ok       sheleg-dev       0.8.0
+ok       agent-stack      0.13.0
+ok       sshlg-skills     0.94.0 (newest tag, on the registry)
+every pin matches its release (npm where published, git tag everywhere)</code></pre>
+
+<p>Все девять пакетов опубликованы и совпадают со <code>skills.json</code>. Локально
+активны все восемь плагинов семьи на тех же версиях; <code>superpowers</code> корректно
+выключен (<code>enabledPlugins: false</code>), теней нет, битых симлинков нет.</p>
+
+<h3>3.3 Покрытие тестами модулей</h3>
+
+<p>25 из 27 модулей <code>lib/</code> имеют собственный сьют. Без своего —
+<code>routers-registry.js</code> (370 строк, но упоминается в 5 сьютах) и
+<code>turnstate.js</code> (86 строк, в 1). Это не дыра, но и не полное покрытие.</p>
+
+<h3>3.4 Гигиена</h3>
+
+<ul>
+<li><code>.env</code> и <code>.env.*</code> в <code>.gitignore:20-21</code>, ни одного
+отслеживаемого env-файла, режим 600.</li>
+<li>Ноль секретов в <code>lib bin hooks scripts test</code>.</li>
+<li>Ноль <code>TODO</code>/<code>FIXME</code>/<code>HACK</code> в собственном коде — редкость
+для 260 тысяч строк.</li>
+<li>Все 32 кита имеют <code>package.json</code> со скриптом <code>build</code>,
+<code>tsconfig.json</code> и <code>src/</code>. Ни одного неполного.</li>
+<li>CI umbrella содержит четыре <em>негативных</em> самотеста: отсоединённый сабмодуль на
+недостижимом коммите, неистекающая секция леджера, устаревшее заявленное число, строка
+соответствия без ссылки на файл. Гейт умеет падать намеренно.</li>
+</ul>
+
+<h2 id="bugs">4. Дефекты, найденные этим аудитом</h2>
+
+<p>Ниже — то, чего нет ни на одной доске проекта. Каждый воспроизведён командой в этой
+сессии.</p>
+
+<div class="card bad">
+<h3><span class="sev" style="color:var(--bad)">Критично</span> ① Одна версия — два разных
+артефакта на трёх каналах</h3>
+<p class="meta">agent-sync 1.15.0 · доказано сравнением npm-тарбола, установленного плагина и тега</p>
+
+<p><code>skills/agent-sync</code> запинован на <code>c5e1c08</code> — на <strong>четыре
+коммита позже тега <code>v1.15.0</code></strong>. Эти коммиты добавляют 257 строк в
+<code>plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py</code> — фичи AS-01a/AS-01b
+(подметание git-плоскости, атрибутируемый per-key reap) — плюс 37 строк референса и 198 строк
+тестов. <code>package.json</code> при этом всё ещё говорит <code>1.15.0</code>.</p>
+
+<p>Три канала распространения расходятся <em>сейчас</em>:</p>
+
+<div class="tw">
+<table>
+<thead><tr><th>Канал</th><th>Источник</th><th class="num"><code>agent_sync.py</code></th><th class="num">упоминаний <code>residue</code></th><th>сообщает версию</th></tr></thead>
+<tbody>
+<tr><td>npm <code>@ssheleg/agent-sync</code></td><td>тег</td><td class="num">4 344</td><td class="num">26</td><td class="mono">1.15.0</td></tr>
+<tr><td>плагин Claude Code</td><td>ветка</td><td class="num">4 575</td><td class="num">37</td><td class="mono">1.15.0</td></tr>
+<tr><td>skills CLI (13 каналов)</td><td>ветка</td><td class="num">4 575</td><td class="num">37</td><td class="mono">1.15.0</td></tr>
+</tbody>
+</table>
+</div>
+
+<pre><code>$ npm view @ssheleg/agent-sync@1.15.0 dist.tarball | xargs curl -sL -o as.tgz
+$ tar xzf as.tgz &amp;&amp; wc -l package/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py
+4344
+$ wc -l ~/.claude/plugins/marketplaces/agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py
+4575
+$ (cd skills/agent-sync &amp;&amp; git show v1.15.0:plugins/.../agent_sync.py | wc -l)
+4344</code></pre>
+
+<p><strong>Почему это прошло мимо гейта.</strong> <code>check_pins.py</code> сравнивает
+<em>строку версии</em>, а не дерево. Инвариант в <code>CLAUDE.md</code> сформулирован как
+«чекаут любого коммита хаба должен установить в точности те версии, которые рекламирует
+<code>skills.json</code>» — и он выполняется буквально и нарушается по смыслу.
+<code>test/release_lag.py</code> ловит обратный случай (ветка ушла вперёд пина), не этот.</p>
+
+<p><strong>Практическое следствие</strong> видно в этом же чекауте: истёкшая 27 часов назад
+лиза <code>RELEASE-ALL</code> не может быть подметена — а reap, который её бы разобрал, есть
+в двух каналах из трёх (см. дефект ③).</p>
+
+<p><strong>Ещё четыре члена</strong> тоже запинованы позже тега, но их коммиты не задевают
+payload: <code>agent-stack</code> +3, <code>seo-aeo-audit</code> +3,
+<code>sheleg-dev</code> +3, <code>make-skill</code> +1 — только
+<code>.github/workflows/</code> и доски. Стоит отметить, что фикс
+<code>ci(release): refuse a tag whose commit no clone can reach</code> лежит во <strong>всех
+пяти</strong> и выпущен в <strong>ноль</strong> (это B-109, открытая).</p>
+</div>
+
+<div class="card bad">
+<h3><span class="sev" style="color:var(--bad)">Критично</span> ② SKILL.md дизайн-пака
+на 1004 токена сверх бюджета платформы</h3>
+<p class="meta">sheleg-design 1.47.0 · измерено реальным <code>cl100k_base</code>, не отношением</p>
+
+<p>Тело <code>plugins/sheleg-design/skills/sheleg-design/SKILL.md</code> — <strong>6 004
+токена cl100k против бюджета 5 000</strong>. Один скил из 23. Остальные 22 внутри.</p>
+
+<div class="tw">
+<table>
+<thead><tr><th>Скил</th><th class="num">строк</th><th class="num">символов</th><th class="num">cl100k</th><th>вердикт</th></tr></thead>
+<tbody>
+<tr><td><code>sheleg-design</code></td><td class="num">337</td><td class="num">24 497</td><td class="num">6 004</td><td><span class="pill p-bad">+1 004 сверх спеки</span></td></tr>
+<tr><td><code>seo-aeo-audit</code></td><td class="num">329</td><td class="num">19 479</td><td class="num">4 817</td><td><span class="pill p-warn">сверх house 4 750</span></td></tr>
+<tr><td><code>make-skill</code></td><td class="num">312</td><td class="num">18 497</td><td class="num">4 638</td><td><span class="pill p-ok">внутри</span></td></tr>
+<tr><td><code>task-pipeline</code></td><td class="num">271</td><td class="num">18 745</td><td class="num">4 630</td><td><span class="pill p-ok">внутри</span></td></tr>
+<tr><td colspan="5" style="color:var(--ink-faint)">…остальные 19 — от 1 052 до 4 435</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Три обстоятельства делают это дефектом, а не просто числом.</strong></p>
+<ol>
+<li><code>audit_skill.py:43</code> помечает лимит как <code>BODY_MAX_TOKENS = 5000  # spec +
+Anthropic: level-2 budget</code> — это лимит платформы, а не домашнее правило.</li>
+<li><strong>Гейт sheleg-design не проверяет тело вообще.</strong> Он проверяет
+<code>description ≤ 1024</code> (<code>test/validate.py:181</code>) и на этом останавливается.
+Гейт <code>seo-aeo-audit</code> печатает <code>SKILL.md body ~4994/5000 tokens / 330/500
+lines</code> — то есть проверка существует в семье и отсутствует именно там, где она бы
+сработала.</li>
+<li><code>description</code> того же файла — <strong>1 007 символов при кэпе 1024</strong>.
+Запас 17 символов. Любая правка формулировки его пробивает.</li>
+</ol>
+
+<pre><code>$ python3 audit_skill.py --house --json skills/sheleg-design/plugins/.../sheleg-design
+GAP: description is 1007 chars — inside the 1024 cap but past the 970 working limit
+GAP: body is ~6281 tokens (24497 chars / 3.9), the budget is &lt; 5000</code></pre>
+
+<p>Стандарт-кипер семьи это <em>видит</em>. Он просто не запускается в CI того репозитория,
+про который говорит.</p>
+</div>
+
+<div class="card bad">
+<h3><span class="sev" style="color:var(--bad)">Высоко</span> ③ Истёкшая лиза, которую
+невозможно подмести: идентичность рана — литерал <code>"shared"</code></h3>
+<p class="meta">этот чекаут · воспроизводится чтением двух файлов</p>
+
+<pre><code>$ cat .agent-sync/leases/RELEASE-ALL.lock
+{"run": "r-6e62c4dab", "ts": "2026-08-22T08:00:19Z", "ttl": 2700, ...}
+# истекла 27,0 часов назад (ttl 45 минут)
+
+$ cat .agent-sync/run-id
+{"runs": {"shared": {"run": "r-6e62c4dab", "seen": "2026-08-23T11:44:17Z"}}}</code></pre>
+
+<p>Идентичность рана в этом чекауте хранится под ключом <code>"shared"</code> — то есть
+<em>любая</em> сессия здесь отвечает на тот же id. Поэтому классификатор не может доказать
+владение и честно докладывает <code>[ambiguous] its run id matches, but this run's identity is
+the shared fallback — any other session in this checkout answers to the same id, so the match
+proves nothing</code>, и оставляет файл. Результат: <strong>истёкшая лиза не подметается
+никогда</strong>, и остаток накапливается в репозитории, чья функция — координация.</p>
+
+<p>Хук agent-sync докладывает это на каждом старте сессии. Доклад корректен; чего нет —
+пути, который его закрывает без ручного вмешательства.</p>
+</div>
+
+<div class="card warn">
+<h3><span class="sev" style="color:var(--warn)">Средне</span> ④ <code>hooks status</code>
+никогда не бывает чистым — и это чистый ложный положительный</h3>
+<p class="meta">lib/hooks.js:130 · доказано вызовом <code>plan()</code> на живых настройках</p>
+
+<pre><code>$ node bin/sshlg-skills.js hooks status | tail -2
+hooks: НЕ установлено или устарело — SessionStart (refreshed), UserPromptSubmit (refreshed),
+  PreToolUse (refreshed), PostToolUse (refreshed)</code></pre>
+
+<p>При этом <strong>все девять файлов хуков байт-в-байт идентичны</strong> установленной копии
+(<code>cmp -s</code> для каждого → <code>same</code>), и все матчеры совпадают с
+<code>WIRED</code>. Причина — в <code>plan()</code>:</p>
+
+<pre><code>const merged = others.concat([want[event]]);          // lib/hooks.js:130
+if (JSON.stringify(existing) !== JSON.stringify(merged)) { … }</code></pre>
+
+<p>Запись семьи всегда переносится <strong>в конец</strong> массива. В
+<code>settings.json</code> она сейчас стоит <strong>первой</strong> — ровно на тех четырёх
+событиях, где рядом зарегистрирован чужой хук. Сравнение строк расходится <em>только по
+порядку</em>:</p>
+
+<pre><code>$ node -e '…plan(cur, root, {})…'
+changed: ["SessionStart (refreshed)","UserPromptSubmit (refreshed)",
+          "PreToolUse (refreshed)","PostToolUse (refreshed)"]
+SessionStart identical: false
+     SessionStart identical AFTER sorting: true      ← содержимое совпадает
+PostToolUse  identical: false
+     PostToolUse  identical AFTER sorting: true
+Notification identical: true                          ← нет чужого хука → чисто</code></pre>
+
+<p><strong>Два следствия, и второе хуже первого.</strong> Отчёт, который не может стать
+чистым, учит оператора его игнорировать — это тот самый провал, про который написано в
+<code>CLAUDE.md</code> этого репозитория («отказ без следующего шага — это то, как оператор
+учится выключать хук»). А <code>hooks install</code>, выполненный по этому докладу,
+<em>переставит</em> <code>PreToolUse</code>-гард семьи <strong>после</strong> чужого хука —
+для гарда, который отказывает, порядок не косметика.</p>
+
+<p><strong>Почему тест не поймал.</strong> <code>test/hooks_test.js:43</code> утверждает
+идемпотентность по <em>длине</em> массива (<code>'ours was appended twice'</code>), а не по
+равенству плана. Дважды применённый план не растит массив — и проходит.</p>
+</div>
+
+<div class="card warn">
+<h3><span class="sev" style="color:var(--warn)">Средне</span> ⑤ Единственный
+кросс-репозиторный инструмент приоритизации показывает один репозиторий из девяти</h3>
+<p class="meta">scripts/queue.py:100 · вычислено на живом выводе <code>--json</code></p>
+
+<p>Девять досок используют <strong>четыре несовместимых шкалы приоритета</strong>, и ключ
+сортировки ставит словесные впереди численных безусловно:</p>
+
+<pre><code>rows.sort(key=lambda r: (0 if r['rank'] is not None else 1, …))   # queue.py:100
+#                        ^ словесный ранг — нулевой уровень ключа</code></pre>
+
+<div class="tw">
+<table>
+<thead><tr><th>Доска</th><th>Шкала</th><th class="num">строк</th><th class="num">позиции в очереди</th></tr></thead>
+<tbody>
+<tr><td><code>sheleg-design</code></td><td>словесная (<code>high/medium/low</code>)</td><td class="num">31</td><td class="num">1–31</td></tr>
+<tr><td><code>task-pipeline</code>, <code>seo-aeo-audit</code>, <code>sshlg-skills</code>, <code>sheleg-dev</code>, <code>make-skill</code></td><td>численная</td><td class="num">115</td><td class="num">32–146</td></tr>
+<tr><td><code>agent-stack</code></td><td><code>—</code> (нет)</td><td class="num">3</td><td class="num">147–149</td></tr>
+<tr><td><code>super-ux</code></td><td><code>2×3×2 = 12</code> (не парсится)</td><td class="num">10</td><td class="num">150–159</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Дефолтный вывод — <code>-n 20</code>. Значит <strong>дефолтная очередь семьи — это
+исключительно доска <code>sheleg-design</code></strong>. Самая приоритетная строка
+<code>task-pipeline</code> (P=12, «негативные тесты разоружаются собственным релизом») стоит
+на 32-м месте. Все десять строк <code>super-ux</code> — последние десять из 159.</p>
+
+<p>B-107 (открытая, P=3.0) уже описывает <em>недосчёт</em> этой очереди. Несравнимость шкал —
+отдельная проблема того же инструмента, и она не на доске.</p>
+
+<p class="note">Мелочью в том же файле: строка «<code>159 open rows across 8 boards</code>»
+считает доски с непустым результатом, а просканировано девять — у <code>agent-sync</code>
+открытая таблица пуста (заголовок и разделитель, <code>backlog.md:9-10</code>). Читается как
+«одну доску не прочитали».</p>
+</div>
+
+<div class="card warn">
+<h3><span class="sev" style="color:var(--warn)">Средне</span> ⑥ Стандарт-кипер измеряет
+токены отношением, и оно расходится с токенайзером</h3>
+<p class="meta">audit_skill.py · сверено с cl100k на всех 23 скилах</p>
+
+<p>Аудитор делит символы на фиксированные <strong>3,9</strong>. Реальное отношение на этом
+корпусе — <strong>от 3,87 до 4,42</strong>, медиана ≈ 4,15. Отсюда ложные срабатывания:</p>
+
+<div class="tw">
+<table>
+<thead><tr><th>Скил</th><th class="num">аудитор (÷3,9)</th><th class="num">cl100k</th><th class="num">Δ</th><th>эффект</th></tr></thead>
+<tbody>
+<tr><td><code>task-pipeline</code></td><td class="num">4 806</td><td class="num">4 630</td><td class="num">−176</td><td><span class="pill p-warn">ложный GAP</span></td></tr>
+<tr><td><code>seo-aeo-audit</code></td><td class="num">4 995</td><td class="num">4 817</td><td class="num">−178</td><td><span class="pill p-warn">ложный GAP</span></td></tr>
+<tr><td><code>sheleg-design</code></td><td class="num">6 281</td><td class="num">6 004</td><td class="num">−277</td><td><span class="pill p-info">реальный, завышен</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Отношение консервативно (всегда завышает), так что пропусков оно не даёт — но выдаёт GAP
+там, где бюджет не пробит, и это ровно та монета, которой платят за доверие к гейту. В
+<code>make-skill/SKILL.md:296-298</code> расхождение уже описано словами; исправлением в код
+оно не превратилось.</p>
+</div>
+
+<div class="card info">
+<h3><span class="sev" style="color:var(--info)">Низко</span> ⑦ Аудитор читает рабочее дерево,
+а не отгружаемый набор</h3>
+<p class="meta">три ложных GAP на чистых репозиториях</p>
+
+<pre><code>GAP: scripts/__pycache__/ is nested — keep bundled files one level deep
+# в agent-sync, make-skill, task-pipeline
+
+$ (cd skills/agent-sync &amp;&amp; git ls-files | grep -c '__pycache__')
+0                                        # не отслеживается
+$ git status --porcelain --ignored | grep __pycache__
+!! plugins/agent-sync/skills/agent-sync/scripts/__pycache__/    # игнорируется</code></pre>
+
+<p><code>__pycache__</code> — локальный артефакт запуска гейта, игнорируемый git и
+отсутствующий в опубликованном скиле. Аудитор его видит и выдаёт GAP: любой разработчик,
+прогнавший тесты перед аудитом, получает три претензии к трём чистым репозиториям.
+Достаточно уважать <code>.gitignore</code>.</p>
+</div>
+
+<div class="card info">
+<h3><span class="sev" style="color:var(--info)">Низко</span> ⑧ Вывод CLI наполовину
+по-русски</h3>
+<p class="meta">bin/sshlg-skills.js:795-798</p>
+
+<p><code>hooks status</code> печатает <code>hooks: что ставит семья</code>, <code>hooks: НЕ
+установлено или устарело</code>, <code>поставить:</code> — единственная русскоязычная
+поверхность в CLI, у которого всё остальное (<code>--help</code>, <code>list</code>,
+<code>routers</code>, <code>conflicts</code>) на английском. Пакет с 9 629 недельными
+загрузками; язык вывода — часть публичного контракта.</p>
+</div>
+
+<h2 id="prod">5. Прод: адопшн, CI, телеметрия</h2>
+
+<h3>5.1 Адопшн — продукт реально используется</h3>
+
+<div class="tw">
+<table>
+<thead><tr><th>Пакет</th><th class="num">/неделя</th><th class="num">/месяц</th></tr></thead>
+<tbody>
+<tr><td><code>sshlg-skills</code></td><td class="num">9 629</td><td class="num">21 951</td></tr>
+<tr><td><code>task-pipeline-skill</code></td><td class="num">3 606</td><td class="num">15 337</td></tr>
+<tr><td><code>sheleg-design-skill</code></td><td class="num">3 069</td><td class="num">8 977</td></tr>
+<tr><td><code>super-ux</code></td><td class="num">1 795</td><td class="num">5 906</td></tr>
+<tr><td><code>@ssheleg/seo-aeo-audit</code></td><td class="num">1 199</td><td class="num">4 706</td></tr>
+<tr><td><code>@ssheleg/agent-sync</code></td><td class="num">1 066</td><td class="num">3 837</td></tr>
+<tr><td><code>@ssheleg/make-skill</code></td><td class="num">1 000</td><td class="num">4 845</td></tr>
+<tr><td><code>@ssheleg/sheleg-dev</code></td><td class="num">879</td><td class="num">1 356</td></tr>
+<tr><td><code>@ssheleg/agent-stack</code></td><td class="num">687</td><td class="num">2 213</td></tr>
+<tr><td><strong>Итого</strong></td><td class="num"><strong>22 930</strong></td><td class="num"><strong>69 128</strong></td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="note">Источник: <code>api.npmjs.org/downloads/point/last-week</code> и
+<code>last-month</code>, на 2026-08-23. Загрузки включают CI-ботов и зеркала; как абсолютная
+мера пользователей они завышены, как мера «это в проде» — достаточны.</p>
+
+<h3>5.2 CI — это и есть журнал прода, и в нём падает каждый пятый релиз</h3>
+
+<p>Последние 60 запусков в каждом из девяти репозиториев: 540 всего, 438 успешных,
+<strong>67 упавших</strong>, 35 отменённых. Из них workflow <code>release</code> — 135
+запусков, <strong>29 упали (21,5 %)</strong>.</p>
+
+<div class="tw">
+<table>
+<thead><tr><th>Репозиторий</th><th class="num">все</th><th class="num">упало</th><th class="num">отменено</th><th class="num">release</th><th class="num">release упало</th></tr></thead>
+<tbody>
+<tr><td><code>sheleg-dev</code></td><td class="num">60</td><td class="num">15</td><td class="num">8</td><td class="num">19</td><td class="num"><span class="pill p-bad">10 · 52 %</span></td></tr>
+<tr><td><code>agent-sync</code></td><td class="num">60</td><td class="num">10</td><td class="num">0</td><td class="num">22</td><td class="num"><span class="pill p-warn">6 · 27 %</span></td></tr>
+<tr><td><code>task-pipeline</code></td><td class="num">60</td><td class="num">10</td><td class="num">0</td><td class="num">23</td><td class="num"><span class="pill p-warn">6 · 26 %</span></td></tr>
+<tr><td><code>seo-aeo-audit</code></td><td class="num">60</td><td class="num">12</td><td class="num">16</td><td class="num">16</td><td class="num"><span class="pill p-warn">4 · 25 %</span></td></tr>
+<tr><td><code>sheleg-design-skill</code></td><td class="num">60</td><td class="num">5</td><td class="num">0</td><td class="num">8</td><td class="num"><span class="pill p-warn">2 · 25 %</span></td></tr>
+<tr><td><code>sshlg-skills</code></td><td class="num">60</td><td class="num">7</td><td class="num">0</td><td class="num">8</td><td class="num"><span class="pill p-warn">1 · 12 %</span></td></tr>
+<tr><td><code>super-ux</code></td><td class="num">60</td><td class="num">5</td><td class="num">0</td><td class="num">12</td><td class="num"><span class="pill p-ok">0</span></td></tr>
+<tr><td><code>make-skill</code></td><td class="num">60</td><td class="num">2</td><td class="num">0</td><td class="num">14</td><td class="num"><span class="pill p-ok">0</span></td></tr>
+<tr><td><code>agent-stack</code></td><td class="num">60</td><td class="num">1</td><td class="num">11</td><td class="num">13</td><td class="num"><span class="pill p-ok">0</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Это не косметика. Открытая строка <strong>B-78 (P=3.0, blast=3)</strong> описывает уже
+случившееся следствие: <em>«релиз был затегирован, упал на одном шаге, и сутки никто не
+замечал, что npm его не получил»</em>. При падении каждого пятого релиза это не единичная
+история, а ожидаемая частота. Наблюдаемость релиза (кто-то узнаёт, что публикация не
+состоялась) остаётся ручной.</p>
+
+<p>Отдельно: 35 отменённых запусков сконцентрированы в трёх репозиториях, и фикс
+<code>fix(ci): a tag push cancelled its own release, and the publish was skipped
+silently</code> лежит незарелизенным в трёх из них.</p>
+
+<h3>5.3 Sentry и телеметрия — их нет, и это архитектурно</h3>
+
+<pre><code>$ grep -rIl -iE 'sentry|bugsnag|rollbar|datadog|opentelemetry|posthog|amplitude|telemetry' \
+    --include='*.js' --include='*.py' --include='*.json' --include='*.yml' \
+    lib bin hooks scripts test .github skills/*/bin skills/*/scripts skills/*/.github
+# (пусто)</code></pre>
+
+<p>Ни одного канала отчёта об ошибках наружу. Локально пишутся:
+<code>~/.sshlg-skills/state.json</code> (23 байта), <code>turns/</code> (56 записей),
+<code>backups/</code> (31 копия файлов оператора). Всё это остаётся на машине.</p>
+
+<p><strong>Честная оценка.</strong> Для CLI и набора скилов, исполняющихся на машине
+пользователя, отсутствие крэш-репортинга — разумная приватностная позиция, а не упущение.
+Но следствие надо назвать: <strong>при 69 128 месячных загрузках сбой у пользователя
+невидим мейнтейнеру полностью</strong>. Всё, что о качестве известно, приходит из CI и
+собственных гейтов — то есть из среды, которая по построению отличается от пользовательской: двенадцать не-Claude агентов плюс плагин. Дефект ① — ровно тот класс, который CI увидеть не мог: он живёт в
+расхождении каналов, а CI знает только один.</p>
+
+<h2 id="debt">6. Долг: 159 открытых строк</h2>
+
+<p>Считано инструментом проекта: <code>python3 scripts/queue.py</code>. Закрытых на
+досках — 215+ (парсинг закрытых строк неоднороден, см. §5 ⑤).</p>
+
+<div class="tw">
+<table>
+<thead><tr><th>Доска</th><th class="num">открыто</th><th>самое приоритетное</th></tr></thead>
+<tbody>
+<tr><td><code>task-pipeline</code></td><td class="num">58</td><td>B-113 — негативные тесты привязаны к литералам, которые релиз двигает: <em>релиз разоружает собственные проверки</em></td></tr>
+<tr><td><code>sheleg-design</code></td><td class="num">31</td><td>B-110 — пак утверждает «единственный оранжевый объект на странице», а на отданной странице оранжевого нет вовсе</td></tr>
+<tr><td><code>seo-aeo-audit</code></td><td class="num">29</td><td>B-11 — разбор серверных логов и forward-confirmed reverse DNS для отсева подделок</td></tr>
+<tr><td><code>sshlg-skills</code></td><td class="num">16</td><td>B-107 — очередь читала 135 строк там, где доски держат 156</td></tr>
+<tr><td><code>sheleg-dev</code></td><td class="num">11</td><td>B-92 — хук ни разу не срабатывал в живой сессии Claude Code</td></tr>
+<tr><td><code>super-ux</code></td><td class="num">10</td><td>B-021 — у протокола выбора практик нет гейта покрытия</td></tr>
+<tr><td><code>agent-stack</code></td><td class="num">3</td><td>AG-06a — временное дерево вне <code>test/</code> остаётся невидимым</td></tr>
+<tr><td><code>make-skill</code></td><td class="num">1</td><td>MS-05 — в сьюте нет проверки, что temp-дерево прошло через леджер</td></tr>
+<tr><td><code>agent-sync</code></td><td class="num">0</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>6.1 Строки, которые говорят о правдивости системы, а не об удобстве</h3>
+
+<p>Из шестнадцати открытых строк umbrella шесть — про то, что инструмент может сообщить
+неверное. Их стоит выделить, потому что они подрывают остальную доказательную базу:</p>
+
+<ul>
+<li><strong>B-29</strong> (P=2.67, живёт 3 дня прогонов): <em>«task-pipeline: 99 отгруженных
+REQ-строк, все 99 в состоянии <code>never</code>»</em> — ни одно требование, которое
+пайплайн сам отгрузил, не подтверждено человеком.</li>
+<li><strong>B-98</strong> (P=2.0): леджеры верификации описывают версию старше отгруженной.
+Проверено гейтом сейчас — четыре из восьми: <code>super-ux</code> 0.43.0 против 0.48.0 (пять
+версий), <code>sheleg-design</code> 1.40.0 против 1.47.0 (<strong>семь</strong>),
+<code>task-pipeline</code> 1.72.0 против 1.75.0, <code>agent-stack</code> 0.12.0 против
+0.13.0.</li>
+<li><strong>B-99</strong> (P=2.0): один id несёт два вердикта внутри одного файла —
+<code>AS-01</code> читается как <code>open</code> в четвёртой волне реестра соответствия и
+как закрытый в том же файле.</li>
+<li><strong>B-92</strong> (P=2.0): коммит-гейт красный для условия, которое ни один коммит в
+этом репозитории создать не может, — и один коммит он этим заблокировал.</li>
+<li><strong>B-108</strong> (P=1.5): <code>check_board_is_parseable</code> был корректен и
+шесть дней читал одну доску из девяти.</li>
+<li><strong>B-109</strong>: гард достижимости тега стоит в CI всех восьми членов и ни в
+одном их собственном гейте — член, правящий свой <code>release.yml</code>, узнаёт об ошибке
+на слой позже. (Именно этот фикс и лежит незарелизенным в пяти членах, см. дефект ①.)</li>
+</ul>
+
+<p>Плюс 14 открытых строк в <code>docs/evidence/manifesto-conformance.md</code>.</p>
+
+<h3>6.2 Три строки помечены <code>waived</code> — и это правильно</h3>
+
+<p>B-07, B-08 (по 7 дней прогонов) и B-82 — зафиксированные «нет», а не долг. Доска
+считает их отдельно и не включает в открытые. Это редкая и здоровая деталь: решение,
+записанное как решение, перестаёт всплывать как задача.</p>
+
+<h2 id="docs">7. Документация и её правдивость</h2>
+
+<h3>7.1 Живые документы: 0 мёртвых адресов из 83</h3>
+
+<p>Гейт <code>test/doc_refs.py</code> разрешает каждый адрес в пяти живых документах и
+отказывает коммиту иначе. Сейчас — ни одного мёртвого. Мой независимый скан заявленных
+<code>npm run</code> целей по девяти репозиториям дал два попадания, и <strong>оба
+ложные</strong>: <code>sheleg-design/README.md:220</code> — <code>npm run build</code> внутри
+сгенерированного кита (у всех 32 китов такой скрипт есть, проверено), а
+<code>task-pipeline/CONTRIBUTING.md:549</code> — буквально проза о правиле.
+Доктрина «адрес, который заявляет живой документ, разрешается» держится.</p>
+
+<h3>7.2 Датированные записи: 40 мёртвых адресов из 238 — раскрыто, не загейчено</h3>
+
+<pre><code>unlooked: claimed addresses -- not gated in the dated records:
+  docs/evidence/backlog.md           11/73
+  docs/evidence/verification.md      13/87
+  docs/evidence/retro.md              2/23
+  docs/evidence/manifesto-conformance.md  14/55</code></pre>
+
+<p>Это осознанное решение: строки цитируют состояния, истинные на момент коммита, и
+переписывать их означало бы подделывать историю. Раскрытие печатается на каждом прогоне.
+Претензии нет — но 14 из 55 в реестре соответствия означает, что четверть его ссылок не
+проверяема, а именно этот файл читают, чтобы узнать состояние.</p>
+
+<h3>7.3 Граф знаний устарел во всех девяти репозиториях</h3>
+
+<div class="tw">
+<table>
+<thead><tr><th>Репозиторий</th><th class="num">коммитов позади</th><th>Репозиторий</th><th class="num">коммитов позади</th></tr></thead>
+<tbody>
+<tr><td><code>sshlg-skills</code></td><td class="num">87</td><td><code>seo-aeo-audit</code></td><td class="num">21</td></tr>
+<tr><td><code>task-pipeline</code></td><td class="num">26</td><td><code>super-ux</code></td><td class="num">17</td></tr>
+<tr><td><code>sheleg-design</code></td><td class="num">26</td><td><code>agent-sync</code></td><td class="num">14</td></tr>
+<tr><td><code>sheleg-dev</code></td><td class="num">13</td><td><code>agent-stack</code></td><td class="num">11</td></tr>
+<tr><td><code>make-skill</code></td><td class="num">10</td><td></td><td class="num"></td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Стадия 0 пайплайна <em>запрашивает</em> этот граф на предмет достижимости, а стадия 9
+сверяет его с документами. Значит запросы идут к снимку, отставшему в umbrella на 87
+коммитов. Это B-101 (открытая, P=0.5 — приоритет, по-моему, занижен: инструмент, отвечающий
+на вопрос «что это затронет», отвечает про прошлое).</p>
+
+<h3>7.4 Объём</h3>
+
+<p>Markdown — <strong>70,9 %</strong> отслеживаемых строк (184 236 из 259 788).
+CHANGELOG-и: <code>task-pipeline</code> 410 КБ / 6 592 строки,
+<code>sheleg-design</code> 286 КБ, umbrella 251 КБ; суммарно ≈ 1,44 МБ.
+README <code>task-pipeline</code> — 60 КБ.</p>
+
+<p>Это следствие выбранной доктрины (каждое утверждение несёт расписку), а не небрежность, и
+дефектом я это не называю. Но цена названа: у документа на 6 592 строки нет читателя,
+который прочтёт его целиком, а гейт проверяет разрешимость адресов, не сохранность смысла.
+Отсюда и B-98 — леджер, отстающий на семь версий, формально валиден.</p>
+
+<h3>7.5 Что документ утверждает против того, что померено</h3>
+
+<div class="tw">
+<table>
+<thead><tr><th>Утверждение</th><th>Где</th><th>Померено</th></tr></thead>
+<tbody>
+<tr><td><code>ratchets: suites=36 fixtures=615 members=8</code></td><td>DOCMAP.md:142</td><td><span class="pill p-ok">36 / 615 / 8 — совпадает</span></td></tr>
+<tr><td>«тридцать один пак» (B-113)</td><td>sheleg-design backlog</td><td><span class="pill p-warn">32 пака</span></td></tr>
+<tr><td>«очередь читала 135 там, где доски держат 156» (B-107)</td><td>umbrella backlog</td><td><span class="pill p-info">сейчас 159; строка ещё открыта</span></td></tr>
+<tr><td>«пин — это обещание»</td><td>CLAUDE.md</td><td><span class="pill p-bad">строка версии — да, дерево — нет (дефект ①)</span></td></tr>
+<tr><td>super-ux CHANGELOG документирует 0.47.0</td><td>раскрыто гейтом</td><td><span class="pill p-warn">тега нет, релиза не было</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="design">8. Дизайн-слой</h2>
+
+<p>Он есть, он крупный и он самая проработанная часть системы по механике проверок.</p>
+
+<div class="stats">
+  <div class="stat"><span class="v">32</span><span class="k">стиль-пака</span></div>
+  <div class="stat"><span class="v">32</span><span class="k">token-слоя CSS</span></div>
+  <div class="stat"><span class="v">32</span><span class="k">React-кита</span></div>
+  <div class="stat"><span class="v">51 740</span><span class="k">строк .md</span></div>
+</div>
+
+<p><strong>Что действительно готово.</strong> Соответствие 32/32/32 — каждый пак имеет свой
+<code>styles/tokens/&lt;pack&gt;.css</code> и свой кит; ни одного кита без
+<code>build</code>, <code>tsconfig.json</code> и <code>src/</code>. Палитровый гейт считает
+OKLab ΔE, WCAG-контраст и симуляцию трёх типов CVD, и его самотест наблюдался падающим на
+посаженных дефектах — включая «подпись, скомпонованная на скомпонованной заливке, ниже AA» и
+«ховер, меняющий заливку из-под подписи».</p>
+
+<p><strong>Что не готово.</strong> Открытых строк — 31, и они конкретные, а не стилистические:</p>
+<ul>
+<li><strong>B-110</strong>: пак <code>orchard</code> утверждает про «единственный оранжевый
+объект на странице», а на отданной странице оранжевого объекта нет вообще — утверждение о
+референсе, который его больше не подтверждает.</li>
+<li><strong>B-112</strong>: тёмной теме <code>field-notes</code> нужны три решения, которые
+референс уже не может урегулировать.</li>
+<li><strong>B-113</strong>: десять паков из «тридцати одного» (реально 32) отгружают тёмного
+двойника, три не документируют о нём ничего.</li>
+<li><strong>B-119</strong>: <strong>12 паков не дают имплементатору ни одного размера
+шрифта</strong> — ни token'а типографической шкалы, ни числа.</li>
+<li><strong>B-057</strong>: 217 px-литералов в прозе паков, которые ни один token пака не
+несёт, на 25 страницах.</li>
+<li><strong>B-116</strong>: 47 пересказанных канальных литералов не говорят, из чего они
+выведены, — дрейф необнаружим.</li>
+<li><strong>B-059</strong>: 16 строк Components описывают половину пары — заливку без
+подписи или подпись без заливки.</li>
+</ul>
+
+<p>Плюс дефект ② этого отчёта: <code>SKILL.md</code> пака, превышающий бюджет платформы, и
+собственный гейт, который тело не измеряет.</p>
+
+<h2 id="risks">9. Риски по приоритету</h2>
+
+<p>Порядок — по тому, кто страдает, если оставить как есть, и насколько это дёшево закрыть.</p>
+
+<div class="tw">
+<table>
+<thead><tr><th class="num">#</th><th>Риск</th><th>Кого задевает</th><th>Стоимость закрытия</th></tr></thead>
+<tbody>
+<tr><td class="num">1</td><td><strong>Дефект ①</strong> — одна версия, два дерева. Пользователь npm и пользователь плагина получают разный <code>agent_sync.py</code>, и оба видят <code>1.15.0</code></td><td>пользователь пакета</td><td>малая: перетегировать <code>v1.15.1</code> из текущего пина; затем гард, сверяющий дерево пина с деревом тега, а не строки версий</td></tr>
+<tr><td class="num">2</td><td><strong>Дефект ②</strong> — <code>sheleg-design/SKILL.md</code> на 1 004 токена сверх бюджета платформы; description с запасом 17 символов</td><td>пользователь пакета</td><td>средняя: вынести материал в <code>references/</code> (как требует канон), плюс перенести проверку тела из гейта <code>seo-aeo-audit</code> в гейт <code>sheleg-design</code></td></tr>
+<tr><td class="num">3</td><td>21,5 % релизов CI падают; <code>sheleg-dev</code> — 52 %. Фикс лежит незарелизенным в пяти членах (B-109)</td><td>пользователь пакета</td><td>малая: релизнуть то, что уже написано; поставить гард в собственные гейты</td></tr>
+<tr><td class="num">4</td><td><strong>Дефект ④</strong> — <code>hooks status</code> не бывает чистым; <code>hooks install</code> по этому докладу переставляет гард за чужой хук</td><td>оператор</td><td>малая: сравнивать множества, а не массивы, и сохранять позицию; тест на порядок, а не на длину</td></tr>
+<tr><td class="num">5</td><td><strong>Дефект ③</strong> — истёкшая лиза неподметаема, идентичность рана — литерал <code>"shared"</code></td><td>оператор</td><td>малая: включить <code>leaseBackend: "git"</code> либо давать ране стабильный собственный id</td></tr>
+<tr><td class="num">6</td><td>B-29 — 99 отгруженных REQ, ни одного подтверждённого человеком</td><td>доверие ко всей доказательной базе</td><td>большая: это работа, а не фикс</td></tr>
+<tr><td class="num">7</td><td><strong>Дефект ⑤</strong> — очередь показывает одну доску из девяти; 10 строк <code>super-ux</code> непарсимы</td><td>будущий прогон</td><td>малая: одна шкала на все девять досок</td></tr>
+<tr><td class="num">8</td><td>B-98 — четыре леджера описывают не то, что отгружено (до семи версий)</td><td>читатель документации</td><td>малая, повторяющаяся: это и есть повод автоматизировать</td></tr>
+<tr><td class="num">9</td><td>B-101 — граф устарел во всех девяти (umbrella на 87 коммитов), а стадия 0 его спрашивает</td><td>будущий прогон</td><td>средняя: неинтерактивный путь пересборки</td></tr>
+<tr><td class="num">10</td><td>Ноль наблюдаемости на стороне пользователя при 69 128 загрузках/мес</td><td>мейнтейнер</td><td>решение, не задача: приватность против видимости сбоев</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Что я бы сделал первым</h3>
+
+<p>Первые пять пунктов — это <strong>один прогон</strong>, и четыре из пяти малые. Их
+объединяет форма, которую этот репозиторий уже описал про себя: <em>правило, которое читает
+правильную вещь в одном корпусе и другую в другом</em>. Пин сравнивает строки там, где
+обещает деревья; гейт проверяет тело в одном репозитории и не проверяет в другом; аудитор
+читает рабочее дерево вместо отгружаемого; <code>plan()</code> сравнивает массивы там, где
+смысл — множество; классификатор лизы сравнивает id, который у всех один.</p>
+
+<p>Дефект ① стоит взять первым не по величине, а потому что он единственный, у которого
+последствие уже <em>наступило</em> и лежит в этом чекауте: reap, отсутствующий в npm-канале,
+и лиза, которую он бы разобрал.</p>
+
+<hr>
+
+<h2 id="commands">10. Приложение: команды, которыми получен каждый раздел</h2>
+
+<pre><code># §2 объём и структура
+git submodule status; git rev-list --count HEAD
+git ls-files '*.md' | xargs wc -l          # ×9 репозиториев
+find skills -path '*/plugins/*/skills/*/SKILL.md' | wc -l
+
+# §3 гейты — девять раз, exit 0 у всех
+npm test                                    # в umbrella и в каждом члене
+python3 test/check_pins.py
+python3 test/validate.py                    # раскрытия: граф, леджеры, адреса
+
+# §4 ① расхождение каналов
+npm view @ssheleg/agent-sync@1.15.0 dist.tarball | xargs curl -sL -o as.tgz
+tar xzf as.tgz &amp;&amp; wc -l package/plugins/.../agent_sync.py            # 4344
+wc -l ~/.claude/plugins/marketplaces/agent-sync/.../agent_sync.py     # 4575
+(cd skills/agent-sync &amp;&amp; git show v1.15.0:plugins/.../agent_sync.py | wc -l)  # 4344
+(cd skills/agent-sync &amp;&amp; git diff --stat $(git describe --tags --abbrev=0)..HEAD)
+
+# §4 ② бюджет тела реальным токенайзером
+python3 -m venv venv &amp;&amp; venv/bin/pip install tiktoken
+venv/bin/python -c "…tiktoken.get_encoding('cl100k_base')…"           # 23 скила
+python3 audit_skill.py --house --json &lt;skill-dir&gt;                     # ×23
+
+# §4 ③ остаток координации
+cat .agent-sync/leases/RELEASE-ALL.lock; cat .agent-sync/run-id
+
+# §4 ④ ложный дрейф хуков
+node bin/sshlg-skills.js hooks status
+cmp -s hooks/&lt;f&gt;.js ~/.sshlg-skills/runtime/hooks/&lt;f&gt;.js               # ×9 → same
+node -e 'require("./lib/hooks.js").plan(settings, root, {})'
+
+# §4 ⑤ очередь
+python3 scripts/queue.py; python3 scripts/queue.py --json
+
+# §5 прод
+curl -s api.npmjs.org/downloads/point/last-week/&lt;pkg&gt;                  # ×9
+gh run list --repo ssheleg/&lt;repo&gt; --limit 60 --json conclusion,name    # ×9
+gh issue list --repo ssheleg/&lt;repo&gt; --state open                       # ×9 → 0
+grep -rIl -iE 'sentry|bugsnag|rollbar|datadog|opentelemetry' …         # → пусто
+
+# §7 документация
+grep -rInE '\b(TODO|FIXME|HACK|XXX)\b' lib bin hooks scripts           # → 0
+git check-ignore -v .env .env.agent-sync</code></pre>
+
+<h3>Границы этого аудита — что НЕ проверялось</h3>
+
+<ul>
+<li><strong>Поведение скилов в живой сессии.</strong> Проверены структура, гейты и
+согласованность артефактов. Правда ли пак <code>orchard</code> даёт годный интерфейс, а
+<code>task-pipeline</code> доводит задачу — это оценка, а не измерение, и здесь её нет.
+Строка B-002 в task-pipeline говорит то же про себя: <em>«ноль слепых eval-прогонов на нуле
+из трёх моделей»</em>.</li>
+<li><strong>Сборка 32 китов локально.</strong> CI <code>sheleg-design-skill</code> зелёный и
+включает per-kit <code>tsc</code>; локально я проверил наличие <code>build</code>,
+<code>tsconfig.json</code> и <code>src/</code> у всех 32, но не запускал 32 сборки.</li>
+<li><strong>Закрытые строки досок.</strong> 215+ отмечены закрытыми; я не перепроверял
+доказательства ни одной. Парсинг закрытых строк неоднороден (§4 ⑤), так что и само число
+215 — оценка, а не измерение.</li>
+<li><strong>Загрузки как мера пользователей.</strong> npm не отличает человека от CI-бота.</li>
+<li><strong>Ничего не менялось.</strong> Ни одного коммита, ни одной правки файла кроме
+этого отчёта. Рабочее дерево было чистым до и остаётся чистым после.</li>
+</ul>
+
+<footer>
+  <p>Аудит выполнен 2026-08-23 в <code>/Users/sshlg/DATA/sshlg-skills</code> на коммите
+  <code>3761675</code> (тег <code>v0.94.0</code>), рабочее дерево чистое.
+  Отчёт: <code>docs/evidence/reports/2026-08-23-full-audit.html</code>.</p>
+  <p>Каждое число получено выполнением названной команды. Где расхождение с документом
+  проекта — расхождение названо, а не сглажено.</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -50,7 +50,7 @@
         "evidence-docs",
         "project-audit"
       ],
-      "version": "1.76.0",
+      "version": "1.76.1",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",

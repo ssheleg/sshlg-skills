@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Соответствие манифесту — 2026-08-24</title>
+<style>
+  :root{
+    --bg:#fbfaf8; --surface:#fff; --surface-2:#f4f2ee; --ink:#1a1917;
+    --ink-soft:#5e5b55; --ink-faint:#8b8780; --line:#e2ded6; --line-2:#c9c4b8;
+    --ok:#0f7a4a; --ok-bg:#e8f5ee; --warn:#8a5a00; --warn-bg:#fdf3e0;
+    --bad:#a32a24; --bad-bg:#fdeceb; --info:#1f5c8f; --info-bg:#e9f1f8;
+    --accent:#2a4d8f;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+    --bg:#16171a; --surface:#1d1f23; --surface-2:#23262b; --ink:#eceae6;
+    --ink-soft:#a8a49c; --ink-faint:#7c7871; --line:#2e3238; --line-2:#40454d;
+    --ok:#6fd39b; --ok-bg:#17332a; --warn:#e0a94a; --warn-bg:#33290f;
+    --bad:#f08a84; --bad-bg:#3a1c1a; --info:#8ec2ee; --info-bg:#15293a;
+    --accent:#8fb4ee;
+  }}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.62 var(--sans);padding:0 0 6rem}
+  .wrap{max-width:62rem;margin:0 auto;padding:0 1.5rem}
+  header.top{border-bottom:1px solid var(--line);background:var(--surface);
+    padding:2.6rem 0 2rem;margin-bottom:2.4rem}
+  .kicker{font:600 .72rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-faint);margin:0 0 .9rem}
+  h1{font-size:2rem;line-height:1.18;margin:0 0 .7rem;letter-spacing:-.02em;font-weight:640}
+  .lede{font-size:1.05rem;color:var(--ink-soft);margin:0;max-width:46rem}
+  h2{font-size:1.3rem;margin:3rem 0 .5rem;font-weight:640;padding-bottom:.42rem;
+    border-bottom:2px solid var(--line-2)}
+  h3{font-size:1.02rem;margin:1.9rem 0 .35rem;font-weight:650}
+  p{margin:.62rem 0}
+  ul,ol{margin:.55rem 0 .8rem;padding-left:1.35rem} li{margin:.28rem 0}
+  code{font:.85em/1.45 var(--mono);background:var(--surface-2);padding:.1em .34em;
+    border-radius:4px;border:1px solid var(--line)}
+  pre{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;
+    padding:.8rem 1rem;overflow-x:auto;font:.79rem/1.55 var(--mono);margin:.65rem 0}
+  pre code{background:none;border:none;padding:0}
+  .tw{overflow-x:auto;margin:.9rem 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+  table{border-collapse:collapse;width:100%;font-size:.86rem}
+  th,td{padding:.48rem .68rem;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--surface-2);font-weight:650;font-size:.75rem;letter-spacing:.02em;
+    text-transform:uppercase;color:var(--ink-soft);white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  td.mono,th.mono{font-family:var(--mono);font-size:.79rem}
+  td.num{text-align:right;font-family:var(--mono);font-size:.81rem;white-space:nowrap}
+  .pill{display:inline-block;font:600 .69rem/1.35 var(--mono);padding:.12rem .44rem;
+    border-radius:4px;white-space:nowrap}
+  .p-ok{background:var(--ok-bg);color:var(--ok)}
+  .p-warn{background:var(--warn-bg);color:var(--warn)}
+  .p-bad{background:var(--bad-bg);color:var(--bad)}
+  .p-info{background:var(--info-bg);color:var(--info)}
+  .p-neutral{background:var(--surface-2);color:var(--ink-faint)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.2rem,1fr));gap:.7rem;margin:1.3rem 0}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.72rem .85rem}
+  .stat .v{font:650 1.38rem/1.1 var(--sans);letter-spacing:-.02em;display:block}
+  .stat .k{font:.68rem/1.3 var(--mono);color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em}
+  .card{border:1px solid var(--line);border-left:3px solid var(--line-2);background:var(--surface);
+    border-radius:6px;padding:.95rem 1.1rem;margin:1rem 0}
+  .card.bad{border-left-color:var(--bad)} .card.warn{border-left-color:var(--warn)}
+  .card.ok{border-left-color:var(--ok)} .card.info{border-left-color:var(--info)}
+  .card h3{margin-top:0}
+  .meta{font:.73rem/1.4 var(--mono);color:var(--ink-faint);margin:.28rem 0 .5rem}
+  .note{font-size:.87rem;color:var(--ink-soft);border-left:2px solid var(--line-2);
+    padding-left:.8rem;margin:.8rem 0}
+  footer{margin-top:3.6rem;padding-top:1.3rem;border-top:1px solid var(--line);
+    font-size:.81rem;color:var(--ink-faint)}
+  .toc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:.95rem 1.15rem;margin:1.5rem 0}
+  .toc ol{margin:.3rem 0 0;padding-left:1.4rem;column-count:2;column-gap:2rem}
+  .toc li{margin:.16rem 0;font-size:.9rem;break-inside:avoid}
+  a{color:var(--accent);text-underline-offset:2px}
+  @media (max-width:640px){h1{font-size:1.55rem}.toc ol{column-count:1}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <p class="kicker">Соответствие манифесту · 2026-08-24 · читающий проход, ни одного коммита</p>
+  <h1>Proof of Done против самих себя</h1>
+  <p class="lede">Реестр соответствия держит 14 открытых строк, датированных 19–20 августа.
+  Манифест правился 23-го. Ни одно из этих чисел я не пересказал — каждое перемерено сегодня,
+  и пять строк оказались закрытыми фактически, а сам реестр — нарушением правила, которое
+  он цитирует.</p>
+</div></header>
+
+<div class="wrap">
+
+<div class="toc"><strong>Содержание</strong>
+<ol>
+  <li><a href="#verdict">Вердикт по 14 строкам</a></li>
+  <li><a href="#rot">Ссылки реестра сгнили</a></li>
+  <li><a href="#keystone">Замковый камень: UM-12</a></li>
+  <li><a href="#closed">Что закрылось, и как хорошо</a></li>
+  <li><a href="#open">Что живо</a></li>
+  <li><a href="#positive">Где семья манифесту соответствует</a></li>
+  <li><a href="#next">Что делать</a></li>
+  <li><a href="#commands">Приложение: команды</a></li>
+</ol></div>
+
+<h2 id="verdict">1. Вердикт по 14 строкам</h2>
+
+<div class="stats">
+  <div class="stat"><span class="v">14</span><span class="k">открытых в реестре</span></div>
+  <div class="stat"><span class="v">5</span><span class="k">закрыты фактически</span></div>
+  <div class="stat"><span class="v">9</span><span class="k">живы</span></div>
+  <div class="stat"><span class="v">3 / 3</span><span class="k">цитат мёртвые</span></div>
+  <div class="stat"><span class="v">35</span><span class="k">ids вне манифеста</span></div>
+</div>
+
+<p><strong>Реестр отстаёт на пять строк.</strong> Пять из четырнадцати описывают дефекты,
+которых больше нет — и это не мелочь бухгалтерии: манифест в §5 требует, чтобы
+доказательство несло то, что его аннулирует, и в §«Proof expires» — чтобы истёкшее
+доказательство не выдавалось за текущее. Реестр соответствия является нарушением того
+правила, соответствие которому он измеряет.</p>
+
+<div class="tw">
+<table>
+<thead><tr><th>Строка</th><th>Правило</th><th>Реестр (19–20.08)</th><th>Померено 24.08</th><th>Вердикт</th></tr></thead>
+<tbody>
+<tr><td class="mono">PM-06</td><td class="mono">M-46</td><td>парити-чек идёт в одну сторону</td><td>обратный проход работает: 324 предложения, 0 без источника; плюс гейт <code>cases 9/9</code></td><td><span class="pill p-ok">закрыта</span></td></tr>
+<tr><td class="mono">SE-03</td><td class="mono">M-43 M-44</td><td>«22 строки… six <code>open()</code>», померено 26/7/7</td><td>документ говорит <strong>33</strong>, опубликованная команда печатает <strong>33</strong>; <code>agent_surface.py</code> в таблице</td><td><span class="pill p-ok">закрыта</span></td></tr>
+<tr><td class="mono">SD-05</td><td class="mono">M-26</td><td><code>--self-test</code> мерит по инварианту, не по утверждению</td><td><code>fixtures_test.js:32</code> хранит запись о дефекте; сьют: «6 plants: <em>neutered assertions</em>…»</td><td><span class="pill p-ok">закрыта</span></td></tr>
+<tr><td class="mono">AG-04</td><td class="mono">M-57</td><td>скаляр <code>P = blast × confidence / effort</code></td><td>скаляр убран, четыре названные оси, аргумент измерен</td><td><span class="pill p-ok">закрыта образцово</span></td></tr>
+<tr><td class="mono">SG-04</td><td class="mono">M-52 M-55</td><td>26 релизов без штампа, последний v1.26.0</td><td>штампы идут до <code>e129f67</code> = v1.47.0, текущий релиз</td><td><span class="pill p-ok">закрыта</span></td></tr>
+<tr><td class="mono">UM-12</td><td class="mono">M-05</td><td>ids программы не разрешаются</td><td><strong>35 ids цитируется, 0 в манифесте</strong> — и схема нигде не закоммичена</td><td><span class="pill p-bad">жива · замковая</span></td></tr>
+<tr><td class="mono">SU-03</td><td class="mono">M-44</td><td>заявлено 3500, померено 3506</td><td>заявлено <strong>3107</strong>, померено <strong>4111</strong> — расхождение выросло с 6 до <strong>1004</strong></td><td><span class="pill p-bad">жива · хуже</span></td></tr>
+<tr><td class="mono">SE-04</td><td class="mono">M-57</td><td>ранжирует композитным скаляром</td><td><code>(impact × confidence) / effort</code> в <strong>четырёх</strong> местах; необратимость и координация отсутствуют</td><td><span class="pill p-bad">жива · 4 места</span></td></tr>
+<tr><td class="mono">ALL-44</td><td class="mono">M-44</td><td>ничто не сверяет доктрину между репозиториями</td><td>5 кросс-членных проверок есть — <em>все про механику релиза</em>; доктрину не сверяет ни одна</td><td><span class="pill p-bad">жива</span></td></tr>
+<tr><td class="mono">ALL-26</td><td class="mono">M-26</td><td>плант умирает выше своего же assert</td><td>локализовано: <code>task-pipeline</code> 514 landing-assert, <code>sheleg-design</code> гоняет <code>--self-test</code> с <strong>0</strong>, <code>super-ux</code> 0/0</td><td><span class="pill p-warn">жива · локализована</span></td></tr>
+<tr><td class="mono">PM-07</td><td class="mono">M-44</td><td>реестр валют держит одну заявку из девяти</td><td><code>CLAIMS</code> по-прежнему <code>len=1</code></td><td><span class="pill p-warn">жива</span></td></tr>
+<tr><td class="mono">TP-03</td><td class="mono">M-44</td><td>«34 references» против 35</td><td>36 референсов, <strong>все 36 достижимы</strong>; README говорит <strong>23</strong></td><td><span class="pill p-warn">жива · другая</span></td></tr>
+<tr><td class="mono">AS-01</td><td class="mono">M-49</td><td>17 лиз-файлов, все истёкшие</td><td><strong>2</strong>, обе истёкшие, обе неподметаемые</td><td><span class="pill p-warn">жива · много меньше</span></td></tr>
+<tr><td class="mono">ALL-49</td><td class="mono">M-49 M-50</td><td>6 мест утечки, 5.4 ГБ в <code>$TMPDIR</code></td><td><strong>1</strong> место (<code>task-pipeline/test/graph_test.py</code>, 9 вызовов); куча <strong>0</strong></td><td><span class="pill p-warn">жива · узкая</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="rot">2. Ссылки реестра сгнили — все, что несут кавычки</h2>
+
+<p>Реестр цитирует манифест адресом и цитатой. Манифест вырос; ни один адрес больше
+не указывает на свой текст.</p>
+
+<div class="tw">
+<table>
+<thead><tr><th>Правило</th><th>Реестр ссылается</th><th>Строка сейчас</th><th>Текст живёт на</th></tr></thead>
+<tbody>
+<tr><td class="mono">M-46</td><td class="mono">manifesto.md:324</td><td><em>«<code>unknown</code> may appear during work…»</em></td><td class="mono">:344</td></tr>
+<tr><td class="mono">M-44</td><td class="mono">manifesto.md:308</td><td>пустая строка</td><td class="mono">:328</td></tr>
+<tr><td class="mono">M-05</td><td class="mono">manifesto.md:44</td><td>пустая строка</td><td class="mono">:94</td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Формулировки целы</strong> — сместились только адреса, на 20 и на 50 строк. Но
+проверка резолвимости, которая ловит именно это, у зонта есть и на манифест не наведена:
+<code>test/doc_refs.py</code> разрешает адреса внутри своего репозитория, а адрес в чужой
+репозиторий не проверяет никто. Это тот же класс, что <code>ALL-44</code>, только в
+документации, а не в доктрине.</p>
+
+<h2 id="keystone">3. Замковый камень: UM-12</h2>
+
+<div class="card bad">
+<h3><span class="pill p-bad">жива</span> Программа соответствия ключевана на идентификаторах, которых нет в предмете</h3>
+<p class="meta">измерено: 35 различных <code>M-nn</code> в реестре, 0 в manifesto.md / index.html / llms.txt</p>
+
+<pre><code>$ grep -oE '\bM-[0-9]{2}\b' manifesto.md index.html llms.txt | wc -l
+0
+$ grep -rlE '\bM-[0-9]{2}\b' ~/DATA/pod-manifesto --include='*.md' --include='*.py' --include='*.txt'
+(пусто — схема ids нигде не закоммичена)</code></pre>
+
+<p>Реестр ссылается на <code>M-01</code>…<code>M-61</code> как на требования манифеста.
+В манифесте их нет ни одного, и нумерация не закоммичена нигде — она существует только
+в реестре, который её использует. Реестр сам это записал 20 августа и добавил, что
+независимая ре-деривация дала <strong>другую</strong> нумерацию: одно и то же требование
+читается как <code>M-16</code> там и <code>M-17</code> здесь.</p>
+
+<p><strong>Почему это замковый камень, а не одна из четырнадцати.</strong> Каждая
+остальная строка утверждает «член X нарушает правило M-nn». Если <code>M-nn</code> ни к
+чему не разрешается, то ни одно из тринадцати утверждений нельзя проверить независимо —
+можно только поверить реестру. Это ровно то, что манифест называет
+<em>«claim with its receipt removed»</em>, и оно лежит под всей программой.</p>
+
+<p class="note">Стоит отметить асимметрию: манифест — <strong>публичный документ</strong>
+с сайтом, RSS и <code>llms.txt</code>, а нумерация требований — внутренний артефакт
+одного из его читателей. Вводить ids в манифест — решение владельца манифеста, а не
+семьи. Закрыть можно и с другой стороны: реестр цитирует <em>текстом</em>, а не номером.</p>
+</div>
+
+<h2 id="closed">4. Что закрылось, и как хорошо</h2>
+
+<div class="card ok">
+<h3><span class="pill p-ok">образцово</span> AG-04 — как выглядит настоящее закрытие</h3>
+<p class="meta">agent-stack · agent-harness/references/audit.md:112-126</p>
+<p>Реестр требовал убрать композитный скаляр. Убран — но интересно <em>как</em>. Файл не
+просто заменил формулу; он оставил на её месте запись о том, что она там была, и
+<strong>измеренный</strong> аргумент против неё:</p>
+<pre><code>`P = blast × confidence / effort` used to sit here, and it contradicted the two
+sections above it. …
+**And the number does not do what it claimed to do.** … `3 × 1 / 3` and `1 × 1 / 1`
+both print **1**, so *harms a user, judgement-tier, its own project* and *annoys a
+future maintainer, judgement-tier, an hour* arrive at one priority and nobody reading
+the output can tell which is which. A product is a one-way function on the very
+inputs the argument needs.
+
+&lt;!-- priority-axes: impact, irreversibility, uncertainty, coordination --&gt;</code></pre>
+<p>Четыре названные оси вместо скаляра, машиночитаемый маркер для гейта, и причина,
+которую можно оспорить на её входах. Манифест §«Proof depth follows risk» просит ровно
+это: <em>«не фальшивый численный счёт, а причина, которую команда может осмотреть»</em>.</p>
+</div>
+
+<div class="card ok">
+<h3><span class="pill p-ok">закрыта</span> SE-03 — документ, который проверяется своей же командой</h3>
+<p class="meta">seo-aeo-audit · SECURITY.md:112-126</p>
+<p>Документ публикует команду, утверждает её результат и объясняет расхождение с наивным
+подсчётом. Я запустил её:</p>
+<pre><code>$ grep -rnE "urlopen|build_opener|opener\.open|subprocess\.|socket|os\.environ|\
+os\.system|\beval\(|\bexec\(|\bopen\(" plugins/…/scripts/ | wc -l
+33      ← документ говорит 33</code></pre>
+<p>И разбивка 13 + 7 + 7 + 6 = 33 сходится, с отдельной строкой про то, почему
+per-pattern grep даёт 34. <code>agent_surface.py</code>, чьё отсутствие в таблице
+реестр отмечал, в таблице есть.</p>
+</div>
+
+<p>Остальные три — <strong>PM-06</strong> (обратный проход парити-чека реален и печатает
+<code>page sentences checked: 324 / with no canonical source: 0</code>),
+<strong>SD-05</strong> (<code>fixtures_test.js:32</code> хранит запись, и «neutered
+assertions» теперь класс планта), <strong>SG-04</strong> (штампы <code>sheleg-design</code>
+доходят до текущего релиза).</p>
+
+<h2 id="open">5. Что живо</h2>
+
+<div class="card bad">
+<h3><span class="pill p-bad">хуже, чем было</span> SU-03 — расхождение выросло в 167 раз</h3>
+<p class="meta">super-ux · docs/brand/facts.md:18</p>
+<pre><code>facts.md:18   "3107 validator checks"
+npm test      OK (4111 checks)
+                    расхождение 1004   (реестр 20.08: 3500 против 3506, расхождение 6)</code></pre>
+<p>Число в <code>facts.md</code> — <em>перенесённое</em>, а не вычисленное, и колонка
+<code>Value</code> не имеет гейта. Между 20 и 24 августа заявленное число уехало вниз,
+измеренное — вверх. Это и есть манифестное <em>«a number copied from an earlier report
+will decay»</em>, наблюдаемое в динамике.</p>
+</div>
+
+<div class="card bad">
+<h3><span class="pill p-bad">жива в четырёх местах</span> SE-04 — скаляр, который AG-04 уже убрал у себя</h3>
+<p class="meta">seo-aeo-audit · четыре поверхности</p>
+<div class="tw"><table><thead><tr><th>Файл</th><th>Строка</th></tr></thead><tbody>
+<tr><td class="mono">plugins/…/skills/seo-aeo-audit/SKILL.md</td><td class="mono">230</td></tr>
+<tr><td class="mono">plugins/…/commands/seo-aeo-audit.md</td><td class="mono">25</td></tr>
+<tr><td class="mono">…/references/deliverable-templates.md</td><td class="mono">104</td></tr>
+<tr><td class="mono">…/references/myths.md</td><td class="mono">39</td></tr>
+</tbody></table></div>
+<p>Необратимость в <code>plugins/</code> не упоминается вообще; координация — ноль файлов.
+Самое острое — четвёртое место: <code>myths.md:39</code> разбирает миф «поднимите наш
+agent-readiness score», объясняет, почему грейдерский балл бессмыслен, и в той же строке
+предписывает ранжировать <code>(impact × confidence) / effort</code>. Ровно то
+противоречие, которое <code>agent-stack</code> у себя нашёл и записал.</p>
+</div>
+
+<div class="card warn">
+<h3><span class="pill p-warn">локализована</span> ALL-26 — где плант не проверяет, что приземлился</h3>
+<p class="meta">измерено по всем восьми членам</p>
+<div class="tw"><table>
+<thead><tr><th>Член</th><th class="num"><code>--self-test</code> в гейте</th><th class="num">landing-assert в сьютах</th><th class="num">в CI</th></tr></thead>
+<tbody>
+<tr><td class="mono">task-pipeline</td><td class="num">да</td><td class="num">3</td><td class="num">514</td></tr>
+<tr><td class="mono">sheleg-dev</td><td class="num">—</td><td class="num">0</td><td class="num">39</td></tr>
+<tr><td class="mono">agent-stack</td><td class="num">—</td><td class="num">0</td><td class="num">38</td></tr>
+<tr><td class="mono">seo-aeo-audit</td><td class="num">—</td><td class="num">0</td><td class="num">24</td></tr>
+<tr><td class="mono">make-skill</td><td class="num">—</td><td class="num">0</td><td class="num">4</td></tr>
+<tr><td class="mono">agent-sync</td><td class="num">да</td><td class="num">2</td><td class="num">0</td></tr>
+<tr><td class="mono">sheleg-design</td><td class="num">да</td><td class="num"><strong>0</strong></td><td class="num"><strong>0</strong></td></tr>
+<tr><td class="mono">super-ux</td><td class="num">—</td><td class="num"><strong>0</strong></td><td class="num"><strong>0</strong></td></tr>
+</tbody></table></div>
+<p><code>sheleg-design</code> — самый интересный случай: его гейт печатает
+<em>«self-test OK — every check was watched failing against a planted defect»</em>, и при
+этом ни одного утверждения о том, что плант вообще что-то изменил. Если плант перестанет
+сажать — а он перестаёт от переформулировки прозы, — сообщение останется тем же.</p>
+<p class="note"><strong>Уточнение против собственного соблазна.</strong> Вчера в
+<code>task-pipeline</code> плант замолчал от того, что я переписал прозу, к которой он
+был привязан. Это <em>не</em> экземпляр ALL-26: там assert сработал и назвал проблему.
+ALL-26 — про планты, умирающие <em>выше</em> своего assert. Разница существенная, и
+записывать своё в чужую строку было бы удобно и неверно.</p>
+</div>
+
+<div class="card warn">
+<h3><span class="pill p-warn">жива</span> ALL-44 — кросс-репозиторные проверки есть, доктрину не сверяет ни одна</h3>
+<p class="meta">умbrella · test/validate.py</p>
+<pre><code>check_members_guard_their_release_surfaces
+check_members_refuse_an_unreachable_tag
+check_no_member_is_released_behind_its_branch
+check_each_member_ledger_reaches_its_shipped_version
+check_no_member_holds_a_commit_the_remote_does_not</code></pre>
+<p>Пять проверок, и все пять — про <strong>механику релиза</strong>. Ни одна не сравнивает
+разделяемую доктрину: контракт узла, контракт чекера, лестницу состояний, словарь статусов,
+<code>Observed at</code> и его аннуляторы. Девять репозиториев несут пересекающуюся
+доктрину, и выравнивает её агент, читающий соседний репозиторий в момент, когда случайно
+туда посмотрел.</p>
+</div>
+
+<h2 id="positive">6. Где семья манифесту соответствует</h2>
+
+<p>Отчёт про открытые строки перекашивает картину. Справедливости ради — что держится.</p>
+
+<div class="tw">
+<table>
+<thead><tr><th>Требование манифеста</th><th>Чем закрыто</th><th></th></tr></thead>
+<tbody>
+<tr><td><strong>Наименьший протокол</strong>: <code>NOT VERIFIED</code> обязателен, молчание не ответ</td><td>вчерашний <code>project-audit</code> вводит <code>blind</code> третьим вердиктом и рендерит «что не смотрели» отдельной секцией, а не приложением</td><td><span class="pill p-ok">да</span></td></tr>
+<tr><td><strong>Чекеру тоже нужно доказательство</strong> (§3)</td><td>514 landing-assert в <code>task-pipeline</code>, «watched failing against a planted defect» в выводе трёх гейтов</td><td><span class="pill p-ok">да</span></td></tr>
+<tr><td><strong>Параллельной работе нужен чекер</strong></td><td>checker-нода в <code>work-graph.md</code>, трёхтирная сертификация с тремя слепыми чтениями</td><td><span class="pill p-ok">да</span></td></tr>
+<tr><td><strong>Три типа гейтов</strong> (auto / judgment / manual)</td><td>типизированы в <code>pipeline.example.json</code>, сверяются механически с <code>stages.md</code> и <code>SKILL.md</code></td><td><span class="pill p-ok">да</span></td></tr>
+<tr><td><strong>Документация — часть доказательства</strong>; адрес разрешается</td><td><code>test/doc_refs.py</code>: 0 мёртвых адресов из 83 в живых документах, коммит отказывается иначе</td><td><span class="pill p-ok">да, внутри репозитория</span></td></tr>
+<tr><td><strong>Завершение включает остаток</strong></td><td>residue-сьюты, «this run left nothing — N temp tree(s) created, N removed»; куча в <code>$TMPDIR</code> с 5.4 ГБ до 0</td><td><span class="pill p-ok">да</span></td></tr>
+<tr><td><strong>Приёмка релиза — в точке сведения</strong></td><td><code>docs/evidence/convergence.md</code> + требование <code>git submodule status</code> без <code>+</code></td><td><span class="pill p-warn">записано, гейта нет (B-91)</span></td></tr>
+<tr><td><strong>Система учится</strong>; вышедшее правило оставляет историю</td><td>стоящие инструкции с триггерами ретирования, кэп, <code>## Retired</code> с логом удалений, штампы прогонов делают «пять прогонов» вычислимым</td><td><span class="pill p-ok">да</span></td></tr>
+<tr><td><strong>Контекст — кэш</strong>, память живёт снаружи</td><td>доски, леджеры верификации, ретро, work-graph — всё в файлах; <code>CLAUDE_CODE_DISABLE_AUTO_MEMORY=1</code></td><td><span class="pill p-ok">да</span></td></tr>
+<tr><td><strong>Доказательство истекает</strong></td><td>механизм есть (<code>Observed at</code>, аннуляторы, <code>check_ledger_names_the_shipped_version</code>) — и <strong>сам реестр соответствия его нарушает</strong> на пяти строках</td><td><span class="pill p-bad">механизм да, применение нет</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="next">7. Что делать</h2>
+
+<p>По убыванию того, сколько лжи убирает каждый шаг.</p>
+
+<div class="tw">
+<table>
+<thead><tr><th class="num">#</th><th>Шаг</th><th>Убирает</th><th>Размер</th></tr></thead>
+<tbody>
+<tr><td class="num">1</td><td><strong>Закрыть пять строк, которые уже закрыты</strong>, и записать, чем — PM-06, SE-03, SD-05, AG-04, SG-04</td><td>реестр перестаёт быть нарушением правила, которое измеряет</td><td>малый</td></tr>
+<tr><td class="num">2</td><td><strong>Перевести цитаты реестра с номеров строк на текст</strong>, и поставить гейт, разрешающий цитату в манифесте как <code>doc_refs</code> делает внутри репозитория</td><td>UM-12 наполовину, и вся ротация адресов навсегда</td><td>малый</td></tr>
+<tr><td class="num">3</td><td><strong>SE-04: убрать скаляр в четырёх местах</strong>, взяв готовое решение <code>agent-stack</code> — четыре оси плюс машиночитаемый маркер</td><td>противоречие внутри <code>myths.md</code>, которое читатель видит первым</td><td>средний</td></tr>
+<tr><td class="num">4</td><td><strong>SU-03: вычислять число, а не переносить</strong> — гейт на колонку <code>Value</code> в <code>facts.md</code></td><td>расхождение 1004 и его рост</td><td>малый</td></tr>
+<tr><td class="num">5</td><td><strong>ALL-26: landing-assert в <code>sheleg-design</code> и <code>super-ux</code></strong></td><td>два гейта, которые сейчас не могут заметить, что перестали проверять</td><td>малый</td></tr>
+<tr><td class="num">6</td><td><strong>ALL-49: девять <code>mkdtemp</code> в <code>graph_test.py</code></strong> — последнее место утечки в семье</td><td>класс закрывается целиком</td><td>малый</td></tr>
+<tr><td class="num">7</td><td><strong>AS-01: TTL лизы против длины релиза</strong> — 2700 с короче двадцатиминутного <code>test:all</code>; это доказано вчерашним релизом, который сам оставил два неподметаемых замка</td><td>остаток перестаёт накапливаться</td><td>малый, инженерный</td></tr>
+<tr><td class="num">8</td><td><strong>ALL-44: первая кросс-репозиторная проверка доктрины</strong> — начать с одного контракта, не со всех шести</td><td>единственная структурная слабость, которую семья про себя написала точно</td><td>большой</td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="note"><strong>Чего я не делал.</strong> Ни одного коммита, ни одной правки —
+кроме этого файла. Реестр не тронут: его правят под лизой, и решение, какие строки
+закрывать, принимает оператор. Восемь шагов выше — предложение, а не план.</p>
+
+<h2 id="commands">8. Приложение: команды</h2>
+
+<pre><code># цитаты реестра против манифеста
+python3 - &lt;&lt;'PY'   # извлечь `manifesto.md:NNN` + кавычки, сверить с текстом строки
+…
+PY
+
+# UM-12
+grep -oE '\bM-[0-9]{2}\b' manifesto.md index.html llms.txt | wc -l          # 0
+grep -oE '\bM-[0-9]{2}\b' docs/evidence/manifesto-conformance.md | sort -u  # 35
+
+# PM-06 / PM-07
+python3 tools/check-parity.py            # 324 предложения, 0 без источника, cases 9/9
+ast-парсинг check-currency.py            # CLAIMS list len=1
+
+# SU-03
+grep -noE '[0-9]{3,4} validator checks' skills/super-ux/docs/brand/facts.md  # 3107
+(cd skills/super-ux && npm test)                                            # OK (4111 checks)
+
+# SE-03  — запустить команду, которую публикует сам документ
+grep -rnE "urlopen|build_opener|…|\bopen\(" plugins/…/scripts/ | wc -l      # 33 = 33
+
+# TP-03  — по существу, а не по числу
+for f in references/*.md; do grep -q "$(basename $f)" SKILL.md || echo "$f"; done  # пусто
+ls references/*.md | wc -l                                                   # 36
+
+# AS-01 / ALL-49
+find . -path '*/.agent-sync/leases/*.lock'                                   # 2
+grep -rl 'mkdtemp(' */test | xargs grep -L 'rmtree\|TemporaryDirectory'      # 1 файл
+
+# SE-04 / AG-04
+grep -rn 'priority *=\|P = ' skills/{seo-aeo-audit,agent-stack}/plugins/
+
+# ALL-26
+grep -c 'PLANT DID NOT LAND' skills/*/.github/workflows/validate.yml
+</code></pre>
+
+<h3>Границы этого прохода</h3>
+<ul>
+<li><strong>36 «закрытых» строк реестра не перепроверялись.</strong> Пять из четырнадцати
+открытых оказались закрытыми фактически; обратное направление — закрытая строка, чей
+дефект вернулся — столь же вероятно и здесь не измерено.</li>
+<li><strong>Соответствие мерено механически, где это возможно.</strong> «Интент выживает
+декомпозицию» и «граф доказательств обнажает неопределённость» — суждения; я их не
+оценивал и балла не выставлял, потому что манифест такой балл прямо отказывает.</li>
+<li><strong>Нумерация <code>M-nn</code> взята из реестра как есть.</strong> Проверить её
+против манифеста невозможно — в этом и состоит UM-12, — поэтому сопоставление
+«строка ↔ правило» в таблице §1 наследует то же самое сомнение.</li>
+<li><strong>Ничего не изменено.</strong> Оба дерева были чистыми до и остаются после,
+кроме этого отчёта.</li>
+</ul>
+
+<footer>
+<p>Проход выполнен 2026-08-24 на коммите <code>4a1f018</code> (<code>v0.95.0</code>),
+манифест — <code>~/DATA/pod-manifesto/manifesto.md</code>, 486 строк.
+Отчёт: <code>docs/evidence/reports/2026-08-24-manifesto-conformance.html</code>.</p>
+<p>Каждое число получено выполнением названной команды сегодня. Где оно расходится
+с реестром — расхождение названо, а не сглажено.</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,3 +1,21 @@
+## v0.96.2 — the pin moves because the published document was wrong
+
+`task-pipeline` 1.76.1. Nothing in the skill changed: the README it publishes put
+its reference count at twenty-three where the tarball shipped 36, and the figure
+had been wrong since the `1.76.0` tag. npm served it; a checkout of this umbrella,
+whose pin points at the branch tip, served the true one. One version string, two
+documents — the class this family calls defect (1), and the only way to see it is
+to compare trees, because `npm view` answers the same number for both.
+
+Found by a sweep of all eight members: five had commits after their tag, and for
+four of them nothing a channel serves had changed. Naming that difference is why
+the sweep is worth running — a tag that has moved is not automatically a divergence.
+
+Verified on the artefact rather than the repository:
+
+    published README                      all 36 references
+    references in that same tarball       36
+
 ## v0.96.1 — sheleg-design 1.48.0, the thirty-third pack
 
 `sheleg-design` moved 1.47.0 → **1.48.0**: `nameplate`, extracted from
