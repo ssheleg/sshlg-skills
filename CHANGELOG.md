@@ -1,3 +1,51 @@
+## v0.96.0 — the conformance register closes, and every row closed by measurement
+
+**47 active rows, 0 open, 47 verified.** The register that has tracked this family
+against the Proof of Done manifesto since 2026-08-18 is empty of open work, and
+not one row closed on an argument.
+
+**Thirteen rows closed in one pass, and none was what its row described.**
+
+* The register **could not be parsed by anything** — three parsers pointed at it
+  produced three answers. The header declared six columns while ten rows carried
+  seven, because a verdict cell was added on verification and the header never
+  gained it, so every reader of `state` got `done when`. Two rows carried genuine
+  unescaped pipes, and `_one_board` — the guard written for exactly that — had an
+  id shape of `[A-Z]{1,3}` and could not see `ALL-49`, the one row in the family
+  with three of them.
+* **A guard was mandating the rotting form.** All fourteen citations into the
+  manifesto had gone dead — eight off by twenty lines, one by fifty, one pointing
+  at a closing code fence since the day it was written — while every rule they
+  named was intact. The check that policed them *required* `manifesto.md:<line>`.
+* `SE-04`'s scalar was on **eight** live surfaces, not four; the row said four
+  because the earlier sweep grepped `plugins/` alone.
+* `ALL-49` was 160 temp trees a run and 0 removed — and the leak was never the
+  defect. Nothing said so, which is what would have made the next leak invisible
+  identically.
+* `PM-07` needed a registry `CLAIMS` could not express: a permalink at a fixed SHA
+  has no current state, so what rots is the figure moving while the link stays.
+
+**Five rows had closed on the day they were filed** and the register never said so.
+**Two carried stale numbers that were the auditor's, not the register's** — a
+historical paragraph read as a live claim. **One dependency I filed was wrong**:
+`ALL-26` did not need 36 CI steps wired, because the runner decides landing
+centrally, and the measurement said so after I had refused to push the diff.
+
+**And `ALL-44` closed because it happened.** The family's structural weakness —
+nine repositories, overlapping doctrine, aligned by whoever happens to look — was
+a sentence for six days. One runner copied into two members met three vocabularies
+for "this plant behaved" (`OK:`, `ok:`, `rejected, as it must be`) and reported
+**twenty healthy guards as broken**, invisibly, because the assumption was never
+written down. `check_a_copied_mechanism_declares_its_divergence` now refuses an
+undeclared difference across 19 copies of 5 mechanisms — and refuses a declared one
+that is not real. It does not compare texts: copies are allowed to differ, and
+demanding otherwise would either freeze the family or be ignored.
+
+Pins: `agent-sync` 1.15.0 -> **1.16.0**, which closes one version string over two
+trees — npm served 4344 lines where the marketplace served 4575 and all three
+channels said 1.15.0. Re-measured after publication: 4575 and 4575.
+`seo-aeo-audit` 0.25.0, `agent-stack` 0.13.1, `task-pipeline` at 1.76.0.
+
 ## v0.95.0 — the eleventh router, and the question none of the ten answered
 
 **`project-audit` joins the routing block**, requiring `task-pipeline` — the
