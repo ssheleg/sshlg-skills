@@ -607,6 +607,65 @@ jobs:
             echo "OK: validator FAILs on a duplicate board id"
           fi
 
+      - name: Negative self-test (one id with two verdicts in one file must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/twoverdicts
+          cp -R . /tmp/twoverdicts
+          python3 test/plant_guard.py snap /tmp/twoverdicts
+          # The real defect: `AS-01` read `open` in wave 4 while the closes ledger
+          # forty lines below listed it landed at two commits. Board row B-99 named
+          # the id and nothing computed it -- each statement internally consistent,
+          # which is the shape a reader misses and a comparison catches.
+          #
+          # Anchored on SHAPE, not on an id: find whatever the ledger references,
+          # reopen it where it is declared. A renumbering cannot disarm this.
+          python3 - <<'PY'
+          import pathlib, re
+          p = pathlib.Path("/tmp/twoverdicts/docs/evidence/manifesto-conformance.md")
+          lines = p.read_text().splitlines()
+          split = lambda l: re.split(r"(?<!\\)\|", l)
+          ID = re.compile(r"^\|\s*\**([A-Z]{1,4}-\d+[a-z]?)\s*\**\s*\|")
+          keycol = None
+          declared, referenced = {}, []
+          for i, l in enumerate(lines):
+              if l.startswith("#"):
+                  keycol = None
+                  continue
+              if not l.startswith("|"):
+                  continue
+              cells = [c.strip() for c in split(l)]
+              low = [c.lower().strip("* ") for c in cells]
+              if len(cells) > 2 and low[1] in ("id", "row"):
+                  keycol = low[1]
+                  state_at = low.index("state") if "state" in low else None
+                  continue
+              m = ID.match(l)
+              if not m or keycol is None:
+                  continue
+              if keycol == "id" and state_at is not None:
+                  declared[m.group(1)] = (i, state_at)
+              elif keycol == "row":
+                  referenced.append(m.group(1))
+          target = next((r for r in referenced if r in declared), None)
+          assert target, "PLANT DID NOT LAND: no id is both declared and referenced"
+          i, state_at = declared[target]
+          cells = split(lines[i])
+          before = cells[state_at + 1]
+          cells[state_at + 1] = " open "
+          lines[i] = "|".join(cells)
+          assert cells[state_at + 1] != before, "PLANT DID NOT LAND: state already open"
+          p.write_text("\n".join(lines) + "\n")
+          print("reopened", target, "which the closes ledger lists")
+          PY
+          python3 test/plant_guard.py verify /tmp/twoverdicts "Negative self-test (one id with two verdicts in one file must fail)"
+          if python3 /tmp/twoverdicts/test/validate.py; then
+            echo "ERROR: validator accepted an id that is open where declared and closed in the ledger"
+            exit 1
+          else
+            echo "OK: validator FAILs when one id carries two verdicts in one file"
+          fi
+
       - name: Negative self-test (a board row shifted by a bare pipe must fail)
         run: |
           set -eu

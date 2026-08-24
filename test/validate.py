@@ -845,7 +845,14 @@ def check_board_is_parseable():
     # `sheleg-design` that hid both of the file's `high` rows from the queue that
     # orders the family's work. A check that looks at one of nine is a check
     # nobody can read as covering nine.
-    boards = [("docs/evidence/backlog.md", os.path.join(ROOT, "docs/evidence/backlog.md"))]
+    # Every register cited by id, not only the ones called `backlog.md`. The
+    # conformance register was outside this corpus for six days while carrying the
+    # exact defect: three unescaped pipes inside `grep -cE 'rmtree|...'` split one
+    # row into eight cells, and its `state` read `residue'` -- so a row nobody could
+    # parse was also a row nobody could see was unparseable.
+    boards = [("docs/evidence/backlog.md", os.path.join(ROOT, "docs/evidence/backlog.md")),
+              ("docs/evidence/manifesto-conformance.md",
+               os.path.join(ROOT, "docs/evidence/manifesto-conformance.md"))]
     for entry in manifest.get("skills", []):
         rel = os.path.join("skills", entry.get("name", ""), "docs/evidence/backlog.md")
         boards.append((rel, os.path.join(ROOT, rel)))
@@ -870,9 +877,14 @@ def _one_board(rel, path):
     most common width as the truth, which is right when one row is broken and
     silently wrong when a whole table is.
     """
-    ID = re.compile(r"^\|\s*\**([A-Z]{1,3}-\d+[a-z]?)\s*\**\s*\|")
+    # `{1,4}`, and the fourth letter is not hypothetical: `ALL-49` and `ALL-44` are
+    # program ids in the conformance register, and at `{1,3}` this guard did not see
+    # them at all -- so the one row in the family that carried THREE unescaped pipes
+    # inside a backticked regex was invisible to the check written for that defect.
+    ID = re.compile(r"^\|\s*\**([A-Z]{1,4}-\d+[a-z]?)\s*\**\s*\|")
     split = lambda l: re.split(r"(?<!\\)\|", l)
     width = None
+    declares = False
     rows = seen = 0
     ids = {}
     for lineno, l in enumerate(open(path, encoding="utf-8").read().splitlines(), 1):
@@ -882,8 +894,14 @@ def _one_board(rel, path):
         if not l.startswith("|"):
             continue
         cells = [c.strip() for c in split(l)]
-        if len(cells) > 2 and cells[1].lower().strip("* ") == "id":
+        if len(cells) > 2 and cells[1].lower().strip("* ") in ("id", "row"):
             width = len(cells)
+            # `id` DECLARES a row; `row` REFERENCES one. The distinction is the
+            # header's own and the uniqueness rule has to read it: a closes ledger
+            # keyed `row` cites ids the wave tables defined, so `AS-01` appearing in
+            # both is a cross-reference, not a duplicate. Reading them as one is how
+            # the widened guard's first run reported a legitimate ledger as broken.
+            declares = cells[1].lower().strip("* ") == "id"
             continue
         m = ID.match(l)
         if not m or width is None:
@@ -896,13 +914,76 @@ def _one_board(rel, path):
                  f"cell shifts every column after it, and Status then reads as whatever "
                  f"landed in its place")
         bid = m.group(1)
-        if bid in ids:
+        if declares and bid in ids:
             fail(f"{rel}:{lineno}: id {bid} is used twice (first at line {ids[bid]}) — "
                  f"rows are cited by number in CHANGELOGs, commit messages and "
                  f"pipeline.json, so a duplicate makes every citation ambiguous")
-        ids[bid] = lineno
+        if declares:
+            ids[bid] = lineno
     if not rows:
         fail(f"{rel}: no id rows under any header — the board stopped being a table")
+
+
+
+def check_no_id_carries_two_verdicts():
+    """A row cannot be `open` in the table that declares it and closed in a ledger.
+
+    Found 2026-08-24 by widening `_one_board` to see four-letter ids: `AS-01` reads
+    `open` in wave 4 and appears in the closes ledger landed at two commits. Board row
+    B-99 names this id specifically, and nothing computed it -- the two statements sit
+    forty lines apart in one file, each internally consistent, which is the shape a
+    reader does not catch and a comparison does.
+
+    `id` declares, `row` references (see `_one_board`). So the rule is one line: an id
+    the ledger says closed must not read `open` where it was declared.
+    """
+    path = os.path.join(ROOT, "docs/evidence/manifesto-conformance.md")
+    if not os.path.isfile(path):
+        _skips.append("conformance register absent -- verdict agreement unchecked")
+        return
+    split = lambda l: re.split(r"(?<!\\)\|", l)
+    ID = re.compile(r"^\|\s*\**([A-Z]{1,4}-\d+[a-z]?)\s*\**\s*\|")
+    declared, referenced = {}, {}
+    keycol = None
+    state_at = None
+    for lineno, l in enumerate(open(path, encoding="utf-8").read().splitlines(), 1):
+        if l.startswith("#"):
+            keycol = state_at = None
+            continue
+        if not l.startswith("|"):
+            continue
+        cells = [c.strip() for c in split(l)]
+        low = [c.lower().strip("* ") for c in cells]
+        if len(cells) > 2 and low[1] in ("id", "row"):
+            keycol = low[1]
+            state_at = low.index("state") if "state" in low else None
+            continue
+        m = ID.match(l)
+        if not m or keycol is None:
+            continue
+        rid = m.group(1)
+        if keycol == "id" and state_at is not None and state_at < len(cells):
+            declared[rid] = (lineno, cells[state_at].lower().strip("* "))
+        elif keycol == "row":
+            referenced.setdefault(rid, lineno)
+
+    both = 0
+    for rid, ledger_line in sorted(referenced.items()):
+        if rid not in declared:
+            continue
+        both += 1
+        decl_line, state = declared[rid]
+        if state == "open":
+            fail(f"docs/evidence/manifesto-conformance.md:{decl_line}: {rid} reads "
+                 f"`open` where it is declared, and line {ledger_line} lists it in the "
+                 f"closes ledger -- one id, two verdicts, one file (B-99). Close the row "
+                 f"with the ledger's evidence, or take it out of the ledger")
+    if not both:
+        _skips.append("no id appears in both a declaring table and the closes ledger -- "
+                      "verdict agreement had nothing to compare")
+
+
+check_no_id_carries_two_verdicts()
 
 
 check_board_is_parseable()
@@ -1836,7 +1917,12 @@ def check_counted_claims_agree_with_the_tree():
         for line in text.splitlines():
             if line.startswith("## Deferred"):
                 break
-            if not re.match(r"^\| [A-Z]{2}-[0-9]", line):
+            # `{1,4}`, swept from `_one_board` on the same day it was widened there
+            # (R-003: run the fix against its siblings). At `{2}` this count
+            # silently excluded `ALL-26`, `ALL-44` and `ALL-49` -- three rows
+            # inside the register whose own stated totals then could not be
+            # reconciled with the file by anyone reading it.
+            if not re.match(r"^\| [A-Z]{1,4}-[0-9]", line):
                 continue
             cells = [c.strip() for c in re.split(r"(?<!\\)\|", line)]
             state = re.sub(r"[*`]", "", cells[-2] if len(cells) > 2 else "").strip().lower()
@@ -1852,7 +1938,7 @@ def check_counted_claims_agree_with_the_tree():
         for line in text.splitlines():
             if line.startswith("## Deferred"):
                 break
-            if re.match(r"^\| [A-Z]{2}-[0-9]", line):
+            if re.match(r"^\| [A-Z]{1,4}-[0-9]", line):
                 rows += 1
         return rows
 
