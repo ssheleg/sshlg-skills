@@ -9,6 +9,12 @@ The four paths that matter, each watched: a case that passes loses its tree; a c
 fails keeps it; a case that raises something that is not an assertion also keeps it, and
 still reports; and a run that made no tree at all still says so out loud.
 """
+# shared-mechanism: residue_test.py — 3 copies in this family, kept as one file
+#   rather than 3 dialects. The umbrella's gate computes which module-level
+#   constants actually differ between the copies and refuses a difference this line
+#   does not name: on 2026-08-24 an undeclared success-vocabulary constant made a
+#   ported runner report twenty healthy guards as broken, and nothing could see it.
+# diverges: none
 import os
 import shutil
 import subprocess

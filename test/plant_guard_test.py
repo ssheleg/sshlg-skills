@@ -5,6 +5,12 @@ Five inline variants of this guard shipped five different bugs. The one that rea
 pull request compared content only, against a plant whose entire effect is `chmod` — so
 the mode case below is not an edge case, it is the incident.
 """
+# shared-mechanism: plant_guard_test.py — 4 copies in this family, kept as one file
+#   rather than 4 dialects. The umbrella's gate computes which module-level
+#   constants actually differ between the copies and refuses a difference this line
+#   does not name: on 2026-08-24 an undeclared success-vocabulary constant made a
+#   ported runner report twenty healthy guards as broken, and nothing could see it.
+# diverges: CASES
 import os
 import shutil
 import subprocess

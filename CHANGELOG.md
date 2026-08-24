@@ -41,6 +41,17 @@ undeclared difference across 19 copies of 5 mechanisms — and refuses a declare
 that is not real. It does not compare texts: copies are allowed to differ, and
 demanding otherwise would either freeze the family or be ignored.
 
+**The first tag of this release failed CI, on the check this release adds, over a
+file this release annotated.** The umbrella's own `test/plant_guard_test.py` and
+`test/residue_test.py` carried the declaration in the working tree and not in the
+commit: the release staged files by name and missed two. My local gate read the
+working tree; CI read the commit. That is standing instruction #10 — *a check that
+reads a working tree reports a state no clone can reproduce* — arriving on the
+release of the guard whose whole subject is an undeclared seam.
+
+Nothing shipped: npm stayed at 0.95.0 and no GitHub release object exists, so the
+tag was re-cut rather than superseded.
+
 Pins: `agent-sync` 1.15.0 -> **1.16.0**, which closes one version string over two
 trees — npm served 4344 lines where the marketplace served 4575 and all three
 channels said 1.15.0. Re-measured after publication: 4575 and 4575.
