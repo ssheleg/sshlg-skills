@@ -34,6 +34,12 @@ any comparison of bytes, and that is exactly the plant that caught this file's a
 Zero dependencies, and it never writes inside the tree it measures: the manifest lives
 next to it, so the snapshot cannot be mistaken for the plant's own change.
 """
+# shared-mechanism: plant_guard.py — 4 copies in this family, kept as one file
+#   rather than 4 dialects. The umbrella's gate computes which module-level
+#   constants actually differ between the copies and refuses a difference this line
+#   does not name: on 2026-08-24 an undeclared success-vocabulary constant made a
+#   ported runner report twenty healthy guards as broken, and nothing could see it.
+# diverges: none
 import hashlib
 import json
 import os

@@ -44,6 +44,12 @@ have to be reported and left alone rather than swept.
 
 Zero dependencies, standard library only, like everything else here.
 """
+# shared-mechanism: residue.py — 5 copies in this family, kept as one file
+#   rather than 5 dialects. The umbrella's gate computes which module-level
+#   constants actually differ between the copies and refuses a difference this line
+#   does not name: on 2026-08-24 an undeclared success-vocabulary constant made a
+#   ported runner report twenty healthy guards as broken, and nothing could see it.
+# diverges: PREFIX
 import atexit
 import os
 import shutil

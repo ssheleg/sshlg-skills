@@ -1058,6 +1058,120 @@ def check_manifesto_citations_resolve():
 check_manifesto_citations_resolve()
 
 
+# ── the first cross-repository doctrine check ────────────────────────────────
+# ALL-44 for three years was a sentence: nine repositories carry overlapping
+# doctrine, and every one is kept aligned by an agent reading the other repo at the
+# moment it happens to look. On 2026-08-24 it stopped being a sentence. One runner
+# was copied into two members in one evening -- the right instinct, since two
+# implementations of one idea is the defect this family keeps finding -- and each
+# copy met a repository that says "this plant behaved" in different words:
+#
+#     task-pipeline   OK:
+#     seo-aeo-audit   ok:                                 2 steps misread
+#     sheleg-dev      OK: and "rejected, as it must be"   20 steps misread
+#
+# Twenty healthy guards reported as guards that do not fire, and nothing anywhere
+# could see it, because the assumption was never written down.
+#
+# So this does NOT compare texts. Two copies of a mechanism are allowed to differ --
+# a prefix, a floor, a vocabulary -- and demanding they be identical would either
+# freeze the family or be ignored. What it refuses is an UNDECLARED difference: each
+# copy names the module-level constants that diverge, the gate computes the real set,
+# and a difference the declaration does not name fails the commit.
+#
+# Scope, stated because a check claiming more than it does is the defect above:
+# module-level constants only. Divergent PROSE is not policed, and `validate.py`
+# is not in the corpus at all -- nine files share that name and score 0.385-0.943
+# against each other, which is nine different programmes, not nine copies.
+SHARED_SIMILARITY = 0.90     # below this, a shared name is a coincidence
+SHARED_MIN_COPIES = 2
+_SHARED_DECL = re.compile(r"(?m)^#\s*shared-mechanism:\s*(\S+)")
+_SHARED_DIVERGES = re.compile(r"(?m)^#\s*diverges:\s*(.+?)\s*$")
+_MODULE_CONST = re.compile(r"(?m)^([A-Z_][A-Z0-9_]*)\s*=")
+
+
+def check_a_copied_mechanism_declares_its_divergence():
+    import difflib
+
+    roots = [("sshlg-skills", ROOT)]
+    for entry in manifest.get("skills", []):
+        nm = entry.get("name", "")
+        roots.append((nm, os.path.join(ROOT, "skills", nm)))
+
+    by_name = {}
+    for repo, root in roots:
+        tdir = os.path.join(root, "test")
+        if not os.path.isdir(tdir):
+            continue
+        for f in sorted(os.listdir(tdir)):
+            if not f.endswith(".py"):
+                continue
+            by_name.setdefault(f, []).append((repo, os.path.join(tdir, f)))
+
+    looked = 0
+    for fname, entries in sorted(by_name.items()):
+        if len(entries) < SHARED_MIN_COPIES:
+            continue
+        texts = {}
+        for repo, path in entries:
+            try:
+                with open(path, encoding="utf-8") as fh:
+                    texts[repo] = fh.read()
+            except OSError:
+                continue
+        if len(texts) < SHARED_MIN_COPIES:
+            continue
+        base = sorted(texts)[0]
+        sims = [difflib.SequenceMatcher(None, texts[base], texts[r]).quick_ratio()
+                for r in texts if r != base]
+        if not sims or min(sims) < SHARED_SIMILARITY:
+            continue                      # a shared name, not a shared mechanism
+        looked += 1
+
+        # what actually differs: a module-level constant whose assignment line is
+        # not the same string in every copy
+        per_repo = {}
+        for repo, text in texts.items():
+            found = {}
+            for m in _MODULE_CONST.finditer(text):
+                eol = text.find("\n", m.start())
+                found[m.group(1)] = text[m.start(): eol if eol > 0 else len(text)]
+            per_repo[repo] = found
+        names = set().union(*[set(v) for v in per_repo.values()])
+        computed = sorted(n for n in names
+                          if len({per_repo[r].get(n) for r in per_repo}) > 1)
+
+        for repo, text in sorted(texts.items()):
+            decl = _SHARED_DECL.search(text)
+            div = _SHARED_DIVERGES.search(text)
+            rel = os.path.relpath(dict(entries)[repo], ROOT)
+            if not decl or not div:
+                fail(f"{rel}: {fname} exists in {len(texts)} repositories at "
+                     f">={SHARED_SIMILARITY} similarity and this copy declares no "
+                     f"`# shared-mechanism:` / `# diverges:` header. A shared "
+                     f"mechanism whose seam is unwritten is aligned by whoever "
+                     f"happens to look, which is exactly how twenty healthy guards "
+                     f"were reported broken on 2026-08-24")
+                continue
+            stated = [] if div.group(1).strip().lower() == "none" else [
+                x.strip() for x in div.group(1).split(",") if x.strip()]
+            if sorted(stated) != computed:
+                fail(f"{rel}: {fname} declares `diverges: "
+                     f"{div.group(1).strip()}` and the copies actually differ on "
+                     f"{computed or ['nothing']}. An undeclared divergence is the "
+                     f"ALL-44 defect; a declared one that is not real is a reader "
+                     f"looking for a seam that moved")
+
+    if looked == 0:
+        _skips.append("copied mechanisms — no file name appeared in two repositories "
+                      "above the similarity floor, so the corpus was empty and this "
+                      "check compared nothing")
+
+
+check_a_copied_mechanism_declares_its_divergence()
+
+
+
 
 check_no_id_carries_two_verdicts()
 
