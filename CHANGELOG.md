@@ -1,3 +1,14 @@
+## v0.96.1 — sheleg-design 1.48.0, the thirty-third pack
+
+`sheleg-design` moved 1.47.0 → **1.48.0**: `nameplate`, extracted from
+`brandpush.co` — a page square on 87% of its rendered elements where the one round
+shape is a white bordered plate carrying somebody else's publication name as type.
+
+Pinned here because a release this catalogue does not name is a release nobody
+installs: `npx sshlg-skills list` reports what `skills.json` says, not what npm
+holds. Submodule pointer moved to `v1.48.0`, the README row carries the same number,
+and all three agree — which is what the validator compares.
+
 ## v0.96.0 — the conformance register closes, and every row closed by measurement
 
 **47 active rows, 0 open, 47 verified.** The register that has tracked this family
