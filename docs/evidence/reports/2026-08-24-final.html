@@ -1,0 +1,243 @@
+<title>Итог прогона — 24 августа 2026</title>
+<style>
+  :root{
+    --bg:#fbfaf8; --panel:#ffffff; --ink:#1a1a1c; --muted:#5c5c66; --line:#e2ded7;
+    --ok:#1f6f43; --ok-bg:#e9f5ee; --bad:#a52a2a; --bad-bg:#fbecec;
+    --warn:#8a5a00; --warn-bg:#fdf3e2; --accent:#2b4a7d; --code:#f3f1ec;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#131316; --panel:#1b1b1f; --ink:#eceaea; --muted:#9a9aa4; --line:#2e2e34;
+      --ok:#6ed49b; --ok-bg:#16281e; --bad:#f08c8c; --bad-bg:#2a1818;
+      --warn:#e8bb6a; --warn-bg:#2a2113; --accent:#8fb0e6; --code:#22222a;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#131316; --panel:#1b1b1f; --ink:#eceaea; --muted:#9a9aa4; --line:#2e2e34;
+    --ok:#6ed49b; --ok-bg:#16281e; --bad:#f08c8c; --bad-bg:#2a1818;
+    --warn:#e8bb6a; --warn-bg:#2a2113; --accent:#8fb0e6; --code:#22222a;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    padding:0 0 5rem;
+  }
+  .wrap{max-width:62rem;margin:0 auto;padding:0 1.5rem}
+  header{padding:3.5rem 0 2rem;border-bottom:1px solid var(--line);margin-bottom:2.5rem}
+  h1{font-size:1.9rem;line-height:1.25;margin:0 0 .4rem;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:.95rem}
+  h2{font-size:1.25rem;margin:3rem 0 .25rem;letter-spacing:-.01em}
+  h2 + .lede{color:var(--muted);margin:0 0 1.25rem;font-size:.95rem}
+  h3{font-size:1rem;margin:1.75rem 0 .5rem}
+  p{margin:0 0 1rem}
+  code{background:var(--code);padding:.1em .35em;border-radius:4px;font-size:.87em;
+       font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  pre{background:var(--code);padding:.9rem 1rem;border-radius:8px;overflow-x:auto;
+      font-size:.83rem;line-height:1.5;margin:0 0 1rem;
+      font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.75rem;margin:0 0 1.5rem}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:1rem}
+  .card .n{font-size:1.6rem;font-weight:650;letter-spacing:-.02em;display:block;line-height:1.1}
+  .card .l{color:var(--muted);font-size:.8rem;margin-top:.35rem;display:block}
+  .tw{overflow-x:auto;margin:0 0 1.25rem}
+  table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:34rem}
+  th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+  tbody tr:last-child td{border-bottom:none}
+  .pill{display:inline-block;padding:.1rem .5rem;border-radius:999px;font-size:.75rem;font-weight:600;white-space:nowrap}
+  .pill.ok{background:var(--ok-bg);color:var(--ok)}
+  .pill.bad{background:var(--bad-bg);color:var(--bad)}
+  .pill.warn{background:var(--warn-bg);color:var(--warn)}
+  .note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);
+        border-radius:0 8px 8px 0;padding:1rem 1.15rem;margin:0 0 1.25rem}
+  .note.bad{border-left-color:var(--bad)}
+  .note.warn{border-left-color:var(--warn)}
+  .note p:last-child{margin-bottom:0}
+  .note .h{font-weight:650;display:block;margin-bottom:.4rem}
+  ul{margin:0 0 1rem;padding-left:1.3rem}
+  li{margin-bottom:.4rem}
+  footer{margin-top:3.5rem;padding-top:1.5rem;border-top:1px solid var(--line);
+         color:var(--muted);font-size:.85rem}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85em}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Все открытые задачи закрыты. И четыре гарда докладывали зелёное, ничего не проверяя.</h1>
+  <div class="sub">Итог прогона · 24 августа 2026 · <span class="mono">sshlg-skills</span> и восемь членов семьи</div>
+</header>
+
+<div class="cards">
+  <div class="card"><span class="n">47</span><span class="l">строк реестра гейтятся · 0 open</span></div>
+  <div class="card"><span class="n">9 / 9</span><span class="l">пакетов опубликованы</span></div>
+  <div class="card"><span class="n">412</span><span class="l">плантов доказуемо отвергают дефект</span></div>
+  <div class="card"><span class="n">4</span><span class="l">гарда были обезоружены</span></div>
+  <div class="card"><span class="n">1</span><span class="l">настоящий дефект ① из 5 подозрений</span></div>
+</div>
+
+<h2>Что опубликовано</h2>
+<p class="lede">Проверено запросом к реестру, а не пересказом.</p>
+<div class="tw">
+<table>
+  <thead><tr><th>Пакет</th><th>Версия</th><th>Состояние</th></tr></thead>
+  <tbody>
+    <tr><td class="mono">sshlg-skills</td><td class="mono">0.96.2</td><td><span class="pill ok">опубликован</span></td></tr>
+    <tr><td class="mono">task-pipeline-skill</td><td class="mono">1.76.1</td><td><span class="pill ok">выпущен в этом прогоне</span></td></tr>
+    <tr><td class="mono">@ssheleg/agent-sync</td><td class="mono">1.16.0</td><td><span class="pill ok">выпущен в этом прогоне</span></td></tr>
+    <tr><td class="mono">@ssheleg/seo-aeo-audit</td><td class="mono">0.25.0</td><td><span class="pill ok">выпущен в этом прогоне</span></td></tr>
+    <tr><td class="mono">sheleg-design-skill</td><td class="mono">1.48.0</td><td><span class="pill ok">другая сессия</span></td></tr>
+    <tr><td class="mono">super-ux</td><td class="mono">0.48.0</td><td><span class="pill ok">без изменений</span></td></tr>
+    <tr><td class="mono">@ssheleg/make-skill</td><td class="mono">0.23.0</td><td><span class="pill ok">без изменений</span></td></tr>
+    <tr><td class="mono">@ssheleg/sheleg-dev</td><td class="mono">0.8.0</td><td><span class="pill ok">без изменений</span></td></tr>
+    <tr><td class="mono">@ssheleg/agent-stack</td><td class="mono">0.13.1</td><td><span class="pill ok">без изменений</span></td></tr>
+  </tbody>
+</table>
+</div>
+<p>Локальные установки обновлены лаунчером в том же проходе: плагин <span class="mono">task-pipeline</span>
+1.76.0&nbsp;→&nbsp;1.76.1. Две проверки, которые обязаны быть пустыми, пусты — теневых
+plain-копий нет, битых симлинков в пяти каналах ноль. Канал плагина и хаб отдают одно
+дерево: та же sha <span class="mono">SKILL.md</span>, 36 файлов ссылок в обоих.</p>
+
+<h2>Реестр соответствия под-манифесту</h2>
+<p class="lede">Числа посчитаны тем же матчером, который их гейтит.</p>
+<pre>id-строк выше «## Deferred»   47   ← гейтится
+  из них open                  0
+  из них verified             47
+ниже «## Deferred»            24
+всего в файле                 71</pre>
+
+<div class="note warn">
+  <span class="h">Поправка к тому, что я говорил раньше</span>
+  <p>Я называл «71 строка, все verified». Гейтится другая область — <strong>47 строк выше
+  заголовка <span class="mono">## Deferred</span></strong>; 24 отложенных лежат ниже. Нашлось это не
+  чтением: мой одноразовый парсер дал 33/26, я заподозрил инструмент раньше предмета — и
+  инструмент оказался виноват, он требовал заголовка, который умеет распознавать, и терял
+  таблицы. Число валидатора устояло.</p>
+</div>
+
+<h2>Дефект ①: одна строка версии, два дерева</h2>
+<p class="lede">Свип по восьми членам — сравнение деревьев, а не строк, потому что строки этот класс увидеть не могут.</p>
+
+<p>Пять членов показали <span class="mono">tag ≠ tip</span> при одной версии. Различает их один
+вопрос: попадает ли изменённый путь в то, что канал реально отдаёт.</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th>Член</th><th>После тега</th><th>Отдаёт ли канал</th><th>Вердикт</th></tr></thead>
+  <tbody>
+    <tr><td class="mono">agent-stack</td><td>3 файла оснастки</td><td>нет</td><td><span class="pill ok">не расхождение</span></td></tr>
+    <tr><td class="mono">make-skill</td><td>5 файлов оснастки</td><td>нет</td><td><span class="pill ok">не расхождение</span></td></tr>
+    <tr><td class="mono">seo-aeo-audit</td><td class="mono">package.json</td><td>да, скрипты</td><td><span class="pill warn">оставлено намеренно</span></td></tr>
+    <tr><td class="mono">sheleg-dev</td><td class="mono">package.json</td><td>да, скрипты</td><td><span class="pill warn">оставлено намеренно</span></td></tr>
+    <tr><td class="mono">task-pipeline</td><td class="mono">README.md</td><td>да, число</td><td><span class="pill bad">настоящий дефект</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note bad">
+  <span class="h">Опубликованный README понижал свой собственный счёт</span>
+  <p><span class="mono">task-pipeline-skill@1.76.0</span> утверждал счёт ссылок в двадцать три,
+  отгружая 36. Число было ложным <em>уже на теге</em> — значит npm отдавал неверный факт с самого
+  релиза, тогда как чекаут зонта, чей пин смотрит на вершину ветки, отдавал верный. Ни
+  <span class="mono">npm view</span>, ни пин-чекер этого увидеть не могли: они сравнивают строки,
+  и сравнивают правильно.</p>
+  <pre>опубликованный README   all 36 references   ← после 1.76.1
+ссылок в том же тарболе  36</pre>
+  <p>Закрыто на артефакте, а не в репозитории.</p>
+</div>
+
+<p>Два <span class="mono">package.json</span> оставлены намеренно: добавленные скрипты называют
+<span class="mono">test/negatives.py</span>, которого тарбол не отгружает вовсе — публикация добавила бы
+команду, указывающую в пустоту. Класс к тому же давний и семейный: опубликованный
+<span class="mono">test</span> в 1.76.0 уже называл <span class="mono">test/validate.py</span> против
+нуля отгруженных тестовых файлов. Это не то, что чинит патч одного члена.</p>
+
+<h2>Четыре гарда, которые ничего не проверяли</h2>
+<p class="lede">Пришёл поправить число в README. Собственный набор релиза отказал — и каждый отказ был отдельным способом написать нечто, что читается верно и не доказывает ничего.</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th>#</th><th>Как обезоружился</th><th>Чем закрыт</th></tr></thead>
+  <tbody>
+    <tr><td>1–2</td><td>Каждая секция CHANGELOG здесь объявляет <span class="mono">Guards: N → **M**</span>. Моя не объявила — реестр отрапортовал класс как <span class="mono">dormant</span>, и два планта, читающие верхнюю секцию, потеряли, что портить.</td><td>Число посчитано (412) и записано с объяснением, почему строка обязательна даже когда число не двигается.</td></tr>
+    <tr><td>3</td><td>Иголка планта была литералом «12&nbsp;registered claim classes». Тринадцатый класс зарегистрировали в этот же день — плант замолчал, нарушив стандарт «derived, not literal» из собственного комментария.</td><td>Якорь на id строки и ячейку состояния <span class="mono">open</span> — структура, а не фраза.</td></tr>
+    <tr><td>4</td><td>Плант секции штампов не мог выстрелить в этом чекауте <em>никогда</em>: <span class="mono">cp -R</span> сабмодуля копирует <span class="mono">.git</span> как файл с относительным указателем, который под <span class="mono">/tmp</span> рвётся. Тегов ноль, гард честно уходит в <span class="mono">unlooked</span>, а плант докладывает проверку, которая не запускалась, как сломанную.</td><td>Печатает <span class="mono">SKIP</span> с причиной. Обе ветви проверены исполнением: <span class="mono">SKIP</span> здесь, и в отдельном клоне из 122 тегов гард стреляет.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note bad">
+  <span class="h">И проза заглушила гард одним упоминанием версии</span>
+  <p>Гард считает объявлением <strong>любой</strong> токен <span class="mono">vX.Y.Z</span> внутри секции
+  пропусков. Фраза «уже была ложной на теге <span class="mono">v1.76.0</span>» тем самым объявила
+  <span class="mono">v1.76.0</span> релизом без штампа и сняла с него вопрос. Проза исправлена — но
+  настоящая защита в том, что плант теперь <strong>создаёт собственную предпосылку</strong>: вычищает
+  из секции упоминания последних тегов, вместо того чтобы наследовать условие от того, что
+  проза случайно скажет.</p>
+</div>
+
+<p>Ни один из четырёх не был бы найден командой <span class="mono">npm test</span> — негативы в неё
+не входят, и это осознанно: гейт обязан работать без сети и за секунды. Найдены они тем, что
+я прогнал <em>релизный</em> набор локально, как требует R-010.</p>
+
+<h2>Плант, который писал в пустую ячейку</h2>
+<p class="lede">Три упавших тега зонта на одном шаге, и ни один раз причина не была там, где я её искал.</p>
+
+<p>Плант «два вердикта» считал индекс столбца из списка заголовка, у которого нулевая ячейка —
+пустая, перед ведущей чертой, и писал в <span class="mono">index + 1</span>: в пустой хвост после
+последней черты. <span class="mono">"" != " open "</span> — истина, поэтому байтовый ассерт прошёл,
+<span class="mono">plant_guard verify</span> увидел дерево, отличающееся от снимка, и согласился, а
+валидатор корректно пропустил реестр, который никто не повредил. Шаг читает это как поломку
+гарда.</p>
+
+<pre>с плантом   exit 1   manifesto-conformance.md:114 — AS-01 читает `open` там, где объявлен,
+                     а строка 328 перечисляет его в леджере закрытий
+чистое дерево exit 0  PASS: sshlg-skills structure valid</pre>
+
+<p>Стоящая инструкция №6 требовала «убедись, что плант что-то изменил» — плант это и делал.
+Теперь она требует, чтобы ассерт был на <strong>значение, которое читает гард, прочитанное так,
+как его читает гард</strong>. Инцидент вписан как её квитанция; одиннадцатая инструкция не
+добавлена.</p>
+
+<h2>Координация: дефект ③ наблюдался в живую</h2>
+<div class="note">
+  <p>Другая сессия работала в этом же чекауте: выпустила <span class="mono">sheleg-design 1.48.0</span>,
+  подняла пин, забампила зонт и затегировала <span class="mono">v0.96.1</span> — пока мой прогон был
+  в полёте. <span class="mono">agent-sync</span> её не видел («other runs: none holding anything»),
+  потому что идентичность рана в этом чекауте — общий фолбэк. Их тег упал на моём планте, поэтому я
+  не резал конкурирующий, а <strong>перерезал их</strong> на исправленный коммит: под ним ничего не
+  публиковалось. R-005 применён буквально — перед третьим пушем свип всех восьми членов
+  перемерен, и он остановился.</p>
+</div>
+
+<h2>Что остаётся открытым — названо, а не спрятано</h2>
+<ul>
+  <li><strong>Упоминание версии в секции пропусков читается как объявление.</strong> Секция —
+  проза по замыслу, и это принятая цена конструкции; защита — плант, создающий свою
+  предпосылку. Но дыра для следующего пишущего остаётся.</li>
+  <li><strong>Опубликованный <span class="mono">package.json</span> называет тестовые скрипты,
+  чьих файлов тарбол не отгружает.</strong> Семейный класс, старше этого прогона; решение —
+  либо отгружать <span class="mono">test/</span>, либо принять, — семейное, а не патч одного члена.</li>
+  <li><strong>Общий <span class="mono">$TMPDIR</span> пересекает границу сессий.</strong>
+  <span class="mono">residue_test.py</span> краснел транзиторно из-за 37&nbsp;301 записи, оставленных
+  параллельной сессией. Наблюдено, не исправлено.</li>
+  <li><strong>Просроченные лизы с общей идентичностью рана нельзя атрибутировать.</strong>
+  <span class="mono">RELEASE-ALL</span> висит как <span class="mono">[ambiguous]</span>: совпадение id
+  ничего не доказывает, когда любая сессия в этом чекауте отвечает на тот же id.</li>
+</ul>
+
+<h2>Гейты на момент отчёта</h2>
+<pre>зонт          npm test  exit 0   PASS: 36 checks green (validate.py + 7 python + 28 node suites)
+task-pipeline npm test  exit 0   PASS: task-pipeline structure valid · graph.py 149 cases
+              test:all  exit 0   PASS: all 412 guards provably reject their planted defect
+                                 certify · exposure · probe · hooks · artifacts · docs — по нулю
+CI            v0.96.2   release + validate + main validate — все success
+              v1.76.1   release success</pre>
+
+<footer>
+  Каждое число здесь получено командой в этом прогоне. Отчёт лежит в
+  <span class="mono">docs/evidence/reports/2026-08-24-final.html</span> и самодостаточен —
+  ни одной внешней ссылки.
+</footer>
+</div>
