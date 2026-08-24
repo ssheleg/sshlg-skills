@@ -1,3 +1,10 @@
+## v0.96.3 — sheleg-design 1.48.1
+
+The assembly rule for adding a style pack is now written where each part already
+lives — `STYLE_PACK_TEMPLATE.md` rules 7 and 8, both shipping inside the bundle, and
+`CONTRIBUTING.md` step 8, the browser render. That step caught a defect within the
+hour of being written, which is the argument for having it.
+
 ## v0.96.2 — the pin moves because the published document was wrong
 
 `task-pipeline` 1.76.1. Nothing in the skill changed: the README it publishes put
