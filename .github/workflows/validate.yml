@@ -607,6 +607,39 @@ jobs:
             echo "OK: validator FAILs on a duplicate board id"
           fi
 
+      - name: Negative self-test (a manifesto citation that no longer resolves must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/deadcite
+          cp -R . /tmp/deadcite
+          python3 test/plant_guard.py snap /tmp/deadcite
+          # The real defect: on 2026-08-24 all fourteen `manifesto.md:<line>` references
+          # had rotted -- eight off by twenty lines, one by fifty, one pointing at a
+          # closing code fence since it was written -- while every rule they named was
+          # intact. A citation that still looks like a receipt and resolves to nothing.
+          #
+          # Anchored on SHAPE: corrupt whatever phrase citation comes first. Rewording
+          # any row cannot disarm this.
+          python3 - <<'PY'
+          import pathlib, re
+          p = pathlib.Path("/tmp/deadcite/docs/evidence/manifesto-conformance.md")
+          t = p.read_text()
+          m = re.search(r'`manifesto` \u2192 \*"([^"]{12,})"\*', t)
+          assert m, "PLANT DID NOT LAND: no phrase citation to corrupt"
+          broken = m.group(1)[:-6] + "zzqqxx"
+          t2 = t[:m.start(1)] + broken + t[m.end(1):]
+          assert t2 != t, "PLANT DID NOT LAND: the edit changed nothing"
+          p.write_text(t2)
+          print("broke the citation:", m.group(1)[:48], "->", broken[-12:])
+          PY
+          python3 test/plant_guard.py verify /tmp/deadcite "Negative self-test (a manifesto citation that no longer resolves must fail)"
+          if python3 /tmp/deadcite/test/validate.py; then
+            echo "ERROR: validator accepted a citation the manifesto does not contain"
+            exit 1
+          else
+            echo "OK: validator FAILs when a manifesto citation resolves to nothing"
+          fi
+
       - name: Negative self-test (one id with two verdicts in one file must fail)
         run: |
           set -eu

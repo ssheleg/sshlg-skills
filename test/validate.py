@@ -983,6 +983,82 @@ def check_no_id_carries_two_verdicts():
                       "verdict agreement had nothing to compare")
 
 
+
+def check_manifesto_citations_resolve():
+    """A citation into the manifesto is a phrase, not a line number.
+
+    Measured 2026-08-24: **all fourteen** references into the manifesto had rotted.
+    The document grew, every address shifted -- eight by twenty lines, one by fifty --
+    and one (`manifesto:186`) had pointed at a closing code fence since the day it was
+    written. The rules were all intact; only the addresses were gone, which is the
+    worst shape a citation can take: it still looks like a receipt.
+
+    So the register cites a distinctive phrase and this resolves it. The phrase must
+    appear **exactly once**, because a citation that matches twice names neither.
+
+    The subject's path is read from the register's own header rather than hardcoded
+    here -- the file that makes the claim is the file that says what it is about.
+    Absent (CI, a fresh clone), this discloses and does not fail: a gate that reads a
+    repository you do not control is racy, and the remedy for that class in this
+    family has always been to say something rather than to stop the build.
+    """
+    def _slurp(path):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                return fh.read()
+        except OSError:
+            return None
+
+    rel = "docs/evidence/manifesto-conformance.md"
+    reg = _slurp(os.path.join(ROOT, rel))
+    if reg is None:
+        _skips.append(f"{rel} absent -- manifesto citations unchecked")
+        return
+
+    stale = re.findall(r"manifesto(?:\.md)?:\d+", reg)
+    if stale:
+        fail(f"{rel}: {len(stale)} citation(s) still address the manifesto by LINE "
+             f"NUMBER ({', '.join(sorted(set(stale))[:4])}) -- every one of these rotted "
+             f"once already when the document grew. Cite a distinctive phrase: "
+             f'`manifesto` -> *\"...\"*')
+
+    m = re.search(r"\(`([^`]*manifesto\.md)`\)", reg)
+    if not m:
+        fail(f"{rel}: the header no longer names the manifesto it is about, so nothing "
+             f"can resolve its citations -- the subject is the one thing this file "
+             f"cannot leave implicit")
+        return
+    subject = os.path.expanduser(m.group(1))
+    if not os.path.isfile(subject):
+        _skips.append(f"manifesto citations -- {m.group(1)} is not on this machine, so "
+                      f"{len(re.findall(chr(96) + 'manifesto' + chr(96) + ' . ', reg))} "
+                      f"citation(s) could not be resolved")
+        return
+    man = _slurp(subject)
+    if man is None:
+        _skips.append(f"manifesto citations -- {m.group(1)} unreadable")
+        return
+
+    cites = re.findall(r"`manifesto` \u2192 \*\"([^\"]+)\"\*", reg)
+    if not cites:
+        _skips.append(f"{rel}: no phrase citations found -- the resolver had nothing "
+                      f"to look up, which is not the same as everything resolving")
+        return
+    for phrase in sorted(set(cites)):
+        n = man.count(phrase)
+        if n == 0:
+            fail(f"{rel}: cites *\"{phrase[:60]}\"* and the manifesto does not contain "
+                 f"it -- the rule moved, was reworded, or was removed, and the row "
+                 f"resting on it is now unanchored")
+        elif n > 1:
+            fail(f"{rel}: cites *\"{phrase[:60]}\"* which appears {n} times in the "
+                 f"manifesto -- a citation matching more than once names neither")
+
+
+check_manifesto_citations_resolve()
+
+
+
 check_no_id_carries_two_verdicts()
 
 
@@ -2009,10 +2085,18 @@ def check_a_new_conformance_row_cites_the_manifesto_line():
              "so the M-id citation rule has no enumerated exemption and cannot be checked")
         return
     grandfathered = set(marker.group(1).split())
+    # The anchor is a PHRASE, not a line. This guard's intent was always right and its
+    # mechanism was on the wrong side of it: on 2026-08-24 all fourteen `manifesto.md:N`
+    # references in the register had rotted -- eight off by twenty lines, one off by
+    # fifty, and one pointing at a closing code fence since the day it was written --
+    # while every rule they named was intact. A guard that MANDATED the rotting form is
+    # worse than none, because the form still reads as a receipt.
+    # `{1,4}`: at `{2}` this skipped every `ALL-` row, the same blind spot swept out of
+    # `_one_board` and `conformance_state` in the commit before this one (R-003).
     for line in text.splitlines():
         if line.startswith("## Deferred"):
             break
-        m = re.match(r"^\| ([A-Z]{2}-[0-9]+)", line)
+        m = re.match(r"^\| ([A-Z]{1,4}-[0-9]+)", line)
         if not m:
             continue
         rid = m.group(1)
@@ -2020,9 +2104,12 @@ def check_a_new_conformance_row_cites_the_manifesto_line():
             continue
         if not re.search(r"M-[0-9]{2}", line):
             continue
-        if "manifesto.md:" not in line:
+        if "`manifesto` \u2192 *\"" not in line:
             fail(f"docs/evidence/manifesto-conformance.md: row {rid} cites an M-id with no "
-                 "`manifesto.md:<line>` beside it — the id resolves nowhere without one")
+                 "resolvable anchor beside it. The ids exist in no committed artifact "
+                 "(UM-12), so the phrase is what a reader can reach: "
+                 "`manifesto` \u2192 *\"a distinctive phrase from the rule\"*, which "
+                 "`check_manifesto_citations_resolve` then looks up")
 
 
 check_a_new_conformance_row_cites_the_manifesto_line()
@@ -2031,7 +2118,8 @@ check_a_new_conformance_row_cites_the_manifesto_line()
 def check_a_new_ledger_section_can_expire():
     r"""Proof expires, and this ledger had only one end of that.
 
-    UM-05, manifesto requirement M-43 (`manifesto.md:308` — *the record states both what it
+    UM-05, manifesto requirement M-43 (`manifesto` → *"Evidence remains attached to the
+    state it observed"* — the record states both what it
     applies to and what would invalidate it*). 407 rows here read `verified` and
     `grep -c 'Observed at\|invalidat'` returned **0**: nothing could ever un-read one.
     `task-pipeline` shipped the mechanism on 2026-08-17 and the umbrella did not adopt it
