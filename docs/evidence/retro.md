@@ -82,7 +82,16 @@ instructions by number, and renumbering would rot every one of those references.
    layout change fails there saying so instead of quietly testing nothing.
    Corollary for any plant: verify the file actually changed before believing
    the result — a green suite after a no-op plant is the same output as a green
-   suite after a real one. *(Retire after five run stamps without firing, or
+   suite after a real one. **And "changed something" is not the assertion — the
+   assertion is that the thing the guard READS changed, read the way the guard
+   reads it.** (2026-08-24) The two-verdicts plant computed its column index from
+   a header list whose `[0]` is the empty cell before the leading pipe, then wrote
+   at `index + 1`: into the empty tail after the final pipe. `"" != " open "` is
+   true, so the byte-level assert passed, `plant_guard verify` saw a tree that
+   differed from its snapshot and agreed, and the validator correctly passed a
+   register nobody had damaged — which the step reports as the guard being
+   broken. Three failed tags on one step. A plant asserts on the parsed value,
+   never on the diff. *(Retire after five run stamps without firing, or
    once every plant in the family is structural.)*
 
 7. **(2026-08-13) A mechanical rewrite over prose cannot tell a path being USED

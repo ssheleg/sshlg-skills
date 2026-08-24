@@ -700,12 +700,19 @@ jobs:
           assert target, "PLANT DID NOT LAND: no id is both declared and referenced"
           i, state_at = declared[target]
           cells = split(lines[i])
-          before = cells[state_at + 1]
-          cells[state_at + 1] = " open "
+          # `state_at` indexes the header list, whose [0] is the empty cell before
+          # the leading pipe -- so the state cell is cells[state_at], not +1. The
+          # +1 wrote into the empty tail after the final pipe, and asserting on
+          # raw bytes accepted that: "" != " open ". A plant must assert the thing
+          # under test moved, read the way the guard reads it.
+          before = cells[state_at].strip().lower().strip("* ")
+          assert before != "open", "PLANT DID NOT LAND: state already reads open"
+          cells[state_at] = " open "
           lines[i] = "|".join(cells)
-          assert cells[state_at + 1] != before, "PLANT DID NOT LAND: state already open"
+          after = split(lines[i])[state_at].strip().lower().strip("* ")
+          assert after == "open", "PLANT DID NOT LAND: state cell does not read open"
           p.write_text("\n".join(lines) + "\n")
-          print("reopened", target, "which the closes ledger lists")
+          print("reopened", target, "(was %s) which the closes ledger lists" % before)
           PY
           python3 test/plant_guard.py verify /tmp/twoverdicts "Negative self-test (one id with two verdicts in one file must fail)"
           if python3 /tmp/twoverdicts/test/validate.py; then
