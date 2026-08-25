@@ -439,7 +439,8 @@ function memberCard(m, rel) {
   <h3>${esc(m.name)} <span class="v">v${esc(m.version)}</span></h3>
   <div class="role">${esc(m.role)}</div>
   <p>${esc(firstSentence(m.desc, 210))}</p>
-  <div class="foot"><span>${subs} skill${subs === 1 ? '' : 's'}</span><span>Read →</span></div>
+  <div class="foot"><span>${subs} skill${subs === 1 ? '' : 's'}${
+    (m.extraLinks || []).length ? ' · a catalogue of its own' : ''}</span><span>Read →</span></div>
 </a>`;
 }
 
@@ -629,6 +630,10 @@ function memberPage(m) {
   <div class="prose" style="margin-top:22px">
     <p><b>Shape:</b> ${esc(m.shape)}. ${esc(m.shapeWhy || '')}</p>
   </div>
+  ${(m.extraLinks || []).map((l) => `<div class="note">
+    <p><a href="${esc(l.url)}" rel="noopener" target="_blank"><strong>${esc(l.label)} →</strong></a></p>
+    <p>${esc(l.note || '')}</p>
+  </div>`).join('\n')}
 </section>
 
 <hr class="rule">

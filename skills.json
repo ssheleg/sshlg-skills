@@ -106,7 +106,14 @@
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
       "shape": "static",
-      "shapeWhy": "Packs and tokens are chosen, not discovered. The choice is recorded in the pack, so a second run reproduces the first."
+      "shapeWhy": "Packs and tokens are chosen, not discovered. The choice is recorded in the pack, so a second run reproduces the first.",
+      "extraLinks": [
+        {
+          "label": "Browse all 34 style packs",
+          "url": "https://ssheleg.github.io/sheleg-design-skill/",
+          "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
+        }
+      ]
     },
     {
       "name": "seo-aeo-audit",
