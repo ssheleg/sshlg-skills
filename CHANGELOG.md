@@ -1,3 +1,20 @@
+## v0.98.1 — the site has its own address
+
+`skills.sshlg.me`. A `CNAME` to `ssheleg.github.io`, deliberately **DNS-only**: GitHub
+issues the certificate by resolving the name itself, and an orange-cloud proxy in front of
+Pages' enforced HTTPS is the documented way to get a redirect loop. Certificate approved,
+HTTPS enforced, the old `ssheleg.github.io/sshlg-skills` URLs redirect.
+
+**The host is one constant, and the base path is derived from it.** `scripts/site.js`
+computes `BASE` from `SITE` — `/` on a custom domain, `/<repo>/` on a `github.io` project
+site — because the 404 page is the only page that cannot use relative links, and a
+hardcoded `/sshlg-skills/` there turns a working 404 into a 404 with dead links the day
+the domain moves. That is now a fixture rather than a comment: the 404's links must start
+at the base `SITE` implies, whatever `SITE` says.
+
+Eight member READMEs and nine repository homepages follow. A redirect is a fact about
+today; a link is a promise.
+
 ## v0.98.0 — the family gets a front door, built from its own manifest
 
 Eight skill packs with nothing a person could read without cloning a repository. There is

@@ -31,8 +31,19 @@ const data = require(path.join(ROOT, 'skills.json'));
 const registry = require(path.join(ROOT, 'lib', 'routers-registry.js'));
 const og = require('./og-card.js');
 
-/** Where the site is served from. Every canonical URL is built off this. */
-const SITE = 'https://ssheleg.github.io/sshlg-skills';
+/**
+ * Where the site is served from — the one knob. Every canonical, every card URL and
+ * every absolute path on the 404 page is derived from it, so moving hosts is this
+ * line and nothing else.
+ *
+ * `BASE` is the path a root-relative link has to start with. A custom domain serves
+ * the site at `/`; a project site on `github.io` serves it under `/<repo>/`. The 404
+ * page is the only page that cannot use relative links — the browser may be at any
+ * depth when it is served — and hardcoding `/sshlg-skills/` there is how a working
+ * 404 becomes a 404 with dead links the day the domain changes.
+ */
+const SITE = 'https://skills.sshlg.me';
+const BASE = new URL(`${SITE}/`).pathname;
 const X_HANDLE = 'sshlg93';
 const GH_OWNER = 'ssheleg';
 const GH_REPO = 'sshlg-skills';
@@ -841,13 +852,13 @@ function notFoundPage() {
   <p class="lede">It may have moved with a release. The ${members.length} packs and
   every routing rule are one click away.</p>
   <div class="ctas">
-    <a class="btn" href="/${GH_REPO}/">All ${members.length} skills</a>
-    <a class="btn btn--ghost" href="/${GH_REPO}/routing/">Routing</a>
+    <a class="btn" href="${BASE}">All ${members.length} skills</a>
+    <a class="btn btn--ghost" href="${BASE}routing/">Routing</a>
     ${xFollowBtn()}
   </div>
 </section>`;
   return layout({
-    rel: `/${GH_REPO}/`,
+    rel: BASE,
     url: '/404.html',
     card: 'index',
     title: 'Not found · ssheleg skills',
@@ -983,6 +994,6 @@ if (require.main === module) {
 }
 
 module.exports = {
-  build, SITE, X_HANDLE, GH_OWNER, GH_REPO, members, firstSentence, refusalOf,
+  build, SITE, BASE, X_HANDLE, GH_OWNER, GH_REPO, members, firstSentence, refusalOf,
   inline, esc,
 };

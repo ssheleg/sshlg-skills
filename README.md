@@ -3,7 +3,7 @@
 [![validate](https://github.com/ssheleg/sshlg-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/ssheleg/sshlg-skills/actions/workflows/validate.yml)
 [![npm](https://img.shields.io/npm/v/sshlg-skills)](https://www.npmjs.com/package/sshlg-skills)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![site](https://img.shields.io/badge/docs-ssheleg.github.io-8ab0ff)](https://ssheleg.github.io/sshlg-skills/)
+[![site](https://img.shields.io/badge/docs-skills.sshlg.me-8ab0ff)](https://skills.sshlg.me/)
 
 **Eight agent skills, one command, every agent.**
 
@@ -12,8 +12,8 @@ npx sshlg-skills install    # install the whole family
 npx sshlg-skills update     # update everything already installed
 ```
 
-**[Read the site →](https://ssheleg.github.io/sshlg-skills/)** · one page per skill,
-every routing rule verbatim, and [`llms.txt`](https://ssheleg.github.io/sshlg-skills/llms.txt)
+**[Read the site →](https://skills.sshlg.me/)** · one page per skill,
+every routing rule verbatim, and [`llms.txt`](https://skills.sshlg.me/llms.txt)
 for the machines. · **[Follow @sshlg93 on X](https://x.com/intent/follow?screen_name=sshlg93)**
 
 Works with **Claude Code** (as plugins) plus Cursor, OpenCode, Codex, Kilo, Kimi,

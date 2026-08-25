@@ -145,11 +145,17 @@ it('every internal link resolves inside the built site', () => {
   assert.deepStrictEqual(dead, [], `dead internal links: ${dead.join(', ')}`);
 });
 
-it('the 404 page links with the project-Pages base path, not from the site root', () => {
+it('the 404 page links from the base path the site is actually served at', () => {
+  // Derived from SITE, not written down: on a custom domain the base is `/`, on a
+  // github.io project site it is `/<repo>/`, and a hardcoded one is a dead link the
+  // day the host changes. This is the page a reader reaches BY being lost.
+  assert.strictEqual(site.BASE, new URL(`${site.SITE}/`).pathname);
   const html = read('404.html');
-  for (const href of localLinks(html)) {
-    assert.ok(href.startsWith(`/${site.GH_REPO}/`),
-      `404.html → ${href} would resolve at the user-site root, and this is a project site`);
+  const links = localLinks(html);
+  assert.ok(links.length >= 2, '404.html offers no way out');
+  for (const href of links) {
+    assert.ok(href.startsWith(site.BASE),
+      `404.html → ${href} does not start at ${site.BASE}, so it resolves nowhere`);
   }
 });
 
