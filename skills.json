@@ -109,8 +109,9 @@
       "shapeWhy": "Packs and tokens are chosen, not discovered. The choice is recorded in the pack, so a second run reproduces the first.",
       "extraLinks": [
         {
-          "label": "Browse all 34 style packs",
+          "label": "Browse all {n} style packs",
           "url": "https://ssheleg.github.io/sheleg-design-skill/",
+          "countGlob": "plugins/sheleg-design/skills/sheleg-design/styles/*.md",
           "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
       ]

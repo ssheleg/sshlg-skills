@@ -58,6 +58,22 @@ it('every member in skills.json has a page, and no page has no member', () => {
     'a member without a page is a member the site does not sell');
 });
 
+it('every page has a card of its own, and no card belongs to no page', () => {
+  const cards = built.written.filter((f) => f.startsWith('og/'));
+  const expected = ['og/index.png', 'og/routing.png',
+    ...data.skills.map((m) => `og/skills-${m.name}.png`)].sort();
+  assert.deepStrictEqual(cards.sort(), expected,
+    'a member without a card shares as a blank box');
+  const declared = new Set();
+  for (const page of pages) {
+    const m = read(page).match(/property="og:image" content="([^"]+)"/);
+    if (m) declared.add(m[1].replace(`${site.SITE}/`, ''));
+  }
+  for (const c of cards) {
+    assert.ok(declared.has(c), `${c} is built and no page declares it`);
+  }
+});
+
 it('the entry points a reader is handed all exist', () => {
   for (const rel of ['index.html', 'routing/index.html', '404.html',
     'sitemap.xml', 'robots.txt', 'llms.txt', '.nojekyll']) {
@@ -256,11 +272,24 @@ it('every page carries a title, a description, a canonical and exactly one h1', 
       `${page}: a page answering one question has one h1`);
     assert.ok(/<meta property="og:title"/.test(html), `${page}: no og:title`);
     // A card type may not promise an image the page does not carry: X renders the
-    // large card as an empty box, which is worse than the small one.
+    // large card as an empty box, which is worse than the small one. So the claim
+    // is checked against a FILE, not against another tag.
     const card = (html.match(/name="twitter:card" content="([^"]+)"/) || [])[1];
     if (card === 'summary_large_image') {
-      assert.ok(/property="og:image"/.test(html),
-        `${page}: claims the large card and ships no og:image`);
+      const src = (html.match(/property="og:image" content="([^"]+)"/) || [])[1];
+      assert.ok(src, `${page}: claims the large card and declares no og:image`);
+      const rel = src.replace(`${site.SITE}/`, '');
+      const file = path.join(OUT, rel);
+      assert.ok(fs.existsSync(file), `${page}: og:image ${rel} was not built`);
+      const bytes = fs.readFileSync(file);
+      assert.deepStrictEqual([...bytes.slice(1, 4)], [0x50, 0x4e, 0x47],
+        `${rel} is not a PNG`);
+      assert.strictEqual(bytes.readUInt32BE(16), 1200, `${rel}: not 1200 wide`);
+      assert.strictEqual(bytes.readUInt32BE(20), 630, `${rel}: not 630 tall`);
+      const w = (html.match(/property="og:image:width" content="(\d+)"/) || [])[1];
+      assert.strictEqual(Number(w), 1200, `${page}: og:image:width is not the real width`);
+      assert.ok(/property="og:image:alt" content="[^"]{10,}"/.test(html),
+        `${page}: an image with no alt is an image a screen reader cannot report`);
     }
   }
 });
@@ -333,6 +362,28 @@ it('a member page reproduces its own routing text verbatim', () => {
     for (const r of own) {
       assert.ok(html.includes(`/${r} — ${registry.REGISTRY[r].answers}`),
         `${m.name}'s page does not carry the ${r} rule`);
+    }
+  }
+});
+
+// ------------------------------------------------------ a count is derived, not typed
+
+it('an advertised count on the page is the number of files in the tree', () => {
+  for (const m of data.skills) {
+    for (const link of m.extraLinks || []) {
+      assert.ok(link.countGlob || !/\d/.test(link.label),
+        `${m.name}: an extraLink label carries a number and no countGlob`);
+      if (!link.countGlob) continue;
+      const dir = path.join(__dirname, '..', m.dir, path.dirname(link.countGlob));
+      const ext = path.basename(link.countGlob).slice(1);
+      const real = fs.readdirSync(dir).filter((f) => f.endsWith(ext)).length;
+      const html = read(`skills/${m.name}/index.html`);
+      const [head, tail] = link.label.split('{n}');
+      const q = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const shown = html.match(new RegExp(`${q(head)}(\\d+)${q(tail)}`));
+      assert.ok(shown, `${m.name}: the extraLink label is not on the page`);
+      assert.strictEqual(Number(shown[1]), real,
+        `${m.name}: the page advertises ${shown[1]} and the tree holds ${real}`);
     }
   }
 });

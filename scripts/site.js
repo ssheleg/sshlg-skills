@@ -29,6 +29,7 @@ const ROOT = path.resolve(__dirname, '..');
 const pkg = require(path.join(ROOT, 'package.json'));
 const data = require(path.join(ROOT, 'skills.json'));
 const registry = require(path.join(ROOT, 'lib', 'routers-registry.js'));
+const og = require('./og-card.js');
 
 /** Where the site is served from. Every canonical URL is built off this. */
 const SITE = 'https://ssheleg.github.io/sshlg-skills';
@@ -95,12 +96,46 @@ function refusalOf(text) {
 
 // ------------------------------------------------------------------- the model
 
+/**
+ * `{n}` in an extraLink label, resolved by counting files in the member's own tree.
+ *
+ * The label shipped as "Browse all 34 style packs" and the tree held 35 the day it
+ * was published — a hand-written tally on the family's most-read page, which is the
+ * dead-address class this repository gates everywhere else arriving through a field
+ * nothing read. A count that cannot be resolved THROWS: a link advertising `{n}` or
+ * `0` is worse than a build that stopped.
+ */
+function resolveCount(member, link) {
+  if (!String(link.label).includes('{n}')) return link.label;
+  if (!link.countGlob) {
+    throw new Error(`${member.name}: extraLink label uses {n} and names no countGlob`);
+  }
+  const glob = link.countGlob;
+  const dir = path.join(ROOT, member.dir, path.dirname(glob));
+  const pattern = path.basename(glob);
+  if (!pattern.startsWith('*') || pattern.includes('/')) {
+    throw new Error(`${member.name}: countGlob must end in *<ext>, got ${pattern}`);
+  }
+  const ext = pattern.slice(1);
+  let n = 0;
+  try {
+    n = fs.readdirSync(dir).filter((f) => f.endsWith(ext)).length;
+  } catch (e) {
+    throw new Error(`${member.name}: countGlob points at ${glob}, which is not readable `
+      + `(${e.code}) — the submodule is probably not checked out, and a card that says {n} `
+      + 'cannot be published from a tree that cannot be counted');
+  }
+  if (!n) throw new Error(`${member.name}: countGlob ${glob} matched nothing`);
+  return String(link.label).replace('{n}', String(n));
+}
+
 const members = data.skills.map((s) => ({
   ...s,
   slug: s.name,
   routers: registry.order()
     .filter((r) => (registry.REGISTRY[r].requires || []).includes(s.name))
     .map((r) => ({ name: r, ...registry.REGISTRY[r] })),
+  extraLinks: (s.extraLinks || []).map((l) => ({ ...l, label: resolveCount(s, l) })),
 }));
 
 const standingRules = registry.order()
@@ -384,9 +419,13 @@ function layout(o) {
 <meta property="og:title" content="${esc(o.title)}">
 <meta property="og:description" content="${esc(o.description)}">
 <meta property="og:url" content="${canonical}">
-<!-- summary, not summary_large_image: the large card promises a 1200x630 image
-     this site does not carry yet, and X renders that promise as an empty box. -->
-<meta name="twitter:card" content="summary">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="${SITE}/og/${o.card}.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="${og.WIDTH}">
+<meta property="og:image:height" content="${og.HEIGHT}">
+<meta property="og:image:alt" content="${esc(o.cardAlt || o.title)}">
+<meta name="twitter:image" content="${SITE}/og/${o.card}.png">
 <meta name="twitter:site" content="@${X_HANDLE}">
 <meta name="twitter:creator" content="@${X_HANDLE}">
 <meta name="twitter:title" content="${esc(o.title)}">
@@ -444,6 +483,32 @@ function memberCard(m, rel) {
   <div class="foot"><span>${subs} skill${subs === 1 ? '' : 's'}${
     (m.extraLinks || []).length ? ' · a catalogue of its own' : ''}</span><span>Read →</span></div>
 </a>`;
+}
+
+// An extraLink may advertise a COUNT, and a count written by hand goes stale on the
+// next release of the member it describes — `"Browse all 34 style packs"` was already
+// one pack behind reality the day a thirty-fifth would land, with nothing to catch it.
+// So a label may carry `{n}` and name what to count: the files are counted in the
+// member's own submodule at build time, which CI checks out recursively.
+function resolveCount(member, link) {
+  if (!link.label.includes('{n}')) return link.label;
+  if (!link.countGlob) {
+    throw new Error(`skills.json: ${member.name} extraLink label uses {n} but sets no countGlob`);
+  }
+  const dir = path.join(ROOT, member.dir, path.dirname(link.countGlob));
+  const pattern = path.basename(link.countGlob);
+  const rx = new RegExp('^' + pattern.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*') + '$');
+  let names;
+  try {
+    names = fs.readdirSync(dir).filter((f) => rx.test(f));
+  } catch (e) {
+    throw new Error(`skills.json: ${member.name} countGlob '${link.countGlob}' does not resolve — ` +
+      `submodule not checked out? (${e.code})`);
+  }
+  const skip = new Set(link.countExclude || []);
+  const n = names.filter((f) => !skip.has(f)).length;
+  if (!n) throw new Error(`skills.json: ${member.name} countGlob matched nothing`);
+  return link.label.replace('{n}', String(n));
 }
 
 function indexPage() {
@@ -553,6 +618,8 @@ function indexPage() {
   return layout({
     rel,
     url: '/',
+    card: 'index',
+    cardAlt: `ssheleg skills — ${members.length} agent skill packs, one command, every agent`,
     title: 'ssheleg skills — agent skills for the work around the code',
     description: `${members.length} agent skill packs for Claude Code, Cursor, Codex and `
       + `${agentCount}+ more agents: UX scenarios, gated delivery, multi-agent leases, `
@@ -633,7 +700,7 @@ function memberPage(m) {
     <p><b>Shape:</b> ${esc(m.shape)}. ${esc(m.shapeWhy || '')}</p>
   </div>
   ${(m.extraLinks || []).map((l) => `<div class="note">
-    <p><a href="${esc(l.url)}" rel="noopener" target="_blank"><strong>${esc(l.label)} →</strong></a></p>
+    <p><a href="${esc(l.url)}" rel="noopener" target="_blank"><strong>${esc(resolveCount(m, l))} →</strong></a></p>
     <p>${esc(l.note || '')}</p>
   </div>`).join('\n')}
 </section>
@@ -670,6 +737,8 @@ ${m.routers.length ? `<hr class="rule">
   return layout({
     rel,
     url: `/skills/${m.slug}/`,
+    card: `skills-${m.slug}`,
+    cardAlt: `${m.name} v${m.version} — ${m.role}`,
     ogType: 'article',
     title: `${m.name} — ${m.role} · ssheleg skills`,
     description: firstSentence(m.desc, 300),
@@ -764,6 +833,8 @@ function routingPage() {
   return layout({
     rel,
     url: '/routing/',
+    card: 'routing',
+    cardAlt: `${registry.order().length} routing rules — which agent skill answers what, and when`,
     ogType: 'article',
     title: 'Routing — which agent skill answers what, and when · ssheleg skills',
     description: `The ${registry.order().length} routing rules the ssheleg skill family `
@@ -799,6 +870,7 @@ function notFoundPage() {
   return layout({
     rel: `/${GH_REPO}/`,
     url: '/404.html',
+    card: 'index',
     title: 'Not found · ssheleg skills',
     description: 'That page is not here — it may have moved with a release. '
       + `All ${members.length} skill packs of the ssheleg family, and every routing `
@@ -876,11 +948,45 @@ function build(outDir) {
     return rel;
   };
 
+  const write2 = (rel, buf) => {
+    const p = path.join(out, rel);
+    fs.mkdirSync(path.dirname(p), { recursive: true });
+    fs.writeFileSync(p, buf);
+    return rel;
+  };
+
   const written = [];
   written.push(write('index.html', indexPage()));
   written.push(write('routing/index.html', routingPage()));
   for (const m of members) written.push(write(`skills/${m.slug}/index.html`, memberPage(m)));
   written.push(write('404.html', notFoundPage()));
+
+  // The social cards. One per page, generated from the same manifest the page is,
+  // because a card is a claim about the page and a hand-made one goes stale first.
+  written.push(write2('og/index.png', og.card({
+    eyebrow: `${members.length} skills · one command · every agent`,
+    title: 'ssheleg skills',
+    lines: ['agent skills for the work around the code',
+      'no services, no telemetry, no api keys'],
+    footer: SITE.replace(/^https?:\/\//, ''),
+  })));
+  written.push(write2('og/routing.png', og.card({
+    eyebrow: `${registry.order().length} rules · each names the phrase that declines it`,
+    title: 'routing',
+    lines: ['which pack answers what, and when'],
+    footer: `${SITE.replace(/^https?:\/\//, '')}/routing`,
+  })));
+  for (const m of members) {
+    written.push(write2(`og/skills-${m.slug}.png`, og.card({
+      eyebrow: m.role,
+      title: m.name,
+      lines: [
+        `${(m.skillNames || []).length} skills in the pack · v${m.version}`,
+        `npx skills add ${m.repo}`,
+      ],
+      footer: `${SITE.replace(/^https?:\/\//, '')}/skills/${m.slug}`,
+    })));
+  }
   written.push(write('sitemap.xml', sitemap()));
   written.push(write('robots.txt', robots()));
   written.push(write('llms.txt', llms()));

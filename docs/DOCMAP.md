@@ -45,7 +45,7 @@ have. This repository grew its own on 2026-08-10, closing carry-over C-06.
 |---|---|---|
 | Whether an address this repository's own documents claim actually resolves | `test/doc_refs.py` (the extractor and resolver) + `LIVE_DOCS`/`LEDGER_DOCS`/`ELSEWHERE` in `test/validate.py` (the corpus and its boundary) | the split is the design: the five live documents are gated, the four dated records are counted and disclosed, because their rows cite member repositories and states that were true at a commit |
 | Which skills exist, their repos, plugin ids, pinned versions | `skills.json` | README table and `.gitmodules` are checked against it by `test/validate.py` |
-| What the public site says about any member | `skills.json` and `lib/routers-registry.js`, rendered by `scripts/site.js` | the site restates nothing: versions, descriptions, install identifiers and every routing rule are read at build time, and `test/site_test.js` fails when a page's version, address or launcher command disagrees with the source |
+| What the public site says about any member | `skills.json` and `lib/routers-registry.js`, rendered by `scripts/site.js` (pages) and `scripts/og-card.js` (the social card, one per page) | the site restates nothing: versions, descriptions, install identifiers and every routing rule are read at build time, and `test/site_test.js` fails when a page's version, address or launcher command disagrees with the source |
 | What each member publishes as on npm | `npm` in `skills.json`, cross-checked against the submodule's `package.json` name | declared, never derived: six members publish as `@ssheleg/<name>` and `task-pipeline` as `task-pipeline-skill`, while the bare `task-pipeline` on npm is someone else's |
 | What a router is — text, table row, required members | `lib/routers-registry.js` | `lib/router-texts.js` is a façade over it; `ROUTER_ROWS` in `lib/routers.js` is derived |
 | Whether the operator's wording has diverged from the packaged one | `lib/drift.js` | pure, like `routers.js`; a fixture asserts it never reaches the filesystem |
@@ -140,8 +140,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=37 fixtures=648 members=8 -->
-**Ratchets.** 37 suites, 648 fixtures, 8 pinned members — and these three numbers are
+<!-- ratchets: suites=39 fixtures=661 members=8 -->
+**Ratchets.** 39 suites, 661 fixtures, 8 pinned members — and these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree.** Counting
 convention: a suite is anything `npm test` runs, `validate.py` included, which is the
@@ -165,8 +165,11 @@ the repository gate stopped deciding ownership from an index the command could c
 route gate stopped reading a closed run as an open one, and the suites stopped leaving
 temp trees on the machine without saying so, 36/620 for the eleventh router — five
 fixtures and no new suite, because `project-audit`'s own 43 cases are a gate in
-`task-pipeline`, where the code it exercises ships — and 37/648 when the family got a
-public site and the site got a suite.
+`task-pipeline`, where the code it exercises ships — 37/648 when the family got a
+public site and the site got a suite, 38/661 when the site stopped promising a
+social card it did not carry and started encoding one, and 39/661 when an
+`extraLink` stopped writing a count by hand — one suite and no new fixtures, because
+the check reads the manifest rather than a planted tree.
 
 That jump is not eight new suites. **24/469 was wrong when it was written** — the
 2026-08-16 audit recounted the same command at 26 node suites and 542 fixtures,
