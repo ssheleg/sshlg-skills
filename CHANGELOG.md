@@ -1,3 +1,37 @@
+## v0.97.0 — a README may name a command, not claim one
+
+Seven members move together, and one new guard holds the reason.
+
+Measured against the published tarballs on 2026-08-25: `task-pipeline-skill` and
+`@ssheleg/agent-sync` both told a reader to run `npm test`, and neither ships a `test/`
+directory — `npm pack` lists 96 and 32 files with nothing under it. Six of the eight members
+presented such a command in a fenced block. So this family's own dead-address rule was being
+broken inside its own distribution, by the documents that state the rule.
+
+Shipping the suite does not fix it: the plants live in `.github/workflows/`, and no packaging
+npm can express puts a workflow in a tarball. The READMEs name where the command runs instead,
+beside a marker, and `check_a_shipped_readme_does_not_claim_a_command_the_package_cannot_run`
+refuses a member that claims one without it. Scoped to fenced blocks deliberately —
+`make-skill` and `super-ux` describe `test/validate.py` and ask nobody to run it, and a guard
+that fires on correct documents teaches a team to satisfy it without reading why. Watched
+failing with the marker stripped from `agent-stack`.
+
+What the members carry with them:
+
+- **agent-sync 1.17.0** — the SessionStart hook had never once established a session identity:
+  it required the id in its ENVIRONMENT while Claude Code delivers it on stdin as JSON. So the
+  `shared` fallback that makes an expired lease unattributable was not a fallback, it was the
+  only path. Also: the ledger's own guard demanded every dated row quote the CURRENT version,
+  so each release rewrote history to satisfy it — two rows restored from git.
+- **task-pipeline 1.77.0** — a version MENTIONED in the release-gap section counted as a
+  declaration that the release carries no stamp. Declarations are bold now.
+- **make-skill 0.23.1, seo-aeo-audit 0.25.1, agent-stack 0.13.2** — the residue scan read the
+  shared `$TMPDIR` by prefix, so another session's trees and an earlier run's deliberately kept
+  evidence both read as this run's leak.
+- **sheleg-design 1.49.1, sheleg-dev 0.9.2** — the README scope statement.
+
+Guards: 27 → **28**.
+
 ## v0.96.4 — sheleg-design 1.49.0, and sheleg-dev's half-landed release completed
 
 `rimlight`, the thirty-fourth pack: elevation made of coloured light rather than

@@ -1090,6 +1090,58 @@ _SHARED_DIVERGES = re.compile(r"(?m)^#\s*diverges:\s*(.+?)\s*$")
 _MODULE_CONST = re.compile(r"(?m)^([A-Z_][A-Z0-9_]*)\s*=")
 
 
+
+def check_a_shipped_readme_does_not_claim_a_command_the_package_cannot_run():
+    """A fenced command block in a README is a claim; a path named in prose is not.
+
+    Measured 2026-08-25 against the published tarballs: `task-pipeline-skill@1.76.1` and
+    `@ssheleg/agent-sync@1.16.0` both told a reader to run `npm test`, and neither ships a
+    `test/` directory -- `npm pack` listed 96 and 32 files with nothing under `test/`. So the
+    command resolves in a clone and nowhere else, which is this family's own dead-address
+    class landing inside its own distribution.
+
+    Shipping `test/` does not fix it: the suites read `.github/workflows/validate.yml` for
+    their plants, and no packaging that npm can express puts a workflow in a tarball. So the
+    document names where the command runs instead of claiming it, and that statement carries a
+    marker, because a rule anchored on a sentence stops holding the day somebody rewords it.
+
+    Scoped to blocks, deliberately. Requiring the marker wherever a README merely *mentions*
+    `test/validate.py` would have hit `make-skill` and `super-ux`, which describe the file and
+    ask nobody to run it -- and a guard that fires on correct documents is how a team learns to
+    add the marker everywhere without reading why.
+    """
+    mark = "<!-- commands-run-in: a clone -->"
+    runnable = re.compile(r'^(npm (run )?test|python3 test/|node test/|bash test/|\./test/)')
+    looked = 0
+    for m in manifest.get("skills", []):
+        rd = os.path.join(ROOT, m["dir"], "README.md")
+        pkg = os.path.join(ROOT, m["dir"], "package.json")
+        if not (os.path.isfile(rd) and os.path.isfile(pkg)):
+            _skips.append(f"{m['name']}: no README or package.json to compare")
+            continue
+        try:
+            files = json.load(open(pkg, encoding="utf-8")).get("files", [])
+        except (ValueError, OSError):
+            _skips.append(f"{m['name']}: package.json is unreadable, so what it ships is unknown")
+            continue
+        if any(str(x).rstrip("/") == "test" for x in files):
+            continue                      # it ships the suite; the command is true anywhere
+        text = open(rd, encoding="utf-8").read()
+        claims = []
+        for blk in re.finditer(r"```[a-z]*\n(.*?)```", text, re.S):
+            for line in blk.group(1).splitlines():
+                if runnable.match(line.strip()):
+                    claims.append(line.strip())
+        looked += 1
+        if claims and mark not in text:
+            fail(f"{m['dir']}/README.md: presents {len(claims)} command(s) to run that the "
+                 f"published package cannot run -- it ships no `test/` -- and carries no "
+                 f"`{mark}` beside them. First: {claims[0][:60]!r}. Name where the command "
+                 f"runs, or ship the suite")
+    if not looked:
+        fail("no member was compared: every one either ships `test/` or has no README, so "
+             "this check passed by looking at nothing")
+
 def check_a_copied_mechanism_declares_its_divergence():
     import difflib
 
@@ -1173,6 +1225,7 @@ check_a_copied_mechanism_declares_its_divergence()
 
 
 
+check_a_shipped_readme_does_not_claim_a_command_the_package_cannot_run()
 check_no_id_carries_two_verdicts()
 
 

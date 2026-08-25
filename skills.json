@@ -50,7 +50,7 @@
         "evidence-docs",
         "project-audit"
       ],
-      "version": "1.76.1",
+      "version": "1.77.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
@@ -67,7 +67,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.16.0",
+      "version": "1.17.0",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
@@ -84,7 +84,7 @@
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.23.0",
+      "version": "0.23.1",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
@@ -101,7 +101,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.49.0",
+      "version": "1.49.1",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -118,7 +118,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.25.0",
+      "version": "0.25.1",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
@@ -141,7 +141,7 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.9.1",
+      "version": "0.9.2",
       "entry": null,
       "role": "integrations: money in, tracking, sign-in, speed",
       "npm": "@ssheleg/sheleg-dev",
@@ -161,7 +161,7 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.13.1",
+      "version": "0.13.2",
       "entry": null,
       "role": "agent orchestrators, their evals, the protocols they speak, and the wallet under LLM resale",
       "npm": "@ssheleg/agent-stack",

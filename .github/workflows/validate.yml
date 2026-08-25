@@ -102,6 +102,38 @@ jobs:
       - name: Advertised plants (each member's own gate must refuse a dropped trigger)
         run: npm run test:plants
 
+      - name: Negative self-test (a README claiming a command the package cannot run must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/nomark && cp -R . /tmp/nomark
+          python3 test/plant_guard.py snap /tmp/nomark
+          # The real defect, measured against the published tarballs on 2026-08-25: two
+          # members told a reader to run `npm test` and neither ships a `test/` directory,
+          # so the command resolved in a clone and nowhere else. Anchored on the MARKER's
+          # shape rather than on a member, so re-scoping which README carries it cannot
+          # quietly disarm this.
+          python3 - <<'EOF'
+          import pathlib
+          MARK = "<!-- commands-run-in: a clone -->"
+          hit = None
+          for f in sorted(pathlib.Path("/tmp/nomark/skills").glob("*/README.md")):
+              t = f.read_text(encoding="utf-8")
+              if MARK in t:
+                  f.write_text(t.replace(MARK + "\n", "", 1), encoding="utf-8")
+                  hit = f
+                  break
+          assert hit, "PLANT DID NOT LAND: no member README carries the marker"
+          assert MARK not in hit.read_text(encoding="utf-8"), "PLANT DID NOT LAND: still there"
+          print("stripped the marker from", hit.parent.name)
+          EOF
+          python3 test/plant_guard.py verify /tmp/nomark "Negative self-test (a README claiming a command the package cannot run must fail)"
+          if python3 /tmp/nomark/test/validate.py; then
+            echo "ERROR: validator accepted a README claiming a command its package cannot run"
+            exit 1
+          else
+            echo "OK: validator FAILs when a shipped README claims a command the package cannot run"
+          fi
+
       - name: Negative self-test (a submodule detached on a commit no branch holds must fail)
         run: |
           set -eu
