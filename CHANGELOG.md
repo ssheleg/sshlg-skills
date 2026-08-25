@@ -28,8 +28,11 @@ shipped.
 directory the vercel skills CLI has been installing this family into since the
 first release. Verified on this machine on 2026-08-25:
 `~/.agents/skills/<name>/SKILL.md` resolves with its `references/` and
-`fixtures/` beside it, for all 28 skills. **Nothing was built. The work was
-finding out that nothing needed to be.**
+`fixtures/` beside it, for all 28 skills — and the subsystem that reads them is
+in the harness's **default** profile rather than an optional add-on:
+`dsh --profile web --dump-default-config` lists `@deepseek-ai/dsh-skill`,
+`dsh-skill-filesystem` and `dsh-tool-skill`. **Nothing was built. The work was
+finding out that nothing needed to be, and then proving it twice.**
 
 What is recorded rather than assumed, from the harness's own skills-subsystem
 document read the same day:

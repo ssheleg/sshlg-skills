@@ -140,9 +140,23 @@ Flags: `--agent a,b` picks agents, `--all` covers every agent the CLI supports,
 Nothing to install beyond the ordinary `install`, and **no plugin to write.**
 `dsh` reads the Agent Skills standard directly: its local provider scans
 `<agentsHome>/skills` at rank 500, which is `~/.agents/skills` — the directory
-the skills CLI already installs into. Verified on this machine 2026-08-25:
-`~/.agents/skills/<name>/SKILL.md` resolves with its `references/` and
-`fixtures/` beside it, for every skill in the family.
+the skills CLI already installs into.
+
+Verified two ways on 2026-08-25 rather than read off a page. The subsystem is in
+the **default** profile, not an optional add-on:
+
+```bash
+npx @deepseek-ai/dsh --profile web --dump-default-config | grep skill
+#   name: '@deepseek-ai/dsh-skill'
+#   name: '@deepseek-ai/dsh-skill-filesystem'
+#   name: '@deepseek-ai/dsh-tool-skill'
+```
+
+and the files are where that provider looks:
+
+```bash
+ls ~/.agents/skills/telegram-bots/     # SKILL.md  references/  fixtures/
+```
 
 Two things worth knowing, both read from the harness's own
 [skills subsystem doc](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/skills.md)
