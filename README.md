@@ -5,7 +5,7 @@
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![site](https://img.shields.io/badge/docs-skills.sshlg.me-8ab0ff)](https://skills.sshlg.me/)
 
-**Eight agent skills, one command, every agent.**
+**Nine agent skills, one command, every agent.**
 
 ```bash
 npx sshlg-skills install    # install the whole family
@@ -32,7 +32,7 @@ webhook or an agent's tool-calling loop and writes the version that holds until
 it meets real traffic. And the moment you want it to remember how *you* work,
 you are writing a skill — and packaging one correctly is its own afternoon.
 
-Each of these eight takes one of those gaps and gives the agent a contract it
+Each of these nine takes one of those gaps and gives the agent a contract it
 has to follow. They are documentation, validators and small standard-library
 scripts. No services, no telemetry, no API keys.
 
@@ -46,6 +46,7 @@ scripts. No services, no telemetry, no API keys.
 | **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.25.1 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan plus a link-building brief — not a score. |
 | **[sheleg-dev](https://github.com/ssheleg/sheleg-dev)** | 0.10.0 | The integration layer a product reaches once it has users: **money in, tracking, sign-in, speed**. Stripe subscription billing reconciled into your own database — webhook idempotency, renewals, seats and proration, refunds, price drift, and the coupon offered at the cancel step, where a `duration=once` discount leaves `subscription.discounts` the moment its invoice finalizes and the offer can be taken every cycle; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4, Google Ads, Meta and LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side auth surface behind it; Core Web Vitals work that moves the score rather than the report; and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it. |
 | **[agent-stack](https://github.com/ssheleg/agent-stack)** | 0.13.2 | Production patterns for agent systems, in four skills. **The orchestrator** — tool-calling loops that survive their own context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, four memory layers with confidence decay and conflict resolution, and **the shape of the work decided before the work**: an edge that carries no data is no edge, a plan that declares its dependencies is executed in layers rather than in list order, and a parallel layer gets a checker before the node that consumes it. **The harness** — what the agent is *told*: system prompts at the right altitude, tool descriptions the model can act on, technique choice with a verdict each, workflow versus agent and static versus dynamic, plus a seven-track audit of an agent somebody else built and a scanner for the defects that are mechanically visible. **The evals** — suites that measure whether it actually works: judging trajectories, regression fixtures grown from production, judges calibrated before they are trusted. **The interop layer** — MCP at revision 2026-07-28 and the four features it deprecated, running many servers at once, the registry, A2A 1.0, and the gateway, every reference carrying the spec revision it was read against. Plus the wallet side of reselling LLM access: tiered balances, one markup boundary, two-phase commit against a provider API. |
+| **[telegram-dev](https://github.com/ssheleg/telegram-dev)** | 0.1.1 | Telegram, split by the API each surface actually speaks. **`telegram-bots`** — the official HTTP Bot API: `update_id` as the only idempotency key an update carries, the `allowed_updates` default that subscribes you to everything *except* `chat_member` and the two reaction types while answering `ok: true`, the webhook secret header that is the real check, rate limits as a design constraint (1/sec per chat, 20/min per group, ~30/sec bulk), and Telegram Stars with a **ten-second** pre-checkout window and a grant that belongs to `successful_payment`. **`telegram-userbots`** — MTProto and Telethon: the session file as a credential equal to the password, `FloodWaitError` as the API telling you exactly how long to wait, pinning across minor releases that move session and entity-cache behaviour, and the account-ban risk a bot token does not carry — the skill opens with whether a user account is needed at all. **`telegram-miniapps`** — the web layer, whose entire security model is one signed query string: verifying `initData` server-side, the `auth_date` window, the Ed25519 path for a third party, and the SDK package whose name moved while the organisation's own page still fronts the old one. Both the verifier and the delivery invariants ship as runnable fixtures with their mutants. |
 
 They compose. `task-pipeline` hands user-facing work to `super-ux` and takes its
 leases from `agent-sync`; `make-skill` encodes the repo layout the others are
@@ -220,7 +221,7 @@ npx sshlg-skills routers --diff <name>            # your wording vs the packaged
 npx sshlg-skills routers --update --adopt <name>  # take the packaged wording for it
 ```
 
-Eleven routers, and they are **different axes rather than competing
+Twelve routers, and they are **different axes rather than competing
 priorities** — a landing page passes several, an internal script passes none:
 
 | Router | Answers | When | Needs installed |
@@ -230,6 +231,7 @@ priorities** — a landing page passes several, an internal script passes none:
 | `copywriting` | how it sounds | text a product user will read | super-ux |
 | `sheleg-dev` | what it runs on to charge, track and sign in | money, tracking, sign-in or speed is being wired | sheleg-dev |
 | `agent-stack` | how an agent system is built, judged and metered | the thing being built is an agent | agent-stack |
+| `telegram-dev` | which Telegram API a surface speaks, and what it costs | the thing being built lives inside Telegram | telegram-dev |
 | `seo-llmo` | whether a machine will find it | a logged-out reader can see it | — |
 | `evidence-docs` | what proves it | something is stated as true | — |
 | `task-pipeline` | how the change reaches the repo | the repository changes | task-pipeline |

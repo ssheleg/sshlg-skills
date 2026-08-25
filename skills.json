@@ -178,6 +178,25 @@
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance."
+    },
+    {
+      "name": "telegram-dev",
+      "repo": "ssheleg/telegram-dev",
+      "dir": "skills/telegram-dev",
+      "pluginMarketplace": "ssheleg/telegram-dev",
+      "pluginInstall": "telegram-dev@telegram-dev",
+      "desc": "Telegram, split by the API each surface actually speaks, in three skills. telegram-bots covers the official HTTP Bot API: update_id as the only idempotency key an update carries, the allowed_updates default that subscribes you to everything except chat_member and the two reaction types while returning ok, the webhook secret header that is the real check, rate limits as a design constraint rather than an error path, and Telegram Stars with a ten-second pre-checkout window and the grant that belongs to successful_payment. telegram-userbots covers MTProto and Telethon: the session file as a credential equal to the password, FloodWaitError as the API telling you exactly how long to wait, pinning across minor releases that move session and entity-cache behaviour, and the account-ban risk a bot token does not carry — opening with whether a user account is needed at all. telegram-miniapps covers the web layer, whose entire security model is one signed query string: verifying initData server-side, the auth_date window, the Ed25519 path for a third party, and the SDK package whose name moved. Both the verifier and the delivery invariants ship as runnable fixtures with their mutants.",
+      "skillNames": [
+        "telegram-bots",
+        "telegram-userbots",
+        "telegram-miniapps"
+      ],
+      "version": "0.1.1",
+      "entry": null,
+      "role": "which Telegram API each surface speaks, and what each one costs",
+      "npm": "@ssheleg/telegram-dev",
+      "shape": "static",
+      "shapeWhy": "Three fixed surfaces with fixed seams; the only branch is which of the three a task is on, and the first table in each SKILL.md decides that before any code."
     }
   ]
 }

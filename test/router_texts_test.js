@@ -31,11 +31,11 @@ function it(name, fn) {
 
 const EXPECTED = [
   'super-ux', 'sheleg-design', 'copywriting', 'sheleg-dev', 'agent-stack',
-  'seo-llmo', 'evidence-docs', 'task-pipeline',
+  'telegram-dev', 'seo-llmo', 'evidence-docs', 'task-pipeline',
   'project-audit', 'make-skill', 'agent-sync',
 ];
 
-it('the registry holds exactly the eleven routers, in table order', () => {
+it('the registry holds exactly the twelve routers, in table order', () => {
   assert.deepStrictEqual(registry.order(), EXPECTED);
 });
 

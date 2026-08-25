@@ -1,3 +1,37 @@
+## v0.99.0 — a ninth member: Telegram, split by the API each surface speaks
+
+`telegram-dev` v0.1.1, three skills. Telegram is three products behind one brand
+and the expensive mistakes come from treating them as one, so the pack draws the
+line first and puts each seam on the correct side of it.
+
+- **`telegram-bots`** — the official HTTP Bot API. `update_id` is the only
+  idempotency key an update carries, and a webhook retry, a poller redelivery or
+  a crash between "work done" and "offset confirmed" all produce the same event
+  twice. Measured across eight live Telegram bots on this machine on 2026-08-25:
+  **zero of eight deduplicate on it.** Also the `allowed_updates` default that
+  subscribes you to everything *except* `chat_member` and the two reaction types
+  while answering `ok: true`, and Telegram Stars, where `answerPreCheckoutQuery`
+  has **ten seconds** and the grant belongs to `successful_payment`.
+- **`telegram-userbots`** — MTProto and Telethon. A session file is a logged-in
+  person: full access, no password, no 2FA prompt, and an account that can be
+  banned in a way a token cannot. The skill opens with whether a user account is
+  needed at all, because a 21 MB file is a local Bot API server rather than a
+  permanent liability. Measured here: **three of six** Telethon projects handle
+  `FloodWaitError`; five of five gitignore the session and none has one tracked.
+- **`telegram-miniapps`** — the web layer, whose entire security model is one
+  signed query string. The verification algorithm ships as a **runnable fixture**
+  with nine checks that watch it refuse a tampered user id, a stale `auth_date`,
+  a re-serialised `user` field and a key derivation applied backwards.
+
+The twelfth router carries it, and the trigger table can name it — a member in
+the map and not in the routes is how `agent-stack` went five days unrouted, and
+`test/route_coverage.js` exists because of that.
+
+**A count typed by hand goes stale on the ninth member.** Every member README
+said "all 8 skills"; the number is gone rather than corrected, in all nine.
+
+Ratchet: 38 suites, 662 → 667 fixtures, 8 → 9 pinned members.
+
 ## v0.98.1 — the site has its own address
 
 `skills.sshlg.me`. A `CNAME` to `ssheleg.github.io`, deliberately **DNS-only**: GitHub
