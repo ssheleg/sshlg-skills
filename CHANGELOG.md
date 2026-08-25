@@ -1,3 +1,41 @@
+## v0.98.0 — the family gets a front door, built from its own manifest
+
+Eight skill packs with nothing a person could read without cloning a repository. There is
+now a site — one page per member, one page carrying every routing rule verbatim, an
+`llms.txt` for the machines that will quote it, and the two calls to action that were
+missing everywhere: follow the author on X in one click, and get the packs on GitHub.
+
+**It restates nothing.** `scripts/site.js` renders `skills.json` and
+`lib/routers-registry.js` — the same two files the launcher and the operator's routing
+block are generated from. A version, an install identifier, a routing rule, a refusal
+phrase: read at build time or not on the page at all. A site that retyped any of it would
+be the ninth home of a fact this repository already keeps in one place, and the ninth home
+is the one that goes stale.
+
+**It is never committed.** `.github/workflows/pages.yml` gates on the whole `validate`
+suite through `workflow_call`, then builds and deploys. A generated page in git drifts
+from the data it claims to render; a page built from the tree cannot. The workflow reads
+the artifact twice more before it ships — every internal address must resolve in the bytes
+being uploaded, and nothing may be fetched from another host, because "no services, no
+telemetry, no API keys" is the pack's own claim and a CDN on that page refutes it.
+
+`test/site_test.js` — 28 fixtures, the 37th suite — is the half that runs here. It builds
+into a temp directory and fails when a page states a version `skills.json` does not pin,
+when an internal link does not resolve, when a page hands a reader a launcher command
+`bin/sshlg-skills.js` does not dispatch (`doctor` reads exactly like the real ones and
+exits 2), when a copyable command exists only inside its Copy button, when a follow
+control has no working `href` for a reader with JS off, or when the build is not
+byte-identical twice from the same tree.
+
+**The follow button is an enhancement, not a requirement.** The anchor carries the real
+`x.com/intent/follow` URL, so with JS off, on a narrow screen, or with the popup blocked,
+the click is an ordinary navigation and the dialog still opens. The popup only wins when
+`window.open` actually returned a window — `preventDefault` is conditional on it — and
+`original_referer` is added in the browser, because only the browser knows which page the
+reader clicked from.
+
+Ratchet: 36 → 37 suites, 620 → 648 fixtures.
+
 ## v0.97.0 — a README may name a command, not claim one
 
 Seven members move together, and one new guard holds the reason.

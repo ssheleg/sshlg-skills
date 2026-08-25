@@ -3,6 +3,7 @@
 [![validate](https://github.com/ssheleg/sshlg-skills/actions/workflows/validate.yml/badge.svg)](https://github.com/ssheleg/sshlg-skills/actions/workflows/validate.yml)
 [![npm](https://img.shields.io/npm/v/sshlg-skills)](https://www.npmjs.com/package/sshlg-skills)
 [![license](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![site](https://img.shields.io/badge/docs-ssheleg.github.io-8ab0ff)](https://ssheleg.github.io/sshlg-skills/)
 
 **Eight agent skills, one command, every agent.**
 
@@ -10,6 +11,10 @@
 npx sshlg-skills install    # install the whole family
 npx sshlg-skills update     # update everything already installed
 ```
+
+**[Read the site →](https://ssheleg.github.io/sshlg-skills/)** · one page per skill,
+every routing rule verbatim, and [`llms.txt`](https://ssheleg.github.io/sshlg-skills/llms.txt)
+for the machines. · **[Follow @sshlg93 on X](https://x.com/intent/follow?screen_name=sshlg93)**
 
 Works with **Claude Code** (as plugins) plus Cursor, OpenCode, Codex, Kilo, Kimi,
 Hermes, OpenClaw, Gemini CLI, Windsurf, Zed and the rest of the 70+ agents the
@@ -468,6 +473,28 @@ refuses to estimate without one. The audit reports the always-on token budget,
 bodies against their cap, trigger-phrase collisions and the installed routing
 block against the registry.
 
+### The site
+
+```bash
+node scripts/site.js --out _site
+```
+
+One page per member plus the routing page, built from
+[`skills.json`](skills.json) and [`lib/routers-registry.js`](lib/routers-registry.js) —
+the same two files the launcher and the operator's routing block are generated from. The
+site restates nothing: a version, an install identifier or a routing rule on a published
+page is read at build time, so it cannot drift from the manifest.
+
+**The built site is never committed.**
+[`.github/workflows/pages.yml`](.github/workflows/pages.yml) gates on the whole
+`validate` suite through `workflow_call`, then builds and deploys — a generated page in
+git drifts from the data it claims to render, and a page built from the tree cannot.
+[`test/site_test.js`](test/site_test.js) is the half that runs here: it builds into a
+temp directory and fails when a stated version is not the pinned one, when an internal
+address does not resolve, when a page hands the reader a launcher command
+`bin/sshlg-skills.js` does not dispatch, or when anything on the page would be fetched
+from another host.
+
 Releases are tag-driven: bump `skills.json`, `package.json` and the top
 `CHANGELOG.md` entry together, tag `vX.Y.Z`, and the release workflow cuts the
 GitHub release from the matching changelog section.
@@ -479,7 +506,8 @@ vulnerability, see [SECURITY.md](SECURITY.md).
 
 Built by ssheleg — [sshlg.me](https://sshlg.me)
 
-- X / Twitter — [@sshlg93](https://x.com/sshlg93)
+- X / Twitter — [@sshlg93](https://x.com/sshlg93) ·
+  [follow in one click](https://x.com/intent/follow?screen_name=sshlg93)
 - Telegram — [@sshlg](https://t.me/sshlg)
 
 ## License

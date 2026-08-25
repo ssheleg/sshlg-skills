@@ -45,6 +45,7 @@ have. This repository grew its own on 2026-08-10, closing carry-over C-06.
 |---|---|---|
 | Whether an address this repository's own documents claim actually resolves | `test/doc_refs.py` (the extractor and resolver) + `LIVE_DOCS`/`LEDGER_DOCS`/`ELSEWHERE` in `test/validate.py` (the corpus and its boundary) | the split is the design: the five live documents are gated, the four dated records are counted and disclosed, because their rows cite member repositories and states that were true at a commit |
 | Which skills exist, their repos, plugin ids, pinned versions | `skills.json` | README table and `.gitmodules` are checked against it by `test/validate.py` |
+| What the public site says about any member | `skills.json` and `lib/routers-registry.js`, rendered by `scripts/site.js` | the site restates nothing: versions, descriptions, install identifiers and every routing rule are read at build time, and `test/site_test.js` fails when a page's version, address or launcher command disagrees with the source |
 | What each member publishes as on npm | `npm` in `skills.json`, cross-checked against the submodule's `package.json` name | declared, never derived: six members publish as `@ssheleg/<name>` and `task-pipeline` as `task-pipeline-skill`, while the bare `task-pipeline` on npm is someone else's |
 | What a router is — text, table row, required members | `lib/routers-registry.js` | `lib/router-texts.js` is a façade over it; `ROUTER_ROWS` in `lib/routers.js` is derived |
 | Whether the operator's wording has diverged from the packaged one | `lib/drift.js` | pure, like `routers.js`; a fixture asserts it never reaches the filesystem |
@@ -82,7 +83,7 @@ What a change of each type obliges, in the same change:
 
 | Change | Also update |
 |---|---|
-| A router added, removed or reworded | `lib/routers-registry.js` (only) → README routing table → `test/router_texts_test.js` → CHANGELOG |
+| A router added, removed or reworded | `lib/routers-registry.js` (only) → README routing table → `test/router_texts_test.js` → CHANGELOG. **The site needs nothing**: `scripts/site.js` renders the registry, and `test/site_test.js` fails if a rule or its refusal phrase is missing from the page |
 | A new CLI command or flag | `bin/sshlg-skills.js` usage block → README → a fixture asserting its exact output and exit code → CHANGELOG |
 | A new trigger word for the prompt hook | `lib/triggers.js` **only** — and it must already appear in the target skill's own `description`, or `test/triggers_test.js` fails. Inventing one here creates a second routing policy nothing else reads |
 | A new hook or status line | `lib/hooks.js` → `WIRED` (the plan, one list) → `hooks/<name>.js` (thin I/O) → a fixture for the planner **and** a process-level fixture in `test/hooks_e2e_test.js` → CHANGELOG. Writing to `settings.json` goes through `protect()`; there is no second write path |
@@ -139,8 +140,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=36 fixtures=620 members=8 -->
-**Ratchets.** 36 suites, 620 fixtures, 8 pinned members — and these three numbers are
+<!-- ratchets: suites=37 fixtures=648 members=8 -->
+**Ratchets.** 37 suites, 648 fixtures, 8 pinned members — and these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree.** Counting
 convention: a suite is anything `npm test` runs, `validate.py` included, which is the
@@ -162,9 +163,10 @@ denominator, 32/557 when `apply_test.js` gave the write path fixtures of its own
 when the graph disclosure learned to read the report beside the graph, and 36/615 when
 the repository gate stopped deciding ownership from an index the command could change, the
 route gate stopped reading a closed run as an open one, and the suites stopped leaving
-temp trees on the machine without saying so, and 36/620 for the eleventh router — five
+temp trees on the machine without saying so, 36/620 for the eleventh router — five
 fixtures and no new suite, because `project-audit`'s own 43 cases are a gate in
-`task-pipeline`, where the code it exercises ships.
+`task-pipeline`, where the code it exercises ships — and 37/648 when the family got a
+public site and the site got a suite.
 
 That jump is not eight new suites. **24/469 was wrong when it was written** — the
 2026-08-16 audit recounted the same command at 26 node suites and 542 fixtures,

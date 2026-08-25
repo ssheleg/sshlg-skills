@@ -1,0 +1,107 @@
+name: pages
+
+# The public site, built from the repository on every push to `main` and never
+# committed. A generated page in git drifts from the manifest it claims to render;
+# a page built from the tree cannot.
+#
+# The gate runs FIRST, through `workflow_call` rather than through a copy of the
+# steps — the same reason `release.yml` does. A published page that describes a red
+# tree is the family's own dead-address class, on the widest-read document it has.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills.json'
+      - 'lib/routers-registry.js'
+      - 'lib/router-texts.js'
+      - 'scripts/site.js'
+      - 'package.json'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # Every negative self-test included. Nothing is published over a red suite.
+  validate:
+    uses: ./.github/workflows/validate.yml
+
+  build:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build the site
+        run: node scripts/site.js --out _site
+
+      - name: The built site holds no address that does not resolve
+        # `test/site_test.js` already asserts this against its own temp build. This
+        # is the second reading, over the artifact that is actually about to ship:
+        # a link checker on the bytes being uploaded, not on a rebuild of them.
+        run: |
+          node - <<'JS'
+          const fs = require('fs'), path = require('path');
+          const root = '_site';
+          const pages = [];
+          (function walk(d){ for (const e of fs.readdirSync(d, {withFileTypes:true})) {
+            const p = path.join(d, e.name);
+            if (e.isDirectory()) walk(p); else if (p.endsWith('.html')) pages.push(p);
+          }})(root);
+          const dead = [];
+          for (const page of pages) {
+            if (page.endsWith('404.html')) continue;
+            const html = fs.readFileSync(page, 'utf8');
+            for (const m of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
+              const raw = m[1].replace(/&amp;/g, '&').split('#')[0];
+              if (!raw || /^(https?:|mailto:|data:|javascript:)/i.test(raw)) continue;
+              const t = path.normalize(path.join(path.dirname(page), raw));
+              if (!fs.existsSync(t) && !fs.existsSync(path.join(t, 'index.html'))) {
+                dead.push(`${page} -> ${raw}`);
+              }
+            }
+          }
+          if (dead.length) { console.error('dead links:\n' + dead.join('\n')); process.exit(1); }
+          console.log(`OK: ${pages.length} pages, every internal address resolves`);
+          JS
+
+      - name: No third-party host reaches the reader
+        # The site's own claim is "no services, no telemetry, no API keys". A CDN,
+        # a font host or an analytics beacon on this page refutes it, so grep for
+        # one rather than trusting review. Prints nothing and exits 1 on a match.
+        run: |
+          if grep -rnE '<(script|link|img|iframe|source)[^>]+(src|href)="https?:' _site \
+             | grep -v 'rel="canonical"'; then
+            echo "::error::the built site loads from another host"; exit 1
+          fi
+          echo "OK: nothing is fetched from another host"
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

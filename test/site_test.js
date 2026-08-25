@@ -1,0 +1,394 @@
+#!/usr/bin/env node
+'use strict';
+// Fixtures for scripts/site.js — the public site, built from this repository's own
+// single homes.
+//
+// A published page is the widest-read document this repository has, and it is the
+// one nobody re-reads. Four ways it could quietly stop being true, and one check
+// each:
+//
+//   - it restates a VERSION that skills.json owns. The pin is the promise, so a
+//     page advertising a version the manifest does not is the same defect as a
+//     README table that drifted — one level further from anyone who would notice.
+//   - it names an ADDRESS that does not resolve. This repository refuses a
+//     document whose local paths are dead; a site whose own links 404 is that rule
+//     with the enforcement removed.
+//   - it CLAIMS a command the launcher cannot run. `npx sshlg-skills doctor` reads
+//     exactly like the real ones and exits 2.
+//   - it reaches OUT. A CDN or a tracker on a page whose whole selling point is
+//     "no services, no telemetry" is the argument refuting itself.
+//
+// The site is built into a temp directory here and thrown away: a generated page in
+// git drifts from the data it claims to render, and a page built from the tree
+// cannot.
+
+const assert = require('assert');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+
+const site = require('../scripts/site.js');
+const data = require('../skills.json');
+const registry = require('../lib/routers-registry.js');
+
+let checks = 0;
+const failures = [];
+function it(name, fn) {
+  checks += 1;
+  try { fn(); } catch (e) { failures.push(`${name}: ${e.message}`); }
+}
+
+// -------------------------------------------------------------------- the build
+
+const OUT = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-site-'));
+const built = site.build(OUT);
+const read = (rel) => fs.readFileSync(path.join(OUT, rel), 'utf8');
+const pages = built.written.filter((f) => f.endsWith('.html'));
+const unesc = (s) => s.replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+  .replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+
+process.on('exit', () => fs.rmSync(OUT, { recursive: true, force: true }));
+
+// ------------------------------------------------------------------- structure
+
+it('every member in skills.json has a page, and no page has no member', () => {
+  const expected = data.skills.map((s) => `skills/${s.name}/index.html`).sort();
+  const actual = pages.filter((p) => p.startsWith('skills/')).sort();
+  assert.deepStrictEqual(actual, expected,
+    'a member without a page is a member the site does not sell');
+});
+
+it('the entry points a reader is handed all exist', () => {
+  for (const rel of ['index.html', 'routing/index.html', '404.html',
+    'sitemap.xml', 'robots.txt', 'llms.txt', '.nojekyll']) {
+    assert.ok(built.written.includes(rel), `${rel} was not built`);
+  }
+});
+
+it('.nojekyll is present, or GitHub Pages drops nothing visible and everything subtle', () => {
+  assert.ok(fs.existsSync(path.join(OUT, '.nojekyll')));
+});
+
+// --------------------------------------------------------------- the pin is the promise
+
+it('every stated version is the one skills.json pins', () => {
+  for (const m of data.skills) {
+    const html = read(`skills/${m.name}/index.html`);
+    assert.ok(html.includes(`v${m.version}`),
+      `${m.name}'s page does not state v${m.version}`);
+    const others = data.skills.filter((x) => x.version !== m.version)
+      .map((x) => x.version);
+    for (const v of others) {
+      // Another member's version may legitimately appear in the family grid, so
+      // only the hero stat is checked: it is the number a reader acts on.
+      const hero = html.slice(0, html.indexOf('The rest of the family'));
+      const stat = hero.match(/<b>v([\d.]+)<\/b>/);
+      assert.ok(stat && stat[1] === m.version,
+        `${m.name}'s hero states v${stat && stat[1]}, the manifest pins ${m.version}`);
+      void v;
+      break;
+    }
+  }
+});
+
+it('the index card for each member states that member version', () => {
+  const html = read('index.html');
+  for (const m of data.skills) {
+    assert.ok(html.includes(`>${m.name} <span class="v">v${m.version}</span>`),
+      `the index card for ${m.name} does not carry v${m.version}`);
+  }
+});
+
+// --------------------------------------------------------- every address resolves
+
+function localLinks(html) {
+  const out = [];
+  const re = /(?:href|src)="([^"]+)"/g;
+  let m;
+  while ((m = re.exec(html)) !== null) {
+    const raw = unesc(m[1]);
+    if (/^(https?:|mailto:|data:|#|javascript:)/i.test(raw)) continue;
+    out.push(raw.split('#')[0]);
+  }
+  return out.filter(Boolean);
+}
+
+it('every internal link resolves inside the built site', () => {
+  const dead = [];
+  for (const page of pages) {
+    if (page === '404.html') continue;     // its links are absolute, checked below
+    const dir = path.dirname(page);
+    for (const href of localLinks(read(page))) {
+      const target = path.normalize(path.join(dir, href));
+      const candidates = [target, path.join(target, 'index.html')];
+      if (!candidates.some((c) => fs.existsSync(path.join(OUT, c)))) {
+        dead.push(`${page} → ${href}`);
+      }
+    }
+  }
+  assert.deepStrictEqual(dead, [], `dead internal links: ${dead.join(', ')}`);
+});
+
+it('the 404 page links with the project-Pages base path, not from the site root', () => {
+  const html = read('404.html');
+  for (const href of localLinks(html)) {
+    assert.ok(href.startsWith(`/${site.GH_REPO}/`),
+      `404.html → ${href} would resolve at the user-site root, and this is a project site`);
+  }
+});
+
+it('sitemap.xml lists every page and nothing that was not built', () => {
+  const locs = [...read('sitemap.xml').matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  assert.ok(locs.length >= 2 + data.skills.length, `sitemap lists only ${locs.length}`);
+  for (const loc of locs) {
+    assert.ok(loc.startsWith(site.SITE), `${loc} is not under ${site.SITE}`);
+    const rel = loc.slice(site.SITE.length).replace(/^\//, '');
+    const target = rel === '' ? 'index.html' : path.join(rel, 'index.html');
+    assert.ok(fs.existsSync(path.join(OUT, target)), `${loc} is in the sitemap and not built`);
+  }
+  assert.ok(!locs.some((l) => l.endsWith('/404.html')), 'a 404 page in the sitemap asks to be indexed');
+});
+
+it('robots.txt points at the sitemap that exists', () => {
+  assert.ok(read('robots.txt').includes(`${site.SITE}/sitemap.xml`));
+});
+
+// ------------------------------------------------ it may name a command, not claim one
+
+const CLI_COMMANDS = new Set(['help', 'list', 'ls', 'agents', 'config', 'hooks',
+  'injectors', 'conflicts', 'install', 'i', 'update', 'up', 'routers']);
+
+it('every launcher command the site hands a reader is one the CLI implements', () => {
+  const bad = [];
+  for (const page of pages) {
+    const html = read(page);
+    for (const m of html.matchAll(/data-copy="([^"]*)"/g)) {
+      const cmd = unesc(m[1]);
+      const sub = cmd.match(/\bsshlg-skills(?:@[\w.-]+)?\s+([a-z-]+)/);
+      if (sub && !CLI_COMMANDS.has(sub[1])) bad.push(`${page}: ${cmd}`);
+    }
+  }
+  assert.deepStrictEqual(bad, [],
+    `the site claims a launcher command bin/sshlg-skills.js does not dispatch: ${bad.join(' | ')}`);
+});
+
+it('the per-member install commands are the identifiers the manifest carries', () => {
+  for (const m of data.skills) {
+    const html = read(`skills/${m.name}/index.html`);
+    assert.ok(html.includes(`npx skills add ${m.repo}`), `${m.name}: wrong skills-CLI command`);
+    assert.ok(html.includes(`claude plugin install ${m.pluginInstall}`),
+      `${m.name}: wrong plugin id — the marketplace and the plugin name differ for some members`);
+  }
+});
+
+it('every copyable command is also visible as text, not only in the button', () => {
+  for (const page of pages) {
+    const html = read(page);
+    for (const m of html.matchAll(/data-copy="([^"]*)"/g)) {
+      assert.ok(html.includes(`<pre>${m[1]}</pre>`),
+        `${page}: a command exists only inside a Copy button, so JS-off readers cannot see it`);
+    }
+  }
+});
+
+// ------------------------------------------------------------------ the X button
+
+it('every follow control is a real X intent URL for the configured handle', () => {
+  let found = 0;
+  for (const page of pages) {
+    for (const m of read(page).matchAll(/<a[^>]*\bdata-x-follow\b[^>]*>/g)) {
+      const tag = m[0];
+      const href = (tag.match(/href="([^"]+)"/) || [])[1];
+      assert.ok(href, `${page}: a follow control with no href cannot work with JS off`);
+      assert.strictEqual(unesc(href),
+        `https://x.com/intent/follow?screen_name=${site.X_HANDLE}`,
+        `${page}: follow href is not the intent URL for @${site.X_HANDLE}`);
+      assert.ok(/rel="noopener noreferrer"/.test(tag), `${page}: follow link without rel=noopener`);
+      assert.ok(/target="_blank"/.test(tag), `${page}: follow link without target=_blank`);
+      found += 1;
+    }
+  }
+  assert.ok(found >= pages.length, `only ${found} follow controls across ${pages.length} pages`);
+});
+
+it('the popup is an enhancement: the anchor still navigates when it is blocked', () => {
+  const js = read('index.html');
+  assert.ok(js.includes('if (win) { e.preventDefault();'),
+    'preventDefault must be conditional on the popup having opened');
+  assert.ok(js.includes('window.innerWidth < 600'),
+    'a 550px popup on a phone is a broken page — narrow screens must navigate');
+  assert.ok(js.includes('original_referer='),
+    'the intent URL should carry original_referer, which only the browser knows');
+});
+
+// --------------------------------------------------------------- no reaching out
+
+it('nothing is loaded from another host', () => {
+  const bad = [];
+  for (const page of pages) {
+    const html = read(page);
+    for (const m of html.matchAll(/<(script|link|img|iframe|source)\b[^>]*>/g)) {
+      const tag = m[0];
+      const url = (tag.match(/\b(?:src|href)="([^"]+)"/) || [])[1] || '';
+      if (/^https?:/i.test(url) && !/rel="canonical"/.test(tag)) bad.push(`${page}: ${tag}`);
+    }
+  }
+  assert.deepStrictEqual(bad, [], `the site fetches from another host: ${bad.join(' | ')}`);
+});
+
+it('the CSS and the JS are inline, so the page renders in one request', () => {
+  const html = read('index.html');
+  assert.ok(/<style>[\s\S]*--bg:/.test(html), 'no inline stylesheet');
+  assert.ok(!/<link[^>]+rel="stylesheet"/.test(html), 'an external stylesheet');
+  assert.ok(/<script>\(function\(\)/.test(html), 'no inline script');
+});
+
+// -------------------------------------------------------- the machine reader too
+
+it('every page carries a title, a description, a canonical and exactly one h1', () => {
+  for (const page of pages) {
+    const html = read(page);
+    assert.ok(/<title>[^<]{15,}<\/title>/.test(html), `${page}: no usable title`);
+    assert.ok(/<meta name="description" content="[^"]{60,}"/.test(html),
+      `${page}: description missing or too short to be an answer`);
+    assert.ok(/<link rel="canonical" href="https:\/\//.test(html), `${page}: no canonical`);
+    assert.strictEqual((html.match(/<h1[ >]/g) || []).length, 1,
+      `${page}: a page answering one question has one h1`);
+    assert.ok(/<meta property="og:title"/.test(html), `${page}: no og:title`);
+  }
+});
+
+it('every canonical is the URL the page is actually served at', () => {
+  for (const page of pages) {
+    const href = read(page).match(/<link rel="canonical" href="([^"]+)"/)[1];
+    const expect = page === 'index.html' ? `${site.SITE}/`
+      : page === '404.html' ? `${site.SITE}/404.html`
+        : `${site.SITE}/${path.dirname(page)}/`;
+    assert.strictEqual(href, expect, `${page}: canonical points elsewhere`);
+  }
+});
+
+it('the JSON-LD parses, and names the version the manifest pins', () => {
+  for (const m of data.skills) {
+    const html = read(`skills/${m.name}/index.html`);
+    const blocks = [...html.matchAll(
+      /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((x) => JSON.parse(x[1]));
+    const app = blocks.find((b) => b['@type'] === 'SoftwareApplication');
+    assert.ok(app, `${m.name}: no SoftwareApplication block`);
+    assert.strictEqual(app.softwareVersion, m.version);
+    assert.strictEqual(app.url, `${site.SITE}/skills/${m.name}/`);
+  }
+});
+
+it('llms.txt names every member and every router', () => {
+  const txt = read('llms.txt');
+  for (const m of data.skills) {
+    assert.ok(txt.includes(m.name), `llms.txt omits ${m.name}`);
+    assert.ok(txt.includes(`v${m.version}`), `llms.txt omits ${m.name}'s version`);
+  }
+  for (const r of registry.order()) {
+    assert.ok(txt.includes(`- ${r}:`), `llms.txt omits the router ${r}`);
+  }
+});
+
+// ------------------------------------------------------------------ the routing
+
+it('the routing page carries every rule, and every refusal phrase the registry declares', () => {
+  const html = read('routing/index.html');
+  for (const name of registry.order()) {
+    assert.ok(html.includes(`id="${name}"`), `routing page has no section for ${name}`);
+    const refusal = site.refusalOf(registry.REGISTRY[name].text);
+    if (refusal) {
+      assert.ok(html.includes(refusal),
+        `routing page states ${name} and not the phrase that declines it`);
+    }
+  }
+});
+
+it('a router whose member is installed links to that member page', () => {
+  const html = read('routing/index.html');
+  for (const name of registry.order()) {
+    const req = registry.REGISTRY[name].requires || [];
+    if (!req.length) continue;
+    assert.ok(html.includes(`href="../skills/${req[0]}/"`),
+      `the ${name} rule does not link to ${req[0]}`);
+  }
+});
+
+it('a member page reproduces its own routing text verbatim', () => {
+  const withRouter = data.skills.filter((m) => registry.order()
+    .some((r) => (registry.REGISTRY[r].requires || []).includes(m.name)));
+  assert.ok(withRouter.length >= 6, 'the fixture found almost no routed members');
+  for (const m of withRouter) {
+    const html = read(`skills/${m.name}/index.html`);
+    const own = registry.order()
+      .filter((r) => (registry.REGISTRY[r].requires || []).includes(m.name));
+    for (const r of own) {
+      assert.ok(html.includes(`/${r} — ${registry.REGISTRY[r].answers}`),
+        `${m.name}'s page does not carry the ${r} rule`);
+    }
+  }
+});
+
+// --------------------------------------------------------------------- escaping
+
+it('markup in the data cannot reach the page as markup', () => {
+  const hostile = 'x <img src=q onerror="alert(1)"> **b** `c` [l](javascript:alert(2))';
+  const out = site.inline(hostile);
+  assert.ok(!out.includes('<img'), 'a tag in the data survived into the page');
+  assert.ok(out.includes('&lt;img'), 'the tag was not escaped');
+  assert.ok(out.includes('<strong>b</strong>'), 'markdown is still interpreted after escaping');
+  assert.ok(out.includes('<code>c</code>'), 'code spans are still interpreted');
+  for (const page of pages) {
+    assert.ok(!/onerror=/.test(read(page)), `${page}: an event handler attribute reached the page`);
+  }
+});
+
+it('a short opening sentence is still a usable meta description', () => {
+  const short = 'Production patterns for agent systems, in four skills. The orchestrator '
+    + 'survives its own context pressure. A third sentence nobody needs.';
+  const out = site.firstSentence(short, 300);
+  assert.ok(out.length >= 95, `a ${out.length}-character description is a result nobody clicks`);
+  assert.ok(out.startsWith('Production patterns'), 'the opening was dropped rather than extended');
+});
+
+it('the router texts are rendered with tags escaped and markdown interpreted', () => {
+  const html = read('routing/index.html');
+  assert.ok(html.includes('<strong>Refusal phrase:'), 'bold is interpreted');
+  assert.ok(html.includes('<code>docs/ux/scenarios.md</code>'), 'code spans are interpreted');
+  assert.ok(!/<p>\*\*/.test(html), 'raw asterisks reached the page');
+});
+
+// ---------------------------------------------------------------- accessibility
+
+it('the page is navigable without a mouse and without JS', () => {
+  const html = read('index.html');
+  assert.ok(html.includes('class="skip" href="#main"'), 'no skip link');
+  assert.ok(html.includes('id="main"'), 'the skip link has no target');
+  assert.ok(html.includes('prefers-reduced-motion'), 'motion is not conditional');
+  assert.ok(/<html lang="en">/.test(html), 'no document language');
+  for (const m of html.matchAll(/<svg[^>]*>/g)) {
+    assert.ok(/aria-hidden="true"/.test(m[0]), 'a decorative svg is announced to a screen reader');
+  }
+});
+
+it('the build is deterministic — twice from the same tree is byte-identical', () => {
+  const second = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-site-b-'));
+  site.build(second);
+  try {
+    for (const rel of built.written) {
+      assert.strictEqual(fs.readFileSync(path.join(second, rel), 'utf8'),
+        fs.readFileSync(path.join(OUT, rel), 'utf8'), `${rel} differs between builds`);
+    }
+  } finally {
+    fs.rmSync(second, { recursive: true, force: true });
+  }
+});
+
+if (failures.length) {
+  for (const f of failures) console.error(`FAIL: ${f}`);
+  console.error(`\n${failures.length} of ${checks} failed`);
+  process.exit(1);
+}
+console.log(`PASS: site — ${checks} checks (${pages.length} pages, `
+  + `${data.skills.length} members, ${registry.order().length} routers)`);
