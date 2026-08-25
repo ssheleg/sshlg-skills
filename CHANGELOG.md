@@ -1,3 +1,26 @@
+## v1.0.1 — the pin guard called a tagged commit collectable, in the one job that clones shallow
+
+The v1.0.0 release went red on its own structural validator while the identical
+check passed in `validate`. Two causes, both in the guard rather than in the
+tree:
+
+- **A tag is a permanent ref and the guard did not count one.** It read
+  `refs/heads` and `refs/remotes` only, so `telegram-dev` pinned at its own
+  `v0.1.3` looked reachable from nothing — correct by the letter, wrong by the
+  reason it states, which is collectability. `refs/tags` is in the list now, and
+  the CI plant reads the same three namespaces so it cannot claim a plant failed
+  to land for a commit the guard would rightly accept.
+- **A shallow clone cannot answer the question at all.** `release.yml` clones
+  submodules at depth 1 and `validate.yml` at depth 0, which is exactly why one
+  job failed and the other passed on the same commit: with no history fetched,
+  no ref can be shown to contain HEAD and every pin looks orphaned. That case now
+  discloses instead of failing — a check that cannot look must not read as one
+  that looked.
+
+The plant still refuses the real defect: an empty commit on a detached HEAD held
+by no branch, no remote and no tag is rejected, watched locally before this
+shipped.
+
 ## v1.0.0 — the family runs in DeepSeek Harness, and it needed no plugin
 
 `dsh` reads the Agent Skills standard directly. Its local provider scans

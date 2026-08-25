@@ -1769,9 +1769,23 @@ def check_no_member_holds_a_commit_the_remote_does_not():
                 # checkout it prints `* (HEAD detached from …)`, which is not a branch and
                 # is not empty — the first version of this guard read that as "a branch
                 # holds it" and disclosed instead of failing, against its own plant.
-                holders = g("for-each-ref", "--contains", "HEAD",
-                            "--format=%(refname:short)", "refs/heads", "refs/remotes")
+                # `refs/tags` belongs in this list and was missing. A TAG is a permanent
+                # ref: a commit it names cannot be collected, which is the whole hazard this
+                # guard exists for. `telegram-dev` was pinned at its own v0.1.3 tag and the
+                # release job failed here, correctly by the letter and wrongly by the reason.
+                holders = g("for-each-ref", "--contains", "HEAD", "--format=%(refname:short)",
+                            "refs/heads", "refs/remotes", "refs/tags")
                 unreachable = holders is not None and holders.strip() == ""
+                # And a SHALLOW clone cannot answer the question at all: the history that
+                # would show a ref containing HEAD was never fetched, so every pin looks
+                # unreachable. `release.yml` clones submodules at depth 1 while `validate.yml`
+                # uses depth 0, which is why one job failed and the other passed on the same
+                # tree. A check that cannot look must not read as one that looked.
+                if unreachable and g("rev-parse", "--is-shallow-repository") == "true":
+                    _skips.append(f"{m['name']}: detached in a SHALLOW clone — no ref can be "
+                                  "shown to contain HEAD because the history was never "
+                                  "fetched, so this could not be read here")
+                    continue
                 if unreachable:
                     sha = g("rev-parse", "--short", "HEAD") or "?"
                     fail(f"{m['dir']}: detached at {sha} and that commit is on no branch — it "

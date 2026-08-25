@@ -145,8 +145,11 @@ jobs:
           git -C "/tmp/detplant/$sub" checkout -q --detach HEAD
           git -C "/tmp/detplant/$sub" -c user.email=plant@ci -c user.name=plant \
             commit -q --allow-empty -m "planted: a close that landed on no branch"
+          # The same three namespaces the guard reads. A tag is a permanent ref and the
+          # guard counts one, so a plant that ignored tags could report "did not land" for
+          # a commit the guard would rightly accept.
           holders=$(git -C "/tmp/detplant/$sub" for-each-ref --contains HEAD \
-            --format='%(refname:short)' refs/heads refs/remotes | tr -d '[:space:]')
+            --format='%(refname:short)' refs/heads refs/remotes refs/tags | tr -d '[:space:]')
           [ -z "$holders" ] || { echo "PLANT DID NOT LAND: a branch still holds it"; exit 1; }
           out=$(cd /tmp/detplant && python3 test/validate.py || true)
           if printf '%s' "$out" | grep -q 'on no branch'; then
