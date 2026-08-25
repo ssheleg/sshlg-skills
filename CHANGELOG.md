@@ -1,3 +1,9 @@
+## v1.0.2 — sheleg-design 1.50.0
+
+`onionskin`, the thirty-fifth pack: two bases where everything quiet is an alpha of one,
+so the pack ships no grey ramp at all — and at 96.5% zero radius, the squarest page in
+the library.
+
 ## v1.0.1 — the pin guard called a tagged commit collectable, in the one job that clones shallow
 
 The v1.0.0 release went red on its own structural validator while the identical
