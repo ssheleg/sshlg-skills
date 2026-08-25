@@ -140,8 +140,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=39 fixtures=661 members=8 -->
-**Ratchets.** 39 suites, 661 fixtures, 8 pinned members — and these three numbers are
+<!-- ratchets: suites=39 fixtures=662 members=8 -->
+**Ratchets.** 39 suites, 662 fixtures, 8 pinned members — and these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree.** Counting
 convention: a suite is anything `npm test` runs, `validate.py` included, which is the
@@ -167,9 +167,10 @@ temp trees on the machine without saying so, 36/620 for the eleventh router — 
 fixtures and no new suite, because `project-audit`'s own 43 cases are a gate in
 `task-pipeline`, where the code it exercises ships — 37/648 when the family got a
 public site and the site got a suite, 38/661 when the site stopped promising a
-social card it did not carry and started encoding one, and 39/661 when an
-`extraLink` stopped writing a count by hand — one suite and no new fixtures, because
-the check reads the manifest rather than a planted tree.
+social card it did not carry and started encoding one, and 39/662 when an
+`extraLink` stopped writing a count by hand — a suite that reads the manifest, plus one
+fixture in `site_test.js` that reads the built page against the tree, because the label
+said 34 while the directory held 35 and only the second reading catches that.
 
 That jump is not eight new suites. **24/469 was wrong when it was written** — the
 2026-08-16 audit recounted the same command at 26 node suites and 542 fixtures,
