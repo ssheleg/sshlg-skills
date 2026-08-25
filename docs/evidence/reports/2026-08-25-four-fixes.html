@@ -1,0 +1,188 @@
+<title>Четыре дефекта, закрытые 25 августа</title>
+<style>
+  :root{
+    --bg:#fbfaf8; --panel:#ffffff; --ink:#1a1a1c; --muted:#5c5c66; --line:#e2ded7;
+    --ok:#1f6f43; --ok-bg:#e9f5ee; --bad:#a52a2a; --bad-bg:#fbecec;
+    --warn:#8a5a00; --warn-bg:#fdf3e2; --accent:#2b4a7d; --code:#f3f1ec;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#131316; --panel:#1b1b1f; --ink:#eceaea; --muted:#9a9aa4; --line:#2e2e34;
+      --ok:#6ed49b; --ok-bg:#16281e; --bad:#f08c8c; --bad-bg:#2a1818;
+      --warn:#e8bb6a; --warn-bg:#2a2113; --accent:#8fb0e6; --code:#22222a;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#131316; --panel:#1b1b1f; --ink:#eceaea; --muted:#9a9aa4; --line:#2e2e34;
+    --ok:#6ed49b; --ok-bg:#16281e; --bad:#f08c8c; --bad-bg:#2a1818;
+    --warn:#e8bb6a; --warn-bg:#2a2113; --accent:#8fb0e6; --code:#22222a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;padding:0 0 5rem}
+  .wrap{max-width:62rem;margin:0 auto;padding:0 1.5rem}
+  header{padding:3.5rem 0 2rem;border-bottom:1px solid var(--line);margin-bottom:2.5rem}
+  h1{font-size:1.9rem;line-height:1.25;margin:0 0 .4rem;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:.95rem}
+  h2{font-size:1.25rem;margin:3rem 0 .25rem;letter-spacing:-.01em}
+  h2 + .lede{color:var(--muted);margin:0 0 1.25rem;font-size:.95rem}
+  p{margin:0 0 1rem}
+  code{background:var(--code);padding:.1em .35em;border-radius:4px;font-size:.87em;
+       font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  pre{background:var(--code);padding:.9rem 1rem;border-radius:8px;overflow-x:auto;
+      font-size:.83rem;line-height:1.5;margin:0 0 1rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.75rem;margin:0 0 1.5rem}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:1rem}
+  .card .n{font-size:1.6rem;font-weight:650;letter-spacing:-.02em;display:block;line-height:1.1}
+  .card .l{color:var(--muted);font-size:.8rem;margin-top:.35rem;display:block}
+  .tw{overflow-x:auto;margin:0 0 1.25rem}
+  table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:34rem}
+  th,td{text-align:left;padding:.55rem .7rem;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-weight:600;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em}
+  tbody tr:last-child td{border-bottom:none}
+  .pill{display:inline-block;padding:.1rem .5rem;border-radius:999px;font-size:.75rem;font-weight:600;white-space:nowrap}
+  .pill.ok{background:var(--ok-bg);color:var(--ok)}
+  .pill.bad{background:var(--bad-bg);color:var(--bad)}
+  .pill.warn{background:var(--warn-bg);color:var(--warn)}
+  .note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);
+        border-radius:0 8px 8px 0;padding:1rem 1.15rem;margin:0 0 1.25rem}
+  .note.bad{border-left-color:var(--bad)} .note.warn{border-left-color:var(--warn)}
+  .note p:last-child{margin-bottom:0}
+  .note .h{font-weight:650;display:block;margin-bottom:.4rem}
+  ul{margin:0 0 1rem;padding-left:1.3rem} li{margin-bottom:.4rem}
+  footer{margin-top:3.5rem;padding-top:1.5rem;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85em}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>Четыре дефекта закрыты. Один из них не срабатывал ни разу с момента написания.</h1>
+  <div class="sub">25 августа 2026 · восемь членов семьи и зонт · всё опубликовано</div>
+</header>
+
+<div class="cards">
+  <div class="card"><span class="n">8 / 8</span><span class="l">пакетов опубликованы</span></div>
+  <div class="card"><span class="n">+2</span><span class="l">новых гарда, оба наблюдались красными</span></div>
+  <div class="card"><span class="n">7</span><span class="l">членов выпущены в этом заходе</span></div>
+  <div class="card"><span class="n">441</span><span class="l">планта доказуемо отвергают дефект</span></div>
+</div>
+
+<h2>Что опубликовано</h2>
+<p class="lede">Прочитано из реестра, а не пересказано.</p>
+<div class="tw"><table>
+  <thead><tr><th>Пакет</th><th>Версия</th><th>Что принёс</th></tr></thead>
+  <tbody>
+    <tr><td class="mono">sshlg-skills</td><td class="mono">0.97.0</td><td>гард на README, пины семерых</td></tr>
+    <tr><td class="mono">@ssheleg/agent-sync</td><td class="mono">1.17.0</td><td>идентичность сессии; восстановленные записи леджера</td></tr>
+    <tr><td class="mono">task-pipeline-skill</td><td class="mono">1.77.0</td><td>упоминание ≠ объявление</td></tr>
+    <tr><td class="mono">@ssheleg/make-skill</td><td class="mono">0.23.1</td><td>residue привязан к одному прогону</td></tr>
+    <tr><td class="mono">@ssheleg/seo-aeo-audit</td><td class="mono">0.25.1</td><td>residue + оговорка в README</td></tr>
+    <tr><td class="mono">@ssheleg/agent-stack</td><td class="mono">0.13.2</td><td>residue + оговорка в README</td></tr>
+    <tr><td class="mono">sheleg-design-skill</td><td class="mono">1.49.1</td><td>оговорка в README</td></tr>
+    <tr><td class="mono">@ssheleg/sheleg-dev</td><td class="mono">0.9.2</td><td>оговорка в README</td></tr>
+    <tr><td class="mono">super-ux</td><td class="mono">0.48.0</td><td>не требовал изменений</td></tr>
+  </tbody>
+</table></div>
+<p>Локальные установки обновлены тем же проходом — семь плагинов подняты. Теневых копий нет,
+битых симлинков в пяти каналах ноль.</p>
+
+<h2>①&nbsp;&nbsp;Хук, который не отработал ни разу</h2>
+<div class="note bad">
+  <p><span class="mono">agent-sync</span> держит запасной ключ <span class="mono">shared</span> на случай, когда
+  нельзя установить, какая сессия спрашивает. Под ним совпадение id ничего не доказывает, поэтому
+  просроченная лиза читается как <span class="mono">ambiguous</span> и не может быть очищена тем прогоном,
+  который её взял. Запасной путь был описан как редкий случай.</p>
+  <p><strong>Он был единственным.</strong> Замер в чекауте, где инструмент работал весь день:
+  <span class="mono">.agent-sync/sessions</span> не существовал, карта <span class="mono">run-id</span> держала
+  один ключ. Блок стамповки требовал <span class="mono">CLAUDE_SESSION_ID</span> в <em>окружении</em>, а
+  Claude Code отдаёт id хуку <em>на stdin в JSON</em> — как соседний <span class="mono">guard.sh</span> читал
+  всегда. Блок не запускался ни в одной сессии с момента написания.</p>
+</div>
+<p>Пять случаев гоняют настоящий хук процессом: id со stdin стампуется, id из окружения по-прежнему
+побеждает, payload без id не стампует ничего вместо того чтобы уравнять все сессии, а не-JSON оставляет
+хук на нуле — потому что падающий <span class="mono">SessionStart</span> уносит сессию с собой. Пятый идёт
+по всей цепочке до вердикта <span class="mono">reapable</span>. <strong>Против старого хука 2 из 5 красные.</strong></p>
+
+<h2>②&nbsp;&nbsp;Мёртвая команда внутри собственного дистрибутива</h2>
+<p class="lede">Правило семьи — «называй мёртвую команду, но не заявляй её» — нарушали сами документы, которые его формулируют.</p>
+<pre>опубликованный task-pipeline-skill   README: «npm test»   тарбол: 96 файлов, под test/ — ноль
+опубликованный @ssheleg/agent-sync   README: «npm test»   тарбол: 32 файла,  под test/ — ноль</pre>
+<p>Шесть из восьми членов предъявляли такую команду в fenced-блоке. Отгрузить тесты не помогает:
+планты живут в <span class="mono">.github/workflows/</span>, а этого не положит в тарбол никакая упаковка,
+которую умеет npm. Документы теперь <strong>называют, где команда работает</strong>, а гард зонта отказывает
+члену, который заявляет её без этого — наблюдался красным со снятым маркером у
+<span class="mono">agent-stack</span>.</p>
+<div class="note">
+  <p><strong>Область — только fenced-блоки, намеренно.</strong> <span class="mono">make-skill</span> и
+  <span class="mono">super-ux</span> описывают <span class="mono">test/validate.py</span> и не просят никого
+  его запускать. Гард, который срабатывает на верных документах, учит команду удовлетворять его, не читая
+  зачем.</p>
+</div>
+
+<h2>③&nbsp;&nbsp;Общий <span class="mono">$TMPDIR</span> — оказался двумя дефектами</h2>
+<p>Скан по префиксу краснил прогон от чужой сессии — это было известно. Но он краснел и от дерева,
+которое <strong>упавший случай сохранил намеренно как улику</strong>: одна красная прогонка отравляла все
+последующие, пока кто-нибудь не почистит <span class="mono">/tmp</span> руками.</p>
+<pre>то же состояние, две версии проверки:
+  старая логика   FAIL (1 stray)
+  новая суита     PASS + «1 принадлежит другому прогону и не этому прогону отвечать»</pre>
+<p>Мастерские помечены группой процессов, которую наследует каждая суита в одной цепочке
+<span class="mono">npm test</span> и которая различает два одновременных прогона. Решение — чистая функция
+с фикстурами в обе стороны, плюс третья, требующая, чтобы <span class="mono">workspace()</span> действительно
+встраивала метку: иначе обе первые проходили бы против метки, которой нет ни на одном каталоге.</p>
+
+<h2>④&nbsp;&nbsp;Упоминание версии заглушало гард</h2>
+<p>Проверка считала объявлением <strong>любой</strong> токен <span class="mono">vX.Y.Z</span> в секции пропусков.
+Фраза «уже была ложной на теге <span class="mono">v1.76.0</span>» тем самым объявила тот релиз непроштампованным
+и сняла с него вопрос — а негативный самотест, существующий ровно для этого, читал ту же прозу и
+докладывал «принято».</p>
+<p>Объявления теперь жирные — конвенция, которой секция и так следовала. Новый плант оставляет релиз
+на месте <em>теми же словами</em> и снимает лишь жирность. Наблюдался стреляющим в отдельном клоне из 122
+тегов и печатающим <span class="mono">SKIP</span> с причиной в сабмодульном чекауте, где
+<span class="mono">cp -R</span> копирует <span class="mono">.git</span> файлом с относительным указателем.</p>
+
+<h2>Что нашлось по дороге и не было в списке</h2>
+<div class="note warn">
+  <span class="h">Гард <span class="mono">agent-sync</span> принуждал фальсифицировать записи</span>
+  <p>Он сканировал <em>весь</em> леджер и требовал, чтобы каждая цитата вывода равнялась текущей версии —
+  значит каждый релиз переписывал историю. Строки, датированные 19 и 20 августа, обе цитировали
+  <span class="mono">v1.16.0</span>, а git говорит: те деревья отгружали 1.14.0 и 1.15.0. Обе восстановлены
+  по git; проверка сужена до верхней секции. Самотест это поймал — его фикстуру пришлось пересадить туда,
+  где гард теперь смотрит.</p>
+</div>
+<ul>
+  <li><strong>Мой подниматель версий промахнулся дважды</strong> — забыл <span class="mono">re.M</span>, и
+  <span class="mono">^</span> цеплялся только к началу файла. Семь коллекторов
+  <span class="mono">seo-aeo-audit</span> и две поверхности <span class="mono">agent-sync</span> остались на
+  старой версии. Поймали гейты членов.</li>
+  <li><strong>Моя правка штампа сломала якорь планта</strong> у <span class="mono">seo-aeo-audit</span>:
+  штамп обязан кончаться шаблоном <span class="mono">**ДАТА (`vX`)**</span>, а я дописал пояснение внутрь
+  жирного. CI отказал тегу — правильно. Локальный раннер воспроизводит это за минуту; я прогнал
+  <span class="mono">npm test</span> вместо релизного набора, хотя R-010 требует именно его.</li>
+  <li><strong>Мой опрос реестра выдал одну версию на все девять пакетов</strong> — zsh не разбивает
+  <span class="mono">$p</span> на слова, и <span class="mono">npm view</span> звался с пустым аргументом.
+  Второй за два дня случай измерения, дающего один ответ на любой вход.</li>
+</ul>
+
+<h2>Гейты</h2>
+<pre>зонт            npm test  exit 0   PASS: 36 checks green
+                гарды 27 -> 28, новый наблюдался красным
+task-pipeline   npm test  exit 0   гарды 412 -> 413
+                test:all  exit 0   PASS: all 413 guards provably reject their planted defect
+agent-sync      npm test  exit 0   51 фикстура самотеста, 5 случаев хука
+seo-aeo-audit   test:negatives     PASS: all 24 guards · sheleg-dev: 42
+CI              v0.97.0 и семь тегов членов — все success</pre>
+
+<div class="note warn">
+  <span class="h">Одно уточнение, которое стоит сказать прямо</span>
+  <p>Фикс идентичности опубликован и установлен (плагин 1.17.0, хук читает payload — проверено запуском),
+  но <strong>в этой сессии он ещё не действует</strong>: её <span class="mono">SessionStart</span> отработал до
+  установки. Ключ здесь по-прежнему один. Заработает со следующей сессии — задним числом застамповать
+  сессию, чей старт уже прошёл, нельзя.</p>
+</div>
+
+<footer>
+  Каждое число получено командой в этом прогоне. Отчёт лежит в
+  <span class="mono">docs/evidence/reports/2026-08-25-four-fixes.html</span> и самодостаточен — ноль внешних ссылок.
+</footer>
+</div>
