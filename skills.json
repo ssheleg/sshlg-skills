@@ -191,7 +191,7 @@
         "telegram-userbots",
         "telegram-miniapps"
       ],
-      "version": "0.1.1",
+      "version": "0.1.2",
       "entry": null,
       "role": "which Telegram API each surface speaks, and what each one costs",
       "npm": "@ssheleg/telegram-dev",

@@ -30,6 +30,15 @@ the map and not in the routes is how `agent-stack` went five days unrouted, and
 **A count typed by hand goes stale on the ninth member.** Every member README
 said "all 8 skills"; the number is gone rather than corrected, in all nine.
 
+**The plant sweep had a hole, and the ninth member found it.**
+`test/advertised_plants.py` removed the phrase case-sensitively, and
+`telegram-dev`'s description says *"auditing a Telegram bot"* in prose while
+listing `"telegram bot"` as a trigger. The quoted one went, the prose one stayed,
+the member's guard correctly reported the phrase as still advertised — and the
+sweep read that as the guard failing to fire. It now removes every occurrence
+regardless of case, which also moved which trigger two other members are planted
+with. Nine of nine refuse the drop.
+
 Ratchet: 38 suites, 662 → 667 fixtures, 8 → 9 pinned members.
 
 ## v0.98.1 — the site has its own address

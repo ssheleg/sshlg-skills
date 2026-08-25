@@ -32,6 +32,7 @@ seven reads exactly like one that covered all seven.
 import glob
 import json
 import os
+import re
 import subprocess
 import sys
 
@@ -76,17 +77,25 @@ def main():
             continue
         path = hits[0]
         original = open(path, encoding="utf-8").read()
-        # The first trigger that appears VERBATIM in the raw file. The check reads a
-        # whitespace-collapsed, lowercased description, so a real trigger can still span a
-        # line break — the first draft of this sweep tripped on exactly that.
-        trigger = next((t for t in g["triggers"] if t in original), None)
+        # The first trigger that appears in the raw file, CASE-INSENSITIVELY. The check
+        # reads a whitespace-collapsed, lowercased description, so a real trigger can span
+        # a line break — the first draft of this sweep tripped on exactly that — and it can
+        # also appear in prose with different case than in the quoted trigger list.
+        # `telegram-dev` did both: its description says "auditing a Telegram bot" in prose
+        # and lists `"telegram bot"` as a trigger, so a case-sensitive replacement removed
+        # the quoted one, left the prose one, and the member's guard correctly reported the
+        # phrase as still advertised. The plant read that as the guard failing to fire.
+        low = original.lower()
+        trigger = next((t for t in g["triggers"] if t.lower() in low), None)
         if trigger is None:
             skipped.append(f"{member}: no trigger appears verbatim in {os.path.basename(path)}")
             continue
         # EVERY occurrence, not the first: a phrase advertised twice survives one
         # replacement and the check then correctly reports nothing, which reads as the
         # check failing to fire.
-        open(path, "w", encoding="utf-8").write(original.replace(trigger, trigger[:-1] + "ZZ"))
+        planted = re.sub(re.escape(trigger), trigger[:-1] + "ZZ", original, flags=re.I)
+        assert planted != original, f"{member}: the plant changed nothing"
+        open(path, "w", encoding="utf-8").write(planted)
         try:
             proc = subprocess.run([sys.executable, "test/validate.py"],
                                   cwd=f"{ROOT}/skills/{member}",
