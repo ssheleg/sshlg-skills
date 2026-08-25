@@ -523,7 +523,7 @@ function indexPage() {
   <div class="stats">
     <div class="stat"><b>${members.length}</b><span>skill packs, pinned and released together</span></div>
     <div class="stat"><b>${totalSkills}</b><span>entry points an agent can be routed to</span></div>
-    <div class="stat"><b>${agentCount}+</b><span>agents supported, Claude Code as plugins</span></div>
+    <div class="stat"><b>${agentCount}+</b><span>agents, from Claude Code to DeepSeek Harness</span></div>
     <div class="stat"><b>0</b><span>runtime dependencies, services or keys</span></div>
   </div>
 </section>
@@ -561,6 +561,12 @@ function indexPage() {
       <li><b>Every other agent</b> → the vercel
       <a href="https://github.com/vercel-labs/skills" rel="noopener" target="_blank">skills</a>
       CLI, into <code>~/.agents/skills/</code>.</li>
+      <li><b>DeepSeek Harness</b> (<code>dsh</code>) needs nothing further and
+      <b>no plugin</b>: it reads the Agent Skills standard directly, scanning
+      <code>&lt;agentsHome&gt;/skills</code> — the same
+      <code>~/.agents/skills/</code> — at rank 500. A project-local
+      <code>.dsh/skills</code> or <code>.agents/skills</code> outranks it, which
+      is the same shadowing trap, with the same remedy: one channel per skill.</li>
       <li><b>Then it prunes</b> the plain Claude copies the skills CLI recreates on its
       own. That duplicate shadows your plugin and silently serves a stale skill — the one
       failure mode worth automating away.</li>

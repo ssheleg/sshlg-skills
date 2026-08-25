@@ -16,9 +16,9 @@ npx sshlg-skills update     # update everything already installed
 every routing rule verbatim, and [`llms.txt`](https://skills.sshlg.me/llms.txt)
 for the machines. · **[Follow @sshlg93 on X](https://x.com/intent/follow?screen_name=sshlg93)**
 
-Works with **Claude Code** (as plugins) plus Cursor, OpenCode, Codex, Kilo, Kimi,
-Hermes, OpenClaw, Gemini CLI, Windsurf, Zed and the rest of the 70+ agents the
-vercel `skills` CLI supports.
+Works with **Claude Code** (as plugins) and **DeepSeek Harness** (`dsh`), plus
+Cursor, OpenCode, Codex, Kilo, Kimi, Hermes, OpenClaw, Gemini CLI, Windsurf, Zed
+and the rest of the 70+ agents the vercel `skills` CLI supports.
 
 ---
 
@@ -134,6 +134,35 @@ Flags: `--agent a,b` picks agents, `--all` covers every agent the CLI supports,
 - **Then it prunes** the plain Claude copies the skills CLI recreates on its own.
   That duplicate shadows your plugin and silently serves a stale skill — the one
   failure mode worth automating away.
+
+### DeepSeek Harness
+
+Nothing to install beyond the ordinary `install`, and **no plugin to write.**
+`dsh` reads the Agent Skills standard directly: its local provider scans
+`<agentsHome>/skills` at rank 500, which is `~/.agents/skills` — the directory
+the skills CLI already installs into. Verified on this machine 2026-08-25:
+`~/.agents/skills/<name>/SKILL.md` resolves with its `references/` and
+`fixtures/` beside it, for every skill in the family.
+
+Two things worth knowing, both read from the harness's own
+[skills subsystem doc](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/skills.md)
+on 2026-08-25:
+
+- **Discovery is layered and nearest-wins**, in this order —
+  `<projectRoot>/.dsh/skills` (100), `<projectRoot>/.agents/skills` (200),
+  `Config.customSkillDirs` (300), `<dshHome>/skills` (400),
+  `<agentsHome>/skills` (500), bundled (600). A project-local copy therefore
+  **overrides** the installed one, which is the same shadowing trap Claude Code
+  has and the same remedy: keep one channel per skill.
+- **`disable-model-invocation` and `user-invocable`** are the two front-matter
+  keys `dsh` reads, both defaulting to `true`. This family ships neither, so
+  every skill is model- and user-invocable there by default.
+
+**A skill is not a `dsh` plugin, and the distinction is worth keeping.** In that
+harness a *plugin* is a Cordis module exporting `apply(ctx)`; skills are loaded
+*by* one — `dsh-skill-filesystem`. These repositories carry the `dsh-plugin`
+topic because that is the discovery channel the project asks for, and
+`dsh-skill`, which is what they actually are.
 
 ### Just one skill?
 

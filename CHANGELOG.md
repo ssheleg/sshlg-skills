@@ -1,3 +1,38 @@
+## v1.0.0 — the family runs in DeepSeek Harness, and it needed no plugin
+
+`dsh` reads the Agent Skills standard directly. Its local provider scans
+`<agentsHome>/skills` at **rank 500** — which is `~/.agents/skills`, the
+directory the vercel skills CLI has been installing this family into since the
+first release. Verified on this machine on 2026-08-25:
+`~/.agents/skills/<name>/SKILL.md` resolves with its `references/` and
+`fixtures/` beside it, for all 28 skills. **Nothing was built. The work was
+finding out that nothing needed to be.**
+
+What is recorded rather than assumed, from the harness's own skills-subsystem
+document read the same day:
+
+- **Discovery is layered and nearest-wins:** `<projectRoot>/.dsh/skills` (100),
+  `<projectRoot>/.agents/skills` (200), `customSkillDirs` (300),
+  `<dshHome>/skills` (400), `<agentsHome>/skills` (500), bundled (600). A
+  project-local copy **overrides** the installed one — the same shadowing trap
+  Claude Code has, and the same remedy this repository already automates: one
+  channel per skill.
+- **`disable-model-invocation` and `user-invocable`** are the two front-matter
+  keys it reads, both defaulting to `true`. This family ships neither, so every
+  skill is model- and user-invocable there without a change.
+
+**A skill is not a `dsh` plugin, and the README says so.** In that harness a
+plugin is a Cordis module exporting `apply(ctx)`; skills are loaded *by* one,
+`dsh-skill-filesystem`. All ten repositories now carry the **`dsh-plugin`**
+topic, which is the discovery channel the project asks for, and **`dsh-skill`**,
+which is what they actually are — 11 651 repositories carry the first and 119
+the second, so the accurate tag is also the one nobody would find them under
+alone.
+
+The version is 1.0.0 because the claim on the tin is now true everywhere it is
+made: nine members, twelve routers, four instruction files, a public site and
+two harnesses that load the same directory.
+
 ## v0.99.0 — a ninth member: Telegram, split by the API each surface speaks
 
 `telegram-dev` v0.1.1, three skills. Telegram is three products behind one brand
