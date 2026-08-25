@@ -112,6 +112,7 @@
           "label": "Browse all {n} style packs",
           "url": "https://ssheleg.github.io/sheleg-design-skill/",
           "countGlob": "plugins/sheleg-design/skills/sheleg-design/styles/*.md",
+          "countExclude": ["STYLE_PACK_TEMPLATE.md"],
           "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
       ]
