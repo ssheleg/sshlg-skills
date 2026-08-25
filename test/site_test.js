@@ -255,6 +255,13 @@ it('every page carries a title, a description, a canonical and exactly one h1', 
     assert.strictEqual((html.match(/<h1[ >]/g) || []).length, 1,
       `${page}: a page answering one question has one h1`);
     assert.ok(/<meta property="og:title"/.test(html), `${page}: no og:title`);
+    // A card type may not promise an image the page does not carry: X renders the
+    // large card as an empty box, which is worse than the small one.
+    const card = (html.match(/name="twitter:card" content="([^"]+)"/) || [])[1];
+    if (card === 'summary_large_image') {
+      assert.ok(/property="og:image"/.test(html),
+        `${page}: claims the large card and ships no og:image`);
+    }
   }
 });
 

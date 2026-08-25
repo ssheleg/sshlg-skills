@@ -384,7 +384,9 @@ function layout(o) {
 <meta property="og:title" content="${esc(o.title)}">
 <meta property="og:description" content="${esc(o.description)}">
 <meta property="og:url" content="${canonical}">
-<meta name="twitter:card" content="summary_large_image">
+<!-- summary, not summary_large_image: the large card promises a 1200x630 image
+     this site does not carry yet, and X renders that promise as an empty box. -->
+<meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@${X_HANDLE}">
 <meta name="twitter:creator" content="@${X_HANDLE}">
 <meta name="twitter:title" content="${esc(o.title)}">
