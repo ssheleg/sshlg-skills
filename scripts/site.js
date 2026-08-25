@@ -117,9 +117,14 @@ function resolveCount(member, link) {
     throw new Error(`${member.name}: countGlob must end in *<ext>, got ${pattern}`);
   }
   const ext = pattern.slice(1);
+  // `countExclude` names files the glob catches and a reader would not count. The style
+  // pack directory holds STYLE_PACK_TEMPLATE.md beside the packs, so counting every .md
+  // advertised 35 packs where 34 exist — a derived number can still be derived from one
+  // file too many, and only reading the two published pages against each other showed it.
+  const skip = new Set(link.countExclude || []);
   let n = 0;
   try {
-    n = fs.readdirSync(dir).filter((f) => f.endsWith(ext)).length;
+    n = fs.readdirSync(dir).filter((f) => f.endsWith(ext) && !skip.has(f)).length;
   } catch (e) {
     throw new Error(`${member.name}: countGlob points at ${glob}, which is not readable `
       + `(${e.code}) — the submodule is probably not checked out, and a card that says {n} `
@@ -485,32 +490,6 @@ function memberCard(m, rel) {
 </a>`;
 }
 
-// An extraLink may advertise a COUNT, and a count written by hand goes stale on the
-// next release of the member it describes — `"Browse all 34 style packs"` was already
-// one pack behind reality the day a thirty-fifth would land, with nothing to catch it.
-// So a label may carry `{n}` and name what to count: the files are counted in the
-// member's own submodule at build time, which CI checks out recursively.
-function resolveCount(member, link) {
-  if (!link.label.includes('{n}')) return link.label;
-  if (!link.countGlob) {
-    throw new Error(`skills.json: ${member.name} extraLink label uses {n} but sets no countGlob`);
-  }
-  const dir = path.join(ROOT, member.dir, path.dirname(link.countGlob));
-  const pattern = path.basename(link.countGlob);
-  const rx = new RegExp('^' + pattern.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*') + '$');
-  let names;
-  try {
-    names = fs.readdirSync(dir).filter((f) => rx.test(f));
-  } catch (e) {
-    throw new Error(`skills.json: ${member.name} countGlob '${link.countGlob}' does not resolve — ` +
-      `submodule not checked out? (${e.code})`);
-  }
-  const skip = new Set(link.countExclude || []);
-  const n = names.filter((f) => !skip.has(f)).length;
-  if (!n) throw new Error(`skills.json: ${member.name} countGlob matched nothing`);
-  return link.label.replace('{n}', String(n));
-}
-
 function indexPage() {
   const rel = '';
   const install = 'npx sshlg-skills install';
@@ -700,7 +679,7 @@ function memberPage(m) {
     <p><b>Shape:</b> ${esc(m.shape)}. ${esc(m.shapeWhy || '')}</p>
   </div>
   ${(m.extraLinks || []).map((l) => `<div class="note">
-    <p><a href="${esc(l.url)}" rel="noopener" target="_blank"><strong>${esc(resolveCount(m, l))} →</strong></a></p>
+    <p><a href="${esc(l.url)}" rel="noopener" target="_blank"><strong>${esc(l.label)} →</strong></a></p>
     <p>${esc(l.note || '')}</p>
   </div>`).join('\n')}
 </section>

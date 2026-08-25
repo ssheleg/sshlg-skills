@@ -376,7 +376,13 @@ it('an advertised count on the page is the number of files in the tree', () => {
       if (!link.countGlob) continue;
       const dir = path.join(__dirname, '..', m.dir, path.dirname(link.countGlob));
       const ext = path.basename(link.countGlob).slice(1);
-      const real = fs.readdirSync(dir).filter((f) => f.endsWith(ext)).length;
+      // `countExclude` names files that match the glob and are not one of the things
+      // being counted — `STYLE_PACK_TEMPLATE.md` is the shape a pack is written in,
+      // not a pack. Counted here the same way the generator counts, or this fixture
+      // measures a different number and calls the generator wrong.
+      const skip = new Set(link.countExclude || []);
+      const real = fs.readdirSync(dir)
+        .filter((f) => f.endsWith(ext) && !skip.has(f)).length;
       const html = read(`skills/${m.name}/index.html`);
       const [head, tail] = link.label.split('{n}');
       const q = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

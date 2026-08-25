@@ -34,7 +34,23 @@ the click is an ordinary navigation and the dialog still opens. The popup only w
 `original_referer` is added in the browser, because only the browser knows which page the
 reader clicked from.
 
-Ratchet: 36 → 37 suites, 620 → 648 fixtures.
+**Pinned with this release:** `sheleg-dev` **0.9.2 → 0.10.0**, published and tagged — the
+cancel-flow save offer. Stripe's customer portal shows a coupon card when the session
+carries `flow_data[subscription_cancel][retention]`, and two things about it are money: a
+`duration=once` discount is removed from `subscription.discounts` the moment its invoice
+finalizes, so asking Stripe whether this customer was already discounted answers no every
+cycle; and under flexible `billing_mode` a portal cancellation sets `cancel_at` and leaves
+`cancel_at_period_end` false, so a banner reading that boolean tells a customer who
+cancelled ten seconds ago that their plan renews.
+
+**A count on a published page is derived, and derived from the right files.** An
+`extraLink` label may carry `{n}` with a `countGlob` and a `countExclude`;
+`scripts/site.js` counts the member's own tree at build time and refuses to build when it
+cannot. Three readings were needed to get one number right: the label said **34** by hand,
+the naive glob counted **35**, and the directory holds the template a pack is written from
+beside the packs. Only reading the two published pages against each other showed it.
+
+Ratchet: 36 → 38 suites, 620 → 662 fixtures.
 
 ## v0.97.0 — a README may name a command, not claim one
 
