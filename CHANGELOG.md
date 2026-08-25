@@ -1,3 +1,25 @@
+## v1.1.0 — a page that answers "will this run in my agent?"
+
+The one question a reader arrives with had no page. `/agents/` answers it: every
+named agent, the channel the skills reach it through, **the path that agent
+actually reads**, and the thing worth knowing about each — because "it did not
+show up" is nearly always a path question.
+
+Fourteen agents named, and the roster is **data in `skills.json`**, not a table
+typed into a template: a hand-kept list is the first thing to go stale when the
+launcher's default set changes, and the site already learned that lesson from a
+pack count it wrote by hand.
+
+**DeepSeek Harness gets its own section**, because it is the one that surprises
+people: nothing to install beyond the ordinary command and no plugin to write, the
+two commands that establish it rather than assert it, the six discovery roots with
+their ranks, and the consequence nobody expects — a project-local `.dsh/skills`
+**outranks** the installed copy, which is the same shadowing trap Claude Code has.
+
+The page carries its own social card, is in the sitemap and the navigation, and
+`llms.txt` gained an agents section, since "which agents support this" is exactly
+the question an answer engine gets asked.
+
 ## v1.0.2 — sheleg-design 1.50.0
 
 `onionskin`, the thirty-fifth pack: two bases where everything quiet is an alpha of one,

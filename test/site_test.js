@@ -60,7 +60,7 @@ it('every member in skills.json has a page, and no page has no member', () => {
 
 it('every page has a card of its own, and no card belongs to no page', () => {
   const cards = built.written.filter((f) => f.startsWith('og/'));
-  const expected = ['og/index.png', 'og/routing.png',
+  const expected = ['og/index.png', 'og/routing.png', 'og/agents.png',
     ...data.skills.map((m) => `og/skills-${m.name}.png`)].sort();
   assert.deepStrictEqual(cards.sort(), expected,
     'a member without a card shares as a blank box');
@@ -75,7 +75,7 @@ it('every page has a card of its own, and no card belongs to no page', () => {
 });
 
 it('the entry points a reader is handed all exist', () => {
-  for (const rel of ['index.html', 'routing/index.html', '404.html',
+  for (const rel of ['index.html', 'routing/index.html', 'agents/index.html', '404.html',
     'sitemap.xml', 'robots.txt', 'llms.txt', '.nojekyll']) {
     assert.ok(built.written.includes(rel), `${rel} was not built`);
   }

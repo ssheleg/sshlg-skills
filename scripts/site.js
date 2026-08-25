@@ -160,6 +160,10 @@ const standingRules = registry.order()
 
 const totalSkills = members.reduce((n, m) => n + (m.skillNames || []).length, 0);
 const agentCount = 70;
+/** Named agents, declared in `skills.json` rather than typed into a template — the
+ *  page is a claim about where these skills run, and a hand-kept list is the first
+ *  thing to go stale when the launcher's default set changes. */
+const agents = data.agents || [];
 
 // ----------------------------------------------------------------------- style
 
@@ -460,6 +464,7 @@ ${jsonld}
   <a class="brand" href="${rel || './'}">${MARK}<span>ssheleg skills</span></a>
   <nav>
     <a class="opt" href="${rel}#skills">Skills</a>
+    <a class="opt" href="${rel}agents/">Agents</a>
     <a class="opt" href="${rel}routing/">Routing</a>
     <a class="opt" href="${rel}#install">Install</a>
     <a href="https://github.com/${GH_OWNER}/${GH_REPO}" rel="noopener" target="_blank">GitHub</a>
@@ -476,6 +481,7 @@ ${o.body}
     · built by <a data-x-follow rel="noopener noreferrer" target="_blank"
     href="https://x.com/intent/follow?screen_name=${X_HANDLE}">@${X_HANDLE}</a></div>
   <nav>
+    <a href="${rel}agents/">Agents</a>
     <a href="${rel}routing/">Routing</a>
     <a href="${rel}llms.txt">llms.txt</a>
     <a href="${MANIFESTO}" rel="noopener" target="_blank">Manifesto</a>
@@ -848,6 +854,118 @@ function routingPage() {
   });
 }
 
+// ------------------------------------------------------------------- agents page
+
+function agentsPage() {
+  const rel = '../';
+  const body = `
+<div class="wrap crumb"><a href="${rel}">ssheleg skills</a> → <span>Agents</span></div>
+
+<section class="wrap hero" style="padding-top:22px">
+  <p class="eyebrow">${agents.length} named · ${agentCount}+ supported · one install</p>
+  <h1>Where these skills run.</h1>
+  <p class="lede">Every pack is an <a href="https://agentskills.io/specification"
+  rel="noopener" target="_blank">Agent Skills</a> bundle — a <code>SKILL.md</code> with
+  its references beside it — so <b>any agent that reads that standard reads these</b>.
+  Two get a channel of their own; the rest share one directory.</p>
+  <div class="ctas">${xFollowBtn()}${ghBtn(`https://github.com/${GH_OWNER}/${GH_REPO}`, 'Get it on GitHub')}</div>
+</section>
+
+<hr class="rule">
+
+<section class="wrap sec">
+  <h2>The named agents</h2>
+  <p class="sub"><b>Reads</b> is the path that agent actually looks in — the fact worth
+  having when something does not show up.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Agent</th><th>Channel</th><th>Reads</th><th>Worth knowing</th></tr></thead>
+    <tbody>${agents.map((a) => `<tr><td class="nw"><strong>${esc(a.name)}</strong></td>`
+      + `<td class="nw">${esc(a.channel)}</td>`
+      + `<td class="nw"><code>${esc(a.reads)}</code></td>`
+      + `<td>${a.note ? esc(a.note) : '<span style="color:var(--dim)">—</span>'}</td></tr>`).join('\n')}</tbody>
+  </table></div>
+  <div class="note">
+    <p><strong>One channel per agent, always.</strong> A plain copy beside a plugin, or a
+    project-local copy beside the installed one, wins — and then serves its frozen version
+    forever. The launcher prunes the copies the skills CLI recreates; the project-local
+    case is yours to avoid.</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section class="wrap sec" id="dsh">
+  <h2>DeepSeek Harness, specifically</h2>
+  <p class="sub">Nothing to install beyond the ordinary command, and <b>no plugin to
+  write</b> — in <code>dsh</code> a plugin is a Cordis module exporting
+  <code>apply(ctx)</code>, and skills are loaded <em>by</em> one.</p>
+  ${term('npx sshlg-skills install', 'and dsh already sees them')}
+  <div class="prose" style="margin-top:26px">
+    <p>Verified twice on 2026-08-25 rather than read off a page. The subsystem is in the
+    <b>default</b> profile, not an add-on a reader has to enable:</p>
+  </div>
+  ${term('npx @deepseek-ai/dsh --profile web --dump-default-config | grep skill', 'dsh-skill · dsh-skill-filesystem · dsh-tool-skill')}
+  <div class="prose" style="margin-top:22px">
+    <p>and the files are where that provider looks:
+    <code>~/.agents/skills/&lt;name&gt;/SKILL.md</code>, with its <code>references/</code>
+    and <code>fixtures/</code> beside it.</p>
+    <h3>Six roots, nearest wins</h3>
+    <ul>
+      <li><code>&lt;projectRoot&gt;/.dsh/skills</code> — rank 100</li>
+      <li><code>&lt;projectRoot&gt;/.agents/skills</code> — rank 200</li>
+      <li><code>customSkillDirs</code> — rank 300</li>
+      <li><code>&lt;dshHome&gt;/skills</code> — rank 400</li>
+      <li><b><code>&lt;agentsHome&gt;/skills</code> — rank 500</b>, which is <code>~/.agents/skills</code></li>
+      <li>bundled — rank 600</li>
+    </ul>
+    <p><b>A project-local copy overrides the installed one</b> — the same shadowing trap
+    Claude Code has, with the same remedy.</p>
+    <p><code>disable-model-invocation</code> and <code>user-invocable</code> are the two
+    front-matter keys it reads, both defaulting to <code>true</code>. This family ships
+    neither, so every skill is model- and user-invocable there without a change.</p>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section class="wrap sec">
+  <h2>Any other agent</h2>
+  <p class="sub">The vercel <a href="https://github.com/vercel-labs/skills" rel="noopener"
+  target="_blank">skills</a> CLI supports ${agentCount}+ of them and installs into the
+  same hub directory. If yours reads <code>SKILL.md</code>, it reads these.</p>
+  ${term('npx skills add ssheleg/sshlg-skills', 'any agent the skills CLI knows')}
+</section>
+
+<hr class="rule">
+
+<section class="wrap sec">
+  <h2>The ${members.length} packs</h2>
+  <div class="grid">${members.map((m) => memberCard(m, rel)).join('\n')}</div>
+</section>
+`;
+  return layout({
+    rel,
+    url: '/agents/',
+    card: 'agents',
+    cardAlt: `Where the ssheleg skills run — ${agents.length} named agents including Claude Code and DeepSeek Harness`,
+    ogType: 'article',
+    title: 'Agents — where these skills run · Claude Code, DeepSeek Harness, Cursor and more',
+    description: `The ${agents.length} agents the ssheleg skill family installs into by name — `
+      + 'Claude Code as plugins, DeepSeek Harness reading the same hub directory, plus Cursor, '
+      + `Codex, Gemini CLI, OpenCode, Windsurf, Zed and the rest of ${agentCount}+ through the `
+      + 'skills CLI — with the path each one actually reads.',
+    jsonld: [{
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'ssheleg skills', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: 'Agents', item: `${SITE}/agents/` },
+      ],
+    }],
+    body,
+  });
+}
+
 // -------------------------------------------------------------------- 404 page
 
 function notFoundPage() {
@@ -878,7 +996,7 @@ function notFoundPage() {
 // ------------------------------------------------------------- machine-readable
 
 function sitemap() {
-  const urls = ['/', '/routing/', ...members.map((m) => `/skills/${m.slug}/`)];
+  const urls = ['/', '/agents/', '/routing/', ...members.map((m) => `/skills/${m.slug}/`)];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((u) => `  <url><loc>${SITE}${u}</loc>`
@@ -929,6 +1047,13 @@ ${registry.order().map((n) => {
 }).join('\n')}
 
 Full text of every rule: ${SITE}/routing/
+
+## Agents these skills run in
+
+${agents.map((a) => `- ${a.name}: ${a.channel}, reads ${a.reads}`).join('\n')}
+
+Any agent that reads the Agent Skills standard reads these; the vercel skills CLI
+covers ${agentCount}+ of them. Detail: ${SITE}/agents/
 `;
 }
 
@@ -954,6 +1079,7 @@ function build(outDir) {
   const written = [];
   written.push(write('index.html', indexPage()));
   written.push(write('routing/index.html', routingPage()));
+  written.push(write('agents/index.html', agentsPage()));
   for (const m of members) written.push(write(`skills/${m.slug}/index.html`, memberPage(m)));
   written.push(write('404.html', notFoundPage()));
 
@@ -965,6 +1091,13 @@ function build(outDir) {
     lines: ['agent skills for the work around the code',
       'no services, no telemetry, no api keys'],
     footer: SITE.replace(/^https?:\/\//, ''),
+  })));
+  written.push(write2('og/agents.png', og.card({
+    eyebrow: `${agents.length} named agents · ${agentCount}+ supported`,
+    title: 'where they run',
+    lines: ['claude code, deepseek harness, cursor, codex and more',
+      'any agent that reads the agent skills standard'],
+    footer: `${SITE.replace(/^https?:\/\//, '')}/agents`,
   })));
   written.push(write2('og/routing.png', og.card({
     eyebrow: `${registry.order().length} rules · each names the phrase that declines it`,

@@ -198,5 +198,105 @@
       "shape": "static",
       "shapeWhy": "Three fixed surfaces with fixed seams; the only branch is which of the three a task is on, and the first table in each SKILL.md decides that before any code."
     }
+  ],
+  "agents": [
+    {
+      "name": "Claude Code",
+      "id": "claude-code",
+      "channel": "plugin",
+      "reads": "~/.claude/plugins",
+      "note": "installed as plugins, never as a plain ~/.claude/skills copy — that copy shadows the plugin and serves its frozen version forever"
+    },
+    {
+      "name": "DeepSeek Harness",
+      "id": "dsh",
+      "channel": "reads the hub directly",
+      "reads": "~/.agents/skills (rank 500)",
+      "note": "no plugin to write: the skills subsystem is in the default web profile, and its local provider scans six roots nearest-first — a project-local .dsh/skills or .agents/skills outranks the installed one"
+    },
+    {
+      "name": "Cursor",
+      "id": "cursor",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills",
+      "note": "plus a Cursor rules file the launcher writes for routing"
+    },
+    {
+      "name": "Codex",
+      "id": "codex",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills",
+      "note": "routing block goes to ~/.codex/AGENTS.md"
+    },
+    {
+      "name": "Gemini CLI",
+      "id": "gemini-cli",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills",
+      "note": "routing block goes to ~/.gemini/GEMINI.md"
+    },
+    {
+      "name": "OpenCode",
+      "id": "opencode",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills",
+      "note": ""
+    },
+    {
+      "name": "Windsurf",
+      "id": "windsurf",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills",
+      "note": ""
+    },
+    {
+      "name": "Zed",
+      "id": "zed",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills",
+      "note": ""
+    },
+    {
+      "name": "Kilo Code",
+      "id": "kilo",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills",
+      "note": ""
+    },
+    {
+      "name": "Kimi CLI",
+      "id": "kimi-code-cli",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills",
+      "note": ""
+    },
+    {
+      "name": "Hermes",
+      "id": "hermes-agent",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills",
+      "note": ""
+    },
+    {
+      "name": "OpenClaw",
+      "id": "openclaw",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills",
+      "note": ""
+    },
+    {
+      "name": "Kiro",
+      "id": "kiro-cli",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills",
+      "note": ""
+    },
+    {
+      "name": "Goose",
+      "id": "goose",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills",
+      "note": ""
+    }
   ]
 }
