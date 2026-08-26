@@ -175,6 +175,51 @@ const agentCount = 70;
  *  thing to go stale when the launcher's default set changes. */
 const agents = data.agents || [];
 
+/**
+ * The questions this page is opened to answer, with answers that are ON the page.
+ * Marked up as FAQPage — which is only legitimate because the text is visible;
+ * schema over content a reader cannot see is the thing the audit skill refuses.
+ */
+const AGENT_FAQ = [
+  {
+    q: 'Do these skills work in my agent?',
+    a: 'If it reads the <a href="https://agentskills.io/specification" rel="noopener" '
+      + 'target="_blank">Agent Skills</a> standard, yes. Every pack is a '
+      + '<code>SKILL.md</code> with its references beside it, and the table above names '
+      + 'the path each agent actually reads.',
+  },
+  {
+    q: 'Does DeepSeek Harness need a plugin for these?',
+    a: 'No. <code>dsh</code> reads the Agent Skills standard directly and its skills '
+      + 'subsystem is in the default profile — a plugin there is a Cordis module, and '
+      + 'skills are loaded <em>by</em> one rather than being one.',
+  },
+  {
+    q: 'Why did my skill not show up after installing?',
+    a: 'Almost always a path question rather than an install one. A project-local copy '
+      + 'outranks the installed one in every host that scans more than one root, and a '
+      + 'plain copy beside a Claude Code plugin shadows the plugin and serves its frozen '
+      + 'version. Keep one channel per skill.',
+  },
+  {
+    q: 'Do I have to install all of them?',
+    // A concrete repo rather than an angle-bracket placeholder. It is the better
+    // answer, and it also keeps the node's decoded text comparable to the served
+    // body — a check that reads the body escaped sees &lt;name&gt; where the node
+    // correctly carries <name>, and reports the pair as drift.
+    a: 'No — every pack installs standalone, as in '
+      + '<code>npx skills add ssheleg/telegram-dev</code> for one of them. The launcher '
+      + 'exists because a member updated on its own leaves the set in a combination '
+      + 'nobody tested.',
+  },
+  {
+    q: 'Do they send anything anywhere?',
+    a: 'No. They are documentation, validators and small standard-library scripts — no '
+      + 'services, no telemetry and no API keys, which is checkable in the repository '
+      + 'rather than promised here.',
+  },
+];
+
 // ----------------------------------------------------------------------- style
 
 const CSS = `
@@ -508,7 +553,22 @@ function term(cmd, label = 'terminal') {
 function layout(o) {
   const rel = o.rel;
   const canonical = `${SITE}${o.url}`;
-  const jsonld = (o.jsonld || []).map(
+  // Every page carries the publisher, not just the two templates that happened to.
+  // Entity consensus is a property of the SITE; emitting it per-page in the layout
+  // is the only way a new template cannot arrive without it.
+  const publisher = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: AUTHOR,
+    url: `${SITE}/`,
+    sameAs: [
+      `https://x.com/${X_HANDLE}`,
+      `https://github.com/${GH_OWNER}`,
+      'https://www.npmjs.com/~ssheleg',
+      'https://sshlg.me',
+    ],
+  };
+  const jsonld = [publisher, ...(o.jsonld || [])].map(
     (b) => `<script type="application/ld+json">${JSON.stringify(b)}</script>`).join('\n');
   return `<!doctype html>
 <html lang="en">
@@ -1081,9 +1141,20 @@ function agentsPage() {
 
 <hr class="rule">
 
+<section class="wrap sec" id="faq">
+  <h2>Questions this page gets asked</h2>
+  <div class="prose">${AGENT_FAQ.map((f) => `
+    <h3>${esc(f.q)}</h3>
+    <p>${f.a}</p>`).join('\n')}</div>
+</section>
+
+<hr class="rule">
+
 <section class="wrap sec">
   <h2>The ${members.length} packs</h2>
-  <div class="grid">${members.map((m) => memberCard(m, rel)).join('\n')}</div>
+  <p class="sub">Each one is an entry point an agent can be routed to.
+  <a href="${rel}#skills">The full descriptions are on the front page</a>.</p>
+  <ul class="chips">${members.map((m) => `<li class="chip"><a href="${rel}skills/${m.slug}/">${esc(m.name)}</a></li>`).join('')}</ul>
 </section>
 `;
   return layout({
@@ -1097,14 +1168,38 @@ function agentsPage() {
       + 'Claude Code as plugins, DeepSeek Harness reading the same hub directory, plus Cursor, '
       + `Codex, Gemini CLI, OpenCode, Windsurf, Zed and the rest of ${agentCount}+ through the `
       + 'skills CLI — with the path each one actually reads.',
-    jsonld: [{
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'ssheleg skills', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'Agents', item: `${SITE}/agents/` },
-      ],
-    }],
+    jsonld: [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        // Built from the same array the page renders, so the markup cannot drift
+        // from the visible answer — which is the only thing that makes it honest.
+        mainEntity: AGENT_FAQ.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            // Tags out AND entities back — the node has to carry the text a reader
+            // sees. Leaving `&lt;name&gt;` encoded put one answer out of step with
+            // its own page, which the audit's f8 check reports as schema drift.
+            text: f.a
+              .replace(/<[^>]+>/g, '')
+              .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+              .replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ')
+              .replace(/\s+/g, ' ')
+              .trim(),
+          },
+        })),
+      },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'ssheleg skills', item: `${SITE}/` },
+          { '@type': 'ListItem', position: 2, name: 'Agents', item: `${SITE}/agents/` },
+        ],
+      },
+    ],
     body,
   });
 }

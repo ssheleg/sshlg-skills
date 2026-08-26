@@ -1,3 +1,47 @@
+## v1.3.0 — the page most likely to be quoted was the one saying least about itself
+
+An audit of the live site, measured rather than recalled. Two leaks and one gain
+shipped; one gain is written down and deliberately not taken.
+
+**The author entity was on two of four templates.** `/` and `/skills/{slug}/`
+carried it; `/agents/` and `/routing/` carried a `BreadcrumbList` and nothing else
+— so the page that exists to answer *"does this run in my agent?"*, the one an
+answer engine is likeliest to quote, told it nothing about who publishes it. The
+`Person` node with its `sameAs` set is now emitted by the **layout**, which is the
+only place a new template cannot arrive without it.
+
+**`/agents/` repeated the front page's whole nine-card grid.** Its job is one
+table; the trailing duplicate diluted it and cost 378 words of link text. Replaced
+with a chip row and one link to the descriptions. Measured effect on the read
+budget — the share of the first ~5700 characters that is content rather than link
+markers, which is one engine's median window and so a `FIELD` tier finding:
+**54.5% → 78.4%**, and the `high` severity is gone.
+
+**The answers had no questions.** Five questions the page actually gets asked are
+now visible text on it, and the `FAQPage` node is built **from the same array the
+page renders** — markup over content a reader cannot see is the thing the audit
+skill refuses, and building both from one source is what stops them drifting.
+
+**`/` is still at 47.9% and that is on purpose.** The driver there is the same card
+grid — but on the front page that grid *is* the page's job. Moving it below the
+install block would trade an engine's first read against the reader's, which is a
+content decision with a real cost, so `docs/seo/plan-2026-08-26.md` records it as
+open with the two options rather than taking it unilaterally.
+
+**One instrument disagreement, recorded rather than argued away.** `page_audit.py`
+reports one of five declared answers as missing from the served body. Under the
+rule the script documents — first 60 characters, collapsed, lowercased — all five
+match, reproduced against the built file, and the page is 32 KB so truncation is
+not the cause. The property that matters was verified independently and holds:
+every marked-up question and answer appears verbatim in the body. The page was not
+mutated further to satisfy an instrument whose disagreement could not be
+reproduced.
+
+`docs/seo/audit-2026-08-26.md` also names what could **not** be checked: no Search
+Console, no second engine, no analytics, no crawl export — so orphans, click depth
+and declared-vs-indexed are unknown, and nothing here claims an engine behaved
+differently. Only that the page offers it more.
+
 ## v1.2.1 — the pin catches up with what the run printed
 
 `task-pipeline` **1.77.0 → 1.78.0**, published and serving. The member release
