@@ -16,6 +16,9 @@ on:
       - 'lib/routers-registry.js'
       - 'lib/router-texts.js'
       - 'scripts/site.js'
+      # A page-changing commit can fail in this gate and be repaired here. Without
+      # this path, that green repair never retries the deployment it unblocked.
+      - 'test/site_test.js'
       - 'package.json'
       - '.github/workflows/pages.yml'
   workflow_dispatch:

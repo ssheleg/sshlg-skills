@@ -6,7 +6,9 @@
 - The umbrella owns a shared public voice pack and generates version-independent
   social cards for all nine members. Its site test compares every committed card's
   decoded pixels with the generator output, remaining strict across zlib runtimes
-  that legitimately encode those pixels with different bytes.
+  that legitimately encode those pixels with different bytes. A change to that
+  gate now retriggers Pages, so repairing a failed page build cannot leave the
+  corrected site undeployed.
 - Member CI now runs the pinned make-skill house audit plus eval and social-card
   guards. The member pins advance to the nine patch releases carrying that
   contract.
