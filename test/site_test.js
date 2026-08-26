@@ -442,6 +442,47 @@ it('the page is navigable without a mouse and without JS', () => {
   }
 });
 
+// ---------------------------------------------------------------- entity consensus
+
+// Every page emits structured data and nothing here ever read it, which is how a
+// page shipped on 2026-08-26 carrying TWO Person nodes — one full, one with a lone
+// sameAs — with no id linking them. That is not one entity stated twice; it is two
+// candidates a consumer must guess are the same, on the exact axis that day's audit
+// was about. Found by curling the deploy, not by reading the diff.
+const ldNodes = (html) => [...html.matchAll(
+  /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1]));
+
+it('every page emits parseable JSON-LD carrying the publisher', () => {
+  for (const rel of built.written.filter((r) => r.endsWith('.html'))) {
+    const nodes = ldNodes(read(rel));
+    assert.ok(nodes.length > 0, `${rel} emits no structured data`);
+    assert.ok(nodes.some((n) => n['@type'] === 'Person' && n['@id']),
+      `${rel} carries no identified publisher`);
+  }
+});
+
+it('one node describes the person; every other reference is by @id alone', () => {
+  const describe = (n, out = []) => {
+    if (Array.isArray(n)) { n.forEach((x) => describe(x, out)); return out; }
+    if (!n || typeof n !== 'object') return out;
+    if (n['@type'] === 'Person') out.push(n);
+    Object.values(n).forEach((v) => describe(v, out));
+    return out;
+  };
+  for (const rel of built.written.filter((r) => r.endsWith('.html'))) {
+    const persons = describe(ldNodes(read(rel)));
+    const named = persons.filter((n) => n.name || n.sameAs);
+    assert.strictEqual(named.length, 1,
+      `${rel} describes the person ${named.length} times — a consumer cannot tell they are one entity`);
+    assert.ok(named[0]['@id'], `${rel} describes the person with no @id to reference`);
+    for (const ref of persons.filter((n) => n !== named[0])) {
+      assert.deepStrictEqual(Object.keys(ref), ['@id'],
+        `${rel} re-describes the person instead of referencing @id`);
+      assert.strictEqual(ref['@id'], named[0]['@id'], `${rel} references a different person id`);
+    }
+  }
+});
+
 it('the build is deterministic — twice from the same tree is byte-identical', () => {
   const second = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-site-b-'));
   site.build(second);

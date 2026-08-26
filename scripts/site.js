@@ -48,6 +48,12 @@ const X_HANDLE = 'sshlg93';
 const GH_OWNER = 'ssheleg';
 const GH_REPO = 'sshlg-skills';
 const AUTHOR = 'Sergey Sheleg';
+// The ONE node id for the person behind the family. Two Person nodes on one page
+// with no id linking them is not entity consensus — it is two candidate entities a
+// consumer has to guess are the same, which is the exact defect this site shipped
+// on 2026-08-26 and found in its own post-deploy check. Every other reference is
+// `{'@id': PERSON_ID}` and describes nothing.
+const PERSON_ID = 'https://skills.sshlg.me/#person';
 const MANIFESTO = 'https://github.com/ssheleg/pod-manifesto';
 
 // ---------------------------------------------------------------- text helpers
@@ -558,6 +564,7 @@ function layout(o) {
   // is the only way a new template cannot arrive without it.
   const publisher = {
     '@context': 'https://schema.org',
+    '@id': PERSON_ID,
     '@type': 'Person',
     name: AUTHOR,
     url: `${SITE}/`,
@@ -804,7 +811,7 @@ function indexPage() {
         '@type': 'WebSite',
         name: 'ssheleg skills',
         url: `${SITE}/`,
-        author: { '@type': 'Person', name: AUTHOR, sameAs: [`https://x.com/${X_HANDLE}`] },
+        author: { '@id': PERSON_ID },
       },
       {
         '@context': 'https://schema.org',
@@ -959,7 +966,7 @@ ${m.routers.length ? `<hr class="rule">
         url: `${SITE}/skills/${m.slug}/`,
         codeRepository: repoUrl,
         license: 'https://opensource.org/licenses/MIT',
-        author: { '@type': 'Person', name: AUTHOR, sameAs: [`https://x.com/${X_HANDLE}`] },
+        author: { '@id': PERSON_ID },
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
       },
       {

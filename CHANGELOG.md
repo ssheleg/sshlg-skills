@@ -1,3 +1,31 @@
+## v1.3.1 — the pass shipped the defect it was about, and the check that finds it did not exist
+
+Post-deploy verification of v1.3.0 found **two `Person` nodes on the front page**
+with no id linking them: the layout's publisher, plus an inline copy under
+`WebSite.author` and another under `SoftwareApplication.author`. That is not one
+entity stated twice — it is two candidates a consumer has to guess are the same,
+which is precisely what v1.3.0 shipped to fix. One `@id` now
+(`https://skills.sshlg.me/#person`); every other reference is `{"@id": …}` and
+describes nothing.
+
+**`test/site_test.js` had thirty checks and none of them parsed the structured
+data.** That is why it shipped. Two fixtures now `JSON.parse` every `ld+json` block
+on every built page and walk the objects: one asserts each page carries an
+identified publisher, the other that exactly one node *describes* the person and
+every other reference carries `@id` and nothing else. Both were watched failing
+against planted defects before being kept — re-describing the person fails one,
+removing the `@id` fails two.
+
+**The instrument note, recorded because it is the more useful half.** The first
+post-deploy check reported the entity missing from all four pages, and it was
+wrong: the pattern had a space in `"@type": "Person"` and the served JSON is
+minified. **The grep was broken, not the site.** A check that greps rendered HTML
+for a formatted substring is testing the formatter — which is also why the new
+fixtures parse rather than match. It re-opens yesterday's `faq-schema-partial`
+disagreement as less certain than it was recorded: an instrument that disagreed
+with a hand-check was resolved in the site's favour once today, and the cause was
+the pattern.
+
 ## v1.3.0 — the page most likely to be quoted was the one saying least about itself
 
 An audit of the live site, measured rather than recalled. Two leaks and one gain
