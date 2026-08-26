@@ -26,6 +26,7 @@ const assert = require('assert');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const zlib = require('zlib');
 
 const site = require('../scripts/site.js');
 const data = require('../skills.json');
@@ -48,6 +49,27 @@ const unesc = (s) => s.replace(/&quot;/g, '"').replace(/&amp;/g, '&')
   .replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 
 process.on('exit', () => fs.rmSync(OUT, { recursive: true, force: true }));
+
+// zlib is allowed to choose a different valid DEFLATE stream on another runner.
+// The public contract is the decoded image, so compare IHDR + scanline bytes rather
+// than treating an encoder implementation detail as a visual change.
+function decodedPng(buf) {
+  assert.deepStrictEqual([...buf.slice(0, 8)],
+    [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a], 'PNG signature');
+  let i = 8;
+  let ihdr = null;
+  const idat = [];
+  while (i < buf.length) {
+    const len = buf.readUInt32BE(i);
+    const type = buf.slice(i + 4, i + 8).toString('ascii');
+    const body = buf.slice(i + 8, i + 8 + len);
+    if (type === 'IHDR') ihdr = body;
+    if (type === 'IDAT') idat.push(body);
+    i += 12 + len;
+  }
+  assert.ok(ihdr && idat.length, 'PNG has no IHDR or IDAT payload');
+  return Buffer.concat([ihdr, zlib.inflateSync(Buffer.concat(idat))]);
+}
 
 // ------------------------------------------------------------------- structure
 
@@ -74,20 +96,20 @@ it('every page has a card of its own, and no card belongs to no page', () => {
   }
 });
 
-it('the committed GitHub preview is the card generated from the current manifest', () => {
+it('the committed GitHub preview has the pixels generated from the current manifest', () => {
   const committed = fs.readFileSync(path.join(__dirname, '..', 'docs', 'assets', 'social-preview.png'));
   const generated = fs.readFileSync(path.join(OUT, 'og', 'index.png'));
-  assert.ok(committed.equals(generated),
+  assert.ok(decodedPng(committed).equals(decodedPng(generated)),
     'docs/assets/social-preview.png drifted from scripts/site.js + skills.json');
 });
 
-it('every member commits the exact card the umbrella generates for it', () => {
+it('every member commits the exact pixels the umbrella generates for it', () => {
   for (const member of data.skills) {
     const committed = fs.readFileSync(path.join(
       __dirname, '..', member.dir, 'docs', 'assets', 'social-preview.png'));
     const generated = fs.readFileSync(path.join(
       OUT, 'og', `skills-${member.name}.png`));
-    assert.ok(committed.equals(generated),
+    assert.ok(decodedPng(committed).equals(decodedPng(generated)),
       `${member.name}: committed social preview drifted from scripts/site.js + skills.json`);
   }
 });

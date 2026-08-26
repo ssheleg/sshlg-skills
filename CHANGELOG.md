@@ -4,8 +4,9 @@
   invocation; each also ships a root `SKILL-CARD.md`, schema-validated trigger
   and scenario fixtures, and a committed 1200×630 social card.
 - The umbrella owns a shared public voice pack and generates version-independent
-  social cards for all nine members. Its site test compares the committed
-  umbrella preview byte-for-byte with the generator output.
+  social cards for all nine members. Its site test compares every committed card's
+  decoded pixels with the generator output, remaining strict across zlib runtimes
+  that legitimately encode those pixels with different bytes.
 - Member CI now runs the pinned make-skill house audit plus eval and social-card
   guards. The member pins advance to the nine patch releases carrying that
   contract.
