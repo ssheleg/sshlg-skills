@@ -74,6 +74,24 @@ it('every page has a card of its own, and no card belongs to no page', () => {
   }
 });
 
+it('the committed GitHub preview is the card generated from the current manifest', () => {
+  const committed = fs.readFileSync(path.join(__dirname, '..', 'docs', 'assets', 'social-preview.png'));
+  const generated = fs.readFileSync(path.join(OUT, 'og', 'index.png'));
+  assert.ok(committed.equals(generated),
+    'docs/assets/social-preview.png drifted from scripts/site.js + skills.json');
+});
+
+it('every member commits the exact card the umbrella generates for it', () => {
+  for (const member of data.skills) {
+    const committed = fs.readFileSync(path.join(
+      __dirname, '..', member.dir, 'docs', 'assets', 'social-preview.png'));
+    const generated = fs.readFileSync(path.join(
+      OUT, 'og', `skills-${member.name}.png`));
+    assert.ok(committed.equals(generated),
+      `${member.name}: committed social preview drifted from scripts/site.js + skills.json`);
+  }
+});
+
 it('the entry points a reader is handed all exist', () => {
   for (const rel of ['index.html', 'routing/index.html', 'agents/index.html', '404.html',
     'sitemap.xml', 'robots.txt', 'llms.txt', '.nojekyll']) {

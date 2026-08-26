@@ -671,12 +671,12 @@ function indexPage() {
 <section class="wrap hero">
   <div class="hero-grid">
     <div>
-      <p class="eyebrow">${members.length} skills · ${totalSkills} entry points · one command</p>
+      <p class="eyebrow">${members.length} packs · ${totalSkills} Agent Skills · one command</p>
       <h1>Agent skills for the work around the code.</h1>
       <p class="lede">A coding agent writes code well and does almost everything
       around it badly. It builds an interface with no idea who uses it, calls a task
       done without checking what was asked, and ships a page no answer engine can
-      read. These ${members.length} skills each take one of those gaps and give the
+      read. These ${members.length} packs each take one of those gaps and give the
       agent <b>a contract it has to follow</b> — documentation, validators and small
       standard-library scripts. No services, no telemetry, no API keys.</p>
       ${term('npx sshlg-skills install', 'install the whole family')}
@@ -1234,7 +1234,7 @@ function notFoundPage() {
   <p class="lede">It may have moved with a release. The ${members.length} packs and
   every routing rule are one click away.</p>
   <div class="ctas">
-    <a class="btn" href="${BASE}">All ${members.length} skills</a>
+    <a class="btn" href="${BASE}">All ${members.length} packs</a>
     <a class="btn btn--ghost" href="${BASE}routing/">Routing</a>
     ${xFollowBtn()}
   </div>
@@ -1349,7 +1349,7 @@ function build(outDir) {
   // The social cards. One per page, generated from the same manifest the page is,
   // because a card is a claim about the page and a hand-made one goes stale first.
   written.push(write2('og/index.png', og.card({
-    eyebrow: `${members.length} skills · one command · every agent`,
+    eyebrow: `${members.length} packs · ${totalSkills} Agent Skills · one command`,
     title: 'ssheleg skills',
     lines: ['agent skills for the work around the code',
       'no services, no telemetry, no api keys'],
@@ -1373,7 +1373,7 @@ function build(outDir) {
       eyebrow: m.role,
       title: m.name,
       lines: [
-        `${(m.skillNames || []).length} skills in the pack · v${m.version}`,
+        `${(m.skillNames || []).length} Agent Skills · one installable pack`,
         `npx skills add ${m.repo}`,
       ],
       footer: `${SITE.replace(/^https?:\/\//, '')}/skills/${m.slug}`,

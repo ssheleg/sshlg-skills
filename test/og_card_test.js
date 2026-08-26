@@ -36,7 +36,7 @@ function it(name, fn) {
 const SAMPLE = {
   eyebrow: 'what the interface must do',
   title: 'super-ux',
-  lines: ['7 skills in the pack · v0.48.0', 'npx skills add ssheleg/super-ux'],
+  lines: ['7 Agent Skills · one installable pack', 'npx skills add ssheleg/super-ux'],
   footer: 'ssheleg.github.io/sshlg-skills/skills/super-ux',
 };
 

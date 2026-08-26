@@ -1,3 +1,15 @@
+## v1.3.4 — the public shelf becomes one system
+
+- Every member now opens with one promise, one install command and one concrete
+  invocation; each also ships a root `SKILL-CARD.md`, schema-validated trigger
+  and scenario fixtures, and a committed 1200×630 social card.
+- The umbrella owns a shared public voice pack and generates version-independent
+  social cards for all nine members. Its site test compares the committed
+  umbrella preview byte-for-byte with the generator output.
+- Member CI now runs the pinned make-skill house audit plus eval and social-card
+  guards. The member pins advance to the nine patch releases carrying that
+  contract.
+
 ## v1.3.3 — the two most quotable pages had an entity attached to nothing
 
 With the walker repaired, the post-deploy probe reported what v1.3.2 could not
