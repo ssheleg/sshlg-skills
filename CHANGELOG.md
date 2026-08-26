@@ -1,3 +1,47 @@
+## v1.2.0 — the site is built from one of the packs it sells
+
+The design was decided by `sheleg-design`, not by taste, and the pack it picked is
+**`workbench`** — its token layer copied verbatim from `tokens/workbench.css` and
+consumed as `var(--…)`. Measured after the change: **18 hex values in the
+generator's CSS, 18 of them inside a token declaration, 0 ad-hoc.** That is the
+craft bar's first rule, and it is now checkable rather than claimed.
+
+**The pack whose register matched was refused, on its own words.** `field-notes` is
+for *"an open-source or developer product sold on auditability"*, which is this
+family's entire pitch. Its palette section also says the dawn gradient has no dark
+twin and **"do not ship the hero in dark"** — and this site is dark. The register
+lost to the constraint, and the `sheleg-design` page now says so in public.
+
+Seven weaknesses were named from a screenshot of the live page before anything was
+touched, and each has a fix that can be pointed at:
+
+- **the right 40% of the viewport was empty at every width** → the hero is a two-column
+  grid, and the right column is the **signature element**: the commands that prove
+  what the page claims, opposite the claim. `workbench` is the `core` contract and
+  declines `## Signature element`, so that is authored and declared, not inherited.
+- **`--bg` and `--surface` were one value apart** (`#0e0f11` / `#141519`) → the pack's
+  three-step ladder `#0f1218 / #161b24 / #1b212c` separates the sections without the
+  hairlines doing all the work.
+- **nine identical cards** → differentiated by structure and a word — each card's foot
+  names the route it owns, `/task-pipeline`, in mono. Not by hue: the pack bans a
+  semantic colour used decoratively, and the amber role line was exactly that.
+- **the strongest claim looked like the weakest** → `0` dependencies takes `--ok`,
+  which is a *state*, not decoration.
+- **card copy ended mid-phrase** — *"every distribution…"*, *"with fallback and…"* →
+  the cap now prefers a sentence boundary and never ends on a dangling conjunction.
+
+**Amber came back in through the side door and was removed again.** Mapping the social
+card's palette onto the token layer put the eyebrow on `--warn`, which is the pack's
+banned use. `--warn` is now absent from the card generator entirely, so it has no way in.
+
+The `sheleg-design` page shows the eight tokens this page consumes, and states both
+decisions the `core` contract required saying out loud.
+
+Rendered at 1440, 768 and 390 before shipping. The 390 shot appeared to overflow; a
+real engine measured `scrollWidth` 390 against a 390 viewport with zero overflowing
+elements — the screenshot path was wrong, not the CSS, which is standing instruction
+#11 doing its job.
+
 ## v1.1.0 — a page that answers "will this run in my agent?"
 
 The one question a reader arrives with had no page. `/agents/` answers it: every

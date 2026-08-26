@@ -221,13 +221,18 @@ function fitScale(text, max, hi, min = 2) {
 // -------------------------------------------------------------------- the card
 
 const PALETTE = {
-  bg: [0x0e, 0x0f, 0x11],
-  ink: [0xe8, 0xe9, 0xec],
-  muted: [0x9a, 0x9c, 0xa4],
-  dim: [0x5c, 0x5f, 0x66],
-  line: [0x24, 0x26, 0x2b],
-  accent: [0x8a, 0xb0, 0xff],
-  warm: [0xe0, 0xa4, 0x58],
+  // The workbench dark twin, the same token layer the pages consume
+  // (styles/tokens/workbench.css). A card that disagrees with the page it
+  // represents is a second palette, which the pack bans.
+  bg: [0x0f, 0x12, 0x18],        // --bg
+  ink: [0xe8, 0xec, 0xf3],       // --ink
+  muted: [0x8a, 0x93, 0xa6],     // --muted
+  dim: [0x5f, 0x68, 0x79],       // --muted, stepped down for the footer line
+  line: [0x23, 0x2a, 0x36],      // --border
+  accent: [0x4b, 0x8b, 0xff],    // --accent
+  // No --warn here on purpose. The pack reserves amber for "needs a human" and
+  // bans a semantic colour used decoratively; the eyebrow on a card is
+  // decoration, so it takes the accent and amber has no way in.
 };
 
 const W = 1200;
@@ -307,7 +312,7 @@ function card(o) {
   let y = 232;
   if (o.eyebrow) {
     const s = fitScale(up(o.eyebrow), W - PAD * 2, 4);
-    drawText(c, up(o.eyebrow), PAD, y - 44, s, PALETTE.warm, 2);
+    drawText(c, up(o.eyebrow), PAD, y - 44, s, PALETTE.accent, 2);
   }
   const ts = fitScale(up(o.title), W - PAD * 2, 18, 6);
   drawText(c, up(o.title), PAD, y, ts, PALETTE.ink);

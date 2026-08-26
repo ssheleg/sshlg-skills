@@ -93,9 +93,19 @@ function firstSentence(text, cap = 185, floor = 95) {
   }
   if (!out) out = flat;
   if (out.length <= cap) return out;
+  // A card that ends mid-phrase — "every distribution…", "with fallback and…" —
+  // reads as a truncation bug rather than a summary. Prefer the last sentence
+  // boundary inside the cap; a hard cut is the fallback, not the default.
+  const window = out.slice(0, cap);
+  const lastStop = Math.max(window.lastIndexOf('. '), window.lastIndexOf('; '),
+    window.lastIndexOf(' — '), window.lastIndexOf(': '));
+  if (lastStop > floor) return window.slice(0, lastStop + 1).replace(/[;:—-]$/, '').trim();
   const hard = out.slice(0, cap - 1);
   const back = hard.lastIndexOf(' ');
-  return `${(back > cap * 0.6 ? hard.slice(0, back) : hard).replace(/[\s,;:—-]+$/, '')}…`;
+  const cut = (back > cap * 0.6 ? hard.slice(0, back) : hard).replace(/[\s,;:—-]+$/, '');
+  // ...and never end on a dangling conjunction or article: "with fallback and…"
+  // is a worse summary than the same sentence one word shorter.
+  return `${cut.replace(/\s+(?:and|or|with|the|a|an|of|in|to|for|from|plus|its|that)$/i, '')}…`;
 }
 
 /** The refusal phrase a router text declares, so the page can show it as a chip. */
@@ -168,157 +178,233 @@ const agents = data.agents || [];
 // ----------------------------------------------------------------------- style
 
 const CSS = `
+/* ── SHELEG Design · Workbench token layer, copied verbatim from
+   styles/tokens/workbench.css (dark twin). Components consume var(--…) only.
+   This site is dark-committed, so the dark twin's values sit on :root. ── */
 :root{
-  --bg:#0e0f11; --surface:#141519; --surface-2:#191a1f; --line:#24262b;
-  --line-2:#2f323a; --ink:#e8e9ec; --ink-2:#c8cad0; --muted:#9a9ca4;
-  --dim:#6e7178; --link:#8ab0ff; --link-hi:#b9cdff; --ok:#5ec98a;
-  --warm:#e0a458; --radius:14px;
-  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --bg:#0f1218; --panel:#161b24; --panel-2:#1b212c;
+  --ink:#e8ecf3; --muted:#8a93a6;
+  --border:#232a36; --border-strong:#2c3441;
+  --accent:#4b8bff; --accent-weak:#1b2740; --accent-ink:#0f1218;
+  --ok:#3fb960; --ok-weak:#12281a;
+  --warn:#d9a93f; --warn-weak:#2b2210;
+  --danger:#e5534b; --danger-weak:#2d1517;
+  --info:#4b8bff; --info-weak:#1b2740;
+  --r-control:6px; --r-card:10px; --r-pill:999px;
+  --motion-ease:cubic-bezier(.2,0,0,1); --dur-state:.18s; --dur-hover:.12s;
+  --font-ui:-apple-system,"SF Pro","Segoe UI",Roboto,sans-serif;
+  --font-data:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --t-chip:11px; --t-label:12px; --t-body:13px; --t-card:15px;
+  --t-section:20px; --t-page:28px;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px;
+  --space-5:24px; --space-6:32px;
+  color-scheme:dark;
+
+  /* AUTHORED HERE, not from the pack. Workbench is the core contract and
+     declines ## Hero; its scale stops at --t-page 28px, which is an app page
+     title and not a landing claim. These two are mine and are named so rather
+     than filled in from the token layer with a citation attached. */
+  --t-hero:clamp(34px,5vw,56px);
+  --t-lede:clamp(15px,1.6vw,18px);
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);
-  font:400 15px/1.6 var(--sans);
+  font:400 var(--t-body)/1.6 var(--font-ui);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-a{color:var(--link);text-decoration:none}
-a:hover{color:var(--link-hi);text-decoration:underline;text-underline-offset:3px}
-code{font-family:var(--mono);font-size:.9em;color:var(--ink-2)}
-h1,h2,h3{letter-spacing:-.02em;font-weight:600;margin:0}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+code{font-family:var(--font-data);font-size:.92em;color:var(--ink)}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.02em}
 img,svg{max-width:100%;height:auto}
-:focus-visible{outline:2px solid var(--link);outline-offset:3px;border-radius:6px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:var(--r-control)}
 
-.wrap{max-width:1100px;margin:0 auto;padding:0 32px}
+.wrap{max-width:1152px;margin:0 auto;padding:0 var(--space-6)}
 .skip{position:absolute;left:-9999px}
-.skip:focus{left:16px;top:12px;z-index:9;background:var(--surface);
-  padding:8px 14px;border-radius:8px;border:1px solid var(--line-2)}
+.skip:focus{left:16px;top:12px;z-index:9;background:var(--panel);
+  padding:var(--space-2) var(--space-4);border-radius:var(--r-control);
+  border:1px solid var(--border-strong)}
 
-/* ---- nav */
-.nav{border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;
-  background:rgba(14,15,17,.86);backdrop-filter:saturate(140%) blur(10px)}
-.nav .wrap{display:flex;align-items:center;gap:22px;height:58px}
-.brand{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:600;
-  letter-spacing:-.02em;white-space:nowrap}
+/* ── nav */
+.nav{border-bottom:1px solid var(--border);position:sticky;top:0;z-index:5;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:saturate(140%) blur(10px)}
+.nav .wrap{display:flex;align-items:center;gap:var(--space-5);height:56px}
+.brand{display:flex;align-items:center;gap:var(--space-2);color:var(--ink);
+  font-weight:600;letter-spacing:-.02em;white-space:nowrap}
 .brand:hover{color:var(--ink);text-decoration:none}
 .brand .mark{width:20px;height:20px;flex:0 0 20px}
-.nav nav{display:flex;gap:20px;font-size:14px;margin-left:auto;align-items:center}
-.nav nav a{color:var(--muted)} .nav nav a:hover{color:var(--ink);text-decoration:none}
-@media (max-width:720px){.nav nav a.opt{display:none}}
+.nav nav{display:flex;gap:var(--space-5);font-size:var(--t-body);
+  margin-left:auto;align-items:center}
+.nav nav a{color:var(--muted)}
+.nav nav a:hover{color:var(--ink);text-decoration:none}
+@media (max-width:760px){.nav nav a.opt{display:none}}
 
-/* ---- hero */
-.hero{padding:74px 0 10px}
-.eyebrow{color:var(--dim);font-size:12.5px;letter-spacing:.08em;
-  text-transform:uppercase;margin:0 0 18px}
-.hero h1{font-size:clamp(32px,5.2vw,52px);line-height:1.07;max-width:20ch}
-.hero .lede{color:var(--muted);font-size:clamp(16px,2.1vw,19px);
-  max-width:64ch;margin:20px 0 0}
-.hero .lede b{color:var(--ink-2);font-weight:600}
+/* ── hero: two columns, because the right rail was empty at every width */
+.hero{padding:var(--space-6) 0 var(--space-5)}
+.hero-grid{display:grid;gap:var(--space-6);align-items:start;
+  grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
+.eyebrow{color:var(--muted);font:400 var(--t-label)/1 var(--font-data);
+  letter-spacing:.1em;text-transform:uppercase;margin:0 0 var(--space-5)}
+.hero h1{font-size:var(--t-hero);line-height:1.06;max-width:16ch}
+.hero .lede{color:var(--muted);font-size:var(--t-lede);line-height:1.6;
+  max-width:56ch;margin:var(--space-5) 0 0}
+.hero .lede b{color:var(--ink);font-weight:600}
 
-/* ---- terminal + copy */
-.term{margin:30px 0 0;border:1px solid var(--line);border-radius:var(--radius);
-  background:var(--surface);overflow:hidden;max-width:640px}
-.term .bar{display:flex;align-items:center;gap:8px;padding:9px 14px;
-  border-bottom:1px solid var(--line);color:var(--dim);font-size:11.5px;
-  letter-spacing:.06em;text-transform:uppercase}
-.term .dot{width:9px;height:9px;border-radius:50%;background:var(--line-2)}
-.term .body{display:flex;align-items:center;gap:12px;padding:14px 16px}
-.term pre{margin:0;font-family:var(--mono);font-size:14px;color:var(--ink);
-  overflow-x:auto;flex:1 1 auto;white-space:pre}
+/* ── SIGNATURE ELEMENT (authored — workbench declines it).
+   The evidence panel: the commands that prove what the page claims, sitting
+   opposite the claim. The page's whole argument is that a claim carries its
+   receipt, so the receipt is the thing it is remembered by. */
+.evidence{border:1px solid var(--border);border-radius:var(--r-card);
+  background:var(--panel);overflow:hidden}
+.evidence h2{font:500 var(--t-label)/1 var(--font-data);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);
+  padding:var(--space-4) var(--space-4);border-bottom:1px solid var(--border);margin:0}
+.evidence ol{list-style:none;margin:0;padding:0;counter-reset:e}
+.evidence li{padding:var(--space-4);border-bottom:1px solid var(--border)}
+.evidence li:last-child{border-bottom:0}
+.evidence .cmd{font-family:var(--font-data);font-size:var(--t-body);
+  color:var(--ink);display:block;white-space:pre-wrap;overflow-wrap:anywhere;
+  line-height:1.5}
+.evidence .cmd::before{content:"$ ";color:var(--ok)}
+.evidence .says{color:var(--muted);font-size:var(--t-chip);
+  margin:var(--space-2) 0 0;display:block}
+
+/* ── terminal */
+.term{margin:var(--space-5) 0 0;border:1px solid var(--border);
+  border-radius:var(--r-card);background:var(--panel);overflow:hidden;max-width:600px}
+.term .bar{display:flex;align-items:center;gap:var(--space-2);
+  padding:var(--space-3) var(--space-4);border-bottom:1px solid var(--border);
+  color:var(--muted);font:400 var(--t-chip)/1 var(--font-data);
+  letter-spacing:.08em;text-transform:uppercase}
+.term .dot{width:8px;height:8px;border-radius:var(--r-pill);background:var(--border-strong)}
+.term .body{display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-4)}
+.term pre{margin:0;font-family:var(--font-data);font-size:var(--t-body);
+  color:var(--ink);flex:1 1 auto;white-space:pre-wrap;overflow-wrap:anywhere;
+  line-height:1.5}
 .term .pmt{color:var(--ok);user-select:none}
-.copy{flex:0 0 auto;border:1px solid var(--line-2);background:var(--surface-2);
-  color:var(--muted);font:500 12px/1 var(--sans);padding:7px 11px;border-radius:8px;
-  cursor:pointer;transition:color .15s,border-color .15s}
-.copy:hover{color:var(--ink);border-color:var(--dim)}
+.copy{flex:0 0 auto;border:1px solid var(--border-strong);background:var(--panel-2);
+  color:var(--muted);font:500 var(--t-chip)/1 var(--font-ui);
+  padding:var(--space-2) var(--space-3);border-radius:var(--r-control);cursor:pointer;
+  transition:color var(--dur-hover) var(--motion-ease),
+             border-color var(--dur-hover) var(--motion-ease)}
+.copy:hover{color:var(--ink);border-color:var(--muted)}
 .copy[data-done="1"]{color:var(--ok);border-color:var(--ok)}
 
-/* ---- buttons */
-.ctas{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 0}
-.btn{display:inline-flex;align-items:center;gap:9px;padding:11px 18px;
-  border-radius:10px;border:1px solid var(--line-2);background:var(--surface);
-  color:var(--ink);font:500 14.5px/1 var(--sans);cursor:pointer;
-  transition:border-color .15s,background .15s,transform .15s}
-.btn:hover{border-color:var(--dim);background:var(--surface-2);color:var(--ink);
-  text-decoration:none;transform:translateY(-1px)}
-.btn svg{width:17px;height:17px;flex:0 0 17px;fill:currentColor}
-.btn--x{background:var(--ink);color:#0e0f11;border-color:var(--ink)}
-.btn--x:hover{background:#fff;border-color:#fff;color:#000}
+/* ── buttons */
+.ctas{display:flex;flex-wrap:wrap;gap:var(--space-3);margin:var(--space-5) 0 0}
+.btn{display:inline-flex;align-items:center;gap:var(--space-2);
+  padding:10px var(--space-4);border-radius:var(--r-control);
+  border:1px solid var(--border-strong);background:var(--panel);color:var(--ink);
+  font:500 var(--t-body)/1 var(--font-ui);cursor:pointer;
+  transition:background var(--dur-hover) var(--motion-ease),
+             border-color var(--dur-hover) var(--motion-ease)}
+.btn:hover{border-color:var(--muted);background:var(--panel-2);
+  color:var(--ink);text-decoration:none}
+.btn svg{width:16px;height:16px;flex:0 0 16px;fill:currentColor}
+.btn--x{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn--x:hover{background:var(--accent);border-color:var(--accent);
+  color:var(--accent-ink);filter:brightness(1.08)}
 .btn--ghost{background:transparent}
-@media (prefers-reduced-motion:reduce){.btn,.btn:hover{transition:none;transform:none}}
 
-/* ---- sections */
-.sec{padding:64px 0 0}
-.sec>h2{font-size:clamp(21px,2.6vw,27px)}
-.sec>.sub{color:var(--muted);max-width:74ch;margin:12px 0 0}
-.rule{border:0;border-top:1px solid var(--line);margin:64px 0 0}
+/* ── sections */
+.sec{padding:var(--space-6) 0 0}
+.sec>h2{font-size:var(--t-section)}
+.sec>.sub{color:var(--muted);max-width:68ch;margin:var(--space-3) 0 0}
+.rule{border:0;border-top:1px solid var(--border);margin:var(--space-6) 0 0}
 
-/* ---- cards */
-.grid{display:grid;gap:16px;margin:28px 0 0;
+/* ── cards. Differentiated by STRUCTURE and a word, never by hue: the pack
+   bans semantic colour used decoratively, and the role line used to be amber. */
+.grid{display:grid;gap:var(--space-4);margin:var(--space-5) 0 0;
   grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
-.card{border:1px solid var(--line);border-radius:var(--radius);
-  background:var(--surface);padding:22px;display:flex;flex-direction:column;
-  color:inherit;transition:border-color .15s,transform .15s}
-a.card:hover{border-color:var(--line-2);text-decoration:none;transform:translateY(-2px)}
-.card h3{font-size:17.5px;display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
-.card h3 .v{color:var(--dim);font:400 12px/1 var(--mono);letter-spacing:0}
-.card .role{color:var(--warm);font-size:12.5px;margin:8px 0 0}
-.card p{color:var(--muted);font-size:14px;margin:11px 0 0}
-.card .foot{margin:16px 0 0;padding-top:14px;border-top:1px solid var(--line);
-  color:var(--dim);font-size:12.5px;display:flex;justify-content:space-between;gap:10px}
-@media (prefers-reduced-motion:reduce){a.card:hover{transform:none}}
+.card{border:1px solid var(--border);border-radius:var(--r-card);
+  background:var(--panel);padding:var(--space-5);display:flex;flex-direction:column;
+  color:inherit;transition:border-color var(--dur-hover) var(--motion-ease),
+             background var(--dur-hover) var(--motion-ease)}
+a.card:hover{border-color:var(--border-strong);background:var(--panel-2);text-decoration:none}
+.card h3{font-size:var(--t-card);display:flex;align-items:baseline;
+  gap:var(--space-2);flex-wrap:wrap}
+.card h3 .v{color:var(--muted);font:400 var(--t-chip)/1 var(--font-data);letter-spacing:0}
+.card .role{color:var(--muted);font-size:var(--t-chip);margin:var(--space-2) 0 0;
+  font-family:var(--font-data)}
+.card p{color:var(--muted);font-size:var(--t-body);margin:var(--space-3) 0 0}
+.card .foot{margin-top:auto;padding-top:var(--space-3);
+  border-top:1px solid var(--border);color:var(--muted);font-size:var(--t-chip);
+  display:flex;justify-content:space-between;gap:var(--space-2);align-items:center}
+.card .entry{font-family:var(--font-data);color:var(--accent)}
 
-/* ---- stats */
-.stats{display:grid;gap:16px;margin:34px 0 0;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
-.stat{border:1px solid var(--line);border-radius:var(--radius);
-  background:var(--surface);padding:20px}
-.stat b{display:block;font-size:29px;font-weight:600;letter-spacing:-.02em}
-.stat span{color:var(--muted);font-size:13px}
+/* ── stats. --ok on the zero is STATE (healthy), which the pack allows;
+   the others stay ink, because a number is not a status. */
+.stats{display:grid;gap:var(--space-4);margin:var(--space-6) 0 0;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.stat{border:1px solid var(--border);border-radius:var(--r-card);
+  background:var(--panel-2);padding:var(--space-5)}
+.stat b{display:block;font-size:var(--t-page);font-weight:600;letter-spacing:-.02em}
+.stat.is-ok b{color:var(--ok)}
+.stat span{color:var(--muted);font-size:var(--t-chip)}
 
-/* ---- tables */
-.tw{overflow-x:auto;margin:26px 0 0;border:1px solid var(--line);
-  border-radius:var(--radius);background:var(--surface)}
-table{width:100%;border-collapse:collapse;font-size:13.5px}
-th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);
-  vertical-align:top}
+/* ── tables */
+.tw{overflow-x:auto;margin:var(--space-5) 0 0;border:1px solid var(--border);
+  border-radius:var(--r-card);background:var(--panel)}
+table{width:100%;border-collapse:collapse;font-size:var(--t-body)}
+th,td{text-align:left;padding:var(--space-3) var(--space-4);
+  border-bottom:1px solid var(--border);vertical-align:top}
 tbody tr:last-child td{border-bottom:0}
-th{color:var(--dim);font-weight:500;font-size:11.5px;text-transform:uppercase;
-  letter-spacing:.06em;white-space:nowrap}
+th{color:var(--muted);font-weight:500;font-size:var(--t-chip);
+  text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
 td.nw{white-space:nowrap}
 
-/* ---- prose */
-.prose p{color:var(--muted);max-width:74ch}
-.prose p b,.prose p strong{color:var(--ink-2)}
-.prose h3{font-size:16.5px;margin:30px 0 0}
-.prose ul{color:var(--muted);max-width:74ch;padding-left:20px}
-.prose li{margin:7px 0}
+/* ── prose */
+.prose p{color:var(--muted);max-width:68ch}
+.prose p b,.prose p strong{color:var(--ink)}
+.prose h3{font-size:var(--t-card);margin:var(--space-6) 0 0}
+.prose ul{color:var(--muted);max-width:68ch;padding-left:20px}
+.prose li{margin:var(--space-2) 0}
 
-/* ---- chips */
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
-.chip{border:1px solid var(--line-2);border-radius:999px;padding:5px 12px;
-  font-size:12.5px;color:var(--ink-2);background:var(--surface)}
-.chip--refuse{border-color:#43331f;color:var(--warm);background:#191510}
+/* ── chips */
+.chips{display:flex;flex-wrap:wrap;gap:var(--space-2);
+  margin:var(--space-4) 0 0;padding:0;list-style:none}
+.chip{border:1px solid var(--border-strong);border-radius:var(--r-pill);
+  padding:var(--space-1) var(--space-3);font-size:var(--t-chip);
+  color:var(--ink);background:var(--panel);font-family:var(--font-data)}
+.chip--refuse{border-color:var(--warn);color:var(--warn);background:var(--warn-weak)}
 
-/* ---- callout */
-.note{border:1px solid var(--line);border-left:3px solid var(--warm);
-  border-radius:0 var(--radius) var(--radius) 0;background:var(--surface);
-  padding:18px 20px;margin:26px 0 0;max-width:78ch}
-.note p{margin:0;color:var(--muted)} .note p+p{margin-top:10px}
+/* ── callout */
+.note{border:1px solid var(--border);border-left:2px solid var(--accent);
+  border-radius:0 var(--r-card) var(--r-card) 0;background:var(--panel);
+  padding:var(--space-4) var(--space-5);margin:var(--space-5) 0 0;max-width:72ch}
+.note p{margin:0;color:var(--muted)}
+.note p+p{margin-top:var(--space-3)}
 
-/* ---- footer */
-footer{border-top:1px solid var(--line);margin-top:78px;padding:34px 0 60px;
-  color:var(--dim);font-size:13px}
-footer .wrap{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
-footer a{color:var(--muted)} footer a:hover{color:var(--ink)}
-footer nav{display:flex;gap:18px;flex-wrap:wrap}
+/* ── swatches: the design pack's page shows the tokens this site is built from */
+.swatches{display:grid;gap:var(--space-3);margin:var(--space-5) 0 0;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.sw{border:1px solid var(--border);border-radius:var(--r-card);
+  background:var(--panel);overflow:hidden}
+.sw i{display:block;height:52px;border-bottom:1px solid var(--border)}
+.sw span{display:block;padding:var(--space-3);font-family:var(--font-data);
+  font-size:var(--t-chip);color:var(--muted)}
+.sw span b{display:block;color:var(--ink);font-weight:500}
 
-/* ---- breadcrumb */
-.crumb{color:var(--dim);font-size:13px;padding:26px 0 0}
+/* ── footer */
+footer{border-top:1px solid var(--border);margin-top:var(--space-6);
+  padding:var(--space-6) 0 48px;color:var(--muted);font-size:var(--t-body)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:var(--space-4);justify-content:space-between}
+footer a{color:var(--muted)}
+footer a:hover{color:var(--ink)}
+footer nav{display:flex;gap:var(--space-4);flex-wrap:wrap}
+
+.crumb{color:var(--muted);font-size:var(--t-body);padding:var(--space-5) 0 0}
 .crumb a{color:var(--muted)}
 
 @media (max-width:640px){
-  .wrap{padding:0 18px}
-  .hero{padding:48px 0 6px}
-  .sec{padding:48px 0 0}
+  .wrap{padding:0 var(--space-4)}
+  .hero{padding:var(--space-5) 0 var(--space-3)}
+  .sec{padding:var(--space-5) 0 0}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:0s!important}
 }
 `.trim();
 
@@ -433,7 +519,7 @@ function layout(o) {
 <meta name="description" content="${esc(o.description)}">
 <link rel="canonical" href="${canonical}">
 <meta name="author" content="${esc(AUTHOR)}">
-<meta name="theme-color" content="#0e0f11">
+<meta name="theme-color" content="#0f1218">
 <meta property="og:type" content="${o.ogType || 'website'}">
 <meta property="og:site_name" content="ssheleg skills">
 <meta property="og:title" content="${esc(o.title)}">
@@ -452,7 +538,7 @@ function layout(o) {
 <meta name="twitter:description" content="${esc(o.description)}">
 <link rel="icon" href="data:image/svg+xml,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">'
-  + '<rect width="24" height="24" rx="5" fill="#0e0f11"/>'
+  + '<rect width="24" height="24" rx="5" fill="#0f1218"/>'
   + '<path fill="none" stroke="#e8e9ec" stroke-width="1.7" stroke-linejoin="round"'
   + ' d="M12 3.6 20 7.9v8.2L12 20.4 4 16.1V7.9z"/></svg>')}">
 <style>${CSS}</style>
@@ -503,7 +589,10 @@ function memberCard(m, rel) {
   <div class="role">${esc(m.role)}</div>
   <p>${esc(firstSentence(m.desc, 210))}</p>
   <div class="foot"><span>${subs} skill${subs === 1 ? '' : 's'}${
-    (m.extraLinks || []).length ? ' · a catalogue of its own' : ''}</span><span>Read →</span></div>
+    (m.extraLinks || []).length ? ' · a catalogue of its own' : ''}</span>${
+    m.routers && m.routers.length
+      ? `<span class="entry">/${m.routers[0].name}</span>`
+      : '<span>Read →</span>'}</div>
 </a>`;
 }
 
@@ -512,25 +601,47 @@ function indexPage() {
   const install = 'npx sshlg-skills install';
   const body = `
 <section class="wrap hero">
-  <p class="eyebrow">${members.length} skills · ${totalSkills} entry points · one command</p>
-  <h1>Agent skills for the work around the code.</h1>
-  <p class="lede">A coding agent writes code well and does almost everything around it
-  badly. It builds an interface with no idea who uses it, calls a task done without
-  checking what was asked, and ships a page no answer engine can read. These
-  ${members.length} skills each take one of those gaps and give the agent
-  <b>a contract it has to follow</b> — documentation, validators and small
-  standard-library scripts. No services, no telemetry, no API keys.</p>
-  ${term(install, 'install the whole family')}
-  <div class="ctas">
-    ${xFollowBtn()}
-    ${ghBtn(`https://github.com/${GH_OWNER}/${GH_REPO}`, 'Get it on GitHub')}
-    <a class="btn btn--ghost" href="#skills">Browse the skills</a>
+  <div class="hero-grid">
+    <div>
+      <p class="eyebrow">${members.length} skills · ${totalSkills} entry points · one command</p>
+      <h1>Agent skills for the work around the code.</h1>
+      <p class="lede">A coding agent writes code well and does almost everything
+      around it badly. It builds an interface with no idea who uses it, calls a task
+      done without checking what was asked, and ships a page no answer engine can
+      read. These ${members.length} skills each take one of those gaps and give the
+      agent <b>a contract it has to follow</b> — documentation, validators and small
+      standard-library scripts. No services, no telemetry, no API keys.</p>
+      ${term('npx sshlg-skills install', 'install the whole family')}
+      <div class="ctas">
+        ${xFollowBtn()}
+        ${ghBtn(`https://github.com/${GH_OWNER}/${GH_REPO}`, 'Get it on GitHub')}
+        <a class="btn btn--ghost" href="#skills">Browse the skills</a>
+      </div>
+    </div>
+
+    <!-- The signature element. workbench declines ## Signature element, so this is
+         authored: the page argues that a claim carries its receipt, so the receipt
+         is what it is remembered by. Every command here is one a reader can run. -->
+    <aside class="evidence">
+      <h2>What proves it</h2>
+      <ol>
+        <li><code class="cmd">npx --yes sshlg-skills@latest list</code>
+          <span class="says">every pack, its pinned version and where it came from</span></li>
+        <li><code class="cmd">npx @deepseek-ai/dsh --profile web --dump-default-config | grep skill</code>
+          <span class="says">the harness reads these without a plugin — its own default profile says so</span></li>
+        <li><code class="cmd">ls ~/.agents/skills/telegram-bots/</code>
+          <span class="says">SKILL.md, references and fixtures, where every agent looks</span></li>
+        <li><code class="cmd">npm test</code>
+          <span class="says">38 suites, 667 fixtures — the gate this repository ships with</span></li>
+      </ol>
+    </aside>
   </div>
+
   <div class="stats">
     <div class="stat"><b>${members.length}</b><span>skill packs, pinned and released together</span></div>
     <div class="stat"><b>${totalSkills}</b><span>entry points an agent can be routed to</span></div>
     <div class="stat"><b>${agentCount}+</b><span>agents, from Claude Code to DeepSeek Harness</span></div>
-    <div class="stat"><b>0</b><span>runtime dependencies, services or keys</span></div>
+    <div class="stat is-ok"><b>0</b><span>runtime dependencies, services or keys</span></div>
   </div>
 </section>
 
@@ -706,6 +817,38 @@ function memberPage(m) {
     <p>${esc(l.note || '')}</p>
   </div>`).join('\n')}
 </section>
+
+${m.name === 'sheleg-design' ? `<hr class="rule">
+
+<section class="wrap sec">
+  <h2>This page is built from one of its packs</h2>
+  <p class="sub">Not an illustration of the pack — the page you are reading consumes
+  it. The site's token layer is <strong>workbench</strong>, the pack this skill ships
+  for product UI, copied from its own <code>tokens/workbench.css</code> and consumed
+  as <code>var(--…)</code> with no literal hex anywhere in the generator.</p>
+  <div class="swatches">${[
+    ['--bg', 'app ground'], ['--panel', 'cards, bars, dialogs'],
+    ['--panel-2', 'inset, quiet stat tiles'], ['--border', '1px lines'],
+    ['--accent', 'the one accent'], ['--ok', 'done, healthy'],
+    ['--warn', 'needs a human'], ['--danger', 'failed'],
+  ].map(([tok, role]) => `<div class="sw">
+    <i style="background:var(${tok})"></i>
+    <span><b>${tok}</b>${esc(role)}</span>
+  </div>`).join('\n')}</div>
+  <div class="note">
+    <p><strong>Two decisions this page had to make out loud.</strong> workbench is the
+    <em>core</em> contract: it declines <code>## Hero</code>,
+    <code>## Components</code>, <code>## Responsive</code> and
+    <code>## Signature element</code>, so those four are authored rather than
+    inherited — and the pack requires saying so instead of filling them from the token
+    layer with a citation attached.</p>
+    <p>The pack whose register matched this site exactly was <strong>field-notes</strong>,
+    for <em>open-source and developer tools sold on auditability</em>. It was refused on
+    its own words: its palette section says the dawn gradient has no dark twin and
+    <em>"do not ship the hero in dark"</em>. This site is dark, so the register lost to
+    the constraint.</p>
+  </div>
+</section>` : ''}
 
 <hr class="rule">
 
