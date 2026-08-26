@@ -246,6 +246,8 @@ used.)*
 
 ## Run stamps
 
+- **2026-08-26 — the SEO/AEO pass, and three instrument defects** (`289cc0c`, umbrella v1.3.0 → v1.3.3). One task, four releases, because each fix made the next thing visible. **Divergence recorded**: the pass shipped the defect it was written to fix — v1.3.0 closed the entity gap and emitted two unlinked `Person` nodes doing it — and `test/site_test.js` had 30 checks over a site whose subject is structured data with **none of them parsing it**. Then twice the probe was wrong and the site was not (a grep pattern with a space against minified JSON; a walker keyed on `@type` against references that carry none), and only the third `refs=0` was real. Standing instruction 11 extended rather than a twelfth added: it already covered a check going red, and every finding here was a check going **quiet**. One coordination miss, mine: `docs/evidence/retro.md` is a guarded file and I edited it after releasing the lease.
+
 
 - **2026-08-14 — the loop, nine rows** (`c8167df`, umbrella v0.54.0). Five releases: `task-pipeline` 1.54.0, `seo-aeo-audit` 0.17.1, `agent-stack` 0.7.2, `agent-sync` 1.11.0, umbrella 0.51.0 → 0.54.0. **Divergence recorded**: three rows (B-44, B-24, and the count in B-30) were filed on premises that measurement disproved — instruction #5 firing on the person who wrote the board, not on a gate. Two checks written that afternoon read a working tree instead of the committed state; the pin guard was caught by a concurrent session's uncommitted bump, the coordination guard by CI one commit later. One unwind slice was bounded by the wrong neighbour and removed 4088 lines of a workflow before the diffstat caught it.
 | Date | Task | Commit | Diverged? |

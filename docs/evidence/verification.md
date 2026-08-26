@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**419** id'd requirement rows below, **413** read `verified` and none of them says which
+**426** id'd requirement rows below, **420** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -906,3 +906,10 @@ exists to refuse, so the rows below cover **this** release only.
 | B84-7 | The с/ш case is one word, and its cheap fix is elsewhere | `stemRu('записать')` → `записа`, which cannot reach `запиш-`; no other advertised trigger in the family has the alternation. `evidence-docs`' description has 124 characters free, so advertising the imperative is the cheap fix and it belongs to `task-pipeline` | verified |
 | B84-8 | What remains is named with its blocker | seven absent triggers, against descriptions measured the same day at `task-pipeline` 964, `stripe-billing` 967, `make-skill` 965, `seo-aeo-audit` 959, `sheleg-design` 948 / 970 | verified |
 | B84-9 | The gate holds | `test/triggers_test.js` 27 → **30 checks**; `npm test` exit 0 | verified |
+| SEO-1 | The author entity reaches every indexable template | live fetch of 5 templates at `289cc0c`: `described=1 refs>=1` on `/`, `/agents/`, `/routing/`, `/skills/telegram-dev/`, `/skills/sheleg-design/`; all reference `https://skills.sshlg.me/#person` | verified |
+| SEO-2 | Exactly one node describes the person; the rest are `@id` alone | `test/site_test.js` +2 checks, 30 → 32; six plants watched failing — re-describe, drop the `@id`, wrong id, missing link, second opt-out, indexable 404 | verified |
+| SEO-3 | `/agents/` read budget | `page_audit.py`: 54.5% → **78.4%** content in the first ~5700 chars; `high` severity gone | verified |
+| SEO-4 | Five visible Q&A pairs, markup built from the array the page renders | `AGENT_FAQ` is the single source for both the DOM and the `FAQPage` node; live `/agents/` carries `FAQPage` with 5 questions | verified |
+| SEO-5 | The 404 body is not indexable | measured after deploy: `GET /404.html` → **200** at its own address, `GET /no-such-page/` → 404, 0 references in `sitemap.xml`; `<meta name="robots" content="noindex">` now served | verified |
+| SEO-6 | `/` at 47.9% was recorded, not silently accepted or silently fixed | `docs/seo/plan-2026-08-26.md` G1/G2, with both options and the trade-off named; it is the plan's single recommended next action | verified |
+| SEO-7 | Three probe defects were not recorded as site findings | `docs/seo/audit-2026-08-26.md` addendum 2 table — pattern spacing, `@type` walker, and the one row that WAS the site | verified |
