@@ -491,6 +491,46 @@ it('the page quotes the gate out of the ratchet marker, not out of a memory of i
   `the front page does not state ${stated.suites} suites, ${stated.fixtures} fixtures`);
 });
 
+it('every entry point a pack advertises is a link, and its address is in the tree', () => {
+  // The second half of the same reported defect. "Each name below is an entry point an
+  // agent can be routed to" rendered twenty-eight pills — bordered, monospace, the shape
+  // the web uses for a tag you can click — that did nothing. The address exists for all
+  // of them, so the page offers it; this reads the built page against the tree, because
+  // a link whose href was composed from a naming assumption looks identical to one that
+  // was resolved right up until somebody clicks it.
+  let seen = 0;
+  for (const m of data.skills) {
+    const html = read(`skills/${m.name}/index.html`);
+    const ships = /<h2>What it ships<\/h2>[\s\S]*?<ul class="chips">([\s\S]*?)<\/ul>/.exec(html);
+    assert.ok(ships, `skills/${m.name}/: no "What it ships" list`);
+    const chips = [...ships[1].matchAll(/<li class="chip[^"]*">([\s\S]*?)<\/li>/g)].map((c) => c[1]);
+    assert.strictEqual(chips.length, (m.skillNames || []).length,
+      `skills/${m.name}/: ${chips.length} pills for ${(m.skillNames || []).length} entry points`);
+    for (const chip of chips) {
+      const a = /<a href="([^"]+)"[^>]*>([^<]+)<\/a>/.exec(chip);
+      assert.ok(a, `skills/${m.name}/: the pill ${chip.replace(/<[^>]+>/g, '').trim()} `
+        + 'is not a link, in a row where the others are');
+      const [, href, name] = a;
+      const want = `https://github.com/${m.repo}/tree/main/${site.entryPath(m, name)}`;
+      assert.strictEqual(unesc(href), want, `skills/${m.name}/: ${name} points elsewhere`);
+      assert.ok(fs.existsSync(path.join(__dirname, '..', m.dir,
+        site.entryPath(m, name), 'SKILL.md')),
+      `skills/${m.name}/: ${name} resolves to a directory with no SKILL.md`);
+      seen += 1;
+    }
+  }
+  // Instruction #11's other half: a collector that finds nothing passes every assertion
+  // above it. This is the line that fails when it does.
+  assert.ok(seen >= 20, `only ${seen} entry points were read — the collector, not the page`);
+});
+
+it('an entry point that resolves to nothing fails the build rather than the reader', () => {
+  const m = data.skills.find((s) => (s.skillNames || []).length);
+  assert.throws(() => site.entryPath(m, 'no-such-entry-point'),
+    /no plugins\/\*\/skills\/no-such-entry-point\/SKILL\.md exists/,
+    'a name with no directory behind it is rendered as a link anyway');
+});
+
 it('a router whose member is installed links to that member page', () => {
   const html = read('routing/index.html');
   for (const name of registry.order()) {

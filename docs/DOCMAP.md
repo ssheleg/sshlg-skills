@@ -140,8 +140,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=38 fixtures=676 members=9 -->
-**Ratchets.** 38 suites, 676 fixtures, 9 pinned members — and these three numbers are
+<!-- ratchets: suites=38 fixtures=678 members=9 -->
+**Ratchets.** 38 suites, 678 fixtures, 9 pinned members — and these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree.** Counting
 convention: a suite is anything `npm test` runs, `validate.py` included, which is the
@@ -175,8 +175,9 @@ said 34 while the directory held 35 and only the second reading catches that, an
 suites, and no new suite, because `telegram-dev`'s own 12 checks and 8 plants are
 a gate in `telegram-dev`, where the code they exercise ships, 38/671 with the brand
 pack and the social preview (937566a, which moved this marker and left the front
-page's own copy of the pair at 667 — the drift below), and 38/676 when the front
-page's routing table stopped leaving two rows unclickable.
+page's own copy of the pair at 667 — the drift below), and 38/678 when the front
+page's routing table stopped leaving two rows unclickable and the pack pages'
+entry points stopped being pills that do nothing.
 
 **Five fixtures for one unclickable cell, and the reason is the class.** The reported
 defect was two rows: `seo-llmo` and `evidence-docs` ship in no pack, so the Router
@@ -187,7 +188,17 @@ RESOLVES, and this was an address never written. What the reading turned up besi
 meant to be played down rendered at full ink brightness; and the evidence panel's
 `38 suites, 667 fixtures`, typed in beside the marker above and four behind it since
 937566a. The panel now reads the marker, `pages.yml` rebuilds when the marker moves,
-and the four guards were each watched refusing their own planted defect.
+and the guards were each watched refusing their own planted defect.
+
+**The second half was a choice, not a finding.** *"What it ships"* rendered its 28 entry
+points as pills — bordered, monospace, the shape the web uses for a tag you click — that
+did nothing, and a pill is a weaker promise than a cell in a column of links, so it was
+put to the operator rather than decided here. Each now links to its own `SKILL.md`
+directory, at a path READ from the tree: a name with nothing behind it fails the build
+instead of shipping as a link that 404s. One plant written for it did **not** refuse —
+composing `plugins/<member>/skills/<name>` produces the same nine URLs today — and that
+is recorded rather than quietly dropped; the plant that does refuse composes the
+repository name, where `sheleg-design`/`sheleg-design-skill` is a real divergence.
 
 That jump is not eight new suites. **24/469 was wrong when it was written** — the
 2026-08-16 audit recounted the same command at 26 node suites and 542 fixtures,

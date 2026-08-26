@@ -132,6 +132,44 @@ function refusalOf(text) {
  * nothing read. A count that cannot be resolved THROWS: a link advertising `{n}` or
  * `0` is worse than a build that stopped.
  */
+/**
+ * Where one entry point actually lives, RESOLVED in the checked-out tree.
+ *
+ * "Each name below is an entry point an agent can be routed to" was rendered as
+ * twenty-eight pills — bordered, monospace, the shape the whole web uses for a tag you
+ * can click — that did nothing. Every one of them has an address: a directory holding a
+ * `SKILL.md` inside its member's repository.
+ *
+ * It is DISCOVERED rather than composed. Today all nine plugin directories happen to be
+ * spelled like their member, so `plugins/<member>/skills/<name>` would produce the same
+ * nine URLs and a fixture comparing the two cannot tell them apart — stated plainly
+ * because a plant proving otherwise was written, run, and did not refuse. What the
+ * discovery buys is not a spelling: it is that the path is READ from the tree, so the
+ * `SKILL.md` beside it is what makes the link real, and a name with nothing behind it
+ * fails the build instead of shipping as a pill that 404s. The two names are already
+ * independent one level up — `sheleg-design` ships from the repository
+ * `sheleg-design-skill` — so composing from either is a guess that happens to be right.
+ */
+function entryPath(member, name) {
+  const plugins = path.join(ROOT, member.dir, 'plugins');
+  let dirs = [];
+  try {
+    dirs = fs.readdirSync(plugins, { withFileTypes: true })
+      .filter((d) => d.isDirectory()).map((d) => d.name).sort();
+  } catch (e) {
+    throw new Error(`${member.name}: ${member.dir}/plugins is not readable (${e.code}) — the `
+      + 'submodule is probably not checked out, and a page cannot link entry points it '
+      + 'cannot find');
+  }
+  for (const plugin of dirs) {
+    const rel = path.posix.join('plugins', plugin, 'skills', name);
+    if (fs.existsSync(path.join(ROOT, member.dir, rel, 'SKILL.md'))) return rel;
+  }
+  throw new Error(`${member.name}: '${name}' is advertised in skills.json and no `
+    + `plugins/*/skills/${name}/SKILL.md exists under ${member.dir} — the page would `
+    + 'offer an address that resolves nowhere');
+}
+
 function resolveCount(member, link) {
   if (!String(link.label).includes('{n}')) return link.label;
   if (!link.countGlob) {
@@ -451,6 +489,13 @@ td.nw{white-space:nowrap}
   padding:var(--space-1) var(--space-3);font-size:var(--t-chip);
   color:var(--ink);background:var(--panel);font-family:var(--font-data)}
 .chip--refuse{border-color:var(--warn);color:var(--warn);background:var(--warn-weak)}
+/* A pill that DOES something has to be told apart from one that only labels. The
+   colour stays ink so the row still reads as a set of names; the border and the
+   hover carry the affordance, and the underline is the browser's own. */
+.chip--link{padding:0}
+.chip--link a{display:block;color:var(--ink);padding:var(--space-1) var(--space-3)}
+.chip--link:hover{border-color:var(--accent);background:var(--accent-weak)}
+.chip--link:hover a{color:var(--accent);text-decoration:none}
 
 /* ── callout */
 .note{border:1px solid var(--border);border-left:2px solid var(--accent);
@@ -915,7 +960,9 @@ function memberPage(m) {
 <section class="wrap sec">
   <h2>What it ships</h2>
   <p class="sub">Each name below is an entry point an agent can be routed to.</p>
-  <ul class="chips">${subs.map((s) => `<li class="chip">${esc(s)}</li>`).join('')}</ul>
+  <ul class="chips">${subs.map((s) => `<li class="chip chip--link"><a href="${
+    esc(`https://github.com/${m.repo}/tree/main/${entryPath(m, s)}`)
+  }" rel="noopener" target="_blank">${esc(s)}</a></li>`).join('')}</ul>
   <div class="prose" style="margin-top:22px">
     <p><b>Shape:</b> ${esc(m.shape)}. ${esc(m.shapeWhy || '')}</p>
   </div>
@@ -1435,5 +1482,5 @@ if (require.main === module) {
 
 module.exports = {
   build, SITE, BASE, X_HANDLE, GH_OWNER, GH_REPO, members, firstSentence, refusalOf,
-  inline, esc,
+  inline, esc, entryPath,
 };
