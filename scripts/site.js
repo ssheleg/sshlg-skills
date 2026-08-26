@@ -161,6 +161,37 @@ function resolveCount(member, link) {
   return String(link.label).replace('{n}', String(n));
 }
 
+/**
+ * How big the gate is, READ from the ratchet marker in `docs/DOCMAP.md`.
+ *
+ * That marker is the single home: `test/run.js` re-derives all three figures from the
+ * run it just did and fails when the stated one disagrees. This page restated them —
+ * "38 suites, 667 fixtures" typed into the evidence panel against a marker that said
+ * 671 — so the widest-read document this repository has was four fixtures behind its
+ * own gate, in the one panel whose entire argument is that a claim carries its
+ * receipt. A number is computed, not carried across.
+ */
+function gateRatchets() {
+  const file = path.join(ROOT, 'docs', 'DOCMAP.md');
+  const m = /<!--\s*ratchets:\s*([^>]*?)-->/.exec(fs.readFileSync(file, 'utf8'));
+  if (!m) {
+    throw new Error('docs/DOCMAP.md carries no `<!-- ratchets: ... -->` marker — the page '
+      + 'cannot state the size of a gate it cannot read, and typing the figure in here is '
+      + 'exactly how the last one went stale');
+  }
+  const out = {};
+  for (const pair of m[1].trim().split(/\s+/)) {
+    const [k, v] = pair.split('=');
+    if (!/^\d+$/.test(v || '')) throw new Error(`ratchets marker: '${pair}' is not key=<number>`);
+    out[k] = Number(v);
+  }
+  for (const k of ['suites', 'fixtures']) {
+    if (!out[k]) throw new Error(`ratchets marker states no ${k}, which the page quotes`);
+  }
+  return out;
+}
+const GATE = gateRatchets();
+
 const members = data.skills.map((s) => ({
   ...s,
   slug: s.name,
@@ -700,7 +731,7 @@ function indexPage() {
         <li><code class="cmd">ls ~/.agents/skills/telegram-bots/</code>
           <span class="says">SKILL.md, references and fixtures, where every agent looks</span></li>
         <li><code class="cmd">npm test</code>
-          <span class="says">38 suites, 667 fixtures — the gate this repository ships with</span></li>
+          <span class="says">${GATE.suites} suites, ${GATE.fixtures} fixtures — the gate this repository ships with</span></li>
       </ol>
     </aside>
   </div>
@@ -772,8 +803,15 @@ function indexPage() {
     <tbody>${registry.order().map((r) => {
       const e = registry.REGISTRY[r];
       const m = members.find((x) => (e.requires || []).includes(x.name));
-      const label = m ? `<a href="${rel}skills/${m.slug}/">${esc(r)}</a>` : esc(r);
-      return `<tr><td class="nw">${label}</td><td>${esc(e.answers)}</td><td>${esc(e.when)}</td></tr>`;
+      // A standing rule ships in no pack, so this cell had no member page to point at
+      // and rendered as bare text: ten links and two plain names in ONE column, where
+      // a reader finishes the row and then clicks the name. Nothing was broken enough
+      // to fail the link checker — the defect is an address that was never written.
+      // Every rule has a home regardless: its own text, under its own id, on the
+      // routing page. That is where the name goes when no pack owns it.
+      const href = m ? `${rel}skills/${m.slug}/` : `${rel}routing/#${esc(r)}`;
+      return `<tr><td class="nw"><a href="${href}">${esc(r)}</a></td>`
+        + `<td>${esc(e.answers)}</td><td>${esc(e.when)}</td></tr>`;
     }).join('\n')}</tbody>
   </table></div>
   <p style="margin:20px 0 0"><a href="${rel}routing/">Read every routing rule and its boundary →</a></p>
@@ -1029,7 +1067,7 @@ function routingPage() {
       return `<tr><td class="nw"><a href="#${esc(n)}">${esc(n)}</a></td>`
         + `<td>${esc(e.answers)}</td><td>${esc(e.when)}</td>`
         + `<td class="nw">${m ? `<a href="${rel}skills/${m.slug}/">${esc(m.name)}</a>`
-          : '<span style="color:var(--dim)">a standing rule</span>'}</td></tr>`;
+          : '<span style="color:var(--muted)">a standing rule</span>'}</td></tr>`;
     }).join('\n')}</tbody>
   </table></div>
 </section>
@@ -1104,7 +1142,7 @@ function agentsPage() {
     <tbody>${agents.map((a) => `<tr><td class="nw"><strong>${esc(a.name)}</strong></td>`
       + `<td class="nw">${esc(a.channel)}</td>`
       + `<td class="nw"><code>${esc(a.reads)}</code></td>`
-      + `<td>${a.note ? esc(a.note) : '<span style="color:var(--dim)">—</span>'}</td></tr>`).join('\n')}</tbody>
+      + `<td>${a.note ? esc(a.note) : '<span style="color:var(--muted)">—</span>'}</td></tr>`).join('\n')}</tbody>
   </table></div>
   <div class="note">
     <p><strong>One channel per agent, always.</strong> A plain copy beside a plugin, or a

@@ -185,6 +185,36 @@ it('every internal link resolves inside the built site', () => {
   assert.deepStrictEqual(dead, [], `dead internal links: ${dead.join(', ')}`);
 });
 
+it('every fragment a page points at exists on the page it points at', () => {
+  // The link checker above strips `#frag` and asks only whether the PAGE exists, so
+  // `routing/#evidence-docs` passes it while landing at the top of the routing page.
+  // That is a link a reader clicks and reads as broken, and this site now has ten of
+  // them by design — every router name in the index table resolves through one.
+  const ids = new Map(pages.map((p) => [p,
+    new Set([...read(p).matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]))]));
+  const resolve = (from, pathPart) => {
+    if (pathPart === '') return from;
+    const target = pathPart.startsWith(site.BASE)
+      ? path.normalize(pathPart.slice(site.BASE.length)) || 'index.html'
+      : path.normalize(path.join(path.dirname(from), pathPart));
+    const t = target === '.' ? 'index.html' : target;
+    return [t, path.join(t, 'index.html')].find((c) => ids.has(c)) || null;
+  };
+  const dead = [];
+  for (const page of pages) {
+    for (const m of read(page).matchAll(/href="([^"]*#[^"]*)"/g)) {
+      const raw = unesc(m[1]);
+      if (/^(https?:|mailto:|javascript:)/i.test(raw)) continue;
+      const [pathPart, frag] = raw.split('#');
+      if (!frag) continue;
+      const target = resolve(page, pathPart);
+      if (!target) { dead.push(`${page} → ${raw} (no such page)`); continue; }
+      if (!ids.get(target).has(frag)) dead.push(`${page} → ${raw} (${target} has no id="${frag}")`);
+    }
+  }
+  assert.deepStrictEqual(dead, [], `fragments that land nowhere: ${dead.join(', ')}`);
+});
+
 it('the 404 page links from the base path the site is actually served at', () => {
   // Derived from SITE, not written down: on a custom domain the base is `/`, on a
   // github.io project site it is `/<repo>/`, and a hardcoded one is a dead link the
@@ -298,6 +328,24 @@ it('nothing is loaded from another host', () => {
   assert.deepStrictEqual(bad, [], `the site fetches from another host: ${bad.join(' | ')}`);
 });
 
+it('no rule reads a custom property the page never defines', () => {
+  // `color:var(--dim)` shipped on two pages against a token layer that defines
+  // `--muted`. An undefined property with no fallback is invalid at computed-value
+  // time, so `color` fell back to `inherit` and "a standing rule" rendered at full
+  // ink brightness in a column of links — the row it was meant to play down read as
+  // the loudest one. Nothing failed: CSS has no error, only a value nobody chose.
+  const missing = [];
+  for (const page of pages) {
+    const html = read(page);
+    const defined = new Set([...html.matchAll(/(--[a-zA-Z0-9-]+)\s*:/g)].map((m) => m[1]));
+    for (const m of html.matchAll(/var\(\s*(--[a-zA-Z0-9-]+)\s*\)/g)) {
+      if (!defined.has(m[1])) missing.push(`${page}: var(${m[1]})`);
+    }
+  }
+  assert.deepStrictEqual([...new Set(missing)], [],
+    `properties used and never defined: ${[...new Set(missing)].join(', ')}`);
+});
+
 it('the CSS and the JS are inline, so the page renders in one request', () => {
   const html = read('index.html');
   assert.ok(/<style>[\s\S]*--bg:/.test(html), 'no inline stylesheet');
@@ -385,6 +433,62 @@ it('the routing page carries every rule, and every refusal phrase the registry d
         `routing page states ${name} and not the phrase that declines it`);
     }
   }
+});
+
+it('in a column of links, a cell that is not one says so', () => {
+  // The reported defect, generalised to the shape that produced it. The index routing
+  // table linked ten router names to their pack pages and left `seo-llmo` and
+  // `evidence-docs` in bare ink, because those two ship in no pack — so a reader read
+  // the row, went to click the name, and nothing happened. Every guard on this site
+  // asked whether an address resolves; none asked whether one had been written at all.
+  //
+  // A column of links may still hold a cell that is not a link — /routing/'s "Ships
+  // in" answers "no pack" for a standing rule, which is the truth and not an omission.
+  // What it may not do is render that answer indistinguishably from the links around
+  // it. Muted is the signal, so the guard reads for the token rather than for taste.
+  const bare = [];
+  for (const page of pages) {
+    for (const tb of read(page).matchAll(/<tbody>([\s\S]*?)<\/tbody>/g)) {
+      const cells = [...tb[1].matchAll(/<tr>([\s\S]*?)<\/tr>/g)]
+        .map((r) => [...r[1].matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/g)].map((c) => c[1]));
+      const width = Math.max(0, ...cells.map((c) => c.length));
+      for (let i = 0; i < width; i += 1) {
+        const col = cells.map((c) => c[i]).filter((c) => c !== undefined);
+        if (!col.some((c) => /<a\b/.test(c))) continue;
+        for (const c of col) {
+          if (/<a\b/.test(c) || /color:var\(--muted\)/.test(c) || !c.trim()) continue;
+          bare.push(`${page} col ${i}: ${c.replace(/<[^>]+>/g, '').trim()}`);
+        }
+      }
+    }
+  }
+  assert.deepStrictEqual(bare, [], `cells that look like the links beside them and are `
+    + `not: ${bare.join(' | ')}`);
+});
+
+it('a router that ships in no pack still has somewhere to go from the front page', () => {
+  const html = read('index.html');
+  const standing = registry.order()
+    .filter((n) => !(registry.REGISTRY[n].requires || []).length);
+  assert.ok(standing.length >= 2, 'the fixture found no standing rule to check');
+  for (const n of standing) {
+    assert.ok(html.includes(`<a href="routing/#${n}">${n}</a>`),
+      `the front page does not send ${n} to its own rule on the routing page`);
+  }
+});
+
+it('the page quotes the gate out of the ratchet marker, not out of a memory of it', () => {
+  // The panel said "38 suites, 667 fixtures" while `docs/DOCMAP.md` — the home
+  // `test/run.js` re-derives against every run — said 671. Reading the marker is what
+  // makes the sentence true; this fixture is what keeps it read rather than retyped.
+  const marker = /<!--\s*ratchets:\s*([^>]*?)-->/
+    .exec(fs.readFileSync(path.join(__dirname, '..', 'docs', 'DOCMAP.md'), 'utf8'));
+  assert.ok(marker, 'docs/DOCMAP.md carries no ratchets marker for the page to read');
+  const stated = Object.fromEntries(marker[1].trim().split(/\s+/)
+    .map((p) => p.split('=')).map(([k, v]) => [k, Number(v)]));
+  assert.ok(read('index.html')
+    .includes(`${stated.suites} suites, ${stated.fixtures} fixtures`),
+  `the front page does not state ${stated.suites} suites, ${stated.fixtures} fixtures`);
 });
 
 it('a router whose member is installed links to that member page', () => {

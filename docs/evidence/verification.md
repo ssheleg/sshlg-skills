@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**426** id'd requirement rows below, **420** read `verified` and none of them says which
+**432** id'd requirement rows below, **426** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,24 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-08-27 — SITE, two rows a reader clicked and nothing happened
+
+Reported from the published site, not from a check: *"there are unclickable links, for
+example evidence and the one next to it."* Both were real, the reading beside them found
+two more untrue things on the same page, and none of the four could have been caught by
+any guard this site already had — every one of them asks whether an address RESOLVES, and
+these were an address never written, a token never defined, and a number never recomputed.
+**Unreleased at the time of writing**: the deployment follows this section.
+
+| REQ | What shipped | How it was confirmed | Observed at | Invalidated by | Status |
+|---|---|---|---|---|---|
+| SITE-1 | **Every row of the front page's routing table is clickable.** `seo-llmo` and `evidence-docs` require no member, so the Router cell had no pack page to point at and rendered as bare names beside ten links | before: 10 anchors and 2 plain cells in one column, `seo-llmo` and `evidence-docs`. After: 12 rows, 12 anchors, the two standing rules carrying `routing/#<name>` — their own rule, under its own id, which is the home they do have | `PENDING` | a router gaining a member, which moves it to the pack link and is guarded by the same fixture | verified |
+| SITE-2 | The fragment those two now point at is checked for existing | the existing link checker strips `#frag` and asks only whether the PAGE exists, so `routing/#evidence-docs` would have passed while landing at the top of the page. `test/site_test.js` resolves the fragment too, over both spellings the site uses (`../#skills`, `/#install`); planted `routing/#no-such-rule` refused, naming `routing/index.html has no id="no-such-rule"` | `PENDING` | the routing page emitting its ids in another shape, which fails as "no such id" rather than passing | verified |
+| SITE-3 | A cell that is not a link, in a column of links, has to say so | the general guard fired first on `/routing/`'s *"Ships in"*, where *a standing rule* is the truth and not an omission — retro instruction #11, the instrument before the subject. Narrowed to the reader's actual signal: muted is allowed, bare ink is not. Plant restoring the two names refused, naming both | `PENDING` | the site marking a non-link cell with something other than `--muted` | verified |
+| SITE-4 | `color:var(--dim)` was undefined on two pages, so the cell meant to be quiet rendered loudest | 41 properties defined, 35 read with no fallback, exactly one never defined — `--dim`, on `agents/index.html` and `routing/index.html`. Invalid at computed-value time, so `color` falls back to `inherit` and *a standing rule* rendered at full ink. Now `--muted`; the guard reads every page for the class and was watched refusing the restored `--dim` | `PENDING` | a token layer split across files, where a page defines properties another page reads | verified |
+| SITE-5 | The evidence panel quotes the gate instead of remembering it | it said `38 suites, 667 fixtures` while `docs/DOCMAP.md`'s marker said 671 — four behind since `937566a`, which moved the marker and left the page's own copy alone. `scripts/site.js` reads the marker; `.github/workflows/pages.yml` gains `docs/DOCMAP.md`, or a moved marker would never rebuild the page that quotes it | `PENDING` | the marker being renamed or dropped — the build throws rather than printing a number it guessed | verified |
+| SITE-6 | The gate holds, and its own figure moved with it | `node test/site_test.js` 34 → **39 checks**; `npm test` → `COUNTED: 38 suites, 676 fixtures, 9 pinned members`, exit 0. Four plants, each asserted to have landed before the run and each watched refusing. The CI post-build pair re-run over the built artefact: 13 pages, every internal address resolves; nothing fetched from another host | `PENDING` | nothing — it is re-measured by every run | verified |
 
 ## 2026-08-20 — the gate that could be walked past, and four numbers about this repository
 
