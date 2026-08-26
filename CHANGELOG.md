@@ -1,3 +1,32 @@
+## v1.3.3 — the two most quotable pages had an entity attached to nothing
+
+With the walker repaired, the post-deploy probe reported what v1.3.2 could not
+see: on `/agents/` and `/routing/` the publisher node stood alone. Their structured
+data was a `FAQPage` and a `BreadcrumbList` — and a breadcrumb says where a page
+sits, nothing about what it is or who stands behind it — so every content node on
+the two pages an answer engine is likeliest to quote was **anonymous**, with a
+`Person` beside it that nothing referenced.
+
+`/routing/` now carries a `WebPage` node of its own, the `FAQPage` and the front
+page's `ItemList` name their author, and all three reference the one `@id`.
+
+**The fixture's own `refsSeen > 0` was counted for the whole site, so it was green
+throughout.** One page with a reference satisfied it for all thirteen. Counted per
+page now — and moving it inside the loop immediately found a third page,
+`404.html`, which is the point of the change.
+
+**The 404 is `noindex` now**, on its own merits: GitHub Pages serves it with a real
+404 status, but a host serving that body with 200 during a migration would put a
+page reading *"That page is not here"* into the index under the site's own name.
+The authorship rule exempts it — keyed on the **declared** `noindex`, never on the
+filename, because an exemption spelled `rel !== '404.html'` is a rule with a hole
+named after one file and the next such page arrives unexamined. The exemption is
+asserted to cover exactly one page.
+
+Six plants across this version and the last, each watched failing. One of them
+planted nothing on its first run and said so rather than counting as a pass — the
+`assert` that the source actually changed is why.
+
 ## v1.3.2 — half of yesterday's fixture could not run, and the live page said so
 
 v1.3.1 shipped a check asserting that every `Person` reference carries `@id` and

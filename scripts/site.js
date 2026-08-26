@@ -586,6 +586,7 @@ function layout(o) {
 <meta name="description" content="${esc(o.description)}">
 <link rel="canonical" href="${canonical}">
 <meta name="author" content="${esc(AUTHOR)}">
+${o.noindex ? '<meta name="robots" content="noindex">\n' : ''}
 <meta name="theme-color" content="#0f1218">
 <meta property="og:type" content="${o.ogType || 'website'}">
 <meta property="og:site_name" content="ssheleg skills">
@@ -817,6 +818,7 @@ function indexPage() {
         '@context': 'https://schema.org',
         '@type': 'ItemList',
         name: 'The ssheleg skill family',
+        author: { '@id': PERSON_ID },
         numberOfItems: members.length,
         itemListElement: members.map((m, i) => ({
           '@type': 'ListItem',
@@ -1053,6 +1055,16 @@ function routingPage() {
       + 'writes into your agent\'s instruction file: what each pack answers, when it '
       + 'applies, the boundary in both directions, and the phrase that declines it.',
     jsonld: [{
+      // A BreadcrumbList is navigation, not content — it says where the page sits
+      // and nothing about what it is or who stands behind it. This page carried
+      // only that, so the publisher the layout emits had nothing to attach to.
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: 'The routing block',
+      url: `${SITE}/routing/`,
+      author: { '@id': PERSON_ID },
+      isPartOf: { '@type': 'WebSite', name: 'ssheleg skills', url: `${SITE}/` },
+    }, {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
@@ -1179,6 +1191,7 @@ function agentsPage() {
       {
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
+        author: { '@id': PERSON_ID },
         // Built from the same array the page renders, so the markup cannot drift
         // from the visible answer — which is the only thing that makes it honest.
         mainEntity: AGENT_FAQ.map((f) => ({
@@ -1229,6 +1242,11 @@ function notFoundPage() {
   return layout({
     rel: BASE,
     url: '/404.html',
+    // The one page that must never be indexed. GitHub Pages serves it with a real
+    // 404 status, so this is belt-and-braces — but a host that serves the body with
+    // 200 during a migration would otherwise put a page reading "That page is not
+    // here" into the index under the site's own name.
+    noindex: true,
     card: 'index',
     title: 'Not found · ssheleg skills',
     description: 'That page is not here — it may have moved with a release. '

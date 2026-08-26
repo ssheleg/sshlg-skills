@@ -479,9 +479,15 @@ it('one node describes the person; every other reference is by @id alone', () =>
     }
     return out;
   };
-  let refsSeen = 0;
+  let exempt = 0;
   for (const rel of built.written.filter((r) => r.endsWith('.html'))) {
-    const persons = collect(ldNodes(read(rel)));
+    let refsSeen = 0;
+    const html = read(rel);
+    // A page nobody may index owes nobody an entity. Keyed on the DECLARED signal,
+    // never on the filename — an exemption spelled `rel !== '404.html'` is a rule
+    // with a hole named after one file, and the next such page arrives unexamined.
+    if (/<meta name="robots" content="noindex">/.test(html)) { exempt += 1; continue; }
+    const persons = collect(ldNodes(html));
     const named = persons.filter((n) => n.name || n.sameAs);
     assert.strictEqual(named.length, 1,
       `${rel} describes the person ${named.length} times — a consumer cannot tell they are one entity`);
@@ -493,10 +499,19 @@ it('one node describes the person; every other reference is by @id alone', () =>
       assert.strictEqual(ref['@id'], named[0]['@id'],
         `${rel} references ${ref['@id']}, not the page's own person`);
     }
+    // PER PAGE, not once for the site. Counted globally this passed while /agents/
+    // and /routing/ emitted no authorship at all — their nodes were a FAQPage and a
+    // BreadcrumbList, so the publisher the layout emits had nothing to attach to
+    // and every content node on the two most-quotable pages was anonymous. The
+    // global form was green throughout. Same quiet zero, one layer up.
+    assert.ok(refsSeen > 0,
+      `${rel} attaches the person to nothing — no author, publisher or creator reference`);
   }
-  // The reason this line exists: without it the loop above passes on a site that
-  // emits no references at all, which is the state that hid the bug.
-  assert.ok(refsSeen > 0, 'no @id reference was examined — the walker sees nothing again');
+  // And the exemption must stay narrow: exactly one page opts out, and it is the
+  // one that must never be indexed. A widening exemption is how a rule goes quiet.
+  assert.strictEqual(exempt, 1, `${exempt} pages opted out of carrying the entity`);
+  assert.ok(/<meta name="robots" content="noindex">/.test(read('404.html')),
+    'the 404 page is indexable');
 });
 
 it('the build is deterministic — twice from the same tree is byte-identical', () => {
