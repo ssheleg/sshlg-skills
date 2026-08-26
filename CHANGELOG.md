@@ -1,3 +1,27 @@
+## v1.3.2 — half of yesterday's fixture could not run, and the live page said so
+
+v1.3.1 shipped a check asserting that every `Person` reference carries `@id` and
+nothing else. **That half of it was unreachable.** A reference is `{"@id": …}` with
+no `@type`, and the walker collected only nodes where `@type === 'Person'` — so it
+never saw a single reference, and the id-match assertion was dead code. A wrong id
+in an author reference would have passed.
+
+Found by the live page, not by reading it: the post-deploy probe printed `refs=0`
+on all five templates, which is impossible for a site that emits two references per
+page. The count was the walker, not the site.
+
+The walker now also collects the value of any `author`, `publisher`, `creator` or
+`maintainer` key, and the check ends with `refsSeen > 0` — because without that line
+it passes on a site emitting no references at all, which is exactly the state that
+hid the defect. Three plants, each caught: a reference pointing at a **different**
+person id (the one v1.3.1 could not see), a reference that re-describes the person,
+and every reference deleted.
+
+Two versions in a row where the finding was in the instrument rather than the
+subject. That is now written into `docs/evidence/retro.md` as a standing
+instruction: **a probe reporting zero is a claim about the probe until the probe has
+been shown finding one.**
+
 ## v1.3.1 — the pass shipped the defect it was about, and the check that finds it did not exist
 
 Post-deploy verification of v1.3.0 found **two `Person` nodes on the front page**

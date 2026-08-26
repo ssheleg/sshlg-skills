@@ -166,8 +166,22 @@ instructions by number, and renumbering would rot every one of those references.
    fails broadly and uniformly, on inputs that have no reason to be broken
    together. Before believing a first red, run the checker against a known-clean
    case and against a case you have planted; if both agree with you, it is the
-   subject. *(Retire when every check in this family ships with a known-clean
-   fixture beside its planted one, or after five run stamps without firing.)*
+   subject.
+
+   **(2026-08-26) The same rule holds for a check that goes quiet, and it is the
+   half that ships.** A red gets read; a zero gets recorded. Twice in one day the
+   zero was the instrument: a post-deploy probe reported the author entity missing
+   from all four templates because its pattern carried a space the minified JSON
+   does not, and — after that was fixed — reported `refs=0` on five pages that each
+   emit two references, because the walker keyed on `@type` and a reference is
+   `{"@id": …}` with no type. Neither was the site. **A probe reporting zero is a
+   claim about the probe until the probe has been shown finding one**, so every
+   count assertion gets a companion that fails when the collector sees nothing —
+   the `refsSeen > 0` line in `test/site_test.js` exists only for that. And a check
+   that greps rendered output for a formatted substring is testing the formatter:
+   parse the structure instead. *(Retire when every check in this family ships with
+   a known-clean fixture beside its planted one, or after five run stamps without
+   firing.)*
 
 ## Retired
 

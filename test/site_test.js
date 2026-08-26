@@ -462,25 +462,41 @@ it('every page emits parseable JSON-LD carrying the publisher', () => {
 });
 
 it('one node describes the person; every other reference is by @id alone', () => {
-  const describe = (n, out = []) => {
-    if (Array.isArray(n)) { n.forEach((x) => describe(x, out)); return out; }
+  // Collect BOTH shapes, or half this check is unreachable: a reference is
+  // `{'@id': …}` with no `@type`, so a walker keyed on `@type === 'Person'` never
+  // sees one and the id-match assertion below is dead code. Shipped that way in
+  // v1.3.1 — the live page reported `refs=0` on every template, which was the
+  // walker, not the page.
+  const AUTHORSHIP = ['author', 'publisher', 'creator', 'maintainer'];
+  const collect = (n, out = []) => {
+    if (Array.isArray(n)) { n.forEach((x) => collect(x, out)); return out; }
     if (!n || typeof n !== 'object') return out;
-    if (n['@type'] === 'Person') out.push(n);
-    Object.values(n).forEach((v) => describe(v, out));
+    if (n['@type'] === 'Person' && !out.includes(n)) out.push(n);
+    for (const [k, v] of Object.entries(n)) {
+      if (AUTHORSHIP.includes(k) && v && typeof v === 'object' && !Array.isArray(v)
+          && !out.includes(v)) out.push(v);
+      collect(v, out);
+    }
     return out;
   };
+  let refsSeen = 0;
   for (const rel of built.written.filter((r) => r.endsWith('.html'))) {
-    const persons = describe(ldNodes(read(rel)));
+    const persons = collect(ldNodes(read(rel)));
     const named = persons.filter((n) => n.name || n.sameAs);
     assert.strictEqual(named.length, 1,
       `${rel} describes the person ${named.length} times — a consumer cannot tell they are one entity`);
     assert.ok(named[0]['@id'], `${rel} describes the person with no @id to reference`);
     for (const ref of persons.filter((n) => n !== named[0])) {
+      refsSeen += 1;
       assert.deepStrictEqual(Object.keys(ref), ['@id'],
         `${rel} re-describes the person instead of referencing @id`);
-      assert.strictEqual(ref['@id'], named[0]['@id'], `${rel} references a different person id`);
+      assert.strictEqual(ref['@id'], named[0]['@id'],
+        `${rel} references ${ref['@id']}, not the page's own person`);
     }
   }
+  // The reason this line exists: without it the loop above passes on a site that
+  // emits no references at all, which is the state that hid the bug.
+  assert.ok(refsSeen > 0, 'no @id reference was examined — the walker sees nothing again');
 });
 
 it('the build is deterministic — twice from the same tree is byte-identical', () => {
