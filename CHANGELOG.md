@@ -1,3 +1,17 @@
+## v1.2.1 — the pin catches up with what the run printed
+
+`task-pipeline` **1.77.0 → 1.78.0**, published and serving. The member release
+removed a person's name from the two lines the pipeline prints at run time — the
+banner before its first question and the sign-off — and put the repository and the
+site in the sign-off instead. Its flow diagram also reads top to bottom now and
+carries a linear-curve directive, because GitHub's mermaid was failing the two long
+dotted returns with *"could not find a suitable point for the given distance"*.
+
+**The pin moved only after the registry served it, by identity rather than by
+recency.** A watch on `--limit 1` answers about whatever finished last, which is
+standing instruction #9 and the reason this one polled the run for its own tag and
+then read `dist-tags.latest` from the registry directly.
+
 ## v1.2.0 — the site is built from one of the packs it sells
 
 The design was decided by `sheleg-design`, not by taste, and the pack it picked is
