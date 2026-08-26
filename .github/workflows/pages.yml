@@ -16,6 +16,10 @@ on:
       - 'lib/routers-registry.js'
       - 'lib/router-texts.js'
       - 'scripts/site.js'
+      # The evidence panel quotes the gate's size out of the ratchet marker in this
+      # file. Without the path, a run that adds fixtures moves the marker and the
+      # published panel keeps yesterday's number — the exact drift reading it fixed.
+      - 'docs/DOCMAP.md'
       # A page-changing commit can fail in this gate and be repaired here. Without
       # this path, that green repair never retries the deployment it unblocked.
       - 'test/site_test.js'
