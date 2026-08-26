@@ -281,6 +281,7 @@ used.)*
 | 2026-08-16 (eighteenth) | B-62: two facts, and most ledgers record one — convergence refused; v0.76.0 (+ task-pipeline 1.67.0) | `5302a8b` | yes — see below |
 | 2026-08-16 (nineteenth) | B-59: closing a false positive found the bypass it was hiding; v0.77.0 | `3101a5c` | yes — see below |
 | 2026-08-16 (twentieth) | B-57: an unqualified landing page reaches both crafts; v0.78.0 (+ sheleg-design 1.37.5, super-ux 0.41.5) | `e062180` | yes — see below |
+| 2026-08-26 (twenty-first) | The site is built from a pack it sells: workbench applied, field-notes refused on its own dark-hero ban, signature element authored; v1.2.0 | `f17c7ba` | no — the plan held |
 
 **The eleven rows above were reconstructed, and one column is deliberately
 empty.** Between v0.32.0 and v0.41.1 nobody stamped a run; the dates, titles and
