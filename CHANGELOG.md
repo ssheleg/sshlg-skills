@@ -1,3 +1,44 @@
+## v1.4.0 — look at the toolbox before reaching into it
+
+- **`npx sshlg-skills toolkit` — what this machine can actually reach.** An agent picking
+  tools for a task was picking from the routing block, and the block names nine packs. On
+  the machine this was written on that is **28 of 494** reachable skills: 363 plain copies
+  plus 129 from 21 enabled plugins. The other 466 were invisible rather than considered and
+  rejected, so a task wanting somebody else's `pdf` or `xlsx` reached for a router or for
+  nothing.
+- It is an **index, not a dump** — providers with counts, opened one at a time with
+  `--expand`, because printing 494 descriptions costs more than the work it informs.
+  `--for "<task>"` adds a shortlist ranked by term overlap against each skill's own
+  advertised description, and **the output says in its own words that this is a shortlist
+  and not a decision**: a ranked list reads as an answer, and this one cannot tell two
+  senses of a word apart. Its first run found a foreign `seo-audit` ranking above the
+  family's own `seo-aeo-audit` — the collision the family had no way to see.
+- The walk is **not** reimplemented. It imports `conflicts.readSkills()`, and a fixture
+  asserts the two exports are the same function: two walks answer "what is installed"
+  identically until somebody fixes one of them.
+- **The routing block gains a `PROTOCOL` region**, and it is doctrine rather than a hook on
+  purpose. A hook injecting this per task is the mechanism the block already warns about two
+  paragraphs above it — `superpowers` prints its skill from a `SessionStart` hook and
+  outcompeted this family's routing in live sessions, which is why it is disabled on the
+  machine this was written on. The block is already loaded, so doctrine placed in it costs
+  nothing extra, and a family that answered its competitor's problem by copying its method
+  would deserve the same treatment.
+- What the region asks for: measure before choosing, **print the plan and carry on without
+  waiting for approval** — it is stated so the route can be corrected, not confirmed — and
+  when the work is finished print what was **actually** used, family or foreign, so a
+  repeated collision becomes visible to a retrospective that would otherwise keep proposing
+  the same map. The star ask is bounded to **once per session**: repeated per task it becomes
+  the line a reader learns to skip, which costs more than the ask is worth.
+- **It states no count of its own.** The first draft read *"490 against 28, where the text
+  was written"* — true of one machine, written into a file on every other. How many there
+  are belongs to the command, and a fixture fails on any two-digit number returning to the
+  region.
+- Both upgrade paths are covered, because the map shipped once with only a refresh and every
+  existing machine silently stayed on the old block: a block carrying the map but not this
+  one arrives at the right place, a block carrying neither gets both in order, and three
+  consecutive writes leave exactly one copy in a file that has no version control behind it.
+  Four plants were watched refusing.
+
 ## v1.3.6 — the ledger for the pass, and one hub stated everywhere
 
 - `sheleg-design` advances to **1.52.0**. Its published catalogue no longer opens on a
