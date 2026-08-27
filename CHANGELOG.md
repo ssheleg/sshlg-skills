@@ -1,3 +1,17 @@
+## v1.3.5 — the thirty-sixth style pack reaches the shelf
+
+- `sheleg-design` advances to **1.51.1**, which adds `deskmate`: a warm beige
+  field lit from one source above the top edge, one four-stop ramp doing three
+  jobs, a 56px pill against 32px slabs, and a framed transcript whose quoted chat
+  client keeps its own face, ink and status colours in a namespace of their own.
+  For products sold as a colleague rather than a tool.
+- The catalogue link on this shelf counts the packs from the member's own tree, so
+  the number it advertises moves with the pin rather than with a hand-typed tally —
+  36 now.
+- `v1.51.0` of that member is a ghost tag: it was pushed before its branch, the
+  member's release workflow refused it on reachability, and a `v*` tag cannot be
+  moved there. Nothing was ever published under it; the pin names 1.51.1.
+
 ## v1.3.4 — the public shelf becomes one system
 
 - Every member now opens with one promise, one install command and one concrete
