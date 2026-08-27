@@ -151,6 +151,8 @@ Usage:
   npx sshlg-skills hooks   remove
   npx sshlg-skills injectors                          # who else speaks at SessionStart
   npx sshlg-skills conflicts                          # installed skills on a router's ground
+  npx sshlg-skills toolkit [--for "<task>"] [--expand <provider>]
+                                                      # every skill this machine can reach
   npx sshlg-skills list
   npx sshlg-skills agents
 
@@ -746,6 +748,43 @@ function cmdConflicts() {
     { scanned: skills.length }));
 }
 
+/**
+ * `toolkit` — what this machine can reach, before a task decides what to use.
+ *
+ * The family's map answers "what do I have" with nine packs. This answers it with the
+ * number that is actually true: 490 reachable skills on the machine it was written on, of
+ * which 28 are the family's. An agent choosing tools from the block alone is choosing from
+ * 6% of what is installed, and the other 94% is invisible rather than rejected.
+ *
+ * Same split as `injectors` and `conflicts`, for the same reason: the doctrine that a task
+ * should look before it reaches ships to every operator in the block; WHICH skills are here
+ * is a fact about one machine and is read at the moment it is asked for.
+ */
+function cmdToolkit(argv) {
+  const toolkit = require(path.join(ROOT, 'lib', 'toolkit.js'));
+  const home = process.env.HOME || os.homedir();
+  let skills;
+  try {
+    skills = toolkit.readSkills(home);
+  } catch (e) {
+    log(`cannot read the installed skills (${e.message}) — no answer rather than a wrong one`);
+    return;
+  }
+  const family = manifest.skills.reduce(
+    (acc, m) => acc.concat(m.skillNames && m.skillNames.length ? m.skillNames : [m.name]), []);
+
+  const at = argv.indexOf('--for');
+  const forQuery = at !== -1 && argv[at + 1] && !argv[at + 1].startsWith('--') ? argv[at + 1] : '';
+  const expand = [];
+  for (let i = 0; i < argv.length; i += 1) {
+    if (argv[i] === '--expand' && argv[i + 1] && !argv[i + 1].startsWith('--')) expand.push(argv[i + 1]);
+  }
+  const li = argv.indexOf('--limit');
+  const limit = li !== -1 && argv[li + 1] ? Number(argv[li + 1]) || 12 : 12;
+
+  log(toolkit.report(skills, family, { for: forQuery, expand, limit }));
+}
+
 function cmdHooks(argv) {
   const fs = require('fs');
   const pathMod = require('path');
@@ -899,6 +938,7 @@ function main(argv) {
   if (cmd === 'hooks') return cmdHooks(rest) ? 0 : 1;
   if (cmd === 'injectors') { cmdInjectors(); return 0; }
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
+  if (cmd === 'toolkit') { cmdToolkit(argv); return 0; }
   const f = parseFlags(rest);
   if (cmd === 'install' || cmd === 'i') return cmdInstall(f) ? 0 : 1;
   if (cmd === 'update' || cmd === 'up') return cmdUpdate(f) ? 0 : 1;

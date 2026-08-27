@@ -331,6 +331,8 @@ npx sshlg-skills hooks install --force    # take it anyway, parking what it disp
 npx sshlg-skills hooks remove             # unwire, and give the displaced one back
 npx sshlg-skills injectors                # who else speaks at SessionStart, and from which file
 npx sshlg-skills conflicts                # installed skills that land on a router's ground
+npx sshlg-skills toolkit                  # every skill this machine can reach, as an index
+npx sshlg-skills toolkit --for "<task>"   # ...narrowed to one task, as a shortlist
 ```
 
 | Hook | What it does | What it costs |
@@ -450,6 +452,7 @@ them off? Delete the file — nothing else reads it.
 npx sshlg-skills list       # the family, versions and descriptions
 npx sshlg-skills agents     # supported agent ids
 npx sshlg-skills conflicts  # installed skills that land on ground a router owns
+npx sshlg-skills toolkit    # every skill this machine can reach — the family is a fraction of it
 ```
 
 `conflicts` is the machine-specific half of the map's arbitration rule. The rule
