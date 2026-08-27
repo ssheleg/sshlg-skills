@@ -1,6 +1,6 @@
 {
   "name": "sshlg-skills",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "description": "Install and update nine ssheleg skill packs across Claude Code, Codex, Cursor, OpenCode and other Agent Skills-compatible tools.",
   "bin": {
     "sshlg-skills": "bin/sshlg-skills.js"
@@ -20,7 +20,7 @@
     "CHANGELOG.md"
   ],
   "repository": "github:ssheleg/sshlg-skills",
-  "homepage": "https://github.com/ssheleg/sshlg-skills",
+  "homepage": "https://skills.sshlg.me/",
   "license": "MIT",
   "author": {
     "name": "ssheleg",

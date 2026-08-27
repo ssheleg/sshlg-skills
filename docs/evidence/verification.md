@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**435** id'd requirement rows below, **429** read `verified` and none of them says which
+**448** id'd requirement rows below, **442** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,52 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-08-27 — SEO, the site nothing had ever crawled
+
+Asked for as *"seo aeo аудит и сразу оптимизация всех ресурсов"* — the site, ten GitHub
+repositories and ten npm package pages, where the previous pass had audited the site
+alone. The widening is what found the blocker: `/` and eleven siblings were **unknown to
+Google**, so every improvement the 2026-08-26 pass shipped had been made to pages no
+engine had fetched. Two of the rows below are corrections to that pass, and one is a
+correction to this one.
+
+**`Observed at` was written after the merge strategy had its say**, per the lesson the
+SITE section below paid for: `main` is protected, merge commits are forbidden, and a
+rebase merge rewrites every commit it replays. These five SHAs were each re-checked with
+`git merge-base --is-ancestor <sha> origin/main` before being written here.
+
+| REQ | What shipped | How it was confirmed | Observed at | Invalidated by | Status |
+|---|---|---|---|---|---|
+| SEO-1 | **The sitemap was submitted to Search Console for the first time.** 12 of 12 URLs read `verdict=NEUTRAL`, `coverage=URL is unknown to Google`, `last crawl: None` — `robots.txt` named the sitemap and no property had ever been told about it | `url_inspection.py` over all 12 declared URLs before the fix, 12/12 unknown. `PUT .../sitemaps/<feed>` → HTTP 204; the property then reports `lastSubmitted=2026-08-27T00:34:43.437Z errors=0 warnings=0 contents: web submitted=12`, re-read after the pass | `n/a` — a Search Console mutation, not a commit | Google re-crawling, which is the event this row exists to enable and cannot itself observe | verified |
+| SEO-2 | **Submission is recorded as declaration, never as indexation** | the sitemaps endpoint's `indexed` field reads 0 and Google no longer populates it — the skill's own probe prints that caveat. So the row claims only that the site is now declared, and the plan's single next action is a re-inspection in 3–7 days | `e94e827` | the re-inspection, whichever way it resolves | verified |
+| SEO-3 | The previous audit's instrument list said Search Console had **no credential**; it had one | the gates were two and neither was the credential: the API needs `x-goog-user-project` naming a usable project, and the property is `sc-domain:sshlg.me`, a **domain** property covering the subdomain with no per-subdomain entry. `preflight.py` went 5/8 → 6/7 sources on the same machine, same account, once both were supplied | `e94e827` | the property being deleted or the account losing it | verified |
+| SEO-4 | **Every pack page now says what each skill it ships DOES.** Nine pages rendered the skills' *names* as pills and never their purpose | link chrome measured near-constant at 315–336 words across all nine, so the variance was entirely in body prose: `/skills/seo-aeo-audit/` at 173 prose words vs 318 link words (35.2%). Derived from each `SKILL.md` front-matter `description` — the string the agent runtime itself matches on, so a page cannot advertise a capability the skill does not claim. Measured on the **served** HTML after deploy: sheleg-dev 58.6%→76.1%, agent-stack 63.2%→75.4%, super-ux 66.1%→75.3%, telegram-dev 64.4%→73.8%, seo-aeo-audit 35.2%→41.8% | `a8a9fb4` | a member rewording its description into a shape the transform mishandles, which fails `test/brief_test.js` rather than reaching a page | verified |
+| SEO-5 | The trigger enumeration is **removed** before publication, not rendered | those descriptions end in a bilingual list of the phrases that fire the skill (`"SEO audit" / "сделай SEO-аудит"`, eleven more per skill). On a public page that is a keyword list wearing prose — the one tactic non-negotiable #5 forbids, in an audit of this family's own site. `lib/brief.js` keeps what the skill is for and what it is not for | `a8a9fb4` | a description whose capability text is itself keyword-shaped, which no transform can fix | verified |
+| SEO-6 | **A defect this pass shipped into the generator and caught before deploy** | the first stripper used a character class of *every* quote mark, so `"why doesn't ChatGPT cite us"` ended at `doesn` and half a Russian keyword list bled into `/skills/seo-aeo-audit/` as prose with a stray `"`. Caught by asserting the SHAPE of all 28 rendered briefs — no quote residue, no dangling connective, no doubled punctuation, ends in a full stop, ≥12 words — not by reading them. Two plants watched refusing: the any-quote class (3 failures, one of them naming the real shipped page) and labelled-list stripping disabled (1) | `a8a9fb4` | nothing — it is re-derived over every shipped skill on every run | verified |
+| SEO-7 | **The family's traffic is one number, before the source forgets it** | GitHub reports per repository and the family is ten; the traffic API keeps **14 days and nothing older**, so a month uncaptured is unrecoverable. `scripts/traffic.js --snapshot` merges on `(repo, date)`; idempotence proven the way this repository requires — the real command three times against a real file, `shasum` identical, 140 rows. First reading: **182 views, 19,733 clones** family-wide | `62cdd0d` | a member added to `skills.json` and not to the family — the repo list is derived from it, and a fixture asserts the two cannot diverge | verified |
+| SEO-8 | A repository that refuses the traffic call is **named, never counted as zero** | traffic is admin-only data, so a public-read token still gets 403, and a silent zero is indistinguishable from a quiet week. Plant dropping the denied list refused, naming it. The scheduled job is gated on a secret that does not exist yet and **skips rather than fails** — a workflow that goes red every morning teaches an operator to ignore a red workflow | `62cdd0d` | the secret being created, which turns the skip into a daily commit | verified |
+| SEO-9 | **All nine members carry the `skills.sh` badge**, naming a channel that was already sending installs | nine listings resolve 200 and the umbrella does not; badge endpoint and listing page checked 200 each for all nine **before** the first commit. Install counts read the same day: 2,051 across the family. Nine PRs, each through required checks — `task-pipeline`'s own `validate` is 444 steps and took **1h18m**. Verified after merge by fetching `README.md` from each member's `main` via the API: 9/9 contain `skills.sh/b/` | `b34ab90`, `168d6d6` | skills.sh changing the badge address, which the family would learn from a broken image rather than from a check | verified |
+| SEO-10 | **The pins written here are the rebase-merged ones, because the validator refused the others** | the nine local commits were orphaned by GitHub's rebase merge, and `test/validate.py` refused the pointer bump before it could ship: *"skills/super-ux: 1 commit(s) exist only locally — a pin naming one of them fails every clone with `upload-pack: not our ref`"*. Resynced to `origin/main`; all nine re-checked with `merge-base --is-ancestor` against their own remote | `b34ab90` | nothing — the guard runs on every gate, and this is the second pass it has caught the same class in | verified |
+| SEO-11 | **A finding this pass raised at med-high and then retracted** | G2 said the umbrella's `skills.sh` 404 was *"the family's front door missing from a discovery channel"*. Checked from the umbrella rather than from a submodule directory the shell had been left in: `git ls-files \| grep -c SKILL.md` → **0**, no `.claude-plugin`, `skills/` a tree of gitlinks. It ships no skills — it is a launcher (`npx sshlg-skills install`, never `npx skills add ssheleg/sshlg-skills`), so a listing would advertise an install path that does not exist and the 404 is the channel being right. The observation was real, the cause was real, the conclusion was wrong; the row is kept rather than deleted | `b34ab90` | the umbrella ever vendoring skills into its own tree | verified |
+| SEO-12 | **More metadata will not make the repositories rank, and the plan says so instead of adding some** | absent from the top 100 for `agent skills`, `claude code plugin`, `claude code skills`; ranked 43 and 17 for two near-name queries. All ten repos already carry a description, a homepage, 8 topics and a custom OG image. `mattpocock/skills` holds **237,955 stars and 20,248 forks with zero topics and no custom OG image** — cross-checked against the API and against the all-time leaders (freeCodeCamp 454,640). Tier `STUDY`: the correlation is observed, the mechanism is not claimed, and the negative — completeness is not sufficient — is `CONFIRMED` by the counter-example | `e94e827` | GitHub publishing or changing its ranking model | verified |
+| SEO-13 | **The star-history widget was NOT shipped, and the reason is recorded** | `api.star-history.com` returns a 60 KB placeholder reading *"GitHub restricted access to star data"* for every repository including ours — fetched single-repo, multi-repo and `theme=dark`, all three byte-identical in size and none containing a repo name. GitHub restricted the stargazers endpoint on 2026-06-30. The vendor's workaround wants a GitHub token handed to a third party and an encrypted token embedded publicly in ten READMEs, which is the operator's decision; shipping it now would put a broken chart at the top of ten READMEs | `e94e827` | the operator completing the token step, or GitHub restoring the endpoint | verified |
+
+### What this section does not verify
+
+**Nothing here is known to have changed what any engine does.** The site had never been
+crawled, so every row above is about what the pages now *offer* a crawler. The previous
+plan said the same thing and was right to; what changed is that the cause is measured
+rather than assumed, and removed. `PageSpeed Insights` was rate-limited (HTTP 429) for the
+whole pass, so no field Core Web Vitals figure was read and none is claimed. `Bing`,
+`Yandex`, analytics and server logs have no credential here. No crawl export was run, so
+site orphans and click depth are unmeasured rather than clean.
+
+**The `faq-schema-partial` disagreement on `/agents/` is carried forward unresolved**, as
+it was on 2026-08-26 and for the same reason: one disagreement of that exact class
+resolved *in the instrument's favour* that day once the grep was corrected, and this pass
+added a fourth instrument defect to the tally. A disagreement with live counter-examples
+on both sides is not a finding in either direction.
 
 ## 2026-08-27 — SITE, two rows a reader clicked and nothing happened
 
