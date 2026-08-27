@@ -30,8 +30,15 @@
   version moved for it** — the field only takes effect on publish, so it travels with each
   member's next release rather than justifying nine cut for one line.
 - `task-pipeline` advances to the pin carrying the `skills.sh` badge, completing it across
-  all nine members. Its own `validate` is 444 steps and took **1h18m**, which is why it
-  landed a release behind the other eight.
+  all nine members. Its own `validate` is 444 steps and took **1h18m** twice — once for the
+  badge and again for the homepage after the rebase — which is why it landed last both times.
+- **`scripts/check-traffic-token.sh` asks whether a token actually works before it becomes a
+  secret.** Repository traffic is admin-only, and a fine-grained PAT grants it only with
+  `Administration: Read-only` on *each* of the ten repositories — a token that reads every
+  repo's code perfectly still returns 403 here. Inside CI that failure is reported per
+  repository but reads like a quiet week, so the token is tested against all ten first. The
+  value is read with `read -rs`, never reaches an argument, an env file or the shell history,
+  and nothing is written.
 
 **What v1.3.5 actually carried, stated here because its own notes did not.** That section
 describes one style pack, and the tag swept up four commits nobody had written notes for:
