@@ -30,6 +30,7 @@ const pkg = require(path.join(ROOT, 'package.json'));
 const data = require(path.join(ROOT, 'skills.json'));
 const registry = require(path.join(ROOT, 'lib', 'routers-registry.js'));
 const og = require('./og-card.js');
+const { capabilityBrief } = require(path.join(ROOT, 'lib', 'brief.js'));
 
 /**
  * Where the site is served from — the one knob. Every canonical, every card URL and
@@ -168,6 +169,58 @@ function entryPath(member, name) {
   throw new Error(`${member.name}: '${name}' is advertised in skills.json and no `
     + `plugins/*/skills/${name}/SKILL.md exists under ${member.dir} — the page would `
     + 'offer an address that resolves nowhere');
+}
+
+/**
+ * What one shipped skill is FOR, in the words its own `SKILL.md` advertises.
+ *
+ * The pack pages listed the names of the skills in each pack and never said what any
+ * of them does, so the page an engine reaches when asked "what is this pack for" was
+ * mostly navigation — `/skills/seo-aeo-audit/` measured 173 words of prose against 318
+ * words of link text on 2026-08-27. The answer was already written and already has a
+ * single home: the front-matter `description` is the string the agent runtime itself
+ * matches on, so a page that derives it cannot advertise a capability the skill does
+ * not claim. `lib/brief.js` removes the trigger enumeration and says why.
+ *
+ * Empty is a build error, not an empty paragraph: a heading with nothing under it is
+ * the same defect as the pill that linked nowhere.
+ */
+function skillBrief(member, name) {
+  const file = path.join(ROOT, member.dir, entryPath(member, name), 'SKILL.md');
+  const text = fs.readFileSync(file, 'utf8');
+  const fm = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text);
+  if (!fm) {
+    throw new Error(`${member.name}/${name}: SKILL.md has no front matter, so the page `
+      + 'has no description to derive from');
+  }
+  const raw = readScalar(fm[1], 'description');
+  const brief = capabilityBrief(raw);
+  if (!brief) {
+    throw new Error(`${member.name}/${name}: front matter declares no description — the `
+      + 'page would render a heading with nothing under it');
+  }
+  return brief;
+}
+
+/**
+ * One front-matter key, folded. YAML block scalars (`description: >-`) are how the
+ * longer descriptions are written, and a reader that only takes the rest of the line
+ * returns `>-` for seven of the nine packs — which is what a first pass at this did,
+ * and it looked like the skills had no descriptions rather than like a broken parser.
+ */
+function readScalar(fm, key) {
+  const lines = fm.split(/\r?\n/);
+  const at = lines.findIndex((l) => new RegExp(`^${key}:`).test(l));
+  if (at === -1) return '';
+  const head = lines[at].slice(key.length + 1).trim();
+  if (!/^[>|][-+]?$/.test(head)) return head.replace(/^["']|["']$/g, '');
+  const out = [];
+  for (const line of lines.slice(at + 1)) {
+    if (!line.trim()) { out.push(''); continue; }
+    if (!/^\s/.test(line)) break;
+    out.push(line.trim());
+  }
+  return out.join(' ').replace(/\s+/g, ' ').trim();
 }
 
 function resolveCount(member, link) {
@@ -966,6 +1019,10 @@ function memberPage(m) {
   <div class="prose" style="margin-top:22px">
     <p><b>Shape:</b> ${esc(m.shape)}. ${esc(m.shapeWhy || '')}</p>
   </div>
+  <div class="prose" style="margin-top:26px">
+    ${subs.map((s) => `<h3 id="${esc(s)}">${esc(s)}</h3>
+    <p>${esc(skillBrief(m, s))}</p>`).join('\n    ')}
+  </div>
   ${(m.extraLinks || []).map((l) => `<div class="note">
     <p><a href="${esc(l.url)}" rel="noopener" target="_blank"><strong>${esc(l.label)} →</strong></a></p>
     <p>${esc(l.note || '')}</p>
@@ -1482,5 +1539,5 @@ if (require.main === module) {
 
 module.exports = {
   build, SITE, BASE, X_HANDLE, GH_OWNER, GH_REPO, members, firstSentence, refusalOf,
-  inline, esc, entryPath,
+  inline, esc, entryPath, skillBrief, capabilityBrief,
 };
