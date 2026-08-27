@@ -1,3 +1,11 @@
+## v1.4.3 — the same release, on a tag the guard accepts
+
+- No content change against v1.4.2. That tag was pushed **lightweight**, the release
+  workflow's B-93 guard refused it ("a lightweight tag hides the release"), and the
+  tag ruleset forbids deleting or moving a `v*` tag — so v1.4.2 is a ghost the way
+  sheleg-design's v1.51.0 is: nothing ever shipped under it, and this entry is where
+  a reader learns why. The sheleg-design 1.53.0 pin ships here, on an annotated tag.
+
 ## v1.4.2 — the thirty-seventh design, and the demo drives itself
 
 - `sheleg-design` advances to **1.53.0**. The `test-drive` pack, measured off a
