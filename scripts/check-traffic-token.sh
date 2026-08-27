@@ -23,10 +23,40 @@ print(f\"{d['owner']}/sshlg-skills\")
 [print(s['repo']) for s in d['skills']]
 ")
 
-printf 'Paste the token (input hidden), then Enter: '
-read -rs TOKEN
-printf '\n\n'
-[ -n "$TOKEN" ] || { echo "no token given" >&2; exit 1; }
+# Three ways in, because the first one needs a terminal and the caller may not have one.
+# Run through an agent's `!` prefix, or any wrapper that is not a TTY, `read -rs` reads an
+# immediately-closed stdin and reports "no token given" — which blames the operator for
+# the harness. Detected and named instead.
+TOKEN=""
+if [ -n "${1:-}" ] && [ "${1}" = "--env" ]; then
+  VAR="${2:?--env needs the NAME of an environment variable, never the token itself}"
+  eval "TOKEN=\${$VAR:-}"
+  [ -n "$TOKEN" ] || { echo "\$$VAR is empty or unset in this shell" >&2; exit 1; }
+elif [ ! -t 0 ]; then
+  # Piped: `printf %s "$TOKEN" | ./scripts/check-traffic-token.sh`
+  IFS= read -r TOKEN || true
+  if [ -z "$TOKEN" ]; then
+    cat >&2 <<'EOM'
+stdin is not a terminal and nothing was piped in, so there was nothing to read.
+This happens when the script runs through an agent, a CI step, or any non-TTY wrapper.
+
+Three ways to give it the token, none of which put the value in a shell argument:
+
+  1. a real terminal            ./scripts/check-traffic-token.sh
+  2. piped                      printf %s "$PAT" | ./scripts/check-traffic-token.sh
+  3. from a variable, by NAME   ./scripts/check-traffic-token.sh --env PAT
+
+Option 3 reads the variable this shell already holds; the name is the argument,
+never the secret.
+EOM
+    exit 2
+  fi
+else
+  printf 'Paste the token (input hidden), then Enter: '
+  read -rs TOKEN
+  printf '\n\n'
+  [ -n "$TOKEN" ] || { echo "no token given" >&2; exit 1; }
+fi
 
 ok=0; bad=0
 while IFS= read -r repo; do
