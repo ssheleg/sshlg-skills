@@ -1,3 +1,48 @@
+## v1.3.6 — the ledger for the pass, and one hub stated everywhere
+
+- `sheleg-design` advances to **1.52.0**. Its published catalogue no longer opens on a
+  menu: the front door IS the pack gallery, behind a tab strip of three real screens
+  (Designs, Audit, Method), each a URL of its own with its whole content in the HTML.
+- That release also carries the machine layer the catalogue was missing — an `ItemList`
+  of all thirty-six packs with per-pack anchors, one publisher node every page points at
+  by `@id`, a 404 and a sitemap of only indexable screens — plus two defects the pass
+  found in the pages it replaced: a page emitting its canonical twice, and a dark-field
+  count that was wrong because the gallery could not parse `oklch()`.
+- Two shipped packs were corrected in the same release, both for pairings no structural
+  gate can see: a card that painted white on white inside an inverted section, and two
+  focus rings that disappeared entirely in a browser without `color-mix()`.
+
+- **`docs/evidence/verification.md` gains the SEO section this work owed it.** Thirteen
+  rows, and three of them are corrections rather than shipments: the previous audit
+  recorded Search Console as having *no credential* when the credential existed and the
+  gates were a quota project plus a domain property; this pass shipped a stripper into the
+  generator that bled a Russian keyword list into `/skills/seo-aeo-audit/` and caught it by
+  asserting the shape of all 28 briefs rather than by reading them; and a finding raised at
+  med-high — the umbrella's `skills.sh` 404 — was **retracted**, because the umbrella
+  tracks no skills and a listing would advertise an install path that does not exist.
+- The counted-claims registry refused the section before it could ship with the wrong
+  arithmetic: `ledger rows` said 435 against a tree of 448. The pair is recomputed, which
+  is the whole point of registering it.
+- **`homepage` now names the same hub on every surface.** Nine of the ten packages sent an
+  npm reader to GitHub and the tenth sent them to the site, while all ten GitHub
+  repositories already declared `skills.sshlg.me`. `repository` still names the source and
+  is unchanged. All ten targets were resolved before the field was written. **No member
+  version moved for it** — the field only takes effect on publish, so it travels with each
+  member's next release rather than justifying nine cut for one line.
+- `task-pipeline` advances to the pin carrying the `skills.sh` badge, completing it across
+  all nine members. Its own `validate` is 444 steps and took **1h18m**, which is why it
+  landed a release behind the other eight.
+
+**What v1.3.5 actually carried, stated here because its own notes did not.** That section
+describes one style pack, and the tag swept up four commits nobody had written notes for:
+the pack pages that began saying what each skill they ship does (prose share 35.2% → 41.8%
+at worst, 58.6% → 76.1% at best, measured on the served HTML), the family traffic
+instrument and its ledger, the 2026-08-27 audit and plan, and eight member pins. Two
+sessions were releasing at once — the condition `docs/AGENT_SYNC.md` was written for — and
+the tag won the race against the notes. Nothing shipped that should not have; the record of
+*why* was simply thinner than the release. It is corrected by naming it rather than by
+rewriting that section.
+
 ## v1.3.5 — the thirty-sixth style pack reaches the shelf
 
 - `sheleg-design` advances to **1.51.1**, which adds `deskmate`: a warm beige
