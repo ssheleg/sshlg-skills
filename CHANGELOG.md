@@ -1,3 +1,12 @@
+## v1.4.2 — the thirty-seventh design, and the demo drives itself
+
+- `sheleg-design` advances to **1.53.0**. The `test-drive` pack, measured off a
+  revenue-analytics front page: the live product embedded in drawn browser chrome as
+  the page's set piece, a founder's handwritten margin, one coral split into two
+  tokens because the reference's own CTA fails AA under white, controls lit by a
+  four-layer shadow in their own hue, and a machine ladder that ignores the theme.
+  The catalogue link's pack count follows its glob and now reads 37.
+
 ## v1.4.1 — agent-stack learns where agents come from
 
 - `agent-stack` advances to **0.14.1**. The orchestrator gains
