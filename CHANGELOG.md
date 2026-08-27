@@ -1,3 +1,30 @@
+## v1.5.0 — the whole family, on npm
+
+- **All nine members advance**, and eight of the nine advance for the same reason: the
+  `skills.sh` badge and the canonical `homepage` had landed on each member's `main` in an
+  earlier cycle and stopped there. npm serves README and metadata from the last **publish**,
+  so every package page still showed a badge-less README and a homepage pointing at GitHub.
+  Found by auditing what each member had committed *after its own tag* — a dimension version
+  numbers alone cannot show, because `pkg = npm = tag` was true for all nine while the
+  content behind the tag was stale.
+- `agent-stack` **0.16.0** carries the memory work: `memory-architecture.md`,
+  `memory-lifecycle.md`, `memory-landscape.md` — the forms/functions/dynamics taxonomy, the
+  four-stage retrieval pipeline the pack had two mentions of across 1,938 lines, the write
+  path with each formation operation's cost stated, and the landscape with benchmarks and
+  frontiers marked as frontiers.
+- The rest are metadata releases with no behaviour change: `super-ux` 0.48.4,
+  `task-pipeline` 1.78.4, `agent-sync` 1.18.4, `make-skill` 0.23.5, `seo-aeo-audit` 0.25.6,
+  `sheleg-dev` 0.10.4, `telegram-dev` 0.1.8.
+
+**What the audit cost, recorded because the next one will hit it again.** Bumping the three
+obvious version files was not a release. Every member enforces its own re-confirmation:
+`SKILL_VERSION` in seven scripts, a ledger section quoting the validator's *actual* output,
+a `SKILL-CARD.md` row, a `## Shipped state` block, a changelog heading whose `v` prefix one
+parser rejects, and a retro stamp. `task-pipeline` refused its own tag until v1.78.4 was
+declared in *"Releases that carry no stamp"* — and that check fires only in `release.yml`,
+because `validate.yml` ignores tag pushes and cannot see a tag that does not exist yet. A
+fully green pull request still failed at release, which is exactly what that split is for.
+
 ## v1.4.3 — the same release, on a tag the guard accepts
 
 - No content change against v1.4.2. That tag was pushed **lightweight**, the release
