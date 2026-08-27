@@ -1,0 +1,74 @@
+# Snapshot the family's GitHub traffic before the source forgets it.
+#
+# GitHub serves a rolling FOURTEEN DAY window and keeps nothing older, so a month not
+# snapshotted is a month that cannot be recovered from anywhere. This runs daily and
+# folds each reading into `docs/evidence/traffic.ndjson`, keyed by repository and date:
+# the windows overlap heavily, and `scripts/traffic.js` merges rather than appends so
+# the overlap does not multiply the counts.
+#
+# Why it is gated on a secret. Traffic is admin-only data and the family is ten separate
+# repositories, so the workflow's own `GITHUB_TOKEN` — scoped to this repository alone —
+# cannot read the other nine. That needs a token the operator creates deliberately:
+#
+#   fine-grained PAT · all ten ssheleg repos · Administration: read · Contents: read
+#   gh secret set FAMILY_TRAFFIC_TOKEN --repo ssheleg/sshlg-skills
+#
+# Until that secret exists the job SKIPS rather than fails. A scheduled workflow that
+# goes red every morning teaches an operator to ignore a red workflow, which costs more
+# than the data it was collecting.
+name: traffic
+
+on:
+  schedule:
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: traffic
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Is the cross-repo token configured?
+        id: gate
+        env:
+          TOKEN: ${{ secrets.FAMILY_TRAFFIC_TOKEN }}
+        run: |
+          if [ -n "$TOKEN" ]; then
+            echo 'ready=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'ready=false' >> "$GITHUB_OUTPUT"
+            echo '::notice::FAMILY_TRAFFIC_TOKEN is not set — skipping. The traffic API is admin-only and the default GITHUB_TOKEN cannot read the other nine repositories.'
+          fi
+
+      - if: steps.gate.outputs.ready == 'true'
+        uses: actions/checkout@v4
+
+      - if: steps.gate.outputs.ready == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fold today's window into the ledger
+        if: steps.gate.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.FAMILY_TRAFFIC_TOKEN }}
+        run: node scripts/traffic.js --snapshot
+
+      - name: Commit only when a figure actually moved
+        if: steps.gate.outputs.ready == 'true'
+        run: |
+          if git diff --quiet -- docs/evidence/traffic.ndjson; then
+            echo '::notice::no new readings — nothing to commit'
+            exit 0
+          fi
+          git config user.name  'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/evidence/traffic.ndjson
+          git commit -m 'chore(traffic): fold the day into the ledger'
+          git push
