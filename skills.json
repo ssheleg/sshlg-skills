@@ -172,7 +172,7 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.13.5",
+      "version": "0.14.1",
       "entry": null,
       "role": "agent orchestrators, their evals, the protocols they speak, and the wallet under LLM resale",
       "npm": "@ssheleg/agent-stack",

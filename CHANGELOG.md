@@ -1,3 +1,16 @@
+## v1.4.1 — agent-stack learns where agents come from
+
+- `agent-stack` advances to **0.14.1**. The orchestrator gains
+  `provider-lifecycle.md` — produced-once/bound-many, the production pipeline
+  with its named-consumer gate, knowledge packs whose traps become planted
+  fixtures, canary bindings with recorded promotion, the two-extension-mechanisms
+  law, workspace lifecycle with the dependency projection, and fleet budgets
+  with the run scheduler. `patterns.md` adds workspace-scale memory: the journal
+  spine, projections carrying embedding-model versions, isolation at the API,
+  promotion with decay. The harness audit's tools track now asks required /
+  installed / loaded. Distilled from the Passion Code fabric design review of
+  2026-08-27. (The member's v0.14.0 tag was burned unreachable by branch rules;
+  the same content ships as 0.14.1.)
 ## v1.4.0 — look at the toolbox before reaching into it
 
 - **`npx sshlg-skills toolkit` — what this machine can actually reach.** An agent picking
