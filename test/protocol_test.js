@@ -15,6 +15,8 @@
 const assert = require('assert');
 
 const R = require('../lib/routers.js');
+const registry = require('../lib/routers-registry.js');
+const site = require('../scripts/site.js');
 const members = require('../skills.json').skills;
 
 let checks = 0;
@@ -144,6 +146,41 @@ it('it carries a boundary and a refusal phrase, like every other rule in the blo
   assert.ok(/boundary/i.test(body), 'no boundary is stated');
   assert.ok(/NOT through this/.test(body), 'the boundary does not say what is excluded');
   assert.ok(/без инструментов/.test(body), 'no refusal phrase');
+});
+
+it('every refusal phrase is declared in English as well as Russian', () => {
+  // The phrase is a LITERAL the operator types, so the site cannot simply translate it —
+  // that would document a phrase the block does not honour. Declaring both is what makes an
+  // English-only rendering truthful, and it closes a real gap: before this, an English
+  // speaker reading the block had no way to decline a route at all.
+  const texts = Object.values(registry.REGISTRY).map((r) => r.text).filter(Boolean);
+  assert.ok(texts.length >= 8, `only ${texts.length} router texts were read`);
+  let seen = 0;
+  for (const t of texts) {
+    const m = /Refusal phrase:\s*(.+?)\*\*/.exec(t);
+    if (!m) continue;
+    seen += 1;
+    assert.ok(/"[^"]*[A-Za-z][^"]*"/.test(m[1]),
+      `a refusal declares no English alias: ${m[1].slice(0, 90)}`);
+  }
+  assert.ok(seen >= 8, `only ${seen} refusal declarations were found`);
+});
+
+it('the refusal a pack page shows is the English one', () => {
+  // The card is read by someone deciding whether to install; the Cyrillic literal stays in
+  // the block and on /routing/, which is verbatim by design.
+  let checked = 0;
+  for (const [name, entry] of Object.entries(registry.REGISTRY)) {
+    const t = entry.text;
+    if (!t || !/Refusal phrase:/.test(t)) continue;
+    const shown = site.refusalOf(t);
+    assert.ok(shown, `${name}: no refusal extracted`);
+    assert.ok(!/[\u0400-\u04FF]/.test(shown),
+      `${name}: the card shows Cyrillic — ${shown}`);
+    assert.ok(/[A-Za-z]/.test(shown), `${name}: the card shows no words — ${shown}`);
+    checked += 1;
+  }
+  assert.ok(checked >= 8, `only ${checked} cards were checked`);
 });
 
 if (failures.length) {
