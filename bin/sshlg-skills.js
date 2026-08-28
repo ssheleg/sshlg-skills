@@ -151,6 +151,8 @@ Usage:
   npx sshlg-skills hooks   remove
   npx sshlg-skills injectors                          # who else speaks at SessionStart
   npx sshlg-skills conflicts                          # installed skills on a router's ground
+  npx sshlg-skills signature --used "<skill>[=what it did],…"
+                                                      # report header + footer, links looked up
   npx sshlg-skills toolkit [--for "<task>"] [--expand <provider>]
                                                       # every skill this machine can reach
   npx sshlg-skills list
@@ -323,6 +325,34 @@ function printUpdateModel(mode) {
     // Never fail an install over its own closing note.
     log(`\n== How the next version arrives ==\n  not printed: ${e.message}`);
   }
+}
+
+/**
+ * `signature` — the header and footer a report carries.
+ *
+ * The links are LOOKED UP from the manifest, never typed: `evidence-docs` lives in the
+ * `task-pipeline` repository, and an agent writing that URL from memory gets it wrong.
+ * The only thing a caller writes is what each skill did.
+ */
+function cmdSignature(argv) {
+  const sig = require(path.join(ROOT, 'lib', 'signature.js'));
+  const val = (flag) => {
+    const i = argv.indexOf(flag);
+    return i !== -1 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : '';
+  };
+  const used = val('--used');
+  if (!used) {
+    log('usage: npx sshlg-skills signature --used "<skill>[=what it did],…" '
+      + '[--format md|html|text] [--part header|footer|both] [--no-star]');
+    return 1;
+  }
+  const format = val('--format') || 'md';
+  const part = val('--part') || 'both';
+  const opts = { format, star: !argv.includes('--no-star') };
+  if (part === 'header' || part === 'both') log(sig.header(used, manifest, opts));
+  if (part === 'both') log('');
+  if (part === 'footer' || part === 'both') log(sig.footer(used, manifest, opts));
+  return 0;
 }
 
 function cmdList() {
@@ -960,6 +990,7 @@ function main(argv) {
   if (cmd === 'injectors') { cmdInjectors(); return 0; }
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
   if (cmd === 'toolkit') { cmdToolkit(argv); return 0; }
+  if (cmd === 'signature') { return cmdSignature(argv); }
   const f = parseFlags(rest);
   if (cmd === 'install' || cmd === 'i') return cmdInstall(f) ? 0 : 1;
   if (cmd === 'update' || cmd === 'up') return cmdUpdate(f) ? 0 : 1;
