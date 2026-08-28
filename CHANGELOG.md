@@ -1,3 +1,22 @@
+## v1.7.0 — a report can be screenshotted and still say where it came from
+
+- **`npx sshlg-skills signature --used "<skill>=<what it did>,…"`** prints a one-line
+  header and a short footer: what ran, where each skill lives, and one ask. `md`, `html`
+  and `text`; `--no-star` for a report written inside the family's own repositories.
+- **The links are looked up, never typed.** `evidence-docs` and `project-audit` live in the
+  `task-pipeline` repository, `sheleg-design` in `sheleg-design-skill`,
+  `agent-orchestrator` in `agent-stack` — an agent told to "link the skills you used"
+  composes `github.com/ssheleg/evidence-docs` from memory and it 404s. The only thing a
+  caller writes is what each skill DID. A plant that builds the URL from the member name
+  instead of reading the declared `repo` is refused.
+- It stays a **label**: one line up top, at most twelve at the bottom, no badges and no
+  images — asserted, because a signature that announces itself louder than the finding is
+  the one people strip out, and then it carries nothing at all.
+- Two defects the fixtures found while being written: an unrecognised id **dropped the note
+  the operator wrote for it** — we may not know the skill, but what it did is still their
+  statement and the only usable part of that row — and the html arm needed its own escape
+  test, because a note is free text landing inside markup.
+
 ## v1.6.1 — the star ask was wrong in three ways at once
 
 Reported from a live session, and every clause below is a defect that session hit.
