@@ -1,3 +1,21 @@
+## v1.6.1 — the star ask was wrong in three ways at once
+
+Reported from a live session, and every clause below is a defect that session hit.
+
+- **It fired where the family had done nothing.** The operator was killing stray Chrome
+  processes; no family skill had run. The boundary said *"the work is substantial"*, which
+  a long session of process cleanup satisfies — it never said *this family did the work*.
+  Now: only if a family skill actually did, and explicitly not when the used-skills list
+  the same region already requires comes out empty.
+- **It named no repository.** The reply was *"which project?"* — an ask nobody can act on
+  without a second turn. The address is in the line now.
+- **It asked the author to star their own repository.** Nothing excluded the machine the
+  family is developed on. Now it is silent inside the family's own repositories.
+
+The bound that was already there — once per session, never repeated — stays, and for the
+same reason: repeated per task it becomes the line a reader learns to skip, which costs
+more than the ask is worth. Three plants, one per clause, each watched refusing.
+
 ## v1.6.0 — the installer says how the next version arrives
 
 - **Install and update now close by naming the update model.** An installer that never

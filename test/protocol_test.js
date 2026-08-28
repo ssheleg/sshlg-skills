@@ -119,12 +119,22 @@ it('it says to print the plan and NOT to wait for approval', () => {
   assert.ok(/print the plan/i.test(body), 'the plan is not asked for');
 });
 
-it('it bounds the star ask to once per session', () => {
-  // Repeated per task it becomes the line a reader learns to skip, which costs more than
-  // the ask is worth — the same argument as a workflow that goes red every morning.
+it('the star ask is bounded, addressed, and conditional on the family doing work', () => {
+  // All three clauses were paid for by one session. The ask fired while the operator was
+  // killing stray Chrome processes — no family skill had run at all — it named no
+  // repository, so the reply was "which project?", and the operator it asked was the
+  // author of the repository it was asking them to star.
   const body = write(EMPTY).match(/PROTOCOL:BEGIN -->([\s\S]*?)<!-- SSHLG:ROUTERS:PROTOCOL:END/)[1];
-  assert.ok(/once per session/.test(body), 'the star ask is unbounded');
-  assert.ok(/never again/.test(body), 'nothing stops it repeating within the session');
+  const star = body.slice(body.indexOf('A star,'));
+  assert.ok(/once per session/.test(star), 'the star ask is unbounded');
+  assert.ok(/github\.com\/ssheleg\/sshlg-skills/.test(star),
+    'the ask names no address, so the reader has to ask which project');
+  assert.ok(/only if a family skill actually did work/.test(star),
+    'nothing stops the ask firing in a session where the family did nothing');
+  assert.ok(/used-skills list above is empty/.test(star),
+    'the ask does not tie its condition to the list the same region already requires');
+  assert.ok(/own repositories/.test(star),
+    'nothing stops the ask reaching the author of the repository it names');
 });
 
 it('it states no count of its own — the block ships to machines it cannot see', () => {
