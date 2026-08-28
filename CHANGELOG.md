@@ -1,3 +1,26 @@
+## v1.6.0 — the installer says how the next version arrives
+
+- **Install and update now close by naming the update model.** An installer that never
+  mentions updates has still chosen one, and the model is *never*: the operator installs,
+  the packs drift, nothing says so. The last line is now
+  `npx sshlg-skills@latest update`, with the reason auto-update is off beside it.
+- **Auto-update is off for this family on purpose, and the notice says so.** Claude Code
+  carries a per-marketplace `autoUpdate` flag in `known_marketplaces.json` that is **not in
+  the documented settings surface** — `/plugin` writes it, third-party installers write it
+  directly, and `claude plugin marketplace add` never does. Measured 2026-08-28: of 20
+  marketplaces on one machine, 2 carry it and 18 do not, ours among the 18. Turning it on
+  would move each of the nine on its own clock and leave a combination nobody tested, which
+  is the same reason this launcher takes no member argument.
+- `lib/updatemodel.js` **reports and never writes.** That file belongs to the operator and
+  to Claude Code; a launcher that flipped somebody's setting to match its own opinion is
+  the class of act that destroyed `~/.claude/CLAUDE.md` twice. A fixture asserts the file is
+  byte-identical after the notice runs, and a missing or corrupt file reports nothing and
+  throws nothing — an install must not fail over its own closing note.
+- `make-skill` advances to **0.24.0**, carrying the same reasoning as doctrine for every
+  skill built after this, plus four plugin features that landed after it last read the docs:
+  `archive` and `command` sources, entry-level `headersHelper` (which needs `strict: false`,
+  and is a different field from the MCP one), and a `skills` path of `"."`.
+
 ## v1.5.0 — the whole family, on npm
 
 - **All nine members advance**, and eight of the nine advance for the same reason: the
