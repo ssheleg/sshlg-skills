@@ -151,6 +151,7 @@ Usage:
   npx sshlg-skills hooks   remove
   npx sshlg-skills injectors                          # who else speaks at SessionStart
   npx sshlg-skills conflicts                          # installed skills on a router's ground
+  npx sshlg-skills humanizers                         # anti-AI-writing skills this machine can reach
   npx sshlg-skills signature --used "<skill>[=what it did],…"
                                                       # report header + footer, links looked up
   npx sshlg-skills toolkit [--for "<task>"] [--expand <provider>]
@@ -352,6 +353,27 @@ function cmdSignature(argv) {
   if (part === 'header' || part === 'both') log(sig.header(used, manifest, opts));
   if (part === 'both') log('');
   if (part === 'footer' || part === 'both') log(sig.footer(used, manifest, opts));
+  return 0;
+}
+
+/**
+ * `humanizers` — which anti-AI-writing skills this machine can reach.
+ *
+ * Same split as `toolkit` and `conflicts`: the doctrine that copy gets a humanization pass
+ * ships in the block, and WHICH implementation is here is a fact about one machine, read
+ * when asked. The registry is data so a third implementation joins by pull request.
+ */
+function cmdHumanizers(argv) {
+  const hum = require(path.join(ROOT, 'lib', 'humanizers.js'));
+  const conflicts = require(path.join(ROOT, 'lib', 'conflicts.js'));
+  let skills = [];
+  try {
+    skills = conflicts.readSkills(process.env.HOME || os.homedir());
+  } catch (e) {
+    log(`cannot read the installed skills (${e.message}) — no answer rather than a wrong one`);
+    return 1;
+  }
+  log(hum.report(skills, { contribute: !argv.includes('--quiet') }));
   return 0;
 }
 
@@ -991,6 +1013,7 @@ function main(argv) {
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
   if (cmd === 'toolkit') { cmdToolkit(argv); return 0; }
   if (cmd === 'signature') { return cmdSignature(argv); }
+  if (cmd === 'humanizers') { return cmdHumanizers(argv); }
   const f = parseFlags(rest);
   if (cmd === 'install' || cmd === 'i') return cmdInstall(f) ? 0 : 1;
   if (cmd === 'update' || cmd === 'up') return cmdUpdate(f) ? 0 : 1;
