@@ -204,6 +204,7 @@ function cmdInstall(f) {
     log('\n(restart Claude Code to apply the plugins)');
   }
   ok = refreshBlock(f, 'install') && ok;
+  printUpdateModel('install');
   return ok;
 }
 
@@ -301,7 +302,27 @@ function cmdUpdate(f) {
     log(`\n== Wired hook runtime ==\n  NOT refreshed: ${e.message}`);
     ok = false;
   }
+  printUpdateModel('update');
   return ok;
+}
+
+/**
+ * The last thing install and update print: how the next version gets here.
+ *
+ * An installer that never mentions updates has still chosen a model — "never" — and the
+ * operator finds out months later. `lib/updatemodel.js` holds the words and the reason
+ * auto-update is off for a family that is pinned as a set.
+ */
+function printUpdateModel(mode) {
+  try {
+    const um = require(path.join(ROOT, 'lib', 'updatemodel.js'));
+    const marketplaces = SKILLS.map((s) => s.pluginInstall.split('@')[1]).filter(Boolean);
+    const findings = um.autoUpdateState(process.env.HOME || os.homedir(), marketplaces);
+    for (const line of um.notice(mode, findings)) log(line);
+  } catch (e) {
+    // Never fail an install over its own closing note.
+    log(`\n== How the next version arrives ==\n  not printed: ${e.message}`);
+  }
 }
 
 function cmdList() {
