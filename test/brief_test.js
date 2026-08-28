@@ -106,6 +106,38 @@ it('every brief the family renders is publishable prose', () => {
   assert.ok(seen >= 20, `only ${seen} briefs were read — the collector, not the pages`);
 });
 
+it('no brief carries Cyrillic — the site is English and the analogues are triggers', () => {
+  // The rule that makes this decidable: every pack writes its capability sentence in
+  // English and its triggers in both languages, so Cyrillic surviving into a brief is
+  // always a trigger analogue and never prose. `task-pipeline` shipped nine Russian words
+  // onto its own page because its analogues are neither quoted nor labelled —
+  // `… hardening; фича, фикс, рефактор …` and `audit/аудит, bug hunt/проверь ошибки` —
+  // so the quoted-run and labelled-list arms both passed straight over them.
+  for (const m of data.skills) {
+    for (const name of m.skillNames || []) {
+      const b = site.skillBrief(m, name);
+      assert.ok(!/[\u0400-\u04FF]/.test(b),
+        `${m.name}/${name}: Cyrillic reached the page — ${b.slice(0, 160)}`);
+    }
+  }
+});
+
+it('removing an analogue does not leave the clause it belonged to open', () => {
+  // Stripping `or on 'run this through the pipeline' / 'прогони по конвейеру'` left the
+  // page reading `… PR review, or on. Runs a substantial task…` — a sentence that stops
+  // mid-preposition, which reads as a truncation bug rather than a summary.
+  const out = capabilityBrief(
+    "Use when work changes the repository — feature, fix; фича, фикс — or when the output "
+    + "is a finding: audit/аудит, PR review/ревью PR — or on 'run this' / 'прогони это'. "
+    + 'Runs a substantial task.',
+  );
+  assert.ok(!/[\u0400-\u04FF]/.test(out), out);
+  assert.ok(!/\b(?:or|and)\s+(?:on|in|at|for|with)\s*[.,;]/.test(out),
+    `a clause was left open: ${out}`);
+  assert.ok(/audit, PR review/.test(out), `the English side of a pair was lost: ${out}`);
+  assert.ok(/Runs a substantial task\.$/.test(out), out);
+});
+
 it('a skill whose front matter declares no description fails the build', () => {
   // The same rule as entryPath: a heading with nothing under it is the defect, and a
   // page that renders one is worse than a build that stopped.

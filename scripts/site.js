@@ -116,10 +116,25 @@ function firstSentence(text, cap = 185, floor = 95) {
 }
 
 /** The refusal phrase a router text declares, so the page can show it as a chip. */
+/**
+ * The phrase that declines a route, in English, for a page that is written in English.
+ *
+ * Every router declares the refusal twice — `"no scenarios" or «без сценариев»` — because
+ * the phrase is a LITERAL the operator types, and both are honoured by the block. So the
+ * card can show one without documenting something that does not work, which is the reason
+ * the English alias was added before this function was allowed to drop the other.
+ *
+ * `/routing/` is deliberately NOT filtered the same way: its job is the block **verbatim**,
+ * one of its rules is a sentence about which Russian word is already a trigger, and an
+ * English-only rendering of that sentence would be a bigger untruth than the Cyrillic.
+ */
 function refusalOf(text) {
   const m = text.match(/Refusal phrase:\s*(.+?)\*\*/);
   if (!m) return null;
-  return m[1].replace(/[«»"]/g, (c) => (c === '"' ? '' : c)).trim();
+  const raw = m[1].trim();
+  const english = [...raw.matchAll(/"([^"]+)"/g)].map((q) => q[1]);
+  if (english.length) return english.join(' or ');
+  return raw.replace(/[«»"]/g, (c) => (c === '"' ? '' : c)).trim();
 }
 
 // ------------------------------------------------------------------- the model
