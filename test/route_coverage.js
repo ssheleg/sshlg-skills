@@ -69,13 +69,20 @@ const CASES = [
   ['настрой биллинг токенов для llm', 'agent-stack|sheleg-dev'],
   ['sub-agent coordination', 'agent-stack'],
 
-  // --- money, tracking, sign-in, speed ------------------------------------
+  // --- money, tracking, errors, sign-in, speed -----------------------------
   ['подключить stripe', 'sheleg-dev'],
   ['добавь оплату подпиской', 'sheleg-dev'],
   ['настрой meta pixel', 'sheleg-dev'],
   ['вход через google', 'sheleg-dev'],
   ['ускорить сайт', 'sheleg-dev'],
   ['сайт медленно грузится', 'sheleg-dev'],
+  // The pack's seventh skill, unroutable until 2026-08-29 (XF-02): both prompts
+  // measured `[]` while `error-tracking` sat in the map table.
+  ['добавь sentry в бэкенд', 'sheleg-dev'],
+  ['set up error tracking for the api', 'sheleg-dev'],
+  // The ReAct homograph (XF-05): the operator means the framework, and no route
+  // is better than the wrong craft. Measured `["agent-stack"]` until 2026-08-29.
+  ['сделай форму логина на react', ''],
 
   // --- design references and style search ----------------------------------
   // Both packs carry this deeply — sheleg-design has a reference-sweep section and
