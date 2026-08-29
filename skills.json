@@ -101,7 +101,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.53.0",
+      "version": "1.54.0",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
