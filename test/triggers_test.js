@@ -214,6 +214,103 @@ it('no refusal phrase is also a trigger, or saying it would fire the hook', () =
   assert.deepStrictEqual(clash, [], `a refusal phrase that trips a trigger cannot opt out: ${clash.join(', ')}`);
 });
 
+it('no trigger MATCHES inside a refusal — the raw check above cannot see a stem', () => {
+  // The raw-containment check passed «без интеграций» while the matcher fired
+  // `интеграция` inside it: `интеграций` is one inflection away, which is exactly
+  // the tolerance `matches` exists to provide. A refusal the matcher reads as a
+  // trigger is the B-82 shape — the phrase can never be added, and if it were,
+  // the advertised opt-out would summon the route it declines. Checked the way
+  // the runtime checks, so a stem-level collision fails here before it ships.
+  const clash = [];
+  for (const [route, spec] of Object.entries(T.ROUTES)) {
+    for (const t of spec.triggers) {
+      for (const r of T.REFUSALS) {
+        if (T.matches(r, t)) {
+          clash.push(`${route}: trigger ${JSON.stringify(t)} fires inside refusal ${JSON.stringify(r)}`);
+        }
+      }
+    }
+  }
+  assert.deepStrictEqual(clash, [], `the matcher reads a refusal as a trigger: ${clash.join(', ')}`);
+  // The pair this check exists for, kept as the executable record of why
+  // sheleg-dev's refusal is «без обвязки» and not «без интеграций»:
+  assert.strictEqual(T.matches('без интеграций', 'интеграция'), true,
+    'the stem-level collision this guard was written against no longer reproduces — re-derive the rename');
+});
+
+it('every refusal the routing block advertises is one this module parses', () => {
+  // XF-01/XF-04, 2026-08-29: eleven English aliases and both telegram forms were
+  // advertised by the block and absent here — `optedOut('no brand')` → false while
+  // the operator's file said the phrase would work. The registry is the single
+  // home of the router texts, so the list is READ from their own refusal lines
+  // rather than restated; a router gaining a phrase without teaching the matcher
+  // fails this fixture in the same change.
+  const registry = require('../lib/routers-registry.js').REGISTRY;
+  const missing = [];
+  let declared = 0;
+  for (const [name, entry] of Object.entries(registry)) {
+    const m = /\*\*Refusal phrase:([^*]+)\*\*/.exec(entry.text);
+    assert.ok(m, `${name}: no refusal declaration found`);
+    const phrases = [
+      ...[...m[1].matchAll(/"([^"]+)"/g)].map((q) => q[1]),
+      ...[...m[1].matchAll(/«([^»]+)»/g)].map((q) => q[1]),
+    ].map((p) => p.toLowerCase());
+    assert.ok(phrases.length >= 2, `${name}: fewer than two phrases declared`);
+    for (const p of phrases) {
+      declared += 1;
+      if (!T.REFUSALS.includes(p)) missing.push(`${name}: ${JSON.stringify(p)}`);
+    }
+  }
+  assert.ok(declared >= 24, `only ${declared} advertised phrases were read — the parse stopped early`);
+  assert.deepStrictEqual(missing, [],
+    `the block advertises refusals the hook does not honour:\n  ${missing.join('\n  ')}`);
+  // The one refusal no router entry owns — the toolkit protocol's — read from the
+  // rendered block the same way an operator receives it.
+  const R = require('../lib/routers.js');
+  const members = require('../skills.json').skills;
+  const empty = '<!-- SSHLG:ROUTERS:BEGIN v=1 -->\n## Роутинг работы — семья ssheleg\n'
+    + '<!-- SSHLG:ROUTERS:TABLE:BEGIN -->\n<!-- SSHLG:ROUTERS:TABLE:END -->\n'
+    + '<!-- SSHLG:ROUTERS:END -->';
+  const block = R.upsert(empty, { 'task-pipeline': 'body' }, { members }).text;
+  const proto = /PROTOCOL:BEGIN -->([\s\S]*?)<!-- SSHLG:ROUTERS:PROTOCOL:END/.exec(block);
+  assert.ok(proto, 'the rendered block carries no protocol region');
+  const pm = /\*\*Refusal phrase:([^*]+)\*\*/.exec(proto[1]);
+  assert.ok(pm, 'the protocol region declares no refusal');
+  for (const p of [
+    ...[...pm[1].matchAll(/"([^"]+)"/g)].map((q) => q[1]),
+    ...[...pm[1].matchAll(/«([^»]+)»/g)].map((q) => q[1]),
+  ].map((s) => s.toLowerCase())) {
+    assert.ok(T.REFUSALS.includes(p), `the protocol's refusal ${JSON.stringify(p)} is not honoured`);
+  }
+});
+
+it('the advertised English aliases actually opt out — the XF-04 regression', () => {
+  // Measured 2026-08-29 before the fix: optedOut('no brand') → false, and
+  // 'rewrite this, no brand' routed to task-pipeline AND copywriting — the block
+  // advertised an opt-out that summoned both routes instead.
+  assert.strictEqual(T.optedOut('rewrite this, no brand'), true);
+  assert.deepStrictEqual(T.match('rewrite this, no brand'), []);
+  assert.deepStrictEqual(T.match('add a paywall screen, no scenarios'), []);
+  assert.deepStrictEqual(T.match('build a landing page, no design'), []);
+  assert.deepStrictEqual(T.match('сделай телеграм бот, но без телеграма — только апи'), []);
+  assert.deepStrictEqual(T.match('refactor the auth module, no docs'), []);
+});
+
+it('sheleg-dev declines as «без обвязки»/"no wiring" — the XF-01 regression', () => {
+  // Before the rename the block advertised «без интеграций», which the matcher
+  // reads as task-pipeline's `интеграция`: «оплата подпиской, но без интеграций»
+  // → ["task-pipeline","sheleg-dev"], optedOut false (measured 2026-08-29). The
+  // renamed phrase is sayable in both languages:
+  assert.strictEqual(T.optedOut('оплата подпиской, но без обвязки'), true);
+  assert.deepStrictEqual(T.match('оплата подпиской, но без обвязки'), []);
+  assert.strictEqual(T.optedOut('stripe checkout, but no wiring'), true);
+  assert.deepStrictEqual(T.match('stripe checkout, but no wiring'), []);
+  // And the OLD phrase is deliberately not a refusal: it still routes, because a
+  // phrase the matcher reads as a trigger cannot be allowed to opt out — see the
+  // match-level clash check above. The block no longer advertises it.
+  assert.strictEqual(T.optedOut('оплата подпиской, но без интеграций'), false);
+});
+
 // --- inflection: the corpus that made the case ------------------------------
 //
 // Twenty prompts written the way an operator writes them, not the way a skill's
@@ -339,6 +436,39 @@ it('the four added routes each fire on their own words', () => {
   ]) {
     assert.ok(T.match(prompt).includes(route), `${JSON.stringify(prompt)} did not route to ${route}`);
   }
+});
+
+// --- the pack's seventh skill, routable at last (XF-02) ----------------------
+
+it('error tracking routes to sheleg-dev — the map-table-only gap, again', () => {
+  // The B-81 shape recurring on one skill: `error-tracking` sat in the map table
+  // with no router clause, no WHEN word and no hook source. Measured 2026-08-29:
+  // both prompts below reached []. Zero description edits — every trigger is in
+  // the skill's own advertised `Triggers -` list.
+  assert.ok(T.match('add sentry to the api service').includes('sheleg-dev'));
+  assert.ok(T.match('подключи sentry в бэкенд').includes('sheleg-dev'));
+  assert.ok(T.match('настрой трекинг ошибок').includes('sheleg-dev'));
+  assert.ok(T.match('set up error tracking for the worker').includes('sheleg-dev'));
+});
+
+it('and the sentry word stays out of questions and refusals', () => {
+  assert.deepStrictEqual(T.match('почему sentry ничего не ловит?'), [],
+    'a question carrying the trigger must stay a question');
+  assert.deepStrictEqual(T.match('добавь sentry, но без обвязки'), []);
+});
+
+// --- the ReAct homograph is out (XF-05) --------------------------------------
+
+it('the bare `react` no longer routes a frontend prompt to agent-stack', () => {
+  // Measured 2026-08-29 before the fix: «сделай форму логина на react» →
+  // ["agent-stack"] — the trigger meant ReAct, the operator meant the framework,
+  // and a lowercasing matcher cannot tell them apart. The word is removed; the
+  // phrase forms wait on agent-harness advertising one (agent-stack's release).
+  assert.deepStrictEqual(T.match('сделай форму логина на react'), []);
+  assert.deepStrictEqual(T.match('rewrite the dashboard in react'), ['task-pipeline'],
+    'the pipeline half of this prompt is real (`rewrite`); agent-stack must not join it');
+  // The route is still reachable by the vocabulary it honestly owns:
+  assert.ok(T.match('выбери workflow or agent для этой задачи').includes('agent-stack'));
 });
 
 // --- the question exception, and how narrow it is ---------------------------

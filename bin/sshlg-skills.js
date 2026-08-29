@@ -359,9 +359,13 @@ function cmdSignature(argv) {
 /**
  * `humanizers` — which anti-AI-writing skills this machine can reach.
  *
- * Same split as `toolkit` and `conflicts`: the doctrine that copy gets a humanization pass
- * ships in the block, and WHICH implementation is here is a fact about one machine, read
- * when asked. The registry is data so a third implementation joins by pull request.
+ * Same split as `toolkit` and `conflicts` for the machine half: WHICH implementation is
+ * here is a fact about one machine, read when asked. The doctrine half does NOT ship in
+ * the block — no router text mentions humanization, and that is deliberate: the pass
+ * itself lives in `copywriting`'s own Humanize mode, which the c888696 record found
+ * already stricter than either external implementation. What always ships is the caveat
+ * in `lib/humanizers.js`, printed on every run of this command and not switchable off.
+ * The registry is data so a third implementation joins by pull request.
  */
 function cmdHumanizers(argv) {
   const hum = require(path.join(ROOT, 'lib', 'humanizers.js'));

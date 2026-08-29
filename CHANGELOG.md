@@ -1,3 +1,46 @@
+## v1.9.0 — the refusals the block advertised and the hook never parsed
+
+The 2026-08-29 family audit measured the routing surface against the live matcher, and
+four of its findings land here. Every "measured" below is a `node -e` run against
+`lib/triggers.js` at `305d58e`, kept as a fixture so it cannot un-happen silently.
+
+- **`sheleg-dev` now declines as "no wiring" / «без обвязки»** — the advertised
+  «без интеграций» could never work: `интеграция` is `task-pipeline`'s own trigger and
+  the stemmer fires it inside the refusal (`matches('без интеграций', 'интеграция')` →
+  true), so «оплата подпиской, но без интеграций» routed to **both** task-pipeline and
+  sheleg-dev instead of opting out. Same resolution as `project-audit`'s «без
+  диагностики»: decline by another name, and the refusal line in the block now says why.
+  The raw-containment clash fixture could not see a stem-level collision, so a
+  **match-level clash check** now runs beside it — every refusal held against every
+  trigger the way the runtime reads them.
+- **Every advertised English refusal now opts out.** Eleven routers declared an English
+  alias ("no brand", "no design", "as is", "draft it", "no docs", "on my word", …) that
+  `REFUSALS` never carried — measured: `optedOut('no brand')` → false, and
+  `'rewrite this, no brand'` routed to two crafts. The telegram pair was missing in
+  **both** languages. All are in, plus the toolkit protocol's "no tooling" /
+  «без инструментов» — and a new fixture reads the registry's own refusal lines (and the
+  rendered protocol region) so a router gaining a phrase without teaching the matcher
+  fails in the same change.
+- **`error-tracking` is routable** — the pack's seventh skill sat in the map table with
+  no router clause, no WHEN word and no hook source (the recorded B-81 shape, on one
+  skill): `add Sentry` and «подключить Sentry» both reached `[]`. Now: the `sheleg-dev`
+  router text enumerates it, the WHEN cell reads *money, tracking, **errors**, sign-in or
+  speed*, and a hook source carries `sentry`, `error tracking`, «подключить sentry»,
+  «трекинг ошибок» — zero description edits, every trigger already advertised. The
+  coverage probe grows 85 → 88 prompts, 71 → 74 named.
+- **The bare `react` trigger is out of `agent-stack`** — it meant ReAct and matched the
+  framework: «сделай форму логина на react» → `["agent-stack"]`, measured. A lowercasing
+  matcher cannot split the homograph, so the word is removed; the phrase forms wait on
+  `agent-harness` advertising one, which is agent-stack's own release.
+- **The launcher's README now documents all twelve verbs.** `signature` (shipped v1.7.0)
+  and `humanizers` (shipped v1.8.0 riding `c888696`) had zero README mentions — this
+  section is also `humanizers`' first CHANGELOG documentation as a command: it prints
+  which anti-AI-writing skills this machine can reach, which modes each declares, and the
+  false-positive caveat (>60% on non-native English writers — Liang et al., 2023) that
+  prints whether or not one is installed. And `cmdHumanizers`' header comment claimed the
+  humanization doctrine "ships in the block" — no router text mentions it, deliberately:
+  the pass lives in `copywriting`'s own Humanize mode. The comment now says what is true.
+
 ## v1.8.0 — the thirty-eighth design, and the terrain is mapped
 
 - `sheleg-design` advances to **1.54.0**. The `surveyor` pack, measured off an

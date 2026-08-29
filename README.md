@@ -273,7 +273,7 @@ priorities** — a landing page passes several, an internal script passes none:
 | `super-ux` | what the interface must do | there is user-facing behaviour | super-ux |
 | `sheleg-design` | how it looks and moves | there is a visual layer | sheleg-design |
 | `copywriting` | how it sounds | text a product user will read | super-ux |
-| `sheleg-dev` | what it runs on to charge, track and sign in | money, tracking, sign-in or speed is being wired | sheleg-dev |
+| `sheleg-dev` | what it runs on to charge, track and sign in | money, tracking, errors, sign-in or speed is being wired | sheleg-dev |
 | `agent-stack` | how an agent system is built, judged and metered | the thing being built is an agent | agent-stack |
 | `telegram-dev` | which Telegram API a surface speaks, and what it costs | the thing being built lives inside Telegram | telegram-dev |
 | `seo-llmo` | whether a machine will find it | a logged-out reader can see it | — |
@@ -333,6 +333,7 @@ npx sshlg-skills injectors                # who else speaks at SessionStart, and
 npx sshlg-skills conflicts                # installed skills that land on a router's ground
 npx sshlg-skills toolkit                  # every skill this machine can reach, as an index
 npx sshlg-skills toolkit --for "<task>"   # ...narrowed to one task, as a shortlist
+npx sshlg-skills humanizers               # anti-AI-writing skills here, with the caveat that binds them
 ```
 
 | Hook | What it does | What it costs |
@@ -449,10 +450,15 @@ them off? Delete the file — nothing else reads it.
 ## Other commands
 
 ```bash
-npx sshlg-skills list       # the family, versions and descriptions
-npx sshlg-skills agents     # supported agent ids
-npx sshlg-skills conflicts  # installed skills that land on ground a router owns
-npx sshlg-skills toolkit    # every skill this machine can reach — the family is a fraction of it
+npx sshlg-skills list        # the family, versions and descriptions
+npx sshlg-skills agents      # supported agent ids
+npx sshlg-skills conflicts   # installed skills that land on ground a router owns
+npx sshlg-skills toolkit     # every skill this machine can reach — the family is a fraction of it
+npx sshlg-skills humanizers  # anti-AI-writing skills this machine can reach — and the
+                             # false-positive caveat that prints whether or not one is installed
+npx sshlg-skills signature --used "<skill>=<what it did>,…"
+                             # a report's one-line header and short footer — every
+                             # address looked up from the manifest, never typed
 ```
 
 `conflicts` is the machine-specific half of the map's arbitration rule. The rule
