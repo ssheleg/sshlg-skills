@@ -1,3 +1,15 @@
+## v1.8.0 — the thirty-eighth design, and the terrain is mapped
+
+- `sheleg-design` advances to **1.54.0**. The `surveyor` pack, measured off an
+  AI-visibility tracker: warm peach paper where an unseen terrain is mapped in
+  contour lines, flat shadowless cards, a teal whose text-bearing steps climb the
+  reference's own hover ladder, a pink that answers but may not speak, and the
+  product appearing only as flat portraits. The catalogue link's pack count
+  follows its glob and now reads 38.
+- Also ships `c888696` — *feat(humanizers): a registry of anti-AI-writing skills,
+  and the caveat that binds them* — which landed on main after v1.7.0 and rides
+  this release; its own commit message is its record.
+
 ## v1.7.0 — a report can be screenshotted and still say where it came from
 
 - **`npx sshlg-skills signature --used "<skill>=<what it did>,…"`** prints a one-line
