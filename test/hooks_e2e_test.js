@@ -26,7 +26,11 @@ function it(name, fn) {
 }
 
 const ROOT = path.join(__dirname, '..');
-const HOME = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-hooks-e2e-'));
+// `realpathSync`, because macOS's tmpdir is a symlink (`/var` → `/private/var`) and
+// the post-tool-use restore resolves its target with `realpathSync` before deriving
+// the backup key — a HOME spelled through the symlink names a different key than the
+// hook computes, and `latest()` silently finds nothing.
+const HOME = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-hooks-e2e-')));
 const ENV = Object.assign({}, process.env, { HOME, USERPROFILE: HOME });
 
 /** Run a hook script the way Claude Code runs it: JSON on stdin, JSON on stdout. */
@@ -137,6 +141,63 @@ it('the launcher itself is not denied by that guard', () => {
     hook_event_name: 'PreToolUse', tool_name: 'Bash',
     tool_input: { command: 'npx --yes sshlg-skills@latest update' },
   }), null);
+});
+
+it('the wiki-config restore restores the keys, through a copy of its own (UM-06)', () => {
+  // The restore in post-tool-use.js was the one write to an operator-owned file
+  // outside `protect()` — CLAUDE.md's "no second write path" invariant, found as
+  // UM-06. These fixtures watch the routed version doing both halves: the write
+  // is preceded by a copy of the bytes it overwrites, and a copy that cannot be
+  // taken cancels the write instead of degrading to "wrote anyway".
+  const backup = require('../lib/backup.js');
+  const cfg = path.join(HOME, '.obsidian-wiki', 'config');
+  const full = 'OBSIDIAN_VAULT_PATH=/v\nCLAUDE_HISTORY_PATH=/h\n# comment kept\n';
+  const truncated = 'OBSIDIAN_VAULT_PATH=/new\n';
+  write(cfg, full);
+  // The snapshot PreToolUse would have taken, with an explicit older stamp.
+  assert.strictEqual(backup.save({ file: cfg, home: HOME, stamp: '20260812T090000Z' }).action, 'saved');
+  fs.writeFileSync(cfg, truncated);                 // what `setup` leaves behind
+  const out = runHook('post-tool-use.js', {
+    hook_event_name: 'PostToolUse', tool_name: 'Bash',
+    tool_input: { command: 'obsidian-wiki setup' },
+  });
+  assert.match(out.hookSpecificOutput.additionalContext, /restored from the snapshot/);
+  const after = fs.readFileSync(cfg, 'utf8');
+  assert.ok(after.includes('CLAUDE_HISTORY_PATH=/h'), 'the dropped key did not come back');
+  assert.ok(after.includes('OBSIDIAN_VAULT_PATH=/new'), "setup's own value was reverted");
+  const dir = path.join(HOME, '.sshlg-skills', 'backups');
+  const copies = fs.readdirSync(dir).filter((n) => n.startsWith('obsidian-wiki_config.')).sort();
+  assert.strictEqual(copies.length, 2,
+    `expected the pre-run snapshot plus the pre-write copy, got: ${copies.join(', ')}`);
+  assert.strictEqual(fs.readFileSync(path.join(dir, copies[1]), 'utf8'), truncated,
+    'the pre-write copy is not the bytes the restore was about to overwrite');
+});
+
+it('a restore whose copy cannot be taken does NOT write, and names the remedy', () => {
+  const backup = require('../lib/backup.js');
+  const cfg = path.join(HOME, '.obsidian-wiki', 'config');
+  const full = 'OBSIDIAN_VAULT_PATH=/v\nOBSIDIAN_SOURCES_EXCLUDE=x\n';
+  const truncated = 'OBSIDIAN_VAULT_PATH=/newer\n';
+  write(cfg, full);
+  // A snapshot stamped to sort newest, so `latest()` finds a FULL config to merge from.
+  assert.strictEqual(backup.save({ file: cfg, home: HOME, stamp: '20270101T000000Z' }).action, 'saved');
+  fs.writeFileSync(cfg, truncated);
+  const dir = path.join(HOME, '.sshlg-skills', 'backups');
+  fs.chmodSync(dir, 0o555);   // `latest()` can still read the snapshot; no new copy can land
+  let out;
+  try {
+    out = runHook('post-tool-use.js', {
+      hook_event_name: 'PostToolUse', tool_name: 'Bash',
+      tool_input: { command: 'obsidian-wiki setup' },
+    });
+  } finally {
+    fs.chmodSync(dir, 0o755);
+  }
+  assert.strictEqual(fs.readFileSync(cfg, 'utf8'), truncated,
+    'the restore wrote without a copy — the exact degradation the gate exists to refuse');
+  assert.match(out.hookSpecificOutput.additionalContext, /NOT performed/);
+  assert.match(out.hookSpecificOutput.additionalContext, /\.sshlg-skills\/backups/,
+    'the refusal does not name its remedy — how an operator learns to switch a hook off');
 });
 
 it('a malformed payload is silence and exit 0, never a broken turn', () => {

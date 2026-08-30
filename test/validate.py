@@ -2018,7 +2018,8 @@ check_a_waiver_names_what_would_bring_it_back()
 LIVE_DOCS = ("README.md", "CLAUDE.md", "docs/DOCMAP.md", "docs/AGENT_SYNC.md",
              "docs/evidence/convergence.md")
 LEDGER_DOCS = ("docs/evidence/backlog.md", "docs/evidence/verification.md",
-               "docs/evidence/retro.md", "docs/evidence/manifesto-conformance.md")
+               "docs/evidence/retro.md", "docs/evidence/retro/2026-Q3.md",
+               "docs/evidence/manifesto-conformance.md")
 
 # Directory names that belong to a consuming project or to a member, not to an address
 # here. Each carries its reason: an exception with no reason cannot be told from an

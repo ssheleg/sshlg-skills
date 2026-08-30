@@ -96,11 +96,30 @@ process.stdin.on('end', () => {
         const { text, restored } = hygiene.reapply(
           fs.readFileSync(snap, 'utf8'), fs.readFileSync(real, 'utf8'));
         if (restored.length) {
-          fs.writeFileSync(real, text, 'utf8');
-          notes.push(
-            `[sshlg-skills] \`obsidian-wiki setup\` dropped ${restored.length} key(s) from ` +
-            `${real}; they were restored from the snapshot taken before it ran: ` +
-            `${restored.join(', ')}. The values setup wrote were kept.`);
+          // The one write this hook makes goes through the same gate as every
+          // other write to a file the operator owns (CLAUDE.md: "there is no
+          // second write path" — this line was the second one, UM-06): a copy
+          // of what is on disk right now, and a copy that cannot be taken
+          // cancels the write. What is on disk is `setup`'s own output, cheap
+          // to reproduce — but the gate is the invariant, not a judgement
+          // about which bytes are precious. Taken AFTER `latest()` was read,
+          // so the pre-run snapshot this restore merges from is already held.
+          const { protect } = require(path.join(LIB, 'apply.js'));
+          const saved = protect(real, { home });
+          if (saved.action === 'backup-failed') {
+            notes.push(
+              `[sshlg-skills] \`obsidian-wiki setup\` dropped ${restored.length} key(s) from ` +
+              `${real} (${restored.join(', ')}), and the restore was NOT performed: a copy ` +
+              `of the file could not be taken first (${saved.error}). The pre-run snapshot ` +
+              `is ${snap} — fix the backup directory (~/.sshlg-skills/backups) and re-apply ` +
+              `the missing keys from it.`);
+          } else {
+            fs.writeFileSync(real, text, 'utf8');
+            notes.push(
+              `[sshlg-skills] \`obsidian-wiki setup\` dropped ${restored.length} key(s) from ` +
+              `${real}; they were restored from the snapshot taken before it ran: ` +
+              `${restored.join(', ')}. The values setup wrote were kept.`);
+          }
         }
       }
     }
