@@ -80,15 +80,20 @@ outside it: it queries the npm registry, and `npm test` must work offline.
 ## Writing to the operator's file
 
 Anything touching `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`,
-`~/.gemini/GEMINI.md` or `~/.cursor/rules/sshlg-routing.mdc`:
+`~/.gemini/GEMINI.md`, `~/.cursor/rules/sshlg-routing.mdc` — or
+`~/.obsidian-wiki/config`, which the post-tool-use restore rewrites:
 
 1. **The backup is a mechanism, not your memory.** `lib/backup.js` copies the
    file before every write, and a copy it cannot take cancels the write. New
    code that writes to one of these files goes through `protect()` in
    `lib/apply.js` — there is no second write path, and adding one is the
-   regression to watch for. Two defects in this repo's history destroyed or
-   overwrote `~/.claude/CLAUDE.md`; both times the copy that saved it was made
-   by hand, once ten minutes before it was needed (B-05, closed 2026-08-12).
+   regression to watch for. The restore in `hooks/post-tool-use.js` WAS that
+   second path until 2026-08-30 (UM-06): it rewrote the wiki config from the
+   pre-run snapshot without copying what it was about to overwrite. It routes
+   through `protect()` now, watched failing in `test/hooks_e2e_test.js`. Two
+   defects in this repo's history destroyed or overwrote `~/.claude/CLAUDE.md`;
+   both times the copy that saved it was made by hand, once ten minutes before
+   it was needed (B-05, closed 2026-08-12).
 2. **Prove idempotence at the layer that repeats.** Run the real command three
    times against a real file and compare hashes — a pure core with passing
    round-trip fixtures sat under a command whose second run destroyed the file.

@@ -1,3 +1,38 @@
+## v1.9.1 — the retro can be read in full again, and the last write outside the gate joins it
+
+Three findings of the 2026-08-29 family audit (UM-01, UM-06, UM-07), shipped as one
+maintenance pass. Nothing here changes a description, a trigger or the routing block.
+
+- **The retrospective's standing contract is completable again.** `docs/evidence/retro.md`
+  opened with *"Stage 0 of every run reads the standing instructions below in full"* and
+  had grown to 155,084 bytes — 78% of it 30 dated run-record headings (2026-08-06 through
+  2026-08-17) frozen below the in-force sections, so a full read (~38K tokens) could not
+  complete in one 25K-cap tool call. The records moved **verbatim** to
+  `docs/evidence/retro/2026-Q3.md`, the archive created for exactly this rotation: no id
+  changed, no sentence reworded, SHA-256 of the moved block computed before the cut and
+  re-computed from the archive after the append (`5bc1106a…d848`, both halves in the
+  verification ledger). `retro.md` ships at 35,749 bytes — 34,465 at the cut, plus this
+  release's own run stamp — standing instructions, Retired, and the Run stamps table as
+  the index, with an end marker saying where "see below" went.
+  The archive joins `test/validate.py`'s `LEDGER_DOCS`, so its 2 dead citations stay
+  counted and disclosed on every run instead of vanishing with the move.
+- **The one write path outside `protect()` now goes through it.** The
+  `obsidian-wiki setup` restore in `hooks/post-tool-use.js` rewrote
+  `~/.obsidian-wiki/config` with no copy of what it was about to overwrite — the second
+  write path `CLAUDE.md`'s invariant says must not exist (UM-06). It routes through
+  `protect()` now: the pre-write copy is taken **after** the pre-run snapshot is already
+  in hand, and a copy that cannot be taken cancels the restore with the remedy and the
+  snapshot path in the note, instead of degrading to "wrote anyway". Two e2e fixtures run
+  the real hook as a process — both watched failing against the pre-fix hook — and the
+  e2e HOME is realpath'd, because macOS's `/var → /private/var` symlink made the fixture
+  compute a different backup key than the hook does and `latest()` found nothing.
+- **B-07's waiver measurement re-stamped.** It said *8 commands, measured 2026-08-16*;
+  the launcher has 12. Re-measured 2026-08-30: all 12 named by a fixture, the waiver
+  holds, and both measurements stand in the row.
+- Gate: `npm test` green at **45 suites / 760 fixtures** (+2, the restore-path e2e), the
+  DOCMAP ratchet marker re-derived from the run — and the prose beside it, which had been
+  hand-carrying 751 against a marker at 758, now restates the counted pair.
+
 ## v1.9.0 — the refusals the block advertised and the hook never parsed
 
 The 2026-08-29 family audit measured the routing surface against the live matcher, and
