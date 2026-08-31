@@ -459,6 +459,13 @@ it('and the sentry word stays out of questions and refusals', () => {
 
 // --- the ReAct homograph is out (XF-05) --------------------------------------
 
+it('the ReAct phrase forms route to agent-stack; the bare word still does not', () => {
+  // agent-stack v0.17.0 advertises "ReAct loop" / "react pattern" (its
+  // SKILL.md:11) — the phrase is unambiguous where the bare homograph was not.
+  assert.deepStrictEqual(T.match('the agent needs a react loop with a checker'), ['agent-stack']);
+  assert.deepStrictEqual(T.match('поставь агенту react pattern'), ['agent-stack']);
+});
+
 it('the bare `react` no longer routes a frontend prompt to agent-stack', () => {
   // Measured 2026-08-29 before the fix: «сделай форму логина на react» →
   // ["agent-stack"] — the trigger meant ReAct, the operator meant the framework,
