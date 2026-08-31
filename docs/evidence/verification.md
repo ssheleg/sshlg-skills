@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**490** id'd requirement rows below, **484** read `verified` and none of them says which
+**493** id'd requirement rows below, **487** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,14 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-08-31 — v1.12.0, eight pins after the tails wave
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| PW3-1 | Eight submodules sit on their annotated release tags and the three pin surfaces agree | `git -C skills/<m> describe --tags` → v0.52.2 / v1.80.0 / v1.18.7 / v1.58.2 / v0.25.8 / v0.11.2 / v0.17.1 / v0.1.10; make-skill already at 0.25.3 from a concurrent pass; `npm test`'s pin check reads each pinned `package.json` against `skills.json` and the README row | v1.12.0 | any member release after 2026-08-31 — the pin lags until the next pass | verified |
+| PW3-2 | Every pinned version is the one the registry serves | `npm view <pkg> version` polled at cut time for all nine: 0.25.3, 0.1.10, 0.17.1, 0.25.8, 0.11.2, 0.52.2, 1.58.2, 1.18.7, 1.80.0 — pins set from that reading, never from a report | v1.12.0 | a member publishing without a tag, which the pin check would then disagree with | verified |
+| PW3-3 | B-124 records the recurrence class the coordinator observed rather than leaving it in a chat | `docs/evidence/backlog.md` row B-124, filed open with its three observed recurrences and P computed by the board's own formula (2.0, watched failing at 4.0 until the validator refused it) | v1.12.0 | task-pipeline shipping the stage-10 change the row names | verified |
 
 ## 2026-08-27 — SEO, the site nothing had ever crawled
 

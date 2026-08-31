@@ -1,3 +1,27 @@
+## v1.12.0 — eight pins after the tails wave, and the family's first executed evals
+
+Wave 3 closed every audit tail across the nine members and, for the first time,
+**ran** the eval suites every member had authored and never executed. This pass
+serves what they shipped.
+
+- **Eight pins** — super-ux 0.52.1 → **0.52.2**, task-pipeline 1.79.1 → **1.80.0**,
+  agent-sync 1.18.6 → **1.18.7**, sheleg-design 1.58.1 → **1.58.2**, seo-aeo-audit
+  0.25.7 → **0.25.8**, sheleg-dev 0.11.0 → **0.11.2**, agent-stack 0.17.0 →
+  **0.17.1**, telegram-dev 0.1.9 → **0.1.10**. make-skill was already at 0.25.3 from
+  a concurrent pass. Every submodule sits on its annotated release tag; `skills.json`
+  and the README table carry the same nine strings the validator counts.
+- **What the evals measured, now that they run.** Six members probed both a small and
+  a large model with fresh blind sessions. Three findings no reading of the code could
+  have produced: `agent-sync`'s "submodule finish" query routes nowhere on either model
+  (0/3 each — the description carries no submodule literal, filed there as ASY-10);
+  `sheleg-dev`'s "Explain what LCP means" false-fires `frontend-performance` in five of
+  six runs; and `make-skill` drew zero false positives across all twenty-two near-miss
+  negatives on both models, so the long-standing worry that its description steals
+  turns is measured false while its inverse — the larger model answering `none` to two
+  genuine positives — is measured true. Across three members the same pattern held:
+  the small model, answering without loading the skill, reproduced the exact defect
+  classes those skills' fixtures plant.
+
 ## v1.11.3 — the guard knew the class and fixed it one token too late
 
 Four bypasses of `lib/hygiene.js`, all the same shape: **a parser that does not know
