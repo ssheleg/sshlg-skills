@@ -212,9 +212,23 @@ function drawText(c, text, x, y, scale, colour, tracking = 0) {
   return cx;
 }
 
-/** The largest integer scale at which `text` fits `max` pixels, floored at `min`. */
-function fitScale(text, max, hi, min = 2) {
-  for (let s = hi; s > min; s -= 1) if (textWidth(text, s) <= max) return s;
+/**
+ * The largest integer scale at which `text` fits `max` pixels, floored at `min`.
+ *
+ * `tracking` is the same per-character letterspacing `drawText` takes, and it
+ * defaults to 0 for a reason that is history rather than taste: the metric
+ * ignored tracking from the day the card shipped, so every committed card in
+ * the family encodes the untracked fit — B-105 measured the sheleg-dev eyebrow
+ * painting to x=1199 of 1200 because `drawText` advanced 2px per glyph that
+ * this function never counted. Callers that render NEW pixels pass the tracking
+ * they will draw with; the default keeps every already-committed card
+ * byte-stable until its own repository regenerates it (see `LEGACY_FIT` in
+ * scripts/site.js).
+ */
+function fitScale(text, max, hi, min = 2, tracking = 0) {
+  const n = normalize(text).length;
+  const painted = (s) => textWidth(text, s) + Math.max(0, n - 1) * tracking;
+  for (let s = hi; s > min; s -= 1) if (painted(s) <= max) return s;
   return min;
 }
 
@@ -293,10 +307,19 @@ function mark(c, x, y, size, colour, bg) {
  * @param {string} o.title    the name, as large as it fits
  * @param {string[]} o.lines  one or two supporting lines
  * @param {string} o.footer   the URL a reader will type
+ * @param {boolean} [o.fitTracking]  fit with the tracking each line is DRAWN
+ *   with (the corrected metric, B-105). Off by default, deliberately: members
+ *   commit the exact pixels this renders, and flipping the metric under a
+ *   committed card breaks the byte comparison for a card nobody regenerated.
+ *   The caller decides per card — scripts/site.js keys it off `LEGACY_FIT`.
  */
 function card(o) {
   const c = canvas(W, H, PALETTE.bg);
   const up = (s) => String(s).toUpperCase();
+  // The tracking each fitScale call accounts for equals the tracking the
+  // matching drawText below actually uses — 2 for the eyebrow, 1 for lines and
+  // footer — or 0 under the legacy metric, which measures none of it.
+  const tr = (t) => (o.fitTracking ? t : 0);
 
   // a hairline frame, so the card reads as a card on a white timeline
   c.line(0, 0, W - 1, 0, PALETTE.line, 3);
@@ -311,7 +334,7 @@ function card(o) {
 
   let y = 232;
   if (o.eyebrow) {
-    const s = fitScale(up(o.eyebrow), W - PAD * 2, 4);
+    const s = fitScale(up(o.eyebrow), W - PAD * 2, 4, 2, tr(2));
     drawText(c, up(o.eyebrow), PAD, y - 44, s, PALETTE.accent, 2);
   }
   const ts = fitScale(up(o.title), W - PAD * 2, 18, 6);
@@ -321,13 +344,13 @@ function card(o) {
   c.fill(PAD, y - 22, 96, 4, PALETTE.accent);
 
   for (const line of (o.lines || []).slice(0, 2)) {
-    const s = fitScale(up(line), W - PAD * 2, 5);
+    const s = fitScale(up(line), W - PAD * 2, 5, 2, tr(1));
     drawText(c, up(line), PAD, y, s, PALETTE.muted, 1);
     y += GLYPH_H * s + 20;
   }
 
   if (o.footer) {
-    const s = fitScale(up(o.footer), W - PAD * 2, 4);
+    const s = fitScale(up(o.footer), W - PAD * 2, 4, 2, tr(1));
     drawText(c, up(o.footer), PAD, H - PAD - GLYPH_H * s, s, PALETTE.dim, 1);
   }
   return c.png();
@@ -336,5 +359,5 @@ function card(o) {
 module.exports = {
   card, canvas, crc32, drawText, textWidth, fitScale, ROWS, PALETTE, hexPath, fillPoly,
   normalize,
-  GLYPH_W, GLYPH_H, WIDTH: W, HEIGHT: H,
+  GLYPH_W, GLYPH_H, WIDTH: W, HEIGHT: H, PAD,
 };

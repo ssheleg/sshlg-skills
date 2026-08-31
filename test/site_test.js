@@ -114,6 +114,29 @@ it('every member commits the exact pixels the umbrella generates for it', () => 
   }
 });
 
+it('every LEGACY_FIT entry still needs the gate, and gates a member that exists', () => {
+  // B-105's residue. The fit metric now counts tracking, but a member's card
+  // pixels are committed in the member's own repository and byte-checked
+  // above, so members whose card the corrected metric would repaint stay on
+  // the legacy fit until their own release recommits the card (B-118). Two
+  // ways this set can rot, one check each: a name that is not a member gates
+  // nobody, and an entry whose two renders became identical is a gate on
+  // nothing — the member regenerated (or its texts changed), so the entry
+  // must be removed in the same change that repins it.
+  const og = require('../scripts/og-card.js');
+  for (const name of site.LEGACY_FIT) {
+    const m = site.members.find((s) => s.name === name);
+    assert.ok(m, `LEGACY_FIT names ${name}, which is not a member of skills.json`);
+    const spec = site.memberCardSpec(m);
+    assert.strictEqual(spec.fitTracking, false,
+      `${name} is in LEGACY_FIT and memberCardSpec does not gate it`);
+    const legacy = og.card({ ...spec, fitTracking: false });
+    const tracked = og.card({ ...spec, fitTracking: true });
+    assert.ok(!legacy.equals(tracked),
+      `${name}: legacy and tracked renders are byte-identical — the LEGACY_FIT entry is stale`);
+  }
+});
+
 it('the entry points a reader is handed all exist', () => {
   for (const rel of ['index.html', 'routing/index.html', 'agents/index.html', '404.html',
     'sitemap.xml', 'robots.txt', 'llms.txt', '.nojekyll']) {

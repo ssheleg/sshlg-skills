@@ -1,3 +1,48 @@
+## v1.11.0 — the card metric counts what it paints, and one rule stops carrying two unexplained names
+
+Four findings of the 2026-08-29 family audit's cross-family pass (B-105 upstream,
+XF-06, XF-09, XF-13), one release. Every committed card in the family keeps its
+bytes — measured, not assumed.
+
+- **`fitScale` now measures the width `drawText` actually paints** (B-105, filed
+  upstream by sheleg-dev's board). The fit metric ignored the per-character
+  tracking every tracked line is drawn with, so a long eyebrow chose a scale
+  whose painted run overran the box it was fitted to — the sheleg-dev eyebrow
+  painted to x=1199 of a 1200px canvas, 1 pixel from the edge and 83 past the
+  padding box. `fitScale` takes the tracking as a parameter (default 0 — the
+  legacy metric, exactly), `card()` threads it per line behind an explicit
+  `fitTracking` flag, and `scripts/site.js` decides per card: the umbrella's own
+  three cards and six of nine member cards fit with the corrected metric **and
+  render byte-identically either way** — proven by building the site from the
+  pre-fix and post-fix trees and diffing every PNG. The three whose pixels the
+  corrected metric would repaint — `sheleg-design`, `sheleg-dev`, `agent-stack`
+  — stay on the legacy fit through the named `LEGACY_FIT` gate, because their
+  exact card pixels are committed in their own repositories and byte-checked by
+  `test/site_test.js`; each leaves the gate when its own release recommits the
+  card (board row B-118). A fixture asserts every gated entry still needs the
+  gate, watched refusing a planted stale entry; two og-card fixtures pin the
+  tracked metric and the B-105 eyebrow band, both watched failing against the
+  pre-fix code (`scale 3 paints 1115px in 1032px`).
+- **The `seo-llmo` rule now says it has two names** (XF-06). The operator's map
+  lists the member `seo-aeo-audit`; the router table and the registry key say
+  `seo-llmo`; nothing installable is named `seo-llmo`, and nothing said the two
+  were one thing. The rule's text now states the alias where both names meet:
+  `seo-llmo` is the standing rule, `/seo-aeo-audit` the skill that answers it,
+  from the member the map lists. The key stays `seo-llmo` — it is persisted in
+  operator configs (`routers.seo-llmo: off`), in section sentinels and in the
+  site's anchors, so a rename would orphan every one of them.
+- **`sheleg-dev`'s rule stops saying "paid"** (XF-13). The opening sentence
+  framed the whole pack as "the integration layer under a paid product" while
+  `error-tracking` and `frontend-performance` are unconditional — a free
+  product still throws errors and still loads slowly — and the WHEN cell never
+  carried the word. Now the text and the cell agree.
+- **The double-fire comment on «аудит проекта» justifies itself honestly**
+  (XF-09). It claimed both routes fire because "the work changes the
+  repository" — false by project-audit's own rule, which says the audit is
+  read-only and writes nothing. Re-justified: the findings leave as proposed
+  board rows, and the pipeline is how a row that gets picked up reaches the
+  repository — diagnosis and delivery, not two claims of the same write.
+
 ## v1.10.0 — nine members re-pinned in one pass, and ReAct routes by its phrase
 
 The 2026-08-29/30 audit waves released every member; this pass makes the umbrella

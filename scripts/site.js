@@ -311,6 +311,41 @@ const standingRules = registry.order()
   .filter((r) => (registry.REGISTRY[r].requires || []).length === 0)
   .map((r) => ({ name: r, ...registry.REGISTRY[r] }));
 
+/**
+ * Members whose committed social card still encodes the UNTRACKED fit metric —
+ * B-105's gate. `fitScale` ignored `drawText`'s tracking from the day the card
+ * shipped, so a long line could pick a scale that paints past the padding box
+ * (the sheleg-dev eyebrow reached x=1199 of 1200). The metric is fixed, but a
+ * member's card pixels are committed IN THE MEMBER'S OWN REPOSITORY and
+ * `test/site_test.js` byte-compares them, so the corrected metric applies only
+ * where it changes nothing — measured: every member except these three — and
+ * these three keep the legacy fit until their own release recommits the card
+ * (board row B-118). Remove a name here in the same change that repins the
+ * member whose regenerated card lands; a stale entry fails the exactness
+ * fixture in `test/site_test.js`, which asserts each listed member actually
+ * still needs the gate.
+ */
+const LEGACY_FIT = new Set(['sheleg-design', 'sheleg-dev', 'agent-stack']);
+
+/**
+ * The `og.card` options for one member's social card — the single home for
+ * them. `test/site_test.js` re-renders exactly these under both metrics to
+ * prove every `LEGACY_FIT` entry is still needed; a second copy of the strings
+ * in the test would measure a different card the day one of them changes.
+ */
+function memberCardSpec(m) {
+  return {
+    eyebrow: m.role,
+    title: m.name,
+    lines: [
+      `${(m.skillNames || []).length} Agent Skills · one installable pack`,
+      `npx skills add ${m.repo}`,
+    ],
+    footer: `${SITE.replace(/^https?:\/\//, '')}/skills/${m.slug}`,
+    fitTracking: !LEGACY_FIT.has(m.name),
+  };
+}
+
 const totalSkills = members.reduce((n, m) => n + (m.skillNames || []).length, 0);
 const agentCount = 70;
 /** Named agents, declared in `skills.json` rather than typed into a template — the
@@ -1505,12 +1540,17 @@ function build(outDir) {
 
   // The social cards. One per page, generated from the same manifest the page is,
   // because a card is a claim about the page and a hand-made one goes stale first.
+  // The umbrella's own three cards fit with the corrected, tracking-aware metric
+  // (B-105); today that changes none of their bytes — every text picks the same
+  // scale either way — and it means a future longer eyebrow shrinks instead of
+  // painting into the frame. Member cards are gated through LEGACY_FIT below.
   written.push(write2('og/index.png', og.card({
     eyebrow: `${members.length} packs · ${totalSkills} Agent Skills · one command`,
     title: 'ssheleg skills',
     lines: ['agent skills for the work around the code',
       'no services, no telemetry, no api keys'],
     footer: SITE.replace(/^https?:\/\//, ''),
+    fitTracking: true,
   })));
   written.push(write2('og/agents.png', og.card({
     eyebrow: `${agents.length} named agents · ${agentCount}+ supported`,
@@ -1518,23 +1558,17 @@ function build(outDir) {
     lines: ['claude code, deepseek harness, cursor, codex and more',
       'any agent that reads the agent skills standard'],
     footer: `${SITE.replace(/^https?:\/\//, '')}/agents`,
+    fitTracking: true,
   })));
   written.push(write2('og/routing.png', og.card({
     eyebrow: `${registry.order().length} rules · each names the phrase that declines it`,
     title: 'routing',
     lines: ['which pack answers what, and when'],
     footer: `${SITE.replace(/^https?:\/\//, '')}/routing`,
+    fitTracking: true,
   })));
   for (const m of members) {
-    written.push(write2(`og/skills-${m.slug}.png`, og.card({
-      eyebrow: m.role,
-      title: m.name,
-      lines: [
-        `${(m.skillNames || []).length} Agent Skills · one installable pack`,
-        `npx skills add ${m.repo}`,
-      ],
-      footer: `${SITE.replace(/^https?:\/\//, '')}/skills/${m.slug}`,
-    })));
+    written.push(write2(`og/skills-${m.slug}.png`, og.card(memberCardSpec(m))));
   }
   written.push(write('sitemap.xml', sitemap()));
   written.push(write('robots.txt', robots()));
@@ -1554,5 +1588,5 @@ if (require.main === module) {
 
 module.exports = {
   build, SITE, BASE, X_HANDLE, GH_OWNER, GH_REPO, members, firstSentence, refusalOf,
-  inline, esc, entryPath, skillBrief, capabilityBrief,
+  inline, esc, entryPath, skillBrief, capabilityBrief, LEGACY_FIT, memberCardSpec,
 };
