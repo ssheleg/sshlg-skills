@@ -1,3 +1,28 @@
+## v1.12.1 — the pin catches up with agent-stack 0.18.1, and the umbrella's gate caught what the member's could not
+
+`agent-stack` shipped 0.18.0 and then 0.18.1 while this package still pinned 0.17.1.
+
+**0.18.0 gave `agent-evals` its first `references/` file.** The skill carried 315 lines
+about *what* to assert and said nothing anywhere about *how many times* — a grep over its
+own text for the vocabulary of repetition and variance returned one hit, about escalation.
+`references/statistics.md` is the missing layer: the noise band (`±8.98 pp` at n=100,
+p=0.70, so a 73-vs-70 comparison is inside it), `pass@k` against `pass^k` and their
+91-point gap on one agent, paired comparison with 3–5 seeds, and the harness as a **6 pp**
+variable needing a floor *and* a ceiling. Its §5 trajectory rule moved **between** two
+measurements rather than flipping — Anthropic's *"too rigid"* on order matching, and the
+44% of safety violations a trajectory-blind grader misses.
+
+**0.18.1 exists because this repository's validator refused 0.18.0's board.** The member's
+`B-124` row landed in the three-column *"Open, and why"* table rather than the
+eight-column ledger, carrying an unescaped `|` inside a grep pattern:
+
+> `row B-124 has 12 cells against the 3 its own header declares — an unescaped ｜ inside a
+> cell shifts every column after it, and Status then reads as whatever landed in its place`
+
+`agent-stack`'s own `npm test` was **green on that row**. A member's board is checked here,
+not there, and that asymmetry is how a documentation defect reached a tag. Recorded in the
+member's changelog as well as this one, because the lesson belongs to both.
+
 ## v1.12.0 — eight pins after the tails wave, and the family's first executed evals
 
 Wave 3 closed every audit tail across the nine members and, for the first time,
