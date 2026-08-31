@@ -144,6 +144,65 @@ it('fitScale never returns a scale that overflows the width it was given', () =>
   }
 });
 
+it('fitScale with tracking measures the width drawText will actually paint', () => {
+  // B-105: `drawText` advances `advance(scale) + tracking` per character and
+  // `fitScale` counted none of the tracking, so a long eyebrow chose a scale
+  // whose PAINTED width overran the box it was fitted to — the sheleg-dev
+  // eyebrow reached x=1199 of a 1200px canvas. The painted width of n
+  // characters is textWidth + (n-1)*tracking; above the floor, the scale the
+  // tracked fit returns must respect it.
+  const painted = (text, s, tr) => og.textWidth(text, s)
+    + Math.max(0, og.normalize(text).length - 1) * tr;
+  for (const [text, tr] of [
+    ['INTEGRATIONS: MONEY IN, TRACKING, ERRORS, SIGN-IN, SPEED', 2],
+    ['NPX SKILLS ADD SSHELEG/SHELEG-DESIGN-SKILL', 1],
+    ['12 RULES · EACH NAMES THE PHRASE THAT DECLINES IT', 2],
+  ]) {
+    for (const max of [400, 1032]) {
+      const s = og.fitScale(text, max, 5, 2, tr);
+      if (s > 2) {
+        assert.ok(painted(text, s, tr) <= max,
+          `${text.slice(0, 24)}… at scale ${s} paints ${painted(text, s, tr)}px in ${max}px`);
+      }
+    }
+  }
+  // And tracking 0 is the legacy metric exactly, so every already-committed
+  // card keeps its bytes: same signature, same answer.
+  const t = 'INTEGRATIONS: MONEY IN, TRACKING, ERRORS, SIGN-IN, SPEED';
+  assert.strictEqual(og.fitScale(t, 1032, 4, 2, 0), og.fitScale(t, 1032, 4));
+});
+
+it('the tracked fit keeps a long eyebrow inside the box; the legacy fit is the defect, gated', () => {
+  // The B-105 card, both ways. The eyebrow band sits at y=188..(188+7*scale);
+  // its fitted box ends at PAD + (W - 2*PAD) = W - PAD. The card frame paints
+  // its own 3px vertical line at the right edge, so the scan stops before it.
+  const spec = {
+    eyebrow: 'integrations: money in, tracking, errors, sign-in, speed',
+    title: 'sheleg-dev',
+    lines: ['7 Agent Skills · one installable pack'],
+    footer: 'ssheleg.github.io/sshlg-skills/skills/sheleg-dev',
+  };
+  const inkPastBox = (buf) => {
+    const raw = zlib.inflateSync(chunks(buf)[1].body);
+    const stride = og.WIDTH * 3 + 1;
+    let found = 0;
+    for (let y = 185; y < 221; y += 1) {
+      for (let x = og.WIDTH - og.PAD; x < og.WIDTH - 3; x += 1) {
+        const o = y * stride + 1 + x * 3;
+        const px = [raw[o], raw[o + 1], raw[o + 2]];
+        if (!px.every((v, i) => v === og.PALETTE.bg[i])) found += 1;
+      }
+    }
+    return found;
+  };
+  const legacy = inkPastBox(og.card(spec));
+  const tracked = inkPastBox(og.card({ ...spec, fitTracking: true }));
+  assert.ok(legacy > 0,
+    'the legacy metric no longer overflows on the B-105 eyebrow — the gate is testing nothing');
+  assert.strictEqual(tracked, 0,
+    `the tracked fit still paints ${tracked} eyebrow pixels past the box it was fitted to`);
+});
+
 // ------------------------------------------------- every string the site renders
 
 it('every card the site will actually build renders without a missing glyph', () => {
