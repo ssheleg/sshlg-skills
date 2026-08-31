@@ -1,3 +1,25 @@
+## v1.11.1 — the pin catches up with super-ux 0.52.1
+
+`super-ux` published 0.52.0 and then 0.52.1, and `skills.json` still said 0.50.0. `list`
+prints the pin, so until now the member's release was one this package could not see: an
+agent comparing its install against `npx sshlg-skills list` was told 0.50.0 while its
+plugin cache already held 0.52.x. That is the failure `CONTRIBUTING.md` records from
+2026-07-29 with `agent-sync` 1.3.4, repeated.
+
+- **`skills.json`: `super-ux` 0.50.0 → 0.52.1**, and the gitlink moved to that tag.
+  Measured before the bump against each member's installed plugin version: super-ux was
+  the only stale pin and the other eight were level, so this is one member and one
+  concern. `--bump-pins` was deliberately not used — it fast-forwards every submodule to
+  its tip, which is the untested combination the launcher's own policy refuses.
+- What that release carries: humanization runs by default in every copywriting mode with
+  its state recorded in `voice.md` and reported in `/ux` and `/brand`; three new references
+  give the pack the assembly layer above its 241 tactics; `B062` judges a dash by its role
+  rather than its codepoint; and the member's board went to zero.
+- **This package's validator found a defect in the member's v0.52.0 tag while the pin was
+  being prepared** — a board row with an unescaped `|` inside a backticked span, which
+  shifted every column after it so `Status` machine-read as something else. The member
+  shipped 0.52.1 for it, and this pins to that rather than to the tag that carried it.
+
 ## v1.11.0 — the card metric counts what it paints, and one rule stops carrying two unexplained names
 
 Four findings of the 2026-08-29 family audit's cross-family pass (B-105 upstream,
