@@ -1,3 +1,17 @@
+## v1.12.2 — the pin follows super-ux 0.52.3, and one count stops being wrong
+
+- **`skills.json`: `super-ux` 0.52.2 → 0.52.3**, gitlink moved to that tag. It carries
+  `validate_front_matter_is_yaml`, which parses all 30 of that member's shipped
+  front-matter blocks with PyYAML — the class `sheleg-design` paid for twice in twelve
+  days, ported rather than reinvented, with the fail-closed and empty-walk guards its
+  history says carry the weight.
+- **`super-ux`'s `desc` said "35-check copy linter" and the linter emits 41.** `list`
+  prints that sentence, so the number was wrong wherever anyone read it. Recomputed with
+  the member's own recorded Source command — `grep -o '"B[0-9]\{3\}"'
+  plugins/super-ux/scripts/brand_lint.py | sort -u | wc -l` → 41 — and matching the member's
+  own README and system map, both of which already say "41 deterministic checks". Two
+  releases went past it, so it was not going to correct itself.
+
 ## v1.12.1 — the pin catches up with agent-stack 0.18.1, and the umbrella's gate caught what the member's could not
 
 `agent-stack` shipped 0.18.0 and then 0.18.1 while this package still pinned 0.17.1.
