@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**485** id'd requirement rows below, **479** read `verified` and none of them says which
+**486** id'd requirement rows below, **480** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -1016,6 +1016,7 @@ exists to refuse, so the rows below cover **this** release only.
 
 | id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
 |---|---|---|---|---|---|
+| PP-2 | The make-skill pin moves to 0.25.3 on all three surfaces, and the mismatch between them is caught rather than assumed | `git submodule status` → `skills/make-skill (v0.25.3)`; `grep -A9 '"name": "make-skill"' skills.json` → `"version": "0.25.3"`; the README row reads 0.25.3; `npm test` → rc=0, `COUNTED: 45 suites, 764 fixtures, 9 pinned members`. **Watched failing first**: with skills.json at 0.25.3 and the pointer restored to 0.25.1 by `git submodule update --init`, the same gate went red on that pair — the pin invariant demonstrating itself inside the pass that needed it | v1.11.2 | any make-skill release after 2026-08-31 | verified |
 | PP-1 | Nine submodules sit on their annotated release tags and the three pin surfaces agree | `git submodule status` shows each at its tag commit; `git -C skills/<m> describe --tags` → v0.25.1 / v0.1.9 / v0.17.0 / v0.25.7 / v0.11.0 / v0.50.0 / v1.58.1 / v1.18.6 / v1.79.1; `npm test`'s pin check reads the version out of each pinned `package.json` against `skills.json` and the README row | v1.10.0 | any member release after 2026-08-30 — the pin lags until the next pass | verified |
 | PP-2 | The sheleg-dev role cell equals the string its committed card encodes | `skills.json` role = `integrations: money in, tracking, errors, sign-in, speed`; `test/site_test.js` renders `og.card({eyebrow: role, …})` and byte-compares `skills/sheleg-dev/docs/assets/social-preview.png` — green in this run's gate | v1.10.0 | the member regenerating its card with different words | verified |
 | PP-3 | `react loop` and `react pattern` route to agent-stack; the bare homograph stays silent | `test/triggers_test.js`: both phrase prompts → `['agent-stack']`, «сделай форму логина на react» → `[]`, `rewrite the dashboard in react` → `['task-pipeline']` — all four asserted, suite exit 0 | v1.10.0 | agent-stack renaming the advertised phrase forms | verified |
