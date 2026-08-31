@@ -1,0 +1,18 @@
+{
+  "$comment": "Probes for the routing BLOCK — the text this package writes into an operator's instruction file. Distinct from test/route_coverage.js, which measures lib/triggers.js: that one is a regex over the prompt and never reads the block at all, so it cannot answer whether the block routes. `want` is the route an operator would expect; \"\" means silence is the correct answer. A probe passes when the wanted route is among those named.",
+  "probes": [
+    { "id": "p01", "prompt": "сделай форму логина на react", "want": "" },
+    { "id": "p02", "prompt": "настрой мониторинг и алерты", "want": "" },
+    { "id": "p03", "prompt": "add tool calling loop", "want": "agent-stack" },
+    { "id": "p04", "prompt": "кто сейчас делает этот файл", "want": "agent-sync" },
+    { "id": "p05", "prompt": "напиши пост в твиттер", "want": "copywriting" },
+    { "id": "p06", "prompt": "чем это подтверждено", "want": "evidence-docs" },
+    { "id": "p07", "prompt": "заверни в плагин", "want": "make-skill" },
+    { "id": "p08", "prompt": "audit the project", "want": "project-audit" },
+    { "id": "p09", "prompt": "добавь schema markup", "want": "seo-llmo" },
+    { "id": "p10", "prompt": "дизайн лендинга", "want": "sheleg-design" },
+    { "id": "p11", "prompt": "вход через google", "want": "sheleg-dev" },
+    { "id": "p12", "prompt": "build an onboarding flow", "want": "super-ux" },
+    { "id": "p13", "prompt": "напиши тесты для этого модуля", "want": "task-pipeline" }
+  ]
+}
