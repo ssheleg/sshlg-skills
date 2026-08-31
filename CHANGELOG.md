@@ -1,3 +1,27 @@
+## v1.11.2 — the pin catches up with make-skill 0.25.3, and the gate proved its own invariant
+
+`make-skill` shipped 0.25.2 and then 0.25.3 while `skills.json` still said 0.25.1, so
+`npx sshlg-skills list` named a version two releases behind what the plugin cache holds —
+the same drift v1.11.1 closed for `super-ux`, one member over.
+
+**0.25.3 is the release worth naming.** `references/authoring.md` had told skill authors
+for four weeks that *"there is no built-in runner, so keep them in the repo as data and
+run them yourself"*, and `claude plugin eval` had shipped — so the skill directed readers
+to build a workaround for a solved problem, in a sentence that violated its own rule
+*"No time-sensitive statements"* written 100 lines above it. The member's fix replaces the
+absence with a dated measurement (Claude Code 2.1.236: every eval path prints
+``plugin eval` is currently in early access`, writes nothing, exits 1) and adds
+`THIRD_PARTY_CLAIMS`, which makes a registered claim about someone else's tool carry the
+command that re-checks it. Found by an external reader of benchmark literature, not by
+house review.
+
+**The pin gate earned its keep again, mid-pass.** With `skills.json` moved to 0.25.3 and
+the submodule pointer still on 0.25.1 — the state a `git submodule update --init` silently
+restores — `npm test` went red on exactly that mismatch. *The pin is the promise*: the
+validator reads the version out of the submodule rather than trusting `.gitmodules`, and
+that is the failure it exists to catch. Three surfaces moved together: `skills.json`, the
+pointer, the README row.
+
 ## v1.11.1 — the pin catches up with super-ux 0.52.1
 
 `super-ux` published 0.52.0 and then 0.52.1, and `skills.json` still said 0.50.0. `list`
