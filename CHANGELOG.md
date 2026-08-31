@@ -1,3 +1,27 @@
+## v1.10.0 — nine members re-pinned in one pass, and ReAct routes by its phrase
+
+The 2026-08-29/30 audit waves released every member; this pass makes the umbrella
+serve what they shipped. Nothing here edits a member — pins, one role cell, and
+one routing source moved.
+
+- **Nine pins in one commit** — make-skill 0.24.0 → **0.25.1**, telegram-dev 0.1.8 →
+  **0.1.9**, agent-stack 0.16.0 → **0.17.0**, seo-aeo-audit 0.25.6 → **0.25.7**,
+  sheleg-dev 0.10.4 → **0.11.0**, super-ux 0.49.0 → **0.50.0**, sheleg-design 1.54.0 →
+  **1.58.1** (1.58.0's front matter was not valid YAML — the umbrella's pin gate caught it, the member hotfixed and grew its own YAML-parse guard), agent-sync 1.18.4 → **1.18.6**,
+  task-pipeline 1.78.4 → **1.79.1** (pinned only after the tag landed on npm — never
+  by inference; its release burned v1.79.0 on the repo's own probe and survived two
+  rebase-merge lessons its retro records). Each submodule sits on its annotated
+  release tag; `skills.json` and the README table carry the same nine strings the
+  validator counts.
+- **`sheleg-dev`'s role cell says errors now** — `integrations: money in, tracking,
+  errors, sign-in, speed`, the exact string the member's regenerated social card
+  encodes (`test/site_test.js` compares the pixels byte-for-byte, so the cell and the
+  card move together or not at all).
+- **The ReAct residue from B-113 is closed** — agent-stack v0.17.0's description
+  advertises the phrase forms, so `lib/triggers.js` now routes `react loop` and
+  `react pattern` to `agent-stack`; «сделай форму логина на react» still reaches `[]`,
+  and both directions are fixtures in `test/triggers_test.js`.
+
 ## v1.9.1 — the retro can be read in full again, and the last write outside the gate joins it
 
 Three findings of the 2026-08-29 family audit (UM-01, UM-06, UM-07), shipped as one
