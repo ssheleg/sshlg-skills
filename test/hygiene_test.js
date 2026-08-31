@@ -51,6 +51,21 @@ it('a skill id of a member counts, not only the member name', () => {
     'a member skill was left unguarded because only member names were checked');
 });
 
+// The file already knew this class and fixed it one token too late. `skillsCli`'s own
+// comment says a flag's VALUE is indistinguishable from a positional and takes EVERY
+// positional as a candidate target for exactly that reason — then read the FIRST
+// positional as the verb, where the same value lands when the flag precedes the verb.
+// Measured 2026-08-31: both lines below reached `bareFamilyInstall` and returned null.
+it('A FLAG BEFORE THE VERB DOES NOT HIDE IT — the value is not the verb', () => {
+  assert.ok(H.bareFamilyInstall('npx skills --agent claude update super-ux', IDS),
+    "the flag's value was read as the verb, so update never matched and the install passed");
+});
+
+it('A LINE CONTINUATION IS NOT A VERB', () => {
+  assert.ok(H.bareFamilyInstall('npx skills \\\n  update super-ux', IDS),
+    'the backslash was read as the verb, so update never matched and the install passed');
+});
+
 it('THE LAUNCHER IS NOT DENIED — it is what the denial recommends', () => {
   for (const cmd of ['npx --yes sshlg-skills@latest update',
                      'npx sshlg-skills update',
@@ -142,6 +157,24 @@ it('setup is recognised; the other subcommands are not', () => {
   assert.strictEqual(H.isObsidianSetup('obsidian-wiki doctor'), false);
   assert.strictEqual(H.isObsidianSetup('obsidian-wiki info'), false);
   assert.strictEqual(H.isObsidianSetup('uv tool upgrade obsidian-wiki'), false);
+});
+
+// The trailing form was fixtured from the start; the leading one was not, and `--vault`
+// consumes the next argument — so the vault PATH stood where the subcommand is read.
+// Measured 2026-08-31: both returned false, and this is the guard for the command that
+// truncates the operator's config.
+it('A FLAG THAT CONSUMES ITS ARGUMENT DOES NOT HIDE THE SUBCOMMAND', () => {
+  assert.strictEqual(H.isObsidianSetup('obsidian-wiki --vault /Users/x/v setup'), true,
+    'the vault path was read as the subcommand, so setup went unguarded');
+  assert.strictEqual(H.isObsidianSetup('obsidian-wiki -v /Users/x/v setup'), true,
+    'the short form has the same grammar and the same hole');
+  assert.strictEqual(H.isObsidianSetup('obsidian-wiki --vault=/Users/x/v setup'), true,
+    'the = form consumes nothing and already worked — it is here so a fix cannot break it');
+});
+
+it('a path that ENDS in setup is not the setup subcommand', () => {
+  assert.strictEqual(H.isObsidianSetup('obsidian-wiki --vault /Users/x/setup doctor'), false,
+    'widening the search must not start matching directory names');
 });
 
 const SNAPSHOT = [
