@@ -1,3 +1,41 @@
+## v1.11.3 — the guard knew the class and fixed it one token too late
+
+Four bypasses of `lib/hygiene.js`, all the same shape: **a parser that does not know
+which token is the subcommand, because it does not know which flags consume the next
+argument.**
+
+- **`skills --agent claude update <member>` installed a family member unguarded.** The
+  flag's value stands exactly where the verb is read, so `claude` became the verb,
+  matched none of update/add/install, and `bareFamilyInstall` returned null. The file's
+  own comment four lines above `skillsCli` already states this class — it is the stated
+  reason `args` is *every* positional rather than the one that looks like the target —
+  and the identical value lands one token earlier when the flag precedes the verb. The
+  fix is not a flag table, which would track someone else's CLI and rot: the verb is a
+  small vocabulary that belongs to us, so it is scanned for. Unknown verbs keep the old
+  first-positional reading, so nothing recognised stops being recognised.
+- **`skills \` + newline + `update <member>` did the same** — the continuation backslash
+  survived tokenisation and was read as the verb.
+- **`obsidian-wiki --vault <path> setup` was not recognised as setup**, nor the `-v`
+  short form. `--vault` consumes its argument, so the vault PATH sat where the
+  subcommand is read. The trailing form (`setup --vault /v`) was fixtured from the
+  start; the leading one — the form the machine's own runbook uses — was not. This is
+  the guard for the command that truncates `~/.obsidian-wiki/config`.
+- **Widening it did not cost the near miss.** `obsidian-wiki --vault /Users/x/setup
+  doctor` still reads false, because the subcommand is matched exactly and never through
+  `bareName`, which would strip a path to its last segment. That fixture was green
+  before the fix and is here so the fix cannot quietly widen past it.
+
+**On the finding's provenance, because it matters how it was used.** It arrived from the
+2026-08-31 harness harvest as *"shell safety is semantic parsing or nothing — directly
+checkable against this repo's `lib/hygiene.js`, which would not see `find … -exec rm` or
+`curl -o /etc/crontab`"*. **That is true and it is not a defect**: this guard's threat
+model is three named machine habits, not destructive commands, and refusing to see `rm
+-rf` is correct behaviour. The finding was checked before it was believed, re-aimed at
+the guard that actually exists, and only then did it pay — four bypasses, in a different
+place than claimed. An agent's report is a lead, not a verdict.
+
+Ratchets recomputed from the run: **768 fixtures** (was 764).
+
 ## v1.11.2 — the pin catches up with make-skill 0.25.3, and the gate proved its own invariant
 
 `make-skill` shipped 0.25.2 and then 0.25.3 while `skills.json` still said 0.25.1, so
