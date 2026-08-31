@@ -1,3 +1,46 @@
+## v1.13.0 — the block this package writes into your file, finally measured
+
+This package writes a routing block into an operator's instruction file and, until
+today, **nothing anywhere asked whether that block routes.** `test/route_coverage.js`
+looks like the check and is not: it calls `lib/triggers.js`, a deterministic matcher
+over the *prompt*, and never reads the block's text. Delete a paragraph from every
+router and it returns the identical number — a green that means nothing, which is
+worse than no check at all. The same shape as `agent-evals` shipping 315 lines with
+no statistics: the thing whose job is X could not measure X.
+
+**`test/evals/` is the instrument.** Thirteen probes covering each router once plus
+two where silence is the right answer, three arms generated from the registry, one
+fresh agent per (arm, probe) pair — because a single agent shown every probe anchors
+on its own earlier answers. `routing_eval.js` writes the arms and the dispatch list;
+it deliberately does **not** call a model, and it is deliberately not a `_test.js`,
+so `test/run.js` cannot pick it up. `routing_evals_test.js` **is** in the gate and
+guards the artifact: probe shape, unique ids, at least one silence probe, every arm
+keeping every refusal phrase, and every count `RESULTS.md` states recomputed against
+the files rather than read. Three plants watched failing, each on its own branch.
+
+**The first run is recorded, and it stopped a change rather than blessing one.** The
+question that prompted it was whether the block could be trimmed — 72% of
+`~/.claude/CLAUDE.md` is this block, and `~/.codex/AGENTS.md` sits at 74% of a 32 KB
+cap. Result: **recall is untouched** — all three arms named the wanted route on
+11/11 named probes, so the paragraphs do not carry the routing. But both trims route
+**wider**, 21 routes against 23 and 24, and both extra hits land on the two probes
+where silence was correct.
+
+**A hypothesis was falsified by the arm run to confirm it.** The widening was
+expected to come from compressing *the boundary* — the half that says NOT through
+this. The `no-among` arm leaves every boundary intact and shows the same widening on
+the same three probes, so the effect tracks the comparative paragraph instead.
+
+**And the sample cannot establish any of it**: three probes wider, one tighter, a
+two-sided sign test over four discordant pairs gives **p = 0.625**, at one run per
+cell where `agent-evals/references/statistics.md` asks for three to five. So the
+evidence authorised the next experiment and not the change, the trim was **not
+shipped**, and `RESULTS.md` names the narrow rerun that would settle it. The saving
+at stake was ~14.5 KB across four files — not the ~25 KB first estimated, because
+the router texts are only part of the block.
+
+Ratchets recomputed from the run: **46 suites, 780 fixtures**.
+
 ## v1.12.2 — the pin follows super-ux 0.52.3, and one count stops being wrong
 
 - **`skills.json`: `super-ux` 0.52.2 → 0.52.3**, gitlink moved to that tag. It carries
