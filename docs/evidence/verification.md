@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**563** id'd requirement rows below, **498** read `verified` and none of them says which
+**567** id'd requirement rows below, **498** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,15 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-02 — v1.26.0, a refusal must end its clause
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| ACT-1 | The four surviving over-firing phrases are closed by mechanism, not by removal | `refusalPattern` requires the phrase to END its clause. Over two corpora: **0 false positives of 8, 0 false negatives of 16**. `draft it`, `no docs`, «как есть» and «на словах» keep their meaning and stop firing inside ordinary clauses | v1.26.0 | `optedOut` reverting to `matches` | 2026-09-02, main thread |
+| ACT-2 | Triggers stay tolerant, deliberately | `matches` is unchanged: a trigger should be found wherever it sits, and only refusals got stricter. Asserted — `build an onboarding flow` → `super-ux`, «подключи stripe и сделай миграцию» → both routes | v1.26.0 | a future run applying the strict rule to triggers | 2026-09-02, main thread |
+| ACT-3 | TWO stricter formulations were refused by the EXISTING fixtures before this one | requiring punctuation on both sides missed «сделай лендинг как есть» — Russian puts the phrase last without a comma. Adding a trailing case still missed «сделай телеграм бот, но без телеграма — только апи», where a connective sits between the comma and the phrase, caught by the XF-04 fixture. Dropping the left condition passes both corpora and is simpler than either | v1.26.0 | — this row records how the rule was found, not what it is | 2026-09-02, main thread |
+| ACT-4 | The corpora are self-written, and the defence is that they are two-sided | the same weakness that held these four phrases back in v1.15.0. A better corpus was not available; a rule that silences a refusal an operator actually said now fails in the gate rather than in a session | v1.26.0 | either half being dropped as redundant | 2026-09-02, main thread |
 
 ## 2026-09-01 — v1.25.0, a refusal that admits the class it gets wrong
 
