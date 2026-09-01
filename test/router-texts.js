@@ -8,11 +8,23 @@
  * boilerplate is skimmed.
  *
  * The declarations moved to `routers-registry.js`, where a router's text, its
- * table row and the members it needs live in one entry. This file stays as
- * the import path callers already use, so the move cost nobody a rewrite.
+ * table row and the members it needs live in one entry. This file stayed behind
+ * in `lib/` as "the import path callers already use" — and there were none.
+ * Measured 2026-09-01: in-degree 0 across `lib`, `hooks`, `bin` and `scripts`,
+ * the only orphan of 32 modules, while `package.json`'s `files` ships all of
+ * `lib/` and `runtime.sync` copies it into every operator's
+ * `~/.sshlg-skills/runtime/lib/`. It had already shipped BROKEN once for the
+ * same reason — the tenth router arrived with no export and nothing noticed,
+ * because nothing consumed it.
+ *
+ * So it lives here now, which is what it always was: sugar that lets the two
+ * suites below read `T.COPYWRITING` instead of `REGISTRY['copywriting'].text`.
+ * `test/` is outside `files`, so it stops shipping. Deleting it outright would
+ * have meant rewriting ~30 assertions in tests that are then the thing being
+ * trusted; moving it closes the harm without that trade.
  */
 
-const registry = require('./routers-registry.js');
+const registry = require('../lib/routers-registry.js');
 
 /**
  * The named exports, DERIVED — `agent-stack` → `AGENT_STACK`.

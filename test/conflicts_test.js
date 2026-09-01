@@ -157,6 +157,80 @@ it('`--help` advertises the verb, or nobody finds it', () => {
   assert.ok(/npx sshlg-skills conflicts/.test((r.stdout || '') + (r.stderr || '')));
 });
 
+// A directory under a plugin's `skills/` is not a skill unless it carries a
+// `SKILL.md`. `super-ux` ships `skills/references/` as a shared reference
+// directory for its seven real skills, so the roster the routing block MANDATES
+// an agent read before substantial work handed back a skill that does not exist
+// — with a blank description, because there was no front matter to read — and
+// the headline count was one too high (519 where 518 are reachable).
+it('A DIRECTORY WITH NO SKILL.md IS NOT A SKILL', () => {
+  const fs = require('fs');
+  const os = require('os');
+  const path = require('path');
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-nonskill-'));
+  const inst = path.join(home, 'plug');
+  const skills = path.join(inst, 'skills');
+  fs.mkdirSync(path.join(skills, 'real'), { recursive: true });
+  fs.writeFileSync(path.join(skills, 'real', 'SKILL.md'),
+    '---\nname: real\ndescription: Use when something real happens.\n---\nbody\n');
+  fs.mkdirSync(path.join(skills, 'references'), { recursive: true });
+  fs.writeFileSync(path.join(skills, 'references', 'best-practices.md'), '# not a skill\n');
+
+  fs.mkdirSync(path.join(home, '.claude', 'plugins'), { recursive: true });
+  fs.writeFileSync(path.join(home, '.claude', 'settings.json'),
+    JSON.stringify({ enabledPlugins: { 'p@m': true } }));
+  fs.writeFileSync(path.join(home, '.claude', 'plugins', 'installed_plugins.json'),
+    JSON.stringify({ plugins: { 'p@m': [{ installPath: inst }] } }));
+
+  const found = C.readSkills(home).map((s) => s.id).sort();
+  assert.deepStrictEqual(found, ['real'],
+    'a reference directory was counted as a skill: ' + JSON.stringify(found));
+});
+
+// The class, not the case. `lib/router-texts.js` sat in `lib/` with in-degree 0
+// — reachable from two test files and nothing else — while `package.json`'s
+// `files` ships all of `lib/` and `runtime.sync` copies it into every operator's
+// runtime. It had already shipped BROKEN once for exactly that reason: the tenth
+// router arrived with no export and nothing went red, because nothing consumed
+// it. Discovered rather than listed, so the next orphan fails here on arrival.
+it('NO MODULE IN lib/ IS UNREACHABLE FROM PRODUCTION CODE', () => {
+  const fs = require('fs');
+  const path = require('path');
+  const root = path.join(__dirname, '..');
+  const prod = [];
+  for (const d of ['lib', 'hooks', 'bin', 'scripts']) {
+    const dir = path.join(root, d);
+    let names = [];
+    try { names = fs.readdirSync(dir); } catch (e) { continue; }
+    for (const n of names) if (n.endsWith('.js')) prod.push(path.join(dir, n));
+  }
+  const libs = fs.readdirSync(path.join(root, 'lib')).filter((n) => n.endsWith('.js'));
+  const referenced = new Set();
+  for (const f of prod) {
+    const src = fs.readFileSync(f, 'utf8');
+    for (const lib of libs) {
+      const base = lib.replace(/\.js$/, '');
+      // A REQUIRE, not a mention. The first version of this check matched the
+      // module name anywhere in the file and passed while the orphan was still
+      // in `lib/` — because `routers-registry.js` names it in a comment about
+      // where the text used to live. A guard that counts prose as a reference
+      // is a green that means nothing, which is the thing this repository keeps
+      // filing against itself.
+      //
+      // Three shapes are real: `require('./x.js')`, `require('../lib/x.js')`,
+      // and the dynamic `require(path.join(LIB, 'x.js'))` the hooks use.
+      if (path.basename(f) === lib && path.dirname(f).endsWith('lib')) continue;
+      const req = new RegExp(
+        `require\\(\\s*(?:path\\.join\\([^)]*?)?['"\`][^'"\`]*${base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\.js)?['"\`]`);
+      if (req.test(src)) referenced.add(lib);
+    }
+  }
+  const orphans = libs.filter((l) => !referenced.has(l));
+  assert.deepStrictEqual(orphans, [],
+    'unreachable from production code and yet shipped in `files` and copied into '
+    + 'every operator runtime: ' + orphans.join(', '));
+});
+
 if (failures.length) {
   console.error(`FAIL: conflicts — ${failures.length} of ${checks}`);
   for (const f of failures) console.error(`  ${f}`);

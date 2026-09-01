@@ -1,3 +1,44 @@
+## v1.16.0 — a phantom in the roster, and a module with no callers
+
+Two findings from the seven-angle audit, each with a fixture watched failing first.
+
+**The roster an agent is told to read carried a phantom.** A directory under a plugin's
+`skills/` was counted as a skill whether or not it had a `SKILL.md`, and `super-ux`
+ships `skills/references/` as a shared reference directory for its seven real skills —
+so `toolkit`, the command the routing block MANDATES before substantial work, handed
+back a skill that does not exist, from the family's own flagship pack, with a blank
+description because there was no front matter to read. `519 skills reachable` was
+`518`. The plain-copy scan is deliberately left alone: in `~/.claude/skills` a symlink
+IS the skill, and the shadow detector must see it whether or not the target resolves.
+
+**A module with no callers was shipping to every operator.** `lib/router-texts.js` had
+in-degree 0 across `lib`, `hooks`, `bin` and `scripts` — the only orphan of 32 modules,
+reachable from two test files and nothing else — while `files` ships all of `lib/` and
+`runtime.sync` copies it into every operator's `~/.sshlg-skills/runtime/lib/`. Its own
+header called itself *"the import path callers already use"*, and there were none. It
+had already shipped **broken** once for exactly that reason: the tenth router arrived
+with no export and nothing went red, because nothing consumed it.
+
+It moves to `test/`, which is what it always was — sugar so two suites can read
+`T.COPYWRITING` instead of `REGISTRY['copywriting'].text`. `test/` is outside `files`,
+so it stops shipping; `npm pack --dry-run` no longer lists it. Deleting it outright
+would have meant rewriting ~30 assertions in the tests that are then the thing being
+trusted.
+
+**The guard for that is the class, not the case, and its first version was a green that
+meant nothing.** It matched the module name anywhere in a file and passed while the
+orphan was still in `lib/`, because `routers-registry.js` names it in a comment about
+where the text used to live. It reads `require(…)` now, in the three shapes this
+codebase actually uses — including the dynamic `require(path.join(LIB, …))` the hooks
+need.
+
+**Deferred, with the reason measured.** The block contradicts itself about who owns
+copy: the map table gives `super-ux` *"and how it sounds"* while the precedence table
+gives *"how it sounds"* to `copywriting`. It is one string — and that string feeds
+`super-ux`'s committed social card, so changing it turns the card check red and cannot
+land without a `super-ux` release and a re-pin. That is `B-127`'s coupling, priced
+rather than discovered halfway: it ships with the card, not before it. `B-131`.
+
 ## v1.15.1 — the family stops disowning its own members
 
 `signature` is the command the routing block tells every agent to run before it
