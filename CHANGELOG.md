@@ -1,3 +1,30 @@
+## v1.15.1 — the family stops disowning its own members
+
+`signature` is the command the routing block tells every agent to run before it
+reports what it used — *"take them from `npx sshlg-skills signature --used …` instead
+of typing the links"* — and the block names `super-ux`, `sheleg-dev`, `agent-stack`,
+`telegram-dev` and `seo-llmo` as the things that get used. Passed any of those,
+`signature` answered **«not a skill this family ships»**. Measured 2026-09-01: nine of
+twenty-one member and router names did not resolve.
+
+The cause is one conditional. `index()` keyed on each member's `skillNames` and fell
+back to the member's own name **only when that list was empty** — but four of nine
+members are called something none of their skills is called (`super-ux` ships seven,
+and not one of them is `super-ux`). So the footer on a report a person is most likely
+to forward printed the family disowning itself, which is exactly the failure this
+module's own docstring says naming-over-dropping exists to prevent.
+
+Router names are resolved from the registry's own `requires`, so the address is
+**derived rather than listed** and a thirteenth router arrives already resolved. The
+two that declare no member — `seo-llmo` and `evidence-docs` — are standing rules that
+ship in no pack, which is what the block says about them in its own words; they point
+at the bundle, because the rule exists by virtue of the routing block and the routing
+block is written here. Inventing a member address for them would have been the quieter
+error.
+
+Fixtures 783 → 785, both watched failing first: the resolution one reported the nine
+names, and the standing-rule one reported *"seo-llmo does not resolve at all"*.
+
 ## v1.15.0 — consent, misread in both directions
 
 A seven-angle audit of the family, one agent per angle, produced 55 findings and none

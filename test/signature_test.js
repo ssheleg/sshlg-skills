@@ -120,6 +120,36 @@ it('every address it prints points at a repository that exists in the manifest',
   }
 });
 
+// The routing block INSTRUCTS the agent to run `signature --used` and names these
+// very things as what gets used. Until 2026-09-01 nine of them rendered as "not a
+// skill this family ships" — the family disowning its own members in the artefact
+// most likely to be forwarded, and the exact failure this module's own docstring
+// says naming-over-dropping exists to avoid. Read from the manifest and the
+// registry rather than listed, so a tenth member or a thirteenth router is covered
+// on arrival.
+it('EVERY NAME THE ROUTING BLOCK TELLS AN AGENT TO PASS RESOLVES', () => {
+  const registry = require('../lib/routers-registry.js');
+  const idx = S.index(manifest);
+  const names = manifest.skills.map((m) => m.name).concat(registry.order());
+  const missing = [...new Set(names.filter((n) => !idx.has(n)))];
+  assert.deepStrictEqual(missing, [],
+    'signature calls these "not a skill this family ships" while the block tells the '
+    + 'agent to pass them: ' + missing.join(', '));
+});
+
+it('a standing rule that ships in no pack resolves to the bundle, not to a member', () => {
+  const idx = S.index(manifest);
+  // `seo-llmo` and `evidence-docs` declare no `requires` — the block says in as many
+  // words that seo-llmo "ships in no pack". Pointing either at a member would invent
+  // an address; the bundle is where the rule actually lives.
+  const rule = idx.get('seo-llmo');
+  assert.ok(rule, 'seo-llmo does not resolve at all');
+  assert.strictEqual(rule.standingRule, true, JSON.stringify(rule));
+  assert.ok(/sshlg-skills$/.test(rule.url), rule.url);
+  // and a router that DOES declare a member still resolves to that member
+  assert.strictEqual(idx.get('project-audit').member, 'task-pipeline');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
