@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**541** id'd requirement rows below, **498** read `verified` and none of them says which
+**545** id'd requirement rows below, **498** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,15 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.21.0, three pins after the registry-card wave
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| PIN6-1 | Three members sit on their release tags and all three pin surfaces agree | `git -C skills/<m> checkout v0.52.4 / v1.58.3 / v0.11.4`, `package.json` read back → 0.52.4, 1.58.3, 0.11.4; `skills.json` and README rows 42, 46, 48 moved in the same change; `npm test` → `rc=0`, `COUNTED: 46 suites, 793 fixtures, 9 pinned members` | v1.21.0 | any of the three releasing again | 2026-09-01, main thread |
+| PIN6-2 | The wave closes ONE finding across four members | `SKILL-CARD.md` was behind in four of nine — agent-stack by ten minor releases, sheleg-design by six, super-ux by four, sheleg-dev by one — and each now carries the same check, refusing a disagreeing `Version` row and a card that states no version at all | v1.21.0 | a fifth member gaining a card without the check | 2026-09-01, main thread |
+| PIN6-3 | Porting one check into four members took four different shapes, and it is on the board | four registration idioms (direct call, `@check` decorator, a `CHECKS` list, a call from `main()`), three CHANGELOG heading formats, three to six version surfaces. `B-138` carries the measurement: `installer_test.js` in seven members at 0.918–0.977 similarity, zero declaring the seam, invisible to a guard that reads `test/*.py` only | v1.21.0 | the guard's extension landing, which closes B-138 | 2026-09-01, main thread |
+| PIN6-4 | `task-pipeline` is deliberately out of this wave too | the registry still serves 1.81.1 while v1.82.3's stamp half is in CI. Pinning a version npm does not serve would advertise an install that cannot happen | v1.21.0 | v1.82.3 publishing | 2026-09-01, main thread |
 
 ## 2026-09-01 — v1.20.0, the copy is the value and the decision was never ours
 

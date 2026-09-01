@@ -1,3 +1,32 @@
+## v1.21.0 — three pins, and the class the wave closed
+
+`super-ux` 0.52.3 → **0.52.4**, `sheleg-design` 1.58.2 → **1.58.3**,
+`sheleg-dev` 0.11.3 → **0.11.4**. Three surfaces each.
+
+**What the three carry is one finding, closed across four members.** `SKILL-CARD.md` is
+the enterprise registry entry — *"written so somebody who did not build this can
+decide"* — and four of nine were behind: `agent-stack` by ten minor releases,
+`sheleg-design` by six, `super-ux` by four, `sheleg-dev` by one. Nothing read the card,
+because the version moves in three manifests on every release and the card was in no
+list. Each member now carries the same check, refusing a card whose `Version` row
+disagrees with `package.json` **and** a card that states no version at all — one a reader
+cannot see go stale is worse than one that lags visibly.
+
+**Porting one check into four members took four different shapes**, and that is on the
+board as `B-138`: four registration idioms, three CHANGELOG heading formats, three to six
+version surfaces. The guard that should notice a copied mechanism reads `test/*.py` only,
+while the family's two largest copies are `.js` and `.yml` — measured, not suspected:
+`installer_test.js` in seven members at 0.918–0.977 similarity with zero declaring the
+seam.
+
+**Two escape-sequence defects fell out on the way**, both in a validator, both inside a
+paragraph about escaping — `agent-stack`'s explaining how to escape a pipe in a cell, and
+`super-ux`'s stating that *"the escape-awareness is the whole check"*. Python already
+warns; future versions reject.
+
+`task-pipeline` stays out again: the registry still serves 1.81.1 while v1.82.3's stamp
+half is in flight.
+
 ## v1.20.0 — the copy is the value, and the decision was never ours
 
 The `PreToolUse` guard answered **`allow`** after taking its copy, and
