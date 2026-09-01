@@ -50,7 +50,7 @@
         "evidence-docs",
         "project-audit"
       ],
-      "version": "1.80.0",
+      "version": "1.81.1",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
@@ -67,7 +67,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.18.7",
+      "version": "1.19.0",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
@@ -129,7 +129,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.25.8",
+      "version": "0.25.9",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
@@ -152,7 +152,7 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.11.2",
+      "version": "0.11.3",
       "entry": null,
       "role": "integrations: money in, tracking, errors, sign-in, speed",
       "npm": "@ssheleg/sheleg-dev",
@@ -172,9 +172,9 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.18.1",
+      "version": "0.22.0",
       "entry": null,
-      "role": "agent orchestrators, their evals, the protocols they speak, and the wallet under LLM resale",
+      "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance."
@@ -191,7 +191,7 @@
         "telegram-userbots",
         "telegram-miniapps"
       ],
-      "version": "0.1.10",
+      "version": "0.1.11",
       "entry": null,
       "role": "which Telegram API each surface speaks, and what each one costs",
       "npm": "@ssheleg/telegram-dev",

@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**501** id'd requirement rows below, **493** read `verified` and none of them says which
+**505** id'd requirement rows below, **497** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,15 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.14.0, six pins and the card coupling resolved
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| PW4-1 | Six submodules sit on their annotated release tags and the three pin surfaces agree | `git -C skills/<m> describe --tags` → v0.22.0 / v0.1.11 / v0.25.9 / v0.11.3 / v1.19.0 / v1.81.1; make-skill, sheleg-design and super-ux already current; `npm test`'s pin check reads the version out of each pinned `package.json` against `skills.json` and the README row | v1.14.0 | any member release after 2026-09-01 | verified |
+| PW4-2 | Every pinned version is the one the registry serves | `npm view <pkg> version` polled at cut time for all nine: 0.25.3, 0.1.11, 0.22.0, 0.25.9, 0.11.3, 0.52.3, 1.58.2, 1.19.0, 1.81.1 — pins set from that reading, never from a report | v1.14.0 | a member publishing without a tag | verified |
+| PW4-3 | B-127's coupling is resolved and the member's card reproduces | role cell shortened to `orchestration, prompts, evals, protocols, and the LLM wallet` and `agent-stack` dropped from `LEGACY_FIT`; `node test/site_test.js` → `PASS: site — 42 checks (13 pages, 9 members, 12 routers)` on the v0.22.0 submodule, which byte-compares the member's committed pixels against `site.build()`'s render | v1.14.0 | agent-stack regenerating its card with different words | verified |
+| PW4-4 | The gate is green at the re-derived ratchet | `npm test` exit 0: `COUNTED: 46 suites, 780 fixtures, 9 pinned members`; the DOCMAP marker already read 46/780 and was not touched by hand | v1.14.0 | the next commit that moves either count | verified |
 
 ## 2026-08-31 — v1.12.0, eight pins after the tails wave
 
