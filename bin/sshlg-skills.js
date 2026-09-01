@@ -381,15 +381,33 @@ function cmdHumanizers(argv) {
   return 0;
 }
 
-function cmdList() {
+/**
+ * The roster, answering the two questions the README offers this command for.
+ *
+ * It printed name, version, repo and the full marketing paragraph — 22 lines and 5,398
+ * bytes, of which ~4,900 were nine descriptions — and answered neither *"when does each
+ * of these fire?"* nor *"am I current?"*. The data for the first was sitting unused in
+ * the same manifest this function already reads: `entry` and `role` are on every member
+ * and neither was ever printed.
+ *
+ * The descriptions are behind `--verbose` rather than deleted: they are what a stranger
+ * reads once, and what an operator scrolls past every time.
+ *
+ * `role` is the same cell the routing block's map table renders, so this roster and that
+ * table cannot drift — a member's role has one home.
+ */
+function cmdList(argv) {
+  const verbose = (argv || []).includes('--verbose') || (argv || []).includes('-v');
   log('ssheleg skill family:\n');
   for (const s of SKILLS) {
     let ver = s.version || '?';
     const pj = path.join(ROOT, s.dir, 'plugins', s.name, '.claude-plugin', 'plugin.json');
     try { ver = JSON.parse(fs.readFileSync(pj, 'utf8')).version; } catch (_) {}
-    log(`  ${s.name.padEnd(16)} v${ver.padEnd(8)} ${s.repo}`);
-    log(`  ${' '.repeat(16)}          ${s.desc}`);
+    const entry = s.entry || '—';
+    log(`  ${s.name.padEnd(16)} v${String(ver).padEnd(9)} ${String(entry).padEnd(16)} ${s.role || ''}`);
+    if (verbose) log(`  ${' '.repeat(16)} ${s.repo}\n  ${' '.repeat(16)} ${s.desc}\n`);
   }
+  if (!verbose) log('\n  --verbose adds each member\'s repository and full description.');
   log(`\nInstall:  npx sshlg-skills install       Update:  npx sshlg-skills update`);
 }
 
@@ -1006,7 +1024,7 @@ function cmdHooks(argv) {
 function main(argv) {
   const [cmd, ...rest] = argv.slice(2);
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { usage(); return 0; }
-  if (cmd === 'list' || cmd === 'ls') { cmdList(); return 0; }
+  if (cmd === 'list' || cmd === 'ls') { cmdList(argv); return 0; }
   if (cmd === 'agents') { cmdAgents(); return 0; }
   // Before parseFlags: `config` takes positional arguments, and that parser
   // exits on any token it does not recognise as a flag.

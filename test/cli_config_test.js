@@ -329,6 +329,42 @@ it('end to end: the competing planning rule is superseded and kept', () => {
   );
 });
 
+// `list` ANSWERS THE TWO QUESTIONS THE README OFFERS IT FOR.
+//
+// It printed name, version, repo and the full marketing paragraph — 22 lines, 5,398
+// bytes, ~4,900 of them nine descriptions — and answered neither "when does each of
+// these fire?" nor "am I current?". The data for the first was sitting unused in the
+// same manifest the function already reads: `entry` and `role` are on every member and
+// neither was ever printed.
+it('`list` NAMES EACH MEMBER\'S ENTRY POINT AND ROLE', () => {
+  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'skills.json'), 'utf8'));
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-list-'));
+  const out = run(home, ['list']).out;
+  for (const m of manifest.skills) {
+    assert.ok(out.includes(m.role), `list never prints ${m.name}'s role`);
+    if (m.entry) {
+      assert.ok(out.includes(m.entry), `list never prints ${m.name}'s entry (${m.entry})`);
+    }
+  }
+  // A member with no entry says so rather than leaving the column blank — three of nine
+  // genuinely have none, and an empty cell reads as an omission.
+  const noEntry = manifest.skills.filter((m) => !m.entry);
+  if (noEntry.length) assert.ok(/—/.test(out), 'a member with no entry point shows nothing at all');
+});
+
+it('`list` is a roster by default and the paragraphs are behind a flag', () => {
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-list2-'));
+  const plain = run(home, ['list']).out;
+  const verbose = run(home, ['list', '--verbose']).out;
+  assert.ok(verbose.length > plain.length * 2,
+    'the descriptions did not move behind --verbose');
+  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'skills.json'), 'utf8'));
+  assert.ok(!plain.includes(manifest.skills[0].desc),
+    'the default output still carries a full description');
+  assert.ok(verbose.includes(manifest.skills[0].desc),
+    '--verbose dropped the description instead of adding it');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
