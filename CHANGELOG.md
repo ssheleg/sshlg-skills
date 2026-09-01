@@ -1,3 +1,34 @@
+## v1.25.0 — a refusal that admits the class it gets wrong
+
+The bare-CLI denial said a plain copy **is** created. When the payload merely quotes the
+command — a `grep` over this family's own documents, a pasted failure log, an example in
+a PR body — nothing is created, and the operator reads a sentence they can see is false.
+
+That is how a hook gets switched off.
+
+**Measured while shipping, in this repository.** Opening the v1.23.0 pull request was
+refused by this very hook, because the PR body carried a fenced block of `update` output
+— during a release that had just filed the class as `B-136`.
+
+The matching is unchanged and correct: `executablePart` keeps quoted strings on purpose,
+because `bash -c '…'` is a real invocation. What changes is the sentence.
+
+```
+`update ux-flows` through the bare skills CLI WOULD create ~/.claude/skills/ux-flows, …
+Use the family launcher instead: npx --yes sshlg-skills@latest update
+If this text is QUOTED rather than run — a search, a document, a pasted log — this
+refusal is wrong about it. The guard reads what could execute and cannot tell an
+example from an invocation. Break the phrase, pass the body through a file, or run
+the search with the pattern split.
+```
+
+`creates` → `would create`, because the copy is a consequence of running it and not of
+matching it. And the escape is **named**: a refusal that admits it may be wrong and says
+what to do next keeps working, where one that insists on a falsehood gets disabled.
+
+Asserted in four parts — the conditional verb, the admission, the reason, and the escape
+— so a future edit cannot quietly drop the half that makes it usable.
+
 ## v1.24.0 — a number that cannot be computed is sourced, not typed
 
 `scripts/site.js` carried `const agentCount = 70;`, used it on **nine public surfaces

@@ -123,11 +123,31 @@ process.stdin.on('end', () => {
       }
       const bare = hygiene.bareFamilyInstall(command, ids);
       if (bare) {
+        // The sentence has to survive being WRONG about what the payload is.
+        //
+        // `executablePart` drops heredoc bodies fed to a non-shell and whole-line
+        // comments, and keeps quoted strings on purpose, because `bash -c '…'` is a real
+        // invocation. The price is that a payload which QUOTES the command — a `grep`
+        // over this family's own documents, a PR body pasting a failure log, an `echo`
+        // of an example — is refused with a sentence that is simply untrue of it: no
+        // plain copy is created by a search.
+        //
+        // Measured 2026-09-01 while shipping: `gh pr create --body` carrying a fenced
+        // block of `update` output was refused by this very hook, in this repository,
+        // during a release that had just filed the class as `B-136`.
+        //
+        // So the sentence is conditional, and the escape is NAMED. A refusal an operator
+        // can see is wrong is how a hook gets switched off; a refusal that admits it may
+        // be wrong and says what to do keeps working.
         say('deny',
-          `\`${bare.verb} ${bare.target}\` through the bare skills CLI creates ` +
+          `\`${bare.verb} ${bare.target}\` through the bare skills CLI would create ` +
           '~/.claude/skills/' + bare.target + ', a plain copy that shadows the plugin of the ' +
           'same name and serves the version it was copied from forever.\n' +
-          `Use the family launcher instead: ${bare.remedy}`);
+          `Use the family launcher instead: ${bare.remedy}\n` +
+          'If this text is QUOTED rather than run — a search, a document, a pasted log — ' +
+          'this refusal is wrong about it. The guard reads what could execute and cannot ' +
+          'tell an example from an invocation. Break the phrase (`skills up\u200bdate`), ' +
+          'pass the body through a file, or run the search with the pattern split.');
         return process.exit(0);
       }
     }
