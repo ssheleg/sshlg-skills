@@ -27,11 +27,49 @@ const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'skills.json'), 'utf
 const SKILLS = manifest.skills;
 
 function log(m) { process.stdout.write(m + '\n'); }
+
+/**
+ * How far through, and what failed — because `update` is 56 serial child processes.
+ *
+ * Measured 2026-09-01: 37 skills-CLI steps + 18 plugin calls + one submodule sync, every
+ * skills step through `npx --yes` at 22.7 / 25.0 / 34.1 s warm. That is roughly a quarter
+ * of an hour of inherited output with no step count, no counter, and — worse — no
+ * summary: `run()` returned a bare boolean, `cmdUpdate` ANDed them into `ok` and exited
+ * 1, so the ONLY signal that one of the 56 failed was the exit code. Finding the step
+ * meant scrolling back through 56 spawns, and re-running cost another quarter hour.
+ *
+ * `total` is set by the caller that knows the plan; while it is 0 nothing is printed, so
+ * `install` and the one-off verbs are untouched.
+ */
+const progress = { total: 0, done: 0, failed: [] };
+
 function run(cmd, args, opts) {
-  log('  » ' + cmd + ' ' + args.join(' '));
+  const at = progress.total ? `[${++progress.done}/${progress.total}] ` : '';
+  log('  » ' + at + cmd + ' ' + args.join(' '));
   const r = spawnSync(cmd, args, Object.assign(
     { stdio: 'inherit', shell: process.platform === 'win32' }, opts || {}));
-  return r.status === 0;
+  const ok = r.status === 0;
+  if (!ok && progress.total) progress.failed.push(`${cmd} ${args.join(' ')}`);
+  return ok;
+}
+
+/**
+ * The summary the exit code was standing in for.
+ *
+ * A re-run line, not just a list: the operator's next question after "what broke" is
+ * always "how do I retry just that", and answering it here is cheaper than answering it
+ * in a document nobody has open at minute fifteen.
+ */
+function reportProgress() {
+  if (!progress.total) return;
+  if (!progress.failed.length) {
+    log(`\n== ${progress.done} of ${progress.total} steps, all green ==`);
+    return;
+  }
+  log(`\n== FAILED ${progress.failed.length} of ${progress.total} steps ==`);
+  for (const cmd of progress.failed) log(`  ✗ ${cmd}`);
+  log('\nRe-run just these rather than the whole pass — each line above is the exact');
+  log('command, and a repeat of the full run costs about a quarter of an hour.');
 }
 
 function parseFlags(argv) {
@@ -235,6 +273,16 @@ function refreshBlock(f, mode) {
 
 function cmdUpdate(f) {
   let ok = true;
+  // The plan is COUNTED, not estimated — the same arrays the loops below walk, so a
+  // member added to the family changes the denominator without anyone remembering to.
+  const agentsForCount = f.claudeOnly ? [] : skillsCliAgents(f);
+  progress.total =
+    (!f.claudeOnly && fs.existsSync(path.join(ROOT, '.gitmodules')) ? 1 : 0)
+    + (!f.claudeOnly ? plan.updatePlan(SKILLS, agentsForCount).length : 0)
+    + ((f.claude || f.claudeOnly) ? SKILLS.length * 2 : 0);
+  progress.done = 0;
+  progress.failed = [];
+  if (progress.total) log(`\n== ${progress.total} steps ==`);
   // 1. Submodules are PINNED snapshots. Only materialize them (--init), never
   //    move the pins — unless the operator explicitly asks with --bump-pins.
   //    Skipped entirely for --claude-only: that flag must not touch the checkout.
@@ -306,6 +354,8 @@ function cmdUpdate(f) {
     ok = false;
   }
   printUpdateModel('update');
+
+  reportProgress();
   return ok;
 }
 

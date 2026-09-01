@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**549** id'd requirement rows below, **498** read `verified` and none of them says which
+**554** id'd requirement rows below, **498** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,16 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.23.0, `update` says where it is and what broke
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| PRG-1 | The step count is printed before the run starts | probe with an empty `PATH` and `--claude-only` → `== 18 steps ==` as the first line, where 18 is `SKILLS.length * 2`. Against the previous commit the assertion reports `no step count up front` | v1.23.0 | the count being typed rather than derived | 2026-09-01, main thread |
+| PRG-2 | The denominator is counted from the plan, not estimated | `progress.total` sums the same arrays the loops walk — the submodule step, `plan.updatePlan(...).length`, and `SKILLS.length * 2` — so a tenth member moves it without anyone remembering to. Same class as `ARCH-10`, where `agentCount = 70` is typed by hand onto nine public surfaces | v1.23.0 | a literal replacing the derivation | 2026-09-01, main thread |
+| PRG-3 | Every step carries a counter | `[1/18]` and `[18/18]` both asserted, so a counter that starts and stops short fails | v1.23.0 | `run()` losing its increment | 2026-09-01, main thread |
+| PRG-4 | A failure summary exists, and it says what to do next | `FAILED 18 of 18 steps` followed by the exact command per line and a re-run instruction. Before this the exit code was the ONLY signal that one of 56 steps broke, and finding it meant scrolling back through 56 spawns | v1.23.0 | the summary listing failures without the re-run line — asserted separately for that reason | 2026-09-01, main thread |
+| PRG-5 | The counter is inert outside `update` | `progress.total` is 0 until `cmdUpdate` sets it, so `install` and the one-off verbs print exactly what they printed before | v1.23.0 | another verb setting `total` without resetting `done` and `failed` | 2026-09-01, main thread |
 
 ## 2026-09-01 — v1.22.0, `list` answers the two questions it was offered for
 
