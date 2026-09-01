@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**512** id'd requirement rows below, **497** read `verified` and none of them says which
+**516** id'd requirement rows below, **497** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,15 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.15.1, the family stops disowning its own members
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| SIG-1 | Every member and router name the routing block tells an agent to pass resolves | all 21 names (9 members + 12 routers) through `signature.index()` → `unresolved now: NONE`; against the previous commit the same probe returned 9 — `super-ux`, `sheleg-dev`, `agent-stack`, `telegram-dev`, `seo-llmo` | v1.15.1 | a member arriving whose name is neither a skill name nor a key — the fixture reads the manifest, so it fails in the same change | 2026-09-01, main thread |
+| SIG-2 | A router address is derived from the registry, not listed | `addRouters` reads each router's own `requires` and resolves through the manifest; `project-audit` → `task-pipeline` without that pair being named anywhere in `signature.js` | v1.15.1 | a router declaring a member the manifest does not carry | 2026-09-01, main thread |
+| SIG-3 | A standing rule that ships in no pack points at the bundle rather than at an invented member | `index(manifest).get('seo-llmo')` → `{"member":null,"repo":null,"url":"https://github.com/ssheleg/sshlg-skills","standingRule":true}` — the block says in its own words that `seo-llmo` ships in no pack | v1.15.1 | `seo-llmo` gaining a `requires` entry, which would make it a member's router | 2026-09-01, main thread |
+| SIG-4 | Both fixtures fail against the code they were written for | `git stash` the fix → `EVERY NAME THE ROUTING BLOCK TELLS AN AGENT TO PASS RESOLVES` reports the nine names and `a standing rule…` reports *"seo-llmo does not resolve at all"*; restored → `OK (13 checks)` | v1.15.1 | the fixtures being rewritten to assert a hard-coded list rather than reading the manifest and the registry | 2026-09-01, main thread |
 
 ## 2026-09-01 — v1.15.0, consent misread in both directions
 
