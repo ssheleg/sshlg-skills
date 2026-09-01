@@ -1,3 +1,32 @@
+## v1.14.0 — six pins after the tails wave, and the card coupling resolved from the side that owns it
+
+Wave 4 closed the family's last audit tails and B-113, the highest-priority row the
+family carried. This pass serves what the members shipped and pays the one cost
+B-127 named.
+
+- **Six pins** — agent-stack 0.18.1 → **0.22.0**, telegram-dev 0.1.10 → **0.1.11**,
+  seo-aeo-audit 0.25.8 → **0.25.9**, sheleg-dev 0.11.2 → **0.11.3**, agent-sync
+  1.18.7 → **1.19.0**, task-pipeline 1.80.0 → **1.81.1**. make-skill (0.25.3),
+  sheleg-design (1.58.2) and super-ux (0.52.3) were already current. Versions were
+  read from the registry at cut time, not from a report.
+- **B-127 closed from the umbrella side, which is the side that owns the cell.** The row
+  said neither `LEGACY_FIT` setting reconciles the member's card with the umbrella's
+  render, and it was right about the state it measured: it tested the v0.19.1 submodule
+  against the *old* role cell, having ruled out shortening it because that edits the
+  routing map. Shortening it is exactly what B-118's plan asked the umbrella to do
+  first, so this pass does it: the `agent-stack` role reads **"orchestration, prompts,
+  evals, protocols, and the LLM wallet"** — 60 characters against 91, and it names all
+  four of that pack's skills where the old cell named three. With the cell shortened and
+  `agent-stack` dropped from `LEGACY_FIT` (its retirement moment, as `scripts/site.js`
+  already predicted in a comment), `test/site_test.js` passes on the v0.22.0 card:
+  42 checks, byte-identical pixels. The two remaining `LEGACY_FIT` entries are still
+  needed and the exactness fixture that proves it stays green.
+- **The rule wave 4 paid two rounds for, recorded where releases are made**: cut the tag
+  against a tree that already contains everything the release gate reads — the stamp
+  included — and the cheapest way to know is to make the tag locally, run the suite and
+  delete it again. `task-pipeline` burned `v1.81.0` on that class before proving it, and
+  a second burn was caught by exactly that probe.
+
 ## v1.13.0 — the block this package writes into your file, finally measured
 
 This package writes a routing block into an operator's instruction file and, until
