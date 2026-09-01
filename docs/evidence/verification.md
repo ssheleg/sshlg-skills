@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**528** id'd requirement rows below, **497** read `verified` and none of them says which
+**533** id'd requirement rows below, **498** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,16 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.18.0, seven ordinary ways to destroy the operator's file
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| SPL-1 | Every ordinary spelling of a write to a protected file is caught | twelve spellings through `guard.decide` — plain tilde, plain absolute, quoted `$HOME`, quoted `${HOME}`, quoted tilde, no-space-before-quote, `2>`, `&>`, the clobber form, `>>`, `tee`, `rm` — all return the file. Against the previous commit seven of them returned `null` | v1.18.0 | a redirect form this matrix does not list | 2026-09-01, main thread |
+| SPL-2 | The one the module meant to catch was defeated by a quote | `spellings()` enumerates `$HOME/…` and `${HOME}/…` deliberately, and `REDIRECT` was tested against `segment.slice(0, at)`, which ends in the quote — so the author's own enumeration was cancelled by standard agent practice | v1.18.0 | the operator regex losing its optional quote | 2026-09-01, main thread |
+| SPL-3 | Widening it bought no false positives, and that is asserted as hard | four non-writes still pass: reading the file, writing a neighbouring one, the name inside a pipe, a `diff`. The hook answers `allow` after taking its copy, so an over-catch spends the operator's own permission prompt on an unrelated call | v1.18.0 | the matrix losing its negative half | 2026-09-01, main thread |
+| SPL-4 | The remaining gap is declared and cannot close unnoticed | a third fixture asserts the cwd-relative spelling is still `null`, so closing it fails here and forces `B-136` to close in the same change | v1.18.0 | `payload.cwd` resolution landing without updating the row | 2026-09-01, main thread |
+| SPL-5 | The heredoc case is pre-existing, not a regression from this change | `cat <<EOF … > ~/.claude/CLAUDE.md … EOF` is caught by the PREVIOUS commit too — verified before filing, so `B-136` describes a standing gap rather than damage done here. `lib/hygiene.js` has the `executablePart` treatment from B-59; `lib/guard.js` never received it | v1.18.0 | `guard.js` gaining that treatment | 2026-09-01, main thread |
 
 ## 2026-09-01 — v1.17.0, four guards that were looking somewhere else
 

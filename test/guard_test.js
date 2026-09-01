@@ -133,6 +133,67 @@ it('the matcher list covers every tool that can write', () => {
   }
 });
 
+// EVERY ORDINARY SPELLING OF "WRITE TO THE FILE", MEASURED IN BOTH DIRECTIONS.
+//
+// Ten spellings on 2026-09-01: three caught, seven not. The sharpest was
+// `echo x > "$HOME/.claude/CLAUDE.md"` — `spellings()` enumerates `$HOME/…` and
+// `${HOME}/…` ON PURPOSE, so the author meant to catch that line, and a pair of quotes
+// cancelled it because `REDIRECT` is tested against `segment.slice(0, at)`, which ends
+// in the quote. Quoting a `$HOME` path is standard agent practice. `2>` and `&>` were
+// excluded by a character class and truncate exactly as `>` does; `>|` lost its path to
+// the pipe split.
+//
+// The negatives matter as much: widening a guard that already decides `allow` buys
+// false positives with the operator's own permission prompt, so each one is asserted.
+const H = '/Users/tester';
+const CM = `${H}/.claude/CLAUDE.md`;
+const WRITES = [
+  ['plain tilde', 'echo x > ~/.claude/CLAUDE.md'],
+  ['plain absolute', `echo x > ${CM}`],
+  ['quoted $HOME', 'echo x > "$HOME/.claude/CLAUDE.md"'],
+  ['quoted ${HOME}', 'echo x > "${HOME}/.claude/CLAUDE.md"'],
+  ['quoted tilde', 'echo x > "~/.claude/CLAUDE.md"'],
+  ['no space before the quote', `echo x >"${CM}"`],
+  ['fd redirect 2>', 'cmd 2> ~/.claude/CLAUDE.md'],
+  ['fd redirect &>', 'cmd &> ~/.claude/CLAUDE.md'],
+  ['clobber >|', 'echo x >| ~/.claude/CLAUDE.md'],
+  ['append >>', 'echo x >> ~/.claude/CLAUDE.md'],
+  ['tee', 'echo x | tee ~/.claude/CLAUDE.md'],
+  ['rm', 'rm ~/.claude/CLAUDE.md'],
+];
+const NOT_WRITES = [
+  ['reading it', 'cat ~/.claude/CLAUDE.md'],
+  ['a neighbouring file', 'echo x > ~/.claude/CLAUDE.md.bak'],
+  ['the name inside a pipe', 'echo x | grep CLAUDE.md'],
+  ['a comparison, not a write', `diff ${CM} /tmp/other`],
+];
+
+it('EVERY ORDINARY SPELLING OF A WRITE IS CAUGHT', () => {
+  const missed = WRITES.filter(([, cmd]) =>
+    !G.decide({ tool_name: 'Bash', tool_input: { command: cmd } }, H));
+  assert.deepStrictEqual(missed.map(([n]) => n), [],
+    'these destroy the file and walk past the guard');
+});
+
+it('AND WIDENING IT DID NOT BUY FALSE POSITIVES', () => {
+  const overcaught = NOT_WRITES.filter(([, cmd]) =>
+    G.decide({ tool_name: 'Bash', tool_input: { command: cmd } }, H));
+  assert.deepStrictEqual(overcaught.map(([n]) => n), [],
+    'the guard claimed a write that is not one — and it answers `allow`, so a false '
+    + 'positive spends the operator\'s own permission prompt');
+});
+
+it('THE REMAINING GAP IS DECLARED, NOT SILENT', () => {
+  // A path resolved through `cd` needs `payload.cwd` and the resolver `lib/repogate.js`
+  // already carries. That is a change with its own fixtures rather than a regex, and it
+  // is on the board — asserted here so it cannot close by accident and go unnoticed.
+  const relative = G.decide(
+    { tool_name: 'Bash', tool_input: { command: 'cd ~/.claude && echo x > CLAUDE.md' } }, H);
+  assert.strictEqual(relative, null,
+    'the cwd-relative spelling is now caught — good, and the board row for it should '
+    + 'close in the same change as this assertion');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

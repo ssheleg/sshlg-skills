@@ -1,3 +1,35 @@
+## v1.18.0 — seven ordinary ways to destroy the operator's file
+
+`lib/guard.js` is the module the whole pack is built around: it decides which
+protected file a call is about to write, so a copy can be taken first. Measured over
+ten ordinary spellings on 2026-09-01, **three were caught and seven were not.**
+
+**The sharpest is the one the module deliberately enumerates.** `spellings()` lists
+`$HOME/…` and `${HOME}/…` on purpose — the author meant to catch them — and
+`echo x > "$HOME/.claude/CLAUDE.md"` walked past, because `REDIRECT` is tested against
+`segment.slice(0, at)`, which ends in the quote when the path is quoted. Quoting a
+`$HOME` path is standard agent practice, so this was not an exotic spelling.
+
+**Two more were excluded by a character class.** `[^0-9<>&]` before the operator meant
+`2>` and `&>` were read as not-a-redirect. Both truncate the file exactly as `>` does.
+
+**And one lost its path to the pipe split.** `segments()` split on every `|`, including
+the one in the clobber form `>|`, so the path landed in a segment with no redirect in
+front of it.
+
+**The negatives are asserted as hard as the positives, and that is the point.** This
+hook answers `allow` after taking its copy, so a guard that over-catches spends the
+operator's own permission prompt on an unrelated call. Reading the file, writing a
+neighbouring one, the name inside a pipe, and a `diff` all still pass — twelve write
+spellings and four non-writes, in one matrix.
+
+**Two spellings remain, declared rather than silent** (`B-136`). A path resolved
+through `cd` needs `payload.cwd` and the `cdTarget`/`joinPath` resolver `lib/repogate.js`
+already carries — a change with its own fixtures, not a regex, and the fixture asserts
+the gap so it cannot close unnoticed. And a heredoc body fed to a non-shell is still
+read as executable here: `lib/hygiene.js` got that treatment in B-59 and `lib/guard.js`
+never did. Pre-existing, verified against the previous commit.
+
 ## v1.17.0 — four guards that were looking somewhere else
 
 Four audit findings, each with a fixture watched failing against the code it was
