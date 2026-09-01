@@ -167,6 +167,32 @@ it('applyCursor with --member scope keeps every other member’s router', () => 
   assert.ok(after.includes('UX body, refreshed.'), 'the member’s own router was not refreshed');
 });
 
+it('APPLYCURSOR REFUSES A RECORDED `no` — it wrote 22 KB over one', () => {
+  const home = seededHome();
+  const file = path.join(home, '.cursor', 'rules', cursor.FILENAME);
+  const rec = apply.applyCursor({ home, mode: 'install', consent: 'no', routers: ROUTERS, members: MEMBERS });
+  assert.strictEqual(rec.action, 'no-consent', JSON.stringify(rec));
+  assert.ok(!fs.existsSync(file),
+    'a rule file was created for a tool whose rules the operator declined');
+});
+
+it('APPLYCURSOR DOES NOT INTRODUCE THE RULE ON `update` — an update is not the moment to ask', () => {
+  const home = seededHome();
+  const file = path.join(home, '.cursor', 'rules', cursor.FILENAME);
+  // No consent on record and no rule there yet: `update` refreshes what exists.
+  const rec = apply.applyCursor({ home, mode: 'update', consent: 'yes', routers: ROUTERS, members: MEMBERS });
+  assert.strictEqual(rec.action, 'absent', JSON.stringify(rec));
+  assert.ok(!fs.existsSync(file), 'update introduced a rule the operator never agreed to');
+
+  // ...unless consent is already on record, which is the Gemini case: a target
+  // the pack did not have last time must still arrive, or the channel ships to
+  // nobody and is reported as delivered.
+  const rec2 = apply.applyCursor({ home, mode: 'update', consent: 'yes', consentRecorded: 'yes',
+                                   routers: ROUTERS, members: MEMBERS });
+  assert.strictEqual(rec2.action, 'created', JSON.stringify(rec2));
+  assert.ok(fs.existsSync(file));
+});
+
 it('applyCursor still creates the file from the template when there is none', () => {
   const home = seededHome();
   const file = path.join(home, '.cursor', 'rules', cursor.FILENAME);

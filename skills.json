@@ -84,7 +84,7 @@
       "skillNames": [
         "make-skill"
       ],
-      "version": "0.25.3",
+      "version": "0.26.0",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
@@ -172,7 +172,7 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.22.0",
+      "version": "0.23.0",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",

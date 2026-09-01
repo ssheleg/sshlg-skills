@@ -1,3 +1,46 @@
+## v1.15.0 — consent, misread in both directions
+
+A seven-angle audit of the family, one agent per angle, produced 55 findings and none
+of them was on a board. Two turned out to be the same defect from opposite sides, and
+they are what this release fixes: **the pack wrote against a recorded refusal, and it
+read an ordinary sentence as one.**
+
+**It wrote where the answer was `no`.** `applyCursor` carried none of the three guards
+`applyOne` runs, so `npx sshlg-skills update` created a 22 512-byte `alwaysApply: true`
+rule on a machine whose `state.json` said `{"routers":"no"}`. Measured against a scratch
+HOME: `CLAUDE.md` correctly reported `no-block`, and `sshlg-routing.mdc` was **created**
+beside it. The suite was green over this because all five `applyCursor` fixtures pass
+`consent: 'yes'` — nothing had ever asked what a refusal does. The guards now run only
+where the rule is not there yet, so a rule already present is refreshed without
+re-asking, exactly as a markdown target with a block already in it is; and no opt-out
+sentinel is written for Cursor, because creating a rule file to say «declined» would put
+a rule in the rules directory of a tool whose rules were just declined.
+
+**It read `no` where nobody said it.** `optedOut` is one boolean for all twelve routers,
+sticky for the session and silent — so a phrase that fires by accident does not narrow
+the routing, it switches the whole enforcement layer off with nothing printed. `quick`
+and `as is` were refusal phrases. Measured over thirteen prompts of ordinary work
+language, they fired on six: «a quick win: add the paywall screen», «the quick brown
+fox», «as the migration is risky, refactor the payment module first». `quick` becomes
+`no pipeline`, `as is` is dropped, and the registry's own advertised lines move in the
+same change — the coupling fixture reads those lines rather than restating them, and it
+caught the two files being out of step mid-edit, which is the fixture working.
+
+**Four more over-fire once each and are deliberately left** — `draft it`, `no docs`,
+«как есть», «на словах». One hit apiece on a corpus written by the person proposing the
+change is the shape of the corpus rather than evidence, and this family has rejected
+that over-defence before. The measurement is on the board as `B-128`, with the mechanism
+route named: require the phrase to be the sentence's own act rather than any substring,
+measured through `test/evals/` rather than argued.
+
+**The invariant that ran one way now runs both.** Two fixtures asserted that no refusal
+is also a trigger; nothing asserted the converse. Fixtures 780 → 783, and all three were
+watched failing against the old code first — the two `applyCursor` ones returned
+`action: "created"`.
+
+**Pins:** `make-skill` 0.25.3 → 0.26.0, `agent-stack` 0.22.0 → 0.23.0. Three surfaces
+each, as always.
+
 ## v1.14.0 — six pins after the tails wave, and the card coupling resolved from the side that owns it
 
 Wave 4 closed the family's last audit tails and B-113, the highest-priority row the
