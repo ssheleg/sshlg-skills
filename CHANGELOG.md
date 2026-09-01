@@ -1,3 +1,53 @@
+## v1.17.0 — four guards that were looking somewhere else
+
+Four audit findings, each with a fixture watched failing against the code it was
+written for.
+
+**`hooks` reported a byte-perfect install as stale, for ever, on any machine running a
+second hook-installing pack.** The planner rebuilt each event as `others.concat([ours])`
+— always moving our entry to the END — then compared JSON strings. Same multiset,
+different order. Measured here, where all nine runtime scripts are byte-identical to the
+package (`diff -rq` silent): four events flagged, and exactly the four another tool also
+registers. The README names four such packs, so this is the ordinary case. Following the
+advice rewrote `settings.json`, spent one of the ten backup slots, changed nothing, and
+the condition came back — which is how an operator learns to stop reading a status
+command. Our entry keeps its position now.
+
+**The "one write path" guard hand-listed two files and missed the third.** It scanned
+`lib/apply.js` and `bin/sshlg-skills.js`; `hooks/post-tool-use.js` is the file
+`CLAUDE.md` records as having BEEN the second write path until 2026-08-30. The invariant
+held in the code — the guard meant to keep it holding could not see the file with the
+history. The corpus is discovered now, per this repository's own rule that guard corpora
+are discovered and not listed, *because three hand-written lists in this family each
+missed a shipped surface*.
+
+Widening it surfaced three modules at once, and none is a defect: `backup.js` takes the
+copy (requiring `protect()` above it is circular), `store.js` writes the pack's own JSON,
+`turnstate.js` the per-turn files beside it. They are **named** rather than waved through
+by a widened regex, and a second fixture holds that list to the tree — so a fourth module
+writing outside `protect()` fails here instead of being discovered later by an operator
+whose file went missing.
+
+**The gitlink was the third coupled pin surface and the only one not under coordination.**
+`skills.json`, the submodule pointer and the README row must move together, and the
+validator refuses a commit where they disagree — so a concurrent session moving a pointer
+turns the other session's tree red. `5bf4142` correctly dropped `skills/*/…` patterns
+(a gitlink is one entry, not a subtree) and then concluded `skills.json` covers the
+pointer. It does not: `git ls-files -s skills/super-ux` is a tracked entry a `skills/*`
+pattern matches, and it is in `guardedFiles` now.
+
+**A comment named two consumers of the copied manifest and neither was one.**
+`lib/runtime.js` said `lib/plan.js` and the bin read `skills.json`; `plan.js` takes its
+members as parameters and the bin never executes from the runtime tree. The real consumer
+is the shadow guard in `hooks/pre-tool-use.js` — and its read was a bare swallow, so a
+reader trimming the payload on the strength of that comment would have dropped the
+manifest, the guard would have returned an empty id set, and it would have denied nothing
+with no message. The guard the whole pack was written around, off, quietly.
+
+It says so now — on **stderr**, not through `say()`: a missing manifest is a diagnostic,
+not a verdict, and a hook answering `allow` to it would be deciding what it cannot know.
+Still exit 0, still no permission decision.
+
 ## v1.16.0 — a phantom in the roster, and a module with no callers
 
 Two findings from the seven-angle audit, each with a fixture watched failing first.

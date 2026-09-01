@@ -207,6 +207,37 @@ it('isOurs matches by path, so a copy elsewhere is not claimed', () => {
   assert.strictEqual(H.isOurs(undefined, ROOT), false);
 });
 
+// THE ORDER THE OTHER PACK ARRIVED IN DECIDED WHETHER WE CRIED WOLF.
+//
+// The existing no-op fixture above seeds `[theirs]`, so ours is appended second and
+// the order happens to match on the next plan. The broken case is the mirror: ours
+// installed FIRST, another pack's hook added beside it later. `others.concat([ours])`
+// then always rebuilt the list as `[theirs, ours]` — the same multiset, a different
+// order — and `hooks` reported a byte-perfect install as `(refreshed)` for ever.
+//
+// Measured 2026-09-01 on this machine, whose nine runtime scripts are byte-identical
+// to the package (`diff -rq` silent): four events flagged, exactly the four another
+// tool also registers, and the README names four such packs. Following the advice
+// rewrote `settings.json`, spent one of ten backup slots, changed nothing, and the
+// condition returned.
+it('OURS INSTALLED FIRST, THEIRS ADDED LATER — a second plan is still a no-op', () => {
+  const seeded = H.plan({}, ROOT, {}).settings;
+  // Another pack arrives AFTER us and lands beside our entry.
+  seeded.hooks.SessionStart = seeded.hooks.SessionStart.concat([FOREIGN_HOOK]);
+  const ourIndexBefore = seeded.hooks.SessionStart.findIndex(
+    (m) => (m.hooks || []).some((h) => H.isOurs(h.command, ROOT)));
+  assert.strictEqual(ourIndexBefore, 0, 'fixture setup: ours should be first here');
+
+  const again = H.plan(seeded, ROOT, {});
+  assert.deepStrictEqual(again.changed, [],
+    `a byte-identical install was reported as changed: ${again.changed}`);
+  assert.deepStrictEqual(again.settings, seeded,
+    'the plan rewrote settings.json while changing nothing');
+  const ourIndexAfter = again.settings.hooks.SessionStart.findIndex(
+    (m) => (m.hooks || []).some((h) => H.isOurs(h.command, ROOT)));
+  assert.strictEqual(ourIndexAfter, 0, 'our entry was moved to the end');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

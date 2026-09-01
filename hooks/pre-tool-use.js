@@ -110,7 +110,17 @@ process.stdin.on('end', () => {
       try {
         const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'skills.json'), 'utf8'));
         ids = hygiene.familyIds(manifest);
-      } catch (e) { /* no manifest beside us: guard nothing rather than guess */ }
+      } catch (e) {
+        // Guard nothing rather than guess — but SAY SO. This was a bare swallow, and
+        // the failure it hides is the shadow guard returning an empty id set and
+        // denying nothing, silently: the one guard this pack was written around, off,
+        // with no trace. stderr and not `say()`, deliberately — a missing manifest is
+        // a diagnostic, and a hook that answered `allow` to it would be deciding
+        // something it cannot know.
+        process.stderr.write(
+          '[sshlg-skills] no skills.json beside the hook — the shadow guard is '
+          + 'inert this turn; reinstall with `npx sshlg-skills hooks install`\n');
+      }
       const bare = hygiene.bareFamilyInstall(command, ids);
       if (bare) {
         say('deny',

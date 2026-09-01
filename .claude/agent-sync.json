@@ -11,6 +11,7 @@
     "docs/evidence/manifesto-conformance.md",
     "skills.json",
     "README.md",
+    "skills/*",
     "pipeline.json"
   ],
   "claimTags": {

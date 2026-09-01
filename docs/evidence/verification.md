@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**522** id'd requirement rows below, **497** read `verified` and none of them says which
+**528** id'd requirement rows below, **497** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,17 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.17.0, four guards that were looking somewhere else
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| GRD-1 | `hooks` no longer reports a byte-perfect install as stale | on this machine `diff -rq hooks ~/.sshlg-skills/runtime/hooks` is silent, and `hooks` went from `НЕ установлено или устарело — SessionStart (refreshed), UserPromptSubmit (refreshed), PreToolUse (refreshed), PostToolUse (refreshed)` to `всё на месте и совпадает` | v1.17.0 | the planner appending our entry instead of replacing it in place | 2026-09-01, main thread |
+| GRD-2 | The fixture reproduces the real machine's state, not the convenient one | the pre-existing no-op fixture seeds `[theirs]` so ours lands second and the order matches; the new one seeds ours FIRST and another pack after, which is this machine. Against the previous commit it reports `a byte-identical install was reported as changed: SessionStart (refreshed)` | v1.17.0 | the fixture being rewritten to seed the foreign hook first | 2026-09-01, main thread |
+| GRD-3 | The write-path corpus is discovered, and the discovery immediately paid | scanning `lib`, `hooks`, `bin` instead of two named files surfaced `lib/backup.js:118`, `lib/store.js:45` and `lib/turnstate.js:60` — none a defect, all writing the pack's own state, and all invisible to the line-level exemption because their writes are generic | v1.17.0 | the corpus being narrowed back to a list | 2026-09-01, main thread |
+| GRD-4 | The exemption list is itself held to the tree | a second fixture asserts the unguarded set is exactly those three, so a fourth module writing outside `protect()` fails here rather than being waved through by a widened regex | v1.17.0 | a module legitimately joining the set without being argued for | 2026-09-01, main thread |
+| GRD-5 | The gitlink is under coordination | `git ls-files -s skills/super-ux` → `160000 23d6949… 0 skills/super-ux`, a tracked entry a `skills/*` pattern matches; `guardedFiles` now carries it beside `skills.json` and `README.md`, the other two coupled pin surfaces | v1.17.0 | the pattern being dropped again on the reasoning that a gitlink is not a file | 2026-09-01, main thread |
+| GRD-6 | The shadow guard says so when it cannot look | process-level fixture runs `hooks/pre-tool-use.js` with no `skills.json` beside it: exit 0, no `permissionDecision`, and stderr carries `no skills.json beside the hook`. Against the previous commit the same fixture reports `the guard went inert without saying so: stderr=""` | v1.17.0 | the diagnostic being routed through `say()`, which would make a missing manifest into a verdict | 2026-09-01, main thread |
 
 ## 2026-09-01 — v1.16.0, a phantom in the roster and a module with no callers
 
