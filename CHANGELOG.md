@@ -1,3 +1,30 @@
+## v1.27.0 — a path the shell already moved to is still the same file
+
+`cd ~/.claude && echo x > CLAUDE.md` writes exactly what
+`echo x > ~/.claude/CLAUDE.md` writes, and only the second was caught. `spellings()`
+enumerates the absolute and `$HOME` forms — none of which appear in a command that has
+already moved.
+
+The segments run in order, so the shell's position is tracked across them and the file is
+offered as **this** segment would name it, when it sits under that directory. Four writes
+are caught now: after a `cd`, after a tilde `cd`, across a `;`, and with the operator
+already standing in the directory.
+
+**The resolver is `lib/repogate.js`'s, exported rather than copied.** A second `cd`
+parser is precisely what `B-138`'s guard against copied mechanisms exists to catch, and
+one edge between two pure modules is cheaper than one more copy.
+
+**Four non-writes are asserted as hard**, including a `CLAUDE.md` under a *different*
+directory — the failure mode a naive basename match would introduce.
+
+Widening is also cheaper than it was: since v1.20.0 the hook emits no permission decision
+on the happy path, so an over-catch now costs an unnecessary copy rather than the
+operator's own prompt.
+
+`B-136` half closes. **The heredoc half stays open**: a body fed to a non-shell is still
+read as executable here, which is the `executablePart` treatment `lib/hygiene.js` got in
+B-59 and `lib/guard.js` never did.
+
 ## v1.26.0 — a refusal must end its clause
 
 `optedOut` is one boolean for all twelve routers, sticky for the session and silent, so a
