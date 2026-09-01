@@ -2217,7 +2217,26 @@ def check_counted_claims_agree_with_the_tree():
                 rows += 1
         return rows
 
+    def upstream_agents():
+        """The count of agents the upstream CLI reaches.
+
+        NOT computable here — it is a property of another project — so `skills.json`'s
+        `agentsUpstream` is its single home, carrying the number, where it came from and
+        the date it was read. This entry does not verify the number against the world;
+        it holds every COPY of it to that one home. Before this, `scripts/site.js` typed
+        `const agentCount = 70;` and rendered it on nine public surfaces including the OG
+        card, while `README.md` carried `70+` twice — three homes, none of them checked,
+        in the family that ships `evidence-docs`.
+        """
+        try:
+            with open(os.path.join(ROOT, "skills.json"), encoding="utf-8") as fh:
+                return int(json.load(fh)["agentsUpstream"]["count"])
+        except Exception:
+            return None
+
     registry = [
+        ("upstream agent count", "README.md",
+         r"(\d+)\+ agents the vercel", upstream_agents),
         ("negative self-tests", "README.md",
          r"\*\*(\d+)\*\* negative self-tests", plants),
         ("ledger rows", "docs/evidence/verification.md",
