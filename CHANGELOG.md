@@ -1,3 +1,29 @@
+## v1.22.0 — `list` answers the two questions it was offered for
+
+The README offers `list` twice: *"verify the resolved family"* and *"what the current
+release of each member is"*. It answered neither.
+
+It printed name, version, repo and the full marketing paragraph — **22 lines, 5,398
+bytes, of which ~4,900 were nine descriptions** — and the data for the first question was
+sitting unused in the same manifest the function already reads. `entry` and `role` are on
+every member; neither was ever printed.
+
+Now one line per member, carrying the entry point and the role:
+
+```
+  super-ux         v0.52.4    /ux              what the interface must do and how it sounds
+  agent-sync       v1.19.1    /agent-sync      who is holding this file right now
+  sheleg-dev       v0.11.4    —                integrations: money in, tracking, errors, sign-in, speed
+```
+
+**984 bytes.** Three members show `—` because three genuinely have no entry point, and a
+blank cell reads as an omission rather than a fact.
+
+The descriptions are behind `--verbose` rather than deleted — they are what a stranger
+reads once and what an operator scrolls past every time. And `role` is the same cell the
+routing block's map table renders, so the roster and that table cannot drift: a member's
+role has one home.
+
 ## v1.21.0 — three pins, and the class the wave closed
 
 `super-ux` 0.52.3 → **0.52.4**, `sheleg-design` 1.58.2 → **1.58.3**,

@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**545** id'd requirement rows below, **498** read `verified` and none of them says which
+**549** id'd requirement rows below, **498** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,15 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.22.0, `list` answers the two questions it was offered for
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| LST-1 | Every member's entry point and role appear in `list` | fixture reads `skills.json` and asserts each `role` and each non-null `entry` is in the output; against the previous commit it reports `list never prints super-ux's role` | v1.22.0 | a member gaining a role the roster does not render — the fixture reads the manifest, so it fails in the same change | 2026-09-01, main thread |
+| LST-2 | A member with no entry point says so | three of nine genuinely have none, and the roster prints `—` rather than a blank cell, because an empty column reads as an omission rather than a fact | v1.22.0 | the placeholder being dropped | 2026-09-01, main thread |
+| LST-3 | The default output is a roster, not a wall | 22 lines / **5,398 bytes** → 15 lines / **984 bytes**; the nine descriptions moved behind `--verbose`, asserted in both directions so the flag cannot quietly become a no-op | v1.22.0 | the descriptions returning to the default output | 2026-09-01, main thread |
+| LST-4 | The roster and the routing block's map table cannot drift | both render `skills.json`'s `role` cell, so a member's role has ONE home and no second consistency check is needed | v1.22.0 | either surface starting to carry its own copy of the role | 2026-09-01, main thread |
 
 ## 2026-09-01 — v1.21.0, three pins after the registry-card wave
 
