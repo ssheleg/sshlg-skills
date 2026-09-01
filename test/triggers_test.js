@@ -130,8 +130,38 @@ it('a question emits nothing, even when it carries a trigger word', () => {
 
 it('a refusal phrase silences the hook completely', () => {
   assert.strictEqual(T.render('добавь фичу, без пайплайна'), '');
-  assert.strictEqual(T.render('quick fix for the migration'), '');
+  assert.strictEqual(T.render('no pipeline, just fix the migration'), '');
   assert.strictEqual(T.render('сделай лендинг как есть'), '');
+});
+
+// THE MISSING DIRECTION. Two fixtures above assert that no refusal is also a
+// trigger; until 2026-09-01 nothing asserted the converse — that ordinary work
+// language is not read as a refusal. It was not a hypothetical: `optedOut` is
+// one boolean for all twelve routers, sticky for the session and silent, and
+// `quick` and `as is` fired on six of the thirteen prompts below, so the most
+// natural sentence in software English switched the whole enforcement layer off
+// with nothing printed.
+//
+// Two entries are deliberately here and deliberately NOT asserted silent-free:
+// `draft it` and `no docs` still over-fire on the last two lines, measured and
+// left, because one hit apiece on a corpus written by the person proposing the
+// change is the shape of the corpus rather than evidence. The board carries the
+// number; this fixture carries the ones that were.
+it('ORDINARY WORK LANGUAGE IS NOT A REFUSAL — the invariant that ran one way', () => {
+  const ordinary = [
+    'as the migration is risky, refactor the payment module first',
+    'a quick win: add the paywall screen',
+    'quickly add sentry to the backend',
+    'the quick brown fox jumps over the lazy dog',
+    'refactor it as the code is unreadable',
+    'as long as it is fast, build the onboarding flow',
+    'a quick question about the paywall, then design the hero',
+    'this is quicker than the migration, wire up stripe',
+  ];
+  const refused = ordinary.filter((p) => T.optedOut(p));
+  assert.deepStrictEqual(refused, [],
+    'ordinary work language read as a refusal — that silences ALL twelve routers '
+    + 'for the rest of the session, and prints nothing');
 });
 
 it('no trigger at all emits nothing', () => {

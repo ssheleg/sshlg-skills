@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**505** id'd requirement rows below, **497** read `verified` and none of them says which
+**512** id'd requirement rows below, **497** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,18 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.15.0, consent misread in both directions
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| CON-1 | `applyCursor` refuses a recorded `no` and no longer creates the rule | scratch HOME, `state.json` = `{"routers":"no"}`, `~/.cursor/rules` present, `routers --update` → `.claude/CLAUDE.md — no-block` and `.cursor/rules/sshlg-routing.mdc — absent`; the same probe against the previous commit returned `created`, 22 512 bytes | v1.15.0 | `applyCursor` gaining a write path that skips the `existing === null` branch | 2026-09-01, main thread |
+| CON-2 | A target the pack did not have last time still arrives under recorded consent | same HOME with `state.json` = `{"routers":"yes"}`, mode `update` → `sshlg-routing.mdc — created`, 22 512 bytes — the Gemini case, which is why the guard is not a flat refusal | v1.15.0 | the `newTargetUnderConsent` exception being dropped as redundant | 2026-09-01, main thread |
+| CON-3 | Both new `applyCursor` fixtures fail against the code they were written for | `git stash` the fix, `node test/apply_test.js` → `2 failure(s) out of 17`, both reporting `action: "created"`; restored → `OK (17 checks)` | v1.15.0 | the fixtures being rewritten to assert the return value rather than the file's absence | 2026-09-01, main thread |
+| CON-4 | `quick` and `as is` fired on ordinary work language, and no longer do | 13-prompt corpus through `optedOut`, culprit attributed per phrase: `as is` → 3, `quick` → 3, `draft it` → 1, `no docs` → 1, `как есть` → 1, `на словах` → 1. After the change the eight-prompt fixture returns `[]`; against the old list it returns six | v1.15.0 | a router advertising either phrase again — the coupling fixture reads the registry's own refusal lines | 2026-09-01, main thread |
+| CON-5 | The two silence probes are silenced by having no trigger, not by a refusal | the same probe reports `ok (no refusal)` for «сделай форму логина на react» and «настрой мониторинг и алерты` — so the corpus measures over-firing rather than absence, which is what makes CON-4 readable | v1.15.0 | the probe being replaced by one that reads `match()` instead of `optedOut()` | 2026-09-01, main thread |
+| CON-6 | The registry and the matcher cannot drift apart on a refusal phrase | mid-edit the two files were out of step and `every refusal the routing block advertises is one this module parses` refused — the fixture catching its own subject during this change | v1.15.0 | the fixture restating the phrase list instead of reading it | 2026-09-01, main thread |
+| CON-7 | Two pins moved on all three surfaces | `make-skill` 0.25.3 → 0.26.0 and `agent-stack` 0.22.0 → 0.23.0 in `skills.json`, the gitlink (`git checkout v0.26.0` / `v0.23.0` in each submodule) and the README table rows 45 and 49; `npm test` → `rc=0`, `COUNTED: 46 suites, 783 fixtures, 9 pinned members` | v1.15.0 | either member releasing again | 2026-09-01, main thread |
 
 ## 2026-09-01 — v1.14.0, six pins and the card coupling resolved
 
