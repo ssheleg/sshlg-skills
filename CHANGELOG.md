@@ -1,3 +1,25 @@
+## v1.25.1 — the step count was 55, and the counter said so first
+
+v1.23.0 shipped a step counter for `update`, and its own entry said the run is **56**
+serial child processes. The first real run on this machine printed:
+
+```
+== 55 steps ==
+== 55 of 55 steps, all green ==
+```
+
+**55.** The 56 came from the audit that found the defect and was carried into the
+CHANGELOG, the ledger, the module header and the fixture comment without being
+re-measured — five copies of a number nobody ran.
+
+The counter is derived from the plan, so it was right on the first attempt and it
+corrected its own author within five minutes of shipping. That is the whole argument
+for deriving it, made better by an accident than it could have been by an assertion.
+
+All five copies now read 55. The released v1.23.0 entry is corrected in place rather
+than annotated: a released record that stays wrong is the defect, and this repository
+refuses that in other people's documents.
+
 ## v1.25.0 — a refusal that admits the class it gets wrong
 
 The bare-CLI denial said a plain copy **is** created. When the payload merely quotes the
@@ -55,14 +77,14 @@ tree cannot recompute — rather than a literal that looks like one it can.
 
 ## v1.23.0 — `update` says where it is and what broke
 
-`update` is **56 serial child processes**: 37 skills-CLI steps, 18 plugin calls and one
+`update` is **55 serial child processes**: 37 skills-CLI steps, 18 plugin calls and one
 submodule sync, every skills step through `npx --yes` at 22.7 / 25.0 / 34.1 s warm. That
 is roughly a quarter of an hour of inherited output — with no step count, no counter,
 and no summary.
 
-**The exit code was the only signal that one of the 56 failed.** `run()` returned a bare
+**The exit code was the only signal that one of the 55 failed.** `run()` returned a bare
 boolean, `cmdUpdate` ANDed them into `ok` and exited 1. Finding the step meant scrolling
-back through 56 spawns, and re-running cost another quarter hour.
+back through 55 spawns, and re-running cost another quarter hour.
 
 Now:
 

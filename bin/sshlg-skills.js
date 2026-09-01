@@ -29,14 +29,14 @@ const SKILLS = manifest.skills;
 function log(m) { process.stdout.write(m + '\n'); }
 
 /**
- * How far through, and what failed — because `update` is 56 serial child processes.
+ * How far through, and what failed — because `update` is 55 serial child processes.
  *
  * Measured 2026-09-01: 37 skills-CLI steps + 18 plugin calls + one submodule sync, every
  * skills step through `npx --yes` at 22.7 / 25.0 / 34.1 s warm. That is roughly a quarter
  * of an hour of inherited output with no step count, no counter, and — worse — no
  * summary: `run()` returned a bare boolean, `cmdUpdate` ANDed them into `ok` and exited
- * 1, so the ONLY signal that one of the 56 failed was the exit code. Finding the step
- * meant scrolling back through 56 spawns, and re-running cost another quarter hour.
+ * 1, so the ONLY signal that one of the 55 failed was the exit code. Finding the step
+ * meant scrolling back through 55 spawns, and re-running cost another quarter hour.
  *
  * `total` is set by the caller that knows the plan; while it is 0 nothing is printed, so
  * `install` and the one-off verbs are untouched.

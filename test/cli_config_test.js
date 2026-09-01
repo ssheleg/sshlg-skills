@@ -365,13 +365,13 @@ it('`list` is a roster by default and the paragraphs are behind a flag', () => {
     '--verbose dropped the description instead of adding it');
 });
 
-// `update` IS 56 SERIAL CHILD PROCESSES AND SAID NOTHING ABOUT WHERE IT WAS.
+// `update` IS 55 SERIAL CHILD PROCESSES AND SAID NOTHING ABOUT WHERE IT WAS.
 //
 // 37 skills-CLI steps + 18 plugin calls + one submodule sync, every skills step through
 // `npx --yes` at 22.7 / 25.0 / 34.1 s warm — roughly a quarter of an hour of inherited
 // output with no step count and no counter. Worse, no summary: `run()` returned a bare
-// boolean, `cmdUpdate` ANDed them and exited 1, so the ONLY signal that one of the 56
-// failed was the exit code, and finding it meant scrolling back through 56 spawns.
+// boolean, `cmdUpdate` ANDed them and exited 1, so the ONLY signal that one of the 55
+// failed was the exit code, and finding it meant scrolling back through 55 spawns.
 //
 // The probe puts an empty directory on PATH so every child fails immediately: the point
 // is the REPORT, not the network. `--claude-only` keeps it to the plugin half so the run
