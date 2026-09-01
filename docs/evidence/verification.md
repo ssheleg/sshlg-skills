@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**516** id'd requirement rows below, **497** read `verified` and none of them says which
+**522** id'd requirement rows below, **497** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,17 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.16.0, a phantom in the roster and a module with no callers
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| RST-1 | A directory with no `SKILL.md` is not counted as a skill | fixture builds a plugin with `real/SKILL.md` and `references/best-practices.md`; `readSkills` returns `['real']`. Against the previous commit the same fixture returned `['real','references']`. End to end: `toolkit` reads `518 skills reachable` where it read `519`, and `--expand super-ux@super-ux` no longer lists `references` | v1.16.0 | the plugin scan losing the `SKILL.md` test — the fixture is filesystem-level, not a mock | 2026-09-01, main thread |
+| RST-2 | The plain-copy scan is deliberately unchanged | in `~/.claude/skills` a symlink IS the skill and the shadow detector must see it whether or not the target resolves, so only the plugin branch gained the test | v1.16.0 | a future run applying the same filter there and blinding the shadow guard | 2026-09-01, main thread |
+| ORP-1 | No module in `lib/` is unreachable from production code | the guard walks `lib`, `hooks`, `bin`, `scripts` for real `require(…)` in the three shapes this codebase uses; with `lib/router-texts.js` restored it reports it by name, and returns `[]` once moved | v1.16.0 | a module reached only through a string built at run time — the guard reads source, not behaviour | 2026-09-01, main thread |
+| ORP-2 | The orphan stopped shipping | `npm pack --dry-run \| grep -c router-texts` → `1` before, `0` after; `test/` is not in `package.json`'s `files`, and `runtime.sync` copies `lib` and `hooks`, not `test` | v1.16.0 | `files` gaining `test`, or `runtime.DIRS` gaining it | 2026-09-01, main thread |
+| ORP-3 | The guard's FIRST version was a green that meant nothing, and was caught | it matched the module name anywhere in a file and PASSED with the orphan still in `lib/`, because `routers-registry.js` names it in a comment about where the text used to live. Found only by making the fixture fail against the old state; it reads `require(…)` now | v1.16.0 | the matcher widening back to a substring test | 2026-09-01, main thread |
+| DEF-1 | The one-string block contradiction is deferred with its cost measured, not discovered halfway | changing `super-ux`'s `role` turned `check_every_member_commits_the_exact_pixels` red — `role` feeds `scripts/site.js` and the member's committed `docs/assets/social-preview.png`, so it needs a `super-ux` release and a re-pin. Filed as `B-131` with the fixture written and held back with it | v1.16.0 | the card coupling being removed, which is `B-118`'s ground | 2026-09-01, main thread |
 
 ## 2026-09-01 — v1.15.1, the family stops disowning its own members
 

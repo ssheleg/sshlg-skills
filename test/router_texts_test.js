@@ -9,7 +9,7 @@
 // making it claim otherwise would be a lie in the operator's own file.
 
 const assert = require('assert');
-const T = require('../lib/router-texts.js');
+const T = require('./router-texts.js');
 const registry = require('../lib/routers-registry.js');
 
 let checks = 0;

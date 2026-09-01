@@ -6,7 +6,7 @@
 
 const assert = require('assert');
 const M = require('../lib/migrate.js');
-const T = require('../lib/router-texts.js');
+const T = require('./router-texts.js');
 
 let checks = 0;
 const failures = [];
