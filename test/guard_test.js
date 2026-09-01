@@ -183,17 +183,44 @@ it('AND WIDENING IT DID NOT BUY FALSE POSITIVES', () => {
     + 'positive spends the operator\'s own permission prompt');
 });
 
-it('THE REMAINING GAP IS DECLARED, NOT SILENT', () => {
-  // A path resolved through `cd` needs `payload.cwd` and the resolver `lib/repogate.js`
-  // already carries. That is a change with its own fixtures rather than a regex, and it
-  // is on the board — asserted here so it cannot close by accident and go unnoticed.
-  const relative = G.decide(
-    { tool_name: 'Bash', tool_input: { command: 'cd ~/.claude && echo x > CLAUDE.md' } }, H);
-  assert.strictEqual(relative, null,
-    'the cwd-relative spelling is now caught — good, and the board row for it should '
-    + 'close in the same change as this assertion');
-});
+// THE GAP THAT WAS DECLARED IS NOW CLOSED, AND THE FIXTURE CLOSED WITH IT.
+//
+// `cd ~/.claude && echo x > CLAUDE.md` writes the same file as the absolute form, and
+// only the first walked past: `spellings()` enumerates absolute and `$HOME` forms, none
+// of which appear in a command that has already moved. The segments run in order, so the
+// cwd is tracked across them and the relative spelling is offered beside the others.
+//
+// The resolver is `lib/repogate.js`'s, exported rather than copied — this family keeps a
+// guard against copied mechanisms, and a second `cd` parser is what it exists to catch.
+//
+// The negatives matter as much as before, and one of them is new: a file of the same
+// NAME under a different directory must not be claimed.
+it('A PATH THE SHELL ALREADY MOVED TO IS STILL THE SAME FILE', () => {
+  const P = (command, cwd) => ({ tool_name: 'Bash', cwd, tool_input: { command } });
+  const CM = path.join(HOME, '.claude', 'CLAUDE.md');
+  const CLAUDE_DIR = path.join(HOME, '.claude');
 
+  const writes = [
+    ['cd then relative', `cd ${CLAUDE_DIR} && echo x > CLAUDE.md`, '/tmp'],
+    ['cd with a tilde', 'cd ~/.claude && echo x > CLAUDE.md', '/tmp'],
+    ['cd then a second segment', `cd ${CLAUDE_DIR}; echo x > CLAUDE.md`, '/tmp'],
+    ['already in the directory', 'echo x > CLAUDE.md', CLAUDE_DIR],
+  ];
+  const missed = writes.filter(([, c, cwd]) => G.decide(P(c, cwd), HOME) !== CM);
+  assert.deepStrictEqual(missed.map(([n]) => n), [],
+    'a write the shell reached by moving first was not caught');
+
+  const notWrites = [
+    ['a CLAUDE.md somewhere else', 'cd /tmp && echo x > CLAUDE.md', '/tmp'],
+    ['a neighbouring file', `cd ${CLAUDE_DIR} && echo x > CLAUDE.md.bak`, '/tmp'],
+    ['reading it', `cd ${CLAUDE_DIR} && cat CLAUDE.md`, '/tmp'],
+    ['no cd, no path', 'echo x > CLAUDE.md', '/tmp'],
+  ];
+  const overcaught = notWrites.filter(([, c, cwd]) => G.decide(P(c, cwd), HOME));
+  assert.deepStrictEqual(overcaught.map(([n]) => n), [],
+    'the guard claimed a file that is not the protected one — widening a guard must not '
+    + 'buy false positives, even now that an over-catch costs only an unnecessary copy');
+});
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

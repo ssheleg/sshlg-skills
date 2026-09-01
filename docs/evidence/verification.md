@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**567** id'd requirement rows below, **498** read `verified` and none of them says which
+**572** id'd requirement rows below, **498** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,16 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-02 — v1.27.0, a path the shell already moved to
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| CWD-1 | A write reached by moving first is caught | four shapes assert it — after a `cd`, after a tilde `cd`, across a `;`, and with the operator already standing in the directory. Against the previous commit the fixture reports *"a write the shell reached by moving first was not caught"* | v1.27.0 | `decide` losing the segment walk, which is what tracks the position | 2026-09-02, main thread |
+| CWD-2 | The resolver is exported, not copied | `cdTarget` and `joinPath` now leave `lib/repogate.js` through its exports. A second `cd` parser is exactly what `B-138`'s guard against copied mechanisms exists to catch, and one edge between two pure modules is cheaper than one more copy | v1.27.0 | either module growing its own second parser | 2026-09-02, main thread |
+| CWD-3 | Widening bought no false positives | four non-writes still pass, including a `CLAUDE.md` under a DIFFERENT directory — the failure a naive basename match would introduce. The relative spelling is offered only when the file sits under the cwd, because `../../.claude/CLAUDE.md` is not a spelling anyone types | v1.27.0 | the `..` guard being dropped | 2026-09-02, main thread |
+| CWD-4 | The fixture that asserted the gap was REPLACED, not left beside the fix | it previously asserted the cwd-relative spelling returns `null`, so closing the gap without touching it would have left the board row and the code disagreeing silently | v1.27.0 | a future gap being declared without an assertion that it is still open | 2026-09-02, main thread |
+| CWD-5 | Widening is cheaper than it was, and that is why now | since v1.20.0 the hook emits no permission decision on the happy path, so an over-catch costs an unnecessary copy rather than the operator's own prompt. The same change before v1.20.0 would have been a worse trade | v1.27.0 | `allow` returning to the happy path | 2026-09-02, main thread |
 
 ## 2026-09-02 — v1.26.0, a refusal must end its clause
 
