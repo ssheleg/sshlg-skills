@@ -1,3 +1,32 @@
+## v1.20.0 — the copy is the value, and the decision was never ours
+
+The `PreToolUse` guard answered **`allow`** after taking its copy, and
+`permissionDecision: 'allow'` bypasses the permission system: the tool call proceeds
+without the operator being asked.
+
+So **installing this pack made writes and deletions to the five most consequential files
+on the machine less interactive than they were before it was installed** — the opposite
+of what the module is for. `rm` is in `ALL_ARGS`, so `rm ~/.claude/CLAUDE.md` was copied
+and then auto-approved. A false positive made it worse: an over-catch spent the
+operator's own prompt on an unrelated call. None of this was acknowledged in any
+document, and a fixture asserted the `allow` deliberately.
+
+**`deny` stays — that is the whole value.** Refusing a write whose copy could not be
+taken is the thing this module exists to do, and it still fires: with the backups
+directory made impossible, the hook answers `deny` and names the directory to fix.
+
+What goes is the half that decided **for** the operator on the happy path. The hook now
+takes the copy, writes its path to stderr, emits no decision, and lets the normal
+permission flow run.
+
+**This is more friction, on purpose.** It is exactly the friction the operator had before
+installing the pack. The value on offer was always the copy, not the approval.
+
+The fixture that asserted `allow` now asserts its absence, which needed a new
+`runHookRaw` helper: `runHook` parses stdout as JSON and returns `null` when empty, and
+that cannot tell *no decision* from *a decision that failed to parse* — and *no decision*
+is precisely what the happy path must produce.
+
 ## v1.19.0 — three pins, and the drift they close was measured rather than assumed
 
 `agent-sync` 1.19.0 → **1.19.1**, `seo-aeo-audit` 0.25.9 → **0.25.10**,

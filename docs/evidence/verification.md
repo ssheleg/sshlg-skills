@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**537** id'd requirement rows below, **498** read `verified` and none of them says which
+**541** id'd requirement rows below, **498** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,15 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.20.0, the copy is the value and the decision was never ours
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| ALW-1 | The happy path emits no permission decision | scratch HOME, `Edit` on `~/.claude/CLAUDE.md` → `exit 0`, **stdout empty**, one copy on disk, and stderr carries `copy taken before the write: <path>`. Against the previous commit stdout carried `permissionDecision: "allow"` | v1.20.0 | any branch answering `allow` on a successful copy | 2026-09-01, main thread |
+| ALW-2 | `deny` still fires, which is the whole value | same probe with `~/.sshlg-skills/backups` made impossible (a regular file at that path) → `decision: deny`, naming the directory to fix. The refusal half is untouched | v1.20.0 | the deny branch being softened to a warning | 2026-09-01, main thread |
+| ALW-3 | The fixture asserts an ABSENCE, and needed a new helper to do it | `runHook` parses stdout as JSON and returns `null` when empty, which cannot separate *no decision* from *a decision that failed to parse* — and *no decision* is what the happy path must produce. `runHookRaw` returns stdout and stderr unparsed | v1.20.0 | the fixture reverting to `runHook`, where an empty and a malformed output look alike | 2026-09-01, main thread |
+| ALW-4 | The trade is stated rather than hidden | this is MORE friction: the operator is prompted again for writes to the five files, exactly as before the pack was installed. The pack's offer was always the copy, not the approval — and the `allow` was asserted by a fixture and acknowledged in no document | v1.20.0 | nothing — this is a decision, and the row is where it is recorded | 2026-09-01, main thread |
 
 ## 2026-09-01 — v1.19.0, three pins measured against the registry
 

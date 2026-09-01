@@ -158,9 +158,25 @@ process.stdin.on('end', () => {
         'Fix the backup directory (~/.sshlg-skills/backups) and try again.');
       return process.exit(0);
     }
-    say('allow', saved.action === 'no-file'
-      ? `${target} does not exist yet — creating it destroys nothing.`
-      : `copy taken before the write: ${saved.path}`);
+    // THE COPY IS THE VALUE. THE DECISION IS NOT OURS.
+    //
+    // This answered `allow`, and `permissionDecision: 'allow'` bypasses the permission
+    // system — the tool call proceeds without the operator being asked. So installing
+    // this pack made writes and deletions to the five most consequential files on the
+    // machine LESS interactive than they were before it was installed, which is the
+    // opposite of what the module is for. `rm` is in `ALL_ARGS`, so
+    // `rm ~/.claude/CLAUDE.md` was backed up and then auto-approved.
+    //
+    // A false positive made it worse: an over-catch spent the operator's own prompt on
+    // an unrelated call. Nowhere was any of this acknowledged in a document.
+    //
+    // `deny` stays — refusing a write whose copy could not be taken is the whole value.
+    // What goes is the half that decides FOR the operator on the happy path: take the
+    // copy, say where it went on stderr, emit no decision, and let the normal
+    // permission flow run.
+    process.stderr.write(saved.action === 'no-file'
+      ? `[sshlg-skills] ${target} does not exist yet — creating it destroys nothing.\n`
+      : `[sshlg-skills] copy taken before the write: ${saved.path}\n`);
   } catch (e) {
     /* Silence, deliberately. See the header. */
   }
