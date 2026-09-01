@@ -1,4 +1,4 @@
-<!-- agent-sync:generated source=sshlg-skills@6174583 cfg=90d10d0cc2e4 at=2026-08-19T23:03:49Z — regenerate with `agent_sync.py setup`, do not hand-edit -->
+<!-- agent-sync:generated source=sshlg-skills@4660b21 cfg=9353d7b40560 at=2026-09-01T18:49:12Z — regenerate with `agent_sync.py setup`, do not hand-edit -->
 
 # How documentation and coordination work in sshlg-skills
 
@@ -19,7 +19,7 @@ them is the finding.** Reconcile before starting a task and after finishing it.
 
 - record plane: **fs** · lease: **local** — exclusive on this machine, advisory across machines · runs recorded **gated**
 - lease TTL 2700s, renewed every 300s
-- credentials read from `.env.agent-sync` — gitignored, never committed
+- credentials read from `(none found)` — gitignored, never committed
 
 ### Id registers — reserve before you write
 
@@ -33,6 +33,7 @@ None declared here. Ids live in the parent repository; reserve them there.
 - `docs/evidence/manifesto-conformance.md`
 - `skills.json`
 - `README.md`
+- `skills/*`
 - `pipeline.json`
 
 ### Gates run before a change is considered done
