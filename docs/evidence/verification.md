@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**558** id'd requirement rows below, **498** read `verified` and none of them says which
+**563** id'd requirement rows below, **498** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,16 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.25.0, a refusal that admits the class it gets wrong
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| REF-1 | The refusal no longer asserts a consequence that did not happen | `creates` → `would create`: the plain copy follows from RUNNING the command, not from matching its text. Against the previous commit the fixture reports *"the refusal still asserts a copy IS created, which is false when the text is quoted"* | v1.25.0 | the verb reverting to the indicative | 2026-09-01, main thread |
+| REF-2 | It names the class it gets wrong, and why | the reason carries *"If this text is QUOTED rather than run"* and *"cannot tell an example from an invocation"* — asserted separately, because a refusal that admits fallibility without saying why reads as hedging | v1.25.0 | either sentence being trimmed as verbose | 2026-09-01, main thread |
+| REF-3 | It names an escape | break the phrase, pass the body through a file, or split the search pattern — asserted, because a refusal with no next step is how an operator learns to switch a hook off, which is this repository's own rule | v1.25.0 | the escape being moved into a document instead of the message | 2026-09-01, main thread |
+| REF-4 | The matching is deliberately unchanged | `executablePart` keeps quoted strings because `bash -c '…'` is a real invocation. The false positive is the accepted price of that, and the fix is the sentence rather than the matcher — loosening it would reopen the bypass B-59 closed | v1.25.0 | a future run "fixing" this by stripping quoted strings | 2026-09-01, main thread |
+| REF-5 | The occurrence that prompted it was live, in this repository | opening the v1.23.0 pull request was refused by this hook because the PR body carried a fenced block of `update` output — during the release that had just filed the class as `B-136` | v1.25.0 | — | 2026-09-01, main thread |
 
 ## 2026-09-01 — v1.24.0, a number that cannot be computed is sourced
 

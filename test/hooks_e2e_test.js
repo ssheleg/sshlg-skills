@@ -706,6 +706,33 @@ try {
     }
   });
 
+  it('THE BARE-CLI REFUSAL ADMITS IT CANNOT TELL AN EXAMPLE FROM AN INVOCATION', () => {
+    // `executablePart` keeps quoted strings on purpose — `bash -c '…'` is a real
+    // invocation — so a payload that QUOTES the command is refused with a sentence that
+    // is untrue of it: no plain copy is created by a search. Measured 2026-09-01 while
+    // shipping: `gh pr create --body` carrying a fenced block of `update` output was
+    // refused by this hook, in this repository, during a release that had just filed the
+    // class as B-136.
+    //
+    // A refusal an operator can see is wrong is how a hook gets switched off. One that
+    // admits it may be wrong and names the escape keeps working.
+    const out = runHook('pre-tool-use.js', {
+      hook_event_name: 'PreToolUse',
+      tool_name: 'Bash',
+      tool_input: { command: 'npx skills update ux-flows' },
+    });
+    assert.strictEqual(out.hookSpecificOutput.permissionDecision, 'deny');
+    const why = out.hookSpecificOutput.permissionDecisionReason;
+    assert.ok(/would create/.test(why),
+      'the refusal still asserts a copy IS created, which is false when the text is quoted');
+    assert.ok(/QUOTED rather than run/.test(why),
+      'the refusal does not admit the class it gets wrong');
+    assert.ok(/cannot tell an example from an invocation/.test(why),
+      'the refusal does not say WHY it may be wrong');
+    assert.ok(/Break the phrase|through a file|pattern split/.test(why),
+      'the refusal names no escape — a refusal with no next step is how a hook is turned off');
+  });
+
   if (failures.length) {
     failures.forEach((f) => console.log('FAIL: ' + f));
     console.log(`${failures.length} failure(s) out of ${checks} checks`);
