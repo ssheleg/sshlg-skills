@@ -157,6 +157,14 @@ it('ORDINARY WORK LANGUAGE IS NOT A REFUSAL — the invariant that ran one way',
     'as long as it is fast, build the onboarding flow',
     'a quick question about the paywall, then design the hero',
     'this is quicker than the migration, wire up stripe',
+    // The four that survived v1.15.0 with one hit apiece and were LEFT then, because
+    // one hit each on a corpus written by the person proposing the change is the shape
+    // of the corpus rather than evidence. v1.26.0 closes them by MECHANISM instead: a
+    // refusal must be the sentence's own act, which is checkable in both directions.
+    'draft it into the landing page and then design the hero',
+    'there are no docs for this SDK, read the source and add the stripe webhook',
+    'передай текст как есть в лендинг и свёрстай его',
+    'на словах это просто: сделай миграцию базы',
   ];
   const refused = ordinary.filter((p) => T.optedOut(p));
   assert.deepStrictEqual(refused, [],
@@ -527,6 +535,52 @@ it('and a plain question still wins over a plain trigger', () => {
 
 it('a refusal beats the question exception too', () => {
   assert.deepStrictEqual(T.match('почему упал трафик, без seo'), []);
+});
+
+// THE OTHER HALF, AND IT IS THE HALF THAT MAKES THE RULE SHIPPABLE.
+//
+// A rule that removes false positives by silencing genuine refusals is worse than the
+// one it replaces. The first formulation of this rule did exactly that: it required
+// punctuation on BOTH sides and missed «сделай лендинг как есть» and «объясни на
+// словах», because Russian puts the phrase at the end without a comma. Measured, not
+// reasoned — which is why the trailing case exists at all.
+//
+// Both corpora here are SELF-WRITTEN, which is the same weakness that held the four
+// phrases back before. The defence is not a better corpus but a two-sided one: this
+// fixture fails if the rule ever silences a refusal an operator actually said.
+it('EVERY GENUINE REFUSAL IS STILL HEARD — the direction that makes the rule safe', () => {
+  const declined = [
+    // The one an earlier formulation of this rule missed: a connective sits between the
+    // comma and the phrase, so requiring punctuation immediately before it silenced a
+    // refusal the operator said out loud. Caught by the XF-04 fixture, not by reasoning.
+    'сделай телеграм бот, но без телеграма — только апи',
+    'rewrite this, no brand',
+    'add a paywall screen, no scenarios',
+    'добавь фичу, без пайплайна',
+    'без пайплайна',
+    'wire up stripe, no design',
+    'no design',
+    'write the landing copy, draft it',
+    'draft it',
+    'refactor the auth module, no docs',
+    'no docs',
+    'сделай лендинг как есть',      // trailing, no comma — the Russian idiom
+    'как есть',
+    'объясни на словах',            // trailing again
+    'no pipeline, just fix the migration',
+    'just fix it, no pipeline',
+  ];
+  const missed = declined.filter((p) => !T.optedOut(p));
+  assert.deepStrictEqual(missed, [],
+    'a refusal the operator said out loud was not heard — that costs them a route they '
+    + 'declined, which is worse than the over-firing this rule exists to stop');
+});
+
+it('the refusal rule did not narrow ordinary routing', () => {
+  // `matches()` stays tolerant for TRIGGERS on purpose — only refusals got stricter.
+  assert.deepStrictEqual(T.match('build an onboarding flow'), ['super-ux']);
+  assert.deepStrictEqual(T.match('подключи stripe и сделай миграцию').sort(),
+    ['sheleg-dev', 'task-pipeline']);
 });
 
 if (failures.length) {

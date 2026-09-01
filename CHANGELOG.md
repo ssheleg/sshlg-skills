@@ -1,3 +1,31 @@
+## v1.26.0 — a refusal must end its clause
+
+`optedOut` is one boolean for all twelve routers, sticky for the session and silent, so a
+refusal phrase found inside an ordinary clause switches the whole enforcement layer off
+with nothing printed. v1.15.0 dropped the two worst — `quick` and `as is` — and **left
+four** with one hit apiece: `draft it` on *"draft it into the landing page"*, `no docs` on
+*"there are no docs for this SDK"*, «как есть» on «передай текст как есть в лендинг»,
+«на словах» on «на словах это просто». One hit each on a corpus written by the person
+proposing the change is the shape of the corpus, not evidence.
+
+**What changed is the mechanism, not the evidence.** A refusal must be the sentence's own
+act — it must END its clause. «сделай лендинг как есть» declines; «передай текст как есть
+в лендинг» does not, and only what follows separates them. `refusalPattern` is separate
+from `matches`, which stays tolerant for **triggers** on purpose: a trigger should be
+found wherever it sits.
+
+**Two stricter formulations were refused by the existing fixtures before this one.**
+Requiring punctuation on both sides missed «сделай лендинг как есть», because Russian puts
+the phrase last without a comma. Adding a trailing case still missed «сделай телеграм бот,
+но без телеграма — только апи», where a connective sits between the comma and the phrase —
+caught by the XF-04 fixture, not by reasoning. Dropping the left condition entirely passes
+both corpora and is simpler than either.
+
+Measured: **0 false positives of 8, 0 false negatives of 16.** Both corpora are
+self-written, which is the weakness that held these four back before — so both halves are
+asserted, and a rule that silences a refusal an operator actually said fails in the gate
+rather than in a session. `B-128` closes.
+
 ## v1.25.1 — the step count was 55, and the counter said so first
 
 v1.23.0 shipped a step counter for `update`, and its own entry said the run is **56**
