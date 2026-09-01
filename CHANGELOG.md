@@ -1,3 +1,38 @@
+## v1.23.0 — `update` says where it is and what broke
+
+`update` is **56 serial child processes**: 37 skills-CLI steps, 18 plugin calls and one
+submodule sync, every skills step through `npx --yes` at 22.7 / 25.0 / 34.1 s warm. That
+is roughly a quarter of an hour of inherited output — with no step count, no counter,
+and no summary.
+
+**The exit code was the only signal that one of the 56 failed.** `run()` returned a bare
+boolean, `cmdUpdate` ANDed them into `ok` and exited 1. Finding the step meant scrolling
+back through 56 spawns, and re-running cost another quarter hour.
+
+Now:
+
+```
+== 18 steps ==
+  » [1/18] claude plugin marketplace update super-ux
+  …
+== FAILED 18 of 18 steps ==
+  ✗ claude plugin marketplace update super-ux
+  ✗ claude plugin update super-ux@super-ux
+Re-run just these rather than the whole pass — each line above is the exact
+command, and a repeat of the full run costs about a quarter of an hour.
+```
+
+**The denominator is counted from the plan**, not estimated — the same arrays the loops
+walk — so a member joining the family moves it without anyone remembering to. And the
+counter is inert while `total` is 0, so `install` and the one-off verbs are untouched.
+
+The summary carries a re-run line rather than only a list: the operator's next question
+after *what broke* is always *how do I retry just that*, and answering it there is
+cheaper than answering it in a document nobody has open at minute fifteen.
+
+The fixture puts an empty directory on `PATH` so every child fails immediately — the
+assertion is about the **report**, not the network.
+
 ## v1.22.0 — `list` answers the two questions it was offered for
 
 The README offers `list` twice: *"verify the resolved family"* and *"what the current
