@@ -43,6 +43,21 @@ function runHook(script, payload) {
   return out ? JSON.parse(out) : null;
 }
 
+/**
+ * Raw stdout AND stderr, for the case where the ABSENCE of stdout is the assertion.
+ *
+ * `runHook` parses stdout as JSON and returns null when it is empty, which cannot tell
+ * "no decision" from "a decision that failed to parse" — and "no decision" is exactly
+ * what the happy path must now produce.
+ */
+function runHookRaw(script, payload) {
+  const r = spawnSync('node', [path.join(ROOT, 'hooks', script)], {
+    input: JSON.stringify(payload), encoding: 'utf8', env: ENV,
+  });
+  assert.strictEqual(r.status, 0, `${script} exited ${r.status}: ${r.stderr}`);
+  return { stdout: r.stdout || '', stderr: r.stderr || '' };
+}
+
 /** Some hooks answer in plain text (SessionStart context, the prompt note). */
 function runHookText(script, payload) {
   const r = spawnSync('node', [path.join(ROOT, 'hooks', script)], {
@@ -66,12 +81,26 @@ const CLAUDE_MD = path.join(HOME, '.claude', 'CLAUDE.md');
 
 // --- the guard, as a process ------------------------------------------------
 
-it('a write to the operator instruction file is allowed AND copied', () => {
+// THE COPY IS TAKEN AND NO DECISION IS EMITTED.
+//
+// This asserted `permissionDecision: 'allow'`, and that bypasses the permission system:
+// the tool call proceeds without the operator being asked. So installing this pack made
+// writes and deletions to the five most consequential files on the machine LESS
+// interactive than before it was installed — the opposite of what the module is for, and
+// `rm` is in `ALL_ARGS`, so `rm ~/.claude/CLAUDE.md` was copied and then auto-approved.
+//
+// `deny` stays: refusing a write whose copy could not be taken is the whole value. What
+// went is the half that decided FOR the operator on the happy path.
+it('a write to the operator instruction file is COPIED, and decides nothing', () => {
   write(CLAUDE_MD, '# rules\nsomething the operator wrote\n');
-  const out = runHook('pre-tool-use.js', {
+  const out = runHookRaw('pre-tool-use.js', {
     hook_event_name: 'PreToolUse', tool_name: 'Edit', tool_input: { file_path: CLAUDE_MD },
   });
-  assert.strictEqual(out.hookSpecificOutput.permissionDecision, 'allow');
+  assert.strictEqual(String(out.stdout || '').trim(), '',
+    'the hook emitted a permission decision on the happy path — that spends the '
+    + "operator's own prompt on the files this module calls unrecoverable");
+  assert.ok(/copy taken before the write/.test(out.stderr || ''),
+    `the copy's path was not reported: ${JSON.stringify(out.stderr)}`);
   const dir = path.join(HOME, '.sshlg-skills', 'backups');
   const copies = fs.readdirSync(dir);
   assert.strictEqual(copies.length, 1, `expected exactly one copy, got ${copies.length}`);
