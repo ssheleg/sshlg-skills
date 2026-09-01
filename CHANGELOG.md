@@ -1,3 +1,27 @@
+## v1.24.0 — a number that cannot be computed is sourced, not typed
+
+`scripts/site.js` carried `const agentCount = 70;`, used it on **nine public surfaces
+including the OG card**, and `README.md` carried `70+` twice. Three homes, none of them
+checked, in the family that ships `evidence-docs` — and `docs/DOCMAP.md` says in as many
+words that numbers are counted by running something and never carried across a document.
+
+**It cannot be counted here.** It is a property of another project — the vercel `skills`
+CLI's own agent list — so there is nothing in this tree to recompute it from. Inventing a
+computation would have been worse than the literal.
+
+So it is **sourced** instead. `skills.json` gains `agentsUpstream`, carrying the count,
+where it came from and the date it was read, and it says plainly that the number is not
+computable here. `site.js` reads it; the registry of counted claims holds `README.md`'s
+copy to it. Move the manifest and the README stops agreeing:
+
+```
+README.md: `upstream agent count` states 70, the tree gives 71 — recompute it
+rather than editing the guard
+```
+
+Three homes became one home with a guard. That is the honest treatment of a number this
+tree cannot recompute — rather than a literal that looks like one it can.
+
 ## v1.23.0 — `update` says where it is and what broke
 
 `update` is **56 serial child processes**: 37 skills-CLI steps, 18 plugin calls and one

@@ -347,7 +347,21 @@ function memberCardSpec(m) {
 }
 
 const totalSkills = members.reduce((n, m) => n + (m.skillNames || []).length, 0);
-const agentCount = 70;
+/**
+ * How many agents the upstream CLI reaches — READ from the manifest, not typed here.
+ *
+ * This was `const agentCount = 70;` and it rendered on nine public surfaces including
+ * the OG card, plus `README.md` twice. `docs/DOCMAP.md` says numbers are counted by
+ * running something and never carried across a document; this one was carried across
+ * two and into an image, in the family that ships `evidence-docs`.
+ *
+ * It cannot be COMPUTED here — it is a property of another project — so it is SOURCED
+ * instead: `skills.json`'s `agentsUpstream` carries the count, where it came from and
+ * the date it was read, and a check holds the README's copy to it. That is the honest
+ * treatment of a number this tree cannot recompute, rather than a literal that looks
+ * like one it can.
+ */
+const agentCount = (data.agentsUpstream && data.agentsUpstream.count) || 0;
 /** Named agents, declared in `skills.json` rather than typed into a template — the
  *  page is a claim about where these skills run, and a hand-kept list is the first
  *  thing to go stale when the launcher's default set changes. */

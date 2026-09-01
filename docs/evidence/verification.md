@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**554** id'd requirement rows below, **498** read `verified` and none of them says which
+**558** id'd requirement rows below, **498** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,15 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.24.0, a number that cannot be computed is sourced
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| AGC-1 | The upstream agent count has ONE home | `skills.json`'s `agentsUpstream` carries the count, its source and the date it was read; `scripts/site.js` reads it instead of declaring `const agentCount = 70`, and the site builds unchanged | v1.24.0 | a surface reintroducing its own literal | 2026-09-01, main thread |
+| AGC-2 | Every copy is held to that home | the counted-claims registry gains `upstream agent count`, matching `README.md` against the manifest. Moving the manifest to 71 produces `README.md: \`upstream agent count\` states 70, the tree gives 71 — recompute it rather than editing the guard` | v1.24.0 | the README rephrasing around the pattern the entry matches | 2026-09-01, main thread |
+| AGC-3 | The check is honest about WHAT it verifies | it verifies **agreement**, not truth: the number is a property of another project and nothing in this tree can recompute it. The manifest entry says so in its own `note`, so a future reader does not mistake a consistency check for a measurement | v1.24.0 | a future run inventing a computation for it, which would look like a measurement and be a fabrication | 2026-09-01, main thread |
+| AGC-4 | Three homes became one | it was `const agentCount = 70` used on nine public surfaces including the OG card, plus `README.md` twice — none checked, in the family that ships `evidence-docs`, against a DOCMAP rule that numbers are never carried across a document | v1.24.0 | — | 2026-09-01, main thread |
 
 ## 2026-09-01 — v1.23.0, `update` says where it is and what broke
 
