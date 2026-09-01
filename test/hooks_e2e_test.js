@@ -639,6 +639,44 @@ it('the payload without a cwd still gates what it can', () => {
 });
 
 try {
+  it('THE SHADOW GUARD SAYS SO WHEN IT HAS NO MANIFEST TO READ', () => {
+    // `lib/runtime.js` copies `skills.json` beside the hooks, and its comment named
+    // `lib/plan.js` and the bin as the consumers — neither of which reads it. The real
+    // consumer is this hook's shadow guard, and its read was a bare swallow: a reader
+    // trimming the runtime payload on the strength of that comment would have dropped
+    // the manifest, the guard would have returned an empty id set, and it would have
+    // denied nothing with no message.
+    //
+    // Still exit 0 and still no permission decision — a missing manifest is a
+    // diagnostic, not a verdict, and a hook answering `allow` to it would be deciding
+    // what it cannot know.
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-nomanifest-'));
+    try {
+      const hooks = path.join(dir, 'hooks');
+      fs.mkdirSync(hooks, { recursive: true });
+      fs.cpSync(path.join(ROOT, 'lib'), path.join(dir, 'lib'), { recursive: true });
+      fs.copyFileSync(path.join(ROOT, 'hooks', 'pre-tool-use.js'),
+        path.join(hooks, 'pre-tool-use.js'));
+      // deliberately NO skills.json beside it
+
+      const r = spawnSync(process.execPath, [path.join(hooks, 'pre-tool-use.js')], {
+        input: JSON.stringify({
+          hook_event_name: 'PreToolUse',
+          tool_name: 'Bash',
+          tool_input: { command: 'npx skills update ux-flows' },
+        }),
+        encoding: 'utf8',
+      });
+      assert.strictEqual(r.status, 0, 'a hook must never fail a turn, even blind');
+      assert.ok(/no skills\.json beside the hook/.test(r.stderr || ''),
+        `the guard went inert without saying so: stderr=${JSON.stringify(r.stderr)}`);
+      assert.ok(!/permissionDecision/.test(r.stdout || ''),
+        'a missing manifest is a diagnostic, not a verdict — it must decide nothing');
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
   if (failures.length) {
     failures.forEach((f) => console.log('FAIL: ' + f));
     console.log(`${failures.length} failure(s) out of ${checks} checks`);

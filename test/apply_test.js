@@ -319,7 +319,36 @@ it('every write to a protected file goes through protect()', () => {
   // Cheap structural guard for the rule the two blockers broke. Each
   // `writeFileSync` in the two modules that touch the operator's files must
   // have a `protect(` within the preceding few lines.
-  for (const rel of ['lib/apply.js', 'bin/sshlg-skills.js']) {
+  // DISCOVERED, NOT LISTED. This named two files and missed the third —
+  // `hooks/post-tool-use.js`, which is the exact file `CLAUDE.md` records as having
+  // BEEN the second write path until 2026-08-30 (UM-06). The invariant held in the
+  // code; the guard meant to keep it holding could not see the file with the history.
+  // `test/run.js` states this repository's own rule for that: guard corpora are
+  // discovered, not listed, because three hand-written lists in this family each
+  // missed a shipped surface.
+  const roots = ['lib', 'hooks', 'bin'];
+  const corpus = [];
+  for (const dir of roots) {
+    const abs = path.join(__dirname, '..', dir);
+    let names = [];
+    try { names = fs.readdirSync(abs); } catch (e) { continue; }
+    for (const n of names) if (n.endsWith('.js')) corpus.push(`${dir}/${n}`);
+  }
+  assert.ok(corpus.includes('hooks/post-tool-use.js'),
+    'the discovery missed the file this guard exists for');
+  // Three exemptions, NAMED rather than regex-shaped, and the list is itself a ratchet:
+  // each of these writes the pack's OWN state, never a file the operator owns.
+  //   backup.js    takes the copy — requiring protect() above it is circular
+  //   store.js     the pack's JSON under ~/.sshlg-skills/, per its own header
+  //   turnstate.js the per-turn files beside it
+  // The line-level exemption above cannot see them because their writes are generic
+  // (`writeFileSync(file, JSON.stringify(next))`), which is exactly why widening the
+  // corpus surfaced all three at once — the discovery working, not failing.
+  //
+  // Asserting the set means a FOURTH module that writes outside `protect()` fails here
+  // instead of being quietly waved through by a growing regex.
+  const OWN_STATE = ['lib/backup.js', 'lib/store.js', 'lib/turnstate.js'];
+  for (const rel of corpus.filter((f) => !OWN_STATE.includes(f))) {
     const src = fs.readFileSync(path.join(__dirname, '..', rel), 'utf8').split('\n');
     src.forEach((line, i) => {
       if (!/fs\.writeFileSync\(/.test(line)) return;
@@ -330,6 +359,33 @@ it('every write to a protected file goes through protect()', () => {
         `${rel}:${i + 1} writes without a protect() above it — ${line.trim()}`);
     });
   }
+});
+
+// The exemption list above is a claim about the tree, so it is checked against it.
+// A module that starts writing outside `protect()` must be argued for in that list,
+// not discovered later by an operator whose file went missing.
+it('THE PROTECT EXEMPTIONS ARE EXACTLY THE MODULES THAT WRITE THE PACK\'S OWN STATE', () => {
+  const roots = ['lib', 'hooks', 'bin'];
+  const unguarded = [];
+  for (const dir of roots) {
+    let names = [];
+    try { names = fs.readdirSync(path.join(__dirname, '..', dir)); } catch (e) { continue; }
+    for (const n of names.filter((x) => x.endsWith('.js'))) {
+      const rel = `${dir}/${n}`;
+      const src = fs.readFileSync(path.join(__dirname, '..', rel), 'utf8').split('\n');
+      src.forEach((line, i) => {
+        if (!/fs\.writeFileSync\(/.test(line)) return;
+        if (/sshlg-skills|state\.json|config\.json|settings\.json|\.json'/.test(line)) return;
+        const window = src.slice(Math.max(0, i - 14), i).join('\n');
+        if (!/protect\(|saved\.action|OPTOUT/.test(window)) unguarded.push(rel);
+      });
+    }
+  }
+  assert.deepStrictEqual([...new Set(unguarded)].sort(),
+    ['lib/backup.js', 'lib/store.js', 'lib/turnstate.js'],
+    'a module writes outside protect() and is not one of the three declared to write '
+    + 'only the pack\'s own state — argue for it in the exemption list or route it '
+    + 'through protect()');
 });
 
 if (failures.length) {
