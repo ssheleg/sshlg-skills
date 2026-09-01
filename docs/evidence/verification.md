@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**533** id'd requirement rows below, **498** read `verified` and none of them says which
+**537** id'd requirement rows below, **498** read `verified` and none of them says which
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
 `grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
 id shape this file uses. Three figures have stood here and the first two were both wrong:
@@ -34,6 +34,15 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-01 — v1.19.0, three pins measured against the registry
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| PIN5-1 | Three members sit on their release tags and all three pin surfaces agree | `git -C skills/<m> checkout v1.19.1 / v0.25.10 / v0.23.1` then `package.json` read back → 1.19.1, 0.25.10, 0.23.1; `skills.json` and README rows 44, 47, 49 moved in the same change; `npm test` → `rc=0`, `COUNTED: 46 suites, 793 fixtures, 9 pinned members` | v1.19.0 | any of the three releasing again | 2026-09-01, main thread |
+| PIN5-2 | The pins were compared against what the REGISTRY serves, not against the local checkouts | `npm view` per member at cut time: agent-sync 1.19.1, seo-aeo-audit 0.25.10, agent-stack 0.23.1. `~/DATA/agent-stack` was six commits behind and would have reported 0.18.2 — the `ARCH-6` gap between the submodule and the convenience clone, which showed up twice in one day | v1.19.0 | nothing — this is a discipline, and the row exists so the next run repeats it | 2026-09-01, main thread |
+| PIN5-3 | The gitlink moved under coordination for the first time | `skills/*` joined `guardedFiles` in v1.17.0, so this is the first pin wave where the third coupled surface is guarded rather than only the other two | v1.19.0 | the pattern being dropped from `.claude/agent-sync.json` | 2026-09-01, main thread |
+| PIN5-4 | `task-pipeline` is deliberately NOT in this wave | the registry still serves 1.81.1: v1.82.0, v1.82.1 and v1.82.2 are dead tags, and v1.82.3 is the repair in flight. Pinning a version npm does not serve would advertise an install that cannot happen | v1.19.0 | v1.82.3 publishing, which is the next wave's first row | 2026-09-01, main thread |
 
 ## 2026-09-01 — v1.18.0, seven ordinary ways to destroy the operator's file
 

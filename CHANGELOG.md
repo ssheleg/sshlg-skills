@@ -1,3 +1,25 @@
+## v1.19.0 — three pins, and the drift they close was measured rather than assumed
+
+`agent-sync` 1.19.0 → **1.19.1**, `seo-aeo-audit` 0.25.9 → **0.25.10**,
+`agent-stack` 0.23.0 → **0.23.1**. Three surfaces each — `skills.json`, the gitlink,
+the README row — and the gitlink is under coordination since v1.17.0.
+
+**What the three carry.** `agent-sync`: re-acquiring a lease this run already holds now
+moves the lock's own timestamp, not just the throttle marker — the branch did exactly
+what `_refresh_lease`'s docstring calls the bug it exists to have fixed, and worse, it
+reset the marker `renew()` throttles on, so a re-acquire suppressed the next real
+refresh while refreshing nothing. `seo-aeo-audit`: an FAQ answer carrying an inline link
+is no longer reported as absent from a page that plainly shows it — a `high` finding
+citing Google's policy on invisible marked-up content, about content that is visible.
+`agent-stack`: the enterprise registry card stopped being ten minor releases stale, and
+gained the check that could not let it drift again.
+
+**Measured, not assumed.** The pins were compared against what the registry actually
+serves, member by member, rather than against the local checkouts — one of which was six
+commits behind and would have reported `agent-stack` at 0.18.2. That gap between the
+submodule and the convenience clone is `ARCH-6` from the audit, and it showed up twice in
+one day.
+
 ## v1.18.0 — seven ordinary ways to destroy the operator's file
 
 `lib/guard.js` is the module the whole pack is built around: it decides which

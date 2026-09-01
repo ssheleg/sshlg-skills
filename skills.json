@@ -67,7 +67,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.19.0",
+      "version": "1.19.1",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
@@ -129,7 +129,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.25.9",
+      "version": "0.25.10",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
@@ -172,7 +172,7 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.23.0",
+      "version": "0.23.1",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
