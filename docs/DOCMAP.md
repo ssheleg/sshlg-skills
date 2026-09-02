@@ -145,9 +145,12 @@ the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
 <!-- ratchets: suites=46 fixtures=799 members=9 -->
-**Ratchets.** 46 suites, 780 fixtures, 9 pinned members — and these three numbers are
+**Ratchets.** 46 suites, 799 fixtures, 9 pinned members — and these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
-run it just did and fails when a stated figure and the measured one disagree.** Counting
+run it just did and fails when a stated figure and the measured one disagree — and this
+sentence is checked against the same run, not against the marker.** It quoted the marker
+and nothing compared the two, so it drifted: on 2026-09-02 it read *780 fixtures* beside
+a marker saying 799, inside its own promise that the figures were derived. Counting
 convention: a suite is anything `npm test` runs, `validate.py` included, which is the
 same denominator its own `PASS:` line uses; a fixture is a case counted by a suite's own
 `OK (n checks)` or `PASS: … — n` line. A figure that DROPS is a suite that stopped

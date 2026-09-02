@@ -1,3 +1,29 @@
+## v1.28.0 — one pin, and the sentence that quoted a checked number without being checked
+
+`task-pipeline` 1.81.1 → **1.82.4**. The exclusion two waves carried — *"the registry
+still serves 1.81.1 while v1.82.3's stamp half is in flight"* — is closed: the registry
+serves 1.82.4, read at cut time rather than from any report.
+
+**Getting there cost a fifth burn that did not happen.** `v1.82.3` was the fourth dead tag
+in a day; its repair sat green and unmerged for twenty hours and would have burned
+`v1.82.4` on a check the branch cannot run. `validate.yml` ignores tag pushes, so the
+release-gap check first sees the tree at release time — a PR repairing burn N is
+structurally blind to burn N+1. Cutting the tag locally, running `npm run test:all`
+against its tree and reading the suite's own exit code caught it; the tag was deleted and
+nothing was pushed.
+
+**A defect in this repository's own ratchet, found on the way.** The marker
+`<!-- ratchets: … -->` is checked against the run; the sentence beside it quoting the same
+three figures is not, and it had drifted to **780 fixtures against a measured 799** —
+inside its own promise that the numbers *"are read out of the marker above"*. `test/run.js`
+now derives the sentence from the same run, and refuses a restatement that disagrees
+**and** a sentence deleted to silence it. Negative self-tests 28 → **29**.
+
+**The repository caught the change that added it**: the README's `28` was stale the moment
+the plant landed, and `validate.py` refused the tree until it was recomputed.
+
+Gate: `npm test` → rc=0, `COUNTED: 46 suites, 799 fixtures, 9 pinned members`.
+
 ## v1.27.0 — a path the shell already moved to is still the same file
 
 `cd ~/.claude && echo x > CLAUDE.md` writes exactly what

@@ -186,6 +186,36 @@ jobs:
             exit 1
           fi
 
+      - name: Negative self-test (the sentence quoting the ratchet marker must be checked too)
+        run: |
+          set -eu
+          # The marker was checked and the prose beside it was not, so the prose drifted —
+          # 780 against a measured 799, inside its own claim that the figures are derived.
+          # A restatement nothing reproduces is the class this repository has paid for
+          # four times, so the guard that closes it is watched refusing one.
+          rm -rf /tmp/proseplant && cp -R . /tmp/proseplant
+          cd /tmp/proseplant
+          python3 - <<'PY'
+          import re, pathlib
+          p = pathlib.Path('docs/DOCMAP.md')
+          t = p.read_text(encoding='utf-8')
+          m = re.search(r'\*\*Ratchets\.\*\* (\d+) suites, (\d+) fixtures', t)
+          assert m, 'PLANT DID NOT LAND: the Ratchets sentence is not where the plant expects it'
+          p.write_text(t.replace(m.group(0), f'**Ratchets.** {m.group(1)} suites, 1 fixtures', 1),
+                       encoding='utf-8')
+          PY
+          grep -q '\*\*Ratchets\.\*\* [0-9]* suites, 1 fixtures' docs/DOCMAP.md \
+            || { echo "PLANT DID NOT LAND"; exit 1; }
+          out=$(npm test 2>&1 || true)
+          if printf '%s' "$out" | grep -q "Ratchets sentence says fixtures=1"; then
+            echo "the stale restatement was refused:"
+            printf '%s\n' "$out" | grep 'Ratchets sentence'
+          else
+            echo "a restatement the run does not reproduce passed the gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
       - name: Negative self-test (a stated count that has gone stale must fail)
         run: |
           set -eu
