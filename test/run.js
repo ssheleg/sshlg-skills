@@ -63,6 +63,25 @@ function statedRatchets() {
   return out;
 }
 
+/**
+ * The same three figures as the PROSE beside the marker states them, or null when that
+ * sentence is absent.
+ *
+ * The marker was checked and the sentence quoting it was not, so the sentence drifted:
+ * on 2026-09-02 it read `46 suites, 780 fixtures` beside a marker saying 799 and a run
+ * measuring 799 — while itself claiming the figures "are now read out of the marker
+ * above". A number a reader takes as current and no check reproduces is the class this
+ * repository has already paid for four times; the fix is that the restatement is now
+ * derived from the same run, not that somebody remembers to edit both.
+ */
+function proseRatchets() {
+  const file = path.join(ROOT, 'docs', 'DOCMAP.md');
+  const m = /\*\*Ratchets\.\*\*\s*(\d+)\s+suites?,\s*(\d+)\s+fixtures?,\s*(\d+)\s+pinned members/
+    .exec(fs.readFileSync(file, 'utf8'));
+  if (!m) return null;
+  return { suites: Number(m[1]), fixtures: Number(m[2]), members: Number(m[3]) };
+}
+
 const entries = fs.readdirSync(TEST_DIR).sort();
 const suites = entries.filter((f) => f.endsWith('_test.js'));
 // Python suites are DISCOVERED too, not listed. `plant_guard_test.py` was named here by
@@ -119,6 +138,26 @@ if (stated) {
         `FAIL: docs/DOCMAP.md states ${k}=${stated[k]}, this run counted ${measured[k]} — the stated figure is ${verb} the gate\n`);
     }
     process.stdout.write('  the marker is `<!-- ratchets: ... -->` beside the prose that quotes it\n');
+    process.exit(1);
+  }
+  // The prose quotes the marker, so it is a second statement of the same three figures
+  // and drifts on its own. Checked against the RUN rather than against the marker: a
+  // marker and a sentence that agree with each other and not with the gate is the same
+  // stale claim wearing two hats.
+  const prose = proseRatchets();
+  if (!prose) {
+    process.stdout.write(
+      'FAIL: docs/DOCMAP.md has no `**Ratchets.** N suites, M fixtures, K pinned members` '
+      + 'sentence — the marker is checked and its restatement is not\n');
+    process.exit(1);
+  }
+  const proseWrong = Object.keys(measured).filter((k) => prose[k] !== measured[k]);
+  if (proseWrong.length) {
+    for (const k of proseWrong) {
+      process.stdout.write(
+        `FAIL: docs/DOCMAP.md's Ratchets sentence says ${k}=${prose[k]}, this run counted `
+        + `${measured[k]} — the marker is right and the sentence quoting it is stale\n`);
+    }
     process.exit(1);
   }
 } else {
