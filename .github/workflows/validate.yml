@@ -196,6 +196,13 @@ jobs:
           # plant proves the LOCAL gate refuses.
           rm -rf /tmp/coordplant && cp -R . /tmp/coordplant
           cd /tmp/coordplant
+          # The guard DISCLOSES where no agent_sync.py resolves, which is correct and is
+          # not what this plant is testing — and on a runner nothing resolves until the
+          # package is fetched. Fetch it here, and refuse to pass if it still cannot be
+          # found: a plant that silently exercises the disclosure path proves nothing.
+          npm i --no-save --silent @ssheleg/agent-sync >/dev/null 2>&1 || true
+          S="$PWD/node_modules/@ssheleg/agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py"
+          [ -f "$S" ] || { echo "PLANT CANNOT RUN: agent_sync.py did not resolve, so the guard would disclose rather than refuse"; exit 1; }
           python3 - <<'PY'
           import json
           p = '.claude/agent-sync.json'
