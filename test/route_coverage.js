@@ -36,6 +36,29 @@ const CASES = [
   // Territory the project-audit router claims. `аудит` alone belongs to
   // task-pipeline and correctly reaches it; these phrases must reach the
   // diagnosis route as well, and a request to audit ONE thing must not.
+  // --- the design lane's own vocabulary, and the words a router text names ------
+  // The umbrella's block says "before design, redesign, layout, front-end or
+  // mobile-UI work"; the trigger layer fires only on words a skill advertises about
+  // itself. On 2026-09-03 every prompt in this group reached nothing, so the
+  // paragraph telling an agent what to do about them was inert for its own subject.
+  ['редизайн сайта', 'sheleg-design'],
+  ['переделай дизайн', 'sheleg-design'],
+  ['сверстай лендинг', 'sheleg-design'],
+  ['нужна вёрстка дашборда', 'sheleg-design'],
+  ['redesign the landing page', 'sheleg-design'],
+  // --- ё, which Russian is normally typed without --------------------------------
+  // Both spellings must name the same route. Before the fold in `normalise()` the
+  // right-hand spelling of each of these reached nothing while the ё form routed.
+  ['звезды телеграм', 'telegram-dev'],
+  ['отчет о приемке', 'evidence-docs'],
+  ['сделай темную тему', 'sheleg-design'],
+  // --- lanes the design pack declares and nobody advertises ----------------------
+  // Kept as measured misses rather than quietly dropped: `a11y` has NO router
+  // (`B-140`), and the token vocabulary is blocked on a description at 1014 of 1024.
+  // A coverage file that lists only what passes is a coverage file nobody believes.
+  ['обнови токены темы', 'sheleg-design'],
+  ['проверь доступность интерфейса', 'sheleg-design|task-pipeline'],
+  ['контрастность текста слишком низкая', 'sheleg-design'],
   ['проаудируй проект', 'project-audit'],
   ['аудит проекта целиком', 'project-audit'],
   ['что у нас не доделано в проекте', 'project-audit'],
