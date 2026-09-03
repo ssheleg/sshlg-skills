@@ -194,6 +194,8 @@ Usage:
                                                       # report header + footer, links looked up
   npx sshlg-skills toolkit [--for "<task>"] [--expand <provider>]
                                                       # every skill this machine can reach
+  npx sshlg-skills pack [<name>] [--lane <id>] [--check]
+                                                      # curated recommendations, measured here
   npx sshlg-skills list
   npx sshlg-skills agents
 
@@ -930,6 +932,97 @@ function cmdToolkit(argv) {
   log(toolkit.report(skills, family, { for: forQuery, expand, limit }));
 }
 
+/**
+ * `pack` — what a task can reach that this machine does NOT have.
+ *
+ * The third member of the same family as `injectors`, `conflicts` and `toolkit`, and the
+ * only one that can answer about ABSENCE: `toolkit` enumerates what is installed and by
+ * construction cannot name a skill that is not. The doctrine — a curated recommendation
+ * is a tool the router may reach for, never a second entry point — ships in the block;
+ * WHICH of them are already here is a fact about one machine, read when asked.
+ *
+ * **It prints and never installs**, by the same refusal `lib/updatemodel.js` records:
+ * `settings.json` and `known_marketplaces.json` belong to the operator, and a launcher
+ * that changed somebody's installed set to match its own opinion is the class of act
+ * that destroyed `~/.claude/CLAUDE.md` twice here. There is no `--install`.
+ */
+function cmdPack(argv) {
+  const packs = require(path.join(ROOT, 'lib', 'packs.js'));
+  const rest = argv.slice(3);
+  const name = rest.find((a) => !a.startsWith('--'));
+
+  if (!name && !rest.includes('--check')) { log(packs.index(packs.PACKS)); return 0; }
+
+  const pack = packs.PACKS[name || 'design'];
+  if (!pack) {
+    log(`unknown pack: ${name} — known: ${Object.keys(packs.PACKS).join(', ')}`);
+    return 2;
+  }
+
+  if (rest.includes('--check')) { log(packs.checkReport(checkAddresses(pack))); return 0; }
+
+  const li = rest.indexOf('--lane');
+  const lane = li !== -1 && rest[li + 1] && !rest[li + 1].startsWith('--') ? rest[li + 1] : '';
+  if (lane && !pack.lanes.some((l) => l.id === lane)) {
+    log(`unknown lane: ${lane} — known: ${pack.lanes.map((l) => l.id).join(', ')}`);
+    return 2;
+  }
+
+  const home = process.env.HOME || os.homedir();
+  let skills;
+  try {
+    skills = packs.readSkills(home);
+  } catch (e) {
+    log(`cannot read the installed skills (${e.message}) — no answer rather than a wrong one`);
+    return 1;
+  }
+  log(packs.report(pack, skills, { lane }));
+  return 0;
+}
+
+/**
+ * Resolve every declared address, and say which instrument answered.
+ *
+ * `gh` first because it is authenticated: the unauthenticated GitHub API allows 60
+ * requests an hour, and when it runs out it answers **403 with a JSON body**, which a
+ * naive reader turns into "repository missing" for every row at once. That happened
+ * while this pack was being built — five candidates reported 404 in one sweep, and the
+ * control case `anthropics/skills` reported 404 too, which is what gave it away. A
+ * measurement that returns the same answer for every input is a fact about the
+ * instrument (`docs/evidence/retro.md`, standing instruction #4), so a row that cannot
+ * be resolved says `unreachable` and never `gone`.
+ */
+function checkAddresses(pack) {
+  const seen = new Set();
+  const targets = [];
+  for (const e of pack.entries.concat(pack.declined || [])) {
+    const src = e.source;
+    if (!src || seen.has(src)) continue;
+    seen.add(src);
+    targets.push({ id: e.id, source: src, repo: /^[\w.-]+\/[\w.-]+$/.test(src) });
+  }
+
+  const hasGh = spawnSync('gh', ['--version'], { stdio: 'ignore' }).status === 0;
+  return targets.map((t) => {
+    if (!t.repo) return { id: t.id, source: t.source, error: 'not a repository address — nothing to resolve' };
+    if (!hasGh) return { id: t.id, source: t.source, error: 'no `gh` on PATH; the unauthenticated API rate-limits to 60/hour and answers 403, which reads as "gone"' };
+    const r = spawnSync('gh', ['api', `repos/${t.source}`,
+      '--jq', '[.full_name, .archived, .pushed_at] | @tsv'], { encoding: 'utf8' });
+    if (r.status !== 0) {
+      const msg = String(r.stderr || '').split('\n')[0].slice(0, 60) || 'gh failed';
+      return { id: t.id, source: t.source, error: msg };
+    }
+    const [full, archived, pushed] = String(r.stdout).trim().split('\t');
+    return {
+      id: t.id,
+      source: t.source,
+      movedTo: full && full.toLowerCase() !== t.source.toLowerCase() ? full : null,
+      archived: archived === 'true',
+      pushedAt: (pushed || '').slice(0, 10),
+    };
+  });
+}
+
 function cmdHooks(argv) {
   const fs = require('fs');
   const pathMod = require('path');
@@ -1084,6 +1177,7 @@ function main(argv) {
   if (cmd === 'injectors') { cmdInjectors(); return 0; }
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
   if (cmd === 'toolkit') { cmdToolkit(argv); return 0; }
+  if (cmd === 'pack' || cmd === 'packs') { return cmdPack(argv); }
   if (cmd === 'signature') { return cmdSignature(argv); }
   if (cmd === 'humanizers') { return cmdHumanizers(argv); }
   const f = parseFlags(rest);
