@@ -1,6 +1,6 @@
 {
   "name": "sshlg-skills",
-  "version": "1.28.0",
+  "version": "1.29.0",
   "description": "Install and update nine ssheleg skill packs across Claude Code, Codex, Cursor, OpenCode and other Agent Skills-compatible tools.",
   "bin": {
     "sshlg-skills": "bin/sshlg-skills.js"
@@ -8,7 +8,8 @@
   "scripts": {
     "test": "node test/run.js",
     "test:plants": "python3 test/advertised_plants.py",
-    "queue": "python3 scripts/queue.py"
+    "queue": "python3 scripts/queue.py",
+    "convergence": "bash scripts/convergence.sh"
   },
   "files": [
     "bin",

@@ -94,23 +94,32 @@ def scan(repo, path):
     return out
 
 
-rows = []
-for repo, path in BOARDS.items():
-    rows += scan(repo, path)
-rows.sort(key=lambda r: (0 if r['rank'] is not None else 1,
-                         r['rank'] if r['rank'] is not None else 0,
-                         -(r['num'] if r['num'] is not None else -1),
-                         r['repo'], r['id']))
-if '--repo' in sys.argv:
-    want = sys.argv[sys.argv.index('--repo') + 1]
-    rows = [r for r in rows if r['repo'] == want]
-if '--json' in sys.argv:
-    print(json.dumps(rows, indent=1, ensure_ascii=False))
-else:
-    import collections
-    per = collections.Counter(r['repo'] for r in rows)
-    print(f"{len(rows)} open rows across {len(per)} boards")
-    print("  " + "  ".join(f"{k}:{v}" for k, v in per.most_common()) + "\n")
-    n = int(sys.argv[sys.argv.index('-n') + 1]) if '-n' in sys.argv else 20
-    for r in rows[:n]:
-        print(f"{r['prio_raw'][:22]:22} {r['repo']:14} {r['id']:8} {r['what'][:78]}")
+# B-107. Everything below ORDERS the family's work and had no test of its own, so the
+# two defects this scanner was written to fix could return unseen. Importable now: the
+# run is under a main guard and `scan()` is the unit `test/queue_test.py` exercises,
+# with the negative controls a tool that orders the work deserves as much as a gate.
+def main():
+    rows = []
+    for repo, path in BOARDS.items():
+        rows += scan(repo, path)
+    rows.sort(key=lambda r: (0 if r['rank'] is not None else 1,
+                             r['rank'] if r['rank'] is not None else 0,
+                             -(r['num'] if r['num'] is not None else -1),
+                             r['repo'], r['id']))
+    if '--repo' in sys.argv:
+        want = sys.argv[sys.argv.index('--repo') + 1]
+        rows = [r for r in rows if r['repo'] == want]
+    if '--json' in sys.argv:
+        print(json.dumps(rows, indent=1, ensure_ascii=False))
+    else:
+        import collections
+        per = collections.Counter(r['repo'] for r in rows)
+        print(f"{len(rows)} open rows across {len(per)} boards")
+        print("  " + "  ".join(f"{k}:{v}" for k, v in per.most_common()) + "\n")
+        n = int(sys.argv[sys.argv.index('-n') + 1]) if '-n' in sys.argv else 20
+        for r in rows[:n]:
+            print(f"{r['prio_raw'][:22]:22} {r['repo']:14} {r['id']:8} {r['what'][:78]}")
+
+
+if __name__ == '__main__':
+    main()

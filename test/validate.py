@@ -1228,6 +1228,117 @@ check_a_copied_mechanism_declares_its_divergence()
 check_a_shipped_readme_does_not_claim_a_command_the_package_cannot_run()
 check_no_id_carries_two_verdicts()
 
+def check_ledger_ids_are_unique_within_their_section():
+    """A citation of the form `R-01` must resolve to ONE row.
+
+    B-103. The board has a duplicate-id guard and the verification ledger does not,
+    although the ledger is the file cited BY id from member repositories: 583 rows
+    carrying 498 distinct ids, with 21 ids deliberately reused across sections and
+    `R-01` naming eleven different requirements. The convention that makes that
+    legible is section-scoping -- an id belongs to the dated section it was written
+    in -- and it was neither declared nor checked, so nothing distinguished the
+    convention from an accident.
+
+    Measured when this was written: three genuine collisions inside one section,
+    `PP-2`, `PP-3` and `PP-4`, where two pin passes appended under the same dated
+    heading. Each of those citations resolved to two rows with different evidence.
+    Disambiguated with the trailing-letter form the id grammar already allows,
+    rather than by renumbering history -- and that rename immediately caught a second
+    defect, a row counter whose id grammar was narrower than the file's own.
+
+    Scoped rather than global on purpose: making 498 ids globally unique would
+    renumber rows that member repositories already cite, trading a resolvable
+    ambiguity for an unresolvable dead reference.
+    """
+    rel = "docs/evidence/verification.md"
+    path = os.path.join(ROOT, rel)
+    if not os.path.isfile(path):
+        _skips.append(f"{rel} absent -- ledger id uniqueness unchecked")
+        return
+    ID = re.compile(r"^\|\s*\**([A-Za-z][A-Za-z0-9]{0,4}-[0-9]+[a-z]?)\**\s*\|")
+    seen, section, rows = {}, None, 0
+    for lineno, l in enumerate(open(path, encoding="utf-8").read().splitlines(), 1):
+        if l.startswith("#"):
+            section = l.strip()
+            continue
+        m = ID.match(l)
+        if not m:
+            continue
+        rows += 1
+        key = (section, m.group(1))
+        if key in seen:
+            fail(f"{rel}:{lineno}: `{m.group(1)}` is already used at line {seen[key]} in "
+                 f"the same section -- a citation of that id resolves to two rows with "
+                 f"different evidence. Ids are scoped to their section here, so reuse "
+                 f"ACROSS sections is fine and reuse inside one is not: give this row the "
+                 f"trailing-letter form (`{m.group(1)}a`), which the grammar already allows")
+        else:
+            seen[key] = lineno
+    if rows < 50:
+        _skips.append(f"{rel}: only {rows} id'd rows read -- too few to be the ledger, so "
+                      "uniqueness was not asserted over it")
+
+
+check_ledger_ids_are_unique_within_their_section()
+
+def check_coordination_configs_are_healthy_here_too():
+    """The coordination check ran in CI and nowhere else, and it caught this run.
+
+    2026-09-03. Moving this repository's lease to `git` for B-75 dropped the `backend`
+    key -- the RECORD plane, a different question from `leaseBackend` -- and left the
+    generated snapshot describing a configuration that no longer existed. `npm test`
+    was green through all of it. CI refused, one round trip later.
+
+    That is the shape this family has paid for repeatedly and most expensively in
+    `task-pipeline`, where four tags burned on it: a green local gate that does not
+    cover what the release runs. So the same script CI calls is called here, from
+    whichever copy this machine can resolve.
+
+    It DISCLOSES rather than failing when no copy can be found, because agent-sync is
+    a plugin rather than a dependency of this package and a fresh clone has no reason
+    to carry it -- and a check that cannot look must not read as one that looked. CI
+    installs the published package explicitly, so the strict reading still exists in
+    the blocking path; this is the early one.
+    """
+    import glob as _glob
+    cands = sorted(_glob.glob(os.path.expanduser(
+        "~/.claude/plugins/cache/agent-sync/agent-sync/*/skills/agent-sync/scripts/"
+        "agent_sync.py")))
+    cands += [os.path.join(ROOT, "node_modules/@ssheleg/agent-sync/plugins/agent-sync/"
+                                 "skills/agent-sync/scripts/agent_sync.py")]
+    script = next((c for c in reversed(cands) if os.path.isfile(c)), None)
+    if script is None:
+        _skips.append("coordination: no agent_sync.py resolvable on this machine, so the "
+                      "config health CI checks could not be read here")
+        return
+    dirs = [ROOT] + sorted(os.path.dirname(os.path.dirname(p2))
+                           for p2 in _glob.glob(os.path.join(ROOT, "skills/*/.claude/"
+                                                                   "agent-sync.json")))
+    checked = 0
+    for d in dirs:
+        if not os.path.isfile(os.path.join(d, ".claude", "agent-sync.json")):
+            continue
+        checked += 1
+        try:
+            r = subprocess.run(["python3", script, "check"], cwd=d, capture_output=True,
+                               text=True, timeout=90)
+        except (OSError, subprocess.SubprocessError):
+            _skips.append(f"coordination: `check` could not be run in {d}")
+            continue
+        if r.returncode != 0:
+            bad = [l.strip() for l in (r.stdout + r.stderr).splitlines()
+                   if l.strip().startswith(("x", "\u2717"))]
+            fail(f"{os.path.relpath(d, ROOT) or '.'}: coordination config is not healthy — "
+                 + ("; ".join(bad) if bad else "`agent_sync.py check` exited "
+                                               f"{r.returncode}")
+                 + ". CI runs this same script; it used to be the only thing that did")
+    if checked < 2:
+        _skips.append(f"coordination: only {checked} config(s) found here, so the health "
+                      "check had almost nothing to read")
+
+
+check_coordination_configs_are_healthy_here_too()
+
 
 check_board_is_parseable()
 
@@ -1663,11 +1774,36 @@ def check_each_member_ledger_reaches_its_shipped_version():
             continue
         newest = max(vs, key=lambda v: tuple(int(x) for x in v.split(".")))
         if newest != shipped:
+            _lagging.append(m["name"])
             _skips.append(f"{m['name']}: the verification ledger's newest record is "
                          f"{newest} and package.json ships {shipped} — its rows describe "
                          "an artifact that is no longer the shipped one")
 
+    # B-98. This stood as a pure disclosure for four days across eight members, and a
+    # disclosure that never changes anything is how a known-false state becomes furniture.
+    # It is NOT escalated to a hard failure: each lagging ledger lives in a member
+    # repository and only that member's own release can move it, so failing here would put
+    # this guard between the family and its next release — which is the mistake B-92
+    # records, from the other side.
+    #
+    # So it ratchets. The count may fall and may not rise: a member that has caught up
+    # cannot silently fall back, and the figure below is lowered by whoever fixes one,
+    # never raised to match reality. Measured 2026-09-03: three of nine, all three queued
+    # for their own release passes.
+    _LAG_FLOOR = 3
+    if len(_lagging) > _LAG_FLOOR:
+        fail(f"{len(_lagging)} member ledger(s) describe a version older than they ship "
+             f"({', '.join(sorted(_lagging))}) and the ratchet in test/validate.py stands "
+             f"at {_LAG_FLOOR}. A member's ledger is fixed in that member's own release; "
+             "this figure is lowered when one catches up and is never raised to match a "
+             "regression")
+    elif len(_lagging) < _LAG_FLOOR:
+        fail(f"only {len(_lagging)} member ledger(s) lag where the ratchet stands at "
+             f"{_LAG_FLOOR} — lower it to {len(_lagging)} in test/validate.py, in the same "
+             "change that earned it, so the next reader inherits the smaller number")
 
+
+_lagging = []
 check_each_member_ledger_reaches_its_shipped_version()
 
 
@@ -1751,6 +1887,50 @@ def check_no_member_holds_a_commit_the_remote_does_not():
                 return None
             return r.stdout.strip() if r.returncode == 0 else None
 
+        # B-92. The hazard is a PIN naming a commit no clone can fetch. This guard asked
+        # a different question — is the member's local HEAD ahead of its upstream — and the
+        # two come apart exactly when the family is busy: on 2026-08-19 four members held
+        # local commits at once while the umbrella's committed pointers named none of them,
+        # and a commit that staged no pointer at all was denied. That is the fifth
+        # appearance of *a count taken over the record rather than over the thing the
+        # record is about*, and a guard standing between the family and its next release
+        # teaches an operator to switch it off.
+        #
+        # Asked of the POINTER, and asked FIRST: the sha the umbrella would commit for this
+        # member — the index entry, because that is what a tag would carry — must be
+        # reachable from one of the member's remote refs. The ordering is load-bearing and
+        # a plant found it: written after the upstream question, the whole check was
+        # skipped for a member whose branch has no upstream, which is exactly the state the
+        # plant creates and a release pass often has.
+        pinned = None
+        try:
+            _r = subprocess.run(["git", "-C", ROOT, "ls-files", "-s", m["dir"]],
+                                capture_output=True, text=True, timeout=15)
+            if _r.returncode == 0 and _r.stdout.split():
+                pinned = _r.stdout.split()[1]
+        except (OSError, subprocess.SubprocessError):
+            pinned = None
+        if pinned is None:
+            _skips.append(f"{m['name']}: no index entry for the submodule, so the commit "
+                          "the pin names could not be read here")
+        elif g("cat-file", "-e", pinned + "^{commit}") is None:
+            fail(f"{m['dir']}: the pinned commit {pinned[:7]} is not in this checkout at "
+                 "all, so nothing here can say whether a clone could fetch it — fetch the "
+                 "submodule before trusting this pin")
+        else:
+            _holders = g("for-each-ref", "--contains", pinned, "--format=%(refname:short)",
+                         "refs/remotes")
+            if _holders is not None and _holders.strip() == "":
+                if g("rev-parse", "--is-shallow-repository") == "true":
+                    _skips.append(f"{m['name']}: shallow clone — no remote ref can be shown "
+                                  f"to contain the pinned {pinned[:7]}, so this could not be "
+                                  "read here")
+                else:
+                    fail(f"{m['dir']}: the PIN names {pinned[:7]} and no remote ref contains "
+                         "it — every clone fails with `upload-pack: not our ref`, while "
+                         "`git submodule status` shows no `+` because the pointer matches "
+                         "the LOCAL head. Push the submodule first, then commit the pointer")
+
         if g("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}") is None:
             # UM-08. Two very different states arrive here and they were reading the same.
             # `sheleg-design` sat in DETACHED HEAD at a tag while a close's commit landed on
@@ -1802,11 +1982,12 @@ def check_no_member_holds_a_commit_the_remote_does_not():
             continue
         ahead = g("log", "@{u}..HEAD", "--oneline")
         if ahead:
-            n = len(ahead.split("\n"))
-            fail(f"{m['dir']}: {n} commit(s) exist only locally — a pin naming one of them "
-                 f"fails every clone with `upload-pack: not our ref`, while `git submodule "
-                 f"status` shows no `+` because the pointer matches the LOCAL head. Push the "
-                 f"submodule first, then commit the pointer:\n      {ahead.splitlines()[0]}")
+            # Local work exists. Whether the PIN depends on it was answered above; this is
+            # a member mid-run, which is not this guard's hazard — disclosed so the
+            # information is not lost, never failed.
+            _n = len(ahead.split("\n"))
+            _skips.append(f"{m['name']}: {_n} commit(s) exist only locally and no pin of "
+                          "this repository names them — in-flight work")
 
 
 check_no_member_holds_a_commit_the_remote_does_not()
@@ -2174,14 +2355,18 @@ def check_counted_claims_agree_with_the_tree():
         text = read(ledger)
         if text is None:
             return None
-        return len(re.findall(r"(?m)^\|\s*[A-Za-z0-9]+-[0-9]+\s*\|", text))
+        # The trailing-letter form (`PP-2a`) is an id this file uses and this counter
+        # did not see, so disambiguating three collisions for B-103 made the counter
+        # report three rows fewer than the file holds. The grammar is the one
+        # `check_ledger_ids_are_unique_within_their_section` reads.
+        return len(re.findall(r"(?m)^\|\s*[A-Za-z0-9]+-[0-9]+[a-z]?\s*\|", text))
 
     def ledger_verified():
         text = read(ledger)
         if text is None:
             return None
         rows = [l for l in text.splitlines()
-                if re.match(r"^\|\s*[A-Za-z0-9]+-[0-9]+\s*\|", l)]
+                if re.match(r"^\|\s*[A-Za-z0-9]+-[0-9]+[a-z]?\s*\|", l)]
         return sum(1 for l in rows if "verified" in l)
 
     def conformance_state(which):

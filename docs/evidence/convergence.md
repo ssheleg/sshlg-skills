@@ -16,10 +16,43 @@ seeds into a host project —
 [`templates/convergence.sh`](../../skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/convergence.sh),
 which calls itself `check-convergence.sh` in its own header, checks the pointers
 mechanically and the seam by record, and prints `dormant:` for a range where nothing moved.
-**This repository has not seeded it into `scripts/`**, so the record below is written by
-hand at stage 10 and nothing refuses a range that skipped one. That gap is filed as `B-91`
-rather than implied by a path — the sentence that stood here named a script under
-`scripts/` as if it ran, and no such file has ever existed in this tree.
+It is seeded here now as [`scripts/convergence.sh`](../../scripts/convergence.sh) and run
+as `npm run convergence` (B-91, 2026-09-03). Watched behaving both ways before it was
+believed: over a range where no pointer moved it prints *dormant: no component pointer
+moved in this range* and exits 0, and over `1c23d56..HEAD` — where `task-pipeline` moved
+1.81.1 → 1.82.4 — it exited **1** naming the missing record, which is the silence this row
+was filed about. The sentence that stood here before named a script under `scripts/` as if
+it ran, and no such file had ever existed in this tree.
+
+---
+
+## 2026-09-03 · task-pipeline 1.81.1 → 1.82.4 — the only pointer that moved
+
+**Why one pointer.** Two waves deliberately held `task-pipeline` back — *"the registry
+still serves 1.81.1 while v1.82.3's stamp half is in flight"* — while the other eight
+members moved. This range accepts that one, and it is the first range this repository has
+accepted with the mechanical check in place rather than by hand.
+
+**Versions observed.** Umbrella `v1.28.0` against `task-pipeline` **1.82.4** at commit
+`7f32d0a`, the version `npm view task-pipeline-skill version` served at cut time. The other
+eight pointers did not move in this range. The commit is named as well as the version
+because the checker resolves the pointer, not the tag: a version string can be true of two
+trees, and the sha is what a clone will actually fetch.
+
+**The seam, and what was run across it.** The umbrella consumes this member two ways: the
+routing block it writes into the operator's file, and the pin the launcher installs. Both
+were exercised at these two versions — `npm test` → rc=0 with `COUNTED: 47 suites, 802
+fixtures, 9 pinned members`, which includes the pin check reading the version out of the
+pinned `package.json` against `skills.json` and the README row; and `npx sshlg-skills@latest
+update` → `55 of 55 steps, all green`, after which the installed plugin, the registry and
+the pin all read 1.82.4. The card check `node test/site_test.js` renders this member's
+social preview from the umbrella's own `skills.json` row and compares it byte for byte
+against what the member commits, which is the one check that fails when the two sides
+disagree about a string.
+
+**What was NOT proved.** No test executes task-pipeline's stages from this repository, and
+none exists to run: the composition here is a pin and a text block, not a called contract.
+Stated so a green above is not read as more than it is.
 
 ---
 

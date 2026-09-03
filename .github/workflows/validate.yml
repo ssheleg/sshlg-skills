@@ -186,6 +186,109 @@ jobs:
             exit 1
           fi
 
+      - name: Negative self-test (a broken coordination config must fail the LOCAL gate)
+        run: |
+          set -eu
+          # 2026-09-03. This repository's coordination config broke and `npm test` stayed
+          # green, because the only thing checking it was the CI step below. That is the
+          # shape four task-pipeline tags burned on — a green local gate that does not
+          # cover what the release runs — so the check moved into validate.py and this
+          # plant proves the LOCAL gate refuses.
+          rm -rf /tmp/coordplant && cp -R . /tmp/coordplant
+          cd /tmp/coordplant
+          # The guard DISCLOSES where no agent_sync.py resolves, which is correct and is
+          # not what this plant is testing — and on a runner nothing resolves until the
+          # package is fetched. Fetch it here, and refuse to pass if it still cannot be
+          # found: a plant that silently exercises the disclosure path proves nothing.
+          npm i --no-save --silent @ssheleg/agent-sync >/dev/null 2>&1 || true
+          S="$PWD/node_modules/@ssheleg/agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py"
+          [ -f "$S" ] || { echo "PLANT CANNOT RUN: agent_sync.py did not resolve, so the guard would disclose rather than refuse"; exit 1; }
+          python3 - <<'PY'
+          import json
+          p = '.claude/agent-sync.json'
+          d = json.load(open(p))
+          assert 'backend' in d, 'PLANT DID NOT LAND: no backend key to remove'
+          d.pop('backend')
+          json.dump(d, open(p, 'w'), indent=2)
+          PY
+          grep -q '"backend"' .claude/agent-sync.json && { echo "PLANT DID NOT LAND"; exit 1; }
+          out=$(python3 test/validate.py 2>&1 || true)
+          if printf '%s' "$out" | grep -q 'coordination config is not healthy'; then
+            echo "the local gate refused it:"
+            printf '%s\n' "$out" | grep 'not healthy' | head -1
+          else
+            echo "a broken coordination config passed the local gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
+      - name: Negative self-test (two ledger rows sharing an id in one section must fail)
+        run: |
+          set -eu
+          # B-103. The board had a duplicate-id guard and the ledger — the file member
+          # repositories cite BY id — did not. Three live collisions were found the day
+          # this was written, each resolving to two rows with different evidence.
+          rm -rf /tmp/dupid && cp -R . /tmp/dupid
+          cd /tmp/dupid
+          python3 - <<'PY'
+          p = 'docs/evidence/verification.md'
+          lines = open(p, encoding='utf-8').read().split('\n')
+          for i, l in enumerate(lines):
+              if l.startswith('| PP-1 |'):
+                  lines.insert(i + 1, '| PP-1 | a second row wearing the same id | e | v1 | never | verified |')
+                  break
+          else:
+              raise SystemExit('PLANT DID NOT LAND: no PP-1 row to duplicate')
+          open(p, 'w', encoding='utf-8').write('\n'.join(lines))
+          PY
+          grep -c '^| PP-1 |' docs/evidence/verification.md | grep -qx 2 \
+            || { echo "PLANT DID NOT LAND"; exit 1; }
+          out=$(python3 test/validate.py 2>&1 || true)
+          if printf '%s' "$out" | grep -q 'is already used at line'; then
+            echo "the ambiguous citation was refused:"
+            printf '%s\n' "$out" | grep 'already used at line' | head -1
+          else
+            echo "an id resolving to two rows passed the gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
+      - name: Negative self-test (a pin naming a commit no remote holds must fail)
+        run: |
+          set -eu
+          # B-92. The guard used to ask whether a member's local HEAD was ahead of its
+          # upstream, which is a different question and reddens on any sibling mid-run.
+          # Two cases, because closing a false positive without a control is how the next
+          # one arrives: the pin at an unpushed commit must fail, and work the pin does
+          # NOT name must not.
+          rm -rf /tmp/pinplant && cp -R . /tmp/pinplant
+          cd /tmp/pinplant/skills/telegram-dev
+          git checkout -q -B plantbranch
+          echo x >> README.md
+          git -c user.email=p@p -c user.name=p commit -qam "unpushed plant"
+          cd /tmp/pinplant
+          git add skills/telegram-dev
+          git diff --cached --quiet -- skills/telegram-dev && { echo "PLANT DID NOT LAND"; exit 1; }
+          out=$(python3 test/validate.py 2>&1 || true)
+          if printf '%s' "$out" | grep -q 'the PIN names'; then
+            echo "the unfetchable pin was refused:"
+            printf '%s\n' "$out" | grep 'PIN names' | head -1
+          else
+            echo "a pin every clone would fail on passed the gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+          # The control: same local commit, pointer left alone.
+          rm -rf /tmp/pinctl && cp -R . /tmp/pinctl
+          cd /tmp/pinctl
+          git reset -q skills/telegram-dev
+          git checkout -q -- skills/telegram-dev
+          if python3 test/validate.py 2>&1 | grep -q 'PIN names'; then
+            echo "the guard still reddens on in-flight work no pin names"
+            exit 1
+          fi
+          echo "control: in-flight work the pin does not name is not a failure"
+
       - name: Negative self-test (the sentence quoting the ratchet marker must be checked too)
         run: |
           set -eu

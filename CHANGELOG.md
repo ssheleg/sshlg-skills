@@ -1,3 +1,64 @@
+## v1.29.0 — ten board rows, and three of them were closed by measuring rather than building
+
+The board read 21 open rows. Ten close here; the count is `npm run queue`, not a grep —
+the first reading of it in this pass said 19, because it read the wrong pipe-delimited
+field, and the file publishes the recipe that gets it right.
+
+**Two closed with no code at all, because the work had already shipped.** `B-99`'s guard
+has been in `test/validate.py` since it was written, refusing an id that reads `open` where
+it is declared and appears in the closes ledger — it names the row in its own refusal text
+and has a CI plant. Nobody marked the row. A board that carries shipped work as open is a
+board a reader stops trusting, so that is recorded as the finding rather than as an
+oversight. `B-127`'s cell was worse: it opened with `**open.**` and said
+`**Closed 2026-09-01 — v1.14.0**` forty words later — **one cell, two verdicts**, which is
+exactly the class `B-99`'s guard exists to refuse, sitting in the board that guard reads.
+
+**`B-92` — the gate asked a question the hazard is not about.** It read whether a member's
+local HEAD was ahead of its upstream; the hazard is a PIN naming a commit no clone can
+fetch. Those come apart exactly when the family is busy, and it once denied a commit that
+staged no pointer at all. It now resolves the index entry — what a tag would carry — and
+requires a remote ref to contain it. **The ordering was load-bearing and a plant found
+it**: written after the upstream question, the check was skipped entirely for a member
+whose branch has no upstream, which is the state the plant creates. Two CI cases, because
+closing a false positive without a control is how the next one arrives.
+
+**`B-106` — and probing the fix found the defect one step earlier.** An unexpanded `cd $n`
+is unknown ownership now, disclosed rather than claimed. While proving that, the anchored
+regex turned out to read `(cd skills/x && git commit …)` as no `cd` at all — so the umbrella
+claimed a member's commit on a **literal** path. Both fixed, six fixtures, controls
+included.
+
+**`B-103` — three live collisions, and a counter that could not see them.** Ids are scoped
+to their section here; that convention was neither declared nor checked, and `PP-2`, `PP-3`
+and `PP-4` each resolved to two rows with different evidence. Disambiguating them with the
+trailing-letter form the grammar already allows made the ledger's row counter drop by
+three — because **its id grammar was narrower than the file's own, and had been
+under-reporting by seven**. 576/502 was wrong before this change; 583/509 is measured.
+
+**`B-107`** — the tool that orders the family's work has eight tests and both of its
+original defects replanted and watched failing. **`B-91`** — `scripts/convergence.sh` is
+seeded and watched in all three states, including the one that matters: over the range where
+`task-pipeline` moved 1.81.1 → 1.82.4 it exited **1** naming the missing record.
+**`B-75`** — `leaseBackend: "git"`, round-tripped against the real remote. **`B-98`** —
+the row's own number had expired (three of nine, not eight of eight) and it escalates as a
+ratchet, not a hard failure: a lagging ledger lives in a member repository and failing here
+would stand this guard between the family and its next release, which is `B-92`'s mistake
+from the other side. **`B-101`** — the graph is rebuilt and both release-time commands are
+written where a release driver reads them.
+
+**And this pass was caught by the gap it is about.** Moving the lease to `git` dropped the
+`backend` key — the RECORD plane, a different question from `leaseBackend` — and left the
+generated snapshot describing a configuration that no longer existed. `npm test` was green
+through all of it; CI refused one round trip later, because the coordination check ran
+**only** in CI. That is the shape four `task-pipeline` tags burned on, met here on the run
+that was closing board rows about exactly this class. The same script CI calls now runs in
+`validate.py` from whichever copy the machine can resolve, disclosing rather than failing
+where none exists — and a plant watches the local gate refuse the very config that broke.
+
+Negative self-tests 28 → **32**. Ratchets 46/799 → **47 suites, 802 fixtures**.
+
+Gate: `npm test` → rc=0, read as an exit code.
+
 ## v1.28.0 — one pin, and the sentence that quoted a checked number without being checked
 
 `task-pipeline` 1.81.1 → **1.82.4**. The exclusion two waves carried — *"the registry
