@@ -1,3 +1,24 @@
+## v1.33.1 — a status cell states its verdict first, or the row has no verdict
+
+**Watched happening, on this board, an hour ago.** An accurate and useful annotation was
+prepended to `B-84`'s status cell and pushed `open` behind three hundred characters of
+prose. **The open count fell from 9 to 8 in silence.** Every reader of this board anchors
+on the verdict, so a cell beginning with a date reads as a row nobody has ruled on.
+
+**Neither existing guard could see it.** `check_no_id_carries_two_verdicts` looks for a
+row claiming two states, and this row now claimed **none**; the waiver check anchors
+`^waived` and simply did not match. Both ask what the cell SAYS; neither asked **where**
+it says it — the same gap `B-108` records about a board read one of nine.
+
+The new check is a prefix rule and deliberately not a parser: the vocabulary is small and
+closed, and a check that tried to recognise *a verdict* anywhere in free text could not
+tell one from a sentence about one. Watched firing against the exact defect
+(`row B-84 opens its status with '**2026-09-03 note first** open — …'`) and silent on the
+corrected board.
+
+`B-84`'s cell is repaired — verdict first, annotation after — and the open count is 9
+again.
+
 ## v1.33.0 — the routing block's own vocabulary now routes, and ё stops hiding two routers
 
 `sheleg-design` 1.59.1 → **1.59.2** (`npm view sheleg-design-skill version` → `1.59.2`).
