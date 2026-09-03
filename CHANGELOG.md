@@ -1,3 +1,26 @@
+## v1.32.1 — the sibling gains its fallback, and a `provides` id is one only its entry could have put there
+
+`sheleg-design` 1.59.0 → **1.59.1** (`npm view sheleg-design-skill version` → `1.59.1`).
+
+**The member fix this pin carries.** The director's Act 2 mandated `pack design --lane
+<lane>` with no path for a machine without this package — while that skill's own front
+matter promises every optional sibling *"has an in-text fallback when absent"*. It has
+one now, and it is specific rather than a shrug: the lane table lives in that document
+and the harness already lists installed skills, so two of the command's answers survive
+by reading; **what is missing and what was declined do not**, and the cast has to say
+the roster was unmeasured.
+
+**`design-system` is deliberately absent from `ui-ux-pro-max`'s `provides`.** It is one
+of the seven skills that marketplace ships — and also the name of a skill many machines
+already carry from `anthropics/knowledge-work-plugins`. Listing it would make presence
+answer *yes* on the strength of an unrelated skill, so the pack would report
+`ui-ux-pro-max` installed on a machine that has never seen it. **A `provides` id has to
+be one only that entry could have put there**, which is now written where the decision
+is made rather than living in whoever remembers it.
+
+**Both were found by the close-out ladder walk rather than by a gate**, which is what
+that walk is for: the REQ table compares two sides and an absence has one.
+
 ## v1.32.0 — the creative director lands, and the routing block points at it
 
 `sheleg-design` 1.58.4 → **1.59.0**, read from the registry at cut time
