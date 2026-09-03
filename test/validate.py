@@ -1788,9 +1788,12 @@ def check_each_member_ledger_reaches_its_shipped_version():
     #
     # So it ratchets. The count may fall and may not rise: a member that has caught up
     # cannot silently fall back, and the figure below is lowered by whoever fixes one,
-    # never raised to match reality. Measured 2026-09-03: three of nine, all three queued
-    # for their own release passes.
-    _LAG_FLOOR = 3
+    # never raised to match reality. Measured 2026-09-03: three of nine; lowered to two
+    # the same day when super-ux's release carried a ledger section for the version it
+    # ships. The guard fired in BOTH directions on the run that wrote it — it refused the
+    # tree until the smaller number was written down, which is the whole point of a
+    # ratchet that also fails below its floor.
+    _LAG_FLOOR = 2
     if len(_lagging) > _LAG_FLOOR:
         fail(f"{len(_lagging)} member ledger(s) describe a version older than they ship "
              f"({', '.join(sorted(_lagging))}) and the ratchet in test/validate.py stands "

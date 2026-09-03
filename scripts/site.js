@@ -325,7 +325,7 @@ const standingRules = registry.order()
  * fixture in `test/site_test.js`, which asserts each listed member actually
  * still needs the gate.
  */
-const LEGACY_FIT = new Set(['sheleg-design', 'sheleg-dev']);
+const LEGACY_FIT = new Set([]);
 
 /**
  * The `og.card` options for one member's social card — the single home for
