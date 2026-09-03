@@ -186,6 +186,35 @@ jobs:
             exit 1
           fi
 
+      - name: Negative self-test (a broken coordination config must fail the LOCAL gate)
+        run: |
+          set -eu
+          # 2026-09-03. This repository's coordination config broke and `npm test` stayed
+          # green, because the only thing checking it was the CI step below. That is the
+          # shape four task-pipeline tags burned on — a green local gate that does not
+          # cover what the release runs — so the check moved into validate.py and this
+          # plant proves the LOCAL gate refuses.
+          rm -rf /tmp/coordplant && cp -R . /tmp/coordplant
+          cd /tmp/coordplant
+          python3 - <<'PY'
+          import json
+          p = '.claude/agent-sync.json'
+          d = json.load(open(p))
+          assert 'backend' in d, 'PLANT DID NOT LAND: no backend key to remove'
+          d.pop('backend')
+          json.dump(d, open(p, 'w'), indent=2)
+          PY
+          grep -q '"backend"' .claude/agent-sync.json && { echo "PLANT DID NOT LAND"; exit 1; }
+          out=$(python3 test/validate.py 2>&1 || true)
+          if printf '%s' "$out" | grep -q 'coordination config is not healthy'; then
+            echo "the local gate refused it:"
+            printf '%s\n' "$out" | grep 'not healthy' | head -1
+          else
+            echo "a broken coordination config passed the local gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
       - name: Negative self-test (two ledger rows sharing an id in one section must fail)
         run: |
           set -eu

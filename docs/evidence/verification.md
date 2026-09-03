@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**593** id'd requirement rows below, **519** read `verified` and none of them says which
+**594** id'd requirement rows below, **520** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1235,3 +1235,4 @@ exists to refuse, so the rows below cover **this** release only.
 | CL-8 | `B-98` escalates as a ratchet and the row's number had expired | measured three of nine, not eight of eight — `super-ux`, `sheleg-design`, `agent-stack`; floor set at 3, failing above AND below so a catch-up must lower it in the change that earned it | v1.29.0 | a member release moving one of the three | verified |
 | CL-9 | `B-101`'s graph is current here and the member halves are named, not swept | `graphify update .` → `Rebuilt: 1788 nodes, 2122 edges, 176 communities`; the validator's *204 commits behind* disclosure is gone; the other eight remain 11–74 behind and ride their own releases | v1.29.0 | any commit after this one | verified |
 | CL-10 | The gate is green at the re-derived ratchet | `npm test` rc=0 read as an exit code: `COUNTED: 47 suites, 802 fixtures, 9 pinned members`; marker and its quoting sentence both moved, negative self-tests 28 → 31 counted from `validate.yml` | v1.29.0 | the next suite or plant added | verified |
+| CL-11 | The coordination check CI ran alone now runs in the local gate | this pass broke `.claude/agent-sync.json` (dropped `backend`, stale snapshot) and `npm test` stayed green; CI refused. `check_coordination_configs_are_healthy_here_too` calls the same `agent_sync.py check` and refused the planted removal — `coordination config is not healthy — ✗ backend 'None' is not a known adapter`. Discloses where no copy resolves, because agent-sync is a plugin rather than a dependency | v1.29.0 | agent-sync moving the script's path in its package | verified |

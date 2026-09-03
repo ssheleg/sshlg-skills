@@ -1281,6 +1281,64 @@ def check_ledger_ids_are_unique_within_their_section():
 
 check_ledger_ids_are_unique_within_their_section()
 
+def check_coordination_configs_are_healthy_here_too():
+    """The coordination check ran in CI and nowhere else, and it caught this run.
+
+    2026-09-03. Moving this repository's lease to `git` for B-75 dropped the `backend`
+    key -- the RECORD plane, a different question from `leaseBackend` -- and left the
+    generated snapshot describing a configuration that no longer existed. `npm test`
+    was green through all of it. CI refused, one round trip later.
+
+    That is the shape this family has paid for repeatedly and most expensively in
+    `task-pipeline`, where four tags burned on it: a green local gate that does not
+    cover what the release runs. So the same script CI calls is called here, from
+    whichever copy this machine can resolve.
+
+    It DISCLOSES rather than failing when no copy can be found, because agent-sync is
+    a plugin rather than a dependency of this package and a fresh clone has no reason
+    to carry it -- and a check that cannot look must not read as one that looked. CI
+    installs the published package explicitly, so the strict reading still exists in
+    the blocking path; this is the early one.
+    """
+    import glob as _glob
+    cands = sorted(_glob.glob(os.path.expanduser(
+        "~/.claude/plugins/cache/agent-sync/agent-sync/*/skills/agent-sync/scripts/"
+        "agent_sync.py")))
+    cands += [os.path.join(ROOT, "node_modules/@ssheleg/agent-sync/plugins/agent-sync/"
+                                 "skills/agent-sync/scripts/agent_sync.py")]
+    script = next((c for c in reversed(cands) if os.path.isfile(c)), None)
+    if script is None:
+        _skips.append("coordination: no agent_sync.py resolvable on this machine, so the "
+                      "config health CI checks could not be read here")
+        return
+    dirs = [ROOT] + sorted(os.path.dirname(os.path.dirname(p2))
+                           for p2 in _glob.glob(os.path.join(ROOT, "skills/*/.claude/"
+                                                                   "agent-sync.json")))
+    checked = 0
+    for d in dirs:
+        if not os.path.isfile(os.path.join(d, ".claude", "agent-sync.json")):
+            continue
+        checked += 1
+        try:
+            r = subprocess.run(["python3", script, "check"], cwd=d, capture_output=True,
+                               text=True, timeout=90)
+        except (OSError, subprocess.SubprocessError):
+            _skips.append(f"coordination: `check` could not be run in {d}")
+            continue
+        if r.returncode != 0:
+            bad = [l.strip() for l in (r.stdout + r.stderr).splitlines()
+                   if l.strip().startswith(("x", "\u2717"))]
+            fail(f"{os.path.relpath(d, ROOT) or '.'}: coordination config is not healthy — "
+                 + ("; ".join(bad) if bad else "`agent_sync.py check` exited "
+                                               f"{r.returncode}")
+                 + ". CI runs this same script; it used to be the only thing that did")
+    if checked < 2:
+        _skips.append(f"coordination: only {checked} config(s) found here, so the health "
+                      "check had almost nothing to read")
+
+
+check_coordination_configs_are_healthy_here_too()
+
 
 check_board_is_parseable()
 

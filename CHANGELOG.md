@@ -46,7 +46,16 @@ would stand this guard between the family and its next release, which is `B-92`'
 from the other side. **`B-101`** — the graph is rebuilt and both release-time commands are
 written where a release driver reads them.
 
-Negative self-tests 28 → **31**. Ratchets 46/799 → **47 suites, 802 fixtures**.
+**And this pass was caught by the gap it is about.** Moving the lease to `git` dropped the
+`backend` key — the RECORD plane, a different question from `leaseBackend` — and left the
+generated snapshot describing a configuration that no longer existed. `npm test` was green
+through all of it; CI refused one round trip later, because the coordination check ran
+**only** in CI. That is the shape four `task-pipeline` tags burned on, met here on the run
+that was closing board rows about exactly this class. The same script CI calls now runs in
+`validate.py` from whichever copy the machine can resolve, disclosing rather than failing
+where none exists — and a plant watches the local gate refuse the very config that broke.
+
+Negative self-tests 28 → **32**. Ratchets 46/799 → **47 suites, 802 fixtures**.
 
 Gate: `npm test` → rc=0, read as an exit code.
 

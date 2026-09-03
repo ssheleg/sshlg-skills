@@ -1,4 +1,4 @@
-<!-- agent-sync:generated source=sshlg-skills@4660b21 cfg=9353d7b40560 at=2026-09-01T18:49:12Z — regenerate with `agent_sync.py setup`, do not hand-edit -->
+<!-- agent-sync:generated source=sshlg-skills@2e4c36a cfg=368d627c49d4 at=2026-09-03T10:18:17Z — regenerate with `agent_sync.py setup`, do not hand-edit -->
 
 # How documentation and coordination work in sshlg-skills
 
@@ -17,9 +17,9 @@ them is the finding.** Reconcile before starting a task and after finishing it.
 
 ## This project's wiring
 
-- record plane: **fs** · lease: **local** — exclusive on this machine, advisory across machines · runs recorded **gated**
+- record plane: **fs** · lease: **git** — exclusive across machines · runs recorded **gated**
 - lease TTL 2700s, renewed every 300s
-- credentials read from `(none found)` — gitignored, never committed
+- credentials read from `.env.agent-sync` — gitignored, never committed
 
 ### Id registers — reserve before you write
 

@@ -1,4 +1,5 @@
 {
+  "backend": "fs",
   "leaseBackend": "git",
   "leaseRemote": "origin",
   "leaseTtlSeconds": 2700,
