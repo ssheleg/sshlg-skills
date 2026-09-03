@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**611** id'd requirement rows below, **537** read `verified` and none of them says which
+**616** id'd requirement rows below, **542** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1263,3 +1263,13 @@ exists to refuse, so the rows below cover **this** release only.
 | PK-7 | Column widths are measured from the rows rather than guessed | a hardcoded 28 printed `vercel-react-view-transitionsmotion` for a 29-character id; widths derive from the data now, and a 35-character id is asserted not to collide | v1.31.0 | a width returning to a literal | verified |
 | PK-8 | The a11y lane is ownerless, and the fixture says so out loud | `test/packs_test.js` asserts `owner === null` for `a11y`, with the message naming the pack, the board row and itself as the three things that move together; filed as `B-140` | v1.31.0 | a router taking accessibility | verified |
 | PK-9 | The gate is green at the re-derived ratchet | `npm test` rc=0, `COUNTED: 48 suites, 839 fixtures, 9 pinned members`; it **failed on 47/803 first**, naming both directions | v1.31.0 | the next fixture added | verified |
+
+## 2026-09-03 — v1.32.0, the pin that closes the pair
+
+| id | Claim | Evidence | Version | Falsified by | Status |
+|---|---|---|---|---|---|
+| PN-1 | The pin is the version the registry serves | `npm view sheleg-design-skill version` → `1.59.0` at cut time; the submodule sits on the annotated tag (`git submodule status` → `+5fdcc92… (v1.59.0)`), and `skills.json` and the README row moved with it | v1.32.0 | the member releasing again | verified |
+| PN-2 | The member's release was gated on its own merged tree before the tag was pushed | `npm test` in the merged checkout: `rc=0`, `FAIL lines: 0`, `self-tests: 3`, `OK (5633 checks)` — the exit code read from the command itself, after a first attempt whose `rc` belonged to a background wrapper | v1.32.0 | a release cut without that run | verified |
+| PN-3 | The release run was selected by the ref, not by recency | `gh run list --workflow release.yml` filtered on `headBranch == v1.59.0` → run `33764838852`, polled to `completed success`; the registry read separately | v1.32.0 | a run being read with `--limit 1` again | verified |
+| PN-4 | The routing block reaches all four channels and is idempotent at the layer that repeats | `routers --update` → four `updated` lines and `копии до записи … (4)`; then three consecutive real runs against `~/.claude/CLAUDE.md` gave one hash, `228a313801e6842b4618d61fd508306a20bf59dae8a9af768a9ac24b2a181659`, and a fourth `routers` call reports `unchanged` on all four | v1.32.0 | any change to the block renderer | verified |
+| PN-5 | The dry run showed its full effect before anything was written | `routers --update --dry-run` printed one `+` block per file and no `-` lines — an addition inside the `sheleg-design` router, nothing displaced | v1.32.0 | a preview that hides removals | verified |

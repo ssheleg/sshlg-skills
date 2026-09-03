@@ -1,3 +1,30 @@
+## v1.32.0 — the creative director lands, and the routing block points at it
+
+`sheleg-design` 1.58.4 → **1.59.0**, read from the registry at cut time
+(`npm view sheleg-design-skill version` → `1.59.0`) rather than from the tag.
+
+**Why the pin moves in its own release.** v1.31.0 shipped `pack design` — the command
+that can name what a design task is missing. The member's new `CREATIVE_DIRECTOR.md`
+is the thing that *calls* it: Act 2 casts its tools by running
+`npx sshlg-skills pack design --lane <lane>` instead of choosing from memory. The two
+halves were built in one pass and released in the forced order, because the director
+cannot measure with a command that is not published yet.
+
+**What the member gained.** A decision layer above its craft references, and it is the
+skill's first read now. A four-line brief whose fourth line is a **falsifier**; a mode
+table where a redesign enters at `verify` and `a11y` because you measure the thing you
+are replacing before you take it away, and an update changes a token rather than the
+components that read it; two variations in parallel subagents with disjoint casts,
+under the rule that keeps that honest — **the rubric is written before either variation
+exists**; and a validation split that separates alignment from eight measurable checks
+and then says plainly that taste is on neither list.
+
+**The routing block now points at the pack**, one paragraph inside the `sheleg-design`
+router: before design, redesign, layout, front-end or mobile-UI work, measure what else
+is reachable. Written to all four channels and **proved idempotent at the layer that
+repeats** — three real runs of `routers --update` against `~/.claude/CLAUDE.md`, one
+hash: `228a3138…`.
+
 ## v1.31.0 — the command that can answer about absence, and the lane nobody owns
 
 **`pack` — curated recommendations, measured against this machine.** `toolkit` enumerates
