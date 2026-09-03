@@ -97,6 +97,45 @@ it('every trigger is a word the skill itself advertises', () => {
     `the hook fires on words the skill does not claim:\n  ${missing.join('\n  ')}`);
 });
 
+it('a trigger carrying ё routes identically without it, which is how it is typed', () => {
+  // Russian is normally typed WITHOUT ё. Measured 2026-09-03 before the fold:
+  // `звезды телеграм` reached nothing while `звёзды телеграм` reached telegram-dev,
+  // and the same for `отчет о приемке` against evidence-docs. Two routers were
+  // unreachable for the standard spelling of their own advertised triggers.
+  const withYo = [];
+  for (const spec of Object.values(T.ROUTES)) {
+    const groups = spec.sources || [{ triggers: spec.triggers }];
+    for (const g of groups) for (const t of g.triggers || []) if (t.includes('ё')) withYo.push(t);
+  }
+  assert.ok(withYo.length > 0, 'no trigger carries ё — this fixture is asserting nothing');
+  const broken = withYo.filter((t) => {
+    const a = JSON.stringify(T.match(t));
+    const b = JSON.stringify(T.match(t.replace(/ё/g, 'е')));
+    return a !== b;
+  });
+  assert.deepStrictEqual(broken, [],
+    `these triggers only match when ё is typed:\n  ${broken.join('\n  ')}`);
+});
+
+it('folding ё does not make two different triggers collide', () => {
+  // The precision the fold spends. Russian has real pairs — всё/все, нёбо/небо — so a
+  // trigger whose е-form is a different word would over-match. Nothing in the shipped
+  // table does today; this is what notices when one arrives.
+  const seen = new Map();
+  const collisions = [];
+  for (const [route, spec] of Object.entries(T.ROUTES)) {
+    const groups = spec.sources || [{ triggers: spec.triggers }];
+    for (const g of groups) for (const t of g.triggers || []) {
+      const folded = t.toLowerCase().replace(/ё/g, 'е');
+      const prev = seen.get(folded);
+      if (prev && prev.raw !== t) collisions.push(`${prev.route}:${prev.raw} vs ${route}:${t}`);
+      else if (!prev) seen.set(folded, { route, raw: t });
+    }
+  }
+  assert.deepStrictEqual(collisions, [],
+    `two triggers become the same word once ё is folded:\n  ${collisions.join('\n  ')}`);
+});
+
 it('a pack-fronted route reaches every skill it fronts', () => {
   // The derivation above makes `spec.skill` the first source's, which is exactly
   // the field that would hide a typo'd skill in sources 2..N behind a valid one.

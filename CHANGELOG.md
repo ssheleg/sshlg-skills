@@ -1,3 +1,36 @@
+## v1.33.0 — the routing block's own vocabulary now routes, and ё stops hiding two routers
+
+`sheleg-design` 1.59.1 → **1.59.2** (`npm view sheleg-design-skill version` → `1.59.2`).
+
+**The defect was mine, one release old, and it was in the thing v1.32.0 shipped.** The
+block's `sheleg-design` paragraph says *"before design, **redesign**, **layout**,
+front-end or mobile-UI work"* — and the trigger layer fires only on words a skill claims
+in its own description. Measured against the real matcher: `редизайн сайта` → nothing,
+`переделай дизайн` → nothing, `свёрстай дашборд` → nothing. **I wrote a paragraph about
+what to do when those prompts arrive and never checked whether they arrive.** The member
+now advertises the vocabulary and `lib/triggers.js` carries it.
+
+**`ё` was hiding two routers, and this is the wider half.** Russian is normally typed
+WITHOUT `ё`, so a trigger spelled with it advertises a word its own audience does not
+type. Measured 2026-09-03: `звёзды телеграм` → `telegram-dev` while `звезды телеграм` →
+**nothing**; `отчёт о приёмке` → `evidence-docs` while `отчет о приемке` → **nothing**.
+`normalise()` folds now, and so does `phrasePattern` — the fold has to happen on both
+sides or it does nothing.
+
+**Watched failing, and the failure was mine again.** Folding only the pattern made
+`светлая/тёмная тема` stop matching **itself**, caught by the self-match fixture that has
+guarded every earlier change to this matcher: `matches()` is the lower-level door and its
+callers bring text of their own, so it folds its own text now. A second fixture asserts
+no two triggers in the shipped table collide once folded — that is the precision the fold
+spends, on pairs like `всё`/`все`, and it is stated rather than assumed.
+
+**Coverage: 74 → 81 of 99 named an expected route.** Eleven probes added, covering the
+design lane's vocabulary, the ё pairs, and three lanes the pack declares that nothing
+advertises — kept as **measured misses** rather than dropped, because a coverage file
+listing only what passes is one nobody believes. `переделай дизайн` and `сделай темную
+тему` are among them: bare `дизайн` is too broad to add, and `тёмная тема` is reachable
+only through the full `светлая/тёмная тема` phrase.
+
 ## v1.32.2 — the pack's own addresses are now checked on every push
 
 **The gap this closes was in v1.31.0 from the day it shipped**, and it is the same
