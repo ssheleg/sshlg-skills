@@ -2174,6 +2174,53 @@ def check_a_waiver_names_what_would_bring_it_back():
 check_a_waiver_names_what_would_bring_it_back()
 
 
+def check_a_status_cell_opens_with_its_verdict():
+    """A row's state is the FIRST thing in its status cell, or the row has no state.
+
+    Watched happening rather than imagined. On 2026-09-03 an annotation was prepended to
+    `B-84`'s status — accurate, useful, and it pushed `open` behind 300 characters of
+    prose. The open count silently fell from 9 to 8: every reader of this board anchors
+    on the verdict, and a cell beginning with a date reads as a row nobody has ruled on.
+
+    Nothing here caught it. `check_no_id_carries_two_verdicts` looks for a row claiming
+    two states and this row now claimed none; the waiver check anchors `^waived` and
+    simply did not match. **Both existing guards ask what the cell SAYS; neither asked
+    where it says it**, which is the same gap `B-108` records about a board read one of
+    nine.
+
+    Deliberately a prefix rule and not a parser. The vocabulary is small and closed, and
+    a check that tried to recognise *a verdict* anywhere in free text could not tell one
+    from a sentence about one — the boundary this repository keeps crossing.
+    """
+    board = os.path.join(ROOT, "docs", "evidence", "backlog.md")
+    if not os.path.isfile(board):
+        _skips.append("board verdicts — no docs/evidence/backlog.md here")
+        return
+    with open(board, encoding="utf-8") as fh:
+        lines = fh.read().splitlines()
+    verdicts = ("open", "closed", "half closed", "waived", "superseded", "duplicate")
+    looked = 0
+    for line in lines:
+        if not re.match(r"^\|\s*B-\d+\s*\|", line):
+            continue
+        cells = [c.strip() for c in re.split(r"(?<!\\)\|", line)]
+        if len(cells) < 9:
+            continue
+        rid, status = cells[1], cells[8]
+        head = status.lstrip("*").lower()
+        looked += 1
+        if not any(head.startswith(v) for v in verdicts):
+            fail(f"docs/evidence/backlog.md: row {rid} opens its status with "
+                 f"{status[:48]!r} — a status cell states its verdict FIRST or the row "
+                 f"reads as having none. Put one of {'/'.join(verdicts)} at the front and "
+                 "the annotation after it")
+    if not looked:
+        _skips.append("board verdicts — no row was readable")
+
+
+check_a_status_cell_opens_with_its_verdict()
+
+
 # ---------------------------------------------------------------------------
 # Every address these documents claim, resolved
 # ---------------------------------------------------------------------------

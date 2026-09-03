@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**628** id'd requirement rows below, **554** read `verified` and none of them says which
+**630** id'd requirement rows below, **556** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1285,3 +1285,5 @@ exists to refuse, so the rows below cover **this** release only.
 | RV-3 | The fold was watched breaking something before it shipped | folding only the pattern made `светлая/тёмная тема` fail to match itself — `trigger "светлая/тёмная тема" no longer matches itself`, `1 failure(s) out of 43 checks` — caught by the existing self-match fixture. `matches()` folds its own text now | v1.33.0 | the self-match fixture being removed | verified |
 | RV-4 | The precision the fold spends is asserted, not assumed | a fixture folds every trigger in the table and fails if two collide; Russian has real pairs (`всё`/`все`) and nothing in the table hits one today | v1.33.0 | a trigger arriving whose е-form is a different word | verified |
 | RV-5 | The remaining misses are measured, not hidden | `route_coverage.js` carries 11 new probes including three that MISS — `переделай дизайн`, `сделай темную тему`, `обнови токены темы` — with the reason in the file: bare `дизайн` is too broad, and the description sits at 960 of a 970 house limit | v1.33.0 | a probe being deleted rather than fixed | verified |
+| SC-1 | Every board row states its verdict at the front of its status cell | `test/validate.py` prefix-checks `open/closed/half closed/waived/superseded/duplicate`; planting `**2026-09-03 note first**` ahead of `open` on B-84 gives *row B-84 opens its status with …*, and the corrected board gives 0 violations | v1.33.1 | a seventh verdict word entering the vocabulary | verified |
+| SC-2 | The defect it guards was real and silent | prepending an annotation to B-84 dropped the open count 9 → 8 with no check objecting; `check_no_id_carries_two_verdicts` saw no second verdict because the row now carried none, and the waiver check anchors `^waived` | v1.33.1 | either older guard being widened to cover position | verified |
