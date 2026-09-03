@@ -1,3 +1,37 @@
+## v1.30.0 — the block stops contradicting itself about who owns copy, and LEGACY_FIT empties
+
+`super-ux` 0.52.4 → **0.52.5**, `sheleg-design` 1.58.3 → **1.58.4**, `sheleg-dev` 0.11.4 →
+**0.11.5**. Every version read from the registry at cut time.
+
+**`B-131` — the map and the precedence table disagreed, and the map is read first.** The
+routing block's first content gave `super-ux` *"what the interface must do and how it
+sounds"*; the precedence table 362 lines below gave *"how it sounds"* to `copywriting`, and
+super-ux's own router text said the same split. A reader who stopped at the first table
+routed copy work to `/ux` — on the one router pair the block works hardest elsewhere to
+separate. The cell now reads *"what the interface must do"*, and the fixture that was
+written and held back ships with it: no member's role may contain another router's
+`answers`, with `seo-aeo-audit`/`seo-llmo` declared as the one exemption. Watched refusing
+the old string.
+
+**`B-118` — `LEGACY_FIT` is empty.** Both remaining members commit the umbrella's own
+render, byte for byte. The set existed because a card's pixels live in the member and are
+byte-checked from here, so a member whose card the corrected metric would repaint had to
+stay on the old metric until its own release recommitted it.
+
+**What the three releases cost, measured rather than estimated.** The same change in three
+repositories took three different shapes: a CHANGELOG heading with `v` and without,
+Keep-a-Changelog with `### Fixed`, a version surface in `SKILL.md` that the others do not
+have, a mandatory run stamp, a mirrored `.cursor/` copy, and a ledger block quoting its own
+validator's output line. Each was caught by that member's own gate. That is `B-138`'s
+number met in practice: *"the same check was four different changes."*
+
+**The `B-98` ratchet fired in both directions on the run that wrote it.** super-ux's
+release carried a ledger section for the version it ships, so two members lag rather than
+three — and the guard refused the tree until the smaller number was written down. A ratchet
+that only fails upward is a floor nobody lowers.
+
+Gate: `npm test` → rc=0, `COUNTED: 47 suites, 803 fixtures, 9 pinned members`.
+
 ## v1.29.0 — ten board rows, and three of them were closed by measuring rather than building
 
 The board read 21 open rows. Ten close here; the count is `npm run queue`, not a grep —

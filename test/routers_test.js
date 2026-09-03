@@ -349,6 +349,35 @@ it('write and remove in one pass do not fight over indices', () => {
   assert.strictEqual(R.parse(out.text).sections.length, 2);
 });
 
+it('B-131: no member role answers a question another router owns', () => {
+  // The map table is the block's first content and its highest-salience surface; the
+  // precedence table sits 362 lines below it. `super-ux` was given "what the interface
+  // must do AND HOW IT SOUNDS" in the map and "what the interface must do" in the
+  // precedence table, while `copywriting` was given "how it sounds" in both — so a
+  // reader who stops at the first table routes copy work to /ux, on the one router pair
+  // the block works hardest elsewhere to separate.
+  //
+  // The role feeds scripts/site.js and therefore the member's COMMITTED card pixels, so
+  // this fixture was written before the string could move and held with it.
+  const registry = require('../lib/routers-registry.js');
+  const data = JSON.parse(require('fs').readFileSync(
+    require('path').join(__dirname, '..', 'skills.json'), 'utf8'));
+  // seo-aeo-audit carries seo-llmo's answer on purpose — one rule, two names, stated
+  // in the block itself. Declared here rather than special-cased silently.
+  const EXEMPT = new Map([['seo-aeo-audit', 'seo-llmo']]);
+  const answers = registry.order().map((n) => [n, registry.REGISTRY[n].answers]);
+  for (const m of data.skills) {
+    const role = (m.role || '').toLowerCase();
+    if (!role) continue;
+    for (const [router, answer] of answers) {
+      if (!answer || router === m.name) continue;
+      if (EXEMPT.get(m.name) === router) continue;
+      assert.ok(!role.includes(answer.toLowerCase()),
+        `${m.name}'s role answers ${router}'s question: "${answer}"`);
+    }
+  }
+});
+
 if (failures.length) {
   failures.forEach(f => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
