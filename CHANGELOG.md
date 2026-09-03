@@ -1,3 +1,74 @@
+## v1.31.0 — the command that can answer about absence, and the lane nobody owns
+
+**`pack` — curated recommendations, measured against this machine.** `toolkit` enumerates
+what is installed and ranks it by term overlap; by construction it cannot name a skill
+that is **not** here, and that is the whole question when somebody hands you a list of
+skills to install. `lib/packs.js` declares the entries, decides presence with the same
+`readSkills()` walk `toolkit` and `conflicts` use — never a second one — and prints the
+exact install command for the rest.
+
+```
+npx sshlg-skills pack design           # present, missing, declined, by lane
+npx sshlg-skills pack design --lane a11y
+npx sshlg-skills pack design --check   # do the declared addresses still resolve?
+```
+
+**Lanes, because "design work" is not one route.** Choosing a visual direction, animating
+a hero, re-theming a dashboard and auditing contrast are four questions with four owners.
+Each lane names the family router that owns it and the outside tools that serve it — and
+`modes` says which lane a task ENTERS at: a new design at `style`, a redesign at `verify`
+and `a11y` because you measure before you replace, an update at `tokens` rather than at
+the components that read them.
+
+**It prints and never installs.** The refusal `lib/updatemodel.js` already records:
+`settings.json` and `known_marketplaces.json` belong to the operator, and a launcher that
+changed somebody's installed set to match its own opinion is the class of act that
+destroyed `~/.claude/CLAUDE.md` twice here. There is no `--install`, and
+`test/packs_test.js` reads `cmdPack`'s body to keep it that way.
+
+**Popularity is not a field, because it is the part that rots.** The first pack was built
+by measuring two published listicles rather than copying them. Between them: **three moved
+addresses** (`bencium/bencium-claude-code-design-skill` → `bencium/bencium-marketplace`,
+`accesslint/claude-marketplace` → `AccessLint/skills`, `ComposioHQ/awesome-codex-skills` →
+`composio-community/awesome-codex-skills`), **five wrong star counts** — Anthropic's stated
+at 65,847 against a measured 173,426 — one install command that does not exist
+(`claude plugin add …` → `error: unknown command 'add'`, printed from a process that exits
+**0**), and one that copies a marketplace straight into `~/.claude/skills`, which shadows a
+plugin of the same name for ever. Both dead shapes are refused by `assertPack()` rather
+than by review; `--check` resolves the addresses at read time instead of trusting a number.
+
+**The `design` pack, measured here: 9 present, 6 missing, 4 declined.** Five of the eight
+skills the articles recommended were already installed. What is declined is declined with
+its measurement: `composio-community/awesome-codex-skills` duplicates **nine** already-
+installed skills; `Owl-Listener/designer-skills` is 33 plugins and 107 skills where the
+article says 8 and 63, and its `visual-critique` and `ui-design` are `sheleg-design`'s
+subject end to end — two of its plugins are recommended individually instead. `impeccable`
+is recommended **with its collision named**: it is `user-invocable` and its description is
+written to fire on every design prompt, so it is a tool inside a lane and not a second
+entry point.
+
+**`B-140` — no router in this family asks whether the interface can be USED.** Ten routers
+cover what it must do, how it looks, how it sounds, what it runs on, whether a machine
+finds it and how fast it is. None covers accessibility. `sheleg-design` mentions contrast
+in two of eleven reference files and carries no WCAG step; the lane is declared with
+`owner: null`, a fixture asserts that null so it cannot be filled quietly, and the pack
+routes it to a third party. Filed as a decision to make, not a gap to paper over.
+
+**Watched failing, in both directions.** The shadow refusal keyed on the flag cluster
+first and let `cp -R` — as ordinary as `cp -r` — walk straight past it; its own fixture
+caught that before the guard shipped, and it keys on the destination now, with the
+copying-OUT case asserted so the widening does not buy false positives. `--check` was
+proved against a planted moved address (`MOVED → AccessLint/skills`) and against a clean
+one. And the first sweep of five candidates reported 404 for every row **including the
+known-clean control** — the unauthenticated GitHub API rate-limits to 60 an hour and then
+answers 403 with a JSON body. Standing instruction #4 exactly: a measurement that returns
+the same answer for every input is a fact about the instrument. `--check` uses `gh` and
+reports `unreachable`, never `gone`.
+
+**Routing.** One paragraph added to the `sheleg-design` router text: before design,
+redesign, layout, front-end or mobile-UI work, measure what else is reachable. Ratchets
+recounted by running the gate — **48 suites, 839 fixtures** — after it refused 47/803.
+
 ## v1.30.0 — the block stops contradicting itself about who owns copy, and LEGACY_FIT empties
 
 `super-ux` 0.52.4 → **0.52.5**, `sheleg-design` 1.58.3 → **1.58.4**, `sheleg-dev` 0.11.4 →

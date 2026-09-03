@@ -333,6 +333,8 @@ npx sshlg-skills injectors                # who else speaks at SessionStart, and
 npx sshlg-skills conflicts                # installed skills that land on a router's ground
 npx sshlg-skills toolkit                  # every skill this machine can reach, as an index
 npx sshlg-skills toolkit --for "<task>"   # ...narrowed to one task, as a shortlist
+npx sshlg-skills pack design              # design/front-end/mobile: present, missing, and the install line
+npx sshlg-skills pack design --check      # do the declared addresses still resolve?
 npx sshlg-skills humanizers               # anti-AI-writing skills here, with the caveat that binds them
 ```
 
@@ -454,12 +456,34 @@ npx sshlg-skills list        # the family, versions and descriptions
 npx sshlg-skills agents      # supported agent ids
 npx sshlg-skills conflicts   # installed skills that land on ground a router owns
 npx sshlg-skills toolkit     # every skill this machine can reach — the family is a fraction of it
+npx sshlg-skills pack        # curated recommendations, measured against this machine
 npx sshlg-skills humanizers  # anti-AI-writing skills this machine can reach — and the
                              # false-positive caveat that prints whether or not one is installed
 npx sshlg-skills signature --used "<skill>=<what it did>,…"
                              # a report's one-line header and short footer — every
                              # address looked up from the manifest, never typed
 ```
+
+`pack` is the one command here that can answer about **absence**. `toolkit`
+enumerates what is installed and ranks it by term overlap; by construction it
+cannot name a skill that is not here, and that is the whole question when
+somebody hands you a list of skills to install. A pack declares the entries,
+measures which are already present with the same walk `toolkit` and `conflicts`
+use, and prints the exact install command for the rest — cut into **lanes**, so
+that choosing a visual direction, animating a hero, re-theming a dashboard and
+auditing contrast are four questions with four owners rather than one list. Three
+of the `design` pack's lanes have no owner in this family, and **accessibility is
+one of them**; the pack is where that is stated rather than implied.
+
+It **prints and never installs**: `settings.json` and `known_marketplaces.json`
+belong to the operator, which is the refusal `lib/updatemodel.js` already records.
+Popularity is deliberately not a field — the first pack was built by measuring two
+published listicles, and between them they carried three moved addresses, five
+wrong star counts and one install command that does not exist (`claude plugin add`
+→ `error: unknown command 'add'`), plus one that copies a marketplace straight into
+`~/.claude/skills` and shadows a plugin for ever. Both of those shapes are refused
+by `assertPack()` rather than by review, and `--check` resolves every declared
+address at the moment it is read.
 
 `conflicts` is the machine-specific half of the map's arbitration rule. The rule
 ships — *the router decides the route, a competing skill is never a second entry
@@ -488,6 +512,7 @@ lib/drift.js                 your wording vs the packaged one; pure, like router
 lib/plan.js                  the argv handed to the skills CLI — one builder for install and update
 lib/inventory.js             the family's map — entry points, not a catalogue
 lib/conflicts.js             installed skills on a router's ground — candidates, not offenders
+lib/packs.js                 curated recommendations by lane — what is missing, and the exact command
 lib/cursor.js                Cursor's channel, which is one file per rule rather than a block
 lib/apply.js                 the only module that writes to the instruction files
 lib/migrate.js               moves hand-written rules in; never reads inside the block

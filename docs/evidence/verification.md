@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**602** id'd requirement rows below, **528** read `verified` and none of them says which
+**611** id'd requirement rows below, **537** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1249,3 +1249,17 @@ exists to refuse, so the rows below cover **this** release only.
 | RC-4 | Each member's release was gated on its own tagged tree before the tag was pushed | `npm test` rc=0 in all three tag worktrees, read as exit codes; three release runs completed `success` | v1.30.0 | a release cut without that run | verified |
 | RC-5 | The B-98 ratchet refused the tree until its floor was lowered | with two members lagging and the floor at 3 the gate failed with *only 2 member ledger(s) lag where the ratchet stands at 3 — lower it to 2*; lowered in the same change, and the run went green | v1.30.0 | a member ledger catching up or falling back | verified |
 | RC-6 | The gate is green at the re-derived ratchet | `npm test` rc=0: `COUNTED: 47 suites, 803 fixtures, 9 pinned members`; marker and its quoting sentence both moved | v1.30.0 | the next fixture added | verified |
+
+## 2026-09-03 — v1.31.0, the pack and the ownerless lane
+
+| id | Claim | Evidence | Version | Falsified by | Status |
+|---|---|---|---|---|---|
+| PK-1 | The pack decides presence with the walk `toolkit` and `conflicts` already use | `test/packs_test.js` asserts `P.readSkills === C.readSkills`; `node bin/sshlg-skills.js pack design` reports `9 present, 6 missing, 4 declined` on this machine | v1.31.0 | a second reader appearing in `lib/packs.js` | verified |
+| PK-2 | A dead or shadowing install command cannot be declared | `assertPack()` refuses `claude plugin add …` and any `cp` whose destination is `~/.claude/skills`; both strings were copied verbatim from published articles on 2026-09-03 | v1.31.0 | a refusal being relaxed without its negative | verified |
+| PK-3 | The shadow refusal was watched failing before it shipped | keyed on the flag cluster it let `cp -R src/* $HOME/.claude/skills` through — `Missing expected exception: $HOME walked past the refusal`, `1 failure(s) out of 35 checks`. Re-keyed on the destination; the copying-OUT case asserts the other direction | v1.31.0 | the guard being widened past `cp` | verified |
+| PK-4 | `--check` reports a moved address and a clean one differently | planted `accesslint/claude-marketplace` → `MOVED → AccessLint/skills`, `1 address(es) need editing`; reverted → `ok, last push 2026-08-25`, `Every declared address resolves to itself` | v1.31.0 | `gh` changing its redirect behaviour | verified |
+| PK-5 | Silence is never rendered as absence | the first sweep reported 404 for five candidates AND for the known-clean control `anthropics/skills`; `curl /rate_limit` → `remaining 0 of 60`. `checkReport` prints `unreachable (…)` and does not count it as a defect, asserted in `test/packs_test.js` | v1.31.0 | an offline run turning the check red | verified |
+| PK-6 | The command prints and never installs | `test/packs_test.js` reads `cmdPack`'s body and fails on `--install`, `writeFileSync` or a spawned `plugin install`; `lib/packs.js` requires neither `fs` nor `child_process` | v1.31.0 | any write path being added | verified |
+| PK-7 | Column widths are measured from the rows rather than guessed | a hardcoded 28 printed `vercel-react-view-transitionsmotion` for a 29-character id; widths derive from the data now, and a 35-character id is asserted not to collide | v1.31.0 | a width returning to a literal | verified |
+| PK-8 | The a11y lane is ownerless, and the fixture says so out loud | `test/packs_test.js` asserts `owner === null` for `a11y`, with the message naming the pack, the board row and itself as the three things that move together; filed as `B-140` | v1.31.0 | a router taking accessibility | verified |
+| PK-9 | The gate is green at the re-derived ratchet | `npm test` rc=0, `COUNTED: 48 suites, 839 fixtures, 9 pinned members`; it **failed on 47/803 first**, naming both directions | v1.31.0 | the next fixture added | verified |
