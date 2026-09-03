@@ -89,7 +89,7 @@ What a change of each type obliges, in the same change:
 | Change | Also update |
 |---|---|
 | A router added, removed or reworded | `lib/routers-registry.js` (only) → README routing table → `test/router_texts_test.js` → CHANGELOG. **The site needs nothing**: `scripts/site.js` renders the registry, and `test/site_test.js` fails if a rule or its refusal phrase is missing from the page |
-| A new entry in a recommendation pack | `lib/packs.js` → `assertPack()` accepts it (a dead or shadowing install command is refused there, not in review) → `pack <name> --check` resolves its address → CHANGELOG. The entry stays in the pack once installed: half the answer is *you already have this* |
+| A new entry in a recommendation pack | `lib/packs.js` → `assertPack()` accepts it (a dead or shadowing install command is refused there, not in review) → `pack <name> --check` resolves its address, and **CI runs that check on every push as a warning** because an address rots without anyone touching the entry → CHANGELOG. The entry stays in the pack once installed: half the answer is *you already have this* |
 | A new CLI command or flag | `bin/sshlg-skills.js` usage block → README → a fixture asserting its exact output and exit code → CHANGELOG |
 | A new trigger word for the prompt hook | `lib/triggers.js` **only** — and it must already appear in the target skill's own `description`, or `test/triggers_test.js` fails. Inventing one here creates a second routing policy nothing else reads |
 | A new hook or status line | `lib/hooks.js` → `WIRED` (the plan, one list) → `hooks/<name>.js` (thin I/O) → a fixture for the planner **and** a process-level fixture in `test/hooks_e2e_test.js` → CHANGELOG. Writing to `settings.json` goes through `protect()`; there is no second write path |
@@ -161,8 +161,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=48 fixtures=839 members=9 -->
-**Ratchets.** 48 suites, 839 fixtures, 9 pinned members — and these three numbers are
+<!-- ratchets: suites=48 fixtures=841 members=9 -->
+**Ratchets.** 48 suites, 841 fixtures, 9 pinned members — and these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree — and this
 sentence is checked against the same run, not against the marker.** It quoted the marker

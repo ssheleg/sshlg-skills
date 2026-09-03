@@ -1,3 +1,28 @@
+## v1.32.2 — the pack's own addresses are now checked on every push
+
+**The gap this closes was in v1.31.0 from the day it shipped**, and it is the same
+failure the pack exists to catch in other people: `lib/packs.js` names outside
+repositories, those repositories get renamed, and **nothing in this repository would
+notice**. The two articles the design pack was built from carried three moved addresses
+between them, so rot is the expected state rather than the exception. `--check` existed
+and nothing ran it; `docs/DOCMAP.md` said to run it when an entry is ADDED, and an
+address rots without anyone touching the entry.
+
+CI runs `pack design --check` on every push now, in the step beside `check_pins.py`,
+and borrows its exit split wholesale: **2, never 1.** An upstream rename is not this
+commit's defect, and the lesson that split already paid for is that a gate failing a
+build for somebody else's release gets re-run rather than read. An `unreachable` row —
+offline, or a spent API quota — never counts at all, which is the same refusal
+`checkReport` makes in prose.
+
+**The cost, stated because it is real:** nothing BLOCKS on a rotted address. The choice
+is between a warning that is read and a failure that is bypassed.
+
+`checkExit` was watched firing against a live planted rename — `accesslint/claude-marketplace`
+still redirects, so exit 2 came from a real 301 rather than a synthetic fixture — and
+returning to 0 on the corrected address. A fixture asserts it never returns 1 on any of
+six input shapes, including the empty one.
+
 ## v1.32.1 — the sibling gains its fallback, and a `provides` id is one only its entry could have put there
 
 `sheleg-design` 1.59.0 → **1.59.1** (`npm view sheleg-design-skill version` → `1.59.1`).
