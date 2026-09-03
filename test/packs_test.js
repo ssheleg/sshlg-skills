@@ -290,23 +290,57 @@ it('an unreachable address is never reported as gone', () => {
   // an hour and then answers 403 with a JSON body — which a naive reader turns into
   // "missing" for every row at once. It did, while this pack was being built: five
   // candidates and the known-clean control all reported 404 in one sweep.
-  const out = P.checkReport([{ id: 'a', source: 'o/a', error: 'rate limited' }]);
-  assert.ok(out.includes('unreachable (rate limited)'));
-  assert.ok(!/GONE/.test(out), 'silence was rendered as absence');
-  assert.ok(out.includes('Every declared address resolves to itself.'),
+  const r = P.checkReport([{ id: 'a', source: 'o/a', error: 'rate limited' }]);
+  assert.ok(r.text.includes('unreachable (rate limited)'));
+  assert.ok(!/GONE/.test(r.text), 'silence was rendered as absence');
+  assert.ok(r.text.includes('Every declared address resolves to itself.'),
     'an unreachable row was counted as a defect, which would make an offline run red');
+  assert.strictEqual(r.bad, 0, 'an unreachable row counted as a defect');
+  assert.strictEqual(P.checkExit(r), 0, 'an offline run would turn a build red');
 });
 
 it('a moved address is reported as MOVED and counted as needing an edit', () => {
-  const out = P.checkReport([{ id: 'a', source: 'accesslint/claude-marketplace', movedTo: 'AccessLint/skills' }]);
-  assert.ok(out.includes('MOVED → AccessLint/skills'));
-  assert.ok(out.includes('1 address(es) need editing'));
+  const r = P.checkReport([{ id: 'a', source: 'accesslint/claude-marketplace', movedTo: 'AccessLint/skills' }]);
+  assert.ok(r.text.includes('MOVED → AccessLint/skills'));
+  assert.ok(r.text.includes('1 address(es) need editing'));
+  // 2, never 1: an address that moved upstream is not this commit's defect. Watched
+  // firing against a real planted rename — `accesslint/claude-marketplace` still
+  // redirects, so this is the live case rather than a synthetic one.
+  assert.strictEqual(P.checkExit(r), 2, 'a moved address did not raise the warning code');
 });
 
 it('an archived source counts as needing an edit', () => {
-  const out = P.checkReport([{ id: 'a', source: 'o/a', archived: true }]);
-  assert.ok(out.includes('archived'));
-  assert.ok(out.includes('1 address(es) need editing'));
+  const r = P.checkReport([{ id: 'a', source: 'o/a', archived: true }]);
+  assert.ok(r.text.includes('archived'));
+  assert.ok(r.text.includes('1 address(es) need editing'));
+  assert.strictEqual(P.checkExit(r), 2);
+});
+
+
+it('--check never returns 1, on any input', () => {
+  // The whole design of the code: 1 blocks a build. A rotted address is the EXPECTED
+  // state — the pack was built from articles where three of five had moved — so a
+  // blocking code would make somebody else's rename this repository's red build, and
+  // the lesson `check_pins.py` already paid for is that such a gate gets re-run rather
+  // than read.
+  for (const rows of [
+    [],
+    [{ id: 'a', source: 'o/a' }],
+    [{ id: 'a', source: 'o/a', movedTo: 'o/b' }],
+    [{ id: 'a', source: 'o/a', status: 404 }],
+    [{ id: 'a', source: 'o/a', archived: true }],
+    [{ id: 'a', source: 'o/a', error: 'offline' }],
+  ]) {
+    const code = P.checkExit(P.checkReport(rows));
+    assert.notStrictEqual(code, 1, `returned 1 for ${JSON.stringify(rows)}`);
+    assert.ok(code === 0 || code === 2, `unexpected code ${code}`);
+  }
+});
+
+it('an empty check reports clean rather than throwing', () => {
+  const r = P.checkReport([]);
+  assert.ok(r.text.includes('Every declared address resolves to itself.'));
+  assert.strictEqual(P.checkExit(r), 0);
 });
 
 /* -- the shipped pack lives under the same rules ------------------------- */

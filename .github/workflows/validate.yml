@@ -91,6 +91,33 @@ jobs:
           # learned the expensive way.
           exit "$code"
 
+      - name: Do the pack's declared addresses still resolve?
+        # The other half of the same problem check_pins solves for pins. `lib/packs.js`
+        # names outside repositories, and those get renamed: the two articles the design
+        # pack was built from carried THREE moved addresses between them, so rot is the
+        # expected state rather than the exception. Nothing local can see it, and nothing
+        # in this repository would notice until somebody happened to look.
+        #
+        # Warn-only, and 2 rather than 1, for the reason written above about pins: an
+        # upstream rename is not this commit's defect, and a gate that fails a build for
+        # somebody else's rename teaches people to re-run it instead of reading it. An
+        # `unreachable` row — offline, or a spent API quota — never counts at all.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          node bin/sshlg-skills.js pack design --check | tee /tmp/packs.txt
+          code=${PIPESTATUS[0]}
+          set -e
+          if [ "$code" = "2" ]; then
+            echo "::warning::a declared pack address has moved, gone or been archived — edit lib/packs.js"
+            {
+              echo "### Pack addresses that need editing"
+              echo
+              grep -E 'MOVED|GONE|archived' /tmp/packs.txt | sed 's/^/- /'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit 0
       - name: Pin-source suite (7 cases — the four verdicts, on real git repos)
         run: python3 test/pin_source_test.py
 

@@ -959,7 +959,14 @@ function cmdPack(argv) {
     return 2;
   }
 
-  if (rest.includes('--check')) { log(packs.checkReport(checkAddresses(pack))); return 0; }
+  if (rest.includes('--check')) {
+    const summary = packs.checkReport(checkAddresses(pack));
+    log(summary.text);
+    // 2, never 1 — the same split `test/check_pins.py` uses and for the reason its CI
+    // step records: an address that moved upstream is not this commit's defect, and a
+    // gate that fails for somebody else's rename teaches people to re-run it.
+    return packs.checkExit(summary);
+  }
 
   const li = rest.indexOf('--lane');
   const lane = li !== -1 && rest[li + 1] && !rest[li + 1].startsWith('--') ? rest[li + 1] : '';
