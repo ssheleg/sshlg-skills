@@ -113,6 +113,21 @@ Runs `test/validate.py`, then every discovered `test/*_test.js`. It is the
 same command CI runs, and `validate.py` fails if CI stops calling it — so the
 local entry point and the remote one cannot drift.
 
+Two more commands belong to a RELEASE rather than to a commit, and neither is a
+gate on purpose:
+
+```bash
+npm run convergence            # B-91: pointers mechanically, the seam by record
+graphify update .              # B-101: the graph stage 0 queries for reach
+```
+
+`convergence` prints `dormant` for a range where no component pointer moved and exits
+non-zero for one that moved without a record — run it against the base the release is
+cut from, not against `HEAD`. The graph refresh is a release step and **not** a gate,
+because a gate on graph freshness fails every commit until somebody rebuilds it, while a
+stale graph misleads a run quietly; the validator discloses the drift on every run and
+this is the command that clears it.
+
 ```bash
 python3 test/check_pins.py --self-test   # pure, offline, in CI's blocking path
 python3 test/check_pins.py               # 0 fresh · 1 never published · 2 behind · 3 own tag unshipped
@@ -144,8 +159,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=46 fixtures=799 members=9 -->
-**Ratchets.** 46 suites, 799 fixtures, 9 pinned members — and these three numbers are
+<!-- ratchets: suites=47 fixtures=802 members=9 -->
+**Ratchets.** 47 suites, 802 fixtures, 9 pinned members — and these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree — and this
 sentence is checked against the same run, not against the marker.** It quoted the marker

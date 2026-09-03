@@ -109,6 +109,18 @@ process.stdin.on('end', () => {
         owned = owned || top === project;
       }
       if (owned === false) return process.exit(0);   // resolved, and it is not ours
+      if (owned === null && gate.unresolvedCd(input.command || '')) {
+        // B-106. The shell moved somewhere this gate cannot resolve — `cd $n`. Falling
+        // through to the index question is how the umbrella once CLAIMED a member's
+        // commit and denied it on the umbrella's own red suite. Unknown ownership is
+        // disclosed, never claimed.
+        process.stderr.write(
+          '[repo-gate] ownership unknown: this command moves the shell to an unexpanded '
+          + 'path, so which repository it commits in cannot be read from the command '
+          + 'text. Not claimed and not gated — run the commit from inside the '
+          + 'repository with a literal path if you want its gate to apply.\n');
+        return process.exit(0);
+      }
       if (owned === null) {
         // Could not look. Fall back to the index, and keep its documented weakness
         // narrow: an empty index no longer means "not ours" when the command stages

@@ -128,6 +128,31 @@ it('a clean file renders nothing', () => {
   assert.strictEqual(R.render([], 'a/SKILL.md'), '');
 });
 
+it('B-106: a cd this module cannot resolve is unknown ownership, not ours', () => {
+  // `(cd $n && git commit …)` gave the tracker a literal `$n`, ownership came back
+  // unresolved, and the caller fell through to the index question — which is how the
+  // umbrella claimed a member's commit and denied it on the umbrella's own red suite.
+  assert.strictEqual(R.unresolvedCd('(cd $n && git commit -m x)'), true);
+  assert.strictEqual(R.unresolvedCd('cd `pwd` && git commit -m x'), true);
+});
+
+it('B-106: a literal path is resolved, not reported unknown', () => {
+  // The control. Widening "unknown" to every unresolved path would disclose on the
+  // ordinary case and gate nothing.
+  assert.strictEqual(R.unresolvedCd('(cd skills/x && git commit -m x)'), false);
+  assert.strictEqual(R.unresolvedCd('cd skills/x && git commit -m x'), false);
+  assert.strictEqual(R.unresolvedCd('git commit -m x'), false);
+});
+
+it('B-106: the subshell form moves the shell, and it used to be read as no cd at all', () => {
+  // Found by probing the fix rather than by reading it: with the anchored regex,
+  // `(cd skills/x && git commit` left cwd at '.', so the umbrella claimed a member's
+  // commit on a LITERAL path — the same wrong claim, one step earlier than `$n`.
+  assert.deepStrictEqual(R.commitDirs('(cd skills/x && git commit -m x)'), ['skills/x']);
+  assert.deepStrictEqual(R.commitDirs('(cd $n && git commit -m x)'), ['$n']);
+  assert.deepStrictEqual(R.commitDirs('cd skills/x && git commit -m x'), ['skills/x']);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

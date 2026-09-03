@@ -1,5 +1,6 @@
 {
-  "backend": "fs",
+  "leaseBackend": "git",
+  "leaseRemote": "origin",
   "leaseTtlSeconds": 2700,
   "renewIntervalSeconds": 300,
   "gated": true,
