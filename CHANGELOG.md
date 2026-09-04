@@ -1,3 +1,27 @@
+## v1.34.1 — the SessionStart block stops reprinting a fortnight of dead leases
+
+`agent-sync` 1.19.1 → **1.19.2**, closing `#104`.
+
+An expired **foreign** lease printed at every SessionStart for ever. Measured on this
+machine: sixteen of them, none newer than two days, the oldest **thirteen days old**, six
+in full plus *"… and 11 more"*, identically, every session for a fortnight — and none of
+it actionable, because a foreign lease is reported and deliberately never touched. A
+block reprinted verbatim is a block an operator learns to skim, **including the lines
+that would have mattered**.
+
+Age splits the list in the member now: inside 24 hours a lease may still mean a run is in
+trouble and keeps its own line; older ones collapse into one summary that still **names
+the keys**. Sixteen lines became one.
+
+**`#103` closed as "keep it", with receipts rather than agreement.** The issue asks that
+`make-skill`'s three-authority enforcement column not be tidied away. Verified at HEAD:
+the table is at `references/agent-skills-spec.md:23-26`, the two asymmetries the issue
+names are rows `:33` and `:34` (*silent / enforced — the Skills API rejects the upload /
+not enforced*), and both protocol safety rules are at `SKILL.md:254-256`. It is a column,
+not a sentence, so a merge would visibly destroy structure rather than quietly flatten
+prose — which is the property that makes it worth keeping and the reason no code change
+is right.
+
 ## v1.34.0 — four filed issues, and each one had been watched costing something
 
 The family's own agents filed 28 issues on 2026-09-04. These are the four this
