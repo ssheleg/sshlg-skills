@@ -67,7 +67,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.19.1",
+      "version": "1.19.2",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",

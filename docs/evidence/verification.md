@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**636** id'd requirement rows below, **562** read `verified` and none of them says which
+**639** id'd requirement rows below, **565** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1293,3 +1293,6 @@ exists to refuse, so the rows below cover **this** release only.
 | IS-4 | Every unowned lane carries a default and a refusal phrase | `assertPack()` throws on either missing, with three fixtures; the shipped pack prints all five with install commands and phrases like `"no a11y"` | v1.34.0 | a lane losing an owner without gaining both | verified |
 | IS-5 | The shadow check reads the project's `.claude/skills` too, and says why it differs | `test/shadow_test.js`: a project row states the git consequence and prints the `!.claude/skills/<name>/` allowlist; both scopes in one run print two sections, home first | v1.34.0 | the hook losing its `data.cwd` read | verified |
 | IS-6 | The router table no longer excludes a server an agent connects to | `agent-stack`'s `when` reads *the thing being built is an agent, or a server one connects to*; `router_texts_test.js` and `routers_test.js` green | v1.34.0 | the table cell being reworded back | verified |
+| PN-6 | The pin is the version the tag serves | `git submodule status skills/agent-sync` → `+d468933… (v1.19.2)`; `test/check_pins.py` → `ok agent-sync 1.19.2` and `every pin matches its release` | v1.34.1 | agent-sync releasing again | verified |
+| PN-7 | The SessionStart block no longer reprints a fortnight of dead leases | sixteen entries collapsed to one summary line naming eight keys plus `+8 more`; the member's own check was watched failing on both halves — detail surviving, and the summary vanishing | v1.34.1 | the age split being removed | verified |
+| PN-8 | `#103` is closed on evidence, not on agreement | every artefact the issue asks to preserve resolved at HEAD: `agent-skills-spec.md:23-26`, rows `:33` and `:34`, `SKILL.md:254-256`; recorded in the issue thread with the table | v1.34.1 | a tidy-up merging the three authorities into one list | verified |
