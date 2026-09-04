@@ -1,3 +1,30 @@
+## v1.34.2 — the third thing a project-local skill copy costs
+
+`#86` and `#98` are one event seen twice. v1.34.0 closed the git half — 173 files swept
+into a product commit. This is the half that stops a **release** rather than dirtying a
+history, and it is the one a shadow report does not obviously cover.
+
+**A project's linter DISCOVERS files.** A flat ESLint config applying
+`js.configs.recommended` with no `files` scope reaches whatever a skill vendored into the
+tree. Measured: six skills, seven vendored `.cjs`, and `deploy.sh` refusing to ship on
+**143 problems — 127 `no-undef`, 15 `no-require-imports`** — in files the operator had
+never seen, in a language the project may not even use. Nothing about the product was
+wrong.
+
+Three further things the report now says, each because leaving it out makes the remedy
+read as superstition:
+
+- **why the trailing `*` is load-bearing.** `.claude/skills/` excludes the directory, git
+  does not descend into it, and the `!` negation written inside never fires — the
+  allowlist silently keeps nothing. `.claude/skills/*` is the form that works.
+- **the same pair belongs in the lint and format ignore lists**, which are enumerated by
+  literal directory and are therefore silent about the next tree something installs into.
+  The project in the report had already patched its list three times, once per intruder.
+- **the consequence count is derived from the list.** It read *"two consequences"* over a
+  body of three for exactly as long as it took to add one, and a restated number is the
+  defect this repository catches most often in other people's documents. A fixture
+  compares the header's figure against the rows.
+
 ## v1.34.1 — the SessionStart block stops reprinting a fortnight of dead leases
 
 `agent-sync` 1.19.1 → **1.19.2**, closing `#104`.

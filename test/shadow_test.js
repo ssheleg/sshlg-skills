@@ -50,6 +50,33 @@ it('a project copy is reported separately, with the consequence a home copy lack
   assert.ok(!/~\/\.claude\/skills\/ —/.test(out), 'a project row was reported as a home row');
 });
 
+it('a project copy names the tooling consequence, not only the git one', () => {
+  // The half that stops a release rather than dirtying a history. Measured: six skills,
+  // seven vendored `.cjs`, and a deploy script refusing to ship on 143 problems in files
+  // the operator had never seen. (#86)
+  const out = S.render(S.shadows([{ name: 'task-pipeline', scope: 'project' }], PROVIDED));
+  assert.ok(/tooling discovers it/.test(out), 'the lint-gate consequence is not stated');
+  assert.ok(/`files` scope/.test(out),
+    'the reason a flat config reaches vendored files is missing, so the remedy reads as superstition');
+});
+
+it('the consequence COUNT is derived from the list, never restated', () => {
+  // It said "two consequences" over a body of three for exactly as long as it took to
+  // add one. A restated number is the defect this repository catches most often.
+  const out = S.render(S.shadows([{ name: 'task-pipeline', scope: 'project' }], PROVIDED));
+  const claimed = Number(/— (\d+) consequences/.exec(out)[1]);
+  const listed = (out.match(/^ {2}\d+\. /gm) || []).length;
+  assert.strictEqual(claimed, listed, `header claims ${claimed}, body lists ${listed}`);
+});
+
+it('the ignore shape explains why the trailing star is load-bearing', () => {
+  // `.claude/skills/` without it excludes the directory, git does not descend into it,
+  // and the `!` negation never fires — so the allowlist silently keeps nothing.
+  const out = S.render(S.shadows([{ name: 'task-pipeline', scope: 'project' }], PROVIDED));
+  assert.ok(/does not descend into an excluded/.test(out),
+    'the reason is missing, and a rule with no reason is copied wrong');
+});
+
 it('both scopes in one run print two sections, home first', () => {
   const out = S.render(S.shadows(
     ['task-pipeline', { name: 'task-pipeline', scope: 'project', at: 'p' }], PROVIDED));

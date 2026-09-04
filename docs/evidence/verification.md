@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**639** id'd requirement rows below, **565** read `verified` and none of them says which
+**642** id'd requirement rows below, **568** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1296,3 +1296,6 @@ exists to refuse, so the rows below cover **this** release only.
 | PN-6 | The pin is the version the tag serves | `git submodule status skills/agent-sync` → `+d468933… (v1.19.2)`; `test/check_pins.py` → `ok agent-sync 1.19.2` and `every pin matches its release` | v1.34.1 | agent-sync releasing again | verified |
 | PN-7 | The SessionStart block no longer reprints a fortnight of dead leases | sixteen entries collapsed to one summary line naming eight keys plus `+8 more`; the member's own check was watched failing on both halves — detail surviving, and the summary vanishing | v1.34.1 | the age split being removed | verified |
 | PN-8 | `#103` is closed on evidence, not on agreement | every artefact the issue asks to preserve resolved at HEAD: `agent-skills-spec.md:23-26`, rows `:33` and `:34`, `SKILL.md:254-256`; recorded in the issue thread with the table | v1.34.1 | a tidy-up merging the three authorities into one list | verified |
+| PL-1 | A project-local copy names the tooling consequence, not only the git one | `test/shadow_test.js` asserts `tooling discovers it` and the `\`files\` scope` reason; the report was measured against six skills and 143 lint problems that blocked a release | v1.34.2 | the third consequence being dropped | verified |
+| PL-2 | The consequence count is derived, never restated | a fixture parses the header's figure and counts the numbered rows; they were 2 and 3 before this change | v1.34.2 | a fourth consequence added without the list | verified |
+| PL-3 | The ignore shape carries its reason | `does not descend into an excluded directory` is asserted — a rule with no reason is copied wrong, and `.claude/skills/` without the star silently keeps nothing | v1.34.2 | the explanation being trimmed as verbose | verified |
