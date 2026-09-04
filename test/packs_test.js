@@ -27,11 +27,16 @@ function it(name, fn) {
 
 const LANES = [
   { id: 'style', asks: 'which direction', owner: 'sheleg-design' },
-  { id: 'a11y', asks: 'can it be used', owner: null },
+  // An unowned lane must declare BOTH a default and a refusal phrase — the demo pack
+  // obeys the same rule the shipped one does, or the rule is about test data.
+  { id: 'a11y', asks: 'can it be used', owner: null, fallback: 'alpha', refusal: 'no a11y' },
 ];
 
 function pack(over) {
-  return Object.assign({
+  // The a11y lane's fallback is derived from the pack's own entries rather than
+  // hardcoded: several cases below replace `entries` wholesale, and a fixture whose
+  // scaffolding fails the rule under test tells you nothing about the rule.
+  const built = Object.assign({
     id: 'demo',
     role: 'a demonstration pack',
     lanes: LANES,
@@ -46,6 +51,11 @@ function pack(over) {
     }],
     declined: [],
   }, over || {});
+  if (!over || !over.lanes) {
+    const first = (built.entries[0] || {}).id;
+    built.lanes = built.lanes.map((l) => (l.owner || !first ? l : Object.assign({}, l, { fallback: first })));
+  }
+  return built;
 }
 
 /* -- structure ---------------------------------------------------------- */
@@ -91,6 +101,46 @@ it('a duplicate id is refused — presence would be decided twice and could disa
 
 it('a pack with no lanes is refused — a flat list answers no question', () => {
   assert.throws(() => P.assertPack(pack({ lanes: [] })), /needs lanes/);
+});
+
+it('an unowned lane with no stated default is refused', () => {
+  // Naming a gap and stopping there was measured failing: a run read `a11y GAP` in
+  // the pack's own output and shipped two public pages without opening the lane.
+  assert.throws(() => P.assertPack(pack({
+    lanes: [{ id: 'style', asks: 'x', owner: 'sheleg-design' },
+            { id: 'a11y', asks: 'y', owner: null, refusal: 'no a11y' }],
+  })), /needs a `fallback`/);
+});
+
+it('an unowned lane with no refusal phrase is refused', () => {
+  // Every owned route in this family has one, so declining it is an act. Without it,
+  // skipping the lane is indistinguishable from never knowing it existed.
+  assert.throws(() => P.assertPack(pack({
+    lanes: [{ id: 'style', asks: 'x', owner: 'sheleg-design' },
+            { id: 'a11y', asks: 'y', owner: null, fallback: 'alpha' }],
+  })), /needs a `refusal`/);
+});
+
+it('a fallback that is not an entry is refused — its install command could not print', () => {
+  assert.throws(() => P.assertPack(pack({
+    lanes: [{ id: 'style', asks: 'x', owner: 'sheleg-design' },
+            { id: 'a11y', asks: 'y', owner: null, fallback: 'nowhere', refusal: 'no a11y' }],
+  })), /is not an entry in this pack/);
+});
+
+it('the report prints a default and a refusal phrase for every unowned lane', () => {
+  const out = P.report(pack(), [], {});
+  assert.ok(/lanes nobody owns/.test(out));
+  assert.ok(out.includes('default: alpha'), 'the default is not named');
+  assert.ok(out.includes('"no a11y"'), 'the refusal phrase is not printed');
+});
+
+it('every unowned lane in the SHIPPED pack carries both', () => {
+  for (const p of Object.values(P.PACKS)) {
+    for (const l of p.lanes.filter((x) => !x.owner)) {
+      assert.ok(l.fallback && l.refusal, `${p.id}/${l.id} is a gap with no way to act on it`);
+    }
+  }
 });
 
 /* -- the dead-install refusals, each measured in the wild ---------------- */

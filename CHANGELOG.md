@@ -1,3 +1,56 @@
+## v1.34.0 — four filed issues, and each one had been watched costing something
+
+The family's own agents filed 28 issues on 2026-09-04. These are the four this
+repository owns; the rest belong to member repositories and are listed at the end.
+
+**`#99` — a shortlist that always returned seven made a miss look like a hit.** Asked to
+prioritise a backlog, `toolkit --for` put `build-zoom-video-sdk-app` and `ui-toolkit-web`
+in positions two and three, matched on **after** and **full**. Asked about selling an MCP
+server, it returned `tear-sheet` (S&P Capital IQ company tear sheets) and put `make-skill`
+tenth. Three changes, none of them "make the ranking smarter":
+
+- **a floor of two terms.** One shared word is where any two English sentences overlap.
+- **words that separate nothing are MEASURED, not listed.** A hand-kept stoplist would be
+  a guess about English; `after`, `full`, `project`, `page` are stopwords *in a roster of
+  skill descriptions*, and which words those are is a fact about one machine. A term
+  carried by more than a tenth of the corpus is dropped and **named in the output**. The
+  ratio is switched off below 50 skills, because at six descriptions one match is 16.7%
+  and the filter ate every word — found by a fixture, not by reasoning.
+- **an empty shortlist is now expressible.** *"NOTHING on this machine matched two or
+  more of those words"* is a useful answer and there was no way to say it.
+
+Plus the score is printed and a family skill wins a tie. Query A now leads with
+`tech-debt` (3); query B with the MCP skills, and `tear-sheet` is gone. **The honest
+limit: `after` and `full` still survive on some rosters** — they sit under the tenth —
+but the matched terms print beside every row, which is what lets a reader dismiss one at
+a glance.
+
+**`#100` — a lane with no owner needed a default and a refusal phrase, not only a
+reported gap.** `pack design` named four unowned lanes and a session read that output,
+shipped two public pages with a data table and three code blocks, and opened the `a11y`
+lane **not at all**. The pack was right and reading it changed nothing. Every unowned
+lane now declares a default (`accesslint`, `webapp-testing`, …) with its install command
+and a refusal phrase — `"no a11y"`, `"not looked at"` — so declining it is an act, the
+way every owned route in this family already works. `assertPack()` refuses an unowned
+lane missing either.
+
+**`#98` — a project's own `.claude/skills` is a second shadow location, and git sweeps it
+into the product's history.** Measured: 173 files across seven skill directories, put
+there by an agent session, swept into a commit whose message was about an MCP server. The
+shadow check read one path. It reads both now and reports them **separately**, because
+the consequences differ — a home copy serves a frozen version, a project copy does that
+*and* sits inside a git tree. The remedy is not `.gitignore .claude/skills/`: that
+deletes the one correct case, a skill the repository itself owns, so the allowlist shape
+is printed instead.
+
+**`#102` — building an MCP server did not read as "the thing being built is an agent".**
+A session shipped and audited an MCP server without ever consulting `agent-stack`, and
+re-established by hand three facts `agent-interop` advertises: that MCP removed JSON-RPC
+batching in 2025-06-18, the exact `claude mcp add --transport http -H` shape, and what a
+401 may disclose without becoming a discovery oracle. The trigger list already carried
+`MCP server`; the **router table** is where the choice is made, and its sentence excluded
+the case. It now reads *"or a server one connects to"*.
+
 ## v1.33.1 — a status cell states its verdict first, or the row has no verdict
 
 **Watched happening, on this board, an hour ago.** An accurate and useful annotation was

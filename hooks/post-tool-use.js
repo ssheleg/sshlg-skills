@@ -77,11 +77,25 @@ process.stdin.on('end', () => {
       catch (e) { running = true; } // cannot tell → say nothing rather than cry wolf
       if (!running) {
         const shadow = require(path.join(LIB, 'shadow.js'));
-        const skillsDir = path.join(home, '.claude', 'skills');
-        const plain = fs.existsSync(skillsDir)
-          ? fs.readdirSync(skillsDir, { withFileTypes: true })
-            .filter((e) => e.isDirectory() && !e.isSymbolicLink()).map((e) => e.name)
-          : [];
+        const plainIn = (dir, scope, at) => {
+          try {
+            return fs.readdirSync(dir, { withFileTypes: true })
+              .filter((e) => e.isDirectory() && !e.isSymbolicLink())
+              .map((e) => ({ name: e.name, scope, at }));
+          } catch (e) { return []; }
+        };
+        const plain = plainIn(path.join(home, '.claude', 'skills'), 'home');
+        // The project's own `.claude/skills` is a second shadow location and the one
+        // with a consequence the home copy does not have: it sits inside a git tree.
+        // The hook is told where it is running; `process.cwd()` is where the hook
+        // happened to be spawned and is not the project (`hooks/statusline.js` says
+        // the same about the same field).
+        const project = data.cwd || (data.workspace && data.workspace.current_dir)
+          || process.env.CLAUDE_PROJECT_DIR || '';
+        if (project && path.resolve(project) !== path.resolve(home)) {
+          plain.push(...plainIn(path.join(project, '.claude', 'skills'), 'project',
+            path.join(project, '.claude', 'skills')));
+        }
         const text = shadow.render(shadow.shadows(plain, providedSkills(home)));
         if (text) notes.push(text);
       }

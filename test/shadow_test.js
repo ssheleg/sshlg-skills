@@ -28,7 +28,33 @@ const PROVIDED = {
 it('a plain copy of a plugin-provided skill is a shadow', () => {
   const rows = S.shadows(['task-pipeline', 'graphify'], PROVIDED);
   assert.strictEqual(rows.length, 1);
-  assert.deepStrictEqual(rows[0], { skill: 'task-pipeline', plugin: 'task-pipeline@task-pipeline' });
+  assert.deepStrictEqual(rows[0],
+    { skill: 'task-pipeline', plugin: 'task-pipeline@task-pipeline', scope: 'home', at: null });
+});
+
+it('a bare name still means the home directory — the older call shape survives', () => {
+  // The project scope arrived after this module. Migrating every call site to objects
+  // would have been a change to callers for a change in one of them.
+  assert.strictEqual(S.shadows(['task-pipeline'], PROVIDED)[0].scope, 'home');
+});
+
+it('a project copy is reported separately, with the consequence a home copy lacks', () => {
+  // Measured: 173 files across seven skill directories swept into a commit whose
+  // message was about an MCP server, by one `git add -A`. (#98)
+  const rows = S.shadows([{ name: 'task-pipeline', scope: 'project', at: './.claude/skills' }], PROVIDED);
+  assert.strictEqual(rows[0].scope, 'project');
+  const out = S.render(rows);
+  assert.ok(/inside a git tree/.test(out), 'the git consequence is not stated');
+  assert.ok(out.includes('!.claude/skills/'),
+    'the allowlist shape is missing — a bare ignore deletes the one correct case');
+  assert.ok(!/~\/\.claude\/skills\/ —/.test(out), 'a project row was reported as a home row');
+});
+
+it('both scopes in one run print two sections, home first', () => {
+  const out = S.render(S.shadows(
+    ['task-pipeline', { name: 'task-pipeline', scope: 'project', at: 'p' }], PROVIDED));
+  assert.ok(out.indexOf('~/.claude/skills/') < out.indexOf("THIS PROJECT's"),
+    'the sections are out of order, so the two consequences read as one');
 });
 
 it('a skill that exists ONLY as a plain copy is not a shadow', () => {

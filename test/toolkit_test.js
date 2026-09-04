@@ -56,22 +56,23 @@ it('a skill with no plugin is still counted, under a named bucket', () => {
 });
 
 it('the shortlist ranks by how many of the task words a description carries', () => {
-  const out = T.rank(SKILLS, 'seo audit of a site', 5);
-  assert.strictEqual(out[0].id, 'seo-audit', `${out[0] && out[0].id} led instead`);
-  assert.ok(out[0].score >= 2, `score ${out[0].score}`);
-  assert.ok(out.every((s) => s.hits.length), 'a row matched nothing and was ranked anyway');
+  const { rows } = T.rank(SKILLS, 'seo audit of a site', 5, FAMILY);
+  assert.strictEqual(rows[0].id, 'seo-audit', `${rows[0] && rows[0].id} led instead`);
+  assert.ok(rows[0].score >= 2, `score ${rows[0].score}`);
+  assert.ok(rows.every((s) => s.hits.length >= 2),
+    'a row below the two-term floor was ranked anyway');
 });
 
 it('common words do not drag in every skill', () => {
   // Without a stop list, "the" and "and" match nearly every description and the shortlist
   // becomes an arbitrary slice of the whole roster with a confident-looking order.
   assert.deepStrictEqual(T.terms('the and of for on with is это как'), []);
-  assert.deepStrictEqual(T.rank(SKILLS, 'the and of', 5), []);
+  assert.deepStrictEqual(T.rank(SKILLS, 'the and of', 5, FAMILY).rows, []);
 });
 
 it('an empty query yields no shortlist rather than the whole roster', () => {
-  assert.deepStrictEqual(T.rank(SKILLS, '', 5), []);
-  assert.deepStrictEqual(T.rank(SKILLS, null, 5), []);
+  assert.deepStrictEqual(T.rank(SKILLS, '', 5, FAMILY).rows, []);
+  assert.deepStrictEqual(T.rank(SKILLS, null, 5, FAMILY).rows, []);
 });
 
 it('every provider prints its count even when its skills stay closed', () => {
@@ -101,13 +102,57 @@ it('the report says its ranking is not a decision', () => {
 
 it('a query that matches nothing says so, rather than printing an empty list', () => {
   const out = T.report(SKILLS, FAMILY, { for: 'zzzquux' });
-  assert.ok(/nothing matched/.test(out), out.slice(-300));
+  assert.ok(/NOTHING on this machine matched/.test(out), out.slice(-300));
 });
 
 it('family members are marked in the shortlist', () => {
-  const out = T.report(SKILLS, FAMILY, { for: 'audit scenarios repository' });
+  const out = T.report(SKILLS, FAMILY, { for: 'audit the scenarios in this repository' });
   const row = out.split('\n').find((l) => l.includes('ux-audit') && l.includes('['));
   assert.ok(row && row.trim().startsWith('*'), `family row is not marked: ${row}`);
+});
+
+it('a shortlist can be EMPTY, and says so', () => {
+  // A fixed-length answer makes a miss look like a hit: this padded to seven
+  // least-bad string matches whether seven fitted or none did.
+  const out = T.report(SKILLS, FAMILY, { for: 'quantum cryogenics helium dilution' });
+  assert.ok(/NOTHING on this machine matched/.test(out),
+    'an empty shortlist printed nothing instead of saying it was empty');
+});
+
+it('one shared word is not a hit, and the drop is counted out loud', () => {
+  // `build-zoom-video-sdk-app` reached position two on a backlog query, matched on
+  // `after` and `full`. One term is where any two English sentences overlap.
+  const { rows, dropped } = T.rank(SKILLS, 'audit', 12, FAMILY);
+  assert.deepStrictEqual(rows, [], 'a single-term match survived the floor');
+  assert.ok(dropped >= 1, 'the dropped rows were not counted');
+});
+
+it('a word carried by most of a REAL-SIZED roster is measured out, not listed out', () => {
+  // A hand-kept stoplist is a guess about the language; which words separate nothing
+  // is a fact about this roster. The corpus is padded past CORPUS_FLOOR deliberately:
+  // below it the ratio has no meaning and the filter is off.
+  const many = Array.from({ length: 60 }, (_, i) => (
+    { plugin: 'x@y', id: `s${i}`, description: 'a skill that does ordinary things' }));
+  many.push({ plugin: 'x@y', id: 'rare-one', description: 'a skill about xylophones' });
+  const { weak } = T.rank(many, 'skill xylophones', 12, []);
+  assert.ok(weak.includes('skill'), `a word in every description was kept: ${JSON.stringify(weak)}`);
+  assert.ok(!weak.includes('xylophones'), 'a rare word was discarded as common');
+});
+
+it('the spread filter is OFF on a small roster, where a ratio means nothing', () => {
+  // One match in six is 16.7%: every term would clear a 10% threshold and the
+  // shortlist would empty itself. Found by a fixture, not by reasoning.
+  const { weak } = T.rank(SKILLS, 'seo audit of a site', 5, FAMILY);
+  assert.deepStrictEqual(weak, [], 'the ratio filter ran on a corpus too small to have one');
+});
+
+it('on an equal score the family skill wins', () => {
+  const rows = T.rank([
+    { plugin: 'other@vendor', id: 'zzz-foreign', description: 'audit scenarios repository' },
+    { plugin: 'super-ux@super-ux', id: 'ux-audit', description: 'audit scenarios repository' },
+  ], 'audit scenarios repository', 12, ['ux-audit']).rows;
+  assert.strictEqual(rows[0].id, 'ux-audit',
+    'a foreign skill outranked the family on a tie — how make-skill finished tenth');
 });
 
 it('the roster walk is conflicts.js\'s, not a second copy of it', () => {
