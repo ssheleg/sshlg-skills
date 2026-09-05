@@ -1,3 +1,44 @@
+## v1.37.0 — the packing config is checked, and the audit that asked for it was wrong
+
+**The finding this closes was half wrong, and the half that survived is the better one.**
+Yesterday's family audit reported three `.pyc` files shipping in `task-pipeline` and
+`make-skill`. Measured against the **published** tarballs: **zero**. `npm pack --dry-run`
+on this laptop lists `__pycache__` because running the tests creates it; `npm publish`
+runs from a fresh CI checkout where nothing has executed Python yet. That is standing
+instruction #10 — *a check that reads a working tree reports a state no clone can
+reproduce* — committed **while auditing**, which is the one place it costs most.
+
+**What is true is that the cleanliness is incidental.** Four members name a directory in
+`files` that carries Python and nothing excludes bytecode from it; the tarball is clean
+only because of where the release happens, and nothing says so. Two members —
+`agent-sync` and `seo-aeo-audit` — already carry the exclusion, and **the seam was
+written nowhere**, which is `B-138`'s shape rather than a packaging bug.
+
+So the check reads the **configuration**, which every clone has. Three shapes are correct
+and all three exist in the family already, which is why it is a predicate and not a
+required line: no `files` key (the `.gitignore` fallback works), `files` naming individual
+`.py` paths (`super-ux`), or a directory **plus the negation pair** (`agent-sync`,
+`seo-aeo-audit`). Measured against a positive control before it was written: with
+`files: ["plugins"]` a planted `.pyc` packs; with the negation it does not and the `.py`
+still ships. A root `.npmignore` and a root `.gitignore` were both measured **not to
+subtract from `files` at all**, which is why neither is accepted as the mechanism.
+
+**The subject list is derived**, never typed — a member is in scope exactly when a packed
+directory carries Python, so `sheleg-design` and `sheleg-dev` are silently out and a new
+Python-carrying member is covered by construction (`#81`'s shape).
+
+Ratchet at **4**: `agent-stack`, `make-skill`, `task-pipeline`, `telegram-dev`. Their
+one-line edits ride their next releases — the exposure is zero today and four release
+cycles to close it would be spending hours on something the release workflow already
+prevents. *Ratchet, never TODO.*
+
+**The downward plant is what made this correct.** The first matcher tested only the
+`.pyc` path against the negations, and `fnmatch` has no `**`, so a pattern ending in
+`__pycache__` never matched a path ending in `x.pyc` — it passed `agent-sync` by accident
+of that member's SECOND entry. Adding a negation to `make-skill` should have dropped the
+count to 3 and did not. Both candidate shapes are tested now, and both plants assert they
+landed before the verdict is read.
+
 ## v1.36.0 — a router obeyed from the tree, told apart from one that was skipped
 
 Closes `#101`, the last of the twenty-eight.

@@ -2221,6 +2221,109 @@ def check_a_status_cell_opens_with_its_verdict():
 check_a_status_cell_opens_with_its_verdict()
 
 
+def check_no_member_can_publish_bytecode() -> None:
+    """A member's PACKING CONFIG must be unable to include `__pycache__`, not merely
+    happen not to today.
+
+    Found by auditing the tarballs and getting it wrong first. `npm pack --dry-run` on
+    this machine listed three `.pyc` files across two members and the audit reported them
+    as shipping; the published tarballs carry **zero**, because `npm publish` runs from a
+    fresh CI checkout where nothing has executed Python yet. That is standing instruction
+    #10 — *a check that reads a working tree reports a state no clone can reproduce* —
+    committed while auditing, which is the one place it costs most.
+
+    So this reads the **configuration**, which every clone has, rather than the tree,
+    which no two clones share. Three shapes are correct and all three exist in the family
+    already, which is why the rule is a predicate rather than a required line:
+
+    * no `files` key at all — npm falls back to `.gitignore`, where the exclusion works;
+    * `files` naming individual `.py` paths (`super-ux`), so a sibling directory cannot
+      ride along;
+    * `files` naming a directory **plus a negation entry** (`agent-sync`,
+      `seo-aeo-audit`) — `["plugins", "!plugins/**/__pycache__"]`.
+
+    Verified against a positive control before this was written: with `files: ["plugins"]`
+    a planted `.pyc` packs; with the negation entry it does not, and the `.py` still does.
+    A root `.npmignore` and a root `.gitignore` were both measured NOT to subtract from
+    `files`, which is why neither is accepted here as the mechanism.
+
+    The subject list is derived, never typed: a member is in scope exactly when its packed
+    tree contains Python. `sheleg-design` and `sheleg-dev` ship none and are silently out,
+    which is the `#81` shape — a new Python-carrying member is covered by construction.
+    """
+    import fnmatch
+    skdir = os.path.join(ROOT, "skills")
+    offenders, examined = [], 0
+    for s in skills:
+        name = s.get("name")
+        root = os.path.join(skdir, name)
+        pkg_path = os.path.join(root, "package.json")
+        if not os.path.isfile(pkg_path):
+            continue
+        try:
+            with open(pkg_path, encoding="utf-8") as fh:
+                files = (json.load(fh) or {}).get("files")
+        except (OSError, ValueError):
+            continue
+        if not isinstance(files, list) or not files:
+            continue                      # no allowlist -> .gitignore applies, and it works
+        includes = [f for f in files if isinstance(f, str) and not f.startswith("!")]
+        negations = [f[1:] for f in files if isinstance(f, str) and f.startswith("!")]
+        risky = []
+        for entry in includes:
+            cand = os.path.join(root, entry.rstrip("/"))
+            if not os.path.isdir(cand):
+                continue                  # a named file cannot carry a sibling directory
+            has_py = False
+            for dirpath, dirnames, filenames in os.walk(cand):
+                dirnames[:] = [d for d in dirnames if d not in (".git", "node_modules")]
+                if any(f.endswith(".py") for f in filenames):
+                    has_py = True
+                    break
+            if has_py:
+                risky.append(entry.rstrip("/"))
+        if not risky:
+            continue
+        examined += 1
+        # BOTH shapes, because a negation may exclude the DIRECTORY or the FILES and
+        # either is sufficient — and `fnmatch` has no `**`, so a pattern ending in
+        # `__pycache__` never matches a path ending in `x.pyc`. The first draft tested
+        # only the file path and passed `agent-sync` by accident of its SECOND entry;
+        # a downward plant on `make-skill` exposed it, which is the half a one-way
+        # ratchet never has.
+        cands = []
+        for r in risky:
+            for mid in ("", "scripts"):
+                base = os.path.join(*(x for x in (r, mid, "__pycache__") if x))
+                cands += [base, os.path.join(base, "x.pyc")]
+        covered = any(fnmatch.fnmatch(c, neg) for c in cands for neg in negations)
+        if not covered:
+            offenders.append(name)
+
+    if not examined:
+        _skips.append("bytecode packing — no member names a directory carrying Python")
+        return
+    ratchet = 4
+    if len(offenders) > ratchet:
+        fail(f"{len(offenders)} member(s) can publish bytecode and the ratchet stands at "
+             f"{ratchet}: {', '.join(sorted(offenders))}. Add "
+             'the PAIR `"!plugins/**/__pycache__"` and `"!plugins/**/*.pyc"` to `files` '
+             'in each — the two members that already carry it carry both, and it is '
+             'measured against a positive control, where a root `.npmignore` and a '
+             "root `.gitignore` do not subtract from `files` at all")
+    elif len(offenders) < ratchet:
+        fail(f"only {len(offenders)} member(s) can publish bytecode where the ratchet "
+             f"stands at {ratchet} — lower it to {len(offenders)} in the same change, or "
+             "the number stops meaning anything")
+    for n in sorted(offenders):
+        _skips.append(f"bytecode packing — {n}'s `files` could include `__pycache__`; "
+                      "its published tarball is clean only because the release runs from "
+                      "a fresh CI checkout")
+
+
+check_no_member_can_publish_bytecode()
+
+
 # ---------------------------------------------------------------------------
 # Every address these documents claim, resolved
 # ---------------------------------------------------------------------------
