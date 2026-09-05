@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**650** id'd requirement rows below, **576** read `verified` and none of them says which
+**655** id'd requirement rows below, **581** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1307,3 +1307,8 @@ exists to refuse, so the rows below cover **this** release only.
 | MT-4 | The report never claims the guards were run | asserted on the printed text, not only in the source — `guards were NOT run`, and *readable here, not obeyed* | v1.36.0 | the command gaining an execute path | verified |
 | MT-5 | A path escaping the project root is refused | `../../etc/passwd` reports `does not exist`; a fixture reads `cmdMaterialised`'s body for the containment check and for the absence of any spawn | v1.36.0 | the containment check being removed | verified |
 | MT-6 | The module is pure | it requires neither `fs` nor `child_process`; it is handed a reader | v1.36.0 | a filesystem call appearing in it | verified |
+| BC-1 | A member's packing config, not its working tree, decides whether bytecode can ship | `check_no_member_can_publish_bytecode` reads `package.json`; the published tarballs of `task-pipeline-skill` and `@ssheleg/make-skill` were downloaded and carry **0** `.pyc` while `npm pack --dry-run` here lists 3 | v1.37.0 | a member adopting a fourth packing shape | verified |
+| BC-2 | The mechanism was measured against a positive control | `files: ["plugins"]` packs a planted `.pyc`; adding `"!plugins/**/__pycache__"` removes it and keeps `scripts/a.py`; a root `.npmignore` and a root `.gitignore` both leave it in | v1.37.0 | npm changing how `files` composes | verified |
+| BC-3 | The ratchet fires in BOTH directions, each plant asserted to have landed | removing `agent-sync`'s negations → *5 member(s) … ratchet stands at 4*; adding the pair to `make-skill` → *only 3 … lower it to 3* | v1.37.0 | either branch being removed | verified |
+| BC-4 | The downward plant found a real defect in the checker | the first matcher tested only the `.pyc` path and `fnmatch` has no `**`, so it passed `agent-sync` by accident of its second entry; both candidate shapes are tested now | v1.37.0 | the candidate set being narrowed | verified |
+| BC-5 | The subject list is derived from which members carry Python in a packed directory | `super-ux` (explicit `.py` paths), `sheleg-design` and `sheleg-dev` (no Python) are out by construction, not by a list | v1.37.0 | a hand-kept member list appearing | verified |
