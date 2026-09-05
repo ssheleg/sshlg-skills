@@ -1,3 +1,34 @@
+## v1.38.2 — the sentence about conformance is now computed from the tree it describes
+
+`task-pipeline` 1.84.0 → 1.84.1, read from the registry.
+
+The member fix this pin carries. That repository's README stated its own
+conformance to the Agent Skills standard in prose — four figures, none of them
+computed, and one of them **wrong**: it claimed the references were reachable
+"within two hops" when all 38 are linked **directly** from `SKILL.md`. A number
+restated by hand is true for one commit, and this repository has the same rule
+in its own `## Evidence`, which is where the fix belongs.
+
+`check_the_conformance_sentence_is_computed` parses all four figures out of the
+prose and derives each from the tree: `name` 13 of 64 characters, `description`
+899 of 1024, `SKILL.md` 262 of 500 lines, 38 references all linked directly. It
+**asserts all four were found** before comparing — a parser that silently
+matched three would have gated on three and reported green, which is `#91`'s
+rule applied to a check whose subject is a sentence rather than a file.
+
+Verified here independently of the member's own gate: the four figures were
+recomputed against the pinned submodule after checkout, and the README's
+sentence quotes exactly those.
+
+**The pin cost two burned tags before it landed**, and neither was this change's
+fault: a run stamp carried an em dash where a commit sha belongs, the release
+gate refused the tag's own tree, and a repository rule forbids deleting a tag —
+correctly, since a tag is a promise about a tree. The remedy was already written
+in that repository's `## Releases that carry no stamp`. It was followed this
+time: the tag was cut locally, the full suite ran against **its** tree (rc 0,
+424 guards provably rejecting their planted defect), and only then was it
+pushed.
+
 ## v1.38.1 — the similarity measure was an upper bound, and the guard decided on it
 
 **`B-138` closed by re-derivation: its premise is an artifact of the instrument.**

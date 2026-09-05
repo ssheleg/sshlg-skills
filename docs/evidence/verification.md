@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**663** id'd requirement rows below, **589** read `verified` and none of them says which
+**667** id'd requirement rows below, **593** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1320,3 +1320,7 @@ exists to refuse, so the rows below cover **this** release only.
 | SM-2 | All pairs are compared, so the verdict no longer moves with sort order | the base was the alphabetically first repository; `social_preview.py` measures 0.913 against one base and 0.828 against another | v1.38.1 | a base-against-the-rest comparison returning | verified |
 | SM-3 | The guard asserts it holds at least one subject | planting 400 lines into one `plant_guard.py` copy gives *this guard held NOTHING … it passed by looking at nothing* | v1.38.1 | the assertion being softened to a skip | verified |
 | SM-4 | `B-138`'s premise is an artifact and the row is closed on measurement | `installer_test.js` exact range 0.182–0.815, **0 of 21** pairs above the floor, against 0.918–0.977 stated | v1.38.1 | difflib changing what `ratio()` means | verified |
+| CS-1 | The member's conformance sentence is computed, not restated | `check_the_conformance_sentence_is_computed` parses four figures from the README and derives each from the tree: `name` 13/64, `description` 899/1024, `SKILL.md` 262/500 lines, 38 references; recomputed here against the pinned submodule and the sentence quotes exactly those | v1.38.2 | the prose being reworded past the parser | verified |
+| CS-2 | The parser asserts all four figures were found before comparing | a parser that silently matched three would gate on three and print green — `#91` applied to a check whose subject is a sentence | v1.38.2 | the assertion being softened to a skip | verified |
+| CS-3 | One of the four restated figures was false | the README claimed the references were reachable *within two hops*; all 38 are linked **directly** from `SKILL.md` | v1.38.2 | a reference moving behind another file | verified |
+| CS-4 | The tag was proved against its own tree before it was pushed | `test:all` at `45eaf5e`: rc 0, zero FAIL, *all 424 guards provably reject their planted defect · 15 property check(s)* — the rule two burned tags bought earlier the same day | v1.38.2 | a tag being pushed on a green branch build alone | verified |
