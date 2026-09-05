@@ -69,6 +69,21 @@ process.stdin.on('end', () => {
     const command = (data.tool_input && data.tool_input.command) || '';
     if (!command) return process.exit(0);
 
+    // 0. Did this command PRINT a credential? PreToolUse denies the shapes
+    //    somebody thought of; a tool that prints its own configuration was not
+    //    one of them. This cannot unprint — its value is the interval between
+    //    leaking and knowing, which on 2026-09-05 was hours.
+    try {
+      const secrets = require(path.join(LIB, 'secrets.js'));
+      const r = data.tool_response;
+      const text = typeof r === 'string' ? r
+        : r && typeof r === 'object'
+          ? [r.stdout, r.stderr, r.output, r.content].filter((x) => typeof x === 'string').join('\n')
+          : '';
+      const leak = secrets.scan(text);
+      if (leak) notes.push('[sshlg-skills] CREDENTIAL IN OUTPUT — ' + leak.why);
+    } catch (e) { /* fails silent, like everything else here */ }
+
     const hygiene = require(path.join(LIB, 'hygiene.js'));
 
     if (hygiene.skillsCli(command)) {

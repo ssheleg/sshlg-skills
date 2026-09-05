@@ -92,6 +92,31 @@ it('a non-string payload decides nothing rather than throwing', () => {
   }
 });
 
+// ── scan(): the layer that reads what came BACK ─────────────────────────────
+it('scan finds a credential in output', () => {
+  const v = S.scan('config dump\napi_key: ' + FAKE_OR + '\nok');
+  assert.ok(v, 'a printed key was not noticed');
+  assert.strictEqual(v.found[0].what, 'an OpenRouter key');
+});
+it('scan never repeats the value it found', () => {
+  const v = S.scan('key=' + FAKE_OR);
+  assert.ok(!v.why.includes(FAKE_OR),
+    'the warning leaked the secret a second time, into the same transcript');
+});
+it('scan counts repeats without quoting them', () => {
+  const v = S.scan(FAKE_OR + '\n' + FAKE_OR);
+  assert.strictEqual(v.found[0].count, 2);
+});
+it('scan is silent on ordinary output', () => {
+  for (const clean of ['3 files changed', '', 'Authorization: Bearer <redacted>',
+                       'sk-or-v1-short', 'talking about ghp_ tokens in prose']) {
+    assert.strictEqual(S.scan(clean), null, JSON.stringify(clean));
+  }
+});
+it('scan decides nothing on a non-string rather than throwing', () => {
+  for (const bad of [undefined, null, 42, {}, []]) assert.strictEqual(S.scan(bad), null);
+});
+
 if (failures.length) {
   console.error(`secrets_test: ${failures.length}/${checks} failed`);
   for (const f of failures) console.error('  - ' + f);
