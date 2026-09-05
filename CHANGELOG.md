@@ -1,3 +1,40 @@
+## v1.41.0 — two rows that were waiting on a decision, not on code
+
+Both had been open since 2026-08-17 and 2026-09-03 because nobody had **chosen**, and
+both close by choosing on the record rather than by building anything.
+
+**`B-140` — the family delegates accessibility, permanently.** Ten routers cover what
+the interface must do, how it looks and moves, how it sounds, what it runs on, whether a
+machine will find it and how fast it is. None asks whether it can be **used**. The
+eleventh router was the obvious answer and was measured to be the wrong one: the routing
+eval on 2026-08-31 stopped a block change because every arm widened routing on the
+silence probes, so a new router costs precision across ten existing ones.
+
+The lane carries `delegated: true` and a standing statement; `assertPack` refuses a
+delegation declared without one, and refuses a lane that is delegated and owned at once.
+`GAP` says nobody owns it — a measurement. The standing statement says nobody owns it
+**on purpose**, which is the part a reader could never get from silence.
+
+**`B-86` — three connected surfaces, each considered.** `pencil`, `google_lens` /
+`google_images` and `higsfield` were reachable in the session and named by no pack, and
+silence cannot tell *considered and refused* from *never looked at*. All three are
+refused, each for its own measured reason:
+
+| surface | why not |
+|---|---|
+| `pencil` | the Figma seam exists so tokens cross both ways — variables in, code out. A second editor with no token bridge adds a place designs live and no way to verify what arrives |
+| `google_lens` / `google_images` | the three curated corpora answer *what has shipped and worked*; an image search answers *what exists* |
+| `higsfield` | generating a moodboard invents agreement with itself; a reference is evidence something shipped |
+
+`assertPack` refuses a verdict carrying under 80 characters of reason — *a verdict with
+no measured reason is the silence it replaced* — and refuses an install command on a
+decision row, because a row cannot refuse something and tell you how to install it.
+
+Four fixtures, each watched refusing its plant. Two of them were **rebuilt** after the
+first pair tripped an earlier rule instead of the new one: an invented pack is refused
+because an unowned lane's fallback must be an entry the pack declares, and a plant that
+trips the wrong rule proves nothing about the one under test.
+
 ## v1.40.0 — the descriptions advertised 26 phrases the selector could not name
 
 `triggers_test.js` has always asked the **soundness** question — is every trigger a

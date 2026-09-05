@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**678** id'd requirement rows below, **604** read `verified` and none of them says which
+**682** id'd requirement rows below, **608** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1335,3 +1335,7 @@ exists to refuse, so the rows below cover **this** release only.
 | AC-2 | The completeness check is the converse of one that always passed | soundness — every trigger is advertised — has never failed; nothing asked whether every advertised phrase is a trigger | v1.40.0 | the two being merged into one | verified |
 | AC-3 | Exceptions are declared with their reason, and the reason is asserted | «пост для твиттера» demands a literal «для»; `add stripe` is English under a Russian verb; an excuse shortened to `later` fails the fixture | v1.40.0 | an exception list without reasons | verified |
 | AC-4 | The soundness guard refused an invented trigger during the change | «отмена подписки» is not advertised — `cancel subscription` and «скидка при отмене» are — and the fixture caught it before commit | v1.40.0 | the soundness fixture being relaxed | verified |
+| DL-1 | The family's delegation of accessibility is stated, not implied | the `a11y` lane carries `delegated: true` and a 580-character standing statement, printed under the lane table by `pack design` | v1.41.0 | the lane gaining an owner quietly | verified |
+| DL-2 | A delegation declared without a standing statement is refused, as is one both delegated and owned | both watched failing against the real pack mutated, after invented packs tripped the fallback rule instead | v1.41.0 | either branch being removed | verified |
+| SF-1 | Three connected surfaces carry a verdict and a measured reason | `pencil`, `google_lens`/`google_images`, `higsfield` — refused, each on the difference between its instrument and the lane's | v1.41.0 | a surface being connected and left unnamed | verified |
+| SF-2 | A verdict under 80 characters of reason is refused as the silence it replaced | and an install command on a decision row is refused: a row cannot decline something and say how to install it | v1.41.0 | the reason floor being lowered | verified |
