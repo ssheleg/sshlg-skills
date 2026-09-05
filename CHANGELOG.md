@@ -1,3 +1,59 @@
+## v1.39.0 — a Russian prefix stopped hiding an advertised verb, and the guard stopped stating a split it never computed
+
+Two findings, and both were reported settled by a row that had stopped being true.
+
+**`отрефактори модуль оплаты` reached nothing while `рефактор модуля` routed.** One
+word, two answers. `phrasePattern` demanded a word boundary *before* the stem, so every
+Russian prefixed form of an advertised verb was lost — the suffix side has always been
+tolerant (`stem[а-яё]{0,allowance}`), and the prefix side ended the match before the
+stem was reached. `B-84` recorded the matcher defects as **settled** in v0.85.1; the
+three it settled were on other axes, and *settled* is the word that kept anyone from
+looking again.
+
+The rule is declared, never derived: eighteen prefixes an operator actually types,
+longest-first because alternation is first-match, and a **five-letter floor** on the
+stem. The floor is what makes tolerance affordable — `фикс` is four letters, so
+«зафиксируй результат» keeps its silence, and recording a result stays a different act
+from fixing a defect. `о` was measured and dropped: it earned no route, and its presence
+contradicted the rule's own sentence about single letters.
+
+| | before | after |
+|---|---|---|
+| prompts naming an expected route | 84 of 105 | **88 of 105** |
+| spoke where silence was right | 0 | **0** |
+
+Three fixtures, each watched refusing a planted defect — a single-letter prefix, a list
+sorted shortest-first (which makes the longer entry unreachable), and the bare stem
+losing its own self-match. The order fixture caught its own inverted assertion first,
+against a list that was correct.
+
+**And the guard for *numbers are computed* was restating one.**
+`check_the_description_reserve_is_not_spent` disclosed *8 blocked, 10 not blocked* as
+typed prose. Measured:
+
+| route | stated free | fronting skill | actually free |
+|---|---|---|---|
+| `super-ux` | 341 | `super-ux/ux-flows` | **5** |
+| `sheleg-dev` | 149 | `sheleg-dev/stripe-billing` | **7** |
+| `copywriting` | 336 | `super-ux/copywriting` | 336 |
+| `task-pipeline` | 71 | `task-pipeline/task-pipeline` | 71 |
+
+Both wrong figures pointed the same way — they made the work look doable — and the
+computed split is **11 blocked, 6 free of 17**, the near-inverse of the sentence. The
+split now lives in `test/route_coverage.js`, where the misses are and the route→skill
+map is one `require` away; the guard discloses only its own count and names the command
+that computes the rest. A fixture refuses the sentence growing back.
+
+Both figures were cross-checked against `audit_skill.py --house`, the instrument that
+decides — after the first cross-check was wrong: the extraction used `$` under `/m`,
+which means end of *line*, and measured a multi-line description as its first line.
+`sheleg-dev` read 72 characters instead of 963. That is `B-63`'s defect, reproduced
+here in a comment warning against it.
+
+`B-84` and `B-141` are corrected in place rather than rewritten: the rows say what was
+claimed, what it measures now, and that the remaining work is **two repositories, not
+four**.
+
 ## v1.38.2 — the sentence about conformance is now computed from the tree it describes
 
 `task-pipeline` 1.84.0 → 1.84.1, read from the registry.
