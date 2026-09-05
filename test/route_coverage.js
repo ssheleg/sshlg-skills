@@ -109,6 +109,23 @@ const CASES = [
   // is better than the wrong craft. Measured `["agent-stack"]` until 2026-08-29.
   ['сделай форму логина на react', ''],
 
+  // --- phrases a skill advertises and the table never carried ------------------
+  // `triggers_test.js` has always asked the SOUNDNESS question — is every trigger a
+  // word the skill claims — and it passes. Nothing asked the converse. Measured
+  // 2026-09-05 over the explicit `Triggers -` list of every routed description: **26
+  // of 169 advertised phrases did not reach their own route**, so a description
+  // promised a phrase its own selector could not name. Zero description budget was
+  // needed to close them; they were already paid for.
+  ['сделай заголовок', 'copywriting'],
+  ['напиши cta для кнопки', 'copywriting'],
+  ['нужен adr по этому решению', 'evidence-docs'],
+  ['агентная система на несколько агентов', 'agent-stack'],
+  ['настрой llm router', 'agent-stack'],
+  ['сабмодуль запушен а родитель на старом коммите', 'agent-sync'],
+  ['веб-презентация для инвесторов', 'sheleg-design'],
+  ['вебхук stripe не приходит', 'sheleg-dev'],
+  ['retention coupon при отмене', 'sheleg-dev'],
+
   // --- Russian verbal prefixes, which the matcher loses entirely ------------
   // `phrasePattern` demanded a word boundary BEFORE the stem, so every prefixed form
   // of an advertised verb reached nothing while the bare stem routed: `рефактор

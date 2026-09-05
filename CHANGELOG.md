@@ -1,3 +1,38 @@
+## v1.40.0 — the descriptions advertised 26 phrases the selector could not name
+
+`triggers_test.js` has always asked the **soundness** question — is every trigger a
+word the skill itself claims — and it has always passed. **Nobody asked the converse.**
+Measured over the explicit `Triggers -` list of every routed description: **26 of 169
+advertised phrases reached no route at all.**
+
+| route | promised and unreachable |
+|---|---|
+| `copywriting` | `headline` · заголовок · `CTA` · кнопка · `this sounds like AI` |
+| `sheleg-dev` | `add Stripe` · `invoice.paid` · вебхук Stripe · `retention coupon` · скидка при отмене |
+| `agent-stack` | `agent system` · агентная система · `LLM router` · `LLM billing` · биллинг LLM |
+| `agent-sync` | сабмодуль запушен · родитель на старом коммите |
+| `evidence-docs` | `ADR` · `is this verified` |
+| `sheleg-design` | `investor deck as a web page` · веб-презентация |
+
+A description that advertises a phrase its own route cannot answer is a promise made to
+the operator and kept by nobody. **Twenty-four are carried now at zero description
+budget** — they were already paid for; only the table was missing them. Route coverage
+**88 → 97 of 114**, misses unchanged at 17, and *spoke where silence was right* still
+**0**.
+
+Two are excused, each with its reason asserted in the fixture rather than counted:
+«пост для твиттера» demands a literal «для» an operator does not type, and `add stripe`
+is an English trigger under a Russian verb. Both need a member description edit, which
+is a member's release and not this one.
+
+**The soundness fixture caught me inside the change.** I added «отмена подписки» as the
+Russian for `cancel subscription`; the description does not advertise it, I invented it,
+and the check refused it before the commit — which is exactly what it is for.
+
+The new completeness fixture was watched refusing both a removed trigger and an
+exception declared without a reason, because an excuse list with no reasons is a check
+that passes by excusing everything.
+
 ## v1.39.0 — a Russian prefix stopped hiding an advertised verb, and the guard stopped stating a split it never computed
 
 Two findings, and both were reported settled by a row that had stopped being true.
