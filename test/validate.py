@@ -2382,13 +2382,19 @@ def check_the_description_reserve_is_not_spent() -> None:
     and leaves nothing. A reserve everyone spends to the last byte is a reserve in name
     only.
 
-    **What it costs, measured rather than asserted.** Of the 18 prompts
-    `test/route_coverage.js` still routes nowhere, **8 are blocked by this budget** —
-    `sheleg-design` (10 free), `seo-llmo` (11), `make-skill` (5) — and 10 are not
-    blocked at all: `super-ux` has 341 characters free, `copywriting` 336,
-    `task-pipeline` 71, and their triggers were simply never added. So the claim *routing
-    cannot be widened* is false in general and true for a third, which is why this
-    ratchets the pressure rather than forbidding anything.
+    **What it costs is measured by `test/route_coverage.js`, and this guard no longer
+    states it.** It used to, in a hand-typed sentence — *8 blocked, 10 not blocked* —
+    and on 2026-09-05 the sentence was wrong in both halves and in two of its four
+    figures. It gave `super-ux` **341** free characters; that route is fronted by
+    `ux-flows`, which has **5**. It gave `sheleg-dev` 149; `stripe-billing` has **7**.
+    Computed, the split is the near-inverse of what was claimed. A guard whose subject
+    is *a reserve everyone spends* had spent this repository's own rule — that a number
+    is computed and not restated — inside its own disclosure.
+
+    The split is computed where the misses live and the route→skill map is one `require`
+    away, and this guard discloses only what it measures: the tight count, and which
+    skills have nothing left. `test/triggers_test.js` asserts the disclosure carries no
+    hand-typed split, so the sentence cannot grow back.
 
     A ratchet and not a failure: the descriptions are each member's to trim, on each
     member's own release, and a check that turned twelve skills red here would be the
@@ -2436,8 +2442,9 @@ def check_the_description_reserve_is_not_spent() -> None:
                       + " sit at or past 970 with nothing left; adding a routing trigger "
                         "there requires a trim first")
     _skips.append(f"description reserve — {len(tight)} of {total} skills within 60 "
-                  "characters; 8 of route_coverage's 18 remaining misses are blocked by "
-                  "it and 10 are not blocked at all")
+                  "characters. What it costs routing is computed by "
+                  "`node test/route_coverage.js`, which prints the blocked/free split "
+                  "per miss; this guard states no split of its own")
 
 
 check_the_description_reserve_is_not_spent()

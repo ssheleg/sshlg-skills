@@ -622,6 +622,70 @@ it('the refusal rule did not narrow ordinary routing', () => {
     ['sheleg-dev', 'task-pipeline']);
 });
 
+it('a Russian verbal prefix does not hide an advertised stem', () => {
+  // The suffix side of a trigger has always been tolerant; the prefix side ended the
+  // match before the stem was reached, so «рефактор модуля» routed and «отрефактори
+  // модуль» did not — one word, two answers. Measured across the shipped table before
+  // the fix: not one prefixed form of any single-word Cyrillic trigger reached its own
+  // route. `B-84` recorded this class as settled and it was not.
+  assert.deepStrictEqual(T.match('отрефактори модуль оплаты'), ['task-pipeline']);
+  assert.deepStrictEqual(T.match('зарефакторь этот класс'), ['task-pipeline']);
+  assert.deepStrictEqual(T.match('перепроверь прод'), ['task-pipeline']);
+  // and the bare stem still matches itself, which every earlier change to this
+  // matcher has had to prove separately
+  assert.deepStrictEqual(T.match('рефактор модуля'), ['task-pipeline']);
+});
+
+it('the prefix rule stops at five letters, and that is what keeps it honest', () => {
+  // `фикс` is four letters. Without the floor, `за` + `фикс` would route «зафиксируй
+  // результат» to the delivery pipeline — recording a result and fixing a defect are
+  // different acts wearing the same shape. The floor is the whole reason the rule can
+  // be tolerant at all.
+  assert.deepStrictEqual(T.match('зафиксируй результат'), []);
+  assert.deepStrictEqual(T.match('записал в блокнот'), []);
+  // The bare stem is untouched by the floor: it never needed the prefix.
+  assert.ok(T.match('фикс в проде').includes('task-pipeline'));
+});
+
+it('no single-letter prefix, because one letter reaches the middles of words', () => {
+  // Declared, never derived — and the list is asserted rather than described, so a
+  // later edit that adds `с` or `в` fails here instead of in a session six weeks on.
+  const src = fs.readFileSync(path.join(__dirname, '..', 'lib', 'triggers.js'), 'utf8');
+  const m = /const RU_PREFIX = '([^']+)'/.exec(src);
+  assert.ok(m, 'RU_PREFIX is gone');
+  const singles = m[1].split('|').filter((p) => p.length < 2);
+  assert.deepStrictEqual(singles, [],
+    `single-letter prefixes would match inside unrelated words: ${singles.join(', ')}`);
+  // Longest-first, because alternation is first-match: `пере` before `пер`, `про`
+  // before `по`. A list sorted the other way silently matches the shorter one.
+  const parts = m[1].split('|');
+  for (let i = 0; i < parts.length; i += 1) {
+    for (let j = i + 1; j < parts.length; j += 1) {
+      assert.ok(!parts[j].startsWith(parts[i]),
+        `'${parts[i]}' precedes its own extension '${parts[j]}' — alternation is `
+        + 'first-match, so the shorter one wins and the longer is unreachable');
+    }
+  }
+});
+
+it('the reserve guard states no split it did not compute', () => {
+  // It used to state one, and the sentence was wrong in both halves: *8 blocked, 10
+  // not blocked* against a computed 11 and 6, on figures that attributed 341 free
+  // characters to a route fronted by a skill with 5. A number restated inside the
+  // guard for the rule that numbers are computed is the one place it costs most.
+  const v = fs.readFileSync(path.join(__dirname, 'validate.py'), 'utf8');
+  const at = v.indexOf('def check_the_description_reserve_is_not_spent');
+  assert.ok(at !== -1, 'the reserve guard is gone');
+  const body = v.slice(at, v.indexOf('\ncheck_the_description_reserve_is_not_spent()', at));
+  const typed = body.match(/\b\d+\s+(?:of\s+\S+\s+)?(?:remaining\s+)?misses?\b|\b\d+\s+are\s+blocked\b|\bblocked by (?:it|this budget)\b/g);
+  assert.deepStrictEqual(typed, null,
+    `the guard states a routing split it does not compute: ${JSON.stringify(typed)}`);
+  // and the disclosure must name where the split IS computed, or the removal only
+  // hides the number instead of relocating it
+  assert.ok(/route_coverage\.js/.test(body),
+    'the disclosure dropped the split without naming the command that computes it');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

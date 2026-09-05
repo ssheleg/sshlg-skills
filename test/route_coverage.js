@@ -25,6 +25,8 @@
  * legitimately name more than one craft for one prompt.
  */
 
+const fs = require('fs');
+const path = require('path');
 const T = require('../lib/triggers.js');
 
 const CASES = [
@@ -106,6 +108,23 @@ const CASES = [
   // The ReAct homograph (XF-05): the operator means the framework, and no route
   // is better than the wrong craft. Measured `["agent-stack"]` until 2026-08-29.
   ['сделай форму логина на react', ''],
+
+  // --- Russian verbal prefixes, which the matcher loses entirely ------------
+  // `phrasePattern` demanded a word boundary BEFORE the stem, so every prefixed form
+  // of an advertised verb reached nothing while the bare stem routed: `рефактор
+  // модуля` → task-pipeline and `отрефактори модуль` → []. B-84 recorded this class
+  // as settled in v0.85.1; it was not. The suffix side has always been tolerant
+  // (`stem[а-яё]{0,allowance}`), and Russian prefixes an operator actually types —
+  // от-, за-, по-, про-, пере-, до- — sat on the other side of the same word.
+  ['зарефакторь этот класс', 'task-pipeline'],
+  ['проаудируй проект', 'project-audit|task-pipeline'],
+  ['перепроверь прод', 'task-pipeline'],
+  ['доработай онбординг', 'task-pipeline'],
+  // The precision this spends, probed rather than asserted. Prefix tolerance applies
+  // only to stems of five letters or more, so `фикс` stays untouched and
+  // «зафиксируй результат» — a different act in the same shape — keeps its silence.
+  ['зафиксируй результат', ''],
+  ['записал в блокнот', ''],
 
   // --- design references and style search ----------------------------------
   // Both packs carry this deeply — sheleg-design has a reference-sweep section and
@@ -212,3 +231,62 @@ console.log(
   `\n${ok} named an expected route · ${missed.length} reached nothing expected · ` +
   `${noise.length} spoke where silence was right · ${CASES.length} prompts`
 );
+
+// --- why each remaining miss is still a miss -------------------------------
+// The umbrella's `check_the_description_reserve_is_not_spent` used to DISCLOSE this
+// split in a hand-typed sentence — *8 blocked, 10 not blocked* — and the sentence was
+// wrong in both halves and in two of its four figures. It attributed 341 free
+// characters to `super-ux`, whose route is fronted by `ux-flows` at 5, and 149 to
+// `sheleg-dev`, fronted by `stripe-billing` at 7. A repository whose own rule is that
+// a number is computed and not restated had restated one inside the guard for that
+// rule. It is computed here, where the misses live and the route→skill map is one
+// `require` away, and the guard now discloses only what it measures.
+const HOUSE = 970;               // make-skill's house limit; 1024 is the standard's
+const ROOM = 25;                 // a trigger phrase and its separator, at the floor
+const descriptionLength = (ref) => {
+  const [member, name] = ref.split('/');
+  const base = path.join(__dirname, '..', 'skills', member, 'plugins');
+  if (!fs.existsSync(base)) return null;
+  for (const plugin of fs.readdirSync(base)) {
+    const file = path.join(base, plugin, 'skills', name, 'SKILL.md');
+    if (!fs.existsSync(file)) continue;
+    const front = /^---\n([\s\S]*?)\n---/.exec(fs.readFileSync(file, 'utf8'));
+    if (!front) return null;
+    // The same extraction the validator uses. A `$` under /m would stop at the first
+    // line end and silently measure a multi-line description as one line — which is
+    // `B-63`'s defect, and it was reproduced here once before this comment existed.
+    // `$` is deliberately NOT used: under /m it means end of LINE, so a multi-line
+    // description measures as its first line. Written as a warning in this comment and
+    // then committed anyway on the first pass — `sheleg-dev` read 72 characters instead
+    // of 963, which turned a blocked route into one with 898 free.
+    const d = /^description:\s*(?:[>|]-?\s*\n)?([\s\S]*?)(?=\n[a-z-]+:|(?![\s\S]))/m.exec(front[1]);
+    if (!d) return null;
+    return d[1].replace(/\s+/g, ' ').trim().length;
+  }
+  return null;
+};
+
+const free = {};
+for (const [route, entry] of Object.entries(T.ROUTES)) {
+  const n = descriptionLength(entry.skill);
+  if (n !== null) free[route] = HOUSE - n;
+}
+
+if (Object.keys(free).length < 2) {
+  console.log('\nreserve split — fewer than two members are materialised; not measured');
+} else {
+  let blocked = 0;
+  const openRows = [];
+  for (const r of missed) {
+    const routes = String(r[2]).split('|').filter((x) => free[x] !== undefined);
+    if (!routes.length) continue;
+    const best = Math.max(...routes.map((x) => free[x]));
+    if (best >= ROOM) openRows.push([r[0], routes.map((x) => `${x}=${free[x]}`).join(' ')]);
+    else blocked += 1;
+  }
+  console.log(
+    `\nreserve split — ${blocked} of ${missed.length} misses are blocked by the 970 ` +
+    `reserve (no expected route has ${ROOM} characters free); ${openRows.length} are not`
+  );
+  for (const [prompt, why] of openRows) console.log(`  free   ${pad(prompt, 46)} ${why}`);
+}
