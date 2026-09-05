@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**674** id'd requirement rows below, **600** read `verified` and none of them says which
+**678** id'd requirement rows below, **604** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1331,3 +1331,7 @@ exists to refuse, so the rows below cover **this** release only.
 | RS-1 | The reserve guard states no split it did not compute | its disclosure named `8 blocked, 10 not blocked`; computed the split is 11 and 6 of 17, and two of the four figures were wrong by 336 and 142 | v1.39.0 | the sentence being typed back in | verified |
 | RS-2 | The split is computed where the misses live, and the guard names that command | `test/route_coverage.js` prints blocked/free per miss from `ROUTES` and each fronting skill's description | v1.39.0 | the computation moving back into prose | verified |
 | RS-3 | The figures agree with the instrument that decides | `ux-flows` 965 and `stripe-billing` 963 per `audit_skill.py --house`, matching the split's 5 and 7 free — after a first cross-check read 72 for `stripe-billing` because `$` under `/m` is end of line | v1.39.0 | the extraction diverging from the auditor's | verified |
+| AC-1 | Every phrase a routed description advertises reaches its own route | 26 of 169 were unreachable; 24 carried at zero description budget, route coverage 88 → 97 of 114 with silence unchanged at 0 | v1.40.0 | a description gaining a phrase the table does not | verified |
+| AC-2 | The completeness check is the converse of one that always passed | soundness — every trigger is advertised — has never failed; nothing asked whether every advertised phrase is a trigger | v1.40.0 | the two being merged into one | verified |
+| AC-3 | Exceptions are declared with their reason, and the reason is asserted | «пост для твиттера» demands a literal «для»; `add stripe` is English under a Russian verb; an excuse shortened to `later` fails the fixture | v1.40.0 | an exception list without reasons | verified |
+| AC-4 | The soundness guard refused an invented trigger during the change | «отмена подписки» is not advertised — `cancel subscription` and «скидка при отмене» are — and the fixture caught it before commit | v1.40.0 | the soundness fixture being relaxed | verified |

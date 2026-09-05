@@ -19,6 +19,26 @@ const fs = require('fs');
 const path = require('path');
 const T = require('../lib/triggers.js');
 
+
+/** A routed skill's description, read the way the validator reads it. */
+function descriptionOf(ref) {
+  const [member, name] = ref.split('/');
+  const base = path.join(__dirname, '..', 'skills', member, 'plugins');
+  if (!fs.existsSync(base)) return null;
+  for (const plugin of fs.readdirSync(base)) {
+    const file = path.join(base, plugin, 'skills', name, 'SKILL.md');
+    if (!fs.existsSync(file)) continue;
+    const front = /^---\n([\s\S]*?)\n---/.exec(fs.readFileSync(file, 'utf8'));
+    if (!front) return null;
+    // `$` under /m is end of LINE and would measure a multi-line description as its
+    // first line — B-63's defect, reproduced once in this repository on 2026-09-05.
+    const d = /^description:\s*(?:[>|]-?\s*\n)?([\s\S]*?)(?=\n[a-z-]+:|(?![\s\S]))/m
+      .exec(front[1]);
+    return d ? d[1].replace(/\s+/g, ' ').trim() : null;
+  }
+  return null;
+}
+
 let checks = 0;
 const failures = [];
 function it(name, fn) {
@@ -684,6 +704,50 @@ it('the reserve guard states no split it did not compute', () => {
   // hides the number instead of relocating it
   assert.ok(/route_coverage\.js/.test(body),
     'the disclosure dropped the split without naming the command that computes it');
+});
+
+it('every phrase a description advertises reaches its own route', () => {
+  // The COMPLETENESS half, and it did not exist. The fixture above asks whether every
+  // trigger is advertised — soundness — and has always passed. Nothing asked whether
+  // every advertised phrase is a trigger, and on 2026-09-05 **26 of 169 were not**:
+  // `copywriting` promised «заголовок» and «кнопка», `sheleg-dev` promised
+  // `invoice.paid`, `agent-sync` promised «сабмодуль запушен» — and the selector could
+  // name none of them. A description that advertises a phrase its own route cannot
+  // answer is a promise made to the operator and kept by nobody.
+  //
+  // Exceptions are DECLARED with the reason, never a bare count: an entry here is a
+  // phrase whose route needs a member release to reach, and the release is the fix.
+  const EXCUSED = new Map([
+    ['пост для твиттера', 'the phrase demands the literal «для»; an operator types '
+      + '«пост в твиттер». Closing it is a copywriting description edit (336 free)'],
+    ['add stripe', 'an English trigger under a Russian verb — «добавь stripe» needs '
+      + '`stripe` alone, which the description does not advertise on its own'],
+  ]);
+  const unreachable = [];
+  for (const [route, entry] of Object.entries(T.ROUTES)) {
+    const d = descriptionOf(entry.skill);
+    if (!d) continue;
+    const at = d.search(/Triggers\s*[-–—:]/i);
+    if (at === -1) continue;
+    let seg = d.slice(at);
+    const stop = seg.search(/\.\s+(?:Not for|For defining|The boundary)/i);
+    if (stop > 0) seg = seg.slice(0, stop);
+    const phrases = [...seg.matchAll(/[«"']([^«»"']{3,60})[»"']/g)]
+      .flatMap((m) => m[1].split(/\s*,\s*/))
+      .map((x) => x.trim())
+      .filter((x) => x.length > 2 && /[a-zа-яё]/i.test(x));
+    for (const phrase of new Set(phrases)) {
+      if (EXCUSED.has(phrase.toLowerCase())) continue;
+      if (!T.match(phrase).includes(route)) unreachable.push(`${route}: "${phrase}"`);
+    }
+  }
+  assert.deepStrictEqual(unreachable, [],
+    'advertised and unreachable — the description promises what the selector cannot name');
+  // An empty excuse list would make this check pass by excusing everything, so the
+  // reasons are asserted to exist rather than counted.
+  for (const [phrase, why] of EXCUSED) {
+    assert.ok(why && why.length > 30, `${phrase} is excused without a reason`);
+  }
 });
 
 if (failures.length) {
