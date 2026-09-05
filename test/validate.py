@@ -1173,11 +1173,42 @@ def check_a_copied_mechanism_declares_its_divergence():
                 continue
         if len(texts) < SHARED_MIN_COPIES:
             continue
-        base = sorted(texts)[0]
-        sims = [difflib.SequenceMatcher(None, texts[base], texts[r]).quick_ratio()
-                for r in texts if r != base]
-        if not sims or min(sims) < SHARED_SIMILARITY:
+        # `quick_ratio()` is an UPPER BOUND — it compares character multisets and
+        # ignores order — so it is the cheap prefilter difflib intends it to be, never
+        # the verdict. Deciding on it gated five of this guard's six subjects above a
+        # floor they do not meet: `residue.py` was held at 0.943 with a true similarity
+        # of **0.665**, so four copies were being told to declare a seam the guard's own
+        # 0.90 threshold does not claim they share.
+        #
+        # It also nearly cost a much larger mistake. `B-138` proposed extending this
+        # guard to `.js` and `.yml` on quick_ratio figures of 0.918–0.977 for
+        # `installer_test.js`; measured exactly, **not one of its 21 pairs reaches
+        # 0.90** — the true range is 0.182–0.815. That extension would have demanded
+        # seam declarations for files sharing eighteen percent of their text.
+        #
+        # Cheap first, exact second, which is what the pair is for: the bound can only
+        # over-estimate, so a candidate it rejects needs no second look.
+        # ALL PAIRS, not base-against-the-rest. The base was `sorted(texts)[0]` — the
+        # alphabetically first REPOSITORY — so the verdict moved with an accident of
+        # naming: `social_preview.py` measures 0.913 against one base and 0.828 against
+        # another, which is gated or reported depending on which member happens to sort
+        # first. `#92`'s rule, from the other side: compare the copies to each other.
+        names = sorted(texts)
+        combos = [(a, b) for i, a in enumerate(names) for b in names[i + 1:]]
+        if not combos:
+            continue
+        if min(difflib.SequenceMatcher(None, texts[a], texts[b]).quick_ratio()
+               for a, b in combos) < SHARED_SIMILARITY:
             continue                      # a shared name, not a shared mechanism
+        sims = [difflib.SequenceMatcher(None, texts[a], texts[b]).ratio()
+                for a, b in combos]
+        if min(sims) < SHARED_SIMILARITY:
+            _skips.append(
+                f"shared mechanism — {fname} has {len(texts)} copies that share a name "
+                f"and {min(sims):.3f} of their text, under the {SHARED_SIMILARITY} "
+                "floor. Reported rather than gated: a seam declaration for files this "
+                "different would be a sentence nobody could write truthfully")
+            continue
         looked += 1
 
         # what actually differs: a module-level constant whose assignment line is
@@ -1214,10 +1245,23 @@ def check_a_copied_mechanism_declares_its_divergence():
                      f"ALL-44 defect; a declared one that is not real is a reader "
                      f"looking for a seam that moved")
 
+    # `#91` applied to this guard, on the run that shipped `#91`: **assert the
+    # capability, not the count.** Deciding on the exact ratio instead of the upper
+    # bound dropped its subjects from six to one, and a guard down to one subject is
+    # one edit from gating nothing while still printing green. So it must be able to
+    # name at least one file it actually holds — and when it cannot, that is a
+    # measurement about the guard rather than a verdict about the tree.
     if looked == 0:
-        _skips.append("copied mechanisms — no file name appeared in two repositories "
-                      "above the similarity floor, so the corpus was empty and this "
-                      "check compared nothing")
+        fail("copied mechanisms — this guard held NOTHING. Either no file name appears "
+             "in two repositories above the "
+             f"{SHARED_SIMILARITY} floor, or the similarity measure changed under it. "
+             "It passed by looking at nothing, which is the state it exists to make "
+             "impossible elsewhere")
+    else:
+        _skips.append(f"copied mechanisms — {looked} file name(s) held above the "
+                      f"{SHARED_SIMILARITY} floor by exact similarity; the bound is a "
+                      "prefilter only, and everything it over-estimated is reported "
+                      "above rather than gated")
 
 
 check_a_copied_mechanism_declares_its_divergence()

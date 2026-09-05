@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**659** id'd requirement rows below, **585** read `verified` and none of them says which
+**663** id'd requirement rows below, **589** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1316,3 +1316,7 @@ exists to refuse, so the rows below cover **this** release only.
 | DR-2 | The cost is quantified, so the claim is not a slogan | 8 of `route_coverage.js`'s 18 misses are blocked by the reserve, 10 are not blocked at all; the ten are filed as `B-141` with each route's free characters | v1.38.0 | route_coverage's corpus changing | verified |
 | DR-3 | Both ratchet directions fire, each plant asserted to have landed | padding `task-pipeline` to 965 → *13 … stands at 12*; trimming `agent-interop` to 800 → *only 11 … lower it to 11* | v1.38.0 | either branch being removed | verified |
 | DR-4 | It ratchets rather than fails, and the reason is recorded | the descriptions are each member's to trim on its own release; an umbrella failing twelve skills red would be failing for work it does not own | v1.38.0 | the check being made blocking | verified |
+| SM-1 | The guard decides on the exact ratio, with the bound as a prefilter only | `quick_ratio` over-estimated five of six subjects; `residue.py` held at 0.943 against a true 0.665 | v1.38.1 | the verdict returning to the bound | verified |
+| SM-2 | All pairs are compared, so the verdict no longer moves with sort order | the base was the alphabetically first repository; `social_preview.py` measures 0.913 against one base and 0.828 against another | v1.38.1 | a base-against-the-rest comparison returning | verified |
+| SM-3 | The guard asserts it holds at least one subject | planting 400 lines into one `plant_guard.py` copy gives *this guard held NOTHING … it passed by looking at nothing* | v1.38.1 | the assertion being softened to a skip | verified |
+| SM-4 | `B-138`'s premise is an artifact and the row is closed on measurement | `installer_test.js` exact range 0.182–0.815, **0 of 21** pairs above the floor, against 0.918–0.977 stated | v1.38.1 | difflib changing what `ratio()` means | verified |

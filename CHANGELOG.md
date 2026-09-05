@@ -1,3 +1,44 @@
+## v1.38.1 — the similarity measure was an upper bound, and the guard decided on it
+
+**`B-138` closed by re-derivation: its premise is an artifact of the instrument.**
+
+The row asked to extend the copied-mechanism guard to `.js` and `.yml`, priced at seven
+member releases, on figures of `quick_ratio` **0.918–0.977** for `installer_test.js`.
+`quick_ratio` is an **upper bound** — it compares character multisets and ignores order.
+Measured exactly:
+
+| file | stated (`quick_ratio`) | exact `ratio` | pairs ≥ 0.90 |
+|---|---|---|---|
+| `installer_test.js`, 7 copies | 0.918–0.977 | **0.182–0.815** | **0 of 21** |
+| `release.yml`, 9 copies | 0.901–0.993 | 0.732–0.986 | 14 of 36 |
+
+**Not one pair of `installer_test.js` reaches the floor.** The extension would have
+demanded seam declarations for files sharing eighteen percent of their text, and the
+seven releases it priced were being bought for nothing.
+
+**And the guard decided on the bound too** — five of its six subjects were gated above a
+floor they do not meet. `residue.py` was held at 0.943 with a true similarity of
+**0.665**: four copies told to declare a seam the guard's own threshold does not claim
+they share.
+
+Three changes:
+
+- **the bound is a prefilter, the exact ratio is the verdict** — which is what the pair
+  is for, since a candidate the bound rejects needs no second look;
+- **all pairs are compared**, not base-against-the-rest. The base was the alphabetically
+  first *repository*, so the verdict moved with an accident of naming:
+  `social_preview.py` measures 0.913 against one base and 0.828 against another;
+- **the guard asserts it holds at least one subject.** Deciding correctly dropped it from
+  six to one, and a guard down to one is one edit from gating nothing while printing
+  green — `#91`, applied to this guard on the day its rule shipped.
+
+Everything the bound over-estimated is **reported** rather than gated: a seam declaration
+for files that different would be a sentence nobody could write truthfully.
+
+Watched failing by planting a divergence into the last remaining subject: *this guard held
+NOTHING … it passed by looking at nothing, which is the state it exists to make impossible
+elsewhere.*
+
 ## v1.38.0 — the reserve everyone spent, measured across the family for the first time
 
 `make-skill`'s house rule caps a description at **970** against the standard's 1024, and
