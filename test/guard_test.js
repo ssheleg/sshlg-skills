@@ -12,6 +12,7 @@
 // Every near miss below is a real shape an agent emits, not an invented one.
 
 const assert = require('assert');
+const fs = require('fs');
 const path = require('path');
 const G = require('../lib/guard.js');
 
@@ -221,6 +222,43 @@ it('A PATH THE SHELL ALREADY MOVED TO IS STILL THE SAME FILE', () => {
     'the guard claimed a file that is not the protected one — widening a guard must not '
     + 'buy false positives, even now that an over-catch costs only an unnecessary copy');
 });
+it('a heredoc body fed to a non-shell is data, and a body fed to a shell is not', () => {
+  // `B-136`, second spelling. `python3 - <<'EOF' … print('do not touch <path>') … EOF`
+  // was flagged as a write: the body carries the path beside a word this guard reads as
+  // a write verb, and none of it ever runs as shell. The hook answers `allow`, so the
+  // false positive spent the operator's own permission prompt on an unrelated call.
+  // Measured before the fix — the python case fired and the node case did not, which is
+  // the shape of an accident rather than a rule.
+  const data = [
+    ['python', `python3 - <<'EOF'\nprint('do not touch ${CLAUDE}')\nEOF`],
+    ['node', `node - <<'EOF'\nconsole.log('rm ${CLAUDE}')\nEOF`],
+    ['a docstring naming the path', `python3 - <<'PY'\n"""writes ${CLAUDE}"""\nPY`],
+  ];
+  const flagged = data.filter(([, c]) => G.decide(bash(c), HOME));
+  assert.deepStrictEqual(flagged.map(([n]) => n), [],
+    'a heredoc body fed to a non-shell was read as a command');
+
+  // and the half that must NOT be lost: what survives the strip still runs.
+  const writes = [
+    ['cat with the redirect before the body', `cat > ${CLAUDE} <<'EOF'\nx\nEOF`],
+    ['a bash heredoc', `bash <<'EOF'\necho x > ${CLAUDE}\nEOF`],
+    ['an sh heredoc', `sh <<'EOF'\ntee ${CLAUDE} < /dev/null\nEOF`],
+  ];
+  const missed = writes.filter(([, c]) => G.decide(bash(c), HOME) !== CLAUDE);
+  assert.deepStrictEqual(missed.map(([n]) => n), [],
+    'the strip took a body that genuinely executes');
+});
+
+it('the heredoc treatment is imported, not a second parser', () => {
+  // A copied heredoc parser is exactly what this family's copied-mechanism guard exists
+  // to catch, and two of them drift on the first fix applied to one.
+  const src = fs.readFileSync(path.join(__dirname, '..', 'lib', 'guard.js'), 'utf8');
+  assert.ok(/require\('\.\/hygiene\.js'\)/.test(src),
+    'guard.js no longer imports the treatment');
+  assert.ok(!/function executablePart/.test(src),
+    'guard.js grew its own copy of executablePart');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
