@@ -103,6 +103,20 @@ process.stdin.on('end', () => {
     const home = os.homedir();
     const command = (data.tool_input && data.tool_input.command) || '';
 
+    // 0. The command that would put a credential in the transcript. FIRST,
+    //    because it is the only refusal here whose cost cannot be undone: a
+    //    shadowed skill is fixed by reinstalling, an unbacked write by the
+    //    backup, and a leaked key by rotating it at every place it was used —
+    //    if anyone notices. On 2026-09-05 nobody did, twice, in one session.
+    if (command) {
+      const secrets = require(path.join(LIB, 'secrets.js'));
+      const leak = secrets.inspect(command);
+      if (leak) {
+        say('deny', leak.why);
+        return;
+      }
+    }
+
     // 1. The command that quietly pins a skill at an old version.
     const hygiene = require(path.join(LIB, 'hygiene.js'));
     if (command) {
