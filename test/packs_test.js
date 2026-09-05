@@ -439,6 +439,65 @@ it('the command prints and never installs — there is no write path to find', (
     'cmdPack writes or spawns an install — the pack reports and never writes');
 });
 
+it('a lane the family delegates says so, at length, and cannot be owned at once', () => {
+  // `B-140`: ten routers cover what the interface must do, how it looks, how it sounds,
+  // what it runs on and whether a machine will find it — none asks whether it can be
+  // USED. The row demanded a choice: a router takes the lane, or the family states
+  // permanently that it delegates it. It delegates it, and an eleventh router was
+  // measured to be the wrong answer rather than merely declined.
+  const a11y = P.PACKS.design.lanes.find((l) => l.id === 'a11y');
+  assert.ok(a11y, 'the a11y lane is gone');
+  assert.strictEqual(a11y.owner, null, 'the lane gained an owner quietly');
+  assert.strictEqual(a11y.delegated, true);
+  assert.ok(a11y.standing.length >= 120, 'a delegation stated in one line is a gap renamed');
+  // and the standing decision must REACH the reader, not just sit in the data
+  const out = P.report(P.PACKS.design, { present: [], missing: [] });
+  assert.ok(/a11y — DELEGATED/.test(out), 'the standing decision never prints');
+});
+
+it('a delegated lane with no standing statement is refused', () => {
+  // Built by mutating the real pack: an invented one is refused by an earlier rule —
+  // an unowned lane's fallback must be an entry this pack actually declares — and a
+  // plant that trips the wrong rule proves nothing about this one.
+  const clone = () => JSON.parse(JSON.stringify(P.PACKS.design));
+  const a = clone();
+  delete a.lanes.find((l) => l.id === 'a11y').standing;
+  assert.throws(() => P.assertPack(a), /standing statement/,
+    'a delegation can be declared without saying what it delegates');
+  const b = clone();
+  b.lanes.find((l) => l.id === 'a11y').owner = 'sheleg-design';
+  assert.throws(() => P.assertPack(b), /delegated and owned at once/);
+  // and the real pack passes, so the plants are measuring this rule and not the shape
+  assert.doesNotThrow(() => P.assertPack(P.PACKS.design));
+});
+
+it('a connected surface is considered, not merely absent', () => {
+  // `B-86`: `pencil`, `google_lens`/`google_images` and `higsfield` were connected in
+  // the session and named by no pack. Silence cannot tell *considered and refused* from
+  // *never looked at*, so an agent re-opens the question every session.
+  const ids = (P.PACKS.design.surfaces || []).map((x) => x.id);
+  for (const want of ['pencil', 'higsfield']) {
+    assert.ok(ids.some((i) => i.includes(want)), `${want} is unnamed again`);
+  }
+  assert.ok(ids.some((i) => /google_lens|google_images/.test(i)), 'the image-search surface is unnamed');
+  const out = P.report(P.PACKS.design, { present: [], missing: [] });
+  assert.ok(/connected surfaces this pack has considered/.test(out));
+});
+
+it('a surface verdict with no measured reason is refused', () => {
+  const withSurface = (x) => {
+    const p = JSON.parse(JSON.stringify(P.PACKS.design));
+    p.surfaces = [x];
+    return p;
+  };
+  assert.throws(() => P.assertPack(withSurface({ id: 's', what: 'a thing', verdict: 'refused', reason: 'no' })),
+    /no measured reason is the silence it replaced/);
+  assert.throws(() => P.assertPack(withSurface({ id: 's', what: 'a thing', reason: 'x'.repeat(120) })),
+    /needs a verdict/);
+  assert.throws(() => P.assertPack(withSurface({ id: 's', what: 'a', verdict: 'v', reason: 'x'.repeat(120), install: ['npm i x'] })),
+    /a decision, not a recommendation/);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
