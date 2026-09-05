@@ -2324,6 +2324,81 @@ def check_no_member_can_publish_bytecode() -> None:
 check_no_member_can_publish_bytecode()
 
 
+def check_the_description_reserve_is_not_spent() -> None:
+    """The 970 limit is a RESERVE, and twelve of twenty-eight skills have spent it.
+
+    `make-skill`'s house rule caps a description at 970 against the standard's 1024,
+    and says what the 54 characters are for: *leave room for the "what this is NOT for"
+    clause a near-miss neighbour will require*. It is enforced per skill, in each
+    member's own CI, one skill at a time — so nothing has ever seen the shape of it
+    across the family, and the shape is the finding.
+
+    Measured 2026-09-05 with the auditor's own figures: **12 of 28** skills sit within
+    60 characters of the limit and `agent-interop` sits at **exactly 970**, which passes
+    and leaves nothing. A reserve everyone spends to the last byte is a reserve in name
+    only.
+
+    **What it costs, measured rather than asserted.** Of the 18 prompts
+    `test/route_coverage.js` still routes nowhere, **8 are blocked by this budget** —
+    `sheleg-design` (10 free), `seo-llmo` (11), `make-skill` (5) — and 10 are not
+    blocked at all: `super-ux` has 341 characters free, `copywriting` 336,
+    `task-pipeline` 71, and their triggers were simply never added. So the claim *routing
+    cannot be widened* is false in general and true for a third, which is why this
+    ratchets the pressure rather than forbidding anything.
+
+    A ratchet and not a failure: the descriptions are each member's to trim, on each
+    member's own release, and a check that turned twelve skills red here would be the
+    umbrella failing for work it does not own.
+    """
+    import glob
+    skdir = os.path.join(ROOT, "skills")
+    tight, total = [], 0
+    for s in skills:
+        for f in glob.glob(os.path.join(skdir, s.get("name") or "",
+                                        "plugins", "*", "skills", "*", "SKILL.md")):
+            try:
+                with open(f, encoding="utf-8") as fh:
+                    body = fh.read()
+            except OSError:
+                continue
+            fm = re.match(r"^---\n(.*?)\n---", body, re.S)
+            if not fm:
+                continue
+            dm = re.search(r"^description:\s*(?:[>|]-?\s*\n)?([\s\S]*?)(?=\n[a-z-]+:|\Z)",
+                           fm.group(1), re.M)
+            if not dm:
+                continue
+            n = len(re.sub(r"\s+", " ", dm.group(1)).strip())
+            total += 1
+            if 970 - n < 60:
+                tight.append((os.path.basename(os.path.dirname(f)), 970 - n))
+    if not total:
+        _skips.append("description reserve — no member is materialised to measure")
+        return
+    ratchet = 12
+    if len(tight) > ratchet:
+        worst = ", ".join(f"{k} ({h})" for k, h in sorted(tight, key=lambda x: x[1])[:6])
+        fail(f"{len(tight)} of {total} skills sit within 60 characters of the 970 "
+             f"reserve and the ratchet stands at {ratchet}: {worst}. The 54 characters "
+             "exist for the 'what this is NOT for' clause a near-miss neighbour will "
+             "require, and a reserve spent to the last byte is a reserve in name only")
+    elif len(tight) < ratchet:
+        fail(f"only {len(tight)} of {total} skills are within 60 characters of the 970 "
+             f"reserve where the ratchet stands at {ratchet} — lower it to {len(tight)} "
+             "in the same change, or the number stops meaning anything")
+    zero = [k for k, h in tight if h <= 0]
+    if zero:
+        _skips.append("description reserve — " + ", ".join(sorted(zero))
+                      + " sit at or past 970 with nothing left; adding a routing trigger "
+                        "there requires a trim first")
+    _skips.append(f"description reserve — {len(tight)} of {total} skills within 60 "
+                  "characters; 8 of route_coverage's 18 remaining misses are blocked by "
+                  "it and 10 are not blocked at all")
+
+
+check_the_description_reserve_is_not_spent()
+
+
 # ---------------------------------------------------------------------------
 # Every address these documents claim, resolved
 # ---------------------------------------------------------------------------

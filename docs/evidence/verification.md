@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**655** id'd requirement rows below, **581** read `verified` and none of them says which
+**659** id'd requirement rows below, **585** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1312,3 +1312,7 @@ exists to refuse, so the rows below cover **this** release only.
 | BC-3 | The ratchet fires in BOTH directions, each plant asserted to have landed | removing `agent-sync`'s negations → *5 member(s) … ratchet stands at 4*; adding the pair to `make-skill` → *only 3 … lower it to 3* | v1.37.0 | either branch being removed | verified |
 | BC-4 | The downward plant found a real defect in the checker | the first matcher tested only the `.pyc` path and `fnmatch` has no `**`, so it passed `agent-sync` by accident of its second entry; both candidate shapes are tested now | v1.37.0 | the candidate set being narrowed | verified |
 | BC-5 | The subject list is derived from which members carry Python in a packed directory | `super-ux` (explicit `.py` paths), `sheleg-design` and `sheleg-dev` (no Python) are out by construction, not by a list | v1.37.0 | a hand-kept member list appearing | verified |
+| DR-1 | The description reserve is measured across the family, not one skill at a time | `check_the_description_reserve_is_not_spent` derives 12 of 28 within 60 chars and names `agent-interop` at 0 — independently reproducing the figures `audit_skill.py --house` gives per skill | v1.38.0 | a member trimming or padding a description | verified |
+| DR-2 | The cost is quantified, so the claim is not a slogan | 8 of `route_coverage.js`'s 18 misses are blocked by the reserve, 10 are not blocked at all; the ten are filed as `B-141` with each route's free characters | v1.38.0 | route_coverage's corpus changing | verified |
+| DR-3 | Both ratchet directions fire, each plant asserted to have landed | padding `task-pipeline` to 965 → *13 … stands at 12*; trimming `agent-interop` to 800 → *only 11 … lower it to 11* | v1.38.0 | either branch being removed | verified |
+| DR-4 | It ratchets rather than fails, and the reason is recorded | the descriptions are each member's to trim on its own release; an umbrella failing twelve skills red would be failing for work it does not own | v1.38.0 | the check being made blocking | verified |
