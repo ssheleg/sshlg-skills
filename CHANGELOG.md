@@ -1,3 +1,35 @@
+## v1.38.0 — the reserve everyone spent, measured across the family for the first time
+
+`make-skill`'s house rule caps a description at **970** against the standard's 1024, and
+says what the 54 characters are for: *leave room for the "what this is NOT for" clause a
+near-miss neighbour will require.* It is enforced **per skill, in each member's own CI,
+one skill at a time** — so nothing had ever seen its shape across the family, and the
+shape is the finding.
+
+**12 of 28 skills sit within 60 characters of it, and `agent-interop` sits at exactly
+970** — which passes, and leaves nothing. A reserve everyone spends to the last byte is a
+reserve in name only.
+
+**What it costs, measured rather than asserted.** Of the 18 prompts `route_coverage.js`
+still routes nowhere:
+
+| | misses | free chars |
+|---|---|---|
+| **blocked by the reserve** | 8 | `sheleg-design` 10, `seo-llmo` 11, `make-skill` 5 |
+| **not blocked at all** | 10 | `super-ux` 341, `copywriting` 336, `sheleg-dev` 149, `task-pipeline` 71 |
+
+So *routing cannot be widened* — the sentence yesterday's audit reached for — is **false
+in general and true for a third**. The ten unblocked misses are work nobody did, filed as
+`B-141` with the numbers; the eight blocked ones are what this ratchet keeps visible.
+
+**A ratchet and not a failure**, deliberately: the descriptions belong to each member and
+are trimmed on each member's own release. An umbrella that turned twelve skills red would
+be failing for work it does not own.
+
+Both directions watched failing, each plant asserting it landed: padding `task-pipeline`
+to 965 gives *13 … the ratchet stands at 12*; trimming `agent-interop` to 800 gives *only
+11 … lower it to 11*.
+
 ## v1.37.0 — the packing config is checked, and the audit that asked for it was wrong
 
 **The finding this closes was half wrong, and the half that survived is the better one.**
