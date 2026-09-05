@@ -1,3 +1,38 @@
+## v1.35.0 — twenty-seven of twenty-eight
+
+`task-pipeline` 1.82.4 → **1.84.0**, `super-ux` 0.52.5 → **0.53.0**. Both read from the tag
+at cut time; `check_pins.py` reports *every pin matches its release*.
+
+**The family's agents filed 28 issues on 2026-09-04 and 27 are closed.** They were one
+subject wearing many titles — **what a check is allowed to conclude** — and the closing pass
+kept demonstrating them:
+
+- `#80` (*a commit reference is written after the commit exists*) was **broken on the run
+  that closed its neighbours**, and cost two burned tags before the record shipped in a
+  following commit as it asks;
+- `#94` (*a plant that never landed makes the guard look proven*) fired on my own plant in
+  `agent-sync`: it anchored on a line I had just reworded, no-oped, and reported a healthy
+  validator as broken;
+- `#79` (*a number out of the shell is not a measurement*) fired three times in one day —
+  `git tag -l` exits 0 having found nothing, a backgrounded `npm test` returned the exit
+  code of the `sleep` after it, and an `until` loop polled an empty run id for nine minutes;
+- rule 8 (*compute, never restate*) caught `Numbers issued so far: 22` over a table reaching
+  32, **inside the file that states the rule**.
+
+**And one class nobody had filed: `Closes A, B, C` closes only A.** Four issues were
+reported closed and three were open; the failure is invisible from the PR, which reads as
+if it closed four. Found by recounting after the release. Every reference now carries its
+own keyword.
+
+**What actually protected the work, in every case, was asking the subject rather than the
+report**: recount the board, read `npm view` rather than the pipeline, print a value before
+anything depends on it, and run the tag's own suite against the tag's own tree before the
+tag leaves the machine.
+
+`#101` remains open by decision, not by omission — it proposes a `.claude/routers.json`
+contract every project would have to understand, and a mechanism of that weight is
+introduced on the second example rather than the first.
+
 ## v1.34.2 — the third thing a project-local skill copy costs
 
 `#86` and `#98` are one event seen twice. v1.34.0 closed the git half — 173 files swept
