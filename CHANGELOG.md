@@ -1,3 +1,32 @@
+## v1.42.0 — a heredoc body fed to a non-shell is data, and the guard was reading it
+
+`B-136`'s second spelling, and the measurement narrowed the row before the fix was
+written. Probed against the shipped guard:
+
+| command | flagged | writes anything |
+|---|---|---|
+| `python3 - <<'EOF' … print('do not touch <path>') … EOF` | **yes** | no |
+| `node - <<'EOF' … console.log('<path>') … EOF` | no | no |
+
+**That asymmetry is the shape of an accident, not a rule.** The python body happened to
+carry a word this guard reads as a write verb next to the path; the node body did not.
+The hook answers `allow`, so the false positive spent the operator's own permission
+prompt on a call that touches nothing.
+
+`executablePart` has been in `lib/hygiene.js` since `B-59` and `lib/guard.js` never
+received it. It is **imported now, never copied** — a second heredoc parser is exactly
+what this family's copied-mechanism guard exists to catch, and two of them drift on the
+first fix applied to one.
+
+**What survives the strip still runs**, and all three directions are asserted:
+`cat > FILE <<'EOF'` keeps its redirect because the redirect precedes the `<<`, and a
+body fed to `bash` or `sh` is kept whole because it genuinely executes. The
+`cd`-relative spelling, closed in v1.27.0, is unaffected.
+
+Two fixtures, each isolated from the other: removing the strip fails the behaviour half,
+and a **behaviour-identical copy** — one that delegates to hygiene and returns the same
+answer — fails the import half. A plant that fails both proves neither.
+
 ## v1.41.0 — two rows that were waiting on a decision, not on code
 
 Both had been open since 2026-08-17 and 2026-09-03 because nobody had **chosen**, and

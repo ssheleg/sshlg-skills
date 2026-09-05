@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**682** id'd requirement rows below, **608** read `verified` and none of them says which
+**685** id'd requirement rows below, **611** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1339,3 +1339,6 @@ exists to refuse, so the rows below cover **this** release only.
 | DL-2 | A delegation declared without a standing statement is refused, as is one both delegated and owned | both watched failing against the real pack mutated, after invented packs tripped the fallback rule instead | v1.41.0 | either branch being removed | verified |
 | SF-1 | Three connected surfaces carry a verdict and a measured reason | `pencil`, `google_lens`/`google_images`, `higsfield` — refused, each on the difference between its instrument and the lane's | v1.41.0 | a surface being connected and left unnamed | verified |
 | SF-2 | A verdict under 80 characters of reason is refused as the silence it replaced | and an install command on a decision row is refused: a row cannot decline something and say how to install it | v1.41.0 | the reason floor being lowered | verified |
+| HD-1 | A heredoc body fed to a non-shell is data, not a command | `python3 - <<'EOF' … print('do not touch <path>')` was flagged and writes nothing; the identical `node` body was not, which is an accident rather than a rule | v1.42.0 | the strip being removed | verified |
+| HD-2 | What survives the strip still runs | `cat > FILE <<'EOF'` keeps its redirect (it precedes the `<<`), and bodies fed to `bash` and `sh` are kept whole — all three asserted | v1.42.0 | the strip widening to every heredoc | verified |
+| HD-3 | The treatment is imported, and the fixture is isolated from the behaviour one | a behaviour-IDENTICAL copy delegating to hygiene fails the import fixture alone; a stub that changes behaviour fails the other alone | v1.42.0 | guard.js growing its own parser | verified |
