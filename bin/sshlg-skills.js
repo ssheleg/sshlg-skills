@@ -195,6 +195,7 @@ Usage:
   npx sshlg-skills toolkit [--for "<task>"] [--expand <provider>]
                                                       # every skill this machine can reach
   npx sshlg-skills pack [<name>] [--lane <id>] [--check]
+  npx sshlg-skills materialised                       # routers this project says live in its tree
                                                       # curated recommendations, measured here
   npx sshlg-skills list
   npx sshlg-skills agents
@@ -1030,6 +1031,58 @@ function checkAddresses(pack) {
   });
 }
 
+/**
+ * `materialised` — the difference between a router obeyed from the tree and one skipped.
+ *
+ * A project can declare that a router's doctrine now lives in its own files: tokens with
+ * their provenance markers, a voice pack, a fact registry, a scenario contract. Work that
+ * obeys such a router stops invoking it, because the answers are cheaper to read than to
+ * load — and a retrospective cannot tell that from a route somebody skipped for budget.
+ *
+ * **The declaration is not evidence; resolving it is.** Every path is opened and every
+ * `#marker` looked for, so an entry naming a file that no longer carries the doctrine
+ * reports FALSE rather than satisfied — a document asserting a route was honoured when it
+ * was not is worse than the silence it replaced.
+ *
+ * The guards are **not run**. Executing code out of somebody's repository is a different
+ * act with a different risk; the project's own gate runs them, and the report says so
+ * rather than implying it.
+ */
+function cmdMaterialised(argv) {
+  const M = require(path.join(ROOT, 'lib', 'materialised.js'));
+  const rest = argv.slice(3);
+  const at = rest.indexOf('--root');
+  const root = at !== -1 && rest[at + 1] ? path.resolve(rest[at + 1]) : process.cwd();
+  const file = path.join(root, M.DECL_PATH);
+
+  if (!fs.existsSync(file)) { log(M.report([], { present: false })); return 0; }
+
+  let raw;
+  try {
+    raw = JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch (e) {
+    // A declaration that does not parse is not an absent declaration, and reporting it
+    // as one would hide the very file the operator is being asked to trust.
+    log(`${M.DECL_PATH} does not parse (${e.message}) — a claim nobody can read is not a`);
+    log('claim. Fix the JSON or delete the file; it is currently neither.');
+    return 1;
+  }
+
+  const registry = require(path.join(ROOT, 'lib', 'routers-registry.js'));
+  const known = Object.keys(registry.REGISTRY);
+  const read = (rel) => {
+    // Resolved under the project root, and refused if it escapes: a declaration is about
+    // THIS repository, and `../../etc/passwd` resolving would make it about something else.
+    const target = path.resolve(root, rel);
+    if (target !== root && !target.startsWith(root + path.sep)) return null;
+    try { return fs.readFileSync(target, 'utf8'); } catch (e) { return null; }
+  };
+
+  const rows = M.check(raw, known, read);
+  log(M.report(rows, { present: true }));
+  return rows.some((r) => !r.satisfied) ? 2 : 0;
+}
+
 function cmdHooks(argv) {
   const fs = require('fs');
   const pathMod = require('path');
@@ -1185,6 +1238,7 @@ function main(argv) {
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
   if (cmd === 'toolkit') { cmdToolkit(argv); return 0; }
   if (cmd === 'pack' || cmd === 'packs') { return cmdPack(argv); }
+  if (cmd === 'materialised' || cmd === 'materialized') { return cmdMaterialised(argv); }
   if (cmd === 'signature') { return cmdSignature(argv); }
   if (cmd === 'humanizers') { return cmdHumanizers(argv); }
   const f = parseFlags(rest);

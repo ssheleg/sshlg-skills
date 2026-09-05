@@ -1,3 +1,53 @@
+## v1.36.0 — a router obeyed from the tree, told apart from one that was skipped
+
+Closes `#101`, the last of the twenty-eight.
+
+**A router's doctrine can be materialised inside a project** — tokens carrying their
+provenance markers, a voice pack, a fact registry, a scenario contract with a linter behind
+it. Work that obeys such a router **stops invoking it**, because the answers are cheaper to
+read than to load. That is the success case, and **nothing distinguished it from the
+failure case**: a retrospective sees the same thing either way — a router that owned the
+ground and was not invoked.
+
+Measured: one long session did substantial work on a product's visual layer and its copy
+across ten locales, invoked none of `sheleg-design`, `copywriting` or `task-pipeline`, and
+obeyed all three — reading the pack's tokens out of the project's own `[data-surface]`
+blocks, `docs/brand/facts.md` for what may be claimed, and running the pipeline's stages by
+hand because the project already had the gate. **The only reason that was visible is that
+the agent chose to say so**, and the honest half of the confession is that the budget had
+gone into the locales and loading three routers was a cost the run declined — a legitimate
+reason, and exactly what a skipped route sounds like.
+
+**The declaration is not the point; resolving it is.** `.claude/routers.json` lets a
+project name what it materialised, and `npx sshlg-skills materialised` **opens every path
+and looks for every `#marker`**:
+
+```
+FALSE      copywriting
+             read from docs/brand/voice.md
+             ✗ `docs/brand/facts.md` does not exist
+satisfied  sheleg-design
+             read from src/globals.css#data-surface
+             guard      docs/brand/lint.py
+```
+
+A FALSE row is **worse than no declaration**: the route was skipped and a document in the
+repository says it was not. The `#marker` half is what catches the case a bare existence
+check cannot — a stylesheet that survived a refactor which removed everything the router
+put in it.
+
+**Two things it deliberately does not do**, both stated in its own output rather than only
+in the source: it does **not run** the project's guards, because executing code out of
+somebody's repository is a different act with a different risk and the project's own gate
+runs them; and a satisfied row means the doctrine is **readable** here, not that it is
+obeyed. A path escaping the project root is refused — a declaration is about *this*
+repository.
+
+**And the smaller half the issue offered as an alternative ships too**, because it works
+where no JSON exists: the routing block now says that a router not invoked because its
+doctrine already lives here **names the files it was read from**. One sentence, and it
+converts silence into evidence.
+
 ## v1.35.0 — twenty-seven of twenty-eight
 
 `task-pipeline` 1.82.4 → **1.84.0**, `super-ux` 0.52.5 → **0.53.0**. Both read from the tag

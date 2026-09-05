@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**644** id'd requirement rows below, **570** read `verified` and none of them says which
+**650** id'd requirement rows below, **576** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1301,3 +1301,9 @@ exists to refuse, so the rows below cover **this** release only.
 | PL-3 | The ignore shape carries its reason | `does not descend into an excluded directory` is asserted — a rule with no reason is copied wrong, and `.claude/skills/` without the star silently keeps nothing | v1.34.2 | the explanation being trimmed as verbose | verified |
 | PN-9 | Both pins are the versions their tags carry | `git submodule status` → `+1e75c1e (v1.84.0)`, `+002f5f4 (v0.53.0)`; `check_pins.py` → `every pin matches its release` | v1.35.0 | either member releasing again | verified |
 | PN-10 | 27 of the 28 filed issues are closed, counted rather than claimed | `gh issue list --state open` → 1, after an earlier count of 20 exposed three issues reported closed that were open | v1.35.0 | a new issue being filed | verified |
+| MT-1 | A declared path that does not exist reports FALSE, not satisfied | `test/materialised_test.js`; a live probe over a planted tree gives `✗ \`docs/brand/facts.md\` does not exist` and exit 2 | v1.36.0 | the resolution being reduced to reading the JSON | verified |
+| MT-2 | A file that survived a refactor which removed the doctrine is FALSE | the `#marker` half: `src/globals.css` gutted to `.button { color: red }` gives `exists but does not contain \`data-surface\`` | v1.36.0 | markers becoming optional | verified |
+| MT-3 | The absent case reads as "nothing is claimed", never as a pass | a fixture asserts both sentences, including *a router not invoked in this project is a router not invoked* | v1.36.0 | the absent branch being merged with the empty one | verified |
+| MT-4 | The report never claims the guards were run | asserted on the printed text, not only in the source — `guards were NOT run`, and *readable here, not obeyed* | v1.36.0 | the command gaining an execute path | verified |
+| MT-5 | A path escaping the project root is refused | `../../etc/passwd` reports `does not exist`; a fixture reads `cmdMaterialised`'s body for the containment check and for the absence of any spawn | v1.36.0 | the containment check being removed | verified |
+| MT-6 | The module is pure | it requires neither `fs` nor `child_process`; it is handed a reader | v1.36.0 | a filesystem call appearing in it | verified |
