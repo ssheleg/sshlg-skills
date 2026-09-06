@@ -1,3 +1,43 @@
+## v1.43.0 — three members re-pinned, and the pin refused the half-done state
+
+`super-ux` 0.53.0 → **0.55.0**, `make-skill` 0.26.0 → **0.27.0**, `task-pipeline`
+1.84.1 → **1.85.0**, each read from the registry.
+
+**The completeness fixture from v1.40.0 earned its place on its first pin.** `super-ux`
+0.54.0 corrected `copywriting`'s advertised trigger — «пост для твиттера» demanded a
+literal «для» an operator does not type — and named «текст ошибки». The moment the
+submodule moved, the fixture refused:
+
+```
+advertised and unreachable: copywriting: "пост в твиттер", copywriting: "текст ошибки"
+```
+
+Then the **soundness** fixture refused the other half — the table still carried the old
+phrase the description no longer claims. A description edit and a trigger-table entry are
+two halves of one change living in two repositories, and the pair of fixtures is what
+stops either half shipping alone.
+
+Route coverage **88 → 99 of 114**, misses 17 → 15, *spoke where silence was right*
+unchanged at **0**.
+
+### What the members carry
+
+- **`super-ux` 0.55.0** — FR-01 names which tool does the click (`chrome-devtools` or
+  `claude-in-chrome`), the four captures a screenshot loses, and the three points where a
+  human takes over: consent walls, sign-in and paywall steps, and the ad libraries
+  themselves. Plus a repair: 0.54.0 shipped with its ledger naming v0.53.0, **caught by
+  this repository's cross-member ratchet one layer up**, and the member's own gate now
+  asks the question. Its first draft crashed instead of refusing — a `fail()` from a
+  sibling repository's validator — and `rc=1` either way is exactly why the plant looked
+  like it had worked.
+- **`make-skill` 0.27.0** — `DESC_WHAT`. Nine `DESC_*` rules asked WHEN and none asked
+  WHAT. Built on the parsed description, which is what the earlier prototype lacked.
+- **`task-pipeline` 1.85.0** — a release stamp names the tag or the merge commit, never
+  the branch's own SHA. And the finding that came with it: five inline plants took its
+  workflow past GitHub's byte ceiling and **CI stopped running silently**.
+
+Board: `B-87`, `B-124`, `B-139` closed by the releases above.
+
 ## v1.42.0 — a heredoc body fed to a non-shell is data, and the guard was reading it
 
 `B-136`'s second spelling, and the measurement narrowed the row before the fix was
