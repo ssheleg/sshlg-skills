@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**685** id'd requirement rows below, **611** read `verified` and none of them says which
+**689** id'd requirement rows below, **615** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1342,3 +1342,7 @@ exists to refuse, so the rows below cover **this** release only.
 | HD-1 | A heredoc body fed to a non-shell is data, not a command | `python3 - <<'EOF' … print('do not touch <path>')` was flagged and writes nothing; the identical `node` body was not, which is an accident rather than a rule | v1.42.0 | the strip being removed | verified |
 | HD-2 | What survives the strip still runs | `cat > FILE <<'EOF'` keeps its redirect (it precedes the `<<`), and bodies fed to `bash` and `sh` are kept whole — all three asserted | v1.42.0 | the strip widening to every heredoc | verified |
 | HD-3 | The treatment is imported, and the fixture is isolated from the behaviour one | a behaviour-IDENTICAL copy delegating to hygiene fails the import fixture alone; a stub that changes behaviour fails the other alone | v1.42.0 | guard.js growing its own parser | verified |
+| TMP-1 | The pin refuses a half-done cross-repository change | `super-ux` 0.55.0's description edit landed and the completeness fixture refused the tree until `lib/triggers.js` carried `пост в твиттер` and `текст ошибки`; the soundness fixture then refused the stale `пост для твиттера` | v1.43.0 | either fixture being relaxed | verified |
+| TMP-2 | Route coverage moved and precision did not | 88 → 99 of 114 named an expected route, misses 17 → 15, *spoke where silence was right* unchanged at **0** | v1.43.0 | a silence probe starting to speak | verified |
+| TMP-3 | Three members pinned on three surfaces each | submodule pointer, `skills.json` and the README row, with the validator reading each version out of the submodule rather than trusting `.gitmodules` | v1.43.0 | a surface moving alone | verified |
+| TMP-4 | The cross-member ledger ratchet caught a release I had just shipped | `super-ux` 0.54.0 went out with its ledger naming v0.53.0 — 3 members behind against a ratchet of 2 — and 0.55.0 both repairs it and adds the member's own check | v1.43.0 | the ratchet being raised instead of a member catching up | verified |

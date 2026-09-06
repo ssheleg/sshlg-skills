@@ -718,8 +718,6 @@ it('every phrase a description advertises reaches its own route', () => {
   // Exceptions are DECLARED with the reason, never a bare count: an entry here is a
   // phrase whose route needs a member release to reach, and the release is the fix.
   const EXCUSED = new Map([
-    ['пост для твиттера', 'the phrase demands the literal «для»; an operator types '
-      + '«пост в твиттер». Closing it is a copywriting description edit (336 free)'],
     ['add stripe', 'an English trigger under a Russian verb — «добавь stripe» needs '
       + '`stripe` alone, which the description does not advertise on its own'],
   ]);
