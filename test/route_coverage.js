@@ -259,7 +259,19 @@ console.log(
 // rule. It is computed here, where the misses live and the route→skill map is one
 // `require` away, and the guard now discloses only what it measures.
 const HOUSE = 970;               // make-skill's house limit; 1024 is the standard's
+const TIGHT = 60;                // the umbrella's reserve ratchet counts skills under this
 const ROOM = 25;                 // a trigger phrase and its separator, at the floor
+
+// SPENDABLE room is not free room, and the difference is what a first draft of this split
+// got wrong. `check_the_description_reserve_is_not_spent` counts skills whose free budget
+// is under 60 and RATCHETS that count — and a ratchet may only fall. So a skill at 71 free
+// cannot spend 71: at 12 spent it drops to 59, joins the tight set, takes the count from
+// 12 to 13, and the umbrella's own gate refuses the change. Measured 2026-09-06 by
+// spending 11, 12 and 30 characters of `task-pipeline`'s description in turn: 12 and 30
+// print *13 of 28 skills sit within 60 characters … and the ratchet stands at 12*, 11 does
+// not. The binding constraint is the ratchet, not the 970 limit, and reading `free` as
+// spendable made four blocked misses read as available work.
+const spendable = (free) => Math.max(0, free - TIGHT);
 const descriptionLength = (ref) => {
   const [member, name] = ref.split('/');
   const base = path.join(__dirname, '..', 'skills', member, 'plugins');
@@ -297,13 +309,16 @@ if (Object.keys(free).length < 2) {
   for (const r of missed) {
     const routes = String(r[2]).split('|').filter((x) => free[x] !== undefined);
     if (!routes.length) continue;
-    const best = Math.max(...routes.map((x) => free[x]));
-    if (best >= ROOM) openRows.push([r[0], routes.map((x) => `${x}=${free[x]}`).join(' ')]);
+    const best = Math.max(...routes.map((x) => spendable(free[x])));
+    if (best >= ROOM) {
+      openRows.push([r[0], routes.map((x) => `${x}=${free[x]} (spendable ${spendable(free[x])})`).join(' ')]);
+    }
     else blocked += 1;
   }
   console.log(
-    `\nreserve split — ${blocked} of ${missed.length} misses are blocked by the 970 ` +
-    `reserve (no expected route has ${ROOM} characters free); ${openRows.length} are not`
+    `\nreserve split — ${blocked} of ${missed.length} misses are blocked; no expected ` +
+    `route can SPEND ${ROOM} characters without dropping under the ${TIGHT}-character ` +
+    `reserve the umbrella ratchets. ${openRows.length} are not blocked`
   );
   for (const [prompt, why] of openRows) console.log(`  free   ${pad(prompt, 46)} ${why}`);
 }

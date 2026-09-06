@@ -1,3 +1,43 @@
+## v1.44.0 — free room is not spendable room, and the split had been reading the wrong one
+
+`B-141` closed by re-deriving what actually blocks the work, which was never the 970
+limit.
+
+The reserve split asked *does any expected route have 25 characters free*. The binding
+constraint is one layer over: this repository **ratchets** the count of skills whose free
+budget is under **60**, and a ratchet may only fall. So `task-pipeline` at 71 free cannot
+spend 71 — at 12 spent it drops to 59, joins that set, takes the count from 12 to 13, and
+the umbrella's own gate refuses the change.
+
+Proved by spending 11, 12 and 30 characters of its description in turn:
+
+| spent | free after | verdict |
+|---|---|---|
+| 11 | 60 | no reserve complaint |
+| 12 | 59 | *13 of 28 skills sit within 60 characters … and the ratchet stands at 12* |
+| 30 | 41 | same |
+
+**Spendable room is `free − 60`, and `task-pipeline`'s is 11.** With it computed the split
+reads **15 of 15 blocked, 0 free**, where it had read four rows as available work.
+
+The instrument still discriminates — `copywriting` has 248 spendable and `evidence-docs`
+46, both above the 25 a trigger phrase needs — so the uniform answer is a property of
+which routes still miss, not of a broken measure. That distinction is the whole reason to
+check it before believing it.
+
+**Two files, one number.** `check_the_split_and_the_ratchet_agree_on_one_threshold` reads
+`TIGHT` out of `route_coverage.js` and refuses a drift, because nothing else compares
+them and a drift makes the split lie in whichever direction it went.
+
+**Its first draft rested on prose.** It looked for the substring `spendable`, and the
+plant that renamed the function left the word standing in the file's own comment — so the
+plant passed. Tightened to the declaration, and both plants refuse now.
+
+`B-84` narrows with it: two of its seven absent triggers shipped in `super-ux` 0.55.0,
+route coverage reads **99 of 114**, and the remaining five sit behind routes that can
+spend under 25 characters. The residue is a description trim inside each member, on that
+member's own clock — not routing work this repository can schedule.
+
 ## v1.43.0 — three members re-pinned, and the pin refused the half-done state
 
 `super-ux` 0.53.0 → **0.55.0**, `make-skill` 0.26.0 → **0.27.0**, `task-pipeline`

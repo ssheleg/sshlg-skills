@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**689** id'd requirement rows below, **615** read `verified` and none of them says which
+**694** id'd requirement rows below, **620** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1346,3 +1346,8 @@ exists to refuse, so the rows below cover **this** release only.
 | TMP-2 | Route coverage moved and precision did not | 88 → 99 of 114 named an expected route, misses 17 → 15, *spoke where silence was right* unchanged at **0** | v1.43.0 | a silence probe starting to speak | verified |
 | TMP-3 | Three members pinned on three surfaces each | submodule pointer, `skills.json` and the README row, with the validator reading each version out of the submodule rather than trusting `.gitmodules` | v1.43.0 | a surface moving alone | verified |
 | TMP-4 | The cross-member ledger ratchet caught a release I had just shipped | `super-ux` 0.54.0 went out with its ledger naming v0.53.0 — 3 members behind against a ratchet of 2 — and 0.55.0 both repairs it and adds the member's own check | v1.43.0 | the ratchet being raised instead of a member catching up | verified |
+| SR-1 | Spendable room is `free − 60`, not free room | `task-pipeline` at 71 free spends 11: measured by padding its description 11, 12 and 30 characters — 12 and 30 trip *13 of 28 … ratchet stands at 12*, 11 does not | v1.44.0 | the split reading `free` again | verified |
+| SR-2 | With it computed the split reads 15 of 15 blocked | four rows previously read as available work were never available; `B-141`'s price of four member releases was against a premise that does not survive | v1.44.0 | the threshold drifting | verified |
+| SR-3 | The instrument still discriminates, so the uniform answer is a property of the data | `copywriting` 248 spendable and `evidence-docs` 46 both clear the 25 a trigger needs | v1.44.0 | every route reading blocked regardless of budget | verified |
+| SR-4 | The two files agree on one threshold, under a guard | `TIGHT` is read out of `route_coverage.js` and compared with the ratchet's 60; both a drifted threshold and a removed `spendable` declaration are watched refused | v1.44.0 | either file changing alone | verified |
+| SR-5 | The guard's first draft rested on prose and was tightened | it looked for the substring `spendable`, which the file's own comment satisfies, so the rename plant passed; it reads the declaration now | v1.44.0 | the check returning to a substring | verified |

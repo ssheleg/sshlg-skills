@@ -2450,6 +2450,52 @@ def check_the_description_reserve_is_not_spent() -> None:
 check_the_description_reserve_is_not_spent()
 
 
+def check_the_split_and_the_ratchet_agree_on_one_threshold() -> None:
+    """`route_coverage.js` decides what is spendable; this guard decides what is tight.
+
+    They are two files with one number between them, and the number is 60. A skill at 71
+    free characters cannot spend 71: at 12 spent it drops to 59, joins the set this
+    ratchet counts, takes the count from 12 to 13 — and a ratchet may only fall, so the
+    umbrella's own gate refuses the change. **The binding constraint is this ratchet, not
+    the 970 limit**, and a first draft of the split read `free` as spendable, which made
+    four blocked misses read as available work.
+
+    Measured 2026-09-06 by spending 11, 12 and 30 characters of `task-pipeline`'s
+    description in turn: 12 and 30 print *13 of 28 skills sit within 60 characters … and
+    the ratchet stands at 12*; 11 does not.
+
+    If the two files drift the split starts lying in whichever direction the drift went,
+    and nothing else compares them.
+    """
+    path = os.path.join(ROOT, "test", "route_coverage.js")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            js = fh.read()
+    except OSError:
+        _skips.append("reserve threshold — test/route_coverage.js is not here to compare")
+        return
+    m = re.search(r"^const TIGHT = (\d+);", js, re.M)
+    if not m:
+        fail("test/route_coverage.js no longer declares `TIGHT` — the split cannot know "
+             "which threshold this ratchet counts, and a split computed against the 970 "
+             "limit reports blocked work as available")
+        return
+    if int(m.group(1)) != 60:
+        fail(f"test/route_coverage.js says the reserve threshold is {m.group(1)} and this "
+             "guard counts skills under 60. One number, two files: whichever drifted, the "
+             "split now reports the wrong half of the misses as available work")
+    # The DECLARATION, not the word. A first draft looked for the substring `spendable`
+    # and the plant that renamed the function left the word standing in this file's own
+    # comment — a check resting on prose about the code rather than on the code.
+    if not re.search(r"^const spendable = ", js, re.M):
+        fail("test/route_coverage.js stopped computing SPENDABLE room. Free room is not "
+             "spendable room — a skill at 71 free can spend 11 before it joins the set "
+             "this ratchet counts and the gate refuses the change")
+
+
+check_the_split_and_the_ratchet_agree_on_one_threshold()
+
+
 # ---------------------------------------------------------------------------
 # Every address these documents claim, resolved
 # ---------------------------------------------------------------------------
