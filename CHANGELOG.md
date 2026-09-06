@@ -1,3 +1,48 @@
+## v1.45.0 — the doctrine was already written, and it leaked the key twice anyway
+
+"Never print a key value" sat in the operator's global instructions all day on
+2026-09-05. An agent holding it leaked the same live OpenRouter key **twice in one
+session** — not from ignorance, but from a construct that reads as its own opposite:
+
+```bash
+echo "key: ${OPENROUTER_API_KEY:-not set}"
+```
+
+written to check whether a variable was **set**. `${VAR:-fallback}` expands to the
+**value** when it is, so a line whose whole purpose was to avoid printing the key
+printed it. Prose cannot fix a construct that disguises itself. `PreToolUse` already
+reads every Bash command before it runs, and already denies two other things.
+
+**Five refusals, each the negative of a real leak, each carrying the safe spelling.**
+
+| denied | why it is not paranoia |
+|---|---|
+| a literal credential anywhere in the command | it is in the shell history and the process table *before* the command runs |
+| a secret-ish expansion as an argument to `echo`/`printf` | the construct above |
+| `cat`/`head`/`tail` of `secrets/`, `.env`, `*.key`, `id_rsa` | the transcript keeps whatever is printed |
+| bare `env` whose output goes nowhere but the transcript | exported credentials are in it |
+| verbose `curl` carrying `Authorization` | `-v` prints the request headers |
+
+**A second layer, because the first cannot be complete.** A tool that prints its own
+configuration does not look like a leak in the command. `scan()` reads what came
+**back**. It cannot unprint; its value is the interval between leaking and knowing,
+which that day was hours. It reports the shape and the count and **never the value** —
+a warning that quoted the secret would leak it a second time into the same transcript,
+and the suite asserts that, because it is the mistake this kind of code makes.
+
+**The `ALLOWED` half of the suite is the point, not its afterthought.** The first
+version denied three of the four remedies it recommends — `[ -n "$K" ] && echo set`,
+`echo "${K: -4}"`, `env | grep -c` — because it asked whether an expansion appeared
+anywhere in the line rather than whether it was an *argument to a printing command*,
+and because splitting on `|` destroyed the pipe that makes `env | grep` safe. A guard
+that refuses ordinary work is switched off within a week, and then it guards nothing.
+
+**The fixture ratchet caught this release shipping half of itself.** The suite reported
+its result in prose rather than `OK (N checks)`, so 33 checks were invisible to
+`test/run.js`; correcting the format then showed the count 5 short, which is exactly the
+`scan` fixtures — a cherry-pick had stopped at a conflict and the second commit had
+never applied. The tree looked finished and was not.
+
 ## v1.44.0 — free room is not spendable room, and the split had been reading the wrong one
 
 `B-141` closed by re-deriving what actually blocks the work, which was never the 970

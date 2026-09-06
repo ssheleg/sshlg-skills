@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**694** id'd requirement rows below, **620** read `verified` and none of them says which
+**700** id'd requirement rows below, **626** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -1351,3 +1351,9 @@ exists to refuse, so the rows below cover **this** release only.
 | SR-3 | The instrument still discriminates, so the uniform answer is a property of the data | `copywriting` 248 spendable and `evidence-docs` 46 both clear the 25 a trigger needs | v1.44.0 | every route reading blocked regardless of budget | verified |
 | SR-4 | The two files agree on one threshold, under a guard | `TIGHT` is read out of `route_coverage.js` and compared with the ratchet's 60; both a drifted threshold and a removed `spendable` declaration are watched refused | v1.44.0 | either file changing alone | verified |
 | SR-5 | The guard's first draft rested on prose and was tightened | it looked for the substring `spendable`, which the file's own comment satisfies, so the rename plant passed; it reads the declaration now | v1.44.0 | the check returning to a substring | verified |
+| SG-1 | The refusal stands where the doctrine already stood | "never print a key value" was in the operator's global instructions and the same live key leaked twice on 2026-09-05; the guard is at `PreToolUse`, which reads the command before it runs | v1.45.0 | the hook being unregistered from the `Bash` matcher | verified |
+| SG-2 | The construct that leaked is denied, and its safe spellings are not | `echo "${K:-x}"` denied; `[ -n "$K" ] && echo set`, `echo "${#K}"`, `echo "${K: -4}"` all pass — the distinction between `${V:-4}` and `${V: -4}` is one space | v1.45.0 | the rule reverting to "expansion anywhere in the line" | verified |
+| SG-3 | Ordinary work is not refused | 14 ALLOWED fixtures, including `curl -H "Authorization: Bearer $K"`, `wc -c < secret`, `env \| grep -c` — the first draft denied three of the four remedies it prints | v1.45.0 | a rule widened without a matching ALLOWED fixture | verified |
+| SG-4 | A refusal never repeats the value it refuses | asserted directly: the guard's message must not contain the credential it matched | v1.45.0 | a message interpolating the match for "clarity" | verified |
+| SG-5 | The second layer reads the output, since the first cannot be complete | `scan()` finds a printed credential, counts repeats, quotes none, and is silent on ordinary output and on prose that merely names a token prefix | v1.45.0 | the PostToolUse wiring being dropped | verified |
+| SG-6 | The suite reports in the shape the ratchet counts | `OK (33 checks)`; reporting in prose made 33 fixtures invisible, and correcting it exposed a cherry-pick that had never applied its second commit | v1.45.0 | a suite printing its own sentence | verified |
