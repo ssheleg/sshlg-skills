@@ -51,11 +51,11 @@ function arm(kind) {
       t = t.replace(/\n\n\*\*Among the routers[^]*?(?=\n\n\*\*|$)/g, '');
     }
     if (kind === 'both') {
-      // the boundary paragraph, cut to its first sentence
-      t = t.replace(/(\*\*The boundary[^]*?\*\*)([^]*?)(?=\n\n)/g, (m, head, body) => {
-        const first = body.trim().split(/(?<=\.)\s+/)[0] || '';
-        return `${head} ${first}`;
-      });
+      // the boundary cut to its HEADING alone — the quote survives, the NOT-list
+      // goes. Before the v1.46.0 compression this arm cut the boundary to its
+      // first sentence; the compressed texts often ARE one sentence, which made
+      // this arm equal to `no-among` and the size ordering meaningless.
+      t = t.replace(/(\*\*The boundary[^]*?\*\*)([^]*?)(?=\n\n)/g, (m, head) => head);
     }
     return t.trim();
   }).join('\n\n') + '\n';

@@ -297,6 +297,25 @@ it('isQuestion and optedOut each distinguish their inputs', () => {
   assert.strictEqual(T.optedOut('с пайплайном'), false);
 });
 
+// Claude Code fires `UserPromptSubmit` for system-generated turns too. On
+// 2026-09-06 every background-agent notification in one session was "routed"
+// because its body mentioned member names — and a notification QUOTING a
+// refusal phrase would have silenced the session with nobody having said it.
+it('a system-generated turn neither routes nor spends the session opt-out', () => {
+  const note = '[SYSTEM NOTIFICATION - NOT USER INPUT]\n'
+    + 'Agent finished: wired the stripe checkout flow, сделай лендинг next.';
+  // The content genuinely routes — remove the marker and the routes appear —
+  // so the silence below is the guard's, not an accident of the wording.
+  assert.ok(T.match(note.replace('[SYSTEM NOTIFICATION - NOT USER INPUT]\n', '')).length > 0,
+    'the fixture text stopped carrying any trigger, so the case proves nothing');
+  assert.deepStrictEqual(T.match(note), [], 'a task notification was routed as if a person asked');
+  assert.strictEqual(T.render(note), '', 'the hook would print routes for a system turn');
+  const quoted = '<task-notification>the run logged «без пайплайна» and exited 0</task-notification>';
+  assert.strictEqual(T.optedOut(quoted), false,
+    'a notification quoting a refusal phrase silenced the whole session');
+  assert.strictEqual(T.isSystemTurn('сделай лендинг'), false, 'an ordinary prompt read as a system turn');
+});
+
 it('no refusal phrase is also a trigger, or saying it would fire the hook', () => {
   const clash = [];
   for (const [route, spec] of Object.entries(T.ROUTES)) {

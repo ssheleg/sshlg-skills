@@ -63,6 +63,26 @@ it('the shortlist ranks by how many of the task words a description carries', ()
     'a row below the two-term floor was ranked anyway');
 });
 
+// Measured 2026-09-06: the family's own audit query, in Russian, matched
+// NOTHING out of 530 skills — every noun arrived declined («скилов») while the
+// descriptions advertise the base form («скилл»). The shortlist must survive
+// inflection without a language table.
+it('an inflected query word reaches the description that carries its stem', () => {
+  const corpus = [
+    { id: 'make-skill', description: 'аудит скилла против стандарта - "сделай скилл", "skill audit"' },
+    { id: 'noise', description: 'совсем другие слова про сад и огород' },
+  ];
+  const { rows } = T.rank(corpus, 'проведи аудит скилов', 5, new Set(['make-skill']));
+  assert.strictEqual((rows[0] || {}).id, 'make-skill',
+    `the declined query missed the advertising skill (got ${rows.map((r) => r.id).join(',') || 'nothing'})`);
+  // The mechanism, pinned at its edges: plural-to-singular in both alphabets,
+  // and a floor of four so a short stem cannot loosen into everything.
+  assert.strictEqual(T.termHit('a skill description', 'skills'), true);
+  assert.strictEqual(T.termHit('здесь стоит скилл', 'скилов'), true);
+  assert.strictEqual(T.termHit('дом и сад', 'домов'), false,
+    'a four-letter floor was crossed — short stems must not loosen');
+});
+
 it('common words do not drag in every skill', () => {
   // Without a stop list, "the" and "and" match nearly every description and the shortlist
   // becomes an arbitrary slice of the whole roster with a confident-looking order.

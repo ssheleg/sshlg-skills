@@ -44,6 +44,23 @@ it('a bare update of a member is caught, and the remedy is the launcher', () => 
 it('flags between the words do not hide it', () => {
   assert.ok(H.bareFamilyInstall('npx --yes skills update super-ux', IDS));
   assert.ok(H.bareFamilyInstall('skills add --agent claude ux-flows', IDS));
+  // `--list` is the CLI's read-only mode of `add`: it renders what WOULD land
+  // and writes nothing. The guard refused the family audit's own distribution
+  // probe on 2026-09-06 because flags were dropped before the decision. Exact
+  // token, same invocation, `add` only — the second audit round proved the
+  // first cut disarmed across `&&` and after `--`.
+  assert.strictEqual(H.bareFamilyInstall('npx --yes skills add ssheleg/super-ux --list', IDS), null,
+    'a read-only --list probe was refused as an install');
+  assert.ok(H.bareFamilyInstall('npx --yes skills add ssheleg/super-ux --list-agents', IDS),
+    'a flag merely PREFIXED with --list disarmed the guard');
+  assert.ok(H.bareFamilyInstall('npx skills update super-ux && npx skills check --list', IDS),
+    'a --list in a LATER chained command disarmed the guard for the install before it');
+  assert.ok(H.bareFamilyInstall('npx skills update super-ux ; skills list --list', IDS),
+    'a --list after a `;` disarmed the guard');
+  assert.ok(H.bareFamilyInstall('npx skills update super-ux -- --list', IDS),
+    'a --list after `--` (a positional to the CLI) disarmed the guard');
+  assert.ok(H.bareFamilyInstall('npx skills update super-ux --list', IDS),
+    "update's --list is unobserved and must stay refused until measured");
 });
 
 it('a skill id of a member counts, not only the member name', () => {
