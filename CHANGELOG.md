@@ -1,3 +1,13 @@
+## v1.46.1 — the annotated-tag rule, paid once by the run that shipped everything else
+
+**v1.46.0 is a burned tag** — the wave's fourth, and this repository's own lesson:
+`B-93`'s gate demands an ANNOTATED tag object because a lightweight one makes
+`git describe` and `git submodule status` name the previous release, the remedy is
+`scripts/tag.sh`, and the gate printed exactly that while refusing to publish.
+The tag was cut with bare `git tag` anyway, and the remote — correctly — refuses
+to delete what it holds. Nothing shipped under v1.46.0; this version is the same
+tree, tagged by the script whose existence is the rule.
+
 ## v1.46.0 — the audit wave: eight members move, the block loses a fifth of its weight, and a system turn stops being a person
 
 The 2026-09-06 family audit (wave `AUDIT-WAVE-0906`) produced 24 findings; this
