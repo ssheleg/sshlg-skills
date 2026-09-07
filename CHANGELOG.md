@@ -82,11 +82,14 @@ and what it found is folded in rather than queued:
 
 **Re-pins** (each member's own CHANGELOG carries its findings): sheleg-dev
 0.11.8 · make-skill 0.27.1 · super-ux 0.55.1 · agent-stack 0.23.2 ·
-seo-aeo-audit 0.25.11 · agent-sync 1.19.3 · task-pipeline 1.85.1 ·
+seo-aeo-audit 0.25.11 · agent-sync 1.19.3 · task-pipeline 1.85.2 ·
 sheleg-design 1.59.4. telegram-dev 0.1.11 was audited clean and does not move.
-Two tags burned on one lesson, recorded in both members: a tag is cut from the
-VERIFIED merge commit, never from "whatever origin/main is", and never before
-the squash-merge lands.
+Three tags burned on two lessons, each recorded in its member: sheleg-dev
+v0.11.6 and sheleg-design v1.59.3 were cut before their squash-merges landed —
+a tag comes from the VERIFIED merge commit whose subject names the PR — and
+task-pipeline v1.85.1 was cut without the run stamp its own gate demands on the
+tag's tree, so v1.85.2 ships by that member's two-merge protocol: payload
+first, stamp second citing the payload's merge, tag on the stamp.
 
 ## v1.45.0 — the doctrine was already written, and it leaked the key twice anyway
 
