@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 0,
+  "done": 1,
   "blocked": 0
  },
  "queue": [
@@ -23,10 +23,15 @@
    "kind": "implementation",
    "title": "Immutable reservation identity",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "agent-sync@4acc62bcfea43f19c4877be0da69aee85bd93496 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-sy-01.01.py — exit 0, 10/10 cases (incl. real concurrent CLI reserve vs bare remote, CAS loss + bounded retry)",
+    "python3 test/validate.py — PASS all checks green",
+    "python3 test/validate.py --self-test — PASS 60 fixtures (mutation re-aimed at new read sites)",
+    "python3 test/claim_cell_test.py — PASS 24; test/hooks_session_test.py — PASS 6; node test/installer_test.js — PASS 11"
+   ],
+   "notes": "Receipts (value-carrying reserve lines) make issued ids immutable under replay; git-lease mode allocates via CAS on refs/agent-sync/ids/<REG> with RESERVE_RETRIES=6; fs+git can now reserve (previously refused). Docs: lease-protocol.md Id reservation rewritten. CI: validate.yml runs test/audit_regressions/*.py. Limits: NOT_RUN elsewhere unchanged; no release/merge — branch handoff only; CHANGELOG/version untouched (release integration is a separate task)."
   },
   {
    "id": "FIX-DV-01.01",
