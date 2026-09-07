@@ -4266,6 +4266,10 @@
       "sha256": "00cd8640b3424b0671b190873963fad245aa5d672f5f96be68b7064e041e500a"
     },
     {
+      "path": "publication-checks/fresh-clone.json",
+      "sha256": "f9fcefec182776e685729f1b71f650eceba8facbc8b11344f78fceca502dbf56"
+    },
+    {
       "path": "publication-checks/make-skill.log",
       "sha256": "b5c3f2e1d42c9082e7a742bc2737449d6279a6013479cd93019a96cd4399b65e"
     },
