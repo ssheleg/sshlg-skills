@@ -1,3 +1,96 @@
+## v1.46.0 — the audit wave: eight members move, the block loses a fifth of its weight, and a system turn stops being a person
+
+The 2026-09-06 family audit (wave `AUDIT-WAVE-0906`) produced 24 findings; this
+release carries the umbrella's share and the eight re-pins that ship the members'.
+
+**Routing.**
+- **A system-generated turn neither routes nor spends the session opt-out**
+  (`lib/triggers.js` — `isSystemTurn`). The harness fires `UserPromptSubmit` for
+  background-task notifications too, and every agent-completion notice in one
+  session was "routed" off its own body text; worse, a notification QUOTING a
+  refusal phrase would have silenced the session with nobody saying it. Fixtured
+  in `triggers_test.js` and end-to-end as a process, with the control prompt
+  asserted to still route.
+- **make-skill gains the audit vocabulary the router text always promised**:
+  `skill audit` / «аудит скилов» route now (B-80's shape, caught live — an
+  operator asked for «аудит скилов» and the hook named only `task-pipeline`).
+  Paired with make-skill 0.27.1, whose description advertises both; neither half
+  ships alone — the completeness and soundness fixtures refuse either.
+- **The toolkit shortlist survives inflection** (`lib/toolkit.js` — `termHit`,
+  `ё`-folding): the family's own audit query, in Russian, matched NOTHING out of
+  530 skills because every noun arrived declined («скилов» vs the advertised
+  «скилл»). A progressive prefix — strip up to three trailing letters, floor
+  four — closes both alphabets ("skills" now reaches "skill" too), with `FLOOR`
+  and the spread filter eating what the loosened match admits.
+- **The router registry drops a third of its weight** (`lib/routers-registry.js`,
+  `lib/routers.js`): the per-router flavour codas and the triplicated boundary
+  prose are gone; every NOT-list, boundary heading, refusal phrase and place
+  sentence survives verbatim. Measured before shipping — `test/evals/RESULTS.md`
+  2026-09-06: recall equal-or-better on 13 probes (one +1/3, one exact-name),
+  silence −1/3 on one probe, both arms leaking identically on another — a wash
+  on routing, where the 2026-08-31 trims were refused for routing strictly
+  wider. **Three figures, because they answer different questions:** the eval
+  ARM measured 14,876 → 8,464 bytes (−43%) and is what the recall numbers are
+  about; what SHIPS is that arm plus the boundary headings and place sentences
+  `router_texts_test.js` mandates — registry texts 14,853 → 11,878 (−20%) — and
+  the whole managed block in an operator's file, map, protocol and table
+  included, went 23,494 → 18,570 (−21%). Outside the sentinels the file is
+  byte-identical, 30 of the parser's 31 refusal phrases appear in the rendered
+  block (the absent «как есть» is a never-advertised legacy alias, unchanged
+  from before), and three consecutive `routers --update` runs hash the same. The PROTOCOL section now also states plainly that a refusal
+  phrase silences the hook for the REST OF THE SESSION — the mechanism
+  `lib/routegate.js` always had, which the block never admitted.
+
+**Guards.**
+- **`plugin.json` and the marketplace entry must ship ONE description**
+  (`test/validate.py` — `check_shipped_descriptions_agree_across_manifests`).
+  Versions moved under four guards; descriptions under none, and task-pipeline
+  v1.85.0 shipped "auto/judgment/manual" beside "auto/manual". Watched failing
+  on that live drift before the member fixed it. A deliberate split is declared
+  with its reason — three are (agent-sync's is recorded in the member as row
+  AW-0906-desc) — and a declared split whose texts turn out identical is
+  refused too.
+- **The hygiene guard passes `skills add … --list`** (`lib/hygiene.js`): the
+  CLI's read-only mode was refused as an install — it blocked the family's own
+  distribution probe during the audit. Exact token only; `--list-agents` still
+  refuses.
+- **`pack --check` stops blaming the network for a declaration**
+  (`lib/packs.js`): `figma`'s source was a marketplace name, not an address, and
+  wore `unreachable` for a release. The source is owner-qualified now, and a
+  non-address source prints `UNDECLARED` and counts as `bad` — this repository's
+  to edit, no network involved.
+
+**The second audit round ran against the shipped trees before this release cut**,
+and what it found is folded in rather than queued:
+- **the `--list` exemption shipped in this very branch disarmed across command
+  boundaries** — `skills update super-ux && skills check --list` walked past the
+  guard; flags now stop at the first separator and at `--`, and the exemption
+  holds only for `add`, the one verb the read-only mode was observed on
+- a background notification landing mid-turn OVERWROTE the routes the real
+  prompt had armed: the hook now declines the turnstate write on system turns
+- sheleg-dev v0.11.8: two dangling Contents anchors (one born dangling at the
+  skill's first commit) and eight stale second tables of contents — the class is
+  closed by an anchor-resolution check with a non-collapsing slugger, watched
+  firing, negatives 47 → 48
+- seo-aeo-audit: `on.push.tags-ignore: ['**']` alone had disabled ALL push-time
+  validation of main for 18 days while its own comment believed the opposite —
+  `branches: [main]` states the same no-tag intent from the branch side
+  (workflow-only, no version moves)
+- one fact, one measurement in task-pipeline: README said 905 where the board
+  said 903 about one description, because one reader stripped the YAML quotes
+  and the other counted them
+
+**Re-pins** (each member's own CHANGELOG carries its findings): sheleg-dev
+0.11.8 · make-skill 0.27.1 · super-ux 0.55.1 · agent-stack 0.23.2 ·
+seo-aeo-audit 0.25.11 · agent-sync 1.19.3 · task-pipeline 1.85.2 ·
+sheleg-design 1.59.4. telegram-dev 0.1.11 was audited clean and does not move.
+Three tags burned on two lessons, each recorded in its member: sheleg-dev
+v0.11.6 and sheleg-design v1.59.3 were cut before their squash-merges landed —
+a tag comes from the VERIFIED merge commit whose subject names the PR — and
+task-pipeline v1.85.1 was cut without the run stamp its own gate demands on the
+tag's tree, so v1.85.2 ships by that member's two-merge protocol: payload
+first, stamp second citing the payload's merge, tag on the stamp.
+
 ## v1.45.0 — the doctrine was already written, and it leaked the key twice anyway
 
 "Never print a key value" sat in the operator's global instructions all day on

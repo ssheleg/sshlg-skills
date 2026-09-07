@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Аудит семьи ssheleg — итог</title>
+<style>
+:root{
+  --bg:#fafaf8; --fg:#1a1a1a; --muted:#6b6b6b; --line:#e2e0da; --card:#ffffff;
+  --crit:#b3261e; --crit-bg:#fdeceb; --high:#c2410c; --high-bg:#fff1e7;
+  --med:#a16207; --med-bg:#fdf6e3; --low:#3f6212; --low-bg:#f1f7e8;
+  --info:#475569; --info-bg:#eef2f7; --accent:#1d4ed8; --ok:#166534; --ok-bg:#eaf5ec;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#16181d;--fg:#e8e6e1;--muted:#9a9890;--line:#2e323b;--card:#1d2026;
+  --crit:#f28b82;--crit-bg:#3a2422;--high:#ffb08a;--high-bg:#3a2a20;
+  --med:#e6c76a;--med-bg:#34301f;--low:#a7d17f;--low-bg:#26301f;
+  --info:#aab6c5;--info-bg:#242a33;--accent:#8ab4f8;--ok:#8fd0a0;--ok-bg:#1f3026;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+main{max-width:1140px;margin:0 auto;padding:32px 28px 80px}
+h1{font-size:30px;line-height:1.2;margin:8px 0 4px}
+h2{font-size:22px;margin:44px 0 12px;padding-top:16px;border-top:2px solid var(--line)}
+h3{font-size:17px;margin:26px 0 8px}
+p{margin:8px 0;max-width:88ch}
+.sub{color:var(--muted);font-size:13px}
+.meta{color:var(--muted);font-size:14px;margin-bottom:20px}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px}
+th,td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:var(--info-bg);font-weight:600}
+tr:nth-child(even) td{background:color-mix(in srgb, var(--card) 60%, var(--bg))}
+.wrap{overflow-x:auto}
+code{font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--info-bg);padding:1px 5px;border-radius:4px}
+.b{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:10px;white-space:nowrap}
+.crit{color:var(--crit);background:var(--crit-bg)} .high{color:var(--high);background:var(--high-bg)}
+.med{color:var(--med);background:var(--med-bg)} .low{color:var(--low);background:var(--low-bg)}
+.info{color:var(--info);background:var(--info-bg)} .ok{color:var(--ok);background:var(--ok-bg)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+.stat .n{font-size:26px;font-weight:700} .stat .l{font-size:12.5px;color:var(--muted)}
+.toc{columns:2;column-gap:40px;font-size:14.5px}
+.toc a{color:var(--accent);text-decoration:none}
+ul{margin:6px 0;padding-left:22px} li{margin:3px 0}
+hr{border:0;border-top:1px solid var(--line);margin:28px 0}
+.foot{margin-top:48px;padding-top:16px;border-top:2px solid var(--line);font-size:13.5px;color:var(--muted)}
+.foot a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+
+<div class="sub">ssheleg skills — make-skill · task-pipeline</div>
+<h1>Аудит семьи ssheleg-skills<br><span style="font-size:19px;font-weight:600;color:var(--muted)">диагноз 29.08 → закрыт 31.08</span></h1>
+<div class="meta">Аудит 2026-08-29 (14 агентов, 221 находка, read-only) → исполнение 2026-08-29…31 (три волны, 24 релиза, ~30 агентов).<br>Ниже: сначала <b>что стало</b>, затем исходный диагноз целиком — он не переписан.</div>
+
+<div class="card" style="border-left:4px solid var(--ok)">
+<strong style="color:var(--ok)">СТАТУС НА 31.08 — программа закрыта.</strong>
+Все критические и мажорные находки отгружены; остаток аудита живёт строками на досках с адресатами
+(ASY-10, B-118, B-033, B-124, TP-A…E). Девять плагинов на машине совпадают с npm, зонтик 1.12.0.
+<b>Одно ручное действие: перезапустить Claude Code</b> — скилы читаются на старте сессии.
+</div>
+
+<h2 id="shipped">0. Что отгружено — три волны, 24 релиза</h2>
+<div class="wrap"><table>
+<tr><th>Член</th><th>Было 29.08</th><th>Стало 31.08</th><th>Что закрыто</th></tr>
+<tr><td><b>task-pipeline</b></td><td>1.78.4</td><td><b>1.80.0</b></td><td>три дырявых гейта (пустой payload / dev-стадия / lint-захват), example.json (дедлок + вооружённый loop), stage-0 кластер, доктрина TP1-04…25, probing.md, CI npm test, леджеры, <b>B-002 закрыта</b></td></tr>
+<tr><td><b>super-ux</b></td><td>0.49.0</td><td><b>0.52.2</b></td><td>templates наконец поставляются (2 класс-гарда), инсталлятор, триггер-гигиена, compatibility ×7</td></tr>
+<tr><td><b>sheleg-design</b></td><td>1.54.0</td><td><b>1.58.2</b></td><td>YAML-фронтматтер + fail-closed парс, dataviz-fallback, Contents деривируются, аннотированные теги</td></tr>
+<tr><td><b>make-skill</b></td><td>0.24.0</td><td><b>0.25.3</b></td><td>канон инсталлятора для всей семьи, T3-исключение с датой, CI-smoke, запас тела 8→73</td></tr>
+<tr><td><b>seo-aeo-audit</b></td><td>0.25.6</td><td><b>0.25.8</b></td><td>инсталлятор, injection-доктрина для скрейпа, compatibility, пер-полевые капы в валидаторе</td></tr>
+<tr><td><b>sheleg-dev</b></td><td>0.10.4</td><td><b>0.11.2</b></td><td>развязка google-пары + класс-гард коллизий, три фактические ошибки (проверены живьём), мёртвый $schema</td></tr>
+<tr><td><b>agent-sync</b></td><td>1.18.4</td><td><b>1.18.7</b></td><td>пайп-обход lease-guard, fail-closed без python3, <code>clear</code> в матчере, $schema</td></tr>
+<tr><td><b>agent-stack</b></td><td>0.16.0</td><td><b>0.17.1</b></td><td>манифест «Four skills», четыре шва с orchestrator, датировка фактов, карта девяти подсистем</td></tr>
+<tr><td><b>telegram-dev</b></td><td>0.1.8</td><td><b>0.1.10</b></td><td>инсталлятор-тень (инцидент-сайт), мёртвый manual-gate, sync ×5, references в README</td></tr>
+<tr><td><b>зонтик</b></td><td>1.7.0</td><td><b>1.12.0</b></td><td>роутинг (рефузалы, error-tracking, react), retro 155→36KB, protect() для последнего пути записи, og-card, три пин-пасса</td></tr>
+</table></div>
+
+<h2 id="evals">0б. Evals — то, чего чтение кода дать не могло</h2>
+<p>Строка <b>B-002</b> («ноль слепых прогонов на нуле из трёх моделей») висела с 3 августа. Прогнаны у всех девяти,
+~500 слепых проб: свежая сессия на каждый запрос, по моделям, датированные строки с описанным методом и его пределами.</p>
+<div class="wrap"><table>
+<tr><th>Находка</th><th>Измерение</th><th>Почему важно</th></tr>
+<tr><td><b>task-pipeline: B-002 закрыта</b></td><td>147 проб — opus 42/42, sonnet 40/42, haiku 39/42</td><td>единственная поведенческая база флагмана была одним самонаблюдённым прогоном</td></tr>
+<tr><td><b>make-skill: страх опровергнут</b></td><td>0 ложных срабатываний на всех 22 near-miss'ах у обеих моделей; обе ошибки — недо-срабатывание на позитивах</td><td>«навязчивое описание крадёт ходы» — измеренно неверно; верно обратное</td></tr>
+<tr><td><b>agent-sync: реальная дыра</b></td><td>«submodule finish» → 0/3 haiku и 0/3 sonnet</td><td>в описании нет submodule-литерала; заведена ASY-10</td></tr>
+<tr><td><b>sheleg-dev: ложный поджиг</b></td><td>«Explain what LCP means» → frontend-performance 5/6</td><td>объяснение термина уводит в интеграционный скилл</td></tr>
+<tr><td><b>сквозной паттерн (3 репо)</b></td><td>малая модель без загруженного скилла воспроизводит ровно те дефекты, что заложены в фикстуры</td><td>лучший аргумент за существование этих скилов — добыт измерением, не риторикой</td></tr>
+</table></div>
+
+<h2 id="selfcatch">0в. Гейты семьи трижды сработали на нас самих</h2>
+<ul>
+<li><b>Пин-гейт зонтика</b> отверг sheleg-design 1.58.0: фронтматтер не был валидным YAML (<code>Triggers: "</code> в некавыченном скаляре) — 5598 собственных проверок члена этого не видели, потому что читали регуляркой. Член выпустил хотфикс и завёл fail-closed YAML-парс.</li>
+<li><b>Релизный гард task-pipeline</b> отверг незадекларированный релиз — v1.79.0 сгорел на собственном пробе и честно записан как мёртвый тег.</li>
+<li><b>Docgate</b> отверг мёртвый SHA после ребейз-мержа. Класс рецидивировал трижды → заведён <b>B-124</b>: чинить механизмом (цитировать тег, а не домержевый SHA), не памятью.</li>
+</ul>
+
+<div class="card">
+<strong>Вердикт (диагноз 29.08, сохранён без правок).</strong> Механический пол семьи — образцовый: все 20+ скиллов девяти членов проходят
+собственный валидатор (0 GAP), <code>claude plugin validate --strict</code>, версии синхронны, CI зелёный,
+ни одной висячей ссылки в доктринах. Проблемы живут на трёх этажах выше пола:
+<b>(1)</b>&nbsp;инсталляторы всех девяти членов создают plain-копии, затеняющие плагин, — класс воспроизведён вживую
+на этой машине во время аудита; <b>(2)</b>&nbsp;в task-pipeline машиночитаемый образец конфига кодирует ровно те два
+дефекта, которые его же доктрина хоронила с инцидентами (prune-before-stamp и вооружённый loop под пометкой «OFF»),
+а release-gate молча пропускает релиз на пустом payload; <b>(3)</b>&nbsp;роутинг-блок повторяет оба уже похороненных
+класса ошибок (B-81, B-82): «без интеграций» сам поджигает task-pipeline, error-tracking не маршрутизируется вовсе,
+английские refusal-фразы не работают. Плюс общесемейная тема: <b>evals написаны у всех девяти и не исполнены ни у кого</b> —
+поведенческая база всей семьи — один самонаблюдённый прогон от 03.08.
+</div>
+
+<div class="grid">
+<div class="stat"><div class="n">221</div><div class="l">находок всего (14 отчётов)</div></div>
+<div class="stat"><div class="n">7</div><div class="l">критических</div></div>
+<div class="stat"><div class="n">~38</div><div class="l">high/major</div></div>
+<div class="stat"><div class="n">9/9</div><div class="l">членов с дырой в инсталляторе</div></div>
+<div class="stat"><div class="n">9/9</div><div class="l">членов с неисполненными evals</div></div>
+<div class="stat"><div class="n">58</div><div class="l">открытых строк бэклога task-pipeline</div></div>
+</div>
+
+<h2 id="toc">Содержание</h2>
+<div class="toc">
+<ul>
+<li><a href="#shipped">0. Что отгружено (итог)</a></li>
+<li><a href="#evals">0б. Evals и их находки</a></li>
+<li><a href="#selfcatch">0в. Гейты сработали на нас самих</a></li>
+<li><a href="#crit">1. Критический слой — чинить первым</a></li>
+<li><a href="#themes">2. Системные темы (7)</a></li>
+<li><a href="#tp">3. task-pipeline — детальная разбивка</a></li>
+<li><a href="#um">4. Зонтик sshlg-skills + роутинг</a></li>
+<li><a href="#members">5. Остальные члены — по скиллам</a></li>
+<li><a href="#clean">6. Что чисто</a></li>
+<li><a href="#plan">7. План волн изменений (для сабагентов)</a></li>
+</ul>
+</div>
+
+<h2 id="crit">1. Критический слой — чинить первым</h2>
+<p>Ступень 1 лестницы приоритетов (prioritisation.md): «продукт сломан / активно вредит». Внутри ступени — порядок по C×E.</p>
+<div class="wrap"><table>
+<tr><th>#</th><th>Находка</th><th>Где</th><th>Доказательство</th><th>Правка</th></tr>
+<tr><td>1</td><td><span class="b crit">CRIT</span> <b>Инсталляторы всех 9 членов создают plain-копии, затеняющие плагин</b> (TG-01, SEO-01 + мой grep: <code>plugin-check-refs=0</code> у всех девяти bin)</td><td>каждый <code>bin/*.js</code> + <code>install.sh</code></td><td>Воспроизведено вживую: голый <code>npx @ssheleg/telegram-dev</code> создал 3 тени на этой машине (агент их убрал). CI тестирует только чистый HOME</td><td>Одна общая правка, раскатанная на 9 репо: перед записью в <code>~/.claude/skills</code> проверять <code>installed_plugins.json</code>, отказывать с командой плагин-канала (override-флаг для сознательного выбора); CI-кейс «плагин установлен»</td></tr>
+<tr><td>2</td><td><span class="b crit">CRIT</span> <b>release-gate молча пропускает релиз на пустом/битом payload</b> (TP3-01); build-gate инертен на каноническом конфиге — <code>state:"dev"</code> ≠ <code>"build"</code> (TP3-02); гейт цепляется за первую команду-стадию — зелёный lint релизит поверх непрогнанных тестов (TP3-03)</td><td>task-pipeline <code>hooks/release-gate.sh:60-64,130-136</code>, <code>build-gate.sh:67</code></td><td>Все три продемонстрированы живыми прогонами: <code>printf '' | release-gate.sh</code> → exit 0 silent; git tag прошёл при непрогнанной tests-стадии</td><td>gate-blind событие в леджер (или блок) вместо тихого skip + тест на пустой payload; матчить <code>build|dev</code>; двухпроходный скан с приоритетом <code>state=="tests"</code> (и в gate-observer)</td></tr>
+<tr><td>3</td><td><span class="b crit">CRIT</span> <b>pipeline.example.json кодирует похороненный дедлок и вооружённый loop</b>: stage-10 check требует «PRUNE BEFORE YOU ADD» (ровно тот дедлок, что retro хоронил инцидентом), а <code>_run_note</code> говорит «Shipped explicitly OFF» при <code>mode:"dynamic"</code> (TP1-01, TP1-02)</td><td>task-pipeline <code>pipeline.example.json:170,174-182</code></td><td>Цитаты обеих сторон в отчёте TP1; retrospective.md:204-205 прямо называет старый порядок дедлоком</td><td>Переписать check на stamp→prune→entry + 60-дневная cold-оговорка; <code>mode:"off"</code> или честная пометка</td></tr>
+<tr><td>4</td><td><span class="b crit">CRIT</span> <b>«без интеграций» — мёртвая refusal-фраза, поджигающая чужой роут</b> (XF-01): содержит триггер «интеграция» → измерено: фраза-отказ инжектит task-pipeline-роутинг. Класс B-82, уже хоронился</td><td>умбрелла <code>lib/routers-registry.js:87</code>, <code>lib/triggers.js:48-65</code></td><td>Живой прогон матчера: <code>optedOut:false</code>, match=[task-pipeline, sheleg-dev]</td><td>Переименовать фразу (напр. «без обвязки» / "no wiring"), добавить в REFUSALS — тот же ход, что был с «без диагностики»</td></tr>
+<tr><td>5</td><td><span class="b high">HIGH</span> <b>super-ux: templates/ мёртв во всех каналах поставки</b> (SUX-01) — 6 текстов шлют в «templates/ плагина», а marketplace source их не включает; Init-воркфлоу упираются в несуществующую директорию во всех 13 закэшированных версиях</td><td>super-ux <code>marketplace.json:12</code> + 6 файлов</td><td>Проверены кэши 0.38.1→0.48.4: <code>find … -name templates</code> пуст</td><td>Вшить templates/ внутрь <code>plugins/super-ux/</code> (расширить sync_references.py), перенаправить 6 текстов</td></tr>
+<tr><td>6</td><td><span class="b high">HIGH</span> <b>google-auth ↔ google-signin: лобовая коллизия триггеров + разъехавшийся контракт безопасности</b> (DEV-01, DEV-02): «google login», «GIS», «вход через Google» в обоих; google-auth пере-учит проверку ID-токена слабее (без nonce и email_verified)</td><td>sheleg-dev, оба SKILL.md</td><td>Цитаты фронтматтеров обеих сторон; дрейф контракта уже живой</td><td>Убрать end-user-триггеры из google-auth (оставить ADC/service account/WIF); секцию 3 срезать до verifyIdToken + ссылка на signin</td></tr>
+<tr><td>7</td><td><span class="b high">HIGH</span> <b>sheleg-design шлёт графики в скилл dataviz, которого не существует нигде</b> (SHD-05) + утверждает установленность shadcn/migrate-radix; compatibility не объявлен</td><td>sheleg-design <code>SKILL.md:156-159,233-234</code></td><td>Скан хаба/плагинов/plain-директорий: dataviz отсутствует</td><td>Объявить 3 зависимости в compatibility + написать absent-ветку (fallback уже есть в SURFACE_COMPOSITION — сказать об этом)</td></tr>
+</table></div>
+
+<h2 id="themes">2. Системные темы — одна причина, много мест</h2>
+<div class="wrap"><table>
+<tr><th>Тема</th><th>Кто задет</th><th>Решение — один раз, раскатка по всем</th></tr>
+<tr><td><b>T1. Инсталлятор-тень</b> <span class="b crit">CRIT</span></td><td>все 9 членов (grep: 0 проверок плагина у всех)</td><td>Эталонная проверка в make-skill (distribution.md) + правка всех 9 bin/install.sh + CI-кейс. У telegram-dev и sheleg-dev заодно снести/поправить мёртвый «manual gate» блок (TG-03)</td></tr>
+<tr><td><b>T2. Evals написаны — не исполнены</b> <span class="b med">MED</span></td><td>все 9 (MSK-01, AST-05, DEV-10, TG-06, SEO-03, SUX-04, ASY-03, SHD-08, TPA-03/04, TP2-77)</td><td>Один прогонный день: слепые прогоны триггеров+сценариев по каждому члену, датированные строки в RESULTS.md. У sheleg-dev добавить сценарии на 3 непокрытых скилла, у task-pipeline — сьюты для evidence-docs и project-audit (TPA-04), у sheleg-design — coexistence-негативы</td></tr>
+<tr><td><b>T3. Команды, названные как скиллы</b> <span class="b med">MED</span></td><td>agent-sync, seo-aeo-audit, task-pipeline ×2, sheleg-design, super-ux ×4 (make-skill — единственный без нарушения)</td><td><b>Одно семейное решение</b>: либо переименовать все (и канон-роутинг с ними), либо поправить правило в make-skill с измеренной оговоркой. Не решать по-разному в девяти репо</td></tr>
+<tr><td><b>T4. $schema в манифестах</b> <span class="b low">LOW</span></td><td>agent-stack, agent-sync, super-ux, task-pipeline, sheleg-design (make-skill — эталон, есть)</td><td>Две строки на репо в ближайший релиз каждого</td></tr>
+<tr><td><b>T5. Рукописные числа дрейфуют</b> <span class="b med">MED</span></td><td>AST-07 («twenty»→24), DEV-09 («Six»→7), MSK-02 («20»→22), TG-02 (SKILL-CARD 0.1.7), SHD-04 (гх-описание «35»→37), UM-04/07, TP3-05/06/07, TP1-13/14</td><td>Каждое — однострочник; там, где есть валидатор, — расширить его (TG: sync ×5; MSK: evals_validate сравнивает counts; TP: gloss-guard шире `(=…)`)</td></tr>
+<tr><td><b>T6. Гигиена триггеров/роутинга</b> <span class="b high">HIGH</span></td><td>XF-01..05 (умбрелла), DEV-01, SUX-07/08/11, AST-02/11, SHD-09, XF-11/12</td><td>Ядро — в умбрелле (REFUSALS + ROUTES + registry); хвосты — правки description в членах. Все правки описаний упираются в бюджет 1024 — резать, не добавлять</td></tr>
+<tr><td><b>T7. Внешние факты без даты</b> <span class="b med">MED</span></td><td>AST-03/04, DEV-03/06/08 (agent-stack сам же требует даты; sheleg-dev пестрит)</td><td>Штамповать «as of / checked YYYY-MM-DD»; у agent-stack — датировать таблицу вердиктов или перенести её в гейтуемый reference</td></tr>
+</table></div>
+
+<h2 id="tp">3. task-pipeline — детальная разбивка (128 находок из 221)</h2>
+<p>Флагман получил четыре независимых чтения: доктрина (TP1, 25), накопленный долг (TP2, 82), механика (TP3, 12), стандарт (TPA, 9). Совпадения между чтениями взаимно подтверждаются (TP1-19=TP3-12; TP2-81=TPA-01=UM-02).</p>
+
+<h3>3a. Релизная гигиена — прямо сейчас расщеплённые каналы</h3>
+<ul>
+<li><span class="b high">MAJOR</span> <b>TPA-01/TP2-81/UM-02</b>: origin/main на 1 коммит впереди v1.78.4 с изменением shipped-файла (stages.md +20), а чекаут в зонтике — на 2 (prioritisation.md на unmerged ветке <code>feat/prioritisation</code>). Marketplace и npm сейчас отдают разные деревья под одной версией — ровно класс, который ловит собственный project-audit. <b>Правка: смержить PR #55, выпустить v1.79.0 (prioritisation + stages + Unreleased-заголовок в CHANGELOG), обновить пин зонтика, вернуть чекаут на пин.</b></li>
+<li><span class="b med">MED</span> TP2-82: H1 CHANGELOG похоронен на строке 49, сиротский блок без секции, верхняя секция без guard-count.</li>
+</ul>
+
+<h3>3b. Доктрина — противоречия, которые собьют агента посреди прогона</h3>
+<div class="wrap"><table>
+<tr><th>ID</th><th>Сев.</th><th>Суть</th><th>Правка</th></tr>
+<tr><td>TP1-03</td><td><span class="b crit">CRIT</span></td><td>Три stage-0 поверхности (templates/retro.md, knowledge-sources.md, templates/brief.md) велят читать Recent log «in full» — против retrospective.md (uncapped, queried); шаблон противоречит сам себе. Перезаряжает измеренный 74%-провал</td><td>Все три → «standing + stamps in full; Recent log queried by nouns»</td></tr>
+<tr><td>TP1-04</td><td><span class="b high">MAJOR</span></td><td>Два протокола закрытия без границы: certify (3 тира, потолок 3) vs review.md (1 ревьюер, потолок 5)</td><td>Погранпредложение в оба: graph-ноды → certify; prose-plan таски → review</td></tr>
+<tr><td>TP1-05</td><td><span class="b high">MAJOR</span></td><td>SKILL.md выдаёт браузерную проверку за GATE; stages.md + DEC-0004: «recommended, never a gate»</td><td>«where a browser channel is connected; absent — weaker claim recorded» в обе ячейки</td></tr>
+<tr><td>TP1-06/07</td><td><span class="b high">MAJOR</span></td><td>spec.md не знает COPY/VISUAL-треков и convergence-check, которых требует его же гейт; brainstorm.md GATE не знает queue-артефакта и arming state</td><td>Дописать треки+check в spec.md и example; в brainstorm — два критерия или указатель на stages→2</td></tr>
+<tr><td>TP1-09</td><td><span class="b high">MAJOR</span></td><td>Словарь State в шаблоне бэклога отвергает <code>parked</code>/<code>waived</code>, обязательные по references/backlog.md (собственные строки шаблона их используют)</td><td>Добавить обе формы в словарь</td></tr>
+<tr><td>TP1-10</td><td><span class="b high">MAJOR</span></td><td>check-hygiene.sh / stage-coverage.sh / convergence.sh гейтуются на стадиях 5/6/9/10, но ничто их не сеет — на свежем хосте команды гейтов не резолвятся</td><td>cp-if-absent строки в посев stage 0</td></tr>
+<tr><td>TP1-11</td><td><span class="b high">MAJOR</span></td><td>project-audit хардкодит чужую формулу цены <code>P=blast×(1+age)/effort</code> как универсальную — против собственного prioritisation.md (effort не ранжирует в аудите)</td><td>«формула из заголовка доски проекта; shipped default sev×blast+age_bonus»</td></tr>
+<tr><td>TP1-08, -12…-25</td><td><span class="b low">MIN</span></td><td>14 миноров: устаревшие счётчики (34/35/37), single-verifier-эра в work-graph.md, сирота «5.» в gates.md, arm-точка loop, evals-путь, канон 9a в навигаторе, дрейф гейтов в обе стороны (TP1-25), бюджет SKILL.md 300-700 ток. запаса — резать stages.md (63KB): stage-3 треки → spec.md, probe-authoring (~15KB) → probing.md</td><td>Пакетная правка одним PR</td></tr>
+</table></div>
+
+<h3>3c. Механика — за пределами трёх критических гейтов</h3>
+<ul>
+<li><span class="b high">MAJOR</span> <b>TP3-04</b>: CI на PR гоняет треть локального гейта — graph_test.py (129 кейсов) и project_audit_test.py (43) доезжают до CI только на теге. PR, ломающий graph.py, мержится зелёным. <b>Правка: шаг npm test в validate.yml.</b></li>
+<li><span class="b high">MAJOR</span> TP3-05: CLAUDE.md:28 gloss перечисляет 8 скриптов из 10/11 — тот же класс, что инцидент строкой выше; guard якорится только на форму <code>(=…)</code>.</li>
+<li><span class="b low">MIN</span> TP3-08 (CROSS_TIER не сканит findings.what/fix/scope), TP3-09 (<code>tool_output</code> vs <code>tool_response</code> — мёртвая ветка exit-code, возможен сфабрикованный зелёный), TP3-10 (<code>npm run publish</code> блокируется как <code>npm publish</code>), TP3-11 (SKILL.md не знает gate-тип <code>judgment</code>).</li>
+</ul>
+
+<h3>3d. Леджеры и долг (TP2) — мета-дефекты трекинга</h3>
+<ul>
+<li><span class="b high">MAJOR</span> <b>TP2-70</b>: Age/prio доски заморожены на seed-значениях (строки 08-17/08-20 показывают Age 0 на 29.08) при заголовке «priority is re-derived» — манифесто-строки недоранжированы. <b>Правка: пересчитать или считать при чтении.</b></li>
+<li><span class="b high">MAJOR</span> TP2-73: заголовок verification.md «Shipped state — v1.72.0» — шесть релизов назад. TP2-67: два run-штампа 08-22 заявляют «Retro: yes» при отсутствующих записях. TP2-62: R-005 (независимый читатель) пропускается, не устарел — второй widened-check релиз подряд без читателя.</li>
+<li><span class="b crit">CRIT</span> TP2-01 (=B-113, prio 12 на доске): якоря негатив-тестов на литералах — 4 плэнта разоружены одним релизом; 27/412 тестов с 2+значным литералом. Уже вершина собственной доски — подтверждена аудитом.</li>
+<li><span class="b low">—</span> Остальные 58 открытых строк доски уже трекаются самой доской (B-112 обход certify через close --verdict; B-106 семь релизов вне пайплайна; B-100 гейт 38 мин; B-043 stages.md 13k токенов и т.д.) — отчёт их не дублирует; действие по ним — триаж после пересчёта Age (иначе триаж пойдёт по ложному порядку).</li>
+</ul>
+
+<h2 id="um">4. Зонтик sshlg-skills + роутинг-блок (23 находки)</h2>
+<div class="wrap"><table>
+<tr><th>ID</th><th>Сев.</th><th>Суть</th><th>Правка</th></tr>
+<tr><td>XF-01</td><td><span class="b crit">CRIT</span></td><td>«без интеграций» — см. критический слой, №4</td><td>Переименовать + REFUSALS</td></tr>
+<tr><td>XF-02</td><td><span class="b high">MAJOR</span></td><td>error-tracking в карте, но ни в одной router-клаузе, WHEN-ячейке, hook-source — «add Sentry» не маршрутизируется (класс B-81, повторно)</td><td>Добавить в перечисление SHELEG_DEV + WHEN + ROUTES</td></tr>
+<tr><td>XF-04</td><td><span class="b high">MAJOR</span></td><td>Hook чтит только русские refusal-фразы + «quick»; все английские + «без телеграма» → optedOut:false (измерено)</td><td>Добавить все в REFUSALS (проверены — не коллидируют)</td></tr>
+<tr><td>XF-03</td><td><span class="b high">MAJOR</span></td><td>Роутер исключает «wording of one prompt» из agent-stack, чей agent-harness ровно с этого начинается</td><td>«one prompt in a non-agent script»</td></tr>
+<tr><td>XF-05</td><td><span class="b high">MAJOR</span></td><td>Голый триггер <code>react</code> (ReAct) — «сделай форму логина на react» → agent-stack (измерено)</td><td>Фразовый триггер (react loop/pattern) в hook и description</td></tr>
+<tr><td>UM-01</td><td><span class="b high">MAJOR</span></td><td>retro.md 153KB, 79% — замороженный архив под инструкцией «read in full at stage 0»; полное чтение (~38K ток.) физически не влезает в 25K-кэп одного вызова</td><td>29 записей → retro/2026-Q3.md, run-stamps как индекс, архив в LEDGER_DOCS</td></tr>
+<tr><td>UM-04</td><td><span class="b high">MAJOR</span></td><td>README документирует 10 из 12 CLI-команд: signature (v1.7.0) и humanizers (HEAD) — 0 упоминаний; у humanizers нет и CHANGELOG. Третий повтор класса B-77</td><td>README-строки + CHANGELOG в релиз humanizers</td></tr>
+<tr><td>XF-06…-15, UM-05/06/07</td><td><span class="b low">MIN</span></td><td>seo-llmo vs seo-aeo-audit — два имени одного правила; двойное-fire-обоснование ложно; companion-skills.md без строк для 4 членов семьи (XF-14); make-skill не указывает обратно на agent-interop; «webhook signature» у двух сиблингов; «наблюдаемость» голая; «paid product» в рамке; sheleg-design motion-ordering vs «neither waits»; пятый аудит вне таблицы дизамбигуации; запись в ~/.obsidian-wiki/config вне protect() (смягчено); B-07 waiver со стейл-замером</td><td>Пакет однострочников в registry/triggers + companion-skills.md в task-pipeline</td></tr>
+</table></div>
+
+<h2 id="members">5. Остальные члены — очередь изменений по скиллам</h2>
+
+<h3>sheleg-dev — 10 находок</h3>
+<ul>
+<li><span class="b high">HIGH</span> DEV-01+02: развязать google-auth/google-signin (триггеры + срез дублирующей секции со слабым контрактом) — деградирует роутинг каждого sign-in запроса.</li>
+<li><span class="b med">MED</span> DEV-03 (дата к Stripe apiVersion), DEV-04 (crypto sign() — Heleket-only, а заявлен для 4 провайдеров), DEV-05 (<code>allow_enhanced_conversions</code> на неправильном теге — фактическая ошибка), DEV-10 (evals: 3 скилла без сценариев).</li>
+<li><span class="b low">LOW</span> DEV-06/07/08/09: даты в ad-tracking, приватный репо-адрес в google-signin, fetch() v10+, «Six»→«Seven».</li>
+</ul>
+
+<h3>telegram-dev — 7 находок</h3>
+<ul>
+<li><span class="b high">HIGH</span> TG-01: инсталлятор-тень (тема T1, воспроизведено). <span class="b med">MED</span> TG-02: SKILL-CARD 0.1.7 → sync ×5 + plant; TG-03: мёртвый «manual gate» блок из sheleg-dev (hooks.json которого не существует, «since v0.7.0» в 0.1.x-репо).</li>
+<li><span class="b low">LOW</span> TG-04 (README: перечислить 10 references), TG-05 (compatibility для python3-фикстур), TG-06 (evals), TG-07 (one-channel предупреждение в README).</li>
+</ul>
+
+<h3>seo-aeo-audit — 7 находок</h3>
+<ul>
+<li><span class="b high">HIGH</span> SEO-01: инсталлятор-тень (T1). <span class="b med">MED</span> SEO-02: команда=имя скилла (T3); SEO-05: prowl-mcp.md без injection-каветы для скрейпленного SERP-контента; SEO-03: evals.</li>
+<li><span class="b low">LOW</span> SEO-04 (compatibility: network/GSC/PSI/Prowl), SEO-06 (инсталлятор молчит про апдейты), SEO-07 (growth-plays.md без load-триггера).</li>
+</ul>
+
+<h3>super-ux — 11 находок</h3>
+<ul>
+<li><span class="b high">HIGH</span> SUX-01: templates/ не поставляется (критический слой, №5). SUX-09 <i>(машина, не репо)</i>: снести конкурентов ux-copy + brand-voice-enforcement из хаба и каналов. SUX-10 <i>(машина)</i>: хаб на релиз позади — прогнать <code>npx sshlg-skills update</code>.</li>
+<li><span class="b med">MED</span> SUX-02 (compatibility ×7), SUX-03 (4 команды=имена скиллов, T3), SUX-04 (evals), SUX-07 («new project» делят три описания — квалифицировать ux-scenarios).</li>
+<li><span class="b low">LOW</span> SUX-05 ($schema), SUX-06 (ux-audit copy/benchmark в argument-hint), SUX-08 («сделай лендинг» — сузить до копи), SUX-11 (=XF-15, figma/мокап → делегирование в description).</li>
+</ul>
+
+<h3>sheleg-design — 11 находок</h3>
+<ul>
+<li><span class="b high">HIGH</span> SHD-05: dataviz-тупик (критический слой, №7).</li>
+<li><span class="b med">MED</span> SHD-01 (## Contents в 42 файлах — скриптуемо), SHD-03 (манифест-описания со шрамами дописок — генерить из STYLE_PACK_INDEX), SHD-06 (команда=имя, T3 + канон-роутинг), SHD-08 (evals + coexistence-негативы).</li>
+<li><span class="b low">LOW</span> SHD-02 ($schema), SHD-04 (гх-описание «35»), SHD-07 (аннотированные теги с этого релиза, =UM-03), SHD-09 («презентация» сузить), SHD-10 (rmdir мусорной директории), SHD-11 (записать осознанное отклонение layout в CONTRIBUTING).</li>
+</ul>
+
+<h3>agent-sync — 9 находок</h3>
+<ul>
+<li><span class="b med">MED</span> <b>ASY-05: реальный обход единственного enforcement-пути</b> — токенайзер guard.sh не сплитит по <code>|</code>: <code>echo msg | git commit -F -</code> минует lease-guard. Однострочная правка + регресс. ASY-02 (команда=имя, T3), ASY-04 (hooks_session_test не в CI — класс, ловивший отгруженный дефект), ASY-03 (evals).</li>
+<li><span class="b low">LOW</span> ASY-07 (python3-absent путь тихо fail-open против собственного обещания exit 2), ASY-08 (SessionStart без <code>clear</code> → пост-/clear сессия наследует чужой identity), ASY-06 (refusal без remedy), ASY-01 (__pycache__), ASY-09 ($schema).</li>
+</ul>
+
+<h3>agent-stack — 11 находок</h3>
+<ul>
+<li><span class="b high">HIGH</span> AST-01: манифест «Two skills» при четырёх — маркетплейс прячет половину пака. Двухстрочная правка.</li>
+<li><span class="b med">MED</span> AST-02 («checker node» в двух описаниях), AST-03/04 (недатированные внешние вердикты в скилле, который сам это запрещает), AST-05 (evals), AST-06 (граница harness↔orchestrator: «one place» при четырёх швах), AST-07 («twenty»→24).</li>
+<li><span class="b low">LOW</span> AST-08 (license ×3), AST-09 ($schema), AST-10 (индекс references 8/11), AST-11 (голый «agent/агент» сузить).</li>
+</ul>
+
+<h3>make-skill — 4 находки (самый чистый)</h3>
+<ul>
+<li><span class="b med">MED</span> MSK-01 (evals). <span class="b low">LOW</span> MSK-02 («20»→22 + evals_validate сравнивает counts), MSK-03 (skills add --list smoke в CI), MSK-04 (8 токенов запаса тела — вынести ~100 в references превентивно).</li>
+<li>Плюс роль эталона в T1 (distribution.md — дом для канона «инсталлятор проверяет плагин») и хозяина решения T3.</li>
+</ul>
+
+<h2 id="clean">6. Что чисто — зафиксировано, чтобы не чинить неломанное</h2>
+<ul>
+<li>Валидатор/страйкт/CI/version-sync — зелёные у всех девяти; у зонтика npm test: 45 сьютов, 751 фикстур; пин-инвариант держится ×9, все URL HTTPS.</li>
+<li>task-pipeline: 413/413 негативов доказуемо ловят плэнты (33 мин), 16/16 мутаций certify убиты, ranking-модели когерентны (нигде не учат плоский ICE), 0 сирот среди 37 references, tier-агенты 1:1 с TIER_KEYS.</li>
+<li>Границы copywriting↔brand-voice, Stars↔карты, трио telegram — прописаны в обе стороны; guards зонтика чисты (решения — pure-модули, hooks fail-silent, protect() — единственный путь записи с одним задокументированным резидуалом UM-06).</li>
+<li>Леджеры честны: почти каждый пробел самозадекларирован с механизмом позади (узкие исключения — TP2-67/70/73).</li>
+</ul>
+
+<h2 id="plan">7. План волн — <span style="color:var(--ok)">исполнен полностью</span></h2>
+<p><b>Все три волны отработаны 29–31.08.</b> Отклонения от плана: волна 1.5 (раскатка инсталлятор-канона на 8 членов) появилась после того, как make-skill выдал эталон; T3 (команды=имена скиллов) закрыт решением оператора «ничего не переименовываем» — вместо пяти переименований одно датированное исключение в правиле; чужие тени оставлены по решению оператора. Ниже — план как он был написан.</p>
+<div class="wrap"><table>
+<tr><th>Волна</th><th>Агент / репо</th><th>Содержимое</th><th>Зависимости</th></tr>
+<tr><td><b>0 · машина</b><br>(не репо, минуты)</td><td>прямо в сессии</td><td>SUX-09 снести ux-copy / brand-voice-enforcement из хаба+каналов; SUX-10 <code>npx sshlg-skills update</code>; SHD-10 rmdir; TPA-07/ASY-01 __pycache__</td><td>—</td></tr>
+<tr><td rowspan="3"><b>1 · критика</b><br>(параллельно, через /task-pipeline в каждом репо)</td><td>task-pipeline</td><td>Релиз v1.79.0 (мерж PR#55 + Unreleased) → TP3-01/02/03 гейты → TP1-01/02 example.json → TP1-03 stage-0 кластер; обновить пин зонтика</td><td>первым — разводит расщеплённые каналы</td></tr>
+<tr><td>умбрелла</td><td>XF-01 (rename+REFUSALS) → XF-02 error-tracking → XF-04 английские refusals → XF-05 react; UM-04 README+CHANGELOG (в релиз humanizers)</td><td>независимо</td></tr>
+<tr><td>make-skill + 9 bin</td><td>T1: канон «инсталлятор проверяет плагин» в distribution.md → правка bin+install.sh во всех 9 (+CI-кейс) → у TG/DEV снять мёртвый manual-gate; TG-02 sync×5</td><td>канон сначала, раскатка следом</td></tr>
+<tr><td rowspan="2"><b>2 · мажоры</b></td><td>по репо</td><td>SUX-01 templates; DEV-01/02 google-пара; SHD-05 dataviz; ASY-05 пайп-обход (+ASY-04 CI); TP1-04..11 доктрина-пакет; TP3-04 CI npm test; UM-01 retro-архив; TP2-70/73/67 леджеры; AST-01/06</td><td>после волны 1 (те же файлы)</td></tr>
+<tr><td>семейное решение</td><td>T3: команды=имена — решить один раз (амендмент правила в make-skill ИЛИ переименование в 5 репо), затем применить одинаково</td><td>решение оператора</td></tr>
+<tr><td><b>3 · мета</b></td><td>по репо + прогонный день</td><td>T2 evals-день (9 членов, датированные строки); T5 числа-однострочники; T4 $schema; T7 даты фактов; триггер-хвосты (SUX-07/08/11, AST-02/11, SHD-09, XF-миноры); TP1-миноры пакетом; после пересчёта Age — триаж 58 строк доски task-pipeline</td><td>волна 2</td></tr>
+</table></div>
+
+<p class="sub">Замечание к волне 1: правки затрагивают одни и те же файлы, что и открытые строки досок (напр. B-98 «ладдер энфорсмента» ↔ TP3-01) — каждая правка в task-pipeline идёт через его же пайплайн и закрывает/сшивает соответствующую строку доски, а не создаёт параллельную правду.</p>
+
+<div class="foot">
+<b>Made with <a href="https://github.com/ssheleg/sshlg-skills">ssheleg skills</a></b><br>
+<a href="https://github.com/ssheleg/make-skill"><code>make-skill</code></a> — nine per-member gap tables via its skill-auditor agent ·
+<a href="https://github.com/ssheleg/task-pipeline"><code>task-pipeline</code></a> — doctrine and debt corpus audited against its own canons<br>
+Источники: 14 отчётов аудита (5 general-purpose + 9 make-skill:skill-auditor) + ~30 агентов исполнения. Леджер волн: <code>~/.claude/jobs/9c914b17/tmp/audit/wave-ledger.md</code>.<br>Аудит был read-only; исполнение прошло 24 релизами через собственные гейты каждого репозитория. Обновлено 2026-08-31.
+</div>
+
+</main>
+</body>
+</html>

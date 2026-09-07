@@ -342,6 +342,13 @@ it('an unreachable address is never reported as gone', () => {
   // candidates and the known-clean control all reported 404 in one sweep.
   const r = P.checkReport([{ id: 'a', source: 'o/a', error: 'rate limited' }]);
   assert.ok(r.text.includes('unreachable (rate limited)'));
+  // A source that is no address never went near the network. `figma` wore the
+  // network's verdict for a release (family audit 2026-09-06) — the declaration
+  // defect is `bad`, because it is this repository's to edit.
+  const u = P.checkReport([{ id: 'b', source: 'claude-plugins-official', error: 'not a repository address — nothing to resolve' }]);
+  assert.ok(u.text.includes('UNDECLARED'), 'a malformed declaration printed as a network failure');
+  assert.strictEqual(u.bad, 1, 'a declaration defect did not count as editable');
+  assert.strictEqual(u.unreachable, 0, 'a declaration defect was booked to the network');
   assert.ok(!/GONE/.test(r.text), 'silence was rendered as absence');
   assert.ok(r.text.includes('Every declared address resolves to itself.'),
     'an unreachable row was counted as a defect, which would make an offline run red');

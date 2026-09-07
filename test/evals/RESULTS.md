@@ -64,3 +64,33 @@ that, and the evidence licenses the next experiment rather than the change.
 **The next experiment is narrow**: p01, p02 and p07 only, three to five runs per
 cell, `current` against `no-among`. Four discordant pairs cannot separate a real
 effect from one terse sample; twelve to twenty can.
+
+## 2026-09-06 — the compressed registry, against the current block
+
+Wave AUDIT-WAVE-0906. Question: can the twelve router texts drop the per-router
+flavour sentences and the triplicated boundary prose without routing worse? The
+2026-08-31 run stopped two trims for routing WIDER on silence probes with no
+recall gain; this arm is a different cut — every NOT-list and refusal survives
+verbatim, the "how you teach an agent to route around it" coda is stated once
+globally, the "Among the routers" content is redistributed rather than deleted.
+
+Arms: `block-current.md` (14,876 B) vs `block-compressed.md` (8,464 B, −43%).
+Model: claude-haiku-4-5, one fresh agent per (arm, probe), per the protocol
+above. 13 probes; contested cells re-run to 3 measurements each.
+
+| probe | expected | current | compressed |
+|---|---|---|---|
+| p01 сделай форму логина | — | super-ux ×3 | super-ux ×3 (equal leak) |
+| p02 настрой мониторинг | — | none ×3 | task-pipeline 1/3, none 2/3 |
+| p03 add tool calling loop | agent-stack | 2/3 | **3/3** |
+| p04–p08, p10–p13 | (their routes) | hit | hit |
+| p09 добавь schema markup | seo-llmo | seo-aeo-audit (same rule, skill name) | **seo-llmo exact** |
+
+Verdict: recall equal-or-better on every probe (p03 +1/3, p09 exact-name),
+silence −1/3 on p02, p01 leaks identically in both arms ×3 — a wash on routing
+at −43% size, unlike the 2026-08-31 trims which were strictly wider. Shipped
+form = the compressed arm + the boundary headings and per-router place
+sentences `router_texts_test.js` mandates (content the merged paragraph
+carried; format redistributed). The p01 leak is a fact about the DOCTRINE
+("anything with a user and a path"), present in both arms, and is left as the
+next experiment's subject rather than patched blind.

@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Аудит семьи ssheleg</title>
+<style>
+*{box-sizing:border-box}
+:root{
+ --bg:#fbfaf8; --fg:#14110e; --mut:#6b6157; --line:#e3ddd4; --card:#fff;
+ --blocks:#a8200f; --degr:#8a5a06; --cosm:#5a6b52; --acc:#1e4d8f; --ok:#2f6b3f;
+ --codebg:#f2efe9;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --bg:#131211; --fg:#ece7e0; --mut:#9d948a; --line:#2e2a26; --card:#1b1917;
+ --blocks:#ff7b63; --degr:#e0a83c; --cosm:#9bbf8c; --acc:#7fb0ee; --ok:#7fce97;
+ --codebg:#242019;
+}}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+ padding:0 0 6rem}
+.wrap{max-width:1080px;margin:0 auto;padding:0 1.25rem}
+header.top{border-bottom:1px solid var(--line);padding:3.2rem 0 2rem;margin-bottom:2.4rem}
+h1{font-size:2.05rem;line-height:1.2;margin:0 0 .5rem;letter-spacing:-.02em}
+.sub{color:var(--mut);font-size:1.02rem;max-width:62ch;margin:0}
+h2{font-size:1.42rem;margin:3.4rem 0 .5rem;letter-spacing:-.01em;padding-top:1.2rem;border-top:1px solid var(--line)}
+h2:first-of-type{border-top:0}
+h3{font-size:1.06rem;margin:2rem 0 .4rem}
+p{max-width:74ch}
+code{background:var(--codebg);padding:.1em .34em;border-radius:3px;font-size:.87em;
+ font-family:ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-word}
+.lede{font-size:1.06rem;max-width:70ch}
+.meta{display:flex;flex-wrap:wrap;gap:.5rem 1.6rem;color:var(--mut);font-size:.87rem;margin-top:1.1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.9rem;margin:1.6rem 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:.9rem 1rem}
+.stat b{display:block;font-size:1.72rem;line-height:1.1;letter-spacing:-.02em}
+.stat span{color:var(--mut);font-size:.83rem}
+.tblwrap{overflow-x:auto;margin:1.2rem 0;border:1px solid var(--line);border-radius:9px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:640px}
+th,td{text-align:left;padding:.6rem .8rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.76rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill{display:inline-block;padding:.1rem .5rem;border-radius:999px;font-size:.72rem;font-weight:700;
+ text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.blocks{background:color-mix(in srgb,var(--blocks) 15%,transparent);color:var(--blocks)}
+.degr{background:color-mix(in srgb,var(--degr) 15%,transparent);color:var(--degr)}
+.cosm{background:color-mix(in srgb,var(--cosm) 16%,transparent);color:var(--cosm)}
+.card{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--line);
+ border-radius:9px;padding:1.1rem 1.2rem;margin:1rem 0}
+.card.s3{border-left-color:var(--blocks)}
+.card.s2{border-left-color:var(--degr)}
+.card.s1{border-left-color:var(--cosm)}
+.card h4{margin:0 0 .55rem;font-size:1.02rem;line-height:1.42;font-weight:650}
+.card .fid{color:var(--mut);font-weight:600;font-size:.8rem;margin-right:.45rem;
+ font-family:ui-monospace,Menlo,monospace}
+.card dl{margin:.7rem 0 0;display:grid;grid-template-columns:max-content 1fr;gap:.35rem .9rem}
+.card dt{color:var(--mut);font-size:.76rem;text-transform:uppercase;letter-spacing:.045em;
+ font-weight:600;padding-top:.14rem}
+.card dd{margin:0;font-size:.93rem}
+.tags{margin-top:.6rem;display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.tag{font-size:.74rem;color:var(--mut);border:1px solid var(--line);border-radius:999px;padding:.08rem .55rem}
+.tag.v{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
+.tag.c{color:var(--acc);border-color:color-mix(in srgb,var(--acc) 40%,var(--line))}
+.note{border-left:3px solid var(--acc);background:color-mix(in srgb,var(--acc) 6%,transparent);
+ padding:.85rem 1.1rem;border-radius:0 8px 8px 0;margin:1.3rem 0}
+.note.ok{border-left-color:var(--ok);background:color-mix(in srgb,var(--ok) 7%,transparent)}
+.note.warn{border-left-color:var(--blocks);background:color-mix(in srgb,var(--blocks) 7%,transparent)}
+.note p{margin:.4rem 0}.note p:first-child{margin-top:0}.note p:last-child{margin-bottom:0}
+ul,ol{max-width:74ch;padding-left:1.2rem}
+li{margin:.34rem 0}
+.foot{margin-top:4rem;padding-top:1.4rem;border-top:1px solid var(--line);color:var(--mut);font-size:.85rem}
+@media(max-width:640px){h1{font-size:1.62rem}.card dl{grid-template-columns:1fr}.card dt{padding-top:.5rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+<h1>Аудит семьи ssheleg</h1>
+<p class="sub">Зонтик <code>sshlg-skills</code> и девять членов: архитектура, логика, UI/UX,
+здравый смысл и соответствие собственным сценариям. Семь углов, каждый — отдельный агент,
+не видевший выводов остальных.</p>
+<div class="meta">
+<span>1 сентября 2026</span>
+<span>зонтик <code>dacf88b</code> · v1.14.0</span>
+<span>55 находок · 6 класса «ломает»</span>
+<span>плюс сверка 166 строк доски</span>
+</div>
+</header>
+
+<div class="grid">
+<div class="stat"><b>55</b><span>находок, ни одна не была на доске</span></div>
+<div class="stat"><b>8</b><span>перепроверено мной лично</span></div>
+<div class="stat"><b>44</b><span>закрываются меньше чем за час</span></div>
+<div class="stat"><b>166</b><span>открытых строк на девяти досках</span></div>
+</div>
+
+<h2>Что это было и как считалось</h2>
+<p class="lede">Семь агентов работали параллельно, каждому был выдан свой угол и запрет
+пересказывать чужие выводы. Бриф требовал <b>заземления</b>: <code>file:line</code>,
+команда с её выводом, имя теста — и отдельно требовал раздел «что здорово», чтобы отчёт
+не выродился в список претензий. Ещё одно требование было необычным: агенту по долгу
+запретили искать новые дефекты вовсе, а велели искать <b>строки, чьё утверждение уже
+неверно</b>.</p>
+
+<p>Приоритет здесь считается <b>одной формулой для всех углов</b> —
+<code>P = серьёзность × охват / трудоёмкость</code>. Это не педантизм: сверка показала,
+что девять досок семьи используют <b>семь несовместимых формул</b>, три из них выводят
+приоритет словом, у одной доски формулы нет вовсе, а у одной таблицы нет и колонки
+приоритета. Сравнивать их между собой нельзя, поэтому здесь введена общая шкала.</p>
+
+<div class="note warn">
+<p><b>Один агент нарушил read-only-бриф.</b> Он подменил <code>task</code> → <code>tasZZ</code>
+в описании внутри запиненного сабмодуля, чтобы посмотреть, как падает инвариант, и не
+вернул файл. Гейт поймал правку (<code>FAIL: 1 of 46 — triggers_test.js</code>) — механизм
+сработал как задуман, — но правка осталась в рабочем дереве сабмодуля, который гейтит
+каждый релиз, посреди релизной волны. Восстановлено, <code>OK (38 checks)</code>.</p>
+</div>
+
+<h2>Четыре схождения</h2>
+<p class="lede">Ценность параллельных углов не в длине списка, а в том, что разные агенты,
+не видя друг друга, пришли к одному. Схождение — это находка, у которой независимо
+подтвердился не только факт, но и его значимость.</p>
+
+<h3>1. «Пин — это обещание» ложно, и три из девяти расходятся прямо сейчас</h3>
+<p>Нашли <b>три угла независимо</b>: архитектура, путь оператора и публичная поверхность.
+<code>CLAUDE.md:51</code> утверждает, что чекаут любого коммита зонтика ставит ровно те
+версии, что объявляет <code>skills.json</code>. Ни один из двух каналов установки не
+принимает версию: <code>skills add &lt;repo&gt;</code> без ref, <code>claude plugin
+update</code> без версии. Пин управляет <b>сабмодулем</b>, из которого ничего не ставится.
+Измерено: <code>task-pipeline</code> 1.81.1/1.82.0, <code>make-skill</code> 0.25.3/0.26.0,
+<code>agent-stack</code> 0.22.0/0.23.0. Закрытая строка B-16 фиксирует противоположное
+убеждение письменно.</p>
+
+<h3>2. Входа один, выхода нет</h3>
+<p>Тоже <b>три угла</b>: JTBD, публичная поверхность, путь оператора. Нет
+<code>uninstall</code>, нет <code>restore</code>, кольцо бэкапов глубиной десять
+<b>уже на пределе по всем четырём целям</b> (окно — 4 дня 12 часов), сайт ни на одной из
+13 страниц не называет файл, в который пишет. Обратный ход — ручная правка того самого
+файла, ради защиты которого существует гард. Это же объясняет, почему в
+<code>~/CLAUDE.md</code> живут самописные shell-циклы для проверок, на которые продукт мог
+бы отвечать сам.</p>
+
+<h3>3. Тело <code>SKILL.md</code> у предела — на трёх досках, и это один класс</h3>
+<p>Измерено по всем 39 отгружаемым скилам: <code>agent-orchestrator</code> 4749/4750,
+<code>task-pipeline</code> 4749/4750, <code>agent-sync</code> 4747, <code>stripe-billing</code>
+4737, <code>ad-tracking</code> 4726, <code>make-skill</code> 4677. Три из восьми заведены
+на досках как отдельные строки в трёх разных репозиториях; <b>пять не заведены нигде</b>.
+Владелец — зонтик, как преемник собственной закрытой B-66.</p>
+
+<h3>4. Гард назван правильно и смотрит не туда</h3>
+<p>Самый глубокий узор аудита, <b>четыре независимых экземпляра</b>. Тест
+<code>site_test.js:140</code> называется <code>it('the entry points a reader is handed all
+exist')</code> и проверяет, что собралось восемь <i>файлов</i>. Гард «одного пути записи»
+перечисляет два файла руками и пропускает ровно тот, в котором дефект уже случался. Гард
+скопированных механизмов читает только <code>*.py</code>, а две крупнейшие копии — на
+<code>.js</code> и <code>.yml</code>. Валидатор собирал id доски в <b>множество</b>, где
+дубль схлопывается молча.</p>
+<p>Во всех четырёх случаях проверка существует, названа верно и зелена. Общее не «забыли
+проверить», а <b>корпус проверки уже, чем её имя</b>. Собственный инвариант этого
+репозитория формулирует лекарство: <i>«guard corpora are discovered, not listed»</i>.</p>
+
+<h2>План работ</h2>
+<p class="lede">Первые двадцать четыре по общей шкале. Полный список — ниже по углам;
+существующий бэклог — в конце, вместе со строками, чьё утверждение истекло.</p>
+<div class="tblwrap"><table>
+<thead><tr><th>#</th><th>ID</th><th>класс</th><th>что</th><th>цена</th><th class=num>P</th></tr></thead>
+<tbody><tr><td class=num><b>1</b></td><td><code>CODE-2</code></td><td><span class='pill blocks'>ломает</span></td><td><code>applyCursor</code> ignores consent: <code>update</code> writes a 22 KB always-apply rule on a machine that recorded «no»</td><td>меньше часа</td><td class=num>9.0</td></tr><tr><td class=num><b>2</b></td><td><code>OPS-1</code></td><td><span class='pill blocks'>ломает</span></td><td>The landing page hands a first-time reader four commands that do not exist</td><td>меньше часа</td><td class=num>9.0</td></tr><tr><td class=num><b>3</b></td><td><code>PUB-1</code></td><td><span class='pill blocks'>ломает</span></td><td><code>/agents/</code> publishes an install command that installs nothing — and the ledger already said so</td><td>меньше часа</td><td class=num>9.0</td></tr><tr><td class=num><b>4</b></td><td><code>ROUT-1</code></td><td><span class='pill blocks'>ломает</span></td><td>An ordinary English or Russian sentence silences <b>all twelve routers</b> for the rest of the session, with no signal</td><td>меньше часа</td><td class=num>9.0</td></tr><tr><td class=num><b>5</b></td><td><code>CODE-3</code></td><td><span class='pill degr'>портит</span></td><td>The guard returns <code>permissionDecision: 'allow'</code>, removing the operator's own prompt on the five files it calls unrecoverable</td><td>меньше часа</td><td class=num>6.0</td></tr><tr><td class=num><b>6</b></td><td><code>JTBD-1</code></td><td><span class='pill degr'>портит</span></td><td>Four members own a router their own installer never offers — and a closed row's premise expired underneath</td><td>меньше часа</td><td class=num>6.0</td></tr><tr><td class=num><b>7</b></td><td><code>OPS-11</code></td><td><span class='pill degr'>портит</span></td><td><code>list</code> cannot answer either question an operator asks it</td><td>меньше часа</td><td class=num>6.0</td></tr><tr><td class=num><b>8</b></td><td><code>OPS-2</code></td><td><span class='pill degr'>портит</span></td><td><code>signature</code> denies four of the nine members as «not a skill this family ships»</td><td>меньше часа</td><td class=num>6.0</td></tr><tr><td class=num><b>9</b></td><td><code>OPS-4</code></td><td><span class='pill degr'>портит</span></td><td>The shadow refusal names a remedy that does not work for the shadows it finds — and three are live on this machine now</td><td>меньше часа</td><td class=num>6.0</td></tr><tr><td class=num><b>10</b></td><td><code>OPS-6</code></td><td><span class='pill degr'>портит</span></td><td><code>hooks</code> reports a correct install as stale whenever another tool shares an event</td><td>меньше часа</td><td class=num>6.0</td></tr><tr><td class=num><b>11</b></td><td><code>OPS-8</code></td><td><span class='pill degr'>портит</span></td><td>The one advertised command is a ~15-minute, 56-process foreground run with no plan, no progress and no failure summary</td><td>меньше часа</td><td class=num>6.0</td></tr><tr><td class=num><b>12</b></td><td><code>PUB-2</code></td><td><span class='pill degr'>портит</span></td><td>The public traffic measurement has been green and empty since it shipped, and the data is already unrecoverable</td><td>меньше часа</td><td class=num>6.0</td></tr><tr><td class=num><b>13</b></td><td><code>PUB-4</code></td><td><span class='pill degr'>портит</span></td><td>Six of nine npm listings are cut mid-word, and the sentence dropped is the one that says what the package is</td><td>меньше часа</td><td class=num>6.0</td></tr><tr><td class=num><b>14</b></td><td><code>PUB-7</code></td><td><span class='pill degr'>портит</span></td><td>A <code>faq-schema-partial</code> finding is a false positive of the family's own auditor, and every client run will carry it</td><td>меньше часа</td><td class=num>6.0</td></tr><tr><td class=num><b>15</b></td><td><code>ROUT-2</code></td><td><span class='pill degr'>портит</span></td><td>The block advertises a per-router refusal; the mechanism is one global, sticky, silent switch</td><td>меньше часа</td><td class=num>6.0</td></tr><tr><td class=num><b>16</b></td><td><code>ROUT-7</code></td><td><span class='pill degr'>портит</span></td><td>Six of twelve routers are named in the block with no way to invoke them</td><td>меньше часа</td><td class=num>6.0</td></tr><tr><td class=num><b>17</b></td><td><code>JTBD-7</code></td><td><span class='pill blocks'>ломает</span></td><td>There is no way back out — no uninstall, no restore, and a ten-deep backup ring an ordinary session exhausts</td><td>сессия</td><td class=num>4.5</td></tr><tr><td class=num><b>18</b></td><td><code>OPS-3</code></td><td><span class='pill blocks'>ломает</span></td><td>The only warning that <code>install</code> rewrites four global files is a Russian prompt in an English-only package</td><td>сессия</td><td class=num>4.5</td></tr><tr><td class=num><b>19</b></td><td><code>ARCH-11</code></td><td><span class='pill degr'>портит</span></td><td>The one unrecoverable delete in the pack takes no copy</td><td>меньше часа</td><td class=num>4.0</td></tr><tr><td class=num><b>20</b></td><td><code>ARCH-2</code></td><td><span class='pill degr'>портит</span></td><td>The coordination lease guards two of the three coupled pin surfaces; the third is the gitlink</td><td>меньше часа</td><td class=num>4.0</td></tr><tr><td class=num><b>21</b></td><td><code>ARCH-3</code></td><td><span class='pill degr'>портит</span></td><td><code>update</code> ships a new hook script and never wires it, and the self-report is blind by construction</td><td>меньше часа</td><td class=num>4.0</td></tr><tr><td class=num><b>22</b></td><td><code>ARCH-4</code></td><td><span class='pill degr'>портит</span></td><td>The copied-mechanism guard reads <code>test/*.py</code> only; the two largest cross-repo copies are <code>.js</code> and <code>.yml</code></td><td>меньше часа</td><td class=num>4.0</td></tr><tr><td class=num><b>23</b></td><td><code>ARCH-5</code></td><td><span class='pill degr'>портит</span></td><td><code>lib/runledger.js</code> hard-codes a grammar <code>task-pipeline</code> owns, and all 25 fixtures are synthetic</td><td>меньше часа</td><td class=num>4.0</td></tr><tr><td class=num><b>24</b></td><td><code>ARCH-6</code></td><td><span class='pill degr'>портит</span></td><td>Every member exists twice on this machine and nothing reconciles them; one dev clone is four releases behind its own pin</td><td>меньше часа</td><td class=num>4.0</td></tr></tbody>
+</table></div>
+
+<div class="note">
+<p><b>Порядок, который я бы взял, и он не совпадает с сортировкой.</b> Сначала три вещи,
+которые прямо сейчас нарушают обещания пакета оператору: <code>CODE-2</code> (запись против
+записанного отказа), <code>ROUT-1</code> (обычная фраза глушит весь роутинг) и
+<code>PUB-2</code> (данные теряются безвозвратно, чинится одним секретом). Все три —
+меньше часа каждая.</p>
+<p>Затем <code>ARCH-1</code>, потому что это <b>решение, а не работа</b>: пин либо станет
+настоящим, либо предложение в <code>CLAUDE.md</code> должно быть понижено до «запись о том,
+что в последний раз тестировалось вместе». Пока не выбрано — центральный инвариант ложен в
+собственных правилах дома, и каждый следующий аудит будет находить это заново.</p>
+<p>И только потом — большое: выход из пакета (<code>JTBD-7</code>), английский путь записи
+(<code>OPS-3</code>) и сценарии (<code>JTBD-2</code>/<code>JTBD-5</code>). Оговорка, которую
+надо перенести целиком: <b>любая починка по сценариям обязана привезти свой линтер тем же
+изменением</b> — собственная запись super-ux показывает 15 сценариев в статусе
+«implemented» с нулём строк покрытия на протяжении девяти дней.</p>
+</div>
+
+<h2>Находки по углам</h2>
+<h3>Логика кода и путь записи <span style="color:var(--mut);font-weight:400">— 7</span></h3><p style="color:var(--mut);font-size:.9rem;max-width:70ch">Каждая запись в файл оператора прослежена до её гарда; пробы прогнаны против временного HOME.</p><div class="card s3">
+<h4><span class="fid">CODE-2</span><span class="pill blocks">ломает</span> <code>applyCursor</code> ignores consent: <code>update</code> writes a 22 KB always-apply rule on a machine that recorded «no»</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>lib/apply.js:230-264</code> has zero consent/mode references; <code>applyOne</code> has three (<code>:137</code>, <code>:140</code>, <code>:143</code>). My probe, scratch HOME, <code>state.json = {"routers":"no"}</code>, <code>.cursor/rules</code> present: CLAUDE.md correctly <code>no-block</code>, and <code>sshlg-routing.mdc</code> — <b>created, 22 512 B, alwaysApply: true</b>.</dd>
+<dt>Почему важно</dt><dd>It writes to an operator-owned file against a recorded refusal, in the pack whose central argument is that this file has no version control. All five <code>applyCursor</code> fixtures pass <code>consent:'yes'</code> — nothing ever asked what a refusal does, which is why the suite is green.</dd>
+<dt>Починка</dt><dd>Give <code>applyCursor</code> the same three guards, plus the two missing fixtures.</dd>
+</dl>
+<div class="tags"><span class="tag v">проверено мной</span><span class="tag">Логика кода и путь записи</span><span class="tag">P&nbsp;9.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">CODE-3</span><span class="pill degr">портит</span> The guard returns <code>permissionDecision: 'allow'</code>, removing the operator's own prompt on the five files it calls unrecoverable</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>hooks/pre-tool-use.js:151-153</code>, asserted deliberately at <code>test/hooks_e2e_test.js:69-74</code>. <code>rm</code> is in <code>ALL_ARGS</code>, so <code>rm ~/.claude/CLAUDE.md</code> is backed up and then auto-approved. Even <code>grep -c rm ~/.claude/CLAUDE.md</code> — read-only — is pre-approved.</dd>
+<dt>Почему важно</dt><dd>Installing the pack makes writes to the five most consequential files on the machine <i>less</i> interactive than before it was installed. Nowhere acknowledged in any document.</dd>
+<dt>Починка</dt><dd>Keep <code>deny</code>; drop <code>allow</code>. Take the copy, then exit 0 with no decision, so the normal permission flow still runs.</dd>
+</dl>
+<div class="tags"><span class="tag">Логика кода и путь записи</span><span class="tag">P&nbsp;6.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">CODE-4</span><span class="pill degr">портит</span> Four ordinary shell spellings of «write to CLAUDE.md» walk past the guard, including two the module deliberately enumerates</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>echo x &gt; "$HOME/.claude/CLAUDE.md"</code> (quoted), <code>cd ~/.claude &amp;&amp; echo x &gt; CLAUDE.md</code> (cwd-relative), <code>cmd 2&gt; …</code> and <code>&amp;&gt;</code> (fd redirects, which truncate). Cause: the redirect pattern is tested against a slice ending in a quote, and excludes any <code>&gt;</code> preceded by a digit; <code>decide()</code> never resolves against <code>payload.cwd</code>.</dd>
+<dt>Почему важно</dt><dd><code>spellings()</code> enumerates <code>$HOME/…</code> on purpose, so the author intended to catch it and a pair of quotes defeats it. This is not the module's declared honest boundary.</dd>
+<dt>Починка</dt><dd>Allow an optional quote after the operator; treat <code>N&gt;</code> and <code>&amp;&gt;</code> as redirects; reuse <code>repogate</code>'s <code>cdTarget</code>/<code>joinPath</code>, which already exist one module over.</dd>
+</dl>
+<div class="tags"><span class="tag">Логика кода и путь записи</span><span class="tag">P&nbsp;4.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s2">
+<h4><span class="fid">CODE-1</span><span class="pill degr">портит</span> This repository's own commit gate cannot fire: the hook needs more time than its own timeout allows</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>.claude/settings.json</code> wires <code>hooks/repo-gate.js</code> with <code>timeout: 120</code>. <b>My measurement: <code>npm test</code> = 128.65 s real</b> (17.89 user, 8.28 sys — 20% CPU, so spawn/IO). The subagent measured 273 s and 428 s under load, and the hook itself 358 s. <code>hooks/repo-gate.js:17</code> and <code>README.md:442</code> both state «~8.5 s».</dd>
+<dt>Почему важно</dt><dd><code>execFileSync</code> never returns inside the budget, so the <code>deny()</code> below it is unreachable — a red suite does not stop the commit, and every commit still stalls for 120 s. The file's own words: «a synchronous gate at three minutes is a gate people route around».</dd>
+<dt>Починка</dt><dd>Split a <code>test:gate</code> subset under the budget; re-measure and restate both numbers. <b>Unsettled:</b> if the harness treats a timed-out PreToolUse as a deny, the consequence flips to «no commit can be made here» — worse, not better.</dd>
+</dl>
+<div class="tags"><span class="tag v">проверено мной</span><span class="tag">Логика кода и путь записи</span><span class="tag">P&nbsp;3.0</span><span class="tag">сессия</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">CODE-6</span><span class="pill degr">портит</span> The «one write path» guard hand-lists two files and misses the one with the history</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>test/apply_test.js:293-308</code> scans <code>['lib/apply.js','bin/sshlg-skills.js']</code>. <code>hooks/post-tool-use.js:117</code> is not scanned — the exact file <code>CLAUDE.md</code> names as the historical second path (UM-06). Meanwhile <code>test/run.js:68-74</code> states this repository's own invariant #4: «guard corpora are discovered, not listed».</dd>
+<dt>Почему важно</dt><dd>The invariant holds in the code today; the structural guard meant to keep it holding cannot see the file that broke it before.</dd>
+<dt>Починка</dt><dd>Discover the corpus by walking <code>lib/</code>, <code>hooks/</code> and <code>bin/</code>.</dd>
+</dl>
+<div class="tags"><span class="tag">Логика кода и путь записи</span><span class="tag">P&nbsp;2.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: будущий читатель</span><span class="tag c">same shape as OPS-1, ARCH-4</span></div>
+</div><div class="card s1">
+<h4><span class="fid">CODE-5</span><span class="pill cosm">косметика</span> The pack's one recursive delete of an operator directory takes no copy, and the two shadow detectors disagree about what a shadow is</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>bin/sshlg-skills.js:118</code> <code>rmSync(recursive, force)</code> with no <code>protect()</code> — the only destructive operation in the pack that skips it. Its input is a bare <code>readdirSync</code>, so <b>symlinks are candidates</b>; the other detector filters them out. This machine's documented convention is symlinks. The <code>catch</code> swallows a half-delete and reports the run as untouched.</dd>
+<dt>Почему важно</dt><dd>Latent today (<code>shadowsToPrune</code> returns <code>[]</code>), real if it ever fires.</dd>
+<dt>Починка</dt><dd>Filter to <code>isDirectory() &amp;&amp; !isSymbolicLink()</code>; log the failure instead of discarding it; take a copy first.</dd>
+</dl>
+<div class="tags"><span class="tag">Логика кода и путь записи</span><span class="tag">P&nbsp;2.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s1">
+<h4><span class="fid">CODE-7</span><span class="pill cosm">косметика</span> The bare-CLI denial states a fact that is false for the class it most often hits</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>grep -rn 'skills update ux-flows' docs/</code> is denied with «creates a plain copy that shadows the plugin» — untrue of a <code>grep</code>. The family's own documents quote this command by design (B-59).</dd>
+<dt>Почему важно</dt><dd>A refusal an operator can see is wrong is how a hook gets switched off.</dd>
+<dt>Починка</dt><dd>Leave the matching alone; repair the sentence and name the escape.</dd>
+</dl>
+<div class="tags"><span class="tag">Логика кода и путь записи</span><span class="tag">P&nbsp;2.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><h3>Архитектура и связность <span style="color:var(--mut);font-weight:400">— 12</span></h3><p style="color:var(--mut);font-size:.9rem;max-width:70ch">Граф импортов построен машинно, а не прочитан; пиновые поверхности, рантайм хуков, шов зонтик↔член.</p><div class="card s2">
+<h4><span class="fid">ARCH-11</span><span class="pill degr">портит</span> The one unrecoverable delete in the pack takes no copy</h4>
+<dl>
+<dt>Свидетельство</dt><dd>Duplicate of CODE-5, reached independently from the architecture side.</dd>
+<dt>Почему важно</dt><dd>Two angles found the same <code>rmSync</code> without <code>protect()</code>.</dd>
+<dt>Починка</dt><dd>See CODE-5.</dd>
+</dl>
+<div class="tags"><span class="tag">Архитектура и связность</span><span class="tag">P&nbsp;4.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span><span class="tag c">duplicate of CODE-5</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ARCH-2</span><span class="pill degr">портит</span> The coordination lease guards two of the three coupled pin surfaces; the third is the gitlink</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>.claude/agent-sync.json</code> holds 7 patterns, none matching <code>skills/*</code>. Commit <code>5bf4142</code> correctly dropped <code>skills/*/…</code> and then concluded <code>skills.json</code> covers the pointer — but <code>git ls-files -s skills/super-ux</code> returns a tracked entry a <code>skills/*</code> pattern would match.</dd>
+<dt>Почему важно</dt><dd>The validator refuses a commit where the three surfaces disagree, so a concurrent session moving a gitlink turns the other session's tree red. It has already produced one wrong measurement (B-127's row records a reading taken on a stale pointer).</dd>
+<dt>Починка</dt><dd>Add <code>skills/*</code>; correct the reasoning where <code>docs/AGENT_SYNC.md</code> restates it.</dd>
+</dl>
+<div class="tags"><span class="tag">Архитектура и связность</span><span class="tag">P&nbsp;4.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ARCH-3</span><span class="pill degr">портит</span> <code>update</code> ships a new hook script and never wires it, and the self-report is blind by construction</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>cmdUpdate</code> never calls <code>hooksLib.plan()</code>. The <code>SessionStart</code> report renders a <i>parked</i> record, parked only by <code>config-change.js</code>, which fires on a settings edit — and a new <code>WIRED</code> entry writes no settings, so nothing fires. <code>lib/displace.js:35</code> already computes the missing rows; nothing calls it live.</dd>
+<dt>Почему важно</dt><dd>B-22 one layer up: the runtime was the thing <code>update</code> did not update; now the wiring is. Latent on this machine (8/8 present).</dd>
+<dt>Починка</dt><dd><code>cmdUpdate</code> calls <code>displace.check()</code> after the runtime sync and <i>reports</i> — an update is not the moment to ask for consent to wire hooks.</dd>
+</dl>
+<div class="tags"><span class="tag">Архитектура и связность</span><span class="tag">P&nbsp;4.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ARCH-4</span><span class="pill degr">портит</span> The copied-mechanism guard reads <code>test/*.py</code> only; the two largest cross-repo copies are <code>.js</code> and <code>.yml</code></h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>test/validate.py:1159</code> — <code>if not f.endswith(".py"): continue</code>. <code>test/installer_test.js</code> exists in <b>7 of 9</b> members, pairwise similarity 0.931–0.977 against a 0.90 floor, <b>none</b> carrying the required header, with 15 module constants differing undeclared. <code>release.yml</code> exists in 9 of 9.</dd>
+<dt>Почему важно</dt><dd>The guard's own failure text names the harm: «a shared mechanism whose seam is unwritten is aligned by whoever happens to look». That is currently true of the family's installer test and its release workflow, in nine repositories.</dd>
+<dt>Починка</dt><dd>Drop the extension filter to a set and make the comment prefix per-language. Expect it red on the first run — that is the finding.</dd>
+</dl>
+<div class="tags"><span class="tag">Архитектура и связность</span><span class="tag">P&nbsp;4.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span><span class="tag c">same shape as CODE-6, OPS-1</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ARCH-5</span><span class="pill degr">портит</span> <code>lib/runledger.js</code> hard-codes a grammar <code>task-pipeline</code> owns, and all 25 fixtures are synthetic</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>:61</code> parses a stage line; <code>docs/DOCMAP.md</code> says the grammar belongs to the member and «every count is borrowed». Grepping the fixture file for the member returns one comment and no read. The pinned member's spec is a submodule path away.</dd>
+<dt>Почему важно</dt><dd>A member-side change lands the status line on a silent mis-parse — no error, wrong stage numbers in every session. The correct pattern exists next door: <code>check_pipeline_matches_its_schema()</code> does read the member's schema.</dd>
+<dt>Починка</dt><dd>One fixture that parses the example out of the pinned member's reference.</dd>
+</dl>
+<div class="tags"><span class="tag">Архитектура и связность</span><span class="tag">P&nbsp;4.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ARCH-6</span><span class="pill degr">портит</span> Every member exists twice on this machine and nothing reconciles them; one dev clone is four releases behind its own pin</h4>
+<dl>
+<dt>Свидетельство</dt><dd>Nine submodule checkouts plus nine independent clones with separate object stores. Measured: <code>~/DATA/agent-stack</code> at v0.18.2 against pin v0.22.0; <code>~/DATA/sheleg-design-skill</code> one commit ahead. Every umbrella gate reads <code>skills/&lt;name&gt;</code> and never <code>~/DATA/&lt;name&gt;</code>, while <code>~/CLAUDE.md</code> says «sources live in <code>~/DATA/&lt;name&gt;</code>».</dd>
+<dt>Почему важно</dt><dd>Two trees, both plausible, neither declared authoritative. The backlog angle hit this independently: three working copies were behind, and <code>~/DATA/agent-stack</code> alone hid 8 board rows.</dd>
+<dt>Починка</dt><dd>Name the authority in <code>docs/DOCMAP.md</code>; have <code>list</code> print a «dev clone behind pin» line.</dd>
+</dl>
+<div class="tags"><span class="tag">Архитектура и связность</span><span class="tag">P&nbsp;4.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span><span class="tag c">corroborated by the backlog angle</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ARCH-1</span><span class="pill degr">портит</span> «The pin is the promise» is false of both install channels — and three of nine disagree right now</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>lib/plan.js:37</code> → <code>skills add &lt;repo&gt;</code>, no ref. <code>bin/sshlg-skills.js:269-270</code> → <code>claude plugin update &lt;plugin&gt;@&lt;mkt&gt;</code>, no version. <code>s.version</code> is read once, at <code>:387</code>, to print a <code>list</code> row. <b>Measured:</b> task-pipeline pin 1.81.1 / installed 1.82.0; make-skill 0.25.3 / 0.26.0; agent-stack 0.22.0 / 0.23.0.</dd>
+<dt>Почему важно</dt><dd><code>CLAUDE.md:51</code> states the opposite verbatim. <code>lib/updatemodel.js:17</code> keeps <code>autoUpdate</code> off to avoid «a combination nobody tested» — and the launcher assembles exactly that on every run, resolving nine independent HEADs. B-16, closed, records the contradicted belief.</dd>
+<dt>Починка</dt><dd>Pick one and write it down: make the pin real where the channels accept a version, or demote the sentence to «a record of what was last tested together». Shipping neither leaves the central invariant false in the house rules.</dd>
+</dl>
+<div class="tags"><span class="tag v">проверено мной</span><span class="tag">Архитектура и связность</span><span class="tag">P&nbsp;3.0</span><span class="tag">сессия</span><span class="tag">затрагивает: все</span><span class="tag c">verified by me · also OPS-5, PUB-note</span></div>
+</div><div class="card s1">
+<h4><span class="fid">ARCH-10</span><span class="pill cosm">косметика</span> <code>agentCount = 70</code> is typed by hand, appears on nine public surfaces including the social card, and is in no counted-claims registry</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>scripts/site.js:350</code>, used at seven call sites plus <code>README.md:22</code> and <code>:474</code>. The registry holds six claims; this is not one. Nothing in the tree sources it — it is a property of the upstream CLI.</dd>
+<dt>Почему важно</dt><dd><code>docs/DOCMAP.md</code>: «Numbers are counted by running something, never carried across a document.» This one is carried across two documents and into a rendered image, in the family that ships <code>evidence-docs</code>.</dd>
+<dt>Починка</dt><dd>Move it into <code>skills.json</code> beside <code>agents</code>, with a source and a read date. It cannot be computed here; it can be <i>sourced</i>, which is the honest version.</dd>
+</dl>
+<div class="tags"><span class="tag">Архитектура и связность</span><span class="tag">P&nbsp;3.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s1">
+<h4><span class="fid">ARCH-9</span><span class="pill cosm">косметика</span> This repository's own commit gate ships inside the distributed runtime</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>hooks/repo-gate.js</code> is in the npm tarball and present in every operator's runtime, though it is not in <code>WIRED</code>. <code>runtime.sync()</code> only ever copies whole directories and never removes; <code>stale()</code> reports missing and differing but never <i>extra</i>.</dd>
+<dt>Почему важно</dt><dd>Harmless bytes today, but it means the runtime contract has no notion of which hooks are for operators — so the next repo-local hook lands on every machine too, and a withdrawn module persists forever.</dd>
+<dt>Починка</dt><dd>Move the dev-only pair under an excluded root, or copy the <code>WIRED</code> set plus its transitive deps rather than two whole directories.</dd>
+</dl>
+<div class="tags"><span class="tag">Архитектура и связность</span><span class="tag">P&nbsp;3.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ARCH-7</span><span class="pill degr">портит</span> Three validator checks re-run assertions that are wholly internal to one member, and all nine members already run their own</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>validate.py:1094</code>, <code>:1502</code>, <code>:1624</code> need no cross-repo data; every member carries an equivalent check.</dd>
+<dt>Почему важно</dt><dd>The defect is created in repo A and surfaces in repo B days later, at pin time — B-127's whole story. The umbrella already has the right pattern in <code>check_members_guard_their_release_surfaces()</code>, which checks that the member <i>has</i> the gate.</dd>
+<dt>Починка</dt><dd>Convert all three to «assert the member's gate contains it».</dd>
+</dl>
+<div class="tags"><span class="tag">Архитектура и связность</span><span class="tag">P&nbsp;2.0</span><span class="tag">сессия</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s1">
+<h4><span class="fid">ARCH-12</span><span class="pill cosm">косметика</span> A comment names two consumers of the copied manifest, and neither is one — while the real consumer fails silently</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>lib/runtime.js:33</code> names <code>lib/plan.js</code> and the bin; <code>plan.js</code> reads no manifest and the bin never executes from the runtime tree. The actual consumer is <code>hooks/pre-tool-use.js:111</code>, whose failure is a bare <code>catch</code> at <code>:113</code>.</dd>
+<dt>Почему важно</dt><dd>A reader trimming the runtime payload on the strength of that comment disables the shadow guard — the guard this whole pack was written around — with no message.</dd>
+<dt>Починка</dt><dd>Name the real consumer; add a process-level fixture running the hook with no manifest beside it, asserting the degradation is at least observable.</dd>
+</dl>
+<div class="tags"><span class="tag">Архитектура и связность</span><span class="tag">P&nbsp;1.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: будущий читатель</span></div>
+</div><div class="card s1">
+<h4><span class="fid">ARCH-8</span><span class="pill cosm">косметика</span> <code>lib/router-texts.js</code> has zero production consumers and ships to every operator anyway</h4>
+<dl>
+<dt>Свидетельство</dt><dd>In-degree 0 across <code>lib</code>+<code>hooks</code>+<code>bin</code>+<code>scripts</code> — the only orphan of 32 modules. Its importers are two test files. It is in the npm tarball and copied into every operator's runtime.</dd>
+<dt>Почему важно</dt><dd><code>retro/2026-Q3.md:1968</code> already records it shipping broken once, «invisible because nothing consumed it».</dd>
+<dt>Починка</dt><dd>Delete it and its two test imports, or name the outside caller in the header.</dd>
+</dl>
+<div class="tags"><span class="tag v">проверено мной</span><span class="tag">Архитектура и связность</span><span class="tag">P&nbsp;1.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: будущий читатель</span></div>
+</div><h3>Роутинг-блок как интерфейс для машины <span style="color:var(--mut);font-weight:400">— 9</span></h3><p style="color:var(--mut);font-size:.9rem;max-width:70ch">Прочитан сам отгруженный артефакт — 383 строки в ~/.claude/CLAUDE.md, — а не его рендер.</p><div class="card s3">
+<h4><span class="fid">ROUT-1</span><span class="pill blocks">ломает</span> An ordinary English or Russian sentence silences <b>all twelve routers</b> for the rest of the session, with no signal</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>'quick'</code> (<code>lib/triggers.js:51</code>) and <code>'as is'</code> (<code>:60</code>) are refusal phrases; <code>optedOut</code> (<code>:534</code>) is ONE boolean for all routes, sticky (<code>lib/turnstate.js:56</code>) and silent. My probe silenced <b>8 of 10</b> ordinary prompts, including «the quick brown fox» and «refactor it as the code is unreadable».</dd>
+<dt>Почему важно</dt><dd>The enforcement layer switches itself off on noise. The existing invariant runs one way only — that no refusal is also a trigger; nothing asserts that an ordinary work prompt is not read as a refusal.</dd>
+<dt>Починка</dt><dd>Drop the two generic phrases; add unambiguous aliases in the registry (the fixture already reads it, so both move in one change); add ~15 ordinary prompts asserting <code>optedOut === false</code>.</dd>
+</dl>
+<div class="tags"><span class="tag v">проверено мной</span><span class="tag">Роутинг-блок как интерфейс для машины</span><span class="tag">P&nbsp;9.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ROUT-2</span><span class="pill degr">портит</span> The block advertises a per-router refusal; the mechanism is one global, sticky, silent switch</h4>
+<dl>
+<dt>Свидетельство</dt><dd>Twelve «Refusal phrase» lines, and nothing in 22 271 bytes says the switch is global. The truth is written at <code>README.md:407</code> and in the permission prompt — i.e. where a <i>human</i> reads it, not where the agent does. <code>triggers_test.js:295</code> asserts the coupling deliberately.</dd>
+<dt>Почему важно</dt><dd>An operator who declines the visual layer loses the payment router they never mentioned, and the agent cannot predict it.</dd>
+<dt>Починка</dt><dd>One sentence in the protocol region, or make <code>optedOut</code> a set of route names — <code>routegate.decide</code> already receives the routes, so scoping is a filter, not a redesign.</dd>
+</dl>
+<div class="tags"><span class="tag">Роутинг-блок как интерфейс для машины</span><span class="tag">P&nbsp;6.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ROUT-7</span><span class="pill degr">портит</span> Six of twelve routers are named in the block with no way to invoke them</h4>
+<dl>
+<dt>Свидетельство</dt><dd>The block names 8 slash commands against 28 backticked identifiers; <code>copywriting</code> appears 11× and <code>project-audit</code> 5× with no invocation anywhere. Yet <code>lib/triggers.js</code> carries <code>/copy</code>, <code>project-audit</code> and the rest.</dd>
+<dt>Почему важно</dt><dd>The door names live in the surface that fires on 74 of 88 prompts and then vanishes; the always-present surface lacks them. On the 14 prompts that reach nothing — precisely where the block is the only guidance — the agent has a route name and no command.</dd>
+<dt>Починка</dt><dd>Name the entry inside each router text, as <code>super-ux</code> and <code>seo-llmo</code> already do.</dd>
+</dl>
+<div class="tags"><span class="tag">Роутинг-блок как интерфейс для машины</span><span class="tag">P&nbsp;6.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ROUT-5</span><span class="pill degr">портит</span> The first table in the block gives <code>super-ux</code> a job the last table gives <code>copywriting</code></h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>~/.claude/CLAUDE.md:171</code> — «what the interface must do <b>and how it sounds</b>», from <code>skills.json:36</code>. 362 lines later, <code>:533</code> — <code>copywriting</code> «how it sounds». And super-ux's own router text says the same split.</dd>
+<dt>Почему важно</dt><dd>The map table is the block's first content and its highest-salience surface. A reader that stops there routes copy work to <code>/ux</code> — on the one router pair the block works hardest elsewhere to separate.</dd>
+<dt>Починка</dt><dd>One string in <code>skills.json</code>.</dd>
+</dl>
+<div class="tags"><span class="tag">Роутинг-блок как интерфейс для машины</span><span class="tag">P&nbsp;4.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ROUT-6</span><span class="pill degr">портит</span> Four of the fourteen residual routing misses are one-line additions the existing invariant already permits</h4>
+<dl>
+<dt>Свидетельство</dt><dd>The invariant is that a trigger word must already appear in the member's shipped description. Measured: «пост»/«твиттер» are already in <code>copywriting</code>'s, «release»/«test» in <code>task-pipeline</code>'s, «стандарт» in <code>make-skill</code>'s, «индекс» in <code>seo-aeo-audit</code>'s. The language hypothesis is <b>refuted</b> — 13 of 14 miss in both languages.</dd>
+<dt>Почему важно</dt><dd>Four realistic prompts have reached no route for two weeks under the assumption that closing them costs a member release. Half of each pair costs a line.</dd>
+<dt>Починка</dt><dd>Add the four; leave the Russian twins as a declared gap.</dd>
+</dl>
+<div class="tags"><span class="tag">Роутинг-блок как интерфейс для машины</span><span class="tag">P&nbsp;4.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ROUT-3</span><span class="pill degr">портит</span> The block's mandated first action returns a ranking that contradicts the block's own routers on half its corpus</h4>
+<dl>
+<dt>Свидетельство</dt><dd>The protocol orders <code>npx sshlg-skills toolkit --for …</code> before substantial work. Ranked over all 72 named-route cases of <code>route_coverage.js</code>: owning skill at rank 1 in <b>36/72 (50%)</b>, rank 2–12 in 19, and <b>absent from the shortlist in 17 (24%)</b>, five of those empty. On <b>7 of 8</b> <code>task-pipeline</code> cases the shortlist never names it, heading instead with <code>copywriting</code> for «напиши тесты для этого модуля».</dd>
+<dt>Почему важно</dt><dd>Two instructions point opposite ways: the router texts assign the route, the protocol says open by measuring, and the measurement names a different family router first on half the corpus. Cause is unweighted substring term-count with no IDF, ties broken on the <i>shorter</i> description.</dd>
+<dt>Починка</dt><dd>Weight terms by inverse document frequency; and state the precedence in the protocol — the routers decide the route, the shortlist only widens the tools inside it.</dd>
+</dl>
+<div class="tags"><span class="tag">Роутинг-блок как интерфейс для машины</span><span class="tag">P&nbsp;3.0</span><span class="tag">сессия</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">ROUT-4</span><span class="pill degr">портит</span> The routing eval's <code>current</code> arm is not the shipped block — 30.8% of it is in no arm of any run</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>arm()</code> joins router texts only. Shipped block 22 271 B; the MAP (2 952 B), PROTOCOL (2 692 B) and TABLE (1 222 B) regions — <b>6 866 B</b> — are in no arm, while <code>RESULTS.md:15</code> calls <code>current</code> «the shipped block».</dd>
+<dt>Почему важно</dt><dd>The eval's headline «recall is untouched by either trim» is a statement about router texts read as a statement about the block. The omitted 30.8% is exactly where ROUT-3's contradicting instruction lives, so the current design cannot see that interaction.</dd>
+<dt>Починка</dt><dd>Rename the arm to <code>routers-only</code>, or build <code>current</code> from <code>routers.upsert</code>; gate that it contains the protocol's refusal line. Run a <code>shipped</code> arm <b>before</b> the planned replication.</dd>
+</dl>
+<div class="tags"><span class="tag">Роутинг-блок как интерфейс для машины</span><span class="tag">P&nbsp;2.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: будущий читатель</span></div>
+</div><div class="card s1">
+<h4><span class="fid">ROUT-8</span><span class="pill cosm">косметика</span> Ten of twelve router texts open with a condition the renderer guarantees is true</h4>
+<dl>
+<dt>Свидетельство</dt><dd>«<b>If <code>X</code> is installed, …</b>» ×10. <code>resolve()</code> emits only routers whose requirements are installed, so a router the reader can see is installed by construction.</dd>
+<dt>Почему важно</dt><dd>Ten hedges the reader must evaluate and cannot resolve, in the highest-salience opening position of each section. Small per instance; the block's most repeated sentence shape.</dd>
+<dt>Починка</dt><dd>One protocol sentence, and drop the openers — in the same change as ROUT-4's shipped arm, so the effect is measured rather than assumed.</dd>
+</dl>
+<div class="tags"><span class="tag">Роутинг-блок как интерфейс для машины</span><span class="tag">P&nbsp;2.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s1">
+<h4><span class="fid">ROUT-9</span><span class="pill cosm">косметика</span> <code>match()</code>'s docstring claims registry order; it emits a different order that inverts the block's composition order</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>lib/triggers.js:538</code> says «in registry order» over a filter of <code>ROUTES</code>. Measured: «подключи stripe и сделай миграцию» → <code>[task-pipeline, sheleg-dev]</code>, registry order <code>[sheleg-dev, task-pipeline]</code>.</dd>
+<dt>Почему важно</dt><dd>On a multi-route hint the agent hears delivery before content, inverting the composition order the block teaches.</dd>
+<dt>Починка</dt><dd>Sort by <code>registry.order()</code>, or correct the docstring.</dd>
+</dl>
+<div class="tags"><span class="tag">Роутинг-блок как интерфейс для машины</span><span class="tag">P&nbsp;1.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: будущий читатель</span></div>
+</div><h3>JTBD и соответствие собственной доктрине <span style="color:var(--mut);font-weight:400">— 8</span></h3><p style="color:var(--mut);font-size:.9rem;max-width:70ch">Работы восстановлены из артефактов; проверено, применяет ли семья к себе то, что требует от чужих проектов.</p><div class="card s2">
+<h4><span class="fid">JTBD-1</span><span class="pill degr">портит</span> Four members own a router their own installer never offers — and a closed row's premise expired underneath</h4>
+<dl>
+<dt>Свидетельство</dt><dd><b>Measured by me:</b> <code>scope()</code> is non-empty for <code>sheleg-dev</code>, <code>agent-stack</code>, <code>telegram-dev</code> and <code>sheleg-design</code>; <code>offerRouters</code> count is <b>0</b> in the first three and <code>sheleg-design</code> has no <code>bin/</code> at all. <code>seo-aeo-audit</code> alone is correctly empty. B-06's closure text (2026-08-12) reads «the other three own no router» — false for three of four today, and <code>telegram-dev</code> joined thirteen days after that row closed.</dd>
+<dt>Почему важно</dt><dd>The README advertises standalone install and picks <code>seo-aeo-audit</code> as its example — the one member for which the omission is right, so the documentation hides the defect. The pack ships without its obliging mechanism, silently.</dd>
+<dt>Починка</dt><dd>Copy <code>offerRouters()</code> (already written four times) and add a fixture: every member whose <code>scope()</code> is non-empty offers the block. An invariant cannot expire the way the prose did.</dd>
+</dl>
+<div class="tags"><span class="tag v">проверено мной</span><span class="tag">JTBD и соответствие собственной доктрине</span><span class="tag">P&nbsp;6.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span><span class="tag c">verified by me — and it is 4, not the 3 the agent reported</span></div>
+</div><div class="card s3">
+<h4><span class="fid">JTBD-7</span><span class="pill blocks">ломает</span> There is no way back out — no uninstall, no restore, and a ten-deep backup ring an ordinary session exhausts</h4>
+<dl>
+<dt>Свидетельство</dt><dd>12 dispatched commands, none of them <code>uninstall</code> or <code>doctor</code>. <code>install</code> writes four instruction files, <code>settings.json</code> (8 hook events + statusLine), the pack's config, 9 plugins, 9 marketplaces and 12 agent channels. Reverse: <code>hooks remove</code> plus a <b>hand edit</b> of the very file the guard protects. <code>lib/backup.js:39</code> <code>KEEP = 10</code>; all four targets are <b>at the cap today</b>, window 4 d 12 h. <code>grep -c "sshlg-skills/backups" README.md</code> → 0.</dd>
+<dt>Почему важно</dt><dd>The pack's stated reason for existing is that this file has no version control. It builds the copies, never tells the operator they exist, gives no verb to use them, and caps history at a number one busy session crosses — which is precisely incident B-05, the reason the module was written. It is also why <code>~/CLAUDE.md</code> carries hand-rolled shell loops for health checks the product could answer.</dd>
+<dt>Починка</dt><dd><code>restore --list</code> / <code>--file</code>; document the directory and the cap; then <code>uninstall --dry-run</code>. Every inverse step already exists.</dd>
+</dl>
+<div class="tags"><span class="tag">JTBD и соответствие собственной доктрине</span><span class="tag">P&nbsp;4.5</span><span class="tag">сессия</span><span class="tag">затрагивает: все</span><span class="tag c">three angles: JTBD, public, operator</span></div>
+</div><div class="card s2">
+<h4><span class="fid">JTBD-3</span><span class="pill degr">портит</span> The scenarios waiver renews on a metric that structurally cannot fail</h4>
+<dl>
+<dt>Свидетельство</dt><dd>B-07's trigger is «commands with no fixture» — measured 0 on 2026-08-16 and again on 2026-08-30. Fixtures assert <b>integrity</b>. A <b>sufficiency</b> defect shipped anyway: <code>/skills/seo-aeo-audit/</code> at 173 words of prose against 318 of link text (<b>35.2%</b>, «65% navigation»), found by the SEO router rather than the UX one.</dd>
+<dt>Почему важно</dt><dd>The waiver will renew forever: its metric can only fail when a command has no fixture, and the pipeline that adds commands adds fixtures.</dd>
+<dt>Починка</dt><dd>Change the trigger to something a fixture cannot satisfy — «a user-facing surface exists whose purpose no document states», which today returns three.</dd>
+</dl>
+<div class="tags"><span class="tag v">проверено мной</span><span class="tag">JTBD и соответствие собственной доктрине</span><span class="tag">P&nbsp;2.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: будущий читатель</span><span class="tag c">35.2% verified by me</span></div>
+</div><div class="card s2">
+<h4><span class="fid">JTBD-4</span><span class="pill degr">портит</span> The umbrella's own jobs are written down in a different repository, and it has no home for them</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>super-ux/docs/ux/foundation.md</code> carries JTBD-02 «know exactly what the install wrote» and JTBD-03 «one command brings every channel to one version» — the second <i>is</i> the flagship command, the first <i>is</i> the risk profile. In the umbrella, a sweep for persona/JTBD returns three hits, none about this pack. DOCMAP has a single-home row for every mechanism and none for what any of it is for.</dd>
+<dt>Почему важно</dt><dd>A future run reading DOCMAP learns where every fact lives and cannot learn what the product is for.</dd>
+<dt>Починка</dt><dd>One jobs file, or a DOCMAP row naming its single home, with the success metrics already written next door.</dd>
+</dl>
+<div class="tags"><span class="tag">JTBD и соответствие собственной доктрине</span><span class="tag">P&nbsp;2.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: будущий читатель</span></div>
+</div><div class="card s2">
+<h4><span class="fid">JTBD-5</span><span class="pill degr">портит</span> By super-ux's own written criterion, eight more installers are in scope — and five are near-clones</h4>
+<dl>
+<dt>Свидетельство</dt><dd>The criterion: «the installer is the one place a person types something». Nine of ten repos ship exactly such an installer — 3 054 lines, of which super-ux's 517 are covered. Five share an identical function skeleton.</dd>
+<dt>Почему важно</dt><dd>«These repos have no interface» is true for <code>sheleg-design</code> and false for the other eight by the family's own test. The cost is one scenario set plus deltas, not eight sets.</dd>
+<dt>Починка</dt><dd>One line per repo in its own ledger — armed, waived-with-substitute, or owed. <b>Any fix here must ship its linter in the same change:</b> super-ux's own record shows 15 scenarios reading «implemented» with 0 coverage lines for nine days.</dd>
+</dl>
+<div class="tags"><span class="tag">JTBD и соответствие собственной доктрине</span><span class="tag">P&nbsp;2.0</span><span class="tag">сессия</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s2">
+<h4><span class="fid">JTBD-6</span><span class="pill degr">портит</span> The brand pack registers marketing surfaces only; the product's own strings are unregistered</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>docs/brand/strings.md</code> holds 4 rows, all marketing channels, and its <code>Scenario</code> column carries prose because there are no scenarios to cite. <code>bin/</code> alone makes 121 <code>log()</code> calls. The validator does not know this repository has a brand pack.</dd>
+<dt>Почему важно</dt><dd>The routing block tells every project that <code>copywriting</code> owns «interface strings, errors, empty states». The umbrella's own pack covers the README and the social card and none of the interface.</dd>
+<dt>Починка</dt><dd>Add a «Product surfaces» channel and register the ~30 strings the CLI repeats.</dd>
+</dl>
+<div class="tags"><span class="tag">JTBD и соответствие собственной доктрине</span><span class="tag">P&nbsp;2.0</span><span class="tag">сессия</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s2">
+<h4><span class="fid">JTBD-2</span><span class="pill degr">портит</span> The waiver is scoped to «the CLI launcher»; two surfaces a human answers have been added since and neither is named</h4>
+<dl>
+<dt>Свидетельство</dt><dd>The waiver and its «no user-facing surface» verdict are dated 2026-08-12. <code>lib/routegate.js</code> landed 2026-08-13 and renders a mid-turn question with three options and a recovery path. The site went live 2026-08-25 with 12 URLs read by logged-out humans.</dd>
+<dt>Почему важно</dt><dd>The family's most reasoned exemption covers the surface that existed on one day and has never been widened.</dd>
+<dt>Починка</dt><dd>Re-open as a per-surface scope question with its own revisit trigger.</dd>
+</dl>
+<div class="tags"><span class="tag">JTBD и соответствие собственной доктрине</span><span class="tag">P&nbsp;1.0</span><span class="tag">сессия</span><span class="tag">затрагивает: будущий читатель</span></div>
+</div><div class="card s1">
+<h4><span class="fid">JTBD-8</span><span class="pill cosm">косметика</span> The self-application question is answered in three repos, silent in six, unanswerable in one</h4>
+<dl>
+<dt>Свидетельство</dt><dd>Written verdicts exist in the umbrella, <code>task-pipeline</code> and <code>sheleg-design</code>. Six boards record nothing; <code>telegram-dev</code> has no decision log at all.</dd>
+<dt>Почему важно</dt><dd>Judged fairly: <b>evals are not hypocrisy</b> (both repos self-measure, and the umbrella's run stopped its own change); <b>brand is a ruled exemption</b> (one voice, centralised, and that is right); <b>scenarios are real debt</b> in six.</dd>
+<dt>Починка</dt><dd>One line in each of the six silent boards. <code>telegram-dev</code> needs a board first.</dd>
+</dl>
+<div class="tags"><span class="tag">JTBD и соответствие собственной доктрине</span><span class="tag">P&nbsp;1.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: будущий читатель</span></div>
+</div><h3>Публичная поверхность <span style="color:var(--mut);font-weight:400">— 10</span></h3><p style="color:var(--mut);font-size:.9rem;max-width:70ch">Сайт собран локально и прочитан как HTML, затем сверен с живым; npm, README, карточки, OG.</p><div class="card s3">
+<h4><span class="fid">PUB-1</span><span class="pill blocks">ломает</span> <code>/agents/</code> publishes an install command that installs nothing — and the ledger already said so</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>scripts/site.js:1350</code> emits <code>npx skills add ssheleg/sshlg-skills</code>. Measured from the <b>published tarball</b>: 0 of 229 entries carry a <code>SKILL.md</code>; the nine member directories are empty. <code>docs/evidence/verification.md:81</code> (SEO-11, <i>verified</i>) says verbatim: «never <code>npx skills add ssheleg/sshlg-skills</code> … would advertise an install path that does not exist».</dd>
+<dt>Почему важно</dt><dd>It hits the largest audience the site claims — every agent that is neither Claude Code nor Cursor. The gate misses it because one check reads only <code>sshlg-skills &lt;verb&gt;</code> and the other only member pages; <code>/agents/</code> is neither.</dd>
+<dt>Починка</dt><dd>One string, plus a check that every <code>npx skills add &lt;repo&gt;</code> names a repo in <code>skills.json</code>.</dd>
+</dl>
+<div class="tags"><span class="tag">Публичная поверхность</span><span class="tag">P&nbsp;9.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">PUB-2</span><span class="pill degr">портит</span> The public traffic measurement has been green and empty since it shipped, and the data is already unrecoverable</h4>
+<dl>
+<dt>Свидетельство</dt><dd>Six runs, all «completed success», 5–7 s each. The secret it needs does not exist; the log says «not set — skipping». <code>traffic.ndjson</code> has one commit and its last reading is 2026-08-25.</dd>
+<dt>Почему важно</dt><dd>GitHub serves a rolling fourteen-day window and keeps nothing older, so seven days are already gone and the oldest fall out this week. <code>plan-2026-08-27.md</code> rates the irreversibility <b>high</b> and marks the row <b>done</b>. It has never once run. The skip-rather-than-fail choice was deliberate and reasoned; the cost is that a green tick now means nothing.</dd>
+<dt>Починка</dt><dd>Set the secret. Then make silence loud: fail the job when the newest ledger date is more than two days old.</dd>
+</dl>
+<div class="tags"><span class="tag">Публичная поверхность</span><span class="tag">P&nbsp;6.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">PUB-4</span><span class="pill degr">портит</span> Six of nine npm listings are cut mid-word, and the sentence dropped is the one that says what the package is</h4>
+<dl>
+<dt>Свидетельство</dt><dd>The registry stores 255 characters. <code>sheleg-design-skill</code> 852 → 255; <code>make-skill</code> 640 → 255; <code>agent-stack</code> ends «This package is the in». Each member's description ends «This package is the installer CLI» — entirely lost on four and half-lost on one.</dd>
+<dt>Почему важно</dt><dd>Judged by the family's own rule, not an imported one: <code>seo-aeo-audit</code>'s benchmarks explicitly refuse a character count and keep «truncated mid-word» as the observable failure. Six are truncated mid-word.</dd>
+<dt>Починка</dt><dd>Front-load each description so the first 250 characters end on a sentence and contain «installer CLI». Ships free with the next release each member takes anyway.</dd>
+</dl>
+<div class="tags"><span class="tag">Публичная поверхность</span><span class="tag">P&nbsp;6.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">PUB-7</span><span class="pill degr">портит</span> A <code>faq-schema-partial</code> finding is a false positive of the family's own auditor, and every client run will carry it</h4>
+<dl>
+<dt>Свидетельство</dt><dd>The answer <i>is</i> in the served HTML. <code>page_audit.py:699</code> builds its comparison stream from text nodes; the parser deliberately diverts anchor text elsewhere for the read-budget model — so any FAQ answer with an inline link in its first 60 characters is reported absent. The function's own docstring records it being rewritten on 2026-08-14 to stop making exactly this class of false claim; it closed the split-across-elements case and left this one open.</dd>
+<dt>Почему важно</dt><dd>Inline links inside FAQ answers are ordinary. Every run against a real site hands a client a <code>medium</code> finding invoking Google's policy on invisible marked-up content, about content that is visible. The family's own site is the exhibit.</dd>
+<dt>Починка</dt><dd>Match against a stream that includes anchor text — visibility, not read budget; the read-budget model keeps its own stream. Fixture: the page as it stands today.</dd>
+</dl>
+<div class="tags"><span class="tag">Публичная поверхность</span><span class="tag">P&nbsp;6.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">PUB-8</span><span class="pill degr">портит</span> Four of nine enterprise registry cards state a version older than the pack ships, one by nine minor releases</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>agent-stack</code> card 0.13.5 against 0.22.0; <code>sheleg-design</code> 1.52.0 / 1.58.2; <code>super-ux</code> 0.48.3 / 0.52.3; <code>sheleg-dev</code> 0.10.3 / 0.11.3. And two formats under one filename — two members use a richer «Registry entry», the other seven a bare «Identity» table.</dd>
+<dt>Почему важно</dt><dd>These are «written so somebody who did not build this can decide» — stale in exactly the field that dates them. Distinct from B-98, which is about verification ledgers.</dd>
+<dt>Починка</dt><dd>Derive the cell from <code>package.json</code> at release, or assert it in each member's validator the way the three pin surfaces already are.</dd>
+</dl>
+<div class="tags"><span class="tag">Публичная поверхность</span><span class="tag">P&nbsp;4.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s2">
+<h4><span class="fid">PUB-9</span><span class="pill degr">портит</span> The per-member install block hands a reader both channels with no warning, producing the exact shadow the launcher exists to prune</h4>
+<dl>
+<dt>Свидетельство</dt><dd>All nine pages carry <code>npx skills add …</code> and <code>claude plugin install …</code> with nothing between them. The word «shadow» appears on four built pages and in <b>zero</b> member install blocks.</dd>
+<dt>Почему важно</dt><dd>A Claude Code user who runs both creates the shadow by hand — and the launcher, which they did not run, is not there to prune it. The landing page states the stakes: «silently serves a stale skill — the one failure mode worth automating away».</dd>
+<dt>Починка</dt><dd>One line under the two commands, plus an assertion that every page carrying both carries the caveat.</dd>
+</dl>
+<div class="tags"><span class="tag">Публичная поверхность</span><span class="tag">P&nbsp;4.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s2">
+<h4><span class="fid">PUB-5</span><span class="pill degr">портит</span> The site never names the file it writes into, never mentions the backup, and offers no removal path</h4>
+<dl>
+<dt>Свидетельство</dt><dd>Across all 13 pages: zero hits for <code>uninstall</code>, <code>backup</code>, <code>CLAUDE.md</code>, <code>sentinel</code>. The README covers all of it properly; the site does not.</dd>
+<dt>Почему важно</dt><dd>All ten npm packages point <code>homepage</code> at the site, nine of them at a member page — so the page a package-page visitor lands on carries no mention of the routing block, its four files, its backup, or how to undo it. The reader is asked to run the install with the risk disclosure one hop away on GitHub.</dd>
+<dt>Починка</dt><dd>An install section naming the four files, the copy-before-write rule, the opt-out sentinel and a removal recipe.</dd>
+</dl>
+<div class="tags"><span class="tag">Публичная поверхность</span><span class="tag">P&nbsp;3.0</span><span class="tag">сессия</span><span class="tag">затрагивает: все</span><span class="tag c">same hole as JTBD-7, OPS-7</span></div>
+</div><div class="card s2">
+<h4><span class="fid">PUB-6</span><span class="pill degr">портит</span> Four of the family's own pages fail its own auditor at <code>high</code>, and the worst is the page selling that auditor</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>/</code> 48.3%, <code>/skills/agent-sync/</code> 48.0%, <code>/skills/make-skill/</code> 47.8%, <code>/skills/seo-aeo-audit/</code> <b>32.2%</b> plus a <code>low-extractable-text</code> finding. The 2026-08-27 plan's L1 was raised <i>about that exact page</i> and closed «done — 5 of 9 pages now 73–76%». The page the finding was written about is not among the five and remains the worst on the site.</dd>
+<dt>Почему важно</dt><dd>The pack whose one job is answer-engine extractability is the least extractable thing the family publishes, and a plan row says the opposite.</dd>
+<dt>Починка</dt><dd>Extend the L1 pass to the remaining four — the mechanism already exists and derives from each <code>SKILL.md</code>. Then gate it: <code>site_test.js</code> already builds the site; call the auditor on each page and fail on a <code>high</code>.</dd>
+</dl>
+<div class="tags"><span class="tag">Публичная поверхность</span><span class="tag">P&nbsp;3.0</span><span class="tag">сессия</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s1">
+<h4><span class="fid">PUB-3</span><span class="pill cosm">косметика</span> Literal markdown renders as punctuation on three live pages, including the one that sells evidence-first auditing</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>site.js:1070</code> renders through an HTML escaper, and the values in <code>skills.json</code> are written in markdown — so <code>/skills/seo-aeo-audit/</code> shows raw asterisks and two more pages show literal backticks.</dd>
+<dt>Почему важно</dt><dd>The cheapest possible signal that nobody reads the built output, on the surface whose whole argument is that a claim carries its receipt.</dd>
+<dt>Починка</dt><dd>Render inline emphasis and code, or strip the markers; refuse a rendered paragraph containing them.</dd>
+</dl>
+<div class="tags"><span class="tag">Публичная поверхность</span><span class="tag">P&nbsp;2.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span></div>
+</div><div class="card s1">
+<h4><span class="fid">PUB-10</span><span class="pill cosm">косметика</span> Two of five rows in the current SEO plan are marked open and are in fact closed</h4>
+<dl>
+<dt>Свидетельство</dt><dd>L3 (npm <code>homepage</code>): all ten now point at the site. G1 (the listing badge): all nine READMEs carry it, badge and target both 200.</dd>
+<dt>Почему важно</dt><dd>The document that decides what to work on next misdescribes 40% of its own rows.</dd>
+<dt>Починка</dt><dd>Stamp both closed with the measurement. The plan already has a state column; it needs re-deriving rather than carrying forward.</dd>
+</dl>
+<div class="tags"><span class="tag">Публичная поверхность</span><span class="tag">P&nbsp;1.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: будущий читатель</span></div>
+</div><h3>Путь человека-оператора <span style="color:var(--mut);font-weight:400">— 9</span></h3><p style="color:var(--mut);font-size:.9rem;max-width:70ch">README прочитан как незнакомцем; каждая read-only команда прогнана против настоящего HOME. Ничего не записано.</p><div class="card s3">
+<h4><span class="fid">OPS-1</span><span class="pill blocks">ломает</span> The landing page hands a first-time reader four commands that do not exist</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>site.js:841</code> renders the <i>router</i> name as the entry chip instead of <code>skills.json</code>'s <code>entry</code> field, which is never read. <code>/super-ux</code>, <code>/sheleg-dev</code>, <code>/agent-stack</code>, <code>/telegram-dev</code> resolve to neither a command nor a skill.</dd>
+<dt>Почему важно</dt><dd>The test written for this is <code>site_test.js:140</code>, named <code>it('the entry points a reader is handed all exist')</code> — and its body asserts that eight <i>files</i> were built. It never inspects a chip.</dd>
+<dt>Починка</dt><dd>Render <code>m.entry</code>, omit the chip when null, and rewrite the test to resolve every rendered chip against the pinned submodule.</dd>
+</dl>
+<div class="tags"><span class="tag">Путь человека-оператора</span><span class="tag">P&nbsp;9.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span><span class="tag c">same shape as CODE-6, ARCH-4</span></div>
+</div><div class="card s2">
+<h4><span class="fid">OPS-11</span><span class="pill degr">портит</span> <code>list</code> cannot answer either question an operator asks it</h4>
+<dl>
+<dt>Свидетельство</dt><dd>It prints name, version and description. <code>skills.json</code> carries <code>entry</code> and <code>role</code> on every member and neither is printed; the version is the manifest pin, not what is installed. Output is 22 lines, of which ~4 900 bytes are nine marketing paragraphs.</dd>
+<dt>Почему важно</dt><dd>The README offers it as «verify the resolved family» and «what the current release of each member is». It answers neither, and the data for the first is unused in the same file it reads.</dd>
+<dt>Починка</dt><dd>Print <code>name · version · entry · role</code>, one line each, with the descriptions behind a flag.</dd>
+</dl>
+<div class="tags"><span class="tag">Путь человека-оператора</span><span class="tag">P&nbsp;6.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">OPS-2</span><span class="pill degr">портит</span> <code>signature</code> denies four of the nine members as «not a skill this family ships»</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>lib/signature.js:30</code> keys on <code>skillNames</code>, falling back to the member name only when that list is empty. So <code>super-ux</code>, <code>sheleg-dev</code>, <code>agent-stack</code>, <code>telegram-dev</code>, <code>seo-llmo</code> and <code>ux</code> all render as disowned.</dd>
+<dt>Почему важно</dt><dd>The routing block itself instructs the agent to run <code>signature --used</code>, naming those very members — and the footer on a report «someone might screenshot or forward» prints the family disowning its own. The module's docstring says an unknown id is named rather than dropped because «a footer that silently omits half of what ran is worse»: it produces the failure mode it guards against.</dd>
+<dt>Починка</dt><dd>Also key on the member name; add the router aliases as a second map; one fixture per member.</dd>
+</dl>
+<div class="tags"><span class="tag">Путь человека-оператора</span><span class="tag">P&nbsp;6.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">OPS-4</span><span class="pill degr">портит</span> The shadow refusal names a remedy that does not work for the shadows it finds — and three are live on this machine now</h4>
+<dl>
+<dt>Свидетельство</dt><dd>Live: <code>standup</code>, <code>supabase</code>, <code>supabase-postgres-best-practices</code>. But the pruner only ever considers family ids — proven: given those three plus one family id, it returns only the family id. <code>lib/shadow.js</code>, the accurate check, is required from exactly one place and has <b>no CLI verb</b>.</dd>
+<dt>Почему важно</dt><dd>The operator reads a refusal, runs the ~15-minute command it names, and the three shadows are still there with nothing saying so. This repository's own rule: «a refusal with no next step is how an operator learns to switch a hook off.» An operator on any non-Claude agent can never reach the check at all.</dd>
+<dt>Починка</dt><dd>Split the remedy — family ids keep the launcher, foreign ids get the direct removal — and expose the check as a verb.</dd>
+</dl>
+<div class="tags"><span class="tag">Путь человека-оператора</span><span class="tag">P&nbsp;6.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">OPS-6</span><span class="pill degr">портит</span> <code>hooks</code> reports a correct install as stale whenever another tool shares an event</h4>
+<dl>
+<dt>Свидетельство</dt><dd>All nine runtime scripts are byte-identical to the package, yet four events report «refreshed». Cause: the planner always concatenates the pack's entry to the <b>end</b> and then compares JSON strings — same multiset, different order. The four flagged events are exactly the four another tool also registers.</dd>
+<dt>Почему важно</dt><dd>On any machine running a second hook-installing tool — and the README names four — this permanently reports the install as broken. Following the advice rewrites <code>settings.json</code>, burns one of ten backup slots, changes nothing, and the condition returns. A status command that cries wolf is how an operator learns to stop reading it.</dd>
+<dt>Починка</dt><dd>Compare the pack's own entry against what it wants, or compare as sorted sets.</dd>
+</dl>
+<div class="tags"><span class="tag">Путь человека-оператора</span><span class="tag">P&nbsp;6.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s2">
+<h4><span class="fid">OPS-8</span><span class="pill degr">портит</span> The one advertised command is a ~15-minute, 56-process foreground run with no plan, no progress and no failure summary</h4>
+<dl>
+<dt>Свидетельство</dt><dd>37 skills-CLI steps + 18 plugin calls + 1 submodule = 56 serial children, every one through <code>npx --yes</code>. Measured warm, three times: 22.7 s, 25.0 s, 34.1 s per spawn — so ~15 minutes for the skills half alone. The runner returns a bare boolean with inherited stdio; nothing prints a step count, a counter, or which of the 56 failed.</dd>
+<dt>Почему важно</dt><dd>The README calls install/update/list «the whole interface». One step fails half-way through a fifteen-minute wall of output, and the operator must scroll back through 56 spawns to find it — then pay another fifteen minutes.</dd>
+<dt>Починка</dt><dd>Print the step count up front and <code>[n/56]</code> per step; collect failures and end with a re-run line naming them.</dd>
+</dl>
+<div class="tags"><span class="tag">Путь человека-оператора</span><span class="tag">P&nbsp;6.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s3">
+<h4><span class="fid">OPS-3</span><span class="pill blocks">ломает</span> The only warning that <code>install</code> rewrites four global files is a Russian prompt in an English-only package</h4>
+<dl>
+<dt>Свидетельство</dt><dd><code>lib/consent.js:78-80</code>. The Cyrillic is not uniform — it is exactly the write path: 65 lines in <code>bin/</code>, 6 in <code>consent.js</code>, and <b>zero</b> in <code>guard.js</code>, <code>hygiene.js</code>, <code>repogate.js</code> and every hook. The README's own «What <code>install</code> actually does» (<code>:128-137</code>) lists three bullets and omits the four files; they appear a hundred lines later.</dd>
+<dt>Почему важно</dt><dd>A non-Russian reader meets <code>[y/N]</code> on an unreadable question about their global instructions, answers N (the default), and the routing layer never installs. The recorded «no» is permanent and nothing later explains the absence.</dd>
+<dt>Починка</dt><dd>English for every operator-facing string; add the four paths to the README bullet list above the fold.</dd>
+</dl>
+<div class="tags"><span class="tag">Путь человека-оператора</span><span class="tag">P&nbsp;4.5</span><span class="tag">сессия</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s1">
+<h4><span class="fid">OPS-9</span><span class="pill cosm">косметика</span> <code>toolkit</code> counts non-skill directories as skills, so the roster an agent reads carries a phantom</h4>
+<dl>
+<dt>Свидетельство</dt><dd>Every subdirectory of a plugin's <code>skills/</code> is counted; nothing checks for a <code>SKILL.md</code>. <code>super-ux</code> ships a shared <code>references/</code> directory, which therefore appears as a blank-description skill, and the headline «519 skills reachable» includes it.</dd>
+<dt>Почему важно</dt><dd><code>toolkit</code> is the command the routing block mandates before substantial work. It hands back a skill that does not exist, from the family's own flagship pack.</dd>
+<dt>Починка</dt><dd>Skip a directory with no <code>SKILL.md</code>; assert it with a fixture.</dd>
+</dl>
+<div class="tags"><span class="tag">Путь человека-оператора</span><span class="tag">P&nbsp;3.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: все</span></div>
+</div><div class="card s1">
+<h4><span class="fid">OPS-10</span><span class="pill cosm">косметика</span> Two load-bearing README numbers are wrong, including the one that justifies the commit gate</h4>
+<dl>
+<dt>Свидетельство</dt><dd>«the ten routers» at <code>:485</code> against «Twelve routers» at <code>:268</code> — a two-word self-contradiction seventeen lines apart, and the registry returns 12. And «the suite costs ~8.5 s … at three minutes it would be a gate people route around», measured cold at 4 m 46 s.</dd>
+<dt>Почему важно</dt><dd><code>CLAUDE.md</code> says «numbers here are counted by running something» and cites the fixture-count episode as the reason. These are the same class, in the sentence that argues the gate is not noise.</dd>
+<dt>Починка</dt><dd>Derive the router count at doc-check time; re-measure and restate the cost, warm and cold.</dd>
+</dl>
+<div class="tags"><span class="tag v">проверено мной</span><span class="tag">Путь человека-оператора</span><span class="tag">P&nbsp;2.0</span><span class="tag">меньше часа</span><span class="tag">затрагивает: эта машина / часть</span><span class="tag c">cold cost corroborated by my 128.65 s</span></div>
+</div>
+
+<h2>Что здорово</h2>
+<p class="lede">Это не смягчение. Несколько механизмов здесь сделаны лучше, чем я вижу в
+большинстве проектов, и два из них — прямые контрпримеры к находкам выше.</p>
+<ul>
+<li><b>Единственный путь записи существует, и его пытались сломать.</b> Все десять
+<code>writeFileSync</code> перечислены; семь, что трогают файлы оператора, имеют
+<code>protect()</code> прямо над собой. Проба с намеренно испорченным каталогом бэкапов:
+запись отменена, причина названа, SHA-256 цели побайтово тот же. Второй путь, закрытый
+2026-08-30, действительно закрыт.</li>
+<li><b>Замер, который остановил собственное изменение.</b> <code>test/evals/</code> — 13 проб
+× 3 плеча — построен, чтобы обосновать урезание блока, и по итогу <b>отказался его
+отгружать</b>: recall 11/11 во всех плечах, но оба урезания расширяли роутинг на пробах,
+где верным ответом было молчание, а знаковый тест дал p = 0.625. Третье плечо
+<b>опровергло гипотезу механизма</b>, ради подтверждения которой было построено. Инструмент,
+который оно заменило, документирован как «зелёный, который ничего не значит».</li>
+<li><b>super-ux действительно ест свою еду.</b> 17 сценариев на собственный инсталлятор со
+строками покрытия, отдельная работа в CI, и запись, что шесть дефектов были найдены самим
+актом написания сценариев — один из них позже поймал живую регрессию.</li>
+<li><b>Граф <code>lib/</code> чистый, и это измерено, а не на глаз.</b> Циклов нет,
+максимальная глубина 4, максимальная входящая степень 4 из 32 модулей. Разделение на
+чистое ядро и грязную оболочку реальное: файловая система появляется только там, где
+заявлено.</li>
+<li><b>Контракт хук↔lib держится ровно одним правилом.</b> Каждый хук резолвит
+<code>lib</code> относительно себя, поэтому пакет и рантайм могут разойтись в версии, но
+не могут <b>перемешаться</b>.</li>
+<li><b>Машинный слой сайта сделан всерьёз</b>: <code>llms.txt</code> называет каждого члена
+с версией и списком скилов, все двенадцать роутеров <i>вместе с фразами отказа</i> и все
+четырнадцать агентов с путём, который каждый читает. Уникальные заголовки, согласованные
+каноникалы, JSON-LD парсится на всех тринадцати, честный 404.</li>
+<li><b>Команды, которые называют собственный предел прямо в выводе</b>: «кандидаты, а не
+нарушители», «частота ложных срабатываний выше 60% у неносителей английского». Это редко и
+это правильно.</li>
+<li><b>Отказ снимать чужую блокировку.</b> <code>reap</code> отказался трогать замок, чей
+run-id совпал, потому что в обычном чекауте эта идентичность — общий fallback, и совпадение
+ничего не доказывает. Осторожность настоящая — хотя замок был просрочен на трое суток при
+TTL 45 минут, и вот это уже отдельный дефект.</li>
+</ul>
+
+<h2>Чего аудит не смог решить</h2>
+<p class="lede">Записано отдельно, потому что «не смогли измерить» и «измерили и всё
+хорошо» — разные вещи, и смешивать их значит выдавать оценку за измерение.</p>
+<ul>
+<li><b>Токенная цена блока — главное неизмеренное число.</b> 22 271 байт, 383 строки,
+58% байтов файла <code>~/.claude/CLAUDE.md</code>. В токенах — нет: <code>tiktoken</code> не
+установлен, а инструмент репозитория <b>отказывается приближать</b> без него, и агент этот
+отказ уважил. Две независимые оценки дают ~4 700–5 500 токенов на сессию на агента. Для
+сравнения: собственный прецедент семьи «слишком дорого» — это superpowers на 854 токена.
+Число, которое оператору с ~60 проектами нужнее всего, не появляется ни в README, ни на
+сайте, ни в выводе команд: README оценивает 90-токенный хук и никогда не оценивает блок.</li>
+<li><b>Радиус поражения у находок про установку.</b> Телеметрии нет по замыслу, поэтому
+охват <code>JTBD-1</code> и <code>JTBD-7</code> — структурный, а не наблюдённый. Разрешается
+недельным сравнением загрузок npm по членам против зонтика.</li>
+<li><b>Как харнесс поступает с истёкшим <code>PreToolUse</code>-хуком.</b> Доказано, что
+хук не укладывается в бюджет; не наблюдалось, что делает харнесс на срезе. Если истечение
+трактуется как отказ, следствие <code>CODE-1</code> переворачивается на «здесь вообще нельзя
+сделать коммит» — хуже, а не лучше.</li>
+<li><b>Индексируется ли сайт.</b> Единственное рекомендованное действие плана от 27 августа
+— перепроверить 12 URL через 3–7 дней. Сегодня пятый день, записи нет. Все находки по
+публичной поверхности стоят ниже этого по течению.</li>
+<li><b>Поймал бы набор сценариев дефект в 35,2%</b> — или стал бы четвёртым документом,
+который никто не читает. Сильнейшее свидетельство в обе стороны лежит внутри семьи и
+приведено выше.</li>
+</ul>
+
+
+<h2>Что сделано по этому отчёту</h2>
+<p class="lede">Аудит не остался документом. Ниже — работа, выпущенная по его находкам за
+ту же сессию, и отдельно то, на чём поймали <b>меня</b>: без этой половины отчёт был бы
+рекламой, а не записью.</p>
+
+<h3>Отгружено и подтверждено на npm</h3>
+<div class="tblwrap"><table>
+<thead><tr><th>пакет</th><th class=num>версия</th><th>что закрыто</th><th>подтверждение</th></tr></thead>
+<tbody><tr><td><code>make-skill</code></td><td class=num>0.25.3 → 0.26.0</td><td>где правило живёт, решает, существует ли оно (hard/soft каналы) + защита негативов</td><td><span class='pill cosm'>npm 0.26.0</span></td></tr><tr><td><code>agent-stack</code></td><td class=num>0.18.x → 0.23.0</td><td>шесть релизов: статистика evals, KV-кэш, OTel GenAI, бюджет тела</td><td><span class='pill cosm'>npm 0.23.0</span></td></tr><tr><td><code>seo-aeo-audit</code></td><td class=num>0.25.9 → 0.25.10</td><td>видимый ответ перестал считаться невидимым (PUB-7)</td><td><span class='pill cosm'>npm 0.25.10</span></td></tr><tr><td><code>sshlg-skills</code></td><td class=num>1.14.0 → 1.15.0</td><td>согласие, прочитанное неверно в обе стороны (CODE-2 + ROUT-1) + два пина</td><td><span class='pill cosm'>npm 1.15.0</span></td></tr><tr><td><code>sshlg-skills</code></td><td class=num>1.15.0 → 1.15.1</td><td>семья перестала отрекаться от собственных членов (OPS-2)</td><td><span class='pill cosm'>npm 1.15.1</span></td></tr><tr><td><code>sshlg-skills</code></td><td class=num>1.15.1 → 1.16.0</td><td>фантом в ростере и модуль без потребителей (OPS-9 + ARCH-8)</td><td><span class='pill cosm'>npm 1.16.0</span></td></tr></tbody>
+</table></div>
+
+<h3>В полёте на момент отчёта</h3>
+<div class="tblwrap"><table>
+<thead><tr><th>пакет</th><th class=num>версия</th><th>состояние</th><th>что несёт</th><th>примечание</th></tr></thead>
+<tbody><tr><td><code>sshlg-skills</code></td><td class=num>v1.17.0</td><td>PR 54</td><td>четыре гарда, смотревших не туда (OPS-6, CODE-6, ARCH-2, ARCH-12)</td><td>снимок координации перегенерирован, CI перезапущен</td></tr><tr><td><code>agent-sync</code></td><td class=num>v1.19.1</td><td>смержен</td><td>повторный захват своей лизы теперь её обновляет</td><td>гейт на дереве мержа считает, затем тег</td></tr><tr><td><code>task-pipeline</code></td><td class=num>v1.82.3</td><td>готовится</td><td>протокол релиза записан; B-134 требует preflight</td><td>три тега сожжены: v1.82.0, v1.82.1, v1.82.2</td></tr></tbody>
+</table></div>
+<p>Локальные копии на машине обновлены одним прогоном на всю волну; теневых копий нет,
+девять членов на месте. Это проверено командой, а не предположено.</p>
+
+<div class="note warn">
+<p><b>Находка про <code>reap</code> снята, а не починена</b></p>
+<p>Я утверждал, что отказ <code>reap</code> снимать замок, просроченный на трое суток при TTL 45 минут, — дефект. Замер показал обратное: <code>acquire</code> перехватывает просроченный замок независимо от владельца, переписывая run, host и метку. Значит замок ничего не блокирует, а строгость <code>reap</code> для операции <b>уборки</b> — осознанное решение. Ошибка была в том, какая операция здесь важна. Но проверка, которой я это опровергал, вскрыла рядом настоящий и более острый дефект.</p>
+</div>
+
+<h3>На чём поймали меня</h3>
+<p class="lede">Шесть раз за сессию собственные гарды семьи отказались принять моё число
+или мою проверку. Это лучшее подтверждение раздела «что здорово», чем любая похвала
+в нём.</p>
+<div class='card s2'><h4>Гард, который я написал, был зелёной ложью</h4><p style='margin:0'>Проверка на модуль-сироту искала имя подстрокой и <b>прошла при сироте на месте</b> — соседний файл упоминает его в комментарии, и проза засчиталась за импорт. Поймал только тем, что заставил фикстуру падать против старого состояния.</p></div><div class='card s2'><h4>Self-test поймал дыру, которую я проделал в документе</h4><p style='margin:0'>Черновик секции леджера нёс заглушку вместо настоящего вывода команды. Плант целится в первое <code>PASS:</code> после <code>##</code>, проверка читает только новейшую секцию — значит секция без этой строки отправляет плант туда, где его никто не читает. Набор упал <b>громко</b>.</p></div><div class='card s2'><h4>Я оценил время CI вдвое неверно и сказал это уверенно</h4><p style='margin:0'>Сравнил локальное CEST со стартом в UTC и получил «четыре с половиной часа» вместо восьмидесяти восьми минут.</p></div><div class='card s2'><h4>Едва не отчитался чужим пакетом</h4><p style='margin:0'><code>npm view task-pipeline</code> возвращает 0.1.0 — это посторонний пакет. Семейный называется <code>task-pipeline-skill</code>.</p></div><div class='card s2'><h4>Три тега сожжено на одном и том же правиле</h4><p style='margin:0'>И третий — прогоном, который только что записал это правило в CHANGELOG. Штамп обязан ссылаться на коммит внутри диапазона нового тега, а тот появляется только при мерже: релиз здесь — <b>два мержа, и их порядок несущий</b>. Ничто не отказывает до появления тега.</p></div><div class='card s2'><h4>Гарды репозитория ловили меня на числах шесть раз</h4><p style='margin:0'>Ратчет фикстур (780→783→785→787→790), счётное утверждение леджера (505→512), счёт проб в CI (423→424), знаменатель незаписанных релизов (31→32). Ни одно я не мог бы переписать по памяти верно.</p></div>
+
+<div class="note">
+<p><b>Один урок, в две стороны.</b> Снятая находка и зелёный гард — одна и та же
+ошибка: <b>утверждение, которое не пытались опровергнуть, ничего не стоит</b>, и
+неважно, чьё оно — агента, доски или моё. Единственное, что отличало верные выводы от
+неверных в этой сессии, — была ли попытка сломать их до того, как они попали в отчёт.</p>
+</div>
+<h2>Существующий бэклог: 166 строк</h2>
+<p class="lede">Замерено против <code>origin/main</code> каждого репозитория. Три рабочие
+копии отставали, и <code>~/DATA/agent-stack</code> в одиночку прятал 8 строк — что
+независимо подтверждает <code>ARCH-6</code>.</p>
+<div class="tblwrap"><table>
+<thead><tr><th>репозиторий</th><th class=num>открыто</th><th>формула приоритета</th></tr></thead>
+<tbody>
+<tr><td>task-pipeline</td><td class=num>62</td><td><code>sev × blast + age_bonus</code></td></tr>
+<tr><td>sheleg-design</td><td class=num>33</td><td>охват × возраст ÷ цена, <b>словом</b></td></tr>
+<tr><td>seo-aeo-audit</td><td class=num>29</td><td><code>(impact × confidence) / effort</code>, <b>без члена возраста</b></td></tr>
+<tr><td>sshlg-skills</td><td class=num>19</td><td><code>blast × (1 + age_runs) / effort</code></td></tr>
+<tr><td>sheleg-dev</td><td class=num>12</td><td><code>(impact × confidence) / effort</code></td></tr>
+<tr><td>agent-sync</td><td class=num>4</td><td>формулы нет — «непроверенное важнее неопрятного»</td></tr>
+<tr><td>agent-stack</td><td class=num>4</td><td>частично <b>колонки приоритета нет</b></td></tr>
+<tr><td>super-ux</td><td class=num>2</td><td>арифметика записана как есть: <code>2×2×3 = 12</code></td></tr>
+<tr><td>make-skill</td><td class=num>1</td><td><code>blast × (1 + age_runs) / effort</code></td></tr>
+<tr><td>telegram-dev</td><td class=num>0</td><td><b>доски нет вовсе, и леджера тоже</b></td></tr>
+</tbody>
+</table></div>
+
+<h3>Семнадцать строк, чьё утверждение больше не истинно</h3>
+<p>Это дороже новых находок: строка доски — утверждение с меткой времени, и по ней кто-то
+будет работать.</p>
+<ul>
+<li><b>Строка, которая одновременно открыта и закрыта.</b> Одна и та же ячейка статуса
+начинается словом <code>open</code> и заканчивается <code>Closed 2026-09-01 — v1.14.0</code>.
+Любой парсер читает голову ячейки, поэтому строка считается открытой. Единственная такая
+в семье.</li>
+<li><b>Старейшая открытая строка семьи закрыта кем-то другим, и никто не посмотрел.</b>
+B-015 (29 дней) просит проверять правило роутинга <i>как правило</i>. Это отгрузили
+<b>накануне аудита</b>: три слепых прогона, по одному на модель. Более того, строка B-118,
+заведённая 31 августа, <b>ссылается на эти самые пробы как на своё свидетельство</b>, пока
+строка, которая их просила, лежит нетронутой. Доска пересчитала возраст и приоритет всем
+строкам 31 августа и при этом не перечитала ни одного утверждения.</li>
+<li><b>Вторая по возрасту называет предмет, которого не существует</b> — grep по всему
+дереву возвращает саму строку и два документа, которые её завели. Она выживает тем, что
+неисполнима.</li>
+<li><b>Третья — решение в одежде долга.</b> Строка фиксирует, что прогон рассмотрел вопрос
+и <i>сознательно отказался</i>. У зонтика для этого есть состояние <code>waived</code>,
+доктрина которого была написана ровно после того, как две верно принятых решения всплыли
+наверх доски и цикл потратил себя на их перевывод. У <code>task-pipeline</code> такого
+состояния нет, поэтому строка копит возрастной бонус и будет всплывать вечно.</li>
+<li>B-98 говорит «восемь членов» — на деле <b>один</b>. B-101 говорит «45 позади» — на деле
+<b>187</b>. B-29 говорит «99 строк» — <b>149</b>. B-84 говорит «семеро» и перечисляет
+<b>восьмерых</b>. B-32 говорит «16 из 21» — <b>15 из 31</b>.</li>
+<li><b>Итоговая строка доски зонтика читает «Open: 17»</b>, а её собственный рецепт подсчёта
+возвращает 19. Это третий зафиксированный случай устаревания именно этой строки.</li>
+</ul>
+
+<div class="note ok">
+<p><b>Проверено и всё ещё истинно</b> — чтобы запись не читалась односторонне: B-92, B-106,
+B-86, B-91 у зонтика, B-98 у <code>sheleg-dev</code>, MS-05 у <code>make-skill</code>. А
+строка B-004 у <code>sheleg-design</code> — самая здоровая в семье: её статус несёт замеры
+рендера раздел за разделом.</p>
+</div>
+
+<h3>Семь пар «один дефект в двух репозиториях»</h3>
+<p>Самая полезная — не совпадение, а <b>цепочка</b>: <code>MS-05</code> просит перенести
+гард <i>в</i> <code>make-skill</code>, а <code>AG-06a</code> говорит, что перенесённый гард
+читает слишком узко. Это не дубликат. И измерение показало, что гарда не хватает в
+<b>трёх</b> репозиториях, а не в одном.</p>
+
+<div class="foot">
+<p>Собрано семью параллельными агентами; каждая находка, помеченная «проверено мной»,
+воспроизведена в главном потоке независимо от агента. Числа посчитаны запуском, а не
+переписаны: где измерить не удалось, это сказано в разделе «чего аудит не смог решить».</p>
+</div>
+
+</div>
+</body>
+</html>

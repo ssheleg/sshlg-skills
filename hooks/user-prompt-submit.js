@@ -33,16 +33,24 @@ process.stdin.on('end', () => {
     // Record what this turn asked for, so `PreToolUse` can act on it several tool
     // calls and one process later. Naming a route is a hint the model may ignore;
     // this is what lets the un-routed path be escalated instead.
-    try {
-      const os = require('os');
-      const turnstate = require(path.join(__dirname, '..', 'lib', 'turnstate.js'));
-      turnstate.write(os.homedir(), data.session_id, {
-        promptId: data.prompt_id || null,
-        routes: triggers.match(prompt),
-        optedOut: triggers.optedOut(prompt),
-        asked: false,
-      });
-    } catch (e) { /* a hint that cannot be stored is a hint that does not happen */ }
+    //
+    // Not for a system-generated turn: the harness fires this hook for
+    // background-task notifications too, and a notification landing mid-turn
+    // overwrote the routes the real prompt had armed — the escalation went quiet
+    // for the rest of a turn that HAD routed (found by the 2026-09-07 review).
+    // The lib decides what a system turn is; this file only declines to write.
+    if (!triggers.isSystemTurn(prompt)) {
+      try {
+        const os = require('os');
+        const turnstate = require(path.join(__dirname, '..', 'lib', 'turnstate.js'));
+        turnstate.write(os.homedir(), data.session_id, {
+          promptId: data.prompt_id || null,
+          routes: triggers.match(prompt),
+          optedOut: triggers.optedOut(prompt),
+          asked: false,
+        });
+      } catch (e) { /* a hint that cannot be stored is a hint that does not happen */ }
+    }
 
     const out = triggers.render(prompt);
     if (out) process.stdout.write(out + '\n');

@@ -539,6 +539,22 @@ it('the un-routed path is escalated once per turn, then goes quiet', () => {
   assert.strictEqual(second, null, 'a turn editing many files would prompt on each one');
 });
 
+it('a system-generated turn produces no routing note, as a process', () => {
+  // The harness fires UserPromptSubmit for background-task notifications too;
+  // on 2026-09-06 each one in a session was "routed" off its own body text.
+  const out = runHookText('user-prompt-submit.js', {
+    session_id: 'e2e-systurn', prompt_id: 'p9',
+    prompt: '[SYSTEM NOTIFICATION - NOT USER INPUT]\n<task-notification>agent wired the stripe checkout, сделай лендинг</task-notification>',
+  });
+  assert.strictEqual(out, '', `a system turn was routed: ${out.slice(0, 80)}`);
+  // The same body minus the marker routes, so the silence is decided, not lucky.
+  const routed = runHookText('user-prompt-submit.js', {
+    session_id: 'e2e-systurn', prompt_id: 'p10',
+    prompt: 'agent wired the stripe checkout, сделай лендинг',
+  });
+  assert.ok(routed.includes('[sshlg-routing]'), 'the control prompt stopped routing — the fixture proves nothing');
+});
+
 it('a refusal phrase silences the session, not merely the turn', () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'route-'));
   const session = 'e2e-optout';

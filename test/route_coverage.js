@@ -196,6 +196,12 @@ const CASES = [
   ['сделай скилл', 'make-skill'],
   ['заверни в плагин', 'make-skill'],
   ['проверь скилл по стандарту', 'make-skill'],
+  // The live miss of 2026-09-06: an operator asked this and the hook named only
+  // `task-pipeline`, because the router text promised auditing and the member's
+  // description advertised none of that vocabulary. In the corpus so it cannot
+  // regress silently — the wave that found it is the wave that adds the probe.
+  ['проведи аудит скилов', 'make-skill'],
+  ['skill audit of this repo', 'make-skill'],
 
   // --- who is holding this file ---------------------------------------------
   ['возьми задачу', 'agent-sync'],

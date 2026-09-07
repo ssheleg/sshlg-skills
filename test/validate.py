@@ -1509,6 +1509,66 @@ def check_desc_moves_with_skills():
 check_desc_moves_with_skills()
 
 
+def check_shipped_descriptions_agree_across_manifests():
+    """`plugin.json` and the marketplace entry ship one description, byte for byte.
+
+    Versions move together under four guards; descriptions moved under none, and
+    task-pipeline v1.85.0 shipped "typed auto/judgment/manual gates" in its
+    plugin.json beside "typed auto/manual gates" in its marketplace entry — two
+    shipped truths about one artifact, found by the 2026-09-06 family audit and
+    by nothing here. A deliberate split is allowed only by declaring it below
+    with a reason, so drift and intent stop being indistinguishable — and a
+    declared split whose texts turn out identical is refused too, because a
+    stale exception is a hole waiting for the next collision.
+    """
+    declared_split = {
+        # member name -> one-line reason; the member's own docs carry the long form.
+        "agent-sync": "recorded in the member (board row AW-0906-desc, v1.19.3): the "
+                      "marketplace entry is the storefront carrying the lease doctrine, "
+                      "plugin.json the installed one-liner",
+        "make-skill": "two compositions since v0.2x: plugin.json is the imperative "
+                      "summary, the marketplace entry the standards-first listing — "
+                      "declared 2026-09-06 by the family audit rather than collapsed",
+        "seo-aeo-audit": "two compositions: plugin.json leads with the deliverable, the "
+                         "marketplace entry enumerates the ten tracks — declared "
+                         "2026-09-06 by the family audit rather than collapsed",
+    }
+    for s in skills:
+        name = s.get("name")
+        pj = os.path.join(ROOT, "skills", name, "plugins", name, ".claude-plugin", "plugin.json")
+        mk = os.path.join(ROOT, "skills", name, ".claude-plugin", "marketplace.json")
+        if not (os.path.isfile(pj) and os.path.isfile(mk)):
+            _skips.append(f"{name}: manifest pair not readable — description agreement not checked")
+            continue
+        try:
+            with open(pj, encoding="utf-8") as f:
+                pdesc = json.load(f).get("description")
+            with open(mk, encoding="utf-8") as f:
+                plugins = json.load(f).get("plugins") or []
+            mdesc = next((p.get("description") for p in plugins if p.get("name") == name), None)
+            # No plugins[0] fallback: on a future multi-plugin marketplace with no
+            # entry named the member it would compare the WRONG pair — a spurious
+            # verdict either way (2026-09-07 review). No named entry → disclose.
+        except Exception as e:  # a manifest that cannot be read is a finding, not a skip
+            fail(f"{name}: manifest unparseable while comparing descriptions ({e})")
+            continue
+        if pdesc is None or mdesc is None:
+            _skips.append(f"{name}: a manifest carries no description — agreement not checked")
+            continue
+        if pdesc != mdesc and name not in declared_split:
+            fail(f"{name}: plugin.json and its marketplace entry ship DIFFERENT descriptions "
+                 f"and no split is declared. First divergence at code point "
+                 f"{next((i for i, (a, b) in enumerate(zip(pdesc, mdesc)) if a != b), min(len(pdesc), len(mdesc)))}. "
+                 "Align them in the member, or declare the split in "
+                 "check_shipped_descriptions_agree_across_manifests with its reason")
+        if pdesc == mdesc and name in declared_split:
+            fail(f"{name}: declared as a deliberate description split and the two texts are "
+                 "identical — remove the stale exception")
+
+
+check_shipped_descriptions_agree_across_manifests()
+
+
 def check_no_member_is_released_behind_its_branch():
     """Say when a member's `main` has moved past the commit this hub pins.
 
@@ -1837,7 +1897,7 @@ def check_each_member_ledger_reaches_its_shipped_version():
     # ships. The guard fired in BOTH directions on the run that wrote it — it refused the
     # tree until the smaller number was written down, which is the whole point of a
     # ratchet that also fails below its floor.
-    _LAG_FLOOR = 2
+    _LAG_FLOOR = 1
     if len(_lagging) > _LAG_FLOOR:
         fail(f"{len(_lagging)} member ledger(s) describe a version older than they ship "
              f"({', '.join(sorted(_lagging))}) and the ratchet in test/validate.py stands "
@@ -2347,7 +2407,7 @@ def check_no_member_can_publish_bytecode() -> None:
     if not examined:
         _skips.append("bytecode packing — no member names a directory carrying Python")
         return
-    ratchet = 4
+    ratchet = 3
     if len(offenders) > ratchet:
         fail(f"{len(offenders)} member(s) can publish bytecode and the ratchet stands at "
              f"{ratchet}: {', '.join(sorted(offenders))}. Add "
