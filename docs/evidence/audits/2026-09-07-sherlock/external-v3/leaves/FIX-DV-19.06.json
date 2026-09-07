@@ -1,0 +1,130 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-DV-19.06",
+  "parent_id": "FIX-DV-19",
+  "title": "Artifact eval: error-tracking",
+  "kind": "verification",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "sheleg-dev"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Eval измеряет узнавание доктрины и дизайн-ответ, не безопасность исполняемого результата",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Добавить offline artifact/fault-injection corpus error-tracking, привязанный к соответствующим DV findings; protocol/provider stubs не являются oracle сами для себя.",
+  "expected_result": "Позитивный результат и исходный counterexample проверяются по state/outputs; exit/trace/environment фиксируются.",
+  "acceptance": [
+    "Позитивный результат и исходный counterexample проверяются по state/outputs; exit/trace/environment фиксируются."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Добавить offline artifact/fault-injection corpus error-tracking, привязанный к соответствующим DV findings; protocol/provider stubs не являются oracle сами для себя.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-dev/evals/cases/fix-dv-19.06.json",
+      "mode": "Create",
+      "role": "focused outcome corpus (new artifact)",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-dev/test/audit_regressions/fix-dv-19.06.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-DV-19.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-DV-19.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-dev/test/evals/RESULTS.md",
+        "sha256": "a56de3ec4ff01a7c43d7af567820f80d590afe61dcd3b179247ac9a6bad6c869",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-dev/test/evals/scenarios.json",
+        "sha256": "29790d8f410b2e41864054bb68024d36cb48f76a5a0c2f2bf1a0a06284c78807",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Для каждого skill минимум positive, near-miss negative, hostile/failure scenario; P1 контрпримеры обязаны падать на старом output и проходить после правки; результаты привязаны к release."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-dev/test/audit_regressions/fix-dv-19.06.py",
+    "python3 repo://sheleg-dev/test/validate.py"
+  ],
+  "focused_case_context": [
+    {
+      "finding_id": "DV-15",
+      "title": "Эталонный string scrubber пропускает распространённый Redis password и bot-token URLs",
+      "case_acceptance": [
+        "Canary matrix fake Redis/AMQP/Postgres URLs, encoded credentials, Telegram path, access-token query, nested events; ни один fake secret не доходит до test transport."
+      ],
+      "packet": "audit://extension/packets/FIX-DV-15.json"
+    },
+    {
+      "finding_id": "DV-16",
+      "title": "Правила восстановления дают противоположные действия для отозванной сессии",
+      "case_acceptance": [
+        "Composition scenario: Telegram session revoked + Sentry installed → один actionable alert, работы остановлены, ограниченные retries и отсутствие бесконечного crash loop."
+      ],
+      "packet": "audit://extension/packets/FIX-DV-16.json"
+    },
+    {
+      "finding_id": "DV-19",
+      "title": "Eval измеряет узнавание доктрины и дизайн-ответ, не безопасность исполняемого результата",
+      "case_acceptance": [
+        "Для каждого skill минимум positive, near-miss negative, hostile/failure scenario; P1 контрпримеры обязаны падать на старом output и проходить после правки; результаты привязаны к release."
+      ],
+      "packet": "audit://extension/packets/FIX-DV-19.json"
+    }
+  ],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-DV-19.06.md",
+    "sha256": "6468fb53fa5ff6781c607bca528784b5afe10f19d84da96103b74d0b72e04ad2",
+    "utf8_bytes": 5321,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "cfaade3e0b015b889db9f14c4269bdff72bf90fdcb6ac739b3e518fafd78a2f2"
+  }
+}

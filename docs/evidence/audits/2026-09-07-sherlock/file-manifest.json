@@ -1,0 +1,2227 @@
+[
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/SKILL.md",
+    "bytes": 6621,
+    "sha256": "5232e797d83cb5d16b2b667cb776bdaef7355c14cc8f4e59032ac2fdf5070609"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/SKILL.md",
+    "bytes": 9268,
+    "sha256": "949c791580f343dae6bf354c06e5b0e43e393d8170591c2833e2671a8e7513b9"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/voice-packs.md",
+    "bytes": 16275,
+    "sha256": "0faa72a09d8fc788b04fb6e15199b249b083bc70d4e3267bf62a822a3320e7bd"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/funnel-research.md",
+    "bytes": 13912,
+    "sha256": "21db211ef0bd9f11bd09bb7d234cc976d00686ea1aeb085ac57c676e3c53a802"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/internal-screens.md",
+    "bytes": 11301,
+    "sha256": "4771a141f85244f6496b3e38210cd1777e19e38dd1a11e917144c6eba1994215"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/ui-copy.md",
+    "bytes": 6308,
+    "sha256": "b72a15f155f8d63741269e9b25653d91a58589194ca414e342c450fdf20a6b14"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/localization.md",
+    "bytes": 5344,
+    "sha256": "8553a99cf14eb5f6ec93c846761cdd811ff80462ec61bbcedfe946eaa393abde"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/best-practices.md",
+    "bytes": 174372,
+    "sha256": "e0dcfdb6bf395662b2c81c32b8ecaad6c2059bebe62e6a8c75537834d790ff91"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/component-guidelines.md",
+    "bytes": 5409,
+    "sha256": "b5cecaa941cfd4c3acdd2b7036f1589ff79d3e7954849b6d8ad5434e39fe5fd9"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/seo-aeo-safety.md",
+    "bytes": 6544,
+    "sha256": "861da0b19009a3c47843fe8de35882afccb1af43c417898650e8933febe1f5d4"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/landing-pages.md",
+    "bytes": 20679,
+    "sha256": "f70096219a868cd7efc1dd2534d732378d02077c2b13790d55014ae108a13537"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/channel-playbooks.md",
+    "bytes": 5833,
+    "sha256": "d96d898a9e3f7a1a4bd1da34c32a379537c64a8a7e332aae9553c86fe10b11ac"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/figma-structure.md",
+    "bytes": 5550,
+    "sha256": "9dc4fd0ca3a6604f67d9e14e09f977e63bcde207f98ff685632b6609dfb71dde"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/figma-integration.md",
+    "bytes": 10271,
+    "sha256": "1a952657c734dfb1358fe2abf69779d4a83e8e6582f4f65b42d2fcd1a308ad7b"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/ux-design-principles.md",
+    "bytes": 13328,
+    "sha256": "cb0462c71e0ddb56364f0f3cf95c6c0a315f22c31120405252c0563594ff10a6"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/visual-identity.md",
+    "bytes": 7705,
+    "sha256": "3771fd7aab529c71ff15fe0cd9bb38c71cd1e016162ca73edd7f37acf955d36e"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/best-practices-index.md",
+    "bytes": 26110,
+    "sha256": "7be56c1fe221460318c747679753c7282fd26e04ff7b27b1be50954026990212"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/marketing-copy.md",
+    "bytes": 7198,
+    "sha256": "7753a4f8c0a23febb179817cb1c8193b480eea2cfcd2610f0018f46c1c8be2fd"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/surface-registers.md",
+    "bytes": 8697,
+    "sha256": "81335c8055276e06faf21b359835971ef8abc40c1e6ced6530d2b552e430e3a2"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/product-frameworks.md",
+    "bytes": 14754,
+    "sha256": "cd343a5b127aad938ce606476a68e2744029c0a0cf21217d2464953f51c27c37"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/system-map.md",
+    "bytes": 8452,
+    "sha256": "e817cf95bf225c96a29b5baf1a2f4e588671506f34a5f8e73c3a8a76050cc83c"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/onboarding.md",
+    "bytes": 11322,
+    "sha256": "c37caeb547bed4c0d1f639b732380d84de8ff5c0030fa51fff46dae591dcda96"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/scenario-format.md",
+    "bytes": 44148,
+    "sha256": "9017a498b260aeb5d42c6ada422a4ee663491ab50485c0f6787aba7e220fdc6b"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/practice-selection.md",
+    "bytes": 12067,
+    "sha256": "22e9fe81da5b7fb18e23d0dbcd7cd158ac247fe9ad25de941f7a4f57859b5270"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/store-copy.md",
+    "bytes": 5270,
+    "sha256": "813bf94b54c7fdb2e2fc12dbeb64c3bac1a9be7b24f71cc971307d51ffd755d1"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/brand-contract.md",
+    "bytes": 17779,
+    "sha256": "f2bef5e66047c516fe183448b8d5aa862c0478a32534fb5cd075855b33feb5f6"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/references/ai-tells.md",
+    "bytes": 14487,
+    "sha256": "12360ad29858deb1c7110b45683b890cb566bfe85c9258cacd4471a59d3a8943"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/vision/SKILL.md",
+    "bytes": 8325,
+    "sha256": "21bb12c216af4a6e9d49b4712ab036731a51fd9e9124f5892dd8274832661f40"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md",
+    "bytes": 19348,
+    "sha256": "08fee3fa580918356d6d3c398948413144cf60e45274ec78d50a0e44500b6d58"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/SKILL.md",
+    "bytes": 18964,
+    "sha256": "617713c7a76cbff36c8c9211c93246a1a11068a3aaa02e0b75dcf87eef7dde45"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/SKILL.md",
+    "bytes": 9340,
+    "sha256": "dbdf9cfbe78809f49e763416e76c4c58847de62ba5ffc1b845f8d2c177ea88e1"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/SKILL.md",
+    "bytes": 9321,
+    "sha256": "eb1b153f9e520811822c1d27dd418b4c280213190d20798fdf76ea758fef604d"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/funnel-research.md",
+    "bytes": 13912,
+    "sha256": "21db211ef0bd9f11bd09bb7d234cc976d00686ea1aeb085ac57c676e3c53a802"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/best-practices.md",
+    "bytes": 174372,
+    "sha256": "e0dcfdb6bf395662b2c81c32b8ecaad6c2059bebe62e6a8c75537834d790ff91"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/component-guidelines.md",
+    "bytes": 5409,
+    "sha256": "b5cecaa941cfd4c3acdd2b7036f1589ff79d3e7954849b6d8ad5434e39fe5fd9"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/figma-structure.md",
+    "bytes": 5550,
+    "sha256": "9dc4fd0ca3a6604f67d9e14e09f977e63bcde207f98ff685632b6609dfb71dde"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/figma-integration.md",
+    "bytes": 10271,
+    "sha256": "1a952657c734dfb1358fe2abf69779d4a83e8e6582f4f65b42d2fcd1a308ad7b"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/ux-design-principles.md",
+    "bytes": 13328,
+    "sha256": "cb0462c71e0ddb56364f0f3cf95c6c0a315f22c31120405252c0563594ff10a6"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/visual-identity.md",
+    "bytes": 7705,
+    "sha256": "3771fd7aab529c71ff15fe0cd9bb38c71cd1e016162ca73edd7f37acf955d36e"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/best-practices-index.md",
+    "bytes": 26110,
+    "sha256": "7be56c1fe221460318c747679753c7282fd26e04ff7b27b1be50954026990212"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/product-frameworks.md",
+    "bytes": 14754,
+    "sha256": "cd343a5b127aad938ce606476a68e2744029c0a0cf21217d2464953f51c27c37"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/system-map.md",
+    "bytes": 8452,
+    "sha256": "e817cf95bf225c96a29b5baf1a2f4e588671506f34a5f8e73c3a8a76050cc83c"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/scenario-format.md",
+    "bytes": 44148,
+    "sha256": "9017a498b260aeb5d42c6ada422a4ee663491ab50485c0f6787aba7e220fdc6b"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/practice-selection.md",
+    "bytes": 12067,
+    "sha256": "22e9fe81da5b7fb18e23d0dbcd7cd158ac247fe9ad25de941f7a4f57859b5270"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/templates/foundation.md",
+    "bytes": 3002,
+    "sha256": "fa5891aa86b4cb3652ed33a11b4aebceea5e2465f4a9c8b92ea95d3e81407544"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/best-practices.md",
+    "bytes": 174372,
+    "sha256": "e0dcfdb6bf395662b2c81c32b8ecaad6c2059bebe62e6a8c75537834d790ff91"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/component-guidelines.md",
+    "bytes": 5409,
+    "sha256": "b5cecaa941cfd4c3acdd2b7036f1589ff79d3e7954849b6d8ad5434e39fe5fd9"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/figma-structure.md",
+    "bytes": 5550,
+    "sha256": "9dc4fd0ca3a6604f67d9e14e09f977e63bcde207f98ff685632b6609dfb71dde"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/figma-integration.md",
+    "bytes": 10271,
+    "sha256": "1a952657c734dfb1358fe2abf69779d4a83e8e6582f4f65b42d2fcd1a308ad7b"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/ux-design-principles.md",
+    "bytes": 13328,
+    "sha256": "cb0462c71e0ddb56364f0f3cf95c6c0a315f22c31120405252c0563594ff10a6"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/visual-identity.md",
+    "bytes": 7705,
+    "sha256": "3771fd7aab529c71ff15fe0cd9bb38c71cd1e016162ca73edd7f37acf955d36e"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/best-practices-index.md",
+    "bytes": 26110,
+    "sha256": "7be56c1fe221460318c747679753c7282fd26e04ff7b27b1be50954026990212"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/system-map.md",
+    "bytes": 8452,
+    "sha256": "e817cf95bf225c96a29b5baf1a2f4e588671506f34a5f8e73c3a8a76050cc83c"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/scenario-format.md",
+    "bytes": 44148,
+    "sha256": "9017a498b260aeb5d42c6ada422a4ee663491ab50485c0f6787aba7e220fdc6b"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/practice-selection.md",
+    "bytes": 12067,
+    "sha256": "22e9fe81da5b7fb18e23d0dbcd7cd158ac247fe9ad25de941f7a4f57859b5270"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/templates/scenarios.md",
+    "bytes": 1504,
+    "sha256": "2f214ed2f182ce8fd54820ac97235630c68aafa3070d88663384226fc3b3a224"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/voice-packs.md",
+    "bytes": 16275,
+    "sha256": "0faa72a09d8fc788b04fb6e15199b249b083bc70d4e3267bf62a822a3320e7bd"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/localization.md",
+    "bytes": 5344,
+    "sha256": "8553a99cf14eb5f6ec93c846761cdd811ff80462ec61bbcedfe946eaa393abde"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/best-practices.md",
+    "bytes": 174372,
+    "sha256": "e0dcfdb6bf395662b2c81c32b8ecaad6c2059bebe62e6a8c75537834d790ff91"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/component-guidelines.md",
+    "bytes": 5409,
+    "sha256": "b5cecaa941cfd4c3acdd2b7036f1589ff79d3e7954849b6d8ad5434e39fe5fd9"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/seo-aeo-safety.md",
+    "bytes": 6544,
+    "sha256": "861da0b19009a3c47843fe8de35882afccb1af43c417898650e8933febe1f5d4"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/channel-playbooks.md",
+    "bytes": 5833,
+    "sha256": "d96d898a9e3f7a1a4bd1da34c32a379537c64a8a7e332aae9553c86fe10b11ac"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/figma-structure.md",
+    "bytes": 5550,
+    "sha256": "9dc4fd0ca3a6604f67d9e14e09f977e63bcde207f98ff685632b6609dfb71dde"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/figma-integration.md",
+    "bytes": 10271,
+    "sha256": "1a952657c734dfb1358fe2abf69779d4a83e8e6582f4f65b42d2fcd1a308ad7b"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/ux-design-principles.md",
+    "bytes": 13328,
+    "sha256": "cb0462c71e0ddb56364f0f3cf95c6c0a315f22c31120405252c0563594ff10a6"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/visual-identity.md",
+    "bytes": 7705,
+    "sha256": "3771fd7aab529c71ff15fe0cd9bb38c71cd1e016162ca73edd7f37acf955d36e"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/best-practices-index.md",
+    "bytes": 26110,
+    "sha256": "7be56c1fe221460318c747679753c7282fd26e04ff7b27b1be50954026990212"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/marketing-copy.md",
+    "bytes": 7198,
+    "sha256": "7753a4f8c0a23febb179817cb1c8193b480eea2cfcd2610f0018f46c1c8be2fd"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/surface-registers.md",
+    "bytes": 8697,
+    "sha256": "81335c8055276e06faf21b359835971ef8abc40c1e6ced6530d2b552e430e3a2"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/system-map.md",
+    "bytes": 8452,
+    "sha256": "e817cf95bf225c96a29b5baf1a2f4e588671506f34a5f8e73c3a8a76050cc83c"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/scenario-format.md",
+    "bytes": 44148,
+    "sha256": "9017a498b260aeb5d42c6ada422a4ee663491ab50485c0f6787aba7e220fdc6b"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/practice-selection.md",
+    "bytes": 12067,
+    "sha256": "22e9fe81da5b7fb18e23d0dbcd7cd158ac247fe9ad25de941f7a4f57859b5270"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/store-copy.md",
+    "bytes": 5270,
+    "sha256": "813bf94b54c7fdb2e2fc12dbeb64c3bac1a9be7b24f71cc971307d51ffd755d1"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/brand-contract.md",
+    "bytes": 17779,
+    "sha256": "f2bef5e66047c516fe183448b8d5aa862c0478a32534fb5cd075855b33feb5f6"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/references/ai-tells.md",
+    "bytes": 14487,
+    "sha256": "12360ad29858deb1c7110b45683b890cb566bfe85c9258cacd4471a59d3a8943"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/funnel-research.md",
+    "bytes": 13912,
+    "sha256": "21db211ef0bd9f11bd09bb7d234cc976d00686ea1aeb085ac57c676e3c53a802"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/internal-screens.md",
+    "bytes": 11301,
+    "sha256": "4771a141f85244f6496b3e38210cd1777e19e38dd1a11e917144c6eba1994215"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/best-practices.md",
+    "bytes": 174372,
+    "sha256": "e0dcfdb6bf395662b2c81c32b8ecaad6c2059bebe62e6a8c75537834d790ff91"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/component-guidelines.md",
+    "bytes": 5409,
+    "sha256": "b5cecaa941cfd4c3acdd2b7036f1589ff79d3e7954849b6d8ad5434e39fe5fd9"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/figma-structure.md",
+    "bytes": 5550,
+    "sha256": "9dc4fd0ca3a6604f67d9e14e09f977e63bcde207f98ff685632b6609dfb71dde"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/figma-integration.md",
+    "bytes": 10271,
+    "sha256": "1a952657c734dfb1358fe2abf69779d4a83e8e6582f4f65b42d2fcd1a308ad7b"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/ux-design-principles.md",
+    "bytes": 13328,
+    "sha256": "cb0462c71e0ddb56364f0f3cf95c6c0a315f22c31120405252c0563594ff10a6"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/visual-identity.md",
+    "bytes": 7705,
+    "sha256": "3771fd7aab529c71ff15fe0cd9bb38c71cd1e016162ca73edd7f37acf955d36e"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/best-practices-index.md",
+    "bytes": 26110,
+    "sha256": "7be56c1fe221460318c747679753c7282fd26e04ff7b27b1be50954026990212"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/system-map.md",
+    "bytes": 8452,
+    "sha256": "e817cf95bf225c96a29b5baf1a2f4e588671506f34a5f8e73c3a8a76050cc83c"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/onboarding.md",
+    "bytes": 11322,
+    "sha256": "c37caeb547bed4c0d1f639b732380d84de8ff5c0030fa51fff46dae591dcda96"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/scenario-format.md",
+    "bytes": 44148,
+    "sha256": "9017a498b260aeb5d42c6ada422a4ee663491ab50485c0f6787aba7e220fdc6b"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/practice-selection.md",
+    "bytes": 12067,
+    "sha256": "22e9fe81da5b7fb18e23d0dbcd7cd158ac247fe9ad25de941f7a4f57859b5270"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/vision/references/system-map.md",
+    "bytes": 8452,
+    "sha256": "e817cf95bf225c96a29b5baf1a2f4e588671506f34a5f8e73c3a8a76050cc83c"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/voice-packs.md",
+    "bytes": 16275,
+    "sha256": "0faa72a09d8fc788b04fb6e15199b249b083bc70d4e3267bf62a822a3320e7bd"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/ui-copy.md",
+    "bytes": 6308,
+    "sha256": "b72a15f155f8d63741269e9b25653d91a58589194ca414e342c450fdf20a6b14"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/localization.md",
+    "bytes": 5344,
+    "sha256": "8553a99cf14eb5f6ec93c846761cdd811ff80462ec61bbcedfe946eaa393abde"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/seo-aeo-safety.md",
+    "bytes": 6544,
+    "sha256": "861da0b19009a3c47843fe8de35882afccb1af43c417898650e8933febe1f5d4"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/landing-pages.md",
+    "bytes": 20679,
+    "sha256": "f70096219a868cd7efc1dd2534d732378d02077c2b13790d55014ae108a13537"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/channel-playbooks.md",
+    "bytes": 5833,
+    "sha256": "d96d898a9e3f7a1a4bd1da34c32a379537c64a8a7e332aae9553c86fe10b11ac"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/marketing-copy.md",
+    "bytes": 7198,
+    "sha256": "7753a4f8c0a23febb179817cb1c8193b480eea2cfcd2610f0018f46c1c8be2fd"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/surface-registers.md",
+    "bytes": 8697,
+    "sha256": "81335c8055276e06faf21b359835971ef8abc40c1e6ced6530d2b552e430e3a2"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/system-map.md",
+    "bytes": 8452,
+    "sha256": "e817cf95bf225c96a29b5baf1a2f4e588671506f34a5f8e73c3a8a76050cc83c"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/store-copy.md",
+    "bytes": 5270,
+    "sha256": "813bf94b54c7fdb2e2fc12dbeb64c3bac1a9be7b24f71cc971307d51ffd755d1"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/brand-contract.md",
+    "bytes": 17779,
+    "sha256": "f2bef5e66047c516fe183448b8d5aa862c0478a32534fb5cd075855b33feb5f6"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/ai-tells.md",
+    "bytes": 14487,
+    "sha256": "12360ad29858deb1c7110b45683b890cb566bfe85c9258cacd4471a59d3a8943"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/references/voice-packs.md",
+    "bytes": 16275,
+    "sha256": "0faa72a09d8fc788b04fb6e15199b249b083bc70d4e3267bf62a822a3320e7bd"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/references/localization.md",
+    "bytes": 5344,
+    "sha256": "8553a99cf14eb5f6ec93c846761cdd811ff80462ec61bbcedfe946eaa393abde"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/references/seo-aeo-safety.md",
+    "bytes": 6544,
+    "sha256": "861da0b19009a3c47843fe8de35882afccb1af43c417898650e8933febe1f5d4"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/references/channel-playbooks.md",
+    "bytes": 5833,
+    "sha256": "d96d898a9e3f7a1a4bd1da34c32a379537c64a8a7e332aae9553c86fe10b11ac"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/references/marketing-copy.md",
+    "bytes": 7198,
+    "sha256": "7753a4f8c0a23febb179817cb1c8193b480eea2cfcd2610f0018f46c1c8be2fd"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/references/surface-registers.md",
+    "bytes": 8697,
+    "sha256": "81335c8055276e06faf21b359835971ef8abc40c1e6ced6530d2b552e430e3a2"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/references/system-map.md",
+    "bytes": 8452,
+    "sha256": "e817cf95bf225c96a29b5baf1a2f4e588671506f34a5f8e73c3a8a76050cc83c"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/references/store-copy.md",
+    "bytes": 5270,
+    "sha256": "813bf94b54c7fdb2e2fc12dbeb64c3bac1a9be7b24f71cc971307d51ffd755d1"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/references/brand-contract.md",
+    "bytes": 17779,
+    "sha256": "f2bef5e66047c516fe183448b8d5aa862c0478a32534fb5cd075855b33feb5f6"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/references/ai-tells.md",
+    "bytes": 14487,
+    "sha256": "12360ad29858deb1c7110b45683b890cb566bfe85c9258cacd4471a59d3a8943"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/templates/brand/locale.md",
+    "bytes": 2211,
+    "sha256": "3f941bdf1ba872883d0040c02d5c1a87606f306c3d91fda63b9189f177a3154b"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/templates/brand/voice.md",
+    "bytes": 2095,
+    "sha256": "4ae150fca4476bdecdeddb772686fe0fdc18114acf2ba8c8bb04f9af2ac08611"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/templates/brand/strings.md",
+    "bytes": 1772,
+    "sha256": "13f3d6f2da96516f3742643170a4b09f511325a8f08323c2a86d4d1275d260ed"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/templates/brand/channels.md",
+    "bytes": 3585,
+    "sha256": "74acc1f31485de87f52f11636e2a5fb74eb71ed6cd10a800466af922a88ad446"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/templates/brand/terminology.md",
+    "bytes": 1201,
+    "sha256": "a05df1ef326d22072a4db4b00297010930ced238aa0ce91f18cb2a5a3319ec23"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/templates/brand/README.md",
+    "bytes": 1900,
+    "sha256": "52ce29da29e46eb3863f3e1d26f5e5aa053ddc1ded14aa37efcf2008c33e98d9"
+  },
+  {
+    "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/templates/brand/facts.md",
+    "bytes": 1324,
+    "sha256": "71220edd6537cc8af1a67dead931059a4f861570b1e4325f8fd84e402b6b1f36"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/SKILL.md",
+    "bytes": 15962,
+    "sha256": "db94e3a51b1477995d267505d5a68a8803ad4e44f5f9a6f3bcb0bd292a18c215"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+    "bytes": 16712,
+    "sha256": "4082692ee896c4edb96576aa93772046e3a48c9b53944e649af7241774ac7405"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json",
+    "bytes": 15286,
+    "sha256": "99ff340ca0a9e3a1e35ad891723c200c5b06f3371429d65a88765c1dd63cd2f6"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.example.json",
+    "bytes": 2163,
+    "sha256": "a1986ff41a67f5c5bac283f0c2c6afa24d36f2b3ede1ee7a0f098b2aab36608c"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+    "bytes": 20028,
+    "sha256": "f8876b8eb0b20169e7ca037869c4eb83164754c9bc271da52895fc27c1d0dc8a"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.example.json",
+    "bytes": 23644,
+    "sha256": "4ca6b67f6156947e9e2fe718090727e14632a3a41d00f04bcbf98c9c31cec88f"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/evidence-docs/SKILL.md",
+    "bytes": 9120,
+    "sha256": "a3fade838d53aab95f6f77d21f8ec99bcaa355310f72f32b1bd174638574383e"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/decomposition.md",
+    "bytes": 6830,
+    "sha256": "1e34a8cc45b18363b309a2aa41908f93b882a16f1040b28aba25e9cf8f6f54cb"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/learned.md",
+    "bytes": 31938,
+    "sha256": "cbc5d5c53275875df97dabf7bbd409b7cfa400cf0f1dcb2704e83a5e5c9bb247"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/probing.md",
+    "bytes": 12039,
+    "sha256": "3d939312701dda787addd8ad484be67e69685cc7aaf3b7bba3c64169f9208598"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/model-tiering.md",
+    "bytes": 3873,
+    "sha256": "eec87d302fcc42c87888e194ded48cd1e3ee3c3d575b2089307f754a2240c9d9"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/prioritisation.md",
+    "bytes": 9785,
+    "sha256": "ab42168d8936922bb070e29ea69dc4c83e08d4f4ddaf563a3affabbf752faaf5"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+    "bytes": 13656,
+    "sha256": "52ad2916a11615cd9e58845bd72f82fe0e667a3237a683cd207b9db620b6178c"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/stages.md",
+    "bytes": 61753,
+    "sha256": "d70d81f82f715fc97f971fc1d4784dd701e20ce5bb3b93726f80f072e0c127c1"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/browser.md",
+    "bytes": 14909,
+    "sha256": "3611ea06a113d06e696bd572918d33db726f0026fda60825bbebe38126150496"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/adoption.md",
+    "bytes": 11172,
+    "sha256": "b951a9a727b3d5e3942a49358895295edb5b8d19b37bde07fba8477bb17a9524"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/conventions.md",
+    "bytes": 8809,
+    "sha256": "4141c1492b3d40c334f92aea70bb0e29fa52b9fc1af4959584a1d84859539927"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/setup.md",
+    "bytes": 8068,
+    "sha256": "790a9e0a1324b11b69b8cb9f14bc169a46179a0ccb7ccc8adaf420e9322a2c8d"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/residue.md",
+    "bytes": 12662,
+    "sha256": "1c63c29404ef1200c492e823bbf464f08c7dea71cda79a9dbb9dfbc8c4dad991"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/knowledge-sources.md",
+    "bytes": 23530,
+    "sha256": "f6bd9ca4ae4439af0a1bbb81f147944f6c7b616fd02ed70585b3e8c4d5a6528b"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/progress.md",
+    "bytes": 24783,
+    "sha256": "3c4ea1974ed486842d5845b5cc9bdaf1cb5ca627d5548c379b0030afd18cc31c"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/artifacts.md",
+    "bytes": 18109,
+    "sha256": "36022415a8fd68fd2e0b239f3e5e19d3c89a5a4af251c405096d721f4c65e204"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/companion-skills.md",
+    "bytes": 26025,
+    "sha256": "50e79d6b28dbb9a6ed0db07d960ec8251c2de3f2044413bc2e1cfbbd27c636f4"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/knowledge-graph.md",
+    "bytes": 13251,
+    "sha256": "08499097c2d4bf79d82f13397c82450ead08620c686a12dae84001675dadb287"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/continuity.md",
+    "bytes": 17158,
+    "sha256": "bf5370f711fd8aa25d5b0010ee397053e63c7e0a137c622d4c56b2e7b5588ed1"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/audit.md",
+    "bytes": 23582,
+    "sha256": "8fee313b63fc907aed39506916a64156fb61cb87f7b9ec6b18fd6e895719a28c"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/work-graph.md",
+    "bytes": 9910,
+    "sha256": "1a7e7631173e03e582469738583c37e4025797eabf9263ecf1b5de9d7e806ac6"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/tdd.md",
+    "bytes": 14502,
+    "sha256": "0358815880fd19764d6e216d409ec0b719725addcf664e5bc2480a33e60c2858"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/verification.md",
+    "bytes": 10319,
+    "sha256": "c6cc4060288365777be3f1bc47738ed9a44486ad18b260bf6fee5ab50e2532b0"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/certification.md",
+    "bytes": 11064,
+    "sha256": "9f3a378ff5e63b7250858fd65192dfe80bf4f294020f79eb056e04f895dff35a"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "bytes": 34732,
+    "sha256": "38e00b2a5845805a7ae02921099c37e9fddf832272aaa360c33d61546fffb47b"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/hooks.md",
+    "bytes": 13858,
+    "sha256": "b57cf9ba19db46ceb3b165cec31a73cf2d85091509e9abb606df15d43c1d1f6d"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/grill.md",
+    "bytes": 17850,
+    "sha256": "2491a99efdc3223ba2afcb7cfe17de885fd8ee8e2e60dfa1d7da5235cbf1ed7d"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/documentation.md",
+    "bytes": 25928,
+    "sha256": "8a8a3b5b9043c1153469279865dcd8997e7c57adb076d84983e51556ba90f657"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/deploy-targets.md",
+    "bytes": 5907,
+    "sha256": "55d5c3a2943506853bb6ebfedb38c57282366e51be7c36351b0f0d093e40482c"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/gates.md",
+    "bytes": 39467,
+    "sha256": "ebdb94b6b02f93ccfa8da30d145d2bf4d6bf3585dda596038a6d22a84de1e5fc"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/spec.md",
+    "bytes": 17212,
+    "sha256": "43a48163e43fca1288c9393cae19065262d78a052b4a74ab4ce5642437800b12"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/backlog.md",
+    "bytes": 11922,
+    "sha256": "0418fc827741c939d3a5112c6824d572a1dacc65e2be5d7d058cbe0b2c785d0a"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/review.md",
+    "bytes": 12720,
+    "sha256": "74fdce3c623a3647df69b62509f6bd174534c81bf0f16f8856e14e99596dc71c"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/retrospective.md",
+    "bytes": 30681,
+    "sha256": "bc56df2d9c2dd9b0d4fddf10b23acd0135c70fadac8ff111359873f1e3ee52a7"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/loop-guard.md",
+    "bytes": 9570,
+    "sha256": "2d6038a129887dea9cc155667f929469199898bc8c11a8cba1220ddec3001211"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/brainstorm.md",
+    "bytes": 8761,
+    "sha256": "841cff29f38a3d2093768981e28b60a5911ae2dde00ef17f9e905884e67f3b99"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/acceptance.md",
+    "bytes": 24594,
+    "sha256": "2fb970d9c6f9893468163ca62c20e651ac1e5a8ad4fbcfaaa932f10acb390eb9"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/exposure.md",
+    "bytes": 7148,
+    "sha256": "cdeab4810e18f42dedcef1f91dac17381f26062028de5ccd81dd9e1e0e1ed1d1"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/portability.md",
+    "bytes": 10658,
+    "sha256": "f46676bef7fde449b4a3b16ac3a27c9f62eb0a2c6fe82344713bacbd2fa67c14"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+    "bytes": 75222,
+    "sha256": "9627d7e27b0495358a55cd250b48ff39359e3493633ffe23335c783f5900b723"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/hooks.example.json",
+    "bytes": 2384,
+    "sha256": "ccbf19f86fab11c030b36cbede0bd7612234d951ddf124fbb9ba24821ccfe9de"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/context.md",
+    "bytes": 3074,
+    "sha256": "0415c6941aa35dcac2f4e13aa4f413c254011c0909950c575c70c053d1605e84"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/hygiene.sh",
+    "bytes": 11603,
+    "sha256": "0691690da74dbc7a3838c5e5d996018f3afeac3fa0cb92649c422ff4e8a9a857"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/docmap.md",
+    "bytes": 5067,
+    "sha256": "3af3041c8996a3e41ab51e9dc4bff1ffe3bcdef30002b2ac28f48addf9d1ca27"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/routing-rule.md",
+    "bytes": 3250,
+    "sha256": "4adf5ec54fa1ab22a46fb359ffb03d63c22c4b57cbc1cc5a7a19caf5e04d81f1"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/retro.md",
+    "bytes": 4055,
+    "sha256": "09175e2bb940a98fe6fbde53cdf6e6baf7cb9307e15fd4047335ac7b1ce22dfd"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/retro-archive.md",
+    "bytes": 2453,
+    "sha256": "8028077cf0b1a77a4b2d00155faf4ae133992748e079dc847f76f2df797bd35b"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/README.md",
+    "bytes": 3745,
+    "sha256": "1c7a814a4b7acb2de76c62cbfd3193422e742a5029371d8cefd842511c05d2ff"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/verification.md",
+    "bytes": 8582,
+    "sha256": "c58f1988cf20a061f5231aa60323680619b8900cd42975430c0a86279f0d846f"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/convergence.sh",
+    "bytes": 6593,
+    "sha256": "ea9219cb5a5e1d45cb785875a8ef5cb06fcac4dad4f79ff7d79fe0c522cb4854"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/run.md",
+    "bytes": 10291,
+    "sha256": "e1c3852d7e5b2aa26b70e2520ede2be33ba2cb39e8e8371c12f1db7a7a9273e6"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/exposure.sh",
+    "bytes": 19937,
+    "sha256": "67d3a1128678b5d436182af1828c505366a2e7b6cd0d95439a32ae0d6b996210"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/brief.md",
+    "bytes": 10694,
+    "sha256": "e3dffc7758412748bd7e1d513ea4a25f464465b2419420b4e32d36c440d8bf60"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/stage-coverage.sh",
+    "bytes": 3561,
+    "sha256": "d2ffa9bad0a6ed042338b5dd4d3d40a687bd9a687f83a655c982700928862820"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/backlog.md",
+    "bytes": 3960,
+    "sha256": "b7ba801b34b2b244322958219a3a2d7f621cd636fa529c8b1d77ff78e7e01e12"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/open-questions.md",
+    "bytes": 969,
+    "sha256": "462ac93b002178d6d6e2712bc0c07cce984c4705c4bfa116ddbac9b753189889"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/adr.md",
+    "bytes": 3789,
+    "sha256": "e6ba78952bbb13fa12a8dca5840388451afa175b59b26001f8c5ce8dcc31a181"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/carryover.md",
+    "bytes": 3520,
+    "sha256": "5a8403df58be961a4e026d232499362cc0bec9d5d1f6907fe0dfb0f5a7b3d555"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/docgate.sh",
+    "bytes": 24283,
+    "sha256": "5507e057a39d695d11d276ea4fca800e84dcb984281095cd8aa5d415c1cddb25"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/decisions.md",
+    "bytes": 2246,
+    "sha256": "bc040a7a3f0aa5f609bc39d384c7ba0d8a5672367927f9c85f2792124f935d6f"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/references/probes.md",
+    "bytes": 10433,
+    "sha256": "486580b10547c17fe9468cacade1489b46bab085de90e36382c8e616f70b23a5"
+  },
+  {
+    "path": "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/scripts/audit.py",
+    "bytes": 58345,
+    "sha256": "64ce9dc7d2998673004e619864a94e42f54f3ebe8c27d2acf77bee448945cd7d"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/SKILL.md",
+    "bytes": 20211,
+    "sha256": "f90d370ec77b6ee50d518ccf98f74c071ed5e6b75fdd9f4bffcde5a350ca0074"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/references/backend-fs.md",
+    "bytes": 2115,
+    "sha256": "426276f4b3bcd7b0a4bf5a1ce6202719c9a97931d26967823add2e19f8ee8267"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/references/backend-outline.md",
+    "bytes": 4478,
+    "sha256": "9baa5190519f7cf954e9abb5a53a321470804ccc51dde14b9b2ecfac8d2f0b7d"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/references/adapter-contract.md",
+    "bytes": 4759,
+    "sha256": "b0fc59dbe77edfef302ae18dc2315247815d03b944f25e0524ebc1e1b68970a4"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/references/branching.md",
+    "bytes": 6432,
+    "sha256": "01969cf0f94d0ab80c4129db78ab7a8060c9d3854f2a9959d95992a7e505d881"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/references/pipeline-binding.md",
+    "bytes": 8500,
+    "sha256": "b9aba2046f818ae335cbe8adff20b52d23a4fcd97a22a553d32ba50c0ffb0b75"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/references/two-sources.md",
+    "bytes": 7298,
+    "sha256": "73d60d8931dea93250c9fc9219ba40cb1be6df94518b7cedf6f55cd2d6708d7a"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/references/roadmap.md",
+    "bytes": 5352,
+    "sha256": "3218df2e60b7e2bdc73ad4ef5e17597a019149e4a23c0944acf00037490d5e80"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/references/backend-notion.md",
+    "bytes": 7652,
+    "sha256": "7a9300f8176d35cda4dc7e887d91afcf9eeea3e17631904cebe8024c88f1eac6"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/references/hooks.md",
+    "bytes": 4821,
+    "sha256": "e304c72f109d7935f8e4c282c319f69e13cb4714b7351624b8d76673d3171c63"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/references/earned-rules.md",
+    "bytes": 2781,
+    "sha256": "a618027ec01fed6bba76999192bb8b8b1c7686e821e2707a304db633d24cddf6"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/references/lease-protocol.md",
+    "bytes": 16518,
+    "sha256": "4d4ac9e8707e4944842024433cf0f286f6a42162c4d1d47b555152586fa5ccce"
+  },
+  {
+    "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py",
+    "bytes": 239741,
+    "sha256": "9b64e93e16025c61cce840b5facbeed619927a20c07f6f919ac92816d6ddc3b6"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/SKILL.md",
+    "bytes": 19920,
+    "sha256": "9d4b36c72b7f8fcc8bc899694baf130edc73fe6e33ea2b70a142d0707de1c63e"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/mcp.md",
+    "bytes": 4864,
+    "sha256": "a194930c4e6284ea71507313f7a19bc694307ba2904e86cac7df04d22f525ba6"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/authoring.md",
+    "bytes": 19349,
+    "sha256": "793d7eb0f76ebeb273330af79b7bc923aa93da9a7296f20199120a8afe53d907"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/enterprise.md",
+    "bytes": 7578,
+    "sha256": "b2e23d3160ecbc5c4f38a02cf100830c6cdcd3f154c1c1e7c8dfea00874a7f24"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+    "bytes": 13289,
+    "sha256": "6bc7e9d55d51dbdb5a7be2598e6c12b3717f11d469ce9aa15305cbe85781ff4a"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/agent-skills-spec.md",
+    "bytes": 8368,
+    "sha256": "067dc156036d6e4d824e5b45f924f1446436ecd8ec614d14909d6311fdaf3612"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/a2a.md",
+    "bytes": 3546,
+    "sha256": "727b4a0bf656d47fd3676d69b2fc77d3be535fde445c41d05cd7d06b389cc51c"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/retrofit.md",
+    "bytes": 8021,
+    "sha256": "2687295641ae5d21a73be86492dec645686257cb63f88f33f7bd3a2469de52ac"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/distribution.md",
+    "bytes": 26428,
+    "sha256": "290c8f51957f24264dfbfb8e10d3bcf4d7d43193253efcaea0f34d0c3e847008"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/surfaces.md",
+    "bytes": 7038,
+    "sha256": "b0a00287f3f479ec977aa47af45ad5c9e92905958567b75182a74204d6cf1757"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/claude-code-plugin.md",
+    "bytes": 22397,
+    "sha256": "827a15b2bc7f6b01ce2f160dc417e324baa731cd0607faf779628bb3b0116ca6"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py",
+    "bytes": 28411,
+    "sha256": "a6417a004f7d3d8d68f229bcc9cee5e8a7bfff81a3f360787692da6de63afd1c"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/assets/agent.template.md",
+    "bytes": 1496,
+    "sha256": "868b1e5715d4f9e83487b8380cd8c3111d18050fcdbdcf2fd3d0184073a0a7c9"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/assets/hooks.template.json",
+    "bytes": 896,
+    "sha256": "bb5f222f6bf7d9f92266eed0773585fa0711b1e57d8242698ac47180a9287129"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/assets/SKILL.template.md",
+    "bytes": 2833,
+    "sha256": "7dd2201324db8f79c61a651fe38066ee4e1e7306130fc7cd40c52578972f280a"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/assets/command.template.md",
+    "bytes": 1257,
+    "sha256": "a41e2062ced68c8d509721575855481196351dfe79def16395de06c5d600ce68"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/assets/plugin.template.json",
+    "bytes": 451,
+    "sha256": "c530969851183a1809193a541c9ca34e0f223e77956a34d960a056a7cf1bb23f"
+  },
+  {
+    "path": "repo://make-skill/plugins/make-skill/skills/make-skill/assets/marketplace.template.json",
+    "bytes": 742,
+    "sha256": "8bc0df702926fce4062832866514ba06d281e6c9c14d966052117bc8f123e924"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+    "bytes": 12109,
+    "sha256": "54af980e952ed2d95a1fbbea613b6924c633d86e37f38c41052268abac798d38"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/FIGMA_BRIDGE.md",
+    "bytes": 6590,
+    "sha256": "cbce5b64a50e25aee903b26a2d068a936b0f6bafe8fe8dcc7ac8310660f03d4d"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOTION_DOCTRINE.md",
+    "bytes": 17513,
+    "sha256": "a9b04b4df0bda4053c0b7214e2fd0a9915bf326350da84e7351e5c1a21ecf879"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+    "bytes": 7810,
+    "sha256": "a65dc292c48868b0c5d1ca4ead4aad17d1c4dec32253ffe5e81ecab86b72031e"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SHELEG_DESIGN.md",
+    "bytes": 36799,
+    "sha256": "5e73a5e569b0fd1556ce63ff85814cea2032e04d457d1e3f928b020594eb366a"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SURFACE_COMPOSITION.md",
+    "bytes": 8262,
+    "sha256": "f57f8acd94bddd8d1f3229f39c92cf5c746b62f77c9ba388702697dd11d9b7bb"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+    "bytes": 10146,
+    "sha256": "c51fba0ba6dd8268313025f70fad65519e1f04eabf870df6a6167ff0f81e6182"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+    "bytes": 12810,
+    "sha256": "245951a4a3adc9f52566b13cbb35b7e9548200e6d04fbf59a857502c4a442bf2"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOTION_PRODUCTION.md",
+    "bytes": 11921,
+    "sha256": "d4ace49a548a259c8ab8e46eed8a525ebbaf4cebbae023ef425bbe70d57821e8"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+    "bytes": 18846,
+    "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/STYLE_PACK_INDEX.md",
+    "bytes": 5781,
+    "sha256": "312c28ec11f192ea8779c2509a2455c650be76377aaae94db0fb45fe07757100"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/vitrine.md",
+    "bytes": 11536,
+    "sha256": "60a3a7c3e44e7e11113cb0bd81f3f9fa06b07d61330e1ca630447c3ae0359c5d"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/awning.md",
+    "bytes": 18455,
+    "sha256": "db23ba7c816bbcc827ca6cad247775fd48529e962b59485a1a176898049fbe97"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/cyclorama.md",
+    "bytes": 26915,
+    "sha256": "0eb7b1f1d42fda991f88ee857f075ba31a76387a500337d8f5c967a7588a84c9"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/workbench.md",
+    "bytes": 13658,
+    "sha256": "cea6b41bb92ad5d530b2b936f492a9f9b929a6b8c92701593af67f7cab0f3e31"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/daylight.md",
+    "bytes": 12517,
+    "sha256": "7383564429e2bfbffbf2308023165b8e1886fb9223df9b3fb6d26abd87016192"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tenor.md",
+    "bytes": 42841,
+    "sha256": "51c75ceb22f85b846be56c380eff600b2e4c504a77fc1b3d75e30756845f5126"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/roster.md",
+    "bytes": 28988,
+    "sha256": "2c094b15a2ade4a1eb041cae3babd763ae44bd0f8b400db877586707494c1c69"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/bulletin.md",
+    "bytes": 20685,
+    "sha256": "fdc47873a311fffc2dc712ecb1df51437d58f7741c876eb1392b57ab7f99030d"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/atrium.md",
+    "bytes": 30454,
+    "sha256": "0f6166f5c85eb7bd7d8b83711c8ef228e8cd8ca078e3d3b3dd7f302888bf85a5"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/editorial-luxury.md",
+    "bytes": 9974,
+    "sha256": "4221d0c20ef89675115f06c058dd7e4a1f45a78b6640bce950163f45034868fa"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/test-drive.md",
+    "bytes": 28581,
+    "sha256": "a2a93b20e666e6f83bf2200062f803be42be8feb4c8c3887229dce17cc861a13"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/orchard.md",
+    "bytes": 19825,
+    "sha256": "d1994d83eb135dcae6105a984ec1f05e0b5fdf4d4fa2d064c664c294072469b1"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/router.md",
+    "bytes": 19390,
+    "sha256": "4ea0fdcf8cf2ed68d30b02f13b62ed44f8f27d5550c80489416e0f8acae4fba9"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/almanac.md",
+    "bytes": 13359,
+    "sha256": "3cfaa8f26a365cc9513bcf400366a9ca120c57925f25f59b05118a3d66a32ce4"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/rimlight.md",
+    "bytes": 18970,
+    "sha256": "5a49eda8ebf3ceecf142f272c986a2f5e81add9659470f95a00e3ff75311dc85"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/field-notes.md",
+    "bytes": 33222,
+    "sha256": "a597de46db38b3530e31aecd2ff248a7e11afa957d11bf5b1cede1ee73efcf91"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/ora.md",
+    "bytes": 32911,
+    "sha256": "20baa38f386546ee2377da6a3a8040e1f25c889e6ec8a12458b4485f110cb91a"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/showroom.md",
+    "bytes": 25781,
+    "sha256": "0db8e6cd79b90ab97d377960615c41794959c59bbbf7b8b89c4c0d342881604f"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/STYLE_PACK_TEMPLATE.md",
+    "bytes": 20309,
+    "sha256": "ed7c6b92acde0e20d38df3016b8a85a8687b908c3dec0994890dc0f2224243f6"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/chorus.md",
+    "bytes": 31236,
+    "sha256": "46702c20ba7246b82fb4fbbdc355ffea6be2c621ac5b0e447f33079b42ba2194"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/deskmate.md",
+    "bytes": 37071,
+    "sha256": "70119c1762580949a14c86103a3800d5d7671a0bb9fed075857d81d17142e78b"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/patchbay.md",
+    "bytes": 25435,
+    "sha256": "145a7b372279dadbbb323470a9bc9287a565c23095ca92ad4e9049b0eaea5a0e"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/onionskin.md",
+    "bytes": 18048,
+    "sha256": "ed04aba0bb12da7796671b11977eb08feb56a7fa91f6c38c05c7ba40bd02b775"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/babylove.md",
+    "bytes": 12051,
+    "sha256": "147b553d8c1e5fb29aa09574d97e8a0d03caf0e276bd55191ea493d475fbef33"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/outrank.md",
+    "bytes": 13665,
+    "sha256": "5fae6da0f82333d415a0e80cd8d996238c003f934d65e64157cf3aad94914c36"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/scoreboard.md",
+    "bytes": 30081,
+    "sha256": "0eaad23285f529adf63311c59854af000090a89ccfc5713418609ecde144e89c"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/proscenium.md",
+    "bytes": 17996,
+    "sha256": "4dc68648de9e39fcbf24f0fd5d689bcd3a203d346d8aad6eb4b50d07292a338d"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/nameplate.md",
+    "bytes": 26366,
+    "sha256": "6b1e7f880e1323a100bedbb7172a6280079762197e0753801dc9d6d5a219bc64"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/manpage.md",
+    "bytes": 26529,
+    "sha256": "d83506728c04fad74045b78c93d3cb579ba14816813b39c436593dc89a005962"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/surveyor.md",
+    "bytes": 26058,
+    "sha256": "43374c0343ac6a74e941cf5ba2683bc025f4e0a923a1ea70a9e4e7ad2a638be1"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/notation.md",
+    "bytes": 11995,
+    "sha256": "0ad7790197ee608c34369954b4458de6694c971a793c3558ee64b005f16688f2"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/ledger.md",
+    "bytes": 23981,
+    "sha256": "44d493d9342000d52dd4a1cade3d9de81ca02baac337255dc4f1581cc8149b6b"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/instrument-console.md",
+    "bytes": 12980,
+    "sha256": "d15386dadf3f151371f04637b3e5e3634d9e41648c4df72ca00781dfdb1c3412"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/datasheet.md",
+    "bytes": 32578,
+    "sha256": "39c5d4557f7891aa266d739832ea2633576ca9a429ed1b28edd29f82bc6ec1c6"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/paperclip.md",
+    "bytes": 48860,
+    "sha256": "53901bf101bf14a9bf8ff4bac099e4c2345f54905a896c0311938ba2b1e3ad27"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/prism.md",
+    "bytes": 17860,
+    "sha256": "d9fc96bc13c8753d11df5cf8da0a090268ac7bae87481da6ef2ddbb24465c5c3"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/pigeonhole.md",
+    "bytes": 37307,
+    "sha256": "1c0093fbf563afb191f5eacc49e84a21d8b67f53cf78d30d935ff6bce1fbd726"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/briefing-room.md",
+    "bytes": 10589,
+    "sha256": "c86dd42b85c833d4843dd5db02b8727b4d6ef511e392aafc683b715170c5881a"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/maquette.md",
+    "bytes": 19413,
+    "sha256": "e14b04b27fd86ba1c57e388a69033953421cb37985c35d80ad1ec589bf62bbfd"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/blueprint.md",
+    "bytes": 22576,
+    "sha256": "e3a79fa3cd1f32d8f63253c8e5d7d1f05320c0abed53acd9f39c8d7ec739e010"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/bulletin.css",
+    "bytes": 14825,
+    "sha256": "d047295012f034dcbc1b8d4f178783946efb6c70e6477684be54a178ad7af75a"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/nameplate.css",
+    "bytes": 20465,
+    "sha256": "198e056c4c1fbd047793fdf491103c9296f08228138bb20c267af4801d79e049"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/cyclorama.css",
+    "bytes": 10438,
+    "sha256": "fbdbec890168d063fb261c90b20f3bb5dcfca66b8c6650ca2543c3dc6577643f"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/chorus.css",
+    "bytes": 24851,
+    "sha256": "9b13d50e96c348693a8f7a12d4328dbffdc338a02c772bf919f8abfad356d62b"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/maquette.css",
+    "bytes": 7483,
+    "sha256": "2ef9a9ed0efa1f2a4657cfb3ce7def645f4155d179b6192dccd4e825fa4d9b78"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/notation.css",
+    "bytes": 3957,
+    "sha256": "8fe8cca62f4ae457169b6e462fb0607c379949a9d8a9c73d040eeda9df828a8c"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/rimlight.css",
+    "bytes": 15716,
+    "sha256": "f7a5f971f43438b99bf88ff103d70cb951d658dffaf5d1b15046ac8fcda09c46"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/datasheet.css",
+    "bytes": 14859,
+    "sha256": "05ccb1edef294c4669019da6724112a26fd0f9e67693c5bde2bd302d5aad5853"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/deskmate.css",
+    "bytes": 23818,
+    "sha256": "24f056bafb0d24a87dbfb045ffcaad4c01359738a280d96f43909b06d185521b"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/briefing-room.css",
+    "bytes": 3222,
+    "sha256": "1433f2accb2b867c225659165568eb8e7df18c212cbc583419a3b40dacefe983"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/pigeonhole.css",
+    "bytes": 21797,
+    "sha256": "3af5c4395c34943236d021a2388126a96ddddb08e33e8bdbdaee9f33bef944ce"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/test-drive.css",
+    "bytes": 22117,
+    "sha256": "197c28fee9e2dff26361d8bce8eb7e1d7064428cacadfea02e8273e3e1cc65c8"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/instrument-console.css",
+    "bytes": 6095,
+    "sha256": "12ca8ae88bce3c75d2a22be27149944fe12c7b7bff1c33ae703a1ef2310e9774"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/editorial-luxury.css",
+    "bytes": 4385,
+    "sha256": "c9544f9a11dd62cea291d9f95ae5611d6ba1906e76aa54f1039fa725abc721fc"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/ora.css",
+    "bytes": 10346,
+    "sha256": "24618ca34a0ec2390d8c1d5431ecb496af39106f574e4298d65bf183ed9ccc5e"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/blueprint.css",
+    "bytes": 6222,
+    "sha256": "e8872f44f3845859ea521c2aba9326a49b5abeeda348804fc1b7aa13e17eac51"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/onionskin.css",
+    "bytes": 14997,
+    "sha256": "8beee36f439d824db56fffa337507e1dd6b6d48c9c4fb0381b7709b4764f6482"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/field-notes.css",
+    "bytes": 14645,
+    "sha256": "76ef62b2b7d4cc5c90bb31f57b6495c5e5f29c2e08573cde7ed0fddc8fd74e18"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/showroom.css",
+    "bytes": 8628,
+    "sha256": "09ec099a724814b5dc785ba3bf39e85fa64cb21ca6cc8e4b4025a247842471b8"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/vitrine.css",
+    "bytes": 3265,
+    "sha256": "7ae2ecfb7475b028a9225235cdda4d1f083a37e3110b8396c70c46625321e5aa"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/outrank.css",
+    "bytes": 9214,
+    "sha256": "d9d24c03af952b5554d22ffe13b2f68e15668ccbc3385ee66b77bbf77778898f"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/awning.css",
+    "bytes": 10807,
+    "sha256": "ee4531046e675ca987335eb6d06fb2f73ac6c098e67d69ff62d1938d7ea97a43"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/proscenium.css",
+    "bytes": 9046,
+    "sha256": "78df8022b92678647c6a3966208067d4c09b17c82a3f8568d36b859b5968fa10"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/patchbay.css",
+    "bytes": 8416,
+    "sha256": "58068a02f9f866535985f0ae1959676f29f71bd5c1640d02a843f67523ccd0bc"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/roster.css",
+    "bytes": 14421,
+    "sha256": "73154aeea162a38a36d8bd3c19c85b18b4b096f4b746715fd82a31b56724489b"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/paperclip.css",
+    "bytes": 16463,
+    "sha256": "6d683d94edde54b8648c4886892f1d28584f3ceb2e07cbdd8354315b50616f73"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/prism.css",
+    "bytes": 5968,
+    "sha256": "9a170e0d371e81827d85e2e48bc11edb02f7684729c2f88faae071bc616dc96d"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/daylight.css",
+    "bytes": 4085,
+    "sha256": "dc41f25a690ffa9b90502729fc4a5bdfc342b5285c088a575dbb6b350445a71d"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/ledger.css",
+    "bytes": 13779,
+    "sha256": "7f688aba3c2d4cb34fbaebb07ea31c5029439171b497b6c2e018d950c80c3efe"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/atrium.css",
+    "bytes": 10479,
+    "sha256": "541d6b7451cc6187e66080589be9b599642144dc63b41a0cbd31e455c5a03827"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/almanac.css",
+    "bytes": 5130,
+    "sha256": "dd5ff6c5b4be36ee0474392a3bc80331acfcb33a5ef3a730b0b7e9d53947bebc"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/tenor.css",
+    "bytes": 14753,
+    "sha256": "a29f86fedc5fd8ffc4b3adcc8269f405d495efbeeb9926d82a0d533777eca72d"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/babylove.css",
+    "bytes": 6464,
+    "sha256": "22375fea805ec3acd48c3d1f1e4526d012d09ee987110d4c44b810c0dfde789b"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/orchard.css",
+    "bytes": 6081,
+    "sha256": "3bffbf89bf4910c967ec24ca65df82a0efe98980167721a380e6a95e4093614b"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/manpage.css",
+    "bytes": 16533,
+    "sha256": "4d94a509a68ccca3b4118bdc8d4b61de90602db076df6316b441a90c1be4a867"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/scoreboard.css",
+    "bytes": 13724,
+    "sha256": "578f55d9c9a02f89c645a3dbcca74906c8c1501d89457588cd1cef3b1272c35e"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/workbench.css",
+    "bytes": 3185,
+    "sha256": "e49d177f7ce45919dcaf8dbf4b5a11c84057a4b76ee145ebdfb0a931ae959272"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/router.css",
+    "bytes": 7712,
+    "sha256": "6b74d850afc66d5a7b699f2ebb3b2de4c7bbbd633b8de23008fdfce47483be07"
+  },
+  {
+    "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/surveyor.css",
+    "bytes": 16960,
+    "sha256": "a1eca683a42dc3fbcc7a0bf91d65a8c91a1e6d9211f91ad6dc262eac2db9eccc"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/REFERENCE_INDEX.md",
+    "bytes": 1790,
+    "sha256": "367493754ea2dc44eaf1491286c04b963b44785eae4520d95eebf40272751126"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md",
+    "bytes": 19921,
+    "sha256": "931e0b18c21d7822a918003a119ea1ca4a3c4a4c2a8aa0dfd9dc0f005d3a5e10"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/prowl-mcp.md",
+    "bytes": 11929,
+    "sha256": "d4e7fc94fe9dea08cd8e48bde71c3dbe423af45ddba34bc1c3ceb70dd115a6ba"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/tooling.md",
+    "bytes": 16778,
+    "sha256": "4d84dca7aacf06cc4c486f2c87ce93fd0577f028c7979aeea2d1a988c8d8a7a7"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/myths.md",
+    "bytes": 19984,
+    "sha256": "39053324a74cb8599d59db1e5b4f2f8bd2344953aa74a0bc4871ac3eb151968e"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/experiments.md",
+    "bytes": 9937,
+    "sha256": "562561e3d44ede26fe0ac2653b9c2a4ca253176f52d67735f967a59c4a28ab4e"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/benchmarks.md",
+    "bytes": 30105,
+    "sha256": "639623f2cc2b50d3121ed801843cd95ae8f6ed4a1788dca867c57aa1b3d3fd8e"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/preflight.md",
+    "bytes": 9875,
+    "sha256": "f4430fa918766af17dbcc53cc185c7d28370afc58e57841d000931aa71635376"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/agent-readiness.md",
+    "bytes": 38190,
+    "sha256": "6234354410250751c74185c57f6ab4fbb1d678d789357d1ef11d183a12730a32"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/threats-and-defense.md",
+    "bytes": 28891,
+    "sha256": "0cf8fc0d771204b01dd89ffe152e257de3d80fb0adbbd04a03cea1b53a25a392"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/onpage-checks.md",
+    "bytes": 14766,
+    "sha256": "f3dc1ec6f9f2b5245c809a203b658d4ad730c390fc8ba988107f5540b91c8e52"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/scripts.md",
+    "bytes": 12856,
+    "sha256": "22e929b391aa5345b21a6b27c97242cd0de2f6712c2706ad15a3324607343d6c"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/deliverable-templates.md",
+    "bytes": 13079,
+    "sha256": "2f4be100c39ddcd4b862f2b3b1f05c7cb6f331cf72e76bf6f8b752780d3d02df"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/intent-and-content.md",
+    "bytes": 24392,
+    "sha256": "bb9c72c0e142c282c19b6ce78d30f98bcc8fc979688663920e61daa1aadbd46d"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/aeo-geo.md",
+    "bytes": 37227,
+    "sha256": "8d909a54eb6ed8b9765c8c50a4ec56bfba60a7abbafb093cc8c92a41179744f6"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/algorithm-updates.md",
+    "bytes": 18411,
+    "sha256": "8b3d78d7586f4bd14d89c66214238e59c44454fed9b7fe01444480833159a3db"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/experience-signals.md",
+    "bytes": 11675,
+    "sha256": "712eb2c417820fda81806fb7f5229e4cee15a97ffcaddc132442eb35ab282b42"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/linkbuilding.md",
+    "bytes": 10758,
+    "sha256": "6caf8a1ccf5312bdb33201d227f4bdf033fdfed689d8543603e0dd1d9bc78b86"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/ranking-model.md",
+    "bytes": 13675,
+    "sha256": "70bda614739de40299d2d3ae2511fa4628ea781d5c7c67cbe74b947d71729315"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/measurement.md",
+    "bytes": 24008,
+    "sha256": "eab18116d0e32797b85d59e64787fb33683a06feedfa5b47935596323f5b0719"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/demand-and-conversion.md",
+    "bytes": 14926,
+    "sha256": "d8d401734cf6bca344ce23cccb177b1a35ebef9573f3a2b832ea708224e677e1"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/growth-plays.md",
+    "bytes": 28150,
+    "sha256": "4fb44ec5a05f018fb1e27648e300ea018fe279a5d7f83b72e795c3b005644181"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/entity-and-brand.md",
+    "bytes": 30337,
+    "sha256": "b00a154c866ceab70b122d903294b5703149d638509acc35aaf4cf652299120e"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/evidence-tiers.md",
+    "bytes": 4160,
+    "sha256": "f8371be735bad646b273874f5f4dee2d92fccb4335054d12a0f93e7106bac546"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/technical-checks.md",
+    "bytes": 46178,
+    "sha256": "3adf7b10881d3443b3dc153504199d50b35567afa6794187e03707cd91e3f806"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/architecture-and-equity.md",
+    "bytes": 21183,
+    "sha256": "e99b293df9e7e485d4f752c8cfa27cfc60fc84ededaf7b35138f9574046a893e"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/discover.md",
+    "bytes": 7108,
+    "sha256": "28cce435029bccd0b68c1c20a74f5382d2dfe4beac34cfa6d63ad1e510649f98"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/page_audit.py",
+    "bytes": 62446,
+    "sha256": "01a4f5aff0704d5dd891c3614360cd7754cd6cae03fde4cc1bc9aa120fa71cdb"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/url_inspection.py",
+    "bytes": 20530,
+    "sha256": "202a3c05ea97e0767cb461a1a1dcfc06358996a734f61ceb68c90ae7dfe4b05c"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/sitemap_audit.py",
+    "bytes": 17195,
+    "sha256": "a67db2059a89d7adf3da90fc7ade024d0eb733cf5a5b73dd836aef31d2740843"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/gsc_pull.py",
+    "bytes": 34758,
+    "sha256": "cc3e907999583aabb5415bbb7d9b7bafea7717fd3f34714edde72a1213b8594a"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/psi_pull.py",
+    "bytes": 16062,
+    "sha256": "bba5fc947650cd88c539062b701ccaf7231456037610e4828fcaddd2436c1c4f"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/agent_surface.py",
+    "bytes": 81396,
+    "sha256": "af1add2f676a6af10fa09b72b09b97b9cdfcad2e93ac42f93aa5e02960224c5a"
+  },
+  {
+    "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/preflight.py",
+    "bytes": 44812,
+    "sha256": "96de3c9e2cf2ef7c1adf93950f7c6457e098da050b093d2aeb345a6882c71595"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/SKILL.md",
+    "bytes": 9431,
+    "sha256": "866cd92bececa1e6e4e5388c5b692347097010aff9478ebe1f776649eacb57da"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/SKILL.md",
+    "bytes": 6775,
+    "sha256": "0faad3af070710b140f21939a2cea1d6185fb462696277b7515a4c01d0fbac92"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/error-tracking/SKILL.md",
+    "bytes": 11970,
+    "sha256": "5ccaa51ef3999be20a2faec8c15db27858e5ca97c04822406dc2403f4bc62b53"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/SKILL.md",
+    "bytes": 10087,
+    "sha256": "2116f5413396c6c00867e3b2c0cd523d3047793642e2077a24eebc63bcc9d385"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md",
+    "bytes": 19164,
+    "sha256": "d2fb267b6bfe44d80de862bbe9a69d348e81cadd506bedc35f605a81be6464b6"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/SKILL.md",
+    "bytes": 19681,
+    "sha256": "a0dcc36937f50a8da38261c1c39afe6caeb0f31674cdf3baaac48c4c81defe32"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/SKILL.md",
+    "bytes": 19075,
+    "sha256": "96e6acdec42ef2cadfe6d1d9d51380d0b1fe506e6abe496c555fd32611fdab1d"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/references/meta-linkedin.md",
+    "bytes": 13450,
+    "sha256": "248d065d7f7370beeebf4bc7d718cbb7f9a23cd13fc8c1ded6d76d59bb10bc55"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/references/gtag-api.md",
+    "bytes": 10812,
+    "sha256": "6a071e4fd9847edb14b909c84178d851c067a02a179469a609967259762b1410"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/references/consent-mode.md",
+    "bytes": 8704,
+    "sha256": "dd8e5b7a38bb1b7af080f0fe4ad896025875665b7d1df8dcb6824f55cc44e4d6"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/references/performance-security.md",
+    "bytes": 10578,
+    "sha256": "19876b1abf39247e26a88b8089e82f391a32cf213b7fa43431b139bc3e854ff3"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/references/event-tracking.md",
+    "bytes": 9401,
+    "sha256": "6da422ce4d2bdc13bd851be053194d9a54a280eb6f203a84249a3960826cc16b"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/fixtures/assert-dedup-contract.mjs",
+    "bytes": 17006,
+    "sha256": "15963bc146d622201be5e86d607f1fdec416c864aa269fe444733906f8a86b0f"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/fixtures/purchase-pixel-browser.json",
+    "bytes": 227,
+    "sha256": "f46b3f58d7ed366cbd6d8c9a98418ef43a49ca25679d32b665bcd3337c144348"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/fixtures/README.md",
+    "bytes": 4514,
+    "sha256": "ff3bfac268df84e5968628984bf3d8246a96f72300cc83ec356a3259814dfd2b"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/fixtures/purchase-capi-from-thank-you-page.json",
+    "bytes": 860,
+    "sha256": "d56dde7d295ede9c18c8175f51626bd59eb880774b97cce637eaa9d283973771"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/fixtures/purchase-capi-server.json",
+    "bytes": 806,
+    "sha256": "812dc17f84e87d90410f30a289767b647ac12786f415903fe8bf70e83478cdc3"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/fixtures/manifest.json",
+    "bytes": 2616,
+    "sha256": "f7c39f10e9a0083381f275d19e7c22dbe5cb5de66e38372a003dbf792d2292a2"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/fixtures/reference-emitter.mjs",
+    "bytes": 4689,
+    "sha256": "a0f68f94107cb9f36afe0a81e14de679782331d8540be3f615eceaf7bc93dbf4"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/webhook-events.md",
+    "bytes": 12541,
+    "sha256": "276e15892305979ae04a402971c6632a53c249412d99fbea1cf49b4795dbf622"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/stripe-agent-toolchain.md",
+    "bytes": 7937,
+    "sha256": "d281c4d98b5caca8706775ff073cf71ec6e7762a87e20e781416f69a91d3c8cd"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/provider-concentration.md",
+    "bytes": 6967,
+    "sha256": "6e1e540d62d0948995f205d7e6969961a19e65dda476406889b99e12402ebe1b"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/subscription-lifecycle.md",
+    "bytes": 14044,
+    "sha256": "0093365f0f96250c5acfb38d32186f9667eab57bf254d6339fa63659a724ea4a"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/testing-and-local-dev.md",
+    "bytes": 10905,
+    "sha256": "742b2f66bf290b0ea843d24b358274b3df55ce17d3e65a0e770bdf46867ea813"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/price-integrity.md",
+    "bytes": 8618,
+    "sha256": "f5e436cd8ee0e0df6a91781f4869b69dd3ca5be22e1fc7aebe1c1d04d957770b"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/cancellation-and-retention.md",
+    "bytes": 21045,
+    "sha256": "d912bc206d61c10b36d9570a31136995f24e03d84b5f6f8e523f7412720388fd"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/charge-refunded-partial.json",
+    "bytes": 1351,
+    "sha256": "00d3d14cb13543c2778591793986c221392de82687994683b596c9860250944d"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/checkout-session-completed-paid.json",
+    "bytes": 1184,
+    "sha256": "0a0714339ee382b50ff94d0598c83adac6973c0a6b01c86923e7345659744414"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/reference-handler.mjs",
+    "bytes": 19382,
+    "sha256": "e84caa4a22ff32d172d45ea3f10f030eeca83ba58df215f37cc858bfb085c194"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/customer-subscription-updated-discount-consumed.json",
+    "bytes": 1696,
+    "sha256": "5a04d5482d6f8b3165ae20de4a614b9d250c914363e2633a094f25ca514ad2f1"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/invoice-paid-subscription-update-proration.json",
+    "bytes": 2560,
+    "sha256": "38f509ace54a7d34155d4a2803213b97e56dcc89ee14192166729ee72f8096f0"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/charge-refunded-remainder.json",
+    "bytes": 1736,
+    "sha256": "fad5af72fdb46bdb60570586339c2bbc043ef572a5f12489e6d1ed5b9c3d6bb6"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/checkout-session-async-payment-failed.json",
+    "bytes": 1184,
+    "sha256": "b78b32fce6e342e91abcbcef1b2f8fad8a14c83bfbe2d169009ce4d17665f2fb"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/README.md",
+    "bytes": 9568,
+    "sha256": "24eec576a9d033db15c63ca97f5ca38d4f7caa9148b24f0b7e611e725ec96670"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/invoice-paid-subscription-cycle-redelivery.json",
+    "bytes": 1897,
+    "sha256": "26ece824b42410c64359ed61b032788dbb3dc896f0a681df3f2f043c520b5771"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/checkout-session-completed-async-unpaid.json",
+    "bytes": 1176,
+    "sha256": "f610cfde62d0f1d8045a90b92bef1251bfb73abfd1a35223b18991761afd243b"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/customer-subscription-updated-cancel-classic.json",
+    "bytes": 1749,
+    "sha256": "372623c3df1a852616f3a9a87c0015b4352921e8b16a713f95ad23bc6d8354a1"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/invoice-paid-subscription-cycle.json",
+    "bytes": 1801,
+    "sha256": "ec5dc01a7b803aca9ff921309dcef5f56f6121dc3512266af87875d27f997243"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/manifest.json",
+    "bytes": 5962,
+    "sha256": "9be8ad183273ebcb8b91226cb5cf10a98a8ed72baffede662fd883e761181604"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/customer-subscription-updated-cancel-flexible.json",
+    "bytes": 1757,
+    "sha256": "b932f3f81e45488731d200a6a7958006dfee7a978c1315bba6d2623ba1bd5a23"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/assert-money-invariants.mjs",
+    "bytes": 30350,
+    "sha256": "6db3e620ef9f958e552350e807424505ba87ffc0ff0c393984b98b69351d06b1"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/invoice-paid-subscription-cycle-next-period.json",
+    "bytes": 1897,
+    "sha256": "6a873bfeaf858ffc6de88c5955e8cd06c36367e0aa4c3a687e501e0c081dc2fa"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/customer-discount-created-retention.json",
+    "bytes": 1281,
+    "sha256": "b4ceabb841a877724c0bee2b0956f4c618c772840a4bbfc882fe66ae58de85b4"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/references/heleket-provider.md",
+    "bytes": 75975,
+    "sha256": "83efcc58634f1bbc34c94c030388d0dfd43f69e7b5a5843ea732497e1a3818ff"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/references/testing-and-local-dev.md",
+    "bytes": 2513,
+    "sha256": "13bbcc782d24b31ec931817450e8a5402f7b39c914fa63f21a9d45d54ac621b3"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/references/callback-route-hardening.md",
+    "bytes": 2219,
+    "sha256": "f35ec3da29f26e5fcb683effc7982a98818f412c664e5ed98ed6d981f1d79509"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/references/accessibility-perf.md",
+    "bytes": 5787,
+    "sha256": "e6ef05c5f701de8977523b7d999e65391bc3a88449497149e20716fa47ab0468"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/references/css-performance.md",
+    "bytes": 5755,
+    "sha256": "7270ceb6aa9ac1363320e62f2d10282b035d5f2f293d21a3fd4161109bd9a3f8"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/references/nextjs.md",
+    "bytes": 7640,
+    "sha256": "de4f76e69ad64c80fe63de332247c552a6a2afffb31e4f97de3f605a966be57c"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/error-tracking/references/scrubbing.md",
+    "bytes": 6636,
+    "sha256": "0aa58be5f0bc75bb8b987b03e6f3c4ac3c8a34e92e333f75fbdb59749e86a209"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/error-tracking/references/releases.md",
+    "bytes": 7855,
+    "sha256": "b5f506275f8367110b3f599dc35871cf09db1fed792db9b4d941cd57991253ab"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/error-tracking/references/setup.md",
+    "bytes": 7043,
+    "sha256": "501df648a26c50889477afaecd120913ea3f7097e6bf93ddf6382cde750b8946"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/references/full-guide.md",
+    "bytes": 19386,
+    "sha256": "5e3e31e5405d393ae72bd797f951645d4dc61d2458322a0cc050496e435dcaba"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md",
+    "bytes": 17239,
+    "sha256": "44b2ab36141c9732a098e7a390c6a246a85473091dbdf29fd5f4984bfd32be74"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/workload-identity.md",
+    "bytes": 11827,
+    "sha256": "c826ddfafb0bfa28e003913213e7a6b9dcf548fcca14eeacb1d6c0f34b9a21fb"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/sign-in-with-google.md",
+    "bytes": 16725,
+    "sha256": "68cacdf6008bf7b24d5550c1be9c3fa72e63dcc1d8cb93ea2ea5886843bffde8"
+  },
+  {
+    "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/adc-and-service-accounts.md",
+    "bytes": 12267,
+    "sha256": "36892bdc4b051ad27c236bef6f502c2cad848f539db992fe63ed13634dd37537"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/SKILL.md",
+    "bytes": 12723,
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md",
+    "bytes": 19298,
+    "sha256": "18c38888b66555da7a2f301740e420b47e44d8194c2dab2c20ea94a19b02394f"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "bytes": 19468,
+    "sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-interop/SKILL.md",
+    "bytes": 13938,
+    "sha256": "7f53a82ad5a3b4e64792ddefd66bf91e11cb511eaec53d637e8a616c22261558"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-interop/references/mcp.md",
+    "bytes": 11979,
+    "sha256": "36762b68129af76c53e35c35530f1c1309c8aac6a815c4549c1ee09d055738f2"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-interop/references/mcp-ship.md",
+    "bytes": 5182,
+    "sha256": "6136ea1b3b0a4db76c76e6e3023a1de2beae725e3596e67fc1a3400c9a850d38"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-interop/references/mcp-scale.md",
+    "bytes": 8841,
+    "sha256": "c69b0bfd73e189776fcc6ecdd7d3e88964073ab19a66ffcf79aab579b341a892"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-interop/references/a2a.md",
+    "bytes": 11113,
+    "sha256": "e39c4c6d1f19b39e09720c40a09a50e8f2a59824aeb83c5336443f8b709a6c34"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-interop/references/gateway.md",
+    "bytes": 8529,
+    "sha256": "accfc522162b27e45353ece7de420ede93baf030ff770d75003716159d8268f8"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-interop/references/registry.md",
+    "bytes": 8377,
+    "sha256": "648e7649369b9aa5dac5f424c9a4373292e5d73c90d9466b58171934e5c7b51f"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/pipeline.md",
+    "bytes": 4549,
+    "sha256": "89f160068715136c6f7793b305f78371831ebef9527cdb481e15b5af9a1af40b"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/governance.md",
+    "bytes": 9487,
+    "sha256": "bb2e3389779a56d4ace610bb14b5df05ace7fa6efc1e5810b0ae929f7050e435"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/provider-lifecycle.md",
+    "bytes": 8966,
+    "sha256": "d9b4462baf1c805daf05612d7ee8556ac5e666f72de62609666f1ee469294de3"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/memory-architecture.md",
+    "bytes": 19996,
+    "sha256": "3b3d373a0078c350bb86ce66f512b87a90d06991c5ba58e77476444f4edfc91e"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+    "bytes": 22764,
+    "sha256": "1a4d60f4811dd4b9fa99f1c6d6f72223790a4ee49bb8146e8dfe9bf606eee550"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/kv-cache.md",
+    "bytes": 9911,
+    "sha256": "b8ae7c5ba9531ebb02ded2e403a8fcb4ae2b944940076a4f15f966d05f6caeae"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/llm-proxy-billing.md",
+    "bytes": 15642,
+    "sha256": "2653908730241a48363ee7db469d31bbe4aba17a80d436646b9a17b41c291660"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/memory-lifecycle.md",
+    "bytes": 9530,
+    "sha256": "9e46e6538eac0f29cbe32f0d07f141bf4db31f33b445d2893d8ae966a8c18397"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md",
+    "bytes": 26308,
+    "sha256": "27bf343eaf2ab0c7b2975ee8060f4c56623e394dca995950cade8d9bf40047b1"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/runtime.md",
+    "bytes": 9053,
+    "sha256": "7164776ed0c53dc7eaa3edf21e01620e0db1a2bdef4f573469039be9ac5ad435"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/context-engineering.md",
+    "bytes": 11541,
+    "sha256": "57811d800b75f25a5a242505e8e6be2b33775fb156893ebec51af5ea18fcfc1e"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/memory-landscape.md",
+    "bytes": 8296,
+    "sha256": "b297b121ebb07c50579f929f0e5361598625b024dbf49653b82e12b1dc0b4f4d"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md",
+    "bytes": 9810,
+    "sha256": "a9da4f542487b66e4005e4031213ea6e9aa8cee048a1dba60647fa3f3bbe8943"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/otel-genai.md",
+    "bytes": 10003,
+    "sha256": "8ac9f1b7fec5d03e989b2eff6838a55e36f918cb99d63b1d62f72932e06bcb17"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/references/pi-sdk.md",
+    "bytes": 14100,
+    "sha256": "b7eb9375934887ed5f85e597e80c5f3d83c02c37cd585aff13960104a31ddcd5"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/references/layers.md",
+    "bytes": 5647,
+    "sha256": "38a44ee2c1ed697153258b5afe6ef1cf0afb2993c06c48645cc3ac2c895890a0"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/references/audit.md",
+    "bytes": 9742,
+    "sha256": "27345a957edd015425cae8ebb7086d0c75f7df6091f2a3752f33c2ec5f6bc80e"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/references/techniques.md",
+    "bytes": 7968,
+    "sha256": "4198c8d2d8a0d6da2f8ba7f2370310578167819abbb9bd351a722491ee8f31e8"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/references/system-prompt.md",
+    "bytes": 7452,
+    "sha256": "0eb99152d900367614334a6d6f62963ff2f694469437ada180e8503b25dc15dc"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/references/pi.md",
+    "bytes": 12889,
+    "sha256": "684616062c9d109ff13eed83a5b9a10544040f1ee22790ee70e8d8156b286c08"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/references/tools.md",
+    "bytes": 9333,
+    "sha256": "158ea7770d04e94d1c326d17e6fc08ebab2ab9ff583a65ab3e98bdf38805fa98"
+  },
+  {
+    "path": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/scripts/audit_agent.py",
+    "bytes": 19276,
+    "sha256": "f0193565dd3851d3ea779a05f018099b9f2bca3eccacc370b9a43048baba656a"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/SKILL.md",
+    "bytes": 10590,
+    "sha256": "d9b0aebbe4bccd0594a30cce65143aec7a7dd60301a4b062a7f44a4229e8646f"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/SKILL.md",
+    "bytes": 7967,
+    "sha256": "1bbe25fd5c4aa896a0fb7a6aabc96d70c3252ff7c716ce9123415447ee025cc2"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/SKILL.md",
+    "bytes": 9212,
+    "sha256": "017a09f2edc4c16a8847b97ca153bbddc9048daaedd1fc6737fa9225ebf971eb"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/initdata-verification.md",
+    "bytes": 5677,
+    "sha256": "14910465fb65e6a233eb66e7efcf38da0b69c91d0d9dd7e6edde9a57067c2287"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/app-to-bot.md",
+    "bytes": 2748,
+    "sha256": "b08f44bfb242d2c400778d6788563a6a21e9b1ea8dcb32a1d043ee9ce9f9ee99"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/viewport-and-platform.md",
+    "bytes": 2770,
+    "sha256": "294b1a5d82af37332e72a9c2360bc00f5eb07f581a8fa30acdcbe5aa8b16fba3"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/fixtures/verify_initdata.py",
+    "bytes": 6666,
+    "sha256": "acb7e04683f380b6a352cfddb7c61597e96fd53ae0d624423a83241c096f5891"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/references/entities-and-history.md",
+    "bytes": 2668,
+    "sha256": "fe335934882830af02b0489f2f9d2a58d5cbb44d8abbce5fb8c41d263b683ece"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/references/sessions-and-auth.md",
+    "bytes": 3770,
+    "sha256": "2cff0833777a9d5c6f78cde1d3d02ed4dfda4ba163e52e6a7354eb166565b47e"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/references/rate-and-flood.md",
+    "bytes": 2911,
+    "sha256": "2abe60ae1fe748bc0f3dc676f5d3d31214d152d84c2002154ab6685b4027aacc"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/references/frameworks.md",
+    "bytes": 2947,
+    "sha256": "d2c70658590eea1e4869b5628d9a105688a935dfd6f821bd6bcb3b255ae7dfaf"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/references/updates-and-delivery.md",
+    "bytes": 4842,
+    "sha256": "4884522094198f9987b4e9f188487205e659750039ee10637e5735579e888cb7"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/references/payments-stars.md",
+    "bytes": 3362,
+    "sha256": "5dfc88e5d9803362680bb06a7c39828a3f4e8c50fed6fe991928085359b8605b"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/references/limits-and-files.md",
+    "bytes": 2785,
+    "sha256": "736ddf059f83128b567668bd198014d4dffb0f36c6c6bb0db21a7d4d12d1303b"
+  },
+  {
+    "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/fixtures/update_delivery.py",
+    "bytes": 9825,
+    "sha256": "f41388a6aa35ad04117613bc478d135b91e419ebb52c7c7d75e1fb2480c601e1"
+  }
+]

@@ -1,0 +1,7 @@
+HMAC all-fields vector: REJECTED bad signature (incorrect; official HMAC includes signature)
+Future +24h timestamp: ACCEPTED
+Telegram crash+restart: {"work": [1002], "processed": [1001, 1002], "offset": 1003, "lost_update": true}
+scrub redis://:AUDIT_FAKE_PASSWORD@host:6379 => redis://:AUDIT_FAKE_PASSWORD@host:6379
+scrub https://api.telegram.org/bot123456:AUDIT_FAKE_TOKEN/getMe => https://api.telegram.org/bot123456:AUDIT_FAKE_TOKEN/getMe
+scrub https://host/?access_token=AUDIT_FAKE_TOKEN => https://host/?access_token=AUDIT_FAKE_TOKEN
+scrub postgresql://user:AUDIT_FAKE_PASSWORD@host/db => postgresql://user:<redacted>@host/db

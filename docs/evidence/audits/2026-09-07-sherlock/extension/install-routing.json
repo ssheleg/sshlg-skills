@@ -1,0 +1,462 @@
+{
+  "scope": "read-only installation/update/routing extension; source snapshots of parent audit",
+  "date": "2026-09-07",
+  "findings": [
+    {
+      "id": "UP-01",
+      "priority": "P1",
+      "title": "Обещание закреплённого релиза семьи не обеспечено установкой",
+      "skills": [
+        "sshlg-skills"
+      ],
+      "evidence": [
+        "repo://sshlg-skills/lib/updatemodel.js:16",
+        "repo://sshlg-skills/lib/updatemodel.js:39",
+        "repo://sshlg-skills/lib/updatemodel.js:75",
+        "repo://sshlg-skills/lib/plan.js:37",
+        "repo://sshlg-skills/lib/plan.js:48",
+        "repo://sshlg-skills/bin/sshlg-skills.js:315",
+        "repo://sshlg-skills/bin/sshlg-skills.js:327",
+        "repo://sshlg-skills/package.json:15"
+      ],
+      "source_files": [
+        "repo://sshlg-skills/bin/sshlg-skills.js",
+        "repo://sshlg-skills/lib/plan.js",
+        "repo://sshlg-skills/lib/updatemodel.js",
+        "repo://sshlg-skills/package.json"
+      ],
+      "observed": "Fixture pin-plan: manifestVersion=0.55.1, но команда add получает только ssheleg/super-ux; refresh получает vision без версии. Claude получает plugin marketplace update и plugin update без immutable ref. Pins материализуют только git-submodule checkout; npm files вообще не включает skills/ и .gitmodules. Fixture auto-update-unknown: read=false превращается в «Auto-update is OFF».",
+      "impact": "Одна и та же версия umbrella может приводить к разным наборам байтов в разные дни. Сбой в середине оставляет смешанную семью; отчёт «pinned and released as a set» не доказывает совместимость. Отсутствие автоматической проверки latest само по себе допустимая явно описанная политика, но его нельзя путать с закреплением фактически установленного набора.",
+      "fix": "Завести release-set.lock с package version, provider, immutable git SHA/ref, content digest, minimum host capability для каждого member. Сначала resolve/check без записи, затем получить все payload, проверить digest и контракт совместимости; устанавливать именно эти payload. Закрепить версию skills CLI, сейчас npx выбирает внешнюю реализацию независимо. Для host API без pin объявить capability unsupported и observed actual, не называть набор pinned. Auto-update состояние: enabled/disabled/unknown + источник/время; policy отдельно от observation.",
+      "acceptance": [
+        "Два запуска одной версии umbrella при изменившемся upstream дают одинаковые digest либо явный UNSUPPORTED_PIN.",
+        "Network/registry/parse failure выдаёт CHECK_ERROR или UNKNOWN, не current/OFF.",
+        "Команды/lock содержат immutable source всех девяти членов; release-set receipt сравнивает expected и observed digest.",
+        "Проверка latest read-only отделена от apply; latest_available, desired, installed и active четыре разные величины."
+      ],
+      "depends_on": [],
+      "related_existing": [],
+      "limits": "Подтверждён дефект/пробел реализации; наличие внешнего инцидента и фактическая версия в уже работающих сессиях не установлены."
+    },
+    {
+      "id": "UP-02",
+      "priority": "P1",
+      "title": "Принятый --dry-run всё равно запускает обновления и удаляет файлы",
+      "skills": [
+        "sshlg-skills"
+      ],
+      "evidence": [
+        "repo://sshlg-skills/bin/sshlg-skills.js:83",
+        "repo://sshlg-skills/bin/sshlg-skills.js:318",
+        "repo://sshlg-skills/bin/sshlg-skills.js:319",
+        "repo://sshlg-skills/bin/sshlg-skills.js:350",
+        "repo://sshlg-skills/bin/sshlg-skills.js:618"
+      ],
+      "source_files": [
+        "repo://sshlg-skills/bin/sshlg-skills.js"
+      ],
+      "observed": "Изолированный fixture dry-run: update --no-claude --agent codex --dry-run, exit=0; вызваны 38 mocked child processes; реально в temp HOME удалён .claude/skills/vision/SKILL.md и изменён runtime/lib/plan.js. В выводе роутера при этом «Ничего не изменено». Subprocesses подменены, поэтому настоящих npm/git/claude обновлений не было.",
+      "impact": "Оператор, проверяющий предполагаемые изменения, вместо просмотра получает реальные filesystem mutations; при реальных subprocesses код также запускает операции обновления. Эта ошибка непосредственно нарушает значение принятого флага.",
+      "fix": "Строить единый immutable OperationPlan для subprocesses, prune, routers и runtime. Dry-run рендерит план без исполнения; либо отклонять этот флаг для неподдерживаемой команды до первой операции. Одна центральная граница mutation, а не dryRun только у emitters.",
+      "acceptance": [
+        "Снимки всех temp HOME/project/runtime файлов до и после install/update --dry-run побайтно равны.",
+        "Spy подтверждает 0 mutating child calls, 0 deletes, 0 writes, в том числе при --bump-pins и --all.",
+        "JSON plan показывает будущие удаления, scope и версии без фразы про выполненную установку."
+      ],
+      "depends_on": [],
+      "related_existing": [],
+      "limits": "Подтверждён дефект/пробел реализации; наличие внешнего инцидента и фактическая версия в уже работающих сессиях не установлены."
+    },
+    {
+      "id": "UP-03",
+      "priority": "P2",
+      "title": "Выбор агента не ограничивает весь update",
+      "skills": [
+        "sshlg-skills"
+      ],
+      "evidence": [
+        "repo://sshlg-skills/lib/plan.js:48",
+        "repo://sshlg-skills/lib/plan.js:91",
+        "repo://sshlg-skills/bin/sshlg-skills.js:267",
+        "repo://sshlg-skills/bin/sshlg-skills.js:347",
+        "repo://sshlg-skills/lib/apply.js:180",
+        "repo://sshlg-skills/lib/apply.js:203"
+      ],
+      "source_files": [
+        "repo://sshlg-skills/bin/sshlg-skills.js",
+        "repo://sshlg-skills/lib/apply.js",
+        "repo://sshlg-skills/lib/plan.js"
+      ],
+      "observed": "Fixture agent-scope: update --no-claude --agent codex с ранее данным consent=yes меняет все три fixture файла: .claude/CLAUDE.md, .codex/AGENTS.md и .gemini/GEMINI.md. refreshBlock не передаёт agents/claudeOnly; apply iterates all TARGETS. Refresh skills update name --global не содержит агентного scope; это действительно глобальный интерфейс upstream, а не пропущенный поддерживаемый флаг. Shared hub по определению тоже общий.",
+      "impact": "Пользовательское ожидание выборочного обновления расходится с реальным графом записи. Даже --no-claude может поменять Claude-инструкции, удалить его plain skill и обновить runtime. Добавление --agent к неподдерживающему его upstream update проблему не решит.",
+      "fix": "Разделить --host/--channel и --scope shared|host; resolver до начала операций показывает затрагиваемые shared storage и indirect consumers. Передать выбранные targets во все emitters; общие объекты обновлять только как явно названную часть плана. Для host-only использовать staging точного payload/add к поддерживаемому агенту либо объявлять невозможность изоляции общего hub.",
+      "acceptance": [
+        "Fixture с Claude/Codex/Gemini/Cursor сохраняет все невыбранные instruction files.",
+        "--claude-only не обновляет Codex/Gemini instructions; --no-claude не меняет Claude state, кроме явно выбранного shared scope.",
+        "Test на два агента, читающих один symlink target, показывает shared-effect до apply и не обещает per-host isolation."
+      ],
+      "depends_on": [
+        "UP-02"
+      ],
+      "related_existing": [],
+      "limits": "Подтверждён дефект/пробел реализации; наличие внешнего инцидента и фактическая версия в уже работающих сессиях не установлены."
+    },
+    {
+      "id": "UP-04",
+      "priority": "P1",
+      "title": "Prune удаляет единственную plain-копию по непроверенной записи registry",
+      "skills": [
+        "sshlg-skills"
+      ],
+      "evidence": [
+        "repo://sshlg-skills/bin/sshlg-skills.js:125",
+        "repo://sshlg-skills/bin/sshlg-skills.js:139",
+        "repo://sshlg-skills/bin/sshlg-skills.js:156",
+        "repo://sshlg-skills/bin/sshlg-skills.js:238",
+        "repo://sshlg-skills/lib/plan.js:60",
+        "repo://sshlg-skills/lib/plan.js:126"
+      ],
+      "source_files": [
+        "repo://sshlg-skills/bin/sshlg-skills.js",
+        "repo://sshlg-skills/lib/plan.js"
+      ],
+      "observed": "Fixture stale-registry задаёт plugins={\"super-ux@super-ux\":[]}, без cache payload. Все 9 mocked skills installs вернули failure. Launcher всё равно удалил уникальный fixture .claude/skills/vision/SKILL.md, затем завершился exit1. Registry keys преобразуются в marketplace names; массив scopes/installPath и реально существующий payload не проверяются, backup/provenance не делаются. Обратный сценарий fresh-all-order: mocked skills add создаёт Claude plain vision, затем mocked plugin install регистрирует plugin; install --all заканчивается exit0, обе записи остаются. --all даёт wildcard, prune идёт раньше plugin install и после него не повторяется. Это проверка порядка orchestration с моделируемыми эффектами внешнего CLI, не live подтверждение поведения host.",
+      "impact": "Stale/empty registry, отключённый или сломанный plugin и локально изменённая plain-копия могут привести к потере единственного доступного skill или пользовательской редакции. Подтверждено в изолированном HOME; потеря пользовательского файла на реальной машине не утверждается.",
+      "fix": "Prune превратить в migration после успешной верификации целевого provider. Проверять точный plugin spec, applicable scope, enabled state, cache payload/required resources, digest. Plain symlink managed source можно переключить атомарно; неизвестные/изменённые папки сохранять в quarantine с manifest и restore. Empty/corrupt registry = UNKNOWN, без удаления.",
+      "acceptance": [
+        "Матрица absent/corrupt/empty/stale/disabled/wrong-scope plugin не удаляет единственную копию.",
+        "Injected install failure сохраняет старую рабочую копию и её digest.",
+        "Отдельный fixture edited plain skill создаёт recoverable backup и journal; restore возвращает байты и symlink тип.",
+        "Проверка exact spec не считает любую другую запись из marketplace доказательством замены всех skills.",
+        "Fresh install --all сначала формирует правильные provider targets и после успешной миграции не оставляет создаваемую им plain копию рядом с plugin; нужны explicit invocations обоих каналов в smoke-test."
+      ],
+      "depends_on": [
+        "UP-07"
+      ],
+      "related_existing": [],
+      "limits": "Подтверждён дефект/пробел реализации; наличие внешнего инцидента и фактическая версия в уже работающих сессиях не установлены."
+    },
+    {
+      "id": "UP-05",
+      "priority": "P1",
+      "title": "Перезапись member/runtime не атомарна и не даёт rollback",
+      "skills": [
+        "task-pipeline",
+        "sheleg-design",
+        "sshlg-skills"
+      ],
+      "evidence": [
+        "repo://task-pipeline/bin/task-pipeline.js:52",
+        "repo://task-pipeline/bin/task-pipeline.js:57",
+        "repo://task-pipeline/install.sh:45",
+        "repo://sheleg-design/bin/cli.js:501",
+        "repo://sheleg-design/install.sh:78",
+        "repo://sheleg-design/install.sh:82",
+        "repo://sshlg-skills/lib/runtime.js:103",
+        "repo://sshlg-skills/lib/runtime.js:119"
+      ],
+      "source_files": [
+        "repo://sshlg-skills/lib/runtime.js",
+        "repo://sheleg-design/bin/cli.js",
+        "repo://sheleg-design/install.sh",
+        "repo://task-pipeline/bin/task-pipeline.js",
+        "repo://task-pipeline/install.sh"
+      ],
+      "observed": "Fixture force-copy-failure: task-pipeline --force удаляет старую valid installation до copy; injected ENOSPC на первой copyFileSync даёт exit1, старый SKILL.md больше не существует. Design JS и runtime копируют поверх по одному файлу без staging; Design shell аналогично пишет прямо в target (и не использует --force как защиту существующих файлов вне plugin gate). Последние ветки подтверждены чтением кода, без инъекции сбоя в каждой.",
+      "impact": "Диск, permission error или остановка процесса могут оставить отсутствующий либо смешанный пакет, на который уже смотрит агент/hook. Backup global markdown в apply.js не покрывает payload skill/runtime. Повтор запуска иногда чинит состояние, но это не rollback и не гарантия доступности.",
+      "fix": "Единый transaction writer: подготовить sibling staging на том же filesystem, проверить required-file manifest и digest, fsync где нужно, записать journal, переключить pointer/rename с recoverable previous generation. Сохранять пользовательские файлы отдельно; не очищать неизвестные extras вслепую. Для remote shell скачать manifest+payload закреплённого commit полностью до switch. Все installers применяют одинаковую --force semantics.",
+      "acceptance": [
+        "Fault injection на первом/среднем/последнем copy и rename сохраняет старую полностью рабочую generation или новую полностью проверенную.",
+        "SIGTERM после stage и до switch не меняет active; после switch journal позволяет rollback.",
+        "Проверка --force=false не перезаписывает existing Design shell files; --force=true создаёт recoverable generation.",
+        "Obsolete managed resources удаляются по manifest, неизвестные пользовательские файлы сохраняются."
+      ],
+      "depends_on": [
+        "UP-01"
+      ],
+      "related_existing": [],
+      "limits": "Подтверждён дефект/пробел реализации; наличие внешнего инцидента и фактическая версия в уже работающих сессиях не установлены."
+    },
+    {
+      "id": "UP-06",
+      "priority": "P2",
+      "title": "Super-ux возвращает успешный exit code после неудачной установки",
+      "skills": [
+        "super-ux"
+      ],
+      "evidence": [
+        "repo://super-ux/bin/super-ux.js:244",
+        "repo://super-ux/bin/super-ux.js:264",
+        "repo://super-ux/bin/super-ux.js:278",
+        "repo://super-ux/bin/super-ux.js:445",
+        "repo://super-ux/bin/super-ux.js:459"
+      ],
+      "source_files": [
+        "repo://super-ux/bin/super-ux.js"
+      ],
+      "observed": "Fixture super-menu-failure: stdin выбирает пункт 3 (Claude plugin); все четыре вызванных child operations замоканы с status1. Вывод содержит plugin install failed, но процесс заканчивается exit0. installClaudePlugin не возвращает status; menu отслеживает только refused ветку skills picker и печатает update line.",
+      "impact": "Shell/CI/родительский launcher считает установку удачной, хотя обязательная часть не выполнена. Предупреждение в тексте не исправляет machine-readable signal; предложение маршрутизатора может описывать отсутствующую возможность.",
+      "fix": "Все install functions возвращают typed result installed|unchanged|refused|unsupported|failed; menu агрегирует только выбранные обязательные операции, устанавливает nonzero на failure и печатает completion отдельно от optional routing offer. Различать ENOENT, permission, network и backend nonzero, сохраняя command, exit/signal и recovery.",
+      "acceptance": [
+        "Selected plugin failure и skills CLI failure => exit1; explicit refusal=>3; unsupported host=>выбранный стабильный nonzero.",
+        "Optional absent router launcher не превращает удачную установку skill в failure.",
+        "Mixed selections дают PARTIAL с конкретными failed operations и не печатают overall success."
+      ],
+      "depends_on": [],
+      "related_existing": [],
+      "limits": "Подтверждён дефект/пробел реализации; наличие внешнего инцидента и фактическая версия в уже работающих сессиях не установлены."
+    },
+    {
+      "id": "UP-07",
+      "priority": "P2",
+      "title": "Updater не управляет native Codex plugin provider и не проверяет active digest",
+      "skills": [
+        "sshlg-skills"
+      ],
+      "evidence": [
+        "repo://sshlg-skills/skills.json:225",
+        "repo://sshlg-skills/bin/sshlg-skills.js:231",
+        "repo://sshlg-skills/bin/sshlg-skills.js:283",
+        "repo://sshlg-skills/bin/sshlg-skills.js:323",
+        "repo://sshlg-skills/bin/sshlg-skills.js:64",
+        "repo://sheleg-design/bin/cli.js:528"
+      ],
+      "source_files": [
+        "repo://sshlg-skills/bin/sshlg-skills.js",
+        "repo://sshlg-skills/skills.json",
+        "repo://sheleg-design/bin/cli.js"
+      ],
+      "observed": "В skills.json Codex описан только каналом skills CLI. Install/update имеют только skills CLI, Claude plugin и local runtime операции. Узкая filesystem инвентаризация прочитала 336 SKILL.md candidates в hub и семейных Claude/Codex caches; все 28 skill names имеют hub, для 25 names есть native Codex plugin cache (telegram только hub/Claude в измерении). Historical cache versions не равны active providers. Провайдер, реально выбранный host для следующей/текущей сессии, launcher не разрешает и его digest не сравнивает.",
+      "impact": "Обновить hub недостаточно для утверждения, что Codex использует новую plugin-копию. Установка и обновление могут быть успешными в одном канале, тогда как namespaced invocation берёт другой. Это lifecycle-пробел в дополнение к RT-03 про inventory и SY-08 про lookup; не утверждается, что все cache candidates активны или что plain skill всегда затеняет namespaced plugin в каждом host.",
+      "fix": "Ввести read-only provider resolver с host API adapter, project/user/admin scopes, exact skill id и namespace, canonical realpath, source digest, installed/enabled/applicable/loaded states. Codex native plugin install/update передавать только поддерживаемому host API; при отсутствии API выдавать UNSUPPORTED_UPDATE и конкретный ручной шаг. Receipt имеет desired/installed/loaded digest и reload-required, а неизвестное не окрашивает зелёным. Одинаковые capabilities должны лежать под make-skill/runtime/toolkit/update, а не в разных списках.",
+      "acceptance": [
+        "Fixture: stale native plugin + fresh hub => report mismatch и не overall current.",
+        "Fixture: cache old versions + только одна enabled version => candidates не считаются active duplicates.",
+        "Project override и namespaced invocation разрешаются отдельно; unknown runtime precedence => UNKNOWN, без prune.",
+        "После supported update/reload smoke-test host показывает нужный skill/version/source digest; без live host статус NOT-RUN."
+      ],
+      "depends_on": [],
+      "related_existing": [
+        "RT-03",
+        "SY-08"
+      ],
+      "limits": "Подтверждён дефект/пробел реализации; наличие внешнего инцидента и фактическая версия в уже работающих сессиях не установлены."
+    },
+    {
+      "id": "UP-08",
+      "priority": "P2",
+      "title": "Host roots фиксированы и расходятся с поддерживаемыми overrides",
+      "skills": [
+        "sshlg-skills",
+        "task-pipeline",
+        "super-ux",
+        "sheleg-design"
+      ],
+      "evidence": [
+        "repo://sshlg-skills/lib/apply.js:34",
+        "repo://sshlg-skills/lib/apply.js:187",
+        "repo://sshlg-skills/bin/sshlg-skills.js:138",
+        "repo://task-pipeline/bin/task-pipeline.js:196",
+        "repo://task-pipeline/bin/task-pipeline.js:203",
+        "repo://super-ux/bin/super-ux.js:47",
+        "repo://sheleg-design/bin/cli.js:381"
+      ],
+      "source_files": [
+        "repo://sshlg-skills/bin/sshlg-skills.js",
+        "repo://sshlg-skills/lib/apply.js",
+        "repo://sheleg-design/bin/cli.js",
+        "repo://super-ux/bin/super-ux.js",
+        "repo://task-pipeline/bin/task-pipeline.js"
+      ],
+      "observed": "Fixture custom-host-root запускает update --agent codex --no-claude с CODEX_HOME в отдельной temp папке. Custom AGENTS.md остаётся прежним, default ~/.codex/AGENTS.md меняется. Source paths для Claude guards также жёстко используют .claude. Текущий primary upstream skills CLI учитывает CODEX_HOME и CLAUDE_CONFIG_DIR, поэтому subprocess installation и family router/prune могут работать с разными home roots.",
+      "impact": "На custom profile/config root skill может обновиться в одном host-home, а обязательные инструкции — в другом. Guard может не увидеть plugin в реальном Claude profile либо проверять чужой default profile. Наличие таких overrides на реальной машине не проверялось и для дефекта не требуется.",
+      "fix": "Единый HostContext resolver: explicit CLI root > документированный host env > platform default; использовать его и для install, inventory, guards, router, consent scope, rollback. Поддерживать alternate profiles явно. Не выводить наличие установленного host только из случайной оставшейся директории; capability probe отдельно от pathname.",
+      "acceptance": [
+        "Fixture custom CODEX_HOME/CLAUDE_CONFIG_DIR меняет только выбранный root, default stays byte-identical.",
+        "Plugin collision в custom root обнаруживается до записи; stale default root не блокирует другой профиль.",
+        "Windows/XDG/root-with-spaces и missing host дают отдельные протестированные results; неподдержанные платформы UNKNOWN."
+      ],
+      "depends_on": [
+        "UP-03",
+        "UP-07"
+      ],
+      "related_existing": [],
+      "limits": "Подтверждён дефект/пробел реализации; наличие внешнего инцидента и фактическая версия в уже работающих сессиях не установлены."
+    }
+  ],
+  "host_capability_matrix": [
+    {
+      "host": "Claude Code",
+      "id": "claude-code",
+      "declared_channel": "plugin",
+      "live_verified": false,
+      "install": "SUPPORTED_ADAPTER: claude CLI plugin",
+      "update": "SUPPORTED_ADAPTER: latest marketplace/plugin, pin absent",
+      "routing": "SUPPORTED_EMITTER: ~/.claude/CLAUDE.md + optional Claude hooks",
+      "limits": "Enabled scope/cache/session not verified; custom config root ignored"
+    },
+    {
+      "host": "DeepSeek Harness",
+      "id": "dsh",
+      "declared_channel": "reads the hub directly",
+      "live_verified": false,
+      "install": "DECLARED_DIRECT_HUB: no launcher install operation",
+      "update": "INDIRECT_SHARED_HUB",
+      "routing": "NO_EMITTER",
+      "limits": "Six-root/rank statement is declaration in manifest; live harness not verified"
+    },
+    {
+      "host": "Cursor",
+      "id": "cursor",
+      "declared_channel": "skills CLI",
+      "live_verified": false,
+      "install": "SUPPORTED_ADAPTER: skills CLI; standalone project rules installer",
+      "update": "SUPPORTED_ADAPTER: hub; project rules require explicit member installer",
+      "routing": "SUPPORTED_EMITTER: ~/.cursor/rules/sshlg-routing.mdc when rules dir exists",
+      "limits": "Project rules can independently remain old; live priority/activation not tested"
+    },
+    {
+      "host": "Codex",
+      "id": "codex",
+      "declared_channel": "skills CLI",
+      "live_verified": false,
+      "install": "SUPPORTED_ADAPTER: external skills CLI; native plugin not managed",
+      "update": "SUPPORTED_ADAPTER: hub refresh; native plugin UNKNOWN",
+      "routing": "SUPPORTED_EMITTER: ~/.codex/AGENTS.md",
+      "limits": "Native cache exists; active provider/digest UNKNOWN; CODEX_HOME ignored by emitter"
+    },
+    {
+      "host": "Gemini CLI",
+      "id": "gemini-cli",
+      "declared_channel": "skills CLI",
+      "live_verified": false,
+      "install": "SUPPORTED_ADAPTER: external skills CLI",
+      "update": "SUPPORTED_ADAPTER: global hub",
+      "routing": "SUPPORTED_EMITTER: ~/.gemini/GEMINI.md",
+      "limits": "Live priority/activation not tested"
+    },
+    {
+      "host": "OpenCode",
+      "id": "opencode",
+      "declared_channel": "skills CLI",
+      "live_verified": false,
+      "install": "SUPPORTED_DELEGATION: external skills CLI --agent opencode",
+      "update": "SUPPORTED_DELEGATION: global update then add",
+      "routing": "NO_FAMILY_EMITTER",
+      "limits": "Host-specific hooks/commands/role agents not installed by family adapter; runtime parity UNKNOWN"
+    },
+    {
+      "host": "Windsurf",
+      "id": "windsurf",
+      "declared_channel": "skills CLI",
+      "live_verified": false,
+      "install": "SUPPORTED_DELEGATION: external skills CLI --agent windsurf",
+      "update": "SUPPORTED_DELEGATION: global update then add",
+      "routing": "NO_FAMILY_EMITTER",
+      "limits": "Host-specific hooks/commands/role agents not installed by family adapter; runtime parity UNKNOWN"
+    },
+    {
+      "host": "Zed",
+      "id": "zed",
+      "declared_channel": "skills CLI",
+      "live_verified": false,
+      "install": "SUPPORTED_DELEGATION: external skills CLI --agent zed",
+      "update": "SUPPORTED_DELEGATION: global update then add",
+      "routing": "NO_FAMILY_EMITTER",
+      "limits": "Host-specific hooks/commands/role agents not installed by family adapter; runtime parity UNKNOWN"
+    },
+    {
+      "host": "Kilo Code",
+      "id": "kilo",
+      "declared_channel": "skills CLI",
+      "live_verified": false,
+      "install": "SUPPORTED_DELEGATION: external skills CLI --agent kilo",
+      "update": "SUPPORTED_DELEGATION: global update then add",
+      "routing": "NO_FAMILY_EMITTER",
+      "limits": "Host-specific hooks/commands/role agents not installed by family adapter; runtime parity UNKNOWN"
+    },
+    {
+      "host": "Kimi CLI",
+      "id": "kimi-code-cli",
+      "declared_channel": "skills CLI",
+      "live_verified": false,
+      "install": "SUPPORTED_DELEGATION: external skills CLI --agent kimi-code-cli",
+      "update": "SUPPORTED_DELEGATION: global update then add",
+      "routing": "NO_FAMILY_EMITTER",
+      "limits": "Host-specific hooks/commands/role agents not installed by family adapter; runtime parity UNKNOWN"
+    },
+    {
+      "host": "Hermes",
+      "id": "hermes-agent",
+      "declared_channel": "skills CLI",
+      "live_verified": false,
+      "install": "SUPPORTED_DELEGATION: external skills CLI --agent hermes-agent",
+      "update": "SUPPORTED_DELEGATION: global update then add",
+      "routing": "NO_FAMILY_EMITTER",
+      "limits": "Host-specific hooks/commands/role agents not installed by family adapter; runtime parity UNKNOWN"
+    },
+    {
+      "host": "OpenClaw",
+      "id": "openclaw",
+      "declared_channel": "skills CLI",
+      "live_verified": false,
+      "install": "SUPPORTED_DELEGATION: external skills CLI --agent openclaw",
+      "update": "SUPPORTED_DELEGATION: global update then add",
+      "routing": "NO_FAMILY_EMITTER",
+      "limits": "Host-specific hooks/commands/role agents not installed by family adapter; runtime parity UNKNOWN"
+    },
+    {
+      "host": "Kiro",
+      "id": "kiro-cli",
+      "declared_channel": "skills CLI",
+      "live_verified": false,
+      "install": "SUPPORTED_DELEGATION: external skills CLI --agent kiro-cli",
+      "update": "SUPPORTED_DELEGATION: global update then add",
+      "routing": "NO_FAMILY_EMITTER",
+      "limits": "Host-specific hooks/commands/role agents not installed by family adapter; runtime parity UNKNOWN"
+    },
+    {
+      "host": "Goose",
+      "id": "goose",
+      "declared_channel": "skills CLI",
+      "live_verified": false,
+      "install": "SUPPORTED_DELEGATION: external skills CLI --agent goose",
+      "update": "SUPPORTED_DELEGATION: global update then add",
+      "routing": "NO_FAMILY_EMITTER",
+      "limits": "Host-specific hooks/commands/role agents not installed by family adapter; runtime parity UNKNOWN"
+    }
+  ],
+  "tests": {
+    "fixture_command": "node audit://extension/install-logs/reproduce.cjs",
+    "fixture_results": "audit://extension/install-logs/results.json",
+    "existing": [
+      "node test/plan_test.js: PASS 20 checks",
+      "node test/updatemodel_test.js: PASS 10 checks"
+    ],
+    "not_run": [
+      "No live install/update/npm publication/config edits",
+      "No complete suites",
+      "No runtime session reload across hosts",
+      "No npm pack: package.json files sufficient to establish absence of submodules in npm payload"
+    ]
+  },
+  "provider_inventory": {
+    "path": "audit://extension/install-logs/providers.json",
+    "candidate_skill_files": 336,
+    "skill_names": 28,
+    "codex_plugin_skill_names": 25,
+    "active_provider_status": "UNKNOWN; historical cache entries are candidates only"
+  },
+  "sources": {
+    "upstream_update": "https://raw.githubusercontent.com/vercel-labs/skills/main/src/update.ts",
+    "upstream_agents": "https://raw.githubusercontent.com/vercel-labs/skills/main/src/agents.ts",
+    "claude_plugins": "https://code.claude.com/docs/en/discover-plugins"
+  },
+  "architecture_sequence": [
+    "Read-only HostContext + provider inventory/desired release-set (UP-01, UP-07)",
+    "Pure OperationPlan with scope/preview boundary (UP-02, UP-03, UP-08)",
+    "Stage/verify/quarantine/atomic switch/rollback (UP-04, UP-05)",
+    "Typed operation results + truthful completion/active receipts (UP-06 and UP-01/07 acceptance)",
+    "Hermetic host/channel/fault matrix then selected live smoke tests under explicit install task"
+  ]
+}

@@ -1,0 +1,387 @@
+{
+  "scope": [
+    "vision",
+    "ux-foundation",
+    "ux-flows",
+    "ux-scenarios",
+    "ux-audit",
+    "brand-voice",
+    "copywriting",
+    "sheleg-design"
+  ],
+  "baseline": {
+    "super-ux": {
+      "version": "0.55.1",
+      "sha": "a60f6b423c619b37a3bb43564b58b02b6200e463"
+    },
+    "sheleg-design": {
+      "version": "1.59.4",
+      "sha": "ca855d92f4a82dfd95f376d5dd07e4f911e7f6b9"
+    }
+  },
+  "findings": [
+    {
+      "id": "UX-01",
+      "severity": "P1",
+      "skills": [
+        "brand-voice",
+        "copywriting",
+        "ux-audit"
+      ],
+      "title": "B030 не доказывает происхождение утверждения",
+      "kind": "reproduced",
+      "evidence": [
+        "repo://super-ux/plugins/super-ux/scripts/brand_lint.py:843",
+        "repo://super-ux/plugins/super-ux/scripts/brand_lint.py:1092",
+        "repo://super-ux/plugins/super-ux/scripts/brand_lint.py:1134",
+        "repo://super-ux/plugins/super-ux/skills/brand-voice/references/brand-contract.md:218"
+      ],
+      "problem": "Все публичные значения объединяются в set без subject, unit, denominator или ссылки утверждения на факт. Единственный факт «supported integrations = 500» разрешает «We serve 500 million paying customers». Воспроизведено: check_facts вернул []. Отдельно пропущены «99 languages» (голые числа <100 не извлекаются) и «2026 integrations» (любое 19xx/20xx объявлено годом).",
+      "impact": "Ложный пропуск именно в защите от выдуманных данных. Документ/копирайтер может прочитать отсутствие B030 как подтверждение, хотя предмет и масштаб заменены. Это не доказывает, что такие утверждения уже публиковались.",
+      "fix": "Ввести claim-id → fact-id, субъект, единицу, популяцию, дату и разрешённые преобразования. Линтер проверяет ссылку/единицу/точность, семантический аудит проверяет утверждение. До этого сузить обещание B030 до проверки известного числового токена и явно показывать unverified claims. Не исключать год без контекста.",
+      "acceptance": "Три строки из probes должны получить unresolved/mismatched-claim; корректные 500 integrations проходят; 500 million customers не проходят; даты и диапазоны распознаются по типу поля."
+    },
+    {
+      "id": "UX-02",
+      "severity": "P1",
+      "skills": [
+        "brand-voice",
+        "copywriting",
+        "ux-audit"
+      ],
+      "title": "B051 объявляет спамом текст без единого повторения",
+      "kind": "reproduced",
+      "evidence": [
+        "repo://super-ux/plugins/super-ux/scripts/brand_lint.py:1531",
+        "repo://super-ux/plugins/super-ux/scripts/brand_lint.py:1538",
+        "repo://super-ux/plugins/super-ux/skills/brand-voice/references/brand-contract.md:421"
+      ],
+      "problem": "После 40 значимых слов любой token >1% даёт error. Для 45 уникальных слов частота каждого 1/45=2.22%; тест получил B051 на item0, ни одного повтора нет. Для короткой страницы условие математически невыполнимо. Дополнительно все marketing code files объединены в один документ без route mapping.",
+      "impact": "Блокирует корректную короткую копию и поощряет искусственное удлинение/синонимы; объединение страниц может скрывать локальную переоптимизацию. Фраза «lowers citation likelihood» представлена как измеренный эффект, но в коде это порог без измерения поисковой выдачи.",
+      "fix": "Сделать repetition advisory с минимальным count и длиной, учитывать зарегистрированные термины и язык, группировать по реально отрендеренной странице. Удалить универсальное обещание влияния на цитирование. Google описывает unnatural repetition/manipulative intent, а не порог 1%: https://developers.google.com/search/docs/essentials/spam-policies#keyword-stuffing .",
+      "acceptance": "45/80/100 уникальных слов без повторов не дают finding; реальные повторные блоки дают advisory; domain term repetition сохраняется; страницы проверяются независимо."
+    },
+    {
+      "id": "UX-03",
+      "severity": "P1",
+      "skills": [
+        "brand-voice",
+        "copywriting",
+        "ux-audit"
+      ],
+      "title": "Humanization «никогда не блокирует» расходится с исполняемым B060",
+      "kind": "reproduced",
+      "evidence": [
+        "repo://super-ux/plugins/super-ux/skills/copywriting/SKILL.md:128",
+        "repo://super-ux/plugins/super-ux/skills/copywriting/references/ai-tells.md:31",
+        "repo://super-ux/plugins/super-ux/skills/copywriting/references/ai-tells.md:35",
+        "repo://super-ux/plugins/super-ux/scripts/brand_lint.py:1600"
+      ],
+      "problem": "SKILL запрещает превращать marker count в verdict/gate; reference задаёт grades «reads as written by a person», «decisive on its own», error при 3 S1. Код считает substring и выдаёт error. Цитата-словарь с delve / needless to say / in conclusion воспроизводит error и Naturalness grade C; Humanization: off с причиной ничего не меняет.",
+      "impact": "Ухудшает авторский текст ради прохождения линтера и противоречит обязательной сохранности цитат. Возникает эвристическое распознавание происхождения текста без валидированной модели и без калибровки по языкам.",
+      "fix": "Единый контракт: humanization review всегда advisory, word markers не устанавливают authorship/naturalness grade. Учитывать цитаты/код/термины, разделить редакционный off и явно выбранные brand bans. Удалить severity переход из количества маркеров.",
+      "acceptance": "Цитируемый словарь остаётся неизменным и не блокирует; off не запускает скрытый обязательный rewrite; негативные примеры русской грамматики/второго языка проходят; semantic-preservation тесты числа/отрицания/каузальность обязательны."
+    },
+    {
+      "id": "UX-04",
+      "severity": "P2",
+      "skills": [
+        "copywriting"
+      ],
+      "title": "У одного скилла два несовместимых правила владения strings.md",
+      "kind": "observed_instruction_conflict",
+      "evidence": [
+        "repo://super-ux/plugins/super-ux/skills/copywriting/SKILL.md:25",
+        "repo://super-ux/plugins/super-ux/skills/copywriting/SKILL.md:81",
+        "repo://super-ux/plugins/super-ux/skills/copywriting/SKILL.md:161"
+      ],
+      "problem": "Правило «This skill never writes to docs/brand/» абсолютно; Write step 5 и DoD требуют добавлять/обновлять strings.md, который находится в docs/brand/.",
+      "impact": "Агент либо нарушает собственный запрет, либо оставляет реестр несогласованным, либо делает лишний handoff на каждую строку.",
+      "fix": "Разделить ownership по файлам: brand-voice владеет voice/terms/facts/channels/locale policy, copywriting пишет strings.md (proposed) и продуктовый текст. Общая схема явно разрешает эти mutations и claim при координации.",
+      "acceptance": "Изменение одного error string обновляет исходник и proposed row за один проход; voice/facts не меняются; нет дополнительного approval только из-за размещения strings.md."
+    },
+    {
+      "id": "UX-05",
+      "severity": "P1",
+      "skills": [
+        "copywriting"
+      ],
+      "title": "Поведенческий eval выдаёт PASS проваленному процессу и не проверяет заявленный контракт",
+      "kind": "reproduced",
+      "evidence": [
+        "repo://super-ux/test/evals/run.py:54",
+        "repo://super-ux/test/evals/run.py:62",
+        "repo://super-ux/test/evals/cases.json:7",
+        "repo://super-ux/test/evals/cases.json:40"
+      ],
+      "problem": "run.py не проверяет subprocess.returncode и оценивает substring. Подмена процесса на exit 1 с stdout «Humanization: no copy produced; process failed» даёт PASS/exit 0 (EV-01). EV-04 обещает отдельную status line на поверхность, но expect содержит только один Humanization:; одна строка без обеих копий также PASS. Это локальная mock-проверка scorer, не запуск модели.",
+      "impact": "Метрика измеряет печать слова, а называется выполнением humanization. Ошибка harness может отчётно подтвердить отсутствие работы. cwd=реальный репозиторий, без изолированного fixture, даёт риск изменения/контаминации, платный запуск здесь намеренно не выполнялся.",
+      "fix": "Ошибка/timeout/tool refusal = отдельный outcome; изолированный fixture, фиксированный scope tools, запись run manifest/stdout/artifacts. Проверять число surfaces и изменения текста/semantic invariants; не только наличие строки. Отдельно тестировать order sweeps и no-op уже хорошего текста.",
+      "acceptance": "Обе mock-подмены из probes должны FAIL; невалидный exit никогда PASS; успешный artifact с двумя поверхностями и двумя корректными строками проходит; репозиторий до/после одинаков."
+    },
+    {
+      "id": "UX-06",
+      "severity": "P2",
+      "skills": [
+        "vision"
+      ],
+      "title": "Новый проект Codex получает правило в CLAUDE.md",
+      "kind": "observed_instruction_conflict",
+      "evidence": [
+        "repo://super-ux/plugins/super-ux/skills/vision/SKILL.md:123",
+        "repo://super-ux/plugins/super-ux/skills/vision/SKILL.md:125",
+        "repo://super-ux/plugins/super-ux/scripts/ux_lint.py:787"
+      ],
+      "problem": "Step 4 правильно перечисляет файлы по агенту, затем при отсутствии всех создаёт CLAUDE.md. Линтер удовлетворяется любым из трёх файлов и не проверяет, читает ли его текущий host.",
+      "impact": "В Codex/Gemini rule может быть установлен в невидимый файл, а наличие считаться выполненным. Это точный противоречивый путь инструкции; новый host session не запускался.",
+      "fix": "Сначала определить host capabilities; default instruction target по текущему host, explicit project target приоритетнее. Проверка должна сверять materialized rule с активным target, не только с существованием любого файла.",
+      "acceptance": "Пустые fixture Codex/Claude/Gemini создают соответственно AGENTS.md/CLAUDE.md/GEMINI.md; repeat идемпотентен; mixed-host проект получает согласованные явно обозначенные targets."
+    },
+    {
+      "id": "UX-07",
+      "severity": "P2",
+      "skills": [
+        "vision"
+      ],
+      "title": "Язык vision и обязательный формат заголовков не согласованы на входе",
+      "kind": "observed_instruction_conflict",
+      "evidence": [
+        "repo://super-ux/plugins/super-ux/skills/vision/SKILL.md:68",
+        "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/scenario-format.md:164",
+        "repo://super-ux/plugins/super-ux/scripts/ux_lint.py:741"
+      ],
+      "problem": "SKILL велит писать на языке документации, но не требует прочитать scenario-format и не выделяет invariant headings. Контракт и regex требуют девять буквальных английских heading. Русская vision с семантически эквивалентными секциями будет U030.",
+      "impact": "Риск лишнего rewrite/отказа валидации для корректного русскоязычного документа. В отличие от тела, это форматная неоднозначность, а не претензия к девяти выбранным слоям.",
+      "fix": "Явно прочитать контракт до записи; использовать устойчивые section IDs с локализуемыми title либо сказать, что машинные headings остаются английскими, а содержание переводится.",
+      "acceptance": "Русский fixture всех 9 секций проходит по canonical IDs; действительно отсутствующая anti-vision fail; изменение языка title не меняет identity."
+    },
+    {
+      "id": "UX-08",
+      "severity": "P2",
+      "skills": [
+        "ux-foundation"
+      ],
+      "title": "Approval оператора может стереть происхождение предположения",
+      "kind": "risk_from_contract",
+      "evidence": [
+        "repo://super-ux/plugins/super-ux/skills/ux-foundation/SKILL.md:87",
+        "repo://super-ux/plugins/super-ux/skills/ux-foundation/SKILL.md:126",
+        "repo://super-ux/plugins/super-ux/skills/ux-foundation/SKILL.md:132",
+        "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/scenario-format.md:92"
+      ],
+      "problem": "Reverse предписывает observed/inferred, затем держит inferred «until the user confirms». Контракт confirmed описывает как подтверждение наблюдением. Оператор-основатель может подтвердить желаемую персону без исследования; отдельные approval и evidence status не представлены.",
+      "impact": "После подтверждения предположение начинает читаться как знание о пользователях и каскадирует в flows/brand. Реальные сфабрикованные persona в этом аудите не обнаружены; это путь ошибочного повышения уверенности.",
+      "fix": "Развести evidence_kind (brief/owner-belief/interview/telemetry/code-inference), decision_status и validation_status. Approval меняет decision, но не provenance. Для эмоций и Frequency×Severity×Solvability хранить источник, шкалу и unknown вместо обязательного выдуманного балла.",
+      "acceptance": "Owner говорит «подтверждаю» гипотезу: решение accepted, evidence остаётся inferred; реальное интервью/наблюдение добавляет dated receipt. Неизвестная частота не получает цифру ради заполнения таблицы."
+    },
+    {
+      "id": "UX-09",
+      "severity": "P2",
+      "skills": [
+        "ux-foundation",
+        "ux-flows"
+      ],
+      "title": "Воронки конкурентов из proxy превращаются в «proven base»",
+      "kind": "observed_semantic_conflict",
+      "evidence": [
+        "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/funnel-research.md:81",
+        "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/funnel-research.md:86",
+        "repo://super-ux/plugins/super-ux/skills/ux-foundation/references/funnel-research.md:118"
+      ],
+      "problem": "Reference честно признаёт, что убыточная хорошо финансируемая воронка выглядит как прибыльная, но рядом говорит «Nobody keeps paying ... at a loss for months», «production spend follows return», а распространённые паттерны называет proven base. Неизвестный profit превращается в доказанную причинную эффективность.",
+      "impact": "Survivorship/selection bias направляет продукт на чужую аудиторию; повторение конкурентов может быть общей ошибкой, шаблоном агентства или правилом платформы. Это логический конфликт самой методики, не установление фактической убыточности чьей-либо рекламы.",
+      "fix": "Все market signals маркировать как observed exposure; вывод о механизме как hypothesis с альтернативными объяснениями. Частоты считать скриптом по corpus с denominator/дубликатами; adoption через локальный эксперимент, не «proven» из частоты.",
+      "acceptance": "Корпус из 10 похожих funnels даёт frequent pattern, не proven conversion lift; известный убыточный рекламодатель не ломает вывод; два funnels одного владельца не независимые наблюдения."
+    },
+    {
+      "id": "UX-10",
+      "severity": "P1",
+      "skills": [
+        "ux-flows",
+        "ux-foundation",
+        "ux-scenarios"
+      ],
+      "title": "Loading из существующей задержки превращён в инсценировку вычисления",
+      "kind": "observed_semantic_conflict",
+      "evidence": [
+        "repo://super-ux/plugins/super-ux/skills/ux-flows/references/funnel-research.md:192",
+        "repo://super-ux/plugins/super-ux/skills/ux-flows/references/funnel-research.md:198",
+        "repo://super-ux/plugins/super-ux/skills/ux-flows/references/best-practices.md:161",
+        "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md:64"
+      ],
+      "problem": "BP-005 применим когда loading/preparation уже существует. Funnel-research задаёт обязательный шаг Loading как «A calculated pause that makes the result feel computed for this person», а SKILL требует занести каждый шаг (включая loading) в экран/сценарий. Это расширяет практику до искусственной задержки и создаёт риск ложного впечатления персонального расчёта.",
+      "impact": "Можно ухудшить time-to-value и ввести человека в заблуждение о реальной обработке его данных, затем легализовать это цепочкой SCN/UX audit. Нет подтверждения, что такой интерфейс уже отгружен.",
+      "fix": "Loading только при реальной асинхронной работе; показывать фактическую операцию и не задерживать готовый результат. Если narrative pause нужен продукту, назвать его честно без claims персонального анализа и измерить затраты/понимание.",
+      "acceptance": "Мгновенный локальный результат отображается без таймера; медленная операция показывает реальное pending; текст не заявляет анализ, которого нет; сценарий пустого ответа не выдаёт фиктивную персонализацию."
+    },
+    {
+      "id": "UX-11",
+      "severity": "P1",
+      "skills": [
+        "ux-flows",
+        "ux-scenarios"
+      ],
+      "title": "Figma fallback и provisional flow не доходят до разрешённого build state",
+      "kind": "observed_instruction_conflict",
+      "evidence": [
+        "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md:98",
+        "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md:194",
+        "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md:278",
+        "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md:294",
+        "repo://super-ux/plugins/super-ux/skills/ux-scenarios/SKILL.md:33"
+      ],
+      "problem": "Design допускает provisional profile без foundation и text-only при недоступном Figma. Финальный build gate требует всю утверждённую цепочку и, при default Figma enabled, каждый state linked to frame. ux-scenarios допускает no-Traces только tiny/explicit choice. Деградация разрешает создать текст, но не объясняет, какие условия снимают блок реализации.",
+      "impact": "Нет единого терминального состояния: агент продолжает документацию и застревает на gate либо игнорирует правило. В уже авторизованной работе это выглядит повторным запросом разрешения на обычный следующий шаг.",
+      "fix": "Единый state machine full / provisional / tooling-degraded / declined. Gate читает effective capabilities и accepted decisions; отсутствие optional Figma не блокирует approved text spec. Серьёзные неизвестные блокируют только зависимые решения, а не весь продукт. Сохранённые approvals учитываются во всех слоях.",
+      "acceptance": "Brief «реализуй согласованный экран», Figma недоступен: text spec + explicit deferred frame sync, код выполняется; destructive unknown остаётся blocked; при восстановлении Figma обновляется запись без повторного запуска всей цепочки."
+    },
+    {
+      "id": "UX-12",
+      "severity": "P1",
+      "skills": [
+        "ux-audit"
+      ],
+      "title": "Статический PASS может повысить сценарий до implemented без проверки наблюдаемого результата",
+      "kind": "observed_evidence_mismatch",
+      "evidence": [
+        "repo://super-ux/plugins/super-ux/skills/ux-audit/SKILL.md:210",
+        "repo://super-ux/plugins/super-ux/skills/ux-audit/SKILL.md:218",
+        "repo://super-ux/plugins/super-ux/skills/ux-audit/SKILL.md:249",
+        "repo://super-ux/plugins/super-ux/skills/ux-audit/SKILL.md:290"
+      ],
+      "problem": "Loop проверяет «expected result observably occurs» против code; validated → implemented после PASS. Live pass off by default. Код может содержать ветку, но реальные env/auth/network/CSS её не дают пользователю. Источник file:line доказывает текст реализации, не всякий runtime outcome.",
+      "impact": "Ложная уверенность в достижимости ожидаемого результата. Не каждый static PASS ошибочен: чистые локальные свойства можно доказать чтением. Проблема — отсутствие раздельного evidence type и требований по типу проверяемого свойства.",
+      "fix": "Разделить static conformance, executable verification и production observation. Для runtime зависимых критериев PASS только с тестом/браузером/проверенным runtime receipt, иначе BLOCKED/unverified. Сохранить хорошее разделение delivery vs Product outcome.",
+      "acceptance": "Fixture содержит кнопку и handler, но overlay перехватывает click: static-conformant, live FAIL, implemented не выставляется. Pure static invariant допускает PASS с указанием proof type. В недоступном browser не придумывается результат."
+    },
+    {
+      "id": "UX-13",
+      "severity": "P2",
+      "skills": [
+        "ux-audit"
+      ],
+      "title": "Общий precondition требует scenarios даже независимому copy/benchmark scope",
+      "kind": "observed_instruction_conflict",
+      "evidence": [
+        "repo://super-ux/plugins/super-ux/skills/ux-audit/SKILL.md:25",
+        "repo://super-ux/plugins/super-ux/skills/ux-audit/SKILL.md:45",
+        "repo://super-ux/plugins/super-ux/skills/ux-audit/SKILL.md:70",
+        "repo://super-ux/plugins/super-ux/skills/ux-audit/SKILL.md:203"
+      ],
+      "problem": "В начале unconditional stop если нет scenarios; ниже copy требует только voice и single-pass scopes запускают только соответствующий pass. Standalone brand/copy проекта без UX цепочки ошибочно маршрутизируется в создание scenarios. Benchmark также требует file:line для внешних наблюдений.",
+      "impact": "Scope creep, создание ненужных артефактов и потеря времени до read-only ответа. Существует развилка текста, а не доказанный сбой live invocation.",
+      "fix": "Предусловия вычислять после scope: scenario → base, copy → brand, benchmark → observed URLs+receipts. Схема evidence допускает URL+timestamp+capture для внешних данных; file:line только для code claims.",
+      "acceptance": "Запрос /ux-audit copy в блоге с brand без scenarios проводит только copy audit; /ux-audit all без base объясняет ограничение; benchmark не выдумывает локальный file:line."
+    },
+    {
+      "id": "DS-01",
+      "severity": "P1",
+      "skills": [
+        "sheleg-design"
+      ],
+      "title": "Сравнение packs сменой CSS не имеет общего token API",
+      "kind": "observed_contract_gap",
+      "evidence": [
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md:179",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md:197",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/workbench.css:5",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/styles/tokens/orchard.css:8"
+      ],
+      "problem": "SKILL честно говорит, что во всех packs совпадают только --bg/--ink, но велит менять только token layer на существующей странице с тем же markup. Workbench использует --panel/--accent/--r-control/--font-ui; orchard — --surface/--cta/--radius-sm/--font-sans. Не определён adapter для сравнения.",
+      "impact": "Исчезающие declarations/fallback или остатки предыдущего CSS дают неверную оценку pack. Это подтверждённый интерфейсный разрыв; браузерное воспроизведение всех 39 packs здесь не проводилось.",
+      "fix": "Ввести небольшой semantic role API и per-pack adapter, не переименовывая identity tokens. Harness заменяет весь scope atomically, обнаруживает unresolved var и не наследует старый pack. Проверять совместимость компонентных slots; сравнивать layout отдельно когда pack требует другой композиции.",
+      "acceptance": "Workbench↔orchard↔showroom на одинаковых button/table/card states: все role vars resolve, после переключения нет старых значений; screenshot+computed-style assertions для light/dark/focus/reduced-motion."
+    },
+    {
+      "id": "DS-02",
+      "severity": "P2",
+      "skills": [
+        "sheleg-design"
+      ],
+      "title": "Опрос о значении craft превращён в нормативный порядок разработки",
+      "kind": "source_verified_inference_error",
+      "evidence": [
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md:154",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md:159"
+      ],
+      "problem": "Числа 58/47/36/35/15 воспроизводятся в первоисточнике Figma, но это частота определения craft, не измерение эффективного порядка работ. Скилл делает переход «Read that as a definition of done, in that order», ставя polish до problem solving/clear UX.",
+      "impact": "Искажение корректных данных на стадии интерпретации. Может усиливать оптимизацию под внешнюю убедительность до решения пользовательской задачи, хотя Creative Director отдельно требует alignment-first.",
+      "fix": "Оставить опрос как контекст с точным смыслом и ссылкой; порядок gates вывести из dependency graph: задача/состояния/доступность/система/polish. Обязательный порядок обозначить как авторское решение, не вывод исследования. Источник: https://www.figma.com/blog/state-of-the-designer-2026/ .",
+      "acceptance": "Вопрос «что доказывает 58%?» возвращает association in survey, не причинный эффект/priority. Brief со сломанной основной задачей сначала решает её даже при идеальных токенах."
+    },
+    {
+      "id": "DS-03",
+      "severity": "P2",
+      "skills": [
+        "sheleg-design"
+      ],
+      "title": "Производительность CSS/API описана абсолютами вместо проверяемых условий",
+      "kind": "source_verified_overclaim",
+      "evidence": [
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOTION_DOCTRINE.md:168",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOTION_DOCTRINE.md:179",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOTION_DOCTRINE.md:182"
+      ],
+      "problem": "Запрещён сам addEventListener(scroll) как якобы обязательно janky; filter/clip-path названы safe. Производительность зависит от объёма работы/paint/device. MDN описывает допустимый scroll handler с throttling; Chrome/web.dev предупреждает о стоимости blur и рекомендует измерять pipeline, а не обещает safe для любого filter.",
+      "impact": "Лишние зависимости/переписывание корректного кода и разрешение дорогих эффектов по имени свойства. Нет измерения деградации конкретного shipped app; дефект — формулировка технического правила.",
+      "fix": "Заменить API blacklist на budget и recipe: cheap passive reading, avoid layout thrashing, cleanup, measured long tasks/dropped frames. filter/clip-path — conditional, профиль на целевых устройствах. Ссылки: https://developer.mozilla.org/en-US/docs/Web/API/Document/scroll_event ; https://web.dev/articles/animations-guide .",
+      "acceptance": "Дешёвый scroll listener не отклоняется без измеренного дефекта; full-screen animated blur проходит только performance budget; 60/120Hz и reduced-motion проверяются отдельно."
+    },
+    {
+      "id": "DS-04",
+      "severity": "P2",
+      "skills": [
+        "sheleg-design"
+      ],
+      "title": "Duration table допускает 500ms, общий UI gate запрещает >300ms",
+      "kind": "observed_instruction_conflict",
+      "evidence": [
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOTION_DOCTRINE.md:114",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOTION_DOCTRINE.md:117",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOTION_DOCTRINE.md:315"
+      ],
+      "problem": "Строка modals/drawers/sheets = 200–500ms; следующее правило UI ≤300ms. Exception entrance описан, но таблица не разделяет entrance/interaction/exit, и modal animation обычно отвечает обоим словам.",
+      "impact": "Агент выбирает корректный по таблице 400ms drawer и нарушает gate либо считает любой UI transition entrance и обходит потолок.",
+      "fix": "Единая таблица по purpose+frequency+platform с explicit exceptions и canonical duration IDs. Разделить interactive feedback, spatial modal transition и marketing entrance, убрать пересечение трактовок.",
+      "acceptance": "400ms modal fixture получает один однозначный verdict с rule ID; 150ms button и 500ms authored marketing entrance различаются; documentation and token checker используют одну таблицу."
+    },
+    {
+      "id": "DS-05",
+      "severity": "P2",
+      "skills": [
+        "sheleg-design"
+      ],
+      "title": "No-JS критерий применяется ко всем поверхностям, включая внутренние UI",
+      "kind": "observed_scope_gap",
+      "evidence": [
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md:32",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md:202",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md:216"
+      ],
+      "problem": "Creative Director включает product/agent/native surfaces, а общая обязательная Quality table требует content in served HTML без условия public/web. Router SEO отдельно исключает logged-in internal tools. Native screen вообще не имеет served HTML.",
+      "impact": "Ненужный SSR/ложный FAIL для внутреннего SPA или native app. Может расширить объём дизайн-задачи до архитектуры backend без пользы.",
+      "fix": "Applicability predicates на каждую проверку: public-web-crawlable → no-JS content, web-internal → loading/error/accessibility, native → platform semantics. В отчёте NOT_APPLICABLE с причиной, а не PASS без запуска.",
+      "acceptance": "Public pricing получает no-JS check; authenticated admin SPA — N/A для crawler HTML; SwiftUI screen не получает требование SSR. Общие contrast/input проверки остаются."
+    },
+    {
+      "id": "DS-06",
+      "severity": "P2",
+      "skills": [
+        "sheleg-design"
+      ],
+      "title": "Eval-регрессия не покрывает текущий composition/runtime",
+      "kind": "observed_validation_limit",
+      "evidence": [
+        "repo://sheleg-design/test/evals/RESULTS.md:16",
+        "repo://sheleg-design/test/evals/RESULTS.md:38",
+        "repo://sheleg-design/test/evals/RESULTS.md:47",
+        "repo://super-ux/test/evals/RESULTS.md:12",
+        "repo://super-ux/test/evals/RESULTS.md:81"
+      ],
+      "problem": "Design результаты версии 1.58.2, baseline 1.59.4; UX результаты 0.52.2, baseline 0.55.1. По одному trigger probe вместо обещанных трёх, scenario design оценивает планы read-only, а live build/Figma explicitly not reproducible. Это честно раскрыто, но не доказательство текущего исполнения/роутинга в полном окружении.",
+      "impact": "Чистые structural gates можно принять за behavioral confidence. Full roster текущего host сильно больше 28/31 кандидата; layered routing нельзя оценить вопросом «which ONE skill».",
+      "fix": "Сохранить историю, добавить current-version manifest, реальные packaged installs, несколько seeds/repeats на поддержанных host/model, multi-skill route sequence и resource budget. Runtime fixtures вместо только планов; transcript/content hash сохранять за пределами /tmp.",
+      "acceptance": "Каждая текущая версия имеет reproducible run manifest; ambiguous prompt проверяет route+subtools+stopping conditions, не один name. Figma unavailable/no Node/no browser явно measured degradation, не исключённый сценарий."
+    }
+  ]
+}

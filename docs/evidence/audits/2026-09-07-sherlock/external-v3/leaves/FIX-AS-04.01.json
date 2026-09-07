@@ -1,0 +1,149 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-AS-04.01",
+  "parent_id": "FIX-AS-04",
+  "title": "Fake-edge test удаляет зависимости по управлению и состоянию, если нет явного payload",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "agent-stack"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Fake-edge test удаляет зависимости по управлению и состоянию, если нет явного payload",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Типизировать ребро: data/control/authorization/resource. Для любого ребра требовать rationale и доказательство, но удалять только если нет ни причинного, ни ресурсного, ни разрешительного ограничения. Side-effect footprint и read/write sets проверять перед fan-out.",
+  "expected_result": "Graph negative tests сохраняют backup→migration, approval→charge, lease→edit и сериализацию двух writes; независимые read-only reviews действительно запускаются параллельно.",
+  "acceptance": [
+    "Graph negative tests сохраняют backup→migration, approval→charge, lease→edit и сериализацию двух writes; независимые read-only reviews действительно запускаются параллельно."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Типизировать ребро: data/control/authorization/resource. Для любого ребра требовать rationale и доказательство, но удалять только если нет ни причинного, ни ресурсного, ни разрешительного ограничения. Side-effect footprint и read/write sets проверять перед fan-out.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45"
+    },
+    {
+      "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "27bf343eaf2ab0c7b2975ee8060f4c56623e394dca995950cade8d9bf40047b1"
+    }
+  ],
+  "test_target": {
+    "path": "repo://agent-stack/test/audit_regressions/fix-as-04.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-AS-04.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-AS-04.json",
+    "source_files": [
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+        "sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md",
+        "sha256": "27bf343eaf2ab0c7b2975ee8060f4c56623e394dca995950cade8d9bf40047b1",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Graph negative tests сохраняют backup→migration, approval→charge, lease→edit и сериализацию двух writes; независимые read-only reviews действительно запускаются параллельно."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "CTX-01.01",
+      "kind": "data",
+      "reason": "Общий typed edge contract заменяет удаление зависимостей без payload.",
+      "via_parent": "CTX-01"
+    },
+    {
+      "task_id": "CTX-01.02",
+      "kind": "data",
+      "reason": "Общий typed edge contract заменяет удаление зависимостей без payload.",
+      "via_parent": "CTX-01"
+    },
+    {
+      "task_id": "CTX-01.03",
+      "kind": "data",
+      "reason": "Общий typed edge contract заменяет удаление зависимостей без payload.",
+      "via_parent": "CTX-01"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://agent-stack/test/audit_regressions/fix-as-04.01.py",
+    "python3 repo://agent-stack/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "CTX-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-AS-04.01.md",
+    "sha256": "fa2c7c3266dfd0d8d56333858d6488201d0d3d243b9fb23506417f2952861324",
+    "utf8_bytes": 7451,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "950b434f54873189b9d1284bd7544678b4ab33eb8094a4e7404b4af495dba746"
+  }
+}

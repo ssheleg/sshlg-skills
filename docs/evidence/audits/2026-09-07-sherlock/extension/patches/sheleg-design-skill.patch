@@ -1,0 +1,112 @@
+diff --git a/.cursor/skills/sheleg-design/CREATIVE_DIRECTOR.md b/.cursor/skills/sheleg-design/CREATIVE_DIRECTOR.md
+index 0bf8e6b..75079cd 100644
+--- a/.cursor/skills/sheleg-design/CREATIVE_DIRECTOR.md
++++ b/.cursor/skills/sheleg-design/CREATIVE_DIRECTOR.md
+@@ -115,6 +115,26 @@ it. It is a reason to say, out loud, which one is directing.
+ Two variations built by two subagents with **different casts** is the strongest
+ move in this document and the easiest one to turn into theatre.
+ 
++### Direction exploration is a separate experiment
++
++Comparing tool casts does not compare artistic directions. When the visual
++direction is unsettled, render two meaningfully different treatments even if
++only one credible cast is available. Use the same agreed behavior and realistic
++content; vary composition, typographic hierarchy, imagery/material and spatial
++rhythm, not only accent colour or a chat-versus-services navigation choice.
++
++Record **locked invariants** (brand, accessibility, approved behavior, platform)
++and **open axes** before rendering. A locked brand does not freeze every
++composition. Sketch with provisional semantic tokens inside those invariants;
++after comparison, consolidate the chosen direction into the pack contract.
++Do not require a fully authored style pack before the renders needed to choose
++it exist. A token-only switch compares compatible skins, not the whole design space.
++
++This exploration may be sequential within one agent; the disjoint-cast fork
++below remains a separate, optional experiment. Preserve the operator's chosen
++direction when it is already settled. Record the losing direction and why it
++lost without adding an unnecessary approval round for a decision already made.
++
+ ### The rule that makes it honest
+ 
+ **The rubric is written before either variation is made, and it is not touched
+@@ -222,6 +242,24 @@ quality claim made from source is a claim about source.
+ 
+ ### The limit, stated rather than implied
+ 
++For a new direction or substantive redesign, also run a visual critique loop:
++compare rendered states at the same viewports and with the same content against
++the brief and selected reference traits; name the specific weak hierarchy,
++composition, typography, imagery or platform treatment; change it and render
++again. This loop applies even when no cast fork ran. Keep the before/after
++evidence and distinguish visual judgment from functional and mechanical checks.
++Change a render only for an actionable finding. If the rubric yields none, stop.
++Set a bounded iteration/time budget before the loop; at its end record unresolved
++findings. Surface a material unresolved direction choice to the operator without
++inventing another approval gate for an already selected direction.
++
++Use anchored examples and a stated rubric for visual judgment; record the
++reviewer, rationale and uncertainty. Passing contrast, token discipline or a
++font-size count cannot be the acceptance criterion for visual craft by itself.
++A flow mockup approves transitions; it does not automatically approve the art
++direction. If browser/image inspection is unavailable, state that limitation
++rather than claiming the rendered result was reviewed.
++
+ **Taste is not on that table, and this document will not pretend otherwise.**
+ These checks catch defects and enforce a system. They cannot tell you whether the
+ result is *good* — and a director that reports "all gates green" as if it meant
+diff --git a/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md b/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md
+index 0bf8e6b..75079cd 100644
+--- a/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md
++++ b/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md
+@@ -115,6 +115,26 @@ it. It is a reason to say, out loud, which one is directing.
+ Two variations built by two subagents with **different casts** is the strongest
+ move in this document and the easiest one to turn into theatre.
+ 
++### Direction exploration is a separate experiment
++
++Comparing tool casts does not compare artistic directions. When the visual
++direction is unsettled, render two meaningfully different treatments even if
++only one credible cast is available. Use the same agreed behavior and realistic
++content; vary composition, typographic hierarchy, imagery/material and spatial
++rhythm, not only accent colour or a chat-versus-services navigation choice.
++
++Record **locked invariants** (brand, accessibility, approved behavior, platform)
++and **open axes** before rendering. A locked brand does not freeze every
++composition. Sketch with provisional semantic tokens inside those invariants;
++after comparison, consolidate the chosen direction into the pack contract.
++Do not require a fully authored style pack before the renders needed to choose
++it exist. A token-only switch compares compatible skins, not the whole design space.
++
++This exploration may be sequential within one agent; the disjoint-cast fork
++below remains a separate, optional experiment. Preserve the operator's chosen
++direction when it is already settled. Record the losing direction and why it
++lost without adding an unnecessary approval round for a decision already made.
++
+ ### The rule that makes it honest
+ 
+ **The rubric is written before either variation is made, and it is not touched
+@@ -222,6 +242,24 @@ quality claim made from source is a claim about source.
+ 
+ ### The limit, stated rather than implied
+ 
++For a new direction or substantive redesign, also run a visual critique loop:
++compare rendered states at the same viewports and with the same content against
++the brief and selected reference traits; name the specific weak hierarchy,
++composition, typography, imagery or platform treatment; change it and render
++again. This loop applies even when no cast fork ran. Keep the before/after
++evidence and distinguish visual judgment from functional and mechanical checks.
++Change a render only for an actionable finding. If the rubric yields none, stop.
++Set a bounded iteration/time budget before the loop; at its end record unresolved
++findings. Surface a material unresolved direction choice to the operator without
++inventing another approval gate for an already selected direction.
++
++Use anchored examples and a stated rubric for visual judgment; record the
++reviewer, rationale and uncertainty. Passing contrast, token discipline or a
++font-size count cannot be the acceptance criterion for visual craft by itself.
++A flow mockup approves transitions; it does not automatically approve the art
++direction. If browser/image inspection is unavailable, state that limitation
++rather than claiming the rendered result was reviewed.
++
+ **Taste is not on that table, and this document will not pretend otherwise.**
+ These checks catch defects and enforce a system. They cannot tell you whether the
+ result is *good* — and a director that reports "all gates green" as if it meant

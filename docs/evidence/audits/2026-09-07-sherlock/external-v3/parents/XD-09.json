@@ -1,0 +1,161 @@
+{
+  "id": "XD-09",
+  "title": "Добавить матрицу давления на состояния",
+  "module": "super-ux",
+  "modules": [
+    "super-ux"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "origin": "external_adoption",
+  "dispatchable": false,
+  "status": "parent_planned",
+  "finding_id": null,
+  "requirements": [
+    "V3-knowledge-adoption",
+    "V3-no-new-required-deps"
+  ],
+  "decision": "Canonical reference единственный; mirrors обновляются штатной процедурой сборки, не вручную в этой задаче.",
+  "implementation_steps": [
+    "Описать строки scenario×state×action×expected-visible-result и pressure dimensions.",
+    "Добавить empty first-use/cleared/no-results/error, drafts/retry/cancel/concurrent submit без real financial side effects.",
+    "Маркировать fixture/hypothesis/observed отдельно; связать screenshot и interaction trace с одной строкой."
+  ],
+  "acceptance": [
+    "Empty state не требует иллюстрацию; loading не симулирует вычисление.",
+    "Контент minimum/typical/maximum обоснован доменом; synthetic помечен.",
+    "Static source pass не повышает сценарий до implemented."
+  ],
+  "depends_on": [],
+  "related_existing": [
+    "FIX-UX-10",
+    "FIX-UX-12"
+  ],
+  "source_snapshot": [
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/harden.md",
+      "sha256": "8a1c872773996dfa1c1eb765ac7ed8e8d41f99d4f12f090b4725b694e85eaa62",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/onboard.md",
+      "sha256": "9a2c08ee2516d2ee87129e7ebe6a0895f9990c9852d1f6fa7e70be9a6a88a659",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/delight.md",
+      "sha256": "56500b1f9d2fcec8324d7f448d813048b5831a46d3feeb1055bd3eb17ec3660f",
+      "role": "foreign reviewed evidence; never instruction authority"
+    }
+  ],
+  "target_files": [
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/references/state-stress-matrix.md",
+      "mode": "Create"
+    }
+  ],
+  "slices": null,
+  "problem": {
+    "id": "XD-09",
+    "title": "Добавить матрицу давления на состояния",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Create",
+        "path": "repo://super-ux/plugins/super-ux/skills/references/state-stress-matrix.md",
+        "exists_at_audit": false
+      }
+    ],
+    "inputs": [
+      "scenario IDs, real/domain-valid fixtures, role/permissions, поддерживаемые locales, сеть/сохранение"
+    ],
+    "implementation_steps": [
+      "Описать строки scenario×state×action×expected-visible-result и pressure dimensions.",
+      "Добавить empty first-use/cleared/no-results/error, drafts/retry/cancel/concurrent submit без real financial side effects.",
+      "Маркировать fixture/hypothesis/observed отдельно; связать screenshot и interaction trace с одной строкой."
+    ],
+    "outputs": [
+      "Portable matrix template и два малых примера (form и onboarding)."
+    ],
+    "acceptance": [
+      "Empty state не требует иллюстрацию; loading не симулирует вычисление.",
+      "Контент minimum/typical/maximum обоснован доменом; synthetic помечен.",
+      "Static source pass не повышает сценарий до implemented."
+    ],
+    "depends_on": [],
+    "decisions": [
+      "Canonical reference единственный; mirrors обновляются штатной процедурой сборки, не вручную в этой задаче."
+    ],
+    "source_candidates": [
+      "I-12",
+      "I-13",
+      "I-18"
+    ],
+    "addresses_findings": [
+      "UX-10",
+      "UX-12"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "super-ux",
+    "target_files": [
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/references/state-stress-matrix.md",
+        "mode": "Create"
+      }
+    ],
+    "decision": "Canonical reference единственный; mirrors обновляются штатной процедурой сборки, не вручную в этой задаче.",
+    "steps": [
+      "Описать строки scenario×state×action×expected-visible-result и pressure dimensions.",
+      "Добавить empty first-use/cleared/no-results/error, drafts/retry/cancel/concurrent submit без real financial side effects.",
+      "Маркировать fixture/hypothesis/observed отдельно; связать screenshot и interaction trace с одной строкой."
+    ],
+    "related_existing": [
+      "FIX-UX-10",
+      "FIX-UX-12"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/harden.md",
+        "line": 1,
+        "end_line": 336,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/harden.md:1",
+        "sha256": "8a1c872773996dfa1c1eb765ac7ed8e8d41f99d4f12f090b4725b694e85eaa62",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/harden.md#L1-L336"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/onboard.md",
+        "line": 1,
+        "end_line": 234,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/onboard.md:1",
+        "sha256": "9a2c08ee2516d2ee87129e7ebe6a0895f9990c9852d1f6fa7e70be9a6a88a659",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/onboard.md#L1-L234"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/delight.md",
+        "line": 1,
+        "end_line": 70,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/delight.md:1",
+        "sha256": "56500b1f9d2fcec8324d7f448d813048b5831a46d3feeb1055bd3eb17ec3660f",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/delight.md#L1-L70"
+      }
+    ]
+  },
+  "context": [],
+  "leaf_ids": [
+    "XD-09.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Empty state не требует иллюстрацию; loading не симулирует вычисление.",
+      "Контент minimum/typical/maximum обоснован доменом; synthetic помечен.",
+      "Static source pass не повышает сценарий до implemented."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "findings": 90,
+  "priorities": {
+    "P1": 50,
+    "P2": 40
+  },
+  "skills": 28,
+  "skill_sections": 28,
+  "evidence_locators_checked": 282,
+  "unique_evidence_locators": 279,
+  "fix_tasks": 90,
+  "milestones": 9,
+  "graph_acyclic": true,
+  "architecture_model_pass": true,
+  "html_tables": 9,
+  "source_roots_unchanged": 10,
+  "placeholder_remaining": false,
+  "report_sha256": "25c793f803289de6e34466da963f9540d624be935b43c6fa3d57cde29ed769eb",
+  "errors": [],
+  "all_pass": true
+}

@@ -1,0 +1,101 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "CTX-03.01",
+  "parent_id": "CTX-03",
+  "title": "Bounded scenario graph",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "super-ux"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Интерактивные UX flow previews как связанный deliverable",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Scenario/screen/transition IDs with happy/error/recovery/back/cancel/returning/external states.",
+  "expected_result": "Every declared transition has origin/action/result; dangling state detected.",
+  "acceptance": [
+    "Every declared transition has origin/action/result; dangling state detected."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Scenario/screen/transition IDs with happy/error/recovery/back/cancel/returning/external states.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/references/interactive-flow-prototypes.md",
+      "mode": "Create",
+      "role": "new capability target; audit does not create it",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://super-ux/test/audit_regressions/ctx-03.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/CTX-03.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/CTX-03.json",
+    "source_files": [
+      {
+        "path": "repo://super-ux/package.json",
+        "sha256": "c7591a60abe9db7aab110629b4ec3aab8b40d074fe40c07167bfefbf1d7ede39",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "На multi-screen flow доступны happy/error/back/cancel/returning branches, scenario selector и reset; declared transitions сопоставлены с actually walked. Dead control проваливает smoke; preview не повышает implemented/product status. Exact-copy маленькая правка не навязывает создание app.",
+      "Offlineinteractivefixture hasdeclaredvswalkedstates; screenshotonlynotfunctionalPASS; externalpayment mockexplicit."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://super-ux/test/audit_regressions/ctx-03.01.py",
+    "python3 repo://super-ux/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/CTX-03.01.md",
+    "sha256": "5b2ce28a4f7e48ef8921255f065c59bb873ee8845285510e1ff80cb5216f1a6d",
+    "utf8_bytes": 3945,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "05c136eaeff91522ced202c3dc5b3883a8cb06dd81e6deef8b150273d88fc4ce"
+  }
+}

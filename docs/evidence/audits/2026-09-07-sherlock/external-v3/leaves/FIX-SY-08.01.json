@@ -1,0 +1,149 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-SY-08.01",
+  "parent_id": "FIX-SY-08",
+  "title": "Поиск task-pipeline не учитывает native Codex plugin cache",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "agent-sync"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Поиск task-pipeline не учитывает native Codex plugin cache",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Использовать host capability inventory или configurable explicit resolved skill path. Plugin dependency detector не должен доказывать отсутствие по одному чужому host layout. Low-level acquire/renew/release отделить от необязательного pipeline binding.",
+  "expected_result": "Temporary HOME с только Codex cache, только Claude cache, только direct skill и полностью отсутствующей dependency: детектор корректен, без side effects и лишней установки.",
+  "acceptance": [
+    "Temporary HOME с только Codex cache, только Claude cache, только direct skill и полностью отсутствующей dependency: детектор корректен, без side effects и лишней установки."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Использовать host capability inventory или configurable explicit resolved skill path. Plugin dependency detector не должен доказывать отсутствие по одному чужому host layout. Low-level acquire/renew/release отделить от необязательного pipeline binding.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "9b64e93e16025c61cce840b5facbeed619927a20c07f6f919ac92816d6ddc3b6"
+    },
+    {
+      "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "f90d370ec77b6ee50d518ccf98f74c071ed5e6b75fdd9f4bffcde5a350ca0074"
+    }
+  ],
+  "test_target": {
+    "path": "repo://agent-sync/test/audit_regressions/fix-sy-08.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-SY-08.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-SY-08.json",
+    "source_files": [
+      {
+        "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py",
+        "sha256": "9b64e93e16025c61cce840b5facbeed619927a20c07f6f919ac92816d6ddc3b6",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/SKILL.md",
+        "sha256": "f90d370ec77b6ee50d518ccf98f74c071ed5e6b75fdd9f4bffcde5a350ca0074",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Temporary HOME с только Codex cache, только Claude cache, только direct skill и полностью отсутствующей dependency: детектор корректен, без side effects и лишней установки."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-UP-07.01",
+      "kind": "data",
+      "reason": "Native discovery должен использовать единый provider resolver.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-07.02",
+      "kind": "data",
+      "reason": "Native discovery должен использовать единый provider resolver.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-07.03",
+      "kind": "data",
+      "reason": "Native discovery должен использовать единый provider resolver.",
+      "via_parent": "FIX-UP-07"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://agent-sync/test/audit_regressions/fix-sy-08.01.py",
+    "python3 repo://agent-sync/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-UP-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-SY-08.01.md",
+    "sha256": "a29e409a688ab6ed6d15330569a90045a595b8961048959b340c4e72883663c4",
+    "utf8_bytes": 6636,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "2e94a5be8589998205b8b24176d8a9910a7f26db8df7e6289f6d9e2c2209756c"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "checks": {
+    "all_tasks_render": true,
+    "search": true,
+    "task_context": true,
+    "deep_link": true,
+    "module_filter": true,
+    "priority_filter": true,
+    "empty_result": true,
+    "dependency_navigation": true,
+    "no_js_errors": true
+  },
+  "errors": [],
+  "all_pass": true,
+  "scope": "Local report UI only; not product/skill outcome evaluation"
+}

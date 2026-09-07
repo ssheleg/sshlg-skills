@@ -1,0 +1,12 @@
+SY-01 reserve same second, sequential callers: 7 7
+SY-01 merged assignments afterwards: [('alpha', 7), ('zeta', 8)]
+SY-02 global renew throttle: True False refresh calls= [('zeta', 'TASK-A')]
+SY-03 stale renew overwrites completed steal: True final holder= old-owner
+SY-04 two task leases, same guarded path: (True, 'held by this run (TASK-A)') (True, 'held by this run (TASK-B)')
+SY-05 O_EXCL before payload, two acquire winners: [(True, 'second-owner'), (True, 'first-owner')] final holder= second-owner
+SY-06 local cfg.gated=True, no host hooks: True
+SY-07 direct hook permits shell write payload: 0
+SY-08 native Codex-only pipeline installed, detected: False
+AS-03 contradictory memory similarity: 0.8791208791208791 dedup threshold= 0.75 keeps longer= Always allow external sharing of customer data
+AS-08 Wald band at n=3,p=1: 0.0
+AS-08 negative dependence: exactly one failure among 4 trials gives marginal p=.75, all-pass=0 < .75**4= 0.31640625

@@ -1,0 +1,202 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-PF-09.02",
+  "parent_id": "FIX-PF-09",
+  "title": "Immutable outputs and resource scope",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "Fabric"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Fabric task lease не ограничивает публикацию handoff текущим owner/attempt",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Accepted output immutable; correction new revision, downstream stale; resource write scope отдельно от task lease.",
+  "expected_result": "Поздняя правка не мутирует consumed output; shared file не защищён ложным task-only claim.",
+  "acceptance": [
+    "Поздняя правка не мутирует consumed output; shared file не защищён ложным task-only claim."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Accepted output immutable; correction new revision, downstream stale; resource write scope отдельно от task lease.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://fabric/apps/desktop/src/main/agentSurface.ts",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "b7335a6b973de06035ab81e3051d3f497fea70774c9e98d3755094e58a5a7913",
+      "refresh_after": [
+        "FIX-PF-09.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://fabric/test/audit_regressions/fix-pf-09.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-PF-09.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-PF-09.json",
+    "source_files": [
+      {
+        "path": "repo://fabric/apps/desktop/src/main/agentSurface.ts",
+        "sha256": "b7335a6b973de06035ab81e3051d3f497fea70774c9e98d3755094e58a5a7913",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://fabric/supabase/migrations/20260905000016_operating_surfaces.sql",
+        "sha256": "9befadf715078b492ad2648ee5e1946dbc5511e7d19ade00610c6b86a0a9cf37",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://fabric/supabase/migrations/20260905000027_chains.sql",
+        "sha256": "621a8b19240484bdaba970edb5de11cc34fffc09be82291a8286789b06e237cc",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://fabric/supabase/migrations/20260831000001_migration_one.sql",
+        "sha256": "2f9b6ed39b313af19e0bd08b2c004d4e482b353606170714ad52601dfbfbbe03",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "СессияB не публикует за live ownerA; после takeover публикация старого A rejected; повтор same idempotency key возвращает тот же receipt; correction creates output version и инвалидирует подписанных consumers; read-only observers продолжают читать."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-PF-09.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    },
+    {
+      "task_id": "FIX-PF-01.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-01"
+    },
+    {
+      "task_id": "FIX-PF-01.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-01"
+    },
+    {
+      "task_id": "FIX-PF-01.03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-01"
+    },
+    {
+      "task_id": "FIX-PF-05.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-05"
+    },
+    {
+      "task_id": "FIX-PF-05.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-05"
+    },
+    {
+      "task_id": "FIX-PF-05.03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-05"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://fabric/test/audit_regressions/fix-pf-09.02.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-PF-09.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-01.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-05.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-05.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-PF-09.02.md",
+    "sha256": "7011db4af70f258b4c6ec4067260cb3802b2edbeca4b4b54a795459c2710f50e",
+    "utf8_bytes": 6164,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "59d1e789301b65b4577697df7909d8efe290325e2800d2fc33d09126f8fb62cb"
+  }
+}

@@ -1,0 +1,18 @@
+WRONG_SUBJECT []
+SMALL_INTEGER []
+YEAR_SHAPED_COUNT []
+QUOTED_MARKERS [{'code': 'B060', 'severity': 'error', 'path': 'marketing/page.md', 'line': 0, 'message': '3 S1 marker(s) -- delve, in conclusion, needless to say. Naturalness grade C'}]
+QUOTED_MARKERS_OFF [{'code': 'B060', 'severity': 'error', 'path': 'marketing/page.md', 'line': 0, 'message': '3 S1 marker(s) -- delve, in conclusion, needless to say. Naturalness grade C'}]
+DENSITY_ALL_UNIQUE [{'code': 'B051', 'severity': 'error', 'path': 'marketing/page.md', 'line': 0, 'message': '`item0` is 2.2% of the document -- above 1% reads as stuffing, which lowers citation likelihood rather than raising it'}]
+
+=== EV-01: The humanization pass runs in Write, without being asked for ===
+  PASS
+
+1/1 passed
+RUNNER_EXIT_FAILED_PROCESS 0
+
+=== EV-04: Adapt reports one status line per surface, not one for the batch ===
+  PASS
+
+1/1 passed
+RUNNER_EXIT_ONE_STATUS_TWO_SURFACES 0

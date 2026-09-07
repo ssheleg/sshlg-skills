@@ -1,0 +1,149 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-UX-11.01",
+  "parent_id": "FIX-UX-11",
+  "title": "Figma fallback и provisional flow не доходят до разрешённого build state",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "super-ux"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Figma fallback и provisional flow не доходят до разрешённого build state",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Единый state machine full / provisional / tooling-degraded / declined. Gate читает effective capabilities и accepted decisions; отсутствие optional Figma не блокирует approved text spec. Серьёзные неизвестные блокируют только зависимые решения, а не весь продукт. Сохранённые approvals учитываются во всех слоях.",
+  "expected_result": "Brief «реализуй согласованный экран», Figma недоступен: text spec + explicit deferred frame sync, код выполняется; destructive unknown остаётся blocked; при восстановлении Figma обновляется запись без повторного запуска всей цепочки.",
+  "acceptance": [
+    "Brief «реализуй согласованный экран», Figma недоступен: text spec + explicit deferred frame sync, код выполняется; destructive unknown остаётся blocked; при восстановлении Figma обновляется запись без повторного запуска всей цепочки."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Единый state machine full / provisional / tooling-degraded / declined. Gate читает effective capabilities и accepted decisions; отсутствие optional Figma не блокирует approved text spec. Серьёзные неизвестные блокируют только зависимые решения, а не весь продукт. Сохранённые approvals учитываются во всех слоях.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "08fee3fa580918356d6d3c398948413144cf60e45274ec78d50a0e44500b6d58"
+    },
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "dbdf9cfbe78809f49e763416e76c4c58847de62ba5ffc1b845f8d2c177ea88e1"
+    }
+  ],
+  "test_target": {
+    "path": "repo://super-ux/test/audit_regressions/fix-ux-11.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-UX-11.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-UX-11.json",
+    "source_files": [
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md",
+        "sha256": "08fee3fa580918356d6d3c398948413144cf60e45274ec78d50a0e44500b6d58",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/SKILL.md",
+        "sha256": "dbdf9cfbe78809f49e763416e76c4c58847de62ba5ffc1b845f8d2c177ea88e1",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Brief «реализуй согласованный экран», Figma недоступен: text spec + explicit deferred frame sync, код выполняется; destructive unknown остаётся blocked; при восстановлении Figma обновляется запись без повторного запуска всей цепочки."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "CTX-03.01",
+      "kind": "data",
+      "reason": "Build gate должен принимать согласованный provisional prototype state.",
+      "via_parent": "CTX-03"
+    },
+    {
+      "task_id": "CTX-03.02",
+      "kind": "data",
+      "reason": "Build gate должен принимать согласованный provisional prototype state.",
+      "via_parent": "CTX-03"
+    },
+    {
+      "task_id": "CTX-03.03",
+      "kind": "data",
+      "reason": "Build gate должен принимать согласованный provisional prototype state.",
+      "via_parent": "CTX-03"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://super-ux/test/audit_regressions/fix-ux-11.01.py",
+    "python3 repo://super-ux/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "CTX-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-03.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-UX-11.01.md",
+    "sha256": "170eaff775260290f6055428e5ccb0e9e2f37a5fe8a8961060a8d2a643836152",
+    "utf8_bytes": 7567,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "94fe336fcea3ab3073967dc8a7007ae0b09dc2c0ed546b246dc73a96eab8565c"
+  }
+}

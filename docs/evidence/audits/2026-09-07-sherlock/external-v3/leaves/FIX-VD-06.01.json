@@ -1,0 +1,293 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-VD-06.01",
+  "parent_id": "FIX-VD-06",
+  "title": "Dials дают числовой ритуал без воспроизводимой визуальной калибровки двух осей",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 1,
+  "modules": [
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Dials дают числовой ритуал без воспроизводимой визуальной калибровки двух осей",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Сделать dials необязательной shorthand, основной контракт — reference anchors + наблюдаемые targets конкретного сценария: reading width, CTA reachability, visible alternatives, keyboard state, deliberate empty-space purpose. Для сохранения identity motion не повышать автоматически. Для числа указывать example/counterexample или выводить его из принятого direction, а не закреплять до первого рендера.\n\nУточнение XD-07: Согласовать с отдельным VD-06 redesign dials; не создавать второй owner той же задачи.\nСослаться на focused references только для нужной задачи.\nНазвать dials preference hints, добавить observed anchors вместо claims об измерении качества.\nРазвести invariant token contract и открытый composition choice, не запрещая существующую систему.",
+  "expected_result": "Два независимых исполнителя по одному brief должны объяснить через одинаковые наблюдаемые признаки, что означает density/variance. Число без anchors не считается evidence. Проверить quiet dashboard, consumer chat и accessibility-large-text: одинаковая цифра не подменяет разные платформенные задачи.\nВход не заставляет загрузить все новые refs.\nВ конкуренции с brief побеждает явное требование пользователя, а не dogmatic style floor.\nВход не заставляет загрузить все новые refs.\nВ конкуренции с brief побеждает явное требование пользователя, а не dogmatic style floor.",
+  "acceptance": [
+    "Два независимых исполнителя по одному brief должны объяснить через одинаковые наблюдаемые признаки, что означает density/variance. Число без anchors не считается evidence. Проверить quiet dashboard, consumer chat и accessibility-large-text: одинаковая цифра не подменяет разные платформенные задачи.\nВход не заставляет загрузить все новые refs.\nВ конкуренции с brief побеждает явное требование пользователя, а не dogmatic style floor.",
+    "Вход не заставляет загрузить все новые refs.",
+    "В конкуренции с brief побеждает явное требование пользователя, а не dogmatic style floor."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Сделать dials необязательной shorthand, основной контракт — reference anchors + наблюдаемые targets конкретного сценария: reading width, CTA reachability, visible alternatives, keyboard state, deliberate empty-space purpose. Для сохранения identity motion не повышать автоматически. Для числа указывать example/counterexample или выводить его из принятого direction, а не закреплять до первого рендера.\n\nУточнение XD-07: Согласовать с отдельным VD-06 redesign dials; не создавать второй owner той же задачи.\nСослаться на focused references только для нужной задачи.\nНазвать dials preference hints, добавить observed anchors вместо claims об измерении качества.\nРазвести invariant token contract и открытый composition choice, не запрещая существующую систему.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c",
+      "refresh_after": [
+        "FIX-VD-01.01"
+      ]
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SHELEG_DESIGN.md",
+      "mode": "Edit",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": "5e73a5e569b0fd1556ce63ff85814cea2032e04d457d1e3f928b020594eb366a"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-design/test/audit_regressions/fix-vd-06.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-VD-06.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-VD-06.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c",
+        "role": "baseline source"
+      },
+      {
+        "path": "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+        "sha256": "6c78ff0be8abac64f3031ad158f54884e0080bef2be77bd12f48b032e678343e",
+        "role": "read-only audit evidence"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Два независимых исполнителя по одному brief должны объяснить через одинаковые наблюдаемые признаки, что означает density/variance. Число без anchors не считается evidence. Проверить quiet dashboard, consumer chat и accessibility-large-text: одинаковая цифра не подменяет разные платформенные задачи.",
+      "Вход не заставляет загрузить все новые refs.",
+      "В конкуренции с brief побеждает явное требование пользователя, а не dogmatic style floor."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit.",
+    "foreign_method_sources": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md",
+        "line": 1,
+        "end_line": 80,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md:1",
+        "sha256": "da98692848aa2e9ea22c681522a082f2226cb5dbfdb704ac38903be1b4cffafd",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md#L1-L80"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md",
+        "line": 1,
+        "end_line": 84,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md:1",
+        "sha256": "1d6d2658482b7e2df0c4d27b1b29c5195f0803b402278b96590598f4d3e57aa7",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md#L1-L84"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/craft-floor.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/craft-floor.md:1",
+        "sha256": "96e2e6bd4fcf9a2c6da65fb029f96d9176308fae2efd9d8653d3b8d838960e07",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/craft-floor.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md",
+        "line": 27,
+        "end_line": 27,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md:27",
+        "sha256": "53cd1dec43ab49a9bfb31a1f47c1b231dbe1d3ed04e5fcfa3569be2579040291",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md#L27"
+      }
+    ]
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-VD-01.01",
+      "kind": "data",
+      "reason": "Калибровочные renders берутся из реальных вариантов direction exploration.",
+      "via_parent": "FIX-VD-01"
+    },
+    {
+      "task_id": "FIX-VD-01.02",
+      "kind": "data",
+      "reason": "Калибровочные renders берутся из реальных вариантов direction exploration.",
+      "via_parent": "FIX-VD-01"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [
+    {
+      "id": "XD-07",
+      "title": "Связать craft references с текущим owner",
+      "status": "proposed-not-implemented",
+      "targets": [
+        {
+          "action": "Edit",
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SHELEG_DESIGN.md",
+          "exists_at_audit": true
+        }
+      ],
+      "inputs": [
+        "TYPE_CRAFT.md, LAYOUT_CRAFT.md, текущие dials и design doctrine"
+      ],
+      "implementation_steps": [
+        "Сослаться на focused references только для нужной задачи.",
+        "Назвать dials preference hints, добавить observed anchors вместо claims об измерении качества.",
+        "Развести invariant token contract и открытый composition choice, не запрещая существующую систему."
+      ],
+      "outputs": [
+        "Изменённые только относящиеся к craft разделы doctrine."
+      ],
+      "acceptance": [
+        "Вход не заставляет загрузить все новые refs.",
+        "В конкуренции с brief побеждает явное требование пользователя, а не dogmatic style floor."
+      ],
+      "depends_on": [
+        {
+          "task_id": "XD-05",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        },
+        {
+          "task_id": "XD-06",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        }
+      ],
+      "decisions": [
+        "Согласовать с отдельным VD-06 redesign dials; не создавать второй owner той же задачи."
+      ],
+      "source_candidates": [
+        "I-16",
+        "I-17",
+        "K-FLOOR"
+      ],
+      "addresses_findings": [
+        "VD-06",
+        "VD-07"
+      ],
+      "runtime_dependencies_added": [],
+      "api_keys_added": [],
+      "owner": "sheleg-design",
+      "target_files": [
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SHELEG_DESIGN.md",
+          "mode": "Edit"
+        }
+      ],
+      "decision": "Согласовать с отдельным VD-06 redesign dials; не создавать второй owner той же задачи.",
+      "steps": [
+        "Сослаться на focused references только для нужной задачи.",
+        "Назвать dials preference hints, добавить observed anchors вместо claims об измерении качества.",
+        "Развести invariant token contract и открытый composition choice, не запрещая существующую систему."
+      ],
+      "related_existing": [
+        "FIX-VD-06",
+        "FIX-VD-07"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md",
+          "line": 1,
+          "end_line": 80,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md:1",
+          "sha256": "da98692848aa2e9ea22c681522a082f2226cb5dbfdb704ac38903be1b4cffafd",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md#L1-L80"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md",
+          "line": 1,
+          "end_line": 84,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md:1",
+          "sha256": "1d6d2658482b7e2df0c4d27b1b29c5195f0803b402278b96590598f4d3e57aa7",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md#L1-L84"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/craft-floor.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/craft-floor.md:1",
+          "sha256": "96e2e6bd4fcf9a2c6da65fb029f96d9176308fae2efd9d8653d3b8d838960e07",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/craft-floor.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md",
+          "line": 27,
+          "end_line": 27,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md:27",
+          "sha256": "53cd1dec43ab49a9bfb31a1f47c1b231dbe1d3ed04e5fcfa3569be2579040291",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md#L27"
+        }
+      ],
+      "merged_into": "FIX-VD-06",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "verification_commands": [
+    "python3 repo://sheleg-design/test/audit_regressions/fix-vd-06.01.py",
+    "python3 repo://sheleg-design/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-VD-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-VD-06.01.md",
+    "sha256": "6221efd9af019a94464541f2ab713ef33812e115ecd4777e883b33ca325c8193",
+    "utf8_bytes": 8683,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "f712df4403f7970588cb0dba251823542f1dd73bd30f18926058aa10e4813a2b"
+  }
+}

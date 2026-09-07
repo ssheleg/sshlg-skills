@@ -1,0 +1,230 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "CTX-03.03",
+  "parent_id": "CTX-03",
+  "title": "Coverage and handoff receipt",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "super-ux"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Интерактивные UX flow previews как связанный deliverable",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Declared/walked/NOT_RUN coverage and persistent artifact digest; production and art-direction gates separate.\n\nУточнение ADOPT-M-09: Дополнить существующий interactive-flow contract walkthrough без подсказок UI: цель пользователя, reset/back/error/keyboard/async. Не создавать второй flow store; declared и walked states разделены.\nПроверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.\nРеализовать ровно этот контракт в указанном target: Дополнить существующий interactive-flow contract walkthrough без подсказок UI: цель пользователя, reset/back/error/keyboard/async. Не создавать второй flow store; declared и walked states разделены.\nПроверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов.",
+  "expected_result": "Dead control fails smoke; preview never upgrades implemented/product evidence.\nOfflineinteractivefixture hasdeclaredvswalkedstates; screenshotonlynotfunctionalPASS; externalpayment mockexplicit.",
+  "acceptance": [
+    "Dead control fails smoke; preview never upgrades implemented/product evidence.",
+    "Offlineinteractivefixture hasdeclaredvswalkedstates; screenshotonlynotfunctionalPASS; externalpayment mockexplicit."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Declared/walked/NOT_RUN coverage and persistent artifact digest; production and art-direction gates separate.\n\nУточнение ADOPT-M-09: Дополнить существующий interactive-flow contract walkthrough без подсказок UI: цель пользователя, reset/back/error/keyboard/async. Не создавать второй flow store; declared и walked states разделены.\nПроверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.\nРеализовать ровно этот контракт в указанном target: Дополнить существующий interactive-flow contract walkthrough без подсказок UI: цель пользователя, reset/back/error/keyboard/async. Не создавать второй flow store; declared и walked states разделены.\nПроверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://super-ux/test/interactive_flow_cases.json",
+      "mode": "Create",
+      "role": "new capability target; audit does not create it",
+      "baseline_sha256": null
+    },
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/prototype-walkthrough.md",
+      "mode": "Create",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://super-ux/test/audit_regressions/ctx-03.03.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/CTX-03.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/CTX-03.json",
+    "source_files": [
+      {
+        "path": "repo://super-ux/package.json",
+        "sha256": "c7591a60abe9db7aab110629b4ec3aab8b40d074fe40c07167bfefbf1d7ede39",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "На multi-screen flow доступны happy/error/back/cancel/returning branches, scenario selector и reset; declared transitions сопоставлены с actually walked. Dead control проваливает smoke; preview не повышает implemented/product status. Exact-copy маленькая правка не навязывает создание app.",
+      "Offlineinteractivefixture hasdeclaredvswalkedstates; screenshotonlynotfunctionalPASS; externalpayment mockexplicit."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit.",
+    "foreign_method_sources": [
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/test-scenario/SKILL.md",
+        "line": 9,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/test-scenario/SKILL.md#L9"
+      },
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/interaction-design/skills/state-machine/SKILL.md",
+        "line": 24,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/interaction-design/skills/state-machine/SKILL.md#L24"
+      },
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/prototype-strategy/SKILL.md",
+        "line": 23,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/prototype-strategy/SKILL.md#L23"
+      }
+    ]
+  },
+  "depends_on": [
+    {
+      "task_id": "CTX-03.02",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [
+    {
+      "id": "ADOPT-M-09",
+      "title": "Добавитьscenarios-first browserwalk checklist",
+      "status": "proposed_not_implemented",
+      "readiness": "planned_requires_dispatch_refresh",
+      "operation": "Create",
+      "target": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/prototype-walkthrough.md",
+      "source_files": [
+        {
+          "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/test-scenario/SKILL.md",
+          "line": 9,
+          "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/test-scenario/SKILL.md#L9"
+        },
+        {
+          "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/interaction-design/skills/state-machine/SKILL.md",
+          "line": 24,
+          "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/interaction-design/skills/state-machine/SKILL.md#L24"
+        },
+        {
+          "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/prototype-strategy/SKILL.md",
+          "line": 23,
+          "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/prototype-strategy/SKILL.md#L23"
+        }
+      ],
+      "decision": "Дополнить существующий interactive-flow contract walkthrough без подсказок UI: цель пользователя, reset/back/error/keyboard/async. Не создавать второй flow store; declared и walked states разделены.",
+      "outputs": [
+        "Walk record template"
+      ],
+      "acceptance": [
+        "Offlineinteractivefixture hasdeclaredvswalkedstates; screenshotonlynotfunctionalPASS; externalpayment mockexplicit."
+      ],
+      "dependencies": [],
+      "related_existing_tasks": [
+        "CTX-03",
+        "FIX-UX-12"
+      ],
+      "runtime_dependencies": [],
+      "api_keys": [],
+      "network_required": false,
+      "host": "Markdown/JSON plus already-available family validator/host capabilities",
+      "not_in_scope": [
+        "foreign plugin installation",
+        "foreign script execution",
+        "new mandatory APIs/SDKs",
+        "Fabric runtime implementation"
+      ],
+      "dispatch_refresh": [
+        "resolve exact target base and current doctrine patches",
+        "record source/target hashes and read scope",
+        "serialize overlapping target edits under family coordination"
+      ],
+      "resource_scope": [
+        "repo://super-ux/plugins/super-ux/skills/ux-flows/references/prototype-walkthrough.md"
+      ],
+      "owner": "super-ux",
+      "target_files": [
+        {
+          "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/prototype-walkthrough.md",
+          "mode": "Create"
+        }
+      ],
+      "steps": [
+        "Проверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.",
+        "Реализовать ровно этот контракт в указанном target: Дополнить существующий interactive-flow contract walkthrough без подсказок UI: цель пользователя, reset/back/error/keyboard/async. Не создавать второй flow store; declared и walked states разделены.",
+        "Проверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов."
+      ],
+      "depends_on": [],
+      "related_existing": [
+        "CTX-03",
+        "FIX-UX-12"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/test-scenario/SKILL.md",
+          "line": 9,
+          "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/test-scenario/SKILL.md#L9"
+        },
+        {
+          "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/interaction-design/skills/state-machine/SKILL.md",
+          "line": 24,
+          "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/interaction-design/skills/state-machine/SKILL.md#L24"
+        },
+        {
+          "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/prototype-strategy/SKILL.md",
+          "line": 23,
+          "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/prototype-strategy/SKILL.md#L23"
+        }
+      ],
+      "merged_into": "CTX-03",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "verification_commands": [
+    "python3 repo://super-ux/test/audit_regressions/ctx-03.03.py",
+    "python3 repo://super-ux/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "CTX-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/CTX-03.03.md",
+    "sha256": "0d624c3a4925e43950ac63f99c6255a5aae247a605241d32f425b5d5d4f533d5",
+    "utf8_bytes": 5462,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "2a187179f436a43525f5f4d1e81c88288dd9f7d03afaeecf09542519c06640f5"
+  }
+}

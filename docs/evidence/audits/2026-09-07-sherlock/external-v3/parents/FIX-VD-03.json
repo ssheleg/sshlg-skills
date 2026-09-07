@@ -1,0 +1,491 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-VD-03",
+  "revision": 1,
+  "title": "Mobile/native ветка не завершена платформенным адаптером, а общий product default остаётся вебовым",
+  "finding_id": "VD-03",
+  "module": "sheleg-design",
+  "modules": [
+    "sheleg-design",
+    "sshlg-skills"
+  ],
+  "priority": "P1",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "parent_planned",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06",
+    "E-03"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements",
+      "audit_original_sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program",
+      "audit_original_sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions",
+      "audit_original_sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f"
+    },
+    {
+      "path": "audit://extension/context/modules/sheleg-design.md",
+      "sha256": "93aca5c1f569dfe8f9c9ddae1b4b580908fb7d5892385a5003767d709cc47e7a",
+      "role": "module:sheleg-design",
+      "audit_original_sha256": "4f855319ae55cbe0e8ea9371442a5b10cec3cf1cf77153040cd47d883aa4b982"
+    },
+    {
+      "path": "audit://extension/context/modules/sshlg-skills.md",
+      "sha256": "239fabba599e87d49984cffd1b031b2fbb41009aa1db310fcfbb4d11c7328c35",
+      "role": "module:sshlg-skills",
+      "audit_original_sha256": "1ba5c103f173da419a57a05153cf840fe5a10515f5f8261d194c719fb8420363"
+    },
+    {
+      "path": "audit://extension/context/contracts/visual.md",
+      "sha256": "f0ade3ef08c35a0e93c97543b950062ac20b21f709f0cac84e943f21c1453c36",
+      "role": "contract:visual",
+      "audit_original_sha256": "f0ade3ef08c35a0e93c97543b950062ac20b21f709f0cac84e943f21c1453c36"
+    },
+    {
+      "path": "audit://extension/context/contracts/product.md",
+      "sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163",
+      "role": "contract:product",
+      "audit_original_sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163"
+    },
+    {
+      "path": "audit://extension/context/contracts/install.md",
+      "sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289",
+      "role": "contract:install",
+      "audit_original_sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289"
+    },
+    {
+      "path": "audit://extension/context/contracts/routing.md",
+      "sha256": "9e54f451c9efbda462e0f798751573114c5b787fb2fe435591057e96e108954b",
+      "role": "contract:routing",
+      "audit_original_sha256": "9e54f451c9efbda462e0f798751573114c5b787fb2fe435591057e96e108954b"
+    },
+    {
+      "path": "audit://extension/design-depth.json",
+      "sha256": "1f0581dde13bf3d95b12836395d395572679fcfea21f04f8ce8743baf8f673ac",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "f42d9e1b0368b4fcdf589090548a5a3ae4cdf0338cb6cca2448c3adfabce4eb3"
+    },
+    {
+      "path": "audit://extension/nicegram-route-receipt.json",
+      "sha256": "9fff8d9e80adf18cb0a8080fcb2123d31009ad0170791a2a03a6ebc8bd881453",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "59b1771fe8f2881fd0f0ca9f12c30461e0d909397fa025092a1958b8658ede49"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "VD-03",
+    "title": "Mobile/native ветка не завершена платформенным адаптером, а общий product default остаётся вебовым",
+    "priority": "P1",
+    "skills": [
+      "sheleg-design"
+    ],
+    "evidence": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+        "line": 20,
+        "receipt": "A pack does **not** own **platform convention** — where the primary navigation",
+        "claim": "Pack не определяет platform conventions"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+        "line": 76,
+        "receipt": "The one thing this library genuinely does not carry: **a mobile-native pack**.",
+        "claim": "Мобильного native pack нет"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "line": 228,
+        "receipt": "**The default is `shadcn/ui`, and the question is asked once per project.** Ask it",
+        "claim": "shadcn/ui default для every product UI"
+      },
+      {
+        "path": "repo://sshlg-skills/lib/packs.js",
+        "line": 76,
+        "receipt": "  { id: 'mobile', asks: 'React Native and Expo surfaces', owner: null, fallback: 'vercel-react-native-skills', refusal: 'no mobile' },",
+        "claim": "mobile lane определён как React Native/Expo"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+        "line": 7,
+        "receipt": "Use it with the [`workbench`](./styles/workbench.md) pack — these are patterns",
+        "claim": "AI patterns привязаны к workbench"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+        "line": 111,
+        "receipt": "Shape, so it annotates instead of shouting: monospace at ~10px, positive",
+        "claim": "Паттерн provenance задаёт ~10px mono"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+        "line": 41,
+        "receipt": "2. **Inputs are `16px` minimum — a functional floor, not a type choice.**",
+        "claim": "Загруженная инструкция требует input≥16px"
+      },
+      {
+        "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.css",
+        "line": 1,
+        "receipt": ".inchat-layout{display:grid;grid-template-columns:390px minmax(0,560px);justify-content:center;gap:90px;max-width:1240px;margin:34px auto 60px}.demo-tools{display:flex;gap:10px;justify-content:flex-end;margin:0 0 16px}.demo-tools button{min-height:44px;border:1px solid #b9bfc8;border-radius:9px;background:none;padding:0 14px;font-size:12px;color:var(--board-ink)}.ic-phone{width:390px;height:810px}.peerbar{display:flex;align-items:center;gap:12px;padding:8px 16px 12px;border-bottom:1px solid var(--line);height:64px;flex:none}.peerbar>span svg{width:22px;height:22px;color:var(--accent)}.peer-name{flex:1;font-weight:650;font-size:16px}.peer-name small{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-top:4px}.threadbody{flex:1;overflow-y:auto;padding:16px 14px;min-height:100px}.bubble{padding:12px 14px;background:var(--surface);border-radius:16px 16px 16px 4px;margin:12px 30px 12px 0;font-size:14px;line-height:1.5;overflow-wrap:anywhere}.bubble p{margin:0 0 5px}.bubble small{font-size:10px;color:var(--muted)}.bubble.outgoing{margin-left:30px;margin-right:0;background:var(--soft);border-radius:16px 16px 4px 16px}.message-ai{display:block;padding:8px 0 0;color:var(--accent);font-size:12px;background:none;min-height:44px}.ic-trigger{height:44px;width:36px;flex:none;background:none;color:var(--accent);display:grid;place-items:center}.ic-trigger svg{width:24px;height:24px}.ic-phone .compose{align-items:center;margin-bottom:4px}.ic-phone .compose textarea{height:60px;padding-top:18px}.ic-phone .send{width:40px;height:44px}.draft-zone{padding-top:8px;background:var(--bg)}.ic-notice{font-size:12px;padding:0 20px 12px;line-height:1.5;color:var(--muted)}.ic-notice button{display:block;color:var(--accent);background:none;padding:8px 0;min-height:44px;font-size:12px}.ic-sheet{position:absolute;bottom:25px;top:166px;left:0;right:0;background:var(--surface);border-top:1px solid var(--line);border-radius:24px 24px 0 0;box-shadow:0 -40px 60px #0004;display:flex;flex-direction:column}.sheet-head{display:flex;align-items:center;min-height:64px;padding:4px 8px;border-bottom:1px solid var(--line);gap:4px}.sheet-head h2{font-size:17px;line-height:1.15;flex:1;margin:0}.sheet-head h2:focus,.peer-name:focus{outline:none}.ic-scroll{overflow-y:auto;padding:18px 18px 26px;min-height:0}.ic-scroll>.primary{margin-top:18px}.ic-scroll .textbutton{display:block;width:100%;font-size:13px;margin:8px 0;min-height:44px}.ic-scroll .large-copy{font-size:15px}.ic-scroll .group{background:var(--bg)}.ic-scroll .row{padding:12px 10px;min-height:64px}.ic-scroll .rowtext{font-size:14px}.ic-scroll .rowtext small{font-size:11px}.ic-scroll textarea{display:block;width:100%;min-height:74px;resize:vertical;background:var(--bg);border:1px solid var(--line);border-radius:12px;color:var(--ink);font:14px/1.5 var(--font);padding:14px}.ic-scroll #ic-output{min-height:180px}.ic-label{display:block;font-size:13px;margin:20px 0 8px}.ic-label:first-child{margin-top:0}.ic-scroll select{min-height:44px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:8px;font:14px var(--font)}.ic-original{padding:14px;background:var(--bg);border-radius:12px;margin:12px 0;font-size:13px;line-height:1.5;overflow-wrap:anywhere}.ic-original strong{font-size:11px;color:var(--muted)}.ic-original p{margin:7px 0}.ic-original summary{cursor:pointer;min-height:30px}.ic-context{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 12px;text-align:left;width:100%;color:var(--ink);font-size:12px;line-height:1.5}.ic-context span{display:flex;align-items:center;gap:8px}.ic-context svg{width:16px;height:16px;flex:none;color:var(--accent)}.ic-context small{display:block;margin:7px 0 0 24px;color:var(--accent)}.ic-access{font-size:11px;color:var(--muted);margin-top:20px}.context-choice{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);cursor:pointer;font-size:13px;line-height:1.5}.context-choice input{width:22px;height:22px;flex:none;accent-color:var(--accent);margin-top:3px}.context-choice>span>span{display:block;margin-top:5px}.context-choice strong{font-size:11px;color:var(--muted)}.record-indicator{display:flex;gap:12px;align-items:center;color:var(--danger);font-size:24px;margin:24px 0}.record-indicator span{font-size:14px}.partial{font-size:16px;line-height:1.6;color:var(--muted)}.state-label{display:block;font-size:12px;margin:20px 0 8px}#ic-state{width:100%;min-height:44px;background:transparent;color:var(--board-ink);border:1px solid #b9bfc8;border-radius:9px;padding:8px;font:13px var(--font)}.deep-link{font-size:12px;margin-top:12px}.deep-link a{color:var(--board-ink)}#ic-notes{padding-top:70px}#ic-notes h2{font-size:34px;letter-spacing:-.9px;line-height:1.15;margin:16px 0}#ic-notes .note-lead{font-size:18px;line-height:1.6;color:var(--board-muted)}.principle{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid #c4c8cf}.principle>span{font-size:12px;color:var(--board-muted);padding-top:5px}.principle h3{font-size:17px;margin:0 0 8px}.principle p,.ic-review{font-size:14px;color:var(--board-muted);line-height:1.6;margin:0}.ic-review{padding:20px 24px;border:1px solid #c4c8cf;border-radius:14px;margin:28px 0}.ic-review h3{color:var(--board-ink);margin:0 0 12px}.ic-review ol{padding-left:17px}.ic-review li{margin:8px 0}.strategy-link{display:block;color:var(--board-ink);font-size:13px;margin-top:18px}@media(max-width:1040px){.inchat-layout{gap:36px;grid-template-columns:366px minmax(0,1fr)}.ic-phone{width:366px}#ic-notes h2{font-size:28px}}@media(max-width:760px){.inchat-layout{display:block;margin-top:24px}.chat-column{width:min(100%,390px);margin:auto}.ic-phone{width:100%;height:780px;min-height:650px}.ic-sheet{top:148px}#ic-notes{padding-top:40px}.ic-scroll{padding:16px}.ic-scroll .rowtext{font-size:13px}.sheet-head h2{font-size:16px}.board-head h1{font-size:29px}.peerbar{padding-left:12px;padding-right:12px}.inchat-layout{max-width:100%}.phone-note{overflow-wrap:anywhere}}",
+        "claim": "Реальный web fixture задаёт textarea/select14px"
+      },
+      {
+        "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.js",
+        "line": 54,
+        "receipt": "function setupTask(){const rewrite=ic.task==='rewrite';return `${rewrite?`<div class=\"ic-original\"><strong>Ваш исходный текст</strong><p>${clean(ic.draft||'Сначала напишите черновик в переписке.')}</p></div>`:contextCard()}${ic.task==='summary'?'<p class=\"large-copy\">Краткое содержание только выбранных сообщений. Источники останутся рядом с ответом.</p>':ic.task==='translate'?`<label class=\"ic-label\" for=\"ic-lang\">Перевести на</label><select id=\"ic-lang\"><option${ic.language==='English'?' selected':''}>English</option><option${ic.language==='Русский'?' selected':''}>Русский</option></select>`:`<label class=\"ic-label\" for=\"ic-instruction\">${rewrite?'Что изменить':'Что хотите ответить'} <span class=\"muted\">· необязательно</span></label><textarea id=\"ic-instruction\" maxlength=\"2000\" rows=\"2\" placeholder=\"Например: коротко и по делу\">${clean(ic.instruction)}</textarea><label class=\"ic-label\" for=\"ic-tone\">Тон</label><select id=\"ic-tone\">${['Спокойно','Дружелюбно','Деловой'].map(t=>`<option${ic.tone===t?' selected':''}>${t}</option>`).join('')}</select>`}<p class=\"ic-access\">${!ic.authorized?'Нужен вход в Nicegram':!ic.entitled?'Доступ к AI не активен':ic.balance===null?'Баланс пока неизвестен':ic.balance===0?'AI-баланс закончился':`${ic.balance.toLocaleString('ru-RU')} AI · баланс Nicegram · пример`}</p>${rewrite&&!ic.draft.trim()?primaryIC('Вернуться к сообщению','close'):primaryIC(ic.task==='summary'?'Составить краткое содержание':ic.task==='translate'?'Перевести':'Создать черновик','generate')}`;}",
+        "claim": "Context sheet использует HTML select tone"
+      }
+    ],
+    "mechanism": "Universal product→web pack/component lane плюс AI state rules со своей визуальной формой не превращаются автоматически в iOS/Android controls. Документ правильно называет native gap, однако роутер мобайла даёт только RN/Expo, а конкретный renderer/adapter для SwiftUI/UIKit не назначает. Модель легко делает mobile-sized web form, который передаёт сценарий, но нативный craft остаётся незавершённым.",
+    "observed": "В Nicegram web concept C01--ready виден HTML select; source действительно содержит select и14px. Это подтверждённое расхождение web fixture с загруженным 16px rule, но zoom-on-focus на реальном Safari здесь не воспроизводился. Native runtime, Dynamic Type и VoiceOver в VERIFICATION честно исключены. Само использование HTML для browser prototype не является ошибкой и shadcn/workbench в Nicegram не применялись.",
+    "fix": "До выбора компонентов разделить platform target и prototype renderer. Для ios-native назначить UIKit/SwiftUI/HIG adapter, для android-native Compose/Material, для RN/web отдельные ветви. Semantic AI states оставить независимыми от 10px mono и workbench durations. Web mockup должен иметь явную колонку native-equivalent/control behavior и touch/input rules; предоставлять browser HTML как демонстрацию поведения, а нативную fidelity проверять отдельным этапом.",
+    "acceptance": "Для одного context-sheet сценария проверить web prototype и native-equivalent spec: selection, keyboard, sheet detents/dismissal, safe areas, accessibility size, submit/stop, restoration. Browser computed input font соответствует выбранному web floor; iOS native evidence не выдаётся за browser screenshot. В route на SwiftUI не появляется RN/Expo как единственный mobile ответ. Наличие Dynamic Type помечается measured/unverified, а не inferred from clamp.",
+    "cross_references": [],
+    "classification": "observed_platform_gap_and_source_rule_mismatch",
+    "source_files": [
+      "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.css",
+      "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.js",
+      "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+      "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+      "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "repo://sshlg-skills/lib/packs.js"
+    ],
+    "context_levels": {
+      "instruction_defined": true,
+      "observed_loaded_in_Nicegram": "See nicegram-route-receipt.json; not all downstream files were loaded there",
+      "artifact_observed": "В Nicegram web concept C01--ready виден HTML select; source действительно содержит select и14px. Это подтверждённое расхождение web fixture с загруженным 16px rule, но zoom-on-focus на реальном Safari здесь не воспроизводился. Native runtime, Dynamic Type и VoiceOver в VERIFICATION честно исключены. Само использование HTML для browser prototype не является ошибкой и shadcn/workbench в Nicegram не применялись.",
+      "causal_hypothesis": "Universal product→web pack/component lane плюс AI state rules со своей визуальной формой не превращаются автоматически в iOS/Android controls. Документ правильно называет native gap, однако роутер мобайла даёт только RN/Expo, а конкретный renderer/adapter для SwiftUI/UIKit не назначает. Модель легко делает mobile-sized web form, который передаёт сценарий, но нативный craft остаётся незавершённым.",
+      "live_model_comparison": "not run; no causal effect size or universal quality verdict"
+    },
+    "origin": "extension/design-depth.json",
+    "observation": "В Nicegram web concept C01--ready виден HTML select; source действительно содержит select и14px. Это подтверждённое расхождение web fixture с загруженным 16px rule, но zoom-on-focus на реальном Safari здесь не воспроизводился. Native runtime, Dynamic Type и VoiceOver в VERIFICATION честно исключены. Само использование HTML для browser prototype не является ошибкой и shadcn/workbench в Nicegram не применялись.",
+    "evidence_kind": "observed_platform_gap_and_source_rule_mismatch",
+    "implementation_status": "proposed"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "До выбора компонентов разделить platform target и prototype renderer. Для ios-native назначить UIKit/SwiftUI/HIG adapter, для android-native Compose/Material, для RN/web отдельные ветви. Semantic AI states оставить независимыми от 10px mono и workbench durations. Web mockup должен иметь явную колонку native-equivalent/control behavior и touch/input rules; предоставлять browser HTML как демонстрацию поведения, а нативную fidelity проверять отдельным этапом.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Для одного context-sheet сценария проверить web prototype и native-equivalent spec: selection, keyboard, sheet detents/dismissal, safe areas, accessibility size, submit/stop, restoration. Browser computed input font соответствует выбранному web floor; iOS native evidence не выдаётся за browser screenshot. В route на SwiftUI не появляется RN/Expo как единственный mobile ответ. Наличие Dynamic Type помечается measured/unverified, а не inferred from clamp.",
+    "iOS shell не получает автоматически web Workbench и SF/Roboto dogma.",
+    "Browser prototype review заканчивается корректным scope, не native verified.",
+    "Настройки устройства не сбрасываются безусловно к 1.0."
+  ],
+  "verification_plan": {
+    "baseline": "В Nicegram web concept C01--ready виден HTML select; source действительно содержит select и14px. Это подтверждённое расхождение web fixture с загруженным 16px rule, но zoom-on-focus на реальном Safari здесь не воспроизводился. Native runtime, Dynamic Type и VoiceOver в VERIFICATION честно исключены. Само использование HTML для browser prototype не является ошибкой и shadcn/workbench в Nicegram не применялись.",
+    "must_test": "Для одного context-sheet сценария проверить web prototype и native-equivalent spec: selection, keyboard, sheet detents/dismissal, safe areas, accessibility size, submit/stop, restoration. Browser computed input font соответствует выбранному web floor; iOS native evidence не выдаётся за browser screenshot. В route на SwiftUI не появляется RN/Expo как единственный mobile ответ. Наличие Dynamic Type помечается measured/unverified, а не inferred from clamp.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+      "sha256": "a65dc292c48868b0c5d1ca4ead4aad17d1c4dec32253ffe5e81ecab86b72031e",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://sshlg-skills/lib/packs.js",
+      "sha256": "0f8ffe8e513e6ac996b57157e0963862659b683eccb2d5f9497c25380999c75f",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+      "sha256": "c51fba0ba6dd8268313025f70fad65519e1f04eabf870df6a6167ff0f81e6182",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "sheleg-design": "562786b30f07f50a294d70a4c3ffd40794624f42",
+    "sshlg-skills": "7ef37e8bd5220d6ab355346634ff19196de8f41b"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://sheleg-design",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://sshlg-skills",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://sshlg-skills/lib/packs.js",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 6,
+  "origin": "v2",
+  "dispatchable": false,
+  "retired_read_only_evidence": [
+    {
+      "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.css",
+      "sha256": "fb98591b4e21c62b3c2b28d9e5f0e6b21d7c2db7ce448083f3aa8c44eb070bd9",
+      "role": "read-only audit evidence",
+      "state": "historical_source_no_longer_available",
+      "historical_receipt": "audit://extension/design-depth.json",
+      "effect": "Not required execution context; old observation is not reasserted as current source behavior."
+    },
+    {
+      "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.js",
+      "sha256": "4f375bcbd65f23979f94e1da04fbfc8db3520eb69a8255560a4e0eba0f4c8d2a",
+      "role": "read-only audit evidence",
+      "state": "historical_source_no_longer_available",
+      "historical_receipt": "audit://extension/design-depth.json",
+      "effect": "Not required execution context; old observation is not reasserted as current source behavior."
+    }
+  ],
+  "knowledge_enrichments": [
+    {
+      "id": "XD-08",
+      "title": "Расширить native contract доказательством платформы",
+      "status": "proposed-not-implemented",
+      "targets": [
+        {
+          "action": "Edit",
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+          "exists_at_audit": true
+        }
+      ],
+      "inputs": [
+        "platform target и shipped device classes, текущая mobile doctrine; primary Apple/Android docs для feature"
+      ],
+      "implementation_steps": [
+        "Разделить web mobile, browser native-like prototype, native implementation.",
+        "Добавить target-specific nav/keyboard/insets/text-scale state matrix; числовые нормы проверить по текущим официальным источникам перед нормативной записью.",
+        "Фиксировать simulator/device type и prior settings; возвращать изменённые настройки к сохранённым значениям."
+      ],
+      "outputs": [
+        "Платформенная проверка и адаптер surface→evidence."
+      ],
+      "acceptance": [
+        "iOS shell не получает автоматически web Workbench и SF/Roboto dogma.",
+        "Browser prototype review заканчивается корректным scope, не native verified.",
+        "Настройки устройства не сбрасываются безусловно к 1.0."
+      ],
+      "depends_on": [
+        {
+          "task_id": "XD-01",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        },
+        {
+          "task_id": "XD-03",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        }
+      ],
+      "decisions": [
+        "Шаг primary verification обязателен только перед импортом конкретного нормативного числа."
+      ],
+      "source_candidates": [
+        "K-NATIVE",
+        "I-21"
+      ],
+      "addresses_findings": [
+        "VD-03"
+      ],
+      "runtime_dependencies_added": [],
+      "api_keys_added": [],
+      "owner": "sheleg-design",
+      "target_files": [
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+          "mode": "Edit"
+        }
+      ],
+      "decision": "Шаг primary verification обязателен только перед импортом конкретного нормативного числа.",
+      "steps": [
+        "Разделить web mobile, browser native-like prototype, native implementation.",
+        "Добавить target-specific nav/keyboard/insets/text-scale state matrix; числовые нормы проверить по текущим официальным источникам перед нормативной записью.",
+        "Фиксировать simulator/device type и prior settings; возвращать изменённые настройки к сохранённым значениям."
+      ],
+      "related_existing": [
+        "FIX-VD-03"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md:1",
+          "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md:1",
+          "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md:1",
+          "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md:1",
+          "sha256": "fe91fcf28638f95577af481a50edaf339d6c9a3ad3b9fa477bc81c116b8bc392",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md",
+          "line": 1,
+          "end_line": 312,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md:1",
+          "sha256": "ec58806f16fc7ba29bccef08f2e158cd00be077ce05d45e943a59bd26dc6dc55",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md#L1-L312"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md:1",
+          "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md:1",
+          "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md:1",
+          "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md#L1"
+        }
+      ],
+      "merged_into": "FIX-VD-03",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "leaf_ids": [
+    "FIX-VD-03.01",
+    "FIX-VD-03.02",
+    "FIX-VD-03.03"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Для одного context-sheet сценария проверить web prototype и native-equivalent spec: selection, keyboard, sheet detents/dismissal, safe areas, accessibility size, submit/stop, restoration. Browser computed input font соответствует выбранному web floor; iOS native evidence не выдаётся за browser screenshot. В route на SwiftUI не появляется RN/Expo как единственный mobile ответ. Наличие Dynamic Type помечается measured/unverified, а не inferred from clamp.",
+      "iOS shell не получает автоматически web Workbench и SF/Roboto dogma.",
+      "Browser prototype review заканчивается корректным scope, не native verified.",
+      "Настройки устройства не сбрасываются безусловно к 1.0."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

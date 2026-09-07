@@ -1,0 +1,1846 @@
+{
+  "status": "proposed_not_implemented",
+  "phases": [
+    {
+      "id": "M0",
+      "title": "Зафиксировать базу и границы программы",
+      "deps": [],
+      "owner": "sshlg-skills",
+      "output": "Версии, digests, реестр 90 замечаний, fixtures, список поддерживаемых host/version и определение production evidence.",
+      "gate": "Артефакты этого аудита приняты как исходная точка; каждое замечание имеет owner, статус и приёмку. Решение команды о поддерживаемых средах записано.",
+      "rollback": "Исходники ещё не меняются; сохранять исходные версии и тестовые receipts."
+    },
+    {
+      "id": "M1",
+      "title": "Исправить примеры с риском потери денег, доступа и блокировок",
+      "deps": [
+        "M0"
+      ],
+      "owner": "sheleg-dev · telegram-dev · agent-sync · agent-stack",
+      "output": "Независимые crash/concurrency/replay fixtures; исправленные алгоритмы и все их копии. Патчи допускаются отдельно от новой общей архитектуры.",
+      "gate": "Ни один критический counterexample не воспроизводится; старый алгоритм обязан провалить новый тест. Реальные секреты/платежи для проверки не нужны.",
+      "rollback": "Малые независимые releases; при регрессии отключать опасный рецепт и откатывать пакет, не маскировать повторный FAIL."
+    },
+    {
+      "id": "M2",
+      "title": "Сделать проверку честной и факты типизированными",
+      "deps": [
+        "M1"
+      ],
+      "owner": "super-ux · task-pipeline · make-skill · agent-stack",
+      "output": "Result schema PASS/FAIL/NOT_RUN/TEST_ERROR/N/A; claim/fact provenance; независимые oracle вместо самопроверяющихся примеров.",
+      "gate": "Неверные единицы и субъекты не проходят; exit!=0 не становится PASS; отсутствие браузера/данных не становится подтверждением; согласование не меняет происхождение факта.",
+      "rollback": "Первый запуск новых семантических проверок в report mode; включение gate после разбора ложных срабатываний."
+    },
+    {
+      "id": "M3",
+      "title": "Заменить принуждение по словам на маршрут по намерению и эффектам",
+      "deps": [
+        "M2"
+      ],
+      "owner": "sshlg-skills · task-pipeline · make-skill",
+      "output": "Раздельные intent/subject/facets/effects; route receipt; scoped waivers; capability adapter; minimal/standard/high-assurance profiles.",
+      "gate": "RU/EN смешанные запросы, цитаты и отказы выбирают ожидаемый scope. Audit не меняет source; согласованная работа не спрашивает повторного разрешения; отсутствие optional tool не создаёт тупик.",
+      "rollback": "Shadow comparison старого и нового маршрута, затем переключение по host/project. Никакой скрытой автозаписи в shadow mode."
+    },
+    {
+      "id": "M4",
+      "title": "Устранить предметные противоречия и устаревшие правила",
+      "deps": [
+        "M3"
+      ],
+      "owner": "Все предметные пакеты",
+      "output": "Исправленные правила дизайна/SEO/UX/телеметрии/OAuth/Telegram; source register с датой и областью применимости; единый источник дублируемых рецептов.",
+      "gate": "Каждое finding из этой фазы закрыто конкретной приёмкой. Универсальные запреты заменены условиями, где источник подтверждает только условное правило.",
+      "rollback": "Сохранять rationale и предыдущий рецепт; спорная эвристика становится advisory, а не новым обязательным gate."
+    },
+    {
+      "id": "M5",
+      "title": "Мигрировать 28 скиллов на совместимые контракты и host adapters",
+      "deps": [
+        "M4"
+      ],
+      "owner": "sshlg-skills · make-skill · владельцы 28 скиллов",
+      "output": "28 sidecars skill.contract.json; project policy; capability receipts; clean-install матрица заявленных сред; адаптеры токенов и sibling dependencies.",
+      "gate": "Каждый skill объявляет modes, required inputs, outputs, effects, fallbacks, proof. Контракты согласованы на стыках. Установка/удаление/upgrade/rollback не оставляют конфликтующих активных копий.",
+      "rollback": "Версионирование schema; старые пакеты читаются адаптером в legacy mode с явными ограничениями; migration обратима."
+    },
+    {
+      "id": "M6",
+      "title": "Проверить настоящее применение и пользу семейства",
+      "deps": [
+        "M5"
+      ],
+      "owner": "Общий eval harness + владельцы доменов",
+      "output": "Actual-load end-to-end matrix: baseline, named skill, auto-route, full composition; с инструментами и без optional tools; repeated seeds и независимые grading criteria.",
+      "gate": "Все P1-negative fixtures детерминированно проходят. Реальный host подтверждает загрузку выбранной версии. Качество результата, ложные блокировки, лишние вопросы, latency и стоимость измерены. Порог принимается заранее; недоступный native eval честно NOT_RUN.",
+      "rollback": "Новый route/profile не становится default до достижения заранее записанных порогов; неопределённый результат ведёт к дополнительной выборке, не к выдуманному PASS."
+    },
+    {
+      "id": "M7",
+      "title": "Выпустить и проверить ограниченное развёртывание",
+      "deps": [
+        "M6"
+      ],
+      "owner": "Member CI + umbrella release",
+      "output": "Release candidates с pinned digests, опубликованные member versions, затем umbrella; smoke на чистых профилях, release receipts и проверяемый rollback.",
+      "gate": "Каждый опубликованный архив соответствует проверенному digest; registry/source/runtime version не расходятся; canary реальные задачи без новых P1-регрессий; rollback проверен.",
+      "rollback": "Откат umbrella lock и конкретных member packages на предыдущий проверенный набор; не переписывать опубликованный артефакт."
+    },
+    {
+      "id": "M8",
+      "title": "Закрыть программу и закрепить обслуживание",
+      "deps": [
+        "M7"
+      ],
+      "owner": "Владелец семейства",
+      "output": "Матрица 28/28 contracts, 90/90 dispositions, закрытые P1, остаточные ограничения, регламент обновления внешних норм, эталонный eval set.",
+      "gate": "Все условия раздела «100%» выполнены и имеют receipts. Исключение разрешено только с ограничением обещания/поддержки, а не путём переименования ошибки. Нет открытого P1 внутри заявленной области.",
+      "rollback": "При новом критическом контрпримере открыть конкретный finding/release incident и ограничить затронутый рецепт. Автоматическое наблюдение требует отдельной настройки пользователем."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "FIX-RT-01",
+      "finding": "RT-01",
+      "phase": "M3",
+      "owners": [
+        "sshlg-skills"
+      ],
+      "priority": "P1",
+      "action": "Классифицировать по отдельным полям intent, subject, effects и facets; regex оставить источником кандидатов. Audit → make-skill/project-audit без исполнения delivery. Отрицания и поясняющая часть не должны выключать самостоятельную часть запроса на действие.",
+      "acceptance": "Набор RU/EN: audit-only, объясни+исправь, обычная работа subagent, опечатки и склонения; проверки ожидаемого набора маршрутов и запрещённых побочных действий.",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-RT-02",
+      "finding": "RT-02",
+      "phase": "M3",
+      "owners": [
+        "sshlg-skills"
+      ],
+      "priority": "P1",
+      "action": "Хранить waivers по route_id, scope и источнику: явный акт пользователя, не цитата/пример/ответ инструмента. Общесессионный отказ от всех подсказок оставить отдельным осознанным флагом. Изменение нынешней общей политики записать как решение, а не скрытую починку.",
+      "acceptance": "Отказ от design сохраняет billing и UX; обсуждение фразы отказа не меняет state; явно выбранный session waiver переживает следующий ход и может быть отозван.",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-RT-03",
+      "finding": "RT-03",
+      "phase": "M3",
+      "owners": [
+        "sshlg-skills"
+      ],
+      "priority": "P2",
+      "action": "Host adapters: discovered / enabled / exposed / callable отдельно, namespace+provenance+content digest вместо голого id. В отчёте показывать host и недоступные capability; сохранить просмотр других хостов как inventory.",
+      "acceptance": "Синтетические host homes: broken symlink, одноимённый чужой скилл, plugin только в Claude и skill только в Codex; roster active host содержит только реально разрешимые записи.",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-RT-04",
+      "finding": "RT-04",
+      "phase": "M3",
+      "owners": [
+        "sshlg-skills"
+      ],
+      "priority": "P2",
+      "action": "Использовать receipt выбранного маршрута с task_id, skill_digest и допустимыми эффектами. Проверять нужный маршрут, а не существование чужого run.md. Не превращать это в новое подтверждение каждого обратимого действия.",
+      "acceptance": "Read-only audit с receipt не запрашивает pipeline; старый run не разрешает новую несвязанную публикацию; все bypass/degraded поверхности явно перечислены.",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-MS-01",
+      "finding": "MS-01",
+      "phase": "M2",
+      "owners": [
+        "make-skill"
+      ],
+      "priority": "P1",
+      "action": "Подключить реальный именованный tokenizer; без него budget status=UNMEASURED, estimate отдельным полем. House thresholds отделить от требований формата и host policy.",
+      "acceptance": "Unicode, английский, код, смешанный RU/EN; сравнение с независимым tokenizer; отсутствие библиотеки не возвращает PASS измерения.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-MS-02",
+      "finding": "MS-02",
+      "phase": "M2",
+      "owners": [
+        "make-skill"
+      ],
+      "priority": "P1",
+      "action": "Разделить полноценный YAML validation и быстрый stdlib precheck. Либо bundle безопасный parser, либо явно ограничить supported subset и не пропускать неподдержанные формы как корректные.",
+      "acceptance": "Двусторонние fixtures: quoted/unquoted numeric, boolean, null, YAML escapes, multiline scalars, duplicate keys; одинаковые вердикты с upstream validator.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-MS-03",
+      "finding": "MS-03",
+      "phase": "M3",
+      "owners": [
+        "make-skill"
+      ],
+      "priority": "P1",
+      "action": "Явные режимы audit / retrofit / release. По «audit» только доказательства и план. Переход к записи/публикации определяется намерением и ранее данной авторизацией, а не выбранным скиллом.",
+      "acceptance": "Один fixture и три входа: audit оставляет исходные hashes, retrofit меняет только scratch, release не запускается без scope release; одинаковые findings во всех режимах.",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-MS-04",
+      "finding": "MS-04",
+      "phase": "M5",
+      "owners": [
+        "make-skill"
+      ],
+      "priority": "P2",
+      "action": "Матрица adapter capabilities по версии хоста; native fallback по обнаруженным инструментам. В таблице каждой нормы owner=spec/host/house, required vs recommended и дата последней проверки.",
+      "acceptance": "Codex с native subagents/MCP не считается лишённым этих возможностей; Claude version-gated validation; portable body не требует конкретного tool spelling.",
+      "depends_on": [
+        "M4"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-TP-01",
+      "finding": "TP-01",
+      "phase": "M3",
+      "owners": [
+        "task-pipeline"
+      ],
+      "priority": "P1",
+      "action": "Intake должен строить brief из запроса и источников, спрашивать только недостающие необратимые/продуктовые решения. Сохранять выбранную пользователем модель; менять уровень по измерению задач, а не универсальному постулату.",
+      "acceptance": "Полный brief → 0 лишних вопросов, задача с реальным неоднозначным контрактом → один содержательный вопрос; отдельно измерить quality/time/tokens с baseline.",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-TP-02",
+      "finding": "TP-02",
+      "phase": "M3",
+      "owners": [
+        "task-pipeline"
+      ],
+      "priority": "P1",
+      "action": "Гейт проверяет обязательные артефакты/поведение и их качество. Preferred provider из семейства, альтернативный provider с тем же контрактом или inline fallback допустимы. При отсутствии инструмента писать, какая именно проверка не сделана.",
+      "acceptance": "Без super-ux, но с валидными scenarios проходит контракт; без любого сценарного артефакта требует его создать; чужой дизайн оценивается по результату.",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-TP-03",
+      "finding": "TP-03",
+      "phase": "M3",
+      "owners": [
+        "task-pipeline"
+      ],
+      "priority": "P2",
+      "action": "Разделить kernel (effect scope, evidence, dependencies, resume) и default profile (0–10). Сначала компилировать выбранный profile, затем исполнять только его gates. Доктрины называются capability, а не фиксированным номером стадии.",
+      "acceptance": "Трёхстадийный custom profile валиден и не получает дополнительные stage0/7/10; обязательные kernel invariants всё равно проверяются.",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-TP-04",
+      "finding": "TP-04",
+      "phase": "M3",
+      "owners": [
+        "task-pipeline"
+      ],
+      "priority": "P1",
+      "action": "Классы rules: permanent safety/contract, situational, temporary. TTL только временным; cold означает review-needed, не автоматическое отключение. У situational хранить exposure opportunities, не только число запусков.",
+      "acceptance": "Пять запусков без платежей не удаляют payment safety; истёкший временный workaround с проверенным заменяющим механизмом уходит в архив; все удаления объяснимы.",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-PA-01",
+      "finding": "PA-01",
+      "phase": "M2",
+      "owners": [
+        "task-pipeline"
+      ],
+      "priority": "P1",
+      "action": "Decision status и technical validity — разные оси. Accepted trade-off может быть отмечен принятой ценой; документированное нарушение остаётся finding с decision_id, причиной пересмотра и контрдоказательством.",
+      "acceptance": "Фикстура ADR разрешает логирование refresh token: аудитор всё равно обнаруживает раскрытие, связывает с ADR; сознательная поддержка только одного браузера при подходящем контракте — accepted limitation.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-PA-02",
+      "finding": "PA-02",
+      "phase": "M2",
+      "owners": [
+        "task-pipeline"
+      ],
+      "priority": "P1",
+      "action": "Отдельно mechanism status, exploit/reproduction, exposure, observed incidence и impact uncertainty. Доказанный defect может иметь incidence unknown. UNKNOWN не равно 0; отсутствие телеметрии не понижает техническую истинность.",
+      "acceptance": "Race reproduced/production unknown остаётся finding; нулевая выборка не превращается в нулевой риск; JSON хранит scope и время наблюдения.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-PA-03",
+      "finding": "PA-03",
+      "phase": "M2",
+      "owners": [
+        "task-pipeline"
+      ],
+      "priority": "P2",
+      "action": "Указать read-only относительно target source/data, разрешённый output dir; условный DoD по requested deliverables. Добавить mode stdout/json/html и не требовать браузер для json-only.",
+      "acceptance": "Без --report HTML не создаётся и run complete допустим; --report требует существующий HTML, безопасные ссылки и inspect/render status.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-ED-01",
+      "finding": "ED-01",
+      "phase": "M5",
+      "owners": [
+        "make-skill",
+        "task-pipeline"
+      ],
+      "priority": "P2",
+      "action": "Либо объявлять bundle dependency и тестировать package closure, либо собирать автономный skill artifact с канонической документацией внутри references. Одна source-home, generated copies с digest; не править дубликаты вручную.",
+      "acceptance": "Clean install каждого заявленного канала, в том числе одного скилла, разрешает все обязательные ссылки; при недоступной зависимости печатается capability unavailable вместо all links inside.",
+      "depends_on": [
+        "M4"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-SE-01",
+      "finding": "SE-01",
+      "phase": "M4",
+      "owners": [
+        "seo-aeo-audit"
+      ],
+      "priority": "P1",
+      "action": "Три отдельные проверки: eligibility, large preview permission (с альтернативой AMP), image selection recommendation. SDK reverse engineering оставить FIELD, без бинарного вывода о допуске.",
+      "acceptance": "Страница без og tags не получает confirmed ineligible; рекомендация изображения сохраняется; every confirmed rule ведёт к точному поддерживающему первоисточнику.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-SE-02",
+      "finding": "SE-02",
+      "phase": "M4",
+      "owners": [
+        "seo-aeo-audit"
+      ],
+      "priority": "P1",
+      "action": "Записывать action type, affected URL patterns, surface, severity и scope. Приоритет устранения нарушения сохранять, блокировать зависимые действия только в затронутой области.",
+      "acceptance": "Partial action /spam/* не блокирует доказанный auth/availability fix на /checkout; sitewide action отражается иначе, чем partial.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-SE-03",
+      "finding": "SE-03",
+      "phase": "M4",
+      "owners": [
+        "seo-aeo-audit"
+      ],
+      "priority": "P2",
+      "action": "Сравнивать claim key=(subject,predicate,scope,time,instrument). Противоречие возникает только для несовместимых значений одного predicate; независимые аспекты сохранять.",
+      "acceptance": "Thin+extractable проходит без конфликта; same URL different predicates/tier допустимы; same canonical at same snapshot with different values запускает разбор.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-SE-04",
+      "finding": "SE-04",
+      "phase": "M4",
+      "owners": [
+        "seo-aeo-audit"
+      ],
+      "priority": "P2",
+      "action": "Разнести source quality, directness, population scope, causal support и uncertainty. Политика rollout определяется риском действия и доказательством эффекта; не blanket рангом поставщика.",
+      "acceptance": "Неизвестная vendor estimate не становится STUDY; direct HTTP observation может быть confirmed без GSC; rollout policy едина между таблицей и SKILL.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-EV-01",
+      "finding": "EV-01",
+      "phase": "M6",
+      "owners": [
+        "make-skill",
+        "seo-aeo-audit",
+        "task-pipeline"
+      ],
+      "priority": "P1",
+      "action": "Три испытательных слоя: deterministic tools, routing actual-load traces, end-to-end outcome with/without. Одинаковые задачи, изолированные workspaces, зафиксированные host/model/digests, независимые outcome graders и cost/latency. Разрешить синтетические safety/effect contract тесты до production.",
+      "acceptance": "Каждый из 28 имеет опубликованный manifest сценариев и прогоны на заявленных supported hosts; trace доказывает загрузку и outcome, ухудшение не скрывается средним.",
+      "depends_on": [
+        "M5"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UB-01",
+      "finding": "UB-01",
+      "phase": "M3",
+      "owners": [
+        "sshlg-skills"
+      ],
+      "priority": "P2",
+      "action": "Переименовать в raw_catalog_cl100k; отдельно measured_prompt_cost из runtime trace, host version и реально exposed listing. Missing runtime sample → unknown; не оценивать качество по размеру каталога.",
+      "acceptance": "Сравнить generated listing и фактически переданный prompt на выбранном host; статический подсчёт и runtime measurement никогда не используют одинаковое поле/подпись.",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-01",
+      "finding": "UX-01",
+      "phase": "M2",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P1",
+      "action": "Ввести claim-id → fact-id, субъект, единицу, популяцию, дату и разрешённые преобразования. Линтер проверяет ссылку/единицу/точность, семантический аудит проверяет утверждение. До этого сузить обещание B030 до проверки известного числового токена и явно показывать unverified claims. Не исключать год без контекста.",
+      "acceptance": "Три строки из probes должны получить unresolved/mismatched-claim; корректные 500 integrations проходят; 500 million customers не проходят; даты и диапазоны распознаются по типу поля.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-02",
+      "finding": "UX-02",
+      "phase": "M2",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P1",
+      "action": "Сделать repetition advisory с минимальным count и длиной, учитывать зарегистрированные термины и язык, группировать по реально отрендеренной странице. Удалить универсальное обещание влияния на цитирование. Google описывает unnatural repetition/manipulative intent, а не порог 1%: https://developers.google.com/search/docs/essentials/spam-policies#keyword-stuffing .",
+      "acceptance": "45/80/100 уникальных слов без повторов не дают finding; реальные повторные блоки дают advisory; domain term repetition сохраняется; страницы проверяются независимо.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-03",
+      "finding": "UX-03",
+      "phase": "M2",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P1",
+      "action": "Единый контракт: humanization review всегда advisory, word markers не устанавливают authorship/naturalness grade. Учитывать цитаты/код/термины, разделить редакционный off и явно выбранные brand bans. Удалить severity переход из количества маркеров.",
+      "acceptance": "Цитируемый словарь остаётся неизменным и не блокирует; off не запускает скрытый обязательный rewrite; негативные примеры русской грамматики/второго языка проходят; semantic-preservation тесты числа/отрицания/каузальность обязательны.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-04",
+      "finding": "UX-04",
+      "phase": "M4",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P2",
+      "action": "Разделить ownership по файлам: brand-voice владеет voice/terms/facts/channels/locale policy, copywriting пишет strings.md (proposed) и продуктовый текст. Общая схема явно разрешает эти mutations и claim при координации.",
+      "acceptance": "Изменение одного error string обновляет исходник и proposed row за один проход; voice/facts не меняются; нет дополнительного approval только из-за размещения strings.md.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-05",
+      "finding": "UX-05",
+      "phase": "M2",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P1",
+      "action": "Ошибка/timeout/tool refusal = отдельный outcome; изолированный fixture, фиксированный scope tools, запись run manifest/stdout/artifacts. Проверять число surfaces и изменения текста/semantic invariants; не только наличие строки. Отдельно тестировать order sweeps и no-op уже хорошего текста.",
+      "acceptance": "Обе mock-подмены из probes должны FAIL; невалидный exit никогда PASS; успешный artifact с двумя поверхностями и двумя корректными строками проходит; репозиторий до/после одинаков.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-06",
+      "finding": "UX-06",
+      "phase": "M5",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P2",
+      "action": "Сначала определить host capabilities; default instruction target по текущему host, explicit project target приоритетнее. Проверка должна сверять materialized rule с активным target, не только с существованием любого файла.",
+      "acceptance": "Пустые fixture Codex/Claude/Gemini создают соответственно AGENTS.md/CLAUDE.md/GEMINI.md; repeat идемпотентен; mixed-host проект получает согласованные явно обозначенные targets.",
+      "depends_on": [
+        "M4"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-07",
+      "finding": "UX-07",
+      "phase": "M5",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P2",
+      "action": "Явно прочитать контракт до записи; использовать устойчивые section IDs с локализуемыми title либо сказать, что машинные headings остаются английскими, а содержание переводится.",
+      "acceptance": "Русский fixture всех 9 секций проходит по canonical IDs; действительно отсутствующая anti-vision fail; изменение языка title не меняет identity.",
+      "depends_on": [
+        "M4"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-08",
+      "finding": "UX-08",
+      "phase": "M2",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P2",
+      "action": "Развести evidence_kind (brief/owner-belief/interview/telemetry/code-inference), decision_status и validation_status. Approval меняет decision, но не provenance. Для эмоций и Frequency×Severity×Solvability хранить источник, шкалу и unknown вместо обязательного выдуманного балла.",
+      "acceptance": "Owner говорит «подтверждаю» гипотезу: решение accepted, evidence остаётся inferred; реальное интервью/наблюдение добавляет dated receipt. Неизвестная частота не получает цифру ради заполнения таблицы.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-09",
+      "finding": "UX-09",
+      "phase": "M4",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P2",
+      "action": "Все market signals маркировать как observed exposure; вывод о механизме как hypothesis с альтернативными объяснениями. Частоты считать скриптом по corpus с denominator/дубликатами; adoption через локальный эксперимент, не «proven» из частоты.",
+      "acceptance": "Корпус из 10 похожих funnels даёт frequent pattern, не proven conversion lift; известный убыточный рекламодатель не ломает вывод; два funnels одного владельца не независимые наблюдения.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-10",
+      "finding": "UX-10",
+      "phase": "M4",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P1",
+      "action": "Loading только при реальной асинхронной работе; показывать фактическую операцию и не задерживать готовый результат. Если narrative pause нужен продукту, назвать его честно без claims персонального анализа и измерить затраты/понимание.",
+      "acceptance": "Мгновенный локальный результат отображается без таймера; медленная операция показывает реальное pending; текст не заявляет анализ, которого нет; сценарий пустого ответа не выдаёт фиктивную персонализацию.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-11",
+      "finding": "UX-11",
+      "phase": "M3",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P1",
+      "action": "Единый state machine full / provisional / tooling-degraded / declined. Gate читает effective capabilities и accepted decisions; отсутствие optional Figma не блокирует approved text spec. Серьёзные неизвестные блокируют только зависимые решения, а не весь продукт. Сохранённые approvals учитываются во всех слоях.",
+      "acceptance": "Brief «реализуй согласованный экран», Figma недоступен: text spec + explicit deferred frame sync, код выполняется; destructive unknown остаётся blocked; при восстановлении Figma обновляется запись без повторного запуска всей цепочки.",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-12",
+      "finding": "UX-12",
+      "phase": "M2",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P1",
+      "action": "Разделить static conformance, executable verification и production observation. Для runtime зависимых критериев PASS только с тестом/браузером/проверенным runtime receipt, иначе BLOCKED/unverified. Сохранить хорошее разделение delivery vs Product outcome.",
+      "acceptance": "Fixture содержит кнопку и handler, но overlay перехватывает click: static-conformant, live FAIL, implemented не выставляется. Pure static invariant допускает PASS с указанием proof type. В недоступном browser не придумывается результат.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-13",
+      "finding": "UX-13",
+      "phase": "M3",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P2",
+      "action": "Предусловия вычислять после scope: scenario → base, copy → brand, benchmark → observed URLs+receipts. Схема evidence допускает URL+timestamp+capture для внешних данных; file:line только для code claims.",
+      "acceptance": "Запрос /ux-audit copy в блоге с brand без scenarios проводит только copy audit; /ux-audit all без base объясняет ограничение; benchmark не выдумывает локальный file:line.",
+      "depends_on": [
+        "M2"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DS-01",
+      "finding": "DS-01",
+      "phase": "M5",
+      "owners": [
+        "sheleg-design"
+      ],
+      "priority": "P1",
+      "action": "Ввести небольшой semantic role API и per-pack adapter, не переименовывая identity tokens. Harness заменяет весь scope atomically, обнаруживает unresolved var и не наследует старый pack. Проверять совместимость компонентных slots; сравнивать layout отдельно когда pack требует другой композиции.",
+      "acceptance": "Workbench↔orchard↔showroom на одинаковых button/table/card states: все role vars resolve, после переключения нет старых значений; screenshot+computed-style assertions для light/dark/focus/reduced-motion.",
+      "depends_on": [
+        "M4"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DS-02",
+      "finding": "DS-02",
+      "phase": "M4",
+      "owners": [
+        "sheleg-design"
+      ],
+      "priority": "P2",
+      "action": "Оставить опрос как контекст с точным смыслом и ссылкой; порядок gates вывести из dependency graph: задача/состояния/доступность/система/polish. Обязательный порядок обозначить как авторское решение, не вывод исследования. Источник: https://www.figma.com/blog/state-of-the-designer-2026/ .",
+      "acceptance": "Вопрос «что доказывает 58%?» возвращает association in survey, не причинный эффект/priority. Brief со сломанной основной задачей сначала решает её даже при идеальных токенах.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DS-03",
+      "finding": "DS-03",
+      "phase": "M4",
+      "owners": [
+        "sheleg-design"
+      ],
+      "priority": "P2",
+      "action": "Заменить API blacklist на budget и recipe: cheap passive reading, avoid layout thrashing, cleanup, measured long tasks/dropped frames. filter/clip-path — conditional, профиль на целевых устройствах. Ссылки: https://developer.mozilla.org/en-US/docs/Web/API/Document/scroll_event ; https://web.dev/articles/animations-guide .",
+      "acceptance": "Дешёвый scroll listener не отклоняется без измеренного дефекта; full-screen animated blur проходит только performance budget; 60/120Hz и reduced-motion проверяются отдельно.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DS-04",
+      "finding": "DS-04",
+      "phase": "M4",
+      "owners": [
+        "sheleg-design"
+      ],
+      "priority": "P2",
+      "action": "Единая таблица по purpose+frequency+platform с explicit exceptions и canonical duration IDs. Разделить interactive feedback, spatial modal transition и marketing entrance, убрать пересечение трактовок.",
+      "acceptance": "400ms modal fixture получает один однозначный verdict с rule ID; 150ms button и 500ms authored marketing entrance различаются; documentation and token checker используют одну таблицу.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DS-05",
+      "finding": "DS-05",
+      "phase": "M4",
+      "owners": [
+        "sheleg-design"
+      ],
+      "priority": "P2",
+      "action": "Applicability predicates на каждую проверку: public-web-crawlable → no-JS content, web-internal → loading/error/accessibility, native → platform semantics. В отчёте NOT_APPLICABLE с причиной, а не PASS без запуска.",
+      "acceptance": "Public pricing получает no-JS check; authenticated admin SPA — N/A для crawler HTML; SwiftUI screen не получает требование SSR. Общие contrast/input проверки остаются.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DS-06",
+      "finding": "DS-06",
+      "phase": "M6",
+      "owners": [
+        "sheleg-design"
+      ],
+      "priority": "P2",
+      "action": "Сохранить историю, добавить current-version manifest, реальные packaged installs, несколько seeds/repeats на поддержанных host/model, multi-skill route sequence и resource budget. Runtime fixtures вместо только планов; transcript/content hash сохранять за пределами /tmp.",
+      "acceptance": "Каждая текущая версия имеет reproducible run manifest; ambiguous prompt проверяет route+subtools+stopping conditions, не один name. Figma unavailable/no Node/no browser явно measured degradation, не исключённый сценарий.",
+      "depends_on": [
+        "M5"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-14",
+      "finding": "UX-14",
+      "phase": "M4",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P2",
+      "action": "Развести local sandbox, staging и production. Локальный webhook forwarding или официальный emulator допустим для wiring/tests; публичный HTTPS endpoint обязателен для production delivery. Provider capability определяет dependency, а не универсальная UX практика.",
+      "acceptance": "Локальный fixture payment→webhook→entitlement→success проходит с Stripe CLI без публичного домена; production readiness отдельно проверяет доступность HTTPS и signature verification; текст больше не утверждает untestable on laptop.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-UX-15",
+      "finding": "UX-15",
+      "phase": "M4",
+      "owners": [
+        "super-ux"
+      ],
+      "priority": "P1",
+      "action": "Ввести processing-purpose→legal-basis→notice→rights/retention record. Consent gate только когда выбранная basis и применимые нормы требуют именно согласия; не смешивать маркетинговое tracking consent, contractual processing и informational notice. Удалить универсальное обоснование consent через Art.13.",
+      "acceptance": "Fixture necessary contract processing получает своевременный notice и корректную basis без фиктивного consent gate; optional marketing consent отдельный и отзываемый; никакой legal basis не придумывается без данных о purpose.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-01",
+      "finding": "DV-01",
+      "phase": "M1",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "Разделить received/processing/completed; claim с lease и восстановлением; entitlement + business dedup + outbox в одной транзакции; consumer эффектов с собственной идемпотентностью.",
+      "acceptance": "Убивать worker после claim, перед commit и после commit до effect; после рестарта ровно один grant, eventual delivery эффекта, completed только после durable перехода.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-02",
+      "finding": "DV-02",
+      "phase": "M1",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "Уникальная запись grant по subscription/item/invoice/period и атомарная выдача; отдельно monotonic mirror состояния. Определить isolation и retry serialization failures.",
+      "acceptance": "Реальная БД: webhook + reconciliation одновременно для одного invoice; затем February→January. Два разных оплаченных периода начислены, один период не дублируется, mirror остаётся February.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-03",
+      "finding": "DV-03",
+      "phase": "M1",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "Durable operation intent с idempotency key; предпочесть восстановить БД из подтверждённого Stripe состояния. Если бизнес выбрал rollback, отдельно оформить подтверждённую финансовую компенсацию и её статус.",
+      "acceptance": "Симуляция successful charge + DB failure: деньги, entitlement, invoice и operation ledger сходятся после recovery; повтор API не создаёт второй invoice.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-04",
+      "finding": "DV-04",
+      "phase": "M1",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "Под row lock/serializable transaction вычислять max(total_seen), delta и обновлять ledger вместе; CAS loser перечитывает и повторяет. Денежные значения хранить в minor units, а не /100 float.",
+      "acceptance": "Concurrent cumulative 4000/9000 в обоих порядках, crash после marker, retry старого события: total=9000 и суммарное clawback=9000 ровно один раз.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-05",
+      "finding": "DV-05",
+      "phase": "M1",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "Один исполняемый эталон; разделить payment status, immutable settlement grant и refund ledger. Only confirmed settlement credit; атомарный business dedup; refunds и holds не отбрасывать как duplicate.",
+      "acceptance": "pending→confirming→paid→refund_process→refund_paid; repeated pending; paid concurrent; crash до/после commit. Ноль grant до paid, один после, refund отражён.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-06",
+      "finding": "DV-06",
+      "phase": "M4",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P2",
+      "action": "Ввести Money(currency, minor/decimal), Asset(network, amount), Entitlement(units), FX quote с источником/временем. Выбор refund excess/credit excess/buffer fee оформлять явной политикой проекта.",
+      "acceptance": "Табличные кейсы topup/plan/overpay/underpay/fee/FX; типовая проверка запрещает USD??tokens; reconciliation доказывает gross=net+fees±FX и user entitlement по выбранной политике.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-07",
+      "finding": "DV-07",
+      "phase": "M1",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "В cookie только случайный opaque session id; Google credentials хранить server-side encrypted store, доступ по session+principal. Удалить token logging; production secret без dev fallback; HTTPS guard.",
+      "acceptance": "Локальный HTTP client выполняет stubbed OAuth callback, декодирует Set-Cookie: ни client_secret, ни access/refresh token отсутствуют; stdout/stderr также чисты.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-08",
+      "finding": "DV-08",
+      "phase": "M4",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "Исправить оба места из одной canonical таблицы; сначала показывать фактически resolved principal/source без секрета, затем настраивать.",
+      "acceptance": "В изолированном test env доступны три fake sources; resolver выбирает env, затем local, затем metadata, и отчёт называет именно выбранный.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-09",
+      "finding": "DV-09",
+      "phase": "M1",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "Client на запрос/пользователя, credentials не мутировать глобально; required cryptorandom state привязать к server session, TTL, atomic consume; validation до token exchange.",
+      "acceptance": "Интерливинг A/B с задержкой между setCredentials и transport использует разные Authorization; missing/expired/reused state не вызывает token endpoint.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-10",
+      "finding": "DV-10",
+      "phase": "M1",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "Server-issued nonce связан с pre-auth HttpOnly session, TTL и one-time consume; обязательное точное совпадение token nonce с server expectation, а не body nonce.",
+      "acceptance": "Один подписанный тестовый JWT: первый вход проходит, replay из новой сессии и replay после consume отклоняются; missing nonce отклонён. Оба skills используют один контракт.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-11",
+      "finding": "DV-11",
+      "phase": "M1",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "По умолчанию linking после fresh re-auth текущего локального аккаунта; если auto-link нужен, явно учитывать Google authoritative conditions и независимый challenge для прочих адресов. Unverified pre-registration направлять в безопасное recovery, не только в чужой password.",
+      "acceptance": "JWT: Gmail; verified Workspace+hd; third-party email без hd; существующий verified/unverified password account. Последний не auto-links только из-за email_verified.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-12",
+      "finding": "DV-12",
+      "phase": "M1",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "Раздельные явно типизированные form/JSON paths; form требует оба g_csrf_token, JSON требует trusted same-origin или точный Origin fallback; отсутствие обоих fail closed.",
+      "acceptance": "TestClient матрица form/json × valid/missing/mismatched csrf × same-origin/cross-site/none/missing metadata × allowed/disallowed/missing Origin, до verification external calls.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-13",
+      "finding": "DV-13",
+      "phase": "M4",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P2",
+      "action": "Развести product policy, geography/legal decision и технику. Scope+source+checked_at у требований; Basic general vs Advanced advertiser-specific model; процент только как dated measured study, не обещание. Режим выбирается политикой проекта.",
+      "acceptance": "Near-miss advertiser-only GA4/Ads без publisher inventory не требует certified CMP автоматически; Basic проходит; неизвестная юрисдикция не автоматически granted.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-14",
+      "finding": "DV-14",
+      "phase": "M1",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "Генерировать snippets из исполняемых templates; noscript разрешать только по ранее сохранённому server-verifiable consent либо убрать. Исправить G/AW конфигурацию синхронно с prose.",
+      "acceptance": "Browser JS disabled + no consent: zero Meta requests; granted server cookie: допустимый один request; static template check запрещает неверный флаг на G-tag.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-15",
+      "finding": "DV-15",
+      "phase": "M1",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P1",
+      "action": "Парсер/редактор URL поддерживает пустой username, encoded credentials, token query/path; отдельные application secret shapes; ограничить обещание покрытия и также проверять attachments/transactions/logs по используемым SDK hooks.",
+      "acceptance": "Canary matrix fake Redis/AMQP/Postgres URLs, encoded credentials, Telegram path, access-token query, nested events; ни один fake secret не доходит до test transport.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-16",
+      "finding": "DV-16",
+      "phase": "M4",
+      "owners": [
+        "sheleg-dev",
+        "telegram-dev"
+      ],
+      "priority": "P2",
+      "action": "Единый typed health contract: liveness процесса, readiness способности служить, degraded_auth с остановкой работ + alert, recovery только после новой auth. Exit/restart допустимы для recoverable failure и контролируемой политики supervisor.",
+      "acceptance": "Composition scenario: Telegram session revoked + Sentry installed → один actionable alert, работы остановлены, ограниченные retries и отсутствие бесконечного crash loop.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-17",
+      "finding": "DV-17",
+      "phase": "M4",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P2",
+      "action": "Разделить две независимые оси: CWV/not-CWV и lab/field availability. Обязательные p75, device/cohort, period, sample size; TBT как диагностическая корреляция, не замена доказательства INP.",
+      "acceptance": "Кейс CrUX FCP + Lighthouse TBT без field INP: FCP=field supported, INP=unknown, не 'passed by TBT'.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-18",
+      "finding": "DV-18",
+      "phase": "M4",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P2",
+      "action": "Перед изменением проверить performance trace и сценарии, browser support contract, accessibility owner. CSP origins одобрять по функциональной необходимости; semantic headings по структуре; lazy-load по измеренному waterfall.",
+      "acceptance": "Acceptance включает сценарии low-end/slow network, keyboard+headings, supported browser matrix, no new unapproved CSP origin, несколько сопоставимых замеров без функциональных потерь.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-19",
+      "finding": "DV-19",
+      "phase": "M6",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P2",
+      "action": "Сохранить routing eval, добавить generated-artifact eval с offline provider stubs, реальной БД, fault injection, hard security invariants; фиксировать exact model, commit, prompt/tool trace, grader version и raw results.",
+      "acceptance": "Для каждого skill минимум positive, near-miss negative, hostile/failure scenario; P1 контрпримеры обязаны падать на старом output и проходить после правки; результаты привязаны к release.",
+      "depends_on": [
+        "M5"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-DV-20",
+      "finding": "DV-20",
+      "phase": "M2",
+      "owners": [
+        "sheleg-dev"
+      ],
+      "priority": "P2",
+      "action": "Явные стадии fixture_setup→mutation_verified→validator_ran→assertion; TEST_ERROR/BROKEN для setup/copy/timeout, GAP только при состоявшемся validator accept. Resource preflight и cleanup finally.",
+      "acceptance": "Сымитировать ENOSPC/failed cp и timeout: TEST_ERROR, ноль 'guard bypass' findings; корректно созданный mutant accepted → GAP. Повтор полного negative suite после ресурсов.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-TG-01",
+      "finding": "TG-01",
+      "phase": "M1",
+      "owners": [
+        "telegram-dev"
+      ],
+      "priority": "P1",
+      "action": "Принять update в durable inbox, ack после commit enqueue; state+lease+retry worker. Business grant keyed charge, outbox для send. Проверять не только redelivery, но eventual completed work.",
+      "acceptance": "Существующий crash fixture дополнить полным restart+replay и assert work includes 1001 exactly once; kill после inbox/claim/work/send; receipt и effect различены.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-TG-02",
+      "finding": "TG-02",
+      "phase": "M4",
+      "owners": [
+        "telegram-dev"
+      ],
+      "priority": "P2",
+      "action": "Таблица unset/[]/explicit и getWebhookInfo evidence; хранить desired subscription отдельно. Update id использовать как identity, не глобальную гарантию монотонности навсегда.",
+      "acceptance": "Mock remembers previous allowed_updates: omit сохраняет, [] меняет. Кейс >7 дней idle с новым random id; нет потери события.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-TG-03",
+      "finding": "TG-03",
+      "phase": "M1",
+      "owners": [
+        "telegram-dev"
+      ],
+      "priority": "P1",
+      "action": "Разделить HMAC и Ed25519 canonicalization, запретить shared false helper; официальные/независимые golden vectors с signature. Включить строгий parse duplicate fields и upper/lower auth_date window.",
+      "acceptance": "Golden real-format initData с hash+signature проходит HMAC; изменение signature не проходит HMAC; Ed25519 исключает оба поля. Differential tests против поддерживаемого независимого verifier; future+24h отказ (сейчас ACCEPTED).",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-TG-04",
+      "finding": "TG-04",
+      "phase": "M4",
+      "owners": [
+        "telegram-dev"
+      ],
+      "priority": "P2",
+      "action": "Разделить keyboard, inline keyboard, menu, inline mode, direct/main/attachment surfaces; capability/API floor у каждого метода с первичным source.",
+      "acceptance": "Scenario matrix по launch mode с наличием query_id и разрешённым API; menu поддерживает inline-button semantics; capability absent gracefully degrades.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-TG-05",
+      "finding": "TG-05",
+      "phase": "M4",
+      "owners": [
+        "telegram-dev"
+      ],
+      "priority": "P2",
+      "action": "Добавить wall-clock deadline, cumulative wait и attempt budget, cancellation и checkpoint queue; max wait трактовать как backpressure, длительные waits как policy choice. Runnable login/session example с явными imports.",
+      "acceptance": "Fake client выдаёт 100×1s waits: bounded timeout/defer, checkpoint сохранён; cancellation работает; dead session не retry. Проверка module parse/import через stubs без Telegram login.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-01",
+      "finding": "AS-01",
+      "phase": "M1",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P1",
+      "action": "Назвать saga/outbox; хранить operation_id и состояния pending/applied/unknown/compensated. При ambiguous timeout сначала сверять статус по идемпотентному ключу; компенсировать только подтверждённый отказ и только собственную проводку. Ввести сериализацию или CAS на весь tenant transfer state, а не обещать её транзакционным lock до HTTP.",
+      "acceptance": "Fault injection после DB commit, после применения upstream до ответа, во время двух topups и между retry: ledger conservation, не более одного внешнего эффекта на operation_id, unknown остаётся pending до reconciliation.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-02",
+      "finding": "AS-02",
+      "phase": "M1",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P1",
+      "action": "Хранить baseline_initialized, observed_at и provider_key_generation отдельно от суммы; ноль — валидное значение. На уменьшение без смены поколения переводить reconciliation в anomaly, не объяснять причину догадкой.",
+      "acceptance": "Последовательности uninitialized→5, initialized(0)→5, 5→8, 8→2 при том же ключе, смена поколения: для каждой заранее заданная запись ledger и состояние, первый расход нового ключа учтён.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-03",
+      "finding": "AS-03",
+      "phase": "M1",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P1",
+      "action": "Similarity использовать только для поиска кандидатов. Записи хранить с entity/attribute/scope/provenance/validity; contradiction gate до merge. Подтверждение отделить от повторного извлечения, не повышать доверие за self-generated повтор; temporal supersession и reversible history. Verified не освобождает volatile fact от freshness.",
+      "acceptance": "Мультиязычный корпус negation, смены чисел/единиц, исключений, разных субъектов и устаревших verified facts: никаких silent merge противоположностей; correction выигрывает только в своём scope, старый факт остаётся в истории.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-04",
+      "finding": "AS-04",
+      "phase": "M1",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P1",
+      "action": "Типизировать ребро: data/control/authorization/resource. Для любого ребра требовать rationale и доказательство, но удалять только если нет ни причинного, ни ресурсного, ни разрешительного ограничения. Side-effect footprint и read/write sets проверять перед fan-out.",
+      "acceptance": "Graph negative tests сохраняют backup→migration, approval→charge, lease→edit и сериализацию двух writes; независимые read-only reviews действительно запускаются параллельно.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-05",
+      "finding": "AS-05",
+      "phase": "M4",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P2",
+      "action": "Статический граф оставить предпочтением для предсказуемости. Аудируемость определять через полноту execution record, версии policy и детерминированные границы; динамике поставить budget/depth/node caps и provenance.",
+      "acceptance": "Один static и один dynamic сценарий проходят одинаковый reconstruction audit; удаление события/ребра детектируется в обоих. Наличие design diagram само по себе не даёт PASS.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-06",
+      "finding": "AS-06",
+      "phase": "M2",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P1",
+      "action": "Разрешить curated/synthetic/manual seed corpus до релиза, маркировать источник каждого input; дополнять production regressions. Release gate обязан иметь executed trials, а observable-only — состояние specification-ready, не release-ready.",
+      "acceptance": "Greenfield feature с нулём production traces имеет минимум happy, adversarial и failure/retry trials; пустой корпус либо неисполненные observables не закрывают gate.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-07",
+      "finding": "AS-07",
+      "phase": "M2",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P1",
+      "action": "Запрещать только избыточный exact global sequence. Разрешить temporal assertions и partial order: authorization precedes effect, read fresh precedes write, transaction completes before publish.",
+      "acceptance": "Перестановка двух независимых read calls проходит; перестановка confirm/charge или acquire/write обязана провалить тест. Отрицательный пример должен быть сохранён рядом с rubric.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-08",
+      "finding": "AS-08",
+      "phase": "M2",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P2",
+      "action": "Для proportion использовать Wilson/exact и явно описать iid/cluster assumptions; pass@k/pass^k считать по task-level trials. Для clustered/paired результатов применять соответствующий bootstrap/McNemar; unpaired сравнение допускается с его SE. Вместо never/worst case дать условные утверждения.",
+      "acceptance": "Граничные n=1,3 и p=0,1 не дают нулевую неопределённость; контрольные positive/negative correlation кейсы, paired и unpaired дизайны дают заранее вычисленные интервалы.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-09",
+      "finding": "AS-09",
+      "phase": "M2",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P1",
+      "action": "Переписать enum как extensible well-known set; token totals и disjoint billing buckets разделить. Для цены вычитать cached portions из total и применять provider-specific rates; не суммировать modalities/reasoning с totals повторно. Прикрепить commit SHA/schema revision и actual observation date.",
+      "acceptance": "Golden traces: total input=300, cached=40, total output=180, reasoning=50 остаются 480 total tokens, не570. Проверить billing join для каждого провайдера; custom op сохраняется без ложного ERROR.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-10",
+      "finding": "AS-10",
+      "phase": "M2",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P2",
+      "action": "Три разных операции: regrade old output, execute candidate against frozen fixture, deterministic workflow replay. Хранить candidate version/output и оценку отдельно от старого trace; стоимость model call и stochasticity отражать.",
+      "acceptance": "Мутация candidate на заведомо неверный tool должна менять результат gate; regrade old trace явно помечается не проверкой candidate.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-11",
+      "finding": "AS-11",
+      "phase": "M1",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P1",
+      "action": "Для user approval нужен проверяемый grant от trusted control plane, bound to principal/action/arguments/expiry, либо уже существующее разрешение. Булевое поле назвать syntax guard. Trifecta описывать как достаточную конфигурацию конкретного exfiltration риска, не полную модель безопасности.",
+      "acceptance": "Agent-authored confirm:true без grant отвергается; повтор с изменёнными arguments также; заранее авторизованное действие проходит. Сценарий untrusted content→destructive write входит в threat tests независимо от private-data доступа.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-12",
+      "finding": "AS-12",
+      "phase": "M4",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P2",
+      "action": "У каждого executable example назвать distribution, imports, tested version и lifecycle. Дать отдельные v2/current и v1 migration paths, health route с проверенным порядком registration. Проверять localhost protocol call, а не только наличие строки в markdown.",
+      "acceptance": "В чистом env из pinned requirements пример запускается, health возвращает200, unauthenticated endpoint401, discovery/tools/list/tools/call проходят. Старый SDK либо поддержан отдельным fixture, либо явно out-of-scope.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-13",
+      "finding": "AS-13",
+      "phase": "M4",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P2",
+      "action": "Главный dispatch criterion: capability/tool execution против автономного peer outcome. Длительность — второй вопрос о Tasks capability/transport, не выбор протокола. Проверять фактически поддержанные extensions клиента/SDK.",
+      "acceptance": "Routing set включает long-running fixed export→MCP Tasks при поддержке, autonomous outsourced negotiation→A2A, unsupported Tasks→явный fallback. Ни один кейс не решается только словом long-running.",
+      "depends_on": [
+        "M3"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-AS-14",
+      "finding": "AS-14",
+      "phase": "M2",
+      "owners": [
+        "agent-stack"
+      ],
+      "priority": "P2",
+      "action": "Разделить source-level invariant proof, deterministic reproduction и behavioral estimate. No evals — finding о неизвестной надежности, приоритет определяется конкретным вредом; prompt-first оставить диагностической эвристикой с исключениями.",
+      "acceptance": "Synthetic repo без evals, но с demonstrable double charge: аудит сохраняет оба findings, прямой вред не скрывается общим no evals. Неработающий unit invariant не лечится изменением промпта.",
+      "depends_on": [
+        "M1"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-SY-01",
+      "finding": "SY-01",
+      "phase": "M1",
+      "owners": [
+        "agent-sync"
+      ],
+      "priority": "P1",
+      "action": "Выделение ID перенести в linearizable allocator: CAS/transaction или git ref с compare-and-swap; присвоенный value и reservation_id писать неизменно. Для offline — уникальные составные IDs/ULID с явным последующим mapping. Client clock пригоден для display, не арбитража.",
+      "acceptance": "Перестановки run IDs, одна секунда, skew±5мин, delayed shard visibility, concurrent reserve одного run и retries: глобальная uniqueness и неизменность каждого уже выданного ID. Sequence test не называется race test.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-SY-02",
+      "finding": "SY-02",
+      "phase": "M1",
+      "owners": [
+        "agent-sync"
+      ],
+      "priority": "P1",
+      "action": "Throttle хранить по run/key, причём время последнего успешного renewal конкретного lease не заменять временем unrelated acquire. Для heartbeat проверять все leases именно своего run независимо от остальных.",
+      "acceptance": "С виртуальными часами A активен каждые100сек, B работает45мин: B lease не истекает. Explicit renew указанного key либо реально refresh, либо отвечает точной per-key причиной.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-SY-03",
+      "finding": "SY-03",
+      "phase": "M1",
+      "owners": [
+        "agent-sync"
+      ],
+      "priority": "P1",
+      "action": "Один OS-backed critical section для acquire/renew/release/steal, revision/fencing token и проверка поколения. Просроченный владелец не продлевает lease без нового acquire. Не использовать unconditional replace для изменения ownership-sensitive state.",
+      "acceptance": "Deterministic interleavings renew↔steal, release↔renew, stale owner after suspension: не более одного owner; проигравший получает explicit lost и downstream writer отвергает старый fencing token.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-SY-04",
+      "finding": "SY-04",
+      "phase": "M1",
+      "owners": [
+        "agent-sync"
+      ],
+      "priority": "P1",
+      "action": "Разделить task ownership и resource mutation lock. Для shared registries — краткий file/register transaction lock либо append-only event log с CAS; canonical paths и common repo identity. Изолированные worktrees плюс merge policy — другой честно объявленный режим.",
+      "acceptance": "Две разные задачи обновляют один register: обе записи сохраняются, одновременный resource claim одного пути запрещён. Две независимые code files не сериализуются без причины.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-SY-05",
+      "finding": "SY-05",
+      "phase": "M1",
+      "owners": [
+        "agent-sync"
+      ],
+      "priority": "P1",
+      "action": "Создание и чтение ownership state сериализовать тем же OS lock либо публиковать уже заполненный объект атомарным no-replace primitive; partial/corrupt lock не считать немедленно stealable. Crash cleanup отличать от активного незавершённого create по арбитражу, не эвристике пустого JSON.",
+      "acceptance": "Пауза на каждой границе create/open/write/fsync/publish; competitor никогда не получает второй won. Crash на каждой границе восстанавливается управляемо без вечного lock и без split-brain.",
+      "depends_on": [
+        "M0"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-SY-06",
+      "finding": "SY-06",
+      "phase": "M5",
+      "owners": [
+        "agent-sync"
+      ],
+      "priority": "P2",
+      "action": "Заменить на независимые lease_scope, enforcement_mode, awareness_scope, identity_strength и backend_health. В generated docs брать значения из runtime evidence; временно явно расшифровать legacy gated и убрать противоречащие references.",
+      "acceptance": "Матрица Claude/Codex × local/git × fs/cloud: status/board/setup/references согласованно сообщают каждую ось, ни один ungated host не получает enforcement=hook.",
+      "depends_on": [
+        "M4"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-SY-07",
+      "finding": "SY-07",
+      "phase": "M5",
+      "owners": [
+        "agent-sync"
+      ],
+      "priority": "P2",
+      "action": "Чётко объявить advisory protection boundary. Если нужна enforceable гарантия — file writes через trusted mutation API/isolated worktree/OS controls с resource locks; не пытаться считать regex shell parser универсальным sandbox. Host adapters имеют capability matrix.",
+      "acceptance": "Матрица Write/Edit/apply_patch/Bash Python/sed/redirect/git -C/env git/compound commands документирует covered/unsupported. Для заявленного enforced режима все поддержанные writes без resource grant отвергаются до эффекта.",
+      "depends_on": [
+        "M4"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "FIX-SY-08",
+      "finding": "SY-08",
+      "phase": "M5",
+      "owners": [
+        "agent-sync"
+      ],
+      "priority": "P2",
+      "action": "Использовать host capability inventory или configurable explicit resolved skill path. Plugin dependency detector не должен доказывать отсутствие по одному чужому host layout. Low-level acquire/renew/release отделить от необязательного pipeline binding.",
+      "acceptance": "Temporary HOME с только Codex cache, только Claude cache, только direct skill и полностью отсутствующей dependency: детектор корректен, без side effects и лишней установки.",
+      "depends_on": [
+        "M4"
+      ],
+      "status": "proposed"
+    }
+  ],
+  "dependency_graph": {
+    "M0": [],
+    "M1": [
+      "M0",
+      "FIX-DV-01",
+      "FIX-DV-02",
+      "FIX-DV-03",
+      "FIX-DV-04",
+      "FIX-DV-05",
+      "FIX-DV-07",
+      "FIX-DV-09",
+      "FIX-DV-10",
+      "FIX-DV-11",
+      "FIX-DV-12",
+      "FIX-DV-14",
+      "FIX-DV-15",
+      "FIX-TG-01",
+      "FIX-TG-03",
+      "FIX-AS-01",
+      "FIX-AS-02",
+      "FIX-AS-03",
+      "FIX-AS-04",
+      "FIX-AS-11",
+      "FIX-SY-01",
+      "FIX-SY-02",
+      "FIX-SY-03",
+      "FIX-SY-04",
+      "FIX-SY-05"
+    ],
+    "M2": [
+      "M1",
+      "FIX-MS-01",
+      "FIX-MS-02",
+      "FIX-PA-01",
+      "FIX-PA-02",
+      "FIX-PA-03",
+      "FIX-UX-01",
+      "FIX-UX-02",
+      "FIX-UX-03",
+      "FIX-UX-05",
+      "FIX-UX-08",
+      "FIX-UX-12",
+      "FIX-DV-20",
+      "FIX-AS-06",
+      "FIX-AS-07",
+      "FIX-AS-08",
+      "FIX-AS-09",
+      "FIX-AS-10",
+      "FIX-AS-14"
+    ],
+    "M3": [
+      "M2",
+      "FIX-RT-01",
+      "FIX-RT-02",
+      "FIX-RT-03",
+      "FIX-RT-04",
+      "FIX-MS-03",
+      "FIX-TP-01",
+      "FIX-TP-02",
+      "FIX-TP-03",
+      "FIX-TP-04",
+      "FIX-UB-01",
+      "FIX-UX-11",
+      "FIX-UX-13"
+    ],
+    "M4": [
+      "M3",
+      "FIX-SE-01",
+      "FIX-SE-02",
+      "FIX-SE-03",
+      "FIX-SE-04",
+      "FIX-UX-04",
+      "FIX-UX-09",
+      "FIX-UX-10",
+      "FIX-DS-02",
+      "FIX-DS-03",
+      "FIX-DS-04",
+      "FIX-DS-05",
+      "FIX-UX-14",
+      "FIX-UX-15",
+      "FIX-DV-06",
+      "FIX-DV-08",
+      "FIX-DV-13",
+      "FIX-DV-16",
+      "FIX-DV-17",
+      "FIX-DV-18",
+      "FIX-TG-02",
+      "FIX-TG-04",
+      "FIX-TG-05",
+      "FIX-AS-05",
+      "FIX-AS-12",
+      "FIX-AS-13"
+    ],
+    "M5": [
+      "M4",
+      "FIX-MS-04",
+      "FIX-ED-01",
+      "FIX-UX-06",
+      "FIX-UX-07",
+      "FIX-DS-01",
+      "FIX-SY-06",
+      "FIX-SY-07",
+      "FIX-SY-08"
+    ],
+    "M6": [
+      "M5",
+      "FIX-EV-01",
+      "FIX-DS-06",
+      "FIX-DV-19"
+    ],
+    "M7": [
+      "M6"
+    ],
+    "M8": [
+      "M7"
+    ],
+    "FIX-RT-01": [
+      "M2"
+    ],
+    "FIX-RT-02": [
+      "M2"
+    ],
+    "FIX-RT-03": [
+      "M2"
+    ],
+    "FIX-RT-04": [
+      "M2"
+    ],
+    "FIX-MS-01": [
+      "M1"
+    ],
+    "FIX-MS-02": [
+      "M1"
+    ],
+    "FIX-MS-03": [
+      "M2"
+    ],
+    "FIX-MS-04": [
+      "M4"
+    ],
+    "FIX-TP-01": [
+      "M2"
+    ],
+    "FIX-TP-02": [
+      "M2"
+    ],
+    "FIX-TP-03": [
+      "M2"
+    ],
+    "FIX-TP-04": [
+      "M2"
+    ],
+    "FIX-PA-01": [
+      "M1"
+    ],
+    "FIX-PA-02": [
+      "M1"
+    ],
+    "FIX-PA-03": [
+      "M1"
+    ],
+    "FIX-ED-01": [
+      "M4"
+    ],
+    "FIX-SE-01": [
+      "M3"
+    ],
+    "FIX-SE-02": [
+      "M3"
+    ],
+    "FIX-SE-03": [
+      "M3"
+    ],
+    "FIX-SE-04": [
+      "M3"
+    ],
+    "FIX-EV-01": [
+      "M5"
+    ],
+    "FIX-UB-01": [
+      "M2"
+    ],
+    "FIX-UX-01": [
+      "M1"
+    ],
+    "FIX-UX-02": [
+      "M1"
+    ],
+    "FIX-UX-03": [
+      "M1"
+    ],
+    "FIX-UX-04": [
+      "M3"
+    ],
+    "FIX-UX-05": [
+      "M1"
+    ],
+    "FIX-UX-06": [
+      "M4"
+    ],
+    "FIX-UX-07": [
+      "M4"
+    ],
+    "FIX-UX-08": [
+      "M1"
+    ],
+    "FIX-UX-09": [
+      "M3"
+    ],
+    "FIX-UX-10": [
+      "M3"
+    ],
+    "FIX-UX-11": [
+      "M2"
+    ],
+    "FIX-UX-12": [
+      "M1"
+    ],
+    "FIX-UX-13": [
+      "M2"
+    ],
+    "FIX-DS-01": [
+      "M4"
+    ],
+    "FIX-DS-02": [
+      "M3"
+    ],
+    "FIX-DS-03": [
+      "M3"
+    ],
+    "FIX-DS-04": [
+      "M3"
+    ],
+    "FIX-DS-05": [
+      "M3"
+    ],
+    "FIX-DS-06": [
+      "M5"
+    ],
+    "FIX-UX-14": [
+      "M3"
+    ],
+    "FIX-UX-15": [
+      "M3"
+    ],
+    "FIX-DV-01": [
+      "M0"
+    ],
+    "FIX-DV-02": [
+      "M0"
+    ],
+    "FIX-DV-03": [
+      "M0"
+    ],
+    "FIX-DV-04": [
+      "M0"
+    ],
+    "FIX-DV-05": [
+      "M0"
+    ],
+    "FIX-DV-06": [
+      "M3"
+    ],
+    "FIX-DV-07": [
+      "M0"
+    ],
+    "FIX-DV-08": [
+      "M3"
+    ],
+    "FIX-DV-09": [
+      "M0"
+    ],
+    "FIX-DV-10": [
+      "M0"
+    ],
+    "FIX-DV-11": [
+      "M0"
+    ],
+    "FIX-DV-12": [
+      "M0"
+    ],
+    "FIX-DV-13": [
+      "M3"
+    ],
+    "FIX-DV-14": [
+      "M0"
+    ],
+    "FIX-DV-15": [
+      "M0"
+    ],
+    "FIX-DV-16": [
+      "M3"
+    ],
+    "FIX-DV-17": [
+      "M3"
+    ],
+    "FIX-DV-18": [
+      "M3"
+    ],
+    "FIX-DV-19": [
+      "M5"
+    ],
+    "FIX-DV-20": [
+      "M1"
+    ],
+    "FIX-TG-01": [
+      "M0"
+    ],
+    "FIX-TG-02": [
+      "M3"
+    ],
+    "FIX-TG-03": [
+      "M0"
+    ],
+    "FIX-TG-04": [
+      "M3"
+    ],
+    "FIX-TG-05": [
+      "M3"
+    ],
+    "FIX-AS-01": [
+      "M0"
+    ],
+    "FIX-AS-02": [
+      "M0"
+    ],
+    "FIX-AS-03": [
+      "M0"
+    ],
+    "FIX-AS-04": [
+      "M0"
+    ],
+    "FIX-AS-05": [
+      "M3"
+    ],
+    "FIX-AS-06": [
+      "M1"
+    ],
+    "FIX-AS-07": [
+      "M1"
+    ],
+    "FIX-AS-08": [
+      "M1"
+    ],
+    "FIX-AS-09": [
+      "M1"
+    ],
+    "FIX-AS-10": [
+      "M1"
+    ],
+    "FIX-AS-11": [
+      "M0"
+    ],
+    "FIX-AS-12": [
+      "M3"
+    ],
+    "FIX-AS-13": [
+      "M3"
+    ],
+    "FIX-AS-14": [
+      "M1"
+    ],
+    "FIX-SY-01": [
+      "M0"
+    ],
+    "FIX-SY-02": [
+      "M0"
+    ],
+    "FIX-SY-03": [
+      "M0"
+    ],
+    "FIX-SY-04": [
+      "M0"
+    ],
+    "FIX-SY-05": [
+      "M0"
+    ],
+    "FIX-SY-06": [
+      "M4"
+    ],
+    "FIX-SY-07": [
+      "M4"
+    ],
+    "FIX-SY-08": [
+      "M4"
+    ]
+  },
+  "acyclic": true
+}

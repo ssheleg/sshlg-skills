@@ -1,0 +1,11 @@
+{
+  "all_pass": true,
+  "rule_sha256": "467a4b49539cc34af12d71deedd6a21721be3fac5cff9a5243b31186a00ba2d2",
+  "surfaces": [
+    "Codex",
+    "Claude Code",
+    "Gemini",
+    "Cursor"
+  ],
+  "scope": "Exact rule text present in the four existing agent surfaces; protected writes made backups of existing files."
+}

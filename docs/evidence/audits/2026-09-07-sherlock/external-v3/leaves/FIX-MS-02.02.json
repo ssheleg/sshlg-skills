@@ -1,0 +1,122 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-MS-02.02",
+  "parent_id": "FIX-MS-02",
+  "title": "Optional full parser conformance",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "make-skill"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Самодельный YAML parser теряет типы metadata",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Полный YAML parser только уже доступный optional adapter; сопоставить multiline/escapes/quoted scalars с oracle и разнести verdicts.",
+  "expected_result": "Отсутствие parser не PASS полноценной YAML проверки; malformed всегда error.",
+  "acceptance": [
+    "Отсутствие parser не PASS полноценной YAML проверки; malformed всегда error."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Полный YAML parser только уже доступный optional adapter; сопоставить multiline/escapes/quoted scalars с oracle и разнести verdicts.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "a6417a004f7d3d8d68f229bcc9cee5e8a7bfff81a3f360787692da6de63afd1c",
+      "refresh_after": [
+        "FIX-MS-02.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://make-skill/test/audit_regressions/fix-ms-02.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-MS-02.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-MS-02.json",
+    "source_files": [
+      {
+        "path": "repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py",
+        "sha256": "a6417a004f7d3d8d68f229bcc9cee5e8a7bfff81a3f360787692da6de63afd1c",
+        "role": "baseline source"
+      },
+      {
+        "path": "audit://auditor-reproductions.json",
+        "sha256": "ece50924846b89f3882bd44027edc2a9dd5b2ec2c6bb32fc2019421e6074c501",
+        "role": "read-only audit evidence",
+        "audit_original_sha256": "ece50924846b89f3882bd44027edc2a9dd5b2ec2c6bb32fc2019421e6074c501"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Двусторонние fixtures: quoted/unquoted numeric, boolean, null, YAML escapes, multiline scalars, duplicate keys; одинаковые вердикты с upstream validator."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-MS-02.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://make-skill/test/audit_regressions/fix-ms-02.02.py",
+    "python3 repo://make-skill/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-MS-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-MS-02.02.md",
+    "sha256": "081c38fd2030a4629a0e630eac28a133cdc1f02304d308bba95024c6ec01ab3a",
+    "utf8_bytes": 5121,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "0a3db86f1585bb295efa054d5e1bfd24172d86c79774d8297f38120b477b55fa"
+  }
+}

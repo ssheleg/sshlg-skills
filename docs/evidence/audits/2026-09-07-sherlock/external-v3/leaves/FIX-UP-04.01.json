@@ -1,0 +1,153 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-UP-04.01",
+  "parent_id": "FIX-UP-04",
+  "title": "Verified replacement gate",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 0,
+  "modules": [
+    "sshlg-skills"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Prune удаляет единственную plain-копию по непроверенной записи registry",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Prune только после applicable/enabled exact provider spec, payload closure и digest; registry alone недостаточно.",
+  "expected_result": "Absent/corrupt/stale/disabled/wrong-scope registry никогда не удаляет sole plain copy.",
+  "acceptance": [
+    "Absent/corrupt/stale/disabled/wrong-scope registry никогда не удаляет sole plain copy."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Prune только после applicable/enabled exact provider spec, payload closure и digest; registry alone недостаточно.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sshlg-skills/bin/sshlg-skills.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "ca46e7513b7554452333322fb6ff8d4b27bea58a2b17917724d2df5e44942930",
+      "refresh_after": [
+        "FIX-UP-07.01",
+        "FIX-UP-07.02"
+      ]
+    },
+    {
+      "path": "repo://sshlg-skills/lib/plan.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "177c10c65b2ec482418f8da8cfaeedf59e46736242529625abd3d3ee9241f9f8"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sshlg-skills/test/audit_regressions/fix-up-04.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-UP-04.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-UP-04.json",
+    "source_files": [
+      {
+        "path": "repo://sshlg-skills/bin/sshlg-skills.js",
+        "sha256": "ca46e7513b7554452333322fb6ff8d4b27bea58a2b17917724d2df5e44942930",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sshlg-skills/lib/plan.js",
+        "sha256": "177c10c65b2ec482418f8da8cfaeedf59e46736242529625abd3d3ee9241f9f8",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Матрица absent/corrupt/empty/stale/disabled/wrong-scope plugin не удаляет единственную копию.\nInjected install failure сохраняет старую рабочую копию и её digest.\nОтдельный fixture edited plain skill создаёт recoverable backup и journal; restore возвращает байты и symlink тип.\nПроверка exact spec не считает любую другую запись из marketplace доказательством замены всех skills.\nFresh install --all сначала формирует правильные provider targets и после успешной миграции не оставляет создаваемую им plain копию рядом с plugin; нужны explicit invocations обоих каналов в smoke-test."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-UP-07.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-07.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-07.03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-UP-07"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sshlg-skills/test/audit_regressions/fix-up-04.01.py",
+    "python3 repo://sshlg-skills/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-UP-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-UP-04.01.md",
+    "sha256": "2d4a06e68e2639fd2115a6e70f27599656ee90292b6e882c88b8eb3a51291efb",
+    "utf8_bytes": 6588,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "a9f61357f2c91c29588623725945a2540eac71b1ab1c9b8751b891d573777c8e"
+  }
+}

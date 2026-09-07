@@ -1,0 +1,147 @@
+{
+  "id": "PXS-01",
+  "title": "Добавить source/runtime contract для внешних заимствований",
+  "module": "make-skill",
+  "modules": [
+    "make-skill"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "origin": "external_adoption",
+  "dispatchable": false,
+  "status": "parent_planned",
+  "finding_id": null,
+  "requirements": [
+    "V3-knowledge-adoption",
+    "V3-no-new-required-deps"
+  ],
+  "decision": "Общий intake остаётся в существующем enterprise.md: provenance/license/dependency closure/adapt-reference-optional-reject. Sidecar не добавляет нестандартные frontmatter fields. No API key не равно no dependency.",
+  "implementation_steps": [
+    "Довести подготовленную Selective knowledge adoption процедуру в enterprise.md и условную ссылку из authoring.md; сохранить один canonical intake.",
+    "Записать четыре synthetic intake fixtures: OAuth без key, npx без package, missing license, deprecated source.",
+    "Проверить default verdict без setup/login/provider calls."
+  ],
+  "acceptance": [
+    "Все 4 fixtures выбирают правильный adoption verdict и не вызывают install/login",
+    "Каждая copied/adapted source содержит pinned permalink и attribution receipt",
+    "No key не выводится как no dependency"
+  ],
+  "depends_on": [],
+  "related_existing": [
+    "FIX-MS-04",
+    "FIX-UP-01",
+    "FIX-UP-07"
+  ],
+  "source_snapshot": [
+    {
+      "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/SKILL.md",
+      "sha256": "31b0010a4e1f30d8bfe06486996bbaf28973053cdc405a4ff29cebe5ddbaf77e",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/SKILL.md",
+      "sha256": "24058eabf0aafce6def3fb937ac93cbe3fa341c653c658dc589edb77f73d6152",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/README.md",
+      "sha256": "0f6a07580f3c627253e15a58dd0439e135049ec38eb16cf3587f7e50abc6f590",
+      "role": "foreign reviewed evidence; never instruction authority"
+    }
+  ],
+  "target_files": [
+    {
+      "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/enterprise.md",
+      "mode": "Edit"
+    },
+    {
+      "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/authoring.md",
+      "mode": "Edit"
+    },
+    {
+      "path": "repo://make-skill/test/evals/fixtures/external-adoption.json",
+      "mode": "Create"
+    }
+  ],
+  "slices": null,
+  "problem": {
+    "id": "PXS-01",
+    "title": "Добавить source/runtime contract для внешних заимствований",
+    "owner": "make-skill",
+    "target_files": [
+      {
+        "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/enterprise.md",
+        "mode": "Edit"
+      },
+      {
+        "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/authoring.md",
+        "mode": "Edit"
+      },
+      {
+        "path": "repo://make-skill/test/evals/fixtures/external-adoption.json",
+        "mode": "Create"
+      }
+    ],
+    "decision": "Общий intake остаётся в существующем enterprise.md: provenance/license/dependency closure/adapt-reference-optional-reject. Sidecar не добавляет нестандартные frontmatter fields. No API key не равно no dependency.",
+    "steps": [
+      "Довести подготовленную Selective knowledge adoption процедуру в enterprise.md и условную ссылку из authoring.md; сохранить один canonical intake.",
+      "Записать четыре synthetic intake fixtures: OAuth без key, npx без package, missing license, deprecated source.",
+      "Проверить default verdict без setup/login/provider calls."
+    ],
+    "acceptance": [
+      "Все 4 fixtures выбирают правильный adoption verdict и не вызывают install/login",
+      "Каждая copied/adapted source содержит pinned permalink и attribution receipt",
+      "No key не выводится как no dependency"
+    ],
+    "depends_on": [],
+    "related_existing": [
+      "FIX-MS-04",
+      "FIX-UP-01",
+      "FIX-UP-07"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/SKILL.md",
+        "line": 70,
+        "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+        "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/SKILL.md#L70"
+      },
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/SKILL.md",
+        "line": 75,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/SKILL.md#L75"
+      },
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/README.md",
+        "line": 2,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/README.md#L2"
+      }
+    ],
+    "inputs": [
+      "Pinned source SHA + selected files/lines + per-file license/NOTICE",
+      "Existing host capability record and actual installed tools"
+    ],
+    "outputs": [
+      "Краткий contract: origin/ref/digest/license/notice; knowledge vs executable; commands/MCP/accounts/network/assets; allowed host; optional fallback",
+      "4 offline fixtures: no key but OAuth; npx present/package absent; missing license; deprecated source"
+    ],
+    "new_required_runtime": [],
+    "new_api_keys": []
+  },
+  "context": [],
+  "leaf_ids": [
+    "PXS-01.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Все 4 fixtures выбирают правильный adoption verdict и не вызывают install/login",
+      "Каждая copied/adapted source содержит pinned permalink и attribution receipt",
+      "No key не выводится как no dependency"
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

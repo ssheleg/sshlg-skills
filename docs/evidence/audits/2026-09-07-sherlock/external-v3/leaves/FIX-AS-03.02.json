@@ -1,0 +1,121 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-AS-03.02",
+  "parent_id": "FIX-AS-03",
+  "title": "Temporal evidence lifecycle",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "agent-stack"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Лексическое сходство усиливает противоречащую память и может вернуть старую инструкцию",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Self-generated retrieval не confirmation; supersession reversible, volatile facts имеют freshness даже verified.",
+  "expected_result": "Повторный retrieval не повышает confidence; новая dated fact сохраняет историю замены.",
+  "acceptance": [
+    "Повторный retrieval не повышает confidence; новая dated fact сохраняет историю замены."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Self-generated retrieval не confirmation; supersession reversible, volatile facts имеют freshness даже verified.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/memory-lifecycle.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "9e46e6538eac0f29cbe32f0d07f141bf4db31f33b445d2893d8ae966a8c18397",
+      "refresh_after": [
+        "FIX-AS-03.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://agent-stack/test/audit_regressions/fix-as-03.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-AS-03.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-AS-03.json",
+    "source_files": [
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+        "sha256": "1a4d60f4811dd4b9fa99f1c6d6f72223790a4ee49bb8146e8dfe9bf606eee550",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/memory-lifecycle.md",
+        "sha256": "9e46e6538eac0f29cbe32f0d07f141bf4db31f33b445d2893d8ae966a8c18397",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Мультиязычный корпус negation, смены чисел/единиц, исключений, разных субъектов и устаревших verified facts: никаких silent merge противоположностей; correction выигрывает только в своём scope, старый факт остаётся в истории."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-AS-03.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://agent-stack/test/audit_regressions/fix-as-03.02.py",
+    "python3 repo://agent-stack/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-AS-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-AS-03.02.md",
+    "sha256": "d5b1e4e30c121ef181374700632df18af89fd93a20a32e2c1695bcb983affde9",
+    "utf8_bytes": 4893,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "5b0e8bcff16e1688b99a06bb0ce30d60c6136d2382da1bc73175f07a12f818b8"
+  }
+}

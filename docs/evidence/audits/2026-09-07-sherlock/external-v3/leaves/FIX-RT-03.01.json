@@ -1,0 +1,149 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-RT-03.01",
+  "parent_id": "FIX-RT-03",
+  "title": "Toolkit объявляет доступность машины по инвентарю только Claude Code",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "sshlg-skills"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Toolkit объявляет доступность машины по инвентарю только Claude Code",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Host adapters: discovered / enabled / exposed / callable отдельно, namespace+provenance+content digest вместо голого id. В отчёте показывать host и недоступные capability; сохранить просмотр других хостов как inventory.",
+  "expected_result": "Синтетические host homes: broken symlink, одноимённый чужой скилл, plugin только в Claude и skill только в Codex; roster active host содержит только реально разрешимые записи.",
+  "acceptance": [
+    "Синтетические host homes: broken symlink, одноимённый чужой скилл, plugin только в Claude и skill только в Codex; roster active host содержит только реально разрешимые записи."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Host adapters: discovered / enabled / exposed / callable отдельно, namespace+provenance+content digest вместо голого id. В отчёте показывать host и недоступные capability; сохранить просмотр других хостов как inventory.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sshlg-skills/lib/conflicts.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "0a48a039bf15efdff66dc6e03850b0d4b643b1ba3589f46e9e84991b66a03a03"
+    },
+    {
+      "path": "repo://sshlg-skills/lib/toolkit.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "7dc8cc6f6de0c342cc219277178e0c3d826b818d7ce6c83fc34a48f0528a333a"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sshlg-skills/test/audit_regressions/fix-rt-03.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-RT-03.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-RT-03.json",
+    "source_files": [
+      {
+        "path": "repo://sshlg-skills/lib/conflicts.js",
+        "sha256": "0a48a039bf15efdff66dc6e03850b0d4b643b1ba3589f46e9e84991b66a03a03",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sshlg-skills/lib/toolkit.js",
+        "sha256": "7dc8cc6f6de0c342cc219277178e0c3d826b818d7ce6c83fc34a48f0528a333a",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Синтетические host homes: broken symlink, одноимённый чужой скилл, plugin только в Claude и skill только в Codex; roster active host содержит только реально разрешимые записи."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-UP-07.01",
+      "kind": "data",
+      "reason": "Toolkit показывает effective provider inventory вместо Claude-only roster.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-07.02",
+      "kind": "data",
+      "reason": "Toolkit показывает effective provider inventory вместо Claude-only roster.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-07.03",
+      "kind": "data",
+      "reason": "Toolkit показывает effective provider inventory вместо Claude-only roster.",
+      "via_parent": "FIX-UP-07"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sshlg-skills/test/audit_regressions/fix-rt-03.01.py",
+    "python3 repo://sshlg-skills/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-UP-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-RT-03.01.md",
+    "sha256": "4743aa709f909d2a709db976a0ac4034afa37bd83f38c3cbe3af07dde610772b",
+    "utf8_bytes": 6578,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "c2c297abf6d040bf8e3a8a79f2c41499b2da24259eb87a5ad80fcca471a227a0"
+  }
+}

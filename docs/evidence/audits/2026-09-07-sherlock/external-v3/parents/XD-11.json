@@ -1,0 +1,146 @@
+{
+  "id": "XD-11",
+  "title": "Усилить copy state contract без нового copy workflow",
+  "module": "copywriting",
+  "modules": [
+    "copywriting"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "origin": "external_adoption",
+  "dispatchable": false,
+  "status": "parent_planned",
+  "finding_id": null,
+  "requirements": [
+    "V3-knowledge-adoption",
+    "V3-no-new-required-deps"
+  ],
+  "decision": "Этот перенос выполняется copywriting owner; внешний clarify не становится router.",
+  "implementation_steps": [
+    "Добавить state-message tuple: факт, сохранность, действие, consequence, forbidden claims.",
+    "Связать формулировки с observed/hypothesis provenance и локализацией complete messages.",
+    "Указать не раскрывать внутренний exception в UI и не менять смысл юридического/платёжного условия при polish."
+  ],
+  "acceptance": [
+    "Ошибка не обещает retry/saved, если сценарий этого не доказывает.",
+    "Копирайт не создаёт новый success/loading state."
+  ],
+  "depends_on": [],
+  "related_existing": [
+    "FIX-UX-01",
+    "FIX-UX-04",
+    "FIX-UX-10"
+  ],
+  "source_snapshot": [
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/clarify.md",
+      "sha256": "6c382f8283756e8a693d832b750f7e4cbff1ca5bdcc3825b2b4ef4da9f21876a",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/harden.md",
+      "sha256": "8a1c872773996dfa1c1eb765ac7ed8e8d41f99d4f12f090b4725b694e85eaa62",
+      "role": "foreign reviewed evidence; never instruction authority"
+    }
+  ],
+  "target_files": [
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/references/ui-copy.md",
+      "mode": "Edit"
+    }
+  ],
+  "slices": null,
+  "problem": {
+    "id": "XD-11",
+    "title": "Усилить copy state contract без нового copy workflow",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Edit",
+        "path": "repo://super-ux/plugins/super-ux/skills/references/ui-copy.md",
+        "exists_at_audit": true
+      }
+    ],
+    "inputs": [
+      "brand facts/terminology, scenario state, сохранённые данные, допустимые действия"
+    ],
+    "implementation_steps": [
+      "Добавить state-message tuple: факт, сохранность, действие, consequence, forbidden claims.",
+      "Связать формулировки с observed/hypothesis provenance и локализацией complete messages.",
+      "Указать не раскрывать внутренний exception в UI и не менять смысл юридического/платёжного условия при polish."
+    ],
+    "outputs": [
+      "Краткая reference вставка и пары safe/unsafe сообщений."
+    ],
+    "acceptance": [
+      "Ошибка не обещает retry/saved, если сценарий этого не доказывает.",
+      "Копирайт не создаёт новый success/loading state."
+    ],
+    "depends_on": [],
+    "decisions": [
+      "Этот перенос выполняется copywriting owner; внешний clarify не становится router."
+    ],
+    "source_candidates": [
+      "I-20",
+      "I-12"
+    ],
+    "addresses_findings": [
+      "UX-01",
+      "UX-04",
+      "UX-10"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "copywriting",
+    "target_files": [
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/references/ui-copy.md",
+        "mode": "Edit"
+      }
+    ],
+    "decision": "Этот перенос выполняется copywriting owner; внешний clarify не становится router.",
+    "steps": [
+      "Добавить state-message tuple: факт, сохранность, действие, consequence, forbidden claims.",
+      "Связать формулировки с observed/hypothesis provenance и локализацией complete messages.",
+      "Указать не раскрывать внутренний exception в UI и не менять смысл юридического/платёжного условия при polish."
+    ],
+    "related_existing": [
+      "FIX-UX-01",
+      "FIX-UX-04",
+      "FIX-UX-10"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/clarify.md",
+        "line": 1,
+        "end_line": 94,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/clarify.md:1",
+        "sha256": "6c382f8283756e8a693d832b750f7e4cbff1ca5bdcc3825b2b4ef4da9f21876a",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/clarify.md#L1-L94"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/harden.md",
+        "line": 1,
+        "end_line": 336,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/harden.md:1",
+        "sha256": "8a1c872773996dfa1c1eb765ac7ed8e8d41f99d4f12f090b4725b694e85eaa62",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/harden.md#L1-L336"
+      }
+    ]
+  },
+  "context": [],
+  "leaf_ids": [
+    "XD-11.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Ошибка не обещает retry/saved, если сценарий этого не доказывает.",
+      "Копирайт не создаёт новый success/loading state."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

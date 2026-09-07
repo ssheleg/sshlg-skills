@@ -1,0 +1,122 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-AS-05.01",
+  "parent_id": "FIX-AS-05",
+  "title": "Аудируемость ошибочно приравнена к статическому графу",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "agent-stack"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Аудируемость ошибочно приравнена к статическому графу",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Статический граф оставить предпочтением для предсказуемости. Аудируемость определять через полноту execution record, версии policy и детерминированные границы; динамике поставить budget/depth/node caps и provenance.",
+  "expected_result": "Один static и один dynamic сценарий проходят одинаковый reconstruction audit; удаление события/ребра детектируется в обоих. Наличие design diagram само по себе не даёт PASS.",
+  "acceptance": [
+    "Один static и один dynamic сценарий проходят одинаковый reconstruction audit; удаление события/ребра детектируется в обоих. Наличие design diagram само по себе не даёт PASS."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Статический граф оставить предпочтением для предсказуемости. Аудируемость определять через полноту execution record, версии policy и детерминированные границы; динамике поставить budget/depth/node caps и provenance.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+    },
+    {
+      "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "27bf343eaf2ab0c7b2975ee8060f4c56623e394dca995950cade8d9bf40047b1"
+    },
+    {
+      "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45"
+    }
+  ],
+  "test_target": {
+    "path": "repo://agent-stack/test/audit_regressions/fix-as-05.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-AS-05.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-AS-05.json",
+    "source_files": [
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/SKILL.md",
+        "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md",
+        "sha256": "27bf343eaf2ab0c7b2975ee8060f4c56623e394dca995950cade8d9bf40047b1",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+        "sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Один static и один dynamic сценарий проходят одинаковый reconstruction audit; удаление события/ребра детектируется в обоих. Наличие design diagram само по себе не даёт PASS."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://agent-stack/test/audit_regressions/fix-as-05.01.py",
+    "python3 repo://agent-stack/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-AS-05.01.md",
+    "sha256": "b0892b3eae1b0f38ac8e232e57a5f3278549a2e1de973479fb8efa355d49384f",
+    "utf8_bytes": 8256,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "9169798228e92f12652f7a576fcd5051fad9a907f961d256b233bf6da76f27b6"
+  }
+}

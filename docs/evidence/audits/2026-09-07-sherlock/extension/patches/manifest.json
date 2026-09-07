@@ -1,0 +1,102 @@
+[
+  {
+    "repo": "super-ux",
+    "path": "repo://super-ux",
+    "branch": "codex/context-ready-skills-20260907",
+    "base": "a60f6b423c619b37a3bb43564b58b02b6200e463",
+    "patch": "audit://extension/patches/super-ux.patch",
+    "sha256": "e499ac2e9dae89959de79222770185fdb38f03fc2817e93822d1659a17bd343f",
+    "status": "local_uncommitted_unmerged_unreleased",
+    "validation": {
+      "exit_code": 0,
+      "log": "audit://extension/ux-validation.log"
+    },
+    "files": [
+      {
+        "path": "repo://super-ux/docs/brand/facts.md",
+        "relative": "docs/brand/facts.md",
+        "sha256": "7077348f0f9d8794b0a4d4f51d5dbb2bdb972be239f21271cf7cedcd849f50df"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/references/interactive-flow-prototypes.md",
+        "relative": "plugins/super-ux/skills/references/interactive-flow-prototypes.md",
+        "sha256": "71e3f703ce684c084ca31590ea4f67d591fa24edb86962e257cfa89c1e3325ab"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md",
+        "relative": "plugins/super-ux/skills/ux-flows/SKILL.md",
+        "sha256": "4e2acd3379534c28e38009dbdeacaea61be015dd8747422de5b65fac27b0b23f"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/interactive-flow-prototypes.md",
+        "relative": "plugins/super-ux/skills/ux-flows/references/interactive-flow-prototypes.md",
+        "sha256": "71e3f703ce684c084ca31590ea4f67d591fa24edb86962e257cfa89c1e3325ab"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/SKILL.md",
+        "relative": "plugins/super-ux/skills/ux-scenarios/SKILL.md",
+        "sha256": "fb79605c21bba2eb6f30f14ca40c7800c19b723edd9e42eac77868077bf76272"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/interactive-flow-prototypes.md",
+        "relative": "plugins/super-ux/skills/ux-scenarios/references/interactive-flow-prototypes.md",
+        "sha256": "71e3f703ce684c084ca31590ea4f67d591fa24edb86962e257cfa89c1e3325ab"
+      }
+    ]
+  },
+  {
+    "repo": "task-pipeline",
+    "path": "repo://task-pipeline",
+    "branch": "codex/context-ready-skills-20260907",
+    "base": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "patch": "audit://extension/patches/task-pipeline.patch",
+    "sha256": "28057d82cd34c162a251439cf51669b91e54bed678870ae97a20ea68f33b94ca",
+    "status": "local_uncommitted_unmerged_unreleased",
+    "validation": {
+      "exit_code": 0,
+      "log": "audit://extension/pipeline-validation.log"
+    },
+    "files": [
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+        "relative": "plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+        "sha256": "fd9ae46ea0a20c82897e7e7c4a91c8c8d646af8dae419860db5bac89b95b300f"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/backlog.md",
+        "relative": "plugins/task-pipeline/skills/task-pipeline/references/backlog.md",
+        "sha256": "a938024ecaf5e2f9c2c6ea67cd9843df6e1d8e01738110da040c585402b37769"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+        "relative": "plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+        "sha256": "6dfde6f46ab5afb843b39bd1fbdc318d568f55e7b04befe6ebbabdb2dbdb1f73"
+      }
+    ]
+  },
+  {
+    "repo": "sheleg-design-skill",
+    "path": "repo://sheleg-design",
+    "branch": "codex/context-ready-skills-20260907",
+    "base": "562786b30f07f50a294d70a4c3ffd40794624f42",
+    "patch": "audit://extension/patches/sheleg-design-skill.patch",
+    "sha256": "275eec4a0c390916befa489e1391c2895cf2f34ce074a016b389dd41df829452",
+    "status": "local_uncommitted_unmerged_unreleased",
+    "validation": {
+      "exit_code": 0,
+      "log": "audit://extension/design-validation.log"
+    },
+    "files": [
+      {
+        "path": "repo://sheleg-design/.cursor/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "relative": ".cursor/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "sha256": "08dc1de10450a4915c88326b8cd97fc5825ab7d0c55423fd6fa784b07fa1b722"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "relative": "plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "sha256": "08dc1de10450a4915c88326b8cd97fc5825ab7d0c55423fd6fa784b07fa1b722"
+      }
+    ]
+  }
+]

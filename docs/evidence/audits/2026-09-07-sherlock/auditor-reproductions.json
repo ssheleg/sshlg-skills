@@ -1,0 +1,132 @@
+[
+  {
+    "case": "numeric_metadata",
+    "actual_yaml_type": "float",
+    "auditor_gaps": [],
+    "metadata_checks": []
+  },
+  {
+    "case": "unicode_budget",
+    "cl100k_tokens": 16000,
+    "budget_checks": [
+      {
+        "verdict": "PASS",
+        "check": "BODY_BUDGET",
+        "message": "body is 1 lines / ~4102 tokens (budget 500 / 5000)",
+        "file": "unicode-budget/SKILL.md",
+        "line": null
+      }
+    ],
+    "auditor_gaps": []
+  },
+  {
+    "case": "single_skill_bundle",
+    "skill": "evidence-docs",
+    "link_gaps": [
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/references/documentation.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "evidence-docs/SKILL.md",
+        "line": 16
+      },
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/references/learned.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "evidence-docs/SKILL.md",
+        "line": 37
+      },
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/references/documentation.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "evidence-docs/SKILL.md",
+        "line": 44
+      },
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/templates/decisions.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "evidence-docs/SKILL.md",
+        "line": 45
+      },
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/references/gates.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "evidence-docs/SKILL.md",
+        "line": 48
+      },
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/references/gates.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "evidence-docs/SKILL.md",
+        "line": 49
+      },
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/references/hooks.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "evidence-docs/SKILL.md",
+        "line": 50
+      },
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/references/setup.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "evidence-docs/SKILL.md",
+        "line": 51
+      },
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/references/retrospective.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "evidence-docs/SKILL.md",
+        "line": 52
+      },
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/templates/docgate.sh' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "evidence-docs/SKILL.md",
+        "line": 53
+      },
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/SKILL.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "evidence-docs/SKILL.md",
+        "line": 55
+      }
+    ]
+  },
+  {
+    "case": "single_skill_bundle",
+    "skill": "project-audit",
+    "link_gaps": [
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/references/audit.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "project-audit/SKILL.md",
+        "line": 34
+      },
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/references/backlog.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "project-audit/SKILL.md",
+        "line": 119
+      },
+      {
+        "verdict": "GAP",
+        "check": "LINK_ESCAPE",
+        "message": "link '../task-pipeline/references/prioritisation.md' leaves the skill directory and resolves to nothing — a sibling would ship alongside, this will not",
+        "file": "project-audit/SKILL.md",
+        "line": 122
+      }
+    ]
+  }
+]

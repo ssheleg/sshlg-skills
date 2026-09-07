@@ -1,0 +1,32 @@
+{
+  "impeccable": {
+    "url": "https://github.com/pbakaus/impeccable",
+    "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+    "runtime_executed": false
+  },
+  "juliano-designer": {
+    "url": "https://github.com/julianoczkowski/designer-skills",
+    "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+    "runtime_executed": false
+  },
+  "owl-designer": {
+    "url": "https://github.com/Owl-Listener/designer-skills",
+    "commit": "9a6930cf84a822eb458624bd11c61aac5bbdf224",
+    "runtime_executed": false
+  },
+  "anthropic": {
+    "url": "https://github.com/anthropics/skills",
+    "commit": "41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f",
+    "runtime_executed": false
+  },
+  "composio": {
+    "url": "https://github.com/composio-community/awesome-codex-skills",
+    "commit": "0930e1373789d2eda449039f7ac154b33031de89",
+    "runtime_executed": false
+  },
+  "openai": {
+    "url": "https://github.com/openai/skills",
+    "commit": "49f948faa9258a0c61caceaf225e179651397431",
+    "runtime_executed": false
+  }
+}

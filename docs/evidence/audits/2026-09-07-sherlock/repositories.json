@@ -1,0 +1,46 @@
+{
+  "super-ux": {
+    "url": "https://github.com/ssheleg/super-ux",
+    "audit_commit": "a60f6b423c619b37a3bb43564b58b02b6200e463"
+  },
+  "task-pipeline": {
+    "url": "https://github.com/ssheleg/task-pipeline",
+    "audit_commit": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5"
+  },
+  "agent-sync": {
+    "url": "https://github.com/ssheleg/agent-sync",
+    "audit_commit": "ef45d404d1604a9a0d142f983b5cccc495133ca0"
+  },
+  "make-skill": {
+    "url": "https://github.com/ssheleg/make-skill",
+    "audit_commit": "015052149a9c62a8a69e18a2a5dd6bf2f6e8196a"
+  },
+  "sheleg-design": {
+    "url": "https://github.com/ssheleg/sheleg-design-skill",
+    "audit_commit": "562786b30f07f50a294d70a4c3ffd40794624f42"
+  },
+  "seo-aeo-audit": {
+    "url": "https://github.com/ssheleg/seo-aeo-audit",
+    "audit_commit": "db261482a520df1b7373283955921f1282de866d"
+  },
+  "sheleg-dev": {
+    "url": "https://github.com/ssheleg/sheleg-dev",
+    "audit_commit": "42dfb5df929897f5cf39c72c0c69725f6bb664e2"
+  },
+  "agent-stack": {
+    "url": "https://github.com/ssheleg/agent-stack",
+    "audit_commit": "1f99f8f0914f122da1629e6ede6fd60a7e23d1ea"
+  },
+  "telegram-dev": {
+    "url": "https://github.com/ssheleg/telegram-dev",
+    "audit_commit": "0263b899e5827c65d366d2bbac73557a56045235"
+  },
+  "sshlg-skills": {
+    "url": "https://github.com/ssheleg/sshlg-skills",
+    "audit_commit": "7ef37e8bd5220d6ab355346634ff19196de8f41b"
+  },
+  "fabric": {
+    "url": "https://github.com/ssheleg/fabric",
+    "audit_commit": "629f050323ab5a302feffc7a1f4de8c079526b9a"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-TP-03.02",
+  "parent_id": "FIX-TP-03",
+  "title": "Profile-only gate dispatch",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "task-pipeline"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Расширяемая schema спорит с обязательными стандартными стадиями и глобальными правилами",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Компилировать выбранный profile один раз и исполнять только его declared gates; unknown mandatory capability блокировать.",
+  "expected_result": "Custom profile не получает hidden stage0/7/10, но не обходит evidence.",
+  "acceptance": [
+    "Custom profile не получает hidden stage0/7/10, но не обходит evidence."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Компилировать выбранный profile один раз и исполнять только его declared gates; unknown mandatory capability блокировать.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "f8876b8eb0b20169e7ca037869c4eb83164754c9bc271da52895fc27c1d0dc8a",
+      "refresh_after": [
+        "FIX-TP-03.01"
+      ]
+    },
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json",
+      "mode": "Edit",
+      "role": "new capability target; audit does not create it",
+      "baseline_sha256": "99ff340ca0a9e3a1e35ad891723c200c5b06f3371429d65a88765c1dd63cd2f6",
+      "refresh_after": [
+        "FIX-TP-03.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://task-pipeline/test/audit_regressions/fix-tp-03.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-TP-03.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-TP-03.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+        "sha256": "f8876b8eb0b20169e7ca037869c4eb83164754c9bc271da52895fc27c1d0dc8a",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Трёхстадийный custom profile валиден и не получает дополнительные stage0/7/10; обязательные kernel invariants всё равно проверяются."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-TP-03.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://task-pipeline/test/audit_regressions/fix-tp-03.02.py",
+    "python3 repo://task-pipeline/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-TP-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-TP-03.02.md",
+    "sha256": "2abf1c9eb0e560d26b7fcc7bef7099616fa04482fdb8412466a3ae508e62b7d6",
+    "utf8_bytes": 6253,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "ebdca3840f6365938cd24d76e8944a3986603c80d8f84b1fe8cb37d5bd3894e5"
+  }
+}

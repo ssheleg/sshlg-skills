@@ -1,0 +1,15 @@
+{
+  "all_pass": true,
+  "checks": {
+    "original_plan_valid": true,
+    "duplicate_rejected": true,
+    "cycle_rejected": true,
+    "digest_rejected": true,
+    "oversize_rejected": true,
+    "escape_rejected": true,
+    "unmapped_checkout_not_claimed": true,
+    "entry_and_all_primary_links": true
+  },
+  "missing_links": [],
+  "scope": "Portable data transport, bounded plan integrity and entry links; no host execution outcome."
+}

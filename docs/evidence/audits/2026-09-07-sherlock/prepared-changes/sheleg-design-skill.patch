@@ -1,0 +1,264 @@
+diff --git a/.cursor/skills/sheleg-design/CREATIVE_DIRECTOR.md b/.cursor/skills/sheleg-design/CREATIVE_DIRECTOR.md
+index 0bf8e6b..a30e07c 100644
+--- a/.cursor/skills/sheleg-design/CREATIVE_DIRECTOR.md
++++ b/.cursor/skills/sheleg-design/CREATIVE_DIRECTOR.md
+@@ -20,6 +20,7 @@ the middle three worth doing.
+ - Act 3 — Fork, but only when the fork is real — and write the rubric first
+ - Act 4 — Judge, then graft, then record what the cast produced
+ - Act 5 — Validate: alignment first, then quality
++- Focused visual work
+ - The output the director owes
+ 
+ ## Act 1 — The brief, and the sentence that could falsify it
+@@ -53,8 +54,8 @@ plainly that it is unvalidated.
+ |---|---|---|
+ | **New design** | `style` | there is nothing to measure yet; the direction is the first commitment |
+ | **Redesign** | `verify` + `a11y` **first** | you are replacing something that works for somebody. Measure it before you take it away, or you will re-ship its defects and lose its accidents |
+-| **Update** | `tokens` | change the token, not the components that read it. An update that edits components is a redesign wearing a smaller word |
+-| **Audit** | `a11y` → `verify` → `speed` | nothing is redrawn until all three have spoken |
++| **Update** | the affected visual role | preserve the chosen identity; a targeted component, type or spacing correction does not automatically replace the design direction |
++| **Audit** | checks relevant to the stated scope | inspect before proposing changes; distinguish visual evidence, behavior, accessibility and performance, and state unavailable checks |
+ 
+ The redesign row is the one people get wrong. **A redesign starts with a
+ measurement of the thing being replaced** — contrast, keyboard path, what the
+@@ -115,6 +116,26 @@ it. It is a reason to say, out loud, which one is directing.
+ Two variations built by two subagents with **different casts** is the strongest
+ move in this document and the easiest one to turn into theatre.
+ 
++### Direction exploration is a separate experiment
++
++Comparing tool casts does not compare artistic directions. When the visual
++direction is unsettled, render two meaningfully different treatments even if
++only one credible cast is available. Use the same agreed behavior and realistic
++content; vary composition, typographic hierarchy, imagery/material and spatial
++rhythm, not only accent colour or a chat-versus-services navigation choice.
++
++Record **locked invariants** (brand, accessibility, approved behavior, platform)
++and **open axes** before rendering. A locked brand does not freeze every
++composition. Sketch with provisional semantic tokens inside those invariants;
++after comparison, consolidate the chosen direction into the pack contract.
++Do not require a fully authored style pack before the renders needed to choose
++it exist. A token-only switch compares compatible skins, not the whole design space.
++
++This exploration may be sequential within one agent; the disjoint-cast fork
++below remains a separate, optional experiment. Preserve the operator's chosen
++direction when it is already settled. Record the losing direction and why it
++lost without adding an unnecessary approval round for a decision already made.
++
+ ### The rule that makes it honest
+ 
+ **The rubric is written before either variation is made, and it is not touched
+@@ -222,6 +243,24 @@ quality claim made from source is a claim about source.
+ 
+ ### The limit, stated rather than implied
+ 
++For a new direction or substantive redesign, also run a visual critique loop:
++compare rendered states at the same viewports and with the same content against
++the brief and selected reference traits; name the specific weak hierarchy,
++composition, typography, imagery or platform treatment; change it and render
++again. This loop applies even when no cast fork ran. Keep the before/after
++evidence and distinguish visual judgment from functional and mechanical checks.
++Change a render only for an actionable finding. If the rubric yields none, stop.
++Set a bounded iteration/time budget before the loop; at its end record unresolved
++findings. Surface a material unresolved direction choice to the operator without
++inventing another approval gate for an already selected direction.
++
++Use anchored examples and a stated rubric for visual judgment; record the
++reviewer, rationale and uncertainty. Passing contrast, token discipline or a
++font-size count cannot be the acceptance criterion for visual craft by itself.
++A flow mockup approves transitions; it does not automatically approve the art
++direction. If browser/image inspection is unavailable, state that limitation
++rather than claiming the rendered result was reviewed.
++
+ **Taste is not on that table, and this document will not pretend otherwise.**
+ These checks catch defects and enforce a system. They cannot tell you whether the
+ result is *good* — and a director that reports "all gates green" as if it meant
+@@ -232,6 +271,40 @@ manufactured winner.
+ 
+ ---
+ 
++## Focused visual work
++
++For a bounded request, reuse the existing brief and select the relevant lens
++below. These are modes inside this skill, not new global routers or an external
++command dependency. Do not repeat direction selection for an already chosen
++direction, or run every lens for a single local correction.
++
++| Lens | Question and concrete work | Evidence to keep |
++|---|---|---|
++| **Type** | List the text roles and the faces/weights actually in use. Improve distinctions between those roles through size, weight, spacing and contrast. Keep a single family when it does the job. Check long labels, the target languages, zoom and fallback fonts. | Representative rendered roles; loaded/fallback font status; the specific reading or hierarchy defect fixed. A font name or a universal line-length target is not a quality verdict. |
++| **Composition** | Establish the leading element, supporting elements and meaningful groups. Adjust proximity, rhythm and density to the task. Inspect the relevant supported sizes and content extremes; preserve a sensible reading and focus order. | Before/after of the same state and content; evidence of wrapping, overflow and order. Optical adjustments follow inspection rather than guessed pixel offsets. |
++| **State adaptation** | Walk empty, long-content, error, pending, keyboard and recovery states relevant to the scenario. Separate browser prototype behavior from native platform expectations. | State/viewport identifiers, declared versus walked coverage and explicit simulations. No invented latency or claim that a browser preview proves native behavior. |
++| **Finish** | Revisit the already identified defects and check what the changes introduced. Keep useful details that were already working. Stop when no actionable finding remains or the agreed budget is reached. | Each previous finding is resolved, partial or unresolved, with current captures and any regressions. The number of edits is not a success metric. |
++
++Before visual review, check that each capture belongs to the expected build,
++screen, state, viewport and content. A stale screenshot or one taken before an
++overlay opened cannot prove that overlay correct. If the capture cannot be
++verified, mark the visual claim unverified and continue only the checks the
++available evidence supports.
++
++Judge the render against the brief before reading an explanation of how hard it
++was to build. Separate observed defects from preferences and hypotheses. A fresh
++reviewer is useful when available and authorized; an explicit separate review
++pass by one agent is a valid fallback. Neither requires an external detector,
++binary, service, API key, font download or new framework. Reuse local assets and
++existing inspection tools; missing inspection remains NOT_RUN.
++
++These local procedures were informed by a comparison of Impeccable's
++[type](https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md),
++[layout](https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md)
++and [finish-review methods](https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md) (Apache-2.0). They use this family's contracts; no
++upstream runtime, assets, fixed style bans or automatic workflow are included.
++The links record provenance, not instructions to fetch during every run.
++
+ ## The output the director owes
+ 
+ One short record, every time, whether the work took ten minutes or a day:
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 0000000..dc80c81
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,3 @@
++# Agent entry point
++
++Read [docs/HANDOFF.md](docs/HANDOFF.md) before resuming the Sherlock family audit.
+diff --git a/docs/HANDOFF.md b/docs/HANDOFF.md
+new file mode 100644
+index 0000000..f995cab
+--- /dev/null
++++ b/docs/HANDOFF.md
+@@ -0,0 +1,17 @@
++# Sherlock family audit: handoff
++
++This branch contains the prepared sheleg-design-skill instruction changes from the family
++audit. The runtime backlog has not been implemented or released.
++
++Start with the [central handoff](https://github.com/ssheleg/sshlg-skills/blob/codex/sherlock-audit-handoff-20260907/docs/HANDOFF.md).
++It links the 139 parent outcomes, 254 bounded task packets, module contracts,
++source provenance, execution order and all member branch revisions.
++
++Read the central repository manifest before choosing a task. Filter the plan by
++this repository's module, then read one leaf and its prerequisites. Refresh source
++hashes against the chosen checkout and materialize predecessor outputs before
++editing. A prepared instruction is not evidence that an agent outcome improved.
++
++Validation receipts for these instruction changes are in the central bundle.
++Commit and push each completed task with its updated context and checks; leave a
++new entry point for the following agent. Follow the [standing handoff rule](https://github.com/ssheleg/sshlg-skills/blob/codex/sherlock-audit-handoff-20260907/docs/working-rules/repository-handoff.md).
+diff --git a/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md b/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md
+index 0bf8e6b..a30e07c 100644
+--- a/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md
++++ b/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md
+@@ -20,6 +20,7 @@ the middle three worth doing.
+ - Act 3 — Fork, but only when the fork is real — and write the rubric first
+ - Act 4 — Judge, then graft, then record what the cast produced
+ - Act 5 — Validate: alignment first, then quality
++- Focused visual work
+ - The output the director owes
+ 
+ ## Act 1 — The brief, and the sentence that could falsify it
+@@ -53,8 +54,8 @@ plainly that it is unvalidated.
+ |---|---|---|
+ | **New design** | `style` | there is nothing to measure yet; the direction is the first commitment |
+ | **Redesign** | `verify` + `a11y` **first** | you are replacing something that works for somebody. Measure it before you take it away, or you will re-ship its defects and lose its accidents |
+-| **Update** | `tokens` | change the token, not the components that read it. An update that edits components is a redesign wearing a smaller word |
+-| **Audit** | `a11y` → `verify` → `speed` | nothing is redrawn until all three have spoken |
++| **Update** | the affected visual role | preserve the chosen identity; a targeted component, type or spacing correction does not automatically replace the design direction |
++| **Audit** | checks relevant to the stated scope | inspect before proposing changes; distinguish visual evidence, behavior, accessibility and performance, and state unavailable checks |
+ 
+ The redesign row is the one people get wrong. **A redesign starts with a
+ measurement of the thing being replaced** — contrast, keyboard path, what the
+@@ -115,6 +116,26 @@ it. It is a reason to say, out loud, which one is directing.
+ Two variations built by two subagents with **different casts** is the strongest
+ move in this document and the easiest one to turn into theatre.
+ 
++### Direction exploration is a separate experiment
++
++Comparing tool casts does not compare artistic directions. When the visual
++direction is unsettled, render two meaningfully different treatments even if
++only one credible cast is available. Use the same agreed behavior and realistic
++content; vary composition, typographic hierarchy, imagery/material and spatial
++rhythm, not only accent colour or a chat-versus-services navigation choice.
++
++Record **locked invariants** (brand, accessibility, approved behavior, platform)
++and **open axes** before rendering. A locked brand does not freeze every
++composition. Sketch with provisional semantic tokens inside those invariants;
++after comparison, consolidate the chosen direction into the pack contract.
++Do not require a fully authored style pack before the renders needed to choose
++it exist. A token-only switch compares compatible skins, not the whole design space.
++
++This exploration may be sequential within one agent; the disjoint-cast fork
++below remains a separate, optional experiment. Preserve the operator's chosen
++direction when it is already settled. Record the losing direction and why it
++lost without adding an unnecessary approval round for a decision already made.
++
+ ### The rule that makes it honest
+ 
+ **The rubric is written before either variation is made, and it is not touched
+@@ -222,6 +243,24 @@ quality claim made from source is a claim about source.
+ 
+ ### The limit, stated rather than implied
+ 
++For a new direction or substantive redesign, also run a visual critique loop:
++compare rendered states at the same viewports and with the same content against
++the brief and selected reference traits; name the specific weak hierarchy,
++composition, typography, imagery or platform treatment; change it and render
++again. This loop applies even when no cast fork ran. Keep the before/after
++evidence and distinguish visual judgment from functional and mechanical checks.
++Change a render only for an actionable finding. If the rubric yields none, stop.
++Set a bounded iteration/time budget before the loop; at its end record unresolved
++findings. Surface a material unresolved direction choice to the operator without
++inventing another approval gate for an already selected direction.
++
++Use anchored examples and a stated rubric for visual judgment; record the
++reviewer, rationale and uncertainty. Passing contrast, token discipline or a
++font-size count cannot be the acceptance criterion for visual craft by itself.
++A flow mockup approves transitions; it does not automatically approve the art
++direction. If browser/image inspection is unavailable, state that limitation
++rather than claiming the rendered result was reviewed.
++
+ **Taste is not on that table, and this document will not pretend otherwise.**
+ These checks catch defects and enforce a system. They cannot tell you whether the
+ result is *good* — and a director that reports "all gates green" as if it meant
+@@ -232,6 +271,40 @@ manufactured winner.
+ 
+ ---
+ 
++## Focused visual work
++
++For a bounded request, reuse the existing brief and select the relevant lens
++below. These are modes inside this skill, not new global routers or an external
++command dependency. Do not repeat direction selection for an already chosen
++direction, or run every lens for a single local correction.
++
++| Lens | Question and concrete work | Evidence to keep |
++|---|---|---|
++| **Type** | List the text roles and the faces/weights actually in use. Improve distinctions between those roles through size, weight, spacing and contrast. Keep a single family when it does the job. Check long labels, the target languages, zoom and fallback fonts. | Representative rendered roles; loaded/fallback font status; the specific reading or hierarchy defect fixed. A font name or a universal line-length target is not a quality verdict. |
++| **Composition** | Establish the leading element, supporting elements and meaningful groups. Adjust proximity, rhythm and density to the task. Inspect the relevant supported sizes and content extremes; preserve a sensible reading and focus order. | Before/after of the same state and content; evidence of wrapping, overflow and order. Optical adjustments follow inspection rather than guessed pixel offsets. |
++| **State adaptation** | Walk empty, long-content, error, pending, keyboard and recovery states relevant to the scenario. Separate browser prototype behavior from native platform expectations. | State/viewport identifiers, declared versus walked coverage and explicit simulations. No invented latency or claim that a browser preview proves native behavior. |
++| **Finish** | Revisit the already identified defects and check what the changes introduced. Keep useful details that were already working. Stop when no actionable finding remains or the agreed budget is reached. | Each previous finding is resolved, partial or unresolved, with current captures and any regressions. The number of edits is not a success metric. |
++
++Before visual review, check that each capture belongs to the expected build,
++screen, state, viewport and content. A stale screenshot or one taken before an
++overlay opened cannot prove that overlay correct. If the capture cannot be
++verified, mark the visual claim unverified and continue only the checks the
++available evidence supports.
++
++Judge the render against the brief before reading an explanation of how hard it
++was to build. Separate observed defects from preferences and hypotheses. A fresh
++reviewer is useful when available and authorized; an explicit separate review
++pass by one agent is a valid fallback. Neither requires an external detector,
++binary, service, API key, font download or new framework. Reuse local assets and
++existing inspection tools; missing inspection remains NOT_RUN.
++
++These local procedures were informed by a comparison of Impeccable's
++[type](https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md),
++[layout](https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md)
++and [finish-review methods](https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md) (Apache-2.0). They use this family's contracts; no
++upstream runtime, assets, fixed style bans or automatic workflow are included.
++The links record provenance, not instructions to fetch during every run.
++
+ ## The output the director owes
+ 
+ One short record, every time, whether the work took ten minutes or a day:

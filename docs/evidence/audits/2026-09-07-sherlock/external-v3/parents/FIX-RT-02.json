@@ -1,0 +1,210 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-RT-02",
+  "revision": 1,
+  "title": "Отказ от одного маршрута выключает всю эскалацию; цитата тоже считается отказом",
+  "finding_id": "RT-02",
+  "module": "sshlg-skills",
+  "modules": [
+    "sshlg-skills"
+  ],
+  "priority": "P1",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "parent_planned",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements",
+      "audit_original_sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program",
+      "audit_original_sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions",
+      "audit_original_sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f"
+    },
+    {
+      "path": "audit://extension/context/modules/sshlg-skills.md",
+      "sha256": "239fabba599e87d49984cffd1b031b2fbb41009aa1db310fcfbb4d11c7328c35",
+      "role": "module:sshlg-skills",
+      "audit_original_sha256": "1ba5c103f173da419a57a05153cf840fe5a10515f5f8261d194c719fb8420363"
+    },
+    {
+      "path": "audit://extension/context/contracts/install.md",
+      "sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289",
+      "role": "contract:install",
+      "audit_original_sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289"
+    },
+    {
+      "path": "audit://extension/context/contracts/routing.md",
+      "sha256": "9e54f451c9efbda462e0f798751573114c5b787fb2fe435591057e96e108954b",
+      "role": "contract:routing",
+      "audit_original_sha256": "9e54f451c9efbda462e0f798751573114c5b787fb2fe435591057e96e108954b"
+    },
+    {
+      "path": "audit://parent-findings.json",
+      "sha256": "43e0bd08635bfe927e595157ac07e4849857cd5206fcc123bb29fe9e0591ce7a",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "86af0f7e1fc5918b3f5a1564bb1ddb688167e604436637b5178a1c2c42affe83"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "RT-02",
+    "skills": [
+      "sshlg-skills"
+    ],
+    "title": "Отказ от одного маршрута выключает всю эскалацию; цитата тоже считается отказом",
+    "priority": "P1",
+    "kind": "reproduced",
+    "evidence": [
+      "repo://sshlg-skills/lib/triggers.js:726",
+      "repo://sshlg-skills/lib/turnstate.js:56",
+      "audit://routing-reproductions.json"
+    ],
+    "impact": "«…без дизайна» обнуляет все маршруты в данном ходе; optedOut сохраняется на сессию. Цитируемое «no pipeline.» тоже даёт true. Общая эскалация выключается намеренно по текущей доктрине, но цитата — не выбор пользователя. Это не выключает гарантированно сами LLM-инструкции.",
+    "fix": "Хранить waivers по route_id, scope и источнику: явный акт пользователя, не цитата/пример/ответ инструмента. Общесессионный отказ от всех подсказок оставить отдельным осознанным флагом. Изменение нынешней общей политики записать как решение, а не скрытую починку.",
+    "acceptance": "Отказ от design сохраняет billing и UX; обсуждение фразы отказа не меняет state; явно выбранный session waiver переживает следующий ход и может быть отозван.",
+    "origin": "parent-findings.json",
+    "observation": "«…без дизайна» обнуляет все маршруты в данном ходе; optedOut сохраняется на сессию. Цитируемое «no pipeline.» тоже даёт true. Общая эскалация выключается намеренно по текущей доктрине, но цитата — не выбор пользователя. Это не выключает гарантированно сами LLM-инструкции.",
+    "evidence_kind": "reproduced",
+    "sources": [],
+    "implementation_status": "proposed",
+    "phase": "M3",
+    "task_id": "FIX-RT-02"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Хранить waivers по route_id, scope и источнику: явный акт пользователя, не цитата/пример/ответ инструмента. Общесессионный отказ от всех подсказок оставить отдельным осознанным флагом. Изменение нынешней общей политики записать как решение, а не скрытую починку.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Отказ от design сохраняет billing и UX; обсуждение фразы отказа не меняет state; явно выбранный session waiver переживает следующий ход и может быть отозван."
+  ],
+  "verification_plan": {
+    "baseline": "«…без дизайна» обнуляет все маршруты в данном ходе; optedOut сохраняется на сессию. Цитируемое «no pipeline.» тоже даёт true. Общая эскалация выключается намеренно по текущей доктрине, но цитата — не выбор пользователя. Это не выключает гарантированно сами LLM-инструкции.",
+    "must_test": "Отказ от design сохраняет billing и UX; обсуждение фразы отказа не меняет state; явно выбранный session waiver переживает следующий ход и может быть отозван.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://sshlg-skills/lib/triggers.js",
+      "sha256": "6c9810816a3a85c44f8bbd265d4a38a6d80d793a2ba94e1b5cbc9b4995a84bcc",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://sshlg-skills/lib/turnstate.js",
+      "sha256": "71306bf03e2175c4ec2e984f29e00fca133ff60ec94202e87da65697bc5db093",
+      "role": "baseline source"
+    },
+    {
+      "path": "audit://routing-reproductions.json",
+      "sha256": "3bc3fabc9f0a0de6eea49fcb0e4827b8da4bdf07ab2d707270a514e1c445337f",
+      "role": "read-only audit evidence",
+      "audit_original_sha256": "3bc3fabc9f0a0de6eea49fcb0e4827b8da4bdf07ab2d707270a514e1c445337f"
+    }
+  ],
+  "source_bases": {
+    "sshlg-skills": "7ef37e8bd5220d6ab355346634ff19196de8f41b"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://sshlg-skills",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://sshlg-skills/lib/triggers.js",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://sshlg-skills/lib/turnstate.js",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 3,
+  "origin": "v2",
+  "dispatchable": false,
+  "retired_read_only_evidence": [],
+  "leaf_ids": [
+    "FIX-RT-02.01",
+    "FIX-RT-02.02"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Отказ от design сохраняет billing и UX; обсуждение фразы отказа не меняет state; явно выбранный session waiver переживает следующий ход и может быть отозван."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

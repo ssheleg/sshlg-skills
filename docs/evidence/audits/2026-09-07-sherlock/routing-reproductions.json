@@ -1,0 +1,75 @@
+[
+  {
+    "id": "mixed_request",
+    "prompt": "Объясни причину и почини ошибку входа через Google.",
+    "routes": [],
+    "optedOut": false,
+    "question": true
+  },
+  {
+    "id": "read_only",
+    "prompt": "Проведи аудит проекта, исходники не меняй.",
+    "routes": [
+      "task-pipeline",
+      "project-audit"
+    ],
+    "optedOut": false,
+    "question": false
+  },
+  {
+    "id": "skill_audit",
+    "prompt": "Проведи детальный аудит семейства скиллов моих, Sherlock Skills, всех скиллов.",
+    "routes": [
+      "task-pipeline"
+    ],
+    "optedOut": false,
+    "question": false
+  },
+  {
+    "id": "quoted_refusal",
+    "prompt": "Проверь, почему фраза no pipeline. отключает роутинг.",
+    "routes": [],
+    "optedOut": true,
+    "question": true
+  },
+  {
+    "id": "unrelated_refusal",
+    "prompt": "Сделай оплату через Stripe, без дизайна.",
+    "routes": [],
+    "optedOut": true,
+    "question": false
+  },
+  {
+    "id": "subagent_use",
+    "prompt": "Поручи sub-agent проверить тесты этого репозитория.",
+    "routes": [
+      "agent-stack"
+    ],
+    "optedOut": false,
+    "question": false
+  },
+  {
+    "id": "plain_edit",
+    "prompt": "Добавь проверку подписи webhook.",
+    "routes": [],
+    "optedOut": false,
+    "question": false
+  },
+  {
+    "id": "question_only",
+    "prompt": "Объясни как работает миграция базы.",
+    "routes": [],
+    "optedOut": false,
+    "question": true
+  },
+  {
+    "id": "make_explicit",
+    "prompt": "Проведи аудит скилов.",
+    "routes": [
+      "task-pipeline",
+      "make-skill"
+    ],
+    "optedOut": false,
+    "question": false
+  }
+]

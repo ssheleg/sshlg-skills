@@ -1,0 +1,281 @@
+Exit code: 1
+OK: sheleg-dev structurally valid (27 checks, 7 skill(s), v0.11.8)
+OK: money gate — 65 fixtures (refusals, false-positive plants, and the hook as a process)
+OK: money fixtures — 16 checks (both packs, both modes, 6 plants: neutered assertions, an unremovable rule, and a live discriminator parked in the unmutated escape hatch)
+ok: fresh HOME installs every skill, says how updates arrive, and names the gate
+ok: rerun skips every skill, --force overwrites, unknown arg exits 2
+ok: plugin present in installed_plugins.json: refuse, exit 3, remedy, nothing written
+ok: plugin under a differently-named marketplace: remedy names the real spec
+ok: --force overrides the refusal, deliberately
+ok: corrupt installed_plugins.json reads as "no plugin" — install, never crash
+ok: other plugins, and a prefix-collider, do not trigger a false refusal
+ok: marketplaces/<name> dir alone still refuses (fallback signal, exit 3)
+ok: install.sh: fresh install of every skill, the update line, unknown arg exits 2
+ok: install.sh: plugin present — refuse, exit 3, nothing written; --force installs
+ok: install.sh: marketplaces dir alone refuses; corrupt JSON fails open
+residue: this run left nothing — 11 temp home(s) created, 11 removed
+PASS: installer — 11 case(s)
+running 48 negative self-tests
+
+  PASS   a release that does not gate on validate must fail
+  PASS   version drift must fail
+  PASS   over-long description must fail
+  PASS   front-matter name must match the directory
+  PASS   a trigger literal advertised by two skills must fail
+  PASS   CONTRIBUTING routing to a file we do not have must fail
+  PASS   a shipped document naming a path we do not have must fail
+  PASS   a file:line citation past the end of the file must fail
+  FAIL   a stale FOREIGN_BY_DESIGN exemption must fail
+  FAIL   a live credential declared test must be refusable
+  FAIL   a test credential declared live must be refusable
+  FAIL   handing over a credential with no declared environment must fail
+  FAIL   a gate that reports instead of preventing must fail
+  FAIL   an `if` filter on the gate must fail
+  FAIL   a decision inlined into the hook must fail
+  FAIL   a hook that stops failing silent must fail
+  FAIL   dropping the false-positive plants must fail
+  FAIL   a live-key rule narrowed to the bare prefix must fail
+  FAIL   a heredoc body read as an invocation must fail
+  FAIL   a test-declaring run that can be authorised must fail
+  FAIL   a claimed invariant whose fixture is gone must fail
+  FAIL   a fixture nobody claims must fail
+  FAIL   a dead fixture pointer in a reference must fail
+  FAIL   a reworded claim that leaves its fixture behind must fail
+  FAIL   an assertion that can no longer fail must fail the suite
+  FAIL   a reference nobody links must fail
+  FAIL   a dangling reference link must fail
+  FAIL   stray SKILL.md must fail
+  FAIL   dropping the validator from CI must fail
+  FAIL   a check count that does not count the checks must fail
+  FAIL   a SKILL.md body past the house working limit must fail
+  FAIL   a ledger heading naming a version nobody ships must fail
+  FAIL   a ledger quoting a verdict the validator does not print must fail
+  FAIL   a counted number in SECURITY.md that nothing recomputes must fail
+  FAIL   a stale body-budget number in the evals record must fail
+  FAIL   a coordination config pointing at a missing file must fail
+  FAIL   guardedFiles claiming the ledger and not the board must fail
+  FAIL   a gate line naming fewer suites than npm test runs must fail
+  FAIL   an install channel that hides the missing gate must fail
+  FAIL   an unclassified document under docs/ must fail
+  FAIL   a shipped document naming a clone-only path must fail
+  FAIL   dropping the mcp__ half of the gate must fail
+  FAIL   a copy-channel snippet weaker than the plugin must fail
+  FAIL   a $schema in the inert nested position must fail
+  FAIL   a marketplace with no root $schema must fail
+  FAIL   the dead $schema address restored must fail
+  FAIL   a $schema naming the wrong document type must fail
+  FAIL   a dangling Contents anchor must fail
+
+FAIL — the validator accepted a planted defect:
+
+  * a stale FOREIGN_BY_DESIGN exemption must fail — the guard does not actually fire
+      cp: /tmp/staleexempt/.claude-plugin: No space left on device
+      cp: /tmp/staleexempt/.github: No space left on device
+      cp: /tmp/staleexempt/SKILL-CARD.md: No space left on device
+      cp: /tmp/staleexempt/.git: No space left on device
+      cp: /tmp/staleexempt/.agent-sync: No space left on device
+      cp: /tmp/staleexempt/SECURITY.md: No space left on device
+
+  * a live credential declared test must be refusable — the guard does not actually fire
+      cp: /tmp/credtest/.git/index: No space left on device
+      cp: /tmp/credtest/.git/packed-refs: No space left on device
+      cp: /tmp/credtest/.git/COMMIT_EDITMSG: No space left on device
+      cp: /tmp/credtest/.git/FETCH_HEAD: No space left on device
+      cp: /tmp/credtest/.agent-sync: No space left on device
+      cp: /tmp/credtest/SECURITY.md: No space left on device
+
+  * a test credential declared live must be refusable — the guard does not actually fire
+      cp: /tmp/credlive/.claude-plugin: No space left on device
+      cp: /tmp/credlive/.github: No space left on device
+      cp: /tmp/credlive/SKILL-CARD.md: No space left on device
+      cp: /tmp/credlive/.git: No space left on device
+      cp: /tmp/credlive/.agent-sync: No space left on device
+      cp: /tmp/credlive/SECURITY.md: No space left on device
+
+  * handing over a credential with no declared environment must fail — the guard does not actually fire
+      cp: /tmp/credenv/.claude-plugin: No space left on device
+      cp: /tmp/credenv/.github: No space left on device
+      cp: /tmp/credenv/SKILL-CARD.md: No space left on device
+      cp: /tmp/credenv/.git: No space left on device
+      cp: /tmp/credenv/.agent-sync: No space left on device
+      cp: /tmp/credenv/SECURITY.md: No space left on device
+
+  * a gate that reports instead of preventing must fail — the guard does not actually fire
+      cp: /tmp/gate-post/.claude-plugin: No space left on device
+      cp: /tmp/gate-post/.github: No space left on device
+      cp: /tmp/gate-post/SKILL-CARD.md: No space left on device
+      cp: /tmp/gate-post/.git: No space left on device
+      cp: /tmp/gate-post/.agent-sync: No space left on device
+      cp: /tmp/gate-post/SECURITY.md: No space left on device
+
+  * an `if` filter on the gate must fail — the guard does not actually fire
+      cp: /tmp/gate-if/.claude-plugin: No space left on device
+      cp: /tmp/gate-if/.github: No space left on device
+      cp: /tmp/gate-if/SKILL-CARD.md: No space left on device
+      cp: /tmp/gate-if/.git: No space left on device
+      cp: /tmp/gate-if/.agent-sync: No space left on device
+      cp: /tmp/gate-if/SECURITY.md: No space left on device
+
+  * a decision inlined into the hook must fail — the guard does not actually fire
+      cp: /tmp/gate-inline/.claude-plugin/marketplace.json: No space left on device
+      cp: /tmp/gate-inline/.github: No space left on device
+      cp: /tmp/gate-inline/SKILL-CARD.md: No space left on device
+      cp: /tmp/gate-inline/.git: No space left on device
+      cp: /tmp/gate-inline/.agent-sync: No space left on device
+      cp: /tmp/gate-inline/SECURITY.md: No space left on device
+
+  * a hook that stops failing silent must fail — the guard does not actually fire
+      cp: /tmp/gate-throw/.claude-plugin: No space left on device
+      cp: /tmp/gate-throw/.github: No space left on device
+      cp: /tmp/gate-throw/SKILL-CARD.md: No space left on device
+      cp: /tmp/gate-throw/.git: No space left on device
+      cp: /tmp/gate-throw/.agent-sync: No space left on device
+      cp: /tmp/gate-throw/SECURITY.md: No space left on device
+
+  * dropping the false-positive plants must fail — the guard does not actually fire
+      cp: /tmp/gate-oneway/.claude-plugin: No space left on device
+      cp: /tmp/gate-oneway/.github: No space left on device
+      cp: /tmp/gate-oneway/SKILL-CARD.md: No space left on device
+      cp: /tmp/gate-oneway/.git: No space left on device
+      cp: /tmp/gate-oneway/.agent-sync: No space left on device
+      cp: ./SECURITY.md: could not copy extended attributes to /tmp/gate-oneway/SECURITY.md: No space left on device
+
+  * a live-key rule narrowed to the bare prefix must fail — the guard does not actually fire
+      cp: /tmp/gate-prefix/.claude-plugin: No space left on device
+      cp: /tmp/gate-prefix/.github: No space left on device
+      cp: /tmp/gate-prefix/SKILL-CARD.md: No space left on device
+      cp: /tmp/gate-prefix/.git: No space left on device
+      cp: /tmp/gate-prefix/.agent-sync: No space left on device
+      cp: /tmp/gate-prefix/SECURITY.md: No space left on device
+
+  * a heredoc body read as an invocation must fail — the guard does not actually fire
+      cp: /tmp/gate-heredoc: No space left on device
+
+  * a test-declaring run that can be authorised must fail — the guard does not actually fire
+      cp: /tmp/gate-authtest: No space left on device
+
+  * a claimed invariant whose fixture is gone must fail — the guard does not actually fire
+      cp: /tmp/fx-missing: No space left on device
+
+  * a fixture nobody claims must fail — the guard does not actually fire
+      cp: /tmp/fx-orphan/.claude-plugin: No space left on device
+      cp: /tmp/fx-orphan/.github: No space left on device
+      cp: /tmp/fx-orphan/SKILL-CARD.md: No space left on device
+      cp: /tmp/fx-orphan/.git: No space left on device
+      cp: /tmp/fx-orphan/.agent-sync: No space left on device
+      cp: /tmp/fx-orphan/SECURITY.md: No space left on device
+
+  * a dead fixture pointer in a reference must fail — the guard does not actually fire
+      cp: /tmp/fx-deadptr: No space left on device
+
+  * a reworded claim that leaves its fixture behind must fail — the guard does not actually fire
+      cp: /tmp/fx-reworded: No space left on device
+
+  * an assertion that can no longer fail must fail the suite — the guard does not actually fire
+      cp: /tmp/fx-neutered: No space left on device
+
+  * a reference nobody links must fail — the guard does not actually fire
+      cp: /tmp/orphan-copy: No space left on device
+
+  * a dangling reference link must fail — the guard does not actually fire
+      cp: /tmp/dangling-copy/.claude-plugin: No space left on device
+      cp: /tmp/dangling-copy/.github: No space left on device
+      cp: /tmp/dangling-copy/SKILL-CARD.md: No space left on device
+      cp: /tmp/dangling-copy/.git: No space left on device
+      cp: /tmp/dangling-copy/.agent-sync: No space left on device
+      cp: /tmp/dangling-copy/SECURITY.md: No space left on device
+
+  * stray SKILL.md must fail — the guard does not actually fire
+      cp: /tmp/stray-copy/.claude-plugin: No space left on device
+      cp: /tmp/stray-copy/.github: No space left on device
+      cp: /tmp/stray-copy/SKILL-CARD.md: No space left on device
+      cp: /tmp/stray-copy/.git: No space left on device
+      cp: /tmp/stray-copy/.agent-sync: No space left on device
+      cp: /tmp/stray-copy/SECURITY.md: No space left on device
+
+  * dropping the validator from CI must fail — the guard does not actually fire
+      cp: /tmp/nogate-copy/.claude-plugin: No space left on device
+      cp: /tmp/nogate-copy/.github: No space left on device
+      cp: /tmp/nogate-copy/SKILL-CARD.md: No space left on device
+      cp: /tmp/nogate-copy/.git: No space left on device
+      cp: /tmp/nogate-copy/.agent-sync: No space left on device
+      cp: /tmp/nogate-copy/SECURITY.md: No space left on device
+
+  * a check count that does not count the checks must fail — the guard does not actually fire
+      cp: /tmp/countderive: No space left on device
+
+  * a SKILL.md body past the house working limit must fail — the guard does not actually fire
+      cp: /tmp/bodybudget: No space left on device
+
+  * a ledger heading naming a version nobody ships must fail — the guard does not actually fire
+      cp: /tmp/ledgerver: No space left on device
+
+  * a ledger quoting a verdict the validator does not print must fail — the guard does not actually fire
+      cp: /tmp/ledgerverdict: No space left on device
+
+  * a counted number in SECURITY.md that nothing recomputes must fail — the guard does not actually fire
+      cp: /tmp/seccount: No space left on device
+
+  * a stale body-budget number in the evals record must fail — the guard does not actually fire
+      cp: /tmp/evalnum: No space left on device
+
+  * a coordination config pointing at a missing file must fail — the guard does not actually fire
+      cp: /tmp/syncpath: No space left on device
+
+  * guardedFiles claiming the ledger and not the board must fail — the guard does not actually fire
+      cp: /tmp/syncguard: No space left on device
+
+  * a gate line naming fewer suites than npm test runs must fail — the guard does not actually fire
+      cp: /tmp/gateline/.claude-plugin: No space left on device
+      cp: /tmp/gateline/.github: No space left on device
+      cp: /tmp/gateline/SKILL-CARD.md: No space left on device
+      cp: /tmp/gateline/.git: No space left on device
+      cp: /tmp/gateline/.agent-sync: No space left on device
+      cp: /tmp/gateline/SECURITY.md: No space left on device
+
+  * an install channel that hides the missing gate must fail — the guard does not actually fire
+      cp: /tmp/installnotice: No space left on device
+
+  * an unclassified document under docs/ must fail — the guard does not actually fire
+      cp: /tmp/docsclass/.git/index: No space left on device
+      cp: /tmp/docsclass/.git/packed-refs: No space left on device
+      cp: /tmp/docsclass/.git/COMMIT_EDITMSG: No space left on device
+      cp: /tmp/docsclass/.git/FETCH_HEAD: No space left on device
+      cp: /tmp/docsclass/.agent-sync: No space left on device
+      cp: /tmp/docsclass/SECURITY.md: No space left on device
+
+  * a shipped document naming a clone-only path must fail — the guard does not actually fire
+      cp: /tmp/tarpath: No space left on device
+
+  * dropping the mcp__ half of the gate must fail — the guard does not actually fire
+      cp: /tmp/mcpgate: No space left on device
+
+  * a copy-channel snippet weaker than the plugin must fail — the guard does not actually fire
+      cp: /tmp/snippetgate: No space left on device
+
+  * a $schema in the inert nested position must fail — the guard does not actually fire
+      cp: /tmp/schema-nested: No space left on device
+
+  * a marketplace with no root $schema must fail — the guard does not actually fire
+      cp: /tmp/schema-absent: No space left on device
+
+  * the dead $schema address restored must fail — the guard does not actually fire
+      cp: /tmp/schema-dead: No space left on device
+
+  * a $schema naming the wrong document type must fail — the guard does not actually fire
+      cp: /tmp/schema-wrongtype/.claude-plugin: No space left on device
+      cp: /tmp/schema-wrongtype/.github: No space left on device
+      cp: /tmp/schema-wrongtype/SKILL-CARD.md: No space left on device
+      cp: /tmp/schema-wrongtype/.git: No space left on device
+      cp: /tmp/schema-wrongtype/.agent-sync: No space left on device
+      cp: /tmp/schema-wrongtype/SECURITY.md: No space left on device
+
+  * a dangling Contents anchor must fail — the guard does not actually fire
+      cp: /tmp/anchor-plant/.claude-plugin: No space left on device
+      cp: /tmp/anchor-plant/.github: No space left on device
+      cp: /tmp/anchor-plant/SKILL-CARD.md: No space left on device
+      cp: /tmp/anchor-plant/.git: No space left on device
+      cp: /tmp/anchor-plant/.agent-sync: No space left on device
+      cp: /tmp/anchor-plant/SECURITY.md: No space left on device
+
+FAIL: 40 guard(s) did not fire, 0 test(s) broken

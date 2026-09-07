@@ -1,0 +1,1084 @@
+{
+  "purpose": "Design-time executable model, NOT the implemented production router or an LLM eval.\nInput intent/facets are authored fixtures; natural-language interpretation is out of scope.\n",
+  "cases": [
+    {
+      "id": "SC-01",
+      "title": "Аудит семейства как текущий запрос",
+      "task": {
+        "intent": "audit",
+        "subject": "family",
+        "report": true
+      },
+      "expected": [
+        "make-skill",
+        "evidence-docs"
+      ],
+      "forbidden": [
+        "task-pipeline"
+      ],
+      "result": {
+        "skills": [
+          "evidence-docs",
+          "make-skill"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-02",
+      "title": "Read-only проект",
+      "task": {
+        "intent": "audit",
+        "subject": "project",
+        "report": true,
+        "authorized_effects": [
+          "source_write",
+          "write_report"
+        ]
+      },
+      "expected": [
+        "project-audit",
+        "evidence-docs"
+      ],
+      "forbidden": [
+        "task-pipeline"
+      ],
+      "result": {
+        "skills": [
+          "evidence-docs",
+          "project-audit"
+        ],
+        "allowed_effects": [
+          "read",
+          "write_report"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-03",
+      "title": "Определение термина",
+      "task": {
+        "intent": "explain"
+      },
+      "expected": [],
+      "forbidden": [
+        "task-pipeline"
+      ],
+      "result": {
+        "skills": [],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-04",
+      "title": "Объясни и исправь Google login",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "google_login"
+        ],
+        "authorized_effects": [
+          "source_write"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "google-signin"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "google-signin",
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "read",
+          "source_write"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-05",
+      "title": "Исправить ошибку в согласованном UI",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "ui",
+          "ux_audit"
+        ],
+        "capabilities": [
+          "browser"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "ux-scenarios",
+        "ux-audit"
+      ],
+      "forbidden": [
+        "vision",
+        "ux-foundation",
+        "brand-voice"
+      ],
+      "result": {
+        "skills": [
+          "task-pipeline",
+          "ux-audit",
+          "ux-scenarios"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-06",
+      "title": "Новый продукт",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "vision",
+          "foundation",
+          "flows",
+          "ui",
+          "copy",
+          "visual",
+          "brand",
+          "seo"
+        ],
+        "capabilities": [
+          "browser",
+          "figma"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "vision",
+        "ux-foundation",
+        "ux-flows",
+        "ux-scenarios",
+        "copywriting",
+        "sheleg-design",
+        "brand-voice",
+        "seo-aeo-audit"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "brand-voice",
+          "copywriting",
+          "seo-aeo-audit",
+          "sheleg-design",
+          "task-pipeline",
+          "ux-flows",
+          "ux-foundation",
+          "ux-scenarios",
+          "vision"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-07",
+      "title": "Структура экрана без выбора визуала",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "flows",
+          "ui"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "ux-flows",
+        "ux-scenarios"
+      ],
+      "forbidden": [
+        "sheleg-design"
+      ],
+      "result": {
+        "skills": [
+          "task-pipeline",
+          "ux-flows",
+          "ux-scenarios"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [
+          "runtime_ui_verification"
+        ],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-08",
+      "title": "Отдельный пост",
+      "task": {
+        "intent": "create_artifact",
+        "facets": [
+          "copy"
+        ]
+      },
+      "expected": [
+        "copywriting"
+      ],
+      "forbidden": [
+        "task-pipeline",
+        "ux-scenarios"
+      ],
+      "result": {
+        "skills": [
+          "copywriting"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-09",
+      "title": "Бренд с нуля",
+      "task": {
+        "intent": "create_artifact",
+        "facets": [
+          "brand"
+        ]
+      },
+      "expected": [
+        "brand-voice"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "brand-voice"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-10",
+      "title": "Stripe backend",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "stripe"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "stripe-billing"
+      ],
+      "forbidden": [
+        "ux-scenarios"
+      ],
+      "result": {
+        "skills": [
+          "stripe-billing",
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-11",
+      "title": "Crypto",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "crypto"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "crypto-payments"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "crypto-payments",
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-12",
+      "title": "Sentry",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "errors"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "error-tracking"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "error-tracking",
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-13",
+      "title": "Attribution",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "tracking"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "ad-tracking"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "ad-tracking",
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-14",
+      "title": "Server Google ADC",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "google_server"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "google-auth"
+      ],
+      "forbidden": [
+        "google-signin"
+      ],
+      "result": {
+        "skills": [
+          "google-auth",
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-15",
+      "title": "CWV",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "performance"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "frontend-performance"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "frontend-performance",
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-16",
+      "title": "Использовать субагента для обычной задачи",
+      "task": {
+        "intent": "change",
+        "facets": []
+      },
+      "expected": [
+        "task-pipeline"
+      ],
+      "forbidden": [
+        "agent-orchestrator"
+      ],
+      "result": {
+        "skills": [
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-17",
+      "title": "Создать agent system",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "agent_loop",
+          "agent_prompt",
+          "agent_evals",
+          "protocol"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "agent-orchestrator",
+        "agent-harness",
+        "agent-evals",
+        "agent-interop"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "agent-evals",
+          "agent-harness",
+          "agent-interop",
+          "agent-orchestrator",
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-18",
+      "title": "Telegram bot",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "telegram_bot"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "telegram-bots"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "task-pipeline",
+          "telegram-bots"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-19",
+      "title": "Telegram user account automation",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "telegram_account"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "telegram-userbots"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "task-pipeline",
+          "telegram-userbots"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-20",
+      "title": "Mini App со Stars",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "telegram_miniapp",
+          "telegram_bot",
+          "ui",
+          "copy",
+          "visual"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "telegram-miniapps",
+        "telegram-bots",
+        "ux-scenarios",
+        "copywriting",
+        "sheleg-design"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "copywriting",
+          "sheleg-design",
+          "task-pipeline",
+          "telegram-bots",
+          "telegram-miniapps",
+          "ux-scenarios"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [
+          "figma_sync",
+          "runtime_ui_verification"
+        ],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-21",
+      "title": "Конкурентные writers общего реестра",
+      "task": {
+        "intent": "change",
+        "shared_registry": true,
+        "writers": 2
+      },
+      "expected": [
+        "task-pipeline",
+        "agent-sync"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "agent-sync",
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-22",
+      "title": "Один writer",
+      "task": {
+        "intent": "change",
+        "shared_registry": true,
+        "writers": 1
+      },
+      "expected": [
+        "task-pipeline"
+      ],
+      "forbidden": [
+        "agent-sync"
+      ],
+      "result": {
+        "skills": [
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-23",
+      "title": "Нет Figma",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "ui",
+          "visual"
+        ],
+        "capabilities": [
+          "browser"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "ux-scenarios",
+        "sheleg-design"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "sheleg-design",
+          "task-pipeline",
+          "ux-scenarios"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [
+          "figma_sync"
+        ],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-24",
+      "title": "Нет browser",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "ui"
+        ],
+        "capabilities": []
+      },
+      "expected": [
+        "task-pipeline",
+        "ux-scenarios"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "task-pipeline",
+          "ux-scenarios"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [
+          "runtime_ui_verification"
+        ],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-25",
+      "title": "Отказ только от дизайна",
+      "task": {
+        "intent": "change",
+        "facets": [
+          "stripe",
+          "ui",
+          "visual"
+        ],
+        "waivers": [
+          "sheleg-design"
+        ]
+      },
+      "expected": [
+        "task-pipeline",
+        "stripe-billing",
+        "ux-scenarios"
+      ],
+      "forbidden": [
+        "sheleg-design"
+      ],
+      "result": {
+        "skills": [
+          "stripe-billing",
+          "task-pipeline",
+          "ux-scenarios"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [
+          "figma_sync",
+          "runtime_ui_verification"
+        ],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-26",
+      "title": "Deploy был явно разрешён ранее",
+      "task": {
+        "intent": "change",
+        "authorized_effects": [
+          "deploy_staging"
+        ],
+        "requested_external_effects": [
+          "deploy_staging"
+        ]
+      },
+      "expected": [
+        "task-pipeline"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "deploy_staging",
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-27",
+      "title": "Не определён production target",
+      "task": {
+        "intent": "change",
+        "requested_external_effects": [
+          "deploy_production"
+        ],
+        "required_unknowns": [
+          "production_target"
+        ]
+      },
+      "expected": [
+        "task-pipeline"
+      ],
+      "forbidden": [],
+      "result": {
+        "skills": [
+          "task-pipeline"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [
+          "production_target"
+        ],
+        "approval_required": true
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    },
+    {
+      "id": "SC-28",
+      "title": "SEO audit с недоступной GSC",
+      "task": {
+        "intent": "audit",
+        "facets": [
+          "seo"
+        ],
+        "report": true,
+        "capabilities": []
+      },
+      "expected": [
+        "seo-aeo-audit",
+        "evidence-docs"
+      ],
+      "forbidden": [
+        "task-pipeline"
+      ],
+      "result": {
+        "skills": [
+          "evidence-docs",
+          "seo-aeo-audit"
+        ],
+        "allowed_effects": [
+          "read"
+        ],
+        "deferred": [],
+        "blocked": [],
+        "approval_required": false
+      },
+      "checks": {
+        "exact_skill_set": true,
+        "forbidden_absent": true,
+        "all_skills_known": true,
+        "read_only": true
+      },
+      "pass": true
+    }
+  ],
+  "invariants": {
+    "all_28_skills_exercised": true,
+    "figma_absence_not_blocking": true,
+    "browser_absence_not_false_verified": true,
+    "standing_auth_no_reask": true,
+    "unknown_target_blocks_external": true
+  },
+  "mutants": [
+    {
+      "name": "audit_wrong_route",
+      "rejected": true
+    },
+    {
+      "name": "audit_writes",
+      "rejected": true
+    },
+    {
+      "name": "waiver_erases_billing",
+      "rejected": true
+    },
+    {
+      "name": "subagent_is_system",
+      "rejected": true
+    }
+  ],
+  "all_pass": true
+}

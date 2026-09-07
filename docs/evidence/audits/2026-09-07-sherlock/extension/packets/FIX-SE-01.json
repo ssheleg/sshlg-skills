@@ -1,0 +1,184 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-SE-01",
+  "revision": 1,
+  "title": "Рекомендации Discover превращены в обязательный gate",
+  "finding_id": "SE-01",
+  "module": "seo-aeo-audit",
+  "modules": [
+    "seo-aeo-audit"
+  ],
+  "priority": "P1",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "planned_not_implemented",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions"
+    },
+    {
+      "path": "audit://extension/context/modules/seo-aeo-audit.md",
+      "sha256": "3a3482cd54111b6e826aaa1c30b42d69d0a889a5ffdf42fd987017f2b85e13f0",
+      "role": "module:seo-aeo-audit"
+    },
+    {
+      "path": "audit://extension/context/contracts/evidence.md",
+      "sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88",
+      "role": "contract:evidence"
+    },
+    {
+      "path": "audit://extension/context/contracts/product.md",
+      "sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163",
+      "role": "contract:product"
+    },
+    {
+      "path": "audit://parent-findings.json",
+      "sha256": "86af0f7e1fc5918b3f5a1564bb1ddb688167e604436637b5178a1c2c42affe83",
+      "role": "supporting evidence appendix"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "SE-01",
+    "skills": [
+      "seo-aeo-audit"
+    ],
+    "title": "Рекомендации Discover превращены в обязательный gate",
+    "priority": "P1",
+    "kind": "externally_confirmed",
+    "evidence": [
+      "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md:163",
+      "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/discover.md:147",
+      "https://developers.google.com/search/docs/appearance/google-discover"
+    ],
+    "impact": "Google допускает indexed+policy-compliant контент без специальных tags; скилл утверждает отсутствие карточки без двух метатегов и маркирует это CONFIRMED blocker. Условия большой картинки, рекомендации и eligibility смешаны.",
+    "fix": "Три отдельные проверки: eligibility, large preview permission (с альтернативой AMP), image selection recommendation. SDK reverse engineering оставить FIELD, без бинарного вывода о допуске.",
+    "acceptance": "Страница без og tags не получает confirmed ineligible; рекомендация изображения сохраняется; every confirmed rule ведёт к точному поддерживающему первоисточнику.",
+    "origin": "parent-findings.json",
+    "observation": "Google допускает indexed+policy-compliant контент без специальных tags; скилл утверждает отсутствие карточки без двух метатегов и маркирует это CONFIRMED blocker. Условия большой картинки, рекомендации и eligibility смешаны.",
+    "evidence_kind": "externally_confirmed",
+    "sources": [
+      "https://developers.google.com/search/docs/appearance/google-discover"
+    ],
+    "implementation_status": "proposed",
+    "phase": "M4",
+    "task_id": "FIX-SE-01"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Три отдельные проверки: eligibility, large preview permission (с альтернативой AMP), image selection recommendation. SDK reverse engineering оставить FIELD, без бинарного вывода о допуске.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Страница без og tags не получает confirmed ineligible; рекомендация изображения сохраняется; every confirmed rule ведёт к точному поддерживающему первоисточнику."
+  ],
+  "verification_plan": {
+    "baseline": "Google допускает indexed+policy-compliant контент без специальных tags; скилл утверждает отсутствие карточки без двух метатегов и маркирует это CONFIRMED blocker. Условия большой картинки, рекомендации и eligibility смешаны.",
+    "must_test": "Страница без og tags не получает confirmed ineligible; рекомендация изображения сохраняется; every confirmed rule ведёт к точному поддерживающему первоисточнику.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md",
+      "sha256": "931e0b18c21d7822a918003a119ea1ca4a3c4a4c2a8aa0dfd9dc0f005d3a5e10",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/discover.md",
+      "sha256": "28cce435029bccd0b68c1c20a74f5382d2dfe4beac34cfa6d63ad1e510649f98",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "seo-aeo-audit": "db261482a520df1b7373283955921f1282de866d"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://seo-aeo-audit",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/discover.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 1
+}

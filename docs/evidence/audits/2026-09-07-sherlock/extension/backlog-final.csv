@@ -1,0 +1,120 @@
+id,finding,priority,rank,wave,module,status,title,dependencies,packet
+FIX-DV-01,DV-01,P1,0,1,sheleg-dev,planned_not_implemented,"Claim фиксирует получение, но ошибочно считается завершением работы",,audit://extension/packets/FIX-DV-01.json
+FIX-SY-01,SY-01,P1,0,1,agent-sync,planned_not_implemented,Выданные IDs меняются задним числом; два reserve возвращают один номер,,audit://extension/packets/FIX-SY-01.json
+FIX-TG-01,TG-01,P1,0,1,telegram-dev,planned_not_implemented,"Crash fixture зелёный, но после реальной redelivery update теряется",,audit://extension/packets/FIX-TG-01.json
+FIX-UP-02,UP-02,P1,0,1,sshlg-skills,planned_not_implemented,Принятый --dry-run всё равно запускает обновления и удаляет файлы,,audit://extension/packets/FIX-UP-02.json
+CTX-01,,P1,1,1,task-pipeline,planned_not_implemented,Общий versioned context/task/result contract семьи,,audit://extension/packets/CTX-01.json
+CTX-03,,P1,1,1,super-ux,planned_not_implemented,Интерактивные UX flow previews как связанный deliverable,,audit://extension/packets/CTX-03.json
+FIX-AS-01,AS-01,P1,1,1,agent-stack,planned_not_implemented,Сага названа two-phase commit; неопределённый HTTP-исход предписано компенсировать как отказ,,audit://extension/packets/FIX-AS-01.json
+FIX-DS-01,DS-01,P1,1,1,sheleg-design,planned_not_implemented,Сравнение packs сменой CSS не имеет общего token API,,audit://extension/packets/FIX-DS-01.json
+FIX-MS-01,MS-01,P1,1,1,make-skill,planned_not_implemented,Приближение chars/3.9 выдаёт PASS токенового лимита,,audit://extension/packets/FIX-MS-01.json
+FIX-SE-01,SE-01,P1,1,1,seo-aeo-audit,planned_not_implemented,Рекомендации Discover превращены в обязательный gate,,audit://extension/packets/FIX-SE-01.json
+FIX-DV-02,DV-02,P1,0,2,sheleg-dev,planned_not_implemented,Пример renewal противоречит тесту переупорядоченных периодов и не сериализует grant,,audit://extension/packets/FIX-DV-02.json
+FIX-SY-02,SY-02,P1,0,2,agent-sync,planned_not_implemented,Общий last-renew позволяет активности одного агента подавлять продление чужих leases,,audit://extension/packets/FIX-SY-02.json
+FIX-TG-03,TG-03,P1,0,2,telegram-dev,planned_not_implemented,HMAC verifier удаляет поле signature и воспроизводит эту ошибку в собственном oracle,,audit://extension/packets/FIX-TG-03.json
+CTX-02,,P1,1,2,task-pipeline,planned_not_implemented,Report → prioritized packet compiler и context freshness gate,CTX-01,audit://extension/packets/CTX-02.json
+FIX-AS-02,AS-02,P1,1,2,agent-stack,planned_not_implemented,Нулевой baseline путается с отсутствующим: первый реальный расход теряется,,audit://extension/packets/FIX-AS-02.json
+FIX-MS-02,MS-02,P1,1,2,make-skill,planned_not_implemented,Самодельный YAML parser теряет типы metadata,,audit://extension/packets/FIX-MS-02.json
+FIX-RT-01,RT-01,P1,1,2,sshlg-skills,planned_not_implemented,Лексический роутер теряет намерение и смешивает аудит с изменением,,audit://extension/packets/FIX-RT-01.json
+FIX-SE-02,SE-02,P1,1,2,seo-aeo-audit,planned_not_implemented,Любая manual action объявлена обнулением всех улучшений сайта,,audit://extension/packets/FIX-SE-02.json
+FIX-UX-01,UX-01,P1,1,2,super-ux,planned_not_implemented,B030 не доказывает происхождение утверждения,,audit://extension/packets/FIX-UX-01.json
+FIX-VD-02,VD-02,P1,1,2,sheleg-design,planned_not_implemented,"Скриншоты и quality gates есть, но нет обязательного цикла художественной критики конкретного рендера",,audit://extension/packets/FIX-VD-02.json
+FIX-DV-03,DV-03,P1,0,3,sheleg-dev,planned_not_implemented,Компенсация количества не компенсирует уже снятые деньги,,audit://extension/packets/FIX-DV-03.json
+FIX-SY-03,SY-03,P1,0,3,agent-sync,planned_not_implemented,Local renew перезаписывает уже завершённый steal,,audit://extension/packets/FIX-SY-03.json
+FIX-AS-03,AS-03,P1,1,3,agent-stack,planned_not_implemented,Лексическое сходство усиливает противоречащую память и может вернуть старую инструкцию,,audit://extension/packets/FIX-AS-03.json
+FIX-EV-01,EV-01,P1,1,3,task-pipeline,planned_not_implemented,Проверка выбора названия не доказывает пользу выполнения скилла,,audit://extension/packets/FIX-EV-01.json
+FIX-RT-02,RT-02,P1,1,3,sshlg-skills,planned_not_implemented,Отказ от одного маршрута выключает всю эскалацию; цитата тоже считается отказом,,audit://extension/packets/FIX-RT-02.json
+FIX-UX-02,UX-02,P1,1,3,super-ux,planned_not_implemented,B051 объявляет спамом текст без единого повторения,,audit://extension/packets/FIX-UX-02.json
+FIX-VD-04,VD-04,P2,1,3,sheleg-design,planned_not_implemented,shadcn назван unstyled: token mapping ошибочно подаётся как достаточное отсутствие чужой визуальной системы,,audit://extension/packets/FIX-VD-04.json
+FIX-TG-02,TG-02,P2,2,3,telegram-dev,planned_not_implemented,Оmitted allowed_updates ошибочно приравнен к пустому списку,,audit://extension/packets/FIX-TG-02.json
+FIX-DV-04,DV-04,P1,0,4,sheleg-dev,planned_not_implemented,Refund CAS проигрыш молча теряет больший cumulative refund,,audit://extension/packets/FIX-DV-04.json
+FIX-SY-04,SY-04,P1,0,4,agent-sync,planned_not_implemented,Task lease не защищает общий файл от владельца другой task lease,,audit://extension/packets/FIX-SY-04.json
+FIX-MS-03,MS-03,P1,1,4,make-skill,planned_not_implemented,Аудит по описанию автоматически превращается в исправление и release,,audit://extension/packets/FIX-MS-03.json
+FIX-PA-01,PA-01,P1,1,4,task-pipeline,planned_not_implemented,Документированное решение автоматически оправдывает дефект,,audit://extension/packets/FIX-PA-01.json
+FIX-UP-01,UP-01,P1,1,4,sshlg-skills,planned_not_implemented,Обещание закреплённого релиза семьи не обеспечено установкой,,audit://extension/packets/FIX-UP-01.json
+FIX-UX-03,UX-03,P1,1,4,super-ux,planned_not_implemented,Humanization «никогда не блокирует» расходится с исполняемым B060,,audit://extension/packets/FIX-UX-03.json
+FIX-VD-05,VD-05,P1,1,4,sheleg-design,planned_not_implemented,Общий kit spine фиксирует внешний API ценой базовой DOM-семантики и доступных адаптаций,,audit://extension/packets/FIX-VD-05.json
+FIX-SE-03,SE-03,P2,2,4,seo-aeo-audit,planned_not_implemented,Cross-track проверка объявляет совместимые наблюдения противоречием,,audit://extension/packets/FIX-SE-03.json
+FIX-TG-04,TG-04,P2,2,4,telegram-dev,planned_not_implemented,Матрица launch surfaces неверно запрещает menu-button query flow,,audit://extension/packets/FIX-TG-04.json
+FIX-DV-05,DV-05,P1,0,5,sheleg-dev,planned_not_implemented,Основной idempotency snippet кредитует не только PAID и блокирует жизненный цикл после PAID,,audit://extension/packets/FIX-DV-05.json
+FIX-SY-05,SY-05,P1,0,5,agent-sync,planned_not_implemented,Пустой lock между O_EXCL и payload принимается за просроченный: два acquire выигрывают,,audit://extension/packets/FIX-SY-05.json
+FIX-UP-05,UP-05,P1,0,5,task-pipeline,planned_not_implemented,Перезапись member/runtime не атомарна и не даёт rollback,FIX-UP-01,audit://extension/packets/FIX-UP-05.json
+FIX-AS-04,AS-04,P1,1,5,agent-stack,planned_not_implemented,"Fake-edge test удаляет зависимости по управлению и состоянию, если нет явного payload",CTX-01,audit://extension/packets/FIX-AS-04.json
+FIX-UX-05,UX-05,P1,1,5,super-ux,planned_not_implemented,Поведенческий eval выдаёт PASS проваленному процессу и не проверяет заявленный контракт,,audit://extension/packets/FIX-UX-05.json
+FIX-MS-04,MS-04,P2,2,5,make-skill,planned_not_implemented,Платформенные ограничения описаны как универсальные и частично устарели,,audit://extension/packets/FIX-MS-04.json
+FIX-SE-04,SE-04,P2,2,5,seo-aeo-audit,planned_not_implemented,Тип источника автоматически подменяет силу конкретного утверждения,,audit://extension/packets/FIX-SE-04.json
+FIX-TG-05,TG-05,P2,2,5,telegram-dev,planned_not_implemented,Лимит одного FloodWait не ограничивает бесконечную retry sequence,,audit://extension/packets/FIX-TG-05.json
+FIX-DV-07,DV-07,P1,0,6,sheleg-dev,planned_not_implemented,OAuth examples отправляют серверный client_secret и refresh_token в клиентскую cookie,,audit://extension/packets/FIX-DV-07.json
+FIX-AS-06,AS-06,P1,1,6,agent-stack,planned_not_implemented,Первый релиз фактически остаётся без исполняемого eval-корпуса,,audit://extension/packets/FIX-AS-06.json
+FIX-PA-02,PA-02,P1,1,6,task-pipeline,planned_not_implemented,Отсутствие production измерения запрещает считать доказанный механизм дефектом,,audit://extension/packets/FIX-PA-02.json
+FIX-UX-10,UX-10,P1,1,6,super-ux,planned_not_implemented,Loading из существующей задержки превращён в инсценировку вычисления,,audit://extension/packets/FIX-UX-10.json
+FIX-VD-03,VD-03,P1,1,6,sheleg-design,planned_not_implemented,"Mobile/native ветка не завершена платформенным адаптером, а общий product default остаётся вебовым",,audit://extension/packets/FIX-VD-03.json
+FIX-SY-07,SY-07,P2,2,6,agent-sync,planned_not_implemented,"Guard охватывает редактор и некоторые git commit, но не все записи через shell",,audit://extension/packets/FIX-SY-07.json
+FIX-DV-08,DV-08,P1,0,7,sheleg-dev,planned_not_implemented,ADC precedence написан в обратном порядке,,audit://extension/packets/FIX-DV-08.json
+FIX-AS-07,AS-07,P1,1,7,agent-stack,planned_not_implemented,Запрет проверки порядка пропускает подтверждение после действия,,audit://extension/packets/FIX-AS-07.json
+FIX-PF-01,PF-01,P1,1,7,task-pipeline,planned_not_implemented,Graph mutation lock не является claim узла или fencing исполнителя,CTX-01,audit://extension/packets/FIX-PF-01.json
+FIX-UX-11,UX-11,P1,1,7,super-ux,planned_not_implemented,Figma fallback и provisional flow не доходят до разрешённого build state,CTX-03,audit://extension/packets/FIX-UX-11.json
+FIX-VD-07,VD-07,P2,1,7,sheleg-design,planned_not_implemented,"Каталог внешнего frontend-design приписывает найденному skill запреты, которых его текущий файл не содержит",,audit://extension/packets/FIX-VD-07.json
+FIX-DV-09,DV-09,P1,0,8,sheleg-dev,planned_not_implemented,Express OAuth использует общий mutable client и неполную проверку state,,audit://extension/packets/FIX-DV-09.json
+FIX-AS-09,AS-09,P1,1,8,agent-stack,planned_not_implemented,OpenTelemetry: закрытый enum и неверное сложение вложенных token counters,,audit://extension/packets/FIX-AS-09.json
+FIX-PF-02,PF-02,P1,1,8,task-pipeline,planned_not_implemented,Старое доказательство принимается после смены кода и контракта узла,FIX-PF-01,audit://extension/packets/FIX-PF-02.json
+FIX-UX-12,UX-12,P1,1,8,super-ux,planned_not_implemented,Статический PASS может повысить сценарий до implemented без проверки наблюдаемого результата,CTX-03,audit://extension/packets/FIX-UX-12.json
+FIX-DS-02,DS-02,P2,2,8,sheleg-design,planned_not_implemented,Опрос о значении craft превращён в нормативный порядок разработки,,audit://extension/packets/FIX-DS-02.json
+FIX-RT-04,RT-04,P2,2,8,sshlg-skills,planned_not_implemented,Route gate принимает наличие pipeline run за доказательство любого пройденного маршрута,FIX-RT-01,audit://extension/packets/FIX-RT-04.json
+FIX-DV-10,DV-10,P1,0,9,sheleg-dev,planned_not_implemented,"Nonce равен присланному клиентом значению, а не ожидаемому сервером",,audit://extension/packets/FIX-DV-10.json
+FIX-AS-11,AS-11,P1,1,9,agent-stack,planned_not_implemented,confirm:true и отсутствие одного элемента trifecta не являются доказательством безопасности,,audit://extension/packets/FIX-AS-11.json
+FIX-PF-03,PF-03,P1,1,9,task-pipeline,planned_not_implemented,Прямой close обходит проваленную обязательную certification,FIX-PF-02,audit://extension/packets/FIX-PF-03.json
+FIX-UX-15,UX-15,P1,1,9,super-ux,planned_not_implemented,BP-213/214 смешивают обязательное информирование с универсальным согласием на обработку,,audit://extension/packets/FIX-UX-15.json
+FIX-DS-03,DS-03,P2,2,9,sheleg-design,planned_not_implemented,Производительность CSS/API описана абсолютами вместо проверяемых условий,,audit://extension/packets/FIX-DS-03.json
+FIX-UB-01,UB-01,P2,2,9,sshlg-skills,planned_not_implemented,Аудитор bundle выдаёт расчёт стоимости каталога за фактический расход каждого сеанса,,audit://extension/packets/FIX-UB-01.json
+FIX-DV-11,DV-11,P1,0,10,sheleg-dev,planned_not_implemented,"Auto-link по email игнорирует случаи, где Google не подтверждает текущее владение адресом",,audit://extension/packets/FIX-DV-11.json
+FIX-PF-04,PF-04,P1,1,10,task-pipeline,planned_not_implemented,Parked обязательного producer делает его consumer runnable без payload,FIX-PF-02,audit://extension/packets/FIX-PF-04.json
+FIX-VD-01,VD-01,P1,1,10,sheleg-design,planned_not_implemented,"Идентичность фиксируется раньше визуального исследования, а наличие системы закрывает допустимый поиск композиции",,audit://extension/packets/FIX-VD-01.json
+FIX-AS-05,AS-05,P2,2,10,agent-stack,planned_not_implemented,Аудируемость ошибочно приравнена к статическому графу,,audit://extension/packets/FIX-AS-05.json
+FIX-UP-03,UP-03,P2,2,10,sshlg-skills,planned_not_implemented,Выбор агента не ограничивает весь update,FIX-UP-02,audit://extension/packets/FIX-UP-03.json
+FIX-DV-12,DV-12,P1,0,11,sheleg-dev,planned_not_implemented,Copy-paste FastAPI skeleton не исполняет заявленный CSRF contract,,audit://extension/packets/FIX-DV-12.json
+FIX-PF-05,PF-05,P2,1,11,task-pipeline,planned_not_implemented,"Saved Markdown brief уже есть, portable immutable node packet ещё нет","FIX-PF-02,CTX-02",audit://extension/packets/FIX-PF-05.json
+FIX-VD-06,VD-06,P2,1,11,sheleg-design,planned_not_implemented,Dials дают числовой ритуал без воспроизводимой визуальной калибровки двух осей,FIX-VD-01,audit://extension/packets/FIX-VD-06.json
+FIX-AS-08,AS-08,P2,2,11,agent-stack,planned_not_implemented,Статистические правила выдают предположения за универсальные границы,,audit://extension/packets/FIX-AS-08.json
+FIX-UP-06,UP-06,P2,2,11,super-ux,planned_not_implemented,Super-ux возвращает успешный exit code после неудачной установки,,audit://extension/packets/FIX-UP-06.json
+FIX-DV-14,DV-14,P1,0,12,sheleg-dev,planned_not_implemented,Безусловный noscript pixel противоречит consent-gated архитектуре,,audit://extension/packets/FIX-DV-14.json
+FIX-PF-06,PF-06,P2,1,12,task-pipeline,planned_not_implemented,Fabric pipeline/skill provisioning из ADR не является существующим task-pipeline integration,"FIX-PF-01,FIX-PF-04,FIX-PF-05,FIX-PF-03",audit://extension/packets/FIX-PF-06.json
+FIX-AS-10,AS-10,P2,2,12,agent-stack,planned_not_implemented,Повтор проверки старого ответа назван проверкой изменения решения модели,,audit://extension/packets/FIX-AS-10.json
+FIX-DS-04,DS-04,P2,2,12,sheleg-design,planned_not_implemented,"Duration table допускает 500ms, общий UI gate запрещает >300ms",,audit://extension/packets/FIX-DS-04.json
+FIX-UX-04,UX-04,P2,2,12,super-ux,planned_not_implemented,У одного скилла два несовместимых правила владения strings.md,,audit://extension/packets/FIX-UX-04.json
+FIX-DV-15,DV-15,P1,0,13,sheleg-dev,planned_not_implemented,Эталонный string scrubber пропускает распространённый Redis password и bot-token URLs,,audit://extension/packets/FIX-DV-15.json
+FIX-PF-07,PF-07,P1,1,13,task-pipeline,planned_not_implemented,"Fabric chainAdvance повторно запускает follower, создавая новые задачи",FIX-PF-01,audit://extension/packets/FIX-PF-07.json
+FIX-AS-12,AS-12,P2,2,13,agent-stack,planned_not_implemented,MCP shipping example не закрепляет SDK и использует прежний FastMCP constructor,,audit://extension/packets/FIX-AS-12.json
+FIX-DS-05,DS-05,P2,2,13,sheleg-design,planned_not_implemented,"No-JS критерий применяется ко всем поверхностям, включая внутренние UI",,audit://extension/packets/FIX-DS-05.json
+FIX-UX-06,UX-06,P2,2,13,super-ux,planned_not_implemented,Новый проект Codex получает правило в CLAUDE.md,,audit://extension/packets/FIX-UX-06.json
+FIX-PF-08,PF-08,P1,1,14,task-pipeline,planned_not_implemented,"Fabric fan-in проверяет каждое ребро отдельно, поэтому запускает неполный consumer","FIX-PF-04,FIX-PF-07",audit://extension/packets/FIX-PF-08.json
+FIX-AS-13,AS-13,P2,2,14,agent-stack,planned_not_implemented,Признак long-running task ошибочно маршрутизирует в A2A вопреки MCP Tasks,,audit://extension/packets/FIX-AS-13.json
+FIX-DS-06,DS-06,P2,2,14,sheleg-design,planned_not_implemented,Eval-регрессия не покрывает текущий composition/runtime,,audit://extension/packets/FIX-DS-06.json
+FIX-DV-06,DV-06,P2,2,14,sheleg-dev,planned_not_implemented,Универсальный amount waterfall смешивает единицы и взаимоисключающие правила буфера,,audit://extension/packets/FIX-DV-06.json
+FIX-PF-09,PF-09,P1,1,15,task-pipeline,planned_not_implemented,Fabric task lease не ограничивает публикацию handoff текущим owner/attempt,"FIX-PF-01,FIX-PF-05",audit://extension/packets/FIX-PF-09.json
+FIX-AS-14,AS-14,P2,2,15,agent-stack,planned_not_implemented,Отсутствие evals ошибочно делает весь аудит unfalsifiable,,audit://extension/packets/FIX-AS-14.json
+FIX-DV-13,DV-13,P2,2,15,sheleg-dev,planned_not_implemented,"Consent guide смешивает политику Google, юридические решения и неподтверждённые проценты",,audit://extension/packets/FIX-DV-13.json
+FIX-UP-07,UP-07,P2,2,15,sshlg-skills,planned_not_implemented,Updater не управляет native Codex plugin provider и не проверяет active digest,,audit://extension/packets/FIX-UP-07.json
+FIX-UX-07,UX-07,P2,2,15,super-ux,planned_not_implemented,Язык vision и обязательный формат заголовков не согласованы на входе,,audit://extension/packets/FIX-UX-07.json
+FIX-UP-04,UP-04,P1,0,16,sshlg-skills,planned_not_implemented,Prune удаляет единственную plain-копию по непроверенной записи registry,FIX-UP-07,audit://extension/packets/FIX-UP-04.json
+FIX-PF-10,PF-10,P2,1,16,task-pipeline,planned_not_implemented,"Provider-independent packet возможен, но Codex в текущем Fabric не подключён к его tools","FIX-PF-05,FIX-PF-06,FIX-UP-07",audit://extension/packets/FIX-PF-10.json
+FIX-DV-16,DV-16,P2,2,16,sheleg-dev,planned_not_implemented,Правила восстановления дают противоположные действия для отозванной сессии,,audit://extension/packets/FIX-DV-16.json
+FIX-SY-06,SY-06,P2,2,16,agent-sync,planned_not_implemented,"Одно gated смешивает lease guarantee, видимость и наличие host enforcement",FIX-UP-07,audit://extension/packets/FIX-SY-06.json
+FIX-UX-08,UX-08,P2,2,16,super-ux,planned_not_implemented,Approval оператора может стереть происхождение предположения,,audit://extension/packets/FIX-UX-08.json
+FIX-TP-01,TP-01,P1,1,17,task-pipeline,planned_not_implemented,Обязательное интервью и подтверждение модели предшествуют даже полностью определённой работе,,audit://extension/packets/FIX-TP-01.json
+FIX-DV-17,DV-17,P2,2,17,sheleg-dev,planned_not_implemented,FCP ошибочно объявлен неизмеримым в поле,,audit://extension/packets/FIX-DV-17.json
+FIX-RT-03,RT-03,P2,2,17,sshlg-skills,planned_not_implemented,Toolkit объявляет доступность машины по инвентарю только Claude Code,FIX-UP-07,audit://extension/packets/FIX-RT-03.json
+FIX-SY-08,SY-08,P2,2,17,agent-sync,planned_not_implemented,Поиск task-pipeline не учитывает native Codex plugin cache,FIX-UP-07,audit://extension/packets/FIX-SY-08.json
+FIX-UX-09,UX-09,P2,2,17,super-ux,planned_not_implemented,Воронки конкурентов из proxy превращаются в «proven base»,,audit://extension/packets/FIX-UX-09.json
+FIX-TP-02,TP-02,P1,1,18,task-pipeline,planned_not_implemented,Заявленная независимость от companions противоречит обязательному super-ux и оценке «undesigned»,,audit://extension/packets/FIX-TP-02.json
+FIX-DV-18,DV-18,P2,2,18,sheleg-dev,planned_not_implemented,Оптимизационные эвристики превращены в запреты без измерений и поддерживаемых сценариев,,audit://extension/packets/FIX-DV-18.json
+FIX-UX-13,UX-13,P2,2,18,super-ux,planned_not_implemented,Общий precondition требует scenarios даже независимому copy/benchmark scope,,audit://extension/packets/FIX-UX-13.json
+FIX-TP-04,TP-04,P1,1,19,task-pipeline,planned_not_implemented,Неиспользованное правило автоматически считается ненужным,,audit://extension/packets/FIX-TP-04.json
+FIX-DV-19,DV-19,P2,2,19,sheleg-dev,planned_not_implemented,"Eval измеряет узнавание доктрины и дизайн-ответ, не безопасность исполняемого результата",,audit://extension/packets/FIX-DV-19.json
+FIX-UX-14,UX-14,P2,2,19,super-ux,planned_not_implemented,BP-212 ошибочно объявляет локальное тестирование оплаты невозможным,,audit://extension/packets/FIX-UX-14.json
+FIX-DV-20,DV-20,P2,2,20,sheleg-dev,planned_not_implemented,Ошибка окружения классифицируется как доказанный пропуск валидатора,,audit://extension/packets/FIX-DV-20.json
+FIX-ED-01,ED-01,P2,2,20,task-pipeline,planned_not_implemented,Переносимость зависит от совместной упаковки соседнего task-pipeline,,audit://extension/packets/FIX-ED-01.json
+FIX-PA-03,PA-03,P2,2,21,task-pipeline,planned_not_implemented,Опциональная HTML-страница обязательна в критерии выхода,,audit://extension/packets/FIX-PA-03.json
+FIX-TP-03,TP-03,P2,2,22,task-pipeline,planned_not_implemented,Расширяемая schema спорит с обязательными стандартными стадиями и глобальными правилами,,audit://extension/packets/FIX-TP-03.json
+FIX-UP-08,UP-08,P2,2,23,sshlg-skills,planned_not_implemented,Host roots фиксированы и расходятся с поддерживаемыми overrides,"FIX-UP-03,FIX-UP-07",audit://extension/packets/FIX-UP-08.json
+CTX-04,,P1,3,24,sshlg-skills,planned_not_implemented,"Итоговая outcome certification, поддержка hosts и staged release","FIX-RT-01,FIX-RT-02,FIX-RT-03,FIX-RT-04,FIX-MS-01,FIX-MS-02,FIX-MS-03,FIX-MS-04,FIX-TP-01,FIX-TP-02,FIX-TP-03,FIX-TP-04,FIX-PA-01,FIX-PA-02,FIX-PA-03,FIX-ED-01,FIX-SE-01,FIX-SE-02,FIX-SE-03,FIX-SE-04,FIX-EV-01,FIX-UB-01,FIX-UX-01,FIX-UX-02,FIX-UX-03,FIX-UX-04,FIX-UX-05,FIX-UX-06,FIX-UX-07,FIX-UX-08,FIX-UX-09,FIX-UX-10,FIX-UX-11,FIX-UX-12,FIX-UX-13,FIX-DS-01,FIX-DS-02,FIX-DS-03,FIX-DS-04,FIX-DS-05,FIX-DS-06,FIX-UX-14,FIX-UX-15,FIX-DV-01,FIX-DV-02,FIX-DV-03,FIX-DV-04,FIX-DV-05,FIX-DV-06,FIX-DV-07,FIX-DV-08,FIX-DV-09,FIX-DV-10,FIX-DV-11,FIX-DV-12,FIX-DV-13,FIX-DV-14,FIX-DV-15,FIX-DV-16,FIX-DV-17,FIX-DV-18,FIX-DV-19,FIX-DV-20,FIX-TG-01,FIX-TG-02,FIX-TG-03,FIX-TG-04,FIX-TG-05,FIX-AS-01,FIX-AS-02,FIX-AS-03,FIX-AS-04,FIX-AS-05,FIX-AS-06,FIX-AS-07,FIX-AS-08,FIX-AS-09,FIX-AS-10,FIX-AS-11,FIX-AS-12,FIX-AS-13,FIX-AS-14,FIX-SY-01,FIX-SY-02,FIX-SY-03,FIX-SY-04,FIX-SY-05,FIX-SY-06,FIX-SY-07,FIX-SY-08,FIX-PF-01,FIX-PF-02,FIX-PF-03,FIX-PF-04,FIX-PF-05,FIX-PF-06,FIX-PF-07,FIX-PF-08,FIX-PF-09,FIX-PF-10,FIX-VD-01,FIX-VD-02,FIX-VD-03,FIX-VD-04,FIX-VD-05,FIX-VD-06,FIX-VD-07,FIX-UP-01,FIX-UP-02,FIX-UP-03,FIX-UP-04,FIX-UP-05,FIX-UP-06,FIX-UP-07,FIX-UP-08,CTX-01,CTX-02,CTX-03",audit://extension/packets/CTX-04.json

@@ -1,0 +1,174 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-DV-09",
+  "revision": 1,
+  "title": "Express OAuth использует общий mutable client и неполную проверку state",
+  "finding_id": "DV-09",
+  "module": "sheleg-dev",
+  "modules": [
+    "sheleg-dev"
+  ],
+  "priority": "P1",
+  "priority_rank": 0,
+  "priority_reason": "Риск потери денег/данных/владения либо побочные эффекты updater: исправить первым.",
+  "status": "planned_not_implemented",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions"
+    },
+    {
+      "path": "audit://extension/context/modules/sheleg-dev.md",
+      "sha256": "15267b79bd525b710fbceab7c11d0592be900bff0e0d471daa0b87fc309e708f",
+      "role": "module:sheleg-dev"
+    },
+    {
+      "path": "audit://extension/context/contracts/integration.md",
+      "sha256": "6afa0b0347b041557ffabcfeaed821ff999542ac765d9088fb166dbde0360054",
+      "role": "contract:integration"
+    },
+    {
+      "path": "audit://extension/context/contracts/evidence.md",
+      "sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88",
+      "role": "contract:evidence"
+    },
+    {
+      "path": "audit://integrations-findings.json",
+      "sha256": "60b3011f1cd6e94c9c851c310db9279cde7feb4601845e619abb72d263676beb",
+      "role": "supporting evidence appendix"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "DV-09",
+    "skills": [
+      "google-auth"
+    ],
+    "priority": "P1",
+    "title": "Express OAuth использует общий mutable client и неполную проверку state",
+    "evidence": [
+      "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md:380",
+      "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md:403",
+      "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md:412"
+    ],
+    "observed": "Один OAuth2 client на весь процесс; каждый /profile меняет его credentials. Сравнение state допускает undefined===undefined; state не consume, отсутствует TTL.",
+    "impact": "Конкурентные запросы разных пользователей разделяют credential state; сессия без ожидаемого state не отвергается до code exchange.",
+    "fix": "Client на запрос/пользователя, credentials не мутировать глобально; required cryptorandom state привязать к server session, TTL, atomic consume; validation до token exchange.",
+    "acceptance": "Интерливинг A/B с задержкой между setCredentials и transport использует разные Authorization; missing/expired/reused state не вызывает token endpoint.",
+    "sources": [],
+    "status": "GAP",
+    "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается.",
+    "origin": "integrations-findings.json",
+    "observation": "Один OAuth2 client на весь процесс; каждый /profile меняет его credentials. Сравнение state допускает undefined===undefined; state не consume, отсутствует TTL.",
+    "evidence_kind": "source_review_and_counterexample",
+    "implementation_status": "proposed",
+    "phase": "M1",
+    "task_id": "FIX-DV-09"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Client на запрос/пользователя, credentials не мутировать глобально; required cryptorandom state привязать к server session, TTL, atomic consume; validation до token exchange.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Интерливинг A/B с задержкой между setCredentials и transport использует разные Authorization; missing/expired/reused state не вызывает token endpoint."
+  ],
+  "verification_plan": {
+    "baseline": "Один OAuth2 client на весь процесс; каждый /profile меняет его credentials. Сравнение state допускает undefined===undefined; state не consume, отсутствует TTL.",
+    "must_test": "Интерливинг A/B с задержкой между setCredentials и transport использует разные Authorization; missing/expired/reused state не вызывает token endpoint.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md",
+      "sha256": "44b2ab36141c9732a098e7a390c6a246a85473091dbdf29fd5f4984bfd32be74",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "sheleg-dev": "42dfb5df929897f5cf39c72c0c69725f6bb664e2"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://sheleg-dev",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 8
+}

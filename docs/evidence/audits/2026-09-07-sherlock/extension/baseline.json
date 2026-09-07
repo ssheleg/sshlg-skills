@@ -1,0 +1,37 @@
+[
+  {
+    "repo": "task-pipeline",
+    "path": "repo://task-pipeline",
+    "head": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "branch": "main",
+    "status": ""
+  },
+  {
+    "repo": "super-ux",
+    "path": "repo://super-ux",
+    "head": "a60f6b423c619b37a3bb43564b58b02b6200e463",
+    "branch": "main",
+    "status": ""
+  },
+  {
+    "repo": "sheleg-design-skill",
+    "path": "repo://sheleg-design",
+    "head": "562786b30f07f50a294d70a4c3ffd40794624f42",
+    "branch": "main",
+    "status": ""
+  },
+  {
+    "repo": "sshlg-skills",
+    "path": "repo://sshlg-skills",
+    "head": "7ef37e8bd5220d6ab355346634ff19196de8f41b",
+    "branch": "main",
+    "status": ""
+  },
+  {
+    "repo": "fabric",
+    "path": "repo://fabric",
+    "head": "91337391aa8d24966bf0c57db381e6fe63b48bce",
+    "branch": "codex/foundation-priorities-design-map",
+    "status": "?? docs/evidence/plans/2026-09-07-product-walkthrough.md\n?? docs/ux/product-fixtures.json\n?? scripts/product/\n"
+  }
+]

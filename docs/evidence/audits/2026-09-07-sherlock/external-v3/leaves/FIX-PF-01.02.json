@@ -1,0 +1,169 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-PF-01.02",
+  "parent_id": "FIX-PF-01",
+  "title": "Authority boundary",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "task-pipeline"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Graph mutation lock не является claim узла или fencing исполнителя",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Реализовать standalone coordinator через Python stdlib sqlite3, BEGIN IMMEDIATE и persistent attempt table. Graph CLI external mode использует один coordinator interface; недоступный arbitration блокирует dispatch. Local SQLite mode не обещает distributed/NAS safety; Fabric позже заменяет authority через adapter. OS lock не держится весь LLM run.",
+  "expected_result": "Два независимых local claim дают одного победителя; lock/error не запускает work; advisory next не выдаёт execution claim.",
+  "acceptance": [
+    "Два независимых local claim дают одного победителя; lock/error не запускает work; advisory next не выдаёт execution claim."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Реализовать standalone coordinator через Python stdlib sqlite3, BEGIN IMMEDIATE и persistent attempt table. Graph CLI external mode использует один coordinator interface; недоступный arbitration блокирует dispatch. Local SQLite mode не обещает distributed/NAS safety; Fabric позже заменяет authority через adapter. OS lock не держится весь LLM run.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "9627d7e27b0495358a55cd250b48ff39359e3493633ffe23335c783f5900b723"
+    },
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/execution-attempt.schema.json",
+      "mode": "Edit_from_predecessor",
+      "role": "new capability target; audit does not create it; consume produced path/digest from prerequisite, do not overwrite as a fresh Create",
+      "baseline_sha256": null,
+      "refresh_after": [
+        "FIX-PF-01.01"
+      ]
+    },
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/execution_authority.py",
+      "mode": "Create",
+      "role": "Standalone sqlite3 authority; local filesystem only, Fabric adapter owns distributed execution.",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://task-pipeline/test/audit_regressions/fix-pf-01.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-PF-01.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-PF-01.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+        "sha256": "9627d7e27b0495358a55cd250b48ff39359e3493633ffe23335c783f5900b723",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+        "sha256": "4082692ee896c4edb96576aa93772046e3a48c9b53944e649af7241774ac7405",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Два claim одного node/version дают одного победителя; restart/expiry позволяет новый attempt, late old attempt не публикует result; независимые add сохраняются; недоступный lock не запускает external work."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-PF-01.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    },
+    {
+      "task_id": "CTX-01.01",
+      "kind": "data",
+      "reason": "Потребляет принятый контракт/результат предыдущей задачи.",
+      "via_parent": "CTX-01"
+    },
+    {
+      "task_id": "CTX-01.02",
+      "kind": "data",
+      "reason": "Потребляет принятый контракт/результат предыдущей задачи.",
+      "via_parent": "CTX-01"
+    },
+    {
+      "task_id": "CTX-01.03",
+      "kind": "data",
+      "reason": "Потребляет принятый контракт/результат предыдущей задачи.",
+      "via_parent": "CTX-01"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://task-pipeline/test/audit_regressions/fix-pf-01.02.py",
+    "python3 repo://task-pipeline/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-PF-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-PF-01.02.md",
+    "sha256": "35c5dbdb6e9d025d4a242534d91d9e4b5192d82910e91ed0f0a07650d076043a",
+    "utf8_bytes": 6500,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "15c3f8b062963f498a6457b3a628e60d5a0db37fe5b44d11963886feefcf5d7e"
+  }
+}

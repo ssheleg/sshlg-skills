@@ -1,0 +1,122 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-RT-01.02",
+  "parent_id": "FIX-RT-01",
+  "title": "Composition и отрицания",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "sshlg-skills"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Лексический роутер теряет намерение и смешивает аудит с изменением",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Составлять route set по clauses; исключать agent-stack для простого использования subagent. Сохранять явные skill requests.",
+  "expected_result": "Subagent use не считается agent-system build; отрицание одной clause не стирает другую.",
+  "acceptance": [
+    "Subagent use не считается agent-system build; отрицание одной clause не стирает другую."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Составлять route set по clauses; исключать agent-stack для простого использования subagent. Сохранять явные skill requests.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sshlg-skills/lib/triggers.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "6c9810816a3a85c44f8bbd265d4a38a6d80d793a2ba94e1b5cbc9b4995a84bcc",
+      "refresh_after": [
+        "FIX-RT-01.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://sshlg-skills/test/audit_regressions/fix-rt-01.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-RT-01.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-RT-01.json",
+    "source_files": [
+      {
+        "path": "repo://sshlg-skills/lib/triggers.js",
+        "sha256": "6c9810816a3a85c44f8bbd265d4a38a6d80d793a2ba94e1b5cbc9b4995a84bcc",
+        "role": "baseline source"
+      },
+      {
+        "path": "audit://routing-reproductions.json",
+        "sha256": "3bc3fabc9f0a0de6eea49fcb0e4827b8da4bdf07ab2d707270a514e1c445337f",
+        "role": "read-only audit evidence",
+        "audit_original_sha256": "3bc3fabc9f0a0de6eea49fcb0e4827b8da4bdf07ab2d707270a514e1c445337f"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Набор RU/EN: audit-only, объясни+исправь, обычная работа subagent, опечатки и склонения; проверки ожидаемого набора маршрутов и запрещённых побочных действий."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-RT-01.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sshlg-skills/test/audit_regressions/fix-rt-01.02.py",
+    "python3 repo://sshlg-skills/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-RT-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-RT-01.02.md",
+    "sha256": "81483233c18df2fcc850feeb07988c10383b47d8c61f2ff7a2d47dc8b3c1e930",
+    "utf8_bytes": 5492,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "67dbc8de268fc17e34a3a687239c621afd746bb12b692560c78ea80c10d4eb5c"
+  }
+}

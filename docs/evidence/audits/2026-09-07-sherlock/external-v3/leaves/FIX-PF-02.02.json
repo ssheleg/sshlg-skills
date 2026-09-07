@@ -1,0 +1,159 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-PF-02.02",
+  "parent_id": "FIX-PF-02",
+  "title": "Revision invalidation",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "task-pipeline"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Старое доказательство принимается после смены кода и контракта узла",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "REQ/interface/brief change создаёт superseding revision и инвалидирует затронутые downstream receipts.",
+  "expected_result": "Изменение upstream не оставляет descendant certified, unrelated nodes сохраняют valid proof.",
+  "acceptance": [
+    "Изменение upstream не оставляет descendant certified, unrelated nodes сохраняют valid proof."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "REQ/interface/brief change создаёт superseding revision и инвалидирует затронутые downstream receipts.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "9627d7e27b0495358a55cd250b48ff39359e3493633ffe23335c783f5900b723",
+      "refresh_after": [
+        "FIX-PF-01.02",
+        "FIX-PF-01.03",
+        "FIX-PF-02.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://task-pipeline/test/audit_regressions/fix-pf-02.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-PF-02.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-PF-02.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+        "sha256": "9627d7e27b0495358a55cd250b48ff39359e3493633ffe23335c783f5900b723",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+        "sha256": "4082692ee896c4edb96576aa93772046e3a48c9b53944e649af7241774ac7405",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Старый verdict после v2 либо изменения check/REQ/packet получает STALE и graph byte-identical; downstream stale пересобирается; изменение независимого node не требует бессмысленной инвалидизации всего графа."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-PF-02.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    },
+    {
+      "task_id": "FIX-PF-01.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-01"
+    },
+    {
+      "task_id": "FIX-PF-01.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-01"
+    },
+    {
+      "task_id": "FIX-PF-01.03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-01"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://task-pipeline/test/audit_regressions/fix-pf-02.02.py",
+    "python3 repo://task-pipeline/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-PF-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-01.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-PF-02.02.md",
+    "sha256": "c238ca088f6330f63f95b0b805bfa0b97b40049c1e2d4e62d30033cd20bb9ae8",
+    "utf8_bytes": 5463,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "1b9af760c0d9dc9dc8a7dd8ef5d1b1c737f2da5105aadfce8b383c8210023753"
+  }
+}

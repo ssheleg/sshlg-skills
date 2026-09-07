@@ -1,0 +1,15 @@
+{
+  "status": "proposed_architecture_and_scope",
+  "decisions": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  }
+}

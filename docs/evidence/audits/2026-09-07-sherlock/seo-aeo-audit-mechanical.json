@@ -1,0 +1,114 @@
+[
+  {
+    "verdict": "PASS",
+    "check": "NAME_CHARSET",
+    "message": "name 'seo-aeo-audit' uses a legal charset",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_DIR",
+    "message": "name matches the directory",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_RESERVED",
+    "message": "no reserved word in name",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_LENGTH",
+    "message": "description is 959/1024 chars",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_PERSON",
+    "message": "description is third person",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_USEWHEN",
+    "message": "description opens with 'Use when …' (house rule)",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_RU",
+    "message": "description carries Russian trigger phrases (house rule)",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_WHAT",
+    "message": "description states WHAT the skill does in 949 chars beyond its triggers (house rule)",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_HEADROOM",
+    "message": "description is 959/970 chars, inside the working limit",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "FM_UNKNOWN_KEY",
+    "message": "no frontmatter key outside spec ∪ host extensions",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BODY_BUDGET",
+    "message": "body is 307 lines / ~4643 tokens (budget 500 / 5000)",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BODY_HEADROOM",
+    "message": "body is ~4643/4750 tokens, inside the working limit",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "GAP",
+    "check": "BUNDLE_NESTED",
+    "message": "scripts/__pycache__/ is nested — keep bundled files one level deep, or the agent previews them instead of reading them",
+    "file": "seo-aeo-audit/scripts/__pycache__",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BUNDLE_LAYOUT",
+    "message": "bundled directories present and checked",
+    "file": null,
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "LINK_INTEGRITY",
+    "message": "every relative link resolves and stays inside the skill",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "PROSE",
+    "message": "no Windows paths, time-branching, or bare directory pointers",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": null
+  }
+]

@@ -1,0 +1,458 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-VD-01",
+  "revision": 1,
+  "title": "Идентичность фиксируется раньше визуального исследования, а наличие системы закрывает допустимый поиск композиции",
+  "finding_id": "VD-01",
+  "module": "sheleg-design",
+  "modules": [
+    "sheleg-design",
+    "super-ux"
+  ],
+  "priority": "P1",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "parent_planned",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06",
+    "E-03"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements",
+      "audit_original_sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program",
+      "audit_original_sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions",
+      "audit_original_sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f"
+    },
+    {
+      "path": "audit://extension/context/modules/sheleg-design.md",
+      "sha256": "93aca5c1f569dfe8f9c9ddae1b4b580908fb7d5892385a5003767d709cc47e7a",
+      "role": "module:sheleg-design",
+      "audit_original_sha256": "4f855319ae55cbe0e8ea9371442a5b10cec3cf1cf77153040cd47d883aa4b982"
+    },
+    {
+      "path": "audit://extension/context/modules/super-ux.md",
+      "sha256": "e0bf11dca98fded7d144febb0a8050f76ec275a5fd8749915c929c4f140fd9e6",
+      "role": "module:super-ux",
+      "audit_original_sha256": "b5cc2eac477dd48cc3867614cc307571fda37bf29552d85d8a78bb5559b753ce"
+    },
+    {
+      "path": "audit://extension/context/contracts/visual.md",
+      "sha256": "f0ade3ef08c35a0e93c97543b950062ac20b21f709f0cac84e943f21c1453c36",
+      "role": "contract:visual",
+      "audit_original_sha256": "f0ade3ef08c35a0e93c97543b950062ac20b21f709f0cac84e943f21c1453c36"
+    },
+    {
+      "path": "audit://extension/context/contracts/product.md",
+      "sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163",
+      "role": "contract:product",
+      "audit_original_sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163"
+    },
+    {
+      "path": "audit://extension/context/contracts/evidence.md",
+      "sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88",
+      "role": "contract:evidence",
+      "audit_original_sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88"
+    },
+    {
+      "path": "audit://extension/design-depth.json",
+      "sha256": "1f0581dde13bf3d95b12836395d395572679fcfea21f04f8ce8743baf8f673ac",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "f42d9e1b0368b4fcdf589090548a5a3ae4cdf0338cb6cca2448c3adfabce4eb3"
+    },
+    {
+      "path": "audit://extension/nicegram-route-receipt.json",
+      "sha256": "9fff8d9e80adf18cb0a8080fcb2123d31009ad0170791a2a03a6ebc8bd881453",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "59b1771fe8f2881fd0f0ca9f12c30461e0d909397fa025092a1958b8658ede49"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "VD-01",
+    "title": "Идентичность фиксируется раньше визуального исследования, а наличие системы закрывает допустимый поиск композиции",
+    "priority": "P1",
+    "skills": [
+      "sheleg-design"
+    ],
+    "evidence": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "line": 80,
+        "receipt": "The visual identity comes from a style pack. Before choosing one, read",
+        "claim": "Пак выбирается и токены копируются до layout"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "line": 204,
+        "receipt": "populated page yet, the choice is premature — build the page in the pack the",
+        "claim": "Нет populated page — сначала собрать в default register"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "line": 142,
+        "receipt": "A token change. A spacing fix. A bug. A surface with a locked design system,",
+        "claim": "Locked system исключает две вариации"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/references/visual-identity.md",
+        "line": 51,
+        "receipt": "1. **Is a style pack already recorded?** `screens.md` → Design system →",
+        "claim": "Записанный pack не переобсуждается"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+        "line": 136,
+        "receipt": "- **A swept reference does not become a component.** It informs how you compose the",
+        "claim": "Reference не может обосновать новый atom"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+        "line": 160,
+        "receipt": "**The order is the rule:** extraction lands in a pack first — **the full thirteen",
+        "claim": "Новая visual identity требует полный 13-heading pack"
+      },
+      {
+        "path": "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+        "line": 3,
+        "receipt": "Contract: local concept, existing product identity. Not a published reusable family pack.",
+        "claim": "Nicegram записан existing identity"
+      },
+      {
+        "path": "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+        "line": 14,
+        "receipt": "Signature element: avatar plus compact credit label in chat header.",
+        "claim": "Signature сведён к avatar + credit label"
+      }
+    ],
+    "mechanism": "Пользовательская цель → найден старый token file → он назван locked system → сравнение направлений исключено → visual references разрешены главным образом для структуры → выбор закрепляет первую правдоподобную композицию. Система бренда ограничивает палитру, но сама по себе не определяет иерархию, масштаб, ритм, работу с пустотой и характер экранных компонентов. Текст объединяет эти разные степени свободы.",
+    "observed": "В initial Nicegram объявлены 4/1/5, dark+gold и system type; A/B = сразу чат / чат-сервисы. В локальном style.md нет двух самостоятельных визуальных направлений. Это наблюдение о данном выполнении, не доказательство, что запрет единолично вызвал результат. Собственная local concept identity уже является полезным допустимым обходом обязательных published packs.",
+    "fix": "Ввести этап exploration с частичной фиксацией: locked invariants (brand colors/logo/accessibility), open axes (composition/type hierarchy/control anatomy/motion purpose). Разрешить 2–3 небольших рендера одного реального ключевого состояния в одной системе бренда. До выбора это provisional direction, после выбора — semantic tokens и пак. Полный контракт/13 headings требовать при публикации reusable pack, не для каждого эскиза. Разделить UI update и identity redesign вместо запрета любых component edits.",
+    "acceptance": "На брифе «улучшить Nicegram, сохранить бренд» показать минимум две реально разные композиции стартового чата и context sheet; у каждой неизменны бренд и сценарий, явно различаются ≥2 открытых визуальных оси. На «исправить spacing по точному Figma» вариаций не создавать. Повторить с существующим токен-файлом и без него; наличие токенов само по себе не должно закрывать exploration.",
+    "cross_references": [
+      "DS-01",
+      "DS-02"
+    ],
+    "classification": "observed_instruction_gap_with_unmeasured_outcome",
+    "source_files": [
+      "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+      "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+      "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+      "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "repo://super-ux/plugins/super-ux/skills/references/visual-identity.md"
+    ],
+    "context_levels": {
+      "instruction_defined": true,
+      "observed_loaded_in_Nicegram": "See nicegram-route-receipt.json; not all downstream files were loaded there",
+      "artifact_observed": "В initial Nicegram объявлены 4/1/5, dark+gold и system type; A/B = сразу чат / чат-сервисы. В локальном style.md нет двух самостоятельных визуальных направлений. Это наблюдение о данном выполнении, не доказательство, что запрет единолично вызвал результат. Собственная local concept identity уже является полезным допустимым обходом обязательных published packs.",
+      "causal_hypothesis": "Пользовательская цель → найден старый token file → он назван locked system → сравнение направлений исключено → visual references разрешены главным образом для структуры → выбор закрепляет первую правдоподобную композицию. Система бренда ограничивает палитру, но сама по себе не определяет иерархию, масштаб, ритм, работу с пустотой и характер экранных компонентов. Текст объединяет эти разные степени свободы.",
+      "live_model_comparison": "not run; no causal effect size or universal quality verdict"
+    },
+    "origin": "extension/design-depth.json",
+    "observation": "В initial Nicegram объявлены 4/1/5, dark+gold и system type; A/B = сразу чат / чат-сервисы. В локальном style.md нет двух самостоятельных визуальных направлений. Это наблюдение о данном выполнении, не доказательство, что запрет единолично вызвал результат. Собственная local concept identity уже является полезным допустимым обходом обязательных published packs.",
+    "evidence_kind": "observed_instruction_gap_with_unmeasured_outcome",
+    "implementation_status": "proposed"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Ввести этап exploration с частичной фиксацией: locked invariants (brand colors/logo/accessibility), open axes (composition/type hierarchy/control anatomy/motion purpose). Разрешить 2–3 небольших рендера одного реального ключевого состояния в одной системе бренда. До выбора это provisional direction, после выбора — semantic tokens и пак. Полный контракт/13 headings требовать при публикации reusable pack, не для каждого эскиза. Разделить UI update и identity redesign вместо запрета любых component edits.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "На брифе «улучшить Nicegram, сохранить бренд» показать минимум две реально разные композиции стартового чата и context sheet; у каждой неизменны бренд и сценарий, явно различаются ≥2 открытых визуальных оси. На «исправить spacing по точному Figma» вариаций не создавать. Повторить с существующим токен-файлом и без него; наличие токенов само по себе не должно закрывать exploration.",
+    "Refinement сохраняет identity, но допускает другой rhythm/composition в пределах scope.",
+    "Ни style pack, ни dials, ни число шрифтов не объявлены доказательством craft.",
+    "Выполнение возможно offline без concept roll/imagegen."
+  ],
+  "verification_plan": {
+    "baseline": "В initial Nicegram объявлены 4/1/5, dark+gold и system type; A/B = сразу чат / чат-сервисы. В локальном style.md нет двух самостоятельных визуальных направлений. Это наблюдение о данном выполнении, не доказательство, что запрет единолично вызвал результат. Собственная local concept identity уже является полезным допустимым обходом обязательных published packs.",
+    "must_test": "На брифе «улучшить Nicegram, сохранить бренд» показать минимум две реально разные композиции стартового чата и context sheet; у каждой неизменны бренд и сценарий, явно различаются ≥2 открытых визуальных оси. На «исправить spacing по точному Figma» вариаций не создавать. Повторить с существующим токен-файлом и без него; наличие токенов само по себе не должно закрывать exploration.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+      "sha256": "245951a4a3adc9f52566b13cbb35b7e9548200e6d04fbf59a857502c4a442bf2",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/references/visual-identity.md",
+      "sha256": "3771fd7aab529c71ff15fe0cd9bb38c71cd1e016162ca73edd7f37acf955d36e",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+      "sha256": "54af980e952ed2d95a1fbbea613b6924c633d86e37f38c41052268abac798d38",
+      "role": "baseline source"
+    },
+    {
+      "path": "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+      "sha256": "6c78ff0be8abac64f3031ad158f54884e0080bef2be77bd12f48b032e678343e",
+      "role": "read-only audit evidence"
+    }
+  ],
+  "source_bases": {
+    "sheleg-design": "562786b30f07f50a294d70a4c3ffd40794624f42",
+    "super-ux": "a60f6b423c619b37a3bb43564b58b02b6200e463"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://sheleg-design",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://super-ux",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://super-ux/plugins/super-ux/skills/references/visual-identity.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": true,
+  "planning_wave": 10,
+  "origin": "v2",
+  "dispatchable": false,
+  "retired_read_only_evidence": [],
+  "knowledge_enrichments": [
+    {
+      "id": "XD-02",
+      "title": "Описать исследование композиции внутри известных инвариантов",
+      "status": "proposed-not-implemented",
+      "targets": [
+        {
+          "action": "Create",
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_EXPLORATION.md",
+          "exists_at_audit": false
+        }
+      ],
+      "inputs": [
+        "scenarios, реальный content, существующая identity, target surface, ограничения пользователя"
+      ],
+      "implementation_steps": [
+        "Разделить invariants / open axes / hypothesis и назвать два направления с разной композицией.",
+        "Определить одинаковую scenario/state/viewport матрицу сравнения; разрешить один cast без нового skill.",
+        "Выбрать направление по аргументам и сохранению задачи; затем формализовать semantic tokens, записать отложенные решения."
+      ],
+      "outputs": [
+        "Reference: direction contract, comparison matrix, locked/open axes."
+      ],
+      "acceptance": [
+        "Refinement сохраняет identity, но допускает другой rhythm/composition в пределах scope.",
+        "Ни style pack, ни dials, ни число шрифтов не объявлены доказательством craft.",
+        "Выполнение возможно offline без concept roll/imagegen."
+      ],
+      "depends_on": [
+        {
+          "task_id": "XD-01",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        }
+      ],
+      "decisions": [
+        "Число направлений пропорционально задаче: две для исследования, одна для уже явного решения."
+      ],
+      "source_candidates": [
+        "K-DIR",
+        "I-09",
+        "I-10",
+        "J-02"
+      ],
+      "addresses_findings": [
+        "VD-01",
+        "VD-06"
+      ],
+      "runtime_dependencies_added": [],
+      "api_keys_added": [],
+      "owner": "sheleg-design",
+      "target_files": [
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_EXPLORATION.md",
+          "mode": "Create"
+        }
+      ],
+      "decision": "Число направлений пропорционально задаче: две для исследования, одна для уже явного решения.",
+      "steps": [
+        "Разделить invariants / open axes / hypothesis и назвать два направления с разной композицией.",
+        "Определить одинаковую scenario/state/viewport матрицу сравнения; разрешить один cast без нового skill.",
+        "Выбрать направление по аргументам и сохранению задачи; затем формализовать semantic tokens, записать отложенные решения."
+      ],
+      "related_existing": [
+        "FIX-VD-01",
+        "FIX-VD-06"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/new-work.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/new-work.md:1",
+          "sha256": "03caa6d583ed2c1b0c923f9aec0932ce429ebdce141d6bdae1a834610b2042f9",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/new-work.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/operate.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/operate.md:1",
+          "sha256": "a9d2203acd45ca33a13d5c68b02b23ed512425ac15f0e8438318ed124b43729d",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/operate.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/bolder.md",
+          "line": 1,
+          "end_line": 33,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/bolder.md:1",
+          "sha256": "4879f38b23d0a251a63cbb0327e660296194cd2e71eb4da3236c6ebfe5807746",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/bolder.md#L1-L33"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md",
+          "line": 1,
+          "end_line": 99,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md:1",
+          "sha256": "ee6d6d127c1c2ab3526d529a8e3698be2185b5e346ac617f37501de2c0698b97",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md#L1-L99"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md",
+          "line": 1,
+          "end_line": 120,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md:1",
+          "sha256": "e5b49117e5df4ba48dc95e60a662ab1a15685d04ae9b06cb0598a7314436a7c9",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md#L1-L120"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md",
+          "line": 31,
+          "end_line": 31,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md:31",
+          "sha256": "e5b49117e5df4ba48dc95e60a662ab1a15685d04ae9b06cb0598a7314436a7c9",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md#L31"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md",
+          "line": 19,
+          "end_line": 19,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md:19",
+          "sha256": "e5b49117e5df4ba48dc95e60a662ab1a15685d04ae9b06cb0598a7314436a7c9",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md#L19"
+        }
+      ],
+      "merged_into": "FIX-VD-01",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "leaf_ids": [
+    "FIX-VD-01.01",
+    "FIX-VD-01.02"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "На брифе «улучшить Nicegram, сохранить бренд» показать минимум две реально разные композиции стартового чата и context sheet; у каждой неизменны бренд и сценарий, явно различаются ≥2 открытых визуальных оси. На «исправить spacing по точному Figma» вариаций не создавать. Повторить с существующим токен-файлом и без него; наличие токенов само по себе не должно закрывать exploration.",
+      "Refinement сохраняет identity, но допускает другой rhythm/composition в пределах scope.",
+      "Ни style pack, ни dials, ни число шрифтов не объявлены доказательством craft.",
+      "Выполнение возможно offline без concept roll/imagegen."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

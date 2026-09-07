@@ -1,0 +1,135 @@
+
+== 38 steps ==
+
+== Materializing pinned submodules (pins unchanged) ==
+  » [1/38] git -C repo://sshlg-skills submodule update --init --recursive
+
+== Updating skills-CLI installs (global): vision, ux-foundation, ux-flows, ux-scenarios, ux-audit, brand-voice, copywriting, task-pipeline, evidence-docs, project-audit, agent-sync, make-skill, sheleg-design, seo-aeo-audit, stripe-billing, crypto-payments, error-tracking, ad-tracking, google-signin, google-auth, frontend-performance, agent-orchestrator, agent-evals, agent-interop, agent-harness, telegram-bots, telegram-userbots, telegram-miniapps ==
+   then reconciling against: codex
+
+- update vision
+  » [2/38] npx --yes skills update vision --global --yes
+
+- update ux-foundation
+  » [3/38] npx --yes skills update ux-foundation --global --yes
+
+- update ux-flows
+  » [4/38] npx --yes skills update ux-flows --global --yes
+
+- update ux-scenarios
+  » [5/38] npx --yes skills update ux-scenarios --global --yes
+
+- update ux-audit
+  » [6/38] npx --yes skills update ux-audit --global --yes
+
+- update brand-voice
+  » [7/38] npx --yes skills update brand-voice --global --yes
+
+- update copywriting
+  » [8/38] npx --yes skills update copywriting --global --yes
+
+- update task-pipeline
+  » [9/38] npx --yes skills update task-pipeline --global --yes
+
+- update evidence-docs
+  » [10/38] npx --yes skills update evidence-docs --global --yes
+
+- update project-audit
+  » [11/38] npx --yes skills update project-audit --global --yes
+
+- update agent-sync
+  » [12/38] npx --yes skills update agent-sync --global --yes
+
+- update make-skill
+  » [13/38] npx --yes skills update make-skill --global --yes
+
+- update sheleg-design
+  » [14/38] npx --yes skills update sheleg-design --global --yes
+
+- update seo-aeo-audit
+  » [15/38] npx --yes skills update seo-aeo-audit --global --yes
+
+- update stripe-billing
+  » [16/38] npx --yes skills update stripe-billing --global --yes
+
+- update crypto-payments
+  » [17/38] npx --yes skills update crypto-payments --global --yes
+
+- update error-tracking
+  » [18/38] npx --yes skills update error-tracking --global --yes
+
+- update ad-tracking
+  » [19/38] npx --yes skills update ad-tracking --global --yes
+
+- update google-signin
+  » [20/38] npx --yes skills update google-signin --global --yes
+
+- update google-auth
+  » [21/38] npx --yes skills update google-auth --global --yes
+
+- update frontend-performance
+  » [22/38] npx --yes skills update frontend-performance --global --yes
+
+- update agent-orchestrator
+  » [23/38] npx --yes skills update agent-orchestrator --global --yes
+
+- update agent-evals
+  » [24/38] npx --yes skills update agent-evals --global --yes
+
+- update agent-interop
+  » [25/38] npx --yes skills update agent-interop --global --yes
+
+- update agent-harness
+  » [26/38] npx --yes skills update agent-harness --global --yes
+
+- update telegram-bots
+  » [27/38] npx --yes skills update telegram-bots --global --yes
+
+- update telegram-userbots
+  » [28/38] npx --yes skills update telegram-userbots --global --yes
+
+- update telegram-miniapps
+  » [29/38] npx --yes skills update telegram-miniapps --global --yes
+
+- add ssheleg/super-ux
+  » [30/38] npx --yes skills add ssheleg/super-ux --agent codex --global --yes
+
+- add ssheleg/task-pipeline
+  » [31/38] npx --yes skills add ssheleg/task-pipeline --agent codex --global --yes
+
+- add ssheleg/agent-sync
+  » [32/38] npx --yes skills add ssheleg/agent-sync --agent codex --global --yes
+
+- add ssheleg/make-skill
+  » [33/38] npx --yes skills add ssheleg/make-skill --agent codex --global --yes
+
+- add ssheleg/sheleg-design-skill
+  » [34/38] npx --yes skills add ssheleg/sheleg-design-skill --agent codex --global --yes
+
+- add ssheleg/seo-aeo-audit
+  » [35/38] npx --yes skills add ssheleg/seo-aeo-audit --agent codex --global --yes
+
+- add ssheleg/sheleg-dev
+  » [36/38] npx --yes skills add ssheleg/sheleg-dev --agent codex --global --yes
+
+- add ssheleg/agent-stack
+  » [37/38] npx --yes skills add ssheleg/agent-stack --agent codex --global --yes
+
+- add ssheleg/telegram-dev
+  » [38/38] npx --yes skills add ssheleg/telegram-dev --agent codex --global --yes
+
+== Refreshing the routing block ==
+routers: /var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/audit-up-iTv2yQ/custom-host-root/.codex/AGENTS.md — updated
+routers: копии до записи — /var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/audit-up-iTv2yQ/custom-host-root/.sshlg-skills/backups (1)
+
+== Wired hook runtime ==
+  skipped: the hooks are not installed on this machine — nothing to refresh, and an update is not the moment to install them
+
+== How the next version arrives ==
+  npx sshlg-skills@latest update
+
+  Auto-update is OFF for these packs on purpose. They are pinned and released
+  as a set, so updating one on its own clock leaves a combination nobody
+  tested — the same reason this launcher takes no member argument.
+
+== 38 of 38 steps, all green ==

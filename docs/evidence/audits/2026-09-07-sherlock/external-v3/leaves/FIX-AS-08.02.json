@@ -1,0 +1,181 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-AS-08.02",
+  "parent_id": "FIX-AS-08",
+  "title": "Paired and clustered comparison",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "agent-stack"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Статистические правила выдают предположения за универсальные границы",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Развести paired/clustered/unpaired; bootstrap/McNemar только при соответствующем дизайне, SE у unpaired.\n\nУточнение ADOPT-M-04: Case IDs и группировки фиксированы. Validation разрешено использовать для настройки; final holdout не используется для выбора версии. Зависимые повторы не считать iid, малая выборка не даёт мнимой уверенности.\nПроверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.\nРеализовать ровно этот контракт в указанном target: Case IDs и группировки фиксированы. Validation разрешено использовать для настройки; final holdout не используется для выбора версии. Зависимые повторы не считать iid, малая выборка не даёт мнимой уверенности.\nПроверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов.",
+  "expected_result": "Метод в receipt соответствует структуре corpus; blanket never/worst case удалены.\nSynthetic reusedvalidation example cannot be labeled unseenfinaltest; dependentrepeats notiidclaimed.",
+  "acceptance": [
+    "Метод в receipt соответствует структуре corpus; blanket never/worst case удалены.",
+    "Synthetic reusedvalidation example cannot be labeled unseenfinaltest; dependentrepeats notiidclaimed."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Развести paired/clustered/unpaired; bootstrap/McNemar только при соответствующем дизайне, SE у unpaired.\n\nУточнение ADOPT-M-04: Case IDs и группировки фиксированы. Validation разрешено использовать для настройки; final holdout не используется для выбора версии. Зависимые повторы не считать iid, малая выборка не даёт мнимой уверенности.\nПроверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.\nРеализовать ровно этот контракт в указанном target: Case IDs и группировки фиксированы. Validation разрешено использовать для настройки; final holdout не используется для выбора версии. Зависимые повторы не считать iid, малая выборка не даёт мнимой уверенности.\nПроверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "a9da4f542487b66e4005e4031213ea6e9aa8cee048a1dba60647fa3f3bbe8943"
+    }
+  ],
+  "test_target": {
+    "path": "repo://agent-stack/test/audit_regressions/fix-as-08.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-AS-08.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-AS-08.json",
+    "source_files": [
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md",
+        "sha256": "a9da4f542487b66e4005e4031213ea6e9aa8cee048a1dba60647fa3f3bbe8943",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Граничные n=1,3 и p=0,1 не дают нулевую неопределённость; контрольные positive/negative correlation кейсы, paired и unpaired дизайны дают заранее вычисленные интервалы.",
+      "Synthetic reusedvalidation example cannot be labeled unseenfinaltest; dependentrepeats notiidclaimed."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit.",
+    "foreign_method_sources": [
+      {
+        "path": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/skill-creator/scripts/run_loop.py",
+        "line": 216,
+        "source_url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/skill-creator/scripts/run_loop.py#L216"
+      }
+    ]
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [
+    {
+      "id": "ADOPT-M-04",
+      "title": "Разделить tuningvalidation и finalholdout",
+      "status": "proposed_not_implemented",
+      "readiness": "planned_requires_dispatch_refresh",
+      "operation": "Edit",
+      "target": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md",
+      "source_files": [
+        {
+          "path": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/skill-creator/scripts/run_loop.py",
+          "line": 216,
+          "source_url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/skill-creator/scripts/run_loop.py#L216"
+        }
+      ],
+      "decision": "Case IDs и группировки фиксированы. Validation разрешено использовать для настройки; final holdout не используется для выбора версии. Зависимые повторы не считать iid, малая выборка не даёт мнимой уверенности.",
+      "outputs": [
+        "Selection-vs-final evaluation section"
+      ],
+      "acceptance": [
+        "Synthetic reusedvalidation example cannot be labeled unseenfinaltest; dependentrepeats notiidclaimed."
+      ],
+      "dependencies": [],
+      "related_existing_tasks": [
+        "FIX-AS-08",
+        "FIX-EV-01"
+      ],
+      "runtime_dependencies": [],
+      "api_keys": [],
+      "network_required": false,
+      "host": "Markdown/JSON plus already-available family validator/host capabilities",
+      "not_in_scope": [
+        "foreign plugin installation",
+        "foreign script execution",
+        "new mandatory APIs/SDKs",
+        "Fabric runtime implementation"
+      ],
+      "dispatch_refresh": [
+        "resolve exact target base and current doctrine patches",
+        "record source/target hashes and read scope",
+        "serialize overlapping target edits under family coordination"
+      ],
+      "resource_scope": [
+        "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md"
+      ],
+      "owner": "agent-stack",
+      "target_files": [
+        {
+          "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md",
+          "mode": "Edit"
+        }
+      ],
+      "steps": [
+        "Проверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.",
+        "Реализовать ровно этот контракт в указанном target: Case IDs и группировки фиксированы. Validation разрешено использовать для настройки; final holdout не используется для выбора версии. Зависимые повторы не считать iid, малая выборка не даёт мнимой уверенности.",
+        "Проверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов."
+      ],
+      "depends_on": [],
+      "related_existing": [
+        "FIX-AS-08",
+        "FIX-EV-01"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/skill-creator/scripts/run_loop.py",
+          "line": 216,
+          "source_url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/skill-creator/scripts/run_loop.py#L216"
+        }
+      ],
+      "merged_into": "FIX-AS-08",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "verification_commands": [
+    "python3 repo://agent-stack/test/audit_regressions/fix-as-08.02.py",
+    "python3 repo://agent-stack/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-AS-08.02.md",
+    "sha256": "cb272cbce13c25a55ac10be619edeb4e8919b6338ab06d529fdd3f97609fddc2",
+    "utf8_bytes": 5772,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "be4cffe359940455d527f6146932ed2dc50b997760c8930f6927b3c8b648ce45"
+  }
+}

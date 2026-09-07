@@ -1,0 +1,111 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-MS-04.01",
+  "parent_id": "FIX-MS-04",
+  "title": "Платформенные ограничения описаны как универсальные и частично устарели",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "make-skill"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Платформенные ограничения описаны как универсальные и частично устарели",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Матрица adapter capabilities по версии хоста; native fallback по обнаруженным инструментам. В таблице каждой нормы owner=spec/host/house, required vs recommended и дата последней проверки.",
+  "expected_result": "Codex с native subagents/MCP не считается лишённым этих возможностей; Claude version-gated validation; portable body не требует конкретного tool spelling.",
+  "acceptance": [
+    "Codex с native subagents/MCP не считается лишённым этих возможностей; Claude version-gated validation; portable body не требует конкретного tool spelling."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Матрица adapter capabilities по версии хоста; native fallback по обнаруженным инструментам. В таблице каждой нормы owner=spec/host/house, required vs recommended и дата последней проверки.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://make-skill/plugins/make-skill/skills/make-skill/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "9d4b36c72b7f8fcc8bc899694baf130edc73fe6e33ea2b70a142d0707de1c63e"
+    },
+    {
+      "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/agent-skills-spec.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "067dc156036d6e4d824e5b45f924f1446436ecd8ec614d14909d6311fdaf3612"
+    }
+  ],
+  "test_target": {
+    "path": "repo://make-skill/test/audit_regressions/fix-ms-04.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-MS-04.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-MS-04.json",
+    "source_files": [
+      {
+        "path": "repo://make-skill/plugins/make-skill/skills/make-skill/SKILL.md",
+        "sha256": "9d4b36c72b7f8fcc8bc899694baf130edc73fe6e33ea2b70a142d0707de1c63e",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/agent-skills-spec.md",
+        "sha256": "067dc156036d6e4d824e5b45f924f1446436ecd8ec614d14909d6311fdaf3612",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Codex с native subagents/MCP не считается лишённым этих возможностей; Claude version-gated validation; portable body не требует конкретного tool spelling."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://make-skill/test/audit_regressions/fix-ms-04.01.py",
+    "python3 repo://make-skill/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-MS-04.01.md",
+    "sha256": "f9147d0e3b9bcda2af3eb78662273710cf369ea8b52c904d2bf79725e3ff76f3",
+    "utf8_bytes": 7198,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "202c28e616e70f19adedfa1ac013c12dcecb0a7e683b8f484d10cda7f91c2e5e"
+  }
+}

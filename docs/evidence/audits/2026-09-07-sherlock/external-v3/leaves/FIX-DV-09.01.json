@@ -1,0 +1,100 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-DV-09.01",
+  "parent_id": "FIX-DV-09",
+  "title": "Per-principal OAuth client",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 0,
+  "modules": [
+    "sheleg-dev"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Express OAuth использует общий mutable client и неполную проверку state",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Создавать client per request/principal; не мутировать shared credentials.",
+  "expected_result": "Два параллельных login не используют чужие credentials.",
+  "acceptance": [
+    "Два параллельных login не используют чужие credentials."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Создавать client per request/principal; не мутировать shared credentials.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "44b2ab36141c9732a098e7a390c6a246a85473091dbdf29fd5f4984bfd32be74"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-dev/test/audit_regressions/fix-dv-09.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-DV-09.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-DV-09.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md",
+        "sha256": "44b2ab36141c9732a098e7a390c6a246a85473091dbdf29fd5f4984bfd32be74",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Интерливинг A/B с задержкой между setCredentials и transport использует разные Authorization; missing/expired/reused state не вызывает token endpoint."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-dev/test/audit_regressions/fix-dv-09.01.py",
+    "python3 repo://sheleg-dev/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-DV-09.01.md",
+    "sha256": "a0d2e954cfb7b1aeb123013dc3c896f3a919d17d3fde3035164acb3551ea21b9",
+    "utf8_bytes": 4476,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "1496df9c1cae9a3e8003f5f9348fd3f65d54959bd62cc4a352e81559d4d4a420"
+  }
+}

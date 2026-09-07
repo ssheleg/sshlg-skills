@@ -1,0 +1,8 @@
+
+> @ssheleg/seo-aeo-audit@0.25.11 test:all
+> bash scripts/check-docs.sh && python3 test/negatives.py
+
+residue: this run left nothing — 0 temp tree(s) created, 0 removed
+FAIL: seo-aeo-audit structure invalid
+ - build artifact inside the shipped tree: plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/__pycache__ — delete it before releasing
+ - build artifact inside the shipped tree: plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/__pycache__/page_audit.cpython-314.pyc — delete it before releasing

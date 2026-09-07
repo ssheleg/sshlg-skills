@@ -1,0 +1,64 @@
+
+> @ssheleg/make-skill@0.27.1 test
+> python3 test/validate.py && python3 test/plant_guard_test.py && python3 test/checker_parity_test.py && python3 test/residue_test.py && node test/installer_test.js
+
+PASS: make-skill structure valid (1 cursor rule(s))
+residue: this run left nothing — 0 temp tree(s) created, 0 removed
+  ok  a content change is seen
+  ok  a MODE-ONLY change is seen (the incident)
+  ok  no change at all is refused, by name
+  ok  a new file is seen
+  ok  a deleted file is seen
+  ok  .git churn is not mistaken for a plant
+  ok  a missing tree refuses rather than approves
+  ok  verify without snap refuses
+  ok  the manifest lives outside the tree
+
+PASS: plant_guard — 9 cases
+residue: this run left nothing — 8 temp tree(s) created, 8 removed
+  ok  a plain multi-line description is measured whole, not at its first line
+  ok  the continuation is folded with a space, the way YAML folds it
+  ok  a quoted scalar spanning lines does not keep its quotes mid-value
+  ok  an inline flow sequence is a list, so TOOLS_TYPE fires on it
+  ok  a flow sequence parses to its members, not to a string that looks like one
+  ok  the legal space-separated string is still a string, and still passes
+  ok  a block scalar still folds as it did — the fix did not move that case
+  ok  a nested map still parses as a map
+  ok  --house applies the 4750 body working limit, not only the description one
+  ok  without --house the working limit is not applied — it is a house rule
+  ok  a body inside the working limit is not gapped
+  ok  the drift guard refuses a limit that exists on one side only
+  ok  the drift guard refuses a limit whose value differs
+  ok  the drift guard refuses a front-matter key legal on one side only
+  ok  a description that says WHEN and never WHAT is refused
+  ok  both spellings of one description reach the same WHAT verdict
+  ok  the WHAT floor clears every shipped description by more than double
+PASS: checker parity — 17 cases
+residue: this run left nothing — 11 temp tree(s) created, 11 removed
+  ok  a passing case leaves nothing, and the path is gone
+  ok  a clean run still says what it left
+  ok  a FAILING case keeps its tree, by name, with a remedy
+  ok  a crash keeps its tree and still reports
+  ok  residue is attributable by prefix
+  ok  plant_guard_test leaves an empty TMPDIR
+  ok  checker_parity_test leaves an empty TMPDIR
+    (shared TMPDIR holds 2 ledger-prefixed tree(s); 2 belong to another run and are not this run's to answer for)
+  ok  this gate run left nothing in the shared TMPDIR
+  ok  a tree from another run is not this run's leak
+  ok  this run's own leak is still a failure
+  ok  workspace() embeds the run tag
+PASS: residue — 11 cases
+residue: this run left nothing — 2 temp tree(s) created, 2 removed
+ok: fresh HOME installs the whole skill, and says how updates arrive
+ok: rerun skips, --force overwrites, unknown arg exits 2
+ok: plugin present in installed_plugins.json: refuse, exit 3, remedy, nothing written
+ok: plugin under a differently-named marketplace: remedy names the real spec
+ok: --force overrides the refusal, deliberately
+ok: corrupt installed_plugins.json reads as "no plugin" — install, never crash
+ok: other plugins, and a prefix-collider, do not trigger a false refusal
+ok: marketplaces/<name> dir alone still refuses (fallback signal, exit 3)
+ok: install.sh: fresh install, rerun-skip
+ok: install.sh: plugin present — refuse, exit 3, nothing written; --force installs
+ok: install.sh: marketplaces dir alone refuses; corrupt JSON fails open
+residue: this run left nothing — 11 temp home(s) created, 11 removed
+PASS: installer — 11 case(s)

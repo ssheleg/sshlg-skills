@@ -1,0 +1,543 @@
+{
+  "audit_date": "2026-09-07",
+  "scope": "7 sheleg-dev + 3 telegram-dev skills; sources read, offline tests and selected primary-source verification",
+  "findings": [
+    {
+      "id": "DV-01",
+      "skills": [
+        "stripe-billing"
+      ],
+      "priority": "P1",
+      "title": "Claim фиксирует получение, но ошибочно считается завершением работы",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/SKILL.md:200",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/webhook-events.md:224",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/SKILL.md:225"
+      ],
+      "observed": "INSERT processed_event фиксируется до handle; удаляется только при пойманном исключении. SIGKILL после INSERT не вызывает catch. Эффекты после commit не имеют durable outbox.",
+      "impact": "Повтор отвечает duplicate, хотя entitlement или уведомление не выполнены; ошибка эффекта после commit может повторить ранее выполненные эффекты.",
+      "fix": "Разделить received/processing/completed; claim с lease и восстановлением; entitlement + business dedup + outbox в одной транзакции; consumer эффектов с собственной идемпотентностью.",
+      "acceptance": "Убивать worker после claim, перед commit и после commit до effect; после рестарта ровно один grant, eventual delivery эффекта, completed только после durable перехода.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-02",
+      "skills": [
+        "stripe-billing"
+      ],
+      "priority": "P1",
+      "title": "Пример renewal противоречит тесту переупорядоченных периодов и не сериализует grant",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/subscription-lifecycle.md:146",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/webhook-events.md:215",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/reference-handler.mjs:214"
+      ],
+      "observed": "Пример отбрасывает periodStart <= lastGrantedPeriodStart; fixture требует выдать оба периода при February→January. SELECT→UPDATE внутри транзакции сам по себе не задаёт isolation/row lock; reconciliation не несёт event.id.",
+      "impact": "Оплаченный старый период теряет allowance; два независимых входа могут начислить один период дважды при обычной изоляции БД.",
+      "fix": "Уникальная запись grant по subscription/item/invoice/period и атомарная выдача; отдельно monotonic mirror состояния. Определить isolation и retry serialization failures.",
+      "acceptance": "Реальная БД: webhook + reconciliation одновременно для одного invoice; затем February→January. Два разных оплаченных периода начислены, один период не дублируется, mirror остаётся February.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-03",
+      "skills": [
+        "stripe-billing"
+      ],
+      "priority": "P1",
+      "title": "Компенсация количества не компенсирует уже снятые деньги",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/subscription-lifecycle.md:165",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/subscription-lifecycle.md:178"
+      ],
+      "observed": "Upgrade использует always_invoice; при сбое БД возвращает oldQuantity с proration_behavior:none. Эта операция не возвращает начисление первой invoice.",
+      "impact": "Клиент платит за upgrade и получает старое число seats; текст называет это компенсирующим revert, создавая ложное ощущение восстановления.",
+      "fix": "Durable operation intent с idempotency key; предпочесть восстановить БД из подтверждённого Stripe состояния. Если бизнес выбрал rollback, отдельно оформить подтверждённую финансовую компенсацию и её статус.",
+      "acceptance": "Симуляция successful charge + DB failure: деньги, entitlement, invoice и operation ledger сходятся после recovery; повтор API не создаёт второй invoice.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-04",
+      "skills": [
+        "stripe-billing"
+      ],
+      "priority": "P1",
+      "title": "Refund CAS проигрыш молча теряет больший cumulative refund",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/subscription-lifecycle.md:257",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/subscription-lifecycle.md:265",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/subscription-lifecycle.md:270"
+      ],
+      "observed": "Два обработчика с одинаковым stored.refundedTotal для cumulative 4000 и 9000: если 4000 выиграл, 9000 возвращает без перечитывания. Marker и clawBack разделены; rollback marker без CAS способен затереть более новый total.",
+      "impact": "Недостаточное clawback и расхождение ledger; при падении между marker и clawBack retry пропускается.",
+      "fix": "Под row lock/serializable transaction вычислять max(total_seen), delta и обновлять ledger вместе; CAS loser перечитывает и повторяет. Денежные значения хранить в minor units, а не /100 float.",
+      "acceptance": "Concurrent cumulative 4000/9000 в обоих порядках, crash после marker, retry старого события: total=9000 и суммарное clawback=9000 ровно один раз.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-05",
+      "skills": [
+        "crypto-payments"
+      ],
+      "priority": "P1",
+      "title": "Основной idempotency snippet кредитует не только PAID и блокирует жизненный цикл после PAID",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md:93",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md:183",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md:196",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/references/heleket-provider.md:1098"
+      ],
+      "observed": "В body creditUser следует после любого успешного updateMany(mapped), без проверки PAID и общей транзакции. Reference улучшает paid gate и транзакцию, но return при paid/paid_over отбрасывает refund/hold updates.",
+      "impact": "Если копировать body, pending/AML/failed могут кредитовать, crash теряет credit; если копировать reference, refund после paid не записывается. Это дефекты примеров, не доказательство активного продового ущерба.",
+      "fix": "Один исполняемый эталон; разделить payment status, immutable settlement grant и refund ledger. Only confirmed settlement credit; атомарный business dedup; refunds и holds не отбрасывать как duplicate.",
+      "acceptance": "pending→confirming→paid→refund_process→refund_paid; repeated pending; paid concurrent; crash до/после commit. Ноль grant до paid, один после, refund отражён.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-06",
+      "skills": [
+        "crypto-payments"
+      ],
+      "priority": "P2",
+      "title": "Универсальный amount waterfall смешивает единицы и взаимоисключающие правила буфера",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md:235",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md:272",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/references/heleket-provider.md:877",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/references/heleket-provider.md:1257"
+      ],
+      "observed": "Body: buffer не выдаётся пользователю, credit intent; waterfall: paidAmountUsd ?? tokenAmount (описан как plan units) ?? amountUsd. Heleket reference: tokenAmount=invoiceAmount, buffer возвращается в баланс. Единого dimensional contract нет.",
+      "impact": "В разных generated integrations одинаковая оплата создаёт разные балансы; tokens могут трактоваться как USD. Бизнес-политика незаметно выбирается скиллом.",
+      "fix": "Ввести Money(currency, minor/decimal), Asset(network, amount), Entitlement(units), FX quote с источником/временем. Выбор refund excess/credit excess/buffer fee оформлять явной политикой проекта.",
+      "acceptance": "Табличные кейсы topup/plan/overpay/underpay/fee/FX; типовая проверка запрещает USD??tokens; reconciliation доказывает gross=net+fees±FX и user entitlement по выбранной политике.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-07",
+      "skills": [
+        "google-auth"
+      ],
+      "priority": "P1",
+      "title": "OAuth examples отправляют серверный client_secret и refresh_token в клиентскую cookie",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md:486",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md:527",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md:569",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/SKILL.md:238"
+      ],
+      "observed": "Flask default session и Starlette SessionMiddleware подписывают, но не шифруют cookie. В credentials положены client_secret, token, refresh_token. Body также прямо console.log(tokens.access_token). Официальные docs подтверждают читаемость session contents.",
+      "impact": "Любой пользователь с такой сессией получает OAuth client_secret; credential replication в браузер и логи увеличивает поверхность утечки. Дефект шаблона подтверждён, реальные deployment не обследованы.",
+      "fix": "В cookie только случайный opaque session id; Google credentials хранить server-side encrypted store, доступ по session+principal. Удалить token logging; production secret без dev fallback; HTTPS guard.",
+      "acceptance": "Локальный HTTP client выполняет stubbed OAuth callback, декодирует Set-Cookie: ни client_secret, ни access/refresh token отсутствуют; stdout/stderr также чисты.",
+      "sources": [
+        "https://flask.palletsprojects.com/en/stable/quickstart/#sessions",
+        "https://raw.githubusercontent.com/encode/starlette/master/docs/middleware.md"
+      ],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-08",
+      "skills": [
+        "google-auth"
+      ],
+      "priority": "P1",
+      "title": "ADC precedence написан в обратном порядке",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/SKILL.md:89",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/adc-and-service-accounts.md:24"
+      ],
+      "observed": "Body и reference говорят attached service account → local ADC → env. Google документирует env → local ADC → attached service account.",
+      "impact": "Оператор может считать workload identity фактическим principal, хотя старый env JSON подменяет его; ошибочные разрешения и доступ не к тому проекту.",
+      "fix": "Исправить оба места из одной canonical таблицы; сначала показывать фактически resolved principal/source без секрета, затем настраивать.",
+      "acceptance": "В изолированном test env доступны три fake sources; resolver выбирает env, затем local, затем metadata, и отчёт называет именно выбранный.",
+      "sources": [
+        "https://docs.cloud.google.com/docs/authentication/application-default-credentials"
+      ],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-09",
+      "skills": [
+        "google-auth"
+      ],
+      "priority": "P1",
+      "title": "Express OAuth использует общий mutable client и неполную проверку state",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md:380",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md:403",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md:412"
+      ],
+      "observed": "Один OAuth2 client на весь процесс; каждый /profile меняет его credentials. Сравнение state допускает undefined===undefined; state не consume, отсутствует TTL.",
+      "impact": "Конкурентные запросы разных пользователей разделяют credential state; сессия без ожидаемого state не отвергается до code exchange.",
+      "fix": "Client на запрос/пользователя, credentials не мутировать глобально; required cryptorandom state привязать к server session, TTL, atomic consume; validation до token exchange.",
+      "acceptance": "Интерливинг A/B с задержкой между setCredentials и transport использует разные Authorization; missing/expired/reused state не вызывает token endpoint.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-10",
+      "skills": [
+        "google-signin",
+        "google-auth"
+      ],
+      "priority": "P1",
+      "title": "Nonce равен присланному клиентом значению, а не ожидаемому сервером",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/SKILL.md:37",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/SKILL.md:47",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/references/full-guide.md:264",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/references/full-guide.md:380",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/references/sign-in-with-google.md:294"
+      ],
+      "observed": "Клиент генерирует nonce и POSTит вместе с credential; backend сравнивает их и даже пропускает проверку если nonce отсутствует. Серверного challenge/consume нет. Утверждение 'stolen token cannot be replayed' не следует из кода: nonce читается из JWT.",
+      "impact": "Перехваченный ещё действующий token повторно обменивается на новую app session; заявленная replay defense отсутствует.",
+      "fix": "Server-issued nonce связан с pre-auth HttpOnly session, TTL и one-time consume; обязательное точное совпадение token nonce с server expectation, а не body nonce.",
+      "acceptance": "Один подписанный тестовый JWT: первый вход проходит, replay из новой сессии и replay после consume отклоняются; missing nonce отклонён. Оба skills используют один контракт.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-11",
+      "skills": [
+        "google-signin"
+      ],
+      "priority": "P1",
+      "title": "Auto-link по email игнорирует случаи, где Google не подтверждает текущее владение адресом",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/SKILL.md:59",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/references/full-guide.md:188",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/references/full-guide.md:193"
+      ],
+      "observed": "email_verified=true используется как доказательство inbox ownership для auto-link. Google отдельно исключает non-Gmail без hd: владение сторонним email могло измениться с момента первоначальной верификации.",
+      "impact": "Возможна привязка Google identity прежнего владельца стороннего адреса к локальному аккаунту нынешнего владельца.",
+      "fix": "По умолчанию linking после fresh re-auth текущего локального аккаунта; если auto-link нужен, явно учитывать Google authoritative conditions и независимый challenge для прочих адресов. Unverified pre-registration направлять в безопасное recovery, не только в чужой password.",
+      "acceptance": "JWT: Gmail; verified Workspace+hd; third-party email без hd; существующий verified/unverified password account. Последний не auto-links только из-за email_verified.",
+      "sources": [
+        "https://developers.google.com/identity/gsi/web/guides/verify-google-id-token"
+      ],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-12",
+      "skills": [
+        "google-signin"
+      ],
+      "priority": "P1",
+      "title": "Copy-paste FastAPI skeleton не исполняет заявленный CSRF contract",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/SKILL.md:70",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/references/full-guide.md:359",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/references/full-guide.md:365",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/references/full-guide.md:371"
+      ],
+      "observed": "Endpoint принимает Pydantic JSON body, хотя заявляет поддержку GIS form POST; missing Sec-Fetch-Site считается same-origin, Origin fallback отсутствует, none разрешён.",
+      "impact": "Form flow получает 422; отсутствующий metadata header становится разрешением. Конкретный browser exploit зависит от delivery/content type, поэтому он не объявлен воспроизведённым.",
+      "fix": "Раздельные явно типизированные form/JSON paths; form требует оба g_csrf_token, JSON требует trusted same-origin или точный Origin fallback; отсутствие обоих fail closed.",
+      "acceptance": "TestClient матрица form/json × valid/missing/mismatched csrf × same-origin/cross-site/none/missing metadata × allowed/disallowed/missing Origin, до verification external calls.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-13",
+      "skills": [
+        "ad-tracking"
+      ],
+      "priority": "P2",
+      "title": "Consent guide смешивает политику Google, юридические решения и неподтверждённые проценты",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/SKILL.md:61",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/SKILL.md:77",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/references/consent-mode.md:22",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/references/consent-mode.md:31",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/references/consent-mode.md:74"
+      ],
+      "observed": "Basic ошибочно 'No conversion modeling' (Google: general model), certified CMP объявлен обязательным всем Google ad products (официальный scope publisher AdSense/AdManager/AdMob); 'always Advanced', '65–70%' и 'no banner needed' вне EEA представлены универсально.",
+      "impact": "Генерация необязательной CMP миграции, неверных прогнозов recovered revenue и отправки данных без выбранной политики consent.",
+      "fix": "Развести product policy, geography/legal decision и технику. Scope+source+checked_at у требований; Basic general vs Advanced advertiser-specific model; процент только как dated measured study, не обещание. Режим выбирается политикой проекта.",
+      "acceptance": "Near-miss advertiser-only GA4/Ads без publisher inventory не требует certified CMP автоматически; Basic проходит; неизвестная юрисдикция не автоматически granted.",
+      "sources": [
+        "https://developers.google.com/tag-platform/security/concepts/consent-mode",
+        "https://support.google.com/admob/answer/13554116?hl=en"
+      ],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-14",
+      "skills": [
+        "ad-tracking"
+      ],
+      "priority": "P1",
+      "title": "Безусловный noscript pixel противоречит consent-gated архитектуре",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/SKILL.md:53",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/SKILL.md:233",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/SKILL.md:115",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/SKILL.md:161"
+      ],
+      "observed": "Meta noscript img дан без server consent gate, хотя перед этим обещано не рендерить Meta до consent. В том же body GA4 G-tag snippet всё ещё несёт allow_enhanced_conversions, который ниже запрещено помещать на G-tag.",
+      "impact": "При отключённом JS копия noscript отправляет PageView без получения согласия; исправления текста не исправили копируемые примеры.",
+      "fix": "Генерировать snippets из исполняемых templates; noscript разрешать только по ранее сохранённому server-verifiable consent либо убрать. Исправить G/AW конфигурацию синхронно с prose.",
+      "acceptance": "Browser JS disabled + no consent: zero Meta requests; granted server cookie: допустимый один request; static template check запрещает неверный флаг на G-tag.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-15",
+      "skills": [
+        "error-tracking"
+      ],
+      "priority": "P1",
+      "title": "Эталонный string scrubber пропускает распространённый Redis password и bot-token URLs",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/error-tracking/references/scrubbing.md:86",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/error-tracking/references/scrubbing.md:92",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/error-tracking/references/scrubbing.md:119"
+      ],
+      "observed": "Выполнен код из reference. redis://:AUDIT_FAKE_PASSWORD@host:6379 не изменился (regex требует непустого user); Telegram /bot<TOKEN>/ и ?access_token также не изменились. postgres://user:pw@ редактируется.",
+      "impact": "Добавление Sentry по инструкции может передавать секреты в messages/exceptions несмотря на обещание scheme-agnostic покрытия.",
+      "fix": "Парсер/редактор URL поддерживает пустой username, encoded credentials, token query/path; отдельные application secret shapes; ограничить обещание покрытия и также проверять attachments/transactions/logs по используемым SDK hooks.",
+      "acceptance": "Canary matrix fake Redis/AMQP/Postgres URLs, encoded credentials, Telegram path, access-token query, nested events; ни один fake secret не доходит до test transport.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-16",
+      "skills": [
+        "error-tracking",
+        "telegram-userbots"
+      ],
+      "priority": "P2",
+      "title": "Правила восстановления дают противоположные действия для отозванной сессии",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/error-tracking/SKILL.md:223",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/SKILL.md:147",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/references/sessions-and-auth.md:73"
+      ],
+      "observed": "error-tracking называет exit non-zero/crash loop видимым решением credential failure; telegram-userbots требует alert и запрещает restart loop для dead session.",
+      "impact": "Результат зависит от последнего прочитанного skill; автоматический restart не восстанавливает credential и засоряет сигнал.",
+      "fix": "Единый typed health contract: liveness процесса, readiness способности служить, degraded_auth с остановкой работ + alert, recovery только после новой auth. Exit/restart допустимы для recoverable failure и контролируемой политики supervisor.",
+      "acceptance": "Composition scenario: Telegram session revoked + Sentry installed → один actionable alert, работы остановлены, ограниченные retries и отсутствие бесконечного crash loop.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-17",
+      "skills": [
+        "frontend-performance"
+      ],
+      "priority": "P2",
+      "title": "FCP ошибочно объявлен неизмеримым в поле",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/SKILL.md:31",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/SKILL.md:44"
+      ],
+      "observed": "Skill говорит, что только три CWV field-measurable, и помещает FCP в lab-only diagnostics. web.dev прямо перечисляет FCP lab и field инструменты.",
+      "impact": "Аудит может отбросить полезные RUM данные, приравнять lab score к реальному UX или дать заказчику неверную классификацию.",
+      "fix": "Разделить две независимые оси: CWV/not-CWV и lab/field availability. Обязательные p75, device/cohort, period, sample size; TBT как диагностическая корреляция, не замена доказательства INP.",
+      "acceptance": "Кейс CrUX FCP + Lighthouse TBT без field INP: FCP=field supported, INP=unknown, не 'passed by TBT'.",
+      "sources": [
+        "https://web.dev/articles/fcp"
+      ],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-18",
+      "skills": [
+        "frontend-performance"
+      ],
+      "priority": "P2",
+      "title": "Оптимизационные эвристики превращены в запреты без измерений и поддерживаемых сценариев",
+      "evidence": [
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/SKILL.md:66",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/SKILL.md:72",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/SKILL.md:101",
+        "repo://sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/SKILL.md:114"
+      ],
+      "observed": "Only hero+nav initial; named imports only; allow all loaded CSP origins ради score; footer headings заменять p; modern last-two targets без user support policy. Это предписания, не условные диагностики.",
+      "impact": "Риск убрать нужную семантику/поддержку устройств, расширить CSP и увеличить waterfall ради Lighthouse. Конкретные регрессии на сайте не воспроизводились.",
+      "fix": "Перед изменением проверить performance trace и сценарии, browser support contract, accessibility owner. CSP origins одобрять по функциональной необходимости; semantic headings по структуре; lazy-load по измеренному waterfall.",
+      "acceptance": "Acceptance включает сценарии low-end/slow network, keyboard+headings, supported browser matrix, no new unapproved CSP origin, несколько сопоставимых замеров без функциональных потерь.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-19",
+      "skills": [
+        "stripe-billing",
+        "crypto-payments",
+        "ad-tracking",
+        "google-auth",
+        "google-signin",
+        "error-tracking",
+        "frontend-performance"
+      ],
+      "priority": "P2",
+      "title": "Eval измеряет узнавание доктрины и дизайн-ответ, не безопасность исполняемого результата",
+      "evidence": [
+        "repo://sheleg-dev/test/evals/RESULTS.md:17",
+        "repo://sheleg-dev/test/evals/RESULTS.md:37",
+        "repo://sheleg-dev/test/evals/scenarios.json:43"
+      ],
+      "observed": "RESULTS честно указывает design intent, coordinator scoring и release 0.11.1, тогда как current package 0.11.8. В s03 ожидается server-side credentials, но copyable Flask/FastAPI этому противоречит; runtime tests охватывают Stripe и ads, не auth/crypto.",
+      "impact": "Высокий scenario pass создаёт ложный запас доверия, если его воспринимать как quality gate генерируемого кода; wording-quality не ловит credential cookie и nonce bypass.",
+      "fix": "Сохранить routing eval, добавить generated-artifact eval с offline provider stubs, реальной БД, fault injection, hard security invariants; фиксировать exact model, commit, prompt/tool trace, grader version и raw results.",
+      "acceptance": "Для каждого skill минимум positive, near-miss negative, hostile/failure scenario; P1 контрпримеры обязаны падать на старом output и проходить после правки; результаты привязаны к release.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "DV-20",
+      "skills": [
+        "sheleg-dev test runner"
+      ],
+      "priority": "P2",
+      "title": "Ошибка окружения классифицируется как доказанный пропуск валидатора",
+      "evidence": [
+        "repo://sheleg-dev/test/negatives.py:338",
+        "repo://sheleg-dev/test/negatives.py:361",
+        "repo://sheleg-dev/test/negatives.py:377"
+      ],
+      "observed": "npm run test:all: базовые suites PASS; negatives 40 FAIL с cp: No space left on device, но runner печатает 'validator accepted a planted defect', 'guard does not actually fire'.",
+      "impact": "Аудит данных врёт о причине отказа и направляет ремонт на валидатор вместо неисполненного setup. Доказано реальным логом, не симуляцией.",
+      "fix": "Явные стадии fixture_setup→mutation_verified→validator_ran→assertion; TEST_ERROR/BROKEN для setup/copy/timeout, GAP только при состоявшемся validator accept. Resource preflight и cleanup finally.",
+      "acceptance": "Сымитировать ENOSPC/failed cp и timeout: TEST_ERROR, ноль 'guard bypass' findings; корректно созданный mutant accepted → GAP. Повтор полного negative suite после ресурсов.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "TG-01",
+      "skills": [
+        "telegram-bots"
+      ],
+      "priority": "P1",
+      "title": "Crash fixture зелёный, но после реальной redelivery update теряется",
+      "evidence": [
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/SKILL.md:73",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/SKILL.md:123",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/fixtures/update_delivery.py:94",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/fixtures/update_delivery.py:183"
+      ],
+      "observed": "Выполнен штатный Handler: crash_on=1001, затем poll_batch повторно доставленных updates → work=[1002], processed=[1001,1002], offset=1003. Test проверяет лишь наличие UPDATE_A в still_delivered, не вызывает повторный handle.",
+      "impact": "Постоянная потеря работы после durable claim, несмотря на PASS 'crash redelivers rather than loses'; ack-before-process дополнительно требует durable queue.",
+      "fix": "Принять update в durable inbox, ack после commit enqueue; state+lease+retry worker. Business grant keyed charge, outbox для send. Проверять не только redelivery, но eventual completed work.",
+      "acceptance": "Существующий crash fixture дополнить полным restart+replay и assert work includes 1001 exactly once; kill после inbox/claim/work/send; receipt и effect различены.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "TG-02",
+      "skills": [
+        "telegram-bots"
+      ],
+      "priority": "P2",
+      "title": "Оmitted allowed_updates ошибочно приравнен к пустому списку",
+      "evidence": [
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/SKILL.md:105",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/references/updates-and-delivery.md:78",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/references/updates-and-delivery.md:19"
+      ],
+      "observed": "Official API: omission retains previous setting; [] resets to all except три типа. Skill утверждает одинаковое поведение. Также update_id sequential утверждён без оговорки про random после недели без updates.",
+      "impact": "Миграция сохраняет старый узкий filter, хотя агент ждёт default; код high-water assumption может не обработать первый update после долгого простоя.",
+      "fix": "Таблица unset/[]/explicit и getWebhookInfo evidence; хранить desired subscription отдельно. Update id использовать как identity, не глобальную гарантию монотонности навсегда.",
+      "acceptance": "Mock remembers previous allowed_updates: omit сохраняет, [] меняет. Кейс >7 дней idle с новым random id; нет потери события.",
+      "sources": [
+        "https://core.telegram.org/bots/api#getupdates",
+        "https://core.telegram.org/bots/api#update"
+      ],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "TG-03",
+      "skills": [
+        "telegram-miniapps"
+      ],
+      "priority": "P1",
+      "title": "HMAC verifier удаляет поле signature и воспроизводит эту ошибку в собственном oracle",
+      "evidence": [
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/SKILL.md:75",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/SKILL.md:98",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/fixtures/verify_initdata.py:34",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/fixtures/verify_initdata.py:154"
+      ],
+      "observed": "Telegram HMAC строится из всех received fields кроме hash; в third-party Ed25519 исключаются hash+signature. Рекомендованный самим skill init-data-golang исключает только hash. Наш all-fields signed vector с signature=... получает bad signature; self-test добавляет signature ПОСЛЕ signing, закрепляя ошибку.",
+      "impact": "Валидные payloads с signature отвергаются; убедительный ложный тест провоцирует автора приложения отключить проверку при реальном login.",
+      "fix": "Разделить HMAC и Ed25519 canonicalization, запретить shared false helper; официальные/независимые golden vectors с signature. Включить строгий parse duplicate fields и upper/lower auth_date window.",
+      "acceptance": "Golden real-format initData с hash+signature проходит HMAC; изменение signature не проходит HMAC; Ed25519 исключает оба поля. Differential tests против поддерживаемого независимого verifier; future+24h отказ (сейчас ACCEPTED).",
+      "sources": [
+        "https://core.telegram.org/bots/webapps#validating-data-received-via-the-mini-app",
+        "https://raw.githubusercontent.com/Telegram-Mini-Apps/init-data-golang/master/validate.go"
+      ],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "TG-04",
+      "skills": [
+        "telegram-miniapps"
+      ],
+      "priority": "P2",
+      "title": "Матрица launch surfaces неверно запрещает menu-button query flow",
+      "evidence": [
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/app-to-bot.md:12",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/app-to-bot.md:13",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/viewport-and-platform.md:46"
+      ],
+      "observed": "Reference объединяет direct link/menu: neither, no query. Telegram menu button работает как inline button и может answerWebAppQuery. Inline-query app ошибочно приравнен к inline button. DeviceStorage/SecureStorage перечислены 'all 8.0+', хотя требуется проверять capability для каждого метода.",
+      "impact": "Генерация лишних backend обходов и неработающих return paths; функции на старых клиентах вызываются по слишком низкому guard.",
+      "fix": "Разделить keyboard, inline keyboard, menu, inline mode, direct/main/attachment surfaces; capability/API floor у каждого метода с первичным source.",
+      "acceptance": "Scenario matrix по launch mode с наличием query_id и разрешённым API; menu поддерживает inline-button semantics; capability absent gracefully degrades.",
+      "sources": [
+        "https://core.telegram.org/bots/webapps#launching-mini-apps-from-the-menu-button",
+        "https://core.telegram.org/bots/webapps#inline-mode-mini-apps"
+      ],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    },
+    {
+      "id": "TG-05",
+      "skills": [
+        "telegram-userbots"
+      ],
+      "priority": "P2",
+      "title": "Лимит одного FloodWait не ограничивает бесконечную retry sequence",
+      "evidence": [
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/references/rate-and-flood.md:13",
+        "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/SKILL.md:159"
+      ],
+      "observed": "call_with_flood while True проверяет только e.seconds > cap. Бесконечный поток коротких FloodWait никогда не остановится, хотя body запрещает unbounded sleeping. Скрипт быстрого старта также не импортирует os/StringSession (SKILL:68).",
+      "impact": "Worker может навсегда удержать job; deadline/cancellation/retry budget не заданы. Связь 'длительный wait ⇒ ban' является эвристикой автора, не измеренной гарантией.",
+      "fix": "Добавить wall-clock deadline, cumulative wait и attempt budget, cancellation и checkpoint queue; max wait трактовать как backpressure, длительные waits как policy choice. Runnable login/session example с явными imports.",
+      "acceptance": "Fake client выдаёт 100×1s waits: bounded timeout/defer, checkpoint сохранён; cancellation работает; dead session не retry. Проверка module parse/import через stubs без Telegram login.",
+      "sources": [],
+      "status": "GAP",
+      "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается."
+    }
+  ]
+}

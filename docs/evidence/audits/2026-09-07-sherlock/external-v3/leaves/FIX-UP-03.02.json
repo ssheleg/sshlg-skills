@@ -1,0 +1,144 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-UP-03.02",
+  "parent_id": "FIX-UP-03",
+  "title": "All emitters obey target",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "sshlg-skills"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Выбор агента не ограничивает весь update",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Передать resolved target set всем emitters/runtime/update paths.",
+  "expected_result": "Не выбранные CLAUDE/AGENTS/GEMINI files byte-identical, включая --claude-only/--no-claude.",
+  "acceptance": [
+    "Не выбранные CLAUDE/AGENTS/GEMINI files byte-identical, включая --claude-only/--no-claude."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Передать resolved target set всем emitters/runtime/update paths.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sshlg-skills/bin/sshlg-skills.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "ca46e7513b7554452333322fb6ff8d4b27bea58a2b17917724d2df5e44942930",
+      "refresh_after": [
+        "FIX-UP-02.01"
+      ]
+    },
+    {
+      "path": "repo://sshlg-skills/lib/apply.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "3e5f57562f00ea9f8e5c4624fc780a75928699b2b0d4b864bda9cc3527b54123"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sshlg-skills/test/audit_regressions/fix-up-03.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-UP-03.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-UP-03.json",
+    "source_files": [
+      {
+        "path": "repo://sshlg-skills/lib/plan.js",
+        "sha256": "177c10c65b2ec482418f8da8cfaeedf59e46736242529625abd3d3ee9241f9f8",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sshlg-skills/bin/sshlg-skills.js",
+        "sha256": "ca46e7513b7554452333322fb6ff8d4b27bea58a2b17917724d2df5e44942930",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sshlg-skills/lib/apply.js",
+        "sha256": "3e5f57562f00ea9f8e5c4624fc780a75928699b2b0d4b864bda9cc3527b54123",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Fixture с Claude/Codex/Gemini/Cursor сохраняет все невыбранные instruction files.\n--claude-only не обновляет Codex/Gemini instructions; --no-claude не меняет Claude state, кроме явно выбранного shared scope.\nTest на два агента, читающих один symlink target, показывает shared-effect до apply и не обещает per-host isolation."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-UP-03.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    },
+    {
+      "task_id": "FIX-UP-02.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-UP-02"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sshlg-skills/test/audit_regressions/fix-up-03.02.py",
+    "python3 repo://sshlg-skills/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-UP-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-UP-03.02.md",
+    "sha256": "fc565ce714b5e72c449a2c758ce66322bb22ad529216a78b1296dc1faa9fc839",
+    "utf8_bytes": 5895,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "751fa0bc23042560f83a74b00750a1474fb49f15127f1601b9ca6fd086fc994a"
+  }
+}

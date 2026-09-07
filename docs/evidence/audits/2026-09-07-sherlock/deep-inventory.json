@@ -1,0 +1,2488 @@
+[
+  {
+    "name": "brand-voice",
+    "member": "super-ux",
+    "source": "repo://super-ux/plugins/super-ux/skills/brand-voice/SKILL.md",
+    "sha256": "5232e797d83cb5d16b2b667cb776bdaef7355c14cc8f4e59032ac2fdf5070609",
+    "body_cl100k": 1413,
+    "body_estimate_3_9": 1458,
+    "description_chars": 575,
+    "description_cl100k": 168,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/brand-voice/SKILL.md",
+        "same_body": true,
+        "sha256": "5232e797d83cb5d16b2b667cb776bdaef7355c14cc8f4e59032ac2fdf5070609"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/brand-voice/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/brand-voice/SKILL.md",
+        "version": "0.55.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/brand-voice/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/brand-voice/SKILL.md",
+        "version": "0.52.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/brand-voice/SKILL.md",
+        "version": "0.52.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/brand-voice/SKILL.md",
+        "version": "0.49.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/brand-voice/SKILL.md",
+        "version": "0.49.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/brand-voice/SKILL.md",
+        "version": "0.53.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/brand-voice/SKILL.md",
+        "version": "0.48.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/brand-voice/SKILL.md",
+        "version": "0.52.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/brand-voice/SKILL.md",
+        "version": "0.52.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/brand-voice/SKILL.md",
+        "version": "0.50.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/brand-voice/SKILL.md",
+        "version": "0.52.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/brand-voice/SKILL.md",
+        "version": "0.52.4",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "copywriting",
+    "member": "super-ux",
+    "source": "repo://super-ux/plugins/super-ux/skills/copywriting/SKILL.md",
+    "sha256": "949c791580f343dae6bf354c06e5b0e43e393d8170591c2833e2671a8e7513b9",
+    "body_cl100k": 1995,
+    "body_estimate_3_9": 2106,
+    "description_chars": 662,
+    "description_cl100k": 210,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/copywriting/SKILL.md",
+        "same_body": true,
+        "sha256": "949c791580f343dae6bf354c06e5b0e43e393d8170591c2833e2671a8e7513b9"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/copywriting/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/copywriting/SKILL.md",
+        "version": "0.55.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/copywriting/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/copywriting/SKILL.md",
+        "version": "0.52.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/copywriting/SKILL.md",
+        "version": "0.52.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/copywriting/SKILL.md",
+        "version": "0.49.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/copywriting/SKILL.md",
+        "version": "0.49.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/copywriting/SKILL.md",
+        "version": "0.53.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/copywriting/SKILL.md",
+        "version": "0.48.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/copywriting/SKILL.md",
+        "version": "0.52.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/copywriting/SKILL.md",
+        "version": "0.52.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/copywriting/SKILL.md",
+        "version": "0.50.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/copywriting/SKILL.md",
+        "version": "0.52.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/copywriting/SKILL.md",
+        "version": "0.52.4",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "vision",
+    "member": "super-ux",
+    "source": "repo://super-ux/plugins/super-ux/skills/vision/SKILL.md",
+    "sha256": "21bb12c216af4a6e9d49b4712ab036731a51fd9e9124f5892dd8274832661f40",
+    "body_cl100k": 1767,
+    "body_estimate_3_9": 1860,
+    "description_chars": 629,
+    "description_cl100k": 149,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/vision/SKILL.md",
+        "same_body": true,
+        "sha256": "21bb12c216af4a6e9d49b4712ab036731a51fd9e9124f5892dd8274832661f40"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/vision/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/vision/SKILL.md",
+        "version": "0.55.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/vision/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/vision/SKILL.md",
+        "version": "0.52.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/vision/SKILL.md",
+        "version": "0.52.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/vision/SKILL.md",
+        "version": "0.49.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/vision/SKILL.md",
+        "version": "0.49.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/vision/SKILL.md",
+        "version": "0.53.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/vision/SKILL.md",
+        "version": "0.48.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/vision/SKILL.md",
+        "version": "0.52.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/vision/SKILL.md",
+        "version": "0.52.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/vision/SKILL.md",
+        "version": "0.50.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/vision/SKILL.md",
+        "version": "0.52.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/vision/SKILL.md",
+        "version": "0.52.4",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "ux-flows",
+    "member": "super-ux",
+    "source": "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md",
+    "sha256": "08fee3fa580918356d6d3c398948413144cf60e45274ec78d50a0e44500b6d58",
+    "body_cl100k": 4229,
+    "body_estimate_3_9": 4529,
+    "description_chars": 965,
+    "description_cl100k": 282,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/ux-flows/SKILL.md",
+        "same_body": true,
+        "sha256": "08fee3fa580918356d6d3c398948413144cf60e45274ec78d50a0e44500b6d58"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-flows/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/ux-flows/SKILL.md",
+        "version": "0.55.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-flows/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/ux-flows/SKILL.md",
+        "version": "0.52.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/ux-flows/SKILL.md",
+        "version": "0.52.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/ux-flows/SKILL.md",
+        "version": "0.49.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/ux-flows/SKILL.md",
+        "version": "0.49.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/ux-flows/SKILL.md",
+        "version": "0.53.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/ux-flows/SKILL.md",
+        "version": "0.48.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/ux-flows/SKILL.md",
+        "version": "0.52.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/ux-flows/SKILL.md",
+        "version": "0.52.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/ux-flows/SKILL.md",
+        "version": "0.50.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/ux-flows/SKILL.md",
+        "version": "0.52.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/ux-flows/SKILL.md",
+        "version": "0.52.4",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "ux-audit",
+    "member": "super-ux",
+    "source": "repo://super-ux/plugins/super-ux/skills/ux-audit/SKILL.md",
+    "sha256": "617713c7a76cbff36c8c9211c93246a1a11068a3aaa02e0b75dcf87eef7dde45",
+    "body_cl100k": 4304,
+    "body_estimate_3_9": 4626,
+    "description_chars": 332,
+    "description_cl100k": 87,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/ux-audit/SKILL.md",
+        "same_body": true,
+        "sha256": "617713c7a76cbff36c8c9211c93246a1a11068a3aaa02e0b75dcf87eef7dde45"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-audit/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/ux-audit/SKILL.md",
+        "version": "0.55.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-audit/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/ux-audit/SKILL.md",
+        "version": "0.52.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/ux-audit/SKILL.md",
+        "version": "0.52.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/ux-audit/SKILL.md",
+        "version": "0.49.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/ux-audit/SKILL.md",
+        "version": "0.49.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/ux-audit/SKILL.md",
+        "version": "0.53.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/ux-audit/SKILL.md",
+        "version": "0.48.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/ux-audit/SKILL.md",
+        "version": "0.52.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/ux-audit/SKILL.md",
+        "version": "0.52.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/ux-audit/SKILL.md",
+        "version": "0.50.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/ux-audit/SKILL.md",
+        "version": "0.52.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/ux-audit/SKILL.md",
+        "version": "0.52.4",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "ux-scenarios",
+    "member": "super-ux",
+    "source": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/SKILL.md",
+    "sha256": "dbdf9cfbe78809f49e763416e76c4c58847de62ba5ffc1b845f8d2c177ea88e1",
+    "body_cl100k": 1954,
+    "body_estimate_3_9": 2185,
+    "description_chars": 486,
+    "description_cl100k": 111,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/ux-scenarios/SKILL.md",
+        "same_body": true,
+        "sha256": "dbdf9cfbe78809f49e763416e76c4c58847de62ba5ffc1b845f8d2c177ea88e1"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-scenarios/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/ux-scenarios/SKILL.md",
+        "version": "0.55.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-scenarios/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/ux-scenarios/SKILL.md",
+        "version": "0.52.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/ux-scenarios/SKILL.md",
+        "version": "0.52.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/ux-scenarios/SKILL.md",
+        "version": "0.49.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/ux-scenarios/SKILL.md",
+        "version": "0.49.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/ux-scenarios/SKILL.md",
+        "version": "0.53.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/ux-scenarios/SKILL.md",
+        "version": "0.48.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/ux-scenarios/SKILL.md",
+        "version": "0.52.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/ux-scenarios/SKILL.md",
+        "version": "0.52.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/ux-scenarios/SKILL.md",
+        "version": "0.50.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/ux-scenarios/SKILL.md",
+        "version": "0.52.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/ux-scenarios/SKILL.md",
+        "version": "0.52.4",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "ux-foundation",
+    "member": "super-ux",
+    "source": "repo://super-ux/plugins/super-ux/skills/ux-foundation/SKILL.md",
+    "sha256": "eb1b153f9e520811822c1d27dd418b4c280213190d20798fdf76ea758fef604d",
+    "body_cl100k": 1961,
+    "body_estimate_3_9": 2107,
+    "description_chars": 629,
+    "description_cl100k": 169,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/ux-foundation/SKILL.md",
+        "same_body": true,
+        "sha256": "eb1b153f9e520811822c1d27dd418b4c280213190d20798fdf76ea758fef604d"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-foundation/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/ux-foundation/SKILL.md",
+        "version": "0.55.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-foundation/SKILL.md",
+        "version": "0.55.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/ux-foundation/SKILL.md",
+        "version": "0.52.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/ux-foundation/SKILL.md",
+        "version": "0.52.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/ux-foundation/SKILL.md",
+        "version": "0.49.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/ux-foundation/SKILL.md",
+        "version": "0.49.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/ux-foundation/SKILL.md",
+        "version": "0.53.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/ux-foundation/SKILL.md",
+        "version": "0.48.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/ux-foundation/SKILL.md",
+        "version": "0.52.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/ux-foundation/SKILL.md",
+        "version": "0.52.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/ux-foundation/SKILL.md",
+        "version": "0.50.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/ux-foundation/SKILL.md",
+        "version": "0.52.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/ux-foundation/SKILL.md",
+        "version": "0.52.4",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "project-audit",
+    "member": "task-pipeline",
+    "source": "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/SKILL.md",
+    "sha256": "db94e3a51b1477995d267505d5a68a8803ad4e44f5f9a6f3bcb0bd292a18c215",
+    "body_cl100k": 3446,
+    "body_estimate_3_9": 3743,
+    "description_chars": 917,
+    "description_cl100k": 233,
+    "external_links": [
+      {
+        "line": 34,
+        "target": "../task-pipeline/references/audit.md",
+        "present_together": true
+      },
+      {
+        "line": 119,
+        "target": "../task-pipeline/references/backlog.md",
+        "present_together": true
+      },
+      {
+        "line": 122,
+        "target": "../task-pipeline/references/prioritisation.md",
+        "present_together": true
+      }
+    ],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/project-audit/SKILL.md",
+        "same_body": true,
+        "sha256": "db94e3a51b1477995d267505d5a68a8803ad4e44f5f9a6f3bcb0bd292a18c215"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/project-audit/SKILL.md",
+        "version": "1.85.2",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.78.4/skills/project-audit/SKILL.md",
+        "version": "1.78.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/project-audit/SKILL.md",
+        "version": "1.85.2",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.1/skills/project-audit/SKILL.md",
+        "version": "1.79.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.0/skills/project-audit/SKILL.md",
+        "version": "1.79.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.2/skills/project-audit/SKILL.md",
+        "version": "1.82.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.0/skills/project-audit/SKILL.md",
+        "version": "1.84.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.80.0/skills/project-audit/SKILL.md",
+        "version": "1.80.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.3/skills/project-audit/SKILL.md",
+        "version": "1.82.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.4/skills/project-audit/SKILL.md",
+        "version": "1.82.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.1/skills/project-audit/SKILL.md",
+        "version": "1.84.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.81.1/skills/project-audit/SKILL.md",
+        "version": "1.81.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.0/skills/project-audit/SKILL.md",
+        "version": "1.85.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.1/skills/project-audit/SKILL.md",
+        "version": "1.82.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.0/skills/project-audit/SKILL.md",
+        "version": "1.82.0",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "task-pipeline",
+    "member": "task-pipeline",
+    "source": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+    "sha256": "f8876b8eb0b20169e7ca037869c4eb83164754c9bc271da52895fc27c1d0dc8a",
+    "body_cl100k": 4607,
+    "body_estimate_3_9": 4749,
+    "description_chars": 903,
+    "description_cl100k": 264,
+    "external_links": [
+      {
+        "line": 54,
+        "target": "../evidence-docs/SKILL.md",
+        "present_together": true
+      }
+    ],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/task-pipeline/SKILL.md",
+        "same_body": true,
+        "sha256": "f8876b8eb0b20169e7ca037869c4eb83164754c9bc271da52895fc27c1d0dc8a"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/task-pipeline/SKILL.md",
+        "version": "1.85.2",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.78.4/skills/task-pipeline/SKILL.md",
+        "version": "1.78.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/task-pipeline/SKILL.md",
+        "version": "1.85.2",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.1/skills/task-pipeline/SKILL.md",
+        "version": "1.79.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.0/skills/task-pipeline/SKILL.md",
+        "version": "1.79.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.2/skills/task-pipeline/SKILL.md",
+        "version": "1.82.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.0/skills/task-pipeline/SKILL.md",
+        "version": "1.84.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.80.0/skills/task-pipeline/SKILL.md",
+        "version": "1.80.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.3/skills/task-pipeline/SKILL.md",
+        "version": "1.82.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.4/skills/task-pipeline/SKILL.md",
+        "version": "1.82.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.1/skills/task-pipeline/SKILL.md",
+        "version": "1.84.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.81.1/skills/task-pipeline/SKILL.md",
+        "version": "1.81.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.0/skills/task-pipeline/SKILL.md",
+        "version": "1.85.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.1/skills/task-pipeline/SKILL.md",
+        "version": "1.82.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.0/skills/task-pipeline/SKILL.md",
+        "version": "1.82.0",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "evidence-docs",
+    "member": "task-pipeline",
+    "source": "repo://task-pipeline/plugins/task-pipeline/skills/evidence-docs/SKILL.md",
+    "sha256": "a3fade838d53aab95f6f77d21f8ec99bcaa355310f72f32b1bd174638574383e",
+    "body_cl100k": 1883,
+    "body_estimate_3_9": 2029,
+    "description_chars": 862,
+    "description_cl100k": 225,
+    "external_links": [
+      {
+        "line": 16,
+        "target": "../task-pipeline/references/documentation.md",
+        "present_together": true
+      },
+      {
+        "line": 37,
+        "target": "../task-pipeline/references/learned.md",
+        "present_together": true
+      },
+      {
+        "line": 44,
+        "target": "../task-pipeline/references/documentation.md",
+        "present_together": true
+      },
+      {
+        "line": 45,
+        "target": "../task-pipeline/templates/decisions.md",
+        "present_together": true
+      },
+      {
+        "line": 48,
+        "target": "../task-pipeline/references/gates.md",
+        "present_together": true
+      },
+      {
+        "line": 49,
+        "target": "../task-pipeline/references/gates.md",
+        "present_together": true
+      },
+      {
+        "line": 50,
+        "target": "../task-pipeline/references/hooks.md",
+        "present_together": true
+      },
+      {
+        "line": 51,
+        "target": "../task-pipeline/references/setup.md",
+        "present_together": true
+      },
+      {
+        "line": 52,
+        "target": "../task-pipeline/references/retrospective.md",
+        "present_together": true
+      },
+      {
+        "line": 53,
+        "target": "../task-pipeline/templates/docgate.sh",
+        "present_together": true
+      },
+      {
+        "line": 55,
+        "target": "../task-pipeline/SKILL.md",
+        "present_together": true
+      }
+    ],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/evidence-docs/SKILL.md",
+        "same_body": true,
+        "sha256": "a3fade838d53aab95f6f77d21f8ec99bcaa355310f72f32b1bd174638574383e"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/evidence-docs/SKILL.md",
+        "version": "1.85.2",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.78.4/skills/evidence-docs/SKILL.md",
+        "version": "1.78.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/evidence-docs/SKILL.md",
+        "version": "1.85.2",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.1/skills/evidence-docs/SKILL.md",
+        "version": "1.79.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.0/skills/evidence-docs/SKILL.md",
+        "version": "1.79.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.2/skills/evidence-docs/SKILL.md",
+        "version": "1.82.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.0/skills/evidence-docs/SKILL.md",
+        "version": "1.84.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.80.0/skills/evidence-docs/SKILL.md",
+        "version": "1.80.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.3/skills/evidence-docs/SKILL.md",
+        "version": "1.82.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.4/skills/evidence-docs/SKILL.md",
+        "version": "1.82.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.1/skills/evidence-docs/SKILL.md",
+        "version": "1.84.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.81.1/skills/evidence-docs/SKILL.md",
+        "version": "1.81.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.0/skills/evidence-docs/SKILL.md",
+        "version": "1.85.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.1/skills/evidence-docs/SKILL.md",
+        "version": "1.82.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.0/skills/evidence-docs/SKILL.md",
+        "version": "1.82.0",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "agent-sync",
+    "member": "agent-sync",
+    "source": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/SKILL.md",
+    "sha256": "f90d370ec77b6ee50d518ccf98f74c071ed5e6b75fdd9f4bffcde5a350ca0074",
+    "body_cl100k": 4506,
+    "body_estimate_3_9": 4746,
+    "description_chars": 951,
+    "description_cl100k": 255,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/agent-sync/SKILL.md",
+        "same_body": true,
+        "sha256": "f90d370ec77b6ee50d518ccf98f74c071ed5e6b75fdd9f4bffcde5a350ca0074"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/agent-sync/agent-sync/1.19.3/skills/agent-sync/SKILL.md",
+        "version": "1.19.3",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.19.2/skills/agent-sync/SKILL.md",
+        "version": "1.19.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.19.3/skills/agent-sync/SKILL.md",
+        "version": "1.19.3",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.18.6/skills/agent-sync/SKILL.md",
+        "version": "1.18.6",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.18.7/skills/agent-sync/SKILL.md",
+        "version": "1.18.7",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.19.1/skills/agent-sync/SKILL.md",
+        "version": "1.19.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.19.0/skills/agent-sync/SKILL.md",
+        "version": "1.19.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.18.5/skills/agent-sync/SKILL.md",
+        "version": "1.18.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.18.4/skills/agent-sync/SKILL.md",
+        "version": "1.18.4",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "make-skill",
+    "member": "make-skill",
+    "source": "repo://make-skill/plugins/make-skill/skills/make-skill/SKILL.md",
+    "sha256": "9d4b36c72b7f8fcc8bc899694baf130edc73fe6e33ea2b70a142d0707de1c63e",
+    "body_cl100k": 4557,
+    "body_estimate_3_9": 4677,
+    "description_chars": 943,
+    "description_cl100k": 280,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/make-skill/SKILL.md",
+        "same_body": true,
+        "sha256": "9d4b36c72b7f8fcc8bc899694baf130edc73fe6e33ea2b70a142d0707de1c63e"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/make-skill/make-skill/0.27.1/skills/make-skill/SKILL.md",
+        "version": "0.27.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.24.0/skills/make-skill/SKILL.md",
+        "version": "0.24.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.27.1/skills/make-skill/SKILL.md",
+        "version": "0.27.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.25.3/skills/make-skill/SKILL.md",
+        "version": "0.25.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.27.0/skills/make-skill/SKILL.md",
+        "version": "0.27.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.26.0/skills/make-skill/SKILL.md",
+        "version": "0.26.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.25.1/skills/make-skill/SKILL.md",
+        "version": "0.25.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.25.0/skills/make-skill/SKILL.md",
+        "version": "0.25.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.23.5/skills/make-skill/SKILL.md",
+        "version": "0.23.5",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "sheleg-design",
+    "member": "sheleg-design",
+    "source": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+    "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c",
+    "body_cl100k": 4275,
+    "body_estimate_3_9": 4410,
+    "description_chars": 960,
+    "description_cl100k": 339,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/sheleg-design/SKILL.md",
+        "same_body": true,
+        "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/sheleg-design-skill/sheleg-design/1.59.4/skills/sheleg-design/SKILL.md",
+        "version": "1.59.4",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.59.4/skills/sheleg-design/SKILL.md",
+        "version": "1.59.4",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.59.2/skills/sheleg-design/SKILL.md",
+        "version": "1.59.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.0/skills/sheleg-design/SKILL.md",
+        "version": "1.58.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.56.0/skills/sheleg-design/SKILL.md",
+        "version": "1.56.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.1/skills/sheleg-design/SKILL.md",
+        "version": "1.58.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.59.0/skills/sheleg-design/SKILL.md",
+        "version": "1.59.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.53.0/skills/sheleg-design/SKILL.md",
+        "version": "1.53.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.59.1/skills/sheleg-design/SKILL.md",
+        "version": "1.59.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.4/skills/sheleg-design/SKILL.md",
+        "version": "1.58.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.3/skills/sheleg-design/SKILL.md",
+        "version": "1.58.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.2/skills/sheleg-design/SKILL.md",
+        "version": "1.58.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.54.0/skills/sheleg-design/SKILL.md",
+        "version": "1.54.0",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "seo-aeo-audit",
+    "member": "seo-aeo-audit",
+    "source": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md",
+    "sha256": "931e0b18c21d7822a918003a119ea1ca4a3c4a4c2a8aa0dfd9dc0f005d3a5e10",
+    "body_cl100k": 4398,
+    "body_estimate_3_9": 4643,
+    "description_chars": 959,
+    "description_cl100k": 291,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/seo-aeo-audit/SKILL.md",
+        "same_body": true,
+        "sha256": "931e0b18c21d7822a918003a119ea1ca4a3c4a4c2a8aa0dfd9dc0f005d3a5e10"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.11/skills/seo-aeo-audit/SKILL.md",
+        "version": "0.25.11",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.8/skills/seo-aeo-audit/SKILL.md",
+        "version": "0.25.8",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.6/skills/seo-aeo-audit/SKILL.md",
+        "version": "0.25.6",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.7/skills/seo-aeo-audit/SKILL.md",
+        "version": "0.25.7",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.9/skills/seo-aeo-audit/SKILL.md",
+        "version": "0.25.9",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.10/skills/seo-aeo-audit/SKILL.md",
+        "version": "0.25.10",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.11/skills/seo-aeo-audit/SKILL.md",
+        "version": "0.25.11",
+        "same_body": true
+      }
+    ]
+  },
+  {
+    "name": "google-auth",
+    "member": "sheleg-dev",
+    "source": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/SKILL.md",
+    "sha256": "866cd92bececa1e6e4e5388c5b692347097010aff9478ebe1f776649eacb57da",
+    "body_cl100k": 1987,
+    "body_estimate_3_9": 2167,
+    "description_chars": 798,
+    "description_cl100k": 192,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/google-auth/SKILL.md",
+        "same_body": true,
+        "sha256": "866cd92bececa1e6e4e5388c5b692347097010aff9478ebe1f776649eacb57da"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/google-auth/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/google-auth/SKILL.md",
+        "version": "0.11.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/google-auth/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/google-auth/SKILL.md",
+        "version": "0.10.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/google-auth/SKILL.md",
+        "version": "0.10.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/google-auth/SKILL.md",
+        "version": "0.11.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/google-auth/SKILL.md",
+        "version": "0.11.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/google-auth/SKILL.md",
+        "version": "0.11.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/google-auth/SKILL.md",
+        "version": "0.11.5",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "google-signin",
+    "member": "sheleg-dev",
+    "source": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/SKILL.md",
+    "sha256": "0faad3af070710b140f21939a2cea1d6185fb462696277b7515a4c01d0fbac92",
+    "body_cl100k": 1425,
+    "body_estimate_3_9": 1480,
+    "description_chars": 821,
+    "description_cl100k": 194,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/google-signin/SKILL.md",
+        "same_body": true,
+        "sha256": "0faad3af070710b140f21939a2cea1d6185fb462696277b7515a4c01d0fbac92"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/google-signin/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/google-signin/SKILL.md",
+        "version": "0.11.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/google-signin/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/google-signin/SKILL.md",
+        "version": "0.10.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/google-signin/SKILL.md",
+        "version": "0.10.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/google-signin/SKILL.md",
+        "version": "0.11.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/google-signin/SKILL.md",
+        "version": "0.11.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/google-signin/SKILL.md",
+        "version": "0.11.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/google-signin/SKILL.md",
+        "version": "0.11.5",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "error-tracking",
+    "member": "sheleg-dev",
+    "source": "repo://sheleg-dev/plugins/sheleg-dev/skills/error-tracking/SKILL.md",
+    "sha256": "5ccaa51ef3999be20a2faec8c15db27858e5ca97c04822406dc2403f4bc62b53",
+    "body_cl100k": 2641,
+    "body_estimate_3_9": 2777,
+    "description_chars": 962,
+    "description_cl100k": 234,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/error-tracking/SKILL.md",
+        "same_body": true,
+        "sha256": "5ccaa51ef3999be20a2faec8c15db27858e5ca97c04822406dc2403f4bc62b53"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/error-tracking/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/error-tracking/SKILL.md",
+        "version": "0.11.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/error-tracking/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/error-tracking/SKILL.md",
+        "version": "0.10.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/error-tracking/SKILL.md",
+        "version": "0.10.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/error-tracking/SKILL.md",
+        "version": "0.11.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/error-tracking/SKILL.md",
+        "version": "0.11.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/error-tracking/SKILL.md",
+        "version": "0.11.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/error-tracking/SKILL.md",
+        "version": "0.11.5",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "frontend-performance",
+    "member": "sheleg-dev",
+    "source": "repo://sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/SKILL.md",
+    "sha256": "2116f5413396c6c00867e3b2c0cd523d3047793642e2077a24eebc63bcc9d385",
+    "body_cl100k": 2336,
+    "body_estimate_3_9": 2321,
+    "description_chars": 885,
+    "description_cl100k": 210,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/frontend-performance/SKILL.md",
+        "same_body": true,
+        "sha256": "2116f5413396c6c00867e3b2c0cd523d3047793642e2077a24eebc63bcc9d385"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/frontend-performance/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/frontend-performance/SKILL.md",
+        "version": "0.11.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/frontend-performance/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/frontend-performance/SKILL.md",
+        "version": "0.10.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/frontend-performance/SKILL.md",
+        "version": "0.10.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/frontend-performance/SKILL.md",
+        "version": "0.11.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/frontend-performance/SKILL.md",
+        "version": "0.11.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/frontend-performance/SKILL.md",
+        "version": "0.11.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/frontend-performance/SKILL.md",
+        "version": "0.11.5",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "crypto-payments",
+    "member": "sheleg-dev",
+    "source": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md",
+    "sha256": "d2fb267b6bfe44d80de862bbe9a69d348e81cadd506bedc35f605a81be6464b6",
+    "body_cl100k": 4245,
+    "body_estimate_3_9": 4593,
+    "description_chars": 884,
+    "description_cl100k": 216,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/crypto-payments/SKILL.md",
+        "same_body": true,
+        "sha256": "d2fb267b6bfe44d80de862bbe9a69d348e81cadd506bedc35f605a81be6464b6"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/crypto-payments/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/crypto-payments/SKILL.md",
+        "version": "0.11.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/crypto-payments/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/crypto-payments/SKILL.md",
+        "version": "0.10.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/crypto-payments/SKILL.md",
+        "version": "0.10.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/crypto-payments/SKILL.md",
+        "version": "0.11.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/crypto-payments/SKILL.md",
+        "version": "0.11.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/crypto-payments/SKILL.md",
+        "version": "0.11.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/crypto-payments/SKILL.md",
+        "version": "0.11.5",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "stripe-billing",
+    "member": "sheleg-dev",
+    "source": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/SKILL.md",
+    "sha256": "a0dcc36937f50a8da38261c1c39afe6caeb0f31674cdf3baaac48c4c81defe32",
+    "body_cl100k": 4222,
+    "body_estimate_3_9": 4672,
+    "description_chars": 963,
+    "description_cl100k": 214,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/stripe-billing/SKILL.md",
+        "same_body": true,
+        "sha256": "a0dcc36937f50a8da38261c1c39afe6caeb0f31674cdf3baaac48c4c81defe32"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/stripe-billing/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/stripe-billing/SKILL.md",
+        "version": "0.11.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/stripe-billing/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/stripe-billing/SKILL.md",
+        "version": "0.10.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/stripe-billing/SKILL.md",
+        "version": "0.10.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/stripe-billing/SKILL.md",
+        "version": "0.11.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/stripe-billing/SKILL.md",
+        "version": "0.11.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/stripe-billing/SKILL.md",
+        "version": "0.11.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/stripe-billing/SKILL.md",
+        "version": "0.11.5",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "ad-tracking",
+    "member": "sheleg-dev",
+    "source": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/SKILL.md",
+    "sha256": "96e6acdec42ef2cadfe6d1d9d51380d0b1fe506e6abe496c555fd32611fdab1d",
+    "body_cl100k": 4204,
+    "body_estimate_3_9": 4441,
+    "description_chars": 859,
+    "description_cl100k": 217,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/ad-tracking/SKILL.md",
+        "same_body": true,
+        "sha256": "96e6acdec42ef2cadfe6d1d9d51380d0b1fe506e6abe496c555fd32611fdab1d"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/ad-tracking/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/ad-tracking/SKILL.md",
+        "version": "0.11.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/ad-tracking/SKILL.md",
+        "version": "0.11.8",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/ad-tracking/SKILL.md",
+        "version": "0.10.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/ad-tracking/SKILL.md",
+        "version": "0.10.5",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/ad-tracking/SKILL.md",
+        "version": "0.11.4",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/ad-tracking/SKILL.md",
+        "version": "0.11.3",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/ad-tracking/SKILL.md",
+        "version": "0.11.2",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/ad-tracking/SKILL.md",
+        "version": "0.11.5",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "agent-harness",
+    "member": "agent-stack",
+    "source": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/SKILL.md",
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed",
+    "body_cl100k": 2665,
+    "body_estimate_3_9": 2957,
+    "description_chars": 961,
+    "description_cl100k": 232,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/agent-harness/SKILL.md",
+        "same_body": true,
+        "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-harness/SKILL.md",
+        "version": "0.23.2",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.20.0/skills/agent-harness/SKILL.md",
+        "version": "0.20.0",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.0/skills/agent-harness/SKILL.md",
+        "version": "0.23.0",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.1/skills/agent-harness/SKILL.md",
+        "version": "0.23.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.1/skills/agent-harness/SKILL.md",
+        "version": "0.16.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.18.1/skills/agent-harness/SKILL.md",
+        "version": "0.18.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.0/skills/agent-harness/SKILL.md",
+        "version": "0.16.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.22.0/skills/agent-harness/SKILL.md",
+        "version": "0.22.0",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.1/skills/agent-harness/SKILL.md",
+        "version": "0.17.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.19.1/skills/agent-harness/SKILL.md",
+        "version": "0.19.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.0/skills/agent-harness/SKILL.md",
+        "version": "0.17.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.21.0/skills/agent-harness/SKILL.md",
+        "version": "0.21.0",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-harness/SKILL.md",
+        "version": "0.23.2",
+        "same_body": true
+      }
+    ]
+  },
+  {
+    "name": "agent-evals",
+    "member": "agent-stack",
+    "source": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md",
+    "sha256": "18c38888b66555da7a2f301740e420b47e44d8194c2dab2c20ea94a19b02394f",
+    "body_cl100k": 4079,
+    "body_estimate_3_9": 4632,
+    "description_chars": 963,
+    "description_cl100k": 233,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/agent-evals/SKILL.md",
+        "same_body": true,
+        "sha256": "18c38888b66555da7a2f301740e420b47e44d8194c2dab2c20ea94a19b02394f"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-evals/SKILL.md",
+        "version": "0.23.2",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.20.0/skills/agent-evals/SKILL.md",
+        "version": "0.20.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.0/skills/agent-evals/SKILL.md",
+        "version": "0.23.0",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.1/skills/agent-evals/SKILL.md",
+        "version": "0.23.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.1/skills/agent-evals/SKILL.md",
+        "version": "0.16.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.18.1/skills/agent-evals/SKILL.md",
+        "version": "0.18.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.0/skills/agent-evals/SKILL.md",
+        "version": "0.16.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.22.0/skills/agent-evals/SKILL.md",
+        "version": "0.22.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.1/skills/agent-evals/SKILL.md",
+        "version": "0.17.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.19.1/skills/agent-evals/SKILL.md",
+        "version": "0.19.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.0/skills/agent-evals/SKILL.md",
+        "version": "0.17.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.21.0/skills/agent-evals/SKILL.md",
+        "version": "0.21.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-evals/SKILL.md",
+        "version": "0.23.2",
+        "same_body": true
+      }
+    ]
+  },
+  {
+    "name": "agent-orchestrator",
+    "member": "agent-stack",
+    "source": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45",
+    "body_cl100k": 4217,
+    "body_estimate_3_9": 4655,
+    "description_chars": 967,
+    "description_cl100k": 257,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/agent-orchestrator/SKILL.md",
+        "same_body": true,
+        "sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-orchestrator/SKILL.md",
+        "version": "0.23.2",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.20.0/skills/agent-orchestrator/SKILL.md",
+        "version": "0.20.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.0/skills/agent-orchestrator/SKILL.md",
+        "version": "0.23.0",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.1/skills/agent-orchestrator/SKILL.md",
+        "version": "0.23.1",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.1/skills/agent-orchestrator/SKILL.md",
+        "version": "0.16.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.18.1/skills/agent-orchestrator/SKILL.md",
+        "version": "0.18.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.0/skills/agent-orchestrator/SKILL.md",
+        "version": "0.16.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.22.0/skills/agent-orchestrator/SKILL.md",
+        "version": "0.22.0",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.1/skills/agent-orchestrator/SKILL.md",
+        "version": "0.17.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.19.1/skills/agent-orchestrator/SKILL.md",
+        "version": "0.19.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.0/skills/agent-orchestrator/SKILL.md",
+        "version": "0.17.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.21.0/skills/agent-orchestrator/SKILL.md",
+        "version": "0.21.0",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-orchestrator/SKILL.md",
+        "version": "0.23.2",
+        "same_body": true
+      }
+    ]
+  },
+  {
+    "name": "agent-interop",
+    "member": "agent-stack",
+    "source": "repo://agent-stack/plugins/agent-stack/skills/agent-interop/SKILL.md",
+    "sha256": "7f53a82ad5a3b4e64792ddefd66bf91e11cb511eaec53d637e8a616c22261558",
+    "body_cl100k": 3079,
+    "body_estimate_3_9": 3270,
+    "description_chars": 959,
+    "description_cl100k": 251,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/agent-interop/SKILL.md",
+        "same_body": true,
+        "sha256": "7f53a82ad5a3b4e64792ddefd66bf91e11cb511eaec53d637e8a616c22261558"
+      },
+      {
+        "host": "codex_cache",
+        "path": "machine-snapshot://.codex/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-interop/SKILL.md",
+        "version": "0.23.2",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.20.0/skills/agent-interop/SKILL.md",
+        "version": "0.20.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.0/skills/agent-interop/SKILL.md",
+        "version": "0.23.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.1/skills/agent-interop/SKILL.md",
+        "version": "0.23.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.1/skills/agent-interop/SKILL.md",
+        "version": "0.16.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.18.1/skills/agent-interop/SKILL.md",
+        "version": "0.18.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.0/skills/agent-interop/SKILL.md",
+        "version": "0.16.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.22.0/skills/agent-interop/SKILL.md",
+        "version": "0.22.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.1/skills/agent-interop/SKILL.md",
+        "version": "0.17.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.19.1/skills/agent-interop/SKILL.md",
+        "version": "0.19.1",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.0/skills/agent-interop/SKILL.md",
+        "version": "0.17.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.21.0/skills/agent-interop/SKILL.md",
+        "version": "0.21.0",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-interop/SKILL.md",
+        "version": "0.23.2",
+        "same_body": true
+      }
+    ]
+  },
+  {
+    "name": "telegram-bots",
+    "member": "telegram-dev",
+    "source": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/SKILL.md",
+    "sha256": "d9b0aebbe4bccd0594a30cce65143aec7a7dd60301a4b062a7f44a4229e8646f",
+    "body_cl100k": 2309,
+    "body_estimate_3_9": 2420,
+    "description_chars": 905,
+    "description_cl100k": 229,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/telegram-bots/SKILL.md",
+        "same_body": true,
+        "sha256": "d9b0aebbe4bccd0594a30cce65143aec7a7dd60301a4b062a7f44a4229e8646f"
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.10/skills/telegram-bots/SKILL.md",
+        "version": "0.1.10",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.11/skills/telegram-bots/SKILL.md",
+        "version": "0.1.11",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.9/skills/telegram-bots/SKILL.md",
+        "version": "0.1.9",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.8/skills/telegram-bots/SKILL.md",
+        "version": "0.1.8",
+        "same_body": false
+      }
+    ]
+  },
+  {
+    "name": "telegram-userbots",
+    "member": "telegram-dev",
+    "source": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/SKILL.md",
+    "sha256": "1bbe25fd5c4aa896a0fb7a6aabc96d70c3252ff7c716ce9123415447ee025cc2",
+    "body_cl100k": 1718,
+    "body_estimate_3_9": 1780,
+    "description_chars": 876,
+    "description_cl100k": 216,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/telegram-userbots/SKILL.md",
+        "same_body": true,
+        "sha256": "1bbe25fd5c4aa896a0fb7a6aabc96d70c3252ff7c716ce9123415447ee025cc2"
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.10/skills/telegram-userbots/SKILL.md",
+        "version": "0.1.10",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.11/skills/telegram-userbots/SKILL.md",
+        "version": "0.1.11",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.9/skills/telegram-userbots/SKILL.md",
+        "version": "0.1.9",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.8/skills/telegram-userbots/SKILL.md",
+        "version": "0.1.8",
+        "same_body": true
+      }
+    ]
+  },
+  {
+    "name": "telegram-miniapps",
+    "member": "telegram-dev",
+    "source": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/SKILL.md",
+    "sha256": "017a09f2edc4c16a8847b97ca153bbddc9048daaedd1fc6737fa9225ebf971eb",
+    "body_cl100k": 2029,
+    "body_estimate_3_9": 2088,
+    "description_chars": 837,
+    "description_cl100k": 204,
+    "external_links": [],
+    "clean_mechanical_exit": 0,
+    "installed": [
+      {
+        "host": "agents",
+        "path": "machine-snapshot://.agents/skills/telegram-miniapps/SKILL.md",
+        "same_body": true,
+        "sha256": "017a09f2edc4c16a8847b97ca153bbddc9048daaedd1fc6737fa9225ebf971eb"
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.10/skills/telegram-miniapps/SKILL.md",
+        "version": "0.1.10",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.11/skills/telegram-miniapps/SKILL.md",
+        "version": "0.1.11",
+        "same_body": true
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.9/skills/telegram-miniapps/SKILL.md",
+        "version": "0.1.9",
+        "same_body": false
+      },
+      {
+        "host": "claude_cache",
+        "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.8/skills/telegram-miniapps/SKILL.md",
+        "version": "0.1.8",
+        "same_body": false
+      }
+    ]
+  }
+]

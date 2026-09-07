@@ -1,0 +1,100 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-UX-15.02",
+  "parent_id": "FIX-UX-15",
+  "title": "Technical scenario predicates",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "super-ux"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "BP-213/214 смешивают обязательное информирование с универсальным согласием на обработку",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "UX сценарии ссылаются на policy decision; frontend проверяет выполнение выбранной политики, не изобретает её.",
+  "expected_result": "Unknown jurisdiction помечается decision-needed; informational acknowledgement не выдаётся за consent.",
+  "acceptance": [
+    "Unknown jurisdiction помечается decision-needed; informational acknowledgement не выдаётся за consent."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "UX сценарии ссылаются на policy decision; frontend проверяет выполнение выбранной политики, не изобретает её.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/best-practices.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "e0dcfdb6bf395662b2c81c32b8ecaad6c2059bebe62e6a8c75537834d790ff91"
+    }
+  ],
+  "test_target": {
+    "path": "repo://super-ux/test/audit_regressions/fix-ux-15.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-UX-15.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-UX-15.json",
+    "source_files": [
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/best-practices.md",
+        "sha256": "e0dcfdb6bf395662b2c81c32b8ecaad6c2059bebe62e6a8c75537834d790ff91",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Fixture necessary contract processing получает своевременный notice и корректную basis без фиктивного consent gate; optional marketing consent отдельный и отзываемый; никакой legal basis не придумывается без данных о purpose."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://super-ux/test/audit_regressions/fix-ux-15.02.py",
+    "python3 repo://super-ux/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-UX-15.02.md",
+    "sha256": "dc8a3b8297e240a859d198f4ac92d043e7f32e56b28b16748d9577ba08d82734",
+    "utf8_bytes": 6702,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "acc9137a854a2aae47ca5f42c6270e84f22c9e47592279e3a1d277da796a385b"
+  }
+}

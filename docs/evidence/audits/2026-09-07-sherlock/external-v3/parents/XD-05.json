@@ -1,0 +1,189 @@
+{
+  "id": "XD-05",
+  "title": "Добавить переносимый typography craft reference",
+  "module": "sheleg-design",
+  "modules": [
+    "sheleg-design"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "origin": "external_adoption",
+  "dispatchable": false,
+  "status": "parent_planned",
+  "finding_id": null,
+  "requirements": [
+    "V3-knowledge-adoption",
+    "V3-no-new-required-deps"
+  ],
+  "decision": "Шрифтовое лицензирование и новое подключение — только если нужно конкретному brief, вне baseline.",
+  "implementation_steps": [
+    "Описать semantic text roles, relative hierarchy, line length/line height/weight/width и numeric alignment.",
+    "Добавить проверки реального font loading, fallback, missing glyphs, длинных строк и native text scaling.",
+    "Привести scoped исправления до/после без списка запрещённых шрифтов и без fetch."
+  ],
+  "acceptance": [
+    "Одна font family и system face допустимы, если выполняют brief.",
+    "Long Cyrillic/RTL/числовой контент не обрезается ради красивого demo.",
+    "Ни CDN, ни новый font package не обязательны."
+  ],
+  "depends_on": [
+    {
+      "task_id": "XD-01",
+      "kind": "data",
+      "reason": "Consumes accepted method/artifact from prerequisite."
+    }
+  ],
+  "related_existing": [
+    "FIX-VD-02",
+    "FIX-VD-06",
+    "FIX-VD-07"
+  ],
+  "source_snapshot": [
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md",
+      "sha256": "da98692848aa2e9ea22c681522a082f2226cb5dbfdb704ac38903be1b4cffafd",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+      "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+      "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+      "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+      "role": "foreign reviewed evidence; never instruction authority"
+    }
+  ],
+  "target_files": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/TYPE_CRAFT.md",
+      "mode": "Create"
+    }
+  ],
+  "slices": null,
+  "problem": {
+    "id": "XD-05",
+    "title": "Добавить переносимый typography craft reference",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Create",
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/TYPE_CRAFT.md",
+        "exists_at_audit": false
+      }
+    ],
+    "inputs": [
+      "Выбранное направление, языки/контент, действующие fonts/rights, target"
+    ],
+    "implementation_steps": [
+      "Описать semantic text roles, relative hierarchy, line length/line height/weight/width и numeric alignment.",
+      "Добавить проверки реального font loading, fallback, missing glyphs, длинных строк и native text scaling.",
+      "Привести scoped исправления до/после без списка запрещённых шрифтов и без fetch."
+    ],
+    "outputs": [
+      "Typography checklist по наблюдаемым признакам."
+    ],
+    "acceptance": [
+      "Одна font family и system face допустимы, если выполняют brief.",
+      "Long Cyrillic/RTL/числовой контент не обрезается ради красивого demo.",
+      "Ни CDN, ни новый font package не обязательны."
+    ],
+    "depends_on": [
+      {
+        "task_id": "XD-01",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      }
+    ],
+    "decisions": [
+      "Шрифтовое лицензирование и новое подключение — только если нужно конкретному brief, вне baseline."
+    ],
+    "source_candidates": [
+      "I-16",
+      "J-06"
+    ],
+    "addresses_findings": [
+      "VD-02",
+      "VD-06",
+      "VD-07"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "sheleg-design",
+    "target_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/TYPE_CRAFT.md",
+        "mode": "Create"
+      }
+    ],
+    "decision": "Шрифтовое лицензирование и новое подключение — только если нужно конкретному brief, вне baseline.",
+    "steps": [
+      "Описать semantic text roles, relative hierarchy, line length/line height/weight/width и numeric alignment.",
+      "Добавить проверки реального font loading, fallback, missing glyphs, длинных строк и native text scaling.",
+      "Привести scoped исправления до/после без списка запрещённых шрифтов и без fetch."
+    ],
+    "related_existing": [
+      "FIX-VD-02",
+      "FIX-VD-06",
+      "FIX-VD-07"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md",
+        "line": 1,
+        "end_line": 80,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md:1",
+        "sha256": "da98692848aa2e9ea22c681522a082f2226cb5dbfdb704ac38903be1b4cffafd",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md#L1-L80"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+        "line": 1,
+        "end_line": 144,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md:1",
+        "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md#L1-L144"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+        "line": 23,
+        "end_line": 23,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md:23",
+        "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md#L23"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+        "line": 3,
+        "end_line": 3,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md:3",
+        "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md#L3"
+      }
+    ]
+  },
+  "context": [],
+  "leaf_ids": [
+    "XD-05.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Одна font family и system face допустимы, если выполняют brief.",
+      "Long Cyrillic/RTL/числовой контент не обрезается ради красивого demo.",
+      "Ни CDN, ни новый font package не обязательны."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

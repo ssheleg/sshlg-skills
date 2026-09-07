@@ -1,0 +1,24 @@
+{
+  "all_pass": true,
+  "errors": [],
+  "findings": 115,
+  "tasks": 119,
+  "coverage_exact": true,
+  "acyclic": true,
+  "context_refs": 910,
+  "source_refs": 242,
+  "waves": 24,
+  "first_wave": [
+    "FIX-DV-01",
+    "FIX-SY-01",
+    "FIX-TG-01",
+    "FIX-UP-02",
+    "CTX-01",
+    "CTX-03",
+    "FIX-AS-01",
+    "FIX-DS-01",
+    "FIX-MS-01",
+    "FIX-SE-01"
+  ],
+  "scope": "Static local closure, source freshness, dependencies and conservative resource scheduling. Not execution certification."
+}

@@ -1,0 +1,121 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-TG-03.02",
+  "parent_id": "FIX-TG-03",
+  "title": "Strict input boundaries",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 0,
+  "modules": [
+    "telegram-dev"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "HMAC verifier удаляет поле signature и воспроизводит эту ошибку в собственном oracle",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Отклонять duplicate fields, invalid parse и auth_date вне upper/lower window.",
+  "expected_result": "Duplicate и future/stale data fail; корректный boundary timestamp проходит.",
+  "acceptance": [
+    "Duplicate и future/stale data fail; корректный boundary timestamp проходит."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Отклонять duplicate fields, invalid parse и auth_date вне upper/lower window.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/fixtures/verify_initdata.py",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "acb7e04683f380b6a352cfddb7c61597e96fd53ae0d624423a83241c096f5891",
+      "refresh_after": [
+        "FIX-TG-03.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://telegram-dev/test/audit_regressions/fix-tg-03.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-TG-03.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-TG-03.json",
+    "source_files": [
+      {
+        "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/SKILL.md",
+        "sha256": "017a09f2edc4c16a8847b97ca153bbddc9048daaedd1fc6737fa9225ebf971eb",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/fixtures/verify_initdata.py",
+        "sha256": "acb7e04683f380b6a352cfddb7c61597e96fd53ae0d624423a83241c096f5891",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Golden real-format initData с hash+signature проходит HMAC; изменение signature не проходит HMAC; Ed25519 исключает оба поля. Differential tests против поддерживаемого независимого verifier; future+24h отказ (сейчас ACCEPTED)."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-TG-03.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://telegram-dev/test/audit_regressions/fix-tg-03.02.py",
+    "python3 repo://telegram-dev/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-TG-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-TG-03.02.md",
+    "sha256": "e25baa491f21359a9ab8202684c57c928e33c1c000da53eb7423ac0562d82887",
+    "utf8_bytes": 4930,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "6def214c4b01b5d4ddf1e9d032401fd1c7329cbb30afcb8f52508ad02575daa5"
+  }
+}

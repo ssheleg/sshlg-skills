@@ -1,0 +1,116 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-UP-06.02",
+  "parent_id": "FIX-UP-06",
+  "title": "Selection aggregation",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "super-ux"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Super-ux возвращает успешный exit code после неудачной установки",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Агрегировать только required selected operations; optional router offer не меняет install result.",
+  "expected_result": "Mixed selection PARTIAL с конкретными failures, no overall success при failed required.",
+  "acceptance": [
+    "Mixed selection PARTIAL с конкретными failures, no overall success при failed required."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Агрегировать только required selected operations; optional router offer не меняет install result.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://super-ux/bin/super-ux.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "4682d2b55e9e43ebee8cad1323f41d8ef1f25bbf2f5dbac453d6e6715e49bde6",
+      "refresh_after": [
+        "FIX-UP-06.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://super-ux/test/audit_regressions/fix-up-06.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-UP-06.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-UP-06.json",
+    "source_files": [
+      {
+        "path": "repo://super-ux/bin/super-ux.js",
+        "sha256": "4682d2b55e9e43ebee8cad1323f41d8ef1f25bbf2f5dbac453d6e6715e49bde6",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Selected plugin failure и skills CLI failure => exit1; explicit refusal=>3; unsupported host=>выбранный стабильный nonzero.\nOptional absent router launcher не превращает удачную установку skill в failure.\nMixed selections дают PARTIAL с конкретными failed operations и не печатают overall success."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-UP-06.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://super-ux/test/audit_regressions/fix-up-06.02.py",
+    "python3 repo://super-ux/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-UP-06.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-UP-06.02.md",
+    "sha256": "3f5f713c1f203748654eff0e60c04d37e02a52e88d5ac44c41b00d2d16591746",
+    "utf8_bytes": 4982,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "783aa7be5c743d6100e528ab57b930abb74359a4137c9a757266622b65d675c0"
+  }
+}

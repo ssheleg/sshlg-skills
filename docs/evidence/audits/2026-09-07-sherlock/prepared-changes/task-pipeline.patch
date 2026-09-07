@@ -1,0 +1,481 @@
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 0000000..c179e59
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,5 @@
++# Agent entry point
++
++Read [CLAUDE.md](CLAUDE.md) for repository conventions.
++
++Read [docs/HANDOFF.md](docs/HANDOFF.md) before resuming the Sherlock family audit.
+diff --git a/CLAUDE.md b/CLAUDE.md
+index 2388432..1873d10 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -185,3 +185,8 @@ change — decisions and seams, not a diff summary.
+ - Markdown hazard: a wrapped line that **starts** with `>` becomes a blockquote.
+   Reflow precedence chains like `code > docs > wiki > memory` so no line begins
+   with the character.
++
++## Active audit handoff
++
++Read [docs/HANDOFF.md](docs/HANDOFF.md) for the family audit, bounded task packets
++and cross-repository branch index before resuming that work.
+diff --git a/docs/HANDOFF.md b/docs/HANDOFF.md
+new file mode 100644
+index 0000000..c3f5f42
+--- /dev/null
++++ b/docs/HANDOFF.md
+@@ -0,0 +1,17 @@
++# Sherlock family audit: handoff
++
++This branch contains the prepared task-pipeline instruction changes from the family
++audit. The runtime backlog has not been implemented or released.
++
++Start with the [central handoff](https://github.com/ssheleg/sshlg-skills/blob/codex/sherlock-audit-handoff-20260907/docs/HANDOFF.md).
++It links the 139 parent outcomes, 254 bounded task packets, module contracts,
++source provenance, execution order and all member branch revisions.
++
++Read the central repository manifest before choosing a task. Filter the plan by
++this repository's module, then read one leaf and its prerequisites. Refresh source
++hashes against the chosen checkout and materialize predecessor outputs before
++editing. A prepared instruction is not evidence that an agent outcome improved.
++
++Validation receipts for these instruction changes are in the central bundle.
++Commit and push each completed task with its updated context and checks; leave a
++new entry point for the following agent. Follow the [standing handoff rule](https://github.com/ssheleg/sshlg-skills/blob/codex/sherlock-audit-handoff-20260907/docs/working-rules/repository-handoff.md).
+diff --git a/plugins/task-pipeline/skills/task-pipeline/SKILL.md b/plugins/task-pipeline/skills/task-pipeline/SKILL.md
+index fec7ab7..112dffa 100644
+--- a/plugins/task-pipeline/skills/task-pipeline/SKILL.md
++++ b/plugins/task-pipeline/skills/task-pipeline/SKILL.md
+@@ -61,7 +61,7 @@ gate stops until it is installed.
+ | 2 Brainstorm | `references/brainstorm.md` |
+ | 2 Decompose (platforms only) | `references/decomposition.md` |
+ | 3 Spec | `references/spec.md` |
+-| 4 Plan | `references/planning.md` |
++| 4 Plan and context packets for independent executors | `references/planning.md` |
+ | the queue the loop walks | `references/work-graph.md` |
+ | 5–8 · how a **work-graph node** is CLOSED — three blind readings at three distances, all three required (ceiling 3); a **prose-plan task** closes through `review.md` instead — one reviewer, five-round cap | `references/certification.md` |
+ | 5 Build (worktree, subagents, fix loop) | `references/build.md` + `references/review.md` |
+diff --git a/plugins/task-pipeline/skills/task-pipeline/references/acceptance.md b/plugins/task-pipeline/skills/task-pipeline/references/acceptance.md
+index 08e7a97..fae7754 100644
+--- a/plugins/task-pipeline/skills/task-pipeline/references/acceptance.md
++++ b/plugins/task-pipeline/skills/task-pipeline/references/acceptance.md
+@@ -453,3 +453,10 @@ git add <submodule> && git commit -m "chore: bump <name> submodule — <why>"
+ Moved out of `SKILL.md` on 2026-08-16: the body was 6685 tokens against a
+ < 5000 budget, and stage-10 close-out is what this file is for.
+ 
++
++
++**Handoff is repository-backed.** Apply `artifacts.md` → *Durable handoff across
++agents and repositories*: reports, task context and next steps must be tracked,
++with verified remote refs where push is authorized. A local preview or clean but
++unpushed worktree is not delivery. Check a fresh checkout, not the author’s paths.
++
+diff --git a/plugins/task-pipeline/skills/task-pipeline/references/artifacts.md b/plugins/task-pipeline/skills/task-pipeline/references/artifacts.md
+index d2fb978..f2e3672 100644
+--- a/plugins/task-pipeline/skills/task-pipeline/references/artifacts.md
++++ b/plugins/task-pipeline/skills/task-pipeline/references/artifacts.md
+@@ -11,6 +11,7 @@ shape.
+ - Stage → input map — where each stage's information comes from
+ - Stage → artifact map
+ - This repo (task-pipeline itself), for reference
++- Durable handoff across agents and repositories
+ 
+ ## In the host project
+ 
+@@ -221,3 +222,25 @@ README.md  CHANGELOG.md  LICENSE  CLAUDE.md
+ CONTRIBUTING.md  SECURITY.md  CODE_OF_CONDUCT.md
+ <artifacts>/{specs,plans}/               # this repo's own design history
+ ```
++
++## Durable handoff across agents and repositories
++
++Persist reports, plans, decisions and executor context in the owning repository,
++including work that stops at planning. An app preview or ignored scratch directory
++may be a working copy, never the only copy a successor needs. Before removing the
++build scratch directory, promote the durable task inputs, outputs and unresolved
++work into the artifact root; Git cannot recover files that were never tracked.
++
++Give the successor one tracked entry point with the objective, accepted decisions,
++completed and open task IDs, module/contracts context, evidence and next task.
++Use relative artifact paths; source references name repository and commit. For
++multiple repositories, one central index names each remote, branch, commit and
++handoff path. Keep task packets bounded and refresh their hashes after relocation.
++
++Before the handoff, commit task-owned changes and push the working branches when
++the operator has authorized it, including standing authorization. Verify each
++remote ref equals the recorded commit and open the entry from a fresh checkout.
++Report missing access as a delivery blocker, never as a successful push. Preserve
++unrelated edits and explicit local-only instructions. Exclude secrets, caches and
++foreign dependency trees. A pushed planning branch is not a release or deployment;
++production submodule pins change only through the normal integration process.
+diff --git a/plugins/task-pipeline/skills/task-pipeline/references/backlog.md b/plugins/task-pipeline/skills/task-pipeline/references/backlog.md
+index e8e6f31..e36de15 100644
+--- a/plugins/task-pipeline/skills/task-pipeline/references/backlog.md
++++ b/plugins/task-pipeline/skills/task-pipeline/references/backlog.md
+@@ -90,7 +90,14 @@ So:
+   somebody else pick this up?"*, which is the only question the board is answering.
+ - **The ref is checkable and that is the point.** `git rev-parse` either resolves it or it
+   does not, so a row that has quietly expired can be found before somebody plans around
+-  it.
++it.
++
++An audit row is an entry point, not a complete execution handoff. Before an
++independent agent takes it, attach the context closure, implementation decisions,
++input revisions, dependencies and result contract from
++[Execution packets](planning.md#execution-packets). Keep priority separate from dispatch
++readiness, and account for every finding without turning every finding into an
++isolated task that ignores shared module/interface changes.
+ 
+ **A prose detector was tried first and discarded.** Matching *"parked"*, *"is built"*,
+ *"ready to merge"* in the description cell fired on **three rows out of 187 and all three
+diff --git a/plugins/task-pipeline/skills/task-pipeline/references/decomposition.md b/plugins/task-pipeline/skills/task-pipeline/references/decomposition.md
+index ba3ec76..41b9d7f 100644
+--- a/plugins/task-pipeline/skills/task-pipeline/references/decomposition.md
++++ b/plugins/task-pipeline/skills/task-pipeline/references/decomposition.md
+@@ -5,8 +5,8 @@ brief describes more than one deliverable, more than one surface, or a system
+ rather than a change — must be cut into modules first, and then built one brick at
+ a time, each brick carrying its own documentation, spec, plan, build and gates.
+ 
+-This runs at the end of **stage 2**, on the approved design, before any spec is
+-written. It is skipped — explicitly, in writing — when the work is a single module.
++Module mapping runs at the end of **stage 2**, before the spec; a single-module change skips that map explicitly.
++Stage-4 leaf sizing still applies when work is handed to independent agents; skipping the map does not skip task sizing.
+ 
+ ## Contents
+ 
+@@ -15,6 +15,7 @@ written. It is skipped — explicitly, in writing — when the work is a single
+ - The module map — the artifact
+ - GATE (part of stage 2, manual)
+ - The program loop — one brick at a time
++- Executor-sized tasks and context
+ - Program done
+ 
+ ## When it applies
+@@ -140,6 +141,86 @@ Rules for the loop:
+   loop guard ([`loop-guard.md`](loop-guard.md)) — stop, name the oscillation, and
+   fix the layer that owns it instead of iterating.
+ 
++## Executor-sized tasks and context
++
++The module map is not an execution queue. At stage 4, split each change into
++small, reviewable outcomes before handing it to another agent. Keep the original
++finding or feature as the parent; only its leaf tasks enter the dispatch queue.
++Do not mark the parent done because its plan exists.
++
++### Cut by outcome, with its proof
++
++One leaf owns one observable behavior, invariant, or artifact contract. Include
++the focused regression and necessary documentation with that outcome; do not
++create separate "write tests" and "write docs" jobs by ritual. Split when a leaf
++requires another independent decision, another resource owner, an unrelated
++failure mechanism, or more primary context than its declared budget permits.
++Do not split a transaction across tasks merely to reach a target task count.
++
++For example, "fix the updater" is a parent. A leaf can make `--dry-run` return
++an operation plan without mutation, proved by unchanged fixture bytes and no
++mutating child calls. Atomic generation switching and replacement verification
++are separate outcomes with their own prerequisites and tests.
++
++Before dispatch, the planner records for every leaf:
++
++- parent requirement/finding and module/interface owner;
++- the concrete change, why it is needed, and the observable expected result;
++- decisions already made, alternatives rejected, and explicit exclusions;
++- exact existing edit targets and proposed create targets; historical evidence,
++  migrations and ADRs remain read-only unless their own contract permits edits;
++- inputs, required predecessor outputs, and data/control/resource edge reasons;
++- ordered implementation steps and a focused positive and negative acceptance;
++- primary context manifest, source/context digests, outputs and rollback;
++- one integration owner and the claim/capability checks from
++  [`planning.md`](planning.md) → Execution packets.
++
++### Resolve material choices before implementation
++
++An implementation leaf is not ready while product behavior, public interface,
++data ownership, authorization, dependency policy, or failure semantics remain
++undecided. Create a bounded decision task instead: one precise question, named
++sources or experiment, time/context budget, required decision record, and the
++criterion that resolves it. Its consumers wait for that record and receive a
++new packet revision. Do not fill uncertainty with invented certainty.
++
++Routine local implementation choices can remain with the executor. A plan need
++not prescribe every variable name. New evidence that invalidates a recorded
++decision returns to its owner with the smallest counterexample; the executor
++does not silently redesign adjacent modules or restart the whole interview.
++
++### Budget what the executor actually reads
++
++Primary context contains the leaf brief, applicable module/interface decisions,
++acceptance, and the relevant source ranges. The full audit, other modules,
++alternative designs and historical discussion belong in an indexed appendix.
++Keep every required reference resolvable and digest-bound, but do not inject
++the entire reference closure into every prompt. Read deeper source on demand
++when needed to verify the local change.
++
++Set a primary-context budget for the chosen host before materialization. Record
++the tokenizer/model when measuring tokens; a byte or character count is a byte
++or character count, never a token measurement. If the materialized primary
++context exceeds the budget, split the outcome or move truly optional material
++to the appendix. Never truncate constraints, acceptance, error behavior or
++dependency outputs to make a packet fit. No universal task duration, file count
++or token limit establishes quality; use project defaults and report exceptions.
++
++### Cold-start and completion checks
++
++A fresh executor must be able to answer "what changes, where, why, under which
++decision, and how success is observed" from the primary packet without reading
++the planner's conversation. Validate this before dispatch; reading an ID or a
++title alone is not the test. Recheck hashes and materialize predecessor outputs
++after they exist. Planned input placeholders never count as satisfied inputs.
++
++Review the leaf's actual candidate code and evidence. Then check the parent's
++acceptance across its leaves so a collection of individually green tasks cannot
++drop an end-to-end requirement. Parent close requires current child receipts,
++cross-seam checks where applicable, and the integration result. Plan completeness,
++dispatch readiness, implemented behavior and released availability are separate
++states.
++
+ ## Program done
+ 
+ The program is finished when every row is `done` or `deferred` with an agreed home,
+diff --git a/plugins/task-pipeline/skills/task-pipeline/references/planning.md b/plugins/task-pipeline/skills/task-pipeline/references/planning.md
+index 6c1a4dc..742cdea 100644
+--- a/plugins/task-pipeline/skills/task-pipeline/references/planning.md
++++ b/plugins/task-pipeline/skills/task-pipeline/references/planning.md
+@@ -20,6 +20,7 @@ Built into this skill; nothing to install.
+ - Self-review — before handing off
+ - This stage settles nothing — and that is a rule, not an omission
+ - GATE (auto)
++- Execution packets
+ 
+ ## Audience
+ 
+@@ -28,6 +29,12 @@ this toolset, has questionable taste, and will read **only their own task**.
+ Everything they need is in that task: exact paths, complete code, exact commands,
+ expected output. DRY. YAGNI. TDD. Frequent commits.
+ 
++For independently dispatched agents, "that task" includes the resolved context
++packet in [Execution packets](#execution-packets): relevant program/module
++constraints, versioned interfaces, decisions and source digests travel with it.
++Do not assume the executor has read a plan header or inherited the planning chat.
++Planning may hand off at plan-ready without claiming implementation is complete.
++
+ Path: `<artifacts>/plans/YYYY-MM-DD-<topic>.md` — same `<topic>` slug as the
+ brief and the spec.
+ 
+@@ -52,24 +59,26 @@ what each one owns. This is where decomposition gets locked in:
+ into **parallel groups** in topological order, and tag each task
+ `depends: [task ids]`.
+ 
+-**Then run the fake-edge test over what you just drew.** An edge is a dependency
+-that carries data — not two tasks that happen to be written one after the other.
+-Six steps, five minutes, and it is the difference between a graph and a list:
++**Then run the fake-edge test over what you just drew.** Keep dependencies that
++carry data, an enforceable control condition, or resource ordering. Mere sequence
++is not enough. Test each edge before assigning a parallel group:
+ 
+ 1. Write every task as a box.
+ 2. Draw an arrow between each pair you were about to order.
+-3. For each arrow ask: **does output from A actually enter B?** Not *"does B come
+-   after A"* — does B consume a file, a signature, a decision or a value that A
+-   produced?
+-4. Yes → keep it, and **write the payload in the `Carries` cell**.
+-5. No → delete it. That wait was free to give away, and you were paying for it.
+-6. Everything left with no incoming arrow is group A and starts at once.
+-
+-**The payload is the test, not the answer to it.** An arrow whose `Carries` cell
+-you cannot fill is a fake edge, and the empty cell is what makes that visible to
+-a reviewer instead of leaving an arrow in place because it looked orderly. Expect
+-two or three per plan; the classic is *"review file A, then review file B"*,
+-which reads as a sequence and never once passes anything between them.
++3. Ask what fails if B starts before A: missing output, unmet approval/control
++   condition, or conflicting ownership of a mutable resource?
++4. Keep a justified edge and write its kind plus concrete payload/condition in
++   the `Carries` cell: `data: schema v2`, `control: review accepted`, or
++   `resource: release write lease on shared registry`.
++5. Remove an edge only if none of those reasons applies. No data payload alone
++   does not make an edge fake. Do not remove approval or ownership constraints.
++6. Nodes without incoming dependencies are candidates for group A; capability
++   and resource checks still determine whether they can start together.
++
++**The stated dependency is reviewable.** An empty `Carries` cell requests a reason,
++not automatic deletion. Keep a justified dependency, remove accidental ordering,
++and leave an unresolved dependency blocked until its condition is understood.
++There is no target number of edges to remove.
+ 
+ **File ownership is exclusive within a group.** No two tasks in the same parallel
+ group write the same file — that is the rule that makes stage-5 fan-out safe.
+@@ -140,15 +149,15 @@ verbatim from the spec. Every task's requirements implicitly include this sectio
+ | Group | Tasks | Runs after | Carries |
+ |---|---|---|---|
+ | A | 1, 2 | — | — |
+-| B | 3 | A | <what crosses this edge: the file, signature, decision or value B consumes> |
++| B | 3 | A | <kind: payload, control condition or resource ordering B requires> |
+ 
+ ---
+ ```
+ 
+-**The `Carries` cell is required on every edge and empty only on group A.** A cell
+-you cannot fill means the arrow carries nothing, which means it is a fake edge:
+-delete it and let the task start in the earlier group. This is the fake-edge test
+-made a column, so its result is committed rather than remembered.
++**The `Carries` cell is required on every edge and empty only on group A.**
++Record `data`, `control` or `resource` and its concrete condition. An unexplained
++edge blocks dispatch until justified or removed after review; never delete an
++approval/resource edge merely because it carries no file or value.
+ 
+ ## Task structure — required
+ 
+@@ -240,9 +249,9 @@ A checklist you run yourself, inline. No subagent:
+    `clearFullLayers()` in Task 7 is a bug, not a style difference.
+ 5. **Parallel safety and the fake-edge test:** no two tasks in the same group write
+    the same file **or share any other mutable target**; every `depends:` points at a
+-   task that really produces what's consumed, and every edge's `Carries` cell is
+-   filled. Count the edges you deleted — that number is the line below, and a plan
+-   that deletes none on its first pass has almost certainly not run the test.
++   task that produces the input or establishes the required condition, and every edge's `Carries` cell is
++   filled. Count retained edges by kind and record removed edges with reasons.
++   Zero removals is valid when every original dependency is justified.
+ 6. **DoD present and verifiable** on every task.
+ 7. **Every command, path and file a DoD names resolves.** Walk each task's
+    *Definition of done* and its steps and check the targets exist — a DoD that says
+@@ -270,7 +279,7 @@ before the gate; every line a **computed number, not a tick**.
+ - Decisions: checked against <the brief's D-table> and <stage 2's rejected options> — <verdict>
+ - Cost: <surfaces>/<guards>/<REQ> now, <…> at stage 2 — <proportionate | grown, and why>
+ - Hygiene: <n> checks, <n> findings, <n> open
+-- Edges: <n> declared, <n> carry data, <n> removed
++- Edges: <n> declared, <n> data, <n> control, <n> resource, <n> removed with reasons
+ - Placeholders: <n> · Ambiguity: <n> found, <n> resolved inline
+ ```
+ 
+@@ -298,6 +307,125 @@ Then: every spec requirement maps to a task; no placeholders; names and types
+ consistent across tasks; parallel-group tasks share no files **or other mutable
+ target**; each task has a verifiable DoD. **Every edge in the *Execution order*
+ table has a non-empty `Carries` cell, and the `Edges:` line of the self-review is
+-computed** — an unfillable cell is a fake edge and the gate does not pass with one
+-left in the table. UI tasks carry their scenario IDs and `SCR-` screens. Verify all
++computed** — each retained edge names data, control or resource semantics. An
++unexplained edge blocks the gate until justified or safely removed. UI tasks carry their scenario IDs and `SCR-` screens. Verify all
+ of it yourself and stop on failure — this gate has no operator in it.
++
++## Execution packets
++
++Size independent-executor tasks with [`decomposition.md`](decomposition.md) →
++Executor-sized tasks and context. Keep parent findings/features as containers;
++dispatch only leaves with resolved material decisions and budgeted primary context.
++
++
++Use this contract when research, intake, specification and planning happen in one
++agent, while other agents execute individual tasks, or when a host pipeline owns
++dispatch. It is an artifact and workflow contract. It does not claim that the
++bundled graph CLI is a distributed scheduler or that it implements the fields
++below as commands.
++
++### Roles and boundaries
++
++The planning agent harvests sources, resolves material decisions, produces the
++program/module model, specifications, task packets and their dependencies. It may
++finish at **plan-ready**. That state means the plan is available for execution;
++it does not mean the requested product is implemented.
++
++An executor receives one task and its resolved context. It does not restart
++intake or independently redesign settled interfaces. If the packet conflicts with
++source reality, it returns a change proposal with evidence to the planner rather
++than silently editing a shared plan. A reviewer evaluates the produced artifact;
++an integrator reconciles compatible outputs and owns the final delivery boundary.
++These are roles, not hardcoded models or host-specific subagent names.
++
++### The context closure a task must carry
++
++Persist a program brief and decisions, a module/interface map, shared contracts,
++and one task packet per independently reviewable deliverable. Each packet names:
++
++- Stable task, program and module IDs; its requirement and finding IDs.
++- The relevant program constraints and module boundaries, as explicit inputs.
++- Decisions with provenance, rationale, rejected alternatives and change triggers.
++- Every consumed/produced interface, including its version and responsible task.
++- Source repository, base revision and digests for the files/inputs it relies on.
++- Files to read, files permitted to change, new files explicitly marked Create,
++  and shared mutable resources. A directory name is not a complete ownership claim.
++- Concrete implementation sequence, invariants and edge cases; exact code where
++  a signature or algorithm must be settled, without pretending speculative code
++  was tested against a future tree.
++- Acceptance checks, required evidence type, scope exclusions and rollback.
++- Output/return format, reviewer/integrator destination and context budget.
++
++A linked file is useful only if the receiving agent can fetch it at the recorded
++revision. Resolve required links before dispatch; a missing required contract
++blocks dispatch, while optional context is labelled optional. Do not silently
++truncate required constraints to fit a token budget. Produce a smaller coherent
++task or move background material to retrievable references.
++
++Priority, dependency readiness, context completeness and implementation status
++are separate fields. An urgent row can be blocked; a detailed packet can still
++depend on an unfinished contract. Never translate either into "ready" by prose.
++
++### Dispatch, retries and changed inputs
++
++Before dispatch, verify the packet's inputs and predecessor outputs against their
++current digests. Changed relevant input makes the packet stale until it is
++reconciled; an unrelated file change need not invalidate the whole program.
++Record a new packet revision rather than rewriting the executor's historical input.
++
++The host adapter must establish one execution attempt: task ID, packet revision,
++attempt ID, owner, resource scope, expiry/heartbeat when applicable, and a fencing
++token for takeover. A file lock protecting JSON writes is not an execution lease.
++If the host cannot provide this boundary, serialize execution and state the
++limitation; do not run independent workers that merely read the same ready list.
++
++An executor returns output artifacts, changed-file digests, base/produced revisions,
++checks with PASS/FAIL/NOT_RUN/TEST_ERROR, remaining risks and the attempt token.
++Completion is accepted only for the current attempt and expected input revision.
++Duplicate results are idempotent; a late stale worker cannot close a newer attempt.
++Do not equate an agent's final message with an accepted business result.
++
++Dependencies may carry data, a control/approval condition, or a resource ordering
++constraint. Name the kind and reason. A dependency cannot be discarded solely
++because it has no data payload. Dispatch a task only after all its declared
++prerequisites are satisfied, and check overlapping write sets separately.
++
++### Portable host integration
++
++Keep the packet independent of Claude Code, Codex or any provider's conversation
++format. Each adapter maps dispatch, artifact access, cancellation, progress and
++result receipts to actual host capabilities. Record the capabilities used.
++Fresh agents and resumed agents receive the same required context closure.
++
++For an external platform, map both schemas explicitly: a stage list is not a work
++graph, a handoff message is not an execution lease, and an artifact path is not
++proof that a remote worker can read it. Until the adapter and its failure tests
++exist, label integration proposed/manual rather than supported.
++
++### UI task annex
++
++For a UI outcome, attach the scenario/screen/state IDs, selected flow and visual
++direction revision, component reuse/modify/create decisions, semantic token roles,
++approved or explicitly provisional content, keyboard/accessibility expectations,
++responsive/native behavior, and local asset provenance. Include only the portion
++needed for this leaf. A non-UI task does not need this annex.
++
++Keep behavior, its visual presentation and relevant states together when they
++form one independently verifiable outcome. Do not split every screen into HTML,
++CSS and interaction jobs. A changed flow, component contract or design revision
++refreshes the affected packets; the executor does not guess which screenshot or
++style discussion was authoritative. Preserve the existing family artifact paths.
++
++### Audit to executable backlog
++
++Every finding has a disposition and a task or a recorded reason for not acting.
++Separate common enabling contracts from per-finding repairs; link each task to
++the program/module/interface context it consumes. Build the graph, verify its
++closure, and partition runnable tasks by disjoint write sets. Include input drift,
++missing context, duplicate dispatch, late completion, multiple prerequisites,
++cancellation and failure recovery in acceptance. A cold reader must understand
++why the change exists and how its result fits the system without the original chat.
++
++Store the packet set with the plan. Planning is complete when the declared scope
++is covered, required inputs resolve, dependencies are acyclic and readiness is
++reported honestly. Delivery remains a separate state with its own evidence.

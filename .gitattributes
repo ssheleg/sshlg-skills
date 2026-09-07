@@ -1,0 +1,2 @@
+# Preserve unified-diff context markers in archived patch data.
+docs/evidence/audits/2026-09-07-sherlock/**/*.patch -whitespace

@@ -1,0 +1,178 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-EV-01.03",
+  "parent_id": "FIX-EV-01",
+  "title": "Outcome corpus: copywriting",
+  "kind": "verification",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "super-ux"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Проверка выбора названия не доказывает пользу выполнения скилла",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Для copywriting записать минимум positive, negative и ambiguous/no-op case из собственных audit findings; отдельно with/without skill. Не менять production integration для удобства grader.",
+  "expected_result": "Case manifest включает actual output oracle и raw result; copywriting не проходит лишь по названию. Недоступный live host = NOT_RUN.",
+  "acceptance": [
+    "Case manifest включает actual output oracle и raw result; copywriting не проходит лишь по названию. Недоступный live host = NOT_RUN."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Для copywriting записать минимум positive, negative и ambiguous/no-op case из собственных audit findings; отдельно with/without skill. Не менять production integration для удобства grader.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://super-ux/evals/cases/copywriting.json",
+      "mode": "Create",
+      "role": "focused outcome corpus (new artifact)",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://super-ux/test/audit_regressions/fix-ev-01.03.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-EV-01.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-EV-01.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/test/evals/RESULTS.md",
+        "sha256": "6f920d8631b8b7309dece75fc9488b178e4cbb6e1d0aa2ac41fc049cd0794b96",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://make-skill/test/evals/RESULTS.md",
+        "sha256": "1e824a230e73b636d85b537f6f73a5a6cd2fea0b197570438100a0ae56d4df6f",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://seo-aeo-audit/test/evals/RESULTS.md",
+        "sha256": "59dc76dd994a4343a990c455c9f0658e4d1059cbc677e51e9734b1ed5e6ae7ab",
+        "role": "baseline source"
+      },
+      {
+        "path": "audit://native-eval.log",
+        "sha256": "760143b98d7496b6e5a345197d121bdd015e5e768d635dda1a0f6b4b621c398d",
+        "role": "read-only audit evidence",
+        "audit_original_sha256": "760143b98d7496b6e5a345197d121bdd015e5e768d635dda1a0f6b4b621c398d"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Каждый из 28 имеет опубликованный manifest сценариев и прогоны на заявленных supported hosts; trace доказывает загрузку и outcome, ухудшение не скрывается средним."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-EV-01.01",
+      "kind": "data",
+      "reason": "Uses common outcome manifest and honest result semantics."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://super-ux/test/audit_regressions/fix-ev-01.03.py",
+    "python3 repo://super-ux/test/validate.py"
+  ],
+  "focused_case_context": [
+    {
+      "finding_id": "UX-01",
+      "title": "B030 не доказывает происхождение утверждения",
+      "case_acceptance": [
+        "Три строки из probes должны получить unresolved/mismatched-claim; корректные 500 integrations проходят; 500 million customers не проходят; даты и диапазоны распознаются по типу поля."
+      ],
+      "packet": "audit://extension/packets/FIX-UX-01.json"
+    },
+    {
+      "finding_id": "UX-02",
+      "title": "B051 объявляет спамом текст без единого повторения",
+      "case_acceptance": [
+        "45/80/100 уникальных слов без повторов не дают finding; реальные повторные блоки дают advisory; domain term repetition сохраняется; страницы проверяются независимо."
+      ],
+      "packet": "audit://extension/packets/FIX-UX-02.json"
+    },
+    {
+      "finding_id": "UX-03",
+      "title": "Humanization «никогда не блокирует» расходится с исполняемым B060",
+      "case_acceptance": [
+        "Цитируемый словарь остаётся неизменным и не блокирует; off не запускает скрытый обязательный rewrite; негативные примеры русской грамматики/второго языка проходят; semantic-preservation тесты числа/отрицания/каузальность обязательны."
+      ],
+      "packet": "audit://extension/packets/FIX-UX-03.json"
+    },
+    {
+      "finding_id": "UX-04",
+      "title": "У одного скилла два несовместимых правила владения strings.md",
+      "case_acceptance": [
+        "Изменение одного error string обновляет исходник и proposed row за один проход; voice/facts не меняются; нет дополнительного approval только из-за размещения strings.md."
+      ],
+      "packet": "audit://extension/packets/FIX-UX-04.json"
+    },
+    {
+      "finding_id": "UX-05",
+      "title": "Поведенческий eval выдаёт PASS проваленному процессу и не проверяет заявленный контракт",
+      "case_acceptance": [
+        "Обе mock-подмены из probes должны FAIL; невалидный exit никогда PASS; успешный artifact с двумя поверхностями и двумя корректными строками проходит; репозиторий до/после одинаков."
+      ],
+      "packet": "audit://extension/packets/FIX-UX-05.json"
+    },
+    {
+      "finding_id": "UX-15",
+      "title": "BP-213/214 смешивают обязательное информирование с универсальным согласием на обработку",
+      "case_acceptance": [
+        "Fixture necessary contract processing получает своевременный notice и корректную basis без фиктивного consent gate; optional marketing consent отдельный и отзываемый; никакой legal basis не придумывается без данных о purpose."
+      ],
+      "packet": "audit://extension/packets/FIX-UX-15.json"
+    }
+  ],
+  "inputs": [
+    {
+      "from_task": "FIX-EV-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-EV-01.03.md",
+    "sha256": "6a1f44d9abfba44b27760e57e693bbb6b0095a7ff2e9d4912b6322e76f1d4c74",
+    "utf8_bytes": 6936,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "762ad691474122dc3a54399a0c932a6159c8fe92a1115d0214d0682dffb7b05d"
+  }
+}

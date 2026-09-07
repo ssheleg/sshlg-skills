@@ -1,0 +1,107 @@
+[
+  {
+    "verdict": "PASS",
+    "check": "NAME_CHARSET",
+    "message": "name 'google-signin' uses a legal charset",
+    "file": "google-signin/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_DIR",
+    "message": "name matches the directory",
+    "file": "google-signin/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_RESERVED",
+    "message": "no reserved word in name",
+    "file": "google-signin/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_LENGTH",
+    "message": "description is 821/1024 chars",
+    "file": "google-signin/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_PERSON",
+    "message": "description is third person",
+    "file": "google-signin/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_USEWHEN",
+    "message": "description opens with 'Use when …' (house rule)",
+    "file": "google-signin/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_RU",
+    "message": "description carries Russian trigger phrases (house rule)",
+    "file": "google-signin/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_WHAT",
+    "message": "description states WHAT the skill does in 463 chars beyond its triggers (house rule)",
+    "file": "google-signin/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_HEADROOM",
+    "message": "description is 821/970 chars, inside the working limit",
+    "file": "google-signin/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "FM_UNKNOWN_KEY",
+    "message": "no frontmatter key outside spec ∪ host extensions",
+    "file": "google-signin/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BODY_BUDGET",
+    "message": "body is 108 lines / ~1480 tokens (budget 500 / 5000)",
+    "file": "google-signin/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BODY_HEADROOM",
+    "message": "body is ~1480/4750 tokens, inside the working limit",
+    "file": "google-signin/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BUNDLE_LAYOUT",
+    "message": "bundled directories present and checked",
+    "file": null,
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "LINK_INTEGRITY",
+    "message": "every relative link resolves and stays inside the skill",
+    "file": "google-signin/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "PROSE",
+    "message": "no Windows paths, time-branching, or bare directory pointers",
+    "file": "google-signin/SKILL.md",
+    "line": null
+  }
+]

@@ -1,0 +1,90 @@
+{
+  "date": "2026-09-07",
+  "scope": "Planning handoff and prepared instruction changes; runtime backlog remains planned.",
+  "central_branch": "codex/sherlock-audit-handoff-20260907",
+  "central_commit": "Resolve git rev-parse HEAD in this checkout; a file cannot contain the hash of its own containing commit.",
+  "members": [
+    {
+      "repo": "super-ux",
+      "branch": "codex/context-ready-skills-20260907",
+      "base": "a60f6b423c619b37a3bb43564b58b02b6200e463",
+      "commit": "707628c5d73449abf299912a78c382e8678c9116",
+      "validation": {
+        "repo": "super-ux",
+        "command": "python3 test/validate.py",
+        "exit_code": 0,
+        "note": "Corrected measured validator fact after adding three handoff documents; rerun passed."
+      },
+      "remote_verified": true,
+      "remote": "https://github.com/ssheleg/super-ux",
+      "entry_path": "docs/HANDOFF.md",
+      "patch": "prepared-changes/super-ux.patch",
+      "patch_sha256": "72c463d3b44ae276e94886fb30e915c30dc6c12758cad24b728840a9d11b28b0",
+      "state": "pushed_branch_unmerged_unreleased",
+      "draft_pr": "https://github.com/ssheleg/super-ux/pull/24"
+    },
+    {
+      "repo": "task-pipeline",
+      "branch": "codex/context-ready-skills-20260907",
+      "base": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+      "commit": "35e1a1c7ff42b48547f0a5e25bcaccb9da884477",
+      "validation": {
+        "repo": "task-pipeline",
+        "command": "python3 test/validate.py",
+        "exit_code": 0,
+        "note": "Rerun after preserving anchored citations and Contents order."
+      },
+      "remote_verified": true,
+      "remote": "https://github.com/ssheleg/task-pipeline",
+      "entry_path": "docs/HANDOFF.md",
+      "patch": "prepared-changes/task-pipeline.patch",
+      "patch_sha256": "228c3e8ab00e3d4a6190e1f6be30c5927f1fce245f99ed002a1712e8b18a2392",
+      "state": "pushed_branch_unmerged_unreleased",
+      "draft_pr": "https://github.com/ssheleg/task-pipeline/pull/85"
+    },
+    {
+      "repo": "sheleg-design-skill",
+      "branch": "codex/context-ready-skills-20260907",
+      "base": "562786b30f07f50a294d70a4c3ffd40794624f42",
+      "commit": "31938f84a233e808b56f6e6a65030d987ef039b0",
+      "validation": {
+        "repo": "sheleg-design-skill",
+        "command": "python3 test/validate.py",
+        "exit_code": 0
+      },
+      "remote_verified": true,
+      "remote": "https://github.com/ssheleg/sheleg-design-skill",
+      "entry_path": "docs/HANDOFF.md",
+      "patch": "prepared-changes/sheleg-design-skill.patch",
+      "patch_sha256": "44cef2cf4145337760e7961786a5b07dbeb9f9cc22b4bcbf511ba5dcbd6d77f1",
+      "state": "pushed_branch_unmerged_unreleased",
+      "draft_pr": "https://github.com/ssheleg/sheleg-design-skill/pull/28"
+    },
+    {
+      "repo": "make-skill",
+      "branch": "codex/dependency-free-knowledge-20260907",
+      "base": "015052149a9c62a8a69e18a2a5dd6bf2f6e8196a",
+      "commit": "9316fbb72941b482f858ddcc93646579251608ac",
+      "validation": {
+        "repo": "make-skill",
+        "command": "python3 test/validate.py",
+        "exit_code": 0
+      },
+      "remote_verified": true,
+      "remote": "https://github.com/ssheleg/make-skill",
+      "entry_path": "docs/HANDOFF.md",
+      "patch": "prepared-changes/make-skill.patch",
+      "patch_sha256": "c74f2baf548abbabba3517931505c4dacc59f9f994dc9391234c895660a5f38c",
+      "state": "pushed_branch_unmerged_unreleased",
+      "draft_pr": "https://github.com/ssheleg/make-skill/pull/18"
+    }
+  ],
+  "production_submodule_pins": "unchanged",
+  "standing_rule_installed": [
+    "Codex global AGENTS.md",
+    "Claude Code global CLAUDE.md",
+    "Gemini global GEMINI.md",
+    "Cursor alwaysApply rule"
+  ],
+  "excluded_local_work": "Unrelated changes in sshlg-home were not included."
+}

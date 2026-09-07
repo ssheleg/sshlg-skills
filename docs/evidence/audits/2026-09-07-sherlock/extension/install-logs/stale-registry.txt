@@ -1,0 +1,42 @@
+
+== Installing to agents via skills CLI: codex ==
+
+- add ssheleg/super-ux
+  » npx --yes skills add ssheleg/super-ux --agent codex --global --yes
+
+- add ssheleg/task-pipeline
+  » npx --yes skills add ssheleg/task-pipeline --agent codex --global --yes
+
+- add ssheleg/agent-sync
+  » npx --yes skills add ssheleg/agent-sync --agent codex --global --yes
+
+- add ssheleg/make-skill
+  » npx --yes skills add ssheleg/make-skill --agent codex --global --yes
+
+- add ssheleg/sheleg-design-skill
+  » npx --yes skills add ssheleg/sheleg-design-skill --agent codex --global --yes
+
+- add ssheleg/seo-aeo-audit
+  » npx --yes skills add ssheleg/seo-aeo-audit --agent codex --global --yes
+
+- add ssheleg/sheleg-dev
+  » npx --yes skills add ssheleg/sheleg-dev --agent codex --global --yes
+
+- add ssheleg/agent-stack
+  » npx --yes skills add ssheleg/agent-stack --agent codex --global --yes
+
+- add ssheleg/telegram-dev
+  » npx --yes skills add ssheleg/telegram-dev --agent codex --global --yes
+  pruned Claude plain copies that would shadow the plugin: vision
+
+== Refreshing the routing block ==
+stdin не интерактивен — роутинг-блок не записан (non-interactive: treating as no). Запусти `npx sshlg-skills install` в терминале, чтобы решить.
+routers: /var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/audit-up-iTv2yQ/stale-registry/.claude/CLAUDE.md — opted-out-recorded
+
+== How the next version arrives ==
+  npx sshlg-skills@latest update
+
+  Auto-update is OFF for these packs on purpose. They are pinned and released
+  as a set, so updating one on its own clock leaves a combination nobody
+  tested — the same reason this launcher takes no member argument.
+  Nothing checks for you: run the line above when you want the next set.

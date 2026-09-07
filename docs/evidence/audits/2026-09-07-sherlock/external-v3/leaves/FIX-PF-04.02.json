@@ -1,0 +1,146 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-PF-04.02",
+  "parent_id": "FIX-PF-04",
+  "title": "Fabric edge semantics",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "Fabric"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Parked обязательного producer делает его consumer runnable без payload",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Fabric shared chain model сохраняет тот же distinction и unknown required predicate fail closed.",
+  "expected_result": "Портированный graph не делает parked required edge ready.",
+  "acceptance": [
+    "Портированный graph не делает parked required edge ready."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Fabric shared chain model сохраняет тот же distinction и unknown required predicate fail closed.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://fabric/apps/desktop/src/shared/chain.ts",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "e1d0b6d7e9db699c984de8ee3656a31d1f6eefed8a83d82b4e006c2ba47df111"
+    }
+  ],
+  "test_target": {
+    "path": "repo://fabric/test/audit_regressions/fix-pf-04.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-PF-04.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-PF-04.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+        "sha256": "9627d7e27b0495358a55cd250b48ff39359e3493633ffe23335c783f5900b723",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://fabric/apps/desktop/src/shared/chain.ts",
+        "sha256": "e1d0b6d7e9db699c984de8ee3656a31d1f6eefed8a83d82b4e006c2ba47df111",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/work-graph.md",
+        "sha256": "1a7e7631173e03e582469738583c37e4025797eabf9263ecf1b5de9d7e806ac6",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Park/cancel required producer не запускает consumer; optional skipped edge разрешён только с declared fallback; retry/replan создаёт новую provenance, coverage не объявляет parked requirement fulfilled."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-PF-04.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    },
+    {
+      "task_id": "FIX-PF-02.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-02"
+    },
+    {
+      "task_id": "FIX-PF-02.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-02"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://fabric/test/audit_regressions/fix-pf-04.02.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-PF-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-02.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-PF-04.02.md",
+    "sha256": "3f3cdebeccab5ba4acaa59777330858d54b80c9c00215b4e15db150ad54d1fd3",
+    "utf8_bytes": 4977,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "fc26d9783191256cdf91c2cc540b6f71fede2f0b2a8f43d99c509990f2872110"
+  }
+}

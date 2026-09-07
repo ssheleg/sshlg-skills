@@ -1,0 +1,111 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-TG-02.01",
+  "parent_id": "FIX-TG-02",
+  "title": "Оmitted allowed_updates ошибочно приравнен к пустому списку",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "telegram-dev"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Оmitted allowed_updates ошибочно приравнен к пустому списку",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Таблица unset/[]/explicit и getWebhookInfo evidence; хранить desired subscription отдельно. Update id использовать как identity, не глобальную гарантию монотонности навсегда.",
+  "expected_result": "Mock remembers previous allowed_updates: omit сохраняет, [] меняет. Кейс >7 дней idle с новым random id; нет потери события.",
+  "acceptance": [
+    "Mock remembers previous allowed_updates: omit сохраняет, [] меняет. Кейс >7 дней idle с новым random id; нет потери события."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Таблица unset/[]/explicit и getWebhookInfo evidence; хранить desired subscription отдельно. Update id использовать как identity, не глобальную гарантию монотонности навсегда.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "d9b0aebbe4bccd0594a30cce65143aec7a7dd60301a4b062a7f44a4229e8646f"
+    },
+    {
+      "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/references/updates-and-delivery.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "4884522094198f9987b4e9f188487205e659750039ee10637e5735579e888cb7"
+    }
+  ],
+  "test_target": {
+    "path": "repo://telegram-dev/test/audit_regressions/fix-tg-02.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-TG-02.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-TG-02.json",
+    "source_files": [
+      {
+        "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/SKILL.md",
+        "sha256": "d9b0aebbe4bccd0594a30cce65143aec7a7dd60301a4b062a7f44a4229e8646f",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/references/updates-and-delivery.md",
+        "sha256": "4884522094198f9987b4e9f188487205e659750039ee10637e5735579e888cb7",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Mock remembers previous allowed_updates: omit сохраняет, [] меняет. Кейс >7 дней idle с новым random id; нет потери события."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://telegram-dev/test/audit_regressions/fix-tg-02.01.py",
+    "python3 repo://telegram-dev/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-TG-02.01.md",
+    "sha256": "d8fa874f5d9ffb7d457cb7fb43e556959e20559bf2eece747b5a5221565b28c8",
+    "utf8_bytes": 6311,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "5947033877a902e096762e2ddfe07dbe7f03df98f2a8c7ca74f08d86c663a16b"
+  }
+}

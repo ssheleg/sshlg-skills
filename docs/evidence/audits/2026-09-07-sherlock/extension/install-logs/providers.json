@@ -1,0 +1,2354 @@
+[
+  {
+    "skill": "vision",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/vision/SKILL.md",
+    "sha256": "21bb12c216af4a6e9d49b4712ab036731a51fd9e9124f5892dd8274832661f40"
+  },
+  {
+    "skill": "vision",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/vision/SKILL.md",
+    "sha256": "21bb12c216af4a6e9d49b4712ab036731a51fd9e9124f5892dd8274832661f40"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/vision/SKILL.md",
+    "sha256": "5be8c754a445fad32068aa67d0dbde9590f62a4eeac56e8fac8dab1b0e52ebd9"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/vision/SKILL.md",
+    "sha256": "21bb12c216af4a6e9d49b4712ab036731a51fd9e9124f5892dd8274832661f40"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/vision/SKILL.md",
+    "sha256": "5be8c754a445fad32068aa67d0dbde9590f62a4eeac56e8fac8dab1b0e52ebd9"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/vision/SKILL.md",
+    "sha256": "1662973ba80332ba7f21bcdc97bc9b7762d08d29b25b0e285b20491e5cdd31f1"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/vision/SKILL.md",
+    "sha256": "1662973ba80332ba7f21bcdc97bc9b7762d08d29b25b0e285b20491e5cdd31f1"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/vision/SKILL.md",
+    "sha256": "1662973ba80332ba7f21bcdc97bc9b7762d08d29b25b0e285b20491e5cdd31f1"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/vision/SKILL.md",
+    "sha256": "5be8c754a445fad32068aa67d0dbde9590f62a4eeac56e8fac8dab1b0e52ebd9"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/vision/SKILL.md",
+    "sha256": "1662973ba80332ba7f21bcdc97bc9b7762d08d29b25b0e285b20491e5cdd31f1"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/vision/SKILL.md",
+    "sha256": "5be8c754a445fad32068aa67d0dbde9590f62a4eeac56e8fac8dab1b0e52ebd9"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/vision/SKILL.md",
+    "sha256": "5be8c754a445fad32068aa67d0dbde9590f62a4eeac56e8fac8dab1b0e52ebd9"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/vision/SKILL.md",
+    "sha256": "1662973ba80332ba7f21bcdc97bc9b7762d08d29b25b0e285b20491e5cdd31f1"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/vision/SKILL.md",
+    "sha256": "5be8c754a445fad32068aa67d0dbde9590f62a4eeac56e8fac8dab1b0e52ebd9"
+  },
+  {
+    "skill": "vision",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/vision/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/vision/SKILL.md",
+    "sha256": "5be8c754a445fad32068aa67d0dbde9590f62a4eeac56e8fac8dab1b0e52ebd9"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/ux-foundation/SKILL.md",
+    "sha256": "eb1b153f9e520811822c1d27dd418b4c280213190d20798fdf76ea758fef604d"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-foundation/SKILL.md",
+    "sha256": "eb1b153f9e520811822c1d27dd418b4c280213190d20798fdf76ea758fef604d"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/ux-foundation/SKILL.md",
+    "sha256": "86cc6cdca093fd380242781c7b5845b1b9b482c5f0b40da8f77ffe5f6a4252c6"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-foundation/SKILL.md",
+    "sha256": "eb1b153f9e520811822c1d27dd418b4c280213190d20798fdf76ea758fef604d"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/ux-foundation/SKILL.md",
+    "sha256": "86cc6cdca093fd380242781c7b5845b1b9b482c5f0b40da8f77ffe5f6a4252c6"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/ux-foundation/SKILL.md",
+    "sha256": "19ef2745a8ba374c49800abc5237c0bd3521cba207a950d1e59ecba60f286657"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/ux-foundation/SKILL.md",
+    "sha256": "5f0a22dfa4203e29344f177e8dddb5dbe9cc75d8d9a7d01a4213b48bf6265ae6"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/ux-foundation/SKILL.md",
+    "sha256": "5f0a22dfa4203e29344f177e8dddb5dbe9cc75d8d9a7d01a4213b48bf6265ae6"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/ux-foundation/SKILL.md",
+    "sha256": "86cc6cdca093fd380242781c7b5845b1b9b482c5f0b40da8f77ffe5f6a4252c6"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/ux-foundation/SKILL.md",
+    "sha256": "5f0a22dfa4203e29344f177e8dddb5dbe9cc75d8d9a7d01a4213b48bf6265ae6"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/ux-foundation/SKILL.md",
+    "sha256": "86cc6cdca093fd380242781c7b5845b1b9b482c5f0b40da8f77ffe5f6a4252c6"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/ux-foundation/SKILL.md",
+    "sha256": "86cc6cdca093fd380242781c7b5845b1b9b482c5f0b40da8f77ffe5f6a4252c6"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/ux-foundation/SKILL.md",
+    "sha256": "2d6371a55020b0778b264669b17d643fd3e7b894128ec1d299b2fda28c848c92"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/ux-foundation/SKILL.md",
+    "sha256": "86cc6cdca093fd380242781c7b5845b1b9b482c5f0b40da8f77ffe5f6a4252c6"
+  },
+  {
+    "skill": "ux-foundation",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/ux-foundation/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/ux-foundation/SKILL.md",
+    "sha256": "86cc6cdca093fd380242781c7b5845b1b9b482c5f0b40da8f77ffe5f6a4252c6"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/ux-flows/SKILL.md",
+    "sha256": "08fee3fa580918356d6d3c398948413144cf60e45274ec78d50a0e44500b6d58"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-flows/SKILL.md",
+    "sha256": "08fee3fa580918356d6d3c398948413144cf60e45274ec78d50a0e44500b6d58"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/ux-flows/SKILL.md",
+    "sha256": "9b45d30607f226390d763989a9334e5e5b5498d91ebda8871a81cf10b492a2e7"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-flows/SKILL.md",
+    "sha256": "08fee3fa580918356d6d3c398948413144cf60e45274ec78d50a0e44500b6d58"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/ux-flows/SKILL.md",
+    "sha256": "9b45d30607f226390d763989a9334e5e5b5498d91ebda8871a81cf10b492a2e7"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/ux-flows/SKILL.md",
+    "sha256": "5254656ee7be3820c41c55c2c479d2782a95e5e3198d4baec850745c398f92f1"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/ux-flows/SKILL.md",
+    "sha256": "1a1ee60e880ae72b7dc25368073ae87944704d6a30b4b157b19b9d79d03f8692"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/ux-flows/SKILL.md",
+    "sha256": "1a1ee60e880ae72b7dc25368073ae87944704d6a30b4b157b19b9d79d03f8692"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/ux-flows/SKILL.md",
+    "sha256": "9b45d30607f226390d763989a9334e5e5b5498d91ebda8871a81cf10b492a2e7"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/ux-flows/SKILL.md",
+    "sha256": "1a1ee60e880ae72b7dc25368073ae87944704d6a30b4b157b19b9d79d03f8692"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/ux-flows/SKILL.md",
+    "sha256": "9b45d30607f226390d763989a9334e5e5b5498d91ebda8871a81cf10b492a2e7"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/ux-flows/SKILL.md",
+    "sha256": "9b45d30607f226390d763989a9334e5e5b5498d91ebda8871a81cf10b492a2e7"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/ux-flows/SKILL.md",
+    "sha256": "5d2984abc70c38b3f461998a6dfc0cf35350fb034af2086eeae3c73331b0b213"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/ux-flows/SKILL.md",
+    "sha256": "9b45d30607f226390d763989a9334e5e5b5498d91ebda8871a81cf10b492a2e7"
+  },
+  {
+    "skill": "ux-flows",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/ux-flows/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/ux-flows/SKILL.md",
+    "sha256": "9b45d30607f226390d763989a9334e5e5b5498d91ebda8871a81cf10b492a2e7"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/ux-scenarios/SKILL.md",
+    "sha256": "dbdf9cfbe78809f49e763416e76c4c58847de62ba5ffc1b845f8d2c177ea88e1"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-scenarios/SKILL.md",
+    "sha256": "dbdf9cfbe78809f49e763416e76c4c58847de62ba5ffc1b845f8d2c177ea88e1"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/ux-scenarios/SKILL.md",
+    "sha256": "469914a84ea59b820a0ef159e82d0c14bc3b354d8d513e9cf2fbf8b628a70d2f"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-scenarios/SKILL.md",
+    "sha256": "dbdf9cfbe78809f49e763416e76c4c58847de62ba5ffc1b845f8d2c177ea88e1"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/ux-scenarios/SKILL.md",
+    "sha256": "469914a84ea59b820a0ef159e82d0c14bc3b354d8d513e9cf2fbf8b628a70d2f"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/ux-scenarios/SKILL.md",
+    "sha256": "29b8bfc330b373b8f52d63da2bc8491db2d6bcecbd8cfb89f6d1dae710e27b65"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/ux-scenarios/SKILL.md",
+    "sha256": "91a08b1f53d776c8351b13144bc6c089b096a6214c7cce505b6eb4b7160bf04c"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/ux-scenarios/SKILL.md",
+    "sha256": "91a08b1f53d776c8351b13144bc6c089b096a6214c7cce505b6eb4b7160bf04c"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/ux-scenarios/SKILL.md",
+    "sha256": "469914a84ea59b820a0ef159e82d0c14bc3b354d8d513e9cf2fbf8b628a70d2f"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/ux-scenarios/SKILL.md",
+    "sha256": "91a08b1f53d776c8351b13144bc6c089b096a6214c7cce505b6eb4b7160bf04c"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/ux-scenarios/SKILL.md",
+    "sha256": "469914a84ea59b820a0ef159e82d0c14bc3b354d8d513e9cf2fbf8b628a70d2f"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/ux-scenarios/SKILL.md",
+    "sha256": "469914a84ea59b820a0ef159e82d0c14bc3b354d8d513e9cf2fbf8b628a70d2f"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/ux-scenarios/SKILL.md",
+    "sha256": "29b8bfc330b373b8f52d63da2bc8491db2d6bcecbd8cfb89f6d1dae710e27b65"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/ux-scenarios/SKILL.md",
+    "sha256": "469914a84ea59b820a0ef159e82d0c14bc3b354d8d513e9cf2fbf8b628a70d2f"
+  },
+  {
+    "skill": "ux-scenarios",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/ux-scenarios/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/ux-scenarios/SKILL.md",
+    "sha256": "469914a84ea59b820a0ef159e82d0c14bc3b354d8d513e9cf2fbf8b628a70d2f"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/ux-audit/SKILL.md",
+    "sha256": "617713c7a76cbff36c8c9211c93246a1a11068a3aaa02e0b75dcf87eef7dde45"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-audit/SKILL.md",
+    "sha256": "617713c7a76cbff36c8c9211c93246a1a11068a3aaa02e0b75dcf87eef7dde45"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/ux-audit/SKILL.md",
+    "sha256": "dc2a6d920822edd1eed8646b2cae693a873ad1fe39421271e7eb76ef87ae3e20"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/ux-audit/SKILL.md",
+    "sha256": "617713c7a76cbff36c8c9211c93246a1a11068a3aaa02e0b75dcf87eef7dde45"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/ux-audit/SKILL.md",
+    "sha256": "b47ff2ae1885f535fe42486cea1db2c16a12b2cc50e71f3fc8d1dff2a9747d52"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/ux-audit/SKILL.md",
+    "sha256": "1ff90a99f09fc8dfbf57608a5a99cb077786a426b02152856e7b2780602dbb44"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/ux-audit/SKILL.md",
+    "sha256": "76814dea6d0f2586a2aee31bdb4e864f7a4ddc9ae93519cc40f2e7ddac5e10f0"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/ux-audit/SKILL.md",
+    "sha256": "76814dea6d0f2586a2aee31bdb4e864f7a4ddc9ae93519cc40f2e7ddac5e10f0"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/ux-audit/SKILL.md",
+    "sha256": "dc2a6d920822edd1eed8646b2cae693a873ad1fe39421271e7eb76ef87ae3e20"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/ux-audit/SKILL.md",
+    "sha256": "76814dea6d0f2586a2aee31bdb4e864f7a4ddc9ae93519cc40f2e7ddac5e10f0"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/ux-audit/SKILL.md",
+    "sha256": "b47ff2ae1885f535fe42486cea1db2c16a12b2cc50e71f3fc8d1dff2a9747d52"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/ux-audit/SKILL.md",
+    "sha256": "b47ff2ae1885f535fe42486cea1db2c16a12b2cc50e71f3fc8d1dff2a9747d52"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/ux-audit/SKILL.md",
+    "sha256": "1ff90a99f09fc8dfbf57608a5a99cb077786a426b02152856e7b2780602dbb44"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/ux-audit/SKILL.md",
+    "sha256": "b47ff2ae1885f535fe42486cea1db2c16a12b2cc50e71f3fc8d1dff2a9747d52"
+  },
+  {
+    "skill": "ux-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/ux-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/ux-audit/SKILL.md",
+    "sha256": "b47ff2ae1885f535fe42486cea1db2c16a12b2cc50e71f3fc8d1dff2a9747d52"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/brand-voice/SKILL.md",
+    "sha256": "5232e797d83cb5d16b2b667cb776bdaef7355c14cc8f4e59032ac2fdf5070609"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/brand-voice/SKILL.md",
+    "sha256": "5232e797d83cb5d16b2b667cb776bdaef7355c14cc8f4e59032ac2fdf5070609"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/brand-voice/SKILL.md",
+    "sha256": "4bcc16181736adb0ee47dab434933a29a0a94eecc30d349d93aa8cb5776d28b0"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/brand-voice/SKILL.md",
+    "sha256": "5232e797d83cb5d16b2b667cb776bdaef7355c14cc8f4e59032ac2fdf5070609"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/brand-voice/SKILL.md",
+    "sha256": "4bcc16181736adb0ee47dab434933a29a0a94eecc30d349d93aa8cb5776d28b0"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/brand-voice/SKILL.md",
+    "sha256": "5fdba3a96788eebc0c4e3af1dd6c40dca1e09c4a7f5139f76129c0d81d261dcb"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/brand-voice/SKILL.md",
+    "sha256": "ccb7002503e2777378ed49366233917e82d440edbfb64676cd6fcea7f23955cc"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/brand-voice/SKILL.md",
+    "sha256": "ccb7002503e2777378ed49366233917e82d440edbfb64676cd6fcea7f23955cc"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/brand-voice/SKILL.md",
+    "sha256": "4bcc16181736adb0ee47dab434933a29a0a94eecc30d349d93aa8cb5776d28b0"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/brand-voice/SKILL.md",
+    "sha256": "5dfe1283f40340cce29f5ffa0302a388891ad21ed1373fffab396c79331107e3"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/brand-voice/SKILL.md",
+    "sha256": "4bcc16181736adb0ee47dab434933a29a0a94eecc30d349d93aa8cb5776d28b0"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/brand-voice/SKILL.md",
+    "sha256": "4bcc16181736adb0ee47dab434933a29a0a94eecc30d349d93aa8cb5776d28b0"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/brand-voice/SKILL.md",
+    "sha256": "5fdba3a96788eebc0c4e3af1dd6c40dca1e09c4a7f5139f76129c0d81d261dcb"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/brand-voice/SKILL.md",
+    "sha256": "4bcc16181736adb0ee47dab434933a29a0a94eecc30d349d93aa8cb5776d28b0"
+  },
+  {
+    "skill": "brand-voice",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/brand-voice/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/brand-voice/SKILL.md",
+    "sha256": "4bcc16181736adb0ee47dab434933a29a0a94eecc30d349d93aa8cb5776d28b0"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/copywriting/SKILL.md",
+    "sha256": "949c791580f343dae6bf354c06e5b0e43e393d8170591c2833e2671a8e7513b9"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/super-ux/super-ux/0.55.1/skills/copywriting/SKILL.md",
+    "sha256": "949c791580f343dae6bf354c06e5b0e43e393d8170591c2833e2671a8e7513b9"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.0/skills/copywriting/SKILL.md",
+    "sha256": "95731d257c77e98359073d5fb8de8e8209e2fa29b7f351ae3d3cffaf40a094ab"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.55.1/skills/copywriting/SKILL.md",
+    "sha256": "949c791580f343dae6bf354c06e5b0e43e393d8170591c2833e2671a8e7513b9"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.1/skills/copywriting/SKILL.md",
+    "sha256": "9f9ecf83f5a3d7f207897c7ff5209c37fb3683172e40289e078bd362d746d463"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.0/skills/copywriting/SKILL.md",
+    "sha256": "9295a83c1edef2e05813869619d64e86e84f752f789b04ecc4d650049c2c704b"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.0/skills/copywriting/SKILL.md",
+    "sha256": "823f21833e3b555b7df08ba5246e9c582aa9a80ad077801fed2c03ad520de905"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.49.1/skills/copywriting/SKILL.md",
+    "sha256": "823f21833e3b555b7df08ba5246e9c582aa9a80ad077801fed2c03ad520de905"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.53.0/skills/copywriting/SKILL.md",
+    "sha256": "9f9ecf83f5a3d7f207897c7ff5209c37fb3683172e40289e078bd362d746d463"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.48.4/skills/copywriting/SKILL.md",
+    "sha256": "12bf45a9d1feef63a62347afcff3bddc7fe4af6a51985d056ef8821cd458464b"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.5/skills/copywriting/SKILL.md",
+    "sha256": "9f9ecf83f5a3d7f207897c7ff5209c37fb3683172e40289e078bd362d746d463"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.2/skills/copywriting/SKILL.md",
+    "sha256": "9f9ecf83f5a3d7f207897c7ff5209c37fb3683172e40289e078bd362d746d463"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.50.0/skills/copywriting/SKILL.md",
+    "sha256": "82f9f50a26699cbb0f8349cf9788d160ffe030fa813581145514c68121f344f9"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.3/skills/copywriting/SKILL.md",
+    "sha256": "9f9ecf83f5a3d7f207897c7ff5209c37fb3683172e40289e078bd362d746d463"
+  },
+  {
+    "skill": "copywriting",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/copywriting/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/super-ux/super-ux/0.52.4/skills/copywriting/SKILL.md",
+    "sha256": "9f9ecf83f5a3d7f207897c7ff5209c37fb3683172e40289e078bd362d746d463"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/task-pipeline/SKILL.md",
+    "sha256": "f8876b8eb0b20169e7ca037869c4eb83164754c9bc271da52895fc27c1d0dc8a"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/task-pipeline/SKILL.md",
+    "sha256": "f8876b8eb0b20169e7ca037869c4eb83164754c9bc271da52895fc27c1d0dc8a"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.78.4/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.78.4/skills/task-pipeline/SKILL.md",
+    "sha256": "98959961619fbb40ec94bb6d87922f6c25f98829aaa8c585608c4ffafe6b6f80"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/task-pipeline/SKILL.md",
+    "sha256": "f8876b8eb0b20169e7ca037869c4eb83164754c9bc271da52895fc27c1d0dc8a"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.1/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.1/skills/task-pipeline/SKILL.md",
+    "sha256": "f307652467a254b4030cf251b39cb31f97191de13fba35db8a190f8968e0c371"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.0/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.0/skills/task-pipeline/SKILL.md",
+    "sha256": "f307652467a254b4030cf251b39cb31f97191de13fba35db8a190f8968e0c371"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.2/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.2/skills/task-pipeline/SKILL.md",
+    "sha256": "6b84e172edbbf8b6321f9f84f3c1436d0560d0b865fafcd8d99f447f4a132d10"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.0/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.0/skills/task-pipeline/SKILL.md",
+    "sha256": "6b84e172edbbf8b6321f9f84f3c1436d0560d0b865fafcd8d99f447f4a132d10"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.80.0/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.80.0/skills/task-pipeline/SKILL.md",
+    "sha256": "6b84e172edbbf8b6321f9f84f3c1436d0560d0b865fafcd8d99f447f4a132d10"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.3/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.3/skills/task-pipeline/SKILL.md",
+    "sha256": "6b84e172edbbf8b6321f9f84f3c1436d0560d0b865fafcd8d99f447f4a132d10"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.4/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.4/skills/task-pipeline/SKILL.md",
+    "sha256": "6b84e172edbbf8b6321f9f84f3c1436d0560d0b865fafcd8d99f447f4a132d10"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.1/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.1/skills/task-pipeline/SKILL.md",
+    "sha256": "6b84e172edbbf8b6321f9f84f3c1436d0560d0b865fafcd8d99f447f4a132d10"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.81.1/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.81.1/skills/task-pipeline/SKILL.md",
+    "sha256": "6b84e172edbbf8b6321f9f84f3c1436d0560d0b865fafcd8d99f447f4a132d10"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.0/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.0/skills/task-pipeline/SKILL.md",
+    "sha256": "6b84e172edbbf8b6321f9f84f3c1436d0560d0b865fafcd8d99f447f4a132d10"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.1/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.1/skills/task-pipeline/SKILL.md",
+    "sha256": "6b84e172edbbf8b6321f9f84f3c1436d0560d0b865fafcd8d99f447f4a132d10"
+  },
+  {
+    "skill": "task-pipeline",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.0/skills/task-pipeline/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.0/skills/task-pipeline/SKILL.md",
+    "sha256": "6b84e172edbbf8b6321f9f84f3c1436d0560d0b865fafcd8d99f447f4a132d10"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/evidence-docs/SKILL.md",
+    "sha256": "a3fade838d53aab95f6f77d21f8ec99bcaa355310f72f32b1bd174638574383e"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/evidence-docs/SKILL.md",
+    "sha256": "a3fade838d53aab95f6f77d21f8ec99bcaa355310f72f32b1bd174638574383e"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.78.4/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.78.4/skills/evidence-docs/SKILL.md",
+    "sha256": "d966358d357a2c62f5579db0038285c7a71d6014d755184644b3256820c5c9b4"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/evidence-docs/SKILL.md",
+    "sha256": "a3fade838d53aab95f6f77d21f8ec99bcaa355310f72f32b1bd174638574383e"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.1/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.1/skills/evidence-docs/SKILL.md",
+    "sha256": "8556b1f80f0775a9d0b1290f82ee90a278847c52fcdd78e3ac077c2ad9de6b25"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.0/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.0/skills/evidence-docs/SKILL.md",
+    "sha256": "8556b1f80f0775a9d0b1290f82ee90a278847c52fcdd78e3ac077c2ad9de6b25"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.2/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.2/skills/evidence-docs/SKILL.md",
+    "sha256": "99b53600c12323729af65dff1890d803d4f4aae22befb8209d01ece66a4e1109"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.0/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.0/skills/evidence-docs/SKILL.md",
+    "sha256": "0c194d0dad52a617c0165ee97bae012c29693dbc6008b427bda4dc0fecb7e3c6"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.80.0/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.80.0/skills/evidence-docs/SKILL.md",
+    "sha256": "99b53600c12323729af65dff1890d803d4f4aae22befb8209d01ece66a4e1109"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.3/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.3/skills/evidence-docs/SKILL.md",
+    "sha256": "99b53600c12323729af65dff1890d803d4f4aae22befb8209d01ece66a4e1109"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.4/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.4/skills/evidence-docs/SKILL.md",
+    "sha256": "99b53600c12323729af65dff1890d803d4f4aae22befb8209d01ece66a4e1109"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.1/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.1/skills/evidence-docs/SKILL.md",
+    "sha256": "0c194d0dad52a617c0165ee97bae012c29693dbc6008b427bda4dc0fecb7e3c6"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.81.1/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.81.1/skills/evidence-docs/SKILL.md",
+    "sha256": "99b53600c12323729af65dff1890d803d4f4aae22befb8209d01ece66a4e1109"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.0/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.0/skills/evidence-docs/SKILL.md",
+    "sha256": "0c194d0dad52a617c0165ee97bae012c29693dbc6008b427bda4dc0fecb7e3c6"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.1/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.1/skills/evidence-docs/SKILL.md",
+    "sha256": "99b53600c12323729af65dff1890d803d4f4aae22befb8209d01ece66a4e1109"
+  },
+  {
+    "skill": "evidence-docs",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.0/skills/evidence-docs/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.0/skills/evidence-docs/SKILL.md",
+    "sha256": "99b53600c12323729af65dff1890d803d4f4aae22befb8209d01ece66a4e1109"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/project-audit/SKILL.md",
+    "sha256": "db94e3a51b1477995d267505d5a68a8803ad4e44f5f9a6f3bcb0bd292a18c215"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/project-audit/SKILL.md",
+    "sha256": "db94e3a51b1477995d267505d5a68a8803ad4e44f5f9a6f3bcb0bd292a18c215"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.78.4/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.78.4/skills/project-audit/SKILL.md",
+    "sha256": "5d5716a28d316614b83a87c20ae31eeb2f173d9356ead0748f127e5c0822844d"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.2/skills/project-audit/SKILL.md",
+    "sha256": "db94e3a51b1477995d267505d5a68a8803ad4e44f5f9a6f3bcb0bd292a18c215"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.1/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.1/skills/project-audit/SKILL.md",
+    "sha256": "5d5716a28d316614b83a87c20ae31eeb2f173d9356ead0748f127e5c0822844d"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.0/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.79.0/skills/project-audit/SKILL.md",
+    "sha256": "5d5716a28d316614b83a87c20ae31eeb2f173d9356ead0748f127e5c0822844d"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.2/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.2/skills/project-audit/SKILL.md",
+    "sha256": "3a2e46595ffb61ff46c8e65035d1c121ac8be1d39e95f2b5ac44f0d7d9acf983"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.0/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.0/skills/project-audit/SKILL.md",
+    "sha256": "8b14d09b38b7cf2f0929516483d4917136036617a69f865bbd401d3cf3d3836b"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.80.0/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.80.0/skills/project-audit/SKILL.md",
+    "sha256": "3a2e46595ffb61ff46c8e65035d1c121ac8be1d39e95f2b5ac44f0d7d9acf983"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.3/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.3/skills/project-audit/SKILL.md",
+    "sha256": "3a2e46595ffb61ff46c8e65035d1c121ac8be1d39e95f2b5ac44f0d7d9acf983"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.4/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.4/skills/project-audit/SKILL.md",
+    "sha256": "3a2e46595ffb61ff46c8e65035d1c121ac8be1d39e95f2b5ac44f0d7d9acf983"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.1/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.84.1/skills/project-audit/SKILL.md",
+    "sha256": "8b14d09b38b7cf2f0929516483d4917136036617a69f865bbd401d3cf3d3836b"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.81.1/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.81.1/skills/project-audit/SKILL.md",
+    "sha256": "3a2e46595ffb61ff46c8e65035d1c121ac8be1d39e95f2b5ac44f0d7d9acf983"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.0/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.85.0/skills/project-audit/SKILL.md",
+    "sha256": "8b14d09b38b7cf2f0929516483d4917136036617a69f865bbd401d3cf3d3836b"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.1/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.1/skills/project-audit/SKILL.md",
+    "sha256": "3a2e46595ffb61ff46c8e65035d1c121ac8be1d39e95f2b5ac44f0d7d9acf983"
+  },
+  {
+    "skill": "project-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.0/skills/project-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/task-pipeline/task-pipeline/1.82.0/skills/project-audit/SKILL.md",
+    "sha256": "3a2e46595ffb61ff46c8e65035d1c121ac8be1d39e95f2b5ac44f0d7d9acf983"
+  },
+  {
+    "skill": "agent-sync",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/agent-sync/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/agent-sync/SKILL.md",
+    "sha256": "f90d370ec77b6ee50d518ccf98f74c071ed5e6b75fdd9f4bffcde5a350ca0074"
+  },
+  {
+    "skill": "agent-sync",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/agent-sync/agent-sync/1.19.3/skills/agent-sync/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/agent-sync/agent-sync/1.19.3/skills/agent-sync/SKILL.md",
+    "sha256": "f90d370ec77b6ee50d518ccf98f74c071ed5e6b75fdd9f4bffcde5a350ca0074"
+  },
+  {
+    "skill": "agent-sync",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.19.2/skills/agent-sync/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.19.2/skills/agent-sync/SKILL.md",
+    "sha256": "42c2afc1b8f890cdde317aa15fd989b59e1b4f721c10d220ccfce0c1a1f4a5d6"
+  },
+  {
+    "skill": "agent-sync",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.19.3/skills/agent-sync/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.19.3/skills/agent-sync/SKILL.md",
+    "sha256": "f90d370ec77b6ee50d518ccf98f74c071ed5e6b75fdd9f4bffcde5a350ca0074"
+  },
+  {
+    "skill": "agent-sync",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.18.6/skills/agent-sync/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.18.6/skills/agent-sync/SKILL.md",
+    "sha256": "eaa4e00d8df02cedb9742173a558b62e44e4171f95d3f30d638126dde0659f57"
+  },
+  {
+    "skill": "agent-sync",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.18.7/skills/agent-sync/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.18.7/skills/agent-sync/SKILL.md",
+    "sha256": "b3c442017694bbae4a23cd25f285480f4d1f9f97269a2ecc9fe565131d2d8c83"
+  },
+  {
+    "skill": "agent-sync",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.19.1/skills/agent-sync/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.19.1/skills/agent-sync/SKILL.md",
+    "sha256": "83f5f319d992d8a229422563cd548618ba38fc257f49ae0f3fa8bd364ea2690a"
+  },
+  {
+    "skill": "agent-sync",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.19.0/skills/agent-sync/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.19.0/skills/agent-sync/SKILL.md",
+    "sha256": "1a0632d30b96bdddc17ceff6f9026e82839de1adc6c74f89d105115f35c7011e"
+  },
+  {
+    "skill": "agent-sync",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.18.5/skills/agent-sync/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.18.5/skills/agent-sync/SKILL.md",
+    "sha256": "4a732a238938494f34d8cb0c02e3a469b0db595f6fc8329cd91ca914d4cd4b30"
+  },
+  {
+    "skill": "agent-sync",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.18.4/skills/agent-sync/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-sync/agent-sync/1.18.4/skills/agent-sync/SKILL.md",
+    "sha256": "901b837ad333da0241cc5fbad6d54fab887e4c0d30a3f992b7c910e22adc092b"
+  },
+  {
+    "skill": "make-skill",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/make-skill/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/make-skill/SKILL.md",
+    "sha256": "9d4b36c72b7f8fcc8bc899694baf130edc73fe6e33ea2b70a142d0707de1c63e"
+  },
+  {
+    "skill": "make-skill",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/make-skill/make-skill/0.27.1/skills/make-skill/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/make-skill/make-skill/0.27.1/skills/make-skill/SKILL.md",
+    "sha256": "9d4b36c72b7f8fcc8bc899694baf130edc73fe6e33ea2b70a142d0707de1c63e"
+  },
+  {
+    "skill": "make-skill",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.24.0/skills/make-skill/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.24.0/skills/make-skill/SKILL.md",
+    "sha256": "5f0cc23aea00485c2e98ea0a2308eb0d37b845a3a01e98df08495b0c7c86b7e1"
+  },
+  {
+    "skill": "make-skill",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.27.1/skills/make-skill/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.27.1/skills/make-skill/SKILL.md",
+    "sha256": "9d4b36c72b7f8fcc8bc899694baf130edc73fe6e33ea2b70a142d0707de1c63e"
+  },
+  {
+    "skill": "make-skill",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.25.3/skills/make-skill/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.25.3/skills/make-skill/SKILL.md",
+    "sha256": "acd18e7f5720f0df145e2ddf0aba59815b4cb1ff64f69911f2760364aadf2521"
+  },
+  {
+    "skill": "make-skill",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.27.0/skills/make-skill/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.27.0/skills/make-skill/SKILL.md",
+    "sha256": "ad0033652a3689061fac39796360e6098b1066574c9c14de1b3e68693a1d4b91"
+  },
+  {
+    "skill": "make-skill",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.26.0/skills/make-skill/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.26.0/skills/make-skill/SKILL.md",
+    "sha256": "7190d577b5f6e0f18575036ff66931bd215725254f2ef1cb51e3d19b1b2864bd"
+  },
+  {
+    "skill": "make-skill",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.25.1/skills/make-skill/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.25.1/skills/make-skill/SKILL.md",
+    "sha256": "779303fbe717110395889f131f5006c4f5d8a1b1eccf8067f70cc86916fae28e"
+  },
+  {
+    "skill": "make-skill",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.25.0/skills/make-skill/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.25.0/skills/make-skill/SKILL.md",
+    "sha256": "2ef2a77845473bb317c4a3f58530d6eabf45343e245b44635b03ab00de5e3a58"
+  },
+  {
+    "skill": "make-skill",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.23.5/skills/make-skill/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/make-skill/make-skill/0.23.5/skills/make-skill/SKILL.md",
+    "sha256": "6f39bba64004100368c57e880fd3e3ab582c15422d4065776942194608e7c93e"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/sheleg-design/SKILL.md",
+    "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/sheleg-design-skill/sheleg-design/1.59.4/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/sheleg-design-skill/sheleg-design/1.59.4/skills/sheleg-design/SKILL.md",
+    "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.59.4/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.59.4/skills/sheleg-design/SKILL.md",
+    "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.59.2/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.59.2/skills/sheleg-design/SKILL.md",
+    "sha256": "80c40428445857b0de12234d810e4c1803f1d61441abde95569d2ee3b247ce72"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.0/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.0/skills/sheleg-design/SKILL.md",
+    "sha256": "e210da5ade08417eada5bf9a7733e39cd13fcfdedcd05640e7f7bede904eabf4"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.56.0/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.56.0/skills/sheleg-design/SKILL.md",
+    "sha256": "8076046a5970f889f36adcc9c1992392865688422137ff5a70221ef3e6bcda91"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.1/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.1/skills/sheleg-design/SKILL.md",
+    "sha256": "be7efe60590b02d29b6c8448ee8e85256e57ec77b6121aa9d1ee3256afc6660d"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.59.0/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.59.0/skills/sheleg-design/SKILL.md",
+    "sha256": "8ca6d14ddbb4b6070dca2acd1a9f31d11ec14062e16ca879b6a3ab17498c4b6c"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.53.0/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.53.0/skills/sheleg-design/SKILL.md",
+    "sha256": "9874f1d9c5f40da16e4090cbd6efa6532eda459da9b0129b487af8df315f9936"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.59.1/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.59.1/skills/sheleg-design/SKILL.md",
+    "sha256": "d977c258e940464c4effbf72829a353741d8d271232acc65788a67781639c682"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.4/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.4/skills/sheleg-design/SKILL.md",
+    "sha256": "f18d21fffc20303dfcf51127686542e1132c324e447654d63a3f55ddf82a2cc4"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.3/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.3/skills/sheleg-design/SKILL.md",
+    "sha256": "c24a2319bf4431efaef826658593a6a42cb18b8751ae0e2021657008b7884531"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.2/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.58.2/skills/sheleg-design/SKILL.md",
+    "sha256": "c485eb7c8302df81bc6abdc1911491f0f1c17594f15c040f5f987420a799d548"
+  },
+  {
+    "skill": "sheleg-design",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.54.0/skills/sheleg-design/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.54.0/skills/sheleg-design/SKILL.md",
+    "sha256": "ea2947b41f706d55b42cc0b1bd696ea2c0a1a43318e986895e1fe626db81a403"
+  },
+  {
+    "skill": "seo-aeo-audit",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/seo-aeo-audit/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/seo-aeo-audit/SKILL.md",
+    "sha256": "931e0b18c21d7822a918003a119ea1ca4a3c4a4c2a8aa0dfd9dc0f005d3a5e10"
+  },
+  {
+    "skill": "seo-aeo-audit",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.11/skills/seo-aeo-audit/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.11/skills/seo-aeo-audit/SKILL.md",
+    "sha256": "931e0b18c21d7822a918003a119ea1ca4a3c4a4c2a8aa0dfd9dc0f005d3a5e10"
+  },
+  {
+    "skill": "seo-aeo-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.8/skills/seo-aeo-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.8/skills/seo-aeo-audit/SKILL.md",
+    "sha256": "d73002e30bd5637c2187f735f1da552a33ead776b74d3f3eba0b4ad5f78dc233"
+  },
+  {
+    "skill": "seo-aeo-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.6/skills/seo-aeo-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.6/skills/seo-aeo-audit/SKILL.md",
+    "sha256": "126b357b054456d4283b880b938a9c8846ab72fdf4cec80600ac22a550c7978a"
+  },
+  {
+    "skill": "seo-aeo-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.7/skills/seo-aeo-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.7/skills/seo-aeo-audit/SKILL.md",
+    "sha256": "126b357b054456d4283b880b938a9c8846ab72fdf4cec80600ac22a550c7978a"
+  },
+  {
+    "skill": "seo-aeo-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.9/skills/seo-aeo-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.9/skills/seo-aeo-audit/SKILL.md",
+    "sha256": "d73002e30bd5637c2187f735f1da552a33ead776b74d3f3eba0b4ad5f78dc233"
+  },
+  {
+    "skill": "seo-aeo-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.10/skills/seo-aeo-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.10/skills/seo-aeo-audit/SKILL.md",
+    "sha256": "d73002e30bd5637c2187f735f1da552a33ead776b74d3f3eba0b4ad5f78dc233"
+  },
+  {
+    "skill": "seo-aeo-audit",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.11/skills/seo-aeo-audit/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/seo-aeo-audit/seo-aeo-audit/0.25.11/skills/seo-aeo-audit/SKILL.md",
+    "sha256": "931e0b18c21d7822a918003a119ea1ca4a3c4a4c2a8aa0dfd9dc0f005d3a5e10"
+  },
+  {
+    "skill": "stripe-billing",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/stripe-billing/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/stripe-billing/SKILL.md",
+    "sha256": "a0dcc36937f50a8da38261c1c39afe6caeb0f31674cdf3baaac48c4c81defe32"
+  },
+  {
+    "skill": "stripe-billing",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/stripe-billing/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/stripe-billing/SKILL.md",
+    "sha256": "a0dcc36937f50a8da38261c1c39afe6caeb0f31674cdf3baaac48c4c81defe32"
+  },
+  {
+    "skill": "stripe-billing",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/stripe-billing/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/stripe-billing/SKILL.md",
+    "sha256": "9c161f4e924742296f5125794c28cf8b1a968584f3e6913171203ee8e477d501"
+  },
+  {
+    "skill": "stripe-billing",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/stripe-billing/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/stripe-billing/SKILL.md",
+    "sha256": "a0dcc36937f50a8da38261c1c39afe6caeb0f31674cdf3baaac48c4c81defe32"
+  },
+  {
+    "skill": "stripe-billing",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/stripe-billing/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/stripe-billing/SKILL.md",
+    "sha256": "ae2c0733dfeadb3a4dd02b3d044f0b1aad29afdb8bada5cc4503d62441736e02"
+  },
+  {
+    "skill": "stripe-billing",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/stripe-billing/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/stripe-billing/SKILL.md",
+    "sha256": "ae2c0733dfeadb3a4dd02b3d044f0b1aad29afdb8bada5cc4503d62441736e02"
+  },
+  {
+    "skill": "stripe-billing",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/stripe-billing/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/stripe-billing/SKILL.md",
+    "sha256": "9c161f4e924742296f5125794c28cf8b1a968584f3e6913171203ee8e477d501"
+  },
+  {
+    "skill": "stripe-billing",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/stripe-billing/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/stripe-billing/SKILL.md",
+    "sha256": "9c161f4e924742296f5125794c28cf8b1a968584f3e6913171203ee8e477d501"
+  },
+  {
+    "skill": "stripe-billing",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/stripe-billing/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/stripe-billing/SKILL.md",
+    "sha256": "9c161f4e924742296f5125794c28cf8b1a968584f3e6913171203ee8e477d501"
+  },
+  {
+    "skill": "stripe-billing",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/stripe-billing/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/stripe-billing/SKILL.md",
+    "sha256": "9c161f4e924742296f5125794c28cf8b1a968584f3e6913171203ee8e477d501"
+  },
+  {
+    "skill": "crypto-payments",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/crypto-payments/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/crypto-payments/SKILL.md",
+    "sha256": "d2fb267b6bfe44d80de862bbe9a69d348e81cadd506bedc35f605a81be6464b6"
+  },
+  {
+    "skill": "crypto-payments",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/crypto-payments/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/crypto-payments/SKILL.md",
+    "sha256": "d2fb267b6bfe44d80de862bbe9a69d348e81cadd506bedc35f605a81be6464b6"
+  },
+  {
+    "skill": "crypto-payments",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/crypto-payments/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/crypto-payments/SKILL.md",
+    "sha256": "f27fba43b283ff26360dc79b30a3a3e6d15a7c226ac3eeb078c69bce02b4343e"
+  },
+  {
+    "skill": "crypto-payments",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/crypto-payments/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/crypto-payments/SKILL.md",
+    "sha256": "d2fb267b6bfe44d80de862bbe9a69d348e81cadd506bedc35f605a81be6464b6"
+  },
+  {
+    "skill": "crypto-payments",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/crypto-payments/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/crypto-payments/SKILL.md",
+    "sha256": "5335310984d4d93f2d9ffae4db38337013a6bf3ef1e6483ba21ccfb1c8fd2a30"
+  },
+  {
+    "skill": "crypto-payments",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/crypto-payments/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/crypto-payments/SKILL.md",
+    "sha256": "5335310984d4d93f2d9ffae4db38337013a6bf3ef1e6483ba21ccfb1c8fd2a30"
+  },
+  {
+    "skill": "crypto-payments",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/crypto-payments/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/crypto-payments/SKILL.md",
+    "sha256": "f27fba43b283ff26360dc79b30a3a3e6d15a7c226ac3eeb078c69bce02b4343e"
+  },
+  {
+    "skill": "crypto-payments",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/crypto-payments/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/crypto-payments/SKILL.md",
+    "sha256": "f27fba43b283ff26360dc79b30a3a3e6d15a7c226ac3eeb078c69bce02b4343e"
+  },
+  {
+    "skill": "crypto-payments",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/crypto-payments/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/crypto-payments/SKILL.md",
+    "sha256": "f27fba43b283ff26360dc79b30a3a3e6d15a7c226ac3eeb078c69bce02b4343e"
+  },
+  {
+    "skill": "crypto-payments",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/crypto-payments/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/crypto-payments/SKILL.md",
+    "sha256": "f27fba43b283ff26360dc79b30a3a3e6d15a7c226ac3eeb078c69bce02b4343e"
+  },
+  {
+    "skill": "error-tracking",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/error-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/error-tracking/SKILL.md",
+    "sha256": "5ccaa51ef3999be20a2faec8c15db27858e5ca97c04822406dc2403f4bc62b53"
+  },
+  {
+    "skill": "error-tracking",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/error-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/error-tracking/SKILL.md",
+    "sha256": "5ccaa51ef3999be20a2faec8c15db27858e5ca97c04822406dc2403f4bc62b53"
+  },
+  {
+    "skill": "error-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/error-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/error-tracking/SKILL.md",
+    "sha256": "1230981f261827b87e4d805e6352db87bd839a161f4cb83509a9b2e85dc8e480"
+  },
+  {
+    "skill": "error-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/error-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/error-tracking/SKILL.md",
+    "sha256": "5ccaa51ef3999be20a2faec8c15db27858e5ca97c04822406dc2403f4bc62b53"
+  },
+  {
+    "skill": "error-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/error-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/error-tracking/SKILL.md",
+    "sha256": "1230981f261827b87e4d805e6352db87bd839a161f4cb83509a9b2e85dc8e480"
+  },
+  {
+    "skill": "error-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/error-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/error-tracking/SKILL.md",
+    "sha256": "1230981f261827b87e4d805e6352db87bd839a161f4cb83509a9b2e85dc8e480"
+  },
+  {
+    "skill": "error-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/error-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/error-tracking/SKILL.md",
+    "sha256": "1230981f261827b87e4d805e6352db87bd839a161f4cb83509a9b2e85dc8e480"
+  },
+  {
+    "skill": "error-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/error-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/error-tracking/SKILL.md",
+    "sha256": "1230981f261827b87e4d805e6352db87bd839a161f4cb83509a9b2e85dc8e480"
+  },
+  {
+    "skill": "error-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/error-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/error-tracking/SKILL.md",
+    "sha256": "1230981f261827b87e4d805e6352db87bd839a161f4cb83509a9b2e85dc8e480"
+  },
+  {
+    "skill": "error-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/error-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/error-tracking/SKILL.md",
+    "sha256": "1230981f261827b87e4d805e6352db87bd839a161f4cb83509a9b2e85dc8e480"
+  },
+  {
+    "skill": "ad-tracking",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/ad-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/ad-tracking/SKILL.md",
+    "sha256": "96e6acdec42ef2cadfe6d1d9d51380d0b1fe506e6abe496c555fd32611fdab1d"
+  },
+  {
+    "skill": "ad-tracking",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/ad-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/ad-tracking/SKILL.md",
+    "sha256": "96e6acdec42ef2cadfe6d1d9d51380d0b1fe506e6abe496c555fd32611fdab1d"
+  },
+  {
+    "skill": "ad-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/ad-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/ad-tracking/SKILL.md",
+    "sha256": "c7e26ec9594c9a3ad8c6d99eab891b9b010df60738ca0d3c37471c7266323fb7"
+  },
+  {
+    "skill": "ad-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/ad-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/ad-tracking/SKILL.md",
+    "sha256": "96e6acdec42ef2cadfe6d1d9d51380d0b1fe506e6abe496c555fd32611fdab1d"
+  },
+  {
+    "skill": "ad-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/ad-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/ad-tracking/SKILL.md",
+    "sha256": "34996ee66613d1665c6f153d88640c97227bff1961b26cfe9e2bd128d62c6525"
+  },
+  {
+    "skill": "ad-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/ad-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/ad-tracking/SKILL.md",
+    "sha256": "34996ee66613d1665c6f153d88640c97227bff1961b26cfe9e2bd128d62c6525"
+  },
+  {
+    "skill": "ad-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/ad-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/ad-tracking/SKILL.md",
+    "sha256": "1149e2bc8a912c909854397963a76a3efd5129c297d10bf7176f0139ee215db9"
+  },
+  {
+    "skill": "ad-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/ad-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/ad-tracking/SKILL.md",
+    "sha256": "1149e2bc8a912c909854397963a76a3efd5129c297d10bf7176f0139ee215db9"
+  },
+  {
+    "skill": "ad-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/ad-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/ad-tracking/SKILL.md",
+    "sha256": "1149e2bc8a912c909854397963a76a3efd5129c297d10bf7176f0139ee215db9"
+  },
+  {
+    "skill": "ad-tracking",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/ad-tracking/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/ad-tracking/SKILL.md",
+    "sha256": "1149e2bc8a912c909854397963a76a3efd5129c297d10bf7176f0139ee215db9"
+  },
+  {
+    "skill": "google-signin",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/google-signin/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/google-signin/SKILL.md",
+    "sha256": "0faad3af070710b140f21939a2cea1d6185fb462696277b7515a4c01d0fbac92"
+  },
+  {
+    "skill": "google-signin",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/google-signin/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/google-signin/SKILL.md",
+    "sha256": "0faad3af070710b140f21939a2cea1d6185fb462696277b7515a4c01d0fbac92"
+  },
+  {
+    "skill": "google-signin",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/google-signin/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/google-signin/SKILL.md",
+    "sha256": "a3b549047ae700181d6f7f1498377119ab06c5b9280a3eb92d31f31ad332e187"
+  },
+  {
+    "skill": "google-signin",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/google-signin/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/google-signin/SKILL.md",
+    "sha256": "0faad3af070710b140f21939a2cea1d6185fb462696277b7515a4c01d0fbac92"
+  },
+  {
+    "skill": "google-signin",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/google-signin/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/google-signin/SKILL.md",
+    "sha256": "a3b549047ae700181d6f7f1498377119ab06c5b9280a3eb92d31f31ad332e187"
+  },
+  {
+    "skill": "google-signin",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/google-signin/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/google-signin/SKILL.md",
+    "sha256": "a3b549047ae700181d6f7f1498377119ab06c5b9280a3eb92d31f31ad332e187"
+  },
+  {
+    "skill": "google-signin",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/google-signin/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/google-signin/SKILL.md",
+    "sha256": "48419515606608ab959e046326e7e76df2a4a5e202e7d7ba177cc88789a248b2"
+  },
+  {
+    "skill": "google-signin",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/google-signin/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/google-signin/SKILL.md",
+    "sha256": "48419515606608ab959e046326e7e76df2a4a5e202e7d7ba177cc88789a248b2"
+  },
+  {
+    "skill": "google-signin",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/google-signin/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/google-signin/SKILL.md",
+    "sha256": "48419515606608ab959e046326e7e76df2a4a5e202e7d7ba177cc88789a248b2"
+  },
+  {
+    "skill": "google-signin",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/google-signin/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/google-signin/SKILL.md",
+    "sha256": "48419515606608ab959e046326e7e76df2a4a5e202e7d7ba177cc88789a248b2"
+  },
+  {
+    "skill": "google-auth",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/google-auth/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/google-auth/SKILL.md",
+    "sha256": "866cd92bececa1e6e4e5388c5b692347097010aff9478ebe1f776649eacb57da"
+  },
+  {
+    "skill": "google-auth",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/google-auth/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/google-auth/SKILL.md",
+    "sha256": "866cd92bececa1e6e4e5388c5b692347097010aff9478ebe1f776649eacb57da"
+  },
+  {
+    "skill": "google-auth",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/google-auth/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/google-auth/SKILL.md",
+    "sha256": "cc8fdfa4b419f9c8f192ff0a7d6c29cbb700d0dae598d5c9a72af3e52fa68624"
+  },
+  {
+    "skill": "google-auth",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/google-auth/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/google-auth/SKILL.md",
+    "sha256": "866cd92bececa1e6e4e5388c5b692347097010aff9478ebe1f776649eacb57da"
+  },
+  {
+    "skill": "google-auth",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/google-auth/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/google-auth/SKILL.md",
+    "sha256": "47189b108fa8c8a17cdfafbc54e31713ae11aff66f34c365c267cfe5a6365e16"
+  },
+  {
+    "skill": "google-auth",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/google-auth/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/google-auth/SKILL.md",
+    "sha256": "47189b108fa8c8a17cdfafbc54e31713ae11aff66f34c365c267cfe5a6365e16"
+  },
+  {
+    "skill": "google-auth",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/google-auth/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/google-auth/SKILL.md",
+    "sha256": "9502e655a502f75b8288040510e1dc224418a909f842cd1914c2cf0751ef6883"
+  },
+  {
+    "skill": "google-auth",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/google-auth/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/google-auth/SKILL.md",
+    "sha256": "9502e655a502f75b8288040510e1dc224418a909f842cd1914c2cf0751ef6883"
+  },
+  {
+    "skill": "google-auth",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/google-auth/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/google-auth/SKILL.md",
+    "sha256": "9502e655a502f75b8288040510e1dc224418a909f842cd1914c2cf0751ef6883"
+  },
+  {
+    "skill": "google-auth",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/google-auth/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/google-auth/SKILL.md",
+    "sha256": "9502e655a502f75b8288040510e1dc224418a909f842cd1914c2cf0751ef6883"
+  },
+  {
+    "skill": "frontend-performance",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/frontend-performance/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/frontend-performance/SKILL.md",
+    "sha256": "2116f5413396c6c00867e3b2c0cd523d3047793642e2077a24eebc63bcc9d385"
+  },
+  {
+    "skill": "frontend-performance",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/frontend-performance/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/frontend-performance/SKILL.md",
+    "sha256": "2116f5413396c6c00867e3b2c0cd523d3047793642e2077a24eebc63bcc9d385"
+  },
+  {
+    "skill": "frontend-performance",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/frontend-performance/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.0/skills/frontend-performance/SKILL.md",
+    "sha256": "f963aed70c375fefa26593b5df3f28554b87d323e73715822968cf7f4a74f9eb"
+  },
+  {
+    "skill": "frontend-performance",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/frontend-performance/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.8/skills/frontend-performance/SKILL.md",
+    "sha256": "2116f5413396c6c00867e3b2c0cd523d3047793642e2077a24eebc63bcc9d385"
+  },
+  {
+    "skill": "frontend-performance",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/frontend-performance/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.4/skills/frontend-performance/SKILL.md",
+    "sha256": "f963aed70c375fefa26593b5df3f28554b87d323e73715822968cf7f4a74f9eb"
+  },
+  {
+    "skill": "frontend-performance",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/frontend-performance/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.10.5/skills/frontend-performance/SKILL.md",
+    "sha256": "f963aed70c375fefa26593b5df3f28554b87d323e73715822968cf7f4a74f9eb"
+  },
+  {
+    "skill": "frontend-performance",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/frontend-performance/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.4/skills/frontend-performance/SKILL.md",
+    "sha256": "f963aed70c375fefa26593b5df3f28554b87d323e73715822968cf7f4a74f9eb"
+  },
+  {
+    "skill": "frontend-performance",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/frontend-performance/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.3/skills/frontend-performance/SKILL.md",
+    "sha256": "f963aed70c375fefa26593b5df3f28554b87d323e73715822968cf7f4a74f9eb"
+  },
+  {
+    "skill": "frontend-performance",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/frontend-performance/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.2/skills/frontend-performance/SKILL.md",
+    "sha256": "f963aed70c375fefa26593b5df3f28554b87d323e73715822968cf7f4a74f9eb"
+  },
+  {
+    "skill": "frontend-performance",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/frontend-performance/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/sheleg-dev/sheleg-dev/0.11.5/skills/frontend-performance/SKILL.md",
+    "sha256": "f963aed70c375fefa26593b5df3f28554b87d323e73715822968cf7f4a74f9eb"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/agent-orchestrator/SKILL.md",
+    "sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-orchestrator/SKILL.md",
+    "sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.20.0/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.20.0/skills/agent-orchestrator/SKILL.md",
+    "sha256": "48efb23ae9ffc491519268b573267588dc62399da177ba6e2a0b7528e3873d60"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.0/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.0/skills/agent-orchestrator/SKILL.md",
+    "sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.1/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.1/skills/agent-orchestrator/SKILL.md",
+    "sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.1/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.1/skills/agent-orchestrator/SKILL.md",
+    "sha256": "84a7f0514510470d614740842c7240a28941db271cf61d8c4167c0e517cc66bb"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.18.1/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.18.1/skills/agent-orchestrator/SKILL.md",
+    "sha256": "eb2ce6b3e991fbae514059d32f9f47f84dbcf9cb1aec8df1e536b0ef52259810"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.0/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.0/skills/agent-orchestrator/SKILL.md",
+    "sha256": "84a7f0514510470d614740842c7240a28941db271cf61d8c4167c0e517cc66bb"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.22.0/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.22.0/skills/agent-orchestrator/SKILL.md",
+    "sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.1/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.1/skills/agent-orchestrator/SKILL.md",
+    "sha256": "eb2ce6b3e991fbae514059d32f9f47f84dbcf9cb1aec8df1e536b0ef52259810"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.19.1/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.19.1/skills/agent-orchestrator/SKILL.md",
+    "sha256": "903f9a1662c4a0f68d681888d4ec26b6d1fc27f41e69945f747755744b5bac60"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.0/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.0/skills/agent-orchestrator/SKILL.md",
+    "sha256": "bc236de18c95638d7f51976a1e02fecc31e2b82c855967cf2c2db31be064b2cf"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.21.0/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.21.0/skills/agent-orchestrator/SKILL.md",
+    "sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45"
+  },
+  {
+    "skill": "agent-orchestrator",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-orchestrator/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-orchestrator/SKILL.md",
+    "sha256": "c8900c2f7247937e9a558dedae5d1fd184544a71da02952df20ec546597d5d45"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/agent-evals/SKILL.md",
+    "sha256": "18c38888b66555da7a2f301740e420b47e44d8194c2dab2c20ea94a19b02394f"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-evals/SKILL.md",
+    "sha256": "18c38888b66555da7a2f301740e420b47e44d8194c2dab2c20ea94a19b02394f"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.20.0/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.20.0/skills/agent-evals/SKILL.md",
+    "sha256": "69679625e996d823cb1059590015814db0f8a3e3c0f054e6ded795f6f9eb4009"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.0/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.0/skills/agent-evals/SKILL.md",
+    "sha256": "18c38888b66555da7a2f301740e420b47e44d8194c2dab2c20ea94a19b02394f"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.1/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.1/skills/agent-evals/SKILL.md",
+    "sha256": "18c38888b66555da7a2f301740e420b47e44d8194c2dab2c20ea94a19b02394f"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.1/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.1/skills/agent-evals/SKILL.md",
+    "sha256": "5df7b0c3947af910094f4224db48d7d9824322eb327c7e5c43db44f841340830"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.18.1/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.18.1/skills/agent-evals/SKILL.md",
+    "sha256": "69679625e996d823cb1059590015814db0f8a3e3c0f054e6ded795f6f9eb4009"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.0/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.0/skills/agent-evals/SKILL.md",
+    "sha256": "5df7b0c3947af910094f4224db48d7d9824322eb327c7e5c43db44f841340830"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.22.0/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.22.0/skills/agent-evals/SKILL.md",
+    "sha256": "69679625e996d823cb1059590015814db0f8a3e3c0f054e6ded795f6f9eb4009"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.1/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.1/skills/agent-evals/SKILL.md",
+    "sha256": "b62e257fe39699d9fc77424848a785ad3ffe61e18805be5ec002aa12e49cce54"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.19.1/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.19.1/skills/agent-evals/SKILL.md",
+    "sha256": "69679625e996d823cb1059590015814db0f8a3e3c0f054e6ded795f6f9eb4009"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.0/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.0/skills/agent-evals/SKILL.md",
+    "sha256": "5df7b0c3947af910094f4224db48d7d9824322eb327c7e5c43db44f841340830"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.21.0/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.21.0/skills/agent-evals/SKILL.md",
+    "sha256": "69679625e996d823cb1059590015814db0f8a3e3c0f054e6ded795f6f9eb4009"
+  },
+  {
+    "skill": "agent-evals",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-evals/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-evals/SKILL.md",
+    "sha256": "18c38888b66555da7a2f301740e420b47e44d8194c2dab2c20ea94a19b02394f"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/agent-interop/SKILL.md",
+    "sha256": "7f53a82ad5a3b4e64792ddefd66bf91e11cb511eaec53d637e8a616c22261558"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-interop/SKILL.md",
+    "sha256": "7f53a82ad5a3b4e64792ddefd66bf91e11cb511eaec53d637e8a616c22261558"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.20.0/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.20.0/skills/agent-interop/SKILL.md",
+    "sha256": "8b73e9bc4a5ba4f56a1b00ad33d2943edc2e38c5a7b52305f2a1cb114e50c61b"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.0/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.0/skills/agent-interop/SKILL.md",
+    "sha256": "8b73e9bc4a5ba4f56a1b00ad33d2943edc2e38c5a7b52305f2a1cb114e50c61b"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.1/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.1/skills/agent-interop/SKILL.md",
+    "sha256": "8b73e9bc4a5ba4f56a1b00ad33d2943edc2e38c5a7b52305f2a1cb114e50c61b"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.1/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.1/skills/agent-interop/SKILL.md",
+    "sha256": "1e6b72eb366dd7be982fb36eabdf6e60fec7bf5318f7ac60f1908e6c08ecbc05"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.18.1/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.18.1/skills/agent-interop/SKILL.md",
+    "sha256": "8b73e9bc4a5ba4f56a1b00ad33d2943edc2e38c5a7b52305f2a1cb114e50c61b"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.0/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.0/skills/agent-interop/SKILL.md",
+    "sha256": "1e6b72eb366dd7be982fb36eabdf6e60fec7bf5318f7ac60f1908e6c08ecbc05"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.22.0/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.22.0/skills/agent-interop/SKILL.md",
+    "sha256": "8b73e9bc4a5ba4f56a1b00ad33d2943edc2e38c5a7b52305f2a1cb114e50c61b"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.1/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.1/skills/agent-interop/SKILL.md",
+    "sha256": "8b73e9bc4a5ba4f56a1b00ad33d2943edc2e38c5a7b52305f2a1cb114e50c61b"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.19.1/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.19.1/skills/agent-interop/SKILL.md",
+    "sha256": "8b73e9bc4a5ba4f56a1b00ad33d2943edc2e38c5a7b52305f2a1cb114e50c61b"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.0/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.0/skills/agent-interop/SKILL.md",
+    "sha256": "81698bb91a05892ab9ad2f5f17b3407313a753f16a77a9b6f6e7842500273ae4"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.21.0/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.21.0/skills/agent-interop/SKILL.md",
+    "sha256": "8b73e9bc4a5ba4f56a1b00ad33d2943edc2e38c5a7b52305f2a1cb114e50c61b"
+  },
+  {
+    "skill": "agent-interop",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-interop/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-interop/SKILL.md",
+    "sha256": "7f53a82ad5a3b4e64792ddefd66bf91e11cb511eaec53d637e8a616c22261558"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/agent-harness/SKILL.md",
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "codex-plugin",
+    "path": "machine-snapshot://.codex/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.codex/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-harness/SKILL.md",
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.20.0/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.20.0/skills/agent-harness/SKILL.md",
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.0/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.0/skills/agent-harness/SKILL.md",
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.1/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.1/skills/agent-harness/SKILL.md",
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.1/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.1/skills/agent-harness/SKILL.md",
+    "sha256": "2a017de4c58d883008972211751550cab1a350517b5cbe973c1b7ddad90bdbbe"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.18.1/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.18.1/skills/agent-harness/SKILL.md",
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.0/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.16.0/skills/agent-harness/SKILL.md",
+    "sha256": "2a017de4c58d883008972211751550cab1a350517b5cbe973c1b7ddad90bdbbe"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.22.0/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.22.0/skills/agent-harness/SKILL.md",
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.1/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.1/skills/agent-harness/SKILL.md",
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.19.1/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.19.1/skills/agent-harness/SKILL.md",
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.0/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.17.0/skills/agent-harness/SKILL.md",
+    "sha256": "238f16c92f4e2175c8ee7d845435d78a8d4a9c8d0436fd3e90496e37867bb827"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.21.0/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.21.0/skills/agent-harness/SKILL.md",
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+  },
+  {
+    "skill": "agent-harness",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-harness/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/agent-stack/agent-stack/0.23.2/skills/agent-harness/SKILL.md",
+    "sha256": "4451a75918cc367a51c602c72857a0c4ead2f50031aaedc3b8e1126cf8a361ed"
+  },
+  {
+    "skill": "telegram-bots",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/telegram-bots/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/telegram-bots/SKILL.md",
+    "sha256": "d9b0aebbe4bccd0594a30cce65143aec7a7dd60301a4b062a7f44a4229e8646f"
+  },
+  {
+    "skill": "telegram-bots",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.10/skills/telegram-bots/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.10/skills/telegram-bots/SKILL.md",
+    "sha256": "d9b0aebbe4bccd0594a30cce65143aec7a7dd60301a4b062a7f44a4229e8646f"
+  },
+  {
+    "skill": "telegram-bots",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.11/skills/telegram-bots/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.11/skills/telegram-bots/SKILL.md",
+    "sha256": "d9b0aebbe4bccd0594a30cce65143aec7a7dd60301a4b062a7f44a4229e8646f"
+  },
+  {
+    "skill": "telegram-bots",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.9/skills/telegram-bots/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.9/skills/telegram-bots/SKILL.md",
+    "sha256": "1203c9af5da772c9ab1002b584a6ab56f530bcf34e0dcc6c8838ce1eb48baa02"
+  },
+  {
+    "skill": "telegram-bots",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.8/skills/telegram-bots/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.8/skills/telegram-bots/SKILL.md",
+    "sha256": "1203c9af5da772c9ab1002b584a6ab56f530bcf34e0dcc6c8838ce1eb48baa02"
+  },
+  {
+    "skill": "telegram-userbots",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/telegram-userbots/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/telegram-userbots/SKILL.md",
+    "sha256": "1bbe25fd5c4aa896a0fb7a6aabc96d70c3252ff7c716ce9123415447ee025cc2"
+  },
+  {
+    "skill": "telegram-userbots",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.10/skills/telegram-userbots/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.10/skills/telegram-userbots/SKILL.md",
+    "sha256": "1bbe25fd5c4aa896a0fb7a6aabc96d70c3252ff7c716ce9123415447ee025cc2"
+  },
+  {
+    "skill": "telegram-userbots",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.11/skills/telegram-userbots/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.11/skills/telegram-userbots/SKILL.md",
+    "sha256": "1bbe25fd5c4aa896a0fb7a6aabc96d70c3252ff7c716ce9123415447ee025cc2"
+  },
+  {
+    "skill": "telegram-userbots",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.9/skills/telegram-userbots/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.9/skills/telegram-userbots/SKILL.md",
+    "sha256": "1bbe25fd5c4aa896a0fb7a6aabc96d70c3252ff7c716ce9123415447ee025cc2"
+  },
+  {
+    "skill": "telegram-userbots",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.8/skills/telegram-userbots/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.8/skills/telegram-userbots/SKILL.md",
+    "sha256": "1bbe25fd5c4aa896a0fb7a6aabc96d70c3252ff7c716ce9123415447ee025cc2"
+  },
+  {
+    "skill": "telegram-miniapps",
+    "channel": "hub",
+    "path": "machine-snapshot://.agents/skills/telegram-miniapps/SKILL.md",
+    "resolved": "machine-snapshot://.agents/skills/telegram-miniapps/SKILL.md",
+    "sha256": "017a09f2edc4c16a8847b97ca153bbddc9048daaedd1fc6737fa9225ebf971eb"
+  },
+  {
+    "skill": "telegram-miniapps",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.10/skills/telegram-miniapps/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.10/skills/telegram-miniapps/SKILL.md",
+    "sha256": "017a09f2edc4c16a8847b97ca153bbddc9048daaedd1fc6737fa9225ebf971eb"
+  },
+  {
+    "skill": "telegram-miniapps",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.11/skills/telegram-miniapps/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.11/skills/telegram-miniapps/SKILL.md",
+    "sha256": "017a09f2edc4c16a8847b97ca153bbddc9048daaedd1fc6737fa9225ebf971eb"
+  },
+  {
+    "skill": "telegram-miniapps",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.9/skills/telegram-miniapps/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.9/skills/telegram-miniapps/SKILL.md",
+    "sha256": "2c629fa940cdc75160d06e526d597108151d73c023103d6fad9c26f053bb3655"
+  },
+  {
+    "skill": "telegram-miniapps",
+    "channel": "claude-plugin",
+    "path": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.8/skills/telegram-miniapps/SKILL.md",
+    "resolved": "machine-snapshot://.claude/plugins/cache/telegram-dev/telegram-dev/0.1.8/skills/telegram-miniapps/SKILL.md",
+    "sha256": "2c629fa940cdc75160d06e526d597108151d73c023103d6fad9c26f053bb3655"
+  }
+]

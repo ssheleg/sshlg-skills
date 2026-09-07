@@ -1,0 +1,116 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-VD-05.01",
+  "parent_id": "FIX-VD-05",
+  "title": "Button DOM contract",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Общий kit spine фиксирует внешний API ценой базовой DOM-семантики и доступных адаптаций",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Default type=button overridable, native/ARIA props и ref forwarding; не разрешать default props молча стирать explicit caller props.",
+  "expected_result": "Submit работает, icon-only aria-label и trigger controls пробрасываются, ref.focus доступен.",
+  "acceptance": [
+    "Submit работает, icon-only aria-label и trigger controls пробрасываются, ref.focus доступен."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Default type=button overridable, native/ARIA props и ref forwarding; не разрешать default props молча стирать explicit caller props.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "54af980e952ed2d95a1fbbea613b6924c633d86e37f38c41052268abac798d38"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Button.tsx",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "b89d875d79dd52c05c5920d0d70a90f0f60d2157d2f8361c5f566df9087ab11c"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-design/test/audit_regressions/fix-vd-05.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-VD-05.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-VD-05.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+        "sha256": "54af980e952ed2d95a1fbbea613b6924c633d86e37f38c41052268abac798d38",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/kits/workbench/src/Button.tsx",
+        "sha256": "b89d875d79dd52c05c5920d0d70a90f0f60d2157d2f8361c5f566df9087ab11c",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/kits/workbench/src/Heading.tsx",
+        "sha256": "12c1604233bee873c6f6f6997d9aab7c9424e94df9d0e93c63401890ee9b3121",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Small tests: icon-only button передаёт aria-label; trigger передаёт aria-expanded/controls; submit button отправляет форму; ref.focus работает; heading h2 может выглядеть как display/h1, не меняя outline. Проверить это через реальный DOM/render хотя бы одного representative kit и structural shared-contract check39, без обязательных39live builds."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-design/test/audit_regressions/fix-vd-05.01.py",
+    "python3 repo://sheleg-design/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-VD-05.01.md",
+    "sha256": "cfb9c3d2de32ab2c071032d03bec2617073782449d39cb1044040ab1410c90be",
+    "utf8_bytes": 6081,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "50850574bacdd692bc323be9a8cc7c6b1243aff57e833e4967569beb95268792"
+  }
+}

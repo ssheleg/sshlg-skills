@@ -1,0 +1,121 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-TG-01.02",
+  "parent_id": "FIX-TG-01",
+  "title": "Business and send dedup",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 0,
+  "modules": [
+    "telegram-dev"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Crash fixture зелёный, но после реальной redelivery update теряется",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Grant по business charge key; send через outbox с собственным dedup.",
+  "expected_result": "Повтор update не удваивает grant, crash send/retry сохраняет конечный результат.",
+  "acceptance": [
+    "Повтор update не удваивает grant, crash send/retry сохраняет конечный результат."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Grant по business charge key; send через outbox с собственным dedup.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/fixtures/update_delivery.py",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "f41388a6aa35ad04117613bc478d135b91e419ebb52c7c7d75e1fb2480c601e1",
+      "refresh_after": [
+        "FIX-TG-01.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://telegram-dev/test/audit_regressions/fix-tg-01.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-TG-01.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-TG-01.json",
+    "source_files": [
+      {
+        "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/SKILL.md",
+        "sha256": "d9b0aebbe4bccd0594a30cce65143aec7a7dd60301a4b062a7f44a4229e8646f",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/fixtures/update_delivery.py",
+        "sha256": "f41388a6aa35ad04117613bc478d135b91e419ebb52c7c7d75e1fb2480c601e1",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Существующий crash fixture дополнить полным restart+replay и assert work includes 1001 exactly once; kill после inbox/claim/work/send; receipt и effect различены."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-TG-01.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://telegram-dev/test/audit_regressions/fix-tg-01.02.py",
+    "python3 repo://telegram-dev/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-TG-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-TG-01.02.md",
+    "sha256": "7aa985fb9618713086e5ee5ae522655e41458bc1600d4c893f88fc10f5c18003",
+    "utf8_bytes": 4860,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "1f3c73401e5fbee41f52b1d87105f82a88a0ab053de56340b4761d3e782a6225"
+  }
+}

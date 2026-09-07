@@ -1,0 +1,100 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-VD-04.01",
+  "parent_id": "FIX-VD-04",
+  "title": "shadcn назван unstyled: token mapping ошибочно подаётся как достаточное отсутствие чужой визуальной системы",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 1,
+  "modules": [
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "shadcn назван unstyled: token mapping ошибочно подаётся как достаточное отсутствие чужой визуальной системы",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Описать shadcn как редактируемые styled components, использующие headless primitives. Выделить adapter contract: semantic color + geometry + density + typography + elevation + state/anatomy. После token remap обязательно сравнить rendered component matrix с выбранным direction. Не объявлять custom component edits автоматически redesign.",
+  "expected_result": "В fixture взять Card/Button/Dialog одной версии shadcn, применить pack и проверить не только цветовые variables, но вычисленные размеры, padding, radius, shadow, fonts, states. Список намеренно сохранённых defaults должен быть явным. Документация dependency подтверждается https://ui.shadcn.com/docs; version/checked date фиксируются.",
+  "acceptance": [
+    "В fixture взять Card/Button/Dialog одной версии shadcn, применить pack и проверить не только цветовые variables, но вычисленные размеры, padding, radius, shadow, fonts, states. Список намеренно сохранённых defaults должен быть явным. Документация dependency подтверждается https://ui.shadcn.com/docs; version/checked date фиксируются."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Описать shadcn как редактируемые styled components, использующие headless primitives. Выделить adapter contract: semantic color + geometry + density + typography + elevation + state/anatomy. После token remap обязательно сравнить rendered component matrix с выбранным direction. Не объявлять custom component edits автоматически redesign.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-design/test/audit_regressions/fix-vd-04.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-VD-04.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-VD-04.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "В fixture взять Card/Button/Dialog одной версии shadcn, применить pack и проверить не только цветовые variables, но вычисленные размеры, padding, radius, shadow, fonts, states. Список намеренно сохранённых defaults должен быть явным. Документация dependency подтверждается https://ui.shadcn.com/docs; version/checked date фиксируются."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-design/test/audit_regressions/fix-vd-04.01.py",
+    "python3 repo://sheleg-design/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-VD-04.01.md",
+    "sha256": "fada01e6cd32a2b8470cb8f95ee222acbc76135f48cb9001facc58fb91586883",
+    "utf8_bytes": 6141,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "a9d7d93d19fc8e8d830ce46831caaf6b08f1c58564a00d00cc6fc699a77b1739"
+  }
+}

@@ -1,0 +1,12 @@
+ok       super-ux         0.55.1
+ok       task-pipeline    1.85.2
+ok       agent-sync       1.19.3
+ok       make-skill       0.27.1
+ok       sheleg-design    1.59.4
+ok       seo-aeo-audit    0.25.11
+ok       sheleg-dev       0.11.8
+ok       agent-stack      0.23.2
+ok       telegram-dev     0.1.11
+ok       sshlg-skills     1.46.1 (newest tag, on the registry)
+
+every pin matches its release (npm where published, git tag everywhere)

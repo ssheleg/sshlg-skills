@@ -1,0 +1,20 @@
+  workflow size — validate.yml is 511,096 bytes, 904 under GitHub's 512,000-byte limit. Past it the workflow goes SILENT rather than red — the next plant's body belongs in `test/plant_*.py`, called with an argument
+PASS: task-pipeline structure valid
+  claim registry — negative self-tests: dormant (truth 429) · anchor-census fixtures: agrees x1 (truth 47) · anchor-census fixtures watched firing: agrees x1 (truth 27) · rules in learned.md: dormant (truth 32) · dated eval runs: agrees x1 (truth 4) · standing instructions: dormant (truth 8) · evidence canons: agrees x4 (truth 10) · rotation axes: dormant (truth 6) · gates.md's own axes: agrees x7 (truth 3) · cold-trigger surfaces: dormant (truth 12) · description budget: agrees x1 (truth 903) · description headroom: agrees x1 (truth 121) · registered claim classes: agrees x1 (truth 15) · reference files: agrees x4 (truth 38) · reference files (totalising): agrees x2 (truth 38)
+  learned.md — rules 32 · rules with an incident 20 · incident words 1962 · binding rows 17  (disclosure — no floor, no target)
+  negative-test anchors: 429 plants · 838 needles read off disk · 1 pinned to a value a release can move · 1 declared undrivable · 4 can decline to run · 46 yield no text needle (18 shell only, no python body, 11 a python body that reads no file, 10 a whole-file byte comparison, 6 provenance stopped at a helper function, 1 a JSON or dict key, which raises when it goes stale)  (disclosure — no floor, no target)
+  verification: 149 shipped REQ · 149 never confirmed by a person  (disclosure — no floor, no target)
+  exposure: 149 unverified · never checked · 20 releases carry one
+      REQ-001  references/adoption.md — doctrine + greenfield walkthrough   v1.9.0
+      REQ-002  The docgate floor comments state each floor's kind — PROPF   v1.9.0
+      REQ-003  Trigger vocabulary widened (RU+EN work verbs) and an expli   v1.9.0
+      REQ-004  Evals match the intended behaviour: exclusions kept, a new   v1.9.0
+      REQ-005  Global CLAUDE.md carries the routing rule with D2's bounda   v1.9.0
+      REQ-006  agent-sync binding patched: config example valid against p   v1.9.0
+      REQ-007  companion-skills.md states the agent-sync ≥ 1.3.0 floor fo   v1.9.0
+      REQ-008  This repo adopts its own doc track: docs/DOCMAP.md recordi   v1.9.0
+      … and 141 more — the full list is `/task-pipeline checkup`, which prints all of them
+  unlooked: 3
+    · coordination: 15 guarded file pattern(s) in .claude/agent-sync.json, 4 version surface(s) discovered
+    · backlog citations: 9 span(s) checked against a quoted needle, 6 single-line citation(s) unanchored — one line carries no phrase to compare
+    · routed triggers — no sshlg-skills umbrella above this checkout

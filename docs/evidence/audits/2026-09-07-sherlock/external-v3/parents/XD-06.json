@@ -1,0 +1,215 @@
+{
+  "id": "XD-06",
+  "title": "Заменить неоткалиброванные оси примерами композиции",
+  "module": "sheleg-design",
+  "modules": [
+    "sheleg-design"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "origin": "external_adoption",
+  "dispatchable": false,
+  "status": "parent_planned",
+  "finding_id": null,
+  "requirements": [
+    "V3-knowledge-adoption",
+    "V3-no-new-required-deps"
+  ],
+  "decision": "Плотность выводится из задачи и устройства, а не назначается по категории бренда.",
+  "implementation_steps": [
+    "Дать squint/focal-order, proximity-before-container и различие density/rhythm с конкретными наблюдаемыми признаками.",
+    "Описать container/zoom/locale/keyboard adaptation и согласование DOM/focus order.",
+    "Добавить три независимые пары решений: dense operator, editorial read, mobile action; не объявлять их styles/пакетами."
+  ],
+  "acceptance": [
+    "Исправление связано с конкретным потерянным приоритетом, не с произвольным числом dial.",
+    "Card/table/grid допускаются при выполнении задачи.",
+    "Optical correction проверяется на render; source align alone не считается доказательством."
+  ],
+  "depends_on": [
+    {
+      "task_id": "XD-01",
+      "kind": "data",
+      "reason": "Consumes accepted method/artifact from prerequisite."
+    }
+  ],
+  "related_existing": [
+    "FIX-VD-01",
+    "FIX-VD-06"
+  ],
+  "source_snapshot": [
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md",
+      "sha256": "1d6d2658482b7e2df0c4d27b1b29c5195f0803b402278b96590598f4d3e57aa7",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md",
+      "sha256": "ec58806f16fc7ba29bccef08f2e158cd00be077ce05d45e943a59bd26dc6dc55",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+      "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+      "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+      "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md",
+      "sha256": "ee6d6d127c1c2ab3526d529a8e3698be2185b5e346ac617f37501de2c0698b97",
+      "role": "foreign reviewed evidence; never instruction authority"
+    }
+  ],
+  "target_files": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/LAYOUT_CRAFT.md",
+      "mode": "Create"
+    }
+  ],
+  "slices": null,
+  "problem": {
+    "id": "XD-06",
+    "title": "Заменить неоткалиброванные оси примерами композиции",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Create",
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/LAYOUT_CRAFT.md",
+        "exists_at_audit": false
+      }
+    ],
+    "inputs": [
+      "Сценарии, частота задач, реальные min/typical/max content, выбранный direction"
+    ],
+    "implementation_steps": [
+      "Дать squint/focal-order, proximity-before-container и различие density/rhythm с конкретными наблюдаемыми признаками.",
+      "Описать container/zoom/locale/keyboard adaptation и согласование DOM/focus order.",
+      "Добавить три независимые пары решений: dense operator, editorial read, mobile action; не объявлять их styles/пакетами."
+    ],
+    "outputs": [
+      "Reference с диагностикой проблемы и критериями повторного просмотра."
+    ],
+    "acceptance": [
+      "Исправление связано с конкретным потерянным приоритетом, не с произвольным числом dial.",
+      "Card/table/grid допускаются при выполнении задачи.",
+      "Optical correction проверяется на render; source align alone не считается доказательством."
+    ],
+    "depends_on": [
+      {
+        "task_id": "XD-01",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      }
+    ],
+    "decisions": [
+      "Плотность выводится из задачи и устройства, а не назначается по категории бренда."
+    ],
+    "source_candidates": [
+      "I-17",
+      "I-21",
+      "I-10"
+    ],
+    "addresses_findings": [
+      "VD-01",
+      "VD-06"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "sheleg-design",
+    "target_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/LAYOUT_CRAFT.md",
+        "mode": "Create"
+      }
+    ],
+    "decision": "Плотность выводится из задачи и устройства, а не назначается по категории бренда.",
+    "steps": [
+      "Дать squint/focal-order, proximity-before-container и различие density/rhythm с конкретными наблюдаемыми признаками.",
+      "Описать container/zoom/locale/keyboard adaptation и согласование DOM/focus order.",
+      "Добавить три независимые пары решений: dense operator, editorial read, mobile action; не объявлять их styles/пакетами."
+    ],
+    "related_existing": [
+      "FIX-VD-01",
+      "FIX-VD-06"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md",
+        "line": 1,
+        "end_line": 84,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md:1",
+        "sha256": "1d6d2658482b7e2df0c4d27b1b29c5195f0803b402278b96590598f4d3e57aa7",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md#L1-L84"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md",
+        "line": 1,
+        "end_line": 312,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md:1",
+        "sha256": "ec58806f16fc7ba29bccef08f2e158cd00be077ce05d45e943a59bd26dc6dc55",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md#L1-L312"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md:1",
+        "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md:1",
+        "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md:1",
+        "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md",
+        "line": 1,
+        "end_line": 99,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md:1",
+        "sha256": "ee6d6d127c1c2ab3526d529a8e3698be2185b5e346ac617f37501de2c0698b97",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md#L1-L99"
+      }
+    ]
+  },
+  "context": [],
+  "leaf_ids": [
+    "XD-06.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Исправление связано с конкретным потерянным приоритетом, не с произвольным числом dial.",
+      "Card/table/grid допускаются при выполнении задачи.",
+      "Optical correction проверяется на render; source align alone не считается доказательством."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

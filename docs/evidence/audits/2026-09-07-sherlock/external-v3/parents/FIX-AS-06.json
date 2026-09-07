@@ -1,0 +1,273 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-AS-06",
+  "revision": 1,
+  "title": "Первый релиз фактически остаётся без исполняемого eval-корпуса",
+  "finding_id": "AS-06",
+  "module": "agent-stack",
+  "modules": [
+    "agent-stack"
+  ],
+  "priority": "P1",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "parent_planned",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements",
+      "audit_original_sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program",
+      "audit_original_sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions",
+      "audit_original_sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f"
+    },
+    {
+      "path": "audit://extension/context/modules/agent-stack.md",
+      "sha256": "cb323d1fecb50602a8f9c5e28542cad16bc23f52ec8adacf07676b2346f251b9",
+      "role": "module:agent-stack",
+      "audit_original_sha256": "7f735a083a16130f6f7c517bfe939c7765ecd15e2f0b2192676e3bb133b0e2db"
+    },
+    {
+      "path": "audit://extension/context/contracts/execution.md",
+      "sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4",
+      "role": "contract:execution",
+      "audit_original_sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4"
+    },
+    {
+      "path": "audit://extension/context/contracts/evidence.md",
+      "sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88",
+      "role": "contract:evidence",
+      "audit_original_sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88"
+    },
+    {
+      "path": "audit://agents-sync.json",
+      "sha256": "d7d81d9884842e5696f902a901ccb75bf6773b9acb675d4e751c2ddf1b3bcb2c",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "2a09f147a9831de08154965e825930738fc668f41918c8304d19c727a0b146ed"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "AS-06",
+    "skills": [
+      "agent-evals"
+    ],
+    "priority": "P1",
+    "verdict": "GAP",
+    "kind": "primary_source_contradiction",
+    "title": "Первый релиз фактически остаётся без исполняемого eval-корпуса",
+    "evidence": [
+      "repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md:245",
+      "repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md:256",
+      "repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md:261"
+    ],
+    "observation": "Corpus должен появляться from production, never up front; первый offline gate — observables only. Критерий без input/trial не исполняется и не доказывает capability. Та же глава затем допускает simulated users, оставляя противоречивый маршрут.",
+    "reproduction": "Новый агент возвратов без production: невозможно исполнить предрелизную проверку correct amount/consent/retry, если конструирование входов заранее запрещено. Anthropic рекомендует requirements→test cases и ручные development checks ещё до production.",
+    "production_occurrence": "Не проверялось: production-трафик, кошельки, облачные журналы и реальные пользовательские данные не затрагивались.",
+    "impact": "Cold-start release без измеренных сценариев, первая авария становится способом получения тестового набора.",
+    "fix": "Разрешить curated/synthetic/manual seed corpus до релиза, маркировать источник каждого input; дополнять production regressions. Release gate обязан иметь executed trials, а observable-only — состояние specification-ready, не release-ready.",
+    "acceptance": "Greenfield feature с нулём production traces имеет минимум happy, adversarial и failure/retry trials; пустой корпус либо неисполненные observables не закрывают gate.",
+    "sources": [
+      "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents"
+    ],
+    "origin": "agents-sync.json",
+    "evidence_kind": "primary_source_contradiction",
+    "implementation_status": "proposed",
+    "phase": "M2",
+    "task_id": "FIX-AS-06"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Разрешить curated/synthetic/manual seed corpus до релиза, маркировать источник каждого input; дополнять production regressions. Release gate обязан иметь executed trials, а observable-only — состояние specification-ready, не release-ready.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Greenfield feature с нулём production traces имеет минимум happy, adversarial и failure/retry trials; пустой корпус либо неисполненные observables не закрывают gate.",
+    "Первый релиз имеет исполняемые offline assertions без production telemetry",
+    "Повреждённый fixture/input/runner => TEST_ERROR, не behavior fail/pass",
+    "Isolation: результат case B одинаков независимо от запуска case A"
+  ],
+  "verification_plan": {
+    "baseline": "Новый агент возвратов без production: невозможно исполнить предрелизную проверку correct amount/consent/retry, если конструирование входов заранее запрещено. Anthropic рекомендует requirements→test cases и ручные development checks ещё до production.",
+    "must_test": "Greenfield feature с нулём production traces имеет минимум happy, adversarial и failure/retry trials; пустой корпус либо неисполненные observables не закрывают gate.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md",
+      "sha256": "18c38888b66555da7a2f301740e420b47e44d8194c2dab2c20ea94a19b02394f",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "agent-stack": "1f99f8f0914f122da1629e6ede6fd60a7e23d1ea"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://agent-stack",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 6,
+  "origin": "v2",
+  "dispatchable": false,
+  "retired_read_only_evidence": [],
+  "knowledge_enrichments": [
+    {
+      "id": "PXS-03",
+      "title": "Дать agent-evals офлайн seed corpus до production",
+      "owner": "agent-stack/agent-evals",
+      "target_files": [
+        {
+          "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md",
+          "mode": "Edit"
+        },
+        {
+          "path": "repo://agent-stack/test/evals/scenarios.json",
+          "mode": "Edit"
+        },
+        {
+          "path": "repo://agent-stack/test/evals/fixtures/bootstrap-corpus.json",
+          "mode": "Create"
+        }
+      ],
+      "decision": "ENRICH_EXISTING_AS06; Не брать OpenAI/MCP evaluator, XML wrappers или API keys Точный scalar matcher только для scalar задач; side effects и trajectories отдельные assertions Seed corpus дополняется production traces, не объявляется доказательством полного coverage",
+      "steps": [
+        "Разрешить synthetic bootstrap corpus в agent-evals с явной provenance рядом с production corpus.",
+        "Добавить шесть замороженных локальных кейсов с known answers и forbidden side effects.",
+        "Связать кейсы с behavioral scenarios и проверить isolation плюс TEST_ERROR classification."
+      ],
+      "acceptance": [
+        "Первый релиз имеет исполняемые offline assertions без production telemetry",
+        "Повреждённый fixture/input/runner => TEST_ERROR, не behavior fail/pass",
+        "Isolation: результат case B одинаков независимо от запуска case A"
+      ],
+      "depends_on": [
+        {
+          "task_id": "PXS-01",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        }
+      ],
+      "related_existing": [
+        "FIX-AS-06",
+        "FIX-EV-01"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/SKILL.md",
+          "line": 261,
+          "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+          "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/SKILL.md#L261"
+        },
+        {
+          "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/reference/evaluation.md",
+          "line": 35,
+          "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+          "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/reference/evaluation.md#L35"
+        }
+      ],
+      "inputs": [
+        "Документированные outcome/forbidden-effects",
+        "6 synthetic immutable local cases plus production cases when available"
+      ],
+      "outputs": [
+        "Corpus provenance synthetic|production, frozen inputs/expected outputs, reset rules",
+        "Behavioral fixtures beyond name-trigger matching"
+      ],
+      "new_required_runtime": [],
+      "new_api_keys": [],
+      "merged_into": "FIX-AS-06",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "leaf_ids": [
+    "FIX-AS-06.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Greenfield feature с нулём production traces имеет минимум happy, adversarial и failure/retry trials; пустой корпус либо неисполненные observables не закрывают gate.",
+      "Первый релиз имеет исполняемые offline assertions без production telemetry",
+      "Повреждённый fixture/input/runner => TEST_ERROR, не behavior fail/pass",
+      "Isolation: результат case B одинаков независимо от запуска case A"
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

@@ -1,0 +1,323 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-UP-08",
+  "revision": 1,
+  "title": "Host roots фиксированы и расходятся с поддерживаемыми overrides",
+  "finding_id": "UP-08",
+  "module": "sshlg-skills",
+  "modules": [
+    "sshlg-skills",
+    "task-pipeline",
+    "super-ux",
+    "sheleg-design"
+  ],
+  "priority": "P2",
+  "priority_rank": 2,
+  "priority_reason": "Корректность и поддерживаемость после независимых P1 fixes.",
+  "status": "planned_not_implemented",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06",
+    "E-07",
+    "E-08"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions"
+    },
+    {
+      "path": "audit://extension/context/modules/sshlg-skills.md",
+      "sha256": "1ba5c103f173da419a57a05153cf840fe5a10515f5f8261d194c719fb8420363",
+      "role": "module:sshlg-skills"
+    },
+    {
+      "path": "audit://extension/context/modules/task-pipeline.md",
+      "sha256": "28e7c9316bc1a404c821b54e382b8944583945506f889d5d59fce880cf5c5d4e",
+      "role": "module:task-pipeline"
+    },
+    {
+      "path": "audit://extension/context/modules/super-ux.md",
+      "sha256": "b5cc2eac477dd48cc3867614cc307571fda37bf29552d85d8a78bb5559b753ce",
+      "role": "module:super-ux"
+    },
+    {
+      "path": "audit://extension/context/modules/sheleg-design.md",
+      "sha256": "4f855319ae55cbe0e8ea9371442a5b10cec3cf1cf77153040cd47d883aa4b982",
+      "role": "module:sheleg-design"
+    },
+    {
+      "path": "audit://extension/context/contracts/install.md",
+      "sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289",
+      "role": "contract:install"
+    },
+    {
+      "path": "audit://extension/context/contracts/routing.md",
+      "sha256": "9e54f451c9efbda462e0f798751573114c5b787fb2fe435591057e96e108954b",
+      "role": "contract:routing"
+    },
+    {
+      "path": "audit://extension/context/contracts/context.md",
+      "sha256": "dca078915830462880380196886a99d5ae6e7bde2996b490663f8192d2bef2b0",
+      "role": "contract:context"
+    },
+    {
+      "path": "audit://extension/context/contracts/execution.md",
+      "sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4",
+      "role": "contract:execution"
+    },
+    {
+      "path": "audit://extension/context/contracts/product.md",
+      "sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163",
+      "role": "contract:product"
+    },
+    {
+      "path": "audit://extension/context/contracts/evidence.md",
+      "sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88",
+      "role": "contract:evidence"
+    },
+    {
+      "path": "audit://extension/context/contracts/visual.md",
+      "sha256": "f0ade3ef08c35a0e93c97543b950062ac20b21f709f0cac84e943f21c1453c36",
+      "role": "contract:visual"
+    },
+    {
+      "path": "audit://extension/install-routing.json",
+      "sha256": "cde90833817785137df98f034a0edec82514445c2421695b8ea6cf8282645451",
+      "role": "supporting evidence appendix"
+    },
+    {
+      "path": "audit://extension/install-logs/results.json",
+      "sha256": "6c74ddf4586897cd821c34addcbfaaabf34e963644b3fc1433168d007387b2e0",
+      "role": "supporting evidence appendix"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "UP-08",
+    "priority": "P2",
+    "title": "Host roots фиксированы и расходятся с поддерживаемыми overrides",
+    "skills": [
+      "sshlg-skills",
+      "task-pipeline",
+      "super-ux",
+      "sheleg-design"
+    ],
+    "evidence": [
+      "repo://sshlg-skills/lib/apply.js:34",
+      "repo://sshlg-skills/lib/apply.js:187",
+      "repo://sshlg-skills/bin/sshlg-skills.js:138",
+      "repo://task-pipeline/bin/task-pipeline.js:196",
+      "repo://task-pipeline/bin/task-pipeline.js:203",
+      "repo://super-ux/bin/super-ux.js:47",
+      "repo://sheleg-design/bin/cli.js:381"
+    ],
+    "source_files": [
+      "repo://sshlg-skills/bin/sshlg-skills.js",
+      "repo://sshlg-skills/lib/apply.js",
+      "repo://sheleg-design/bin/cli.js",
+      "repo://super-ux/bin/super-ux.js",
+      "repo://task-pipeline/bin/task-pipeline.js"
+    ],
+    "observed": "Fixture custom-host-root запускает update --agent codex --no-claude с CODEX_HOME в отдельной temp папке. Custom AGENTS.md остаётся прежним, default ~/.codex/AGENTS.md меняется. Source paths для Claude guards также жёстко используют .claude. Текущий primary upstream skills CLI учитывает CODEX_HOME и CLAUDE_CONFIG_DIR, поэтому subprocess installation и family router/prune могут работать с разными home roots.",
+    "impact": "На custom profile/config root skill может обновиться в одном host-home, а обязательные инструкции — в другом. Guard может не увидеть plugin в реальном Claude profile либо проверять чужой default profile. Наличие таких overrides на реальной машине не проверялось и для дефекта не требуется.",
+    "fix": "Единый HostContext resolver: explicit CLI root > документированный host env > platform default; использовать его и для install, inventory, guards, router, consent scope, rollback. Поддерживать alternate profiles явно. Не выводить наличие установленного host только из случайной оставшейся директории; capability probe отдельно от pathname.",
+    "acceptance": [
+      "Fixture custom CODEX_HOME/CLAUDE_CONFIG_DIR меняет только выбранный root, default stays byte-identical.",
+      "Plugin collision в custom root обнаруживается до записи; stale default root не блокирует другой профиль.",
+      "Windows/XDG/root-with-spaces и missing host дают отдельные протестированные results; неподдержанные платформы UNKNOWN."
+    ],
+    "depends_on": [
+      "UP-03",
+      "UP-07"
+    ],
+    "related_existing": [],
+    "limits": "Подтверждён дефект/пробел реализации; наличие внешнего инцидента и фактическая версия в уже работающих сессиях не установлены.",
+    "origin": "extension/install-routing.json",
+    "observation": "Fixture custom-host-root запускает update --agent codex --no-claude с CODEX_HOME в отдельной temp папке. Custom AGENTS.md остаётся прежним, default ~/.codex/AGENTS.md меняется. Source paths для Claude guards также жёстко используют .claude. Текущий primary upstream skills CLI учитывает CODEX_HOME и CLAUDE_CONFIG_DIR, поэтому subprocess installation и family router/prune могут работать с разными home roots.",
+    "evidence_kind": "source_and_isolated_fixture",
+    "implementation_status": "proposed"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Единый HostContext resolver: explicit CLI root > документированный host env > platform default; использовать его и для install, inventory, guards, router, consent scope, rollback. Поддерживать alternate profiles явно. Не выводить наличие установленного host только из случайной оставшейся директории; capability probe отдельно от pathname.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Fixture custom CODEX_HOME/CLAUDE_CONFIG_DIR меняет только выбранный root, default stays byte-identical.\nPlugin collision в custom root обнаруживается до записи; stale default root не блокирует другой профиль.\nWindows/XDG/root-with-spaces и missing host дают отдельные протестированные results; неподдержанные платформы UNKNOWN."
+  ],
+  "verification_plan": {
+    "baseline": "Fixture custom-host-root запускает update --agent codex --no-claude с CODEX_HOME в отдельной temp папке. Custom AGENTS.md остаётся прежним, default ~/.codex/AGENTS.md меняется. Source paths для Claude guards также жёстко используют .claude. Текущий primary upstream skills CLI учитывает CODEX_HOME и CLAUDE_CONFIG_DIR, поэтому subprocess installation и family router/prune могут работать с разными home roots.",
+    "must_test": "Fixture custom CODEX_HOME/CLAUDE_CONFIG_DIR меняет только выбранный root, default stays byte-identical.\nPlugin collision в custom root обнаруживается до записи; stale default root не блокирует другой профиль.\nWindows/XDG/root-with-spaces и missing host дают отдельные протестированные results; неподдержанные платформы UNKNOWN.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [
+    {
+      "from_task": "FIX-UP-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UP-07",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://sshlg-skills/lib/apply.js",
+      "sha256": "3e5f57562f00ea9f8e5c4624fc780a75928699b2b0d4b864bda9cc3527b54123",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://sshlg-skills/bin/sshlg-skills.js",
+      "sha256": "ca46e7513b7554452333322fb6ff8d4b27bea58a2b17917724d2df5e44942930",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://task-pipeline/bin/task-pipeline.js",
+      "sha256": "f1bb12004a95f273de184a397e456d224f4edfcc5911e706eb75ff67edffc12d",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://super-ux/bin/super-ux.js",
+      "sha256": "4682d2b55e9e43ebee8cad1323f41d8ef1f25bbf2f5dbac453d6e6715e49bde6",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://sheleg-design/bin/cli.js",
+      "sha256": "e61994965d33da1d88ca261cd985acdd1e6c04b9d9a545a0a8834e003ae99e53",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "sshlg-skills": "7ef37e8bd5220d6ab355346634ff19196de8f41b",
+    "task-pipeline": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "super-ux": "a60f6b423c619b37a3bb43564b58b02b6200e463",
+    "sheleg-design": "562786b30f07f50a294d70a4c3ffd40794624f42"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://sshlg-skills",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://task-pipeline",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://super-ux",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://sheleg-design",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://sshlg-skills/lib/apply.js",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://sshlg-skills/bin/sshlg-skills.js",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://task-pipeline/bin/task-pipeline.js",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://super-ux/bin/super-ux.js",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://sheleg-design/bin/cli.js",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [
+    {
+      "task_id": "FIX-UP-03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма."
+    },
+    {
+      "task_id": "FIX-UP-07",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма."
+    }
+  ],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 23
+}

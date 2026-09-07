@@ -1,0 +1,108 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-DS-06.05",
+  "parent_id": "FIX-DS-06",
+  "title": "Visual composition eval: large-text accessibility",
+  "kind": "verification",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Eval-регрессия не покрывает текущий composition/runtime",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Проверить large-text accessibility по actual render с тем же viewport/content и независимым rubric; записать faults, not only token/style name.",
+  "expected_result": "Корректный рендер не обязан меняться; mechanical PASS не заменяет оценку composition.",
+  "acceptance": [
+    "Корректный рендер не обязан меняться; mechanical PASS не заменяет оценку composition."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Проверить large-text accessibility по actual render с тем же viewport/content и независимым rubric; записать faults, not only token/style name.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-design/evals/cases/fix-ds-06.05.json",
+      "mode": "Create",
+      "role": "focused outcome corpus (new artifact)",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-design/test/audit_regressions/fix-ds-06.05.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-DS-06.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-DS-06.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-design/test/evals/RESULTS.md",
+        "sha256": "7af44b6abb5488d2089373febf2d9df867072585474e06d5b76c396a4c7ec1c5",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://super-ux/test/evals/RESULTS.md",
+        "sha256": "10578621f15ba00da72899b4c554aaa47ddf598562b66bc2f776a2c8a2feca11",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Каждая текущая версия имеет reproducible run manifest; ambiguous prompt проверяет route+subtools+stopping conditions, не один name. Figma unavailable/no Node/no browser явно measured degradation, не исключённый сценарий.",
+      "Tests не принимают упоминание screenshot за существующий валидный файл.",
+      "Offline/no-keys route не предлагает install.",
+      "100% structural PASS не формулируется как доказанное улучшение дизайна."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-design/test/audit_regressions/fix-ds-06.05.py",
+    "python3 repo://sheleg-design/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-DS-06.05.md",
+    "sha256": "3ec7047ae3bafc037ebdd1ffe4e8f95ed3e9552b19f15ba9a09ca29ab3b17584",
+    "utf8_bytes": 4049,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "1dca35e1b8a22116b17dad333a81c36822665327686f3fc02dc2a86a8ea7f13b"
+  }
+}

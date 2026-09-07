@@ -1,0 +1,111 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-DV-06.01",
+  "parent_id": "FIX-DV-06",
+  "title": "Typed amounts",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "sheleg-dev"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Универсальный amount waterfall смешивает единицы и взаимоисключающие правила буфера",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Отдельные Money minor/decimal, Asset network/amount, Entitlement units и dated FX quote; без implicit unit conversion.",
+  "expected_result": "USD minor не складывается с crypto decimals; unknown FX source блокирует conversion.",
+  "acceptance": [
+    "USD minor не складывается с crypto decimals; unknown FX source блокирует conversion."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Отдельные Money minor/decimal, Asset network/amount, Entitlement units и dated FX quote; без implicit unit conversion.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "d2fb267b6bfe44d80de862bbe9a69d348e81cadd506bedc35f605a81be6464b6"
+    },
+    {
+      "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/references/heleket-provider.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "83efcc58634f1bbc34c94c030388d0dfd43f69e7b5a5843ea732497e1a3818ff"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-dev/test/audit_regressions/fix-dv-06.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-DV-06.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-DV-06.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md",
+        "sha256": "d2fb267b6bfe44d80de862bbe9a69d348e81cadd506bedc35f605a81be6464b6",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/references/heleket-provider.md",
+        "sha256": "83efcc58634f1bbc34c94c030388d0dfd43f69e7b5a5843ea732497e1a3818ff",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Табличные кейсы topup/plan/overpay/underpay/fee/FX; типовая проверка запрещает USD??tokens; reconciliation доказывает gross=net+fees±FX и user entitlement по выбранной политике."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-dev/test/audit_regressions/fix-dv-06.01.py",
+    "python3 repo://sheleg-dev/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-DV-06.01.md",
+    "sha256": "0fb1b4d859c29ac97831b3134bf862b301e77ed55a911dd8e4e12b26795b5868",
+    "utf8_bytes": 6247,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "c07eb52c446ea65fd8f96164cd13c0fc6cfdce74e8e56aa71ea2b4d32a78d915"
+  }
+}

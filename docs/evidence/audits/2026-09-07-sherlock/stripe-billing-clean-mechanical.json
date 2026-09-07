@@ -1,0 +1,107 @@
+[
+  {
+    "verdict": "PASS",
+    "check": "NAME_CHARSET",
+    "message": "name 'stripe-billing' uses a legal charset",
+    "file": "stripe-billing/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_DIR",
+    "message": "name matches the directory",
+    "file": "stripe-billing/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_RESERVED",
+    "message": "no reserved word in name",
+    "file": "stripe-billing/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_LENGTH",
+    "message": "description is 963/1024 chars",
+    "file": "stripe-billing/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_PERSON",
+    "message": "description is third person",
+    "file": "stripe-billing/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_USEWHEN",
+    "message": "description opens with 'Use when …' (house rule)",
+    "file": "stripe-billing/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_RU",
+    "message": "description carries Russian trigger phrases (house rule)",
+    "file": "stripe-billing/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_WHAT",
+    "message": "description states WHAT the skill does in 589 chars beyond its triggers (house rule)",
+    "file": "stripe-billing/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_HEADROOM",
+    "message": "description is 963/970 chars, inside the working limit",
+    "file": "stripe-billing/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "FM_UNKNOWN_KEY",
+    "message": "no frontmatter key outside spec ∪ host extensions",
+    "file": "stripe-billing/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BODY_BUDGET",
+    "message": "body is 380 lines / ~4672 tokens (budget 500 / 5000)",
+    "file": "stripe-billing/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BODY_HEADROOM",
+    "message": "body is ~4672/4750 tokens, inside the working limit",
+    "file": "stripe-billing/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BUNDLE_LAYOUT",
+    "message": "bundled directories present and checked",
+    "file": null,
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "LINK_INTEGRITY",
+    "message": "every relative link resolves and stays inside the skill",
+    "file": "stripe-billing/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "PROSE",
+    "message": "no Windows paths, time-branching, or bare directory pointers",
+    "file": "stripe-billing/SKILL.md",
+    "line": null
+  }
+]

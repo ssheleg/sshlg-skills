@@ -1,0 +1,24 @@
+Exit code: 0
+OK: telegram-dev structurally valid (14 checks, 3 skills, v0.1.11)
+OK (9 checks — every rule watched refusing its own defect)
+mutant matrix — each invariant must go red when its own rule is removed
+
+  ok      redelivered-update-works-once                      dies without 'claim'
+  ok      a crash mid-work redelivers rather than loses      dies without 'confirm-after-work'
+  ok      a 429 is retried, not dropped                      dies without 'retry-after'
+  ok      a payment grants once, from any entry point        dies without 'charge-id-guard'
+
+self-test OK — 4 invariants, each watched failing
+ok: fresh HOME installs all skills, and says how updates arrive
+ok: rerun skips, --force overwrites, unknown arg exits 2
+ok: plugin present in installed_plugins.json: refuse, exit 3, remedy, nothing written
+ok: plugin under a differently-named marketplace: remedy names the real spec
+ok: --force overrides the refusal, deliberately
+ok: corrupt installed_plugins.json reads as "no plugin" — install, never crash
+ok: other plugins, and a prefix-collider, do not trigger a false refusal
+ok: marketplaces/<name> dir alone still refuses (fallback signal, exit 3)
+ok: install.sh: fresh install of all skills, rerun overwrites by design, unknown arg exits 2
+ok: install.sh: plugin present — refuse, exit 3, nothing written; --force installs
+ok: install.sh: marketplaces dir alone refuses; corrupt JSON fails open
+residue: this run left nothing — 11 temp home(s) created, 11 removed
+PASS: installer — 11 case(s)

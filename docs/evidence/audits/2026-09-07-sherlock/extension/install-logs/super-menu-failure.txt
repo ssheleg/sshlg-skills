@@ -1,0 +1,20 @@
+super-ux: scenario-driven UI development. Select what to install:
+
+  1) Skills for any AI agent (Claude Code, Codex, Cursor, 70+; opens agent picker)
+  2) Cursor rules + docs/ux skeleton + docs/brand pack + linters, into a project
+  3) Claude Code plugin (skills + /ux commands, user-global)
+Select [e.g. 1,3 | all | q]:
+--- Claude Code plugin ---
+(marketplace may already be added, continuing)
+
+To have these skills apply by default in every project, add the
+family's routing block to your agent's global instructions:
+
+  npx --yes sshlg-skills routers --member super-ux
+
+
+Updates: rerun npx super-ux@latest (--cursor <dir> --force refreshes a
+project's rules and linters), or refresh the whole family with
+npx --yes sshlg-skills@latest update (every channel, and it prunes plain
+copies that would shadow a plugin).
+warning: claude plugin install failed, see output above

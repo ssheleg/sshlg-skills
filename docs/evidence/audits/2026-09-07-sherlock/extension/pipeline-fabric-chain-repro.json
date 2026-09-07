@@ -1,0 +1,27 @@
+{
+  "mock_store_only": true,
+  "actual_module": "chainAdvance.ts",
+  "after_first": [
+    {
+      "projectId": "project",
+      "instruction": "Use A delivered and {schema}",
+      "optionId": "codex",
+      "preset": "chain"
+    }
+  ],
+  "after_second": [
+    {
+      "projectId": "project",
+      "instruction": "Use A delivered and {schema}",
+      "optionId": "codex",
+      "preset": "chain"
+    },
+    {
+      "projectId": "project",
+      "instruction": "Use A delivered and {schema}",
+      "optionId": "codex",
+      "preset": "chain"
+    }
+  ],
+  "follower_status": "backlog"
+}

@@ -1,0 +1,19 @@
+/private/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/audit-up-iTv2yQ/preload.cjs:1
+const fs=require('fs'); require('child_process').spawnSync=(cmd,args)=>{fs.appendFileSync(process.env.AUDIT_CALLS,JSON.stringify({cmd,args})+'\n');return {status:process.env.AUDIT_FAIL_CHILD==='1'?1:0};}; if(process.env.AUDIT_COPY_FAIL==='1'){fs.copyFileSync=()=>{const e=new Error('audit injected ENOSPC');e.code='ENOSPC';throw e;};}if(process.env.AUDIT_FRESH_ALL==='1'){const old=require('child_process').spawnSync;const p=require('path');require('child_process').spawnSync=(cmd,args)=>{const h=process.env.HOME;if(cmd==='npx'&&args.includes('ssheleg/super-ux')){const d=p.join(h,'.claude/skills/vision');fs.mkdirSync(d,{recursive:true});fs.writeFileSync(p.join(d,'SKILL.md'),'simulated plain skill');}if(cmd==='claude'&&args.includes('super-ux@super-ux')){const d=p.join(h,'.claude/plugins');fs.mkdirSync(d,{recursive:true});fs.writeFileSync(p.join(d,'installed_plugins.json'),JSON.stringify({plugins:{'super-ux@super-ux':[{scope:'user'}]}}));}return old(cmd,args);};}
+                                                                                                                                                                                                                                                                                                                                   ^
+
+Error: audit injected ENOSPC
+    at fs.copyFileSync (/private/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/audit-up-iTv2yQ/preload.cjs:1:273)
+    at copyDir (repo://task-pipeline/bin/task-pipeline.js:49:13)
+    at installOne (repo://task-pipeline/bin/task-pipeline.js:60:14)
+    at main (repo://task-pipeline/bin/task-pipeline.js:224:3)
+    at Object.<anonymous> (repo://task-pipeline/bin/task-pipeline.js:243:14)
+    at Module._compile (node:internal/modules/cjs/loader:1934:14)
+    at Object..js (node:internal/modules/cjs/loader:2074:10)
+    at Module.load (node:internal/modules/cjs/loader:1656:32)
+    at Module._load (node:internal/modules/cjs/loader:1448:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19) {
+  code: 'ENOSPC'
+}
+
+Node.js v26.8.1

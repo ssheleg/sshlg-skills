@@ -1,0 +1,100 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "CTX-01.01",
+  "parent_id": "CTX-01",
+  "title": "Packet and context schemas",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "task-pipeline"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Общий versioned context/task/result contract семьи",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Create ExecutionPacket/ContextRef with version/id/parent/module/decision refs/inputs/source scope/budgets; dependency-free runtime validation.",
+  "expected_result": "Unknown mandatory major, missing ref/digest or unbound decision reject; valid round-trip.",
+  "acceptance": [
+    "Unknown mandatory major, missing ref/digest or unbound decision reject; valid round-trip."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Create ExecutionPacket/ContextRef with version/id/parent/module/decision refs/inputs/source scope/budgets; dependency-free runtime validation.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/execution-packet.schema.json",
+      "mode": "Create",
+      "role": "new capability target; audit does not create it",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://task-pipeline/test/audit_regressions/ctx-01.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/CTX-01.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/CTX-01.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/package.json",
+        "sha256": "19c2bf7655aac03d181dc32af94e20604e73ec1a720a952555c871e08017e7cb",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Round-trip packet сохраняет IDs и типы; missing source/context, stale digest, неизвестная revision, cycle, отсутствующий control dependency отвергаются. Пакет содержит program/module/task decisions без ссылки на приватную память сессии."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://task-pipeline/test/audit_regressions/ctx-01.01.py",
+    "python3 repo://task-pipeline/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/CTX-01.01.md",
+    "sha256": "92fe9a85353a841986e751fdae799707b80bb983d80c8ff07c7b4e2462629cd4",
+    "utf8_bytes": 4000,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "b8dbdf8f14d925865558c9df7a91c16b4c5b4c817dcc23a912e99abc17e7739f"
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-SY-05",
+  "revision": 1,
+  "title": "Пустой lock между O_EXCL и payload принимается за просроченный: два acquire выигрывают",
+  "finding_id": "SY-05",
+  "module": "agent-sync",
+  "modules": [
+    "agent-sync"
+  ],
+  "priority": "P1",
+  "priority_rank": 0,
+  "priority_reason": "Риск потери денег/данных/владения либо побочные эффекты updater: исправить первым.",
+  "status": "planned_not_implemented",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions"
+    },
+    {
+      "path": "audit://extension/context/modules/agent-sync.md",
+      "sha256": "91be68a9bb12e4e06b95d9c049f885d2ec1762ff4e5bf7fea4ceb1b4146a69d6",
+      "role": "module:agent-sync"
+    },
+    {
+      "path": "audit://extension/context/contracts/execution.md",
+      "sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4",
+      "role": "contract:execution"
+    },
+    {
+      "path": "audit://extension/context/contracts/install.md",
+      "sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289",
+      "role": "contract:install"
+    },
+    {
+      "path": "audit://agents-sync.json",
+      "sha256": "2a09f147a9831de08154965e825930738fc668f41918c8304d19c727a0b146ed",
+      "role": "supporting evidence appendix"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "SY-05",
+    "skills": [
+      "agent-sync"
+    ],
+    "priority": "P1",
+    "verdict": "GAP",
+    "kind": "measured_code_defect",
+    "title": "Пустой lock между O_EXCL и payload принимается за просроченный: два acquire выигрывают",
+    "evidence": [
+      "repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py:1584",
+      "repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py:1644",
+      "repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py:1670",
+      "repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py:1679"
+    ],
+    "observation": "Имя lock создаётся атомарно, содержимое записывается позднее. Конкурент читает пустой JSON как {}, не считает его live и может украсть через _steal_expired. Первый продолжает писать в уже удалённый inode и тоже возвращает won.",
+    "reproduction": "SY-05 запускает настоящие acquire() двух run; scheduler pause вставлен на os.fdopen после O_EXCL первого. Вывод [(True,second-owner),(True,first-owner)], на диске second-owner. Cloud/cross-machine не использовались.",
+    "production_occurrence": "Не проверялось: production-трафик, кошельки, облачные журналы и реальные пользовательские данные не затрагивались.",
+    "impact": "Нарушено базовое mutual exclusion даже на одной машине до истечения TTL.",
+    "fix": "Создание и чтение ownership state сериализовать тем же OS lock либо публиковать уже заполненный объект атомарным no-replace primitive; partial/corrupt lock не считать немедленно stealable. Crash cleanup отличать от активного незавершённого create по арбитражу, не эвристике пустого JSON.",
+    "acceptance": "Пауза на каждой границе create/open/write/fsync/publish; competitor никогда не получает второй won. Crash на каждой границе восстанавливается управляемо без вечного lock и без split-brain.",
+    "sources": [],
+    "origin": "agents-sync.json",
+    "evidence_kind": "measured_code_defect",
+    "implementation_status": "proposed",
+    "phase": "M1",
+    "task_id": "FIX-SY-05"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Создание и чтение ownership state сериализовать тем же OS lock либо публиковать уже заполненный объект атомарным no-replace primitive; partial/corrupt lock не считать немедленно stealable. Crash cleanup отличать от активного незавершённого create по арбитражу, не эвристике пустого JSON.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Пауза на каждой границе create/open/write/fsync/publish; competitor никогда не получает второй won. Crash на каждой границе восстанавливается управляемо без вечного lock и без split-brain."
+  ],
+  "verification_plan": {
+    "baseline": "SY-05 запускает настоящие acquire() двух run; scheduler pause вставлен на os.fdopen после O_EXCL первого. Вывод [(True,second-owner),(True,first-owner)], на диске second-owner. Cloud/cross-machine не использовались.",
+    "must_test": "Пауза на каждой границе create/open/write/fsync/publish; competitor никогда не получает второй won. Crash на каждой границе восстанавливается управляемо без вечного lock и без split-brain.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py",
+      "sha256": "9b64e93e16025c61cce840b5facbeed619927a20c07f6f919ac92816d6ddc3b6",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "agent-sync": "ef45d404d1604a9a0d142f983b5cccc495133ca0"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://agent-sync",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 5
+}

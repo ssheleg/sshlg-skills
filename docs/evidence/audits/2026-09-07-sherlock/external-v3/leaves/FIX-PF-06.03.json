@@ -1,0 +1,242 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-PF-06.03",
+  "parent_id": "FIX-PF-06",
+  "title": "Append-only persistence contract",
+  "kind": "decision",
+  "priority": "P2",
+  "priority_rank": 1,
+  "modules": [
+    "Fabric"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Fabric pipeline/skill provisioning из ADR не является существующим task-pipeline integration",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Если нужна DB schema, новый migration/ADR ID резервируется отдельным change artifact; старые migrations/ADRs read-only.",
+  "expected_result": "Decision artifact фиксирует нужна ли новая schema, exact reserved Create IDs при необходимости, recovery approach и будущие upgrade criteria; migration execution ещё не объявляется выполненным.",
+  "acceptance": [
+    "Decision artifact фиксирует нужна ли новая schema, exact reserved Create IDs при необходимости, recovery approach и будущие upgrade criteria; migration execution ещё не объявляется выполненным."
+  ],
+  "steps": [
+    "Проверить named sources и перечислить только эту нерешённую decision.",
+    "Если нужна DB schema, новый migration/ADR ID резервируется отдельным change artifact; старые migrations/ADRs read-only.",
+    "Записать выбранный вариант, отвергнутые альтернативы, exact Create/Edit scope и проверяемые consequences.",
+    "Consumer implementation получает новую packet revision; decision artifact не считается implementation PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://fabric/docs/evidence/plans/task-pipeline-persistence-contract.md",
+      "mode": "Create",
+      "role": "bounded decision output; reserves future new migration/ADR IDs under repository rules",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://fabric/test/audit_regressions/fix-pf-06.03.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-PF-06.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-PF-06.json",
+    "source_files": [
+      {
+        "path": "repo://fabric/docs/adr/0009-the-development-pipeline-is-data-the-operator-can-edit.md",
+        "sha256": "552fa0152e144f129d4c036de85131db7256d5e0f9aef03a658c66a57accabfb",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://fabric/docs/adr/0030-a-run-is-one-execution-of-one-graph.md",
+        "sha256": "320cdb80cd91d3f032397dc9117ca038029c3c7d5b6f34b077af775014358f80",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://fabric/supabase/migrations/20260831000001_migration_one.sql",
+        "sha256": "2f9b6ed39b313af19e0bd08b2c004d4e482b353606170714ad52601dfbfbbe03",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+        "sha256": "5d02c078f5e2cbbbd2d2de571575e7b4b2105b66ae57a51c775326558b8e4e35",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json",
+        "sha256": "99ff340ca0a9e3a1e35ad891723c200c5b06f3371429d65a88765c1dd63cd2f6",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Golden import/export сохраняет REQ/node/typed edge/check/skills и manual gates; unsupported schema version явная ошибка; edit pipeline не меняет in-flight run; fresh host подтверждает bytes реально загруженного skill; planning agent не перепроходит grill для executors."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-PF-01.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-01"
+    },
+    {
+      "task_id": "FIX-PF-01.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-01"
+    },
+    {
+      "task_id": "FIX-PF-01.03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-01"
+    },
+    {
+      "task_id": "FIX-PF-04.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-04"
+    },
+    {
+      "task_id": "FIX-PF-04.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-04"
+    },
+    {
+      "task_id": "FIX-PF-05.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-05"
+    },
+    {
+      "task_id": "FIX-PF-05.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-05"
+    },
+    {
+      "task_id": "FIX-PF-05.03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-05"
+    },
+    {
+      "task_id": "FIX-PF-03.01",
+      "kind": "control",
+      "reason": "Completion boundary Fabric должна сохранять mandatory certification task-pipeline.",
+      "via_parent": "FIX-PF-03"
+    },
+    {
+      "task_id": "FIX-PF-03.02",
+      "kind": "control",
+      "reason": "Completion boundary Fabric должна сохранять mandatory certification task-pipeline.",
+      "via_parent": "FIX-PF-03"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "decision_budget": "One focused question; at most one primary evidence pass. If unresolved, report exact missing fact and keep consumers blocked.",
+  "verification_commands": [
+    "python3 repo://fabric/test/audit_regressions/fix-pf-06.03.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-PF-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-01.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-04.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-05.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-05.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-PF-06.03.md",
+    "sha256": "917e257f1c1c9f38b0ee0025ae5cc33c45b62b5b5c5a58194e5b3b1e9c528e9a",
+    "utf8_bytes": 5728,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "7dbdb6bc0a440799f8a9cac67a4f817ea6dffaf605f67c329bc3c2e67d33407a"
+  }
+}

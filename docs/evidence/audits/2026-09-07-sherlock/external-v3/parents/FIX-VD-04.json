@@ -1,0 +1,218 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-VD-04",
+  "revision": 1,
+  "title": "shadcn назван unstyled: token mapping ошибочно подаётся как достаточное отсутствие чужой визуальной системы",
+  "finding_id": "VD-04",
+  "module": "sheleg-design",
+  "modules": [
+    "sheleg-design"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "parent_planned",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06",
+    "E-03"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements",
+      "audit_original_sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program",
+      "audit_original_sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions",
+      "audit_original_sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f"
+    },
+    {
+      "path": "audit://extension/context/modules/sheleg-design.md",
+      "sha256": "93aca5c1f569dfe8f9c9ddae1b4b580908fb7d5892385a5003767d709cc47e7a",
+      "role": "module:sheleg-design",
+      "audit_original_sha256": "4f855319ae55cbe0e8ea9371442a5b10cec3cf1cf77153040cd47d883aa4b982"
+    },
+    {
+      "path": "audit://extension/context/contracts/visual.md",
+      "sha256": "f0ade3ef08c35a0e93c97543b950062ac20b21f709f0cac84e943f21c1453c36",
+      "role": "contract:visual",
+      "audit_original_sha256": "f0ade3ef08c35a0e93c97543b950062ac20b21f709f0cac84e943f21c1453c36"
+    },
+    {
+      "path": "audit://extension/context/contracts/product.md",
+      "sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163",
+      "role": "contract:product",
+      "audit_original_sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163"
+    },
+    {
+      "path": "audit://extension/design-depth.json",
+      "sha256": "1f0581dde13bf3d95b12836395d395572679fcfea21f04f8ce8743baf8f673ac",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "f42d9e1b0368b4fcdf589090548a5a3ae4cdf0338cb6cca2448c3adfabce4eb3"
+    },
+    {
+      "path": "audit://extension/nicegram-route-receipt.json",
+      "sha256": "9fff8d9e80adf18cb0a8080fcb2123d31009ad0170791a2a03a6ebc8bd881453",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "59b1771fe8f2881fd0f0ca9f12c30461e0d909397fa025092a1958b8658ede49"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "VD-04",
+    "title": "shadcn назван unstyled: token mapping ошибочно подаётся как достаточное отсутствие чужой визуальной системы",
+    "priority": "P2",
+    "skills": [
+      "sheleg-design"
+    ],
+    "evidence": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "line": 237,
+        "receipt": "unstyled primitives plus Tailwind, themed through CSS custom properties — so it",
+        "claim": "shadcn/ui назван unstyled primitives"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "line": 242,
+        "receipt": "**The two vocabularies are different, and this is the trap.** The packs resolve",
+        "claim": "Граница адаптации сведена к словарю CSS variables"
+      }
+    ],
+    "mechanism": "Если библиотека считается не имеющей default look, модель может заменить цвета и сохранить все остальные её choices: spacing, anatomy, radius composition, shadow, type scale. Так появляется тематизированный starter; виноват не сам shadcn, а недостаточный component adaptation contract.",
+    "observed": "Официальная документация shadcn/ui прямо описывает Beautiful Defaults и default styles. Это проверенная фактическая неточность описания зависимости; runtime ухудшение на Nicegram не относится сюда, поскольку shadcn там не использовался.",
+    "fix": "Описать shadcn как редактируемые styled components, использующие headless primitives. Выделить adapter contract: semantic color + geometry + density + typography + elevation + state/anatomy. После token remap обязательно сравнить rendered component matrix с выбранным direction. Не объявлять custom component edits автоматически redesign.",
+    "acceptance": "В fixture взять Card/Button/Dialog одной версии shadcn, применить pack и проверить не только цветовые variables, но вычисленные размеры, padding, radius, shadow, fonts, states. Список намеренно сохранённых defaults должен быть явным. Документация dependency подтверждается https://ui.shadcn.com/docs; version/checked date фиксируются.",
+    "cross_references": [],
+    "classification": "verified_external_factual_mismatch",
+    "source_files": [
+      "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md"
+    ],
+    "context_levels": {
+      "instruction_defined": true,
+      "observed_loaded_in_Nicegram": "See nicegram-route-receipt.json; not all downstream files were loaded there",
+      "artifact_observed": "Официальная документация shadcn/ui прямо описывает Beautiful Defaults и default styles. Это проверенная фактическая неточность описания зависимости; runtime ухудшение на Nicegram не относится сюда, поскольку shadcn там не использовался.",
+      "causal_hypothesis": "Если библиотека считается не имеющей default look, модель может заменить цвета и сохранить все остальные её choices: spacing, anatomy, radius composition, shadow, type scale. Так появляется тематизированный starter; виноват не сам shadcn, а недостаточный component adaptation contract.",
+      "live_model_comparison": "not run; no causal effect size or universal quality verdict"
+    },
+    "origin": "extension/design-depth.json",
+    "observation": "Официальная документация shadcn/ui прямо описывает Beautiful Defaults и default styles. Это проверенная фактическая неточность описания зависимости; runtime ухудшение на Nicegram не относится сюда, поскольку shadcn там не использовался.",
+    "evidence_kind": "verified_external_factual_mismatch",
+    "implementation_status": "proposed"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Описать shadcn как редактируемые styled components, использующие headless primitives. Выделить adapter contract: semantic color + geometry + density + typography + elevation + state/anatomy. После token remap обязательно сравнить rendered component matrix с выбранным direction. Не объявлять custom component edits автоматически redesign.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "В fixture взять Card/Button/Dialog одной версии shadcn, применить pack и проверить не только цветовые variables, но вычисленные размеры, padding, radius, shadow, fonts, states. Список намеренно сохранённых defaults должен быть явным. Документация dependency подтверждается https://ui.shadcn.com/docs; version/checked date фиксируются."
+  ],
+  "verification_plan": {
+    "baseline": "Официальная документация shadcn/ui прямо описывает Beautiful Defaults и default styles. Это проверенная фактическая неточность описания зависимости; runtime ухудшение на Nicegram не относится сюда, поскольку shadcn там не использовался.",
+    "must_test": "В fixture взять Card/Button/Dialog одной версии shadcn, применить pack и проверить не только цветовые variables, но вычисленные размеры, padding, radius, shadow, fonts, states. Список намеренно сохранённых defaults должен быть явным. Документация dependency подтверждается https://ui.shadcn.com/docs; version/checked date фиксируются.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "sheleg-design": "562786b30f07f50a294d70a4c3ffd40794624f42"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://sheleg-design",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 3,
+  "origin": "v2",
+  "dispatchable": false,
+  "retired_read_only_evidence": [],
+  "leaf_ids": [
+    "FIX-VD-04.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "В fixture взять Card/Button/Dialog одной версии shadcn, применить pack и проверить не только цветовые variables, но вычисленные размеры, padding, radius, shadow, fonts, states. Список намеренно сохранённых defaults должен быть явным. Документация dependency подтверждается https://ui.shadcn.com/docs; version/checked date фиксируются."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

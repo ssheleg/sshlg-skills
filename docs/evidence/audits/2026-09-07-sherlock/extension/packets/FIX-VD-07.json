@@ -1,0 +1,253 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-VD-07",
+  "revision": 1,
+  "title": "Каталог внешнего frontend-design приписывает найденному skill запреты, которых его текущий файл не содержит",
+  "finding_id": "VD-07",
+  "module": "sheleg-design",
+  "modules": [
+    "sheleg-design",
+    "sshlg-skills"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "planned_not_implemented",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06",
+    "E-03"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions"
+    },
+    {
+      "path": "audit://extension/context/modules/sheleg-design.md",
+      "sha256": "4f855319ae55cbe0e8ea9371442a5b10cec3cf1cf77153040cd47d883aa4b982",
+      "role": "module:sheleg-design"
+    },
+    {
+      "path": "audit://extension/context/modules/sshlg-skills.md",
+      "sha256": "1ba5c103f173da419a57a05153cf840fe5a10515f5f8261d194c719fb8420363",
+      "role": "module:sshlg-skills"
+    },
+    {
+      "path": "audit://extension/context/contracts/visual.md",
+      "sha256": "f0ade3ef08c35a0e93c97543b950062ac20b21f709f0cac84e943f21c1453c36",
+      "role": "contract:visual"
+    },
+    {
+      "path": "audit://extension/context/contracts/product.md",
+      "sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163",
+      "role": "contract:product"
+    },
+    {
+      "path": "audit://extension/context/contracts/install.md",
+      "sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289",
+      "role": "contract:install"
+    },
+    {
+      "path": "audit://extension/context/contracts/routing.md",
+      "sha256": "9e54f451c9efbda462e0f798751573114c5b787fb2fe435591057e96e108954b",
+      "role": "contract:routing"
+    },
+    {
+      "path": "audit://extension/design-depth.json",
+      "sha256": "f42d9e1b0368b4fcdf589090548a5a3ae4cdf0338cb6cca2448c3adfabce4eb3",
+      "role": "supporting evidence appendix"
+    },
+    {
+      "path": "audit://extension/nicegram-route-receipt.json",
+      "sha256": "59b1771fe8f2881fd0f0ca9f12c30461e0d909397fa025092a1958b8658ede49",
+      "role": "supporting evidence appendix"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "VD-07",
+    "title": "Каталог внешнего frontend-design приписывает найденному skill запреты, которых его текущий файл не содержит",
+    "priority": "P2",
+    "skills": [
+      "sheleg-design"
+    ],
+    "evidence": [
+      {
+        "path": "repo://sshlg-skills/lib/packs.js",
+        "line": 152,
+        "receipt": "        why: 'refuses the default look before a line is written — bans Inter/Roboto/Arial, forces one committed aesthetic direction',",
+        "claim": "Recommendation why утверждает bans Inter/Roboto/Arial"
+      },
+      {
+        "path": "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+        "line": 19,
+        "receipt": "Typography carries the personality of the page. Pair the display and body faces deliberately, not the same families you would reach for on any other project, and set a clear type scale with intentional weights, widths, and spacing. Make the type treatment itself a memorable part of the design, not a neutral delivery vehicle for the content.",
+        "claim": "Достигнутый skill требует deliberate pairing, не запрет этих fonts"
+      },
+      {
+        "path": "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+        "line": 31,
+        "receipt": "For calibration: AI-generated design right now clusters around three looks: (1) a warm cream background (near #F4F1EA) with a high-contrast serif display and a terracotta accent; (2) a near-black background with a single bright acid-green or vermilion accent; (3) a broadsheet-style layout with hairline rules, zero border-radius, and dense newspaper-like columns. All three are legitimate for some briefs, but they are defaults rather than choices, and they appear regardless of subject. Where the brief pins down a visual direction, follow it exactly — the brief's own words always win, including when it asks for one of these looks. Where it leaves an axis free, don't spend that freedom on one of these defaults. Just like a human designer who's hired, there's often a careful balance between doing what you're good at and taking each project as a chance to experiment and learn.",
+        "claim": "Явный brief всегда wins"
+      },
+      {
+        "path": "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+        "line": 33,
+        "receipt": "Work in two passes. First, brainstorm a short design plan based on the human's design brief: create a compact token system with color, type, layout, and signature. Color: describe the palette as 4–6 named hex values. Type: the typefaces for 2+ roles (a characterful display face that's used with restraint, a complementary body face, and a utility face for captions or data if needed). Layout: a layout concept, using one-sentence prose descriptions and ASCII wireframes to ideate and compare. Signature: the single unique element this page will be remembered by that embodies the brief in an appropriate way.",
+        "claim": "Внешний plan вводит собственные palette/type/signature"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "line": 104,
+        "receipt": "**Ours versus theirs is not a loyalty question.** Where an outside skill answers",
+        "claim": "Внешний skill допускается только как lane tool"
+      }
+    ],
+    "mechanism": "Роутинг оценивает tool по hand-authored why, но presence устанавливается по имени, не по semantic version/digest. Поэтому достигнутый локальный frontend-design может иметь другую доктрину. Одновременно его собственный процесс предлагает создать identity заново, а sheleg разрешает лишь работу внутри pack. Без scoped brief контрактов модель либо подавляет полезную exploration часть, либо заводит вторую identity.",
+    "observed": "В текущем reachable ~/.agents/skills/frontend-design/SKILL.md нет Inter/Roboto/Arial bans. Исходный upstream по source string не переаудирован, поэтому finding именно про несоответствие recommendation реально достигнутому skill на этой машине. В retrieved Nicegram turn его чтение не найдено; обвинять конкурирующий skill в результате Nicegram нельзя.",
+    "fix": "Указывать resolved path/digest/version/provenance и обновлять why по достигнутому descriptor либо помечать как generic upstream description. Для каждого cast tool давать scoped input: что fixed, что open, какие deliverables нужны, чьи инструкции о copy/implementation применимы. frontend-design использовать для concept hypotheses/visual critique внутри согласованных границ, а не второй end-to-end router.",
+    "acceptance": "Fixture с двумя разными frontend-design реализациями одного имени показывает оба источника, выбирает actual resolved file и не печатает отсутствующие bans. Cast handoff для preserve-brand передаёт palette invariants, но оставляет composition exploration; для exact-Figma reproduction отключает aesthetic risk. Route trace хранит digest прочитанной версии.",
+    "cross_references": [],
+    "classification": "observed_local_descriptor_mismatch",
+    "source_files": [
+      "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+      "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+      "repo://sshlg-skills/lib/packs.js"
+    ],
+    "context_levels": {
+      "instruction_defined": true,
+      "observed_loaded_in_Nicegram": "See nicegram-route-receipt.json; not all downstream files were loaded there",
+      "artifact_observed": "В текущем reachable ~/.agents/skills/frontend-design/SKILL.md нет Inter/Roboto/Arial bans. Исходный upstream по source string не переаудирован, поэтому finding именно про несоответствие recommendation реально достигнутому skill на этой машине. В retrieved Nicegram turn его чтение не найдено; обвинять конкурирующий skill в результате Nicegram нельзя.",
+      "causal_hypothesis": "Роутинг оценивает tool по hand-authored why, но presence устанавливается по имени, не по semantic version/digest. Поэтому достигнутый локальный frontend-design может иметь другую доктрину. Одновременно его собственный процесс предлагает создать identity заново, а sheleg разрешает лишь работу внутри pack. Без scoped brief контрактов модель либо подавляет полезную exploration часть, либо заводит вторую identity.",
+      "live_model_comparison": "not run; no causal effect size or universal quality verdict"
+    },
+    "origin": "extension/design-depth.json",
+    "observation": "В текущем reachable ~/.agents/skills/frontend-design/SKILL.md нет Inter/Roboto/Arial bans. Исходный upstream по source string не переаудирован, поэтому finding именно про несоответствие recommendation реально достигнутому skill на этой машине. В retrieved Nicegram turn его чтение не найдено; обвинять конкурирующий skill в результате Nicegram нельзя.",
+    "evidence_kind": "observed_local_descriptor_mismatch",
+    "implementation_status": "proposed"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Указывать resolved path/digest/version/provenance и обновлять why по достигнутому descriptor либо помечать как generic upstream description. Для каждого cast tool давать scoped input: что fixed, что open, какие deliverables нужны, чьи инструкции о copy/implementation применимы. frontend-design использовать для concept hypotheses/visual critique внутри согласованных границ, а не второй end-to-end router.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Fixture с двумя разными frontend-design реализациями одного имени показывает оба источника, выбирает actual resolved file и не печатает отсутствующие bans. Cast handoff для preserve-brand передаёт palette invariants, но оставляет composition exploration; для exact-Figma reproduction отключает aesthetic risk. Route trace хранит digest прочитанной версии."
+  ],
+  "verification_plan": {
+    "baseline": "В текущем reachable ~/.agents/skills/frontend-design/SKILL.md нет Inter/Roboto/Arial bans. Исходный upstream по source string не переаудирован, поэтому finding именно про несоответствие recommendation реально достигнутому skill на этой машине. В retrieved Nicegram turn его чтение не найдено; обвинять конкурирующий skill в результате Nicegram нельзя.",
+    "must_test": "Fixture с двумя разными frontend-design реализациями одного имени показывает оба источника, выбирает actual resolved file и не печатает отсутствующие bans. Cast handoff для preserve-brand передаёт palette invariants, но оставляет composition exploration; для exact-Figma reproduction отключает aesthetic risk. Route trace хранит digest прочитанной версии.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://sshlg-skills/lib/packs.js",
+      "sha256": "0f8ffe8e513e6ac996b57157e0963862659b683eccb2d5f9497c25380999c75f",
+      "role": "baseline source"
+    },
+    {
+      "path": "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+      "sha256": "1608ea77fbb6fc30d13a97d12cfa8ebf31358d40f0dd97beed24829d6b3f45dd",
+      "role": "read-only audit evidence"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+      "sha256": "245951a4a3adc9f52566b13cbb35b7e9548200e6d04fbf59a857502c4a442bf2",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "sheleg-design": "562786b30f07f50a294d70a4c3ffd40794624f42",
+    "sshlg-skills": "7ef37e8bd5220d6ab355346634ff19196de8f41b"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://sheleg-design",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://sshlg-skills",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://sshlg-skills/lib/packs.js",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 7
+}

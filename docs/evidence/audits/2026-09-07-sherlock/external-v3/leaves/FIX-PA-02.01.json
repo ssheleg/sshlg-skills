@@ -1,0 +1,212 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-PA-02.01",
+  "parent_id": "FIX-PA-02",
+  "title": "Отсутствие production измерения запрещает считать доказанный механизм дефектом",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "task-pipeline"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Отсутствие production измерения запрещает считать доказанный механизм дефектом",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Отдельно mechanism status, exploit/reproduction, exposure, observed incidence и impact uncertainty. Доказанный defect может иметь incidence unknown. UNKNOWN не равно 0; отсутствие телеметрии не понижает техническую истинность.\n\nУточнение PXS-04: ENRICH_EXISTING_AUDIT_FIXES; Не превращать отсутствие production/logs в запрет finding Не навязывать интервью; спросить только если неизвестное меняет действие Не копировать threat model quota или требование report always waits\nДобавить minimal finding-evidence schema и отобразить distinction code mechanism/deployment observation/assumptions.\nСогласовать audit.md/documentation.md с этой схемой без mandatory interview.\nПроверить три контрпримера: local defect/no production, documented exception, unknown attacker control.",
+  "expected_result": "Race reproduced/production unknown остаётся finding; нулевая выборка не превращается в нулевой риск; JSON хранит scope и время наблюдения.\nConfirmed local crash + no production logs остаётся code defect, external incidence UNKNOWN\nDocumented exception не меняет failed invariant в PASS\nUnknown attacker control понижает уверенность exploitability, не стирает observed behavior\nConfirmed local crash + no production logs остаётся code defect, external incidence UNKNOWN\nDocumented exception не меняет failed invariant в PASS\nUnknown attacker control понижает уверенность exploitability, не стирает observed behavior",
+  "acceptance": [
+    "Race reproduced/production unknown остаётся finding; нулевая выборка не превращается в нулевой риск; JSON хранит scope и время наблюдения.\nConfirmed local crash + no production logs остаётся code defect, external incidence UNKNOWN\nDocumented exception не меняет failed invariant в PASS\nUnknown attacker control понижает уверенность exploitability, не стирает observed behavior",
+    "Confirmed local crash + no production logs остаётся code defect, external incidence UNKNOWN",
+    "Documented exception не меняет failed invariant в PASS",
+    "Unknown attacker control понижает уверенность exploitability, не стирает observed behavior"
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Отдельно mechanism status, exploit/reproduction, exposure, observed incidence и impact uncertainty. Доказанный defect может иметь incidence unknown. UNKNOWN не равно 0; отсутствие телеметрии не понижает техническую истинность.\n\nУточнение PXS-04: ENRICH_EXISTING_AUDIT_FIXES; Не превращать отсутствие production/logs в запрет finding Не навязывать интервью; спросить только если неизвестное меняет действие Не копировать threat model quota или требование report always waits\nДобавить minimal finding-evidence schema и отобразить distinction code mechanism/deployment observation/assumptions.\nСогласовать audit.md/documentation.md с этой схемой без mandatory interview.\nПроверить три контрпримера: local defect/no production, documented exception, unknown attacker control.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "db94e3a51b1477995d267505d5a68a8803ad4e44f5f9a6f3bcb0bd292a18c215"
+    },
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/scripts/audit.py",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "64ce9dc7d2998673004e619864a94e42f54f3ebe8c27d2acf77bee448945cd7d"
+    },
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/audit.md",
+      "mode": "Edit",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": "8fee313b63fc907aed39506916a64156fb61cb87f7b9ec6b18fd6e895719a28c"
+    },
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/documentation.md",
+      "mode": "Edit",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": "8a8a3b5b9043c1153469279865dcd8997e7c57adb076d84983e51556ba90f657"
+    },
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/finding-evidence.json",
+      "mode": "Create",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://task-pipeline/test/audit_regressions/fix-pa-02.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-PA-02.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-PA-02.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/SKILL.md",
+        "sha256": "db94e3a51b1477995d267505d5a68a8803ad4e44f5f9a6f3bcb0bd292a18c215",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/scripts/audit.py",
+        "sha256": "64ce9dc7d2998673004e619864a94e42f54f3ebe8c27d2acf77bee448945cd7d",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Race reproduced/production unknown остаётся finding; нулевая выборка не превращается в нулевой риск; JSON хранит scope и время наблюдения.",
+      "Confirmed local crash + no production logs остаётся code defect, external incidence UNKNOWN",
+      "Documented exception не меняет failed invariant в PASS",
+      "Unknown attacker control понижает уверенность exploitability, не стирает observed behavior"
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit.",
+    "foreign_method_sources": [
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/security-threat-model/SKILL.md",
+        "line": 19,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/security-threat-model/SKILL.md#L19"
+      },
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/security-threat-model/references/prompt-template.md",
+        "line": 28,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/security-threat-model/references/prompt-template.md#L28"
+      }
+    ]
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [
+    {
+      "id": "PXS-04",
+      "title": "Развести кодовый дефект, эксплуатационный факт и предположение в аудите",
+      "owner": "task-pipeline/evidence-docs",
+      "target_files": [
+        {
+          "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/audit.md",
+          "mode": "Edit"
+        },
+        {
+          "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/documentation.md",
+          "mode": "Edit"
+        },
+        {
+          "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/finding-evidence.json",
+          "mode": "Create"
+        }
+      ],
+      "decision": "ENRICH_EXISTING_AUDIT_FIXES; Не превращать отсутствие production/logs в запрет finding Не навязывать интервью; спросить только если неизвестное меняет действие Не копировать threat model quota или требование report always waits",
+      "steps": [
+        "Добавить minimal finding-evidence schema и отобразить distinction code mechanism/deployment observation/assumptions.",
+        "Согласовать audit.md/documentation.md с этой схемой без mandatory interview.",
+        "Проверить три контрпримера: local defect/no production, documented exception, unknown attacker control."
+      ],
+      "acceptance": [
+        "Confirmed local crash + no production logs остаётся code defect, external incidence UNKNOWN",
+        "Documented exception не меняет failed invariant в PASS",
+        "Unknown attacker control понижает уверенность exploitability, не стирает observed behavior"
+      ],
+      "depends_on": [],
+      "related_existing": [
+        "FIX-PA-02",
+        "FIX-AS-14",
+        "FIX-PA-01"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/security-threat-model/SKILL.md",
+          "line": 19,
+          "sha": "49f948faa9258a0c61caceaf225e179651397431",
+          "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/security-threat-model/SKILL.md#L19"
+        },
+        {
+          "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/security-threat-model/references/prompt-template.md",
+          "line": 28,
+          "sha": "49f948faa9258a0c61caceaf225e179651397431",
+          "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/security-threat-model/references/prompt-template.md#L28"
+        }
+      ],
+      "inputs": [
+        "Source path+line+SHA; reproduction command/output; environment scope",
+        "Deployment evidence available or missing; attacker model if security applies"
+      ],
+      "outputs": [
+        "Minimal finding schema observed_mechanism / observed_incident / assumption / deployment_unknown",
+        "Risk priority with prerequisites and mitigation evidence"
+      ],
+      "new_required_runtime": [],
+      "new_api_keys": [],
+      "merged_into": "FIX-PA-02",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "verification_commands": [
+    "python3 repo://task-pipeline/test/audit_regressions/fix-pa-02.01.py",
+    "python3 repo://task-pipeline/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-PA-02.01.md",
+    "sha256": "0da0eb72e45cd05a29dfabd36ba4c2b18fea68194237e0cddef491987bc8ed89",
+    "utf8_bytes": 10833,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "56f3ebf370aef0409cb785b78d34a87abd442b8f9da038d881b97447444e05d7"
+  }
+}

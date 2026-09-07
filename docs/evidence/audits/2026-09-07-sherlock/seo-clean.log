@@ -1,0 +1,92 @@
+
+> @ssheleg/seo-aeo-audit@0.25.11 test:all
+> bash scripts/check-docs.sh && python3 test/negatives.py
+
+  unlooked: routed triggers — no sshlg-skills umbrella above this checkout
+residue: this run left nothing — 0 temp tree(s) created, 0 removed
+PASS: seo-aeo-audit structure valid (1 cursor rule(s), 25 reference(s), SKILL.md body ~4643/5000 tokens / 307/500 lines)
+  ok  a content change is seen
+  ok  a MODE-ONLY change is seen (the incident)
+  ok  no change at all is refused, by name
+  ok  a new file is seen
+  ok  a deleted file is seen
+  ok  .git churn is not mistaken for a plant
+  ok  a missing tree refuses rather than approves
+  ok  verify without snap refuses
+  ok  the manifest lives outside the tree
+residue: this run left nothing — 8 temp tree(s) created, 8 removed
+
+PASS: plant_guard — 9 cases
+residue: this run left nothing — 1 temp tree(s) created, 1 removed
+PASS: page_audit behavior (3 fixtures, markdown + json + scheme guard + headers, gzip, url-list and error paths, blindness caveat, schema completeness, directive parsing, price provenance, truncation honesty, per-finding tiers)
+residue: this run left nothing — 0 temp tree(s) created, 0 removed
+PASS: url_inspection behavior (documented field names, canonical verdicts, blockers, error rows, visible cap, every excluded state, tier scoped to answers)
+residue: this run left nothing — 1 temp tree(s) created, 1 removed
+PASS: collector behavior (psi field/lab separation, CLS rescale, absent-CrUX honesty, sitemap template families, orphan refusal, sitemap cap in the report, preflight/psi CrUX agreement, gsc text parity with json)
+residue: this run left nothing — 0 temp tree(s) created, 0 removed
+PASS: agent_surface behaviour
+residue: this run left nothing — 1 temp tree(s) created, 1 removed
+PASS: output contracts (flattening in 5 renderers, preflight table + stable denominator, exit status from the same predicate the report uses in all six collectors that can measure nothing, every emitted severity orderable, coverage vocabulary closed and seeded, provenance in all 7 collectors — closed field set, nothing guessed, credentials redacted, default format included, checker refuses six ways to lie)
+  ok  node: fresh HOME installs skill + command, and says how updates arrive
+  ok  node: rerun skips, --force overwrites, unknown arg exits 2
+  ok  node: plugin present in installed_plugins.json — refuse, exit 3, remedy, nothing written
+  ok  node: plugin under a differently-named marketplace — remedy names the real spec
+  ok  node: --force overrides the refusal, deliberately
+  ok  node: corrupt installed_plugins.json reads as no plugin — install, never crash
+  ok  node: other plugins, and a prefix-collider, do not trigger a false refusal
+  ok  node: marketplaces/<name> dir alone still refuses (fallback signal, exit 3)
+  ok  install.sh: fresh install, rerun-skip, and the update line
+  ok  install.sh: plugin present — refuse, exit 3, nothing written; --force installs
+  ok  install.sh: marketplaces dir alone refuses; corrupt JSON fails open
+PASS: installer behavior — 11 cases
+residue: this run left nothing — 11 temp tree(s) created, 11 removed
+  ok  a passing case leaves nothing, and the path is gone
+  ok  a clean run still says what it left
+  ok  a FAILING case keeps its tree, by name, with a remedy
+  ok  a crash keeps its tree and still reports
+  ok  residue is attributable by prefix
+  ok  plant_guard_test leaves an empty TMPDIR
+  ok  the four named suites leave an empty TMPDIR
+    (shared TMPDIR holds 0 ledger-prefixed tree(s); 0 belong to another run and are not this run's to answer for)
+  ok  this gate run left nothing in the shared TMPDIR
+  ok  a tree from another run is not this run's leak
+  ok  this run's own leak is still a failure
+  ok  workspace() embeds the run tag
+PASS: residue — 11 cases
+residue: this run left nothing — 5 temp tree(s) created, 5 removed
+OK: structure, doctrine guards and behaviour tests all pass
+running 31 negative self-tests
+
+  PASS   sed -i must not come back
+  PASS   a run that measured nothing must not exit 0
+  PASS   unflattened error text must fail
+  PASS   a script path relative to the caller must fail, in each home
+  PASS   a stale defect count must fail
+  PASS   lab score must never stand in for field data
+  PASS   the wrong canonical field name must fail
+  PASS   robots Allow precedence must fail if dropped
+  PASS   a redirect credited as the page asked for must fail
+  PASS   HTML comments counted as visible prose must fail
+  PASS   presence dressed up as effect must fail
+  PASS   a finding with no declared tier must fail
+  PASS   dropping the blindness caveat must fail
+  PASS   Cursor doctrine drift must fail
+  PASS   version drift must fail
+  PASS   missing reference must fail
+  PASS   the Discover reference is a contract, not a file
+  PASS   stray SKILL.md must fail
+  PASS   a compatibility that outgrows the spec cap must fail
+  PASS   auditor tests must be able to fail
+  PASS   renamed heading must break the auditor's anchors
+  PASS   bytecode in the shipped tree must fail
+  PASS   template drift must fail
+  PASS   s for the reconciliation guards
+  PASS   s for the provenance behaviour contracts
+  PASS   an installer that stops refusing must fail its suite
+  PASS   a manifest that declares no $schema must fail
+  PASS   a dead $schema address must fail
+  PASS   a $schema naming the wrong document type must fail
+  PASS   a $schema in the inert nested position must fail
+  PASS   a stale SKILL-CARD version must fail
+
+PASS: all 31 guards provably reject their planted defect

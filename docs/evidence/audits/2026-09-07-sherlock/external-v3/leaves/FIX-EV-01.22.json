@@ -1,0 +1,170 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-EV-01.22",
+  "parent_id": "FIX-EV-01",
+  "title": "Outcome corpus: stripe-billing",
+  "kind": "verification",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "sheleg-dev"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Проверка выбора названия не доказывает пользу выполнения скилла",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Для stripe-billing записать минимум positive, negative и ambiguous/no-op case из собственных audit findings; отдельно with/without skill. Не менять production integration для удобства grader.",
+  "expected_result": "Case manifest включает actual output oracle и raw result; stripe-billing не проходит лишь по названию. Недоступный live host = NOT_RUN.",
+  "acceptance": [
+    "Case manifest включает actual output oracle и raw result; stripe-billing не проходит лишь по названию. Недоступный live host = NOT_RUN."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Для stripe-billing записать минимум positive, negative и ambiguous/no-op case из собственных audit findings; отдельно with/without skill. Не менять production integration для удобства grader.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-dev/evals/cases/stripe-billing.json",
+      "mode": "Create",
+      "role": "focused outcome corpus (new artifact)",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-dev/test/audit_regressions/fix-ev-01.22.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-EV-01.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-EV-01.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/test/evals/RESULTS.md",
+        "sha256": "6f920d8631b8b7309dece75fc9488b178e4cbb6e1d0aa2ac41fc049cd0794b96",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://make-skill/test/evals/RESULTS.md",
+        "sha256": "1e824a230e73b636d85b537f6f73a5a6cd2fea0b197570438100a0ae56d4df6f",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://seo-aeo-audit/test/evals/RESULTS.md",
+        "sha256": "59dc76dd994a4343a990c455c9f0658e4d1059cbc677e51e9734b1ed5e6ae7ab",
+        "role": "baseline source"
+      },
+      {
+        "path": "audit://native-eval.log",
+        "sha256": "760143b98d7496b6e5a345197d121bdd015e5e768d635dda1a0f6b4b621c398d",
+        "role": "read-only audit evidence",
+        "audit_original_sha256": "760143b98d7496b6e5a345197d121bdd015e5e768d635dda1a0f6b4b621c398d"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Каждый из 28 имеет опубликованный manifest сценариев и прогоны на заявленных supported hosts; trace доказывает загрузку и outcome, ухудшение не скрывается средним."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-EV-01.01",
+      "kind": "data",
+      "reason": "Uses common outcome manifest and honest result semantics."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-dev/test/audit_regressions/fix-ev-01.22.py",
+    "python3 repo://sheleg-dev/test/validate.py"
+  ],
+  "focused_case_context": [
+    {
+      "finding_id": "DV-01",
+      "title": "Claim фиксирует получение, но ошибочно считается завершением работы",
+      "case_acceptance": [
+        "Убивать worker после claim, перед commit и после commit до effect; после рестарта ровно один grant, eventual delivery эффекта, completed только после durable перехода."
+      ],
+      "packet": "audit://extension/packets/FIX-DV-01.json"
+    },
+    {
+      "finding_id": "DV-02",
+      "title": "Пример renewal противоречит тесту переупорядоченных периодов и не сериализует grant",
+      "case_acceptance": [
+        "Реальная БД: webhook + reconciliation одновременно для одного invoice; затем February→January. Два разных оплаченных периода начислены, один период не дублируется, mirror остаётся February."
+      ],
+      "packet": "audit://extension/packets/FIX-DV-02.json"
+    },
+    {
+      "finding_id": "DV-03",
+      "title": "Компенсация количества не компенсирует уже снятые деньги",
+      "case_acceptance": [
+        "Симуляция successful charge + DB failure: деньги, entitlement, invoice и operation ledger сходятся после recovery; повтор API не создаёт второй invoice."
+      ],
+      "packet": "audit://extension/packets/FIX-DV-03.json"
+    },
+    {
+      "finding_id": "DV-04",
+      "title": "Refund CAS проигрыш молча теряет больший cumulative refund",
+      "case_acceptance": [
+        "Concurrent cumulative 4000/9000 в обоих порядках, crash после marker, retry старого события: total=9000 и суммарное clawback=9000 ровно один раз."
+      ],
+      "packet": "audit://extension/packets/FIX-DV-04.json"
+    },
+    {
+      "finding_id": "DV-19",
+      "title": "Eval измеряет узнавание доктрины и дизайн-ответ, не безопасность исполняемого результата",
+      "case_acceptance": [
+        "Для каждого skill минимум positive, near-miss negative, hostile/failure scenario; P1 контрпримеры обязаны падать на старом output и проходить после правки; результаты привязаны к release."
+      ],
+      "packet": "audit://extension/packets/FIX-DV-19.json"
+    }
+  ],
+  "inputs": [
+    {
+      "from_task": "FIX-EV-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-EV-01.22.md",
+    "sha256": "6755609de3e7a15ca3a188bc7abf1959a68eb37356d5d4610265ff42ae7a266b",
+    "utf8_bytes": 6156,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "fed10385bec2eba23e04fd39f5454b91d6556d1dc014f84e0fe654986fa3b18a"
+  }
+}
