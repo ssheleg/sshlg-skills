@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 10,
+  "done": 11,
   "blocked": 0
  },
  "queue": [
@@ -205,10 +205,14 @@
    "depends_on": [
     "FIX-DV-01.01"
    ],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "sheleg-dev@4373115 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-dv-01.02.py — OK 5 checks (sqlite rollback semantics, keyless mutant double-sends, both pack modes)",
+    "node assert-money-invariants.mjs — 21 invariants; --self-test — 15 rules each isolated",
+    "validate 27 / moneygate 65 / fixtures 16 / installer 11 — green"
+   ],
+   "notes": "One-transaction doctrine (entitlement+marker+completion+outbox) with at-least-once consumer key; reference handler got snapshot/restore transaction, keyed outbox rows, drainOutbox; SKILL.md body re-measured 4728t. Built on FIX-DV-01.01 (declared dependency). No release — branch handoff only."
   },
   {
    "id": "FIX-SY-01.02",
