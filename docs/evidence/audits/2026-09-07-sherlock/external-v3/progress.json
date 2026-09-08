@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 12,
+  "done": 13,
   "blocked": 0
  },
  "queue": [
@@ -245,10 +245,14 @@
    "depends_on": [
     "FIX-TG-01.01"
    ],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "telegram-dev@37caa99 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-tg-01.02.py — all green, 5 cases (both dedup layers, crash-after-send retry, pre-outbox double send reproduced, both fixture modes)",
+    "python3 update_delivery.py — OK 9 invariants; --self-test — every mutant dies (incl. send-outbox, send-consumer-key)",
+    "npm test — green; npm run test:negatives — 15/15"
+   ],
+   "notes": "Send outbox with consumer key mirrors the sheleg-dev pattern (same parent family); grant keyed on telegram_payment_charge_id across update ids. SKILL.md roster → nine invariants. No release — branch handoff only."
   },
   {
    "id": "ADOPT-M-02.01",
