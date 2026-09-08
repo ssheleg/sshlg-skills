@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 5,
+  "done": 6,
   "blocked": 0
  },
  "queue": [
@@ -115,10 +115,14 @@
    "kind": "implementation",
    "title": "Сохранить provenance вresearch synthesis",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "super-ux@43bd599 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/adopt-m-06.01.py — OK 6 checks (both channels byte-identical; documented row contract as behaviour: contradiction links both ways, number anchors, single-source flag, invented evidence, bare hypothesis)",
+    "python3 test/validate.py — OK 4633 checks (facts.md count recomputed 4623→4633)",
+    "npm test — green end to end + test:audit"
+   ],
+   "notes": "New shared contract skills/references/research-evidence.md, synced into ux-foundation via test/sync_references.py, linked with load condition in SKILL.md. NOTE: docs/brand/facts.md also modified on prepared branch codex/context-ready-skills-20260907 (its 4622→4623 hop) — trivial merge conflict expected there at integration. No release — branch handoff only."
   },
   {
    "id": "ADOPT-M-11.01",
