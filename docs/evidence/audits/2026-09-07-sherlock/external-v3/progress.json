@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 2,
+  "done": 3,
   "blocked": 0
  },
  "queue": [
@@ -61,10 +61,15 @@
    "kind": "implementation",
    "title": "Durable inbox before ack",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "telegram-dev@3dbce80 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-tg-01.01.py — exit 0, 6/6 (doctrine phrases, both acceptance behaviours, pre-inbox shape reproduces the loss, both fixture modes)",
+    "python3 update_delivery.py — OK 6 invariants; --self-test — every mutant dies (incl. inbox-before-ack, worker-retry)",
+    "python3 test/validate.py — OK 14 checks; npm test — green end to end",
+    "npm run test:negatives — 15 planted defects refused"
+   ],
+   "notes": "Durable inbox (pending→done) written before the ack in both webhook and polling doctrine; worker lease/retry owns eventual completion; the pre-inbox claim-then-work shape kept as the mutant and its loss reproduced in the regression. CI + npm test run test/audit_regressions/*. Limits: business/send dedup is leaf FIX-TG-01.02; no release/merge — branch handoff only."
   },
   {
    "id": "FIX-UP-02.01",
