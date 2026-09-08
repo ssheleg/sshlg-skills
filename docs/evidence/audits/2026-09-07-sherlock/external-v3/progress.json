@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 7,
+  "done": 8,
   "blocked": 0
  },
  "queue": [
@@ -151,10 +151,14 @@
    "kind": "implementation",
    "title": "Packet and context schemas",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "task-pipeline@21c9ab7 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/ctx-01.01.py — OK 6 checks (unknown major/versionless, missing digest/address/baseline, unbound decision, stable canonical digest, empty budget)",
+    "npm test — PASS (validate, graph 152 cases, project_audit) + test:audit-regressions",
+    "CLAUDE.md gloss + README line count recomputed per the validator"
+   ],
+   "notes": "execution-packet.schema.json + example + scripts/packet.py (stdlib validate/canon). npm script named test:audit-regressions — test:audit was already taken by project_audit_test. Siblings CTX-01.02 (attempt/result schemas) and .03 (typed deps/graph closure) build on this. Prepared branch touches SKILL.md (2 lines) + references/planning.md — small merge overlap possible. No release — branch handoff only."
   },
   {
    "id": "FIX-AS-01.01",
