@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 9,
+  "done": 10,
   "blocked": 0
  },
  "queue": [
@@ -186,10 +186,13 @@
    "kind": "implementation",
    "title": "Рекомендации Discover превращены в обязательный gate",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "seo-aeo-audit@bf1f24a (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-se-01.01.py — OK 8 checks (doctrine split, per-CONFIRMED sources, classifier behaviour both ways)",
+    "bash scripts/check-docs.sh — OK; npm test green + test:audit"
+   ],
+   "notes": "discover.md: gate → three checks (eligibility automatic / large-preview permission incl. AMP / 1200px recommendation), og-chains → FIELD section, findings routing rewritten, no ineligibility verdict from tags. SKILL.md eleventh-pass paragraph updated. Wave 1 complete (10/10). No release — branch handoff only."
   },
   {
    "id": "FIX-DV-01.02",
