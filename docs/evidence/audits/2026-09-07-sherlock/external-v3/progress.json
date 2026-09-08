@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 1,
+  "done": 2,
   "blocked": 0
  },
  "queue": [
@@ -42,10 +42,15 @@
    "kind": "implementation",
    "title": "Received vs completed state",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "sheleg-dev@aabec96 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-dv-01.01.py — exit 0, 7/7 (doctrine phrases, sqlite semantics incl. one-winner takeover race, both pack modes)",
+    "python3 test/validate.py — OK 27 checks",
+    "node assert-money-invariants.mjs — 18 invariants; --self-test — 13 rules each isolated",
+    "node test/moneygate_test.js — 65; node test/fixtures_test.js — 16; node test/installer_test.js — 11"
+   ],
+   "notes": "Webhook claim is now a state machine: processing→completed, claimed_at + CLAIM_TTL_MS takeover, completion marked in the grant transaction, in-flight answers 5xx. Four new pack invariants; concurrent loser may answer in-flight. SKILL.md body re-measured 4716t/382l in docs/evals. Limits: transactional outbox / business dedup is leaf FIX-DV-01.02; no release/merge — branch handoff only."
   },
   {
    "id": "FIX-TG-01.01",
