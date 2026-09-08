@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 13,
+  "done": 14,
   "blocked": 0
  },
  "queue": [
@@ -263,10 +263,13 @@
    "kind": "implementation",
    "title": "Зафиксировать метод output eval без hostlock",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "make-skill@5fb8828 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/adopt-m-02.01.py — OK 6 checks (method phrases, three-axis examples, verdict algebra both ways, no hard-wired actor)",
+    "npm test — green (validator + all suites + test:audit); SKILL-CARD count 10→11 and README row recomputed per validator"
+   ],
+   "notes": "New references/outcome-evaluation.md routed from SKILL.md table and authoring.md eval loop: frozen inputs, baseline-vs-current arms, artifact checks, routing/correctness/visual split, PASS/FAIL/ERROR/NOT_RUN with ERROR/NOT_RUN never promoted; actors host-supplied. No release — branch handoff only."
   },
   {
    "id": "ADOPT-M-07.01",
