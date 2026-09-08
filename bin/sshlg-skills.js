@@ -8,8 +8,8 @@
  * agent: the vercel `skills` CLI (70+ agents), `claude plugin` (Claude Code),
  * and `git submodule` (pinned snapshots). Zero npm dependencies.
  *
- *   npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only]
- *   npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins]
+ *   npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only] [--dry-run]
+ *   npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins] [--dry-run]
  *   npx sshlg-skills list
  *   npx sshlg-skills agents
  */
@@ -21,6 +21,7 @@ const os = require('os');
 const { spawnSync } = require('child_process');
 
 const plan = require('../lib/plan.js');
+const opres = require('../lib/operation-result.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'skills.json'), 'utf8'));
@@ -123,7 +124,10 @@ function agentList(f) {
 // The skills CLI auto-detects Claude Code and writes ~/.claude/skills/<id> even when
 // we never ask for that agent. While the Claude PLUGIN channel is active those plain
 // copies shadow the plugin, so prune them — "one channel per agent", enforced.
-function pruneClaudeShadows() {
+// What pruneClaudeShadows WOULD remove, computed without removing it — the same
+// list feeds the operation plan (so `--dry-run` can name the deletions) and the
+// deletion loop (so the receipt and the act cannot drift apart).
+function shadowCandidates() {
   const base = path.join(os.homedir(), '.claude', 'skills');
   const ls = (d) => { try { return fs.readdirSync(d); } catch (_) { return []; } };
 
@@ -150,8 +154,13 @@ function pruneClaudeShadows() {
     marketplace: s.pluginInstall.split('@')[1],
     skillNames: s.skillNames,
   }));
+  return plan.shadowsToPrune(members, installedMarketplaces(), ls(base));
+}
+
+function pruneClaudeShadows() {
+  const base = path.join(os.homedir(), '.claude', 'skills');
   const pruned = [];
-  for (const id of plan.shadowsToPrune(members, installedMarketplaces(), ls(base))) {
+  for (const id of shadowCandidates()) {
     try {
       fs.rmSync(path.join(base, id), { recursive: true, force: true });
       pruned.push(id);
@@ -177,8 +186,8 @@ function usage() {
 Skills: ${SKILLS.map(s => s.name).join(', ')}
 
 Usage:
-  npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only]
-  npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins]
+  npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only] [--dry-run]
+  npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins] [--dry-run]
   npx sshlg-skills routers [--member <name>] [--update] [--dry-run]
   npx sshlg-skills routers --diff <name>              # your wording vs the packaged one
   npx sshlg-skills routers --update --adopt <name>    # take the packaged wording for it
@@ -208,7 +217,10 @@ Defaults:
   - --no-claude skip the Claude plugin step.
   - --claude-only install/update only the Claude plugins.
   - --bump-pins  (update only) also fast-forward the pinned submodules to their
-                 upstream tips — off by default so pins stay reproducible.`);
+                 upstream tips — off by default so pins stay reproducible.
+  - --dry-run    (install/update) build the full operation plan — every
+                 subprocess, prune, router and runtime action — render it, and
+                 execute NOTHING. The receipt is complete; the mutations are zero.`);
 }
 
 function skillsCliAgents(f) {
@@ -227,7 +239,96 @@ function runPlanned(argv) {
   return run('npx', argv);
 }
 
+/**
+ * The immutable plan `install` would execute — built BEFORE anything runs.
+ *
+ * Finding UP-02: `--dry-run` was accepted for every command and `install`/
+ * `update` executed their subprocesses and deletions anyway. The plan is built
+ * from the SAME arrays the execution loops walk (`plan.installPlan`,
+ * `plan.updatePlan`, `shadowCandidates`), so the receipt a dry run renders and
+ * the actions a real run takes cannot drift apart.
+ */
+function planInstall(f) {
+  const steps = [];
+  if (!f.claudeOnly) {
+    for (const argv of plan.installPlan(SKILLS, skillsCliAgents(f))) {
+      steps.push(opres.step('subprocess', 'home', `skills add ${argv[3]}`, { cmd: 'npx', args: argv }));
+    }
+    steps.push(opres.step('prune', 'home',
+      'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
+      { paths: shadowCandidates().map(id => path.join(os.homedir(), '.claude', 'skills', id)) }));
+  }
+  if (f.claude || f.claudeOnly) {
+    for (const s of SKILLS) {
+      steps.push(opres.step('subprocess', 'home', `claude plugin marketplace add (${s.name})`,
+        { cmd: 'claude', args: ['plugin', 'marketplace', 'add', s.pluginMarketplace] }));
+      steps.push(opres.step('subprocess', 'home', `claude plugin install ${s.pluginInstall}`,
+        { cmd: 'claude', args: ['plugin', 'install', s.pluginInstall] }));
+    }
+  }
+  if (!f.member) {
+    steps.push(opres.step('router-block', 'home',
+      'refresh the managed routing block (its own consent and dry-run rules apply)',
+      { mode: 'install' }));
+  }
+  return opres.buildPlan(steps);
+}
+
+/** The same contract for `update` — every subprocess, prune, router and runtime action. */
+function planUpdate(f) {
+  const steps = [];
+  if (!f.claudeOnly && fs.existsSync(path.join(ROOT, '.gitmodules'))) {
+    steps.push(opres.step('subprocess', 'checkout',
+      f.bumpPins ? 'bump submodule pins to upstream tips (--bump-pins)'
+        : 'materialize pinned submodules (pins unchanged)',
+      { cmd: 'git', args: f.bumpPins
+        ? ['-C', ROOT, 'submodule', 'update', '--init', '--remote', '--merge']
+        : ['-C', ROOT, 'submodule', 'update', '--init', '--recursive'] }));
+  }
+  if (!f.claudeOnly) {
+    for (const argv of plan.updatePlan(SKILLS, skillsCliAgents(f))) {
+      steps.push(opres.step('subprocess', 'home', `skills ${argv[2]} ${argv[3]}`, { cmd: 'npx', args: argv }));
+    }
+    steps.push(opres.step('prune', 'home',
+      'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
+      { paths: shadowCandidates().map(id => path.join(os.homedir(), '.claude', 'skills', id)) }));
+  }
+  if (f.claude || f.claudeOnly) {
+    for (const s of SKILLS) {
+      steps.push(opres.step('subprocess', 'home', `claude plugin marketplace update (${s.name})`,
+        { cmd: 'claude', args: ['plugin', 'marketplace', 'update', s.pluginInstall.split('@')[1]] }));
+      steps.push(opres.step('subprocess', 'home', `claude plugin update ${s.pluginInstall}`,
+        { cmd: 'claude', args: ['plugin', 'update', s.pluginInstall] }));
+    }
+  }
+  if (!f.member) {
+    steps.push(opres.step('router-block', 'home',
+      'refresh the managed routing block (its own consent and dry-run rules apply)',
+      { mode: 'update' }));
+  }
+  try {
+    steps.push(opres.step('runtime-sync', 'runtime',
+      'refresh the wired hook runtime copy (create: false)',
+      { root: require('../lib/hooks.js').runtimeDir(os.homedir()) }));
+  } catch (_) { /* no runtime dir resolvable — the execution path reports it */ }
+  return opres.buildPlan(steps);
+}
+
+/** Dry-run IS the render: the complete receipt, a typed result, zero mutations. */
+function renderDryRun(planned, mode) {
+  log(`\n== --dry-run: the ${mode} plan, rendered — nothing executed ==`);
+  for (const line of opres.render(planned)) log(line);
+  const res = opres.result({
+    scope: 'home', status: 'dry-run',
+    evidence: `${planned.steps.length} action(s) planned; 0 mutations`,
+  });
+  log(`\nresult: ${res.status} — ${res.evidence}`);
+  return opres.exitCode(res) === 0;
+}
+
 function cmdInstall(f) {
+  const planned = planInstall(f);
+  if (f.dryRun) return renderDryRun(planned, 'install');
   let ok = true;
   if (!f.claudeOnly) {
     const agents = skillsCliAgents(f);
@@ -275,6 +376,8 @@ function refreshBlock(f, mode) {
 }
 
 function cmdUpdate(f) {
+  const planned = planUpdate(f);
+  if (f.dryRun) return renderDryRun(planned, 'update');
   let ok = true;
   // The plan is COUNTED, not estimated — the same arrays the loops below walk, so a
   // member added to the family changes the denominator without anyone remembering to.
