@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 15,
+  "done": 16,
   "blocked": 0
  },
  "queue": [
@@ -301,10 +301,13 @@
    "depends_on": [
     "ADOPT-M-11.01"
    ],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "sheleg-design@92086c2 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/adopt-m-12.01.py — OK 6 checks (link resolves, no new router, receipt rule both ways)",
+    "python3 test/validate.py — OK 5650; npm test — green"
+   ],
+   "notes": "SKILL.md a11y block extended: scoped-not-routed connection (craft gate contrast row + render critique consume evidence verdicts), visual judgment ≠ WCAG conformance (glance cannot produce a conformance row), description surface unchanged. Built on ADOPT-M-11.01. No release — branch handoff only."
   },
   {
    "id": "CTX-01.02",
