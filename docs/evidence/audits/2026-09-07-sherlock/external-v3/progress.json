@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 4,
+  "done": 5,
   "blocked": 0
  },
  "queue": [
@@ -98,10 +98,13 @@
    "kind": "implementation",
    "title": "Добавить выборочную загрузку refs с бюджетом",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "make-skill@b25c1f6 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/adopt-m-01.01.py — OK 5 checks (shipped checker as process: variant selection passes, bare pointer flagged, missing ref exit 1, labeled token estimates)",
+    "npm test — green (validate, plant_guard 9, checker parity 17, residue 11, installer) + test:audit"
+   ],
+   "notes": "authoring.md: new \"Selective loading\" section — per-reference load conditions, primary/appendix split (acceptance never truncated), variant selection for multilingual bundles, missing required ref blocks, token figures measured-or-labeled. Checklist + Contents extended. Checker itself unchanged — its pointer/link/estimate machinery already enforces the contract; backtick-quoted pointers stay exempt by design. Prepared branch codex/dependency-free-knowledge-20260907 untouched (it does not edit authoring.md). No release — branch handoff only."
   },
   {
    "id": "ADOPT-M-06.01",
