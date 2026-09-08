@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 3,
+  "done": 4,
   "blocked": 0
  },
  "queue": [
@@ -80,10 +80,14 @@
    "kind": "implementation",
    "title": "Central operation plan",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "sshlg-skills@1c68ec0 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-up-02.01.py — OK 5 checks (real CLI + npx/claude/git shims + temp HOME: 0 calls, byte-identical HOME, complete receipt, no env secret; plan executes without the flag; failing child nonzero)",
+    "node test/operation-result_test.js — PASS 14 cases",
+    "npm test — PASS 52 suites, 939 fixtures (ratchets recounted in DOCMAP)"
+   ],
+   "notes": "lib/operation-result.js: immutable OperationPlan + typed OperationResult (scope/status/evidence/errorClass/remediation), aggregate never promotes unknown/unsupported to success, secret-shaped effect keys refused. bin builds plans from the same arrays execution walks; --dry-run renders only. test/run.js discovers test/audit_regressions/*.py. Limits: execution path still ok-boolean chains (typed per-step results during execution can deepen in FIX-UP tasks that follow); no release — branch handoff only."
   },
   {
    "id": "ADOPT-M-01.01",
