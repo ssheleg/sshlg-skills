@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 233,
+    "done": 234,
     "blocked": 0
   },
   "queue": [
@@ -4007,10 +4007,11 @@
         "FIX-UP-07.02",
         "FIX-UP-07.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "88c78bd",
+      "checks": "regression 7/7; all agent-sync suites green (validate/self-test/claim_cell/hooks/installer + 13 audit regressions)",
+      "notes": "pipeline_installed searches every host layout (Claude/Codex/Gemini caches+plain+hub), injectable home, explicit cfg pipelinePath wins; lease core independent of binding; SKILL trimmed under budget; reconciled 06.02 needle latent-red",
+      "repo": "agent-sync"
     },
     {
       "id": "FIX-UX-07.02",
