@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 237,
+    "done": 238,
     "blocked": 0
   },
   "queue": [
@@ -4075,10 +4075,11 @@
       "kind": "implementation",
       "title": "Approval оператора может стереть происхождение предположения",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "2b713d7",
+      "checks": "regression 6/6; npm test EXIT=0 (4674)",
+      "notes": "three axes evidence_kind/decision_status/validation_status; approval moves decision only; validation moves on dated interview/observation; founder cannot promote wished persona to observed; F×S×S + emotion carry source/scale or unknown; edited SOURCE scenario-format + synced",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-DV-19.03",
