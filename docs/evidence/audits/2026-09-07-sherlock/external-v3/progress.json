@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 101,
+    "done": 102,
     "blocked": 0
   },
   "queue": [
@@ -1749,10 +1749,11 @@
       "kind": "implementation",
       "title": "Платформенные ограничения описаны как универсальные и частично устарели",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "d384921",
+      "checks": "regression 6/6; npm test EXIT=0; SKILL.md 4748",
+      "notes": "SKILL.md host-capabilities-vary-by-host+version (Codex has subagents/MCP); agent-skills-spec.md capability matrix + norm table (owner/required/date); --strict version-gated; validate.py check updated",
+      "repo": "make-skill"
     },
     {
       "id": "FIX-DV-08.01",
