@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 255,
-  "done": 28,
+  "done": 29,
   "blocked": 0
  },
  "queue": [
@@ -532,10 +532,13 @@
    "kind": "implementation",
    "title": "Semantic token adapter",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "sheleg-design@0e58887 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-ds-01.01.py — all green, 5 cases",
+    "validate 5650 OK; npm test green; kits re-synced"
+   ],
+   "notes": "Ten-role semantic adapter in workbench+orchard token layers (@adapter / @absent), SKILL.md contract paragraph, pre-comparison missing-token audit. Sibling .02 owns the comparison harness. No release — branch handoff only."
   },
   {
    "id": "FIX-EV-01.15",
