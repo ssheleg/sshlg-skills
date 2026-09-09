@@ -30,6 +30,43 @@ const SKILLS = manifest.skills;
 function log(m) { process.stdout.write(m + '\n'); }
 
 /**
+ * The skills CLI, PINNED (FIX-UP-01.02). `npx skills …` floats to whatever
+ * implementation npx resolves; the family pins the version in package.json's
+ * `skillsCli` field so a checkout installs the same CLI it was tested with. An
+ * unpinned CLI is not a pin, and this is the one external tool the launcher
+ * cannot version by a submodule.
+ */
+function cliSpec() {
+  try {
+    const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+    return pkg.skillsCli || 'skills';
+  } catch (_) { return 'skills'; }
+}
+
+/** Replace the bare `skills` token in a plan argv with the pinned spec, so the
+ * spawned `npx` resolves the pinned CLI, not the floating one. */
+function pinnedArgv(argv) {
+  return argv.map((a) => (a === 'skills' ? cliSpec() : a));
+}
+
+/**
+ * Resolve read-only BEFORE any apply (FIX-UP-01.02): fetch every member's
+ * payload and verify its digest against the lock, and BLOCK the whole apply if
+ * any payload is corrupt, missing or unpinnable — before a single mutation.
+ * `fetch(member)` is injected (network in production, a stub in tests) and
+ * returns `{digest}` or throws/omits it. Returns `{ready, blocked}`; an
+ * unpinnable member is reported, never silently treated as pinned.
+ */
+function resolvePayloads(lock, fetch) {
+  const um = require(path.join(ROOT, 'lib', 'updatemodel.js'));
+  const verdicts = um.checkLock(lock, (m) => {
+    try { return fetch(m) || {}; } catch (_) { return {}; }
+  });
+  const blocked = verdicts.filter((v) => v.verdict !== 'SAME_BYTES');
+  return { ready: blocked.length === 0, blocked, verdicts };
+}
+
+/**
  * How far through, and what failed — because `update` is 55 serial child processes.
  *
  * Measured 2026-09-01: 37 skills-CLI steps + 18 plugin calls + one submodule sync, every
@@ -236,7 +273,7 @@ function skillsCliAgents(f) {
  */
 function runPlanned(argv) {
   log(`\n- ${argv[2]} ${argv[3]}`);
-  return run('npx', argv);
+  return run('npx', pinnedArgv(argv));
 }
 
 /**
@@ -252,7 +289,7 @@ function planInstall(f) {
   const steps = [];
   if (!f.claudeOnly) {
     for (const argv of plan.installPlan(SKILLS, skillsCliAgents(f))) {
-      steps.push(opres.step('subprocess', 'home', `skills add ${argv[3]}`, { cmd: 'npx', args: argv }));
+      steps.push(opres.step('subprocess', 'home', `skills add ${argv[3]}`, { cmd: 'npx', args: pinnedArgv(argv) }));
     }
     steps.push(opres.step('prune', 'home',
       'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
@@ -287,7 +324,7 @@ function planUpdate(f) {
   }
   if (!f.claudeOnly) {
     for (const argv of plan.updatePlan(SKILLS, skillsCliAgents(f))) {
-      steps.push(opres.step('subprocess', 'home', `skills ${argv[2]} ${argv[3]}`, { cmd: 'npx', args: argv }));
+      steps.push(opres.step('subprocess', 'home', `skills ${argv[2]} ${argv[3]}`, { cmd: 'npx', args: pinnedArgv(argv) }));
     }
     steps.push(opres.step('prune', 'home',
       'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
@@ -1351,4 +1388,8 @@ function main(argv) {
   log(`unknown command: ${cmd}`); usage(); return 2;
 }
 
-process.exit(main(process.argv));
+if (require.main === module) {
+  process.exit(main(process.argv));
+}
+
+module.exports = { cliSpec, pinnedArgv, resolvePayloads };
