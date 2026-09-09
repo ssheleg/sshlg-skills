@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 106,
+    "done": 107,
     "blocked": 0
   },
   "queue": [
@@ -1835,10 +1835,11 @@
       "depends_on": [
         "FIX-EV-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "970c3a3",
+      "checks": "regression 4/4; harness validated 5 cases live; npm test EXIT=0",
+      "notes": "evals/cases/task-pipeline.json: full brief 0 questions (TP-01), negative, custom profile no forced stages (TP-03), unused rule not auto-removed (TP-04), scenarios without super-ux (TP-02)",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-VD-04.01",
