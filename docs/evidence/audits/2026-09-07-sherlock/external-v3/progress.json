@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 228,
+    "done": 229,
     "blocked": 0
   },
   "queue": [
@@ -3919,10 +3919,11 @@
       "kind": "implementation",
       "title": "Оптимизационные эвристики превращены в запреты без измерений и поддерживаемых сценариев",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "5bafd17",
+      "checks": "regression 7/7; 17.01 still green; npm test EXIT=0",
+      "notes": "measure-first banner (trace+scenarios/browser-support/accessibility owner); acceptance axes low-end+slow-net/keyboard+headings/browser matrix/no unapproved CSP/comparable measurements no functional loss; lazy=waterfall, browserslist=user policy, named imports conditional, CSP by necessity, headings by structure",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-SY-06.02",
