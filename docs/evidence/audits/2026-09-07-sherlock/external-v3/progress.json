@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 115,
+    "done": 116,
     "blocked": 0
   },
   "queue": [
@@ -1981,10 +1981,11 @@
       "depends_on": [
         "FIX-EV-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "9fa1f98",
+      "checks": "regression 6/6; harness validated 5 cases live; npm test EXIT=0",
+      "notes": "evals/cases/agent-evals.json: greenfield 3-trial minimum (AS-06), negative routing, order-sensitivity w/ negative example (AS-07), boundary-n honesty no-op (AS-08), regrade-vs-candidate flip (AS-10)",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-PA-02.01",
