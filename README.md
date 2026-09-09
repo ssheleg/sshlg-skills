@@ -199,9 +199,31 @@ npx sshlg-skills update               # installed but behind — updates everyth
 npx --yes sshlg-skills@latest list    # what the current release of each member is
 ```
 
-**The three commands are the whole interface**: `install` when nothing is there, `update` when it is
+**Three commands carry the daily interface**: `install` when nothing is there, `update` when it is
 there and behind, `list` to see what the current release of each member is. A member updated on its
 own leaves the bundle in a combination nobody tested, which is why `update` takes no member argument.
+
+### The way back
+
+Install had no reverse until v1.47.0 — and clearing an agent's skill store had no recoverable path
+at all. Four commands close that:
+
+```bash
+npx sshlg-skills uninstall [--no-claude] [--dry-run]   # the reverse of install
+npx sshlg-skills backup                                # archive ALL skills of ALL agents
+npx sshlg-skills wipe [--dry-run]                      # backup + verify, THEN remove them all
+npx sshlg-skills restore [<archive>]                   # bring the newest (or named) backup back
+```
+
+`uninstall` removes exactly what install reaches: the family's skill ids out of every discovered
+agent channel — provenance-checked, so a foreign skill that merely shares a name is reported and
+kept — the Claude Code plugins with their marketplaces, the managed routing block (through the
+same backup-first `protect()` every operator-file write uses; bytes outside the sentinels are
+preserved), the Cursor rules file, and the hooks. `backup`/`wipe`/`restore` operate on the WHOLE
+store, family or not: one `tar.gz` relative to `$HOME` with symlinks kept as symlinks, a manifest
+beside it, and one gate — **a wipe whose backup could not be taken and verified against the
+archive's own listing does not run.** Restore verifies the counts back against the manifest and
+names every channel that came up short.
 
 Updates every skills-CLI install and every Claude Code plugin, and materializes
 the pinned submodules in a checkout **without moving the pins**. Restart Claude

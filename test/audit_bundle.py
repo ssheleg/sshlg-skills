@@ -16,10 +16,17 @@ Three questions, kept apart because they fail differently:
 
   SIZE      body < 5000 tokens and < 500 lines (5% headroom 4750/475);
             description <= 1024 chars (headroom 970); a reference over 100
-            lines opens with `## Contents`. The ALWAYS-ON total — every
-            description, every command description, plus the routing block —
-            is paid in every session of every project whether or not a single
-            skill fires, and nothing else measures it.
+            lines opens with `## Contents`. The raw_catalog_cl100k total —
+            every description, every command description, plus the routing
+            block — is a STATIC count of what the catalog offers, under one
+            named tokenizer. What a session actually pays is a different
+            measurement: it depends on the host and its version, on listing
+            truncation, on-demand loading and post-compaction reuse, none of
+            which this instrument can see. measured_prompt_cost comes only
+            from a runtime trace (SSHLG_PROMPT_TRACE), prints beside its host
+            and version, and is `unknown` when no sample exists — the static
+            count never stands in for it, and catalog size is a budget, not a
+            quality verdict.
   CONFLICT  two skills answering to the same id or the same trigger phrase,
             a plain copy shadowing a plugin, a skill shipped but undeclared.
   ROUTING   every router's required member present, every declared entry a
@@ -160,9 +167,40 @@ def main():
     desc_tok = sum(tok(r['desc']) for r in rows)
     cmd_tok = sum(c[1] for c in commands)
     print(f"\n  {len(rows)} skills, {len(commands)} commands")
-    print(f"  ALWAYS-ON  descriptions {desc_tok} + commands {cmd_tok} + block {tok(block)}"
-          f" = {desc_tok + cmd_tok + tok(block)} tok, every session of every project")
+    # raw_catalog_cl100k is the STATIC catalog count. It shares no field and no
+    # label with the runtime measurement below: the sum cannot know the active
+    # host, listing truncation, on-demand loading or post-compaction reuse, so
+    # calling it a per-session price was the instrument claiming a completeness
+    # it does not have (UB-01).
+    raw_catalog_cl100k = desc_tok + cmd_tok + tok(block)
+    print(f"  RAW-CATALOG  raw_catalog_cl100k = descriptions {desc_tok} + commands {cmd_tok}"
+          f" + block {tok(block)} = {raw_catalog_cl100k} tok — a static count, not a session price")
     print(f"  ON-INVOKE  sum of bodies {sum(r['body_tok'] for r in rows)} — only the triggered one loads")
+
+    # measured_prompt_cost: ONLY from a runtime trace — a JSON file named by
+    # SSHLG_PROMPT_TRACE carrying {host, host_version, exposed_listing}. The
+    # measured number prints beside its host and version, and compares what the
+    # catalog generates against what the host actually exposed. No sample means
+    # the word `unknown`, never the static count wearing a new name.
+    trace_path = os.environ.get('SSHLG_PROMPT_TRACE', '')
+    if trace_path and os.path.isfile(trace_path):
+        try:
+            trace = json.load(open(trace_path, encoding='utf-8'))
+            exposed = trace.get('exposed_listing', '')
+            measured_prompt_cost = tok(exposed)
+            host = trace.get('host', 'unnamed-host')
+            hver = trace.get('host_version', 'unknown-version')
+            print(f"  MEASURED   measured_prompt_cost = {measured_prompt_cost} tok"
+                  f" on {host} {hver} (runtime trace: {trace_path})")
+            delta = raw_catalog_cl100k - measured_prompt_cost
+            print(f"             catalog offers {raw_catalog_cl100k}, the host exposed"
+                  f" {measured_prompt_cost} — delta {delta} tok"
+                  f" (truncation/on-demand/reuse live in this gap)")
+        except (ValueError, OSError) as e:
+            print(f"  MEASURED   measured_prompt_cost = unknown — trace unreadable ({e})")
+    else:
+        print("  MEASURED   measured_prompt_cost = unknown — no runtime trace sample"
+              " (set SSHLG_PROMPT_TRACE; the static count above is NOT it)")
 
     # ------------------------------------------------------------ CONFLICT
     for skill_id, count in collections.Counter(r['skill'] for r in rows).items():

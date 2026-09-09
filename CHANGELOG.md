@@ -1,3 +1,35 @@
+## [Unreleased]
+
+**The way back exists now.** `install` had no reverse, and clearing an agent's
+skill store had no recoverable path — the operator's own audit said so, in so
+many words. Four commands close it, and every decision they take lives in a
+pure module (`lib/skillstore.js`), fixtured without a HOME:
+
+- `uninstall [--no-claude] [--dry-run]` — the reverse of `install`: the
+  family's 28 skill ids out of every discovered agent channel
+  (provenance-checked — a symlink resolving into the family or a lock row
+  naming `ssheleg/*` removes; a foreign skill that merely shares a name is
+  reported and KEPT), the Claude plugins and their marketplaces, the managed
+  routing block through the same backup-first `protect()` as every
+  operator-file write (`lib/routers.js` grew `removeBlock`: bytes outside the
+  sentinels byte-for-byte, half a block never guessed at), the Cursor rules
+  file, the hooks, and the removed ids out of `~/.agents/.skill-lock.json`
+  (copy kept beside it). The dry run renders the SAME arrays the real run
+  walks (the UP-02 rule).
+- `backup` — one `tar.gz` of ALL skills of ALL agents, relative to `$HOME`,
+  symlinks preserved as symlinks, manifest beside it, verified against the
+  archive's OWN listing (20187/20187 on the machine it was built on).
+- `wipe [--dry-run]` — backup, verify, and only then remove: **a wipe whose
+  backup could not be taken and verified does not run** (`wipeGate`), the
+  copy-first rule the operator files live under, held for the skill stores.
+- `restore [<archive>]` — newest by default, counts verified back against the
+  manifest, every short channel named.
+
+`test/skillstore_test.js`: 9 checks — the pure rules plus an end-to-end
+backup → wipe → restore round-trip in a temp HOME (symlinks come back as
+symlinks, not copies — the shadow trap our own restore must not recreate) and
+an uninstall that keeps the stranger, strips the block and spares the prose.
+
 ## v1.46.1 — the annotated-tag rule, paid once by the run that shipped everything else
 
 **v1.46.0 is a burned tag** — the wave's fourth, and this repository's own lesson:

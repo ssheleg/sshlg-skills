@@ -92,6 +92,15 @@ const suites = entries.filter((f) => f.endsWith('_test.js'));
 // misses was found by the guard holding the list.
 const pySuites = entries.filter((f) => f.endsWith('_test.py'));
 
+// Audit regressions: one file per closed sherlock-audit finding, discovered like
+// everything else. The directory arriving empty is fine; a glob that broke is not,
+// and the js/py guard below already refuses a run that discovered nothing.
+const auditDir = path.join(TEST_DIR, 'audit_regressions');
+const auditSuites = fs.existsSync(auditDir)
+  ? fs.readdirSync(auditDir).sort().filter((f) => f.endsWith('.py'))
+      .map((f) => path.join('audit_regressions', f))
+  : [];
+
 if (!suites.length || !pySuites.length) {
   // An empty run is not a pass. A rename or a bad glob would otherwise turn
   // "no tests" into "all tests green".
@@ -106,7 +115,7 @@ const failed = [];
 if (!run('structural validator', 'python3', [path.join(TEST_DIR, 'validate.py')])) {
   failed.push('validate.py');
 }
-for (const suite of pySuites) {
+for (const suite of pySuites.concat(auditSuites)) {
   if (!run(suite, 'python3', [path.join(TEST_DIR, suite)])) failed.push(suite);
 }
 for (const suite of suites) {
@@ -115,14 +124,14 @@ for (const suite of suites) {
 
 process.stdout.write(`\n${'='.repeat(60)}\n`);
 if (failed.length) {
-  process.stdout.write(`FAIL: ${failed.length} of ${suites.length + pySuites.length + 1} — ${failed.join(', ')}\n`);
+  process.stdout.write(`FAIL: ${failed.length} of ${suites.length + pySuites.length + auditSuites.length + 1} — ${failed.join(', ')}\n`);
   process.exit(1);
 }
 
 // The ratchet, computed. A figure stated in DOCMAP that this run does not reproduce
 // is a stale claim about the gate, reported here rather than in a re-read months
 // later — and a figure that DROPPED is a suite that stopped running.
-const suiteCount = suites.length + pySuites.length + 1;
+const suiteCount = suites.length + pySuites.length + auditSuites.length + 1;
 const members = fs.readdirSync(path.join(ROOT, 'skills'), { withFileTypes: true })
   .filter((d) => d.isDirectory()).length;
 const stated = statedRatchets();

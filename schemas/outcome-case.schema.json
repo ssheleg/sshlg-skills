@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/ssheleg/sshlg-skills/main/schemas/outcome-case.schema.json",
+  "title": "outcome evaluation case",
+  "description": "One outcome-eval case for a family member (FIX-EV-01). The finding this contract closes: checking that the router picked the right skill NAME proves nothing about whether the skill's EXECUTION helped. A case therefore separates three judgments the runner (test/outcome_harness.py) keeps apart: tool checks (can this host run the case at all), the actual-load trace (did the right skill really load), and the product outcome (is the ARTIFACT right — a file, a diff, an exit code; never the transcript's claim). The case is frozen — prompt, model, host expectation and digest are fixed — and the `expect` sections are withheld from the arm: an expectation that reaches the prompt is an answer key taped to the exam.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "skill", "prompt", "environment", "checks"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^outcome-case/[0-9]+$"
+    },
+    "id": { "type": "string", "minLength": 1 },
+    "skill": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The member skill under evaluation."
+    },
+    "prompt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": { "type": "string", "minLength": 1 },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+            }
+          },
+          "description": "Frozen input files, content-addressed — the same bytes for every arm and every rerun."
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["case_digest"],
+      "properties": {
+        "model": { "type": "string", "description": "Fixed model, or 'inherit'." },
+        "host": { "type": "string", "description": "The host kind the case expects." },
+        "case_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "Digest of the frozen case (prompt + files) — reruns against different bytes are different cases."
+        }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome"],
+      "properties": {
+        "tool": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "command"],
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "command": { "type": "string", "minLength": 1 }
+            }
+          },
+          "description": "Availability probes. A failing probe makes the case NOT_RUN — never PASS, never silently skipped."
+        },
+        "load_trace": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "expect_loaded": { "type": "array", "items": { "type": "string" } },
+            "expect_not_loaded": { "type": "array", "items": { "type": "string" } }
+          },
+          "description": "What the ACTUAL load trace must show. The routing judgment — and only that: a correct load with a wrong artifact is still a failed case."
+        },
+        "outcome": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "kind", "target"],
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "kind": {
+                "type": "string",
+                "enum": ["artifact-exists", "artifact-digest", "artifact-contains", "command-exit-0"],
+                "description": "Outcome checks read ARTIFACTS or run commands — never the transcript."
+              },
+              "target": { "type": "string", "minLength": 1 },
+              "expect": {
+                "type": "string",
+                "description": "The expectation — withheld from the arm by the runner, always."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

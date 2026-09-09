@@ -1,0 +1,87 @@
+{
+  "id": "CTX-04.02",
+  "acceptance": "actual-load: Claude Code (mandatory host) via the supported adapter",
+  "generated_by": "test/audit_regressions/ctx-04.02.py --emit",
+  "prefilled_pass": false,
+  "run": {
+    "host_platform": "darwin",
+    "node": "v26.8.1",
+    "pack_version": "1.46.1"
+  },
+  "clean_session": {
+    "action": "updated",
+    "loaded": {
+      "byte_count": 17047,
+      "digest": "805e54dff22a60e0d34470801a9358e30023e96809f72f4a7ffcc22d3bc0587a",
+      "namespaces": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "sheleg-dev",
+        "agent-stack",
+        "telegram-dev",
+        "seo-llmo",
+        "evidence-docs",
+        "task-pipeline",
+        "project-audit",
+        "make-skill",
+        "agent-sync"
+      ]
+    }
+  },
+  "upgraded_session": {
+    "action": "unchanged",
+    "loaded": {
+      "byte_count": 17047,
+      "digest": "805e54dff22a60e0d34470801a9358e30023e96809f72f4a7ffcc22d3bc0587a",
+      "namespaces": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "sheleg-dev",
+        "agent-stack",
+        "telegram-dev",
+        "seo-llmo",
+        "evidence-docs",
+        "task-pipeline",
+        "project-audit",
+        "make-skill",
+        "agent-sync"
+      ]
+    },
+    "idempotent": true
+  },
+  "operator_content_preserved": true,
+  "degraded_paths": {
+    "host_absent": {
+      "action": "agent-absent",
+      "verdict": "NOT_RUN"
+    },
+    "unsupported_platform": {
+      "action": "platform-unsupported",
+      "verdict": "NOT_RUN"
+    }
+  },
+  "native_corroboration": {
+    "live_host_file_present": true,
+    "loaded": {
+      "byte_count": 19126,
+      "digest": "14d71820f75f9ab12dbdf7d612198abf118b3de1ebe3ab538abff0eddc2d8a7f",
+      "namespaces": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "sheleg-dev",
+        "agent-stack",
+        "telegram-dev",
+        "seo-llmo",
+        "evidence-docs",
+        "task-pipeline",
+        "project-audit",
+        "make-skill",
+        "agent-sync"
+      ]
+    }
+  },
+  "notes": "loaded bytes/digest/namespaces are read from an ACTUAL apply through the Claude Code adapter; an absent host or unsupported platform is NOT_RUN with no installation workaround, never a prefilled PASS"
+}

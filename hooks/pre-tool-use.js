@@ -58,11 +58,17 @@ function routeGate(data, home) {
     const state = turnstate.read(home, data.session_id);
 
     const cwd = data.cwd || process.env.CLAUDE_PROJECT_DIR || process.cwd();
-    // Derived from the ledger's CONTENT, not from its existence. A closed run's file
-    // stays on disk and keeps being appended to, and asking `existsSync` silenced this
-    // gate here for six days after `stage: 10 acceptance — verdict pass` (UM-01).
+    // The hook only GATHERS receipts; what covers what is routegate's judgement.
+    // Route-scoped by design (FIX-RT-04.01): an open pipeline run is the receipt
+    // for the pipeline route and no other, so it cannot license an unrelated
+    // route, and a stand-alone audit leaves its own receipt instead of being
+    // told to open a pipeline it never needed.
+    const receipts = [];
+    // 1. The pipeline ledger — read from its CONTENT, not its existence. A closed
+    // run's file stays on disk and keeps being appended to, and asking
+    // `existsSync` silenced this gate here for six days after
+    // `stage: 10 acceptance — verdict pass` (UM-01).
     const ledgerPath = path.join(cwd, '.task-pipeline', 'run.md');
-    let runOpen = false;
     if (fs.existsSync(ledgerPath)) {
       const runledger = require(path.join(LIB, 'runledger.js'));
       let finalStage = null;
@@ -74,14 +80,31 @@ function routeGate(data, home) {
       } catch (e) {
         /* No pipeline here: fall back to the highest stage id the ledger itself carries. */
       }
-      runOpen = runledger.isOpen(fs.readFileSync(ledgerPath, 'utf8'), finalStage);
+      const ledgerBytes = fs.readFileSync(ledgerPath, 'utf8');
+      if (runledger.isOpen(ledgerBytes, finalStage)) {
+        const crypto = require('crypto');
+        receipts.push({
+          route: 'task-pipeline',
+          taskId: (runledger.parse(ledgerBytes).topic || ledgerPath),
+          skillDigest: crypto.createHash('sha256').update(ledgerBytes).digest('hex'),
+          effects: routegate.TOOLS.slice(),
+        });
+      }
     }
+    // 2. Receipts other routes left behind (a stand-alone audit, a UX pass).
+    // Best-effort bytes; routegate.validReceipt refuses anything malformed.
+    try {
+      const extra = JSON.parse(
+        fs.readFileSync(path.join(cwd, '.claude', 'route-receipts.json'), 'utf8'));
+      if (Array.isArray(extra)) receipts.push(...extra);
+    } catch (e) { /* no receipts file is the ordinary state */ }
 
     const triggers = require(path.join(LIB, 'triggers.js'));
     const lines = {};
     for (const [name, spec] of Object.entries(triggers.ROUTES)) lines[name] = spec.line;
 
-    const verdict = routegate.decide(data, state, { runOpen, lines });
+    const verdict = routegate.decide(data, state,
+      { receipts, effect: data.tool_name, lines });
     if (!verdict) return process.exit(0);
 
     // Recorded BEFORE the prompt is emitted: a turn that edits forty files must
