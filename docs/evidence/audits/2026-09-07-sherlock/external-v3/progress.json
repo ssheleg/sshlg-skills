@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 34,
+    "done": 35,
     "blocked": 0
   },
   "queue": [
@@ -642,10 +642,11 @@
         "CTX-01.02",
         "CTX-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "30311b8",
+      "checks": "regression 6/6 incl. 119-parent corpus; npm test EXIT=0; negatives 429/429",
+      "notes": "scripts/context_packets.py compile|verify: derived FIX-<id> ids, shuffled report compiles byte-identically, axes separate, all-or-nothing refusal",
+      "repo": "task-pipeline"
     },
     {
       "id": "CTX-03.01",
