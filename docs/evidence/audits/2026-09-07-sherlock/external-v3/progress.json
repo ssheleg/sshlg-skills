@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 238,
+    "done": 239,
     "blocked": 0
   },
   "queue": [
@@ -4090,10 +4090,11 @@
       "kind": "verification",
       "title": "Artifact eval: google-auth",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "90f7b23",
+      "checks": "regression 4/4; npm test EXIT=0",
+      "notes": "evals/cases/fix-dv-19.03.json: offline fault-injection DV-07 signed-cookie leak / DV-08 ADC order / DV-09 state single-use; state/output oracles; counterexample fails pre-fix passes post-fix; offline + release tie",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-UP-08.02",
