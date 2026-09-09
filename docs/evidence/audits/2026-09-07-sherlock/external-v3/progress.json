@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 204,
+    "done": 205,
     "blocked": 0
   },
   "queue": [
@@ -3503,10 +3503,11 @@
       "kind": "verification",
       "title": "Visual composition eval: long-form landing",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "3ab1d49",
+      "checks": "regression 5/5; harness validated 5 cases live; npm test EXIT=0",
+      "notes": "evals/cases/fix-ds-06.04.json: long-form landing corpus (identity-preserving, scroll pressure incl. effects-disabled read, anchor-per-viewport, no-screenshot honesty, reduced-motion parity)",
+      "repo": "sheleg-design-skill"
     },
     {
       "id": "FIX-DV-13.01",
