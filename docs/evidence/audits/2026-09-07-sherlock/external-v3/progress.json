@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 52,
+    "done": 53,
     "blocked": 0
   },
   "queue": [
@@ -935,10 +935,11 @@
       "kind": "implementation",
       "title": "Resource identity",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "57af28b",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "guard auto-claims res--<repo>--<canonical path> under the task lease; realpath both sides; release of last task key frees resource claims; doctrine in lease-protocol.md",
+      "repo": "agent-sync"
     },
     {
       "id": "CTX-02.03",
