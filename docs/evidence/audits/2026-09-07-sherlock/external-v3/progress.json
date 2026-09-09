@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 108,
+    "done": 109,
     "blocked": 0
   },
   "queue": [
@@ -1865,10 +1865,11 @@
       "kind": "implementation",
       "title": "Per-principal OAuth client",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "b2df621",
+      "checks": "regression 5/5 (threaded concurrency); npm test EXIT=0",
+      "notes": "oauth2-web-server.md: newOAuthClient() per request (both examples), credentials never on shared object; state required both sides + TTL + single-use consume + validate before token exchange",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-AS-11.02",
