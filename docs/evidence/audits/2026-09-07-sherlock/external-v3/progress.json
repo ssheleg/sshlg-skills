@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 143,
+    "done": 144,
     "blocked": 0
   },
   "queue": [
@@ -2443,10 +2443,11 @@
       "kind": "implementation",
       "title": "Read-only provider inventory",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "1c2d7f5",
+      "checks": "regression 5/5 (node); npm test EXIT=0 (70 suites)",
+      "notes": "bin resolveProviders: group by host/scope/skillId, active=installed+enabled+applicable, rest historical (old cache+enabled=1 skill), >1 enabled=UNKNOWN, states separated; skills.json Codex native-cache + UNSUPPORTED note",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-DV-15.01",
