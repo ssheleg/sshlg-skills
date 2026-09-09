@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 175,
+    "done": 176,
     "blocked": 0
   },
   "queue": [
@@ -2990,10 +2990,11 @@
       "kind": "implementation",
       "title": "Separate applicability dimensions",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "6734f43",
+      "checks": "regression 7/7; npm test EXIT=0 (4660)",
+      "notes": "BP-213: 4 dimensions (information/legal basis/explicit consent/geography); notice unconditional, checkbox only where consent is the basis; BP-214 gate conditional; mirrors synced",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-AS-14.01",
