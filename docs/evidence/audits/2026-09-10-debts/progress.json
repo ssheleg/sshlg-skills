@@ -75,7 +75,7 @@
       "detail": "BODY_HEADROOM ux-audit 4882 + ux-flows 4809 (both >4750, grew ~+580 each) + REF_NO_TOC component-guidelines.md (118 lines, 4 synced copies — edit SOURCE then sync) — blocks the merge: House skill audit is a required CI check in all 9 members.",
       "deps": [],
       "status": "done",
-      "commit": null,
+      "commit": "93ad5d0",
       "checks": "house 0 GAP on all four ux-* skills; npm test EXIT=0",
       "notes": "ux-audit 4882→4005 (references/audit-depth.md), ux-flows 4809→4607 (references/prototyping.md), component-guidelines Contents; edited SOURCE + synced; moved-block links flattened; facts.md 4674→4685"
     },
