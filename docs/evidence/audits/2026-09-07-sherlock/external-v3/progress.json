@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 67,
+    "done": 68,
     "blocked": 0
   },
   "queue": [
@@ -1188,10 +1188,11 @@
       "kind": "implementation",
       "title": "Actionable render critique",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "7febb4b",
+      "checks": "regression 6/6; npm test EXIT=0",
+      "notes": "CREATIVE_DIRECTOR.md Act5 render critique triple (region/defect/change), clean-stop no quota, NOT_ASSESSED brand, hard gate before soft winner",
+      "repo": "sheleg-design"
     },
     {
       "id": "FIX-DV-05.01",
