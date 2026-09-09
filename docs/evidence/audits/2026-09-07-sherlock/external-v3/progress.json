@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 173,
+    "done": 174,
     "blocked": 0
   },
   "queue": [
@@ -2960,10 +2960,11 @@
         "CTX-02.03",
         "CTX-02.04"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "01df3d3",
+      "checks": "regression 5/5 (real module via node type-stripping); tsc EXIT=0; pushed",
+      "notes": "executionPacket.ts new: blobs/<sha256> store, digest identity, verify re-hashes (missing+corrupt block), readPart checked; contextPack.packPart; sessionBundle materializes into durable packets/ and a failed verify escapes the catch by name. Isolated worktree; baselines drifted from plan (repo moved), worked off HEAD, files were git-clean.",
+      "repo": "fabric (passioncode-ai/fabric)"
     },
     {
       "id": "FIX-TP-01.01",
