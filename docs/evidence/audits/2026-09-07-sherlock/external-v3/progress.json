@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 141,
+    "done": 142,
     "blocked": 0
   },
   "queue": [
@@ -2413,10 +2413,11 @@
       "depends_on": [
         "XD-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "6b7c2d5",
+      "checks": "regression 7/7; npm test EXIT=0",
+      "notes": "VISUAL_REVIEW.md: capture record (10 fields) + fitness disqualifiers (blank/stale/wrong-route/viewport/fonts) + no-runtime=unverified + tool-agnostic (no Playwright req) + evidence-class separation + native-mockup≠verified-native; cursor mirror + install.sh",
+      "repo": "sheleg-design-skill"
     },
     {
       "id": "FIX-AS-05.01",
