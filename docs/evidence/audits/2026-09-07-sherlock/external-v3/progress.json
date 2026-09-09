@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 57,
+    "done": 58,
     "blocked": 0
   },
   "queue": [
@@ -1025,10 +1025,11 @@
       "depends_on": [
         "FIX-MS-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "5387dea",
+      "checks": "regression 5/5 (differential ran live and agreed); npm test EXIT=0",
+      "notes": "TOKEN_CORPUS pinned for cl100k (tiktoken 0.14.0); corpus_check agree/NOT_RUN/DISAGREE; MAKE_SKILL_TOKENIZER unsupported refuses; THRESHOLDS authority registry; tiktoken cache out of TMPDIR",
+      "repo": "make-skill"
     },
     {
       "id": "FIX-RT-02.02",
