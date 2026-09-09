@@ -221,17 +221,27 @@ function shadowCandidates() {
   return plan.shadowsToPrune(members, installedRecords(), ls(base), payloadExists);
 }
 
+// Recoverable pruning (FIX-UP-04.02): capture each shadow copy to a verified
+// quarantine before deleting it, so a wrong prune or an injected failure can be
+// restored to exactly what was there. The fs logic lives in lib/quarantine.js
+// (the pack's own recovery state), delegated here.
 function pruneClaudeShadows() {
-  const base = path.join(os.homedir(), '.claude', 'skills');
+  const q = require('../lib/quarantine.js');
+  const skillstore = require('../lib/skillstore.js');
   const pruned = [];
+  const rows = [];
   for (const id of shadowCandidates()) {
+    const row = q.capture(id);
+    if (!row) { /* could not quarantine → do NOT delete: recoverability first */ continue; }
     try {
-      fs.rmSync(path.join(base, id), { recursive: true, force: true });
+      fs.rmSync(path.join(os.homedir(), '.claude', 'skills', id), { recursive: true, force: true });
       pruned.push(id);
+      rows.push(row);
     } catch (_) { /* leave it; not fatal */ }
   }
+  if (rows.length) q.writeManifest(rows, skillstore.stampName(new Date()));
   if (pruned.length) {
-    log(`  pruned Claude plain copies that would shadow the plugin: ${pruned.join(', ')}`);
+    log(`  pruned Claude plain copies that would shadow the plugin (quarantined, restorable): ${pruned.join(', ')}`);
   }
 }
 
