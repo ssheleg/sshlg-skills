@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 124,
+    "done": 125,
     "blocked": 0
   },
   "queue": [
@@ -2127,10 +2127,11 @@
         "FIX-VD-05.01",
         "FIX-VD-05.02"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "fc991f9",
+      "checks": "regression 3/3; npm test EXIT=0",
+      "notes": "bridge+mirror: one canonical spine, mechanical sync, structural parity + one representative test (not 39 builds); regression checks 39-kit parity for Button+Heading and runs the representative semantics",
+      "repo": "sheleg-design-skill"
     },
     {
       "id": "FIX-UP-03.01",
