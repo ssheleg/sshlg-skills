@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 147,
+    "done": 148,
     "blocked": 0
   },
   "queue": [
@@ -2513,10 +2513,11 @@
       "kind": "implementation",
       "title": "Runner outcome states",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "7c7ea65",
+      "checks": "regression 4/4 (real run.py + fake claude); npm test EXIT=0 (4654)",
+      "notes": "run.py: 6 outcome states (EXIT_ERROR first — nonzero exit never PASS), isolated temp workdir per case (repo byte-identical), manifest command/exit/state/artifacts/duration",
+      "repo": "super-ux"
     },
     {
       "id": "XD-05.01",
