@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 129,
+    "done": 130,
     "blocked": 0
   },
   "queue": [
@@ -2211,10 +2211,11 @@
       "kind": "implementation",
       "title": "B051 объявляет спамом текст без единого повторения",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "745d31f",
+      "checks": "regression 4/4 (real check_bot_safety); brand_lint_test green; npm test EXIT=0 (4654)",
+      "notes": "B051 advisory: repeat ≥5x AND >4% share on ≥40-word page, domain terms exempt, per-page; 45/80/100 unique no-repeat clean; doctrine drops 1% + citation claim, cites Google spam policy; lint.py reseeded",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-VD-07.01",
