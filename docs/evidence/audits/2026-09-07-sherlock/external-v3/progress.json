@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 248,
+    "done": 249,
     "blocked": 0
   },
   "queue": [
@@ -4254,10 +4254,11 @@
       "kind": "implementation",
       "title": "Ошибка окружения классифицируется как доказанный пропуск валидатора",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "8e07df3",
+      "checks": "regression 6/6; negatives 48/48 PASS; npm run test:all EXIT=0",
+      "notes": "negatives.py explicit stages fixture_setup→mutation_verified→validator_ran→assertion via classify_stages; ENOSPC/failed-cp/timeout=TEST_ERROR (own bucket, exit 3), zero guard-bypass; GAP only on validator accepting verified mutant; disk preflight + per-step timeout + try/finally cleanup",
+      "repo": "sheleg-dev"
     },
     {
       "id": "CTX-04.01",
