@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 192,
+    "done": 193,
     "blocked": 0
   },
   "queue": [
@@ -3304,10 +3304,11 @@
       "kind": "implementation",
       "title": "Заявленная независимость от companions противоречит обязательному super-ux и оценке «undesigned»",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "a1d6bcc",
+      "checks": "regression 7/7; npm test EXIT=0",
+      "notes": "stage-3 gate checks scenario ARTIFACT not package; 3 provider paths (preferred/alternative-same-contract/inline); foreign design judged by result; absent tool = named check not done",
+      "repo": "task-pipeline"
     },
     {
       "id": "XD-10.01",
