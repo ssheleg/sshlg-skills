@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 123,
+    "done": 124,
     "blocked": 0
   },
   "queue": [
@@ -2109,10 +2109,11 @@
       "depends_on": [
         "FIX-UX-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "ece0542",
+      "checks": "regression 6/6 (real check_facts e2e); brand_lint_test 102; npm test EXIT=0 (4654)",
+      "notes": "B030 signature (digits,unit,scale,precision): 500≠500million, $3.10≠$3.1, 42%≠42; year=figure when plural count-noun follows w/o proper-noun/date cue (2026 integrations caught, PLG 2025 benchmarks/HIG 2025 stay dates); subject match deferred to semantic review; lint.py reseeded",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-VD-05.03",
