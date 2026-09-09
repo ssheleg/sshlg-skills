@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 121,
+    "done": 122,
     "blocked": 0
   },
   "queue": [
@@ -2073,10 +2073,11 @@
       "depends_on": [
         "FIX-EV-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "643a36e",
+      "checks": "regression 6/6; harness validated 5 cases live; npm test EXIT=0",
+      "notes": "evals/cases/agent-harness.json: control/state edges survive pruning (AS-04), negative routing, static+dynamic reconstruction (AS-05), confirm:true≠grant trifecta (AS-11), no-evals hides no double charge no-op (AS-14)",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-PF-01.01",
