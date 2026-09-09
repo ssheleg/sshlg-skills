@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 17,
+  "done": 18,
   "blocked": 0
  },
  "queue": [
@@ -339,10 +339,13 @@
    "depends_on": [
     "FIX-AS-01.01"
    ],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "agent-stack@e8487fa (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-as-01.02.py — OK 5 checks (stale blind-write refused, key-not-guess, idempotent repeats, lost CAS lands once)",
+    "fix-as-01.01 still green; npm test green"
+   ],
+   "notes": "llm-proxy-billing.md gains \"Reconciling an unknown\": idempotency-key queries, revision/CAS on the tenant ledger, own-operation-only compensation, one-way resolution edges. No release — branch handoff only."
   },
   {
    "id": "FIX-EV-01.01",
