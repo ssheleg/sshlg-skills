@@ -531,6 +531,32 @@ function cmdUpdate(f) {
     log(`\n== Wired hook runtime ==\n  NOT refreshed: ${e.message}`);
     ok = false;
   }
+  // Native host lifecycle (FIX-UP-07.02). The skills-CLI channel writes plain
+  // copies into ~/.codex/ etc., but a host with its OWN plugin loader (Codex)
+  // does not load them through that channel — and this launcher has no
+  // supported API to drive its update. Rather than a fake "current", it says
+  // UNSUPPORTED_UPDATE with the manual step and mutates nothing; a host with a
+  // supported API (Claude Code) was already driven above and stays verifiable.
+  try {
+    const lc = require('../lib/lifecycle.js');
+    const hosts = [
+      { name: 'Claude Code', api: 'claude plugin update' },
+      { name: 'Codex (native plugin cache)', api: null,
+        manualStep: 'Codex loads plugins through its own lifecycle — the family '
+          + 'updates its skills-CLI channel, not Codex\'s native cache. Update it '
+          + 'via Codex\'s own plugin manager and reload the session. No Codex '
+          + 'native files were touched.' },
+    ];
+    const unsupported = hosts.map(lc.planHostLifecycle)
+      .filter((r) => r.outcome === lc.UNSUPPORTED_UPDATE);
+    if (unsupported.length) {
+      log(`\n== Native host lifecycle ==`);
+      for (const u of unsupported) log(`  ${u.host}: UNSUPPORTED_UPDATE — ${u.manualStep}`);
+    }
+  } catch (e) {
+    log(`\n== Native host lifecycle ==\n  not reported: ${e.message}`);
+  }
+
   printUpdateModel('update');
 
   reportProgress();
