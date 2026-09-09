@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 113,
+    "done": 114,
     "blocked": 0
   },
   "queue": [
@@ -1947,10 +1947,11 @@
         "FIX-RT-01.01",
         "FIX-RT-01.02"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "ed0cee7",
+      "checks": "regression 6/6; routegate_test 24 checks; npm test EXIT=0 (64 suites/954 fixtures ratchet)",
+      "notes": "route-scoped receipts {route,taskId,skillDigest,effects}: pipeline run covers only its route; audit receipt needs no pipeline; effect must be permitted; SURFACES enumerates bypass/degraded paths; hook gathers receipts (ledger + .claude/route-receipts.json)",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-DV-09.02",
