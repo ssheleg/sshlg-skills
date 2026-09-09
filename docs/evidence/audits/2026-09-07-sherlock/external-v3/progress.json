@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 226,
+    "done": 227,
     "blocked": 0
   },
   "queue": [
@@ -3878,10 +3878,11 @@
         "FIX-UP-07.02",
         "FIX-UP-07.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "ae061e6",
+      "checks": "regression 5/5; 04.01/02.01 still green; npm test EXIT=0; DOCMAP 75/970",
+      "notes": "lib/quarantine.js: capture (type+bytes+symlink target, verified) before delete, manifest, restore returns bytes/type; prune never deletes what it could not quarantine; skillstore quarantineKind/restoreMatches; argued into protect() exemption list",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-PF-10.02",
