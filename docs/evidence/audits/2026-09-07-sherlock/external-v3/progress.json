@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 239,
+    "done": 240,
     "blocked": 0
   },
   "queue": [
@@ -4112,10 +4112,11 @@
         "FIX-UP-07.02",
         "FIX-UP-07.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "9023469 (task-pipeline) + 59a4052 (super-ux) + f595c71 (sheleg-design)",
+      "checks": "regression 4/4; npm test EXIT=0 all three (super-ux installer_test too)",
+      "notes": "bundled hostRoot(agent,home,env,explicit) in each installer, identical HOST_ENV/HOST_DIR contract; precedence explicit>env>~/<dir>, verbatim; Claude user-registry reads routed through it; project-level .claude left as install target",
+      "repo": "task-pipeline + super-ux + sheleg-design-skill"
     },
     {
       "id": "FIX-DV-19.04",
