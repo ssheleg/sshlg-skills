@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 137,
+    "done": 138,
     "blocked": 0
   },
   "queue": [
@@ -2341,10 +2341,11 @@
       "kind": "implementation",
       "title": "Безусловный noscript pixel противоречит consent-gated архитектуре",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "eb57e96",
+      "checks": "regression 4/4 (static checks over all snippets + planted-defect self-test); npm test EXIT=0",
+      "notes": "noscript Meta pixel server-gated on verifiable consent or omitted; G-tag drops allow_enhanced_conversions (AW-only); executable-template static check; kept <4750 (4702)",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-PF-02.01",
