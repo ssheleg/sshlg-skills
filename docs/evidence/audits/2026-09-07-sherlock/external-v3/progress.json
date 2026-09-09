@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 155,
+    "done": 156,
     "blocked": 0
   },
   "queue": [
@@ -2648,10 +2648,11 @@
         "FIX-AS-08.01",
         "FIX-AS-08.02"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "f5ce6c1",
+      "checks": "regression 4/4; npm test EXIT=0",
+      "notes": "outcome-contract-cases.json: 6 runner-independent counterexamples (timeout/missing-metric/flat-runs/swapped-labels/empty-evidence/unread-feedback), typed outcome+unit+baseline, no executed PASS, runner adaptation stays FIX-EV-01",
+      "repo": "make-skill"
     },
     {
       "id": "FIX-EV-01.16",
