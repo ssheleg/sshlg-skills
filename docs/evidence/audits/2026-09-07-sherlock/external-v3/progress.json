@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 218,
+    "done": 219,
     "blocked": 0
   },
   "queue": [
@@ -3733,10 +3733,11 @@
       "depends_on": [
         "FIX-UP-07.02"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "819d069",
+      "checks": "regression 5/5; npm test EXIT=0; DOCMAP 73/970",
+      "notes": "skills.json providerContract v1 (keyFields/states/precedence/activeShape/mismatchSignal); consumers resolve by manifest shape not sibling runtime; stale/fresh mismatch = one active+UNKNOWN signal identical everywhere; resolveProviders reference impl",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-UX-04.01",
