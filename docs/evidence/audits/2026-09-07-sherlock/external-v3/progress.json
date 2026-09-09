@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 73,
+    "done": 74,
     "blocked": 0
   },
   "queue": [
@@ -1287,10 +1287,11 @@
       "depends_on": [
         "FIX-MS-02.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "bb8108e",
+      "checks": "regression 5/5 (PyYAML present, oracle ran live); npm test EXIT=0",
+      "notes": "resolve_yaml_parser + yaml_conformance: subset vs real parser oracle (agree/DIVERGES/MALFORMED/NOT_RUN); no full-YAML PASS without a parser; FM_YAML_CONFORMANCE wired",
+      "repo": "make-skill"
     },
     {
       "id": "FIX-UP-01.02",
