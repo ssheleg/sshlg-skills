@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 224,
+    "done": 225,
     "blocked": 0
   },
   "queue": [
@@ -3843,10 +3843,11 @@
       "depends_on": [
         "FIX-TP-03.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "b137ca9",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "selected profile compiled once, only its declared gates run (no hidden stage 0/7/10); kernel still owed (evidence not bypassed); unknown mandatory capability blocks compile; schema must_understand names profile compilation",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-UX-06.01",
