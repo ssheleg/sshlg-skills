@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 131,
+    "done": 132,
     "blocked": 0
   },
   "queue": [
@@ -2241,10 +2241,11 @@
       "kind": "implementation",
       "title": "Copy-paste FastAPI skeleton не исполняет заявленный CSRF contract",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "cafc7f6",
+      "checks": "regression 4/4 (full CSRF matrix); npm test EXIT=0",
+      "notes": "two typed paths form(x-www-form-urlencoded, g_csrf both sides) + json(sec-fetch same-origin OR allowlisted Origin fallback); missing header≠same-origin; none rejected; fail-closed; CSRF before verify",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-EV-01.26",
