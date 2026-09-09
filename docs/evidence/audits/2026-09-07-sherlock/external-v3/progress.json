@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 165,
+    "done": 166,
     "blocked": 0
   },
   "queue": [
@@ -2813,10 +2813,11 @@
       "kind": "implementation",
       "title": "Производительность CSS/API описана абсолютами вместо проверяемых условий",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "94e79e9",
+      "checks": "regression 4/4; npm test EXIT=0",
+      "notes": "MOTION_DOCTRINE §5: scroll defect=work not API (passive+recipe+MDN link, reject only on measured defect); filter/clip-path CONDITIONAL on measured budget (web.dev link); 60/120Hz + reduced-motion separate",
+      "repo": "sheleg-design-skill"
     },
     {
       "id": "FIX-EV-01.18",
