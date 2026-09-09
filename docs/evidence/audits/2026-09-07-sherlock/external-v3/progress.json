@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 91,
+    "done": 92,
     "blocked": 0
   },
   "queue": [
@@ -1581,10 +1581,11 @@
       "depends_on": [
         "FIX-VD-03.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "0c9cba7",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "MOBILE_SURFACES.md native state matrix (keyboard/dismissal/restore/insets/text-scale + evidence status); norm verified before write; settings restored to saved not 1.0; AI states independent of 10px mono",
+      "repo": "sheleg-design"
     },
     {
       "id": "PXS-01.01",
