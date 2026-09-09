@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 244,
+    "done": 245,
     "blocked": 0
   },
   "queue": [
@@ -4194,10 +4194,11 @@
       "kind": "implementation",
       "title": "Общий precondition требует scenarios даже независимому copy/benchmark scope",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "9c1c09c",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "ux-audit preconditions per-scope (scenario→scenarios.md, copy→brand, benchmark→URLs+receipts); copy-only on brand project; all-without-base states limit; evidence kind by claim (file:line code vs URL+timestamp+capture external); SCR-02 range refreshed",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-DV-19.06",
