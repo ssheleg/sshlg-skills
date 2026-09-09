@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 255,
-  "done": 27,
+  "done": 28,
   "blocked": 0
  },
  "queue": [
@@ -515,10 +515,13 @@
    "kind": "implementation",
    "title": "Нулевой baseline путается с отсутствующим: первый реальный расход теряется",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "agent-stack@4074cb8 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-as-02.01.py — all green (5 acceptance sequences, zero→zero)",
+    "npm test — green"
+   ],
+   "notes": "baseline_initialized/observed_at/provider_key_generation beside the sum; four flag-decided cases; same-gen decrease → anomaly for reconciliation. No release — branch handoff only."
   },
   {
    "id": "FIX-DS-01.01",
