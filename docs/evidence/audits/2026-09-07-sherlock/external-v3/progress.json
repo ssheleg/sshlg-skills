@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 93,
+    "done": 94,
     "blocked": 0
   },
   "queue": [
@@ -1611,10 +1611,11 @@
       "kind": "implementation",
       "title": "Guard охватывает редактор и некоторые git commit, но не все записи через shell",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "6c47beb",
+      "checks": "regression 4/4; npm test EXIT=0 (self-test green)",
+      "notes": "guard.sh capability matrix (covered/unsupported per write vector, advisory not sandbox); hooks.json declares advisory boundary; parser covers git -C/env/compound/piped, does not misclassify sed -i/redirect/python write",
+      "repo": "agent-sync"
     },
     {
       "id": "FIX-TG-05.01",
