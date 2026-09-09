@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 94,
+    "done": 95,
     "blocked": 0
   },
   "queue": [
@@ -1626,10 +1626,11 @@
       "kind": "implementation",
       "title": "Лимит одного FloodWait не ограничивает бесконечную retry sequence",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "5303ab5",
+      "checks": "regression 6/6; npm test EXIT=0",
+      "notes": "rate-and-flood.md call_with_flood bounded envelope (deadline/cumulative/attempt budgets, cancel, checkpoint-defer); cap=backpressure; SKILL.md quickstart imports os+StringSession",
+      "repo": "telegram-dev"
     },
     {
       "id": "FIX-DV-07.02",
