@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 128,
+    "done": 129,
     "blocked": 0
   },
   "queue": [
@@ -2196,10 +2196,11 @@
         "CTX-01.02",
         "CTX-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "27410a4",
+      "checks": "regression 7/7 (coordinator + graph process); npm test EXIT=0",
+      "notes": "execution_authority.py SQLite BEGIN IMMEDIATE coordinator (one winner, monotonic fence, expiry reclaim, fail-closed, local-only/Fabric seam); graph.py claim/release external mode, next stays advisory; schema+work-graph.md updated",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-UX-02.01",
