@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 144,
+    "done": 145,
     "blocked": 0
   },
   "queue": [
@@ -2458,10 +2458,11 @@
       "kind": "implementation",
       "title": "URL credential scrubber",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "c4e0346",
+      "checks": "regression 5/5 (runs the doc code); npm test EXIT=0",
+      "notes": "scrub_text 3 passes: userinfo (empty user OK → redis://:pw@ caught), path (/bot<id>:<tok>/), query (?access_token=... etc); secrets redacted before logging; safe URL keeps shape",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-PF-02.02",
