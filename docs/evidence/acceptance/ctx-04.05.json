@@ -1,0 +1,54 @@
+{
+  "id": "CTX-04.05",
+  "closure": "final parent proof — each parent's original acceptance re-checked on the integrated tree from focused leaf receipts, across cross-module seams",
+  "generated_by": "test/audit_regressions/ctx-04.05.py --emit",
+  "prefilled_pass": false,
+  "rule": "a parent does not close on plan/leaf count; an untested (NOT_RUN) mandatory criterion blocks release",
+  "mandatory_tier": [
+    "claude",
+    "codex"
+  ],
+  "parents": [
+    {
+      "id": "CTX-04",
+      "criteria": [
+        {
+          "name": "support matrix decided",
+          "receipt": "ctx-04.01.json",
+          "status": "RAN",
+          "mandatory": true
+        },
+        {
+          "name": "actual-load: claude",
+          "receipt": "ctx-04.02.json",
+          "status": "RAN",
+          "mandatory": true
+        },
+        {
+          "name": "actual-load: codex",
+          "receipt": "ctx-04.03.json",
+          "status": "RAN",
+          "mandatory": true
+        },
+        {
+          "name": "cross-session integration",
+          "receipt": "ctx-04.04.json",
+          "status": "RAN",
+          "mandatory": true
+        }
+      ],
+      "closes": true,
+      "release_allowed": true,
+      "blockers": [],
+      "closed_by_count_alone": false
+    }
+  ],
+  "seams": {
+    "matrix_mandatory_hosts_have_actual_load": {
+      "codex": true,
+      "claude": true
+    },
+    "ok": true
+  },
+  "release_allowed": true
+}
