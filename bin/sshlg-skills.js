@@ -411,11 +411,40 @@ function cmdInstall(f) {
 function refreshBlock(f, mode) {
   if (f.member) return true; // a lone member's installer speaks only for itself
   log('\n== Refreshing the routing block ==');
+  // Carry the SAME scope the run was given (FIX-UP-03.02): a --no-claude /
+  // --agent / --claude-only install must not rewrite the host files it did not
+  // select. Dropping agents/claudeOnly here is exactly how the refresh touched
+  // all three files after a scoped run.
   return cmdRouters({
+    agents: f.agents,
     claude: f.claude,
+    claudeOnly: f.claudeOnly,
     dryRun: f.dryRun,
     mode,
   });
+}
+
+/**
+ * The resolved host-file set for a routing write, and whether Cursor is in it.
+ * host files (CLAUDE/AGENTS/GEMINI) come from plan.resolveScope so the emitter
+ * and the resolver agree; Cursor is its own agent and is included only for an
+ * unscoped run or one that names it, never for --claude-only.
+ */
+function scopedRoutingTargets(f) {
+  const apply = require('../lib/apply.js');
+  const scope = plan.resolveScope({
+    agents: f.agents,
+    claude: f.claude,
+    claudeOnly: f.claudeOnly,
+    hosts: apply.TARGETS,
+    consumers: [],
+  });
+  const selected = f.agents && f.agents.length ? new Set(f.agents) : null;
+  let includeCursor;
+  if (f.claudeOnly) includeCursor = false;
+  else if (selected) includeCursor = selected.has('cursor');
+  else includeCursor = true;
+  return { hostTargets: scope.hostTargets, includeCursor };
 }
 
 function cmdUpdate(f) {
@@ -833,8 +862,11 @@ function cmdRouters(f) {
     }
   }
 
+  const scoped = scopedRoutingTargets(f);
   const res = apply.apply({
     home, mode, consent: decision, routers: packaged,
+    // Only the selected host files are written; the rest stay byte-identical.
+    hostTargets: scoped.hostTargets, includeCursor: scoped.includeCursor,
     // What the operator decided once, so a target added in a later release
     // reaches a machine that already said yes.
     consentRecorded: consent.readState(home).routers,
