@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 230,
+    "done": 231,
     "blocked": 0
   },
   "queue": [
@@ -3954,10 +3954,11 @@
       "kind": "implementation",
       "title": "Locale-independent IDs",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "aaf3754",
+      "checks": "regression 4/4; 06.01 green; npm test EXIT=0 (4672)",
+      "notes": "section identity = NUMBER, title localizable; ux_lint _VSEC matches whole heading line; scenario-format numeric-id convention; vision SKILL localized titles + read contract; self-test numbered ids + missing/localized cases; lint.py re-seeded. Note: ux_lint.py necessary beyond the 2 named doc targets",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-DV-19.01",
