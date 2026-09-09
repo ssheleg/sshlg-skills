@@ -2,18 +2,104 @@
   "plan": "family debt closure 2026-09-10",
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
-    "total": 23,
+    "total": 30,
     "done": 0,
     "blocked": 0
   },
   "queue": [
+    {
+      "id": "HOUSE-01",
+      "title": "House skill audit gaps (seo-aeo-audit)",
+      "repo": "seo-aeo-audit",
+      "kind": "house",
+      "detail": "REF_NO_TOC: references/evidence-tiers.md (111 lines) needs a '## Contents' list — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "HOUSE-02",
+      "title": "House skill audit gaps (telegram-dev)",
+      "repo": "telegram-dev",
+      "kind": "house",
+      "detail": "REF_NO_TOC: telegram-userbots/references/rate-and-flood.md (103) needs '## Contents' — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "HOUSE-03",
+      "title": "House skill audit gaps (agent-sync)",
+      "repo": "agent-sync",
+      "kind": "house",
+      "detail": "BODY_HEADROOM agent-sync/SKILL.md 4765 (>4750, grew +259 from sherlock) + REF_NO_TOC adapter-contract.md (111) — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "HOUSE-04",
+      "title": "House skill audit gaps (sheleg-design-skill)",
+      "repo": "sheleg-design-skill",
+      "kind": "house",
+      "detail": "BODY_TOKENS sheleg-design/SKILL.md 5703 — HARD BREACH of the 5000 budget (grew +1428 from sherlock). House answer to a breach is a SPLIT into references, not a trim — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "HOUSE-05",
+      "title": "House skill audit gaps (task-pipeline)",
+      "repo": "task-pipeline",
+      "kind": "house",
+      "detail": "BODY_TOKENS task-pipeline/SKILL.md 5429 — HARD BREACH (grew +822) → split; plus BUNDLE_UNREACHABLE evidence-docs/references/GENERATED.md not reachable from SKILL.md — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "HOUSE-06",
+      "title": "House skill audit gaps (super-ux)",
+      "repo": "super-ux",
+      "kind": "house",
+      "detail": "BODY_HEADROOM ux-audit 4882 + ux-flows 4809 (both >4750, grew ~+580 each) + REF_NO_TOC component-guidelines.md (118 lines, 4 synced copies — edit SOURCE then sync) — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "HOUSE-07",
+      "title": "House skill audit gaps (sheleg-dev)",
+      "repo": "sheleg-dev",
+      "kind": "house",
+      "detail": "REF_NO_TOC crypto-payments/references/callback-route-hardening.md (102) needs '## Contents' — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
     {
       "id": "MERGE-01",
       "title": "PR + merge sherlock/impl-20260907 → main (seo-aeo-audit, 5 commits)",
       "repo": "seo-aeo-audit",
       "kind": "merge",
       "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
-      "deps": [],
+      "deps": [
+        "HOUSE-01"
+      ],
       "status": "todo",
       "commit": null,
       "checks": null,
@@ -25,7 +111,9 @@
       "repo": "telegram-dev",
       "kind": "merge",
       "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
-      "deps": [],
+      "deps": [
+        "HOUSE-02"
+      ],
       "status": "todo",
       "commit": null,
       "checks": null,
@@ -49,7 +137,9 @@
       "repo": "agent-sync",
       "kind": "merge",
       "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
-      "deps": [],
+      "deps": [
+        "HOUSE-03"
+      ],
       "status": "todo",
       "commit": null,
       "checks": null,
@@ -73,7 +163,9 @@
       "repo": "sheleg-design-skill",
       "kind": "merge",
       "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
-      "deps": [],
+      "deps": [
+        "HOUSE-04"
+      ],
       "status": "todo",
       "commit": null,
       "checks": null,
@@ -85,7 +177,9 @@
       "repo": "task-pipeline",
       "kind": "merge",
       "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
-      "deps": [],
+      "deps": [
+        "HOUSE-05"
+      ],
       "status": "todo",
       "commit": null,
       "checks": null,
@@ -97,7 +191,9 @@
       "repo": "super-ux",
       "kind": "merge",
       "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
-      "deps": [],
+      "deps": [
+        "HOUSE-06"
+      ],
       "status": "todo",
       "commit": null,
       "checks": null,
@@ -109,7 +205,9 @@
       "repo": "sheleg-dev",
       "kind": "merge",
       "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
-      "deps": [],
+      "deps": [
+        "HOUSE-07"
+      ],
       "status": "todo",
       "commit": null,
       "checks": null,
@@ -317,5 +415,11 @@
       "notes": null
     }
   ],
-  "flags": []
+  "flags": [
+    {
+      "id": "HOUSE-GAPS-FROM-SHERLOCK-20260910",
+      "state": "open",
+      "detail": "Pre-merge audit found the House skill audit (a required CI check in all 9 members) failing on the sherlock branches. Five SKILL bodies grew past their limit from the sherlock doctrine edits — sheleg-design 4275→5703 and task-pipeline 4607→5429 are HARD breaches of the 5000 budget; super-ux ux-audit 4304→4882, ux-flows 4229→4809 and agent-sync 4506→4765 are past the 4750 working limit. Four references crossed 100 lines without a '## Contents' list, and evidence-docs/GENERATED.md is unreachable from its SKILL.md. The member gates never caught this: npm test does not run the house auditor. Recorded as HOUSE-01..07, each blocking its repo's merge. __pycache__ BUNDLE_NESTED hits are untracked local artifacts, not a debt."
+    }
+  ]
 }
