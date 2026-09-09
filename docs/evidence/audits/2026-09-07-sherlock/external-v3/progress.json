@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 105,
+    "done": 106,
     "blocked": 0
   },
   "queue": [
@@ -1818,10 +1818,11 @@
       "depends_on": [
         "FIX-EV-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "67167c8",
+      "checks": "regression 5/5; harness validated 5 cases live; npm test EXIT=0",
+      "notes": "evals/cases/ux-scenarios.json: SCN branches, negative routing, no fake loading (UX-10), Figma-fallback-builds (UX-11), empty-state no fake personalization (UX-10)",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-EV-01.11",
