@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 216,
+    "done": 217,
     "blocked": 0
   },
   "queue": [
@@ -3701,10 +3701,11 @@
       "depends_on": [
         "FIX-DV-16.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "8cecd32 (sheleg-dev) + a25dedb (telegram-dev)",
+      "checks": "regression 5/5; 16.01 refreshed; npm test EXIT=0 both repos",
+      "notes": "one recovery-contract table (event→policy→supervisor action); supervisor restart recoverable-only; terminal/revoked never restarted; same event same row in both packs; userbots SKILL+ref aligned",
+      "repo": "sheleg-dev + telegram-dev"
     },
     {
       "id": "FIX-TP-03.01",
