@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 232,
+    "done": 233,
     "blocked": 0
   },
   "queue": [
@@ -3988,10 +3988,11 @@
         "FIX-UP-07.02",
         "FIX-UP-07.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "5b6a29a",
+      "checks": "regression 5/5; npm test EXIT=0; DOCMAP 76/970",
+      "notes": "readSkills: callable(realpath→SKILL.md)/provenance/namespace/digest; toolkit roster+total callable-only, uncallable as inventory, header names host; broken symlink/foreign target/bare dir excluded from active roster",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-SY-08.01",
