@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 169,
+    "done": 170,
     "blocked": 0
   },
   "queue": [
@@ -2890,10 +2890,11 @@
         "CTX-03.02",
         "CTX-03.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "8fe3b9c",
+      "checks": "regression 6/6; npm test EXIT=0 (4660)",
+      "notes": "ux-audit: 3 evidence tiers (static/executable/production); criteria tagged STATIC|RUNTIME; RUNTIME PASS only with test/browser/receipt else BLOCKED (never invented); implemented needs runtime proof, pure-static may promote; Product kept separate",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-AS-13.01",
