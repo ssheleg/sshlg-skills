@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 142,
+    "done": 143,
     "blocked": 0
   },
   "queue": [
@@ -2428,10 +2428,11 @@
       "kind": "implementation",
       "title": "Аудируемость ошибочно приравнена к статическому графу",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "09e295f",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "3 docs: auditability=complete execution record+policy version+budget/depth/node caps+provenance (not static shape); static=preference; dynamic passes same reconstruction; diagram alone never passes; §7 hard rule→preference",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-UP-07.01",
