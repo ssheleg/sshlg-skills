@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 255,
-  "done": 31,
+  "done": 32,
   "blocked": 0
  },
  "queue": [
@@ -587,10 +587,13 @@
    "depends_on": [
     "FIX-DV-02.01"
    ],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "sheleg-dev@665fc1c (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-dv-02.02.py — all green, 3 cases",
+    "pack: 24 invariants, 17 rules isolated, self-test green; full gate green"
+   ],
+   "notes": "Mirror/ledger split doctrine, TX_RETRIES=3 bounded conflict retry with injectable conflicts, honest 5xx past the bound. Parent FIX-DV-02 complete (2/2). No release — branch handoff only."
   },
   {
    "id": "FIX-SY-03.01",
