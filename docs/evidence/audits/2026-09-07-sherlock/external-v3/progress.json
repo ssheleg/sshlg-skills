@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 183,
+    "done": 184,
     "blocked": 0
   },
   "queue": [
@@ -3127,10 +3127,11 @@
       "depends_on": [
         "FIX-EV-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "4bbab98",
+      "checks": "regression 6/6; harness validated 6 cases live; npm test EXIT=0",
+      "notes": "evals/cases/google-signin.json: DV-10 server-challenge positive, negative routing, DV-11 auto-link policy, DV-12 CSRF form-POST, DV-19 hostile must-fail, live tokeninfo gated → NOT_RUN",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-PF-06.03",
