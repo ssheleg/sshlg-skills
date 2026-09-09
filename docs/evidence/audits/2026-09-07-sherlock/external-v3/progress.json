@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 255,
-  "done": 23,
+  "done": 24,
   "blocked": 0
  },
  "queue": [
@@ -443,10 +443,13 @@
    "kind": "implementation",
    "title": "Separate canonicalizers",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "telegram-dev@7a8a371 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-tg-03.01.py — all green, 4 cases",
+    "python3 verify_initdata.py — OK 11 checks; npm test green; negatives 15/15"
+   ],
+   "notes": "hmac_check_string + ed25519_check_string split with per-protocol field policies; hand-computed golden vectors inlined (independent of the oracle); SKILL.md exclusion bullet corrected. Sibling FIX-TG-03.02 owns duplicate-fields/parse/auth_date-window rejections. No release — branch handoff only."
   },
   {
    "id": "ADOPT-M-03.01",
