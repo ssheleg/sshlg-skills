@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 171,
+    "done": 172,
     "blocked": 0
   },
   "queue": [
@@ -2920,10 +2920,11 @@
       "kind": "implementation",
       "title": "Duration table допускает 500ms, общий UI gate запрещает >300ms",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "d0510af",
+      "checks": "regression 5/5 (fixtures via parsed table); npm test EXIT=0",
+      "notes": "one duration table with canonical IDs DUR-FEEDBACK…DUR-ENTRANCE; DUR-SPATIAL 200–300 desktop; DUR-SHEET-MOBILE 200–500 explicit exception; overlap row removed; validate.py PRESS_ROW reads the same table",
+      "repo": "sheleg-design-skill"
     },
     {
       "id": "FIX-EV-01.19",
