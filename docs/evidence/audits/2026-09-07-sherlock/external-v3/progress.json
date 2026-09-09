@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 40,
+    "done": 41,
     "blocked": 0
   },
   "queue": [
@@ -738,10 +738,11 @@
       "kind": "implementation",
       "title": "Cross-track проверка объявляет совместимые наблюдения противоречием",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "b2e0e13",
+      "checks": "regression 6/6; npm test EXIT=0; body 4993/5000 tokens",
+      "notes": "triage items 3-4: claim key (subject,predicate,scope,time,instrument); conflict only on same-predicate incompatible values; instrument disagreement named",
+      "repo": "seo-aeo-audit"
     },
     {
       "id": "FIX-DV-03.01",
