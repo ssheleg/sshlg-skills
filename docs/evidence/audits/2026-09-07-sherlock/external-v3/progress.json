@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 187,
+    "done": 188,
     "blocked": 0
   },
   "queue": [
@@ -3202,10 +3202,11 @@
       "depends_on": [
         "FIX-EV-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "46a7004",
+      "checks": "regression 6/6; harness validated 6 cases live; npm test EXIT=0",
+      "notes": "evals/cases/stripe-billing.json: DV-01 kill-window positive, negative routing, DV-02 both-periods grant, DV-04 refund CAS, DV-19 hostile must-fail, live test-mode gated on STRIPE_TEST_SECRET_KEY → NOT_RUN",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-PF-06.01",
