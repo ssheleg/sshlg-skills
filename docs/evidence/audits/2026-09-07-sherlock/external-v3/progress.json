@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 78,
+    "done": 79,
     "blocked": 0
   },
   "queue": [
@@ -1368,10 +1368,11 @@
       "kind": "implementation",
       "title": "Запрет проверки порядка пропускает подтверждение после действия",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "eee1ff2",
+      "checks": "regression 5/5; npm test EXIT=0 (self-test green); SKILL.md 4881 (under 5000 gate; 4750 working-limit warning noted)",
+      "notes": "agent-evals: forbid only exact global sequence; assert mandatory happens-before as partial order (authz<effect, read<write, commit<publish); negative example kept; Trajectory row gains partial-order",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-EV-01.04",
