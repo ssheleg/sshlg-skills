@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 46,
+    "done": 47,
     "blocked": 0
   },
   "queue": [
@@ -841,10 +841,11 @@
       "depends_on": [
         "FIX-EV-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "203eea1+03e7da2",
+      "checks": "regression 6/6; harness validated 5 cases live; npm test EXIT=0 (doc note landed in fixup 03e7da2 — the claimed evals/README.md path did not exist, stated in the fixup message)",
+      "notes": "evals/cases/sheleg-design.json: adapter audit, negative routing, singular motion verdict with rule id, exact-Figma no-op, browser-gated computed styles",
+      "repo": "sheleg-design"
     },
     {
       "id": "FIX-EV-01.27",
