@@ -3,7 +3,7 @@
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
     "total": 30,
-    "done": 3,
+    "done": 5,
     "blocked": 0
   },
   "queue": [
@@ -38,10 +38,10 @@
       "kind": "house",
       "detail": "BODY_HEADROOM agent-sync/SKILL.md 4765 (>4750, grew +259 from sherlock) + REF_NO_TOC adapter-contract.md (111) — blocks the merge: House skill audit is a required CI check in all 9 members.",
       "deps": [],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "a434b57",
+      "checks": "house 1 GAP (untracked __pycache__ only); npm test EXIT=0",
+      "notes": "SKILL 4765→4693 by splitting the two-sources elaboration into references/two-sources.md which already held it in full; Contents list for adapter-contract.md"
     },
     {
       "id": "HOUSE-04",
@@ -50,10 +50,10 @@
       "kind": "house",
       "detail": "BODY_TOKENS sheleg-design/SKILL.md 5703 — HARD BREACH of the 5000 budget (grew +1428 from sherlock). House answer to a breach is a SPLIT into references, not a trim — blocks the merge: House skill audit is a required CI check in all 9 members.",
       "deps": [],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "1fb338a + (follow-up)",
+      "checks": "house 0 GAP/17 PASS; npm test EXIT=0",
+      "notes": "SKILL 5703→4730 via CALIBRATION.md/COMPONENT_LAYER.md/APPLYING.md splits + Three-looks into SHELEG_DESIGN.md; PACK_COMPARISON tried and reverted (all guarded); fix-vd-04.01 and sloplint SKILL_REQUIRED now read the RESOLVED bundle, since reading one file made the house remedy delete the doctrine the guards protect"
     },
     {
       "id": "HOUSE-05",
