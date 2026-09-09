@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 200,
+    "done": 201,
     "blocked": 0
   },
   "queue": [
@@ -3434,10 +3434,11 @@
       "depends_on": [
         "FIX-DV-06.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "c4b49a8",
+      "checks": "regression 5/5; 06.01 still green; npm test EXIT=0",
+      "notes": "heleket buffer: required enum refund_excess/credit_excess/buffer_fee, no preselected price; missing policy blocks invoice creation; unit-safe USD-minor example per variant; fee disclosed before payment",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-PF-09.01",
