@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 159,
+    "done": 160,
     "blocked": 0
   },
   "queue": [
@@ -2714,10 +2714,11 @@
       "kind": "implementation",
       "title": "Повтор проверки старого ответа назван проверкой изменения решения модели",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "0bce8e8",
+      "checks": "regression 4/4; 09.01 green; npm test EXIT=0",
+      "notes": "replay senses split: regrade(old output, free, NOT candidate check) vs candidate-execution(frozen fixture, real stochastic call) vs durable replay; mutation-must-move-gate; candidate records separate; SKILL labels regrade",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-DS-02.01",
