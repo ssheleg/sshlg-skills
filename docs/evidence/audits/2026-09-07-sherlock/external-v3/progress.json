@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 225,
+    "done": 226,
     "blocked": 0
   },
   "queue": [
@@ -3858,10 +3858,11 @@
       "kind": "implementation",
       "title": "Новый проект Codex получает правило в CLAUDE.md",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "f5ed45b",
+      "checks": "regression 7/7; npm test EXIT=0 (4672)",
+      "notes": "vision step 4 host-first target (marker dir → AGENTS/CLAUDE/GEMINI); explicit project target priority; mixed-host each file; ux_lint active_hosts + per-host check U032(no file)/U033(no rule); lint.py re-seeded",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-UP-04.02",
