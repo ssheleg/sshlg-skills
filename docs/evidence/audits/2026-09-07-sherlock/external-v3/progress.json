@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 43,
+    "done": 44,
     "blocked": 0
   },
   "queue": [
@@ -790,10 +790,11 @@
         "CTX-01.02",
         "CTX-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "b0c9747+b88fa17",
+      "checks": "regression 7/7; npm test EXIT=0 after fixup b88fa17 (b0c9747 pushed before the gate result was read — Contents list mismatch, corrected and stated in the fixup message)",
+      "notes": "compile_leaf/leaf_readiness/select_slice: cold-reader eight questions, unresolved decision dispatches nothing, appendix-only budgeting with recorded cut, id not mtime; planning.md doctrine",
+      "repo": "task-pipeline"
     },
     {
       "id": "CTX-03.02",
