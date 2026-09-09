@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 163,
+    "done": 164,
     "blocked": 0
   },
   "queue": [
@@ -2783,10 +2783,11 @@
         "CTX-03.02",
         "CTX-03.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "e8ea7b1",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "four-state build machine (full/provisional/tooling-degraded/declined) read from effective capabilities+decisions in every layer; optional Figma never blocks approved text spec (deferred frame sync, restore updates in place); unknowns block only dependents; scenarios gate reads same machine",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-AS-12.01",
