@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 186,
+    "done": 187,
     "blocked": 0
   },
   "queue": [
@@ -3185,10 +3185,11 @@
       "depends_on": [
         "FIX-VD-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "80bc897 (super-ux) + 9685a16 (sheleg-design)",
+      "checks": "regression 5/5; npm test EXIT=0 both repos",
+      "notes": "provisional semantic tokens for sketches (two candidates OK); 13 headings = consolidation/publication gate; nothing provisional syncs; free-styling still disallowed",
+      "repo": "super-ux + sheleg-design-skill"
     },
     {
       "id": "FIX-EV-01.22",
