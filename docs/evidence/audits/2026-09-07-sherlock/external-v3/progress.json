@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 255,
-  "done": 21,
+  "done": 22,
   "blocked": 0
  },
  "queue": [
@@ -422,10 +422,13 @@
    "kind": "implementation",
    "title": "Общий last-renew позволяет активности одного агента подавлять продление чужих leases",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "agent-sync@1079cfc (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-sy-02.01.py — all green, 3 virtual-clock cases (A cannot starve B over 45min, explicit renew real-or-reasoned, acquire stamps own key only)",
+    "validate PASS + --self-test 60 (mutation re-aimed); claim_cell 24 / hooks 6 / installer 11 / SY-01 regressions green"
+   ],
+   "notes": "Per-(run,key) renewal markers with timestamp-in-bytes; explicit renew bypasses the throttle; lease-protocol.md updated. No release — branch handoff only."
   },
   {
    "id": "FIX-TG-03.01",
