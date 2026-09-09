@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 151,
+    "done": 152,
     "blocked": 0
   },
   "queue": [
@@ -2580,10 +2580,11 @@
         "FIX-PF-02.01",
         "FIX-PF-02.02"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "1ee4f6a",
+      "checks": "regression 4/4; all PF siblings green; npm test EXIT=0",
+      "notes": "cmd_close: failed-tier cert refuses direct close (tiers named); cert.at≠HEAD refuses (different candidate); successful current cert closes; no-cert unchanged; enforcement in the store mutation",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-UX-05.02",
