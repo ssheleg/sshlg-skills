@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 68,
+    "done": 69,
     "blocked": 0
   },
   "queue": [
@@ -1203,10 +1203,11 @@
       "kind": "implementation",
       "title": "Confirmed settlement grant",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "2cda480",
+      "checks": "regression 6/6; npm test EXIT=0; SKILL.md 4609 (worked example split to reference)",
+      "notes": "crypto-payments: credit only mapped==PAID behind UNIQUE grant ledger, CAS advances lifecycle only, refunds/holds own path; worked handler moved to callback-route-hardening.md",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-SY-05.01",
