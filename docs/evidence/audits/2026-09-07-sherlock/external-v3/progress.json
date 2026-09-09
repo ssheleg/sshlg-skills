@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 44,
+    "done": 45,
     "blocked": 0
   },
   "queue": [
@@ -807,10 +807,11 @@
       "depends_on": [
         "CTX-03.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "3b6e46c",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "test/fixtures/interactive-flow/index.html: graph-driven runner, selector/reset/deep-link, labelled simulation, zero network; reference pattern documented",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-AS-03.02",
