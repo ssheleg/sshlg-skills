@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 139,
+    "done": 140,
     "blocked": 0
   },
   "queue": [
@@ -2379,10 +2379,11 @@
         "FIX-PF-01.02",
         "FIX-PF-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "0212763",
+      "checks": "regression 5/5; tsc --noEmit clean; chain.test.mjs passes; pushed sherlock/impl-20260907",
+      "notes": "chainAdvance passes followerId+idempotencyKey (chain:<follower>:<pred>) + per-tick dedup; startTask uses followerId??randomUUID() + records idempotency_key. BASELINE DRIFT: applied to current 80fe986 (plan baseline 5d02c07); finding present verbatim. Committed via ISOLATED WORKTREE off HEAD — another session had heavy uncommitted WIP in index.ts (M182), preserved untouched. External repo, own remote.",
+      "repo": "fabric (passioncode-ai/fabric)"
     },
     {
       "id": "FIX-UX-03.02",
