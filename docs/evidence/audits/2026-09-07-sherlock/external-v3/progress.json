@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 36,
+    "done": 37,
     "blocked": 0
   },
   "queue": [
@@ -672,10 +672,11 @@
       "kind": "implementation",
       "title": "Memory identity and contradiction",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "8fe002d",
+      "checks": "regression 6/6; npm test EXIT=0",
+      "notes": "patterns.md: candidate retrieval only + contradiction_gate on entity/attribute/scope/provenance/validity; reversible supersession; corroboration not match frequency; lifecycle row updated",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-DS-01.02",
