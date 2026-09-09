@@ -26,6 +26,36 @@ const edit = (over) => Object.assign(
   { tool_name: 'Edit', prompt_id: 'p1', tool_input: { file_path: '/repo/src.js' } }, over || {});
 const asked = { promptId: 'p1', routes: ['task-pipeline'], optedOut: false, asked: false };
 
+it('bypassPermissions is the operator\'s answer — no escalation inside it (#124)', () => {
+  const v = R.decide(edit({ permission_mode: 'bypassPermissions' }), asked,
+    { runOpen: false, lines: LINES });
+  assert.strictEqual(v, null, 'the gate asked inside a mode whose one guarantee is no prompts');
+});
+
+it('a write landing outside the project changes no repository (#124)', () => {
+  for (const target of ['/private/tmp/claude-501/sess/scratchpad/ga_admin.py',
+    '../sibling/file.js', '/etc/hosts']) {
+    const v = R.decide(edit({ cwd: '/repo', tool_input: { file_path: target } }), asked,
+      { runOpen: false, lines: LINES });
+    assert.strictEqual(v, null, `gated a write to ${target}, which is outside /repo`);
+  }
+});
+
+it('a write INSIDE the project still escalates, relative or absolute (#124)', () => {
+  for (const target of ['src/app.js', '/repo/src/app.js']) {
+    const v = R.decide(edit({ cwd: '/repo', tool_input: { file_path: target } }), asked,
+      { runOpen: false, lines: LINES });
+    assert.ok(v, `stayed silent for ${target}, which is inside /repo`);
+  }
+});
+
+it('a notebook write outside the project is judged by the same rule (#124)', () => {
+  const v = R.decide(edit({ cwd: '/repo', tool_name: 'NotebookEdit',
+    tool_input: { notebook_path: '/tmp/nb.ipynb' } }), asked,
+    { runOpen: false, lines: LINES });
+  assert.strictEqual(v, null);
+});
+
 it('a prompt that asked for a route escalates once', () => {
   const v = R.decide(edit(), asked, { runOpen: false, lines: LINES });
   assert.ok(v, 'the un-routed path was not escalated at all');
