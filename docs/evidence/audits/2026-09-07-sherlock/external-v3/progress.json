@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 234,
+    "done": 235,
     "blocked": 0
   },
   "queue": [
@@ -4024,10 +4024,11 @@
       "depends_on": [
         "FIX-UX-07.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "9710253",
+      "checks": "regression 4/4; 07.01 green; npm test EXIT=0 (4674)",
+      "notes": "ux_lint uses re.findall per section id; duplicate id → U034 FAIL; title language never changes identity; U034 named in scenario-format + fixtured in ux_lint_test; lint.py re-seeded",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-DV-19.02",
