@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 54,
+    "done": 55,
     "blocked": 0
   },
   "queue": [
@@ -972,10 +972,11 @@
       "depends_on": [
         "CTX-03.02"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "520a468",
+      "checks": "regression 6/6; npm test EXIT=0 (4654 checks)",
+      "notes": "flow_graph.py coverage/smoke/receipt; interactive_flow_cases.json (goals without UI hints); prototype-walkthrough.md doctrine; CTX-03 parent complete",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-AS-04.01",
