@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 77,
+    "done": 78,
     "blocked": 0
   },
   "queue": [
@@ -1353,10 +1353,11 @@
       "depends_on": [
         "FIX-DV-05.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "00eb0f7",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "heleket §13 separate refund_ledger keyed (paymentId,status), idempotent, refund after paid not a duplicate, refund_paid debits once, hold pauses without debit",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-AS-07.01",
