@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 177,
+    "done": 178,
     "blocked": 0
   },
   "queue": [
@@ -3020,10 +3020,11 @@
       "kind": "implementation",
       "title": "No-JS критерий применяется ко всем поверхностям, включая внутренние UI",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "0efa638",
+      "checks": "regression 6/6 (parsed Applies-to column); npm test EXIT=0",
+      "notes": "Quality table: classes all/web/public-web/native; no-JS = public-web only; internal web gets loading/error; native gets VoiceOver semantics; N/A with reason never silent PASS; mirror synced",
+      "repo": "sheleg-design-skill"
     },
     {
       "id": "FIX-EV-01.20",
