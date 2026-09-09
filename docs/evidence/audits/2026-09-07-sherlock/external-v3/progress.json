@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 229,
+    "done": 230,
     "blocked": 0
   },
   "queue": [
@@ -3939,10 +3939,11 @@
         "FIX-UP-07.02",
         "FIX-UP-07.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "784d52b",
+      "checks": "regression 5/5; all agent-sync regressions green; npm test EXIT=0",
+      "notes": "adapter-contract.md is the ONE status capability contract (5 fields matching capabilities()); SKILL+backend-fs point at it, no restatement; unavailable=unknown/failed never active; gated derived; SKILL trimmed under 5000-token budget",
+      "repo": "agent-sync"
     },
     {
       "id": "FIX-UX-07.01",
