@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 252,
+    "done": 253,
     "blocked": 0
   },
   "queue": [
@@ -5313,10 +5313,11 @@
         "XD-11.01",
         "XD-12.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "69504a4",
+      "checks": "regression 4/4 (native RAN through real fabric@sherlock chain.ts+executionPacket.ts); npm test EXIT=0; DOCMAP 82/970",
+      "notes": "acceptance receipt ctx-04.04.json: offline contract oracle (planner->diff executor->reviewer->integrator; late/superseded/abandoned/cancel/source-change refused, normal+retry accepted; transcript_required=false) + native Fabric run via node type-stripping of real sherlock modules (same 6 verdicts, source-change=new packet digest, verify ok); NOT_RUN honestly when fabric absent",
+      "repo": "sshlg-skills"
     },
     {
       "id": "CTX-04.05",
