@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 254,
+    "done": 255,
     "blocked": 0
   },
   "queue": [
@@ -5847,10 +5847,11 @@
         "XD-11.01",
         "XD-12.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "76cf6a8",
+      "checks": "regression 6/6; npm test EXIT=0; DOCMAP 84/970",
+      "notes": "acceptance receipt ctx-04.06.json: immutable payload set (9 members, set digest over sorted (member,version,pin)); staged clean install/upgrade/rollback on declared channels; expected==installed==active via real lifecycle.reloadReceipt; faulted upgrade=stale; recovery returns previous set; published:false (separate step after acceptance); sandboxed",
+      "repo": "sshlg-skills"
     }
   ],
   "flags": [
