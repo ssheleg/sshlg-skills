@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 130,
+    "done": 131,
     "blocked": 0
   },
   "queue": [
@@ -2226,10 +2226,11 @@
       "kind": "implementation",
       "title": "Каталог внешнего frontend-design приписывает найденному skill запреты, которых его текущий файл не содержит",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "185a776",
+      "checks": "regression 5/5 (node); both gates EXIT=0 (umbrella 68 suites)",
+      "notes": "packs.js resolveEntry: claims verified vs reached SKILL.md, both providers shown, digest route-trace, absent ban unverified not fact; CREATIVE_DIRECTOR.md scoped cast (fixed/open/deliverable), preserve-brand vs exact-Figma",
+      "repo": "sshlg-skills + sheleg-design(0fa4d54)"
     },
     {
       "id": "FIX-DV-12.01",
