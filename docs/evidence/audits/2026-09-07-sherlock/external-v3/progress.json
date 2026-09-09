@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 210,
+    "done": 211,
     "blocked": 0
   },
   "queue": [
@@ -3603,10 +3603,11 @@
       "kind": "implementation",
       "title": "Typed installer result",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "26080bb",
+      "checks": "regression 5/5 (real CLI, throwaway HOMEs, fake backends); installer_test 10/10; npm test EXIT=0",
+      "notes": "typed results installed/refused/unsupported/failed with backend exit/signal/command; menu aggregates: failed→1, refused→3, unsupported→4, clean→0; strings registry + Node.js entity + SCR-02 range synced",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-DV-16.01",
