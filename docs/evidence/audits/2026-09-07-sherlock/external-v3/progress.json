@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 221,
+    "done": 222,
     "blocked": 0
   },
   "queue": [
@@ -3792,10 +3792,11 @@
         "FIX-UP-07.02",
         "FIX-UP-07.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "76ce1bc",
+      "checks": "regression 5/5; PF-05.02 still green; tsc EXIT=0; pushed",
+      "notes": "agents.ts resultChannel (surface/packet/none) + executorReadiness (capability not spawn); Codex=none=not ready; sessionBundle refuses surface for non-ready executor before minting credential; model inherited (no --model forced)",
+      "repo": "fabric (passioncode-ai/fabric)"
     },
     {
       "id": "FIX-DV-17.01",
