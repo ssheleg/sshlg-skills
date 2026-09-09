@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 120,
+    "done": 121,
     "blocked": 0
   },
   "queue": [
@@ -2056,10 +2056,11 @@
       "kind": "implementation",
       "title": "Nonce равен присланному клиентом значению, а не ожидаемому сервером",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "94170db",
+      "checks": "regression 3/3 (flow behaviour: replay-new-session/post-consume/missing/expired all reject); npm test EXIT=0",
+      "notes": "server-issued nonce: GET /nonce + preauth HttpOnly cookie + TTL + pop-consume before exchange; body nonce removed everywhere; one contract in google-signin AND google-auth",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-EV-01.24",
