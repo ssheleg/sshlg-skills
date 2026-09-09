@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 145,
+    "done": 146,
     "blocked": 0
   },
   "queue": [
@@ -2478,10 +2478,11 @@
         "FIX-PF-01.02",
         "FIX-PF-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "5eb54f1",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "graph.py invalidate verb: superseding revision + downstream-only proof reset (descendants via blocked_by closure); unrelated/upstream keep proofs; schema+REVISION_VERBS enum +invalidate; work-graph.md documented",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-PF-07.02",
