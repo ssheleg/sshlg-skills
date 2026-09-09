@@ -3,7 +3,7 @@
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
     "total": 30,
-    "done": 0,
+    "done": 3,
     "blocked": 0
   },
   "queue": [
@@ -14,10 +14,10 @@
       "kind": "house",
       "detail": "REF_NO_TOC: references/evidence-tiers.md (111 lines) needs a '## Contents' list — blocks the merge: House skill audit is a required CI check in all 9 members.",
       "deps": [],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "fea1426",
+      "checks": "house 0 GAP/18 PASS; check-docs OK; npm test EXIT=0",
+      "notes": "Contents list + GitHub-correct anchors (em dash → double hyphen); README counted figure 6054→~6,100"
     },
     {
       "id": "HOUSE-02",
@@ -26,10 +26,10 @@
       "kind": "house",
       "detail": "REF_NO_TOC: telegram-userbots/references/rate-and-flood.md (103) needs '## Contents' — blocks the merge: House skill audit is a required CI check in all 9 members.",
       "deps": [],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "89b76bd",
+      "checks": "house 0 GAP/18 PASS; npm test EXIT=0",
+      "notes": "Contents list for rate-and-flood.md (103 lines)"
     },
     {
       "id": "HOUSE-03",
@@ -86,10 +86,10 @@
       "kind": "house",
       "detail": "REF_NO_TOC crypto-payments/references/callback-route-hardening.md (102) needs '## Contents' — blocks the merge: House skill audit is a required CI check in all 9 members.",
       "deps": [],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "9c2b3b0",
+      "checks": "house 0 GAP/18 PASS; npm test EXIT=0",
+      "notes": "Contents list for callback-route-hardening.md (102 lines)"
     },
     {
       "id": "MERGE-01",
