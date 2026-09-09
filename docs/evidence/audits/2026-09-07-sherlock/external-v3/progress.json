@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 166,
+    "done": 167,
     "blocked": 0
   },
   "queue": [
@@ -2830,10 +2830,11 @@
       "depends_on": [
         "FIX-EV-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "b128408",
+      "checks": "regression 6/6; harness validated 5 cases live; npm test EXIT=0",
+      "notes": "evals/cases/error-tracking.json: DV-15 canary matrix positive, negative routing, DV-16 revoked-session composition, DV-19 hostile pre-fix scrubber must-fail, hooked-setup no-op",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-PF-04.02",
