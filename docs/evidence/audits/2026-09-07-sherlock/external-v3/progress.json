@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 138,
+    "done": 139,
     "blocked": 0
   },
   "queue": [
@@ -2360,10 +2360,11 @@
         "FIX-PF-01.02",
         "FIX-PF-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "0b5efee",
+      "checks": "regression 4/4 (real git repo); graph_test 152; npm test EXIT=0",
+      "notes": "verdict.tested proof identity; close requires+compares head/tree inside checkout (stale=reject, missing=reject, match=proven-at + node.proof); certify stamps tested; revise records precondition; schema node.proof + revision.precondition",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-PF-07.01",
