@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 255,
-  "done": 24,
+  "done": 25,
   "blocked": 0
  },
  "queue": [
@@ -462,10 +462,13 @@
    "depends_on": [
     "ADOPT-M-02.01"
    ],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "make-skill@0191014 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/adopt-m-03.01.py — OK 4 checks",
+    "npm test — green (body budget held under 4750)"
+   ],
+   "notes": "Audit stops at report; fix/release are granted scopes; outcome method loads only for behaviour change. Body budget kept by deduplicating the 14-item enumeration into retrofit.md (its single home). Related deeper leaf FIX-MS-03.01 (wave 9) builds on this. No release — branch handoff only."
   },
   {
    "id": "ADOPT-M-08.01",
