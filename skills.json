@@ -226,7 +226,7 @@
       "id": "codex",
       "channel": "skills CLI",
       "reads": "~/.agents/skills",
-      "note": "routing block goes to ~/.codex/AGENTS.md"
+      "note": "routing block goes to ~/.codex/AGENTS.md. Codex ALSO keeps a native plugin cache, so a filesystem sweep sees historical cache SKILL.md copies alongside the hub — those are NOT the active provider. A read-only resolver separates installed/enabled/applicable/loaded and counts only the active one; native plugin install/update is passed to a supported host API, and UNSUPPORTED when no such API is present."
     },
     {
       "name": "Gemini CLI",

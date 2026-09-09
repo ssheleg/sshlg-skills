@@ -1677,6 +1677,68 @@ function cmdRestoreAll(rest) {
   return true;
 }
 
+/**
+ * Read-only provider inventory (FIX-UP-07.01). A filesystem sweep sees every
+ * SKILL.md on disk — hub copies, plugin caches, and HISTORICAL cache versions
+ * of the same skill. Counting those candidates as if each were an active
+ * provider read 336 files as 336 providers. This resolves candidates into
+ * distinct STATES so an old cache plus one enabled version is ONE skill, not a
+ * duplicate, and an undecidable precedence is reported UNKNOWN rather than
+ * guessed.
+ *
+ * Pure. `candidates` is what the caller read off disk, each:
+ *   { skillId, host, scope, namespace, realpath, digest, version,
+ *     installed, enabled, applicable, loaded }
+ * Grouped by (host, scope, skillId). Within a group the ACTIVE provider is the
+ * single installed+enabled+applicable one; the rest are `historical`. Two
+ * enabled providers → precedence UNKNOWN (never a coin toss). No enabled one →
+ * `installed-not-enabled` or `none`.
+ */
+function resolveProviders(candidates) {
+  const groups = new Map();
+  for (const c of Array.isArray(candidates) ? candidates : []) {
+    if (!c || !c.skillId) continue;
+    const key = [c.host || '?', c.scope || '?', c.skillId].join('\u0000');
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(c);
+  }
+  const out = [];
+  for (const [key, members] of groups) {
+    const [host, scope, skillId] = key.split('\u0000');
+    const active = members.filter((m) => m.installed && m.enabled && m.applicable);
+    let state; let chosen = null; let precedence = 'n/a';
+    if (active.length === 1) {
+      state = 'active';
+      chosen = active[0];
+    } else if (active.length > 1) {
+      // More than one installed+enabled+applicable: the sweep cannot say which
+      // one the host would load. Do NOT pick — report it.
+      state = 'active';
+      precedence = 'UNKNOWN';
+    } else if (members.some((m) => m.installed)) {
+      state = 'installed-not-enabled';
+    } else {
+      state = 'none';
+    }
+    const historical = members.filter((m) => m !== chosen);
+    out.push({
+      host, scope, skillId, state, precedence,
+      active: chosen ? {
+        realpath: chosen.realpath, digest: chosen.digest, version: chosen.version,
+        namespace: chosen.namespace, loaded: !!chosen.loaded,
+      } : null,
+      // Historical candidates (older caches, disabled copies) are recorded so a
+      // sweep can SHOW them without treating them as active providers.
+      historical: historical.map((m) => ({
+        realpath: m.realpath, digest: m.digest, version: m.version,
+        installed: !!m.installed, enabled: !!m.enabled,
+      })),
+      candidateCount: members.length,
+    });
+  }
+  return out;
+}
+
 function main(argv) {
   const [cmd, ...rest] = argv.slice(2);
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { usage(); return 0; }
@@ -1710,4 +1772,4 @@ if (require.main === module) {
   process.exit(main(process.argv));
 }
 
-module.exports = { cliSpec, pinnedArgv, resolvePayloads };
+module.exports = { cliSpec, pinnedArgv, resolvePayloads, resolveProviders };
