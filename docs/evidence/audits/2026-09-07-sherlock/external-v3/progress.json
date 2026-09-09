@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 61,
+    "done": 62,
     "blocked": 0
   },
   "queue": [
@@ -1089,10 +1089,11 @@
       "depends_on": [
         "FIX-SY-04.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "agent-sync b8e6388 + agent-stack 78f9192",
+      "checks": "regression 4/4; both repos npm test EXIT=0; SKILL.md 4986/5000",
+      "notes": "two write modes (short transaction lock via resource claim / isolated worktree+merge); single-owner promise dropped; agent-stack coordination note corrected",
+      "repo": "agent-sync,agent-stack"
     },
     {
       "id": "CTX-02.04",
