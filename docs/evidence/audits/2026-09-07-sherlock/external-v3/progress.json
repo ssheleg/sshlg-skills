@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 112,
+    "done": 113,
     "blocked": 0
   },
   "queue": [
@@ -1929,10 +1929,11 @@
       "kind": "implementation",
       "title": "Button DOM contract",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "d8af59a",
+      "checks": "regression 8/8; workbench tsc EXIT=0; npm test EXIT=0 (5660 checks, self-test green)",
+      "notes": "Button spine passthrough across all 39 kits: extends ButtonHTMLAttributes, forwardRef, {...rest}, type default overridable; bridge doc + cursor mirror; validate.py PROPS_RE tolerates extends, Form-3 guard anchored on enumeration",
+      "repo": "sheleg-design-skill"
     },
     {
       "id": "FIX-RT-04.01",
