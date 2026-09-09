@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 48,
+    "done": 49,
     "blocked": 0
   },
   "queue": [
@@ -873,10 +873,11 @@
       "kind": "implementation",
       "title": "Honest token result",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "38a6731",
+      "checks": "regression 4/4 (independent-tokenizer comparison honestly NOT_RUN, tiktoken absent); npm test EXIT=0",
+      "notes": "audit_skill.py: named tokenizer adapter; unmeasured = UNMEASURED with estimate labelled not-tokens, no PASS/GAP; house thresholds measured-only; parity cases pinned",
+      "repo": "make-skill"
     },
     {
       "id": "FIX-RT-02.01",
