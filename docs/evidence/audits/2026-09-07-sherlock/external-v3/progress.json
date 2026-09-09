@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 203,
+    "done": 204,
     "blocked": 0
   },
   "queue": [
@@ -3488,10 +3488,11 @@
       "kind": "implementation",
       "title": "Зафиксировать component reuse и роль токена до kit migration",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "c0cb504",
+      "checks": "regression 6/6; npm test EXIT=0",
+      "notes": "component-guidelines: reuse/modify/create with reason+scenarios; tokens ≠ API (roles/props/focus/keyboard/disabled); no count extraction; no ritual creation; change-specific adapter checklist, kit fixes stay DS-01/VD-05",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-DS-06.04",
