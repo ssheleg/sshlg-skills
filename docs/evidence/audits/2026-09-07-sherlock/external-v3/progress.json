@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 158,
+    "done": 159,
     "blocked": 0
   },
   "queue": [
@@ -2699,10 +2699,11 @@
       "kind": "implementation",
       "title": "Loading из существующей задержки превращён в инсценировку вычисления",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "f5eee2a",
+      "checks": "regression 5/5; npm test EXIT=0 (4660)",
+      "notes": "Loading row: REAL async only, actual op shown, no ready-result delay, honest narrative pause + cost; BP-005 Don't (no manufactured wait, no false analysis claim); SKILL scopes loading to real wait; empty branch honest",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-AS-10.01",
