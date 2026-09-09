@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 214,
+    "done": 215,
     "blocked": 0
   },
   "queue": [
@@ -3667,10 +3667,11 @@
       "depends_on": [
         "FIX-UP-06.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "3466820",
+      "checks": "regression 4/4 (real CLI); 06.01 + installer still green; npm test EXIT=0",
+      "notes": "results labelled by channel; exit aggregates selected ops only; mixed failed → PARTIAL naming installed+failed; single fail = failed not partial; router offer outside result set + try/catch guarded",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-UP-07.02",
