@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 62,
+    "done": 63,
     "blocked": 0
   },
   "queue": [
@@ -1109,10 +1109,11 @@
         "CTX-01.02",
         "CTX-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "5bd6095",
+      "checks": "regression 6/6; npm test EXIT=0",
+      "notes": "predispatch(): digest re-verify (drift blocks), prerequisite materialized, primary budget (no silent truncation), capability+claim; planning.md; CTX-02 parent complete",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-EV-01.02",
