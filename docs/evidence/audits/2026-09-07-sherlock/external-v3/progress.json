@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 250,
+    "done": 251,
     "blocked": 0
   },
   "queue": [
@@ -4783,10 +4783,11 @@
         "XD-11.01",
         "XD-12.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "64bbe0f",
+      "checks": "regression 4/4; npm test EXIT=0; DOCMAP 80/970",
+      "notes": "acceptance receipt docs/evidence/acceptance/ctx-04.02.json from real apply() through Claude adapter; clean session populates block (12 ns, digest, bytes); upgraded idempotent + operator content preserved; degraded host-absent/unsupported-platform = NOT_RUN no workaround; native corroboration of live ~/.claude block; regression doubles as --emit and matches fresh load",
+      "repo": "sshlg-skills"
     },
     {
       "id": "CTX-04.03",
