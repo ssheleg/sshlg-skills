@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 132,
+    "done": 133,
     "blocked": 0
   },
   "queue": [
@@ -2258,10 +2258,11 @@
       "depends_on": [
         "FIX-EV-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "37e493e",
+      "checks": "regression 6/6; harness validated 5 cases live; npm test EXIT=0",
+      "notes": "evals/cases/agent-orchestrator.json: saga unknown=pending+1-effect/op_id (AS-01), negative routing, zero≠missing baseline (AS-02), no opposite-merge (AS-03), fake-edge control/state no-op (AS-04)",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-PF-01.03",
