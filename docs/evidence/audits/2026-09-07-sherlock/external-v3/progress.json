@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 208,
+    "done": 209,
     "blocked": 0
   },
   "queue": [
@@ -3573,10 +3573,11 @@
       "depends_on": [
         "FIX-DV-13.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "544af16",
+      "checks": "regression 5/5; 13.01 still green; npm test EXIT=0",
+      "notes": "consent-mode: two complete mode contracts with own pre-consent behaviour (Advanced pings-no-cookies; Basic zero requests); mixed waterfall named as the defect with per-mode fixture assertions",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-ED-01.01",
