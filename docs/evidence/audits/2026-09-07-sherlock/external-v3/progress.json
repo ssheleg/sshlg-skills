@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 220,
+    "done": 221,
     "blocked": 0
   },
   "queue": [
@@ -3767,10 +3767,11 @@
         "FIX-UP-07.02",
         "FIX-UP-07.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "1f45883",
+      "checks": "regression 7/7; fix-up-02.01 fixture updated; npm test EXIT=0; DOCMAP 74/970",
+      "notes": "providerVerified: enabled+non-empty installPath+payload exists (probe); shadowsToPrune gates each marketplace record; bin probes SKILL.md payload; absent/corrupt/stale/disabled/wrong-record prune nothing; verified still prunes",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-PF-10.01",
