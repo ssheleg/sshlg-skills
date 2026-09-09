@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 146,
+    "done": 147,
     "blocked": 0
   },
   "queue": [
@@ -2498,10 +2498,11 @@
         "FIX-PF-01.02",
         "FIX-PF-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "9e632a3",
+      "checks": "regression 6/6; PF-07.01 still green; tsc EXIT=0; pushed sherlock/impl-20260907",
+      "notes": "backlog→dispatching CAS (conditional update), chain.dispatch@1 outbox before spawn, tick-start reconciliation of dispatching rows w/ same follower id (no new UUIDs), spawn-failure returns row to backlog. Isolated worktree again; operator WIP untouched.",
+      "repo": "fabric (passioncode-ai/fabric)"
     },
     {
       "id": "FIX-UX-05.01",
