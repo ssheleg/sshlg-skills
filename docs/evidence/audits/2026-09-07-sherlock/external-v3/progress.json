@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 194,
+    "done": 195,
     "blocked": 0
   },
   "queue": [
@@ -3336,10 +3336,11 @@
       "kind": "verification",
       "title": "Visual composition eval: consumer chat",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "46a4efc",
+      "checks": "regression 5/5; harness validated 5 cases live; npm test EXIT=0",
+      "notes": "evals/cases/fix-ds-06.02.json: consumer-chat corpus (identity-preserving, message pressure 390x844, input-bar reach with keyboard open, no-screenshot honesty, dark parity); live render eval stays a separate authorized batch",
+      "repo": "sheleg-design-skill"
     },
     {
       "id": "FIX-DV-06.01",
