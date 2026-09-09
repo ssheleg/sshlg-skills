@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 156,
+    "done": 157,
     "blocked": 0
   },
   "queue": [
@@ -2665,10 +2665,11 @@
       "depends_on": [
         "FIX-EV-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "4f39d65",
+      "checks": "regression 6/6; harness validated 5 cases live; npm test EXIT=0",
+      "notes": "evals/cases/ad-tracking.json (first sheleg-dev corpus): DV-14 static checks positive, negative routing, DV-13 near-miss consent, DV-19 hostile pre-fix-must-fail w/ release tie, clean-setup no-op",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-PF-03.02",
