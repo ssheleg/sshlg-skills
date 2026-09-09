@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 207,
+    "done": 208,
     "blocked": 0
   },
   "queue": [
@@ -3556,10 +3556,11 @@
       "kind": "verification",
       "title": "Visual composition eval: large-text accessibility",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "8f4c30b",
+      "checks": "regression 5/5; harness validated 5 cases live; npm test EXIT=0",
+      "notes": "evals/cases/fix-ds-06.05.json: large-text corpus (identity-preserving at 200%, zoom pressure 200%+1.5x, hierarchy-survives-zoom, no-screenshot honesty, scope-honesty naming the unowned accessibility lane — no WCAG audit claimed)",
+      "repo": "sheleg-design-skill"
     },
     {
       "id": "FIX-DV-13.02",
