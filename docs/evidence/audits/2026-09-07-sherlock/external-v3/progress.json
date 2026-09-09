@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 212,
+    "done": 213,
     "blocked": 0
   },
   "queue": [
@@ -3635,10 +3635,11 @@
       "depends_on": [
         "FIX-ED-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "cec1599",
+      "checks": "regression 7/7; checker parity 20; npm test EXIT=0",
+      "notes": "audit_skill: package_closure (required fails, optional stays optional); _check_distribution (DIST_SYMLINK_ESCAPE, DIST_UNDECLARED_SECRET, DIST_PAYLOAD ok); parity+empty-metadata+closure; resource-closure.json fixture; distribution.md payload rule; no PyYAML, budget tokenizer-or-UNKNOWN",
+      "repo": "make-skill"
     },
     {
       "id": "FIX-PA-03.01",
