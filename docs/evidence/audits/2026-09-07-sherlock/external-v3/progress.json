@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 215,
+    "done": 216,
     "blocked": 0
   },
   "queue": [
@@ -3684,10 +3684,11 @@
       "depends_on": [
         "FIX-UP-07.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "8b6b4f4 (sshlg-skills) + 468958b (sheleg-design)",
+      "checks": "regression 6/6; lifecycle_test 7; npm test EXIT=0 both; DOCMAP 72/970",
+      "notes": "lib/lifecycle.js: SUPPORTED via host API vs UNSUPPORTED_UPDATE (manual step, no mutation); reloadReceipt verifies actual loaded digest (null=unverified, diff=stale); overallCurrent partial without verification; cmdUpdate surfaces Codex UNSUPPORTED; sheleg cli drops fake now-loaded claim",
+      "repo": "sshlg-skills + sheleg-design-skill"
     },
     {
       "id": "FIX-DV-16.02",
