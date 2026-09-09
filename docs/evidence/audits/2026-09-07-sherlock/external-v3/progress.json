@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 241,
+    "done": 242,
     "blocked": 0
   },
   "queue": [
@@ -4149,10 +4149,11 @@
         "FIX-UP-07.02",
         "FIX-UP-07.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "f3f1b76",
+      "checks": "regression 5/5; 08.01 green; npm test EXIT=0; DOCMAP 78/970",
+      "notes": "hostRootVerdict {root,source,supported,reason}; known platforms→~/<dir>; unknown platform refused (not Linux default); explicit/env win on any platform; apply records platform-unsupported, writes nothing",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-UX-09.01",
