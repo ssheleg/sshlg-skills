@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 198,
+    "done": 199,
     "blocked": 0
   },
   "queue": [
@@ -3402,10 +3402,11 @@
       "kind": "implementation",
       "title": "Усилить copy state contract без нового copy workflow",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "3adee47",
+      "checks": "regression 7/7; npm test EXIT=0",
+      "notes": "ui-copy: state-message tuple (fact/preservation/action/consequence/forbidden claims); observed/hypothesis provenance; complete-message localization; no internal exception in UI; copy never mints states; legal meaning untouched",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-DS-06.03",
