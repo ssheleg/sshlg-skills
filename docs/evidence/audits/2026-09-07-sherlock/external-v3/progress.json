@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 87,
+    "done": 88,
     "blocked": 0
   },
   "queue": [
@@ -1515,10 +1515,11 @@
         "FIX-UP-01.02",
         "FIX-UP-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "e9657d3",
+      "checks": "regression 4/4 (ENOSPC-on-3rd-copy fault injection); npm test EXIT=0 (61 suites); runtime_test idempotence intact",
+      "notes": "runtime.js sync = transaction: stage+fsync+digest-verify on same fs → journal → prev-generation snapshot → atomic rename switch; abort leaves old intact; preserves user files; early-return idempotence",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-AS-09.01",
