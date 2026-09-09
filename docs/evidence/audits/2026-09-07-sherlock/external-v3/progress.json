@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 75,
+    "done": 76,
     "blocked": 0
   },
   "queue": [
@@ -1321,10 +1321,11 @@
       "depends_on": [
         "FIX-VD-02.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "e615a3a",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "CREATIVE_DIRECTOR.md bounded rerender: same before/after matrix, budget exhaustion=unresolved not ship, mechanical!=craft, one pass no fork; SKILL.md ref",
+      "repo": "sheleg-design"
     },
     {
       "id": "FIX-TG-02.01",
