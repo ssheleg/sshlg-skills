@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 152,
+    "done": 153,
     "blocked": 0
   },
   "queue": [
@@ -2597,10 +2597,11 @@
       "depends_on": [
         "FIX-UX-05.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "63a49f0",
+      "checks": "regression 5/5 (real run.py + fake claude); 05.01 green; npm test EXIT=0 (4660)",
+      "notes": "EV-04 expect_count Humanization:x2 + invariant; EV-05 no-op case (good text verbatim); classify() enforces expect_count + invariants; both audit mocks FAIL, valid outputs PASS",
+      "repo": "super-ux"
     },
     {
       "id": "XD-06.01",
