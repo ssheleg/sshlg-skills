@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 227,
+    "done": 228,
     "blocked": 0
   },
   "queue": [
@@ -3904,10 +3904,11 @@
         "FIX-UP-07.02",
         "FIX-UP-07.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "c3a5f92",
+      "checks": "regression 7/7; 10.01 still green; tsc EXIT=0; pushed",
+      "notes": "verifyHandoff: supported host, records actual load+tool call+current result; independent executor (different session, no transcript read); trusted result channel; unready host or no evidence = NOT_RUN; same-session/transcript-dependency = failed",
+      "repo": "fabric (passioncode-ai/fabric)"
     },
     {
       "id": "FIX-DV-18.01",
