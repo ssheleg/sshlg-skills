@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 66,
+    "done": 67,
     "blocked": 0
   },
   "queue": [
@@ -1173,10 +1173,11 @@
       "kind": "implementation",
       "title": "Immutable release-set lock",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "65665e0",
+      "checks": "regression 6/6; npm test EXIT=0 (58 suites)",
+      "notes": "updatemodel.js buildLock/checkLock/memberStatus (immutable SHA+digest, SAME_BYTES/UNSUPPORTED_PIN/DRIFT, four separate states); plan.js addArgsPinned/installPlanLocked refuses unpinnable",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-VD-02.01",
