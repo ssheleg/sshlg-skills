@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 201,
+    "done": 202,
     "blocked": 0
   },
   "queue": [
@@ -3456,10 +3456,11 @@
         "FIX-PF-05.02",
         "FIX-PF-05.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "e0f4e07",
+      "checks": "regression 6/6 (real module via node); tsc EXIT=0; pushed",
+      "notes": "mayPublishHandoff: own-task or live-lease-holder only; foreign live lease refused with holder; expired own lease = stale attempt; takeover blocks original session; gate before append + fence in payload + post-append arbitration re-read",
+      "repo": "fabric (passioncode-ai/fabric)"
     },
     {
       "id": "PXS-05.01",
