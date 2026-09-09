@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 136,
+    "done": 137,
     "blocked": 0
   },
   "queue": [
@@ -2326,10 +2326,11 @@
         "FIX-UP-03.01",
         "FIX-UP-02.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "16a9e41",
+      "checks": "regression 3/3 (node, incl direct apply write); npm test EXIT=0 (69 suites)",
+      "notes": "apply() writes only opts.hostTargets + includeCursor gate; refreshBlock carries agents/claude/claudeOnly; scopedRoutingTargets via resolveScope; unselected host files byte-identical",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-DV-14.01",
