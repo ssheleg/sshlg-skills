@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 118,
+    "done": 119,
     "blocked": 0
   },
   "queue": [
@@ -2026,10 +2026,11 @@
       "kind": "implementation",
       "title": "Heading semantic contract",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "628c989",
+      "checks": "regression 5/5; workbench tsc EXIT=0; npm test EXIT=0",
+      "notes": "Heading in all 39 kits: tag from level, class from size??level (h2 may wear display size, outline never moves); passthrough extended; 5 variant-class kits preserved verbatim; bridge + mirror updated",
+      "repo": "sheleg-design-skill"
     },
     {
       "id": "FIX-UB-01.01",
