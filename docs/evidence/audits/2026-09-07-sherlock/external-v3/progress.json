@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 195,
+    "done": 196,
     "blocked": 0
   },
   "queue": [
@@ -3351,10 +3351,11 @@
       "kind": "implementation",
       "title": "Typed amounts",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "def66c3",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "crypto-payments: 4 dimensions (Money minor/Asset/Entitlement/dated FX quote); tokenAmount = Asset base+buffer in both files; unknown FX source blocks; waterfall converts to USD minor before comparing; audit row names quote",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-PF-08.02",
