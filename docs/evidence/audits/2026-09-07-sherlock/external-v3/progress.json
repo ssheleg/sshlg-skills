@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 196,
+    "done": 197,
     "blocked": 0
   },
   "queue": [
@@ -3372,10 +3372,11 @@
         "FIX-PF-07.01",
         "FIX-PF-07.02"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "b01afd5",
+      "checks": "regression 4/4; PF-04.02/05.02/06.02/08.01 still green; tsc EXIT=0; pushed",
+      "notes": "mergeHandoffs: namespaced <producer>.<name> + unambiguous bare names; different values under one name = explicit collision (pause with remedy), identical duplicates merge; interpolation after validated verdict",
+      "repo": "fabric (passioncode-ai/fabric)"
     },
     {
       "id": "FIX-TP-04.01",
