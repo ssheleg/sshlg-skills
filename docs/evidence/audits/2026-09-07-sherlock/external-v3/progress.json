@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 179,
+    "done": 180,
     "blocked": 0
   },
   "queue": [
@@ -3060,10 +3060,11 @@
         "CTX-02.03",
         "CTX-02.04"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "37cb843",
+      "checks": "regression 6/6; npm test EXIT=0",
+      "notes": "execution-result: outputs typed (credential names refused), packet_digest ties to PF-05.01 packet, consumed pins predecessor digests; consumed_stale() → changed/vanished input = rebuild; build.md documented",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-PF-08.01",
