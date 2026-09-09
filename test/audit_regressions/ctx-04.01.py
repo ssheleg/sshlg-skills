@@ -166,13 +166,21 @@ def t_model_preferences_inherited():
 
 
 def t_receipt_matches_a_fresh_probe():
-    """A stale or hand-faked receipt cannot pass: the hosts + tiers must match
-    what a probe finds RIGHT NOW."""
+    """A stale or hand-faked receipt cannot pass: the hosts, tiers and statuses
+    must match what a probe finds RIGHT NOW. `root_present` is deliberately NOT
+    in the comparison: it is a machine-LOCAL observation of the machine that
+    emitted the receipt (a CI runner has no ~/.claude, and that says nothing
+    about the machine the receipt describes) — it stays recorded, typed as a
+    boolean, and the anti-fake teeth live in the machine-independent fields
+    plus ctx-04.02/03's temp-home fresh-load checks."""
     r = load_receipt()
     fresh = probe()
-    got = {(h["agent"], h["tier"], h["root_present"]) for h in r["hosts"]}
-    now = {(h["agent"], h["tier"], h["root_present"]) for h in fresh["hosts"]}
+    got = {(h["agent"], h["tier"], h["status"]) for h in r["hosts"]}
+    now = {(h["agent"], h["tier"], h["status"]) for h in fresh["hosts"]}
     assert got == now, f"receipt disagrees with a fresh probe:\n receipt={got}\n fresh  ={now}"
+    for h in r["hosts"]:
+        assert isinstance(h["root_present"], bool), \
+            f"{h['agent']}: root_present must be a recorded boolean observation"
 
 
 def main():
