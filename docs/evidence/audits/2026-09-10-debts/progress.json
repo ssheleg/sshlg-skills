@@ -1,0 +1,321 @@
+{
+  "plan": "family debt closure 2026-09-10",
+  "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
+  "counts": {
+    "total": 23,
+    "done": 0,
+    "blocked": 0
+  },
+  "queue": [
+    {
+      "id": "MERGE-01",
+      "title": "PR + merge sherlock/impl-20260907 → main (seo-aeo-audit, 5 commits)",
+      "repo": "seo-aeo-audit",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "MERGE-02",
+      "title": "PR + merge sherlock/impl-20260907 → main (telegram-dev, 12 commits)",
+      "repo": "telegram-dev",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "MERGE-03",
+      "title": "PR + merge sherlock/impl-20260907 → main (make-skill, 13 commits)",
+      "repo": "make-skill",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "MERGE-04",
+      "title": "PR + merge sherlock/impl-20260907 → main (agent-sync, 14 commits)",
+      "repo": "agent-sync",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "MERGE-05",
+      "title": "PR + merge sherlock/impl-20260907 → main (agent-stack, 24 commits)",
+      "repo": "agent-stack",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "MERGE-06",
+      "title": "PR + merge sherlock/impl-20260907 → main (sheleg-design-skill, 34 commits)",
+      "repo": "sheleg-design-skill",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "MERGE-07",
+      "title": "PR + merge sherlock/impl-20260907 → main (task-pipeline, 36 commits)",
+      "repo": "task-pipeline",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "MERGE-08",
+      "title": "PR + merge sherlock/impl-20260907 → main (super-ux, 41 commits)",
+      "repo": "super-ux",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "MERGE-09",
+      "title": "PR + merge sherlock/impl-20260907 → main (sheleg-dev, 43 commits)",
+      "repo": "sheleg-dev",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "MERGE-10",
+      "title": "PR + merge sherlock/impl-20260907 → main (sshlg-skills, 34 commits)",
+      "repo": "sshlg-skills",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "LEGACY-01",
+      "title": "Integrate super-ux PR#24 (interactive-flow-prototypes + ux-flows)",
+      "repo": "super-ux",
+      "kind": "integrate",
+      "detail": "PR#24 head codex/context-ready-skills-20260907: adds references/interactive-flow-prototypes.md (77 lines, 3 copies incl. synced), edits ux-flows/SKILL.md, ux-scenarios/SKILL.md, docs/HANDOFF.md, AGENTS/CLAUDE.md, facts.md. Resolve against merged sherlock work, edit SOURCE + sync, gate green.",
+      "deps": [
+        "MERGE-08"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "LEGACY-02",
+      "title": "Integrate task-pipeline PR#85 (planning/decomposition/artifacts/acceptance/backlog)",
+      "repo": "task-pipeline",
+      "kind": "integrate",
+      "detail": "PR#85 head codex/context-ready-skills-20260907: planning.md +154/-26, decomposition.md +83/-2, artifacts.md +23, acceptance.md +7, backlog.md +8/-1, SKILL.md, docs/HANDOFF.md. Resolve against merged sherlock work, gate green.",
+      "deps": [
+        "MERGE-07"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "LEGACY-03",
+      "title": "Integrate sheleg-design PR#28 (CREATIVE_DIRECTOR)",
+      "repo": "sheleg-design-skill",
+      "kind": "integrate",
+      "detail": "PR#28: CREATIVE_DIRECTOR.md +75/-2 in both plugin and .cursor copies, AGENTS.md, docs/HANDOFF.md. Resolve, keep one channel per copy rule, gate green.",
+      "deps": [
+        "MERGE-06"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "LEGACY-04",
+      "title": "Integrate make-skill PR#18 (enterprise.md)",
+      "repo": "make-skill",
+      "kind": "integrate",
+      "detail": "PR#18: references/enterprise.md +42, SKILL.md, AGENTS.md, docs/HANDOFF.md. Resolve, gate green.",
+      "deps": [
+        "MERGE-03"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "ISSUE-124",
+      "title": "Close sshlg-skills#124 — routegate escalation under bypassPermissions",
+      "repo": "sshlg-skills",
+      "kind": "fix",
+      "detail": "The route gate asks inside bypassPermissions and gates writes that never touch the repository. Fix per the issue, regression + gate, then close the issue with the commit.",
+      "deps": [
+        "MERGE-10"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "REL-01",
+      "title": "Release the 9 members (version bump + annotated tag each)",
+      "repo": "members",
+      "kind": "release",
+      "detail": "For every member whose main moved: bump version, CHANGELOG, annotated tag (B-93: never a lightweight tag), push tag.",
+      "deps": [
+        "LEGACY-01",
+        "LEGACY-02",
+        "LEGACY-03",
+        "LEGACY-04",
+        "ISSUE-124"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "REL-02",
+      "title": "Umbrella pins: skills.json + submodule + README together",
+      "repo": "sshlg-skills",
+      "kind": "release",
+      "detail": "The pin is the promise: three places move in one change; validator reads the version out of the submodule.",
+      "deps": [
+        "REL-01"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "REL-03",
+      "title": "Release sshlg-skills umbrella (annotated tag)",
+      "repo": "sshlg-skills",
+      "kind": "release",
+      "detail": "Version bump, CHANGELOG, annotated tag, push. GH-124 rule: the issue closes at merge+release.",
+      "deps": [
+        "REL-02"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "REL-04",
+      "title": "Update every local installation on this machine",
+      "repo": "host",
+      "kind": "release",
+      "detail": "npx --yes sshlg-skills@latest update (never a bare npx skills update <member>), then the shadow check must be empty. Definition of Done, not a follow-up.",
+      "deps": [
+        "REL-03"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "DOC-01",
+      "title": "Update repo docs to the merged reality",
+      "repo": "all",
+      "kind": "docs",
+      "detail": "Each repo's README/CLAUDE.md/docs claims recomputed: counted figures, resolvable addresses, ratchets. Evidence-docs rule: a claim carries its receipt.",
+      "deps": [
+        "REL-03"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "DOC-02",
+      "title": "Update the Obsidian projects wiki",
+      "repo": "wiki",
+      "kind": "docs",
+      "detail": "One vault: ~/DATA/obsidian-memory-vault/sshlg-projects-vault. Update projects/<name>/ overviews for the family members that changed, fix dangling links.",
+      "deps": [
+        "DOC-01"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "DOC-03",
+      "title": "Refresh GitHub repository descriptions + topics",
+      "repo": "github",
+      "kind": "docs",
+      "detail": "Each skill repo's GitHub description/topics/homepage made current with what the skill now does.",
+      "deps": [
+        "REL-03"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    },
+    {
+      "id": "FINAL-01",
+      "title": "Final check: gates, CI, pins, shadows, ledger truth",
+      "repo": "all",
+      "kind": "verify",
+      "detail": "Full regression sweep, CI green on main for every repo, submodule pins resolve, no shadow copies, every ledger claim verified.",
+      "deps": [
+        "DOC-01",
+        "DOC-02",
+        "DOC-03",
+        "REL-04"
+      ],
+      "status": "todo",
+      "commit": null,
+      "checks": null,
+      "notes": null
+    }
+  ],
+  "flags": []
+}
