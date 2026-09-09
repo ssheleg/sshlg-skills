@@ -3829,7 +3829,7 @@
       "status": "done",
       "commit": "5491b52",
       "checks": "regression 6/6; npm test EXIT=0",
-      "notes": "capabilities(): lease_scope/enforcement_mode/awareness_scope/identity_strength/backend_health; enforced only cross-machine+asked+up; failed backend never green; local advisory not enforced; gated = derived compatibility summary. FLAG: fix-sy-03.01.py fails on branch independently (torn-lock reap returns (False,None)) — separate leaf, needs its own fix",
+      "notes": "capabilities(): lease_scope/enforcement_mode/awareness_scope/identity_strength/backend_health; enforced only cross-machine+asked+up; failed backend never green; local advisory not enforced; gated = derived compatibility summary. (SY-03.01 red-regression reconciled in agent-sync@66b43ee — SY-05 create-grace vs SY-03.01 torn-lock reap; fixture aged past grace)",
       "repo": "agent-sync"
     },
     {
@@ -5828,7 +5828,9 @@
       "id": "FIX-SY-03.01-regression-red",
       "found_by": "FIX-SY-06.01 run",
       "repo": "agent-sync",
-      "detail": "test/audit_regressions/fix-sy-03.01.py fails deterministically on sherlock/impl-20260907 HEAD (verified on clean tree before FIX-SY-06.01): a partial/torn K3.lock is not reaped — acquire() returns (False, None) instead of stealing it. Needs a fix on the FIX-SY-03.01 leaf; CI audit-regression stage will be red until then."
+      "detail": "test/audit_regressions/fix-sy-03.01.py fails deterministically on sherlock/impl-20260907 HEAD (verified on clean tree before FIX-SY-06.01): a partial/torn K3.lock is not reaped — acquire() returns (False, None) instead of stealing it. Needs a fix on the FIX-SY-03.01 leaf; CI audit-regression stage will be red until then.",
+      "resolved": "agent-sync@66b43ee",
+      "resolution": "SY-05 legitimately made a fresh torn lock a protected creation-in-flight; SY-03.01 fixture now ages the torn lock past CREATE_GRACE before asserting the reap. All 11 agent-sync regressions + npm test green."
     }
   ]
 }
