@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 197,
+    "done": 198,
     "blocked": 0
   },
   "queue": [
@@ -3387,10 +3387,11 @@
       "kind": "implementation",
       "title": "Неиспользованное правило автоматически считается ненужным",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "03ac64a",
+      "checks": "regression 8/8; npm test EXIT=0",
+      "notes": "rule classes permanent/situational/temporary at birth; permanent never cold-retired; situational counts exposure opportunities, cold=review-needed; temporary TTL archives only with verified replacement; removals explainable",
+      "repo": "task-pipeline"
     },
     {
       "id": "XD-11.01",
