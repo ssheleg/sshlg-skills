@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 253,
+    "done": 254,
     "blocked": 0
   },
   "queue": [
@@ -5578,10 +5578,11 @@
         "XD-11.01",
         "XD-12.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "8ac57b0",
+      "checks": "regression 6/6; npm test EXIT=0; DOCMAP 83/970",
+      "notes": "closure proof ctx-04.05.json for CTX-04 built from leaf receipts (04.01-04) not counts; per-criterion status derived from real receipts (all RAN); cross-module seam matrix-mandatory-hosts-have-actual-load ok; NOT_RUN/MISSING mandatory or count-only closure all refused (negative fixtures); release_allowed true",
+      "repo": "sshlg-skills"
     },
     {
       "id": "CTX-04.06",
