@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 211,
+    "done": 212,
     "blocked": 0
   },
   "queue": [
@@ -3618,10 +3618,11 @@
       "kind": "implementation",
       "title": "Typed health states",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "0185e3a (sheleg-dev) + 3be5605 (telegram-dev)",
+      "checks": "regression 5/5; npm test EXIT=0 both repos",
+      "notes": "three health states liveness/readiness/degraded_auth; transient (retry/restart) vs terminal/revoked (stop, not-ready, alert, wait for fresh auth, no crash loop); one contract across error-tracking + telegram-userbots",
+      "repo": "sheleg-dev + telegram-dev"
     },
     {
       "id": "FIX-ED-01.02",
