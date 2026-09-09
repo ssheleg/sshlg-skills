@@ -3,7 +3,7 @@
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
     "total": 30,
-    "done": 5,
+    "done": 7,
     "blocked": 0
   },
   "queue": [
@@ -62,10 +62,10 @@
       "kind": "house",
       "detail": "BODY_TOKENS task-pipeline/SKILL.md 5429 — HARD BREACH (grew +822) → split; plus BUNDLE_UNREACHABLE evidence-docs/references/GENERATED.md not reachable from SKILL.md — blocks the merge: House skill audit is a required CI check in all 9 members.",
       "deps": [],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "bca5b55",
+      "checks": "house 0 GAP both skills; npm test EXIT=0",
+      "notes": "SKILL 5429→4691 by splitting the 40-row doctrine map into references/doctrine-map.md (reachability guard is transitive); evidence-docs GENERATED.md wired into SKILL; 5 counted figures recomputed 38→39 + conformance 313→279 lines"
     },
     {
       "id": "HOUSE-06",
@@ -74,10 +74,10 @@
       "kind": "house",
       "detail": "BODY_HEADROOM ux-audit 4882 + ux-flows 4809 (both >4750, grew ~+580 each) + REF_NO_TOC component-guidelines.md (118 lines, 4 synced copies — edit SOURCE then sync) — blocks the merge: House skill audit is a required CI check in all 9 members.",
       "deps": [],
-      "status": "todo",
+      "status": "done",
       "commit": null,
-      "checks": null,
-      "notes": null
+      "checks": "house 0 GAP on all four ux-* skills; npm test EXIT=0",
+      "notes": "ux-audit 4882→4005 (references/audit-depth.md), ux-flows 4809→4607 (references/prototyping.md), component-guidelines Contents; edited SOURCE + synced; moved-block links flattened; facts.md 4674→4685"
     },
     {
       "id": "HOUSE-07",
