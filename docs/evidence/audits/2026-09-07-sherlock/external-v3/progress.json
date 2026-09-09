@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 168,
+    "done": 169,
     "blocked": 0
   },
   "queue": [
@@ -2871,10 +2871,11 @@
         "CTX-02.03",
         "CTX-02.04"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "49eadab",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "compile_dispatch_packet: REQ/constraints/interfaces/artifact digests/base/scope/budget/profile/skill_lock all bound or reject; no ephemeral secret at any depth; compile-dispatch CLI; schema node.dispatch_packet; build.md documented",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-UX-12.01",
