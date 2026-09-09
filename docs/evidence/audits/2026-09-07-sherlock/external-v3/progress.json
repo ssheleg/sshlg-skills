@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 109,
+    "done": 110,
     "blocked": 0
   },
   "queue": [
@@ -1882,10 +1882,11 @@
       "depends_on": [
         "FIX-AS-11.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "b36f14a",
+      "checks": "regression 5/5; npm test EXIT=0 (self-test green)",
+      "notes": "audit.md Permission track: trifecta = specific exfiltration pattern not full model; audit capabilities+effects separately; missing leg not a PASS for unrelated destructive effect",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-EV-01.08",
