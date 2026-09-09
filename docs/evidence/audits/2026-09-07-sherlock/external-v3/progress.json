@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 116,
+    "done": 117,
     "blocked": 0
   },
   "queue": [
@@ -1996,10 +1996,11 @@
       "kind": "implementation",
       "title": "Отсутствие production измерения запрещает считать доказанный механизм дефектом",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "a593979",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "five axes in SKILL.md; _finding writes mechanism/incidence/observed_scope/observed_at; templates/finding-evidence.json; audit.md+documentation.md point at schema; UNKNOWN≠0",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-UX-01.01",
