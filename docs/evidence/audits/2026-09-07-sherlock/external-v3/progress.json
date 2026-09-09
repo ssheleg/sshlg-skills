@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 58,
+    "done": 59,
     "blocked": 0
   },
   "queue": [
@@ -1042,10 +1042,11 @@
       "depends_on": [
         "FIX-RT-02.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "fed150d",
+      "checks": "regression 5/5 (multi-turn); npm test EXIT=0 (57 suites)",
+      "notes": "applyTurn lifecycle: session waivers narrow following turns; revoke restores one route; quoted refusals inert in classify too; RT-02 parent complete",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-VD-01.01",
