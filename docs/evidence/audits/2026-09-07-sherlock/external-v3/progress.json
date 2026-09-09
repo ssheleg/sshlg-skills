@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 55,
+    "done": 56,
     "blocked": 0
   },
   "queue": [
@@ -991,10 +991,11 @@
         "CTX-01.02",
         "CTX-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "bec2c24",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "fake-edge test typed data/control/authorization/resource; delete only none-of-four; fan-out read/write comparison; SKILL.md + graph-engineering.md + workflow defaults",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-EV-01.28",
