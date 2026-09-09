@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 127,
+    "done": 128,
     "blocked": 0
   },
   "queue": [
@@ -2176,10 +2176,11 @@
       "depends_on": [
         "FIX-EV-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "fd8c49e",
+      "checks": "regression 6/6; harness validated 5 cases live; npm test EXIT=0",
+      "notes": "evals/cases/agent-interop.json: pinned MCP proof 401+scoped constructor (AS-12), negative routing, protocol routing not by word long-running (AS-13), unsupported-Tasks fallback no-op, probe-gated live env",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-PF-01.02",
