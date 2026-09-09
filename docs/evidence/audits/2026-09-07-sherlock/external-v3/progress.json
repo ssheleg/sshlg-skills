@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 148,
+    "done": 149,
     "blocked": 0
   },
   "queue": [
@@ -2530,10 +2530,11 @@
       "depends_on": [
         "XD-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "fa17122",
+      "checks": "regression 6/6; npm test EXIT=0",
+      "notes": "TYPE_CRAFT.md: roles, ratio hierarchy, measure/leading/weight/width+tabular-nums, 5 reality checks (loading/fallback/glyphs/long-strings/native-scaling), 5 scoped fixes; no banned fonts, no CDN/fetch; one family/system face OK; +mirror +install.sh",
+      "repo": "sheleg-design-skill"
     },
     {
       "id": "FIX-AS-08.01",
