@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 119,
+    "done": 120,
     "blocked": 0
   },
   "queue": [
@@ -2041,10 +2041,11 @@
       "kind": "implementation",
       "title": "Аудитор bundle выдаёт расчёт стоимости каталога за фактический расход каждого сеанса",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "348d194",
+      "checks": "regression 4/4 (live runs w/ and w/o trace); npm test EXIT=0 (66/963)",
+      "notes": "raw_catalog_cl100k static label; measured_prompt_cost only from SSHLG_PROMPT_TRACE w/ host+version+delta; missing sample = unknown; metrics never share a label",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-DV-10.01",
