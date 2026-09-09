@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 82,
+    "done": 83,
     "blocked": 0
   },
   "queue": [
@@ -1434,10 +1434,11 @@
       "kind": "implementation",
       "title": "Аудит по описанию автоматически превращается в исправление и release",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "c5cd153",
+      "checks": "regression 5/5; adopt-m-03.01 needles updated; npm test EXIT=0; SKILL.md 4741 (auditor block displaced to retrofit.md)",
+      "notes": "three modes audit/retrofit/release with distinct effect contracts; audit reads only; transition by intent+authorization not skill invoked",
+      "repo": "make-skill"
     },
     {
       "id": "FIX-UP-01.03",
