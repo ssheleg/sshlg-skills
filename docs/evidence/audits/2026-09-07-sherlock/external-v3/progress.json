@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 245,
+    "done": 246,
     "blocked": 0
   },
   "queue": [
@@ -4209,10 +4209,11 @@
       "kind": "verification",
       "title": "Artifact eval: error-tracking",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "2482e34",
+      "checks": "regression 3/3; npm test EXIT=0",
+      "notes": "evals/cases/fix-dv-19.06.json: offline fault-injection DV-15 scrubber leak / DV-16 revoked-session recovery; state/output oracles; counterexample fails pre-fix passes post-fix; offline + release tie",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-UX-14.01",
