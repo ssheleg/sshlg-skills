@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 59,
+    "done": 60,
     "blocked": 0
   },
   "queue": [
@@ -1057,10 +1057,11 @@
       "kind": "implementation",
       "title": "Invariant/open-axis split",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "e10a72a",
+      "checks": "regression 4/4; npm test EXIT=0",
+      "notes": "VISUAL_EXPLORATION.md: invariants vs open axes vs hypothesis; proportional direction count; token file closes nothing; SKILL.md route + CD Act 3 nuance; install.sh bundle list",
+      "repo": "sheleg-design"
     },
     {
       "id": "FIX-DV-04.01",
