@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 180,
+    "done": 181,
     "blocked": 0
   },
   "queue": [
@@ -3080,10 +3080,11 @@
         "FIX-PF-07.01",
         "FIX-PF-07.02"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "0429466",
+      "checks": "regression 5/5; PF-04.02/PF-05.02 still green; tsc EXIT=0; pushed",
+      "notes": "chain.ts mayStartFanIn (all-done or refuse, union of hand-offs vs union of needs); chainAdvance groups edges by follower, one unfinished predecessor holds fan-in, dispatch keys over sorted predecessor set — diamond cannot double-start",
+      "repo": "fabric (passioncode-ai/fabric)"
     },
     {
       "id": "FIX-UX-15.02",
