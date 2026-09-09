@@ -68,7 +68,7 @@ have. This repository grew its own on 2026-08-10, closing carry-over C-06.
 | Which plain copies shadow a plugin | `lib/shadow.js` | pure; compares **skill ids each enabled plugin provides**, never marketplace names — `sheleg-design` ships from `sheleg-design-skill`, and the cheap check reports that machine clean |
 | The terminal sequence a notification becomes | `lib/notify.js` | pure; refuses anything outside the documented OSC allowlist rather than emitting a field Claude Code silently drops |
 | Whether someone overwrote the entries we wired | `lib/displace.js` | pure; the expectation is read from `lib/hooks.js`. `ConfigChange` records and `SessionStart` reports, because that event discards `systemMessage`, delivers no `additionalContext`, and a change it blocks surfaces no message to anyone |
-| Whether the un-routed path should stop and ask | `lib/routegate.js` | pure; `ask` never `deny`, once per turn, and silent where a run is open. A hook cannot make a model invoke a skill — it can refuse the un-routed path and name the route, and the wording says only that |
+| Whether the un-routed path should stop and ask | `lib/routegate.js` | pure; `ask` never `deny`, once per turn, and silent only for routes a valid receipt covers — route-scoped, so a pipeline run answers the pipeline route and no other. Every bypass/degraded surface is enumerated in `SURFACES`. A hook cannot make a model invoke a skill — it can refuse the un-routed path and name the route, and the wording says only that |
 | What one turn decided, for the next hook of the same turn | `lib/turnstate.js` | `~/.sshlg-skills/turns/<session>.json`, pruned at session start. Deliberately not `config.json`: that file's value is that it persists, and this state is worthless tomorrow |
 | Which stages this project has | `pipeline.json` → `stages[]` | the ONLY source for the progress denominator. The example flow's eleven are not a fallback — a host project replaces them, and guessing reproduces the defect with an authoritative-looking number |
 | Whether this repository's own gate lets a commit through | `lib/repogate.js` | pure; `npm test` is run by `hooks/repo-gate.js`, wired from a **committed** `.claude/settings.json` so a clone arrives with the gate |
@@ -164,8 +164,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=63 fixtures=949 members=9 -->
-**Ratchets.** 63 suites, 949 fixtures, 9 pinned members — and these three numbers are
+<!-- ratchets: suites=64 fixtures=954 members=9 -->
+**Ratchets.** 64 suites, 954 fixtures, 9 pinned members — and these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree — and this
 sentence is checked against the same run, not against the marker.** It quoted the marker
