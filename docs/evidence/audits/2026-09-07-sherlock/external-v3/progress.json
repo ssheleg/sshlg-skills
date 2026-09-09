@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 35,
+    "done": 36,
     "blocked": 0
   },
   "queue": [
@@ -657,10 +657,11 @@
       "kind": "implementation",
       "title": "Bounded scenario graph",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "d621682",
+      "checks": "regression 7/7; npm test EXIT=0 (4642 checks)",
+      "notes": "references/interactive-flow-prototypes.md (IFP-01..06) + test/flow_graph.py validate_graph(); dangling both directions; preview raises no status",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-AS-03.01",
