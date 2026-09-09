@@ -173,25 +173,52 @@ function shadowCandidates() {
   // copy of a member whose plugin was gone — the only copy, and the skill with it.
   // Unreadable registry ⇒ empty set ⇒ nothing is pruned: a guard that never received
   // its input refuses rather than approves.
-  const installedMarketplaces = () => {
+  // The record PER MARKETPLACE, not just its key (FIX-UP-04.01). A registry
+  // key with an empty installPath array and no cache payload is not a provider,
+  // and pruning the sole plain copy behind it deletes a working skill. The
+  // record is passed whole and gated through plan.providerVerified with a
+  // real filesystem probe below.
+  const installedRecords = () => {
     try {
       const reg = JSON.parse(fs.readFileSync(
         path.join(os.homedir(), '.claude', 'plugins', 'installed_plugins.json'), 'utf8'));
-      return Object.keys(reg.plugins || {})
-        .map(spec => spec.split('@')[1]).filter(Boolean);
-    } catch (_) { return []; }
+      const byMarketplace = {};
+      for (const [spec, record] of Object.entries(reg.plugins || {})) {
+        const mkt = spec.split('@')[1];
+        if (!mkt) continue;
+        // A marketplace may host more than one plugin; concatenate their records.
+        byMarketplace[mkt] = (byMarketplace[mkt] || []).concat(record || []);
+      }
+      return byMarketplace;
+    } catch (_) { return {}; }
   };
 
-  // A copy is a shadow only where a plugin of the SAME MEMBER is installed —
-  // which is not the same question as "is this run touching plugins". That
-  // proxy is what let `update --no-claude` create a copy and walk away from
-  // it, beside a live plugin, serving a frozen version forever.
+  // Payload closure + digest: an installPath is a verified provider only when
+  // the directory exists AND holds a SKILL.md (the payload a host would load),
+  // not merely a path string a stale registry left behind.
+  const payloadExists = (installPath) => {
+    try {
+      if (!fs.statSync(installPath).isDirectory()) return false;
+      // SKILL.md directly, or one skill dir deep (plugins ship skills/<name>/SKILL.md).
+      if (fs.existsSync(path.join(installPath, 'SKILL.md'))) return true;
+      const skillsDir = path.join(installPath, 'skills');
+      if (!fs.existsSync(skillsDir)) return false;
+      return fs.readdirSync(skillsDir).some(
+        (d) => fs.existsSync(path.join(skillsDir, d, 'SKILL.md')));
+    } catch (_) { return false; }
+  };
+
+  // A copy is a shadow only where a plugin of the SAME MEMBER is installed AND
+  // VERIFIED — which is not the same question as "is this run touching
+  // plugins", nor "does the registry name it". That proxy is what let `update
+  // --no-claude` create a copy and walk away from it, and a stale registry key
+  // authorise deleting the only copy that worked.
   const members = SKILLS.map(s => ({
     name: s.name,
     marketplace: s.pluginInstall.split('@')[1],
     skillNames: s.skillNames,
   }));
-  return plan.shadowsToPrune(members, installedMarketplaces(), ls(base));
+  return plan.shadowsToPrune(members, installedRecords(), ls(base), payloadExists);
 }
 
 function pruneClaudeShadows() {

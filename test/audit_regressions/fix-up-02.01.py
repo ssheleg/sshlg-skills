@@ -56,8 +56,20 @@ def make_home():
         fh.write("a plain copy that shadows the plugin\n")
     plugins = os.path.join(home, ".claude", "plugins")
     os.makedirs(plugins)
+    # A VERIFIED provider (FIX-UP-04.01): a real installPath whose payload
+    # exists. Without a real payload the prune gate now (correctly) refuses to
+    # delete the plain copy, so this fixture must supply one to demonstrate a
+    # legitimate prune.
+    payload = os.path.join(plugins, "cache", "task-pipeline", "task-pipeline", "1.0.0",
+                           "skills", "task-pipeline")
+    os.makedirs(payload)
+    with open(os.path.join(payload, "SKILL.md"), "w") as fh:
+        fh.write("the real plugin payload\n")
+    install_path = os.path.join(plugins, "cache", "task-pipeline", "task-pipeline", "1.0.0")
+    import json as _json
     with open(os.path.join(plugins, "installed_plugins.json"), "w") as fh:
-        fh.write('{"plugins": {"task-pipeline@task-pipeline": [{"installPath": "/x"}]}}')
+        _json.dump({"plugins": {"task-pipeline@task-pipeline": [
+            {"installPath": install_path, "scope": "user", "enabled": True}]}}, fh)
     return home
 
 
