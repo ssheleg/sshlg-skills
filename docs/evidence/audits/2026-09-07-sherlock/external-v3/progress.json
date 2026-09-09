@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 103,
+    "done": 104,
     "blocked": 0
   },
   "queue": [
@@ -1786,10 +1786,11 @@
         "FIX-UP-01.02",
         "FIX-UP-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "c80a401",
+      "checks": "regression 5/5; npm test EXIT=0 (63 suites)",
+      "notes": "runtime.js recover(): rolls managed set back from .prev-generation to coherent old digest on interrupted switch, preserves unknown files; sync self-heals first; idempotent",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-AS-11.01",
