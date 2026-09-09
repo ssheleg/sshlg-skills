@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 202,
+    "done": 203,
     "blocked": 0
   },
   "queue": [
@@ -3473,10 +3473,11 @@
       "depends_on": [
         "PXS-01.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "d026a87",
+      "checks": "regression 5/5; browser_claims_test 8/8; npm test EXIT=0",
+      "notes": "templates/browser-claims.json + test/browser_claims_test.py (stdlib): REQ/scenario+state+kind rows; visual PASS needs state-matched existing artifact; suite PASS closes no look claim; toggle cycle; NOT_RUN with reason; wired into npm test/test:all/CLAUDE.md/templates README",
+      "repo": "task-pipeline"
     },
     {
       "id": "XD-12.01",
