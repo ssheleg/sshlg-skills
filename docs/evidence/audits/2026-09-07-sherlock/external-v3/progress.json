@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 96,
+    "done": 97,
     "blocked": 0
   },
   "queue": [
@@ -1663,10 +1663,11 @@
         "FIX-UP-01.02",
         "FIX-UP-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "7a40fb3",
+      "checks": "regression 4/4 (ENOSPC stage-crash fault); npm test EXIT=0",
+      "notes": "bin/task-pipeline.js installOne transactional (stage+verify+atomic swap, recoverable prev); install.sh stages before mv; --force=false preserves user bytes",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-UP-05.03",
