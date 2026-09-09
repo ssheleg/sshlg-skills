@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 20,
+  "done": 21,
   "blocked": 0
  },
  "queue": [
@@ -390,10 +390,14 @@
    "kind": "implementation",
    "title": "Unique subscription grant",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "sheleg-dev@77b329a (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-dv-02.01.py — OK 5 checks (sqlite UNIQUE semantics: concurrent-once, older-period-not-suppressed, invoice-as-provenance; both pack modes)",
+    "node assert-money-invariants.mjs — 22 invariants; --self-test — 16 rules each isolated",
+    "validate 27 / moneygate 65 / fixtures 16 / installer 11 — green"
+   ],
+   "notes": "High-water lastGrantedPeriodStart guard replaced by keyed INSERT ledger (UNIQUE sub+period; item/invoice provenance); claimPeriodGrant atomic in both entry points with one key derivation; new rule grant-key-atomic isolated by concurrent-entry-points-grant-once (judged on the ledger). fixtures_test unremovable-rule plant re-aimed at the live gate. CORRECTION: sheleg-dev npm test:audit only added NOW — before this, audit regressions ran only in CI here (iteration-2 ledger note said npm; that was inaccurate). Sibling FIX-DV-02.02 owns mirror monotonicity + serialization retry. No release — branch handoff only."
   },
   {
    "id": "FIX-SY-02.01",
