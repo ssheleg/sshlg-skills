@@ -4519,9 +4519,9 @@
         "XD-12.01"
       ],
       "status": "done",
-      "commit": "89c208a",
+      "commit": "89c208a + 9e64e06 (errata)",
       "checks": "regression 5/5; npm test EXIT=0; DOCMAP 79/970",
-      "notes": "acceptance receipt docs/evidence/acceptance/ctx-04.01.json from live probe; mandatory tier Claude Code+Codex (observed), gemini+others declared_untested (never PASS on name); required vs optional checks listed; unknown versions null not invented; model prefs inherited; regression doubles as --emit generator and verifies against a fresh probe",
+      "notes": "acceptance receipt docs/evidence/acceptance/ctx-04.01.json from live probe; mandatory tier Claude Code+Codex (observed), gemini+others declared_untested (never PASS on name); required vs optional checks listed; unknown versions null not invented; model prefs inherited; regression doubles as --emit generator and verifies against a fresh probe | ERRATA 2026-09-09: fresh-probe compared machine-LOCAL root_present and failed on CI runners (83/84 green, this one red); fixed in 9e64e06 — comparison now (agent,tier,status), root_present stays a recorded boolean.",
       "repo": "sshlg-skills"
     },
     {
@@ -5862,6 +5862,11 @@
       "detail": "test/audit_regressions/fix-sy-03.01.py fails deterministically on sherlock/impl-20260907 HEAD (verified on clean tree before FIX-SY-06.01): a partial/torn K3.lock is not reaped — acquire() returns (False, None) instead of stealing it. Needs a fix on the FIX-SY-03.01 leaf; CI audit-regression stage will be red until then.",
       "resolved": "agent-sync@66b43ee",
       "resolution": "SY-05 legitimately made a fresh torn lock a protected creation-in-flight; SY-03.01 fixture now ages the torn lock past CREATE_GRACE before asserting the reap. All 11 agent-sync regressions + npm test green."
+    },
+    {
+      "id": "POST-COMPLETION-AUDIT-20260909",
+      "state": "resolved",
+      "detail": "Post-completion audit 2026-09-09: (1) CI on the sshlg-skills sherlock branch was red from CTX-04.01 through CTX-04.06 — one suite (ctx-04.01) asserted machine-local root_present against a runner probe; fixed in sshlg-skills@9e64e06, 84/84 green locally + runner-sim. (2) fabric sherlock/impl-20260907 was MERGED into fabric/main by the operator and the branch deleted; all fabric task commits verified present in fabric/main. (3) every commit hash recorded in this ledger verified resolvable on its pushed branch (fabric: in main). (4) member-repo CI does not trigger on branch pushes — branch evidence is the local gates plus the 2026-09-09 sweep: 241 audit-regression suites across 10 repos, 0 red. (5) the sshlg-skills-handoff worktree had been removed from disk; recreated from the pushed branch for this report."
     }
   ]
 }
