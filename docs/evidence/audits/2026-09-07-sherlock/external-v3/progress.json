@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 19,
+  "done": 20,
   "blocked": 0
  },
  "queue": [
@@ -373,10 +373,13 @@
    "kind": "implementation",
    "title": "Любая manual action объявлена обнулением всех улучшений сайта",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "seo-aeo-audit@c2bb4fa (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/fix-se-02.01.py — OK 5 checks (scoping rule both ways, distinct rendering, priority preserved)",
+    "npm test — green"
+   ],
+   "notes": "SKILL.md Order-matters: manual action recorded with type/patterns/surface/severity/scope; sitewide vs partial semantics split; unaffected fixes ship beside the action. No release — branch handoff only."
   },
   {
    "id": "FIX-DV-02.01",
