@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 164,
+    "done": 165,
     "blocked": 0
   },
   "queue": [
@@ -2798,10 +2798,11 @@
       "kind": "implementation",
       "title": "MCP shipping example не закрепляет SDK и использует прежний FastMCP constructor",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "c2f4195",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "mcp-ship.md: two FastMCP distributions distinguished, official import named/standalone refused, dated pin=identity, v1 out-of-scope, health-before-auth order, localhost protocol-call acceptance (200/401/init/list/call)",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-DS-03.01",
