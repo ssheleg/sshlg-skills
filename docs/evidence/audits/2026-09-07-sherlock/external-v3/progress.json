@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 249,
+    "done": 250,
     "blocked": 0
   },
   "queue": [
@@ -4518,10 +4518,11 @@
         "XD-11.01",
         "XD-12.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "89c208a",
+      "checks": "regression 5/5; npm test EXIT=0; DOCMAP 79/970",
+      "notes": "acceptance receipt docs/evidence/acceptance/ctx-04.01.json from live probe; mandatory tier Claude Code+Codex (observed), gemini+others declared_untested (never PASS on name); required vs optional checks listed; unknown versions null not invented; model prefs inherited; regression doubles as --emit generator and verifies against a fresh probe",
+      "repo": "sshlg-skills"
     },
     {
       "id": "CTX-04.02",
