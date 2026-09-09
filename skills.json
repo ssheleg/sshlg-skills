@@ -14,6 +14,32 @@
     "kiro-cli",
     "goose"
   ],
+  "providerContract": {
+    "version": 1,
+    "note": "The ONE versioned provider-resolution contract every consumer reads — toolkit, make-skill, the runtime shadow guard and update (FIX-UP-07.03). A consumer resolves a skill's active provider by THIS shape, not by importing a sibling consumer's runtime: no consumer depends on another's code, so a stale-plugin/fresh-hub digest mismatch surfaces IDENTICALLY everywhere. resolveProviders() in bin/sshlg-skills.js is the reference implementation; a version bump is a breaking change every consumer must re-read.",
+    "keyFields": [
+      "host",
+      "scope",
+      "skillId"
+    ],
+    "states": [
+      "active",
+      "installed-not-enabled",
+      "none"
+    ],
+    "precedence": [
+      "n/a",
+      "UNKNOWN"
+    ],
+    "activeShape": [
+      "realpath",
+      "digest",
+      "version",
+      "namespace",
+      "loaded"
+    ],
+    "mismatchSignal": "when two installed+enabled candidates share a (host, scope, skillId) but differ in digest, state stays 'active' and precedence is 'UNKNOWN' — the shadow. A stale plugin beside a fresh hub copy is this case, and every consumer reads it the same way."
+  },
   "skills": [
     {
       "name": "super-ux",
