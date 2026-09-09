@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 184,
+    "done": 185,
     "blocked": 0
   },
   "queue": [
@@ -3153,10 +3153,11 @@
         "FIX-PF-03.01",
         "FIX-PF-03.02"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "da799dc",
+      "checks": "regression 5/5; pushed",
+      "notes": "decision artifact docs/evidence/plans/task-pipeline-persistence-contract.md: schema needed=YES with measured gap; reserved migrations …000052/000053 + ADR 0051 (both history lines cleared); old artifacts read-only; recovery + 3 upgrade criteria; execution NOT claimed, reserved files absent",
+      "repo": "fabric (passioncode-ai/fabric)"
     },
     {
       "id": "FIX-TP-01.02",
