@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 255,
-  "done": 26,
+  "done": 27,
   "blocked": 0
  },
  "queue": [
@@ -498,10 +498,13 @@
    "depends_on": [
     "CTX-01.02"
    ],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "task-pipeline@200998a (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/packet_schema_test.py — OK 8 checks",
+    "npm test — green (validator caught test:all lagging; fixed)"
+   ],
+   "notes": "Typed edges (data/control/resource) with owner/rationale/satisfaction; control edge payload-less by right and preserved; validate-graph: unique ids, resolution, DFS cycles. Parent CTX-01 complete (3/3 leaves). No release — branch handoff only."
   },
   {
    "id": "FIX-AS-02.01",
