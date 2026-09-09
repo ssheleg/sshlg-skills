@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 254,
-  "done": 16,
+  "done": 17,
   "blocked": 0
  },
  "queue": [
@@ -320,10 +320,13 @@
    "depends_on": [
     "CTX-01.01"
    ],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "task-pipeline@f42b6b1 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/ctx-01.02.py — OK 6 checks (boolean-not-a-grant, stale/current, superseded fence, unions, completed-contradiction)",
+    "npm test — PASS (validate, graph 152, project_audit, both audit regressions); README line count recomputed 267→272"
+   ],
+   "notes": "execution-result.schema.json + example + packet.py validate-result (--current-revision/--current-fence). AttemptGrant with fence; ResultEnvelope with content-addressed candidate, PASS/FAIL/ERROR/NOT_RUN checks, fact/defect/unknown_effect evidence union. Sibling CTX-01.03 (typed deps/graph closure) next in its wave. No release — branch handoff only."
   },
   {
    "id": "FIX-AS-01.02",
