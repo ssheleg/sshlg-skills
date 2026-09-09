@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 140,
+    "done": 141,
     "blocked": 0
   },
   "queue": [
@@ -2396,10 +2396,11 @@
       "depends_on": [
         "FIX-UX-03.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "0d45907",
+      "checks": "regression 4/4 (real check_ai_tells); brand_lint_test green; npm test EXIT=0 (4654)",
+      "notes": "B060 severity always WARN, count-driven ERROR escalation removed; marker-rich correct text no longer blocks; check reports never rewrites; lint.py reseeded",
+      "repo": "super-ux"
     },
     {
       "id": "XD-03.01",
