@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 45,
+    "done": 46,
     "blocked": 0
   },
   "queue": [
@@ -824,10 +824,11 @@
       "depends_on": [
         "FIX-AS-03.01"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "37c0272",
+      "checks": "regression 4/4; npm test EXIT=0",
+      "notes": "memory-lifecycle.md §6 temporal evidence lifecycle: retrieval not an event; reversible supersession with walkable chain; volatile verified facts expire by freshness",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-EV-01.14",
