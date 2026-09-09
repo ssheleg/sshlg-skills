@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 69,
+    "done": 70,
     "blocked": 0
   },
   "queue": [
@@ -1218,10 +1218,11 @@
       "kind": "implementation",
       "title": "Пустой lock между O_EXCL и payload принимается за просроченный: два acquire выигрывают",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "bf30a8e",
+      "checks": "regression 5/5; npm test EXIT=0; validator self-test green (mutation fixture re-aimed)",
+      "notes": "_publish_lock atomic temp+fsync+link (no empty window); empty lock = creation-in-flight within CREATE_GRACE, reclaimed by age; two-guard mutation fixture updated for elif",
+      "repo": "agent-sync"
     },
     {
       "id": "ADOPT-M-14.01",
