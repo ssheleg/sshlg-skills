@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 135,
+    "done": 136,
     "blocked": 0
   },
   "queue": [
@@ -2308,10 +2308,11 @@
       "kind": "implementation",
       "title": "Зафиксировать источник и правила переноса",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "0b52b45",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "KNOWLEDGE_PROVENANCE.md: 6 derived rows (commit+path+SHA256+permalink+verified), transfer rules (Apache notice/MIT-notice), boundary excludes launcher/router/hook/API/font, no vendored assets, no auto-clear promise; +cursor mirror +install.sh",
+      "repo": "sheleg-design-skill"
     },
     {
       "id": "FIX-UP-03.02",
