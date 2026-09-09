@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 104,
+    "done": 105,
     "blocked": 0
   },
   "queue": [
@@ -1801,10 +1801,11 @@
       "kind": "implementation",
       "title": "Approval grant contract",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "bb002c3",
+      "checks": "regression 6/6; npm test EXIT=0 (self-test green)",
+      "notes": "tools.md: confirm:true=syntax guard not approval; real grant bound principal/action/args/expiry; stale grant ≠ changed args; trifecta = sufficient for exfiltration not complete model, any-two-safe over-claims",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-EV-01.07",
