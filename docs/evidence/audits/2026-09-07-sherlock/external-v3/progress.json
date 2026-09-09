@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 154,
+    "done": 155,
     "blocked": 0
   },
   "queue": [
@@ -2629,10 +2629,11 @@
       "kind": "implementation",
       "title": "Paired and clustered comparison",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "5f22cb4",
+      "checks": "regression 4/4; 08.01 green; npm test EXIT=0",
+      "notes": "design→method table (paired/clustered/unpaired, receipt names both); dependent repeats never iid; splits frozen, holdout spent once, unseen=run-history not label",
+      "repo": "agent-stack"
     },
     {
       "id": "ADOPT-M-05.01",
