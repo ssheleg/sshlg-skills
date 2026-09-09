@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 92,
+    "done": 93,
     "blocked": 0
   },
   "queue": [
@@ -1596,10 +1596,11 @@
       "kind": "implementation",
       "title": "Добавить source/runtime contract для внешних заимствований",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "5596bbc",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "enterprise.md Selective knowledge adoption: 4-verdict intake by reading (no login/install), no-key≠no-dependency, pinned permalink+attribution for copied AND adapted; authoring.md route; external-adoption.json fixtures",
+      "repo": "make-skill"
     },
     {
       "id": "FIX-SY-07.01",
