@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 111,
+    "done": 112,
     "blocked": 0
   },
   "queue": [
@@ -1914,10 +1914,11 @@
       "kind": "implementation",
       "title": "Документированное решение автоматически оправдывает дефект",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "a33586f",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "project-audit SKILL.md: decision status vs technical validity as separate axes; documented violation stays finding w/ decision_id; accepted trade-off = limitation; excluding documented = false negatives",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-VD-05.01",
