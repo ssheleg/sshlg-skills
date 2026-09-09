@@ -83,10 +83,12 @@ def t_moved_ref_is_drift_not_upgrade():
 
 
 def t_four_states_are_separate():
+    # A complete observation (FIX-UP-01.03) also carries enablement; the four
+    # version fields agreeing plus enabled is what reads up to date.
     v = node("const e={name:'x',desired:'1.0'};"
              "console.log(JSON.stringify([\n"
-             "  u.memberStatus(e,{latest:'1.0',installed:'1.0',active:'1.0'}),\n"
-             "  u.memberStatus(e,{latest:'1.0',installed:'1.0',active:'0.9'})]));")
+             "  u.memberStatus(e,{latest:'1.0',installed:'1.0',active:'1.0',enabled:true}),\n"
+             "  u.memberStatus(e,{latest:'1.0',installed:'1.0',active:'0.9',enabled:true})]));")
     assert v[0]["upToDate"] is True
     assert v[1]["upToDate"] is False, \
         "installed==desired was reported up-to-date while active lagged — the "\
