@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 188,
+    "done": 189,
     "blocked": 0
   },
   "queue": [
@@ -3229,10 +3229,11 @@
         "FIX-PF-03.01",
         "FIX-PF-03.02"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "7395ce8 (task-pipeline) + ed7249b (fabric)",
+      "checks": "regression 5/5 (adapter live via FABRIC_ROOT); npm test EXIT=0; tsc EXIT=0",
+      "notes": "pipeline.schema must_understand + gate-refusal rule; fabric pipelineAdapters/taskPipeline.ts: unknown gate refused by name, ununderstood must_understand refuses all, pins validated, identity round-trip",
+      "repo": "task-pipeline + fabric"
     },
     {
       "id": "FIX-VD-06.01",
