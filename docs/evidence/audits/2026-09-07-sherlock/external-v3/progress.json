@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 236,
+    "done": 237,
     "blocked": 0
   },
   "queue": [
@@ -4060,10 +4060,11 @@
         "FIX-UP-07.02",
         "FIX-UP-07.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "08d0ad6",
+      "checks": "regression 7/7; npm test EXIT=0; DOCMAP 77/970",
+      "notes": "apply.hostRoot precedence explicit>env(CLAUDE_CONFIG_DIR/CODEX_HOME/GEMINI_CONFIG_DIR)>~/<dir>, verbatim (spaces preserved); CODEX_HOME isolates codex; existence separate; bin claudeRoot honours CLAUDE_CONFIG_DIR for shadow paths",
+      "repo": "sshlg-skills"
     },
     {
       "id": "FIX-UX-08.01",
