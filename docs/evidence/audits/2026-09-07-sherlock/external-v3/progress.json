@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 70,
+    "done": 71,
     "blocked": 0
   },
   "queue": [
@@ -1238,10 +1238,11 @@
         "CTX-02.03",
         "CTX-02.04"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "9f85ab4",
+      "checks": "regression 5/5; npm test EXIT=0",
+      "notes": "planning.md UI handoff annex: state IDs/components/tokens/content/a11y/asset versions; adds to context not claim; stale spec = revision; domain-optional",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-AS-06.01",
