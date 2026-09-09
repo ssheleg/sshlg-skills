@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 231,
+    "done": 232,
     "blocked": 0
   },
   "queue": [
@@ -3969,10 +3969,11 @@
       "kind": "verification",
       "title": "Artifact eval: stripe-billing",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "51f01ea",
+      "checks": "regression 3/3; npm test EXIT=0",
+      "notes": "evals/cases/fix-dv-19.01.json: offline fault-injection corpus DV-01/02/04; state/output oracles (effect-once, both-periods, refund-not-clobbered); counterexample computed-fails pre-fix & passes post-fix; offline + release tie",
+      "repo": "sheleg-dev"
     },
     {
       "id": "FIX-RT-03.01",
