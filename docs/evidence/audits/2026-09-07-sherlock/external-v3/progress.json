@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 149,
+    "done": 150,
     "blocked": 0
   },
   "queue": [
@@ -2545,10 +2545,11 @@
       "kind": "implementation",
       "title": "Proportion and trial units",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "39e7116",
+      "checks": "regression 6/6 (wilson run from the doc); npm test EXIT=0",
+      "notes": "statistics.md: Wilson default (boundary-honest, n=0=(0,1)), Wald limits stated, dependence/p^k assumptions named, unpaired legit w/ wider band, pass@k/pass^k task-level (no trial pooling)",
+      "repo": "agent-stack"
     },
     {
       "id": "FIX-DV-15.02",
