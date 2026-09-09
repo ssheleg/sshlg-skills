@@ -10,7 +10,7 @@
  "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
  "counts": {
   "total": 255,
-  "done": 25,
+  "done": 26,
   "blocked": 0
  },
  "queue": [
@@ -479,10 +479,13 @@
    "kind": "implementation",
    "title": "Добавить сравнениеbehavioralconcepts",
    "depends_on": [],
-   "status": "planned",
-   "commit": null,
-   "checks": [],
-   "notes": ""
+   "status": "done",
+   "commit": "super-ux@36b4cb9 (branch sherlock/impl-20260907)",
+   "checks": [
+    "python3 test/audit_regressions/adopt-m-08.01.py — OK 5 checks",
+    "validate 4633 OK; npm test green"
+   ],
+   "notes": "ux-flows diverge-before-converging now carries the comparison contract (criteria-first, discriminating behaviour, open-choices-only, why/locator/revisit on the loser, no added approval). Merge overlap with prepared branch expected on this file. No release — branch handoff only."
   },
   {
    "id": "CTX-01.03",
