@@ -164,8 +164,16 @@ function agentList(f) {
 // What pruneClaudeShadows WOULD remove, computed without removing it — the same
 // list feeds the operation plan (so `--dry-run` can name the deletions) and the
 // deletion loop (so the receipt and the act cannot drift apart).
+// The Claude config root, honouring CLAUDE_CONFIG_DIR (FIX-UP-08.01): the same
+// documented override apply.js's hostRoot uses, so the shadow detector looks
+// where Claude ACTUALLY reads its plain skills, not always ~/.claude. Used
+// verbatim (spaces preserved), never through a shell.
+function claudeRoot() {
+  return process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude');
+}
+
 function shadowCandidates() {
-  const base = path.join(os.homedir(), '.claude', 'skills');
+  const base = path.join(claudeRoot(), 'skills');
   const ls = (d) => { try { return fs.readdirSync(d); } catch (_) { return []; } };
 
   // The INSTALLED set, not the marketplace list. Those are separate operations and a
@@ -181,7 +189,7 @@ function shadowCandidates() {
   const installedRecords = () => {
     try {
       const reg = JSON.parse(fs.readFileSync(
-        path.join(os.homedir(), '.claude', 'plugins', 'installed_plugins.json'), 'utf8'));
+        path.join(claudeRoot(), 'plugins', 'installed_plugins.json'), 'utf8'));
       const byMarketplace = {};
       for (const [spec, record] of Object.entries(reg.plugins || {})) {
         const mkt = spec.split('@')[1];
@@ -234,7 +242,7 @@ function pruneClaudeShadows() {
     const row = q.capture(id);
     if (!row) { /* could not quarantine → do NOT delete: recoverability first */ continue; }
     try {
-      fs.rmSync(path.join(os.homedir(), '.claude', 'skills', id), { recursive: true, force: true });
+      fs.rmSync(path.join(claudeRoot(), 'skills', id), { recursive: true, force: true });
       pruned.push(id);
       rows.push(row);
     } catch (_) { /* leave it; not fatal */ }
@@ -336,7 +344,7 @@ function planInstall(f) {
     }
     steps.push(opres.step('prune', 'home',
       'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
-      { paths: shadowCandidates().map(id => path.join(os.homedir(), '.claude', 'skills', id)) }));
+      { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
   }
   if (f.claude || f.claudeOnly) {
     for (const s of SKILLS) {
@@ -371,7 +379,7 @@ function planUpdate(f) {
     }
     steps.push(opres.step('prune', 'home',
       'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
-      { paths: shadowCandidates().map(id => path.join(os.homedir(), '.claude', 'skills', id)) }));
+      { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
   }
   if (f.claude || f.claudeOnly) {
     for (const s of SKILLS) {
