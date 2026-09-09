@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 122,
+    "done": 123,
     "blocked": 0
   },
   "queue": [
@@ -2092,10 +2092,11 @@
         "CTX-01.02",
         "CTX-01.03"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "bd53922",
+      "checks": "regression 3/3 (jsonschema live + stdlib fallback); npm test EXIT=0",
+      "notes": "execution-attempt.schema.json: owner(session/attempt not role)/attempt/revision/fence/expiry/state ready→claimed; graph node claim + rule_running_needs_claim; example node claimed",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-UX-01.02",
