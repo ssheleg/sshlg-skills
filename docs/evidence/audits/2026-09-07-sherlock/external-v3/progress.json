@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 191,
+    "done": 192,
     "blocked": 0
   },
   "queue": [
@@ -3289,10 +3289,11 @@
         "FIX-PF-03.01",
         "FIX-PF-03.02"
       ],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "bdfea39",
+      "checks": "regression 5/5; PF-04.02/05.02/08.01 still green; tsc EXIT=0; pushed",
+      "notes": "DISPATCH_AUTHORITY=fabric; taskIdFor deterministic projection tp:run:node@rN (re-import same identity → no double dispatch); nodeFor inverse, native→null; result routes to built revision; chainAdvance stamps node identity on dispatch events",
+      "repo": "fabric (passioncode-ai/fabric)"
     },
     {
       "id": "FIX-TP-02.01",
