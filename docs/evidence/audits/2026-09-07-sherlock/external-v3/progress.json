@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 181,
+    "done": 182,
     "blocked": 0
   },
   "queue": [
@@ -3095,10 +3095,11 @@
       "kind": "implementation",
       "title": "Technical scenario predicates",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "50d1960",
+      "checks": "regression 6/6; 15.01 still green; npm test EXIT=0",
+      "notes": "BP-213: scenario names decided basis+regime, frontend checks not invents; undecided → decision-needed blocks verdict; acknowledgement ≠ consent; mirrors synced",
+      "repo": "super-ux"
     },
     {
       "id": "FIX-DS-06.01",
