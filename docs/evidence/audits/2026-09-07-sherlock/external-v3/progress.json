@@ -10,7 +10,7 @@
   "roots_map_recreate": "python3 - <<EOF\nimport json,os;h=os.path.expanduser(\"~/DATA\");print(json.dumps({k:(h+\"/sheleg-design-skill\" if k==\"sheleg-design\" else h+\"/\"+k) for k in [\"super-ux\",\"task-pipeline\",\"agent-sync\",\"make-skill\",\"sheleg-design\",\"seo-aeo-audit\",\"sheleg-dev\",\"agent-stack\",\"telegram-dev\",\"sshlg-skills\",\"fabric\"]}))\nEOF",
   "counts": {
     "total": 255,
-    "done": 209,
+    "done": 210,
     "blocked": 0
   },
   "queue": [
@@ -3588,10 +3588,11 @@
       "kind": "implementation",
       "title": "Single-skill dependency closure",
       "depends_on": [],
-      "status": "planned",
-      "commit": null,
-      "checks": [],
-      "notes": ""
+      "status": "done",
+      "commit": "e7b59dc",
+      "checks": "regression 4/4 (incl. isolated-copy resolution); npm test EXIT=0",
+      "notes": "evidence-docs carries generated editions of 6 refs + 2 templates; in-set links relative, out-of-set → canonical URL (raw closure measured 38/38, refused); --sync generator; drift gate; SKILL.md 0 escapes",
+      "repo": "task-pipeline"
     },
     {
       "id": "FIX-UP-06.01",
