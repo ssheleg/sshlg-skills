@@ -3,7 +3,7 @@
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
     "total": 30,
-    "done": 25,
+    "done": 27,
     "blocked": 0
   },
   "queue": [
@@ -308,10 +308,10 @@
         "LEGACY-04",
         "ISSUE-124"
       ],
-      "status": "in_progress",
+      "status": "done",
       "commit": null,
-      "checks": "RELEASED 8 of 9 with annotated tags, all verified as tag + GitHub release + npm publish. The ninth, task-pipeline v1.86.0, is in PR #88.",
-      "notes": "each repo dictates its own shape and the guards proved it: agent-sync's self-test caught a bare CHANGELOG heading (only a v-prefixed one can detect its release-notes mutation); sheleg-dev keeps ONE living Shipped-state block rather than a history, and its REQ-001 must quote the line the run prints; seo-aeo-audit needs a retro run stamp in the same change. The bumper leaves historical mentions alone — telegram-dev prose names v0.1.11 in a \"until\" clause."
+      "checks": "9 of 9 released with annotated tags; tag + GitHub release + npm publish verified separately for each",
+      "notes": "task-pipeline v1.86.0 (0625f66) closed the set after a 463-step CI run; two members needed catch-up patches (agent-stack v0.24.2, sheleg-design v1.60.2) because the first attempt lagged its own bump"
     },
     {
       "id": "REL-02",
@@ -322,10 +322,10 @@
       "deps": [
         "REL-01"
       ],
-      "status": "in_progress",
-      "commit": "1b2a9ea (branch release/pins-check2)",
+      "status": "done",
+      "commit": "release/v1.47.0 → PR #126",
       "checks": "npm test EXIT=0 — 84 suites, 970 fixtures, 9 pinned members",
-      "notes": "eight pins moved in all three homes (submodule pointer, skills.json, README table); the lagging-ledger ratchet dropped 1 → 0 because the guard REFUSED the tree until the earned number was written down; CTX-04.06 receipt regenerated after refusing to be stale. task-pipeline's pin waits for its release — a pin to an unreleased tree is a promise nothing can keep."
+      "notes": "all nine pins in all three homes; ratchet 1 → 0 at the guard's own demand; two counted figures recomputed with the VALIDATOR's pattern after mine disagreed (the ledger-row count missed the PP-2a id form), and the document's declared command corrected to the one that computes it"
     },
     {
       "id": "REL-03",
@@ -336,10 +336,10 @@
       "deps": [
         "REL-02"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "commit": null,
       "checks": null,
-      "notes": null
+      "notes": "PR #126 open; the annotated tag lands on the merge commit"
     },
     {
       "id": "REL-04",
