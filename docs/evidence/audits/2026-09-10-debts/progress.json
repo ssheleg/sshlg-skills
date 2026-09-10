@@ -409,10 +409,10 @@
         "DOC-03",
         "REL-04"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "commit": null,
-      "checks": null,
-      "notes": null
+      "checks": "final sweep on the merged mains: 9 of 10 gates EXIT=0 (241 audit-regression suites total); all nine umbrella pins resolve to their released tags; zero open issues family-wide; local installs match the released versions; shadow check empty; 0 broken symlinks",
+      "notes": "the tenth, task-pipeline, is red because v1.86.0 was tagged but its release never published — fixed in PR #89 (v1.86.1). This is what the sweep was for: eight releases verified as tag+release+publish, and the ninth turned out to have only the tag."
     }
   ],
   "flags": [
