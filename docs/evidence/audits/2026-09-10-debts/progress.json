@@ -3,7 +3,7 @@
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
     "total": 30,
-    "done": 23,
+    "done": 25,
     "blocked": 0
   },
   "queue": [
@@ -180,10 +180,10 @@
       "deps": [
         "HOUSE-05"
       ],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "42b1dce",
+      "checks": "PR #86 CI green after 462 validate steps (~3h of negative self-tests); squash-merged",
+      "notes": "three stale CI guards fixed along the way, each following its subject rather than its symptom: the navigator-link plant (FIX-ED-01.01 made the link in-set), the conditionals property check (count derived, and moved to a script when the workflow hit GitHub's 512KB limit), and the cold-retirement guard that had SILENTLY stopped running when its doctrine was reworded"
     },
     {
       "id": "MERGE-08",
@@ -248,10 +248,10 @@
       "deps": [
         "MERGE-07"
       ],
-      "status": "todo",
+      "status": "done",
       "commit": null,
-      "checks": null,
-      "notes": null
+      "checks": "npm test EXIT=0; PR #87 open",
+      "notes": "the doctrine-map conflict resolved for the pointer, verified by comparing row SETS (33 = 33, difference empty) rather than assuming; B-088 citation recomputed 83-100 → 101-105 after the handoff moved the passage"
     },
     {
       "id": "LEGACY-03",
