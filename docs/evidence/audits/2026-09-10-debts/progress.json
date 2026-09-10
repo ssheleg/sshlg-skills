@@ -485,6 +485,11 @@
       "id": "CODEX-CHANNEL-CARRIES-NO-FAMILY-SKILLS-20260910",
       "state": "open-for-the-operator",
       "detail": "Reported, NOT changed. ~/.codex/skills holds 51 entries and none of the family's 29; the hub and ~/.kiro/skills carry 28 of 29 (the 29th, \"super-ux\", is a plugin name, not a skill). Codex IS in skills.json defaultAgents and ~/.codex/AGENTS.md carries the routing block, so Codex knows the routes without reaching the skills. The launcher has a plan for it — `node bin/sshlg-skills.js install --agent codex` renders nine `skills add` steps — and ~/.sshlg-skills/state.json records only routers, so there is no evidence either way about whether this was chosen. This is left for the operator because the family's own doctrine says consumption is deliberately uneven and a skill missing from a channel is usually a choice; installing into a channel someone may have emptied on purpose is a decision, not a debt closure. Also worth recording: my first measurement of this reported 0/29 for EVERY channel, including the hub, because zsh does not word-split an unquoted parameter — a check that reports zero everywhere is likelier broken than the machine being empty, and it was."
+    },
+    {
+      "id": "PIN-READ-NEWEST-TAG-FOR-NEWEST-RELEASE-20260910",
+      "state": "resolved",
+      "detail": "v1.47.0 pinned task-pipeline at v1.86.0 — the newest TAG, which never became a release. The same rule (\"a pin to an unreleased tree is a promise nothing can keep\") had been applied CORRECTLY an hour earlier when the pin was held at 1.85.2; it broke by reading \"newest tag\" for \"newest release\". Fixed in v1.47.1 (PR #128) with the pin at v1.86.1, verified as all three claims: tag b3770b1, GitHub release v1.86.1, npm task-pipeline-skill@1.86.1. Second trap recorded in the same ledger row: `npm view @ssheleg/task-pipeline` returns nothing because the package publishes UNSCOPED as task-pipeline-skill — read package.json rather than assuming the scope, or an absent scoped version reads as a failed publish."
     }
   ]
 }
