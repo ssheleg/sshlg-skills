@@ -8,12 +8,13 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**709** id'd requirement rows below, **635** read `verified` and none of them says which
+**717** id'd requirement rows below, **635** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
-`grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[[:space:]]*\|'`, a pattern that matches every
-id shape this file uses. Three figures have stood here and the first two were both wrong:
+`grep -cE '^\|[[:space:]]*[A-Za-z0-9]+-[0-9]+[a-z]?[[:space:]]*\|'` — the optional trailing
+letter matters, because the `PP-2a` form is an id this file uses and a pattern without it
+reports fewer rows than the file holds. Three figures have stood here and the first two were both wrong:
 *322 / 295*, written at v0.76.0 and never recomputed; then *119 / 113*, counted on
 2026-08-16 with `[A-Z]+-[0-9]+`, which was **ten short and blind to 278 rows** whose ids
 read `U3-01`, `B29-1` or `I4-3`. A number nothing recomputes is a number that describes
@@ -36,6 +37,19 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-10 — v1.47.0, the family's audit closes and every pin moves at once
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| RW-1 | All nine members are pinned to the versions they ship, in all three homes | the validator reads the version out of the SUBMODULE rather than `.gitmodules`, because a gitlink can point at any commit of the right repository. `npm test` → 84 suites, 970 fixtures, 9 pinned members, EXIT=0 | v1.47.0 | a submodule pointer moved without `skills.json`, or either without the README row | 2026-09-10, main thread |
+| RW-2 | The README table is the pin's third home and is checked as one | it disagreed on eight rows at once, because the pin script had lost that step to nested heredocs; the validator refused the tree until it agreed | v1.47.0 | the row regex ceasing to match the table shape — it is keyed to `\| **[name](url)** \| X.Y.Z \|` | 2026-09-10, main thread |
+| RW-3 | The lagging-ledger ratchet stands at 0 and fires in both directions | it refused the tree ABOVE its floor (two members lagging against a floor of 1) and then BELOW it, demanding the earned number be written down in the same change | v1.47.0 | the floor being raised to match a regression instead of a member catching up | 2026-09-10, main thread |
+| RW-4 | A catch-up patch does not lag its own bump | the first pair shipped still lagging — the script wrote the ledger section and THEN bumped, so the section named the version being replaced. Caught by re-running the pin dry-run; fixed in v0.24.2 / v1.60.2 | v1.47.0 | the release script writing a ledger section before the bump again — the rule is a comment at its top, not a test | 2026-09-10, main thread |
+| RW-5 | CTX-04.06's staging receipt describes the pins that exist now | it refused twice with *"receipt disagrees with a fresh staging run (pins moved under it)"* and was regenerated from the new state each time, never edited into agreement | v1.47.0 | the receipt being hand-edited instead of re-emitted | 2026-09-10, main thread |
+| RW-6 | A tag, a GitHub release and an npm publish are three claims, and all three are true for all nine | checked separately: 9 annotated tags (B-93), 9 releases whose `release.yml` concluded success, 9 npm versions matching. `super-ux` and `sheleg-design-skill` publish UNSCOPED — `npm view @ssheleg/super-ux` returns nothing and reads as a failed publish, which it is not | v1.47.0 | a release workflow failing silently after a tag lands | 2026-09-10, main thread |
+| RW-7 | The audit regressions pass against the merged mains, not the branches | 210 suites across the nine members, 0 red, measured on `main` after every merge | v1.47.0 | a member merging work whose regression only ever ran on its branch | 2026-09-10, main thread |
+| RW-8 | The house skill audit MEASURES the token budget in CI | the pinned auditor ran with no tokenizer, fell back to chars/3.9 and issued a token verdict from it, gapping seven skills all inside the limit when measured. Every member's CI installs tiktoken and pins make-skill@5ca5c36 | v1.47.0 | a member's workflow dropping the tiktoken step, which returns it to UNMEASURED | 2026-09-10, main thread |
 
 ## 2026-09-02 — v1.27.0, a path the shell already moved to
 
