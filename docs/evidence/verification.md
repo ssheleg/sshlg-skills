@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**727** id'd requirement rows below, **635** read `verified` and none of them says which
+**730** id'd requirement rows below, **635** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -37,6 +37,14 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-10 — v1.48.1, the launcher stops contradicting its own setting
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| NC-1 | The launcher's notice describes the state the pack is actually in | v1.48.0 shipped it printing "Auto-update is OFF for these packs on purpose" while `config list` printed `update.auto on`. It reads the config now and renders one of two paragraphs; a fixture asserts they share NO sentence, because a sentence true of both states would make one of them a lie | v1.48.1 | the notice being written without asking for the state, which is how the first version drifted | 2026-09-10, main thread |
+| NC-2 | The reason survives in both states | "all nine together, never one on its own clock, which is why there is one command and no member argument" is asserted against BOTH renderings. Without it a reader treats the setting as arbitrary and the next person flips it | v1.48.1 | either branch dropping the member-argument clause | 2026-09-10, main thread |
+| NC-3 | A fixture held the false sentence in place, and was corrected rather than deleted | the test asserted the literal words "OFF for these packs on purpose". It now guards what was always the point — that the notice says WHY — which is a claim that survives the setting changing again | v1.48.1 | a fixture keyed to wording rather than to meaning, the class this repository has now filed four times | 2026-09-10, main thread |
 
 ## 2026-09-10 — v1.48.0, the set keeps itself current and a handoff gets read
 

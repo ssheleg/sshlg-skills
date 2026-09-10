@@ -620,7 +620,11 @@ function printUpdateModel(mode) {
     const um = require(path.join(ROOT, 'lib', 'updatemodel.js'));
     const marketplaces = SKILLS.map((s) => s.pluginInstall.split('@')[1]).filter(Boolean);
     const findings = um.autoUpdateState(process.env.HOME || os.homedir(), marketplaces);
-    for (const line of um.notice(mode, findings)) log(line);
+    // The notice describes the ACTUAL state, so it has to be asked for it.
+    const cfgLib = require('../lib/config.js');
+    const autoOn = cfgLib.autoUpdateEnabled(
+      cfgLib.readConfig(process.env.HOME || os.homedir()));
+    for (const line of um.notice(mode, findings, autoOn)) log(line);
   } catch (e) {
     // Never fail an install over its own closing note.
     log(`\n== How the next version arrives ==\n  not printed: ${e.message}`);

@@ -1,3 +1,19 @@
+## v1.48.1 — the launcher stops contradicting its own setting
+
+v1.48.0 made the set update itself and left the launcher printing "Auto-update is
+OFF for these packs on purpose" — while `config list` said `update.auto on`. The
+tool told the operator the opposite of what it does, and a fixture held the false
+sentence in place. Caught by reading the launcher's own output back after the
+release.
+
+The paragraph describes the ACTUAL state now, in both directions, and the reason
+survives in both because it never changed: all nine move together, never one on
+its own clock, which is why there is one command and no member argument.
+
+The fixture that guarded the old wording now guards the thing that was always the
+point — that whatever the state, the notice says WHY — and asserts the two states
+share no sentence, because a sentence true of both would make one of them a lie.
+
 ## v1.48.0 — the set keeps itself current, and a handoff gets read
 
 Two surfaces at session start, both answering a question the operator asked, and
