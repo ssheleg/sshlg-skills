@@ -3,7 +3,7 @@
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
     "total": 30,
-    "done": 7,
+    "done": 17,
     "blocked": 0
   },
   "queue": [
@@ -100,10 +100,10 @@
       "deps": [
         "HOUSE-01"
       ],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "5566606",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
     },
     {
       "id": "MERGE-02",
@@ -114,10 +114,10 @@
       "deps": [
         "HOUSE-02"
       ],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "3ac31db",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
     },
     {
       "id": "MERGE-03",
@@ -126,10 +126,10 @@
       "kind": "merge",
       "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
       "deps": [],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "23de126",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
     },
     {
       "id": "MERGE-04",
@@ -140,10 +140,10 @@
       "deps": [
         "HOUSE-03"
       ],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "3fd3623",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
     },
     {
       "id": "MERGE-05",
@@ -152,10 +152,10 @@
       "kind": "merge",
       "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
       "deps": [],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "2a28ddf",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
     },
     {
       "id": "MERGE-06",
@@ -166,10 +166,10 @@
       "deps": [
         "HOUSE-04"
       ],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "381d2f9",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
     },
     {
       "id": "MERGE-07",
@@ -194,10 +194,10 @@
       "deps": [
         "HOUSE-06"
       ],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "1c2e4ab",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
     },
     {
       "id": "MERGE-09",
@@ -208,10 +208,10 @@
       "deps": [
         "HOUSE-07"
       ],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "ebab4a1",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
     },
     {
       "id": "MERGE-10",
@@ -220,10 +220,10 @@
       "kind": "merge",
       "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
       "deps": [],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "4f8e96f",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
     },
     {
       "id": "LEGACY-01",
@@ -234,10 +234,10 @@
       "deps": [
         "MERGE-08"
       ],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "0aa2895",
+      "checks": "npm test EXIT=0; PR #26 open",
+      "notes": "PR#24 integrated: interactive-flow-prototypes add/add resolved as TWO documents (sherlock graph contract keeps the name, handoff practice lands as clickable-flow-prototypes.md); ux-flows SKILL carries both edits; facts.md counted figure recomputed 4718 not chosen"
     },
     {
       "id": "LEGACY-02",
