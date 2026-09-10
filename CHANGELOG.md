@@ -1,3 +1,37 @@
+## v1.48.0 — the set keeps itself current, and a handoff gets read
+
+Two surfaces at session start, both answering a question the operator asked, and
+both silent when there is nothing to say. The common case costs what it always
+did — 113 tokens, the routing note alone.
+
+**The set keeps itself current.** Claude Code's `autoUpdate` flag is
+PER-MARKETPLACE and this family ships nine, so enabling it moves each member on
+its own clock and the machine drifts into a combination nobody tested. Instead:
+one line when a newer SET is out, and — because the packs are improved
+continuously and a machine standing still runs doctrine with known-fixed errors
+in it — an unattended update at `idle_prompt`, on by default,
+`config set update.auto off` to stop it.
+
+Timing decided the design. Skills load AT session start, so an update landing
+there reaches the operator only NEXT session anyway; idle costs nothing and
+delivers the same. Session start never waits on a network: the hooks read a
+cache, and a stale stamp spawns a DETACHED probe. A failure stamps the time and
+no version, so a machine behind a proxy backs off instead of retrying forever.
+
+**A handoff gets read.** The write side was already built — `retro.publish`,
+`repository-handoff.md`, "the pile is the queue" — and every sentence of it
+addressed the agent that WRITES. Four pull requests titled "cross-agent handoff"
+sat open THREE DAYS across four members; they were found because an unrelated
+task happened to enumerate open pull requests. Now the session names what is
+waiting in the repository it is in, and `docs/working-rules/cross-repo-handoff.md`
+states both roles: which artifact to file where, the `handoff` label, the five
+things a receiving agent cannot proceed without — and that a handoff is a CLAIM
+to verify against the tree, not an instruction.
+
+The inbound cache is keyed BY REPOSITORY. One global stamp would have meant work
+in nine repositories, one of them ever checked, and eight reported quiet on its
+evidence.
+
 ## v1.47.1 — the pin follows the release, not the tag
 
 `v1.47.0` pinned `task-pipeline` at `v1.86.0`, which was the newest TAG and

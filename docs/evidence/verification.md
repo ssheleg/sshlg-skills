@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**719** id'd requirement rows below, **635** read `verified` and none of them says which
+**727** id'd requirement rows below, **635** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -37,6 +37,20 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-10 — v1.48.0, the set keeps itself current and a handoff gets read
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| SU-1 | Session start never waits on a network | both surfaces READ a cache; a stale stamp spawns a detached probe that writes it and exits. Exercised live with `gh` and `npm` absent, with a corrupt cache, and with a read-only state directory — the session started in every case and claimed nothing | v1.48.0 | either hook gaining a synchronous network call | 2026-09-10, main thread |
+| SU-2 | A check that could not look says nothing | an unauthenticated `gh` and a missing `npm` both produce silence, not an error; a failure stamps the time and NO version, so the machine backs off for the interval | v1.48.0 | a probe that records a version it did not read, or retries every session | 2026-09-10, main thread |
+| SU-3 | The unattended update runs at idle, never at session start | skills load AT session start, so an update landing there reaches the operator only next session anyway — the notice already does that. `idle_prompt` costs nothing and delivers the same | v1.48.0 | the runner being wired to SessionStart, which would add npm to the start path for no gain | 2026-09-10, main thread |
+| SU-4 | The set moves as a set | the runner calls the family launcher, which takes no member argument. Claude Code's per-marketplace `autoUpdate` is left alone deliberately: nine marketplaces on nine clocks is the drift the pin exists to prevent | v1.48.0 | the runner learning a member argument, or the flag being set on the family's marketplaces | 2026-09-10, main thread |
+| SU-5 | The notice does not contradict itself | reading the worst case back showed five lines, two disagreeing — one told the operator to run the command, one said it installs itself. One line now, and what it says depends on whether the unattended path is on. Worst case 251 → 232 tokens; common case unchanged at 113 | v1.48.0 | a second standing line appearing beside the actionable one | 2026-09-10, main thread |
+| HO-1 | Inbound work in THIS repository is surfaced to the agent that starts in it | the write side was complete and addressed only the writer; four pull requests titled "cross-agent handoff" sat three days across four members and were found by an unrelated task. `lib/handoff.js` decides, the session names up to three | v1.48.0 | the surface being given triage duties, which would make it a second planner beside task-pipeline | 2026-09-10, main thread |
+| HO-2 | The inbound cache is keyed by repository | one global stamp would mean work in nine repositories, one ever checked, eight reported quiet on its evidence. A cache for another repository is not an answer — it is a reason to probe | v1.48.0 | `shouldProbe` ceasing to compare the slug | 2026-09-10, main thread |
+| HO-3 | The doctrine addresses BOTH roles and names what the code filters on | `cross-repo-handoff.md` carries a writer section, a reader section, the five parts enumerated and counted, and the `handoff` label; a fixture asserts all four against the whitespace-normalised text | v1.48.0 | either section being dropped, or the label being renamed in one place only | 2026-09-10, main thread |
+| Gate | The whole suite on this tree | `npm test` EXIT=0 — 86 suites, 1006 fixtures | v1.48.0 | — | 2026-09-10, main thread |
 
 ## 2026-09-10 — v1.47.1, the pin follows the release rather than the tag
 
