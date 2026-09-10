@@ -1,7 +1,14 @@
-## v1.48.2 — the auto-update that could not run where it runs
+## v1.48.2 — the update surface that could not run where it runs
 
-v1.48.0 shipped the unattended update the operator asked for. It never ran once,
-on any machine, and nothing said so.
+v1.48.0 shipped the set-update surface the operator asked for. **None of it ever
+ran on a real machine** — not the session-start notice, not the detached probe,
+not the unattended update at idle — and nothing said so.
+
+The receipt is one file with two keys. `~/.sshlg-skills/state.json` on this
+machine holds `inbound`, written by the handoff block of the same hook in the
+same release, and holds **no `updateCheck` key at all**. Same hook, same session,
+two blocks: the one that reached for `package.json` produced nothing, the one
+that did not produced state.
 
 `lib/updaterun.js` opens by asking which version is running:
 `require('../package.json')`. From the package that resolves. From the **runtime**
@@ -11,6 +18,10 @@ resolved to nothing, because the runtime is a copy of `hooks/` and `lib/` plus
 fail silent by design: the feature was an absence, not an error. Measured against
 the wired runtime on this machine, 2026-09-10: 21 relative requires, 1 dangling,
 and the one was the new feature.
+
+Three entry points read that manifest — `hooks/session-start.js` for the notice
+and the probe, `hooks/notification.js` for the idle run, `lib/updaterun.js` for
+the version it reached — so one missing file took the whole feature.
 
 Three changes, because the bug had three layers:
 
