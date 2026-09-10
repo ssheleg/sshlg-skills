@@ -235,8 +235,8 @@
         "MERGE-08"
       ],
       "status": "done",
-      "commit": "b6457cd (PR #26)",
-      "checks": "npm test EXIT=0; PR #26 open",
+      "commit": "52487e1 (merged)",
+      "checks": "npm test EXIT=0; PR #26 merged",
       "notes": "PR#24 integrated: interactive-flow-prototypes add/add resolved as TWO documents (sherlock graph contract keeps the name, handoff practice lands as clickable-flow-prototypes.md); ux-flows SKILL carries both edits; facts.md counted figure recomputed 4718 not chosen"
     },
     {
@@ -263,8 +263,8 @@
         "MERGE-06"
       ],
       "status": "done",
-      "commit": "PR #30",
-      "checks": "npm test EXIT=0; PR #30 open",
+      "commit": "3624760 (merged)",
+      "checks": "npm test EXIT=0; PR #30 merged",
       "notes": "PR#28 merged cleanly onto the sherlock work — CREATIVE_DIRECTOR.md +75 in both copies; the sherlock split never touched the decision layer"
     },
     {
@@ -277,8 +277,8 @@
         "MERGE-03"
       ],
       "status": "done",
-      "commit": "PR #21 (merging)",
-      "checks": "npm test EXIT=0; PR #21 open",
+      "commit": "merged via PR #21",
+      "checks": "npm test EXIT=0",
       "notes": "PR#18 merged cleanly; the reworded enterprise.md row hit exactly the 4750 working limit and was tightened to 4747"
     },
     {
@@ -425,6 +425,11 @@
       "id": "CI-MEASURES-BUDGET-20260910",
       "state": "resolved",
       "detail": "The House skill audit is a required check in all nine members and it was failing every sherlock branch. Two causes, both real: (1) the sherlock doctrine edits grew five SKILL bodies past their limits — fixed by splitting into bundled references, HOUSE-01..07; (2) the PINNED auditor ran without a tokenizer and issued a token verdict from a chars/3.9 ESTIMATE, gapping seven skills that are all under the limit when actually measured. That is the defect the auditor itself names (FIX-MS-01.01). The pin moved to make-skill@5ca5c36 and every member CI now installs tiktoken, so the budget is MEASURED. Two guards (fix-vd-04.01, sloplint) were changed to read the RESOLVED BUNDLE rather than SKILL.md alone, because reading one file made the house rule's own remedy delete the doctrine those guards protect."
+    },
+    {
+      "id": "RELEASE-VIA-PR-20260910",
+      "state": "noted",
+      "detail": "main is branch-protected in the members: a release commit cannot be pushed directly, so each release goes out as its own PR and the ANNOTATED tag (B-93) lands on the merge commit. Also recorded: the version bumper must never rewrite a dated record — docs/evidence/, audits/ and retro.md are excluded, because a ledger section states what was true AT a version and rewriting it is falsifying history. super-ux's ledger guard proved this by refusing the tree."
     }
   ]
 }
