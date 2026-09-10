@@ -3,7 +3,7 @@
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
     "total": 30,
-    "done": 21,
+    "done": 22,
     "blocked": 0
   },
   "queue": [
@@ -310,7 +310,7 @@
       ],
       "status": "in_progress",
       "commit": null,
-      "checks": "RELEASED with annotated tags (7 of 9): super-ux v0.56.0, seo-aeo-audit v0.26.0, telegram-dev v0.2.0, agent-stack v0.24.0, sheleg-dev v0.12.0, agent-sync v1.20.0, make-skill v0.28.0. Open: sheleg-design#31 v1.60.0 (CI), task-pipeline (sherlock PR #86 still merging, release after).",
+      "checks": "RELEASED with annotated tags (8 of 9): super-ux v0.56.0, seo-aeo-audit v0.26.0, telegram-dev v0.2.0, agent-stack v0.24.0, sheleg-dev v0.12.0, agent-sync v1.20.0, make-skill v0.28.0, sheleg-design v1.60.0. Last: task-pipeline, whose sherlock PR #86 is still in CI.",
       "notes": "each repo dictates its own shape and the guards proved it: agent-sync's self-test caught a bare CHANGELOG heading (only a v-prefixed one can detect its release-notes mutation); sheleg-dev keeps ONE living Shipped-state block rather than a history, and its REQ-001 must quote the line the run prints; seo-aeo-audit needs a retro run stamp in the same change. The bumper leaves historical mentions alone — telegram-dev prose names v0.1.11 in a \"until\" clause."
     },
     {
@@ -378,10 +378,10 @@
       "deps": [
         "DOC-01"
       ],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "3e725c0 (vault)",
+      "checks": "obsidian-wiki lint before and after: broken_links 8 → 8, none introduced; every wikilink I added verified to resolve",
+      "notes": "nine overviews stopped restating a live version (all stale, some by ten releases) — now \"read at vX.Y.Z\", a provenance stamp; projects/telegram-dev created (the newest member had no page); one concept written: a guard keyed to a wording stops running rather than failing"
     },
     {
       "id": "DOC-03",
