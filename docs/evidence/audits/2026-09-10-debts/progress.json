@@ -249,7 +249,7 @@
         "MERGE-07"
       ],
       "status": "done",
-      "commit": null,
+      "commit": "aea2e14 (merged; PR #85 auto-closed)",
       "checks": "npm test EXIT=0; PR #87 open",
       "notes": "the doctrine-map conflict resolved for the pointer, verified by comparing row SETS (33 = 33, difference empty) rather than assuming; B-088 citation recomputed 83-100 → 101-105 after the handoff moved the passage"
     },
@@ -310,7 +310,7 @@
       ],
       "status": "in_progress",
       "commit": null,
-      "checks": "RELEASED with annotated tags (8 of 9): super-ux v0.56.0, seo-aeo-audit v0.26.0, telegram-dev v0.2.0, agent-stack v0.24.0, sheleg-dev v0.12.0, agent-sync v1.20.0, make-skill v0.28.0, sheleg-design v1.60.0. Last: task-pipeline, whose sherlock PR #86 is still in CI.",
+      "checks": "RELEASED 8 of 9 with annotated tags, all verified as tag + GitHub release + npm publish. The ninth, task-pipeline v1.86.0, is in PR #88.",
       "notes": "each repo dictates its own shape and the guards proved it: agent-sync's self-test caught a bare CHANGELOG heading (only a v-prefixed one can detect its release-notes mutation); sheleg-dev keeps ONE living Shipped-state block rather than a history, and its REQ-001 must quote the line the run prints; seo-aeo-audit needs a retro run stamp in the same change. The bumper leaves historical mentions alone — telegram-dev prose names v0.1.11 in a \"until\" clause."
     },
     {
@@ -450,6 +450,11 @@
       "id": "RELEASES-ACTUALLY-SHIPPED-20260910",
       "state": "measured",
       "detail": "A tag is not a release and a release is not a publish, so all three were checked separately for the eight members released today. GitHub releases: all 8 exist and their release.yml runs concluded SUCCESS. npm: all 8 serve the released version — super-ux 0.56.0, seo-aeo-audit 0.26.0, telegram-dev 0.2.0, agent-stack 0.24.0, sheleg-dev 0.12.0, agent-sync 1.20.0, make-skill 0.28.0, sheleg-design-skill 1.60.0. Note for the next reader: super-ux and sheleg-design-skill publish UNSCOPED, so `npm view @ssheleg/super-ux` returns nothing and reads as a failed publish — it is not."
+    },
+    {
+      "id": "GUARD-COUNT-MEASURED-NOT-GREPPED-20260910",
+      "state": "noted",
+      "detail": "task-pipeline requires the CHANGELOG to state `Guards: N → M`, and refuses a number that disagrees with the workflow. My grep said 432, the validator said 429 — its regex anchors on `^\\s*- name:` and mine matched three mentions inside quoted text. The validator was right. The real answer is 429 → 429: no guard was added, three plants were REPOINTED to follow their subjects to the wording those subjects had moved to."
     }
   ]
 }
