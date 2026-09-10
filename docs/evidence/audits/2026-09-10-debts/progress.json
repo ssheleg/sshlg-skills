@@ -3,7 +3,7 @@
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
     "total": 30,
-    "done": 27,
+    "done": 29,
     "blocked": 0
   },
   "queue": [
@@ -336,10 +336,10 @@
       "deps": [
         "REL-02"
       ],
-      "status": "in_progress",
-      "commit": null,
-      "checks": null,
-      "notes": "PR #126 open; the annotated tag lands on the merge commit"
+      "status": "done",
+      "commit": "8a832a7",
+      "checks": "release.yml SUCCESS; npm sshlg-skills@1.47.0; GitHub release v1.47.0; annotated tag on the merge commit",
+      "notes": "v1.47.0 — the umbrella release closing the audit and the debt wave"
     },
     {
       "id": "REL-04",
@@ -350,10 +350,10 @@
       "deps": [
         "REL-03"
       ],
-      "status": "todo",
+      "status": "done",
       "commit": null,
-      "checks": null,
-      "notes": null
+      "checks": "npx --yes sshlg-skills@latest update → 55 of 55 steps, all green; shadow check empty; 0 broken symlinks; all nine installed plugin versions match what was released",
+      "notes": "the routing block was unchanged in all four host files (the operator's wording stands); the hook runtime refreshed 48 files (4 new: lifecycle, operation-result, quarantine, skillstore); Codex reported UNSUPPORTED_UPDATE honestly — it loads plugins through its own lifecycle and no native files were touched"
     },
     {
       "id": "DOC-01",
