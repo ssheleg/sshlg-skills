@@ -470,6 +470,11 @@
       "id": "TP-186-TAGGED-BUT-NOT-RELEASED-20260910",
       "state": "open",
       "detail": "The final sweep caught task-pipeline red on main: v1.86.0 was TAGGED and its release.yml FAILED, so the tag exists, the GitHub release does not, and npm never served it. Cause: the run-stamp gate reads the tag OWN tree and a branch push cannot see a tag that does not exist yet — the seventh instance of a mechanism that repo's retro.md names six times, and its R-010 already held the rule (\"run the suite the RELEASE runs, against the tree you are about to tag\"). The lesson was written and read past. Fixing it in v1.86.1 surfaced two more: the ledger header must bump in the same change as the version, and moving the conditionals check to a one-line `run:` made the step INVISIBLE to negatives.py (which parses `run: |`), silently emptying the property-check category from 15 to 14 — its own floor caught it. Also learned: GitHub's 512,000 limit is BYTES, and em dashes in a comment cost more than the characters suggest (512,026 bytes vs 510,272 chars)."
+    },
+    {
+      "id": "UNLOOKED-LINE-READ-20260910",
+      "state": "measured",
+      "detail": "R-010's third half says a green local suite is not evidence until you know WHICH checks looked, so the unlooked line was read rather than the exit code taken. task-pipeline `test:all` EXIT=0 with unlooked: 3 — (a) coordination, which reports what it discovered (15 guarded patterns, 4 version surfaces) rather than skipping; (b) backlog citations, 9 spans checked and 6 single-line citations unanchored because one line carries no phrase to compare; (c) routed triggers, the known standalone-checkout limit with no umbrella above it. None is a check that silently switched off, and the one that matters here — the release-gap/run-stamp gate — DID run: it is what refused v1.86.0 and then v1.86.1 until both were declared."
     }
   ]
 }
