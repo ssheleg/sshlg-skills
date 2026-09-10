@@ -445,6 +445,11 @@
       "id": "FAMILY-STATE-20260910-0600",
       "state": "measured",
       "detail": "Measured against the MERGED mains, not the branches: 210 audit-regression suites across the nine members, 0 red. The umbrella gate on main: 84 suites, 970 fixtures, 9 pinned members, EXIT=0. Open issues across the whole family: ZERO. Open PRs: sshlg-skills#123 (this ledger branch, now merged up to main and green) and task-pipeline#87 with its superseded #85."
+    },
+    {
+      "id": "RELEASES-ACTUALLY-SHIPPED-20260910",
+      "state": "measured",
+      "detail": "A tag is not a release and a release is not a publish, so all three were checked separately for the eight members released today. GitHub releases: all 8 exist and their release.yml runs concluded SUCCESS. npm: all 8 serve the released version — super-ux 0.56.0, seo-aeo-audit 0.26.0, telegram-dev 0.2.0, agent-stack 0.24.0, sheleg-dev 0.12.0, agent-sync 1.20.0, make-skill 0.28.0, sheleg-design-skill 1.60.0. Note for the next reader: super-ux and sheleg-design-skill publish UNSCOPED, so `npm view @ssheleg/super-ux` returns nothing and reads as a failed publish — it is not."
     }
   ]
 }
