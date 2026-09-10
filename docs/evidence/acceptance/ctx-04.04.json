@@ -1,0 +1,93 @@
+{
+  "id": "CTX-04.04",
+  "acceptance": "cross-session integration: planner -> a different executor -> reviewer -> integrator, accepted against the current packet/candidate",
+  "generated_by": "test/audit_regressions/ctx-04.04.py --emit",
+  "prefilled_pass": false,
+  "run": {
+    "host_platform": "darwin",
+    "node": "v26.8.1"
+  },
+  "offline_contract": {
+    "cases": {
+      "normal": {
+        "accepted": true,
+        "values": {
+          "result": "R",
+          "review": "ok"
+        }
+      },
+      "late_superseded": {
+        "accepted": false,
+        "why": "candidate is against a superseded packet"
+      },
+      "retry_abandoned": {
+        "accepted": false,
+        "why": "a predecessor ended as abandoned, not done"
+      },
+      "retry_recovered": {
+        "accepted": true,
+        "values": {
+          "result": "R_B",
+          "review": "ok"
+        }
+      },
+      "cancel": {
+        "accepted": false,
+        "why": "a predecessor ended as cancelled, not done"
+      },
+      "source_change_stale": {
+        "accepted": false,
+        "why": "candidate is against a superseded packet"
+      }
+    },
+    "transcript_required": false
+  },
+  "native_fabric": {
+    "source": "/Users/sshlg/DATA/fabric@sherlock/impl-20260907",
+    "modules": [
+      "apps/desktop/src/shared/chain.ts",
+      "apps/desktop/src/main/executionPacket.ts"
+    ],
+    "verdict": "RAN",
+    "cases": {
+      "normal": {
+        "accepted": true,
+        "values": {
+          "result": "the report",
+          "review": "approved"
+        }
+      },
+      "late_superseded": {
+        "accepted": false,
+        "why": "superseded packet"
+      },
+      "retry_abandoned": {
+        "accepted": false,
+        "why": "the previous step ended as abandoned, and only work that finished hands anything on"
+      },
+      "retry_recovered": {
+        "accepted": true,
+        "values": {
+          "result": "retry report",
+          "review": "approved"
+        }
+      },
+      "cancel": {
+        "accepted": false,
+        "why": "the previous step ended as cancelled, and only work that finished hands anything on"
+      },
+      "source_change_stale": {
+        "accepted": false,
+        "why": "superseded packet"
+      }
+    },
+    "digests": {
+      "superseded": "5255e8bd5685e6533c0440efe85ccaa7581947933f50ce6a9522b2cac8e502b3",
+      "current": "4b0b3292b96fcf78cde14857dc07087acfdc4bfe1acb638e12221981416e75d2"
+    },
+    "verify_current": {
+      "ok": true
+    },
+    "transcript_required": false
+  }
+}

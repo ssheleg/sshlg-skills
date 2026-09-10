@@ -8,8 +8,8 @@
  * agent: the vercel `skills` CLI (70+ agents), `claude plugin` (Claude Code),
  * and `git submodule` (pinned snapshots). Zero npm dependencies.
  *
- *   npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only]
- *   npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins]
+ *   npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only] [--dry-run]
+ *   npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins] [--dry-run]
  *   npx sshlg-skills list
  *   npx sshlg-skills agents
  */
@@ -21,12 +21,50 @@ const os = require('os');
 const { spawnSync } = require('child_process');
 
 const plan = require('../lib/plan.js');
+const opres = require('../lib/operation-result.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'skills.json'), 'utf8'));
 const SKILLS = manifest.skills;
 
 function log(m) { process.stdout.write(m + '\n'); }
+
+/**
+ * The skills CLI, PINNED (FIX-UP-01.02). `npx skills …` floats to whatever
+ * implementation npx resolves; the family pins the version in package.json's
+ * `skillsCli` field so a checkout installs the same CLI it was tested with. An
+ * unpinned CLI is not a pin, and this is the one external tool the launcher
+ * cannot version by a submodule.
+ */
+function cliSpec() {
+  try {
+    const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+    return pkg.skillsCli || 'skills';
+  } catch (_) { return 'skills'; }
+}
+
+/** Replace the bare `skills` token in a plan argv with the pinned spec, so the
+ * spawned `npx` resolves the pinned CLI, not the floating one. */
+function pinnedArgv(argv) {
+  return argv.map((a) => (a === 'skills' ? cliSpec() : a));
+}
+
+/**
+ * Resolve read-only BEFORE any apply (FIX-UP-01.02): fetch every member's
+ * payload and verify its digest against the lock, and BLOCK the whole apply if
+ * any payload is corrupt, missing or unpinnable — before a single mutation.
+ * `fetch(member)` is injected (network in production, a stub in tests) and
+ * returns `{digest}` or throws/omits it. Returns `{ready, blocked}`; an
+ * unpinnable member is reported, never silently treated as pinned.
+ */
+function resolvePayloads(lock, fetch) {
+  const um = require(path.join(ROOT, 'lib', 'updatemodel.js'));
+  const verdicts = um.checkLock(lock, (m) => {
+    try { return fetch(m) || {}; } catch (_) { return {}; }
+  });
+  const blocked = verdicts.filter((v) => v.verdict !== 'SAME_BYTES');
+  return { ready: blocked.length === 0, blocked, verdicts };
+}
 
 /**
  * How far through, and what failed — because `update` is 55 serial child processes.
@@ -123,8 +161,19 @@ function agentList(f) {
 // The skills CLI auto-detects Claude Code and writes ~/.claude/skills/<id> even when
 // we never ask for that agent. While the Claude PLUGIN channel is active those plain
 // copies shadow the plugin, so prune them — "one channel per agent", enforced.
-function pruneClaudeShadows() {
-  const base = path.join(os.homedir(), '.claude', 'skills');
+// What pruneClaudeShadows WOULD remove, computed without removing it — the same
+// list feeds the operation plan (so `--dry-run` can name the deletions) and the
+// deletion loop (so the receipt and the act cannot drift apart).
+// The Claude config root, honouring CLAUDE_CONFIG_DIR (FIX-UP-08.01): the same
+// documented override apply.js's hostRoot uses, so the shadow detector looks
+// where Claude ACTUALLY reads its plain skills, not always ~/.claude. Used
+// verbatim (spaces preserved), never through a shell.
+function claudeRoot() {
+  return process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude');
+}
+
+function shadowCandidates() {
+  const base = path.join(claudeRoot(), 'skills');
   const ls = (d) => { try { return fs.readdirSync(d); } catch (_) { return []; } };
 
   // The INSTALLED set, not the marketplace list. Those are separate operations and a
@@ -132,33 +181,75 @@ function pruneClaudeShadows() {
   // copy of a member whose plugin was gone — the only copy, and the skill with it.
   // Unreadable registry ⇒ empty set ⇒ nothing is pruned: a guard that never received
   // its input refuses rather than approves.
-  const installedMarketplaces = () => {
+  // The record PER MARKETPLACE, not just its key (FIX-UP-04.01). A registry
+  // key with an empty installPath array and no cache payload is not a provider,
+  // and pruning the sole plain copy behind it deletes a working skill. The
+  // record is passed whole and gated through plan.providerVerified with a
+  // real filesystem probe below.
+  const installedRecords = () => {
     try {
       const reg = JSON.parse(fs.readFileSync(
-        path.join(os.homedir(), '.claude', 'plugins', 'installed_plugins.json'), 'utf8'));
-      return Object.keys(reg.plugins || {})
-        .map(spec => spec.split('@')[1]).filter(Boolean);
-    } catch (_) { return []; }
+        path.join(claudeRoot(), 'plugins', 'installed_plugins.json'), 'utf8'));
+      const byMarketplace = {};
+      for (const [spec, record] of Object.entries(reg.plugins || {})) {
+        const mkt = spec.split('@')[1];
+        if (!mkt) continue;
+        // A marketplace may host more than one plugin; concatenate their records.
+        byMarketplace[mkt] = (byMarketplace[mkt] || []).concat(record || []);
+      }
+      return byMarketplace;
+    } catch (_) { return {}; }
   };
 
-  // A copy is a shadow only where a plugin of the SAME MEMBER is installed —
-  // which is not the same question as "is this run touching plugins". That
-  // proxy is what let `update --no-claude` create a copy and walk away from
-  // it, beside a live plugin, serving a frozen version forever.
+  // Payload closure + digest: an installPath is a verified provider only when
+  // the directory exists AND holds a SKILL.md (the payload a host would load),
+  // not merely a path string a stale registry left behind.
+  const payloadExists = (installPath) => {
+    try {
+      if (!fs.statSync(installPath).isDirectory()) return false;
+      // SKILL.md directly, or one skill dir deep (plugins ship skills/<name>/SKILL.md).
+      if (fs.existsSync(path.join(installPath, 'SKILL.md'))) return true;
+      const skillsDir = path.join(installPath, 'skills');
+      if (!fs.existsSync(skillsDir)) return false;
+      return fs.readdirSync(skillsDir).some(
+        (d) => fs.existsSync(path.join(skillsDir, d, 'SKILL.md')));
+    } catch (_) { return false; }
+  };
+
+  // A copy is a shadow only where a plugin of the SAME MEMBER is installed AND
+  // VERIFIED — which is not the same question as "is this run touching
+  // plugins", nor "does the registry name it". That proxy is what let `update
+  // --no-claude` create a copy and walk away from it, and a stale registry key
+  // authorise deleting the only copy that worked.
   const members = SKILLS.map(s => ({
     name: s.name,
     marketplace: s.pluginInstall.split('@')[1],
     skillNames: s.skillNames,
   }));
+  return plan.shadowsToPrune(members, installedRecords(), ls(base), payloadExists);
+}
+
+// Recoverable pruning (FIX-UP-04.02): capture each shadow copy to a verified
+// quarantine before deleting it, so a wrong prune or an injected failure can be
+// restored to exactly what was there. The fs logic lives in lib/quarantine.js
+// (the pack's own recovery state), delegated here.
+function pruneClaudeShadows() {
+  const q = require('../lib/quarantine.js');
+  const skillstore = require('../lib/skillstore.js');
   const pruned = [];
-  for (const id of plan.shadowsToPrune(members, installedMarketplaces(), ls(base))) {
+  const rows = [];
+  for (const id of shadowCandidates()) {
+    const row = q.capture(id);
+    if (!row) { /* could not quarantine → do NOT delete: recoverability first */ continue; }
     try {
-      fs.rmSync(path.join(base, id), { recursive: true, force: true });
+      fs.rmSync(path.join(claudeRoot(), 'skills', id), { recursive: true, force: true });
       pruned.push(id);
+      rows.push(row);
     } catch (_) { /* leave it; not fatal */ }
   }
+  if (rows.length) q.writeManifest(rows, skillstore.stampName(new Date()));
   if (pruned.length) {
-    log(`  pruned Claude plain copies that would shadow the plugin: ${pruned.join(', ')}`);
+    log(`  pruned Claude plain copies that would shadow the plugin (quarantined, restorable): ${pruned.join(', ')}`);
   }
 }
 
@@ -177,8 +268,14 @@ function usage() {
 Skills: ${SKILLS.map(s => s.name).join(', ')}
 
 Usage:
-  npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only]
-  npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins]
+  npx sshlg-skills install [--agent a,b | --all] [--no-claude] [--claude-only] [--dry-run]
+  npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins] [--dry-run]
+  npx sshlg-skills uninstall [--no-claude] [--dry-run]
+                                                      # the reverse of install: family skills out of
+                                                      # every channel, plugins, routing block, hooks
+  npx sshlg-skills backup                             # archive ALL skills of ALL agents (tar.gz + manifest)
+  npx sshlg-skills wipe [--dry-run]                   # backup + verify, THEN remove them all
+  npx sshlg-skills restore [<archive>]                # bring the newest (or named) backup back
   npx sshlg-skills routers [--member <name>] [--update] [--dry-run]
   npx sshlg-skills routers --diff <name>              # your wording vs the packaged one
   npx sshlg-skills routers --update --adopt <name>    # take the packaged wording for it
@@ -208,7 +305,10 @@ Defaults:
   - --no-claude skip the Claude plugin step.
   - --claude-only install/update only the Claude plugins.
   - --bump-pins  (update only) also fast-forward the pinned submodules to their
-                 upstream tips — off by default so pins stay reproducible.`);
+                 upstream tips — off by default so pins stay reproducible.
+  - --dry-run    (install/update) build the full operation plan — every
+                 subprocess, prune, router and runtime action — render it, and
+                 execute NOTHING. The receipt is complete; the mutations are zero.`);
 }
 
 function skillsCliAgents(f) {
@@ -224,10 +324,99 @@ function skillsCliAgents(f) {
  */
 function runPlanned(argv) {
   log(`\n- ${argv[2]} ${argv[3]}`);
-  return run('npx', argv);
+  return run('npx', pinnedArgv(argv));
+}
+
+/**
+ * The immutable plan `install` would execute — built BEFORE anything runs.
+ *
+ * Finding UP-02: `--dry-run` was accepted for every command and `install`/
+ * `update` executed their subprocesses and deletions anyway. The plan is built
+ * from the SAME arrays the execution loops walk (`plan.installPlan`,
+ * `plan.updatePlan`, `shadowCandidates`), so the receipt a dry run renders and
+ * the actions a real run takes cannot drift apart.
+ */
+function planInstall(f) {
+  const steps = [];
+  if (!f.claudeOnly) {
+    for (const argv of plan.installPlan(SKILLS, skillsCliAgents(f))) {
+      steps.push(opres.step('subprocess', 'home', `skills add ${argv[3]}`, { cmd: 'npx', args: pinnedArgv(argv) }));
+    }
+    steps.push(opres.step('prune', 'home',
+      'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
+      { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
+  }
+  if (f.claude || f.claudeOnly) {
+    for (const s of SKILLS) {
+      steps.push(opres.step('subprocess', 'home', `claude plugin marketplace add (${s.name})`,
+        { cmd: 'claude', args: ['plugin', 'marketplace', 'add', s.pluginMarketplace] }));
+      steps.push(opres.step('subprocess', 'home', `claude plugin install ${s.pluginInstall}`,
+        { cmd: 'claude', args: ['plugin', 'install', s.pluginInstall] }));
+    }
+  }
+  if (!f.member) {
+    steps.push(opres.step('router-block', 'home',
+      'refresh the managed routing block (its own consent and dry-run rules apply)',
+      { mode: 'install' }));
+  }
+  return opres.buildPlan(steps);
+}
+
+/** The same contract for `update` — every subprocess, prune, router and runtime action. */
+function planUpdate(f) {
+  const steps = [];
+  if (!f.claudeOnly && fs.existsSync(path.join(ROOT, '.gitmodules'))) {
+    steps.push(opres.step('subprocess', 'checkout',
+      f.bumpPins ? 'bump submodule pins to upstream tips (--bump-pins)'
+        : 'materialize pinned submodules (pins unchanged)',
+      { cmd: 'git', args: f.bumpPins
+        ? ['-C', ROOT, 'submodule', 'update', '--init', '--remote', '--merge']
+        : ['-C', ROOT, 'submodule', 'update', '--init', '--recursive'] }));
+  }
+  if (!f.claudeOnly) {
+    for (const argv of plan.updatePlan(SKILLS, skillsCliAgents(f))) {
+      steps.push(opres.step('subprocess', 'home', `skills ${argv[2]} ${argv[3]}`, { cmd: 'npx', args: pinnedArgv(argv) }));
+    }
+    steps.push(opres.step('prune', 'home',
+      'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
+      { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
+  }
+  if (f.claude || f.claudeOnly) {
+    for (const s of SKILLS) {
+      steps.push(opres.step('subprocess', 'home', `claude plugin marketplace update (${s.name})`,
+        { cmd: 'claude', args: ['plugin', 'marketplace', 'update', s.pluginInstall.split('@')[1]] }));
+      steps.push(opres.step('subprocess', 'home', `claude plugin update ${s.pluginInstall}`,
+        { cmd: 'claude', args: ['plugin', 'update', s.pluginInstall] }));
+    }
+  }
+  if (!f.member) {
+    steps.push(opres.step('router-block', 'home',
+      'refresh the managed routing block (its own consent and dry-run rules apply)',
+      { mode: 'update' }));
+  }
+  try {
+    steps.push(opres.step('runtime-sync', 'runtime',
+      'refresh the wired hook runtime copy (create: false)',
+      { root: require('../lib/hooks.js').runtimeDir(os.homedir()) }));
+  } catch (_) { /* no runtime dir resolvable — the execution path reports it */ }
+  return opres.buildPlan(steps);
+}
+
+/** Dry-run IS the render: the complete receipt, a typed result, zero mutations. */
+function renderDryRun(planned, mode) {
+  log(`\n== --dry-run: the ${mode} plan, rendered — nothing executed ==`);
+  for (const line of opres.render(planned)) log(line);
+  const res = opres.result({
+    scope: 'home', status: 'dry-run',
+    evidence: `${planned.steps.length} action(s) planned; 0 mutations`,
+  });
+  log(`\nresult: ${res.status} — ${res.evidence}`);
+  return opres.exitCode(res) === 0;
 }
 
 function cmdInstall(f) {
+  const planned = planInstall(f);
+  if (f.dryRun) return renderDryRun(planned, 'install');
   let ok = true;
   if (!f.claudeOnly) {
     const agents = skillsCliAgents(f);
@@ -267,14 +456,45 @@ function cmdInstall(f) {
 function refreshBlock(f, mode) {
   if (f.member) return true; // a lone member's installer speaks only for itself
   log('\n== Refreshing the routing block ==');
+  // Carry the SAME scope the run was given (FIX-UP-03.02): a --no-claude /
+  // --agent / --claude-only install must not rewrite the host files it did not
+  // select. Dropping agents/claudeOnly here is exactly how the refresh touched
+  // all three files after a scoped run.
   return cmdRouters({
+    agents: f.agents,
     claude: f.claude,
+    claudeOnly: f.claudeOnly,
     dryRun: f.dryRun,
     mode,
   });
 }
 
+/**
+ * The resolved host-file set for a routing write, and whether Cursor is in it.
+ * host files (CLAUDE/AGENTS/GEMINI) come from plan.resolveScope so the emitter
+ * and the resolver agree; Cursor is its own agent and is included only for an
+ * unscoped run or one that names it, never for --claude-only.
+ */
+function scopedRoutingTargets(f) {
+  const apply = require('../lib/apply.js');
+  const scope = plan.resolveScope({
+    agents: f.agents,
+    claude: f.claude,
+    claudeOnly: f.claudeOnly,
+    hosts: apply.TARGETS,
+    consumers: [],
+  });
+  const selected = f.agents && f.agents.length ? new Set(f.agents) : null;
+  let includeCursor;
+  if (f.claudeOnly) includeCursor = false;
+  else if (selected) includeCursor = selected.has('cursor');
+  else includeCursor = true;
+  return { hostTargets: scope.hostTargets, includeCursor };
+}
+
 function cmdUpdate(f) {
+  const planned = planUpdate(f);
+  if (f.dryRun) return renderDryRun(planned, 'update');
   let ok = true;
   // The plan is COUNTED, not estimated — the same arrays the loops below walk, so a
   // member added to the family changes the denominator without anyone remembering to.
@@ -356,6 +576,32 @@ function cmdUpdate(f) {
     log(`\n== Wired hook runtime ==\n  NOT refreshed: ${e.message}`);
     ok = false;
   }
+  // Native host lifecycle (FIX-UP-07.02). The skills-CLI channel writes plain
+  // copies into ~/.codex/ etc., but a host with its OWN plugin loader (Codex)
+  // does not load them through that channel — and this launcher has no
+  // supported API to drive its update. Rather than a fake "current", it says
+  // UNSUPPORTED_UPDATE with the manual step and mutates nothing; a host with a
+  // supported API (Claude Code) was already driven above and stays verifiable.
+  try {
+    const lc = require('../lib/lifecycle.js');
+    const hosts = [
+      { name: 'Claude Code', api: 'claude plugin update' },
+      { name: 'Codex (native plugin cache)', api: null,
+        manualStep: 'Codex loads plugins through its own lifecycle — the family '
+          + 'updates its skills-CLI channel, not Codex\'s native cache. Update it '
+          + 'via Codex\'s own plugin manager and reload the session. No Codex '
+          + 'native files were touched.' },
+    ];
+    const unsupported = hosts.map(lc.planHostLifecycle)
+      .filter((r) => r.outcome === lc.UNSUPPORTED_UPDATE);
+    if (unsupported.length) {
+      log(`\n== Native host lifecycle ==`);
+      for (const u of unsupported) log(`  ${u.host}: UNSUPPORTED_UPDATE — ${u.manualStep}`);
+    }
+  } catch (e) {
+    log(`\n== Native host lifecycle ==\n  not reported: ${e.message}`);
+  }
+
   printUpdateModel('update');
 
   reportProgress();
@@ -687,8 +933,11 @@ function cmdRouters(f) {
     }
   }
 
+  const scoped = scopedRoutingTargets(f);
   const res = apply.apply({
     home, mode, consent: decision, routers: packaged,
+    // Only the selected host files are written; the rest stay byte-identical.
+    hostTargets: scoped.hostTargets, includeCursor: scoped.includeCursor,
     // What the operator decided once, so a target added in a later release
     // reaches a machine that already said yes.
     consentRecorded: consent.readState(home).routers,
@@ -1224,6 +1473,343 @@ function cmdHooks(argv) {
   return true;
 }
 
+// ------------------------------------------------------------ uninstall + store
+
+/** Agent channel skills dirs that exist on THIS machine, discovered not recalled. */
+function discoverChannels() {
+  const skillstore = require('../lib/skillstore.js');
+  const home = os.homedir();
+  const ls = (d) => { try { return fs.readdirSync(d); } catch (_) { return []; } };
+  return skillstore.channelCandidates(home, ls(home).filter((n) => n.startsWith('.')), ls(path.join(home, '.config')))
+    .filter((p) => { try { return fs.statSync(p).isDirectory(); } catch (_) { return false; } });
+}
+
+function channelEntries(dir) {
+  try { return fs.readdirSync(dir).filter((n) => n !== '.' && n !== '..'); } catch (_) { return []; }
+}
+
+/** id → upstream repo, from the skills CLI's own lock. Unreadable ⇒ empty: refuse, not approve. */
+function lockSources() {
+  try {
+    const j = JSON.parse(fs.readFileSync(path.join(os.homedir(), '.agents', '.skill-lock.json'), 'utf8'));
+    const out = {};
+    for (const [id, row] of Object.entries(j.skills || {})) out[id] = (row && row.source) || '';
+    return out;
+  } catch (_) { return {}; }
+}
+
+/**
+ * What `uninstall` would remove — computed once, walked by both the dry run
+ * and the real run (the UP-02 rule: one array, two renderings).
+ */
+function uninstallRemovals() {
+  const skillstore = require('../lib/skillstore.js');
+  const familyIds = SKILLS.flatMap((s) => plan.skillIds(s));
+  const memberNames = SKILLS.map((s) => s.name);
+  const lock = lockSources();
+  const removals = [];
+  const kept = [];
+  for (const channel of discoverChannels()) {
+    for (const name of channelEntries(channel)) {
+      if (!familyIds.includes(name)) continue;
+      const full = path.join(channel, name);
+      let isSymlink = false; let target = '';
+      try { isSymlink = fs.lstatSync(full).isSymbolicLink(); } catch (_) { continue; }
+      if (isSymlink) { try { target = fs.realpathSync(full); } catch (_) { try { target = fs.readlinkSync(full); } catch (_) { target = ''; } } }
+      const verdict = skillstore.classifyFamilyEntry(
+        { name, isSymlink, target, lockRepo: lock[name] || '' }, familyIds, memberNames);
+      (verdict.remove ? removals : kept).push({ path: full, name, reason: verdict.reason });
+    }
+  }
+  return { removals, kept, familyIds };
+}
+
+function planUninstall(f) {
+  const apply = require('../lib/apply.js');
+  const cursor = require('../lib/cursor.js');
+  const { removals, kept } = uninstallRemovals();
+  const steps = [];
+  steps.push(opres.step('prune', 'home',
+    `remove ${removals.length} family skill entr(ies) across the agent channels (${kept.length} name-collision entr(ies) left in place)`,
+    { paths: removals.map((r) => r.path) }));
+  steps.push(opres.step('runtime-sync', 'home',
+    'drop the removed ids from ~/.agents/.skill-lock.json (protect() copy first)',
+    { ids: [...new Set(removals.map((r) => r.name))] }));
+  if (f.claude !== false) {
+    for (const s of SKILLS) {
+      steps.push(opres.step('subprocess', 'home', `claude plugin uninstall (${s.name})`,
+        { cmd: 'claude', args: ['plugin', 'uninstall', s.pluginInstall] }));
+      steps.push(opres.step('subprocess', 'home', `claude plugin marketplace remove (${s.name})`,
+        { cmd: 'claude', args: ['plugin', 'marketplace', 'remove', s.name] }));
+    }
+  }
+  for (const t of apply.TARGETS) {
+    steps.push(opres.step('router-block', 'home',
+      `remove the managed routing block from ~/${t.dir}/${t.file} (backup first; bytes outside the sentinels untouched)`,
+      { file: path.join(os.homedir(), t.dir, t.file) }));
+  }
+  steps.push(opres.step('prune', 'home', 'remove the Cursor rules file (backup first)',
+    { paths: [path.join(os.homedir(), '.cursor', 'rules', cursor.FILENAME)] }));
+  steps.push(opres.step('runtime-sync', 'home', 'hooks remove (returns any displaced statusLine)', {}));
+  return opres.buildPlan(steps);
+}
+
+/**
+ * The reverse of `install`, at the same depth install reaches: the 28 family
+ * skills out of every agent channel (provenance-checked — a foreign skill
+ * that merely shares a name is reported and kept), the Claude plugins and
+ * their marketplaces, the managed routing blocks (through `protect()`, bytes
+ * outside the sentinels preserved), the Cursor rules file, and the hooks.
+ * Backups precede every operator-file write; a copy that cannot be taken
+ * cancels that write and only that write.
+ */
+function cmdUninstall(f) {
+  const planned = planUninstall(f);
+  if (f.dryRun) return renderDryRun(planned, 'uninstall');
+  const apply = require('../lib/apply.js');
+  const R = require('../lib/routers.js');
+  const cursor = require('../lib/cursor.js');
+  const home = os.homedir();
+  let ok = true;
+
+  const { removals, kept } = uninstallRemovals();
+  log(`\n== Removing family skills from the agent channels ==`);
+  for (const r of removals) {
+    try { fs.rmSync(r.path, { recursive: true, force: true }); log(`  - ${r.path} (${r.reason})`); }
+    catch (e) { log(`  ! ${r.path}: ${e.message}`); ok = false; }
+  }
+  for (const k of kept) log(`  = left in place: ${k.path} — ${k.reason}`);
+
+  const lockFile = path.join(home, '.agents', '.skill-lock.json');
+  const dropped = [...new Set(removals.map((r) => r.name))];
+  if (dropped.length && fs.existsSync(lockFile)) {
+    // The same copy-first rule as every other write: protect() takes the
+    // backup, and a copy that cannot be taken cancels the rewrite.
+    const savedLock = apply.protect(lockFile, { home });
+    if (savedLock.action === 'backup-failed') {
+      log(`  ! lock NOT rewritten — the backup failed (${savedLock.error}); the file is unchanged`);
+      ok = false;
+    } else {
+      try {
+        const j = JSON.parse(fs.readFileSync(lockFile, 'utf8'));
+        let hits = 0;
+        for (const id of dropped) if (j.skills && j.skills[id]) { delete j.skills[id]; hits += 1; }
+        fs.writeFileSync(lockFile, JSON.stringify(j, null, 2) + '\n', 'utf8');
+        log(`  lock: dropped ${hits} entr(ies); copy at ${savedLock.path}`);
+      } catch (e) { log(`  ! lock not rewritten: ${e.message}`); ok = false; }
+    }
+  }
+
+  if (f.claude !== false) {
+    log(`\n== Removing Claude Code plugins ==`);
+    for (const s of SKILLS) {
+      // Plugin first, then its marketplace: the reverse of install's order.
+      run('claude', ['plugin', 'uninstall', s.pluginInstall]);
+      run('claude', ['plugin', 'marketplace', 'remove', s.name]);
+    }
+  }
+
+  log(`\n== Removing the managed routing block ==`);
+  for (const t of apply.TARGETS) {
+    const file = path.join(home, t.dir, t.file);
+    if (!fs.existsSync(file)) { log(`  routers: ${file} — absent`); continue; }
+    const before = fs.readFileSync(file, 'utf8');
+    const res = R.removeBlock(before);
+    if (!res.removed) { log(`  routers: ${file} — no managed block`); continue; }
+    const saved = apply.protect(file, { home });
+    if (saved.action === 'backup-failed') {
+      log(`  ! ${file} NOT written — the backup failed (${saved.error}); the file is unchanged`);
+      ok = false; continue;
+    }
+    fs.writeFileSync(file, res.text, 'utf8');
+    log(`  routers: block removed from ${file} (copy: ${saved.path})`);
+  }
+  const mdc = path.join(home, '.cursor', 'rules', cursor.FILENAME);
+  if (fs.existsSync(mdc)) {
+    const saved = apply.protect(mdc, { home });
+    if (saved.action === 'backup-failed') { log(`  ! ${mdc} kept — backup failed (${saved.error})`); ok = false; }
+    else { fs.unlinkSync(mdc); log(`  routers: removed ${mdc} (copy: ${saved.path})`); }
+  }
+
+  log(`\n== Removing hooks ==`);
+  ok = cmdHooks(['remove']) && ok;
+
+  log('\n(restart every agent — skills are read at session start)');
+  log('To reinstall: npx sshlg-skills install');
+  return ok;
+}
+
+// ------------------------------------------------- backup / wipe / restore (ALL skills)
+
+function backupsDir() {
+  const d = path.join(os.homedir(), '.sshlg-skills', 'backups');
+  fs.mkdirSync(d, { recursive: true });
+  return d;
+}
+
+/**
+ * Archive EVERY agent's skills directory — the whole store, not just the
+ * family — as one tar.gz relative to $HOME, symlinks preserved as symlinks,
+ * with a manifest beside it that restore verifies against. Returns the
+ * verification input for `wipeGate`, so `wipe` cannot proceed on a backup
+ * this function could not prove.
+ */
+function cmdBackupAll() {
+  const skillstore = require('../lib/skillstore.js');
+  const home = os.homedir();
+  const channels = discoverChannels().map((p) => ({ path: p, entries: channelEntries(p) }));
+  const nonEmpty = channels.filter((c) => c.entries.length);
+  if (!nonEmpty.length) { log('backup: no agent skills directories found — nothing to archive'); return null; }
+  const stamp = skillstore.stampName(new Date());
+  const man = skillstore.manifest(nonEmpty, stamp);
+  const archive = path.join(backupsDir(), `${stamp}.tar.gz`);
+  const rel = nonEmpty.map((c) => path.relative(home, c.path));
+  log(`\n== Backing up ${man.total} entr(ies) from ${nonEmpty.length} channel(s) ==`);
+  for (const c of nonEmpty) log(`  ${c.path} — ${c.entries.length}`);
+  const r = spawnSync('tar', ['-czf', archive, '-C', home, ...rel], { stdio: 'inherit' });
+  if (r.status !== 0) { log('backup: tar failed — no archive written'); return null; }
+  // Verify against the archive's OWN listing, not the plan.
+  const list = spawnSync('tar', ['-tzf', archive], { encoding: 'utf8' });
+  if (list.status !== 0) { log('backup: the archive does not list back — treating as failed'); return null; }
+  const listed = list.stdout.split('\n').filter(Boolean);
+  let verifiedCount = 0;
+  for (const c of nonEmpty) {
+    const prefix = path.relative(home, c.path) + '/';
+    for (const name of c.entries) {
+      if (listed.some((l) => l === prefix + name || l.startsWith(prefix + name + '/') || l === prefix + name + '/')) verifiedCount += 1;
+    }
+  }
+  fs.writeFileSync(archive.replace(/\.tar\.gz$/, '.manifest.json'), JSON.stringify(man, null, 2) + '\n', 'utf8');
+  log(`backup: ${archive}`);
+  log(`backup: verified ${verifiedCount}/${man.total} entr(ies) against the archive's own listing`);
+  return { archive, manifestTotal: man.total, verifiedCount, channels: nonEmpty };
+}
+
+/**
+ * Back up EVERYTHING, verify the archive, and only then tear the stores down.
+ * A backup that could not be taken and proven cancels the wipe — the same
+ * copy-first rule the operator files live under, held for the skill stores.
+ */
+function cmdWipeAll(f) {
+  const skillstore = require('../lib/skillstore.js');
+  if (f.dryRun) {
+    const channels = discoverChannels().map((p) => ({ path: p, entries: channelEntries(p) })).filter((c) => c.entries.length);
+    log(`\n== --dry-run: wipe would back up, verify, then remove ==`);
+    for (const c of channels) log(`  ${c.path} — ${c.entries.length} entr(ies)`);
+    log(`(${channels.reduce((n, c) => n + c.entries.length, 0)} entr(ies) total; 0 mutations)`);
+    return true;
+  }
+  const backup = cmdBackupAll();
+  const gate = skillstore.wipeGate(backup || {});
+  if (!gate.ok) { log(`\nwipe REFUSED: ${gate.reason}`); return false; }
+  log(`\n== Wiping (${gate.reason}) ==`);
+  let ok = true;
+  for (const c of backup.channels) {
+    for (const name of c.entries) {
+      const full = path.join(c.path, name);
+      try { fs.rmSync(full, { recursive: true, force: true }); }
+      catch (e) { log(`  ! ${full}: ${e.message}`); ok = false; }
+    }
+    log(`  cleared ${c.path} (${c.entries.length})`);
+  }
+  log(`\nTo bring everything back: npx sshlg-skills restore`);
+  log('(restart every agent — skills are read at session start)');
+  return ok;
+}
+
+/** Bring a backup back, newest by default, and verify counts against its manifest. */
+function cmdRestoreAll(rest) {
+  const skillstore = require('../lib/skillstore.js');
+  const home = os.homedir();
+  const dir = backupsDir();
+  const named = (rest || []).find((a) => !a.startsWith('-'));
+  let archive = named ? (fs.existsSync(named) ? named : path.join(dir, named)) : null;
+  if (!archive) {
+    const all = fs.readdirSync(dir).filter((n) => /^skills-all-.*\.tar\.gz$/.test(n)).sort();
+    if (!all.length) { log(`restore: no skills-all-*.tar.gz in ${dir}`); return false; }
+    archive = path.join(dir, all[all.length - 1]);
+  }
+  if (!fs.existsSync(archive)) { log(`restore: ${archive} does not exist`); return false; }
+  log(`\n== Restoring ${archive} into ${home} ==`);
+  const r = spawnSync('tar', ['-xzf', archive, '-C', home], { stdio: 'inherit' });
+  if (r.status !== 0) { log('restore: tar failed'); return false; }
+  const manFile = archive.replace(/\.tar\.gz$/, '.manifest.json');
+  if (!fs.existsSync(manFile)) {
+    log('restore: extracted, but no manifest sits beside the archive — counts not verified');
+    return true;
+  }
+  const man = JSON.parse(fs.readFileSync(manFile, 'utf8'));
+  const observed = {};
+  for (const row of man.channels) observed[row.path] = channelEntries(row.path).length;
+  const v = skillstore.restoreVerify(man, observed);
+  if (!v.ok) { for (const m of v.mismatches) log(`  ! ${m}`); log('restore: extracted, but the counts above disagree with the manifest'); return false; }
+  log(`restore: verified — ${man.total} entr(ies) across ${man.channels.length} channel(s) match the manifest`);
+  log('(restart every agent — skills are read at session start)');
+  return true;
+}
+
+/**
+ * Read-only provider inventory (FIX-UP-07.01). A filesystem sweep sees every
+ * SKILL.md on disk — hub copies, plugin caches, and HISTORICAL cache versions
+ * of the same skill. Counting those candidates as if each were an active
+ * provider read 336 files as 336 providers. This resolves candidates into
+ * distinct STATES so an old cache plus one enabled version is ONE skill, not a
+ * duplicate, and an undecidable precedence is reported UNKNOWN rather than
+ * guessed.
+ *
+ * Pure. `candidates` is what the caller read off disk, each:
+ *   { skillId, host, scope, namespace, realpath, digest, version,
+ *     installed, enabled, applicable, loaded }
+ * Grouped by (host, scope, skillId). Within a group the ACTIVE provider is the
+ * single installed+enabled+applicable one; the rest are `historical`. Two
+ * enabled providers → precedence UNKNOWN (never a coin toss). No enabled one →
+ * `installed-not-enabled` or `none`.
+ */
+function resolveProviders(candidates) {
+  const groups = new Map();
+  for (const c of Array.isArray(candidates) ? candidates : []) {
+    if (!c || !c.skillId) continue;
+    const key = [c.host || '?', c.scope || '?', c.skillId].join('\u0000');
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(c);
+  }
+  const out = [];
+  for (const [key, members] of groups) {
+    const [host, scope, skillId] = key.split('\u0000');
+    const active = members.filter((m) => m.installed && m.enabled && m.applicable);
+    let state; let chosen = null; let precedence = 'n/a';
+    if (active.length === 1) {
+      state = 'active';
+      chosen = active[0];
+    } else if (active.length > 1) {
+      // More than one installed+enabled+applicable: the sweep cannot say which
+      // one the host would load. Do NOT pick — report it.
+      state = 'active';
+      precedence = 'UNKNOWN';
+    } else if (members.some((m) => m.installed)) {
+      state = 'installed-not-enabled';
+    } else {
+      state = 'none';
+    }
+    const historical = members.filter((m) => m !== chosen);
+    out.push({
+      host, scope, skillId, state, precedence,
+      active: chosen ? {
+        realpath: chosen.realpath, digest: chosen.digest, version: chosen.version,
+        namespace: chosen.namespace, loaded: !!chosen.loaded,
+      } : null,
+      // Historical candidates (older caches, disabled copies) are recorded so a
+      // sweep can SHOW them without treating them as active providers.
+      historical: historical.map((m) => ({
+        realpath: m.realpath, digest: m.digest, version: m.version,
+        installed: !!m.installed, enabled: !!m.enabled,
+      })),
+      candidateCount: members.length,
+    });
+  }
+  return out;
+}
+
 function main(argv) {
   const [cmd, ...rest] = argv.slice(2);
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { usage(); return 0; }
@@ -1241,11 +1827,20 @@ function main(argv) {
   if (cmd === 'materialised' || cmd === 'materialized') { return cmdMaterialised(argv); }
   if (cmd === 'signature') { return cmdSignature(argv); }
   if (cmd === 'humanizers') { return cmdHumanizers(argv); }
+  // `restore` takes a positional archive name.
+  if (cmd === 'restore') return cmdRestoreAll(rest) ? 0 : 1;
   const f = parseFlags(rest);
   if (cmd === 'install' || cmd === 'i') return cmdInstall(f) ? 0 : 1;
   if (cmd === 'update' || cmd === 'up') return cmdUpdate(f) ? 0 : 1;
+  if (cmd === 'uninstall' || cmd === 'un') return cmdUninstall(f) ? 0 : 1;
+  if (cmd === 'backup') return cmdBackupAll() ? 0 : 1;
+  if (cmd === 'wipe') return cmdWipeAll(f) ? 0 : 1;
   if (cmd === 'routers') return cmdRouters(f) ? 0 : 1;
   log(`unknown command: ${cmd}`); usage(); return 2;
 }
 
-process.exit(main(process.argv));
+if (require.main === module) {
+  process.exit(main(process.argv));
+}
+
+module.exports = { cliSpec, pinnedArgv, resolvePayloads, resolveProviders };

@@ -1,0 +1,59 @@
+{
+  "id": "CTX-04.01",
+  "decision": "support matrix — Claude Code + Codex are the mandatory baseline; other adapters stay declared/untested until their own smoke test",
+  "generated_by": "test/audit_regressions/ctx-04.01.py --emit",
+  "prefilled_pass": false,
+  "run": {
+    "host_platform": "darwin",
+    "node": "v26.8.1",
+    "pack_version": "1.46.1"
+  },
+  "tiers": {
+    "mandatory": [
+      "claude",
+      "codex"
+    ],
+    "declared_untested": [
+      "gemini"
+    ]
+  },
+  "checks": {
+    "required": [
+      "root_resolves",
+      "presence_reported",
+      "no_write_on_unknown_platform"
+    ],
+    "optional": [
+      "version_detected",
+      "capability_detected"
+    ]
+  },
+  "hosts": [
+    {
+      "agent": "claude",
+      "tier": "mandatory",
+      "root_source": "platform-default",
+      "root_present": true,
+      "version": null,
+      "status": "observed"
+    },
+    {
+      "agent": "codex",
+      "tier": "mandatory",
+      "root_source": "platform-default",
+      "root_present": true,
+      "version": null,
+      "status": "observed"
+    },
+    {
+      "agent": "gemini",
+      "tier": "declared_untested",
+      "root_source": "platform-default",
+      "root_present": true,
+      "version": null,
+      "status": "declared"
+    }
+  ],
+  "model_preferences": "inherited from the host; this pack sets none",
+  "notes": "unknown host versions/capabilities are recorded as null, never invented as PASS; a declared adapter is never reported PASS on its name alone"
+}
