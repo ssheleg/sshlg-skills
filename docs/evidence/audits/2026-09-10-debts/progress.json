@@ -480,6 +480,11 @@
       "id": "DEAD-LINKS-IN-50-CHANNELS-20260910",
       "state": "resolved",
       "detail": "104 broken symlinks across 49 skill channels, invisible to the health check this family documents — that check names five channels and the machine now has ~50, so it reported 0 broken while 104 sat outside its list. Two causes. (1) Eight links in ~/.codex/skills pointed six levels up (../../../../../../) where two are needed: hand-copied between channels, which CLAUDE.md warns about by name (\"symlink depth differs per channel — never hand-copy a symlink between channels\"). All eight targets existed; only the depth was wrong. Repointed absolutely, matching that channel's own working links. (2) 96 links, exactly two per channel across 48 channels, pointed at ~/.agents/skills/brand-voice-enforcement and ux-copy — the names super-ux used before they became brand-voice and copywriting. The hub entries went with the rename; the channel links did not. Removed. Verified: 0 broken across EVERY channel found by discovery, not by a list."
+    },
+    {
+      "id": "CODEX-CHANNEL-CARRIES-NO-FAMILY-SKILLS-20260910",
+      "state": "open-for-the-operator",
+      "detail": "Reported, NOT changed. ~/.codex/skills holds 51 entries and none of the family's 29; the hub and ~/.kiro/skills carry 28 of 29 (the 29th, \"super-ux\", is a plugin name, not a skill). Codex IS in skills.json defaultAgents and ~/.codex/AGENTS.md carries the routing block, so Codex knows the routes without reaching the skills. The launcher has a plan for it — `node bin/sshlg-skills.js install --agent codex` renders nine `skills add` steps — and ~/.sshlg-skills/state.json records only routers, so there is no evidence either way about whether this was chosen. This is left for the operator because the family's own doctrine says consumption is deliberately uneven and a skill missing from a channel is usually a choice; installing into a channel someone may have emptied on purpose is a decision, not a debt closure. Also worth recording: my first measurement of this reported 0/29 for EVERY channel, including the hub, because zsh does not word-split an unquoted parameter — a check that reports zero everywhere is likelier broken than the machine being empty, and it was."
     }
   ]
 }
