@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**730** id'd requirement rows below, **635** read `verified` and none of them says which
+**734** id'd requirement rows below, **635** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -37,6 +37,15 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-10 — the release check that failed a good publish, fixed in all ten copies
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| RS-1 | The post-publish check now waits as long as npm says it may take | npm prints "Your package is being processed and may take a few minutes to become available" on every publish; the check waited three minutes and went red on `sshlg-skills@1.48.1` while the publish had succeeded — `+ sshlg-skills@1.48.1`, provenance signed. Polling by hand after the failure: `attempt 2: latest=1.48.1  1.48.1=1.48.1`. The window is ten minutes, the number `telegram-dev` measured on its own first publish | unreleased (CI only) | shortening the window without a measurement that says the registry is faster now | 2026-09-10, main thread |
+| RS-2 | The poll asks for the version, not for the latest dist-tag | it ran `npm view "$NAME" version` — which answers *what is `latest` right now*, a different question. The two answers diverge while the tag lags, and diverge PERMANENTLY for a patch published behind a newer minor, so the check would have failed a correct publish forever rather than for three minutes. It is `npm view "$NAME@$WANT" version` now | unreleased (CI only) | a future edit reaching for the shorter form because it reads more simply | 2026-09-10, main thread |
+| RS-3 | The fix reached all ten repositories in the same change, and was aligned OUTWARD from the copy that already knew better | `telegram-dev` had held RS-1 since 2026-08-25 and it reached none of the other nine — six weeks, nine repositories, one immune. Its two-case diagnosis ("does not know this package" versus "does not serve this version") is richer than the replacement first drafted here, so the canonical step is ITS text plus RS-2, which telegram-dev lacked. `git show a22bc7a --stat` and the nine member merges: super-ux c0352625, agent-sync 900f03db, sheleg-dev 8d0e2dcf, sheleg-design-skill 1635f95e, make-skill 41c37ef2, telegram-dev 2b81df4f, agent-stack ce880249, seo-aeo-audit fd8e4879, task-pipeline #90 | unreleased (CI only) | the next shared-mechanism fix landing in one member, which is the failure `docs/working-rules/shared-mechanism-propagation.md` exists to name | 2026-09-10, main thread |
+| RS-4 | v1.48.1's release run is RED in history, and the release is real | stated here because the two look identical to a later reader and are not: the `publish` job failed on the check RS-1 fixes, AFTER `npm publish` had succeeded. `gh release view v1.48.1` exists, `npm view sshlg-skills@1.48.1 version` returns 1.48.1, and the local runtime installed from it carries 44 lib files. The run was NOT re-run: a re-run would replay `npm publish` against a version the registry already holds, and the tag's workflow still carries the three-minute window | unreleased (CI only) | reading a red release run as a failed publish, or re-running one to make the history look clean | 2026-09-10, main thread |
 
 ## 2026-09-10 — v1.48.1, the launcher stops contradicting its own setting
 
