@@ -46,14 +46,27 @@ it('the notice names the one command that updates the set', () => {
   assert.ok(/npx sshlg-skills@latest update/.test(out), out);
 });
 
-it('it says auto-update is off ON PURPOSE, and why', () => {
-  // Without the reason this reads as a missing feature, and the next person turns it on.
-  const out = U.notice('install', { on: [] }).join('\n');
-  assert.ok(/OFF for these packs on purpose/.test(out), out);
-  assert.ok(/combination nobody\s+tested/.test(out),
-    'the notice does not say what auto-update would cost');
-  assert.ok(/no member argument|takes no member argument/.test(out),
-    'the notice does not tie the reason to the launcher rule it comes from');
+it('IT DESCRIBES THE ACTUAL STATE, and gives the reason in either', () => {
+  // This asserted "OFF for these packs on purpose" until v1.48.0 made the set
+  // update itself — at which point the launcher was telling the operator the
+  // opposite of what `config list` said. The claim that survives is the one that
+  // was always the point: whatever the state, say WHY there is one command and
+  // no member argument, because without the reason a reader treats the setting
+  // as arbitrary.
+  const on = U.notice('install', { on: [] }, true).join(' ').replace(/\s+/g, ' ');
+  const off = U.notice('install', { on: [] }, false).join(' ').replace(/\s+/g, ' ');
+  assert.match(on, /updates itself when you go idle/, on);
+  assert.match(on, /config set update\.auto off/, 'no way to stop it');
+  assert.match(off, /does not update itself/, off);
+  assert.match(off, /`update\.auto` is off/, off);
+  for (const out of [on, off]) {
+    assert.match(out, /all nine together/, 'the notice does not say the set moves as a set');
+    assert.match(out, /no member argument/,
+      'the notice does not tie the reason to the launcher rule it comes from');
+  }
+  // And it must never claim both.
+  assert.ok(!/does not update itself/.test(on) && !/updates itself when you go idle/.test(off),
+    'the two states share a sentence, so one of them is a lie');
 });
 
 it('install says what watches for the next set; update does not repeat it', () => {
@@ -61,9 +74,12 @@ it('install says what watches for the next set; update does not repeat it', () =
   // SessionStart notice made that sentence false. Both of its claims survive:
   // install tells the operator how the next set announces itself, and update does
   // not repeat a line that only matters the first time.
-  const i = U.notice('install', { on: [] }).join('\n');
-  const u = U.notice('update', { on: [] }).join('\n');
-  assert.ok(/session-start notice/i.test(i) && /nothing needs/i.test(i), i);
+  // Whitespace-normalised: the phrase wraps across two pushed lines, and a
+  // needle that reads the raw join fails on the line break rather than on the
+  // content — the class this family has filed against itself repeatedly.
+  const i = U.notice('install', { on: [] }, true).join(' ').replace(/\s+/g, ' ');
+  const u = U.notice('update', { on: [] }, true).join(' ').replace(/\s+/g, ' ');
+  assert.ok(/session-start notice/i.test(i) && /nothing needs remembering/i.test(i), i);
   assert.ok(!/Nothing checks for you/.test(i),
     'the notice still claims nothing watches, which a session-start notice contradicts');
   assert.ok(!/session-start notice/i.test(u),
