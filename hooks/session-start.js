@@ -72,7 +72,8 @@ process.stdin.on('end', () => {
       let state = {};
       try { state = JSON.parse(fs.readFileSync(statePath, 'utf8')); } catch (e) { state = {}; }
       const installed = require(path.join(__dirname, '..', 'package.json')).version;
-      const p = chk.plan(installed, state.updateCheck, Date.now());
+      const cfg = require(path.join(LIB, 'config.js')).readConfig(home);
+      const p = chk.plan(installed, state.updateCheck, Date.now(), undefined, cfg);
       if (p.line) context.push(p.line);
       if (p.probe) {
         const { spawn } = require('child_process');
