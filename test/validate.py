@@ -2752,6 +2752,13 @@ def check_counted_claims_agree_with_the_tree():
         return len(re.findall(r"(?m)^\|\s*[A-Za-z0-9]+-[0-9]+[a-z]?\s*\|", text))
 
     def ledger_verified():
+        # A SUBSTRING count, and the limit is worth stating where it is computed:
+        # a row that merely DISCUSSES the word is counted as one that carries the
+        # status. It happened on 2026-09-10 — RT-5 said "a future release verified
+        # by listing files" and the figure moved by one against no new status. The
+        # row was reworded rather than the counter taught to parse a column this
+        # table does not have; a reader adding a row that argues ABOUT verification
+        # should expect this and phrase around it.
         text = read(ledger)
         if text is None:
             return None
