@@ -455,6 +455,11 @@
       "id": "GUARD-COUNT-MEASURED-NOT-GREPPED-20260910",
       "state": "noted",
       "detail": "task-pipeline requires the CHANGELOG to state `Guards: N → M`, and refuses a number that disagrees with the workflow. My grep said 432, the validator said 429 — its regex anchors on `^\\s*- name:` and mine matched three mentions inside quoted text. The validator was right. The real answer is 429 → 429: no guard was added, three plants were REPOINTED to follow their subjects to the wording those subjects had moved to."
+    },
+    {
+      "id": "PIN-DRY-RUN-FOUND-TWO-DEBTS-20260910",
+      "state": "open",
+      "detail": "Moving the eight pins in a throwaway branch BEFORE the real pin commit surfaced two things the umbrella would have failed on. (1) The README table is the third place the pin lives and the validator refuses it when skills.json and the table disagree — the pin script now moves all three. (2) Two members shipped a release whose evidence ledger still described the previous version (agent-stack, sheleg-design), against an umbrella ratchet of 1. The ratchet is lowered when a member catches up and NEVER raised to match a regression, and it says why it does not simply fail: only that member's own release can move its ledger. Both caught up in patch releases — agent-stack#29 v0.24.1, sheleg-design#32 v1.60.1. Also confirmed working: my own CTX-04.06 acceptance receipt refused the tree with \"receipt disagrees with a fresh staging run (pins moved under it)\", which is exactly what it was written to do."
     }
   ]
 }
