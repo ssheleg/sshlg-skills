@@ -3,7 +3,7 @@
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
     "total": 30,
-    "done": 17,
+    "done": 20,
     "blocked": 0
   },
   "queue": [
@@ -262,10 +262,10 @@
       "deps": [
         "MERGE-06"
       ],
-      "status": "todo",
+      "status": "done",
       "commit": null,
-      "checks": null,
-      "notes": null
+      "checks": "npm test EXIT=0; PR #30 open",
+      "notes": "PR#28 merged cleanly onto the sherlock work — CREATIVE_DIRECTOR.md +75 in both copies; the sherlock split never touched the decision layer"
     },
     {
       "id": "LEGACY-04",
@@ -276,10 +276,10 @@
       "deps": [
         "MERGE-03"
       ],
-      "status": "todo",
+      "status": "done",
       "commit": null,
-      "checks": null,
-      "notes": null
+      "checks": "npm test EXIT=0; PR #21 open",
+      "notes": "PR#18 merged cleanly; the reworded enterprise.md row hit exactly the 4750 working limit and was tightened to 4747"
     },
     {
       "id": "ISSUE-124",
@@ -290,10 +290,10 @@
       "deps": [
         "MERGE-10"
       ],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "4f8e96f",
+      "checks": "test/routegate_test.js OK (24 checks), 3 named for #124",
+      "notes": "both proposed conditions already landed with the sherlock merge: bypassPermissions returns null, and a target resolving outside cwd returns null (conditional on the payload carrying both target and cwd — a call it cannot place keeps the old behaviour). Issue closed with the evidence."
     },
     {
       "id": "REL-01",
