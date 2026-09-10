@@ -127,12 +127,21 @@ it('an attempt inside the interval does not repeat — idle pings are frequent',
   assert.strictEqual(U.shouldAutoUpdate({}, future, now).run, true);
 });
 
-it('the unattended path is never silent about being on', () => {
-  assert.match(U.autoLine({}), /auto-updates when you go idle/);
-  assert.match(U.autoLine({}), /config set update\.auto off/,
-    'the disclosure does not say how to turn it off');
-  assert.strictEqual(U.autoLine({ update: { auto: 'off' } }), '',
-    'it announces itself while switched off');
+it('ONE line about the next set, and it never contradicts itself', () => {
+  // Two lines said this until the worst case was read back: one telling the
+  // operator to run the command, one saying it installs itself when they go
+  // idle. That is contradictory advice and the reader has to work out which
+  // half is true.
+  const on = U.line('1.47.1', '1.48.0', {});
+  assert.match(on, /install when you go idle/, 'the notice hides that it is automatic');
+  assert.match(on, /config set update\.auto off/, 'the notice gives no way to stop it');
+  const off = U.line('1.47.1', '1.48.0', { update: { auto: 'off' } });
+  assert.match(off, /npx sshlg-skills@latest update/);
+  assert.ok(!/when you go idle/.test(off),
+    'it promises an unattended install while switched off');
+  for (const l of [on, off]) {
+    assert.strictEqual(l.split('\n').length, 1, 'the notice grew a second line');
+  }
 });
 
 it('a completed run asks for the restart that actually loads it', () => {
@@ -153,16 +162,16 @@ it('a run that changed nothing says nothing', () => {
   assert.strictEqual(U.ranLine(null), '');
 });
 
-it('plan() orders the lines: what happened, what is out, what is on', () => {
+it('plan() orders the lines: what happened, then what is out', () => {
   const now = 1_000_000_000;
   const p = U.plan('1.47.1', {
     at: now, latest: '1.48.0',
     lastRun: U.ranRecord('1.46.0', '1.47.1', true, now),
   }, now, undefined, {});
-  assert.strictEqual(p.lines.length, 3);
-  assert.match(p.lines[0], /updated while you were away/);
+  assert.strictEqual(p.lines.length, 2, 'the folded disclosure came back as a third line');
+  assert.match(p.lines[0], /updated while you were away/,
+    'what already happened asks for a restart, so it comes first');
   assert.match(p.lines[1], /A newer set is out/);
-  assert.match(p.lines[2], /auto-updates when you go idle/);
 });
 
 it('the disclosure rides WITH the notice, not on every session', () => {

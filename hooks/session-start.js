@@ -40,6 +40,7 @@ process.stdin.on('end', () => {
     const triggers = require(path.join(LIB, 'triggers.js'));
 
     const context = [triggers.sessionNote()];
+    const cwd = data.cwd || process.env.CLAUDE_PROJECT_DIR || process.cwd();
     const out = { hookEventName: 'SessionStart' };
 
     // What ConfigChange noticed and had no way to say.
@@ -84,13 +85,45 @@ process.stdin.on('end', () => {
       }
     } catch (e) { /* a check that could not look says nothing, which is the point */ }
 
+    // What another agent left for THIS repository. The write side of the handoff
+    // was already built — `retro.publish`, the handoff rule, "the pile is the
+    // queue" — and every sentence of it addresses the agent that WRITES. Four
+    // pull requests titled "cross-agent handoff" sat three days across four
+    // members because nothing addressed the agent that receives. Same shape as
+    // the update notice: read a cache, spawn detached, silent when there is
+    // nothing and when the tooling cannot look.
+    try {
+      const hand = require(path.join(LIB, 'handoff.js'));
+      const { execFileSync, spawn } = require('child_process');
+      let remote = '';
+      try {
+        remote = execFileSync('git', ['-C', cwd, 'remote', 'get-url', 'origin'],
+          { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], timeout: 3000 }).trim();
+      } catch (e) { remote = ''; }
+      const repo = hand.slug(remote);
+      if (repo) {
+        let st = {};
+        try {
+          st = JSON.parse(fs.readFileSync(
+            path.join(home, '.sshlg-skills', 'state.json'), 'utf8'));
+        } catch (e) { st = {}; }
+        const p = hand.plan(st.inbound, repo, Date.now());
+        if (p.line) context.push(p.line);
+        if (p.probe) {
+          const probe = spawn(process.execPath,
+            [path.join(LIB, 'handoffprobe.js'), repo],
+            { detached: true, stdio: 'ignore' });
+          probe.unref();
+        }
+      }
+    } catch (e) { /* a queue that cannot be read is not a broken session */ }
+
     // One small file per session accumulates forever otherwise — the kind of
     // litter nobody notices until it is thousands of files.
     try {
       require(path.join(LIB, 'turnstate.js')).prune(home, Date.now(), 1000 * 60 * 60 * 24 * 7);
     } catch (e) { /* nothing to prune is the normal case */ }
 
-    const cwd = data.cwd || process.env.CLAUDE_PROJECT_DIR || process.cwd();
     const ledgerPath = path.join(cwd, '.task-pipeline', 'run.md');
     if (fs.existsSync(ledgerPath)) {
       out.watchPaths = [ledgerPath];
