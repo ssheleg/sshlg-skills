@@ -3,7 +3,7 @@
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
     "total": 30,
-    "done": 29,
+    "done": 30,
     "blocked": 0
   },
   "queue": [
@@ -409,10 +409,10 @@
         "DOC-03",
         "REL-04"
       ],
-      "status": "in_progress",
+      "status": "done",
       "commit": null,
-      "checks": "all ten gates EXIT=0 on main (task-pipeline green after v1.86.1); 241 audit-regression suites; zero open issues family-wide; 0 broken symlinks across EVERY channel found by discovery (104 fixed this pass); local installs match released versions; shadow check empty. Pending: task-pipeline v1.86.1 release workflow, and the umbrella pin correction in PR #127.",
-      "notes": "the sweep earned its keep twice: it caught v1.86.0 tagged-but-never-published, and then that the umbrella had pinned that unpublished tag. A pin to a tag nothing published is a promise nothing can keep."
+      "checks": "all ten gates EXIT=0 on main; 241 audit-regression suites across the family; umbrella 84 suites / 970 fixtures / 9 pinned members; all nine pins resolve to versions verified as tag + GitHub release + npm publish; nine installed plugins match the released versions; shadow check empty; 0 broken symlinks across EVERY channel found by discovery; zero open issues family-wide; umbrella v1.47.1 released and published",
+      "notes": "the sweep earned its keep three times: it caught task-pipeline v1.86.0 tagged but never published, then that the umbrella had pinned that unpublished tag, then 104 dead symlinks in 49 channels the documented five-channel health check could not see. One finding is left OPEN FOR THE OPERATOR rather than closed: ~/.codex/skills carries none of the family, and installing into a channel someone may have emptied on purpose is a decision, not a debt."
     }
   ],
   "flags": [
