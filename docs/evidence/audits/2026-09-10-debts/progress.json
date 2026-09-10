@@ -322,10 +322,10 @@
       "deps": [
         "REL-01"
       ],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "in_progress",
+      "commit": "1b2a9ea (branch release/pins-check2)",
+      "checks": "npm test EXIT=0 — 84 suites, 970 fixtures, 9 pinned members",
+      "notes": "eight pins moved in all three homes (submodule pointer, skills.json, README table); the lagging-ledger ratchet dropped 1 → 0 because the guard REFUSED the tree until the earned number was written down; CTX-04.06 receipt regenerated after refusing to be stale. task-pipeline's pin waits for its release — a pin to an unreleased tree is a promise nothing can keep."
     },
     {
       "id": "REL-03",
