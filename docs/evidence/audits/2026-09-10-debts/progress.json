@@ -308,10 +308,10 @@
         "LEGACY-04",
         "ISSUE-124"
       ],
-      "status": "todo",
+      "status": "in_progress",
       "commit": null,
-      "checks": null,
-      "notes": null
+      "checks": "super-ux v0.56.0 RELEASED (annotated tag on c5b2528); 5 release PRs open: seo-aeo-audit#21 v0.26.0, telegram-dev#7 v0.2.0, agent-sync#18 v1.20.0, agent-stack#28 v0.24.0, sheleg-dev#17 v0.12.0",
+      "notes": "each repo dictates its own shape and the guards proved it: agent-sync's self-test caught a bare CHANGELOG heading (only a v-prefixed one can detect its release-notes mutation); sheleg-dev keeps ONE living Shipped-state block rather than a history, and its REQ-001 must quote the line the run prints; seo-aeo-audit needs a retro run stamp in the same change. The bumper leaves historical mentions alone — telegram-dev prose names v0.1.11 in a \"until\" clause."
     },
     {
       "id": "REL-02",
@@ -430,6 +430,11 @@
       "id": "RELEASE-VIA-PR-20260910",
       "state": "noted",
       "detail": "main is branch-protected in the members: a release commit cannot be pushed directly, so each release goes out as its own PR and the ANNOTATED tag (B-93) lands on the merge commit. Also recorded: the version bumper must never rewrite a dated record — docs/evidence/, audits/ and retro.md are excluded, because a ledger section states what was true AT a version and rewriting it is falsifying history. super-ux's ledger guard proved this by refusing the tree."
+    },
+    {
+      "id": "BUMPER-MUST-NOT-REWRITE-HISTORY-20260910",
+      "state": "resolved",
+      "detail": "A version bumper that replaces every occurrence rewrites dated records and historical prose. Caught twice by the repos themselves: super-ux's ledger guard refused a rewritten section heading, and telegram-dev's prose (\"both manifests declared X until v0.1.11\") would have been falsified. The bumper now skips docs/evidence/, audits/ and retro.md entirely, and within a file replaces only where the version is DECLARED — a JSON version field, a VERSION assignment, or a line that declares nothing else. It also derives the CHANGELOG heading shape from the repo."
     }
   ]
 }
