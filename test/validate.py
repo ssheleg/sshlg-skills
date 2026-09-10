@@ -1897,7 +1897,12 @@ def check_each_member_ledger_reaches_its_shipped_version():
     # ships. The guard fired in BOTH directions on the run that wrote it — it refused the
     # tree until the smaller number was written down, which is the whole point of a
     # ratchet that also fails below its floor.
-    _LAG_FLOOR = 1
+    # Lowered 1 → 0 on 2026-09-10, in the change that earned it: the family release
+    # wave shipped agent-stack and sheleg-design with ledgers still naming the previous
+    # version, and both caught up in their own patch releases (v0.24.2, v1.60.2). The
+    # guard demanded this edit itself — "lower it to 0 in test/validate.py, in the same
+    # change that earned it, so the next reader inherits the smaller number".
+    _LAG_FLOOR = 0
     if len(_lagging) > _LAG_FLOOR:
         fail(f"{len(_lagging)} member ledger(s) describe a version older than they ship "
              f"({', '.join(sorted(_lagging))}) and the ratchet in test/validate.py stands "
