@@ -465,6 +465,11 @@
       "id": "LEDGER-SECTION-LAGGED-ITS-OWN-BUMP-20260910",
       "state": "resolved",
       "detail": "The two ledger-catch-up patches (agent-stack v0.24.1, sheleg-design v1.60.1) SHIPPED STILL LAGGING: the release script wrote the ledger section and then bumped the version, so the section named the version being replaced and the lag it existed to close survived its own fix. Caught by re-running the pin dry-run, which still listed both members. Fixed properly in v0.24.2 / v1.60.2 — bump FIRST, then write the section against what is now declared — and the ordering rule is now a comment at the top of the release script rather than something to remember. Separately, the README step of the pin script had been lost to nested heredocs and is now its own file."
+    },
+    {
+      "id": "TP-186-TAGGED-BUT-NOT-RELEASED-20260910",
+      "state": "open",
+      "detail": "The final sweep caught task-pipeline red on main: v1.86.0 was TAGGED and its release.yml FAILED, so the tag exists, the GitHub release does not, and npm never served it. Cause: the run-stamp gate reads the tag OWN tree and a branch push cannot see a tag that does not exist yet — the seventh instance of a mechanism that repo's retro.md names six times, and its R-010 already held the rule (\"run the suite the RELEASE runs, against the tree you are about to tag\"). The lesson was written and read past. Fixing it in v1.86.1 surfaced two more: the ledger header must bump in the same change as the version, and moving the conditionals check to a one-line `run:` made the step INVISIBLE to negatives.py (which parses `run: |`), silently emptying the property-check category from 15 to 14 — its own floor caught it. Also learned: GitHub's 512,000 limit is BYTES, and em dashes in a comment cost more than the characters suggest (512,026 bytes vs 510,272 chars)."
     }
   ]
 }
