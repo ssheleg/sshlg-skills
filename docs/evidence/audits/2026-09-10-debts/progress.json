@@ -440,6 +440,11 @@
       "id": "COLD-GUARD-SILENTLY-DISARMED-20260910",
       "state": "resolved",
       "detail": "task-pipeline: the sherlock retrospective work reworded the cold-retirement trigger from \"five run stamps\" to \"five exposure opportunities\", and the guard enforcing that the condition names BOTH units was keyed to the old words. It did not fail — its corpus predicate matched nothing, every surface dropped out, and it passed everything. Found only because a negative self-test refused to plant. Fixed by building both the discovery predicate and the assertion from one _COLD_UNITS pattern, so they cannot disagree about scope; the failure message no longer names a unit, because naming one is what tied it to a wording. Committed as 0207e2a with both polarities verified."
+    },
+    {
+      "id": "FAMILY-STATE-20260910-0600",
+      "state": "measured",
+      "detail": "Measured against the MERGED mains, not the branches: 210 audit-regression suites across the nine members, 0 red. The umbrella gate on main: 84 suites, 970 fixtures, 9 pinned members, EXIT=0. Open issues across the whole family: ZERO. Open PRs: sshlg-skills#123 (this ledger branch, now merged up to main and green) and task-pipeline#87 with its superseded #85."
     }
   ]
 }
