@@ -369,6 +369,64 @@ it('a repaired settings file stops being reported', () => {
     'a displacement that was repaired is still being announced');
 });
 
+// --- the set-update notice, as a process ------------------------------------
+//
+// `lib/updatecheck.js` owns the policy and is fixtured without a HOME. What only a
+// process can show is that the two impure lines in the hook cannot break a session:
+// the cache is a file somebody else's tooling also writes, and the probe is spawned
+// into a directory that may be read-only.
+
+it('a cache saying a newer set is out becomes exactly one line', () => {
+  const dir = path.join(HOME, '.sshlg-skills');
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'state.json'), JSON.stringify(
+    { routers: 'yes', updateCheck: { at: Date.now(), latest: '99.0.0' } }) + '\n');
+  const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
+  const ctx = started.hookSpecificOutput.additionalContext;
+  const hits = ctx.split('\n').filter((l) => /A newer set is out/.test(l));
+  assert.strictEqual(hits.length, 1, `expected one notice line, got ${hits.length}:\n${ctx}`);
+  assert.match(hits[0], /99\.0\.0/, 'the notice does not name the version that is out');
+  assert.match(hits[0], /npx sshlg-skills@latest update/, 'the notice does not carry the command');
+});
+
+it('a cache saying the set is current says nothing', () => {
+  const dir = path.join(HOME, '.sshlg-skills');
+  fs.mkdirSync(dir, { recursive: true });
+  const installed = require(path.join(ROOT, 'package.json')).version;
+  fs.writeFileSync(path.join(dir, 'state.json'), JSON.stringify(
+    { routers: 'yes', updateCheck: { at: Date.now(), latest: installed } }) + '\n');
+  const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
+  assert.ok(!/A newer set is out/.test(started.hookSpecificOutput.additionalContext),
+    'a current set was announced as out of date');
+});
+
+it('a CORRUPT cache starts the session and claims nothing', () => {
+  // The file is the launcher's, but `~/.sshlg-skills/state.json` is on disk where
+  // anything can truncate it. A hook that threw here would break every turn of
+  // every session, including sessions of packs that never asked for this one.
+  const dir = path.join(HOME, '.sshlg-skills');
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'state.json'), '{ not json at all');
+  const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
+  const ctx = started.hookSpecificOutput.additionalContext;
+  assert.match(ctx, /ssheleg family/, 'the session lost its routing note to a bad cache');
+  assert.ok(!/A newer set is out/.test(ctx), 'an unreadable cache produced a version claim');
+});
+
+it('a read-only state directory starts the session anyway', () => {
+  const dir = path.join(HOME, '.sshlg-skills');
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'state.json'), JSON.stringify({ routers: 'yes' }) + '\n');
+  fs.chmodSync(dir, 0o555);
+  try {
+    const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
+    assert.match(started.hookSpecificOutput.additionalContext, /ssheleg family/,
+      'an unwritable cache directory broke the session');
+  } finally {
+    fs.chmodSync(dir, 0o755);
+  }
+});
+
 // --- the repository's own gate, as a process --------------------------------
 
 /** Run the project gate against a throwaway project whose suite we control. */

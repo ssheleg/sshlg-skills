@@ -56,11 +56,17 @@ it('it says auto-update is off ON PURPOSE, and why', () => {
     'the notice does not tie the reason to the launcher rule it comes from');
 });
 
-it('install says nothing checks for you; update does not repeat it', () => {
+it('install says what watches for the next set; update does not repeat it', () => {
+  // This asserted the words "Nothing checks for you" until 2026-09-10, when a
+  // SessionStart notice made that sentence false. Both of its claims survive:
+  // install tells the operator how the next set announces itself, and update does
+  // not repeat a line that only matters the first time.
   const i = U.notice('install', { on: [] }).join('\n');
   const u = U.notice('update', { on: [] }).join('\n');
-  assert.ok(/Nothing checks for you/.test(i), i);
-  assert.ok(!/Nothing checks for you/.test(u),
+  assert.ok(/session-start notice/i.test(i) && /nothing needs/i.test(i), i);
+  assert.ok(!/Nothing checks for you/.test(i),
+    'the notice still claims nothing watches, which a session-start notice contradicts');
+  assert.ok(!/session-start notice/i.test(u),
     'update repeats a line that only matters at install time');
 });
 

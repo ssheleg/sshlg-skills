@@ -61,6 +61,29 @@ process.stdin.on('end', () => {
       if (text) context.push(text);
     } catch (e) { /* an unreadable plugin registry means no claim, not a wrong one */ }
 
+    // Whether a newer SET is out. The cache is READ here and the registry is not
+    // touched: when the stamp is stale a DETACHED probe writes the cache and
+    // exits, so session start never waits for npm and an offline machine starts
+    // exactly as fast and says nothing. `lib/updatecheck.js` holds every
+    // decision; these are the two impure lines.
+    try {
+      const chk = require(path.join(LIB, 'updatecheck.js'));
+      const statePath = path.join(home, '.sshlg-skills', 'state.json');
+      let state = {};
+      try { state = JSON.parse(fs.readFileSync(statePath, 'utf8')); } catch (e) { state = {}; }
+      const installed = require(path.join(__dirname, '..', 'package.json')).version;
+      const cfg = require(path.join(LIB, 'config.js')).readConfig(home);
+      const p = chk.plan(installed, state.updateCheck, Date.now(), undefined, cfg);
+      if (p.line) context.push(p.line);
+      if (p.probe) {
+        const { spawn } = require('child_process');
+        const probe = spawn(process.execPath,
+          [path.join(__dirname, '..', 'lib', 'updateprobe.js')],
+          { detached: true, stdio: 'ignore' });
+        probe.unref();
+      }
+    } catch (e) { /* a check that could not look says nothing, which is the point */ }
+
     // One small file per session accumulates forever otherwise — the kind of
     // litter nobody notices until it is thousands of files.
     try {

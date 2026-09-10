@@ -1034,7 +1034,9 @@ function cmdConfig(argv) {
     for (const name of registry.order()) {
       log(`  routers.${name.padEnd(16)} ${configLib.isEnabled(config, name) ? 'on' : 'off'}`);
     }
+    log(`  update.auto${' '.repeat(11)} ${configLib.autoUpdateEnabled(config) ? 'on' : 'off'}`);
     log('\nПоменять:  npx sshlg-skills config set routers.<имя> on|off');
+    log('           npx sshlg-skills config set update.auto on|off');
     return 0;
   }
 
@@ -1043,8 +1045,26 @@ function cmdConfig(argv) {
     return 2;
   }
 
+  if (key === 'update.auto') {
+    if (configLib.STATES.indexOf(value) === -1) {
+      log(`config set: состояние должно быть on или off — получено "${value === undefined ? '' : value}"`);
+      return 2;
+    }
+    const wasAuto = configLib.autoUpdateEnabled(configLib.readConfig(home)) ? 'on' : 'off';
+    if (wasAuto === value) {
+      log(`update.auto: ${value} (без изменений)`);
+      return 0;
+    }
+    configLib.setAutoUpdate(home, value);
+    log(`update.auto: ${wasAuto} → ${value}`);
+    log(value === 'off'
+      ? 'Набор больше не обновляется сам. Обновить вручную: npx sshlg-skills@latest update'
+      : 'Набор будет обновляться, когда ты отойдёшь — целиком, все девять паков.');
+    return 0;
+  }
+
   if (!key || key.indexOf('routers.') !== 0) {
-    log('config set: ключ должен начинаться с "routers." — других разделов пока нет');
+    log('config set: ключ должен начинаться с "routers." или быть "update.auto"');
     return 2;
   }
 
