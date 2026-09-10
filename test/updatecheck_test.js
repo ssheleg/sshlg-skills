@@ -162,6 +162,26 @@ it('a run that changed nothing says nothing', () => {
   assert.strictEqual(U.ranLine(null), '');
 });
 
+it('a SUCCEEDED run whose version could not be read still asks for the restart', () => {
+  // FIX-RT-01: the version was unreadable on every real machine, because
+  // `updaterun.js` looked for a `package.json` the wired runtime did not carry.
+  // The old code answered that by recording `to = from`, which reads as "nothing
+  // moved" — and the line below was empty. The set had moved; the operator was
+  // never told to restart, so the session kept running the copy it started with.
+  const l = U.ranLine({ lastRun: U.ranRecord('1.48.1', null, true, 1) });
+  assert.match(l, /Restart/, 'the one thing the operator acts on is the restart');
+  assert.match(l, /could not be read/, 'the line must not invent a version it never saw');
+  assert.doesNotMatch(l, /FAILED/, 'the run succeeded — only its version is unknown');
+});
+
+it('unknown is not unchanged — the two records differ, and so do their lines', () => {
+  const unknown = U.ranLine({ lastRun: U.ranRecord('1.48.1', null, true, 1) });
+  const unchanged = U.ranLine({ lastRun: U.ranRecord('1.48.1', '1.48.1', true, 1) });
+  assert.notStrictEqual(unknown, unchanged,
+    'collapsing the two is the defect: a moved set reported as a still one');
+  assert.strictEqual(unchanged, '', 'a genuinely unchanged set has nothing to say');
+});
+
 it('plan() orders the lines: what happened, then what is out', () => {
   const now = 1_000_000_000;
   const p = U.plan('1.47.1', {

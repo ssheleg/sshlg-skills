@@ -1,3 +1,41 @@
+## v1.48.2 — the auto-update that could not run where it runs
+
+v1.48.0 shipped the unattended update the operator asked for. It never ran once,
+on any machine, and nothing said so.
+
+`lib/updaterun.js` opens by asking which version is running:
+`require('../package.json')`. From the package that resolves. From the **runtime**
+— `~/.sshlg-skills/runtime/`, the copy the wired hooks actually execute — it
+resolved to nothing, because the runtime is a copy of `hooks/` and `lib/` plus
+`skills.json`, and carries no manifest. So the module threw at load, and hooks
+fail silent by design: the feature was an absence, not an error. Measured against
+the wired runtime on this machine, 2026-09-10: 21 relative requires, 1 dangling,
+and the one was the new feature.
+
+Three changes, because the bug had three layers:
+
+- **The runtime carries `package.json`.** The version is now readable where the
+  code runs, and it is the right version — the generation whose modules are
+  executing, not whichever package a probe happens to reach. It is inert as a
+  manifest: no `type` field, so CommonJS stays CommonJS, and no dependencies.
+- **Unknown stopped posing as unchanged.** When the version could not be read the
+  old code recorded `to = from`, which reads as "the set did not move" — and the
+  session-start line is silent on that. An update that DID move the set therefore
+  told the operator nothing, and the session kept running the copy it started
+  with. A succeeded run with an unreadable version now says so, and still asks for
+  the restart, which is the part anyone acts on.
+- **A guard that would have caught it.** `test/runtime_closure_test.js` syncs the
+  package into a temp runtime and refuses any relative `require` that does not
+  resolve inside it. Watched failing without the fix, naming exactly the one
+  module.
+
+The guard's own first draft had this repository's oldest defect: it read a require
+NAMED in a comment as a require, and reported `lib/runtime.js` on the strength of
+a sentence explaining this very bug. It reads what would RUN now — string
+literals kept, comments stripped — with a fixture holding both halves in one file,
+because a scanner that reported neither would pass a test that only asserted the
+comment is ignored.
+
 ## v1.48.1 — the launcher stops contradicting its own setting
 
 v1.48.0 made the set update itself and left the launcher printing "Auto-update is
