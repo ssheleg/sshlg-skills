@@ -54,7 +54,7 @@ RES_PIN = ("(m)=>m.name==='super-ux'?{sha:'abc123',digest:'d1',"
 
 
 def t_lock_pins_or_records_unsupported():
-    v = node(f"const l=u.buildLock({MEMBERS},'cli@1.47.0',{RES_PIN});"
+    v = node(f"const l=u.buildLock({MEMBERS},'cli@1.47.1',{RES_PIN});"
              "console.log(JSON.stringify(l.members));")
     by = {m["name"]: m for m in v}
     assert by["super-ux"]["status"] == "pinned"
