@@ -217,12 +217,24 @@ it('NO MODULE IN lib/ IS UNREACHABLE FROM PRODUCTION CODE', () => {
       // is a green that means nothing, which is the thing this repository keeps
       // filing against itself.
       //
-      // Three shapes are real: `require('./x.js')`, `require('../lib/x.js')`,
-      // and the dynamic `require(path.join(LIB, 'x.js'))` the hooks use.
+      // Four shapes are real: `require('./x.js')`, `require('../lib/x.js')`, the
+      // dynamic `require(path.join(LIB, 'x.js'))` the hooks use — and a module
+      // RUN AS A PROCESS, which `lib/updateprobe.js` is on purpose: the session
+      // start must not wait for a registry, so the hook spawns it detached and
+      // never requires it. A spawned script is reached; only PROSE is not, which
+      // is what the paragraph above is actually about. The spawn edge is checked
+      // strictly — the name must sit inside a quoted `path.join(...)` AND the
+      // file must spawn `process.execPath` — so a comment naming the module
+      // still counts for nothing.
       if (path.basename(f) === lib && path.dirname(f).endsWith('lib')) continue;
+      const esc = base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const req = new RegExp(
-        `require\\(\\s*(?:path\\.join\\([^)]*?)?['"\`][^'"\`]*${base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\.js)?['"\`]`);
-      if (req.test(src)) referenced.add(lib);
+        `require\\(\\s*(?:path\\.join\\([^)]*?)?['"\`][^'"\`]*${esc}(?:\\.js)?['"\`]`);
+      if (req.test(src)) { referenced.add(lib); continue; }
+      const spawnsNode = /(?:spawn|execFile|spawnSync|execFileSync)\(\s*process\.execPath/.test(src);
+      const namedInJoin = new RegExp(
+        `path\\.join\\([^)]*['"\`][^'"\`]*${esc}\\.js['"\`]`).test(src);
+      if (spawnsNode && namedInJoin) referenced.add(lib);
     }
   }
   const orphans = libs.filter((l) => !referenced.has(l));
