@@ -460,6 +460,11 @@
       "id": "PIN-DRY-RUN-FOUND-TWO-DEBTS-20260910",
       "state": "open",
       "detail": "Moving the eight pins in a throwaway branch BEFORE the real pin commit surfaced two things the umbrella would have failed on. (1) The README table is the third place the pin lives and the validator refuses it when skills.json and the table disagree — the pin script now moves all three. (2) Two members shipped a release whose evidence ledger still described the previous version (agent-stack, sheleg-design), against an umbrella ratchet of 1. The ratchet is lowered when a member catches up and NEVER raised to match a regression, and it says why it does not simply fail: only that member's own release can move its ledger. Both caught up in patch releases — agent-stack#29 v0.24.1, sheleg-design#32 v1.60.1. Also confirmed working: my own CTX-04.06 acceptance receipt refused the tree with \"receipt disagrees with a fresh staging run (pins moved under it)\", which is exactly what it was written to do."
+    },
+    {
+      "id": "LEDGER-SECTION-LAGGED-ITS-OWN-BUMP-20260910",
+      "state": "resolved",
+      "detail": "The two ledger-catch-up patches (agent-stack v0.24.1, sheleg-design v1.60.1) SHIPPED STILL LAGGING: the release script wrote the ledger section and then bumped the version, so the section named the version being replaced and the lag it existed to close survived its own fix. Caught by re-running the pin dry-run, which still listed both members. Fixed properly in v0.24.2 / v1.60.2 — bump FIRST, then write the section against what is now declared — and the ordering rule is now a comment at the top of the release script rather than something to remember. Separately, the README step of the pin script had been lost to nested heredocs and is now its own file."
     }
   ]
 }
