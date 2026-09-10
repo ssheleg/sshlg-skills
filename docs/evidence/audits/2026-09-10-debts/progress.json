@@ -3,7 +3,7 @@
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
     "total": 30,
-    "done": 22,
+    "done": 23,
     "blocked": 0
   },
   "queue": [
@@ -364,10 +364,10 @@
       "deps": [
         "REL-03"
       ],
-      "status": "todo",
-      "commit": null,
-      "checks": null,
-      "notes": null
+      "status": "done",
+      "commit": "n/a (machine doc, not under version control)",
+      "checks": "every repo doc claim is already enforced by that repo gate, and all nine gates are green; the machine CLAUDE.md figures recomputed by running its own \"Verifying the numbers above\" commands",
+      "notes": "real drift found in ~/CLAUDE.md: ~/DATA said 107 entries / 90 git repos, measured 158 / 141; skills dirs 71 → 73. Recomputed and re-dated (backup at ~/CLAUDE.md.bak-2026-09-10). The skill-hub figures (423 / 381 / 42 / 392 / 382 / 20) and the wiki install count (12) were still correct. Shadow check empty, 0 broken symlinks. NOTE: /Users/sshlg is not a repository, so this file cannot be committed — it is the operator's machine doc."
     },
     {
       "id": "DOC-02",
