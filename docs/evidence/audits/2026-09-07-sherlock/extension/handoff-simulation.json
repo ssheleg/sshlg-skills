@@ -1,0 +1,27 @@
+{
+  "purpose": "Independent-process contract simulation. NOT Fabric or task-pipeline runtime.",
+  "checks": {
+    "two_cold_processes_one_winner": true,
+    "takeover_advances_fence": true,
+    "late_result_rejected": true,
+    "stale_packet_rejected": true,
+    "current_result_accepted": true,
+    "duplicate_result_idempotent": true,
+    "join_waits_for_all": true,
+    "join_runs_after_both": true,
+    "cancelled_worker_cannot_complete": true,
+    "complete_context_passes": true,
+    "changed_context_rejected": true,
+    "source_drift_rejected": true,
+    "missing_context_rejected": true,
+    "conflicting_writes_serialized": true,
+    "control_dependency_preserved": true,
+    "cycle_rejected": true
+  },
+  "all_pass": true,
+  "limits": [
+    "Local SQLite broker only; not distributed consensus",
+    "Labels denote independent processes, not real Claude/Codex model calls",
+    "No production Fabric adapter or enforcement implementation is claimed"
+  ]
+}

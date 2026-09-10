@@ -1,0 +1,122 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-UX-10.01",
+  "parent_id": "FIX-UX-10",
+  "title": "Loading из существующей задержки превращён в инсценировку вычисления",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "super-ux"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Loading из существующей задержки превращён в инсценировку вычисления",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Loading только при реальной асинхронной работе; показывать фактическую операцию и не задерживать готовый результат. Если narrative pause нужен продукту, назвать его честно без claims персонального анализа и измерить затраты/понимание.",
+  "expected_result": "Мгновенный локальный результат отображается без таймера; медленная операция показывает реальное pending; текст не заявляет анализ, которого нет; сценарий пустого ответа не выдаёт фиктивную персонализацию.",
+  "acceptance": [
+    "Мгновенный локальный результат отображается без таймера; медленная операция показывает реальное pending; текст не заявляет анализ, которого нет; сценарий пустого ответа не выдаёт фиктивную персонализацию."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Loading только при реальной асинхронной работе; показывать фактическую операцию и не задерживать готовый результат. Если narrative pause нужен продукту, назвать его честно без claims персонального анализа и измерить затраты/понимание.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/funnel-research.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "21db211ef0bd9f11bd09bb7d234cc976d00686ea1aeb085ac57c676e3c53a802"
+    },
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/best-practices.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "e0dcfdb6bf395662b2c81c32b8ecaad6c2059bebe62e6a8c75537834d790ff91"
+    },
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "08fee3fa580918356d6d3c398948413144cf60e45274ec78d50a0e44500b6d58"
+    }
+  ],
+  "test_target": {
+    "path": "repo://super-ux/test/audit_regressions/fix-ux-10.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-UX-10.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-UX-10.json",
+    "source_files": [
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/funnel-research.md",
+        "sha256": "21db211ef0bd9f11bd09bb7d234cc976d00686ea1aeb085ac57c676e3c53a802",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/best-practices.md",
+        "sha256": "e0dcfdb6bf395662b2c81c32b8ecaad6c2059bebe62e6a8c75537834d790ff91",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md",
+        "sha256": "08fee3fa580918356d6d3c398948413144cf60e45274ec78d50a0e44500b6d58",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Мгновенный локальный результат отображается без таймера; медленная операция показывает реальное pending; текст не заявляет анализ, которого нет; сценарий пустого ответа не выдаёт фиктивную персонализацию."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://super-ux/test/audit_regressions/fix-ux-10.01.py",
+    "python3 repo://super-ux/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-UX-10.01.md",
+    "sha256": "79984b49c2ddab952f549a343d2d046bc63c7d4115c2f2670fd7295be414b5da",
+    "utf8_bytes": 8946,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "dd9e5fbc6a87f592fc1dffc770062b0ea7df38d228b0489e3eb4529d7342a05a"
+  }
+}

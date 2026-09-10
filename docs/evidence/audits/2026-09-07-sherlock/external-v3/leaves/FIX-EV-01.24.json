@@ -1,0 +1,162 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-EV-01.24",
+  "parent_id": "FIX-EV-01",
+  "title": "Outcome corpus: agent-harness",
+  "kind": "verification",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "agent-stack"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Проверка выбора названия не доказывает пользу выполнения скилла",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Для agent-harness записать минимум positive, negative и ambiguous/no-op case из собственных audit findings; отдельно with/without skill. Не менять production integration для удобства grader.",
+  "expected_result": "Case manifest включает actual output oracle и raw result; agent-harness не проходит лишь по названию. Недоступный live host = NOT_RUN.",
+  "acceptance": [
+    "Case manifest включает actual output oracle и raw result; agent-harness не проходит лишь по названию. Недоступный live host = NOT_RUN."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Для agent-harness записать минимум positive, negative и ambiguous/no-op case из собственных audit findings; отдельно with/without skill. Не менять production integration для удобства grader.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://agent-stack/evals/cases/agent-harness.json",
+      "mode": "Create",
+      "role": "focused outcome corpus (new artifact)",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://agent-stack/test/audit_regressions/fix-ev-01.24.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-EV-01.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-EV-01.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/test/evals/RESULTS.md",
+        "sha256": "6f920d8631b8b7309dece75fc9488b178e4cbb6e1d0aa2ac41fc049cd0794b96",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://make-skill/test/evals/RESULTS.md",
+        "sha256": "1e824a230e73b636d85b537f6f73a5a6cd2fea0b197570438100a0ae56d4df6f",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://seo-aeo-audit/test/evals/RESULTS.md",
+        "sha256": "59dc76dd994a4343a990c455c9f0658e4d1059cbc677e51e9734b1ed5e6ae7ab",
+        "role": "baseline source"
+      },
+      {
+        "path": "audit://native-eval.log",
+        "sha256": "760143b98d7496b6e5a345197d121bdd015e5e768d635dda1a0f6b4b621c398d",
+        "role": "read-only audit evidence",
+        "audit_original_sha256": "760143b98d7496b6e5a345197d121bdd015e5e768d635dda1a0f6b4b621c398d"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Каждый из 28 имеет опубликованный manifest сценариев и прогоны на заявленных supported hosts; trace доказывает загрузку и outcome, ухудшение не скрывается средним."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-EV-01.01",
+      "kind": "data",
+      "reason": "Uses common outcome manifest and honest result semantics."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://agent-stack/test/audit_regressions/fix-ev-01.24.py",
+    "python3 repo://agent-stack/test/validate.py"
+  ],
+  "focused_case_context": [
+    {
+      "finding_id": "AS-04",
+      "title": "Fake-edge test удаляет зависимости по управлению и состоянию, если нет явного payload",
+      "case_acceptance": [
+        "Graph negative tests сохраняют backup→migration, approval→charge, lease→edit и сериализацию двух writes; независимые read-only reviews действительно запускаются параллельно."
+      ],
+      "packet": "audit://extension/packets/FIX-AS-04.json"
+    },
+    {
+      "finding_id": "AS-05",
+      "title": "Аудируемость ошибочно приравнена к статическому графу",
+      "case_acceptance": [
+        "Один static и один dynamic сценарий проходят одинаковый reconstruction audit; удаление события/ребра детектируется в обоих. Наличие design diagram само по себе не даёт PASS."
+      ],
+      "packet": "audit://extension/packets/FIX-AS-05.json"
+    },
+    {
+      "finding_id": "AS-11",
+      "title": "confirm:true и отсутствие одного элемента trifecta не являются доказательством безопасности",
+      "case_acceptance": [
+        "Agent-authored confirm:true без grant отвергается; повтор с изменёнными arguments также; заранее авторизованное действие проходит. Сценарий untrusted content→destructive write входит в threat tests независимо от private-data доступа."
+      ],
+      "packet": "audit://extension/packets/FIX-AS-11.json"
+    },
+    {
+      "finding_id": "AS-14",
+      "title": "Отсутствие evals ошибочно делает весь аудит unfalsifiable",
+      "case_acceptance": [
+        "Synthetic repo без evals, но с demonstrable double charge: аудит сохраняет оба findings, прямой вред не скрывается общим no evals. Неработающий unit invariant не лечится изменением промпта."
+      ],
+      "packet": "audit://extension/packets/FIX-AS-14.json"
+    }
+  ],
+  "inputs": [
+    {
+      "from_task": "FIX-EV-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-EV-01.24.md",
+    "sha256": "99f6c500eee2775862308d6e8c47fb756194566f225be84c583f1563e8a5b4ac",
+    "utf8_bytes": 5835,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "cd8cb1040b4247c305c0f01a42269d2b7118aa2c5cb909d55e896eb711b8901d"
+  }
+}

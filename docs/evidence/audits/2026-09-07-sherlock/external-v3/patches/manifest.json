@@ -1,0 +1,110 @@
+[
+  {
+    "repo": "super-ux",
+    "path": "repo://super-ux",
+    "branch": "codex/context-ready-skills-20260907",
+    "base": "a60f6b423c619b37a3bb43564b58b02b6200e463",
+    "patch": "audit://external-v3/patches/super-ux.patch",
+    "sha256": "e499ac2e9dae89959de79222770185fdb38f03fc2817e93822d1659a17bd343f",
+    "validation_log": "audit://extension/ux-validation.log",
+    "validation_exit": 0,
+    "status": "prepared_local_unmerged_unreleased",
+    "files": [
+      {
+        "path": "repo://super-ux/docs/brand/facts.md",
+        "sha256": "7077348f0f9d8794b0a4d4f51d5dbb2bdb972be239f21271cf7cedcd849f50df"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/references/interactive-flow-prototypes.md",
+        "sha256": "71e3f703ce684c084ca31590ea4f67d591fa24edb86962e257cfa89c1e3325ab"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md",
+        "sha256": "4e2acd3379534c28e38009dbdeacaea61be015dd8747422de5b65fac27b0b23f"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/interactive-flow-prototypes.md",
+        "sha256": "71e3f703ce684c084ca31590ea4f67d591fa24edb86962e257cfa89c1e3325ab"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/SKILL.md",
+        "sha256": "fb79605c21bba2eb6f30f14ca40c7800c19b723edd9e42eac77868077bf76272"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/references/interactive-flow-prototypes.md",
+        "sha256": "71e3f703ce684c084ca31590ea4f67d591fa24edb86962e257cfa89c1e3325ab"
+      }
+    ]
+  },
+  {
+    "repo": "task-pipeline",
+    "path": "repo://task-pipeline",
+    "branch": "codex/context-ready-skills-20260907",
+    "base": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "patch": "audit://external-v3/patches/task-pipeline.patch",
+    "sha256": "05fcc721b078222cc48e234a11579f9f298d9bffa5983a93c47b65ce86317dd3",
+    "validation_log": "audit://extension/pipeline-v3-validation.log",
+    "validation_exit": 0,
+    "status": "prepared_local_unmerged_unreleased",
+    "files": [
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+        "sha256": "fd9ae46ea0a20c82897e7e7c4a91c8c8d646af8dae419860db5bac89b95b300f"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/backlog.md",
+        "sha256": "a938024ecaf5e2f9c2c6ea67cd9843df6e1d8e01738110da040c585402b37769"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/decomposition.md",
+        "sha256": "9ae598299bb9614f9a117afb81a9ba58280c40c9fce94280e415e6c2a66db2c2"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+        "sha256": "81f8d2ee4be918bd8a829c74ce1cf8b4d43ad0067bb2148fb0088cae129e0c85"
+      }
+    ]
+  },
+  {
+    "repo": "sheleg-design-skill",
+    "path": "repo://sheleg-design",
+    "branch": "codex/context-ready-skills-20260907",
+    "base": "562786b30f07f50a294d70a4c3ffd40794624f42",
+    "patch": "audit://external-v3/patches/sheleg-design-skill.patch",
+    "sha256": "593dd4d73caace02a54d77cf8d508df84fe39c71a180d3ac142f386ed0b201eb",
+    "validation_log": "audit://extension/design-v3-validation.log",
+    "validation_exit": 0,
+    "status": "prepared_local_unmerged_unreleased",
+    "files": [
+      {
+        "path": "repo://sheleg-design/.cursor/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "sha256": "b3d34c13f6989c5fe7e32eb1853fe01803f0c89320bf101af95e7ad5d281b4ca"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "sha256": "b3d34c13f6989c5fe7e32eb1853fe01803f0c89320bf101af95e7ad5d281b4ca"
+      }
+    ]
+  },
+  {
+    "repo": "make-skill",
+    "path": "repo://make-skill",
+    "branch": "codex/dependency-free-knowledge-20260907",
+    "base": "015052149a9c62a8a69e18a2a5dd6bf2f6e8196a",
+    "patch": "audit://external-v3/patches/make-skill.patch",
+    "sha256": "55ae057d9c84620220c5a0daaa5cde8d0281bd9d3ee8636d8da9cfa9a7574396",
+    "validation_log": "audit://external-v3/make-skill-validation.log",
+    "validation_exit": 0,
+    "status": "prepared_local_unmerged_unreleased",
+    "files": [
+      {
+        "path": "repo://make-skill/plugins/make-skill/skills/make-skill/SKILL.md",
+        "sha256": "0a709420e2d2700ab263917b30181645f8c539584c60ea13e10a7f2b6257de6a"
+      },
+      {
+        "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/enterprise.md",
+        "sha256": "03fbfb2b22f6a7a557b84032cf1d9dacd78adfca226f42620cc4702288af0315"
+      }
+    ]
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "sheleg-dev": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 npm run test:all",
+    "exit": 0,
+    "status": "PASS",
+    "log": "sheleg-dev-final.log"
+  },
+  "task-pipeline": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 npm run test:all",
+    "exit": 0,
+    "status": "PASS",
+    "log": "pipeline-final.log",
+    "completed_at": "2026-09-07T13:52:02.126047+00:00",
+    "negative_guards": 429,
+    "property_checks": 15
+  }
+}

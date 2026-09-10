@@ -1,0 +1,13 @@
+{
+  "all_pass": true,
+  "remote": "https://github.com/ssheleg/sshlg-skills.git",
+  "branch": "codex/sherlock-audit-handoff-20260907",
+  "tested_commit": "b38558ac9f62e475c3284c469b9166dce2080a1d",
+  "checks": {
+    "fresh_remote_clone": true,
+    "bundle_integrity": true,
+    "seven_packet_tests": true,
+    "first_task_readable_without_author_paths": true
+  },
+  "scope": "Fresh checkout without submodule initialization, foreign runtimes or source edits. No implementation dispatch."
+}

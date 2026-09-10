@@ -1,0 +1,344 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-PF-06",
+  "revision": 1,
+  "title": "Fabric pipeline/skill provisioning из ADR не является существующим task-pipeline integration",
+  "finding_id": "PF-06",
+  "module": "task-pipeline",
+  "modules": [
+    "task-pipeline",
+    "Fabric"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "parent_planned",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06",
+    "E-01",
+    "E-02"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements",
+      "audit_original_sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program",
+      "audit_original_sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions",
+      "audit_original_sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f"
+    },
+    {
+      "path": "audit://extension/context/modules/task-pipeline.md",
+      "sha256": "5f24020ff6f76773c0c655abdea45f8928d0954e20f0e52e2447edb5ff2c5fdd",
+      "role": "module:task-pipeline",
+      "audit_original_sha256": "28e7c9316bc1a404c821b54e382b8944583945506f889d5d59fce880cf5c5d4e"
+    },
+    {
+      "path": "audit://extension/context/modules/Fabric.md",
+      "sha256": "3448bf483eb4466e7a93210035cc8e192dc4c0ad89e03209b19c0290a72f82fa",
+      "role": "module:Fabric",
+      "audit_original_sha256": "c4eda16b894540743b4948b5ca1d8b1de3c18e70e56a97f3a9e006e33b8ddb51"
+    },
+    {
+      "path": "audit://extension/context/contracts/context.md",
+      "sha256": "dca078915830462880380196886a99d5ae6e7bde2996b490663f8192d2bef2b0",
+      "role": "contract:context",
+      "audit_original_sha256": "dca078915830462880380196886a99d5ae6e7bde2996b490663f8192d2bef2b0"
+    },
+    {
+      "path": "audit://extension/context/contracts/execution.md",
+      "sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4",
+      "role": "contract:execution",
+      "audit_original_sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4"
+    },
+    {
+      "path": "audit://extension/pipeline-fabric-repro.json",
+      "sha256": "93882b71773046385a6dd12dd638fe7dd2ad6050c8bcb943528cb79df77bb5d6",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "93882b71773046385a6dd12dd638fe7dd2ad6050c8bcb943528cb79df77bb5d6"
+    },
+    {
+      "path": "audit://extension/pipeline-fabric-chain-repro.json",
+      "sha256": "de4770b81354d1b05b5af15d16c55d4d982f9597d3ed203b2343c1e0145f6fab",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "de4770b81354d1b05b5af15d16c55d4d982f9597d3ed203b2343c1e0145f6fab"
+    },
+    {
+      "path": "audit://extension/pipeline-fabric.json",
+      "sha256": "90cc22c3ba645e8fc1efb3d9efc320dbb3fabf7ea1c6b4a6f988339a3bcd5c1b",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "32c397418c52908a631fe62a955f386e00568b97e60781e518128073cf6f6536"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "PF-06",
+    "severity": "P2",
+    "title": "Fabric pipeline/skill provisioning из ADR не является существующим task-pipeline integration",
+    "epistemic_status": "source_inventory_gap",
+    "observed": "ADR-0009 обещает versioned pipeline, pinned running graph и registry skills. В прочитанных runtime paths работают project_tasks/task_links/task_handoffs, session context и runner registry. Поиск всего supabase/migrations не нашёл pipeline/graph_version storage или skill provisioning; migration1 прямо откладывает runs/nodes. Не найден импорт pipeline.schema.json/graph.schema.json или bridge CLI. Совпадение слова pipeline в docs не подтверждает интеграцию.",
+    "evidence": [
+      {
+        "file": "repo://fabric/docs/adr/0009-the-development-pipeline-is-data-the-operator-can-edit.md",
+        "line": 17
+      },
+      {
+        "file": "repo://fabric/docs/adr/0030-a-run-is-one-execution-of-one-graph.md",
+        "line": 17
+      },
+      {
+        "file": "repo://fabric/supabase/migrations/20260831000001_migration_one.sql",
+        "line": 8
+      },
+      {
+        "file": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+        "line": 24
+      },
+      {
+        "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json",
+        "line": 227
+      }
+    ],
+    "fix": "Ввести explicit import/compile adapter. task-pipeline остаётся внешним authoring/verification package; Fabric хранит execution authority и projection. Pipeline version pins skill source/version/digest, stage contract, gate profile; compiler сообщает unsupported field вместо молчаливой потери. Выбрать одну authority, не два scheduler поверх одной очереди.",
+    "acceptance": "Golden import/export сохраняет REQ/node/typed edge/check/skills и manual gates; unsupported schema version явная ошибка; edit pipeline не меняет in-flight run; fresh host подтверждает bytes реально загруженного skill; planning agent не перепроходит grill для executors.",
+    "source_files": [
+      "repo://fabric/docs/adr/0009-the-development-pipeline-is-data-the-operator-can-edit.md",
+      "repo://fabric/docs/adr/0030-a-run-is-one-execution-of-one-graph.md",
+      "repo://fabric/supabase/migrations/20260831000001_migration_one.sql",
+      "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json"
+    ],
+    "module_interfaces": [
+      "New pipelineAdapter.ts: importTaskPipeline(bundle) → FabricGraphVersion",
+      "New pipeline/graph-version/run/attempt storage and event projectors",
+      "SkillResolver: source+version+digest+host compatibility"
+    ],
+    "depends_on": [
+      "PF-01",
+      "PF-04",
+      "PF-05"
+    ],
+    "reproduction": null,
+    "status": "proposed",
+    "production_occurrence": "unknown",
+    "origin": "extension/pipeline-fabric.json",
+    "priority": "P2",
+    "skills": [
+      "task-pipeline",
+      "Fabric"
+    ],
+    "observation": "ADR-0009 обещает versioned pipeline, pinned running graph и registry skills. В прочитанных runtime paths работают project_tasks/task_links/task_handoffs, session context и runner registry. Поиск всего supabase/migrations не нашёл pipeline/graph_version storage или skill provisioning; migration1 прямо откладывает runs/nodes. Не найден импорт pipeline.schema.json/graph.schema.json или bridge CLI. Совпадение слова pipeline в docs не подтверждает интеграцию.",
+    "evidence_kind": "source_inventory_gap",
+    "implementation_status": "proposed"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Ввести explicit import/compile adapter. task-pipeline остаётся внешним authoring/verification package; Fabric хранит execution authority и projection. Pipeline version pins skill source/version/digest, stage contract, gate profile; compiler сообщает unsupported field вместо молчаливой потери. Выбрать одну authority, не два scheduler поверх одной очереди.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Golden import/export сохраняет REQ/node/typed edge/check/skills и manual gates; unsupported schema version явная ошибка; edit pipeline не меняет in-flight run; fresh host подтверждает bytes реально загруженного skill; planning agent не перепроходит grill для executors."
+  ],
+  "verification_plan": {
+    "baseline": "ADR-0009 обещает versioned pipeline, pinned running graph и registry skills. В прочитанных runtime paths работают project_tasks/task_links/task_handoffs, session context и runner registry. Поиск всего supabase/migrations не нашёл pipeline/graph_version storage или skill provisioning; migration1 прямо откладывает runs/nodes. Не найден импорт pipeline.schema.json/graph.schema.json или bridge CLI. Совпадение слова pipeline в docs не подтверждает интеграцию.",
+    "must_test": "Golden import/export сохраняет REQ/node/typed edge/check/skills и manual gates; unsupported schema version явная ошибка; edit pipeline не меняет in-flight run; fresh host подтверждает bytes реально загруженного skill; planning agent не перепроходит grill для executors.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [
+    {
+      "from_task": "FIX-PF-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-05",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://fabric/docs/adr/0009-the-development-pipeline-is-data-the-operator-can-edit.md",
+      "sha256": "552fa0152e144f129d4c036de85131db7256d5e0f9aef03a658c66a57accabfb",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://fabric/docs/adr/0030-a-run-is-one-execution-of-one-graph.md",
+      "sha256": "320cdb80cd91d3f032397dc9117ca038029c3c7d5b6f34b077af775014358f80",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://fabric/supabase/migrations/20260831000001_migration_one.sql",
+      "sha256": "2f9b6ed39b313af19e0bd08b2c004d4e482b353606170714ad52601dfbfbbe03",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+      "sha256": "5d02c078f5e2cbbbd2d2de571575e7b4b2105b66ae57a51c775326558b8e4e35",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json",
+      "sha256": "99ff340ca0a9e3a1e35ad891723c200c5b06f3371429d65a88765c1dd63cd2f6",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "task-pipeline": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "Fabric": "91337391aa8d24966bf0c57db381e6fe63b48bce"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://task-pipeline",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://fabric",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://fabric/apps/desktop/src/main/pipelineAdapters/taskPipeline.ts",
+      "mode": "proposed_create",
+      "reason": "Planned implementation/test target; not created by this audit. Confirm naming against current architecture before dispatch."
+    },
+    {
+      "resource": "file:repo://fabric/apps/desktop/test/taskPipelineAdapter.test.mjs",
+      "mode": "proposed_create",
+      "reason": "Planned implementation/test target; not created by this audit. Confirm naming against current architecture before dispatch."
+    },
+    {
+      "resource": "append-only:repo://fabric",
+      "mode": "design_refinement_required",
+      "reason": "Historical ADR/migrations are read-only. If schema/decision changes are needed, reserve a NEW migration/ADR identifier under repository rules before dispatch; no permission to rewrite history."
+    }
+  ],
+  "depends_on": [
+    {
+      "task_id": "FIX-PF-01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма."
+    },
+    {
+      "task_id": "FIX-PF-04",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма."
+    },
+    {
+      "task_id": "FIX-PF-05",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма."
+    },
+    {
+      "task_id": "FIX-PF-03",
+      "kind": "control",
+      "reason": "Completion boundary Fabric должна сохранять mandatory certification task-pipeline."
+    }
+  ],
+  "read_only_evidence": [
+    "repo://fabric/docs/adr/0009-the-development-pipeline-is-data-the-operator-can-edit.md",
+    "repo://fabric/docs/adr/0030-a-run-is-one-execution-of-one-graph.md",
+    "repo://fabric/supabase/migrations/20260831000001_migration_one.sql"
+  ],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 12,
+  "origin": "v2",
+  "dispatchable": false,
+  "retired_read_only_evidence": [],
+  "leaf_ids": [
+    "FIX-PF-06.01",
+    "FIX-PF-06.02",
+    "FIX-PF-06.03"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Golden import/export сохраняет REQ/node/typed edge/check/skills и manual gates; unsupported schema version явная ошибка; edit pipeline не меняет in-flight run; fresh host подтверждает bytes реально загруженного skill; planning agent не перепроходит grill для executors."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

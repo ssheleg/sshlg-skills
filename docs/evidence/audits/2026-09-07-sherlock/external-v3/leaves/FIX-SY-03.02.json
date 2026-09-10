@@ -1,0 +1,116 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-SY-03.02",
+  "parent_id": "FIX-SY-03",
+  "title": "Fence-aware renewal",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 0,
+  "modules": [
+    "agent-sync"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Local renew перезаписывает уже завершённый steal",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Renew проверяет owner/generation/expiry; expired owner должен acquire заново, unconditional replace убрать.",
+  "expected_result": "Old owner после steal не продлевает новый lease; valid current renew проходит.",
+  "acceptance": [
+    "Old owner после steal не продлевает новый lease; valid current renew проходит."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Renew проверяет owner/generation/expiry; expired owner должен acquire заново, unconditional replace убрать.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "9b64e93e16025c61cce840b5facbeed619927a20c07f6f919ac92816d6ddc3b6",
+      "refresh_after": [
+        "FIX-SY-03.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://agent-sync/test/audit_regressions/fix-sy-03.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-SY-03.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-SY-03.json",
+    "source_files": [
+      {
+        "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py",
+        "sha256": "9b64e93e16025c61cce840b5facbeed619927a20c07f6f919ac92816d6ddc3b6",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Deterministic interleavings renew↔steal, release↔renew, stale owner after suspension: не более одного owner; проигравший получает explicit lost и downstream writer отвергает старый fencing token."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-SY-03.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://agent-sync/test/audit_regressions/fix-sy-03.02.py",
+    "python3 repo://agent-sync/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-SY-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-SY-03.02.md",
+    "sha256": "f7c19a089947ee05c22f5905caaa9e427bf59e886ffd6e725e430562462fb538",
+    "utf8_bytes": 4788,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "29f35c4f3aa15cdda4608c26be5a218da3db06d7128cb5f1f907f0439292c92c"
+  }
+}

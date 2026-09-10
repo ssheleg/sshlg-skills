@@ -1,0 +1,1826 @@
+[
+  {
+    "id": "dry-run",
+    "exit": 0,
+    "calls": [
+      {
+        "cmd": "git",
+        "args": [
+          "-C",
+          "repo://sshlg-skills",
+          "submodule",
+          "update",
+          "--init",
+          "--recursive"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "vision",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ux-foundation",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ux-flows",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ux-scenarios",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ux-audit",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "brand-voice",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "copywriting",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "task-pipeline",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "evidence-docs",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "project-audit",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-sync",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "make-skill",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "sheleg-design",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "seo-aeo-audit",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "stripe-billing",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "crypto-payments",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "error-tracking",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ad-tracking",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "google-signin",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "google-auth",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "frontend-performance",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-orchestrator",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-evals",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-interop",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-harness",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "telegram-bots",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "telegram-userbots",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "telegram-miniapps",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/super-ux",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/task-pipeline",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/agent-sync",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/make-skill",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/sheleg-design-skill",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/seo-aeo-audit",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/sheleg-dev",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/agent-stack",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/telegram-dev",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      }
+    ],
+    "plainSurvives": false,
+    "runtimeChanged": true
+  },
+  {
+    "id": "agent-scope",
+    "exit": 0,
+    "calls": [
+      {
+        "cmd": "git",
+        "args": [
+          "-C",
+          "repo://sshlg-skills",
+          "submodule",
+          "update",
+          "--init",
+          "--recursive"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "vision",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ux-foundation",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ux-flows",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ux-scenarios",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ux-audit",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "brand-voice",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "copywriting",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "task-pipeline",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "evidence-docs",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "project-audit",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-sync",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "make-skill",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "sheleg-design",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "seo-aeo-audit",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "stripe-billing",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "crypto-payments",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "error-tracking",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ad-tracking",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "google-signin",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "google-auth",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "frontend-performance",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-orchestrator",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-evals",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-interop",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-harness",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "telegram-bots",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "telegram-userbots",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "telegram-miniapps",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/super-ux",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/task-pipeline",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/agent-sync",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/make-skill",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/sheleg-design-skill",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/seo-aeo-audit",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/sheleg-dev",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/agent-stack",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/telegram-dev",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      }
+    ],
+    "changedHosts": [
+      ".claude/CLAUDE.md",
+      ".codex/AGENTS.md",
+      ".gemini/GEMINI.md"
+    ]
+  },
+  {
+    "id": "stale-registry",
+    "exit": 1,
+    "calls": [
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/super-ux",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/task-pipeline",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/agent-sync",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/make-skill",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/sheleg-design-skill",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/seo-aeo-audit",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/sheleg-dev",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/agent-stack",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/telegram-dev",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      }
+    ],
+    "plainSurvives": false,
+    "pluginPayloadExists": false
+  },
+  {
+    "id": "fresh-all-order",
+    "exit": 0,
+    "calls": [
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/super-ux",
+          "--agent",
+          "*",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/task-pipeline",
+          "--agent",
+          "*",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/agent-sync",
+          "--agent",
+          "*",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/make-skill",
+          "--agent",
+          "*",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/sheleg-design-skill",
+          "--agent",
+          "*",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/seo-aeo-audit",
+          "--agent",
+          "*",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/sheleg-dev",
+          "--agent",
+          "*",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/agent-stack",
+          "--agent",
+          "*",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/telegram-dev",
+          "--agent",
+          "*",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "marketplace",
+          "add",
+          "ssheleg/super-ux"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "install",
+          "super-ux@super-ux"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "marketplace",
+          "add",
+          "ssheleg/task-pipeline"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "install",
+          "task-pipeline@task-pipeline"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "marketplace",
+          "add",
+          "ssheleg/agent-sync"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "install",
+          "agent-sync@agent-sync"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "marketplace",
+          "add",
+          "ssheleg/make-skill"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "install",
+          "make-skill@make-skill"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "marketplace",
+          "add",
+          "ssheleg/sheleg-design-skill"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "install",
+          "sheleg-design@sheleg-design-skill"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "marketplace",
+          "add",
+          "ssheleg/seo-aeo-audit"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "install",
+          "seo-aeo-audit@seo-aeo-audit"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "marketplace",
+          "add",
+          "ssheleg/sheleg-dev"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "install",
+          "sheleg-dev@sheleg-dev"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "marketplace",
+          "add",
+          "ssheleg/agent-stack"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "install",
+          "agent-stack@agent-stack"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "marketplace",
+          "add",
+          "ssheleg/telegram-dev"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "install",
+          "telegram-dev@telegram-dev"
+        ]
+      }
+    ],
+    "plainSurvives": true,
+    "pluginRegistryPresent": true
+  },
+  {
+    "id": "force-copy-failure",
+    "exit": 1,
+    "calls": [],
+    "oldInstallSurvives": false
+  },
+  {
+    "id": "super-menu-failure",
+    "exit": 0,
+    "calls": [
+      {
+        "cmd": "claude",
+        "args": [
+          "--version"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "marketplace",
+          "add",
+          "ssheleg/super-ux"
+        ]
+      },
+      {
+        "cmd": "claude",
+        "args": [
+          "plugin",
+          "install",
+          "super-ux@super-ux"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--no-install",
+          "sshlg-skills",
+          "routers",
+          "--member",
+          "super-ux"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "custom-host-root",
+    "exit": 0,
+    "calls": [
+      {
+        "cmd": "git",
+        "args": [
+          "-C",
+          "repo://sshlg-skills",
+          "submodule",
+          "update",
+          "--init",
+          "--recursive"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "vision",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ux-foundation",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ux-flows",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ux-scenarios",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ux-audit",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "brand-voice",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "copywriting",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "task-pipeline",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "evidence-docs",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "project-audit",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-sync",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "make-skill",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "sheleg-design",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "seo-aeo-audit",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "stripe-billing",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "crypto-payments",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "error-tracking",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "ad-tracking",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "google-signin",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "google-auth",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "frontend-performance",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-orchestrator",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-evals",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-interop",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "agent-harness",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "telegram-bots",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "telegram-userbots",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "update",
+          "telegram-miniapps",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/super-ux",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/task-pipeline",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/agent-sync",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/make-skill",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/sheleg-design-skill",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/seo-aeo-audit",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/sheleg-dev",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/agent-stack",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      },
+      {
+        "cmd": "npx",
+        "args": [
+          "--yes",
+          "skills",
+          "add",
+          "ssheleg/telegram-dev",
+          "--agent",
+          "codex",
+          "--global",
+          "--yes"
+        ]
+      }
+    ],
+    "customRootChanged": false,
+    "defaultRootChanged": true
+  },
+  {
+    "id": "pin-plan",
+    "manifestVersion": "0.55.1",
+    "argv": [
+      "--yes",
+      "skills",
+      "add",
+      "ssheleg/super-ux",
+      "--agent",
+      "codex",
+      "--global",
+      "--yes"
+    ],
+    "refresh": [
+      "--yes",
+      "skills",
+      "update",
+      "vision",
+      "--global",
+      "--yes"
+    ],
+    "allAgentsWithClaudePlugin": [
+      "*"
+    ]
+  },
+  {
+    "id": "auto-update-unknown",
+    "state": {
+      "on": [],
+      "read": false
+    },
+    "notice": [
+      "",
+      "== How the next version arrives ==",
+      "  npx sshlg-skills@latest update",
+      "",
+      "  Auto-update is OFF for these packs on purpose. They are pinned and released",
+      "  as a set, so updating one on its own clock leaves a combination nobody",
+      "  tested — the same reason this launcher takes no member argument."
+    ]
+  }
+]

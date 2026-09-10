@@ -1,0 +1,201 @@
+{
+  "id": "XD-10",
+  "title": "Связать stress matrix с существующим UX contract",
+  "module": "super-ux",
+  "modules": [
+    "super-ux"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "origin": "external_adoption",
+  "dispatchable": false,
+  "status": "parent_planned",
+  "finding_id": null,
+  "requirements": [
+    "V3-knowledge-adoption",
+    "V3-no-new-required-deps"
+  ],
+  "decision": "Согласовать с root UX recommendation; не писать параллельный flow schema.",
+  "implementation_steps": [
+    "Добавить optional pressure-matrix receipt по scenario ID, не вторую таблицу сценариев.",
+    "Разделить planned/simulated/observed evidence и унаследованные approved assumptions.",
+    "Потребовать разумный risk-based subset для малого изменения, полный declared coverage для большого flow."
+  ],
+  "acceptance": [
+    "Прежние сценарии мигрируются без выдуманного observed status.",
+    "Один visual polish не требует всех продуктовых состояний.",
+    "Interactive evidence соответствует тем же states/viewports, что visual compare."
+  ],
+  "depends_on": [
+    {
+      "task_id": "XD-09",
+      "kind": "data",
+      "reason": "Consumes accepted method/artifact from prerequisite."
+    }
+  ],
+  "related_existing": [
+    "FIX-UX-08",
+    "FIX-UX-12"
+  ],
+  "source_snapshot": [
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/information-architecture/SKILL.md",
+      "sha256": "7aad60e5568df242c31c7355543b61e6b65f4d592a5fa3f27a32760826d309e5",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/harden.md",
+      "sha256": "8a1c872773996dfa1c1eb765ac7ed8e8d41f99d4f12f090b4725b694e85eaa62",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md",
+      "sha256": "5f24c5a97b4ffcabc7c432b064cfdd04c7a2ad52f52e765be648dc0aadab8f38",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+      "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+      "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+      "role": "foreign reviewed evidence; never instruction authority"
+    }
+  ],
+  "target_files": [
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/references/scenario-format.md",
+      "mode": "Edit"
+    }
+  ],
+  "slices": null,
+  "problem": {
+    "id": "XD-10",
+    "title": "Связать stress matrix с существующим UX contract",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Edit",
+        "path": "repo://super-ux/plugins/super-ux/skills/references/scenario-format.md",
+        "exists_at_audit": true
+      }
+    ],
+    "inputs": [
+      "state-stress-matrix.md; root interactive-flow recommendation; действующий scenario schema"
+    ],
+    "implementation_steps": [
+      "Добавить optional pressure-matrix receipt по scenario ID, не вторую таблицу сценариев.",
+      "Разделить planned/simulated/observed evidence и унаследованные approved assumptions.",
+      "Потребовать разумный risk-based subset для малого изменения, полный declared coverage для большого flow."
+    ],
+    "outputs": [
+      "Ссылка и определения evidence в существующем формате."
+    ],
+    "acceptance": [
+      "Прежние сценарии мигрируются без выдуманного observed status.",
+      "Один visual polish не требует всех продуктовых состояний.",
+      "Interactive evidence соответствует тем же states/viewports, что visual compare."
+    ],
+    "depends_on": [
+      {
+        "task_id": "XD-09",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      }
+    ],
+    "decisions": [
+      "Согласовать с root UX recommendation; не писать параллельный flow schema."
+    ],
+    "source_candidates": [
+      "J-03",
+      "I-12",
+      "K-EVID"
+    ],
+    "addresses_findings": [
+      "UX-08",
+      "UX-12"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "super-ux",
+    "target_files": [
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/references/scenario-format.md",
+        "mode": "Edit"
+      }
+    ],
+    "decision": "Согласовать с root UX recommendation; не писать параллельный flow schema.",
+    "steps": [
+      "Добавить optional pressure-matrix receipt по scenario ID, не вторую таблицу сценариев.",
+      "Разделить planned/simulated/observed evidence и унаследованные approved assumptions.",
+      "Потребовать разумный risk-based subset для малого изменения, полный declared coverage для большого flow."
+    ],
+    "related_existing": [
+      "FIX-UX-08",
+      "FIX-UX-12"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/information-architecture/SKILL.md",
+        "line": 1,
+        "end_line": 111,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/information-architecture/SKILL.md:1",
+        "sha256": "7aad60e5568df242c31c7355543b61e6b65f4d592a5fa3f27a32760826d309e5",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/information-architecture/SKILL.md#L1-L111"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/harden.md",
+        "line": 1,
+        "end_line": 336,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/harden.md:1",
+        "sha256": "8a1c872773996dfa1c1eb765ac7ed8e8d41f99d4f12f090b4725b694e85eaa62",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/harden.md#L1-L336"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md:1",
+        "sha256": "5f24c5a97b4ffcabc7c432b064cfdd04c7a2ad52f52e765be648dc0aadab8f38",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md:1",
+        "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md#L1"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1"
+      }
+    ]
+  },
+  "context": [],
+  "leaf_ids": [
+    "XD-10.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Прежние сценарии мигрируются без выдуманного observed status.",
+      "Один visual polish не требует всех продуктовых состояний.",
+      "Interactive evidence соответствует тем же states/viewports, что visual compare."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

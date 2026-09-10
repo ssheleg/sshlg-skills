@@ -1,0 +1,92 @@
+[
+  {
+    "member": "sshlg-skills",
+    "path": "repo://sshlg-skills",
+    "head": "7ef37e8bd5220d6ab355346634ff19196de8f41b",
+    "expected": "7ef37e8bd5220d6ab355346634ff19196de8f41b",
+    "same_head": true,
+    "porcelain": "",
+    "clean": true
+  },
+  {
+    "member": "super-ux",
+    "path": "repo://super-ux",
+    "head": "a60f6b423c619b37a3bb43564b58b02b6200e463",
+    "expected": "a60f6b423c619b37a3bb43564b58b02b6200e463",
+    "same_head": true,
+    "porcelain": "",
+    "clean": true
+  },
+  {
+    "member": "task-pipeline",
+    "path": "repo://task-pipeline",
+    "head": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "expected": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "same_head": true,
+    "porcelain": "",
+    "clean": true
+  },
+  {
+    "member": "agent-sync",
+    "path": "repo://agent-sync",
+    "head": "ef45d404d1604a9a0d142f983b5cccc495133ca0",
+    "expected": "ef45d404d1604a9a0d142f983b5cccc495133ca0",
+    "same_head": true,
+    "porcelain": "",
+    "clean": true
+  },
+  {
+    "member": "make-skill",
+    "path": "repo://make-skill",
+    "head": "015052149a9c62a8a69e18a2a5dd6bf2f6e8196a",
+    "expected": "015052149a9c62a8a69e18a2a5dd6bf2f6e8196a",
+    "same_head": true,
+    "porcelain": "",
+    "clean": true
+  },
+  {
+    "member": "sheleg-design",
+    "path": "repo://sheleg-design",
+    "head": "ca855d92f4a82dfd95f376d5dd07e4f911e7f6b9",
+    "expected": "ca855d92f4a82dfd95f376d5dd07e4f911e7f6b9",
+    "same_head": true,
+    "porcelain": "",
+    "clean": true
+  },
+  {
+    "member": "seo-aeo-audit",
+    "path": "repo://seo-aeo-audit",
+    "head": "aa38de5f8f078ac6c3ed3239e358dffad3993cb8",
+    "expected": "aa38de5f8f078ac6c3ed3239e358dffad3993cb8",
+    "same_head": true,
+    "porcelain": "",
+    "clean": true
+  },
+  {
+    "member": "sheleg-dev",
+    "path": "repo://sheleg-dev",
+    "head": "42dfb5df929897f5cf39c72c0c69725f6bb664e2",
+    "expected": "42dfb5df929897f5cf39c72c0c69725f6bb664e2",
+    "same_head": true,
+    "porcelain": "",
+    "clean": true
+  },
+  {
+    "member": "agent-stack",
+    "path": "repo://agent-stack",
+    "head": "1f99f8f0914f122da1629e6ede6fd60a7e23d1ea",
+    "expected": "1f99f8f0914f122da1629e6ede6fd60a7e23d1ea",
+    "same_head": true,
+    "porcelain": "",
+    "clean": true
+  },
+  {
+    "member": "telegram-dev",
+    "path": "repo://telegram-dev",
+    "head": "0263b899e5827c65d366d2bbac73557a56045235",
+    "expected": "0263b899e5827c65d366d2bbac73557a56045235",
+    "same_head": true,
+    "porcelain": "",
+    "clean": true
+  }
+]

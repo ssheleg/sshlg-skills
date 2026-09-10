@@ -1,0 +1,247 @@
+[
+  {
+    "name": "super-ux-root",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/super-ux",
+      "--strict"
+    ],
+    "cwd": "audit://clean/super-ux",
+    "exit": 0,
+    "log": "super-ux-root.log"
+  },
+  {
+    "name": "super-ux-plugin",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/super-ux/plugins/super-ux",
+      "--strict"
+    ],
+    "cwd": "audit://clean/super-ux",
+    "exit": 0,
+    "log": "super-ux-plugin.log"
+  },
+  {
+    "name": "task-pipeline-root",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/task-pipeline",
+      "--strict"
+    ],
+    "cwd": "audit://clean/task-pipeline",
+    "exit": 0,
+    "log": "task-pipeline-root.log"
+  },
+  {
+    "name": "task-pipeline-plugin",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/task-pipeline/plugins/task-pipeline",
+      "--strict"
+    ],
+    "cwd": "audit://clean/task-pipeline",
+    "exit": 0,
+    "log": "task-pipeline-plugin.log"
+  },
+  {
+    "name": "agent-sync-root",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/agent-sync",
+      "--strict"
+    ],
+    "cwd": "audit://clean/agent-sync",
+    "exit": 0,
+    "log": "agent-sync-root.log"
+  },
+  {
+    "name": "agent-sync-plugin",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/agent-sync/plugins/agent-sync",
+      "--strict"
+    ],
+    "cwd": "audit://clean/agent-sync",
+    "exit": 0,
+    "log": "agent-sync-plugin.log"
+  },
+  {
+    "name": "make-skill-root",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/make-skill",
+      "--strict"
+    ],
+    "cwd": "audit://clean/make-skill",
+    "exit": 0,
+    "log": "make-skill-root.log"
+  },
+  {
+    "name": "make-skill-plugin",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/make-skill/plugins/make-skill",
+      "--strict"
+    ],
+    "cwd": "audit://clean/make-skill",
+    "exit": 0,
+    "log": "make-skill-plugin.log"
+  },
+  {
+    "name": "sheleg-design-root",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/sheleg-design",
+      "--strict"
+    ],
+    "cwd": "audit://clean/sheleg-design",
+    "exit": 0,
+    "log": "sheleg-design-root.log"
+  },
+  {
+    "name": "sheleg-design-plugin",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/sheleg-design/plugins/sheleg-design",
+      "--strict"
+    ],
+    "cwd": "audit://clean/sheleg-design",
+    "exit": 0,
+    "log": "sheleg-design-plugin.log"
+  },
+  {
+    "name": "seo-aeo-audit-root",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/seo-aeo-audit",
+      "--strict"
+    ],
+    "cwd": "audit://clean/seo-aeo-audit",
+    "exit": 0,
+    "log": "seo-aeo-audit-root.log"
+  },
+  {
+    "name": "seo-aeo-audit-plugin",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/seo-aeo-audit/plugins/seo-aeo-audit",
+      "--strict"
+    ],
+    "cwd": "audit://clean/seo-aeo-audit",
+    "exit": 0,
+    "log": "seo-aeo-audit-plugin.log"
+  },
+  {
+    "name": "sheleg-dev-root",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/sheleg-dev",
+      "--strict"
+    ],
+    "cwd": "audit://clean/sheleg-dev",
+    "exit": 0,
+    "log": "sheleg-dev-root.log"
+  },
+  {
+    "name": "sheleg-dev-plugin",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/sheleg-dev/plugins/sheleg-dev",
+      "--strict"
+    ],
+    "cwd": "audit://clean/sheleg-dev",
+    "exit": 0,
+    "log": "sheleg-dev-plugin.log"
+  },
+  {
+    "name": "agent-stack-root",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/agent-stack",
+      "--strict"
+    ],
+    "cwd": "audit://clean/agent-stack",
+    "exit": 0,
+    "log": "agent-stack-root.log"
+  },
+  {
+    "name": "agent-stack-plugin",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/agent-stack/plugins/agent-stack",
+      "--strict"
+    ],
+    "cwd": "audit://clean/agent-stack",
+    "exit": 0,
+    "log": "agent-stack-plugin.log"
+  },
+  {
+    "name": "telegram-dev-root",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/telegram-dev",
+      "--strict"
+    ],
+    "cwd": "audit://clean/telegram-dev",
+    "exit": 0,
+    "log": "telegram-dev-root.log"
+  },
+  {
+    "name": "telegram-dev-plugin",
+    "cmd": [
+      "claude",
+      "plugin",
+      "validate",
+      "audit://clean/telegram-dev/plugins/telegram-dev",
+      "--strict"
+    ],
+    "cwd": "audit://clean/telegram-dev",
+    "exit": 0,
+    "log": "telegram-dev-plugin.log"
+  },
+  {
+    "name": "seo-clean",
+    "cmd": [
+      "npm",
+      "run",
+      "test:all"
+    ],
+    "cwd": "audit://clean/seo-aeo-audit",
+    "exit": 0,
+    "log": "seo-clean.log"
+  }
+]

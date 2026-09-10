@@ -1,0 +1,132 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-DV-02.02",
+  "parent_id": "FIX-DV-02",
+  "title": "Monotonic mirror и serialization retry",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 0,
+  "modules": [
+    "sheleg-dev"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Пример renewal противоречит тесту переупорядоченных периодов и не сериализует grant",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Состояние subscription mirror отдельно от grant ledger; reordered events не откатывают period, retry serialization bounded.",
+  "expected_result": "Поздний старый event не уменьшает confirmed period; serialization retry не теряет renewal.",
+  "acceptance": [
+    "Поздний старый event не уменьшает confirmed period; serialization retry не теряет renewal."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Состояние subscription mirror отдельно от grant ledger; reordered events не откатывают period, retry serialization bounded.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/webhook-events.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "276e15892305979ae04a402971c6632a53c249412d99fbea1cf49b4795dbf622"
+    },
+    {
+      "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/reference-handler.mjs",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "e84caa4a22ff32d172d45ea3f10f030eeca83ba58df215f37cc858bfb085c194",
+      "refresh_after": [
+        "FIX-DV-02.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-dev/test/audit_regressions/fix-dv-02.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-DV-02.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-DV-02.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/subscription-lifecycle.md",
+        "sha256": "0093365f0f96250c5acfb38d32186f9667eab57bf254d6339fa63659a724ea4a",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/webhook-events.md",
+        "sha256": "276e15892305979ae04a402971c6632a53c249412d99fbea1cf49b4795dbf622",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/reference-handler.mjs",
+        "sha256": "e84caa4a22ff32d172d45ea3f10f030eeca83ba58df215f37cc858bfb085c194",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Реальная БД: webhook + reconciliation одновременно для одного invoice; затем February→January. Два разных оплаченных периода начислены, один период не дублируется, mirror остаётся February."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-DV-02.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-dev/test/audit_regressions/fix-dv-02.02.py",
+    "python3 repo://sheleg-dev/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-DV-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-DV-02.02.md",
+    "sha256": "01fff95c4730386abd563be7b06585319672f95eb30e4307033f6c5972bed66f",
+    "utf8_bytes": 6255,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "ca6c4952c558ffd1c0e5cd7386bb5f62a29e9a88e194c158cb758bdd8c978782"
+  }
+}

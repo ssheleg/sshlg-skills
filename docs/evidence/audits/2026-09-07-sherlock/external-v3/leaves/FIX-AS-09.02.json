@@ -1,0 +1,116 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-AS-09.02",
+  "parent_id": "FIX-AS-09",
+  "title": "Disjoint billing buckets",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "agent-stack"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "OpenTelemetry: закрытый enum и неверное сложение вложенных token counters",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Totals не складывать с cached/modality/reasoning subsets; provider rates применять к disjoint buckets.",
+  "expected_result": "Cached token не charged дважды; totals и price receipt сходятся с независимым example.",
+  "acceptance": [
+    "Cached token не charged дважды; totals и price receipt сходятся с независимым example."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Totals не складывать с cached/modality/reasoning subsets; provider rates применять к disjoint buckets.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/otel-genai.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "8ac9f1b7fec5d03e989b2eff6838a55e36f918cb99d63b1d62f72932e06bcb17",
+      "refresh_after": [
+        "FIX-AS-09.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://agent-stack/test/audit_regressions/fix-as-09.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-AS-09.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-AS-09.json",
+    "source_files": [
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/otel-genai.md",
+        "sha256": "8ac9f1b7fec5d03e989b2eff6838a55e36f918cb99d63b1d62f72932e06bcb17",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Golden traces: total input=300, cached=40, total output=180, reasoning=50 остаются 480 total tokens, не570. Проверить billing join для каждого провайдера; custom op сохраняется без ложного ERROR."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-AS-09.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://agent-stack/test/audit_regressions/fix-as-09.02.py",
+    "python3 repo://agent-stack/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-AS-09.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-AS-09.02.md",
+    "sha256": "5e1a310e5f766a369d8c8dc3687c2ab1f0c072a38542b6a7e8c9f659eeac0270",
+    "utf8_bytes": 5107,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "fbaa03f3591c9335c10e1a28d3f6ee1ef34c79d97406a08a1259a3f32c89f55e"
+  }
+}

@@ -1,0 +1,392 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-DS-06",
+  "revision": 1,
+  "title": "Eval-регрессия не покрывает текущий composition/runtime",
+  "finding_id": "DS-06",
+  "module": "sheleg-design",
+  "modules": [
+    "sheleg-design",
+    "super-ux"
+  ],
+  "priority": "P2",
+  "priority_rank": 2,
+  "priority_reason": "Корректность и поддерживаемость после независимых P1 fixes.",
+  "status": "parent_planned",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements",
+      "audit_original_sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program",
+      "audit_original_sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions",
+      "audit_original_sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f"
+    },
+    {
+      "path": "audit://extension/context/modules/sheleg-design.md",
+      "sha256": "93aca5c1f569dfe8f9c9ddae1b4b580908fb7d5892385a5003767d709cc47e7a",
+      "role": "module:sheleg-design",
+      "audit_original_sha256": "4f855319ae55cbe0e8ea9371442a5b10cec3cf1cf77153040cd47d883aa4b982"
+    },
+    {
+      "path": "audit://extension/context/modules/super-ux.md",
+      "sha256": "e0bf11dca98fded7d144febb0a8050f76ec275a5fd8749915c929c4f140fd9e6",
+      "role": "module:super-ux",
+      "audit_original_sha256": "b5cc2eac477dd48cc3867614cc307571fda37bf29552d85d8a78bb5559b753ce"
+    },
+    {
+      "path": "audit://extension/context/contracts/visual.md",
+      "sha256": "f0ade3ef08c35a0e93c97543b950062ac20b21f709f0cac84e943f21c1453c36",
+      "role": "contract:visual",
+      "audit_original_sha256": "f0ade3ef08c35a0e93c97543b950062ac20b21f709f0cac84e943f21c1453c36"
+    },
+    {
+      "path": "audit://extension/context/contracts/product.md",
+      "sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163",
+      "role": "contract:product",
+      "audit_original_sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163"
+    },
+    {
+      "path": "audit://extension/context/contracts/evidence.md",
+      "sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88",
+      "role": "contract:evidence",
+      "audit_original_sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88"
+    },
+    {
+      "path": "audit://ux-design.json",
+      "sha256": "80a564f2995b377bb27fb06f49eedfe6f7f69c0102b1b66493d55e94d1391743",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "2aeca4305c0efc4c514539406f2fc4a553f5410361b6252facc7db0f2f3d01e5"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "DS-06",
+    "severity": "P2",
+    "skills": [
+      "sheleg-design"
+    ],
+    "title": "Eval-регрессия не покрывает текущий composition/runtime",
+    "kind": "observed_validation_limit",
+    "evidence": [
+      "repo://sheleg-design/test/evals/RESULTS.md:16",
+      "repo://sheleg-design/test/evals/RESULTS.md:38",
+      "repo://sheleg-design/test/evals/RESULTS.md:47",
+      "repo://super-ux/test/evals/RESULTS.md:12",
+      "repo://super-ux/test/evals/RESULTS.md:81"
+    ],
+    "problem": "Design результаты версии 1.58.2, baseline 1.59.4; UX результаты 0.52.2, baseline 0.55.1. По одному trigger probe вместо обещанных трёх, scenario design оценивает планы read-only, а live build/Figma explicitly not reproducible. Это честно раскрыто, но не доказательство текущего исполнения/роутинга в полном окружении.",
+    "impact": "Чистые structural gates можно принять за behavioral confidence. Full roster текущего host сильно больше 28/31 кандидата; layered routing нельзя оценить вопросом «which ONE skill».",
+    "fix": "Сохранить историю, добавить current-version manifest, реальные packaged installs, несколько seeds/repeats на поддержанных host/model, multi-skill route sequence и resource budget. Runtime fixtures вместо только планов; transcript/content hash сохранять за пределами /tmp.",
+    "acceptance": "Каждая текущая версия имеет reproducible run manifest; ambiguous prompt проверяет route+subtools+stopping conditions, не один name. Figma unavailable/no Node/no browser явно measured degradation, не исключённый сценарий.",
+    "priority": "P2",
+    "origin": "ux-design.json",
+    "observation": "Design результаты версии 1.58.2, baseline 1.59.4; UX результаты 0.52.2, baseline 0.55.1. По одному trigger probe вместо обещанных трёх, scenario design оценивает планы read-only, а live build/Figma explicitly not reproducible. Это честно раскрыто, но не доказательство текущего исполнения/роутинга в полном окружении.",
+    "evidence_kind": "observed_validation_limit",
+    "sources": [],
+    "implementation_status": "proposed",
+    "phase": "M6",
+    "task_id": "FIX-DS-06"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Сохранить историю, добавить current-version manifest, реальные packaged installs, несколько seeds/repeats на поддержанных host/model, multi-skill route sequence и resource budget. Runtime fixtures вместо только планов; transcript/content hash сохранять за пределами /tmp.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Каждая текущая версия имеет reproducible run manifest; ambiguous prompt проверяет route+subtools+stopping conditions, не один name. Figma unavailable/no Node/no browser явно measured degradation, не исключённый сценарий.",
+    "Tests не принимают упоминание screenshot за существующий валидный файл.",
+    "Offline/no-keys route не предлагает install.",
+    "100% structural PASS не формулируется как доказанное улучшение дизайна."
+  ],
+  "verification_plan": {
+    "baseline": "Design результаты версии 1.58.2, baseline 1.59.4; UX результаты 0.52.2, baseline 0.55.1. По одному trigger probe вместо обещанных трёх, scenario design оценивает планы read-only, а live build/Figma explicitly not reproducible. Это честно раскрыто, но не доказательство текущего исполнения/роутинга в полном окружении.",
+    "must_test": "Каждая текущая версия имеет reproducible run manifest; ambiguous prompt проверяет route+subtools+stopping conditions, не один name. Figma unavailable/no Node/no browser явно measured degradation, не исключённый сценарий.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://sheleg-design/test/evals/RESULTS.md",
+      "sha256": "7af44b6abb5488d2089373febf2d9df867072585474e06d5b76c396a4c7ec1c5",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://super-ux/test/evals/RESULTS.md",
+      "sha256": "10578621f15ba00da72899b4c554aaa47ddf598562b66bc2f776a2c8a2feca11",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "sheleg-design": "562786b30f07f50a294d70a4c3ffd40794624f42",
+    "super-ux": "a60f6b423c619b37a3bb43564b58b02b6200e463"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://sheleg-design",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://super-ux",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://sheleg-design/test/evals/RESULTS.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://super-ux/test/evals/RESULTS.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 14,
+  "origin": "v2",
+  "dispatchable": false,
+  "retired_read_only_evidence": [],
+  "knowledge_enrichments": [
+    {
+      "id": "XD-13",
+      "title": "Добавить контрпримеры и честный quality eval",
+      "status": "proposed-not-implemented",
+      "targets": [
+        {
+          "action": "Create",
+          "path": "repo://sheleg-design/evals/knowledge-transfer-cases.json",
+          "exists_at_audit": false
+        }
+      ],
+      "inputs": [
+        "XD-02..XD-08 specs, existing eval format, baseline and candidate references, authorized local runtime"
+      ],
+      "implementation_steps": [
+        "Описать cases: identity-preserving exploration, system font, one family, dense table, no screenshot, native mockup, unavailable external tools.",
+        "Отдельно оценить routing/constraint/provenance correctness детерминированно и visual outcome по render rubric.",
+        "Для quality comparison запланировать одинаковые inputs/model budget/viewports, слепой порядок variants, repeated samples; сохранять failures/cost/time и unmeasured status до фактического запуска."
+      ],
+      "outputs": [
+        "Fixture manifest и протокол evaluation; не фиктивный улучшенный score."
+      ],
+      "acceptance": [
+        "Tests не принимают упоминание screenshot за существующий валидный файл.",
+        "Offline/no-keys route не предлагает install.",
+        "100% structural PASS не формулируется как доказанное улучшение дизайна."
+      ],
+      "depends_on": [
+        {
+          "task_id": "FIX-VD-02",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        },
+        {
+          "task_id": "FIX-VD-06",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        },
+        {
+          "task_id": "FIX-VD-03",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        }
+      ],
+      "decisions": [
+        "Живой model/render eval — отдельный authorized execution batch после реализации; fixture task его не имитирует."
+      ],
+      "source_candidates": [
+        "I-06",
+        "J-07",
+        "K-EVID"
+      ],
+      "addresses_findings": [
+        "DS-06",
+        "VD-02",
+        "VD-06"
+      ],
+      "runtime_dependencies_added": [],
+      "api_keys_added": [],
+      "owner": "sheleg-design",
+      "target_files": [
+        {
+          "path": "repo://sheleg-design/evals/knowledge-transfer-cases.json",
+          "mode": "Create"
+        }
+      ],
+      "decision": "Живой model/render eval — отдельный authorized execution batch после реализации; fixture task его не имитирует.",
+      "steps": [
+        "Описать cases: identity-preserving exploration, system font, one family, dense table, no screenshot, native mockup, unavailable external tools.",
+        "Отдельно оценить routing/constraint/provenance correctness детерминированно и visual outcome по render rubric.",
+        "Для quality comparison запланировать одинаковые inputs/model budget/viewports, слепой порядок variants, repeated samples; сохранять failures/cost/time и unmeasured status до фактического запуска."
+      ],
+      "related_existing": [
+        "FIX-DS-06",
+        "FIX-VD-02",
+        "FIX-VD-06"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md",
+          "line": 1,
+          "end_line": 806,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md:1",
+          "sha256": "8bf1b06547f571d9b8d3875426fff6621fadd3bc08ae9ebb16d749f5c5f44b01",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md#L1-L806"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+          "line": 1,
+          "end_line": 249,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+          "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1-L249"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+          "line": 35,
+          "end_line": 35,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:35",
+          "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L35"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+          "line": 48,
+          "end_line": 48,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:48",
+          "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L48"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+          "line": 112,
+          "end_line": 112,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:112",
+          "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L112"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md:1",
+          "sha256": "5f24c5a97b4ffcabc7c432b064cfdd04c7a2ad52f52e765be648dc0aadab8f38",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md:1",
+          "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md#L1"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+          "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1"
+        }
+      ],
+      "merged_into": "FIX-DS-06",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "leaf_ids": [
+    "FIX-DS-06.01",
+    "FIX-DS-06.02",
+    "FIX-DS-06.03",
+    "FIX-DS-06.04",
+    "FIX-DS-06.05"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Каждая текущая версия имеет reproducible run manifest; ambiguous prompt проверяет route+subtools+stopping conditions, не один name. Figma unavailable/no Node/no browser явно measured degradation, не исключённый сценарий.",
+      "Tests не принимают упоминание screenshot за существующий валидный файл.",
+      "Offline/no-keys route не предлагает install.",
+      "100% structural PASS не формулируется как доказанное улучшение дизайна."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

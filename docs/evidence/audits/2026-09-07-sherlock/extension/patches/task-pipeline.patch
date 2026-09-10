@@ -1,0 +1,252 @@
+diff --git a/plugins/task-pipeline/skills/task-pipeline/SKILL.md b/plugins/task-pipeline/skills/task-pipeline/SKILL.md
+index fec7ab7..112dffa 100644
+--- a/plugins/task-pipeline/skills/task-pipeline/SKILL.md
++++ b/plugins/task-pipeline/skills/task-pipeline/SKILL.md
+@@ -61,7 +61,7 @@ gate stops until it is installed.
+ | 2 Brainstorm | `references/brainstorm.md` |
+ | 2 Decompose (platforms only) | `references/decomposition.md` |
+ | 3 Spec | `references/spec.md` |
+-| 4 Plan | `references/planning.md` |
++| 4 Plan and context packets for independent executors | `references/planning.md` |
+ | the queue the loop walks | `references/work-graph.md` |
+ | 5–8 · how a **work-graph node** is CLOSED — three blind readings at three distances, all three required (ceiling 3); a **prose-plan task** closes through `review.md` instead — one reviewer, five-round cap | `references/certification.md` |
+ | 5 Build (worktree, subagents, fix loop) | `references/build.md` + `references/review.md` |
+diff --git a/plugins/task-pipeline/skills/task-pipeline/references/backlog.md b/plugins/task-pipeline/skills/task-pipeline/references/backlog.md
+index e8e6f31..e36de15 100644
+--- a/plugins/task-pipeline/skills/task-pipeline/references/backlog.md
++++ b/plugins/task-pipeline/skills/task-pipeline/references/backlog.md
+@@ -90,7 +90,14 @@ So:
+   somebody else pick this up?"*, which is the only question the board is answering.
+ - **The ref is checkable and that is the point.** `git rev-parse` either resolves it or it
+   does not, so a row that has quietly expired can be found before somebody plans around
+-  it.
++it.
++
++An audit row is an entry point, not a complete execution handoff. Before an
++independent agent takes it, attach the context closure, implementation decisions,
++input revisions, dependencies and result contract from
++[Execution packets](planning.md#execution-packets). Keep priority separate from dispatch
++readiness, and account for every finding without turning every finding into an
++isolated task that ignores shared module/interface changes.
+ 
+ **A prose detector was tried first and discarded.** Matching *"parked"*, *"is built"*,
+ *"ready to merge"* in the description cell fired on **three rows out of 187 and all three
+diff --git a/plugins/task-pipeline/skills/task-pipeline/references/planning.md b/plugins/task-pipeline/skills/task-pipeline/references/planning.md
+index 6c1a4dc..d94bfb5 100644
+--- a/plugins/task-pipeline/skills/task-pipeline/references/planning.md
++++ b/plugins/task-pipeline/skills/task-pipeline/references/planning.md
+@@ -20,6 +20,7 @@ Built into this skill; nothing to install.
+ - Self-review — before handing off
+ - This stage settles nothing — and that is a rule, not an omission
+ - GATE (auto)
++- Execution packets
+ 
+ ## Audience
+ 
+@@ -28,6 +29,12 @@ this toolset, has questionable taste, and will read **only their own task**.
+ Everything they need is in that task: exact paths, complete code, exact commands,
+ expected output. DRY. YAGNI. TDD. Frequent commits.
+ 
++For independently dispatched agents, "that task" includes the resolved context
++packet in [Execution packets](#execution-packets): relevant program/module
++constraints, versioned interfaces, decisions and source digests travel with it.
++Do not assume the executor has read a plan header or inherited the planning chat.
++Planning may hand off at plan-ready without claiming implementation is complete.
++
+ Path: `<artifacts>/plans/YYYY-MM-DD-<topic>.md` — same `<topic>` slug as the
+ brief and the spec.
+ 
+@@ -52,24 +59,26 @@ what each one owns. This is where decomposition gets locked in:
+ into **parallel groups** in topological order, and tag each task
+ `depends: [task ids]`.
+ 
+-**Then run the fake-edge test over what you just drew.** An edge is a dependency
+-that carries data — not two tasks that happen to be written one after the other.
+-Six steps, five minutes, and it is the difference between a graph and a list:
++**Then run the fake-edge test over what you just drew.** Keep dependencies that
++carry data, an enforceable control condition, or resource ordering. Mere sequence
++is not enough. Test each edge before assigning a parallel group:
+ 
+ 1. Write every task as a box.
+ 2. Draw an arrow between each pair you were about to order.
+-3. For each arrow ask: **does output from A actually enter B?** Not *"does B come
+-   after A"* — does B consume a file, a signature, a decision or a value that A
+-   produced?
+-4. Yes → keep it, and **write the payload in the `Carries` cell**.
+-5. No → delete it. That wait was free to give away, and you were paying for it.
+-6. Everything left with no incoming arrow is group A and starts at once.
+-
+-**The payload is the test, not the answer to it.** An arrow whose `Carries` cell
+-you cannot fill is a fake edge, and the empty cell is what makes that visible to
+-a reviewer instead of leaving an arrow in place because it looked orderly. Expect
+-two or three per plan; the classic is *"review file A, then review file B"*,
+-which reads as a sequence and never once passes anything between them.
++3. Ask what fails if B starts before A: missing output, unmet approval/control
++   condition, or conflicting ownership of a mutable resource?
++4. Keep a justified edge and write its kind plus concrete payload/condition in
++   the `Carries` cell: `data: schema v2`, `control: review accepted`, or
++   `resource: release write lease on shared registry`.
++5. Remove an edge only if none of those reasons applies. No data payload alone
++   does not make an edge fake. Do not remove approval or ownership constraints.
++6. Nodes without incoming dependencies are candidates for group A; capability
++   and resource checks still determine whether they can start together.
++
++**The stated dependency is reviewable.** An empty `Carries` cell requests a reason,
++not automatic deletion. Keep a justified dependency, remove accidental ordering,
++and leave an unresolved dependency blocked until its condition is understood.
++There is no target number of edges to remove.
+ 
+ **File ownership is exclusive within a group.** No two tasks in the same parallel
+ group write the same file — that is the rule that makes stage-5 fan-out safe.
+@@ -140,15 +149,15 @@ verbatim from the spec. Every task's requirements implicitly include this sectio
+ | Group | Tasks | Runs after | Carries |
+ |---|---|---|---|
+ | A | 1, 2 | — | — |
+-| B | 3 | A | <what crosses this edge: the file, signature, decision or value B consumes> |
++| B | 3 | A | <kind: payload, control condition or resource ordering B requires> |
+ 
+ ---
+ ```
+ 
+-**The `Carries` cell is required on every edge and empty only on group A.** A cell
+-you cannot fill means the arrow carries nothing, which means it is a fake edge:
+-delete it and let the task start in the earlier group. This is the fake-edge test
+-made a column, so its result is committed rather than remembered.
++**The `Carries` cell is required on every edge and empty only on group A.**
++Record `data`, `control` or `resource` and its concrete condition. An unexplained
++edge blocks dispatch until justified or removed after review; never delete an
++approval/resource edge merely because it carries no file or value.
+ 
+ ## Task structure — required
+ 
+@@ -240,9 +249,9 @@ A checklist you run yourself, inline. No subagent:
+    `clearFullLayers()` in Task 7 is a bug, not a style difference.
+ 5. **Parallel safety and the fake-edge test:** no two tasks in the same group write
+    the same file **or share any other mutable target**; every `depends:` points at a
+-   task that really produces what's consumed, and every edge's `Carries` cell is
+-   filled. Count the edges you deleted — that number is the line below, and a plan
+-   that deletes none on its first pass has almost certainly not run the test.
++   task that produces the input or establishes the required condition, and every edge's `Carries` cell is
++   filled. Count retained edges by kind and record removed edges with reasons.
++   Zero removals is valid when every original dependency is justified.
+ 6. **DoD present and verifiable** on every task.
+ 7. **Every command, path and file a DoD names resolves.** Walk each task's
+    *Definition of done* and its steps and check the targets exist — a DoD that says
+@@ -270,7 +279,7 @@ before the gate; every line a **computed number, not a tick**.
+ - Decisions: checked against <the brief's D-table> and <stage 2's rejected options> — <verdict>
+ - Cost: <surfaces>/<guards>/<REQ> now, <…> at stage 2 — <proportionate | grown, and why>
+ - Hygiene: <n> checks, <n> findings, <n> open
+-- Edges: <n> declared, <n> carry data, <n> removed
++- Edges: <n> declared, <n> data, <n> control, <n> resource, <n> removed with reasons
+ - Placeholders: <n> · Ambiguity: <n> found, <n> resolved inline
+ ```
+ 
+@@ -298,6 +307,106 @@ Then: every spec requirement maps to a task; no placeholders; names and types
+ consistent across tasks; parallel-group tasks share no files **or other mutable
+ target**; each task has a verifiable DoD. **Every edge in the *Execution order*
+ table has a non-empty `Carries` cell, and the `Edges:` line of the self-review is
+-computed** — an unfillable cell is a fake edge and the gate does not pass with one
+-left in the table. UI tasks carry their scenario IDs and `SCR-` screens. Verify all
++computed** — each retained edge names data, control or resource semantics. An
++unexplained edge blocks the gate until justified or safely removed. UI tasks carry their scenario IDs and `SCR-` screens. Verify all
+ of it yourself and stop on failure — this gate has no operator in it.
++
++## Execution packets
++
++Use this contract when research, intake, specification and planning happen in one
++agent, while other agents execute individual tasks, or when a host pipeline owns
++dispatch. It is an artifact and workflow contract. It does not claim that the
++bundled graph CLI is a distributed scheduler or that it implements the fields
++below as commands.
++
++### Roles and boundaries
++
++The planning agent harvests sources, resolves material decisions, produces the
++program/module model, specifications, task packets and their dependencies. It may
++finish at **plan-ready**. That state means the plan is available for execution;
++it does not mean the requested product is implemented.
++
++An executor receives one task and its resolved context. It does not restart
++intake or independently redesign settled interfaces. If the packet conflicts with
++source reality, it returns a change proposal with evidence to the planner rather
++than silently editing a shared plan. A reviewer evaluates the produced artifact;
++an integrator reconciles compatible outputs and owns the final delivery boundary.
++These are roles, not hardcoded models or host-specific subagent names.
++
++### The context closure a task must carry
++
++Persist a program brief and decisions, a module/interface map, shared contracts,
++and one task packet per independently reviewable deliverable. Each packet names:
++
++- Stable task, program and module IDs; its requirement and finding IDs.
++- The relevant program constraints and module boundaries, as explicit inputs.
++- Decisions with provenance, rationale, rejected alternatives and change triggers.
++- Every consumed/produced interface, including its version and responsible task.
++- Source repository, base revision and digests for the files/inputs it relies on.
++- Files to read, files permitted to change, new files explicitly marked Create,
++  and shared mutable resources. A directory name is not a complete ownership claim.
++- Concrete implementation sequence, invariants and edge cases; exact code where
++  a signature or algorithm must be settled, without pretending speculative code
++  was tested against a future tree.
++- Acceptance checks, required evidence type, scope exclusions and rollback.
++- Output/return format, reviewer/integrator destination and context budget.
++
++A linked file is useful only if the receiving agent can fetch it at the recorded
++revision. Resolve required links before dispatch; a missing required contract
++blocks dispatch, while optional context is labelled optional. Do not silently
++truncate required constraints to fit a token budget. Produce a smaller coherent
++task or move background material to retrievable references.
++
++Priority, dependency readiness, context completeness and implementation status
++are separate fields. An urgent row can be blocked; a detailed packet can still
++depend on an unfinished contract. Never translate either into "ready" by prose.
++
++### Dispatch, retries and changed inputs
++
++Before dispatch, verify the packet's inputs and predecessor outputs against their
++current digests. Changed relevant input makes the packet stale until it is
++reconciled; an unrelated file change need not invalidate the whole program.
++Record a new packet revision rather than rewriting the executor's historical input.
++
++The host adapter must establish one execution attempt: task ID, packet revision,
++attempt ID, owner, resource scope, expiry/heartbeat when applicable, and a fencing
++token for takeover. A file lock protecting JSON writes is not an execution lease.
++If the host cannot provide this boundary, serialize execution and state the
++limitation; do not run independent workers that merely read the same ready list.
++
++An executor returns output artifacts, changed-file digests, base/produced revisions,
++checks with PASS/FAIL/NOT_RUN/TEST_ERROR, remaining risks and the attempt token.
++Completion is accepted only for the current attempt and expected input revision.
++Duplicate results are idempotent; a late stale worker cannot close a newer attempt.
++Do not equate an agent's final message with an accepted business result.
++
++Dependencies may carry data, a control/approval condition, or a resource ordering
++constraint. Name the kind and reason. A dependency cannot be discarded solely
++because it has no data payload. Dispatch a task only after all its declared
++prerequisites are satisfied, and check overlapping write sets separately.
++
++### Portable host integration
++
++Keep the packet independent of Claude Code, Codex or any provider's conversation
++format. Each adapter maps dispatch, artifact access, cancellation, progress and
++result receipts to actual host capabilities. Record the capabilities used.
++Fresh agents and resumed agents receive the same required context closure.
++
++For an external platform, map both schemas explicitly: a stage list is not a work
++graph, a handoff message is not an execution lease, and an artifact path is not
++proof that a remote worker can read it. Until the adapter and its failure tests
++exist, label integration proposed/manual rather than supported.
++
++### Audit to executable backlog
++
++Every finding has a disposition and a task or a recorded reason for not acting.
++Separate common enabling contracts from per-finding repairs; link each task to
++the program/module/interface context it consumes. Build the graph, verify its
++closure, and partition runnable tasks by disjoint write sets. Include input drift,
++missing context, duplicate dispatch, late completion, multiple prerequisites,
++cancellation and failure recovery in acceptance. A cold reader must understand
++why the change exists and how its result fits the system without the original chat.
++
++Store the packet set with the plan. Planning is complete when the declared scope
++is covered, required inputs resolve, dependencies are acyclic and readiness is
++reported honestly. Delivery remains a separate state with its own evidence.

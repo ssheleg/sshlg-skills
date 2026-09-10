@@ -1,0 +1,182 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "CTX-01",
+  "revision": 1,
+  "title": "Общий versioned context/task/result contract семьи",
+  "finding_id": null,
+  "module": "task-pipeline",
+  "modules": [
+    "task-pipeline"
+  ],
+  "priority": "P1",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "parent_planned",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06",
+    "E-01",
+    "E-02",
+    "E-10"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements",
+      "audit_original_sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program",
+      "audit_original_sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions",
+      "audit_original_sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f"
+    },
+    {
+      "path": "audit://extension/context/modules/task-pipeline.md",
+      "sha256": "5f24020ff6f76773c0c655abdea45f8928d0954e20f0e52e2447edb5ff2c5fdd",
+      "role": "module:task-pipeline",
+      "audit_original_sha256": "28e7c9316bc1a404c821b54e382b8944583945506f889d5d59fce880cf5c5d4e"
+    },
+    {
+      "path": "audit://extension/context/contracts/context.md",
+      "sha256": "dca078915830462880380196886a99d5ae6e7bde2996b490663f8192d2bef2b0",
+      "role": "contract:context",
+      "audit_original_sha256": "dca078915830462880380196886a99d5ae6e7bde2996b490663f8192d2bef2b0"
+    },
+    {
+      "path": "audit://extension/context/contracts/execution.md",
+      "sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4",
+      "role": "contract:execution",
+      "audit_original_sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "kind": "user_requested_capability",
+    "fix": "Определить JSON Schema ExecutionPacket, ContextRef, typed Dependency, AttemptGrant, ResultEnvelope и evidence states. Разделить planning readiness и execution certification. Встроить schema/reference в task-pipeline, согласовать consumer interface с agent-stack, agent-sync и Fabric; валидатор отвергает неизвестный обязательный schema major и незамкнутые ссылки."
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Определить JSON Schema ExecutionPacket, ContextRef, typed Dependency, AttemptGrant, ResultEnvelope и evidence states. Разделить planning readiness и execution certification. Встроить schema/reference в task-pipeline, согласовать consumer interface с agent-stack, agent-sync и Fabric; валидатор отвергает неизвестный обязательный schema major и незамкнутые ссылки.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Round-trip packet сохраняет IDs и типы; missing source/context, stale digest, неизвестная revision, cycle, отсутствующий control dependency отвергаются. Пакет содержит program/module/task decisions без ссылки на приватную память сессии."
+  ],
+  "verification_plan": {
+    "baseline": "Новая capability: негативные fixtures заданы в acceptance; audit prototype только иллюстрирует интерфейс.",
+    "must_test": "Round-trip packet сохраняет IDs и типы; missing source/context, stale digest, неизвестная revision, cycle, отсутствующий control dependency отвергаются. Пакет содержит program/module/task decisions без ссылки на приватную память сессии.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://task-pipeline/package.json",
+      "sha256": "19c2bf7655aac03d181dc32af94e20604e73ec1a720a952555c871e08017e7cb",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "task-pipeline": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://task-pipeline",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/execution-packet.schema.json",
+      "mode": "proposed_create",
+      "reason": "Planned implementation/test target; not created by this audit. Confirm naming against current architecture before dispatch."
+    },
+    {
+      "resource": "file:repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/execution-result.schema.json",
+      "mode": "proposed_create",
+      "reason": "Planned implementation/test target; not created by this audit. Confirm naming against current architecture before dispatch."
+    },
+    {
+      "resource": "file:repo://task-pipeline/test/packet_schema_test.py",
+      "mode": "proposed_create",
+      "reason": "Planned implementation/test target; not created by this audit. Confirm naming against current architecture before dispatch."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 1,
+  "origin": "v2",
+  "dispatchable": false,
+  "retired_read_only_evidence": [],
+  "leaf_ids": [
+    "CTX-01.01",
+    "CTX-01.02",
+    "CTX-01.03"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Round-trip packet сохраняет IDs и типы; missing source/context, stale digest, неизвестная revision, cycle, отсутствующий control dependency отвергаются. Пакет содержит program/module/task decisions без ссылки на приватную память сессии."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

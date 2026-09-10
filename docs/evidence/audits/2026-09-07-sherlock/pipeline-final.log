@@ -1,0 +1,908 @@
+
+> task-pipeline-skill@1.85.2 test:all
+> python3 test/validate.py && python3 test/graph_test.py && python3 test/project_audit_test.py && python3 test/negatives.py && npm run test:certify && npm run test:exposure && npm run test:probe && npm run test:anchors && npm run test:runner && npm run test:hooks && npm run test:artifacts && npm run test:docs
+
+  workflow size — validate.yml is 511,096 bytes, 904 under GitHub's 512,000-byte limit. Past it the workflow goes SILENT rather than red — the next plant's body belongs in `test/plant_*.py`, called with an argument
+PASS: task-pipeline structure valid
+  claim registry — negative self-tests: dormant (truth 429) · anchor-census fixtures: agrees x1 (truth 47) · anchor-census fixtures watched firing: agrees x1 (truth 27) · rules in learned.md: dormant (truth 32) · dated eval runs: agrees x1 (truth 4) · standing instructions: dormant (truth 8) · evidence canons: agrees x4 (truth 10) · rotation axes: dormant (truth 6) · gates.md's own axes: agrees x7 (truth 3) · cold-trigger surfaces: dormant (truth 12) · description budget: agrees x1 (truth 903) · description headroom: agrees x1 (truth 121) · registered claim classes: agrees x1 (truth 15) · reference files: agrees x4 (truth 38) · reference files (totalising): agrees x2 (truth 38)
+  learned.md — rules 32 · rules with an incident 20 · incident words 1962 · binding rows 17  (disclosure — no floor, no target)
+  negative-test anchors: 429 plants · 838 needles read off disk · 1 pinned to a value a release can move · 1 declared undrivable · 4 can decline to run · 46 yield no text needle (18 shell only, no python body, 11 a python body that reads no file, 10 a whole-file byte comparison, 6 provenance stopped at a helper function, 1 a JSON or dict key, which raises when it goes stale)  (disclosure — no floor, no target)
+  verification: 149 shipped REQ · 149 never confirmed by a person  (disclosure — no floor, no target)
+  exposure: 149 unverified · never checked · 20 releases carry one
+      REQ-001  references/adoption.md — doctrine + greenfield walkthrough   v1.9.0
+      REQ-002  The docgate floor comments state each floor's kind — PROPF   v1.9.0
+      REQ-003  Trigger vocabulary widened (RU+EN work verbs) and an expli   v1.9.0
+      REQ-004  Evals match the intended behaviour: exclusions kept, a new   v1.9.0
+      REQ-005  Global CLAUDE.md carries the routing rule with D2's bounda   v1.9.0
+      REQ-006  agent-sync binding patched: config example valid against p   v1.9.0
+      REQ-007  companion-skills.md states the agent-sync ≥ 1.3.0 floor fo   v1.9.0
+      REQ-008  This repo adopts its own doc track: docs/DOCMAP.md recordi   v1.9.0
+      … and 141 more — the full list is `/task-pipeline checkup`, which prints all of them
+  unlooked: 2
+    · coordination: 15 guarded file pattern(s) in .claude/agent-sync.json, 4 version surface(s) discovered
+    · backlog citations: 9 span(s) checked against a quoted needle, 6 single-line citation(s) unanchored — one line carries no phrase to compare
+  ok  an owner that is not a known role is refused, and the message names it
+  ok  a MISSPELT known role is refused — the near miss, not just the absent one
+  ok  every shipped role name is accepted
+  ok  a cycle is refused, and the message names the nodes in it
+  ok  a THREE-node cycle is refused too — not only the mutual pair
+  ok  a blocked_by naming a node that does not exist is refused
+  ok  an edge naming a node that does not exist is refused
+  ok  a duplicate node id is refused — two nodes one id is a graph nobody can cite
+  ok  a clean graph validates and says nothing else
+  ok  next prints only runnable nodes
+  ok  next prints the frontier and NOTHING else — this output is paid every iteration
+  ok  a graph with every node done exits 3, not 0 — done and stalled are different
+  ok  a graph where everything remaining is blocked exits 4
+  ok  a parked node is not in the frontier
+  ok  a complete verdict is accepted
+  ok  every one of the seven keys is required, and the message names the missing one
+  ok  done without evidence is refused — the whole reason the field exists
+  ok  done EMPTY with evidence empty is fine — nothing was claimed
+  ok  a blocker must say what it blocks and whether the run can continue around it
+  ok  replan.possible false must carry a why — a stop with no reason is a stall
+  ok  replan.park naming a node id shape that cannot exist is refused
+  ok  evidence entries must be non-empty strings, matching what the SCHEMA requires
+  ok  the verdict gate and the graph schema agree on evidence — checked against both
+  ok  manager and business-analyst may own a node — doctrine is not the same as absent
+  ok  project may NOT own a node — the brief defers it for having no stated job
+  ok  the refusal never names a role the set rejects
+  ok  agents/verifier.md ships, and the manifest does NOT declare the directory
+  ok  the agent declares only frontmatter keys plugin agents accept
+  ok  the agent names no vendor model id — the tier, never the id
+  ok  park with no --reason at all is a usage error, not a silent park
+  ok  park with an EMPTY --reason is refused — the flag present is not a reason given
+  ok  park with a WHITESPACE --reason is refused — the shape that satisfies argparse
+  ok  park records the reason, and it reads back off the file — REQ-012
+  ok  a parked node leaves the frontier
+  ok  park names a node that does not exist — refused, and the message names the id
+  ok  parking a DONE node is refused — a closed result is not re-openable this way
+  ok  re-parking is refused, and the refusal quotes the reason already recorded
+  ok  add appends a node and allocates the next id
+  ok  the id is allocated from the MAXIMUM, not from the count
+  ok  an explicit --id that already exists is refused
+  ok  add with an unknown owner is refused and NOTHING is written
+  ok  add --blocked-by naming a node that does not exist is refused
+  ok  add with an empty title is refused
+  ok  add with an empty --serves is refused — a node serving nothing is REQ-012's case
+  ok  a mutation on an ALREADY-invalid graph says so, rather than blaming the new node
+  ok  a refused mutation leaves the file byte-identical
+  ok  the frontier is ordered by how much each node unblocks
+  ok  a node added mid-walk re-prioritises the NEXT frontier — REQ-011
+  ok  the order is deterministic — the same graph gives the same frontier twice
+  ok  next prints the frontier and nothing else, priority or not
+  ok  a mutated graph still validates against graph.schema.json itself
+  ok  the schema REQUIRES the reason on a parked node — not merely permits it
+  ok  a duplicate blocked_by is refused — the schema calls the list unique
+  ok  add dedupes a repeated --blocked-by rather than writing what the schema rejects
+  ok  a line break in a title is refused — `next` prints one row per node
+  ok  done with no evidence is refused AT RUNTIME, not only by the shipped schema
+  ok  parked with no reason is refused at runtime, and `null` is one of the shapes
+  ok  a graph with no goal is refused — the loop prints it every iteration
+  ok  an id that does not match the schema's shape is refused
+  ok  a malformed graph is a named refusal, not a traceback
+  ok  a symlinked graph is written THROUGH, not replaced
+  ok  two concurrent adds do not share one temp file
+  ok  an edge with no payload is refused — the schema said so and nothing enforced it
+  ok  an edge whose payload is blank is refused too — presence is not content
+  ok  a blocked_by pair with no edge is refused — a dependency that hands over nothing
+  ok  the edge must run blocker → blocked, not the other way
+  ok  a matched dependency and edge validate
+  ok  an empty title or serves is refused at runtime, not only by the schema
+  ok  add --blocked-by requires --carries, and says so
+  ok  add writes the edge with the node, and the payload is what was given
+  ok  --carries and --blocked-by must pair up, and a mismatch names both counts
+  ok  add requires --why, and refuses a blank one
+  ok  every mutation appends a revision carrying its reason — B-084, and the graph says why it changed
+  ok  a revision with a blank why is refused by validate — the log is not decoration
+  ok  the shipped example still validates with the tightened rules
+  ok  a serves that names no declared requirement is refused, and the message names it
+  ok  a serves naming a declared goal clause resolves
+  ok  a graph declaring no requirements is refused — the intent side cannot be empty
+  ok  coverage prints each requirement and the nodes serving it
+  ok  coverage refuses a requirement no node serves, and names it
+  ok  coverage reports a requirement whose every node is parked — covered on paper only
+  ok  coverage names a done node whose evidence is empty rather than counting it
+  ok  coverage says plainly what it cannot see
+  ok  the shipped example declares its requirements and covers them
+  ok  add refuses a serves the brief never froze, and says who may add one
+  ok  producer prints every field, and needs no graph to do it
+  ok  an unresolved field says WHY it is unavailable, never blank and never absent
+  ok  the harness's values are passed through when it sets them
+  ok  commit resolves inside a checkout and says so outside one
+  ok  config is a digest of the project's pipeline.json, and it moves when the file does
+  ok  producer names no vendor model id of its own
+  ok  the output is deterministic — the same environment gives the same block
+  ok  without a plugin manifest the skill version says unavailable rather than guessing
+  ok  two runnable nodes sharing a touched target are named on stderr
+  ok  the collision goes to stderr and never into the frontier rows
+  ok  disjoint targets raise nothing
+  ok  nodes that cannot run at once do not collide
+  ok  a frontier whose nodes declare no targets says so — silence is not 'no collision'
+  ok  a partially-declared frontier discloses how many said nothing
+  ok  the schema binds `touches` — non-empty unique strings
+  ok  add --touches writes what the node will mutate
+  ok  close marks the node done and records the evidence
+  ok  close STAMPS the commit — the verifier never supplies it
+  ok  a verdict omitting `not_verified` is refused — all seven keys
+  ok  done with empty evidence is refused, and nothing is written
+  ok  replan.add appends the nodes the verifier asked for
+  ok  replan.park parks the nodes it names, carrying the verdict's why
+  ok  replan.possible false stops, and prints the verdict's own why
+  ok  close prints the goal and the new frontier count
+  ok  close records a revision carrying the verdict's why
+  ok  close refuses a node that is not runnable, and says why
+  ok  the graph after a close still validates
+  ok  the revision verb set agrees between the script and the schema
+  ok  a close writes a graph its own schema accepts — checked with jsonschema
+  ok  a node the verifier will close must name its `check`, and the refusal names the node
+  ok  a blank or whitespace `check` is refused AT RUNTIME, not only by the shipped schema
+  ok  a line break in a `check` is refused — two commands cannot be one completion test
+  ok  a parked node needs no `check` — the one node nobody will close
+  ok  a park does not remove what the node said it would run
+  ok  the schema refuses a node with no `check` where one is owed
+  ok  the schema accepts a parked node with no `check` — the exemption is stated, not assumed
+  ok  the `check` pattern REFUSES whitespace — measured, not read
+  ok  add requires --check, and refuses a blank one
+  ok  add writes the check on the node, and the graph still validates
+  ok  a verdict whose replan.add names no check is refused, and nothing is written
+  ok  close writes the replanned node with its own check
+  ok  the verifier is told to run a field the node ACTUALLY carries — B-080's own shape
+  ok  the fieldless phrasing is gone — «the checks the task named» named no field
+  ok  every node in the shipped example that will be closed names its check
+  ok  certify: three passing tiers write a verdict close accepts
+  ok  certify: not_examined becomes not_verified, a risk becomes a survivable blocker
+  ok  certify: a tier passing on an empty scope is refused as a rubber stamp
+  ok  certify: a tier passing with empty evidence is refused
+  ok  certify: a pass carrying a `breaks` finding is a contradiction, refused
+  ok  certify: a fail naming no `breaks` finding is refused
+  ok  certify: a `breaks` finding with no check is refused — it becomes a node
+  ok  certify: a report missing one of the eight keys is refused, and the key is named
+  ok  certify: a third verdict value is refused — no maybe
+  ok  certify: two readings at one distance leave another unread, refused
+  ok  certify: a missing tier is refused and named
+  ok  certify: a report about another node is not evidence about this one
+  ok  certify: a report citing another tier's verdict was not written blind
+  ok  certify: a cross-tier citation hiding in scope is refused — blind covers every prose field
+  ok  certify: a finding's check citing a tier with a verb the first net missed is still refused
+  ok  certify: a finding whose what/fix leans on another tier's verdict was not written blind
+  ok  certify: a failing tier exits 1, prints the fix and its check, and the node stays open
+  ok  certify: the round accumulates across attempts, so churn is countable
+  ok  certify: at the ceiling the output names the tier that failed every round
+  ok  certify: churn across levels is reported as such, not as one stuck tier
+  ok  certify: a node that is already done cannot be certified again
+  ok  certify: a node whose blocker is open certifies nothing
+  ok  certify: the graph still validates after a round is recorded on a node
+residue: this run left nothing — 163 temp tree(s) created, 163 removed
+
+PASS: graph.py — 152 cases
+test_a_row_is_a_single_line_with_escaped_pipes (__main__.TestBoardRows.test_a_row_is_a_single_line_with_escaped_pipes) ... ok
+test_no_new_severity_vocabulary_is_invented (__main__.TestBoardRows.test_no_new_severity_vocabulary_is_invented) ... repo://task-pipeline/test/project_audit_test.py:502: ResourceWarning: unclosed file <_io.TextIOWrapper name='repo://task-pipeline/plugins/task-pipeline/skills/project-audit/scripts/audit.py' mode='r' encoding='utf-8'>
+  source = open(SCRIPT, encoding="utf-8").read()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_priority_uses_the_projects_formula (__main__.TestBoardRows.test_priority_uses_the_projects_formula) ... ok
+test_the_age_term_is_not_a_constant (__main__.TestBoardRows.test_the_age_term_is_not_a_constant)
+The umbrella board ranked newest-first for eleven days because the ... ok
+test_a_channel_that_could_not_be_fetched_is_blind_not_equal (__main__.TestChannelDivergence.test_a_channel_that_could_not_be_fetched_is_blind_not_equal) ... ok
+test_a_path_in_one_channel_only_is_packaging_not_divergence (__main__.TestChannelDivergence.test_a_path_in_one_channel_only_is_packaging_not_divergence)
+An npm tarball ships what `files` allows. Counting `.github/` as a ... ok
+test_a_shared_path_that_differs_is_still_divergence (__main__.TestChannelDivergence.test_a_shared_path_that_differs_is_still_divergence) ... ok
+test_a_version_string_match_alone_never_satisfies_the_check (__main__.TestChannelDivergence.test_a_version_string_match_alone_never_satisfies_the_check)
+`check_pins.py` was green through yesterday's defect because it ... repo://task-pipeline/test/project_audit_test.py:285: ResourceWarning: unclosed file <_io.TextIOWrapper name='repo://task-pipeline/plugins/task-pipeline/skills/project-audit/scripts/audit.py' mode='r' encoding='utf-8'>
+  source = open(SCRIPT, encoding="utf-8").read()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_identical_trees_are_silent (__main__.TestChannelDivergence.test_identical_trees_are_silent) ... ok
+test_same_version_different_trees_is_a_finding (__main__.TestChannelDivergence.test_same_version_different_trees_is_a_finding) ... ok
+test_an_excluded_directory_does_not_hide_its_siblings (__main__.TestCommittedState.test_an_excluded_directory_does_not_hide_its_siblings)
+The over-broad fix for the line above: matching either way round ... ok
+test_an_ignored_artefact_is_not_a_finding (__main__.TestCommittedState.test_an_ignored_artefact_is_not_a_finding)
+Yesterday's audit defect (7): the standard-keeper read the working ... ok
+test_the_audits_own_output_is_not_part_of_its_reading (__main__.TestCommittedState.test_the_audits_own_output_is_not_part_of_its_reading)
+Found by the three-run fixture: run 1 saw a clean tree, run 2 saw ... ok
+test_the_working_tree_disagreement_is_disclosed_not_dropped (__main__.TestCommittedState.test_the_working_tree_disagreement_is_disclosed_not_dropped) ... ok
+test_ci_absence_is_recorded_as_absence_not_omitted (__main__.TestDiscovery.test_ci_absence_is_recorded_as_absence_not_omitted) ... ok
+test_languages_and_managers_are_named (__main__.TestDiscovery.test_languages_and_managers_are_named) ... ok
+test_monorepo_is_detected_only_where_it_is_one (__main__.TestDiscovery.test_monorepo_is_detected_only_where_it_is_one) ... ok
+test_three_trees_give_three_different_profiles (__main__.TestDiscovery.test_three_trees_give_three_different_profiles) ... ok
+test_version_is_read_from_the_manifest_the_project_actually_uses (__main__.TestDiscovery.test_version_is_read_from_the_manifest_the_project_actually_uses) ... ok
+test_a_homegrown_error_channel_is_not_reported_as_absent (__main__.TestIdempotence.test_a_homegrown_error_channel_is_not_reported_as_absent)
+The probe read manifests and asserted about the product. (#83) ... ok
+test_a_plain_run_writes_the_sidecar_and_no_page (__main__.TestIdempotence.test_a_plain_run_writes_the_sidecar_and_no_page)
+A report is an artefact that outlives the conversation, so it is asked for. ... ok
+test_report_writes_both_artefacts (__main__.TestIdempotence.test_report_writes_both_artefacts) ... ok
+test_the_sidecar_validates_against_its_own_schema_claim (__main__.TestIdempotence.test_the_sidecar_validates_against_its_own_schema_claim) ... repo://task-pipeline/test/project_audit_test.py:612: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/pa-fixture-kk_s35je/docs/audit/2026-09-07-audit.json' mode='r' encoding='utf-8'>
+  payload = json.load(open(os.path.join(out, js), encoding="utf-8"))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_three_runs_agree_once_the_stamp_is_normalised (__main__.TestIdempotence.test_three_runs_agree_once_the_stamp_is_normalised) ... repo://task-pipeline/test/project_audit_test.py:528: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/pa-fixture-5d6y4dq8/docs/audit/2026-09-07-audit.html' mode='r' encoding='utf-8'>
+  body = open(os.path.join(page, newest), encoding="utf-8").read()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_a_carried_finding_accumulates_runs_open (__main__.TestRatchet.test_a_carried_finding_accumulates_runs_open) ... ok
+test_a_different_place_is_a_different_finding (__main__.TestRatchet.test_a_different_place_is_a_different_finding) ... ok
+test_a_first_run_says_so_rather_than_reporting_zeros (__main__.TestRatchet.test_a_first_run_says_so_rather_than_reporting_zeros) ... ok
+test_a_stable_id_survives_a_reworded_title (__main__.TestRatchet.test_a_stable_id_survives_a_reworded_title) ... ok
+test_the_diff_names_closed_new_and_stale (__main__.TestRatchet.test_the_diff_names_closed_new_and_stale) ... ok
+test_the_sidecar_declares_its_schema (__main__.TestRatchet.test_the_sidecar_declares_its_schema) ... ok
+test_a_probe_that_raises_is_blind_and_the_run_continues (__main__.TestRegistry.test_a_probe_that_raises_is_blind_and_the_run_continues) ... ok
+test_an_empty_command_output_is_blind_not_clean (__main__.TestRegistry.test_an_empty_command_output_is_blind_not_clean)
+`silence is not a reading`, raised from a command to a probe. ... ok
+test_an_unmet_need_is_blind_with_a_reason_never_clean (__main__.TestRegistry.test_an_unmet_need_is_blind_with_a_reason_never_clean) ... ok
+test_every_registered_probe_declares_its_needs_and_phase (__main__.TestRegistry.test_every_registered_probe_declares_its_needs_and_phase) ... ok
+test_probe_ids_are_unique (__main__.TestRegistry.test_probe_ids_are_unique) ... ok
+test_verdict_vocabulary_is_closed (__main__.TestRegistry.test_verdict_vocabulary_is_closed) ... ok
+test_a_blind_probe_is_visible_on_the_page_with_its_reason (__main__.TestReport.test_a_blind_probe_is_visible_on_the_page_with_its_reason) ... ok
+test_a_first_run_page_says_first_run (__main__.TestReport.test_a_first_run_page_says_first_run) ... ok
+test_finding_text_is_escaped (__main__.TestReport.test_finding_text_is_escaped) ... ok
+test_open_failure_warns_and_does_not_fail_the_run (__main__.TestReport.test_open_failure_warns_and_does_not_fail_the_run) ... ok
+test_the_page_carries_both_themes (__main__.TestReport.test_the_page_carries_both_themes) ... ok
+test_the_page_makes_no_external_request (__main__.TestReport.test_the_page_makes_no_external_request) ... ok
+test_a_planted_token_is_found (__main__.TestSecrets.test_a_planted_token_is_found) ... ok
+test_the_redaction_still_says_which_secret_it_was (__main__.TestSecrets.test_the_redaction_still_says_which_secret_it_was) ... ok
+test_the_value_appears_in_no_artefact (__main__.TestSecrets.test_the_value_appears_in_no_artefact) ... ok
+
+----------------------------------------------------------------------
+Ran 45 tests in 6.325s
+
+OK
+running 429 negative self-tests + 15 property checks
+
+  PASS   a board id naming two rows must fail
+  PASS   a run missing a declared stage must fail
+  PASS   stage coverage must refuse when it cannot look
+  PASS   the two artifact-root implementations must be compared, not merely run
+  PASS   an abandoned run must be told from a finished one
+  PASS   the gate must require the observation, not just the claim
+  PASS   the release gate must be able to block
+  PASS   a blind gate must fail closed, not skip
+  PASS   a declared tests stage must outrank a command-bearing one
+  PASS   a project's publish script must not read as npm publish
+  PASS   the build gate must fire on the shipped example flow
+  PASS   validator must be able to fail
+  PASS   bad gate type in pipeline.example.json must fail
+  PASS   release.enabled true but workflow missing must fail
+  PASS   hardcoded vendor model id must fail
+  PASS   non-token stage model must fail
+  PASS   intake grill must stay mandatory + manual
+  PASS   brief template must keep the autonomy sweep
+  PASS   the grill doctrine must ship with the skill
+  PASS   a real broken link still fails past the fence stripper
+  PASS   the REQ spine must stay in the brief template
+  PASS   REQ rows must name how they are verified
+  PASS   acceptance must close the flow, manually, with evidence
+  PASS   the plan gate must be a set comparison
+  PASS   the brief must keep the knowledge-source ledger
+  PASS   stage 0 must harvest before it interviews
+  PASS   stage 9 must close the loop on the ledger
+  PASS   a description that drops the final stage must fail
+  PASS   verdict count must not drift from the dev gate
+  PASS   a doctrine file's gate type must match the config
+  PASS   a stage-10 close-out rule must reach the surfaces that enforce it
+  PASS   intake must settle the Figma design destination
+  PASS   the autonomy sweep must not drift between its two homes
+  PASS   acceptance must walk the ladder before the table
+  PASS   the audit doctrine must ship with the skill
+  PASS   the open-source surface must stay present
+  PASS   npm test must run the validator
+  PASS   the negative self-tests must stay runnable off CI
+  PASS   a shipped code-graph doctrine must reach the stage-9 gate
+  PASS   the stage-9 detail must name the code-graph refresh too
+  PASS   the retrospective must reach the surfaces that enforce stage 10
+  PASS   the retro template must ship
+  PASS   a standing instruction must carry its retirement trigger
+  PASS   a task-pipeline:<name> skill must resolve to its doctrine file
+  PASS   an unresolved merge conflict must fail
+  PASS   the documentation-track doctrine must ship
+  PASS   the doc map must carry its propagation matrix
+  PASS   a retro lesson must carry its commit
+  PASS   the retro archive template must ship
+  PASS   the seeded gate must stay portable
+  PASS   the seeded gate must seed GREEN
+  PASS   every template must be listed in templates/README.md
+  PASS   the doc track must reach the surfaces that enforce it
+  PASS   the two decision shapes must agree on fields
+  PASS   the seeded gate must read BOTH register shapes
+  PASS   the Doc Loop must reach the stages that settle decisions
+  PASS   the autonomy sweep is compared by topic, not by stage number
+  PASS   a long reference's Contents must match its headings
+  PASS   the evaluation suite must cover every category
+  PASS   the description must say WHAT before WHEN
+  PASS   the skill card must answer every risk indicator
+  PASS   a citation must name a section that exists
+  PASS   a living document may not restate a stale count
+  PASS   a README link must ship in the npm package
+  PASS   adoption must cover the brownfield half
+  PASS   default-on needs an opt-out that is exercised
+  PASS   the stage/artifact relation must be mapped both ways
+  PASS   a workflow decision must have a home inside the bundle
+  PASS   the routing rule must ship as a file
+  PASS   stage 2 must produce user paths and error paths
+  PASS   a new reference must reach the README and the manifest
+  PASS   a long seeded template needs its own Contents
+  PASS   an invariant may not claim a guard that does not exist
+  PASS   a seeded matrix without the meta-row has a hole
+  PASS   the example must set run.loop.mode explicitly
+  PASS   a run-wide rule every stage must name
+  PASS   the context-evidence clause may not be softened
+  PASS   the harness-limit clause may not be softened
+  PASS   a seeded template may not carry a relative link
+  PASS   the hygiene gate catches conflict markers
+  PASS   the hygiene gate catches a surviving placeholder
+  PASS   the hygiene gate catches an unterminated fence
+  PASS   the hygiene gate catches a truncation stub
+  PASS   the hygiene gate catches a duplicated adjacent block
+  PASS   the hygiene gate catches an empty section
+  PASS   a gate script must keep its VERDICT block last
+  PASS   two self-tests may not share a scratch directory
+  PASS   the spec must keep asking whether a named check is real
+  PASS   a plan must keep asking whether a DoD's targets resolve
+  PASS   the self-review must leave a committed trace
+  PASS   rule 14 must bind the stages that write the targets
+  PASS   the False success section must exist
+  PASS   the False success law must be stated
+  PASS   the did-not-look test must survive
+  PASS   rule 1 must survive
+  PASS   rule 2 must survive
+  PASS   audit.md must cite the class
+  PASS   build.md must cite the class
+  PASS   review.md must cite the class
+  PASS   continuity.md must cite the class
+  PASS   the report must require verified-by lines
+  PASS   the implementer contract keeps the re-reading clause
+  PASS   the hygiene gate must name its blind side
+  PASS   the rubric keeps the Effect verification item
+  PASS   an unverified effect must stay Important
+  PASS   a guard below the verdict must be rejected
+  PASS   stage 0's config gate must require the measured lag
+  PASS   stage 0's own section must state the measured lag
+  PASS   the measured-lag rule must keep its commands
+  PASS   a graph that cannot be measured needs its own state
+  PASS   the seeded brief must not ship a bare build date
+  PASS   the distrust marker keeps its sigil, even wrapped
+  PASS   the distrust marker gets no second spelling
+  PASS   the hygiene gate catches a blank line inside a table
+  PASS   the hygiene gate refuses an undeclared floor
+  PASS   the canon list must exist
+  PASS   a dropped canon must be caught
+  PASS   canons must keep naming their enforcement
+  PASS   the canon/rule boundary must stay stated
+  PASS   the CI verdict must keep its commands
+  PASS   a run that cannot be established needs its own state
+  PASS   a pushing stage must name the CI verdict
+  PASS   a stage may not carry its own copy of the CI commands
+  PASS   the stage-8 gate must require the CI verdict
+  PASS   the negatives floor may not lag the workflow
+  PASS   the navigator must exist
+  PASS   the index must not drift from the canons
+  PASS   the navigator must point at the one home
+  PASS   a navigator link must resolve from its own directory
+  PASS   a colon-space in frontmatter must be rejected
+  PASS   rule 16 in force with a consumer that dropped its citation
+  PASS   retro order — an adjacent enumeration puts prune before stamp
+  PASS   retro order — an ordered list runs prune before stamp
+  PASS   retro order — a then-sequence without the word first
+  PASS   retro order — a lone prune-first directive with no second act
+  PASS   claim registry — a restated rule count that disagrees
+  PASS   claim registry — a restated standing-instruction count
+  PASS   claim registry — a stale canon count in word form
+  PASS   claim registry — a stale reference-file count
+  PASS   the doctrine claiming a provenance the ledger cannot prove
+  PASS   `graph.py doctrine` dropping the `unattested` mark
+  PASS   the acceptance policy losing its version
+  PASS   the acceptance policy losing its owner
+  PASS   gates.md's fixes-nothing sentence left unscoped
+  PASS   the Recent log's heading declaring a bound nothing enforces
+  PASS   the SHIPPED retro template seeding the false bound
+  PASS   an open board row whose cited span no longer holds its phrase
+  PASS   an open board row citing a span and quoting nothing from it
+  PASS   a ledger row with no `Environment` cell
+  PASS   an `Environment` value outside the declared vocabulary
+  PASS   the shipped ledger template losing its `Environment` column
+  PASS   a graph conditional dropped from behind its `$ref`
+  PASS   the verification ledger claiming a stale shipped state
+  PASS   SKILL.md teaching a gate-type vocabulary the schema outgrew
+  PASS   an `npm` gloss that disagrees with package.json
+  PASS   a document naming an `npm run` script that does not exist
+  PASS   an unstamped release MENTIONED but not declared must fail
+  PASS   a release after the newest stamp that the gap section does not name
+  PASS   the retro's archive pointer naming a root this project does not use
+  PASS   a stale guard count in the `## Unreleased` section
+  PASS   an `## Unreleased` section parked below a released version
+  PASS   claim registry — a stale reference-file count in the SHIPPED template
+  PASS   a stale count in an OPEN question, dated beside it
+  PASS   claim registry — a stale count in an OPEN row of a register
+  PASS   claim registry — a stale guard count
+  PASS   claim registry — a stale dated-eval-run count
+  PASS   a companion in the matrix and not in the preflight block
+  PASS   the cold trigger stated with one unit on one surface
+  PASS   cold trigger — the canonical row, where bold interrupts the phrase
+  PASS   a worked GATE verdict that omits only `unlooked`
+  PASS   a worked GATE verdict that omits only `abstained`
+  PASS   a worked GATE verdict that prints no disclosures
+  PASS   a summary that names most of the rotation axes
+  PASS   an axis added to audit.md that no summary echoes
+  PASS   the axis list moved out from under its own guard
+  PASS   a restated count of gates.md's own axes
+  PASS   the re-derivation axis stops printing its pair
+  PASS   the re-derivation axis renamed out from under its guard
+  PASS   the Cursor rule restating a stale count of gates.md's axes
+  PASS   a stated count of the rotation axes, the dormant class proven
+  PASS   a rule leaves learned.md with no logged line
+  PASS   the Retired log itself removed from learned.md
+  PASS   a NEW surface states the cold trigger with one unit
+  PASS   the HIGHEST-numbered rule deleted — the gap that does not open
+  PASS   a digit in the log body masking a real deletion
+  PASS   the high-water mark removed from learned.md
+  PASS   a worked verdict on a surface no list named
+  PASS   the high-water mark lowered in a COMMITTED change
+  PASS   every rule row deleted at once
+  PASS   a second guard named inside one citation, and it does not exist
+  PASS   a rule numbered above the high-water mark
+  PASS   a rule listed as retired that is still in the table
+  PASS   an open ledger row with no board id
+  PASS   a ledger pointing at a board id nobody issued
+  PASS   a board row with no Source — the reverse direction
+  PASS   the board emptied of every row
+  PASS   a board priority that does not follow from its inputs
+  PASS   the seeded template's own worked example broken
+  PASS   an open row whose ledger has two status columns
+  PASS   a blank line splitting a markdown table
+  PASS   a row homed `backlog` — the trigger the templates promise
+  PASS   a row homed `unresolved` — the third promised trigger
+  PASS   a board row too short to compute a priority
+  PASS   a blanked Source in the seeded template
+  PASS   a status column worded in prose — "open as a printed exclusion"
+  PASS   a mismatched-shape row losing its board id
+  PASS   a trigger the code accepts and the doctrine never names
+  PASS   the trigger regex renamed out from under its own comparison
+  PASS   the seeded ledger template showing `backlog` as settled
+  PASS   a trigger named on the page but not in the enumerating paragraph
+  PASS   a table split by TWO blank lines
+  PASS   a verification row whose REQ is in no brief
+  PASS   prose in the Human column
+  PASS   the verification ledger emptied of rows
+  PASS   prose in Human, rescued by a date in Note
+  PASS   the Human column renamed away
+  PASS   the layout tree drifting from the tables above it
+  PASS   the layout tree block gone entirely
+  PASS   a stale guard count in the newest CHANGELOG section
+  PASS   MIN_PROPS drifting from the workflow's property count
+  PASS   a REQ paired with a run whose brief does not carry it
+  PASS   a percentage reaching the exposure line
+  PASS   the exposure doctrine dropping its never-checked rule
+  PASS   a step wiping a scratch dir it does not own
+  PASS   the header block drifting between its two copies
+  PASS   a rail glyph the legend does not define
+  PASS   the rail claiming a stage count of its own
+  PASS   a ledger shape declared and never shown
+  PASS   a ledger shape no reader names
+  PASS   the review loop left with no cap
+  PASS   the review cap moved in one file only
+  PASS   the review cap with no config key
+  PASS   the short path marking a stage with an undefined glyph
+  PASS   the exposure example drifting from its own print
+  PASS   a live count baked into the exposure example
+  PASS   a companion pointed at a stage that never names it
+  PASS   a stage dropping the companion the matrix aims at it
+  PASS   an escaped pipe truncating a matrix row's cells
+  PASS   a BARE pipe truncating a matrix row's cells
+  PASS   a matrix row that derives no stage at all
+  PASS   a stage demanding the look with no mechanism to point at
+  PASS   the mechanism file dropping one of the four moves
+  PASS   a browser pointer that renders as nothing
+  PASS   the look's recipe moved out of the section that is the mechanism
+  PASS   a stage-3 track with no owning skill
+  PASS   a stage-3 track deleted outright
+  PASS   a redaction rule added without the count moving
+  PASS   the redaction rules flattened into prose
+  PASS   an absolute host path in the worked issue body
+  PASS   a commit id in the worked issue body
+  PASS   a host repository slug in the worked issue body
+  PASS   the schema losing the key the doctrine names
+  PASS   no stage naming the publish step
+  PASS   the reader losing its NO READER state
+  PASS   a stage dropping a reader state
+  PASS   the probe harness losing its target-guard assertion
+  PASS   the probe harness losing its entry point
+  PASS   probing.md teaching probing without naming the harness
+  PASS   the retro's uncapped log slipping back into "read in full"
+  PASS   a consumer re-binding the log to "in full"
+  PASS   a preflight silent about the skill's own evidence
+  PASS   the change half of the boundary leaves the description
+  PASS   the findings half of the boundary leaves the description
+  PASS   reading returns to the exclusion clause
+  PASS   an exclusion locked in 2026-08-03 drops out
+  PASS   a verb locked by the design never reaches the surface
+  PASS   a findings class is missing from the portable routing rule
+  PASS   a findings class is missing from the Cursor rule
+  PASS   a findings class has no eval query
+  PASS   a release entry that talks about guards without a readable count
+  PASS   a findings class added with no eval-query alias
+  PASS   the explanation exclusion leaves the clause
+  PASS   the findings clause loses the shape four checks read
+  PASS   the locked verb list stops being readable
+  PASS   a class separator the parser cannot see
+  PASS   reading returns as an exclusion in the portable rule
+  PASS   the loop loses its queue
+  PASS   the loop loses its arming point
+  PASS   the self-pacing mode is withdrawn
+  PASS   the queue names a source no stage produces
+  PASS   the authorization floor leaves the file that defines the mode
+  PASS   a dynamic run owes no disclosure
+  PASS   stage 2 keeps its gate but loses where the queue comes from
+  PASS   the machine-readable stage 2 drops the arming
+  PASS   the whole loop contract is deleted from the schema
+  PASS   the queue enum becomes an open string
+  PASS   the arming point loses the one this release moved to
+  PASS   Part 1a stops stating its precondition
+  PASS   the floor leaves one section while a copy elsewhere keeps the guard green
+  PASS   the example reverts to its pre-v1.40 loop block
+  PASS   the dynamic rule is inverted while its words are kept
+  PASS   the run-stamp table loses its cap
+  PASS   the run-stamp table grows past its cap
+  PASS   neighbour probe — the stamps lose their cap while the cell keeps another
+  PASS   neighbour probe — Part 1a loses the floor while the file keeps it
+  PASS   neighbour probe — stage 2 loses the arming while keeping the word
+  PASS   the hand-back loses the section a returning reader needs most
+  PASS   waiting decisions become a list instead of a question
+  PASS   the ambiguity list stops being computed
+  PASS   stage 10's gate stops requiring the hand-back
+  PASS   neighbour probe — the gate loses the hand-back while the section keeps the word
+  PASS   the example's acceptance gate drops the hand-back
+  PASS   the hand-back loses its trace in the ledger
+  PASS   the doctrine stops naming where its trace lands
+  PASS   the ratchet-matcher section is deleted
+  PASS   the near-miss leaves the ratchet-matcher rule
+  PASS   the unlanded-plant section is deleted
+  PASS   the verified-by section is deleted
+  PASS   an unresolvable verified-by name keeps reading verified
+  PASS   the seam section is deleted
+  PASS   the seam loses its unlooked fallback
+  PASS   the consumption section is deleted
+  PASS   a timeout becomes a slow result again
+  PASS   the publish disclosure section is deleted
+  PASS   the publish line loses its not-configured form
+  PASS   stage 10's verdict drops the publish line
+  PASS   a mutating probe ships with no plant-landed assertion
+  PASS   the green-probe section keeps its heading and loses its rule
+  PASS   the teardown keeps its first half and loses the one that protects other agents
+  PASS   the holds disclosure is given a direction
+  PASS   stage 10's criterion 13 loses the report-do-not-end half
+  PASS   NEIGHBOUR PROBE — criterion 13 is broken and its needle planted just outside the item
+  PASS   INVERSION — criterion 13 keeps both needles and gains an exception clause
+  PASS   INVERSION — the foreign lease loses its absolute form
+  PASS   INVERSION — the holds count acquires a direction while 'never a target' still stands
+  PASS   the workflow itself stops being valid YAML
+  PASS   the third owner state loses its proof requirement
+  PASS   the third owner state stops being bounded to this project
+  PASS   the routing surface and the doctrine disagree on the ledger field's name
+  PASS   the cross-cutting rules stop naming the field every gate prints
+  PASS   the residue doctrine file is deleted outright
+  PASS   the not-torn-down section is deleted, not merely reworded
+  PASS   stage 10 loses criterion 13 entirely
+  PASS   the owner table loses its earlier-run row
+  PASS   INVERSION — the foreign lease keeps its sentence and gains a carve-out
+  PASS   INVERSION — the foreign-item boundary keeps its sentence and gains a carve-out
+  PASS   INVERSION — the carve-out is a separate sentence, not a clause
+  PASS   the prose drops the elapsed time its own `ps` receipt quotes
+  PASS   the opening record stops saying its two readings are two moments
+  PASS   the record stops naming the times it never observed
+  PASS   the containers measurement and the prose citing it disagree
+  PASS   the frozen containers measurement loses its date
+  PASS   the SURFACED zero stops being checked against what the run filed
+  PASS   the SURFACED check loses the residual that keeps it honest
+  PASS   the behaviour-or-reporting field loses one of its two values
+  PASS   criterion 12a is deleted outright
+  PASS   the release path stops running the suite it advertises
+  PASS   a version number already spoken for by a tag
+  PASS   the design skill is allowed to run before the file it should follow
+  PASS   the frame becomes a contract without a width
+  PASS   the missing-frame branch loses the offer to draw
+  PASS   generated frames stop being marked as generated
+  PASS   the screen-is-the-frame section is deleted outright
+  PASS   the worktree-per-agent rule is removed
+  PASS   the lease rule is removed
+  PASS   what to do on finding the other agent mid-run is removed
+  PASS   the another-agent section is deleted outright
+  PASS   the fake-edge test is removed from planning.md
+  PASS   the Carries column is dropped from the plan template
+  PASS   the stage-4 gate stops reading the Carries cells
+  PASS   the group convergence check is deleted outright
+  PASS   the convergence check stops saying it runs before integration
+  PASS   stages.md drops the convergence check from its stage-5 summary
+  PASS   the computed Edges count is removed from the self-review
+  PASS   planning.md's GATE section is renamed away
+  PASS   the convergence check stops logging a clean group
+  PASS   stages.md drops the same-group fan-out precondition
+  PASS   stages.md drops the worktree fan-out precondition
+  PASS   build.md's GATE stops requiring the convergence check
+  PASS   stages.md drops the exclusive-file-ownership precondition
+  PASS   build.md's GATE heading is renamed away
+  PASS   stages.md's stage-5 heading is renamed away
+  PASS   only the stage-5 GATE bullet loses the convergence check
+  PASS   the stage-4 gate stops reading the Edges count
+  PASS   the source ledger loses its contradictions line
+  PASS   the stage-0 gate stops reading the contradictions line
+  PASS   stage 3 loses the tracks convergence
+  PASS   stage 3's two tracks go back to a sequence
+  PASS   a waived row that keeps its priority must fail
+  PASS   a waiver naming no revisit condition must fail
+  PASS   a `parked` row naming no branch or commit must fail
+  PASS   an open row homed in a scratchpad must fail
+  PASS   the seeded exposure script disappearing must fail
+  PASS   doctrine that stops naming the script must fail
+  PASS   an exposure line carrying a percentage must fail
+  PASS   this project's own pipeline.json is validated, not only the example
+  PASS   the verdict gate and the graph schema must not diverge
+  PASS   the agents disclosure is defined but never called
+  PASS   coverage stops refusing a requirement nothing serves
+  PASS   serves resolving against nothing
+  PASS   a producer field vanishing when it cannot be resolved
+  PASS   a moved component pointer needing no convergence record
+  PASS   staleness counts that vanish when every row is current
+  PASS   a judgment gate that need not name its judge
+  PASS   a gate-verdict example that omits what the rule mandates
+  PASS   unmeasured doctrine reported as a zero count
+  PASS   a version surface outside the guarded set
+  PASS   a collision warning inside the frontier rows
+  PASS   canon 9a — a count printed with no unmeasured case
+  PASS   a hand-back with no NOT VERIFIED field
+  PASS   a replan that stops while close exits 0
+  PASS   a shipped verb the doctrine never documents
+  PASS   a revision log that records the change and not the reason
+  PASS   a parked-reason pattern that accepts the empty string
+  PASS   a conditional whose `if` can never be satisfied
+  PASS   the parked-reason rule removed from the schema
+  PASS   the parked reason accepts a single space
+  PASS   a graph schema whose node shape does not bind
+  PASS   a required field whose subschema constrains nothing
+  PASS   done without evidence, expressible and unexpressed
+  PASS   the stage-3 gate stops requiring the convergence
+  PASS   a node that cannot say how it will be closed
+  PASS   the check rule declared and never required
+  PASS   a check rule whose `if` can never be satisfied
+  PASS   a check pattern that accepts whitespace
+  PASS   a nullable check, which satisfies every string rule vacuously
+  PASS   the runtime check rule disarmed, and the schema left intact
+  PASS   the same disarm, against the graph fixtures
+  PASS   a ledger row whose cell count does not match its header
+  PASS   the verifier told to read a field again by name only
+  PASS   a plant re-pinned to a literal a release can move
+  PASS   a plant that can decline to run and never says when
+  PASS   an anchor declaration that names nothing the plant reads
+  PASS   a restated fixture count that disagrees with the fixture file
+  PASS   a release-stamp rule that stops naming the merge strategy
+  PASS   a release-stamp rule that stops naming the tag shape
+  PASS   a release-stamp rule that stops naming the merge-commit shape
+  PASS   a release-stamp rule that stops naming the gate command
+  PASS   a release-stamp rule that stops naming the local probe
+  PASS   [property] a document may narrate the provenance claim it used to make
+  PASS   [property] a CLOSED board row's citation is a record and is left alone
+  PASS   [property] the shipped graph schema keeps its conditionals behind a `$ref`
+  PASS   [property] a portable example command in shipped doctrine is not this repo's script
+  PASS   [property] a DATED row in a register is a record, not a claim about now
+  PASS   [property] the cross-commit skip is printed, never swallowed
+  PASS   [property] two adjacent tables are not a split table
+  PASS   [property] a description beginning "Open" is not an open row
+  PASS   [property] a hyphenated "Open-source" in a description is not a status
+  PASS   [property] a real date in the Human column is accepted
+  PASS   [property] the never-count is printed beside the verdict
+  PASS   [property] the Human column survives a header reorder
+  PASS   [property] older CHANGELOG sections are history, not claims about now
+  PASS   [property] a legitimate exception two rules away does not trip the carve-out guard
+  PASS   [property] the anchor census prints its disclosure beside the verdict
+
+PASS: all 429 guards provably reject their planted defect · 15 property check(s) printed what they assert
+
+> task-pipeline-skill@1.85.2 test:certify
+> python3 test/certify_mutations.py
+
+control: 23 `certify:` fixture(s) ran, 0 red
+
+  noticed     the rubber-stamp rule      by: a tier passing on an empty scope is refused as a rubber stamp: N-001:
+  noticed     pass-carrying-a-break      by: a pass carrying a `breaks` finding is a contradiction, refused: N-001:
+  noticed     fail-names-no-break        by: a fail naming no `breaks` finding is refused: N-001: certification rou
+  noticed     the blind rule             by: a report citing another tier's verdict was not written blind: N-001: c
+  noticed     the blind rule over findings by: a finding's check citing a tier with a verb the first net missed is st
+  noticed     break-needs-a-check        by: a `breaks` finding with no check is refused — it becomes a node: N-001
+  noticed     all-three-required         by: a missing tier is refused and named: Traceback (most recent call last)
+  noticed     one-report-per-tier        by: two readings at one distance leave another unread, refused: certificat
+  noticed     same-node                  by: a report about another node is not evidence about this one: N-001: cer
+  noticed     the round increments       by: the round accumulates across attempts, so churn is countable: {'round'
+  noticed     the churn detector         by: at the ceiling the output names the tier that failed every round: N-00
+  noticed     the pass writes a verdict  by: three passing tiers write a verdict close accepts: no verdict was writ
+  noticed     empty-evidence on a pass   by: a tier passing with empty evidence is refused: N-001: certified at uni
+  noticed     the eight required keys    by: a report missing one of the eight keys is refused, and the key is name
+  noticed     the verdict enum           by: a third verdict value is refused — no maybe: N-001: certified at unit,
+  noticed     terminal-node refusal      by: a node that is already done cannot be certified again: N-001: certifie
+  noticed     open-blocker refusal       by: a node whose blocker is open certifies nothing: N-001: certified at un
+
+17 of 17 planted mutation(s) noticed by a `certify:` fixture
+
+> task-pipeline-skill@1.85.2 test:exposure
+> python3 test/exposure_test.py
+
+  ok  counts only rows whose Human is never
+  ok  no confirmation ever prints words, not a zero
+  ok  a confirmation prints days since the NEWEST
+  ok  releases count all tags when nothing was confirmed
+  ok  outside a checkout releases is `?`, not 0
+  ok  a percentage is refused
+  ok  a malformed date does not become a confirmation
+  ok  the list is version-ordered, oldest first
+  ok  a non-empty count never prints an empty list
+  ok  everything confirmed says so plainly
+  ok  blast is read by header across both board shapes
+  ok  a board with no blast column prints no blast
+  ok  a ledger with no status column is dormant, never clean
+  ok  the status column is found by name, not position
+  ok  only a Human column licenses the word human
+  ok  a shrug never gets a clean bill
+  ok  the cap says what it dropped
+  ok  blast comes from the board; absence is absent
+  ok  no ledger is dormant and green
+  ok  a header-only ledger is dormant
+  ok  a ledger without Observed at is dormant
+  ok  every staleness state is counted, zero out loud
+  ok  an overtaken row carries the not-trusted marker
+  ok  a commit that does not resolve is its own state
+
+PASS: exposure.sh — 24 cases
+
+> task-pipeline-skill@1.85.2 test:probe
+> python3 test/probe.py --self-test
+
+harness self-test — the failure branches must fire
+
+clean control                                          exit=0 (want 0)
+a plant that lands and wakes its own guard             exit=1  rejected by its own guard
+     - references/progress.md: the rail prints '»' and the legend does not define it — a symbol a reader meets wi
+  -> expected 0, got 0
+
+a plant that CANNOT land (the needle is not in the file):
+clean control                                          exit=0 (want 0)
+a plant that cannot land                               PLANT DID NOT LAND — the probe is wrong, not the guard
+  -> expected 1, got 1
+
+a plant that lands but wakes a DIFFERENT guard:
+clean control                                          exit=0 (want 0)
+a plant that trips someone else's check                exit=1  WRONG GUARD FIRED (wanted 'a message no guard in this repository prints')
+     - references/progress.md: the rail prints '»' and the legend does not define it — a symbol a reader meets wi
+  -> expected 1, got 1
+
+PASS: the harness rejects a no-op plant and a wrong-guard plant
+
+> task-pipeline-skill@1.85.2 test:anchors
+> python3 test/anchors_test.py && python3 test/anchors.py
+
+  PASS  a needle pinning a two-digit count is refused
+  PASS  a needle pinning a version tag is refused
+  PASS  a needle pinning a bare number in a table cell is refused
+  PASS  a needle pinning a board id is refused
+  PASS  a grep over a FILE pinning a count is refused
+  PASS  a regex quantifier is shape, not a year
+  PASS  a \uXXXX escape in a raw pattern is not a number
+  PASS  a payload built out of local strings reads nothing off disk
+  PASS  a grep on the validator's own output is assertion 3, not a needle
+  PASS  a value the plant writes and reads back is its own
+  PASS  a post-write assertion confirms a landing, it does not pin an anchor
+  PASS  a needle pinning a cap is refused even where the plant writes that cap too
+  PASS  a derived needle passes
+  PASS  a declared anchor is accepted
+  PASS  a declaration naming nothing this plant looks for is refused
+  PASS  a declaration with no reason is refused
+  PASS  provenance survives enumerate() — the blind spot two live plants sat behind
+  PASS  provenance survives sorted() and list()
+  PASS  pathlib.Path(p).read_text() is a file read
+  PASS  a with-statement handle is a file read
+  PASS  a compiled pattern carries its needle
+  PASS  json.load(open(p)) carries the file into a structured look
+  PASS  a grep needle without quotes is still a needle
+  PASS  a sed address is a needle
+  PASS  a grep on a line naming validate.py AFTER it is still a needle
+  PASS  a subprocess grep is a needle
+  PASS  a write through a computed path still exempts its own read-back
+  PASS  a Path().write_text() is a write, so its read-back is not an anchor
+  PASS  a heredoc this census cannot recognise is counted, not read as clean
+  PASS  a heredoc quoted inside a PAYLOAD is not a heredoc this plant opens
+  PASS  `SKIP:` inside a comment does not make a plant dormant-capable
+  PASS  a declaration whose reason wraps over continuation lines is accepted
+  PASS  a declaration padded to length with filler is refused
+  PASS  json.dump(d, open(p, 'w')) is a write, so the read-back after it is not an anchor
+  PASS  a comprehension variable's provenance dies with the comprehension
+  PASS  a name rebound to a local string loses its provenance
+  PASS  a comprehension RESULT carries the file onward
+  PASS  a heredoc opened after an env assignment is counted
+  PASS  a heredoc opened after a pipe is counted
+  PASS  a `|`-delimited sed address is a needle
+  PASS  an unquoted grep takes the pattern, never the path
+  PASS  a one-line declaration is judged on its own length, not on twice it
+  PASS  a name assigned INSIDE a for-body keeps its provenance after the loop
+  PASS  a for target is still bound after the loop, as in real Python
+  PASS  a heredoc named after another command on the line is not python3's own
+  PASS  an empty corpus yields an empty census, which the caller must refuse rather than read as clean
+  PASS  the validator refuses an empty census by name
+
+PASS: anchors.py — 47 cases, 27 of them watched firing
+429 negative self-tests
+  838 needles read out of a file before the plant writes
+  1 plant(s) still pin a value a release can move
+  1 plant(s) declare a value they cannot derive
+  4 plant(s) can decline to run (dormant, never a pass)
+  46 plant(s) yield no text needle: 18 shell only, no python body · 11 a python body that reads no file · 10 a whole-file byte comparison · 6 provenance stopped at a helper function · 1 a JSON or dict key, which raises when it goes stale
+  0 python body/bodies this census could not parse, 0 heredoc(s) it could not recognise — a body it cannot read is a body it cannot vouch for
+
+  * stage 10 loses criterion 13 entirely
+      [declared] re.search: 13 in '^13\\. .*?(?=^\\S)'
+
+  declared · stage 10 loses criterion 13 entirely
+      ^13\. — ^13\. — the criterion NUMBER is the guard's own contract, not this plant's convenience: `test/validate.py` locates the teardown criterion as `^13\.` and its refusal says "stage 10 has no criterion 13". Deriving the number here would make the plant land on whichever criterion happens to be at that position and prove that the guard fired for some other reason — assertion 3, the one hand-rolled probes keep missing. Falsified the moment the guard stops naming 13: the two move together or neither moves.
+
+  dormant-capable · an unstamped release MENTIONED but not declared must fail
+
+  dormant-capable · a release after the newest stamp that the gap section does not name
+
+  dormant-capable · the workflow itself stops being valid YAML
+
+  dormant-capable · a version number already spoken for by a tag
+
+PASS: every negative self-test derives its anchor or declares why it cannot
+
+> task-pipeline-skill@1.85.2 test:runner
+> python3 test/runner_test.py
+
+  ok    a plant whose validator refused the defect passes
+  ok    a plant whose validator accepted it fails
+  ok    a plant that changed nothing is BROKEN, not FAIL
+  ok    a plant that declared a skip is SKIP, not PASS
+  ok    a declared skip changed nothing on purpose, so it is not BROKEN
+  ok    an exit-0 run that printed neither marker is a FAIL, not a pass
+  ok    with no dormant plant the claim says `all N`
+  ok    a dormant plant is subtracted from the claim and named
+  ok    a dormant PROPERTY check is subtracted too — the same sentence, one category over
+  ok    everything dormant is not a pass over an empty set
+  ok    everything dormant on both sides is not a pass either
+  ok    nothing present at all is not a pass either — the `-k` matched-nothing path
+  ok    one plant left standing still makes a claim, about one
+  ok    MIN_EXPECTED is the counted number, not a carried-over one (429 vs 429)
+  ok    MIN_PROPS is the counted number, not a carried-over one (15 vs 15)
+
+PASS: negatives runner — 15 cases, 3 of them the empty-set branch
+
+> task-pipeline-skill@1.85.2 test:hooks
+> python3 test/release_gate_test.py
+
+OK (60 checks)
+
+> task-pipeline-skill@1.85.2 test:artifacts
+> python3 test/artifact_root_test.py && python3 test/migrate_artifacts_test.py
+
+PASS: artifact-root rule — 7 cases, both implementations agree
+  ok  three runs, identical trees, second and third are no-ops
+  ok  --dry-run left the tree byte-identical
+  ok  the preview shows removals as well as additions
+  ok  collisions kept, non-collisions moved, and it repeats cleanly
+  ok  a configured root is refused, not overridden
+  ok  the move is preceded by a readable copy
+  ok  mentions elsewhere are listed and left untouched
+PASS: migrate-artifacts — 7 cases
+
+> task-pipeline-skill@1.85.2 test:docs
+> bash plugins/task-pipeline/skills/task-pipeline/templates/docgate.sh
+
+ok:      decision home: register (5 entries, ids DEC-####)
+ok:      relative links resolve (74 files)
+ok:      every referenced id is defined (5 decisions, 3 open questions)
+ok:      next free DEC id is correct (DEC-0006)
+ok:      next free OQ id is correct (OQ-0004)
+dormant: register-size cross-check — no 'Register size:' line stated
+ok:      consequences propagate (backlog below the floor: 0)
+ok:      supersede and contradict targets are annotated
+ok:      no retired decisions yet
+ok:      decision statuses are inside the closed vocabulary
+ok:      open-question statuses are inside the closed vocabulary
+ok:      every commit reference in docs/evidence resolves AND is reachable from HEAD
+ok:      doc map and registers agree in both directions
+OK: documentation gate — shape register · 5 decisions · 3 open questions · propagation backlog 0 (floor 0) · retired residue 0 (floor 0)

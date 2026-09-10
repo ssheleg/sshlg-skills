@@ -1,0 +1,243 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-ED-01.02",
+  "parent_id": "FIX-ED-01",
+  "title": "Closure validation",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "make-skill"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Переносимость зависит от совместной упаковки соседнего task-pipeline",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Валидатор проверяет manifest/digests generated refs; external optional reference не становится required.\n\nУточнение PXS-06: ENRICH_EXISTING_MS_AND_ED; Не копировать quick_validate/package_skill.py и не добавлять PyYAML ради чужого runtime Применить текущий parser improvement из MS-02 Бюджет только actual tokenizer или UNKNOWN; words/lines не становятся tokens\nДобавить самостоятельно написанные минимальные негативные corpus fixtures, не копировать foreign runtime.\nРасширить checker parity tests на empty metadata и package resource closure.\nУточнить distribution acceptance на external symlink/undeclared secret exclusion.",
+  "expected_result": "Удаление required copy проваливает closure; optional unavailable печатается как optional.\nEmpty name/description rejected and valid nonempty metadata accepted\nMissing required reference detected в actual packaged copy, не только whole checkout\nSymlink наружу и undeclared secret fixture не попадают в publishable payload",
+  "acceptance": [
+    "Удаление required copy проваливает closure; optional unavailable печатается как optional.",
+    "Empty name/description rejected and valid nonempty metadata accepted",
+    "Missing required reference detected в actual packaged copy, не только whole checkout",
+    "Symlink наружу и undeclared secret fixture не попадают в publishable payload"
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Валидатор проверяет manifest/digests generated refs; external optional reference не становится required.\n\nУточнение PXS-06: ENRICH_EXISTING_MS_AND_ED; Не копировать quick_validate/package_skill.py и не добавлять PyYAML ради чужого runtime Применить текущий parser improvement из MS-02 Бюджет только actual tokenizer или UNKNOWN; words/lines не становятся tokens\nДобавить самостоятельно написанные минимальные негативные corpus fixtures, не копировать foreign runtime.\nРасширить checker parity tests на empty metadata и package resource closure.\nУточнить distribution acceptance на external symlink/undeclared secret exclusion.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "a6417a004f7d3d8d68f229bcc9cee5e8a7bfff81a3f360787692da6de63afd1c"
+    },
+    {
+      "path": "repo://make-skill/test/checker_parity_test.py",
+      "mode": "Edit",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": "10e0bedb66b2c6d21b36ff821d9c8f83ec859f71fada227733d6224b051fb44d"
+    },
+    {
+      "path": "repo://make-skill/test/evals/fixtures/resource-closure.json",
+      "mode": "Create",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": null
+    },
+    {
+      "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/distribution.md",
+      "mode": "Edit",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": "290c8f51957f24264dfbfb8e10d3bcf4d7d43193253efcaea0f34d0c3e847008"
+    }
+  ],
+  "test_target": {
+    "path": "repo://make-skill/test/audit_regressions/fix-ed-01.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-ED-01.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-ED-01.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/evidence-docs/SKILL.md",
+        "sha256": "a3fade838d53aab95f6f77d21f8ec99bcaa355310f72f32b1bd174638574383e",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py",
+        "sha256": "a6417a004f7d3d8d68f229bcc9cee5e8a7bfff81a3f360787692da6de63afd1c",
+        "role": "baseline source"
+      },
+      {
+        "path": "audit://auditor-reproductions.json",
+        "sha256": "ece50924846b89f3882bd44027edc2a9dd5b2ec2c6bb32fc2019421e6074c501",
+        "role": "read-only audit evidence",
+        "audit_original_sha256": "ece50924846b89f3882bd44027edc2a9dd5b2ec2c6bb32fc2019421e6074c501"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Clean install каждого заявленного канала, в том числе одного скилла, разрешает все обязательные ссылки; при недоступной зависимости печатается capability unavailable вместо all links inside.",
+      "Empty name/description rejected and valid nonempty metadata accepted",
+      "Missing required reference detected в actual packaged copy, не только whole checkout",
+      "Symlink наружу и undeclared secret fixture не попадают в publishable payload"
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit.",
+    "foreign_method_sources": [
+      {
+        "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/SKILL.md",
+        "line": 304,
+        "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+        "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/SKILL.md#L304"
+      },
+      {
+        "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/quick_validate.py",
+        "line": 60,
+        "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+        "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/quick_validate.py#L60"
+      },
+      {
+        "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/package_skill.py",
+        "line": 71,
+        "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+        "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/package_skill.py#L71"
+      }
+    ]
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-ED-01.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [
+    {
+      "id": "PXS-06",
+      "title": "Превратить слабости чужого skill-creator в регрессии наших валидаторов",
+      "owner": "make-skill",
+      "target_files": [
+        {
+          "path": "repo://make-skill/test/checker_parity_test.py",
+          "mode": "Edit"
+        },
+        {
+          "path": "repo://make-skill/test/evals/fixtures/resource-closure.json",
+          "mode": "Create"
+        },
+        {
+          "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/distribution.md",
+          "mode": "Edit"
+        }
+      ],
+      "decision": "ENRICH_EXISTING_MS_AND_ED; Не копировать quick_validate/package_skill.py и не добавлять PyYAML ради чужого runtime Применить текущий parser improvement из MS-02 Бюджет только actual tokenizer или UNKNOWN; words/lines не становятся tokens",
+      "steps": [
+        "Добавить самостоятельно написанные минимальные негативные corpus fixtures, не копировать foreign runtime.",
+        "Расширить checker parity tests на empty metadata и package resource closure.",
+        "Уточнить distribution acceptance на external symlink/undeclared secret exclusion."
+      ],
+      "acceptance": [
+        "Empty name/description rejected and valid nonempty metadata accepted",
+        "Missing required reference detected в actual packaged copy, не только whole checkout",
+        "Symlink наружу и undeclared secret fixture не попадают в publishable payload"
+      ],
+      "depends_on": [
+        {
+          "task_id": "PXS-01",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        }
+      ],
+      "related_existing": [
+        "FIX-MS-02",
+        "FIX-MS-04",
+        "FIX-ED-01"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/SKILL.md",
+          "line": 304,
+          "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+          "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/SKILL.md#L304"
+        },
+        {
+          "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/quick_validate.py",
+          "line": 60,
+          "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+          "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/quick_validate.py#L60"
+        },
+        {
+          "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/package_skill.py",
+          "line": 71,
+          "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+          "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/package_skill.py#L71"
+        }
+      ],
+      "inputs": [
+        "Minimal independently written cases: empty metadata, missing plain-path ref, sibling-only install, external symlink, accidental secret file",
+        "Current make-skill checker and family package manifests"
+      ],
+      "outputs": [
+        "Negative regression corpus with explicit expected scope",
+        "Packaging acceptance requiring resource closure and allowed payload list"
+      ],
+      "new_required_runtime": [],
+      "new_api_keys": [],
+      "merged_into": "FIX-ED-01",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "verification_commands": [
+    "python3 repo://make-skill/test/audit_regressions/fix-ed-01.02.py",
+    "python3 repo://make-skill/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-ED-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-ED-01.02.md",
+    "sha256": "d0f1038060904b762fe2e824cbd72a707064b80d6e22782d4637f19d3f438d19",
+    "utf8_bytes": 9129,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "0e71f7a0df2827c286180b8487365e4fbd5829b3e1702ca3427fe0baf5c7edcc"
+  }
+}

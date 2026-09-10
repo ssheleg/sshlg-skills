@@ -1,0 +1,127 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-UX-05.02",
+  "parent_id": "FIX-UX-05",
+  "title": "Observable copy corpus",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "super-ux"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Поведенческий eval выдаёт PASS проваленному процессу и не проверяет заявленный контракт",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Проверять surface count, actual text changes и semantic invariants, включая уже хороший no-op.",
+  "expected_result": "Обе mock подмены из audit FAIL, два валидных surface outputs PASS.",
+  "acceptance": [
+    "Обе mock подмены из audit FAIL, два валидных surface outputs PASS."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Проверять surface count, actual text changes и semantic invariants, включая уже хороший no-op.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://super-ux/test/evals/run.py",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "f9bfcc63e0878d8edcb56849d53301a2806b5bed20c294db3889c2ebd5a41a72",
+      "refresh_after": [
+        "FIX-UX-05.01"
+      ]
+    },
+    {
+      "path": "repo://super-ux/test/evals/cases.json",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "2d252f4fe5231282c38fa9ba1509e9029fb348227dfebaf2eb938d649a41c1d7"
+    }
+  ],
+  "test_target": {
+    "path": "repo://super-ux/test/audit_regressions/fix-ux-05.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-UX-05.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-UX-05.json",
+    "source_files": [
+      {
+        "path": "repo://super-ux/test/evals/run.py",
+        "sha256": "f9bfcc63e0878d8edcb56849d53301a2806b5bed20c294db3889c2ebd5a41a72",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://super-ux/test/evals/cases.json",
+        "sha256": "2d252f4fe5231282c38fa9ba1509e9029fb348227dfebaf2eb938d649a41c1d7",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Обе mock-подмены из probes должны FAIL; невалидный exit никогда PASS; успешный artifact с двумя поверхностями и двумя корректными строками проходит; репозиторий до/после одинаков."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-UX-05.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://super-ux/test/audit_regressions/fix-ux-05.02.py",
+    "python3 repo://super-ux/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-UX-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-UX-05.02.md",
+    "sha256": "af65e274082cd6110c14ee8f479aa744bceb53ab7a2694644cfc99267aaf7503",
+    "utf8_bytes": 6263,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "355475011e207ea59dd8a100e01ce4a988849b9bd966ce5c5cb36d3794a6fe56"
+  }
+}

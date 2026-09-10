@@ -1,0 +1,130 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-SY-04.02",
+  "parent_id": "FIX-SY-04",
+  "title": "Write-mode documentation",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 0,
+  "modules": [
+    "agent-sync",
+    "agent-stack"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Task lease не защищает общий файл от владельца другой task lease",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Описать short transaction lock и isolated worktree/merge как разные modes; не обещать enforcement по одному task owner.",
+  "expected_result": "Recipe для shared registry берёт resource claim, ordinary isolated code не требует global lease.",
+  "acceptance": [
+    "Recipe для shared registry берёт resource claim, ordinary isolated code не требует global lease."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Описать short transaction lock и isolated worktree/merge как разные modes; не обещать enforcement по одному task owner.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "f90d370ec77b6ee50d518ccf98f74c071ed5e6b75fdd9f4bffcde5a350ca0074"
+    },
+    {
+      "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/memory-architecture.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "3b3d373a0078c350bb86ce66f512b87a90d06991c5ba58e77476444f4edfc91e"
+    }
+  ],
+  "test_target": {
+    "path": "repo://agent-sync/test/audit_regressions/fix-sy-04.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-SY-04.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-SY-04.json",
+    "source_files": [
+      {
+        "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py",
+        "sha256": "9b64e93e16025c61cce840b5facbeed619927a20c07f6f919ac92816d6ddc3b6",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/SKILL.md",
+        "sha256": "f90d370ec77b6ee50d518ccf98f74c071ed5e6b75fdd9f4bffcde5a350ca0074",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/references/memory-architecture.md",
+        "sha256": "3b3d373a0078c350bb86ce66f512b87a90d06991c5ba58e77476444f4edfc91e",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Две разные задачи обновляют один register: обе записи сохраняются, одновременный resource claim одного пути запрещён. Две независимые code files не сериализуются без причины."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-SY-04.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://agent-sync/test/audit_regressions/fix-sy-04.02.py",
+    "python3 repo://agent-sync/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-SY-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-SY-04.02.md",
+    "sha256": "7d680372e19d5ac6c9cb025b1a5996648a5cd412df030e817f2b709554ebdd11",
+    "utf8_bytes": 6626,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "347a7dec1516daebe920f6f357843ecd881f182aa1589c164ed837a32d85d4c3"
+  }
+}

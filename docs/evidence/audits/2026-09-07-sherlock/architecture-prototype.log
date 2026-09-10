@@ -1,0 +1,29 @@
+{
+  "cases": 28,
+  "invariants": {
+    "all_28_skills_exercised": true,
+    "figma_absence_not_blocking": true,
+    "browser_absence_not_false_verified": true,
+    "standing_auth_no_reask": true,
+    "unknown_target_blocks_external": true
+  },
+  "mutants": [
+    {
+      "name": "audit_wrong_route",
+      "rejected": true
+    },
+    {
+      "name": "audit_writes",
+      "rejected": true
+    },
+    {
+      "name": "waiver_erases_billing",
+      "rejected": true
+    },
+    {
+      "name": "subagent_is_system",
+      "rejected": true
+    }
+  ],
+  "all_pass": true
+}

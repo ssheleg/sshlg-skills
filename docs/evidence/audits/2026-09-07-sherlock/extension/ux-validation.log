@@ -1,0 +1,3 @@
+  unlooked: docs/brand/facts.md `agents reachable via the skills CLI` — the vercel-labs/skills agent registry is an external list, and no command in this repository returns it
+  unlooked: routed triggers — no sshlg-skills umbrella above this checkout
+OK (4629 checks)

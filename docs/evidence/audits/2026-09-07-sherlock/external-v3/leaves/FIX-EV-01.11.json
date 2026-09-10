@@ -1,0 +1,266 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-EV-01.11",
+  "parent_id": "FIX-EV-01",
+  "title": "Outcome corpus: task-pipeline",
+  "kind": "verification",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "task-pipeline"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Проверка выбора названия не доказывает пользу выполнения скилла",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Для task-pipeline записать минимум positive, negative и ambiguous/no-op case из собственных audit findings; отдельно with/without skill. Не менять production integration для удобства grader.",
+  "expected_result": "Case manifest включает actual output oracle и raw result; task-pipeline не проходит лишь по названию. Недоступный live host = NOT_RUN.",
+  "acceptance": [
+    "Case manifest включает actual output oracle и raw result; task-pipeline не проходит лишь по названию. Недоступный live host = NOT_RUN."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Для task-pipeline записать минимум positive, negative и ambiguous/no-op case из собственных audit findings; отдельно with/without skill. Не менять production integration для удобства grader.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://task-pipeline/evals/cases/task-pipeline.json",
+      "mode": "Create",
+      "role": "focused outcome corpus (new artifact)",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://task-pipeline/test/audit_regressions/fix-ev-01.11.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-EV-01.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-EV-01.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/test/evals/RESULTS.md",
+        "sha256": "6f920d8631b8b7309dece75fc9488b178e4cbb6e1d0aa2ac41fc049cd0794b96",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://make-skill/test/evals/RESULTS.md",
+        "sha256": "1e824a230e73b636d85b537f6f73a5a6cd2fea0b197570438100a0ae56d4df6f",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://seo-aeo-audit/test/evals/RESULTS.md",
+        "sha256": "59dc76dd994a4343a990c455c9f0658e4d1059cbc677e51e9734b1ed5e6ae7ab",
+        "role": "baseline source"
+      },
+      {
+        "path": "audit://native-eval.log",
+        "sha256": "760143b98d7496b6e5a345197d121bdd015e5e768d635dda1a0f6b4b621c398d",
+        "role": "read-only audit evidence",
+        "audit_original_sha256": "760143b98d7496b6e5a345197d121bdd015e5e768d635dda1a0f6b4b621c398d"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Каждый из 28 имеет опубликованный manifest сценариев и прогоны на заявленных supported hosts; trace доказывает загрузку и outcome, ухудшение не скрывается средним."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-EV-01.01",
+      "kind": "data",
+      "reason": "Uses common outcome manifest and honest result semantics."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://task-pipeline/test/audit_regressions/fix-ev-01.11.py",
+    "python3 repo://task-pipeline/test/validate.py"
+  ],
+  "focused_case_context": [
+    {
+      "finding_id": "TP-01",
+      "title": "Обязательное интервью и подтверждение модели предшествуют даже полностью определённой работе",
+      "case_acceptance": [
+        "Полный brief → 0 лишних вопросов, задача с реальным неоднозначным контрактом → один содержательный вопрос; отдельно измерить quality/time/tokens с baseline."
+      ],
+      "packet": "audit://extension/packets/FIX-TP-01.json"
+    },
+    {
+      "finding_id": "TP-02",
+      "title": "Заявленная независимость от companions противоречит обязательному super-ux и оценке «undesigned»",
+      "case_acceptance": [
+        "Без super-ux, но с валидными scenarios проходит контракт; без любого сценарного артефакта требует его создать; чужой дизайн оценивается по результату."
+      ],
+      "packet": "audit://extension/packets/FIX-TP-02.json"
+    },
+    {
+      "finding_id": "TP-03",
+      "title": "Расширяемая schema спорит с обязательными стандартными стадиями и глобальными правилами",
+      "case_acceptance": [
+        "Трёхстадийный custom profile валиден и не получает дополнительные stage0/7/10; обязательные kernel invariants всё равно проверяются."
+      ],
+      "packet": "audit://extension/packets/FIX-TP-03.json"
+    },
+    {
+      "finding_id": "TP-04",
+      "title": "Неиспользованное правило автоматически считается ненужным",
+      "case_acceptance": [
+        "Пять запусков без платежей не удаляют payment safety; истёкший временный workaround с проверенным заменяющим механизмом уходит в архив; все удаления объяснимы."
+      ],
+      "packet": "audit://extension/packets/FIX-TP-04.json"
+    },
+    {
+      "finding_id": "EV-01",
+      "title": "Проверка выбора названия не доказывает пользу выполнения скилла",
+      "case_acceptance": [
+        "Каждый из 28 имеет опубликованный manifest сценариев и прогоны на заявленных supported hosts; trace доказывает загрузку и outcome, ухудшение не скрывается средним."
+      ],
+      "packet": "audit://extension/packets/FIX-EV-01.json"
+    },
+    {
+      "finding_id": "PF-01",
+      "title": "Graph mutation lock не является claim узла или fencing исполнителя",
+      "case_acceptance": [
+        "Два claim одного node/version дают одного победителя; restart/expiry позволяет новый attempt, late old attempt не публикует result; независимые add сохраняются; недоступный lock не запускает external work."
+      ],
+      "packet": "audit://extension/packets/FIX-PF-01.json"
+    },
+    {
+      "finding_id": "PF-02",
+      "title": "Старое доказательство принимается после смены кода и контракта узла",
+      "case_acceptance": [
+        "Старый verdict после v2 либо изменения check/REQ/packet получает STALE и graph byte-identical; downstream stale пересобирается; изменение независимого node не требует бессмысленной инвалидизации всего графа."
+      ],
+      "packet": "audit://extension/packets/FIX-PF-02.json"
+    },
+    {
+      "finding_id": "PF-03",
+      "title": "Прямой close обходит проваленную обязательную certification",
+      "case_acceptance": [
+        "Fail любого обязательного gate не позволяет complete; изменение candidate сбрасывает certification; raw fabricated verdict или чужой attempt не проходит; authorized waiver не становится measured PASS."
+      ],
+      "packet": "audit://extension/packets/FIX-PF-03.json"
+    },
+    {
+      "finding_id": "PF-04",
+      "title": "Parked обязательного producer делает его consumer runnable без payload",
+      "case_acceptance": [
+        "Park/cancel required producer не запускает consumer; optional skipped edge разрешён только с declared fallback; retry/replan создаёт новую provenance, coverage не объявляет parked requirement fulfilled."
+      ],
+      "packet": "audit://extension/packets/FIX-PF-04.json"
+    },
+    {
+      "finding_id": "PF-05",
+      "title": "Saved Markdown brief уже есть, portable immutable node packet ещё нет",
+      "case_acceptance": [
+        "Planner process завершается; свежий executor другой runtime читает только packet и разрешённые artifact refs, выполняет task и выдаёт validated result; отсутствующий digest input → BLOCKED_INPUT; packet bytes доступны после session cleanup; воспроизведение не зависит от cwd/домашнего пути."
+      ],
+      "packet": "audit://extension/packets/FIX-PF-05.json"
+    },
+    {
+      "finding_id": "PF-06",
+      "title": "Fabric pipeline/skill provisioning из ADR не является существующим task-pipeline integration",
+      "case_acceptance": [
+        "Golden import/export сохраняет REQ/node/typed edge/check/skills и manual gates; unsupported schema version явная ошибка; edit pipeline не меняет in-flight run; fresh host подтверждает bytes реально загруженного skill; planning agent не перепроходит grill для executors."
+      ],
+      "packet": "audit://extension/packets/FIX-PF-06.json"
+    },
+    {
+      "finding_id": "PF-07",
+      "title": "Fabric chainAdvance повторно запускает follower, создавая новые задачи",
+      "case_acceptance": [
+        "Два ticks и два desktop workers дают один logical attempt; crash до/после spawn не теряет mapping и не повторяет completed work; retry получает новый attempt с predecessor; loop bound считает chain переходы."
+      ],
+      "packet": "audit://extension/packets/FIX-PF-07.json"
+    },
+    {
+      "finding_id": "PF-08",
+      "title": "Fabric fan-in проверяет каждое ребро отдельно, поэтому запускает неполный consumer",
+      "case_acceptance": [
+        "Diamond: C running → zero spawn; оба done и all inputs → один spawn с report+schema; conflicting names → explicit conflict, не last-write-wins; один predecessor cancelled/parked → consumer blocked или declared fallback."
+      ],
+      "packet": "audit://extension/packets/FIX-PF-08.json"
+    },
+    {
+      "finding_id": "PF-09",
+      "title": "Fabric task lease не ограничивает публикацию handoff текущим owner/attempt",
+      "case_acceptance": [
+        "СессияB не публикует за live ownerA; после takeover публикация старого A rejected; повтор same idempotency key возвращает тот же receipt; correction creates output version и инвалидирует подписанных consumers; read-only observers продолжают читать."
+      ],
+      "packet": "audit://extension/packets/FIX-PF-09.json"
+    },
+    {
+      "finding_id": "PF-10",
+      "title": "Provider-independent packet возможен, но Codex в текущем Fabric не подключён к его tools",
+      "case_acceptance": [
+        "Один golden packet Claude/Codex executors: одинаковые contract inputs/outputs и authority restrictions; actual tool discovery/call receipt, cleanup/revoke; отрицательный unsupported host не запускается как supposedly connected. Не переносить native hidden reasoning/transcript между vendor runtimes."
+      ],
+      "packet": "audit://extension/packets/FIX-PF-10.json"
+    },
+    {
+      "finding_id": "UP-05",
+      "title": "Перезапись member/runtime не атомарна и не даёт rollback",
+      "case_acceptance": [
+        "Fault injection на первом/среднем/последнем copy и rename сохраняет старую полностью рабочую generation или новую полностью проверенную.\nSIGTERM после stage и до switch не меняет active; после switch journal позволяет rollback.\nПроверка --force=false не перезаписывает existing Design shell files; --force=true создаёт recoverable generation.\nObsolete managed resources удаляются по manifest, неизвестные пользовательские файлы сохраняются."
+      ],
+      "packet": "audit://extension/packets/FIX-UP-05.json"
+    },
+    {
+      "finding_id": "UP-08",
+      "title": "Host roots фиксированы и расходятся с поддерживаемыми overrides",
+      "case_acceptance": [
+        "Fixture custom CODEX_HOME/CLAUDE_CONFIG_DIR меняет только выбранный root, default stays byte-identical.\nPlugin collision в custom root обнаруживается до записи; stale default root не блокирует другой профиль.\nWindows/XDG/root-with-spaces и missing host дают отдельные протестированные results; неподдержанные платформы UNKNOWN."
+      ],
+      "packet": "audit://extension/packets/FIX-UP-08.json"
+    }
+  ],
+  "inputs": [
+    {
+      "from_task": "FIX-EV-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-EV-01.11.md",
+    "sha256": "2aa1bc42e4e183cb314353a2015a87412931473a778b85660ccf74f3ecfbe7b4",
+    "utf8_bytes": 12068,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "da4c5398d2623ef351b04f80f0842ce5fe76d89c10cae58b2df39672efb48f44"
+  }
+}

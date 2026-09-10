@@ -1,0 +1,1266 @@
+{
+  "scope": "Read-only design-depth extension, local sources; no model A/B execution or app edits",
+  "date": "2026-09-07",
+  "findings": [
+    {
+      "id": "VD-01",
+      "title": "Идентичность фиксируется раньше визуального исследования, а наличие системы закрывает допустимый поиск композиции",
+      "priority": "P1",
+      "skills": [
+        "sheleg-design"
+      ],
+      "evidence": [
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+          "line": 80,
+          "receipt": "The visual identity comes from a style pack. Before choosing one, read",
+          "claim": "Пак выбирается и токены копируются до layout"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+          "line": 204,
+          "receipt": "populated page yet, the choice is premature — build the page in the pack the",
+          "claim": "Нет populated page — сначала собрать в default register"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+          "line": 142,
+          "receipt": "A token change. A spacing fix. A bug. A surface with a locked design system,",
+          "claim": "Locked system исключает две вариации"
+        },
+        {
+          "path": "repo://super-ux/plugins/super-ux/skills/references/visual-identity.md",
+          "line": 51,
+          "receipt": "1. **Is a style pack already recorded?** `screens.md` → Design system →",
+          "claim": "Записанный pack не переобсуждается"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+          "line": 136,
+          "receipt": "- **A swept reference does not become a component.** It informs how you compose the",
+          "claim": "Reference не может обосновать новый atom"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+          "line": 160,
+          "receipt": "**The order is the rule:** extraction lands in a pack first — **the full thirteen",
+          "claim": "Новая visual identity требует полный 13-heading pack"
+        },
+        {
+          "path": "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+          "line": 3,
+          "receipt": "Contract: local concept, existing product identity. Not a published reusable family pack.",
+          "claim": "Nicegram записан existing identity"
+        },
+        {
+          "path": "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+          "line": 14,
+          "receipt": "Signature element: avatar plus compact credit label in chat header.",
+          "claim": "Signature сведён к avatar + credit label"
+        }
+      ],
+      "mechanism": "Пользовательская цель → найден старый token file → он назван locked system → сравнение направлений исключено → visual references разрешены главным образом для структуры → выбор закрепляет первую правдоподобную композицию. Система бренда ограничивает палитру, но сама по себе не определяет иерархию, масштаб, ритм, работу с пустотой и характер экранных компонентов. Текст объединяет эти разные степени свободы.",
+      "observed": "В initial Nicegram объявлены 4/1/5, dark+gold и system type; A/B = сразу чат / чат-сервисы. В локальном style.md нет двух самостоятельных визуальных направлений. Это наблюдение о данном выполнении, не доказательство, что запрет единолично вызвал результат. Собственная local concept identity уже является полезным допустимым обходом обязательных published packs.",
+      "fix": "Ввести этап exploration с частичной фиксацией: locked invariants (brand colors/logo/accessibility), open axes (composition/type hierarchy/control anatomy/motion purpose). Разрешить 2–3 небольших рендера одного реального ключевого состояния в одной системе бренда. До выбора это provisional direction, после выбора — semantic tokens и пак. Полный контракт/13 headings требовать при публикации reusable pack, не для каждого эскиза. Разделить UI update и identity redesign вместо запрета любых component edits.",
+      "acceptance": "На брифе «улучшить Nicegram, сохранить бренд» показать минимум две реально разные композиции стартового чата и context sheet; у каждой неизменны бренд и сценарий, явно различаются ≥2 открытых визуальных оси. На «исправить spacing по точному Figma» вариаций не создавать. Повторить с существующим токен-файлом и без него; наличие токенов само по себе не должно закрывать exploration.",
+      "cross_references": [
+        "DS-01",
+        "DS-02"
+      ],
+      "classification": "observed_instruction_gap_with_unmeasured_outcome",
+      "source_files": [
+        "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "repo://super-ux/plugins/super-ux/skills/references/visual-identity.md"
+      ],
+      "context_levels": {
+        "instruction_defined": true,
+        "observed_loaded_in_Nicegram": "See nicegram-route-receipt.json; not all downstream files were loaded there",
+        "artifact_observed": "В initial Nicegram объявлены 4/1/5, dark+gold и system type; A/B = сразу чат / чат-сервисы. В локальном style.md нет двух самостоятельных визуальных направлений. Это наблюдение о данном выполнении, не доказательство, что запрет единолично вызвал результат. Собственная local concept identity уже является полезным допустимым обходом обязательных published packs.",
+        "causal_hypothesis": "Пользовательская цель → найден старый token file → он назван locked system → сравнение направлений исключено → visual references разрешены главным образом для структуры → выбор закрепляет первую правдоподобную композицию. Система бренда ограничивает палитру, но сама по себе не определяет иерархию, масштаб, ритм, работу с пустотой и характер экранных компонентов. Текст объединяет эти разные степени свободы.",
+        "live_model_comparison": "not run; no causal effect size or universal quality verdict"
+      }
+    },
+    {
+      "id": "VD-02",
+      "title": "Скриншоты и quality gates есть, но нет обязательного цикла художественной критики конкретного рендера",
+      "priority": "P1",
+      "skills": [
+        "sheleg-design"
+      ],
+      "evidence": [
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+          "line": 127,
+          "receipt": "A usable rubric line looks like *\"the primary action is reachable without",
+          "claim": "Примеры rubric — достижимость CTA и число размеров"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+          "line": 207,
+          "receipt": "| Check | How it is measured |",
+          "claim": "Quality table описывает измеряемые floors"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+          "line": 218,
+          "receipt": "**Run them where the thing runs.** A screenshot in a browser at the target",
+          "claim": "Требует runtime screenshots"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+          "line": 225,
+          "receipt": "**Taste is not on that table, and this document will not pretend otherwise.**",
+          "claim": "Сам признаёт: taste не входит в table"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+          "line": 162,
+          "receipt": "1. **Polish** — the pack applied without exception: tokens, not literals; no",
+          "claim": "Polish определён как tokens without exceptions"
+        },
+        {
+          "path": "machine-snapshot://DATA/nicegram-assistant-preview/docs/VERIFICATION.md",
+          "line": 12,
+          "receipt": "- Visual inspection: `artifacts/desktop-dark.png`, `artifacts/mobile-light.png`, `artifacts/team-desktop.png` (ignored, local QA output).",
+          "claim": "Visual inspection перечисляет screenshots"
+        },
+        {
+          "path": "machine-snapshot://DATA/nicegram-assistant-preview/docs/ux/audits/2026-09-07-baseline.md",
+          "line": 133,
+          "receipt": "| BP-079–090 visual craft | Только scope check: две темы из tokens (`public/tokens.css:1`, `:2`), существующая дизайн-основа в `docs/ux/screens.md:3`; визуальный редизайн/полный token audit не выполнялись |",
+          "claim": "Visual redesign/full token audit не выполнялись"
+        },
+        {
+          "path": "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+          "line": 43,
+          "receipt": "Spend your boldness in one place. Let the signature element be the one memorable thing, keep everything around it quiet and disciplined, and cut any decoration that does not serve the brief. Not taking a risk can be a risk itself! Build to a quality floor without announcing it: responsive down to mobile, visible keyboard focus, reduced motion respected. Critique your own work as you build, taking screenshots if your environment supports it – a picture is worth 1000 tokens. Consider Chanel's advice: before leaving the house, take a look in the mirror and remove one accessory. Human creators have memory and always try to do something new, so if you have a space to quickly jot down notes about what you've tried, it can help you in future passes.",
+          "claim": "Внешний skill требует critique as you build"
+        }
+      ],
+      "mechanism": "Порог доступности/целостности позволяет отсеять дефекты, но оставляет широкий класс одинаково проходящих композиций. Когда визуальный fork запрещён или не выполнен, директор не задаёт обязательный следующей шаг: назвать конкретные слабые места изображения, исправить их, сравнить render до/после с визуальными ориентирами. Необязательная субъективная оценка превращается в оставленное Open.",
+      "observed": "Nicegram реально имел imageView нескольких mockups и поздние screenshots, browser suites и independent review. Поэтому диагноз «не смотрели картинки» неверен. В inspected G01--start: крупная пустая область, небольшой значок, два одинаковых suggestions, нижний composer; в C01--ready: плотная формовая группа сверху sheet, затем пустое поле. Это нейтральные описания композиции, а не объективный verdict ugly. В receipts нет отдельного сравнительного art-direction протокола; отсутствие записи не доказывает отсутствие внутренней критики.",
+      "fix": "Добавить после render отдельный visual critique: три конкретных наблюдения с crop/координатой, intended effect, proposed adjustment, second render. Сравнивать hierarchy, spacing rhythm, optical alignment, type treatment, platform feel и specificity to product; контраст и keyboard оставить отдельными gate. Требовать показать пределы оценки, а не присваивать псевдоточный score вкусу. Для существенной поверхности минимум один подтверждённый цикл улучшения либо аргументированное «дальнейшее изменение ухудшает X».",
+      "acceptance": "Один reviewer без чтения кода сравнивает до/после на одинаковом viewport/content. Для каждого замечания есть image region и видимое изменение; замечания «premium/generic» без конкретики не считаются. Оба варианта отдельно проходят accessibility/UX. При равном результате user видит осмысленный tradeoff. В eval нельзя засчитывать наличие PNG или слово polish как успех визуального качества.",
+      "cross_references": [
+        "DS-02",
+        "DS-06"
+      ],
+      "classification": "observed_instruction_gap_with_unmeasured_outcome",
+      "source_files": [
+        "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+        "machine-snapshot://DATA/nicegram-assistant-preview/docs/VERIFICATION.md",
+        "machine-snapshot://DATA/nicegram-assistant-preview/docs/ux/audits/2026-09-07-baseline.md",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md"
+      ],
+      "context_levels": {
+        "instruction_defined": true,
+        "observed_loaded_in_Nicegram": "See nicegram-route-receipt.json; not all downstream files were loaded there",
+        "artifact_observed": "Nicegram реально имел imageView нескольких mockups и поздние screenshots, browser suites и independent review. Поэтому диагноз «не смотрели картинки» неверен. В inspected G01--start: крупная пустая область, небольшой значок, два одинаковых suggestions, нижний composer; в C01--ready: плотная формовая группа сверху sheet, затем пустое поле. Это нейтральные описания композиции, а не объективный verdict ugly. В receipts нет отдельного сравнительного art-direction протокола; отсутствие записи не доказывает отсутствие внутренней критики.",
+        "causal_hypothesis": "Порог доступности/целостности позволяет отсеять дефекты, но оставляет широкий класс одинаково проходящих композиций. Когда визуальный fork запрещён или не выполнен, директор не задаёт обязательный следующей шаг: назвать конкретные слабые места изображения, исправить их, сравнить render до/после с визуальными ориентирами. Необязательная субъективная оценка превращается в оставленное Open.",
+        "live_model_comparison": "not run; no causal effect size or universal quality verdict"
+      }
+    },
+    {
+      "id": "VD-03",
+      "title": "Mobile/native ветка не завершена платформенным адаптером, а общий product default остаётся вебовым",
+      "priority": "P1",
+      "skills": [
+        "sheleg-design"
+      ],
+      "evidence": [
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+          "line": 20,
+          "receipt": "A pack does **not** own **platform convention** — where the primary navigation",
+          "claim": "Pack не определяет platform conventions"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+          "line": 76,
+          "receipt": "The one thing this library genuinely does not carry: **a mobile-native pack**.",
+          "claim": "Мобильного native pack нет"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+          "line": 228,
+          "receipt": "**The default is `shadcn/ui`, and the question is asked once per project.** Ask it",
+          "claim": "shadcn/ui default для every product UI"
+        },
+        {
+          "path": "repo://sshlg-skills/lib/packs.js",
+          "line": 76,
+          "receipt": "  { id: 'mobile', asks: 'React Native and Expo surfaces', owner: null, fallback: 'vercel-react-native-skills', refusal: 'no mobile' },",
+          "claim": "mobile lane определён как React Native/Expo"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+          "line": 7,
+          "receipt": "Use it with the [`workbench`](./styles/workbench.md) pack — these are patterns",
+          "claim": "AI patterns привязаны к workbench"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+          "line": 111,
+          "receipt": "Shape, so it annotates instead of shouting: monospace at ~10px, positive",
+          "claim": "Паттерн provenance задаёт ~10px mono"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+          "line": 41,
+          "receipt": "2. **Inputs are `16px` minimum — a functional floor, not a type choice.**",
+          "claim": "Загруженная инструкция требует input≥16px"
+        },
+        {
+          "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.css",
+          "line": 1,
+          "receipt": ".inchat-layout{display:grid;grid-template-columns:390px minmax(0,560px);justify-content:center;gap:90px;max-width:1240px;margin:34px auto 60px}.demo-tools{display:flex;gap:10px;justify-content:flex-end;margin:0 0 16px}.demo-tools button{min-height:44px;border:1px solid #b9bfc8;border-radius:9px;background:none;padding:0 14px;font-size:12px;color:var(--board-ink)}.ic-phone{width:390px;height:810px}.peerbar{display:flex;align-items:center;gap:12px;padding:8px 16px 12px;border-bottom:1px solid var(--line);height:64px;flex:none}.peerbar>span svg{width:22px;height:22px;color:var(--accent)}.peer-name{flex:1;font-weight:650;font-size:16px}.peer-name small{display:block;font-size:11px;color:var(--muted);font-weight:400;margin-top:4px}.threadbody{flex:1;overflow-y:auto;padding:16px 14px;min-height:100px}.bubble{padding:12px 14px;background:var(--surface);border-radius:16px 16px 16px 4px;margin:12px 30px 12px 0;font-size:14px;line-height:1.5;overflow-wrap:anywhere}.bubble p{margin:0 0 5px}.bubble small{font-size:10px;color:var(--muted)}.bubble.outgoing{margin-left:30px;margin-right:0;background:var(--soft);border-radius:16px 16px 4px 16px}.message-ai{display:block;padding:8px 0 0;color:var(--accent);font-size:12px;background:none;min-height:44px}.ic-trigger{height:44px;width:36px;flex:none;background:none;color:var(--accent);display:grid;place-items:center}.ic-trigger svg{width:24px;height:24px}.ic-phone .compose{align-items:center;margin-bottom:4px}.ic-phone .compose textarea{height:60px;padding-top:18px}.ic-phone .send{width:40px;height:44px}.draft-zone{padding-top:8px;background:var(--bg)}.ic-notice{font-size:12px;padding:0 20px 12px;line-height:1.5;color:var(--muted)}.ic-notice button{display:block;color:var(--accent);background:none;padding:8px 0;min-height:44px;font-size:12px}.ic-sheet{position:absolute;bottom:25px;top:166px;left:0;right:0;background:var(--surface);border-top:1px solid var(--line);border-radius:24px 24px 0 0;box-shadow:0 -40px 60px #0004;display:flex;flex-direction:column}.sheet-head{display:flex;align-items:center;min-height:64px;padding:4px 8px;border-bottom:1px solid var(--line);gap:4px}.sheet-head h2{font-size:17px;line-height:1.15;flex:1;margin:0}.sheet-head h2:focus,.peer-name:focus{outline:none}.ic-scroll{overflow-y:auto;padding:18px 18px 26px;min-height:0}.ic-scroll>.primary{margin-top:18px}.ic-scroll .textbutton{display:block;width:100%;font-size:13px;margin:8px 0;min-height:44px}.ic-scroll .large-copy{font-size:15px}.ic-scroll .group{background:var(--bg)}.ic-scroll .row{padding:12px 10px;min-height:64px}.ic-scroll .rowtext{font-size:14px}.ic-scroll .rowtext small{font-size:11px}.ic-scroll textarea{display:block;width:100%;min-height:74px;resize:vertical;background:var(--bg);border:1px solid var(--line);border-radius:12px;color:var(--ink);font:14px/1.5 var(--font);padding:14px}.ic-scroll #ic-output{min-height:180px}.ic-label{display:block;font-size:13px;margin:20px 0 8px}.ic-label:first-child{margin-top:0}.ic-scroll select{min-height:44px;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:8px;font:14px var(--font)}.ic-original{padding:14px;background:var(--bg);border-radius:12px;margin:12px 0;font-size:13px;line-height:1.5;overflow-wrap:anywhere}.ic-original strong{font-size:11px;color:var(--muted)}.ic-original p{margin:7px 0}.ic-original summary{cursor:pointer;min-height:30px}.ic-context{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px 12px;text-align:left;width:100%;color:var(--ink);font-size:12px;line-height:1.5}.ic-context span{display:flex;align-items:center;gap:8px}.ic-context svg{width:16px;height:16px;flex:none;color:var(--accent)}.ic-context small{display:block;margin:7px 0 0 24px;color:var(--accent)}.ic-access{font-size:11px;color:var(--muted);margin-top:20px}.context-choice{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);cursor:pointer;font-size:13px;line-height:1.5}.context-choice input{width:22px;height:22px;flex:none;accent-color:var(--accent);margin-top:3px}.context-choice>span>span{display:block;margin-top:5px}.context-choice strong{font-size:11px;color:var(--muted)}.record-indicator{display:flex;gap:12px;align-items:center;color:var(--danger);font-size:24px;margin:24px 0}.record-indicator span{font-size:14px}.partial{font-size:16px;line-height:1.6;color:var(--muted)}.state-label{display:block;font-size:12px;margin:20px 0 8px}#ic-state{width:100%;min-height:44px;background:transparent;color:var(--board-ink);border:1px solid #b9bfc8;border-radius:9px;padding:8px;font:13px var(--font)}.deep-link{font-size:12px;margin-top:12px}.deep-link a{color:var(--board-ink)}#ic-notes{padding-top:70px}#ic-notes h2{font-size:34px;letter-spacing:-.9px;line-height:1.15;margin:16px 0}#ic-notes .note-lead{font-size:18px;line-height:1.6;color:var(--board-muted)}.principle{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid #c4c8cf}.principle>span{font-size:12px;color:var(--board-muted);padding-top:5px}.principle h3{font-size:17px;margin:0 0 8px}.principle p,.ic-review{font-size:14px;color:var(--board-muted);line-height:1.6;margin:0}.ic-review{padding:20px 24px;border:1px solid #c4c8cf;border-radius:14px;margin:28px 0}.ic-review h3{color:var(--board-ink);margin:0 0 12px}.ic-review ol{padding-left:17px}.ic-review li{margin:8px 0}.strategy-link{display:block;color:var(--board-ink);font-size:13px;margin-top:18px}@media(max-width:1040px){.inchat-layout{gap:36px;grid-template-columns:366px minmax(0,1fr)}.ic-phone{width:366px}#ic-notes h2{font-size:28px}}@media(max-width:760px){.inchat-layout{display:block;margin-top:24px}.chat-column{width:min(100%,390px);margin:auto}.ic-phone{width:100%;height:780px;min-height:650px}.ic-sheet{top:148px}#ic-notes{padding-top:40px}.ic-scroll{padding:16px}.ic-scroll .rowtext{font-size:13px}.sheet-head h2{font-size:16px}.board-head h1{font-size:29px}.peerbar{padding-left:12px;padding-right:12px}.inchat-layout{max-width:100%}.phone-note{overflow-wrap:anywhere}}",
+          "claim": "Реальный web fixture задаёт textarea/select14px"
+        },
+        {
+          "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.js",
+          "line": 54,
+          "receipt": "function setupTask(){const rewrite=ic.task==='rewrite';return `${rewrite?`<div class=\"ic-original\"><strong>Ваш исходный текст</strong><p>${clean(ic.draft||'Сначала напишите черновик в переписке.')}</p></div>`:contextCard()}${ic.task==='summary'?'<p class=\"large-copy\">Краткое содержание только выбранных сообщений. Источники останутся рядом с ответом.</p>':ic.task==='translate'?`<label class=\"ic-label\" for=\"ic-lang\">Перевести на</label><select id=\"ic-lang\"><option${ic.language==='English'?' selected':''}>English</option><option${ic.language==='Русский'?' selected':''}>Русский</option></select>`:`<label class=\"ic-label\" for=\"ic-instruction\">${rewrite?'Что изменить':'Что хотите ответить'} <span class=\"muted\">· необязательно</span></label><textarea id=\"ic-instruction\" maxlength=\"2000\" rows=\"2\" placeholder=\"Например: коротко и по делу\">${clean(ic.instruction)}</textarea><label class=\"ic-label\" for=\"ic-tone\">Тон</label><select id=\"ic-tone\">${['Спокойно','Дружелюбно','Деловой'].map(t=>`<option${ic.tone===t?' selected':''}>${t}</option>`).join('')}</select>`}<p class=\"ic-access\">${!ic.authorized?'Нужен вход в Nicegram':!ic.entitled?'Доступ к AI не активен':ic.balance===null?'Баланс пока неизвестен':ic.balance===0?'AI-баланс закончился':`${ic.balance.toLocaleString('ru-RU')} AI · баланс Nicegram · пример`}</p>${rewrite&&!ic.draft.trim()?primaryIC('Вернуться к сообщению','close'):primaryIC(ic.task==='summary'?'Составить краткое содержание':ic.task==='translate'?'Перевести':'Создать черновик','generate')}`;}",
+          "claim": "Context sheet использует HTML select tone"
+        }
+      ],
+      "mechanism": "Universal product→web pack/component lane плюс AI state rules со своей визуальной формой не превращаются автоматически в iOS/Android controls. Документ правильно называет native gap, однако роутер мобайла даёт только RN/Expo, а конкретный renderer/adapter для SwiftUI/UIKit не назначает. Модель легко делает mobile-sized web form, который передаёт сценарий, но нативный craft остаётся незавершённым.",
+      "observed": "В Nicegram web concept C01--ready виден HTML select; source действительно содержит select и14px. Это подтверждённое расхождение web fixture с загруженным 16px rule, но zoom-on-focus на реальном Safari здесь не воспроизводился. Native runtime, Dynamic Type и VoiceOver в VERIFICATION честно исключены. Само использование HTML для browser prototype не является ошибкой и shadcn/workbench в Nicegram не применялись.",
+      "fix": "До выбора компонентов разделить platform target и prototype renderer. Для ios-native назначить UIKit/SwiftUI/HIG adapter, для android-native Compose/Material, для RN/web отдельные ветви. Semantic AI states оставить независимыми от 10px mono и workbench durations. Web mockup должен иметь явную колонку native-equivalent/control behavior и touch/input rules; предоставлять browser HTML как демонстрацию поведения, а нативную fidelity проверять отдельным этапом.",
+      "acceptance": "Для одного context-sheet сценария проверить web prototype и native-equivalent spec: selection, keyboard, sheet detents/dismissal, safe areas, accessibility size, submit/stop, restoration. Browser computed input font соответствует выбранному web floor; iOS native evidence не выдаётся за browser screenshot. В route на SwiftUI не появляется RN/Expo как единственный mobile ответ. Наличие Dynamic Type помечается measured/unverified, а не inferred from clamp.",
+      "cross_references": [],
+      "classification": "observed_platform_gap_and_source_rule_mismatch",
+      "source_files": [
+        "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.css",
+        "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.js",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "repo://sshlg-skills/lib/packs.js"
+      ],
+      "context_levels": {
+        "instruction_defined": true,
+        "observed_loaded_in_Nicegram": "See nicegram-route-receipt.json; not all downstream files were loaded there",
+        "artifact_observed": "В Nicegram web concept C01--ready виден HTML select; source действительно содержит select и14px. Это подтверждённое расхождение web fixture с загруженным 16px rule, но zoom-on-focus на реальном Safari здесь не воспроизводился. Native runtime, Dynamic Type и VoiceOver в VERIFICATION честно исключены. Само использование HTML для browser prototype не является ошибкой и shadcn/workbench в Nicegram не применялись.",
+        "causal_hypothesis": "Universal product→web pack/component lane плюс AI state rules со своей визуальной формой не превращаются автоматически в iOS/Android controls. Документ правильно называет native gap, однако роутер мобайла даёт только RN/Expo, а конкретный renderer/adapter для SwiftUI/UIKit не назначает. Модель легко делает mobile-sized web form, который передаёт сценарий, но нативный craft остаётся незавершённым.",
+        "live_model_comparison": "not run; no causal effect size or universal quality verdict"
+      }
+    },
+    {
+      "id": "VD-04",
+      "title": "shadcn назван unstyled: token mapping ошибочно подаётся как достаточное отсутствие чужой визуальной системы",
+      "priority": "P2",
+      "skills": [
+        "sheleg-design"
+      ],
+      "evidence": [
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+          "line": 237,
+          "receipt": "unstyled primitives plus Tailwind, themed through CSS custom properties — so it",
+          "claim": "shadcn/ui назван unstyled primitives"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+          "line": 242,
+          "receipt": "**The two vocabularies are different, and this is the trap.** The packs resolve",
+          "claim": "Граница адаптации сведена к словарю CSS variables"
+        }
+      ],
+      "mechanism": "Если библиотека считается не имеющей default look, модель может заменить цвета и сохранить все остальные её choices: spacing, anatomy, radius composition, shadow, type scale. Так появляется тематизированный starter; виноват не сам shadcn, а недостаточный component adaptation contract.",
+      "observed": "Официальная документация shadcn/ui прямо описывает Beautiful Defaults и default styles. Это проверенная фактическая неточность описания зависимости; runtime ухудшение на Nicegram не относится сюда, поскольку shadcn там не использовался.",
+      "fix": "Описать shadcn как редактируемые styled components, использующие headless primitives. Выделить adapter contract: semantic color + geometry + density + typography + elevation + state/anatomy. После token remap обязательно сравнить rendered component matrix с выбранным direction. Не объявлять custom component edits автоматически redesign.",
+      "acceptance": "В fixture взять Card/Button/Dialog одной версии shadcn, применить pack и проверить не только цветовые variables, но вычисленные размеры, padding, radius, shadow, fonts, states. Список намеренно сохранённых defaults должен быть явным. Документация dependency подтверждается https://ui.shadcn.com/docs; version/checked date фиксируются.",
+      "cross_references": [],
+      "classification": "verified_external_factual_mismatch",
+      "source_files": [
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md"
+      ],
+      "context_levels": {
+        "instruction_defined": true,
+        "observed_loaded_in_Nicegram": "See nicegram-route-receipt.json; not all downstream files were loaded there",
+        "artifact_observed": "Официальная документация shadcn/ui прямо описывает Beautiful Defaults и default styles. Это проверенная фактическая неточность описания зависимости; runtime ухудшение на Nicegram не относится сюда, поскольку shadcn там не использовался.",
+        "causal_hypothesis": "Если библиотека считается не имеющей default look, модель может заменить цвета и сохранить все остальные её choices: spacing, anatomy, radius composition, shadow, type scale. Так появляется тематизированный starter; виноват не сам shadcn, а недостаточный component adaptation contract.",
+        "live_model_comparison": "not run; no causal effect size or universal quality verdict"
+      }
+    },
+    {
+      "id": "VD-05",
+      "title": "Общий kit spine фиксирует внешний API ценой базовой DOM-семантики и доступных адаптаций",
+      "priority": "P1",
+      "skills": [
+        "sheleg-design"
+      ],
+      "evidence": [
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+          "line": 68,
+          "receipt": "- **Names are the interface.** The spine — the same six component names and props in",
+          "claim": "Шесть API намеренно одинаковы во всех39kits"
+        },
+        {
+          "path": "repo://sheleg-design/kits/workbench/src/Button.tsx",
+          "line": 3,
+          "receipt": "export interface ButtonProps {",
+          "claim": "ButtonProps не наследует native attributes"
+        },
+        {
+          "path": "repo://sheleg-design/kits/workbench/src/Button.tsx",
+          "line": 23,
+          "receipt": "      type=\"button\"",
+          "claim": "type всегда button"
+        },
+        {
+          "path": "repo://sheleg-design/kits/workbench/src/Button.tsx",
+          "line": 27,
+          "receipt": "      disabled={disabled}",
+          "claim": "В DOM передаются лишь disabled/onClick"
+        },
+        {
+          "path": "repo://sheleg-design/kits/workbench/src/Heading.tsx",
+          "line": 5,
+          "receipt": "  level?: 1 | 2 | 3;",
+          "claim": "level1..3 одновременно задаёт семантику и visual scale"
+        },
+        {
+          "path": "repo://sheleg-design/kits/workbench/src/Heading.tsx",
+          "line": 11,
+          "receipt": "  const Tag = `h${level}` as 'h1' | 'h2' | 'h3';",
+          "claim": "hN и CSS level связаны"
+        }
+      ],
+      "mechanism": "Без passthrough нативных props reference Button не поддерживает полноценный icon-only label, aria-expanded/controls, type=submit, form, focus ref. Без независимых semantic level и visual variant заголовок ради нужного размера вынуждает менять document outline. Внешне ровная система получает композиционные ограничения; renderer приходится дублировать или обходить reference kit.",
+      "observed": "Подтверждено чтением полного workbench kit и механическим сканированием39Button/39Heading. Непереданные props отбрасываются destructuring, независимо от того, разрешит ли TS конкретный aria-* синтаксис. Это статически определённое поведение; live rendering всех kits не запускался. Nicegram не использовал этот React kit, поэтому ему этот defect не приписан.",
+      "fix": "Общий spine должен включать native props и ref с контролируемым override, Button type=button default но переопределяемый, aria/state passthrough. Heading: независимые as/level и visual size. Единообразный API сохранить, расширив контракт сразу во всех kits. Отделить reference primitives от полноценного product component system и добавить composition recipes для forms/dialogs/navigation.",
+      "acceptance": "Small tests: icon-only button передаёт aria-label; trigger передаёт aria-expanded/controls; submit button отправляет форму; ref.focus работает; heading h2 может выглядеть как display/h1, не меняя outline. Проверить это через реальный DOM/render хотя бы одного representative kit и structural shared-contract check39, без обязательных39live builds.",
+      "cross_references": [],
+      "classification": "observed_static_component_defect",
+      "source_files": [
+        "repo://sheleg-design/kits/workbench/src/Button.tsx",
+        "repo://sheleg-design/kits/workbench/src/Heading.tsx",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md"
+      ],
+      "context_levels": {
+        "instruction_defined": true,
+        "observed_loaded_in_Nicegram": "See nicegram-route-receipt.json; not all downstream files were loaded there",
+        "artifact_observed": "Подтверждено чтением полного workbench kit и механическим сканированием39Button/39Heading. Непереданные props отбрасываются destructuring, независимо от того, разрешит ли TS конкретный aria-* синтаксис. Это статически определённое поведение; live rendering всех kits не запускался. Nicegram не использовал этот React kit, поэтому ему этот defect не приписан.",
+        "causal_hypothesis": "Без passthrough нативных props reference Button не поддерживает полноценный icon-only label, aria-expanded/controls, type=submit, form, focus ref. Без независимых semantic level и visual variant заголовок ради нужного размера вынуждает менять document outline. Внешне ровная система получает композиционные ограничения; renderer приходится дублировать или обходить reference kit.",
+        "live_model_comparison": "not run; no causal effect size or universal quality verdict"
+      }
+    },
+    {
+      "id": "VD-06",
+      "title": "Dials дают числовой ритуал без воспроизводимой визуальной калибровки двух осей",
+      "priority": "P2",
+      "skills": [
+        "sheleg-design"
+      ],
+      "evidence": [
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+          "line": 107,
+          "receipt": "- **`DESIGN_VARIANCE`** 1–10 — 1 is perfect symmetry, 10 is deliberate",
+          "claim": "Variance определён лишь крайними значениями"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+          "line": 110,
+          "receipt": "- **`VISUAL_DENSITY`** 1–10 — 1 is a gallery wall, 10 is a cockpit.",
+          "claim": "Density определён gallery/cockpit"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+          "line": 127,
+          "receipt": "| redesign, preserve the existing identity | match | match +1 | match |",
+          "claim": "Preserve redesign автоматически match+1motion"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+          "line": 146,
+          "receipt": "The pack wins on values, the dials win on amount — a dial never invents a colour,",
+          "claim": "Amount отделён от value"
+        },
+        {
+          "path": "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+          "line": 5,
+          "receipt": "Register: everyday mobile AI chat, restrained and native. Calibration 4 / 1 / 5.",
+          "claim": "Nicegram4/1/5"
+        },
+        {
+          "path": "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+          "line": 12,
+          "receipt": "Motion tokens: static concept. Native transitions and live SSE are not implemented.",
+          "claim": "Статичный концепт без native transitions"
+        }
+      ],
+      "mechanism": "Цифра4/1/5 выглядит как измерение, хотя density5 не связывает высоту пустой области, число visible rows или text width, а variance4 не определяет композиционный диапазон. Для motion есть дополнительная frequency table, для этих осей аналогичного rendered anchor нет. Автоматический motion+1 при preserve не вытекает из цели. Высокая детализация чисел способна заменить визуальное решение декларацией.",
+      "observed": "Числа Nicegram сохранены на нескольких этапах. Source .welcome padding-top85px плюс phone geometry задают реальную композицию, но ссылка density5 на такой результат не дана. Это недостаток операционализации, не доказанный причинный эффект и не требование делать любой чат плотным.",
+      "fix": "Сделать dials необязательной shorthand, основной контракт — reference anchors + наблюдаемые targets конкретного сценария: reading width, CTA reachability, visible alternatives, keyboard state, deliberate empty-space purpose. Для сохранения identity motion не повышать автоматически. Для числа указывать example/counterexample или выводить его из принятого direction, а не закреплять до первого рендера.",
+      "acceptance": "Два независимых исполнителя по одному brief должны объяснить через одинаковые наблюдаемые признаки, что означает density/variance. Число без anchors не считается evidence. Проверить quiet dashboard, consumer chat и accessibility-large-text: одинаковая цифра не подменяет разные платформенные задачи.",
+      "cross_references": [],
+      "classification": "observed_underspecified_control_with_unmeasured_outcome",
+      "source_files": [
+        "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md"
+      ],
+      "context_levels": {
+        "instruction_defined": true,
+        "observed_loaded_in_Nicegram": "See nicegram-route-receipt.json; not all downstream files were loaded there",
+        "artifact_observed": "Числа Nicegram сохранены на нескольких этапах. Source .welcome padding-top85px плюс phone geometry задают реальную композицию, но ссылка density5 на такой результат не дана. Это недостаток операционализации, не доказанный причинный эффект и не требование делать любой чат плотным.",
+        "causal_hypothesis": "Цифра4/1/5 выглядит как измерение, хотя density5 не связывает высоту пустой области, число visible rows или text width, а variance4 не определяет композиционный диапазон. Для motion есть дополнительная frequency table, для этих осей аналогичного rendered anchor нет. Автоматический motion+1 при preserve не вытекает из цели. Высокая детализация чисел способна заменить визуальное решение декларацией.",
+        "live_model_comparison": "not run; no causal effect size or universal quality verdict"
+      }
+    },
+    {
+      "id": "VD-07",
+      "title": "Каталог внешнего frontend-design приписывает найденному skill запреты, которых его текущий файл не содержит",
+      "priority": "P2",
+      "skills": [
+        "sheleg-design"
+      ],
+      "evidence": [
+        {
+          "path": "repo://sshlg-skills/lib/packs.js",
+          "line": 152,
+          "receipt": "        why: 'refuses the default look before a line is written — bans Inter/Roboto/Arial, forces one committed aesthetic direction',",
+          "claim": "Recommendation why утверждает bans Inter/Roboto/Arial"
+        },
+        {
+          "path": "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+          "line": 19,
+          "receipt": "Typography carries the personality of the page. Pair the display and body faces deliberately, not the same families you would reach for on any other project, and set a clear type scale with intentional weights, widths, and spacing. Make the type treatment itself a memorable part of the design, not a neutral delivery vehicle for the content.",
+          "claim": "Достигнутый skill требует deliberate pairing, не запрет этих fonts"
+        },
+        {
+          "path": "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+          "line": 31,
+          "receipt": "For calibration: AI-generated design right now clusters around three looks: (1) a warm cream background (near #F4F1EA) with a high-contrast serif display and a terracotta accent; (2) a near-black background with a single bright acid-green or vermilion accent; (3) a broadsheet-style layout with hairline rules, zero border-radius, and dense newspaper-like columns. All three are legitimate for some briefs, but they are defaults rather than choices, and they appear regardless of subject. Where the brief pins down a visual direction, follow it exactly — the brief's own words always win, including when it asks for one of these looks. Where it leaves an axis free, don't spend that freedom on one of these defaults. Just like a human designer who's hired, there's often a careful balance between doing what you're good at and taking each project as a chance to experiment and learn.",
+          "claim": "Явный brief всегда wins"
+        },
+        {
+          "path": "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+          "line": 33,
+          "receipt": "Work in two passes. First, brainstorm a short design plan based on the human's design brief: create a compact token system with color, type, layout, and signature. Color: describe the palette as 4–6 named hex values. Type: the typefaces for 2+ roles (a characterful display face that's used with restraint, a complementary body face, and a utility face for captions or data if needed). Layout: a layout concept, using one-sentence prose descriptions and ASCII wireframes to ideate and compare. Signature: the single unique element this page will be remembered by that embodies the brief in an appropriate way.",
+          "claim": "Внешний plan вводит собственные palette/type/signature"
+        },
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+          "line": 104,
+          "receipt": "**Ours versus theirs is not a loyalty question.** Where an outside skill answers",
+          "claim": "Внешний skill допускается только как lane tool"
+        }
+      ],
+      "mechanism": "Роутинг оценивает tool по hand-authored why, но presence устанавливается по имени, не по semantic version/digest. Поэтому достигнутый локальный frontend-design может иметь другую доктрину. Одновременно его собственный процесс предлагает создать identity заново, а sheleg разрешает лишь работу внутри pack. Без scoped brief контрактов модель либо подавляет полезную exploration часть, либо заводит вторую identity.",
+      "observed": "В текущем reachable ~/.agents/skills/frontend-design/SKILL.md нет Inter/Roboto/Arial bans. Исходный upstream по source string не переаудирован, поэтому finding именно про несоответствие recommendation реально достигнутому skill на этой машине. В retrieved Nicegram turn его чтение не найдено; обвинять конкурирующий skill в результате Nicegram нельзя.",
+      "fix": "Указывать resolved path/digest/version/provenance и обновлять why по достигнутому descriptor либо помечать как generic upstream description. Для каждого cast tool давать scoped input: что fixed, что open, какие deliverables нужны, чьи инструкции о copy/implementation применимы. frontend-design использовать для concept hypotheses/visual critique внутри согласованных границ, а не второй end-to-end router.",
+      "acceptance": "Fixture с двумя разными frontend-design реализациями одного имени показывает оба источника, выбирает actual resolved file и не печатает отсутствующие bans. Cast handoff для preserve-brand передаёт palette invariants, но оставляет composition exploration; для exact-Figma reproduction отключает aesthetic risk. Route trace хранит digest прочитанной версии.",
+      "cross_references": [],
+      "classification": "observed_local_descriptor_mismatch",
+      "source_files": [
+        "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+        "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "repo://sshlg-skills/lib/packs.js"
+      ],
+      "context_levels": {
+        "instruction_defined": true,
+        "observed_loaded_in_Nicegram": "See nicegram-route-receipt.json; not all downstream files were loaded there",
+        "artifact_observed": "В текущем reachable ~/.agents/skills/frontend-design/SKILL.md нет Inter/Roboto/Arial bans. Исходный upstream по source string не переаудирован, поэтому finding именно про несоответствие recommendation реально достигнутому skill на этой машине. В retrieved Nicegram turn его чтение не найдено; обвинять конкурирующий skill в результате Nicegram нельзя.",
+        "causal_hypothesis": "Роутинг оценивает tool по hand-authored why, но presence устанавливается по имени, не по semantic version/digest. Поэтому достигнутый локальный frontend-design может иметь другую доктрину. Одновременно его собственный процесс предлагает создать identity заново, а sheleg разрешает лишь работу внутри pack. Без scoped brief контрактов модель либо подавляет полезную exploration часть, либо заводит вторую identity.",
+        "live_model_comparison": "not run; no causal effect size or universal quality verdict"
+      }
+    }
+  ],
+  "read_inventory": [
+    {
+      "path": "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+      "mode": "read_full",
+      "bytes": 8260,
+      "lines": 55,
+      "sha256": "1608ea77fbb6fc30d13a97d12cfa8ebf31358d40f0dd97beed24829d6b3f45dd"
+    },
+    {
+      "path": "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+      "mode": "read_full",
+      "bytes": 1775,
+      "lines": 17,
+      "sha256": "6c78ff0be8abac64f3031ad158f54884e0080bef2be77bd12f48b032e678343e"
+    },
+    {
+      "path": "machine-snapshot://DATA/nicegram-assistant-preview/docs/BRIEF.md",
+      "mode": "read_full",
+      "bytes": 8609,
+      "lines": 55,
+      "sha256": "8c564efa703109256ea6e68833be541a6b5e463099e9ca0914cd9111f1dbab69"
+    },
+    {
+      "path": "machine-snapshot://DATA/nicegram-assistant-preview/docs/VERIFICATION-SCENARIOS.md",
+      "mode": "read_full",
+      "bytes": 6550,
+      "lines": 54,
+      "sha256": "7123f0142f6ca7dbd2764031df8f743ad47a2dbf528e0dcaa93ab0a60664c19b"
+    },
+    {
+      "path": "machine-snapshot://DATA/nicegram-assistant-preview/docs/VERIFICATION.md",
+      "mode": "read_full",
+      "bytes": 3093,
+      "lines": 33,
+      "sha256": "e588cdba2c7b6f95a9aa2d616b238aca4a69a64871898a9a2b20ce54ea9d5048"
+    },
+    {
+      "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.css",
+      "mode": "read_full",
+      "bytes": 6033,
+      "lines": 1,
+      "sha256": "fb98591b4e21c62b3c2b28d9e5f0e6b21d7c2db7ce448083f3aa8c44eb070bd9"
+    },
+    {
+      "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/style.css",
+      "mode": "read_full",
+      "bytes": 11335,
+      "lines": 2,
+      "sha256": "a65e372ae70d53fe0a432d40b6014ee50b09668292287317aaf00f41ae1ba4fc"
+    },
+    {
+      "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/tokens.css",
+      "mode": "read_full",
+      "bytes": 824,
+      "lines": 2,
+      "sha256": "555aa1172a0382dd02a070b3da8c0b14804cfa8397120d2dc15eaf6d11397e94"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/.design-sync/conventions.md",
+      "mode": "read_full",
+      "bytes": 1818,
+      "lines": 31,
+      "sha256": "60cc52e87366b7ef1245e2b1b2deea73023d3e801c1faf49ac3190298f729a08"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/README.md",
+      "mode": "read_full",
+      "bytes": 585,
+      "lines": 16,
+      "sha256": "e18bb8eeed244ec22af285e50e0627f9c1f7495536eb961243dfa836e39b7e81"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/package.json",
+      "mode": "read_full",
+      "bytes": 477,
+      "lines": 14,
+      "sha256": "b5f2008a4a1471492e28d2fec766e59fa45dc18fd1d2309ff6c71bc1d103422c"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Button.md",
+      "mode": "read_full",
+      "bytes": 700,
+      "lines": 16,
+      "sha256": "551be43007e89e9eed1991c6b701d30e48d4f2539a6603f211b3b41796a562d8"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Button.tsx",
+      "mode": "read_full",
+      "bytes": 705,
+      "lines": 33,
+      "sha256": "b89d875d79dd52c05c5920d0d70a90f0f60d2157d2f8361c5f566df9087ab11c"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Card.md",
+      "mode": "read_full",
+      "bytes": 596,
+      "lines": 16,
+      "sha256": "7d9a78b20ff4c4ad2421aa820323d5003c342ec0a719e04b9726c126b24377cd"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Card.tsx",
+      "mode": "read_full",
+      "bytes": 764,
+      "lines": 24,
+      "sha256": "de196936656774d845688258fd242e237c9235635c8ce5b2093858afaedae372"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Chip.md",
+      "mode": "read_full",
+      "bytes": 582,
+      "lines": 16,
+      "sha256": "3291a83b73a7c837242ee4ca52becf5625dd2356be71b51ec86449c02af53ac3"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Chip.tsx",
+      "mode": "read_full",
+      "bytes": 519,
+      "lines": 25,
+      "sha256": "aa11ac92670210209a57843a8568f5783f414d9dc9a8d15cd266db45faef87ab"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/DataTable.md",
+      "mode": "read_full",
+      "bytes": 945,
+      "lines": 31,
+      "sha256": "0ba3f72215ce8cb103fbea13434609a9ef0b1bffed03a85a54e9e8ffe2f063b1"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/DataTable.tsx",
+      "mode": "read_full",
+      "bytes": 2580,
+      "lines": 85,
+      "sha256": "aa15c6fc623a78e7bd60d3743bb729d82af4ce6b10bfaa1fe56752fe9a331130"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/DestructiveButton.md",
+      "mode": "read_full",
+      "bytes": 1126,
+      "lines": 25,
+      "sha256": "f8aa28f14cc68a084bdbbcb11117a0fb2edfb9becc93410bfcc2d2acbd027c71"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/DestructiveButton.tsx",
+      "mode": "read_full",
+      "bytes": 1419,
+      "lines": 55,
+      "sha256": "f2f167cd60f1f001c7225d2f5f73a3e6ac3d36b488e975b975e413e13e2bfd74"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/EmptyState.md",
+      "mode": "read_full",
+      "bytes": 541,
+      "lines": 17,
+      "sha256": "09bcc50d8d7538827988be81b6cb916afd05d64fcc4fbd247b7f95e159bdc943"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/EmptyState.tsx",
+      "mode": "read_full",
+      "bytes": 716,
+      "lines": 23,
+      "sha256": "402300ff2d98ef05cd870e533f169e1aca29cf1a5a28844bef7fa2bbf68d5d30"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Heading.md",
+      "mode": "read_full",
+      "bytes": 520,
+      "lines": 14,
+      "sha256": "9e4b294f324549732fd688f0cf4ce63c91efd7d6b644cdf1b86fdf900c669c91"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Heading.tsx",
+      "mode": "read_full",
+      "bytes": 497,
+      "lines": 19,
+      "sha256": "12c1604233bee873c6f6f6997d9aab7c9424e94df9d0e93c63401890ee9b3121"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/ProgressBar.md",
+      "mode": "read_full",
+      "bytes": 688,
+      "lines": 16,
+      "sha256": "94d32a9d672fb861c493f140a6a678d25ee587a8e7e6f8c62c8e0cc0df39aa83"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/ProgressBar.tsx",
+      "mode": "read_full",
+      "bytes": 1231,
+      "lines": 43,
+      "sha256": "80ffd24aa858c9dec820f61a6a058019668f1c39052e342a420248aeecede945"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Rule.md",
+      "mode": "read_full",
+      "bytes": 532,
+      "lines": 17,
+      "sha256": "6435017f7d43f686a25070eb6373d39e6abc98f227e319dfc929848596097b3d"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Rule.tsx",
+      "mode": "read_full",
+      "bytes": 356,
+      "lines": 18,
+      "sha256": "6304e4338cc2553e6c86aabb01ab9037cc00cf3b5599c8c6973527bafe107372"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/SegmentedControl.md",
+      "mode": "read_full",
+      "bytes": 720,
+      "lines": 24,
+      "sha256": "e74cac77ad3a8d57e5f549ee6547b0271c5d42525804161763c3f97933336f28"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/SegmentedControl.tsx",
+      "mode": "read_full",
+      "bytes": 877,
+      "lines": 41,
+      "sha256": "836cd85a1780ccf0e32d359a84f13409c59df8f02f7d0b671c00ba331f56b3cb"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Stat.md",
+      "mode": "read_full",
+      "bytes": 565,
+      "lines": 14,
+      "sha256": "dcf9a33cfb815980aad49c65d257560690316c05efe53fa7352ab6b570383cbe"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/Stat.tsx",
+      "mode": "read_full",
+      "bytes": 540,
+      "lines": 17,
+      "sha256": "3027330f4dde7549667d9463092ce3b4dfdec12f4d53f932e89d149158f309aa"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/StatusDot.md",
+      "mode": "read_full",
+      "bytes": 792,
+      "lines": 17,
+      "sha256": "0063a19be5ba43c60fae8faac92302dbc40aa2ca697bc80e13ba86890766f592"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/StatusDot.tsx",
+      "mode": "read_full",
+      "bytes": 928,
+      "lines": 32,
+      "sha256": "4e21d610defeb9ec2789603c5ac940caf6a29a87e33a1240c8dc865018d063a1"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/index.ts",
+      "mode": "read_full",
+      "bytes": 1336,
+      "lines": 27,
+      "sha256": "c1217cbbb89a7f8e4c1b2f44129f3cbf6d6a86da045f7cc5ff0d9bfba7bd246d"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/src/styles.css",
+      "mode": "read_full",
+      "bytes": 14087,
+      "lines": 542,
+      "sha256": "9619317cece4141c9f8df7a1a8905178d6015dd1250f8ff1ae809e5abde2b475"
+    },
+    {
+      "path": "repo://sheleg-design/kits/workbench/tsconfig.json",
+      "mode": "read_full",
+      "bytes": 304,
+      "lines": 15,
+      "sha256": "0c26802106adc018e1bb31d997729274e08a9f338ee16163a34f75cf20a50c24"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+      "mode": "read_full",
+      "bytes": 10146,
+      "lines": 206,
+      "sha256": "c51fba0ba6dd8268313025f70fad65519e1f04eabf870df6a6167ff0f81e6182"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+      "mode": "read_full",
+      "bytes": 12810,
+      "lines": 252,
+      "sha256": "245951a4a3adc9f52566b13cbb35b7e9548200e6d04fbf59a857502c4a442bf2"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+      "mode": "read_full",
+      "bytes": 12109,
+      "lines": 208,
+      "sha256": "54af980e952ed2d95a1fbbea613b6924c633d86e37f38c41052268abac798d38"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/FIGMA_BRIDGE.md",
+      "mode": "read_full",
+      "bytes": 6590,
+      "lines": 135,
+      "sha256": "cbce5b64a50e25aee903b26a2d068a936b0f6bafe8fe8dcc7ac8310660f03d4d"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+      "mode": "read_full",
+      "bytes": 7810,
+      "lines": 131,
+      "sha256": "a65dc292c48868b0c5d1ca4ead4aad17d1c4dec32253ffe5e81ecab86b72031e"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "mode": "read_full",
+      "bytes": 18846,
+      "lines": 318,
+      "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c"
+    },
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/references/figma-integration.md",
+      "mode": "read_full",
+      "bytes": 10271,
+      "lines": 184,
+      "sha256": "1a952657c734dfb1358fe2abf69779d4a83e8e6582f4f65b42d2fcd1a308ad7b"
+    },
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/references/visual-identity.md",
+      "mode": "read_full",
+      "bytes": 7705,
+      "lines": 140,
+      "sha256": "3771fd7aab529c71ff15fe0cd9bb38c71cd1e016162ca73edd7f37acf955d36e"
+    },
+    {
+      "path": "repo://sshlg-skills/lib/packs.js",
+      "mode": "read_selected",
+      "scope": "lines1–260; remainder not semantically reread"
+    },
+    {
+      "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.js",
+      "mode": "read_selected",
+      "scope": "setupTask/context markup and references found by rg; not read in full"
+    },
+    {
+      "path": "machine-snapshot://DATA/nicegram-assistant-preview/docs/ux/audits/2026-09-07-baseline.md",
+      "mode": "read_selected",
+      "scope": "visual and focus findings via rg"
+    }
+  ],
+  "scanned_shared_kit_contracts": [
+    {
+      "pack": "almanac",
+      "button_path": "repo://sheleg-design/kits/almanac/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/almanac/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "0f782511c121a43a51c89c1b33527d1cbd5bf4435946525ceeeecb48ea06dc50",
+      "heading_sha256": "d515bf4924c4e368e1b6adb8ab53d06f39c8e3783db4c3f1bebb1bce1ff4baa8"
+    },
+    {
+      "pack": "atrium",
+      "button_path": "repo://sheleg-design/kits/atrium/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/atrium/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "bb46071809d1986254e53fede027e093ee67000ea836ddb9a1caad919f758152",
+      "heading_sha256": "49594d6197d9f8e7562e6915e54789da8295a967dbc6384654ed4d5f609933c6"
+    },
+    {
+      "pack": "awning",
+      "button_path": "repo://sheleg-design/kits/awning/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/awning/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "dac53c00b6802536a71ad79c12244ecd7143523782bd9c8ae8cd470f16501f05",
+      "heading_sha256": "3b2df03df4c61d58a1e7fa73051f38e1f7f9d2f0cfc3134d38897715c73f11f6"
+    },
+    {
+      "pack": "babylove",
+      "button_path": "repo://sheleg-design/kits/babylove/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/babylove/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "581a4231ddcfad77b37aecbd4d812ecc04bccedc123359d87758bd2d0b59109c",
+      "heading_sha256": "08285cf693a2b4d85436c8c2bd4a664ac8499a513ecc63cb212d6d2bc43918fa"
+    },
+    {
+      "pack": "blueprint",
+      "button_path": "repo://sheleg-design/kits/blueprint/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/blueprint/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "07f078a6b1a11f0fa1787213d84282078c4cdb41e65437ec6a4352b33da25743",
+      "heading_sha256": "831cb406aa4685cc535bc7828e11361e367e78e6a331c7ca33a1474c1a02903a"
+    },
+    {
+      "pack": "briefing-room",
+      "button_path": "repo://sheleg-design/kits/briefing-room/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/briefing-room/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "6ab7d2f5e95034aec0e6839ce39dc6ed43366d4c8e872e02f23f8ae81a35c89c",
+      "heading_sha256": "35baab47b56cf1f6f6d3c7feb72b7afb9eb4db0dec2a21c937824a50adf4b03f"
+    },
+    {
+      "pack": "bulletin",
+      "button_path": "repo://sheleg-design/kits/bulletin/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/bulletin/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "193b76ef71c779772806765f13fe247eb30a37f302e3ab8940de9da98920cfd5",
+      "heading_sha256": "099bdc463e9e52b3e5291725448be88ed31a163fe86da06c84b9ac608e3da1e9"
+    },
+    {
+      "pack": "chorus",
+      "button_path": "repo://sheleg-design/kits/chorus/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/chorus/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "b2ebb8b5a46457f3fbd8fa4957d8b39c3ee1ba51a9ec5cd2a26d797adcce1ccf",
+      "heading_sha256": "f98fb679490de9d5f6145b3a5f86ffe850ea333a64093c1b4c37c8bfe81f1bcc"
+    },
+    {
+      "pack": "cyclorama",
+      "button_path": "repo://sheleg-design/kits/cyclorama/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/cyclorama/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "bfa3f0edd46d59255a888db62b82b4d44bcf708b40a1e40f8ed22c2ca453108c",
+      "heading_sha256": "4a0352be3bebb7612f753cdac8eb67b1bedeecfae14823813a59407be52b9094"
+    },
+    {
+      "pack": "datasheet",
+      "button_path": "repo://sheleg-design/kits/datasheet/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/datasheet/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "1663ddfc34a1a5fadbd1547829f1fb81862c7b09bdad6f9aad0233839c8242e8",
+      "heading_sha256": "b41ac55d2c5d27025ef221b022b338c36059dda3cef9b0b0311948daad1d6511"
+    },
+    {
+      "pack": "daylight",
+      "button_path": "repo://sheleg-design/kits/daylight/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/daylight/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "7cfd380a5f6327bbd5c19fea5fca4122fd02a4f2218ab422afc457d43c9a646c",
+      "heading_sha256": "09ed2b88e3390ecf261035091e317d502e0f1381c4fcc67e0a6c3bcb35898486"
+    },
+    {
+      "pack": "deskmate",
+      "button_path": "repo://sheleg-design/kits/deskmate/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/deskmate/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "8d45b8c6f263b083f1a466bb85df60fa40d62a7f26896246fc91718dc3d611f5",
+      "heading_sha256": "19d844f63a45cb62c464543583611941b3ae58682cbb9886c801f359f2f1145d"
+    },
+    {
+      "pack": "editorial-luxury",
+      "button_path": "repo://sheleg-design/kits/editorial-luxury/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/editorial-luxury/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "4593a681a3b7cd88749319a27a3e1ca16c1097dae4e791a1d5348f64b08d1923",
+      "heading_sha256": "198dbfcdee7957fe4d623b3f5a124a1dc2de73bac633e2acfcefbfd5903826a8"
+    },
+    {
+      "pack": "field-notes",
+      "button_path": "repo://sheleg-design/kits/field-notes/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/field-notes/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "e75936e5a21583ac04f4238d65f88963aa39b949f336e81682a7a9d52a413749",
+      "heading_sha256": "057283c43392b84770e68999564b98427d612701c71f7ef8771316e9ee8e6031"
+    },
+    {
+      "pack": "instrument-console",
+      "button_path": "repo://sheleg-design/kits/instrument-console/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/instrument-console/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "4e0b7ebdc13ff9af819104373e423f7428b20197b5854c190e31450a0976b7e5",
+      "heading_sha256": "54461d4ccd5e4f47a68ec42843d075f0e7e3011c6cebc999a5257167d7bf7a68"
+    },
+    {
+      "pack": "ledger",
+      "button_path": "repo://sheleg-design/kits/ledger/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/ledger/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "b5f0efc9f5d8dc2ed5493b1049b0b0cb607871796a6b36f51e0c04c4c4450853",
+      "heading_sha256": "5ebbfd3242f1c6c889bef091c4b3dadfafcbd50caa46d48de453431001699a38"
+    },
+    {
+      "pack": "manpage",
+      "button_path": "repo://sheleg-design/kits/manpage/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/manpage/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "d5f129b5f98e709e826a9cb88f82c096b8a7ef81cca79a2bc1f2f0f595d4a3cf",
+      "heading_sha256": "cee2cd6c6ec81f034e45f722a4b6c02a551c32946644d8748bc1631f5f153722"
+    },
+    {
+      "pack": "maquette",
+      "button_path": "repo://sheleg-design/kits/maquette/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/maquette/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "4c26697732d08abd250332eca280081657605c6ce053865d7307f5264e659c9c",
+      "heading_sha256": "7f3463f8b8678647175eb2c3a6387e7d7352955d6978b536246663afa419caa3"
+    },
+    {
+      "pack": "nameplate",
+      "button_path": "repo://sheleg-design/kits/nameplate/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/nameplate/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "ad4bc2112529fbedac061beb0dd6ec605825b5eb46d1c541bdec8bd1713af584",
+      "heading_sha256": "de222607b6505e2eae4d3ffe28cdcf0d43f08230b6b277623f3248c1df590397"
+    },
+    {
+      "pack": "notation",
+      "button_path": "repo://sheleg-design/kits/notation/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/notation/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "208b6e4b428627bed51cbb98c40add0d8f42cecdb4e58f42289a5c439754b6ca",
+      "heading_sha256": "0c82b7b97c10a75da114dc5212424a39c3acb7d7313eebc970a0cffe4288d001"
+    },
+    {
+      "pack": "onionskin",
+      "button_path": "repo://sheleg-design/kits/onionskin/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/onionskin/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "605ea20a1fe1908cc8085dba4c959926e7bd7b939fc3cf00e78e5c0f258dc368",
+      "heading_sha256": "64d2f180eeb6720179f484a33e84d498a7ef11a8d5d9f81bf5bfb36be5bced5b"
+    },
+    {
+      "pack": "ora",
+      "button_path": "repo://sheleg-design/kits/ora/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/ora/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "70dbe53cf5e6413b68f3ac5fee02e66b8805fcfe338f812d3a1fb95bb8efb811",
+      "heading_sha256": "3bd44226090d93396ec796cea7a1876ef9312fec77e3e65e926f82afd563b7ac"
+    },
+    {
+      "pack": "orchard",
+      "button_path": "repo://sheleg-design/kits/orchard/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/orchard/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "36e708861e10b070a7e9507d7702b41c3738ef78bbfe4fdeefe391e614381ce9",
+      "heading_sha256": "43ead6096ed3b432349e353f3f06e363e65ac40c633b4afd898c6c32b3e4c21c"
+    },
+    {
+      "pack": "outrank",
+      "button_path": "repo://sheleg-design/kits/outrank/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/outrank/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "bd1483545254d765dd1bc2cf499c46e618d33f1399321142bf3870a6d7d97c36",
+      "heading_sha256": "cb5a0ccb008075a0539f6afddf1887c3a09539ceb836353c9361183ab43cfb1d"
+    },
+    {
+      "pack": "paperclip",
+      "button_path": "repo://sheleg-design/kits/paperclip/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/paperclip/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "80706ceb53f635fe9f6d8fba0a42c87893bb90af9834c4b55da44fa67177d2e8",
+      "heading_sha256": "cd3b182c6f415863ba1c7a67790807f928e982fefb27fd7454fd00cc6a8ac99b"
+    },
+    {
+      "pack": "patchbay",
+      "button_path": "repo://sheleg-design/kits/patchbay/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/patchbay/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "8160de3ccbbfffb691d0401cf1d37d1ba1a3b43bf7f4a3a4971153f337f46885",
+      "heading_sha256": "45c4c166a04b8539fd82c9b475794421ebd0221cecec019ff945ad45a00a69bd"
+    },
+    {
+      "pack": "pigeonhole",
+      "button_path": "repo://sheleg-design/kits/pigeonhole/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/pigeonhole/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "bd71f80bee80147f16ded836a6e78448f65029b2b84a303d970bc6d335279ff7",
+      "heading_sha256": "5dbff70890a604c4300f87f55844cd7093a26b97a5ad1933953f043d861087b8"
+    },
+    {
+      "pack": "prism",
+      "button_path": "repo://sheleg-design/kits/prism/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/prism/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "cfa600ad8a4fc1c6f8b2eacd54d7cb9dcdbf67320b59bf459ccbbd0406adbe39",
+      "heading_sha256": "70d737fa6258b844c777c34b0b032a92f3d0f30b17e81e3bb8c86160d4329f6e"
+    },
+    {
+      "pack": "proscenium",
+      "button_path": "repo://sheleg-design/kits/proscenium/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/proscenium/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "c3658e981dbb21f7bf9c9398943acec8d5ae25eabb0af542c66b36348efb5876",
+      "heading_sha256": "b72733f563c672b37d2eb215a0457d380bab2d199b087f54fd8a7735c4d30bbd"
+    },
+    {
+      "pack": "rimlight",
+      "button_path": "repo://sheleg-design/kits/rimlight/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/rimlight/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "21157c09991d3bfabaa9281d4e7da1fcfd54beea126c14165ef2842cd2fbe674",
+      "heading_sha256": "583e9e82e3af0b101f5a027f2b88661a81bb701d57b095133c99554358e010a1"
+    },
+    {
+      "pack": "roster",
+      "button_path": "repo://sheleg-design/kits/roster/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/roster/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "5ec7845f253068800952d01ed2c5f3ff8a899296d22600993457e86a445c1744",
+      "heading_sha256": "700d3ce1d228836e16e7ceb3b23f0208eb159f441125dfa6388b3b3cdbac4505"
+    },
+    {
+      "pack": "router",
+      "button_path": "repo://sheleg-design/kits/router/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/router/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "5dceedae5f43e0840575c0cfc427344e1840b022b7dd96e0869f403242ffaf98",
+      "heading_sha256": "e018426cc15ada97f1a2a009335cabc90dad2145b94b098fb28f95faf1df8220"
+    },
+    {
+      "pack": "scoreboard",
+      "button_path": "repo://sheleg-design/kits/scoreboard/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/scoreboard/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "0779fd091742f38ccffd4731a32293f6498d4237c9788813422c430632051097",
+      "heading_sha256": "30712894b73d4fb314784c18114dee16c9478a3b497bb65a1e130413cc977986"
+    },
+    {
+      "pack": "showroom",
+      "button_path": "repo://sheleg-design/kits/showroom/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/showroom/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "90a50ee225fe1455a788fc41de4632ab7ce116412f5f2a7c72813adef6e749d1",
+      "heading_sha256": "d16d6b81dd4ca55e200dd31339ade3402fce7bfe8ced7f052a8f82a9cebc1d06"
+    },
+    {
+      "pack": "surveyor",
+      "button_path": "repo://sheleg-design/kits/surveyor/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/surveyor/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "91f92dbd0eae5d7f8e8fb52f9c5abee87cf657345d4e6672d491c61583004ff1",
+      "heading_sha256": "da32bb5df8e88f3c02a1480a1086e23ac7a10b61f9045195ba4355c291412353"
+    },
+    {
+      "pack": "tenor",
+      "button_path": "repo://sheleg-design/kits/tenor/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/tenor/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "1c9f4744e6fb45f56f5cda26b398e0a0f8be4c327c6edbb246f91b15de5e6348",
+      "heading_sha256": "af4e4845454d51b4419d095594ef9f3d83fcbda2e13daad3a47359f81d10f0f2"
+    },
+    {
+      "pack": "test-drive",
+      "button_path": "repo://sheleg-design/kits/test-drive/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/test-drive/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "4619763dffa17fc96ec1c632cd050c65f1c3d0f681c902bba46eaefdbf8844fb",
+      "heading_sha256": "ae41c33634523b1df0096343b4a6dde99d7698e5570eb68157cd51fdfecbed22"
+    },
+    {
+      "pack": "vitrine",
+      "button_path": "repo://sheleg-design/kits/vitrine/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/vitrine/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "f463721b0098dd430ad0f71a94e01fa7e6ca419fb33b448d2699039e44e59e86",
+      "heading_sha256": "d5c67e479029dc125239646ef2686e429e221d05387ec5df92726c1f5fed0d62"
+    },
+    {
+      "pack": "workbench",
+      "button_path": "repo://sheleg-design/kits/workbench/src/Button.tsx",
+      "heading_path": "repo://sheleg-design/kits/workbench/src/Heading.tsx",
+      "button_has_native_props_inheritance": false,
+      "button_has_props_spread": false,
+      "button_has_type_button": true,
+      "heading_visual_semantic_link": true,
+      "button_sha256": "b89d875d79dd52c05c5920d0d70a90f0f60d2157d2f8361c5f566df9087ab11c",
+      "heading_sha256": "12c1604233bee873c6f6f6997d9aab7c9424e94df9d0e93c63401890ee9b3121"
+    }
+  ],
+  "probe_results": {
+    "probe": "39 Button/Heading source-contract scan; no execution of React code",
+    "count": 39,
+    "native_props_inheritance": 0,
+    "props_spread": 0,
+    "fixed_button_type": 39,
+    "heading_coupled": 39
+  },
+  "web_sources": [
+    {
+      "url": "https://ui.shadcn.com/docs",
+      "supports": "shadcn ships default styles; it is not unstyled",
+      "checked": "2026-09-07"
+    },
+    {
+      "url": "https://react.dev/reference/react-dom/components/common",
+      "supports": "React DOM ARIA attributes pass through native props",
+      "checked": "2026-09-07"
+    }
+  ]
+}

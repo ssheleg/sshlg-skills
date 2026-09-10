@@ -1,0 +1,48 @@
+[
+  {
+    "name": "umbrella",
+    "cwd": "repo://sshlg-skills",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "exit": 0,
+    "seconds": 40.56,
+    "log": "umbrella-tests.log"
+  },
+  {
+    "name": "pipeline",
+    "cwd": "repo://task-pipeline",
+    "command": [
+      "npm",
+      "run",
+      "test:all"
+    ],
+    "exit": "timeout",
+    "seconds": 240.01,
+    "log": "pipeline-tests.log"
+  },
+  {
+    "name": "make-skill",
+    "cwd": "repo://make-skill",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "exit": 0,
+    "seconds": 23.81,
+    "log": "make-skill-tests.log"
+  },
+  {
+    "name": "seo",
+    "cwd": "repo://seo-aeo-audit",
+    "command": [
+      "npm",
+      "run",
+      "test:all"
+    ],
+    "exit": 1,
+    "seconds": 0.55,
+    "log": "seo-tests.log"
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "repo": "super-ux",
+    "path": "repo://super-ux",
+    "branch": "codex/context-ready-skills-20260907"
+  },
+  {
+    "repo": "task-pipeline",
+    "path": "repo://task-pipeline",
+    "branch": "codex/context-ready-skills-20260907"
+  },
+  {
+    "repo": "sheleg-design-skill",
+    "path": "repo://sheleg-design",
+    "branch": "codex/context-ready-skills-20260907"
+  }
+]

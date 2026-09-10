@@ -1,0 +1,78 @@
+{
+  "all_pass": true,
+  "checked_at": "2026-09-07T18:28:00.167199+00:00",
+  "checks": {
+    "current_plan_contracts_and_source_freshness": true,
+    "leaf_sidecars": true,
+    "plan-validation.json": true,
+    "plan-contract-tests.json": true,
+    "report-ui-validation.json": true,
+    "source_impeccable": true,
+    "source_juliano-designer": true,
+    "source_owl-designer": true,
+    "source_anthropic": true,
+    "source_composio": true,
+    "source_openai": true,
+    "patch_super-ux": true,
+    "worktree_diff_super-ux": true,
+    "validator_receipt_super-ux": true,
+    "patch_task-pipeline": true,
+    "worktree_diff_task-pipeline": true,
+    "validator_receipt_task-pipeline": true,
+    "patch_sheleg-design-skill": true,
+    "worktree_diff_sheleg-design-skill": true,
+    "validator_receipt_sheleg-design-skill": true,
+    "patch_make-skill": true,
+    "worktree_diff_make-skill": true,
+    "validator_receipt_make-skill": true,
+    "deliverable_local_links": true
+  },
+  "details": {
+    "plan_errors": [],
+    "source_snapshots": [
+      {
+        "name": "impeccable",
+        "head": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "clean": true
+      },
+      {
+        "name": "juliano-designer",
+        "head": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "clean": true
+      },
+      {
+        "name": "owl-designer",
+        "head": "9a6930cf84a822eb458624bd11c61aac5bbdf224",
+        "clean": true
+      },
+      {
+        "name": "anthropic",
+        "head": "41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f",
+        "clean": true
+      },
+      {
+        "name": "composio",
+        "head": "0930e1373789d2eda449039f7ac154b33031de89",
+        "clean": true
+      },
+      {
+        "name": "openai",
+        "head": "49f948faa9258a0c61caceaf225e179651397431",
+        "clean": true
+      }
+    ],
+    "local_links_checked": 1045,
+    "missing_links": [],
+    "parents": 139,
+    "leaves": 254,
+    "modified_source_files": 14,
+    "max_primary_bytes": 14961,
+    "independent_review": {
+      "verdict": "PASS_WITHIN_BOUNDED_REVIEW",
+      "reviewed_plan_sha256": "32462854774dd93165394c5f5523401442c04c21a72ac4511713d9285c290a1c",
+      "current_plan_sha256": "1c8fb13e6ca83fd558d2ed99f424113073c7f74cd438ce3229aff10cf263f4aa",
+      "scope": "The review receipt remains historical; final freshness and structural checks run against current bytes."
+    }
+  },
+  "scope": "Local artifact integrity, source snapshots, current plan contracts, patch receipts and report UI. No live host handoff, implementation outcome, release or model-quality claim."
+}

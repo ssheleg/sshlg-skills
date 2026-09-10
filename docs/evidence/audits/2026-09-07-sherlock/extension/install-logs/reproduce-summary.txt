@@ -1,0 +1,92 @@
+[
+  {
+    "id": "dry-run",
+    "exit": 0,
+    "plainSurvives": false,
+    "runtimeChanged": true,
+    "childCalls": 38
+  },
+  {
+    "id": "agent-scope",
+    "exit": 0,
+    "changedHosts": [
+      ".claude/CLAUDE.md",
+      ".codex/AGENTS.md",
+      ".gemini/GEMINI.md"
+    ],
+    "childCalls": 38
+  },
+  {
+    "id": "stale-registry",
+    "exit": 1,
+    "plainSurvives": false,
+    "pluginPayloadExists": false,
+    "childCalls": 9
+  },
+  {
+    "id": "fresh-all-order",
+    "exit": 0,
+    "plainSurvives": true,
+    "pluginRegistryPresent": true,
+    "childCalls": 27
+  },
+  {
+    "id": "force-copy-failure",
+    "exit": 1,
+    "oldInstallSurvives": false,
+    "childCalls": 0
+  },
+  {
+    "id": "super-menu-failure",
+    "exit": 0,
+    "childCalls": 4
+  },
+  {
+    "id": "custom-host-root",
+    "exit": 0,
+    "customRootChanged": false,
+    "defaultRootChanged": true,
+    "childCalls": 38
+  },
+  {
+    "id": "pin-plan",
+    "manifestVersion": "0.55.1",
+    "argv": [
+      "--yes",
+      "skills",
+      "add",
+      "ssheleg/super-ux",
+      "--agent",
+      "codex",
+      "--global",
+      "--yes"
+    ],
+    "refresh": [
+      "--yes",
+      "skills",
+      "update",
+      "vision",
+      "--global",
+      "--yes"
+    ],
+    "allAgentsWithClaudePlugin": [
+      "*"
+    ]
+  },
+  {
+    "id": "auto-update-unknown",
+    "state": {
+      "on": [],
+      "read": false
+    },
+    "notice": [
+      "",
+      "== How the next version arrives ==",
+      "  npx sshlg-skills@latest update",
+      "",
+      "  Auto-update is OFF for these packs on purpose. They are pinned and released",
+      "  as a set, so updating one on its own clock leaves a combination nobody",
+      "  tested — the same reason this launcher takes no member argument."
+    ]
+  }
+]

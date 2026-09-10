@@ -1,0 +1,495 @@
+{
+  "plan": "family debt closure 2026-09-10",
+  "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
+  "counts": {
+    "total": 30,
+    "done": 30,
+    "blocked": 0
+  },
+  "queue": [
+    {
+      "id": "HOUSE-01",
+      "title": "House skill audit gaps (seo-aeo-audit)",
+      "repo": "seo-aeo-audit",
+      "kind": "house",
+      "detail": "REF_NO_TOC: references/evidence-tiers.md (111 lines) needs a '## Contents' list — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "done",
+      "commit": "fea1426",
+      "checks": "house 0 GAP/18 PASS; check-docs OK; npm test EXIT=0",
+      "notes": "Contents list + GitHub-correct anchors (em dash → double hyphen); README counted figure 6054→~6,100"
+    },
+    {
+      "id": "HOUSE-02",
+      "title": "House skill audit gaps (telegram-dev)",
+      "repo": "telegram-dev",
+      "kind": "house",
+      "detail": "REF_NO_TOC: telegram-userbots/references/rate-and-flood.md (103) needs '## Contents' — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "done",
+      "commit": "89b76bd",
+      "checks": "house 0 GAP/18 PASS; npm test EXIT=0",
+      "notes": "Contents list for rate-and-flood.md (103 lines)"
+    },
+    {
+      "id": "HOUSE-03",
+      "title": "House skill audit gaps (agent-sync)",
+      "repo": "agent-sync",
+      "kind": "house",
+      "detail": "BODY_HEADROOM agent-sync/SKILL.md 4765 (>4750, grew +259 from sherlock) + REF_NO_TOC adapter-contract.md (111) — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "done",
+      "commit": "a434b57",
+      "checks": "house 1 GAP (untracked __pycache__ only); npm test EXIT=0",
+      "notes": "SKILL 4765→4693 by splitting the two-sources elaboration into references/two-sources.md which already held it in full; Contents list for adapter-contract.md"
+    },
+    {
+      "id": "HOUSE-04",
+      "title": "House skill audit gaps (sheleg-design-skill)",
+      "repo": "sheleg-design-skill",
+      "kind": "house",
+      "detail": "BODY_TOKENS sheleg-design/SKILL.md 5703 — HARD BREACH of the 5000 budget (grew +1428 from sherlock). House answer to a breach is a SPLIT into references, not a trim — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "done",
+      "commit": "1fb338a + (follow-up)",
+      "checks": "house 0 GAP/17 PASS; npm test EXIT=0",
+      "notes": "SKILL 5703→4730 via CALIBRATION.md/COMPONENT_LAYER.md/APPLYING.md splits + Three-looks into SHELEG_DESIGN.md; PACK_COMPARISON tried and reverted (all guarded); fix-vd-04.01 and sloplint SKILL_REQUIRED now read the RESOLVED bundle, since reading one file made the house remedy delete the doctrine the guards protect"
+    },
+    {
+      "id": "HOUSE-05",
+      "title": "House skill audit gaps (task-pipeline)",
+      "repo": "task-pipeline",
+      "kind": "house",
+      "detail": "BODY_TOKENS task-pipeline/SKILL.md 5429 — HARD BREACH (grew +822) → split; plus BUNDLE_UNREACHABLE evidence-docs/references/GENERATED.md not reachable from SKILL.md — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "done",
+      "commit": "bca5b55",
+      "checks": "house 0 GAP both skills; npm test EXIT=0",
+      "notes": "SKILL 5429→4691 by splitting the 40-row doctrine map into references/doctrine-map.md (reachability guard is transitive); evidence-docs GENERATED.md wired into SKILL; 5 counted figures recomputed 38→39 + conformance 313→279 lines"
+    },
+    {
+      "id": "HOUSE-06",
+      "title": "House skill audit gaps (super-ux)",
+      "repo": "super-ux",
+      "kind": "house",
+      "detail": "BODY_HEADROOM ux-audit 4882 + ux-flows 4809 (both >4750, grew ~+580 each) + REF_NO_TOC component-guidelines.md (118 lines, 4 synced copies — edit SOURCE then sync) — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "done",
+      "commit": "93ad5d0",
+      "checks": "house 0 GAP on all four ux-* skills; npm test EXIT=0",
+      "notes": "ux-audit 4882→4005 (references/audit-depth.md), ux-flows 4809→4607 (references/prototyping.md), component-guidelines Contents; edited SOURCE + synced; moved-block links flattened; facts.md 4674→4685"
+    },
+    {
+      "id": "HOUSE-07",
+      "title": "House skill audit gaps (sheleg-dev)",
+      "repo": "sheleg-dev",
+      "kind": "house",
+      "detail": "REF_NO_TOC crypto-payments/references/callback-route-hardening.md (102) needs '## Contents' — blocks the merge: House skill audit is a required CI check in all 9 members.",
+      "deps": [],
+      "status": "done",
+      "commit": "9c2b3b0",
+      "checks": "house 0 GAP/18 PASS; npm test EXIT=0",
+      "notes": "Contents list for callback-route-hardening.md (102 lines)"
+    },
+    {
+      "id": "MERGE-01",
+      "title": "PR + merge sherlock/impl-20260907 → main (seo-aeo-audit, 5 commits)",
+      "repo": "seo-aeo-audit",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [
+        "HOUSE-01"
+      ],
+      "status": "done",
+      "commit": "5566606",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
+    },
+    {
+      "id": "MERGE-02",
+      "title": "PR + merge sherlock/impl-20260907 → main (telegram-dev, 12 commits)",
+      "repo": "telegram-dev",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [
+        "HOUSE-02"
+      ],
+      "status": "done",
+      "commit": "3ac31db",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
+    },
+    {
+      "id": "MERGE-03",
+      "title": "PR + merge sherlock/impl-20260907 → main (make-skill, 13 commits)",
+      "repo": "make-skill",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "done",
+      "commit": "23de126",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
+    },
+    {
+      "id": "MERGE-04",
+      "title": "PR + merge sherlock/impl-20260907 → main (agent-sync, 14 commits)",
+      "repo": "agent-sync",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [
+        "HOUSE-03"
+      ],
+      "status": "done",
+      "commit": "3fd3623",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
+    },
+    {
+      "id": "MERGE-05",
+      "title": "PR + merge sherlock/impl-20260907 → main (agent-stack, 24 commits)",
+      "repo": "agent-stack",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "done",
+      "commit": "2a28ddf",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
+    },
+    {
+      "id": "MERGE-06",
+      "title": "PR + merge sherlock/impl-20260907 → main (sheleg-design-skill, 34 commits)",
+      "repo": "sheleg-design-skill",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [
+        "HOUSE-04"
+      ],
+      "status": "done",
+      "commit": "381d2f9",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
+    },
+    {
+      "id": "MERGE-07",
+      "title": "PR + merge sherlock/impl-20260907 → main (task-pipeline, 36 commits)",
+      "repo": "task-pipeline",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [
+        "HOUSE-05"
+      ],
+      "status": "done",
+      "commit": "42b1dce",
+      "checks": "PR #86 CI green after 462 validate steps (~3h of negative self-tests); squash-merged",
+      "notes": "three stale CI guards fixed along the way, each following its subject rather than its symptom: the navigator-link plant (FIX-ED-01.01 made the link in-set), the conditionals property check (count derived, and moved to a script when the workflow hit GitHub's 512KB limit), and the cold-retirement guard that had SILENTLY stopped running when its doctrine was reworded"
+    },
+    {
+      "id": "MERGE-08",
+      "title": "PR + merge sherlock/impl-20260907 → main (super-ux, 41 commits)",
+      "repo": "super-ux",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [
+        "HOUSE-06"
+      ],
+      "status": "done",
+      "commit": "1c2e4ab",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
+    },
+    {
+      "id": "MERGE-09",
+      "title": "PR + merge sherlock/impl-20260907 → main (sheleg-dev, 43 commits)",
+      "repo": "sheleg-dev",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [
+        "HOUSE-07"
+      ],
+      "status": "done",
+      "commit": "ebab4a1",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
+    },
+    {
+      "id": "MERGE-10",
+      "title": "PR + merge sherlock/impl-20260907 → main (sshlg-skills, 34 commits)",
+      "repo": "sshlg-skills",
+      "kind": "merge",
+      "detail": "Open a PR from sherlock/impl-20260907, confirm the member gate green on the merge result, merge (no force-push), verify main resolves to the merge commit.",
+      "deps": [],
+      "status": "done",
+      "commit": "4f8e96f",
+      "checks": "PR CI green (validate + House skill audit); squash-merged to main",
+      "notes": "sherlock branch merged; house audit now MEASURES the budget (auditor pin 5ca5c36 + tiktoken installed in CI)"
+    },
+    {
+      "id": "LEGACY-01",
+      "title": "Integrate super-ux PR#24 (interactive-flow-prototypes + ux-flows)",
+      "repo": "super-ux",
+      "kind": "integrate",
+      "detail": "PR#24 head codex/context-ready-skills-20260907: adds references/interactive-flow-prototypes.md (77 lines, 3 copies incl. synced), edits ux-flows/SKILL.md, ux-scenarios/SKILL.md, docs/HANDOFF.md, AGENTS/CLAUDE.md, facts.md. Resolve against merged sherlock work, edit SOURCE + sync, gate green.",
+      "deps": [
+        "MERGE-08"
+      ],
+      "status": "done",
+      "commit": "52487e1 (merged)",
+      "checks": "npm test EXIT=0; PR #26 merged",
+      "notes": "PR#24 integrated: interactive-flow-prototypes add/add resolved as TWO documents (sherlock graph contract keeps the name, handoff practice lands as clickable-flow-prototypes.md); ux-flows SKILL carries both edits; facts.md counted figure recomputed 4718 not chosen"
+    },
+    {
+      "id": "LEGACY-02",
+      "title": "Integrate task-pipeline PR#85 (planning/decomposition/artifacts/acceptance/backlog)",
+      "repo": "task-pipeline",
+      "kind": "integrate",
+      "detail": "PR#85 head codex/context-ready-skills-20260907: planning.md +154/-26, decomposition.md +83/-2, artifacts.md +23, acceptance.md +7, backlog.md +8/-1, SKILL.md, docs/HANDOFF.md. Resolve against merged sherlock work, gate green.",
+      "deps": [
+        "MERGE-07"
+      ],
+      "status": "done",
+      "commit": "aea2e14 (merged; PR #85 auto-closed)",
+      "checks": "npm test EXIT=0; PR #87 open",
+      "notes": "the doctrine-map conflict resolved for the pointer, verified by comparing row SETS (33 = 33, difference empty) rather than assuming; B-088 citation recomputed 83-100 → 101-105 after the handoff moved the passage"
+    },
+    {
+      "id": "LEGACY-03",
+      "title": "Integrate sheleg-design PR#28 (CREATIVE_DIRECTOR)",
+      "repo": "sheleg-design-skill",
+      "kind": "integrate",
+      "detail": "PR#28: CREATIVE_DIRECTOR.md +75/-2 in both plugin and .cursor copies, AGENTS.md, docs/HANDOFF.md. Resolve, keep one channel per copy rule, gate green.",
+      "deps": [
+        "MERGE-06"
+      ],
+      "status": "done",
+      "commit": "3624760 (merged)",
+      "checks": "npm test EXIT=0; PR #30 merged",
+      "notes": "PR#28 merged cleanly onto the sherlock work — CREATIVE_DIRECTOR.md +75 in both copies; the sherlock split never touched the decision layer"
+    },
+    {
+      "id": "LEGACY-04",
+      "title": "Integrate make-skill PR#18 (enterprise.md)",
+      "repo": "make-skill",
+      "kind": "integrate",
+      "detail": "PR#18: references/enterprise.md +42, SKILL.md, AGENTS.md, docs/HANDOFF.md. Resolve, gate green.",
+      "deps": [
+        "MERGE-03"
+      ],
+      "status": "done",
+      "commit": "merged via PR #21",
+      "checks": "npm test EXIT=0",
+      "notes": "PR#18 merged cleanly; the reworded enterprise.md row hit exactly the 4750 working limit and was tightened to 4747"
+    },
+    {
+      "id": "ISSUE-124",
+      "title": "Close sshlg-skills#124 — routegate escalation under bypassPermissions",
+      "repo": "sshlg-skills",
+      "kind": "fix",
+      "detail": "The route gate asks inside bypassPermissions and gates writes that never touch the repository. Fix per the issue, regression + gate, then close the issue with the commit.",
+      "deps": [
+        "MERGE-10"
+      ],
+      "status": "done",
+      "commit": "4f8e96f",
+      "checks": "test/routegate_test.js OK (24 checks), 3 named for #124",
+      "notes": "both proposed conditions already landed with the sherlock merge: bypassPermissions returns null, and a target resolving outside cwd returns null (conditional on the payload carrying both target and cwd — a call it cannot place keeps the old behaviour). Issue closed with the evidence."
+    },
+    {
+      "id": "REL-01",
+      "title": "Release the 9 members (version bump + annotated tag each)",
+      "repo": "members",
+      "kind": "release",
+      "detail": "For every member whose main moved: bump version, CHANGELOG, annotated tag (B-93: never a lightweight tag), push tag.",
+      "deps": [
+        "LEGACY-01",
+        "LEGACY-02",
+        "LEGACY-03",
+        "LEGACY-04",
+        "ISSUE-124"
+      ],
+      "status": "done",
+      "commit": null,
+      "checks": "9 of 9 released with annotated tags; tag + GitHub release + npm publish verified separately for each",
+      "notes": "task-pipeline v1.86.0 (0625f66) closed the set after a 463-step CI run; two members needed catch-up patches (agent-stack v0.24.2, sheleg-design v1.60.2) because the first attempt lagged its own bump"
+    },
+    {
+      "id": "REL-02",
+      "title": "Umbrella pins: skills.json + submodule + README together",
+      "repo": "sshlg-skills",
+      "kind": "release",
+      "detail": "The pin is the promise: three places move in one change; validator reads the version out of the submodule.",
+      "deps": [
+        "REL-01"
+      ],
+      "status": "done",
+      "commit": "release/v1.47.0 → PR #126",
+      "checks": "npm test EXIT=0 — 84 suites, 970 fixtures, 9 pinned members",
+      "notes": "all nine pins in all three homes; ratchet 1 → 0 at the guard's own demand; two counted figures recomputed with the VALIDATOR's pattern after mine disagreed (the ledger-row count missed the PP-2a id form), and the document's declared command corrected to the one that computes it"
+    },
+    {
+      "id": "REL-03",
+      "title": "Release sshlg-skills umbrella (annotated tag)",
+      "repo": "sshlg-skills",
+      "kind": "release",
+      "detail": "Version bump, CHANGELOG, annotated tag, push. GH-124 rule: the issue closes at merge+release.",
+      "deps": [
+        "REL-02"
+      ],
+      "status": "done",
+      "commit": "8a832a7",
+      "checks": "release.yml SUCCESS; npm sshlg-skills@1.47.0; GitHub release v1.47.0; annotated tag on the merge commit",
+      "notes": "v1.47.0 — the umbrella release closing the audit and the debt wave"
+    },
+    {
+      "id": "REL-04",
+      "title": "Update every local installation on this machine",
+      "repo": "host",
+      "kind": "release",
+      "detail": "npx --yes sshlg-skills@latest update (never a bare npx skills update <member>), then the shadow check must be empty. Definition of Done, not a follow-up.",
+      "deps": [
+        "REL-03"
+      ],
+      "status": "done",
+      "commit": null,
+      "checks": "npx --yes sshlg-skills@latest update → 55 of 55 steps, all green; shadow check empty; 0 broken symlinks; all nine installed plugin versions match what was released",
+      "notes": "the routing block was unchanged in all four host files (the operator's wording stands); the hook runtime refreshed 48 files (4 new: lifecycle, operation-result, quarantine, skillstore); Codex reported UNSUPPORTED_UPDATE honestly — it loads plugins through its own lifecycle and no native files were touched"
+    },
+    {
+      "id": "DOC-01",
+      "title": "Update repo docs to the merged reality",
+      "repo": "all",
+      "kind": "docs",
+      "detail": "Each repo's README/CLAUDE.md/docs claims recomputed: counted figures, resolvable addresses, ratchets. Evidence-docs rule: a claim carries its receipt.",
+      "deps": [
+        "REL-03"
+      ],
+      "status": "done",
+      "commit": "n/a (machine doc, not under version control)",
+      "checks": "every repo doc claim is already enforced by that repo gate, and all nine gates are green; the machine CLAUDE.md figures recomputed by running its own \"Verifying the numbers above\" commands",
+      "notes": "real drift found in ~/CLAUDE.md: ~/DATA said 107 entries / 90 git repos, measured 158 / 141; skills dirs 71 → 73. Recomputed and re-dated (backup at ~/CLAUDE.md.bak-2026-09-10). The skill-hub figures (423 / 381 / 42 / 392 / 382 / 20) and the wiki install count (12) were still correct. Shadow check empty, 0 broken symlinks. NOTE: /Users/sshlg is not a repository, so this file cannot be committed — it is the operator's machine doc."
+    },
+    {
+      "id": "DOC-02",
+      "title": "Update the Obsidian projects wiki",
+      "repo": "wiki",
+      "kind": "docs",
+      "detail": "One vault: ~/DATA/obsidian-memory-vault/sshlg-projects-vault. Update projects/<name>/ overviews for the family members that changed, fix dangling links.",
+      "deps": [
+        "DOC-01"
+      ],
+      "status": "done",
+      "commit": "3e725c0 (vault)",
+      "checks": "obsidian-wiki lint before and after: broken_links 8 → 8, none introduced; every wikilink I added verified to resolve",
+      "notes": "nine overviews stopped restating a live version (all stale, some by ten releases) — now \"read at vX.Y.Z\", a provenance stamp; projects/telegram-dev created (the newest member had no page); one concept written: a guard keyed to a wording stops running rather than failing"
+    },
+    {
+      "id": "DOC-03",
+      "title": "Refresh GitHub repository descriptions + topics",
+      "repo": "github",
+      "kind": "docs",
+      "detail": "Each skill repo's GitHub description/topics/homepage made current with what the skill now does.",
+      "deps": [
+        "REL-03"
+      ],
+      "status": "done",
+      "commit": null,
+      "checks": "all 10 descriptions read against what each repo ships; homepage URLs return 200; the \"nine packs\" claim verified against skills.json and the submodule count",
+      "notes": "descriptions were already current — the one correction: sheleg-design advertised \"accessibility\" while the family map states accessibility has NO owner and the repo ships ACCESSIBILITY_EVIDENCE.md, which says what counts as PROOF of such a claim. Now reads \"the evidence bar for accessibility claims\". Topics: +accessibility, +evidence-based, +skills-marketplace."
+    },
+    {
+      "id": "FINAL-01",
+      "title": "Final check: gates, CI, pins, shadows, ledger truth",
+      "repo": "all",
+      "kind": "verify",
+      "detail": "Full regression sweep, CI green on main for every repo, submodule pins resolve, no shadow copies, every ledger claim verified.",
+      "deps": [
+        "DOC-01",
+        "DOC-02",
+        "DOC-03",
+        "REL-04"
+      ],
+      "status": "done",
+      "commit": null,
+      "checks": "all ten gates EXIT=0 on main; 241 audit-regression suites across the family; umbrella 84 suites / 970 fixtures / 9 pinned members; all nine pins resolve to versions verified as tag + GitHub release + npm publish; nine installed plugins match the released versions; shadow check empty; 0 broken symlinks across EVERY channel found by discovery; zero open issues family-wide; umbrella v1.47.1 released and published",
+      "notes": "the sweep earned its keep three times: it caught task-pipeline v1.86.0 tagged but never published, then that the umbrella had pinned that unpublished tag, then 104 dead symlinks in 49 channels the documented five-channel health check could not see. One finding is left OPEN FOR THE OPERATOR rather than closed: ~/.codex/skills carries none of the family, and installing into a channel someone may have emptied on purpose is a decision, not a debt."
+    }
+  ],
+  "flags": [
+    {
+      "id": "HOUSE-GAPS-FROM-SHERLOCK-20260910",
+      "state": "open",
+      "detail": "Pre-merge audit found the House skill audit (a required CI check in all 9 members) failing on the sherlock branches. Five SKILL bodies grew past their limit from the sherlock doctrine edits — sheleg-design 4275→5703 and task-pipeline 4607→5429 are HARD breaches of the 5000 budget; super-ux ux-audit 4304→4882, ux-flows 4229→4809 and agent-sync 4506→4765 are past the 4750 working limit. Four references crossed 100 lines without a '## Contents' list, and evidence-docs/GENERATED.md is unreachable from its SKILL.md. The member gates never caught this: npm test does not run the house auditor. Recorded as HOUSE-01..07, each blocking its repo's merge. __pycache__ BUNDLE_NESTED hits are untracked local artifacts, not a debt."
+    },
+    {
+      "id": "CI-MEASURES-BUDGET-20260910",
+      "state": "resolved",
+      "detail": "The House skill audit is a required check in all nine members and it was failing every sherlock branch. Two causes, both real: (1) the sherlock doctrine edits grew five SKILL bodies past their limits — fixed by splitting into bundled references, HOUSE-01..07; (2) the PINNED auditor ran without a tokenizer and issued a token verdict from a chars/3.9 ESTIMATE, gapping seven skills that are all under the limit when actually measured. That is the defect the auditor itself names (FIX-MS-01.01). The pin moved to make-skill@5ca5c36 and every member CI now installs tiktoken, so the budget is MEASURED. Two guards (fix-vd-04.01, sloplint) were changed to read the RESOLVED BUNDLE rather than SKILL.md alone, because reading one file made the house rule's own remedy delete the doctrine those guards protect."
+    },
+    {
+      "id": "RELEASE-VIA-PR-20260910",
+      "state": "noted",
+      "detail": "main is branch-protected in the members: a release commit cannot be pushed directly, so each release goes out as its own PR and the ANNOTATED tag (B-93) lands on the merge commit. Also recorded: the version bumper must never rewrite a dated record — docs/evidence/, audits/ and retro.md are excluded, because a ledger section states what was true AT a version and rewriting it is falsifying history. super-ux's ledger guard proved this by refusing the tree."
+    },
+    {
+      "id": "BUMPER-MUST-NOT-REWRITE-HISTORY-20260910",
+      "state": "resolved",
+      "detail": "A version bumper that replaces every occurrence rewrites dated records and historical prose. Caught twice by the repos themselves: super-ux's ledger guard refused a rewritten section heading, and telegram-dev's prose (\"both manifests declared X until v0.1.11\") would have been falsified. The bumper now skips docs/evidence/, audits/ and retro.md entirely, and within a file replaces only where the version is DECLARED — a JSON version field, a VERSION assignment, or a line that declares nothing else. It also derives the CHANGELOG heading shape from the repo."
+    },
+    {
+      "id": "COLD-GUARD-SILENTLY-DISARMED-20260910",
+      "state": "resolved",
+      "detail": "task-pipeline: the sherlock retrospective work reworded the cold-retirement trigger from \"five run stamps\" to \"five exposure opportunities\", and the guard enforcing that the condition names BOTH units was keyed to the old words. It did not fail — its corpus predicate matched nothing, every surface dropped out, and it passed everything. Found only because a negative self-test refused to plant. Fixed by building both the discovery predicate and the assertion from one _COLD_UNITS pattern, so they cannot disagree about scope; the failure message no longer names a unit, because naming one is what tied it to a wording. Committed as 0207e2a with both polarities verified."
+    },
+    {
+      "id": "FAMILY-STATE-20260910-0600",
+      "state": "measured",
+      "detail": "Measured against the MERGED mains, not the branches: 210 audit-regression suites across the nine members, 0 red. The umbrella gate on main: 84 suites, 970 fixtures, 9 pinned members, EXIT=0. Open issues across the whole family: ZERO. Open PRs: sshlg-skills#123 (this ledger branch, now merged up to main and green) and task-pipeline#87 with its superseded #85."
+    },
+    {
+      "id": "RELEASES-ACTUALLY-SHIPPED-20260910",
+      "state": "measured",
+      "detail": "A tag is not a release and a release is not a publish, so all three were checked separately for the eight members released today. GitHub releases: all 8 exist and their release.yml runs concluded SUCCESS. npm: all 8 serve the released version — super-ux 0.56.0, seo-aeo-audit 0.26.0, telegram-dev 0.2.0, agent-stack 0.24.0, sheleg-dev 0.12.0, agent-sync 1.20.0, make-skill 0.28.0, sheleg-design-skill 1.60.0. Note for the next reader: super-ux and sheleg-design-skill publish UNSCOPED, so `npm view @ssheleg/super-ux` returns nothing and reads as a failed publish — it is not."
+    },
+    {
+      "id": "GUARD-COUNT-MEASURED-NOT-GREPPED-20260910",
+      "state": "noted",
+      "detail": "task-pipeline requires the CHANGELOG to state `Guards: N → M`, and refuses a number that disagrees with the workflow. My grep said 432, the validator said 429 — its regex anchors on `^\\s*- name:` and mine matched three mentions inside quoted text. The validator was right. The real answer is 429 → 429: no guard was added, three plants were REPOINTED to follow their subjects to the wording those subjects had moved to."
+    },
+    {
+      "id": "PIN-DRY-RUN-FOUND-TWO-DEBTS-20260910",
+      "state": "open",
+      "detail": "Moving the eight pins in a throwaway branch BEFORE the real pin commit surfaced two things the umbrella would have failed on. (1) The README table is the third place the pin lives and the validator refuses it when skills.json and the table disagree — the pin script now moves all three. (2) Two members shipped a release whose evidence ledger still described the previous version (agent-stack, sheleg-design), against an umbrella ratchet of 1. The ratchet is lowered when a member catches up and NEVER raised to match a regression, and it says why it does not simply fail: only that member's own release can move its ledger. Both caught up in patch releases — agent-stack#29 v0.24.1, sheleg-design#32 v1.60.1. Also confirmed working: my own CTX-04.06 acceptance receipt refused the tree with \"receipt disagrees with a fresh staging run (pins moved under it)\", which is exactly what it was written to do."
+    },
+    {
+      "id": "LEDGER-SECTION-LAGGED-ITS-OWN-BUMP-20260910",
+      "state": "resolved",
+      "detail": "The two ledger-catch-up patches (agent-stack v0.24.1, sheleg-design v1.60.1) SHIPPED STILL LAGGING: the release script wrote the ledger section and then bumped the version, so the section named the version being replaced and the lag it existed to close survived its own fix. Caught by re-running the pin dry-run, which still listed both members. Fixed properly in v0.24.2 / v1.60.2 — bump FIRST, then write the section against what is now declared — and the ordering rule is now a comment at the top of the release script rather than something to remember. Separately, the README step of the pin script had been lost to nested heredocs and is now its own file."
+    },
+    {
+      "id": "TP-186-TAGGED-BUT-NOT-RELEASED-20260910",
+      "state": "open",
+      "detail": "The final sweep caught task-pipeline red on main: v1.86.0 was TAGGED and its release.yml FAILED, so the tag exists, the GitHub release does not, and npm never served it. Cause: the run-stamp gate reads the tag OWN tree and a branch push cannot see a tag that does not exist yet — the seventh instance of a mechanism that repo's retro.md names six times, and its R-010 already held the rule (\"run the suite the RELEASE runs, against the tree you are about to tag\"). The lesson was written and read past. Fixing it in v1.86.1 surfaced two more: the ledger header must bump in the same change as the version, and moving the conditionals check to a one-line `run:` made the step INVISIBLE to negatives.py (which parses `run: |`), silently emptying the property-check category from 15 to 14 — its own floor caught it. Also learned: GitHub's 512,000 limit is BYTES, and em dashes in a comment cost more than the characters suggest (512,026 bytes vs 510,272 chars)."
+    },
+    {
+      "id": "UNLOOKED-LINE-READ-20260910",
+      "state": "measured",
+      "detail": "R-010's third half says a green local suite is not evidence until you know WHICH checks looked, so the unlooked line was read rather than the exit code taken. task-pipeline `test:all` EXIT=0 with unlooked: 3 — (a) coordination, which reports what it discovered (15 guarded patterns, 4 version surfaces) rather than skipping; (b) backlog citations, 9 spans checked and 6 single-line citations unanchored because one line carries no phrase to compare; (c) routed triggers, the known standalone-checkout limit with no umbrella above it. None is a check that silently switched off, and the one that matters here — the release-gap/run-stamp gate — DID run: it is what refused v1.86.0 and then v1.86.1 until both were declared."
+    },
+    {
+      "id": "DEAD-LINKS-IN-50-CHANNELS-20260910",
+      "state": "resolved",
+      "detail": "104 broken symlinks across 49 skill channels, invisible to the health check this family documents — that check names five channels and the machine now has ~50, so it reported 0 broken while 104 sat outside its list. Two causes. (1) Eight links in ~/.codex/skills pointed six levels up (../../../../../../) where two are needed: hand-copied between channels, which CLAUDE.md warns about by name (\"symlink depth differs per channel — never hand-copy a symlink between channels\"). All eight targets existed; only the depth was wrong. Repointed absolutely, matching that channel's own working links. (2) 96 links, exactly two per channel across 48 channels, pointed at ~/.agents/skills/brand-voice-enforcement and ux-copy — the names super-ux used before they became brand-voice and copywriting. The hub entries went with the rename; the channel links did not. Removed. Verified: 0 broken across EVERY channel found by discovery, not by a list."
+    },
+    {
+      "id": "CODEX-CHANNEL-CARRIES-NO-FAMILY-SKILLS-20260910",
+      "state": "open-for-the-operator",
+      "detail": "Reported, NOT changed. ~/.codex/skills holds 51 entries and none of the family's 29; the hub and ~/.kiro/skills carry 28 of 29 (the 29th, \"super-ux\", is a plugin name, not a skill). Codex IS in skills.json defaultAgents and ~/.codex/AGENTS.md carries the routing block, so Codex knows the routes without reaching the skills. The launcher has a plan for it — `node bin/sshlg-skills.js install --agent codex` renders nine `skills add` steps — and ~/.sshlg-skills/state.json records only routers, so there is no evidence either way about whether this was chosen. This is left for the operator because the family's own doctrine says consumption is deliberately uneven and a skill missing from a channel is usually a choice; installing into a channel someone may have emptied on purpose is a decision, not a debt closure. Also worth recording: my first measurement of this reported 0/29 for EVERY channel, including the hub, because zsh does not word-split an unquoted parameter — a check that reports zero everywhere is likelier broken than the machine being empty, and it was."
+    },
+    {
+      "id": "PIN-READ-NEWEST-TAG-FOR-NEWEST-RELEASE-20260910",
+      "state": "resolved",
+      "detail": "v1.47.0 pinned task-pipeline at v1.86.0 — the newest TAG, which never became a release. The same rule (\"a pin to an unreleased tree is a promise nothing can keep\") had been applied CORRECTLY an hour earlier when the pin was held at 1.85.2; it broke by reading \"newest tag\" for \"newest release\". Fixed in v1.47.1 (PR #128) with the pin at v1.86.1, verified as all three claims: tag b3770b1, GitHub release v1.86.1, npm task-pipeline-skill@1.86.1. Second trap recorded in the same ledger row: `npm view @ssheleg/task-pipeline` returns nothing because the package publishes UNSCOPED as task-pipeline-skill — read package.json rather than assuming the scope, or an absent scoped version reads as a failed publish."
+    }
+  ]
+}

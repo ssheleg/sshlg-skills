@@ -1,0 +1,72 @@
+
+> @ssheleg/sheleg-dev@0.11.8 test:all
+> python3 test/validate.py && node test/moneygate_test.js && node test/fixtures_test.js && node test/installer_test.js && python3 test/negatives.py
+
+OK: sheleg-dev structurally valid (27 checks, 7 skill(s), v0.11.8)
+OK: money gate — 65 fixtures (refusals, false-positive plants, and the hook as a process)
+OK: money fixtures — 16 checks (both packs, both modes, 6 plants: neutered assertions, an unremovable rule, and a live discriminator parked in the unmutated escape hatch)
+ok: fresh HOME installs every skill, says how updates arrive, and names the gate
+ok: rerun skips every skill, --force overwrites, unknown arg exits 2
+ok: plugin present in installed_plugins.json: refuse, exit 3, remedy, nothing written
+ok: plugin under a differently-named marketplace: remedy names the real spec
+ok: --force overrides the refusal, deliberately
+ok: corrupt installed_plugins.json reads as "no plugin" — install, never crash
+ok: other plugins, and a prefix-collider, do not trigger a false refusal
+ok: marketplaces/<name> dir alone still refuses (fallback signal, exit 3)
+ok: install.sh: fresh install of every skill, the update line, unknown arg exits 2
+ok: install.sh: plugin present — refuse, exit 3, nothing written; --force installs
+ok: install.sh: marketplaces dir alone refuses; corrupt JSON fails open
+residue: this run left nothing — 11 temp home(s) created, 11 removed
+PASS: installer — 11 case(s)
+running 48 negative self-tests
+
+  PASS   a release that does not gate on validate must fail
+  PASS   version drift must fail
+  PASS   over-long description must fail
+  PASS   front-matter name must match the directory
+  PASS   a trigger literal advertised by two skills must fail
+  PASS   CONTRIBUTING routing to a file we do not have must fail
+  PASS   a shipped document naming a path we do not have must fail
+  PASS   a file:line citation past the end of the file must fail
+  PASS   a stale FOREIGN_BY_DESIGN exemption must fail
+  PASS   a live credential declared test must be refusable
+  PASS   a test credential declared live must be refusable
+  PASS   handing over a credential with no declared environment must fail
+  PASS   a gate that reports instead of preventing must fail
+  PASS   an `if` filter on the gate must fail
+  PASS   a decision inlined into the hook must fail
+  PASS   a hook that stops failing silent must fail
+  PASS   dropping the false-positive plants must fail
+  PASS   a live-key rule narrowed to the bare prefix must fail
+  PASS   a heredoc body read as an invocation must fail
+  PASS   a test-declaring run that can be authorised must fail
+  PASS   a claimed invariant whose fixture is gone must fail
+  PASS   a fixture nobody claims must fail
+  PASS   a dead fixture pointer in a reference must fail
+  PASS   a reworded claim that leaves its fixture behind must fail
+  PASS   an assertion that can no longer fail must fail the suite
+  PASS   a reference nobody links must fail
+  PASS   a dangling reference link must fail
+  PASS   stray SKILL.md must fail
+  PASS   dropping the validator from CI must fail
+  PASS   a check count that does not count the checks must fail
+  PASS   a SKILL.md body past the house working limit must fail
+  PASS   a ledger heading naming a version nobody ships must fail
+  PASS   a ledger quoting a verdict the validator does not print must fail
+  PASS   a counted number in SECURITY.md that nothing recomputes must fail
+  PASS   a stale body-budget number in the evals record must fail
+  PASS   a coordination config pointing at a missing file must fail
+  PASS   guardedFiles claiming the ledger and not the board must fail
+  PASS   a gate line naming fewer suites than npm test runs must fail
+  PASS   an install channel that hides the missing gate must fail
+  PASS   an unclassified document under docs/ must fail
+  PASS   a shipped document naming a clone-only path must fail
+  PASS   dropping the mcp__ half of the gate must fail
+  PASS   a copy-channel snippet weaker than the plugin must fail
+  PASS   a $schema in the inert nested position must fail
+  PASS   a marketplace with no root $schema must fail
+  PASS   the dead $schema address restored must fail
+  PASS   a $schema naming the wrong document type must fail
+  PASS   a dangling Contents anchor must fail
+
+PASS: all 48 guards provably reject their planted defect

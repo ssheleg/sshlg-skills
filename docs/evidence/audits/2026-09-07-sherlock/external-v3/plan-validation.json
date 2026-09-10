@@ -1,0 +1,486 @@
+{
+  "all_pass": true,
+  "errors": [],
+  "original_parent_coverage": {
+    "FIX-RT-01": [
+      "FIX-RT-01.01",
+      "FIX-RT-01.02"
+    ],
+    "FIX-RT-02": [
+      "FIX-RT-02.01",
+      "FIX-RT-02.02"
+    ],
+    "FIX-RT-03": [
+      "FIX-RT-03.01"
+    ],
+    "FIX-RT-04": [
+      "FIX-RT-04.01"
+    ],
+    "FIX-MS-01": [
+      "FIX-MS-01.01",
+      "FIX-MS-01.02"
+    ],
+    "FIX-MS-02": [
+      "FIX-MS-02.01",
+      "FIX-MS-02.02"
+    ],
+    "FIX-MS-03": [
+      "FIX-MS-03.01"
+    ],
+    "FIX-MS-04": [
+      "FIX-MS-04.01"
+    ],
+    "FIX-TP-01": [
+      "FIX-TP-01.01",
+      "FIX-TP-01.02"
+    ],
+    "FIX-TP-02": [
+      "FIX-TP-02.01"
+    ],
+    "FIX-TP-03": [
+      "FIX-TP-03.01",
+      "FIX-TP-03.02"
+    ],
+    "FIX-TP-04": [
+      "FIX-TP-04.01"
+    ],
+    "FIX-PA-01": [
+      "FIX-PA-01.01"
+    ],
+    "FIX-PA-02": [
+      "FIX-PA-02.01"
+    ],
+    "FIX-PA-03": [
+      "FIX-PA-03.01"
+    ],
+    "FIX-ED-01": [
+      "FIX-ED-01.01",
+      "FIX-ED-01.02"
+    ],
+    "FIX-SE-01": [
+      "FIX-SE-01.01"
+    ],
+    "FIX-SE-02": [
+      "FIX-SE-02.01"
+    ],
+    "FIX-SE-03": [
+      "FIX-SE-03.01"
+    ],
+    "FIX-SE-04": [
+      "FIX-SE-04.01"
+    ],
+    "FIX-EV-01": [
+      "FIX-EV-01.01",
+      "FIX-EV-01.02",
+      "FIX-EV-01.03",
+      "FIX-EV-01.04",
+      "FIX-EV-01.05",
+      "FIX-EV-01.06",
+      "FIX-EV-01.07",
+      "FIX-EV-01.08",
+      "FIX-EV-01.09",
+      "FIX-EV-01.10",
+      "FIX-EV-01.11",
+      "FIX-EV-01.12",
+      "FIX-EV-01.13",
+      "FIX-EV-01.14",
+      "FIX-EV-01.15",
+      "FIX-EV-01.16",
+      "FIX-EV-01.17",
+      "FIX-EV-01.18",
+      "FIX-EV-01.19",
+      "FIX-EV-01.20",
+      "FIX-EV-01.21",
+      "FIX-EV-01.22",
+      "FIX-EV-01.23",
+      "FIX-EV-01.24",
+      "FIX-EV-01.25",
+      "FIX-EV-01.26",
+      "FIX-EV-01.27",
+      "FIX-EV-01.28",
+      "FIX-EV-01.29"
+    ],
+    "FIX-UB-01": [
+      "FIX-UB-01.01"
+    ],
+    "FIX-UX-01": [
+      "FIX-UX-01.01",
+      "FIX-UX-01.02"
+    ],
+    "FIX-UX-02": [
+      "FIX-UX-02.01"
+    ],
+    "FIX-UX-03": [
+      "FIX-UX-03.01",
+      "FIX-UX-03.02"
+    ],
+    "FIX-UX-04": [
+      "FIX-UX-04.01"
+    ],
+    "FIX-UX-05": [
+      "FIX-UX-05.01",
+      "FIX-UX-05.02"
+    ],
+    "FIX-UX-06": [
+      "FIX-UX-06.01"
+    ],
+    "FIX-UX-07": [
+      "FIX-UX-07.01",
+      "FIX-UX-07.02"
+    ],
+    "FIX-UX-08": [
+      "FIX-UX-08.01"
+    ],
+    "FIX-UX-09": [
+      "FIX-UX-09.01"
+    ],
+    "FIX-UX-10": [
+      "FIX-UX-10.01"
+    ],
+    "FIX-UX-11": [
+      "FIX-UX-11.01"
+    ],
+    "FIX-UX-12": [
+      "FIX-UX-12.01"
+    ],
+    "FIX-UX-13": [
+      "FIX-UX-13.01"
+    ],
+    "FIX-DS-01": [
+      "FIX-DS-01.01",
+      "FIX-DS-01.02"
+    ],
+    "FIX-DS-02": [
+      "FIX-DS-02.01"
+    ],
+    "FIX-DS-03": [
+      "FIX-DS-03.01"
+    ],
+    "FIX-DS-04": [
+      "FIX-DS-04.01"
+    ],
+    "FIX-DS-05": [
+      "FIX-DS-05.01"
+    ],
+    "FIX-DS-06": [
+      "FIX-DS-06.01",
+      "FIX-DS-06.02",
+      "FIX-DS-06.03",
+      "FIX-DS-06.04",
+      "FIX-DS-06.05"
+    ],
+    "FIX-UX-14": [
+      "FIX-UX-14.01"
+    ],
+    "FIX-UX-15": [
+      "FIX-UX-15.01",
+      "FIX-UX-15.02"
+    ],
+    "FIX-DV-01": [
+      "FIX-DV-01.01",
+      "FIX-DV-01.02"
+    ],
+    "FIX-DV-02": [
+      "FIX-DV-02.01",
+      "FIX-DV-02.02"
+    ],
+    "FIX-DV-03": [
+      "FIX-DV-03.01",
+      "FIX-DV-03.02"
+    ],
+    "FIX-DV-04": [
+      "FIX-DV-04.01"
+    ],
+    "FIX-DV-05": [
+      "FIX-DV-05.01",
+      "FIX-DV-05.02"
+    ],
+    "FIX-DV-06": [
+      "FIX-DV-06.01",
+      "FIX-DV-06.02"
+    ],
+    "FIX-DV-07": [
+      "FIX-DV-07.01",
+      "FIX-DV-07.02"
+    ],
+    "FIX-DV-08": [
+      "FIX-DV-08.01"
+    ],
+    "FIX-DV-09": [
+      "FIX-DV-09.01",
+      "FIX-DV-09.02"
+    ],
+    "FIX-DV-10": [
+      "FIX-DV-10.01"
+    ],
+    "FIX-DV-11": [
+      "FIX-DV-11.01"
+    ],
+    "FIX-DV-12": [
+      "FIX-DV-12.01"
+    ],
+    "FIX-DV-13": [
+      "FIX-DV-13.01",
+      "FIX-DV-13.02"
+    ],
+    "FIX-DV-14": [
+      "FIX-DV-14.01"
+    ],
+    "FIX-DV-15": [
+      "FIX-DV-15.01",
+      "FIX-DV-15.02"
+    ],
+    "FIX-DV-16": [
+      "FIX-DV-16.01",
+      "FIX-DV-16.02"
+    ],
+    "FIX-DV-17": [
+      "FIX-DV-17.01"
+    ],
+    "FIX-DV-18": [
+      "FIX-DV-18.01"
+    ],
+    "FIX-DV-19": [
+      "FIX-DV-19.01",
+      "FIX-DV-19.02",
+      "FIX-DV-19.03",
+      "FIX-DV-19.04",
+      "FIX-DV-19.05",
+      "FIX-DV-19.06",
+      "FIX-DV-19.07"
+    ],
+    "FIX-DV-20": [
+      "FIX-DV-20.01"
+    ],
+    "FIX-TG-01": [
+      "FIX-TG-01.01",
+      "FIX-TG-01.02"
+    ],
+    "FIX-TG-02": [
+      "FIX-TG-02.01"
+    ],
+    "FIX-TG-03": [
+      "FIX-TG-03.01",
+      "FIX-TG-03.02"
+    ],
+    "FIX-TG-04": [
+      "FIX-TG-04.01"
+    ],
+    "FIX-TG-05": [
+      "FIX-TG-05.01"
+    ],
+    "FIX-AS-01": [
+      "FIX-AS-01.01",
+      "FIX-AS-01.02"
+    ],
+    "FIX-AS-02": [
+      "FIX-AS-02.01"
+    ],
+    "FIX-AS-03": [
+      "FIX-AS-03.01",
+      "FIX-AS-03.02"
+    ],
+    "FIX-AS-04": [
+      "FIX-AS-04.01"
+    ],
+    "FIX-AS-05": [
+      "FIX-AS-05.01"
+    ],
+    "FIX-AS-06": [
+      "FIX-AS-06.01"
+    ],
+    "FIX-AS-07": [
+      "FIX-AS-07.01"
+    ],
+    "FIX-AS-08": [
+      "FIX-AS-08.01",
+      "FIX-AS-08.02"
+    ],
+    "FIX-AS-09": [
+      "FIX-AS-09.01",
+      "FIX-AS-09.02"
+    ],
+    "FIX-AS-10": [
+      "FIX-AS-10.01"
+    ],
+    "FIX-AS-11": [
+      "FIX-AS-11.01",
+      "FIX-AS-11.02"
+    ],
+    "FIX-AS-12": [
+      "FIX-AS-12.01"
+    ],
+    "FIX-AS-13": [
+      "FIX-AS-13.01"
+    ],
+    "FIX-AS-14": [
+      "FIX-AS-14.01"
+    ],
+    "FIX-SY-01": [
+      "FIX-SY-01.01",
+      "FIX-SY-01.02"
+    ],
+    "FIX-SY-02": [
+      "FIX-SY-02.01"
+    ],
+    "FIX-SY-03": [
+      "FIX-SY-03.01",
+      "FIX-SY-03.02"
+    ],
+    "FIX-SY-04": [
+      "FIX-SY-04.01",
+      "FIX-SY-04.02"
+    ],
+    "FIX-SY-05": [
+      "FIX-SY-05.01"
+    ],
+    "FIX-SY-06": [
+      "FIX-SY-06.01",
+      "FIX-SY-06.02"
+    ],
+    "FIX-SY-07": [
+      "FIX-SY-07.01"
+    ],
+    "FIX-SY-08": [
+      "FIX-SY-08.01"
+    ],
+    "FIX-PF-01": [
+      "FIX-PF-01.01",
+      "FIX-PF-01.02",
+      "FIX-PF-01.03"
+    ],
+    "FIX-PF-02": [
+      "FIX-PF-02.01",
+      "FIX-PF-02.02"
+    ],
+    "FIX-PF-03": [
+      "FIX-PF-03.01",
+      "FIX-PF-03.02"
+    ],
+    "FIX-PF-04": [
+      "FIX-PF-04.01",
+      "FIX-PF-04.02"
+    ],
+    "FIX-PF-05": [
+      "FIX-PF-05.01",
+      "FIX-PF-05.02",
+      "FIX-PF-05.03"
+    ],
+    "FIX-PF-06": [
+      "FIX-PF-06.01",
+      "FIX-PF-06.02",
+      "FIX-PF-06.03"
+    ],
+    "FIX-PF-07": [
+      "FIX-PF-07.01",
+      "FIX-PF-07.02"
+    ],
+    "FIX-PF-08": [
+      "FIX-PF-08.01",
+      "FIX-PF-08.02"
+    ],
+    "FIX-PF-09": [
+      "FIX-PF-09.01",
+      "FIX-PF-09.02"
+    ],
+    "FIX-PF-10": [
+      "FIX-PF-10.01",
+      "FIX-PF-10.02"
+    ],
+    "FIX-VD-01": [
+      "FIX-VD-01.01",
+      "FIX-VD-01.02"
+    ],
+    "FIX-VD-02": [
+      "FIX-VD-02.01",
+      "FIX-VD-02.02"
+    ],
+    "FIX-VD-03": [
+      "FIX-VD-03.01",
+      "FIX-VD-03.02",
+      "FIX-VD-03.03"
+    ],
+    "FIX-VD-04": [
+      "FIX-VD-04.01"
+    ],
+    "FIX-VD-05": [
+      "FIX-VD-05.01",
+      "FIX-VD-05.02",
+      "FIX-VD-05.03"
+    ],
+    "FIX-VD-06": [
+      "FIX-VD-06.01"
+    ],
+    "FIX-VD-07": [
+      "FIX-VD-07.01"
+    ],
+    "FIX-UP-01": [
+      "FIX-UP-01.01",
+      "FIX-UP-01.02",
+      "FIX-UP-01.03"
+    ],
+    "FIX-UP-02": [
+      "FIX-UP-02.01"
+    ],
+    "FIX-UP-03": [
+      "FIX-UP-03.01",
+      "FIX-UP-03.02"
+    ],
+    "FIX-UP-04": [
+      "FIX-UP-04.01",
+      "FIX-UP-04.02"
+    ],
+    "FIX-UP-05": [
+      "FIX-UP-05.01",
+      "FIX-UP-05.02",
+      "FIX-UP-05.03",
+      "FIX-UP-05.04"
+    ],
+    "FIX-UP-06": [
+      "FIX-UP-06.01",
+      "FIX-UP-06.02"
+    ],
+    "FIX-UP-07": [
+      "FIX-UP-07.01",
+      "FIX-UP-07.02",
+      "FIX-UP-07.03"
+    ],
+    "FIX-UP-08": [
+      "FIX-UP-08.01",
+      "FIX-UP-08.02",
+      "FIX-UP-08.03"
+    ],
+    "CTX-01": [
+      "CTX-01.01",
+      "CTX-01.02",
+      "CTX-01.03"
+    ],
+    "CTX-02": [
+      "CTX-02.01",
+      "CTX-02.02",
+      "CTX-02.03",
+      "CTX-02.04"
+    ],
+    "CTX-03": [
+      "CTX-03.01",
+      "CTX-03.02",
+      "CTX-03.03"
+    ],
+    "CTX-04": [
+      "CTX-04.01",
+      "CTX-04.02",
+      "CTX-04.03",
+      "CTX-04.04",
+      "CTX-04.05",
+      "CTX-04.06"
+    ]
+  },
+  "parents": 139,
+  "leaves": 254,
+  "acyclic": true,
+  "max_primary_bytes": 14961,
+  "primary_budget_bytes": 24576,
+  "max_primary_o200k_tokens": 3449,
+  "wave_count": 49,
+  "scope": "Static plan/context and conservative resource sequence, not semantic proof of all future implementations."
+}

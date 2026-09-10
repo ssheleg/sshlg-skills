@@ -1,0 +1,223 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-PF-10.01",
+  "parent_id": "FIX-PF-10",
+  "title": "Codex capability adapter",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 1,
+  "modules": [
+    "Fabric"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Provider-independent packet возможен, но Codex в текущем Fabric не подключён к его tools",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Actual tool registration/session/project scope проверяется; no API → unsupported, portable packet-only mode отдельный trusted transport.",
+  "expected_result": "Codex executor не ready без нужного result channel; model preferences inherited.",
+  "acceptance": [
+    "Codex executor не ready без нужного result channel; model preferences inherited."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Actual tool registration/session/project scope проверяется; no API → unsupported, portable packet-only mode отдельный trusted transport.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://fabric/apps/desktop/src/shared/agents.ts",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "182d2bca580003c197aacc3bcebcc16e0d2f3b0f84be6e252ea5f4f33d846703"
+    },
+    {
+      "path": "repo://fabric/apps/desktop/src/main/sessionBundle.ts",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "8e481d8051c2a32e1c31b40236c9a6ace85c244ea83f7d14df0256af0240c4d1",
+      "refresh_after": [
+        "FIX-PF-05.02"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://fabric/test/audit_regressions/fix-pf-10.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-PF-10.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-PF-10.json",
+    "source_files": [
+      {
+        "path": "repo://fabric/apps/desktop/src/shared/agents.ts",
+        "sha256": "182d2bca580003c197aacc3bcebcc16e0d2f3b0f84be6e252ea5f4f33d846703",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://fabric/apps/desktop/src/main/sessionBundle.ts",
+        "sha256": "8e481d8051c2a32e1c31b40236c9a6ace85c244ea83f7d14df0256af0240c4d1",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Один golden packet Claude/Codex executors: одинаковые contract inputs/outputs и authority restrictions; actual tool discovery/call receipt, cleanup/revoke; отрицательный unsupported host не запускается как supposedly connected. Не переносить native hidden reasoning/transcript между vendor runtimes."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-PF-05.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-05"
+    },
+    {
+      "task_id": "FIX-PF-05.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-05"
+    },
+    {
+      "task_id": "FIX-PF-05.03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-05"
+    },
+    {
+      "task_id": "FIX-PF-06.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-06"
+    },
+    {
+      "task_id": "FIX-PF-06.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-06"
+    },
+    {
+      "task_id": "FIX-PF-06.03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-PF-06"
+    },
+    {
+      "task_id": "FIX-UP-07.01",
+      "kind": "data",
+      "reason": "Consumer host adapter должен знать discovery/provider и фактически загруженный контекст Codex.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-07.02",
+      "kind": "data",
+      "reason": "Consumer host adapter должен знать discovery/provider и фактически загруженный контекст Codex.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-07.03",
+      "kind": "data",
+      "reason": "Consumer host adapter должен знать discovery/provider и фактически загруженный контекст Codex.",
+      "via_parent": "FIX-UP-07"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://fabric/test/audit_regressions/fix-pf-10.01.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-PF-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-05.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-05.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-06.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-06.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-06.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-PF-10.01.md",
+    "sha256": "352cf95672ab4174d031469397d7d8900268531c8805c794c55f1800bb858c8c",
+    "utf8_bytes": 7576,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "2e763601085caba0d7ea663c356f71d95887256063c0943be20219199b9b5f9d"
+  }
+}

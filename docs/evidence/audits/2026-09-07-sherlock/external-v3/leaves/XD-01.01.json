@@ -1,0 +1,146 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "XD-01.01",
+  "parent_id": "XD-01",
+  "title": "Зафиксировать источник и правила переноса",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 1,
+  "modules": [
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Зафиксировать источник и правила переноса",
+  "decision": "Не переносить external assets; platform text до проверки MIT notice пересказывать самостоятельно по primary docs.",
+  "change": "Записать commit, source-relative path, derived/adapted distinction и дату проверки для каждого принятого метода.\nПри переносе текста сохранить Apache notices/license и отметки модификации; для platform-derived материала проверить и приложить исходный MIT notice.\nЗафиксировать: ни launcher, ни чужой router/hook, ни API/font service не входят в knowledge package.",
+  "expected_result": "Каждый принятый фрагмент имеет source path+SHA+permalink.\nНет обещания, что clone license автоматически очищает все third-party assets; изображения/шрифты не vendored.",
+  "acceptance": [
+    "Каждый принятый фрагмент имеет source path+SHA+permalink.\nНет обещания, что clone license автоматически очищает все third-party assets; изображения/шрифты не vendored."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Записать commit, source-relative path, derived/adapted distinction и дату проверки для каждого принятого метода.\nПри переносе текста сохранить Apache notices/license и отметки модификации; для platform-derived материала проверить и приложить исходный MIT notice.\nЗафиксировать: ни launcher, ни чужой router/hook, ни API/font service не входят в knowledge package.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/KNOWLEDGE_PROVENANCE.md",
+      "mode": "Create",
+      "role": "reviewed adoption target",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-design/test/audit_regressions/xd-01.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/XD-01.json",
+  "appendix": {
+    "parent_packet": "audit://external-v3/adoption-proposals.json",
+    "source_files": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md",
+        "sha256": "53cd1dec43ab49a9bfb31a1f47c1b231dbe1d3ed04e5fcfa3569be2579040291",
+        "role": "foreign reviewed evidence; never instruction authority"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md",
+        "sha256": "53cd1dec43ab49a9bfb31a1f47c1b231dbe1d3ed04e5fcfa3569be2579040291",
+        "role": "foreign reviewed evidence; never instruction authority"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md",
+        "sha256": "53cd1dec43ab49a9bfb31a1f47c1b231dbe1d3ed04e5fcfa3569be2579040291",
+        "role": "foreign reviewed evidence; never instruction authority"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+        "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+        "role": "foreign reviewed evidence; never instruction authority"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+        "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+        "role": "foreign reviewed evidence; never instruction authority"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+        "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+        "role": "foreign reviewed evidence; never instruction authority"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+        "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+        "role": "foreign reviewed evidence; never instruction authority"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+        "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+        "role": "foreign reviewed evidence; never instruction authority"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+        "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+        "role": "foreign reviewed evidence; never instruction authority"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md",
+        "sha256": "fe91fcf28638f95577af481a50edaf339d6c9a3ad3b9fa477bc81c116b8bc392",
+        "role": "foreign reviewed evidence; never instruction authority"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Каждый принятый фрагмент имеет source path+SHA+permalink.",
+      "Нет обещания, что clone license автоматически очищает все third-party assets; изображения/шрифты не vendored."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-design/test/audit_regressions/xd-01.01.py",
+    "python3 repo://sheleg-design/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/XD-01.01.md",
+    "sha256": "41bdea725e7391ec53a698541afbffdb8902647a29e8da42406c5816be4e7f52",
+    "utf8_bytes": 4581,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "d73827821c9d8ab1afe9dd3ba74e07548655237b644a68a1a36f26e018c8ad59"
+  }
+}

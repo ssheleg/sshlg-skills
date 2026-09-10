@@ -1,0 +1,200 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-AS-06.01",
+  "parent_id": "FIX-AS-06",
+  "title": "Первый релиз фактически остаётся без исполняемого eval-корпуса",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "agent-stack"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Первый релиз фактически остаётся без исполняемого eval-корпуса",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Разрешить curated/synthetic/manual seed corpus до релиза, маркировать источник каждого input; дополнять production regressions. Release gate обязан иметь executed trials, а observable-only — состояние specification-ready, не release-ready.\n\nУточнение PXS-03: ENRICH_EXISTING_AS06; Не брать OpenAI/MCP evaluator, XML wrappers или API keys Точный scalar matcher только для scalar задач; side effects и trajectories отдельные assertions Seed corpus дополняется production traces, не объявляется доказательством полного coverage\nРазрешить synthetic bootstrap corpus в agent-evals с явной provenance рядом с production corpus.\nДобавить шесть замороженных локальных кейсов с known answers и forbidden side effects.\nСвязать кейсы с behavioral scenarios и проверить isolation плюс TEST_ERROR classification.",
+  "expected_result": "Greenfield feature с нулём production traces имеет минимум happy, adversarial и failure/retry trials; пустой корпус либо неисполненные observables не закрывают gate.\nПервый релиз имеет исполняемые offline assertions без production telemetry\nПовреждённый fixture/input/runner => TEST_ERROR, не behavior fail/pass\nIsolation: результат case B одинаков независимо от запуска case A\nПервый релиз имеет исполняемые offline assertions без production telemetry\nПовреждённый fixture/input/runner => TEST_ERROR, не behavior fail/pass\nIsolation: результат case B одинаков независимо от запуска case A",
+  "acceptance": [
+    "Greenfield feature с нулём production traces имеет минимум happy, adversarial и failure/retry trials; пустой корпус либо неисполненные observables не закрывают gate.\nПервый релиз имеет исполняемые offline assertions без production telemetry\nПовреждённый fixture/input/runner => TEST_ERROR, не behavior fail/pass\nIsolation: результат case B одинаков независимо от запуска case A",
+    "Первый релиз имеет исполняемые offline assertions без production telemetry",
+    "Повреждённый fixture/input/runner => TEST_ERROR, не behavior fail/pass",
+    "Isolation: результат case B одинаков независимо от запуска case A"
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Разрешить curated/synthetic/manual seed corpus до релиза, маркировать источник каждого input; дополнять production regressions. Release gate обязан иметь executed trials, а observable-only — состояние specification-ready, не release-ready.\n\nУточнение PXS-03: ENRICH_EXISTING_AS06; Не брать OpenAI/MCP evaluator, XML wrappers или API keys Точный scalar matcher только для scalar задач; side effects и trajectories отдельные assertions Seed corpus дополняется production traces, не объявляется доказательством полного coverage\nРазрешить synthetic bootstrap corpus в agent-evals с явной provenance рядом с production corpus.\nДобавить шесть замороженных локальных кейсов с known answers и forbidden side effects.\nСвязать кейсы с behavioral scenarios и проверить isolation плюс TEST_ERROR classification.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "18c38888b66555da7a2f301740e420b47e44d8194c2dab2c20ea94a19b02394f"
+    },
+    {
+      "path": "repo://agent-stack/test/evals/scenarios.json",
+      "mode": "Edit",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": "2505896c550f53a2ea820dacc559826c21e59809fd0623d6838b79155e17220a"
+    },
+    {
+      "path": "repo://agent-stack/test/evals/fixtures/bootstrap-corpus.json",
+      "mode": "Create",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://agent-stack/test/audit_regressions/fix-as-06.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-AS-06.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-AS-06.json",
+    "source_files": [
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md",
+        "sha256": "18c38888b66555da7a2f301740e420b47e44d8194c2dab2c20ea94a19b02394f",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Greenfield feature с нулём production traces имеет минимум happy, adversarial и failure/retry trials; пустой корпус либо неисполненные observables не закрывают gate.",
+      "Первый релиз имеет исполняемые offline assertions без production telemetry",
+      "Повреждённый fixture/input/runner => TEST_ERROR, не behavior fail/pass",
+      "Isolation: результат case B одинаков независимо от запуска case A"
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit.",
+    "foreign_method_sources": [
+      {
+        "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/SKILL.md",
+        "line": 261,
+        "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+        "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/SKILL.md#L261"
+      },
+      {
+        "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/reference/evaluation.md",
+        "line": 35,
+        "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+        "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/reference/evaluation.md#L35"
+      }
+    ]
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [
+    {
+      "id": "PXS-03",
+      "title": "Дать agent-evals офлайн seed corpus до production",
+      "owner": "agent-stack/agent-evals",
+      "target_files": [
+        {
+          "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md",
+          "mode": "Edit"
+        },
+        {
+          "path": "repo://agent-stack/test/evals/scenarios.json",
+          "mode": "Edit"
+        },
+        {
+          "path": "repo://agent-stack/test/evals/fixtures/bootstrap-corpus.json",
+          "mode": "Create"
+        }
+      ],
+      "decision": "ENRICH_EXISTING_AS06; Не брать OpenAI/MCP evaluator, XML wrappers или API keys Точный scalar matcher только для scalar задач; side effects и trajectories отдельные assertions Seed corpus дополняется production traces, не объявляется доказательством полного coverage",
+      "steps": [
+        "Разрешить synthetic bootstrap corpus в agent-evals с явной provenance рядом с production corpus.",
+        "Добавить шесть замороженных локальных кейсов с known answers и forbidden side effects.",
+        "Связать кейсы с behavioral scenarios и проверить isolation плюс TEST_ERROR classification."
+      ],
+      "acceptance": [
+        "Первый релиз имеет исполняемые offline assertions без production telemetry",
+        "Повреждённый fixture/input/runner => TEST_ERROR, не behavior fail/pass",
+        "Isolation: результат case B одинаков независимо от запуска case A"
+      ],
+      "depends_on": [
+        {
+          "task_id": "PXS-01",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        }
+      ],
+      "related_existing": [
+        "FIX-AS-06",
+        "FIX-EV-01"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/SKILL.md",
+          "line": 261,
+          "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+          "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/SKILL.md#L261"
+        },
+        {
+          "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/reference/evaluation.md",
+          "line": 35,
+          "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+          "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/reference/evaluation.md#L35"
+        }
+      ],
+      "inputs": [
+        "Документированные outcome/forbidden-effects",
+        "6 synthetic immutable local cases plus production cases when available"
+      ],
+      "outputs": [
+        "Corpus provenance synthetic|production, frozen inputs/expected outputs, reset rules",
+        "Behavioral fixtures beyond name-trigger matching"
+      ],
+      "new_required_runtime": [],
+      "new_api_keys": [],
+      "merged_into": "FIX-AS-06",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "verification_commands": [
+    "python3 repo://agent-stack/test/audit_regressions/fix-as-06.01.py",
+    "python3 repo://agent-stack/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-AS-06.01.md",
+    "sha256": "54a987ae611493ee9afb4cf86c7535f863aac9ea4ea018b70b56897b5c69955c",
+    "utf8_bytes": 8627,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "5bd0dd02aa2569240cfa2164a9bc5695c61896f1f3d184463cb4f0b564b58794"
+  }
+}

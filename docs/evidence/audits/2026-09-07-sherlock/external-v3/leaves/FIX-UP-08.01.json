@@ -1,0 +1,197 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-UP-08.01",
+  "parent_id": "FIX-UP-08",
+  "title": "HostContext root precedence",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "sshlg-skills"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Host roots фиксированы и расходятся с поддерживаемыми overrides",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Explicit root > documented host env > platform default; host existence отдельная probe.",
+  "expected_result": "CODEX_HOME/CLAUDE_CONFIG_DIR меняют только выбранный root; spaces preserved.",
+  "acceptance": [
+    "CODEX_HOME/CLAUDE_CONFIG_DIR меняют только выбранный root; spaces preserved."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Explicit root > documented host env > platform default; host existence отдельная probe.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sshlg-skills/lib/apply.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "3e5f57562f00ea9f8e5c4624fc780a75928699b2b0d4b864bda9cc3527b54123",
+      "refresh_after": [
+        "FIX-UP-03.02"
+      ]
+    },
+    {
+      "path": "repo://sshlg-skills/bin/sshlg-skills.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "ca46e7513b7554452333322fb6ff8d4b27bea58a2b17917724d2df5e44942930",
+      "refresh_after": [
+        "FIX-UP-02.01",
+        "FIX-UP-03.02",
+        "FIX-UP-07.01",
+        "FIX-UP-07.02"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://sshlg-skills/test/audit_regressions/fix-up-08.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-UP-08.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-UP-08.json",
+    "source_files": [
+      {
+        "path": "repo://sshlg-skills/lib/apply.js",
+        "sha256": "3e5f57562f00ea9f8e5c4624fc780a75928699b2b0d4b864bda9cc3527b54123",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sshlg-skills/bin/sshlg-skills.js",
+        "sha256": "ca46e7513b7554452333322fb6ff8d4b27bea58a2b17917724d2df5e44942930",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://task-pipeline/bin/task-pipeline.js",
+        "sha256": "f1bb12004a95f273de184a397e456d224f4edfcc5911e706eb75ff67edffc12d",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://super-ux/bin/super-ux.js",
+        "sha256": "4682d2b55e9e43ebee8cad1323f41d8ef1f25bbf2f5dbac453d6e6715e49bde6",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/bin/cli.js",
+        "sha256": "e61994965d33da1d88ca261cd985acdd1e6c04b9d9a545a0a8834e003ae99e53",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Fixture custom CODEX_HOME/CLAUDE_CONFIG_DIR меняет только выбранный root, default stays byte-identical.\nPlugin collision в custom root обнаруживается до записи; stale default root не блокирует другой профиль.\nWindows/XDG/root-with-spaces и missing host дают отдельные протестированные results; неподдержанные платформы UNKNOWN."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-UP-03.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-UP-03"
+    },
+    {
+      "task_id": "FIX-UP-03.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-UP-03"
+    },
+    {
+      "task_id": "FIX-UP-07.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-07.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-07.03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-UP-07"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sshlg-skills/test/audit_regressions/fix-up-08.01.py",
+    "python3 repo://sshlg-skills/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-UP-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-UP-08.01.md",
+    "sha256": "611c8ec169e6bc143ef0a10edc2a501219ad15f7ac631d28544aba560846b8ac",
+    "utf8_bytes": 6658,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "1b97c4d8c7bb6599ae1c926682a8142430708bef940706686e1af5b1d2a02905"
+  }
+}

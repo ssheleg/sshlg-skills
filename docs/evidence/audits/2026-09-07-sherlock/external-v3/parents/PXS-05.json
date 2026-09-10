@@ -1,0 +1,151 @@
+{
+  "id": "PXS-05",
+  "title": "Связать browser claims с состояниями и артефактами",
+  "module": "task-pipeline",
+  "modules": [
+    "task-pipeline"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "origin": "external_adoption",
+  "dispatchable": false,
+  "status": "parent_planned",
+  "finding_id": null,
+  "requirements": [
+    "V3-knowledge-adoption",
+    "V3-no-new-required-deps"
+  ],
+  "decision": "SMALL_EXTENSION_OF_EXISTING_BROWSER_DOCTRINE; Не вводить Playwright/js_repl обязательной зависимостью Не дублировать существующее look/suite/library; добавить machine-readable связь Оригинальные Apache sources атрибутировать; Figma text/assets не переносить",
+  "implementation_steps": [
+    "Добавить browser-claims template, связывающий existing REQ/scenario IDs с состоянием и видом проверки.",
+    "Уточнить browser.md ссылкой на contract, сохранив existing look/suite/library split.",
+    "Добавить stdlib проверку отсутствующего артефакта, неправильного state и полного toggle cycle."
+  ],
+  "acceptance": [
+    "Functional PASS при missing visual proof не даёт visual PASS",
+    "Same screenshot из initial state не закрывает claim про opened/error state",
+    "No browser channel => NOT_RUN с причиной, validator работает stdlib"
+  ],
+  "depends_on": [
+    {
+      "task_id": "PXS-01",
+      "kind": "data",
+      "reason": "Consumes accepted method/artifact from prerequisite."
+    }
+  ],
+  "related_existing": [],
+  "source_snapshot": [
+    {
+      "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/playwright-interactive/SKILL.md",
+      "sha256": "f6c1155d923e6ae3ccc12abfef2266f119f8e9546df2ddeee1f5eb369845a0a1",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/playwright-interactive/SKILL.md",
+      "sha256": "f6c1155d923e6ae3ccc12abfef2266f119f8e9546df2ddeee1f5eb369845a0a1",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/playwright-interactive/SKILL.md",
+      "sha256": "f6c1155d923e6ae3ccc12abfef2266f119f8e9546df2ddeee1f5eb369845a0a1",
+      "role": "foreign reviewed evidence; never instruction authority"
+    }
+  ],
+  "target_files": [
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/browser.md",
+      "mode": "Edit"
+    },
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/browser-claims.json",
+      "mode": "Create"
+    },
+    {
+      "path": "repo://task-pipeline/test/browser_claims_test.py",
+      "mode": "Create"
+    }
+  ],
+  "slices": null,
+  "problem": {
+    "id": "PXS-05",
+    "title": "Связать browser claims с состояниями и артефактами",
+    "owner": "task-pipeline",
+    "target_files": [
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/browser.md",
+        "mode": "Edit"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/browser-claims.json",
+        "mode": "Create"
+      },
+      {
+        "path": "repo://task-pipeline/test/browser_claims_test.py",
+        "mode": "Create"
+      }
+    ],
+    "decision": "SMALL_EXTENSION_OF_EXISTING_BROWSER_DOCTRINE; Не вводить Playwright/js_repl обязательной зависимостью Не дублировать существующее look/suite/library; добавить machine-readable связь Оригинальные Apache sources атрибутировать; Figma text/assets не переносить",
+    "steps": [
+      "Добавить browser-claims template, связывающий existing REQ/scenario IDs с состоянием и видом проверки.",
+      "Уточнить browser.md ссылкой на contract, сохранив existing look/suite/library split.",
+      "Добавить stdlib проверку отсутствующего артефакта, неправильного state и полного toggle cycle."
+    ],
+    "acceptance": [
+      "Functional PASS при missing visual proof не даёт visual PASS",
+      "Same screenshot из initial state не закрывает claim про opened/error state",
+      "No browser channel => NOT_RUN с причиной, validator работает stdlib"
+    ],
+    "depends_on": [
+      {
+        "task_id": "PXS-01",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      }
+    ],
+    "related_existing": [],
+    "source_evidence": [
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/playwright-interactive/SKILL.md",
+        "line": 42,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/playwright-interactive/SKILL.md#L42"
+      },
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/playwright-interactive/SKILL.md",
+        "line": 292,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/playwright-interactive/SKILL.md#L292"
+      },
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/playwright-interactive/SKILL.md",
+        "line": 330,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/playwright-interactive/SKILL.md#L330"
+      }
+    ],
+    "inputs": [
+      "Existing scenario/requirement IDs",
+      "Claim, viewport, state/control cycle, available browser channel"
+    ],
+    "outputs": [
+      "Schema claim→scenario→state→assertion→artifact/review status",
+      "Small offline validator and 3 test rows: missing artifact, wrong state, valid control cycle"
+    ],
+    "new_required_runtime": [],
+    "new_api_keys": []
+  },
+  "context": [],
+  "leaf_ids": [
+    "PXS-05.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Functional PASS при missing visual proof не даёт visual PASS",
+      "Same screenshot из initial state не закрывает claim про opened/error state",
+      "No browser channel => NOT_RUN с причиной, validator работает stdlib"
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

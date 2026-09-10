@@ -1,0 +1,123 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-UX-03.02",
+  "parent_id": "FIX-UX-03",
+  "title": "B060 semantic safety",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "super-ux"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Humanization «никогда не блокирует» расходится с исполняемым B060",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Убрать severity escalation по count; добавить no-op и semantic-preservation cases для чисел/отрицаний/causality.",
+  "expected_result": "Marker-rich корректный текст не blocking; смысл после optional rewrite не меняется.",
+  "acceptance": [
+    "Marker-rich корректный текст не blocking; смысл после optional rewrite не меняется."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Убрать severity escalation по count; добавить no-op и semantic-preservation cases для чисел/отрицаний/causality.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://super-ux/plugins/super-ux/scripts/brand_lint.py",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "02230a1fdead54b9f5dd57a903b6316d6b42a4e7fa45b011b4d065ee0502803d"
+    }
+  ],
+  "test_target": {
+    "path": "repo://super-ux/test/audit_regressions/fix-ux-03.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-UX-03.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-UX-03.json",
+    "source_files": [
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/copywriting/SKILL.md",
+        "sha256": "949c791580f343dae6bf354c06e5b0e43e393d8170591c2833e2671a8e7513b9",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/copywriting/references/ai-tells.md",
+        "sha256": "12360ad29858deb1c7110b45683b890cb566bfe85c9258cacd4471a59d3a8943",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/scripts/brand_lint.py",
+        "sha256": "02230a1fdead54b9f5dd57a903b6316d6b42a4e7fa45b011b4d065ee0502803d",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Цитируемый словарь остаётся неизменным и не блокирует; off не запускает скрытый обязательный rewrite; негативные примеры русской грамматики/второго языка проходят; semantic-preservation тесты числа/отрицания/каузальность обязательны."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-UX-03.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://super-ux/test/audit_regressions/fix-ux-03.02.py",
+    "python3 repo://super-ux/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-UX-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-UX-03.02.md",
+    "sha256": "87b7e8c236abb845468c10cc011d8071a31e56949a2e92dc55603a075c40ddca",
+    "utf8_bytes": 5042,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "df3b5e35752ae523def73e7d14f8595978956b118c72384cd834aebab38610ad"
+  }
+}

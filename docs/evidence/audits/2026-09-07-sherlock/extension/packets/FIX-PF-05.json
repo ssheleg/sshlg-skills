@@ -1,0 +1,315 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-PF-05",
+  "revision": 1,
+  "title": "Saved Markdown brief уже есть, portable immutable node packet ещё нет",
+  "finding_id": "PF-05",
+  "module": "task-pipeline",
+  "modules": [
+    "task-pipeline",
+    "Fabric"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "planned_not_implemented",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06",
+    "E-01",
+    "E-02"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions"
+    },
+    {
+      "path": "audit://extension/context/modules/task-pipeline.md",
+      "sha256": "28e7c9316bc1a404c821b54e382b8944583945506f889d5d59fce880cf5c5d4e",
+      "role": "module:task-pipeline"
+    },
+    {
+      "path": "audit://extension/context/modules/Fabric.md",
+      "sha256": "c4eda16b894540743b4948b5ca1d8b1de3c18e70e56a97f3a9e006e33b8ddb51",
+      "role": "module:Fabric"
+    },
+    {
+      "path": "audit://extension/context/contracts/context.md",
+      "sha256": "dca078915830462880380196886a99d5ae6e7bde2996b490663f8192d2bef2b0",
+      "role": "contract:context"
+    },
+    {
+      "path": "audit://extension/context/contracts/execution.md",
+      "sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4",
+      "role": "contract:execution"
+    },
+    {
+      "path": "audit://extension/pipeline-fabric-repro.json",
+      "sha256": "93882b71773046385a6dd12dd638fe7dd2ad6050c8bcb943528cb79df77bb5d6",
+      "role": "supporting evidence appendix"
+    },
+    {
+      "path": "audit://extension/pipeline-fabric-chain-repro.json",
+      "sha256": "de4770b81354d1b05b5af15d16c55d4d982f9597d3ed203b2343c1e0145f6fab",
+      "role": "supporting evidence appendix"
+    },
+    {
+      "path": "audit://extension/pipeline-fabric.json",
+      "sha256": "32c397418c52908a631fe62a955f386e00568b97e60781e518128073cf6f6536",
+      "role": "supporting evidence appendix"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "PF-05",
+    "severity": "P2",
+    "title": "Saved Markdown brief уже есть, portable immutable node packet ещё нет",
+    "epistemic_status": "source_contract_gap",
+    "observed": "build.md требует task brief/report файлами, REQ цитаты, interfaces и отдельные worktree. Но graph schema не связывает node с brief/packet/base revision/output schema, next печатает только id/role/title. Graph и build workspace git-ignored; build cleanup удаляет packet/report. Fabric context pack содержит memory selection и task brief с SHA, но session directory удаляется, DB lock хранит ids/hash, не точные bytes и compiler version. Это не проверенный export/import пакета planner→executor.",
+    "evidence": [
+      {
+        "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+        "line": 132
+      },
+      {
+        "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+        "line": 194
+      },
+      {
+        "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+        "line": 201
+      },
+      {
+        "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+        "line": 560
+      },
+      {
+        "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+        "line": 65
+      },
+      {
+        "file": "repo://fabric/apps/desktop/src/main/contextPack.ts",
+        "line": 30
+      },
+      {
+        "file": "repo://fabric/apps/desktop/src/main/sessionBundle.ts",
+        "line": 195
+      },
+      {
+        "file": "repo://fabric/supabase/migrations/20260901000013_context_packs.sql",
+        "line": 19
+      }
+    ],
+    "fix": "Compiler фиксирует goal/REQ text/global constraints/interfaces, input artifacts с digest, base/tree, allowed scope, budgets, validation profile, skill lock. Immutable packet хранится отдельно от ephemeral credentials/worktree; resolver материализует пути на другом host. Agent transcript не нужен. Global constraints включать в каждый packet или pin shared immutable artifact; output metadata typed.",
+    "acceptance": "Planner process завершается; свежий executor другой runtime читает только packet и разрешённые artifact refs, выполняет task и выдаёт validated result; отсутствующий digest input → BLOCKED_INPUT; packet bytes доступны после session cleanup; воспроизведение не зависит от cwd/домашнего пути.",
+    "source_files": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+      "repo://fabric/apps/desktop/src/main/contextPack.ts",
+      "repo://fabric/apps/desktop/src/main/sessionBundle.ts",
+      "repo://fabric/supabase/migrations/20260901000013_context_packs.sql"
+    ],
+    "module_interfaces": [
+      "New TaskPacketCompiler(plan,scope,artifacts,skillLock) → NodePacket",
+      "ArtifactStore put/get(sha256), PacketResolver",
+      "NodeResult {attempt_id,packet_digest,base,head,outputs,checks,decisions,concerns}"
+    ],
+    "depends_on": [
+      "PF-02"
+    ],
+    "reproduction": null,
+    "status": "proposed",
+    "production_occurrence": "unknown",
+    "origin": "extension/pipeline-fabric.json",
+    "priority": "P2",
+    "skills": [
+      "task-pipeline"
+    ],
+    "observation": "build.md требует task brief/report файлами, REQ цитаты, interfaces и отдельные worktree. Но graph schema не связывает node с brief/packet/base revision/output schema, next печатает только id/role/title. Graph и build workspace git-ignored; build cleanup удаляет packet/report. Fabric context pack содержит memory selection и task brief с SHA, но session directory удаляется, DB lock хранит ids/hash, не точные bytes и compiler version. Это не проверенный export/import пакета planner→executor.",
+    "evidence_kind": "source_contract_gap",
+    "implementation_status": "proposed"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Compiler фиксирует goal/REQ text/global constraints/interfaces, input artifacts с digest, base/tree, allowed scope, budgets, validation profile, skill lock. Immutable packet хранится отдельно от ephemeral credentials/worktree; resolver материализует пути на другом host. Agent transcript не нужен. Global constraints включать в каждый packet или pin shared immutable artifact; output metadata typed.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Planner process завершается; свежий executor другой runtime читает только packet и разрешённые artifact refs, выполняет task и выдаёт validated result; отсутствующий digest input → BLOCKED_INPUT; packet bytes доступны после session cleanup; воспроизведение не зависит от cwd/домашнего пути."
+  ],
+  "verification_plan": {
+    "baseline": "build.md требует task brief/report файлами, REQ цитаты, interfaces и отдельные worktree. Но graph schema не связывает node с brief/packet/base revision/output schema, next печатает только id/role/title. Graph и build workspace git-ignored; build cleanup удаляет packet/report. Fabric context pack содержит memory selection и task brief с SHA, но session directory удаляется, DB lock хранит ids/hash, не точные bytes и compiler version. Это не проверенный export/import пакета planner→executor.",
+    "must_test": "Planner process завершается; свежий executor другой runtime читает только packet и разрешённые artifact refs, выполняет task и выдаёт validated result; отсутствующий digest input → BLOCKED_INPUT; packet bytes доступны после session cleanup; воспроизведение не зависит от cwd/домашнего пути.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [
+    {
+      "from_task": "FIX-PF-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "CTX-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+      "sha256": "38e00b2a5845805a7ae02921099c37e9fddf832272aaa360c33d61546fffb47b",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+      "sha256": "4082692ee896c4edb96576aa93772046e3a48c9b53944e649af7241774ac7405",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://fabric/apps/desktop/src/main/contextPack.ts",
+      "sha256": "b0a6e6059527e6538c88067c3b76f9e6c28c179cfc71ff4cd745bc7457e573ec",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://fabric/apps/desktop/src/main/sessionBundle.ts",
+      "sha256": "8e481d8051c2a32e1c31b40236c9a6ace85c244ea83f7d14df0256af0240c4d1",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://fabric/supabase/migrations/20260901000013_context_packs.sql",
+      "sha256": "fdf7744dd848ce001f344ed8232d2bfce4d8025764b4856b81884d88fb35d671",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "task-pipeline": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "Fabric": "91337391aa8d24966bf0c57db381e6fe63b48bce"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://task-pipeline",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://fabric",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://fabric/apps/desktop/src/main/contextPack.ts",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://fabric/apps/desktop/src/main/sessionBundle.ts",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://fabric/apps/desktop/src/main/executionPacket.ts",
+      "mode": "proposed_create",
+      "reason": "Planned implementation/test target; not created by this audit. Confirm naming against current architecture before dispatch."
+    },
+    {
+      "resource": "file:repo://fabric/apps/desktop/test/executionPacket.test.mjs",
+      "mode": "proposed_create",
+      "reason": "Planned implementation/test target; not created by this audit. Confirm naming against current architecture before dispatch."
+    },
+    {
+      "resource": "append-only:repo://fabric",
+      "mode": "design_refinement_required",
+      "reason": "Historical ADR/migrations are read-only. If schema/decision changes are needed, reserve a NEW migration/ADR identifier under repository rules before dispatch; no permission to rewrite history."
+    }
+  ],
+  "depends_on": [
+    {
+      "task_id": "FIX-PF-02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма."
+    },
+    {
+      "task_id": "CTX-02",
+      "kind": "data",
+      "reason": "Потребляет принятый контракт/результат предыдущей задачи."
+    }
+  ],
+  "read_only_evidence": [
+    "repo://fabric/supabase/migrations/20260901000013_context_packs.sql"
+  ],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": true,
+  "planning_wave": 11
+}

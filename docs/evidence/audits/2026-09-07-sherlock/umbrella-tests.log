@@ -1,0 +1,305 @@
+
+> sshlg-skills@1.46.1 test
+> node test/run.js
+
+
+== structural validator ==
+PASS: sshlg-skills structure valid (9 skills, 9 submodules)
+  unlooked: shared mechanism — negatives.py has 3 copies that share a name and 0.816 of their text, under the 0.9 floor. Reported rather than gated: a seam declaration for files this different would be a sentence nobody could write truthfully
+  unlooked: shared mechanism — plant_guard_test.py has 4 copies that share a name and 0.861 of their text, under the 0.9 floor. Reported rather than gated: a seam declaration for files this different would be a sentence nobody could write truthfully
+  unlooked: shared mechanism — social_preview.py has 9 copies that share a name and 0.828 of their text, under the 0.9 floor. Reported rather than gated: a seam declaration for files this different would be a sentence nobody could write truthfully
+  unlooked: copied mechanisms — 1 file name(s) held above the 0.9 floor by exact similarity; the bound is a prefilter only, and everything it over-estimated is reported above rather than gated
+  unlooked: skills/telegram-dev/docs/evidence/backlog.md absent — board integrity unchecked there
+  unlooked: sshlg-skills: graph is 22 commits behind HEAD (built at 96af3afb) — stage 0 queries it for reach and stage 9 checks it against the docs
+  unlooked: super-ux: graph built at 6348b641, which does not resolve here — a shallow clone or a rewritten history, and either way not a current graph
+  unlooked: task-pipeline: graph is 98 commits behind HEAD (built at 26ac6dd0) — stage 0 queries it for reach and stage 9 checks it against the docs
+  unlooked: agent-sync: graph is 48 commits behind HEAD (built at 45a3ffd1) — stage 0 queries it for reach and stage 9 checks it against the docs
+  unlooked: make-skill: graph is 37 commits behind HEAD (built at 5e5d1fd4) — stage 0 queries it for reach and stage 9 checks it against the docs
+  unlooked: sheleg-design: graph is 79 commits behind HEAD (built at 856f12c9) — stage 0 queries it for reach and stage 9 checks it against the docs
+  unlooked: seo-aeo-audit: graph is 44 commits behind HEAD (built at 2b02f428) — stage 0 queries it for reach and stage 9 checks it against the docs
+  unlooked: sheleg-dev: graph is 40 commits behind HEAD (built at 2ac9f0eb) — stage 0 queries it for reach and stage 9 checks it against the docs
+  unlooked: agent-stack: graph is 45 commits behind HEAD (built at ece85b50) — stage 0 queries it for reach and stage 9 checks it against the docs
+  unlooked: sheleg-design: the verification ledger's newest record is 1.54.0 and package.json ships 1.59.4 — its rows describe an artifact that is no longer the shipped one
+  unlooked: telegram-dev: no verification ledger
+  unlooked: super-ux: newest tag v0.55.1 is lightweight, so `git submodule status` reports this member as v0.55.0-1-ga60f6b4 — cut release tags with `git tag -a`
+  unlooked: task-pipeline: newest tag v1.85.2 is lightweight, so `git submodule status` reports this member as v1.85.0-3-g66487ce — cut release tags with `git tag -a`
+  unlooked: agent-sync: newest tag v1.19.3 is lightweight, so `git submodule status` reports this member as v1.19.2-1-gef45d40 — cut release tags with `git tag -a`
+  unlooked: make-skill: newest tag v0.27.1 is lightweight, so `git submodule status` reports this member as v0.27.0-1-g0150521 — cut release tags with `git tag -a`
+  unlooked: sheleg-design: newest tag v1.59.4 is lightweight, so `git submodule status` reports this member as v1.59.2-1-gca855d9 — cut release tags with `git tag -a`
+  unlooked: seo-aeo-audit: newest tag v0.25.11 is lightweight, so `git submodule status` reports this member as v0.25.10-1-gaa38de5 — cut release tags with `git tag -a`
+  unlooked: sheleg-dev: newest tag v0.11.8 is lightweight, so `git submodule status` reports this member as v0.11.5-3-g42dfb5d — cut release tags with `git tag -a`
+  unlooked: agent-stack: newest tag v0.23.2 is lightweight, so `git submodule status` reports this member as v0.23.1-1-g1f99f8f — cut release tags with `git tag -a`
+  unlooked: super-ux: detached at a commit that IS on a branch, so whether it is pushed could not be read from here
+  unlooked: task-pipeline: detached at a commit that IS on a branch, so whether it is pushed could not be read from here
+  unlooked: agent-sync: detached at a commit that IS on a branch, so whether it is pushed could not be read from here
+  unlooked: make-skill: detached at a commit that IS on a branch, so whether it is pushed could not be read from here
+  unlooked: sheleg-design: detached at a commit that IS on a branch, so whether it is pushed could not be read from here
+  unlooked: seo-aeo-audit: detached at a commit that IS on a branch, so whether it is pushed could not be read from here
+  unlooked: sheleg-dev: detached at a commit that IS on a branch, so whether it is pushed could not be read from here
+  unlooked: agent-stack: detached at a commit that IS on a branch, so whether it is pushed could not be read from here
+  unlooked: telegram-dev: detached at a commit that IS on a branch, so whether it is pushed could not be read from here
+  unlooked: super-ux: CHANGELOG documents 1 version(s) with no tag and no note saying they were not releases — 0.47.0
+  unlooked: board — B-82 is waived, not done; its revisit condition is in the row
+  unlooked: board — B-07 is waived, not done; its revisit condition is in the row
+  unlooked: board — B-08 is waived, not done; its revisit condition is in the row
+  unlooked: bytecode packing — agent-stack's `files` could include `__pycache__`; its published tarball is clean only because the release runs from a fresh CI checkout
+  unlooked: bytecode packing — task-pipeline's `files` could include `__pycache__`; its published tarball is clean only because the release runs from a fresh CI checkout
+  unlooked: bytecode packing — telegram-dev's `files` could include `__pycache__`; its published tarball is clean only because the release runs from a fresh CI checkout
+  unlooked: description reserve — 12 of 28 skills within 60 characters. What it costs routing is computed by `node test/route_coverage.js`, which prints the blocked/free split per miss; this guard states no split of its own
+  unlooked: claimed addresses -- not gated in the dated records, whose rows cite member repositories and past states on purpose (dead/total): docs/evidence/backlog.md 14/111; docs/evidence/verification.md 14/120; docs/evidence/retro.md 2/20; docs/evidence/retro/2026-Q3.md 3/23; docs/evidence/manifesto-conformance.md 16/56
+
+== board_age_test.py ==
+  ok  only the stamp table counts, not prose
+  ok  three stamps in one day age a row by one
+  ok  an old row ages by every later stamp-day
+  ok  a row filed today is zero
+  ok  a dateless source is unknown, never zero
+  ok  the formula is the board's own
+  ok  the age term actually moves the rank
+  ok  bad inputs refuse rather than compute
+  ok  the printed form matches the board
+
+PASS: board_age — 9 cases
+
+== doc_refs_test.py ==
+  ok  a backticked local path is an address
+  ok  a path with no local prefix is not ours
+  ok  an exception entry is skipped, narrowly
+  ok  a placeholder is not an address
+  ok  a line number rides along
+  ok  a link is read by its target
+  ok  a dead link target is reported
+  ok  prose beside a link is still read
+  ok  a relative link resolves against its document
+  ok  an external link target is ignored
+  ok  `npm run` is its own kind
+  ok  an unbackticked script name is a claim
+  ok  a backticked script is not double counted
+  ok  every occurrence carries its line
+  ok  resolution reads the tree and the line count
+  ok  an absent submodule is unknown, never dead
+  ok  prefixes are discovered, not listed
+
+PASS: doc_refs — 17 cases
+residue: this run left nothing — 3 temp tree(s) created, 3 removed
+
+== graph_staleness_test.py ==
+  ok  a graph at HEAD is current
+  ok  distance names the commit that built it
+  ok  one commit is singular
+  ok  an unresolvable build commit is blind, never current
+  ok  a missing built_at_commit is blind
+  ok  no graph is absent, not current
+  ok  an unusable count is blind
+  ok  an unrefreshable graph says so even at HEAD
+  ok  behind and unrefreshable carries both facts
+  ok  a report agreeing with its graph is silent
+  ok  a report naming another build is disclosed
+  ok  a report with no commit line is disclosed
+  ok  no graph commit means nothing to compare
+  ok  a short prefix either way still agrees
+
+PASS: graph_staleness — 14 cases
+
+== pin_source_test.py ==
+  ok  a clean match is a match
+  ok  a real mismatch still fails
+  ok  an uncommitted bump is NOT a pin failure (the incident)
+  ok  a dirty tree over a wrong pin still fails
+  ok  unreadable git falls back and discloses it
+  ok  unreadable git over a wrong pin still fails
+  ok  a corrupt package.json reads as unreadable
+
+PASS: pin_source — 7 cases
+residue: this run left nothing — 6 temp tree(s) created, 6 removed
+
+== plant_guard_test.py ==
+  ok  a content change is seen
+  ok  a MODE-ONLY change is seen (the incident)
+  ok  no change at all is refused, by name
+  ok  a new file is seen
+  ok  a deleted file is seen
+  ok  .git churn is not mistaken for a plant
+  ok  a missing tree refuses rather than approves
+  ok  verify without snap refuses
+  ok  the manifest lives outside the tree
+
+PASS: plant_guard — 9 cases
+residue: this run left nothing — 8 temp tree(s) created, 8 removed
+
+== queue_test.py ==
+repo://sshlg-skills/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmptvjft5hw.md' mode='r' encoding='utf-8'>
+  for n, l in enumerate(open(path, encoding='utf-8').read().split('\n'), 1):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.repo://sshlg-skills/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmpphbifr3_.md' mode='r' encoding='utf-8'>
+  for n, l in enumerate(open(path, encoding='utf-8').read().split('\n'), 1):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.repo://sshlg-skills/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmpj2duwbc2.md' mode='r' encoding='utf-8'>
+  for n, l in enumerate(open(path, encoding='utf-8').read().split('\n'), 1):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+..repo://sshlg-skills/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmpdjzo41gz.md' mode='r' encoding='utf-8'>
+  for n, l in enumerate(open(path, encoding='utf-8').read().split('\n'), 1):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.repo://sshlg-skills/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmpnvga5a_b.md' mode='r' encoding='utf-8'>
+  for n, l in enumerate(open(path, encoding='utf-8').read().split('\n'), 1):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.repo://sshlg-skills/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmpitathp1r.md' mode='r' encoding='utf-8'>
+  for n, l in enumerate(open(path, encoding='utf-8').read().split('\n'), 1):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.repo://sshlg-skills/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmp35d_lcr8.md' mode='r' encoding='utf-8'>
+  for n, l in enumerate(open(path, encoding='utf-8').read().split('\n'), 1):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.
+----------------------------------------------------------------------
+Ran 8 tests in 0.015s
+
+OK
+
+== release_lag_test.py ==
+  ok  the incident is reported, and names the commit
+  ok  a pin at the tip is current
+  ok  no origin/main is blind, never current
+  ok  several commits pluralise and name the newest
+  ok  a lag with no subject still reports
+  ok  an unusable count is blind, never current
+
+PASS: release_lag — 6 cases
+
+== residue_test.py ==
+  ok  a passing case leaves nothing, and the path is gone
+  ok  a clean run still says what it left
+  ok  a FAILING case keeps its tree, by name, with a remedy
+  ok  a crash keeps its tree and still reports
+  ok  residue is attributable by prefix
+  ok  plant_guard_test leaves an empty TMPDIR
+  ok  the three named suites leave an empty TMPDIR
+  ok  this gate run left nothing in the shared TMPDIR
+PASS: residue — 8 cases
+residue: this run left nothing — 4 temp tree(s) created, 4 removed
+
+== apply_test.js ==
+OK (18 checks)
+
+== backup_test.js ==
+OK (20 checks)
+
+== brief_test.js ==
+OK (10 checks)
+
+== cli_config_test.js ==
+OK (24 checks)
+
+== config_test.js ==
+OK (9 checks)
+
+== conflicts_test.js ==
+OK (17 checks)
+
+== consent_test.js ==
+OK (10 checks)
+
+== cursor_test.js ==
+OK (9 checks)
+
+== displace_test.js ==
+OK (11 checks)
+
+== drift_test.js ==
+OK (27 checks)
+
+== guard_test.js ==
+OK (30 checks)
+
+== hooks_e2e_test.js ==
+OK (38 checks)
+
+== hooks_test.js ==
+OK (22 checks)
+
+== humanizers_test.js ==
+OK (10 checks)
+
+== hygiene_test.js ==
+OK (26 checks)
+
+== injectors_test.js ==
+PASS: injectors — 9 checks
+
+== install_routers_test.js ==
+OK (16 checks)
+
+== inventory_test.js ==
+OK (12 checks)
+
+== materialised_test.js ==
+OK (14 checks)
+
+== migrate_test.js ==
+OK (22 checks)
+
+== notify_test.js ==
+OK (12 checks)
+
+== og_card_test.js ==
+PASS: og-card — 14 checks (56 glyphs, 1200x630)
+
+== packs_test.js ==
+OK (47 checks)
+
+== plan_test.js ==
+OK (20 checks)
+
+== protocol_test.js ==
+OK (13 checks)
+
+== repogate_test.js ==
+OK (18 checks)
+
+== routegate_test.js ==
+OK (15 checks)
+
+== router_texts_test.js ==
+OK (80 checks)
+
+== routers_test.js ==
+OK (38 checks)
+
+== routing_evals_test.js ==
+OK (12 checks)
+
+== runledger_test.js ==
+OK (25 checks)
+
+== runtime_test.js ==
+PASS: runtime — 8 checks
+
+== secrets_test.js ==
+OK (33 checks)
+
+== shadow_test.js ==
+OK (15 checks)
+
+== signature_test.js ==
+OK (13 checks)
+
+== site_test.js ==
+PASS: site — 42 checks (13 pages, 9 members, 12 routers)
+
+== store_test.js ==
+OK (7 checks)
+
+== toolkit_test.js ==
+OK (18 checks)
+
+== traffic_test.js ==
+OK (7 checks)
+
+== triggers_test.js ==
+OK (49 checks)
+
+== updatemodel_test.js ==
+OK (10 checks)
+
+============================================================
+COUNTED: 50 suites, 920 fixtures, 9 pinned members
+PASS: 50 checks green (validate.py + 8 python + 41 node suites)

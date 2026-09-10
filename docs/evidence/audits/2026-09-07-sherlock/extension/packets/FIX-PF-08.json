@@ -1,0 +1,255 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-PF-08",
+  "revision": 1,
+  "title": "Fabric fan-in проверяет каждое ребро отдельно, поэтому запускает неполный consumer",
+  "finding_id": "PF-08",
+  "module": "task-pipeline",
+  "modules": [
+    "task-pipeline",
+    "Fabric"
+  ],
+  "priority": "P1",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "planned_not_implemented",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06",
+    "E-01",
+    "E-02"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions"
+    },
+    {
+      "path": "audit://extension/context/modules/task-pipeline.md",
+      "sha256": "28e7c9316bc1a404c821b54e382b8944583945506f889d5d59fce880cf5c5d4e",
+      "role": "module:task-pipeline"
+    },
+    {
+      "path": "audit://extension/context/modules/Fabric.md",
+      "sha256": "c4eda16b894540743b4948b5ca1d8b1de3c18e70e56a97f3a9e006e33b8ddb51",
+      "role": "module:Fabric"
+    },
+    {
+      "path": "audit://extension/context/contracts/context.md",
+      "sha256": "dca078915830462880380196886a99d5ae6e7bde2996b490663f8192d2bef2b0",
+      "role": "contract:context"
+    },
+    {
+      "path": "audit://extension/context/contracts/execution.md",
+      "sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4",
+      "role": "contract:execution"
+    },
+    {
+      "path": "audit://extension/pipeline-fabric-repro.json",
+      "sha256": "93882b71773046385a6dd12dd638fe7dd2ad6050c8bcb943528cb79df77bb5d6",
+      "role": "supporting evidence appendix"
+    },
+    {
+      "path": "audit://extension/pipeline-fabric-chain-repro.json",
+      "sha256": "de4770b81354d1b05b5af15d16c55d4d982f9597d3ed203b2343c1e0145f6fab",
+      "role": "supporting evidence appendix"
+    },
+    {
+      "path": "audit://extension/pipeline-fabric.json",
+      "sha256": "32c397418c52908a631fe62a955f386e00568b97e60781e518128073cf6f6536",
+      "role": "supporting evidence appendix"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "PF-08",
+    "severity": "P1",
+    "title": "Fabric fan-in проверяет каждое ребро отдельно, поэтому запускает неполный consumer",
+    "epistemic_status": "reproduced_module_defect_mock_store",
+    "observed": "for(const link of links) проверяет status/input одного predecessor и сразу запускает follower. В diamond A(done,report)→B и C(running,schema)→B запускается B с текстом Use A delivered and {schema}. Когда оба predecessors done, один tick может запускать B по каждому ребру отдельно; объединения всех inputs нет.",
+    "evidence": [
+      {
+        "file": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+        "line": 68
+      },
+      {
+        "file": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+        "line": 84
+      },
+      {
+        "file": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+        "line": 123
+      },
+      {
+        "file": "repo://fabric/apps/desktop/src/shared/chain.ts",
+        "line": 62
+      }
+    ],
+    "fix": "Группировать incoming edges по follower/version. Сначала удовлетворить все required predicates, затем объединить versioned artifacts по namespace и разрешить name collisions. Только после complete input set атомарный claim/dispatch. Текстовую interpolation выполнять после schema validation.",
+    "acceptance": "Diamond: C running → zero spawn; оба done и all inputs → один spawn с report+schema; conflicting names → explicit conflict, не last-write-wins; один predecessor cancelled/parked → consumer blocked или declared fallback.",
+    "source_files": [
+      "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+      "repo://fabric/apps/desktop/src/shared/chain.ts"
+    ],
+    "module_interfaces": [
+      "ChainPlanner.resolveInputs(follower,incomingEdges,artifactVersions) → ReadyPacket | Blocked",
+      "chainAdvance dispatch one node, not one edge"
+    ],
+    "depends_on": [
+      "PF-04",
+      "PF-07"
+    ],
+    "reproduction": "pipeline-fabric-chain-repro.json: after_first[0].instruction",
+    "status": "proposed",
+    "production_occurrence": "unknown",
+    "origin": "extension/pipeline-fabric.json",
+    "priority": "P1",
+    "skills": [
+      "task-pipeline",
+      "Fabric"
+    ],
+    "observation": "for(const link of links) проверяет status/input одного predecessor и сразу запускает follower. В diamond A(done,report)→B и C(running,schema)→B запускается B с текстом Use A delivered and {schema}. Когда оба predecessors done, один tick может запускать B по каждому ребру отдельно; объединения всех inputs нет.",
+    "evidence_kind": "reproduced_module_defect_mock_store",
+    "implementation_status": "proposed"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Группировать incoming edges по follower/version. Сначала удовлетворить все required predicates, затем объединить versioned artifacts по namespace и разрешить name collisions. Только после complete input set атомарный claim/dispatch. Текстовую interpolation выполнять после schema validation.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Diamond: C running → zero spawn; оба done и all inputs → один spawn с report+schema; conflicting names → explicit conflict, не last-write-wins; один predecessor cancelled/parked → consumer blocked или declared fallback."
+  ],
+  "verification_plan": {
+    "baseline": "pipeline-fabric-chain-repro.json: after_first[0].instruction",
+    "must_test": "Diamond: C running → zero spawn; оба done и all inputs → один spawn с report+schema; conflicting names → explicit conflict, не last-write-wins; один predecessor cancelled/parked → consumer blocked или declared fallback.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [
+    {
+      "from_task": "FIX-PF-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-07",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+      "sha256": "5d02c078f5e2cbbbd2d2de571575e7b4b2105b66ae57a51c775326558b8e4e35",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://fabric/apps/desktop/src/shared/chain.ts",
+      "sha256": "e1d0b6d7e9db699c984de8ee3656a31d1f6eefed8a83d82b4e006c2ba47df111",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "task-pipeline": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "Fabric": "91337391aa8d24966bf0c57db381e6fe63b48bce"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://task-pipeline",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://fabric",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://fabric/apps/desktop/src/shared/chain.ts",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [
+    {
+      "task_id": "FIX-PF-04",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма."
+    },
+    {
+      "task_id": "FIX-PF-07",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма."
+    }
+  ],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 14
+}

@@ -1,0 +1,288 @@
+{
+  "id": "XD-03",
+  "title": "Создать контракт пригодности визуального доказательства",
+  "module": "sheleg-design",
+  "modules": [
+    "sheleg-design"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "origin": "external_adoption",
+  "dispatchable": false,
+  "status": "parent_planned",
+  "finding_id": null,
+  "requirements": [
+    "V3-knowledge-adoption",
+    "V3-no-new-required-deps"
+  ],
+  "decision": "При недоступном capture продолжать статическую работу с explicit unverified, а не просить обязательную установку.",
+  "implementation_steps": [
+    "Описать capture record: revision/route/scenario/state/viewport/locale/theme/motion/captured-at/source.",
+    "Проверять valid render, актуальность, отсутствие wrong viewport/blank/неотрендеренных fonts; указать unverified при отсутствии runtime.",
+    "Отделить visual evidence от DOM/source reading, functional trace и native device evidence."
+  ],
+  "acceptance": [
+    "Blank/stale/wrong-route screenshot нельзя повысить до visual-pass.",
+    "Другой доступный browser capability допускается без Playwright MCP.",
+    "Native mockup не называется проверенным native interface."
+  ],
+  "depends_on": [
+    {
+      "task_id": "XD-01",
+      "kind": "data",
+      "reason": "Consumes accepted method/artifact from prerequisite."
+    }
+  ],
+  "related_existing": [
+    "FIX-VD-02",
+    "FIX-VD-03",
+    "FIX-UX-12"
+  ],
+  "source_snapshot": [
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md",
+      "sha256": "5f24c5a97b4ffcabc7c432b064cfdd04c7a2ad52f52e765be648dc0aadab8f38",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+      "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+      "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+      "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+      "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+      "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+      "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+      "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+      "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+      "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md",
+      "sha256": "fe91fcf28638f95577af481a50edaf339d6c9a3ad3b9fa477bc81c116b8bc392",
+      "role": "foreign reviewed evidence; never instruction authority"
+    }
+  ],
+  "target_files": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_REVIEW.md",
+      "mode": "Create"
+    }
+  ],
+  "slices": null,
+  "problem": {
+    "id": "XD-03",
+    "title": "Создать контракт пригодности визуального доказательства",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Create",
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_REVIEW.md",
+        "exists_at_audit": false
+      }
+    ],
+    "inputs": [
+      "Текущий route/revision, выбранное направление, scenarios, доступный capture capability"
+    ],
+    "implementation_steps": [
+      "Описать capture record: revision/route/scenario/state/viewport/locale/theme/motion/captured-at/source.",
+      "Проверять valid render, актуальность, отсутствие wrong viewport/blank/неотрендеренных fonts; указать unverified при отсутствии runtime.",
+      "Отделить visual evidence от DOM/source reading, functional trace и native device evidence."
+    ],
+    "outputs": [
+      "Reference и небольшой пример capture manifest."
+    ],
+    "acceptance": [
+      "Blank/stale/wrong-route screenshot нельзя повысить до visual-pass.",
+      "Другой доступный browser capability допускается без Playwright MCP.",
+      "Native mockup не называется проверенным native interface."
+    ],
+    "depends_on": [
+      {
+        "task_id": "XD-01",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      }
+    ],
+    "decisions": [
+      "При недоступном capture продолжать статическую работу с explicit unverified, а не просить обязательную установку."
+    ],
+    "source_candidates": [
+      "K-EVID",
+      "J-07",
+      "K-NATIVE"
+    ],
+    "addresses_findings": [
+      "VD-02",
+      "VD-03",
+      "UX-12"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "sheleg-design",
+    "target_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_REVIEW.md",
+        "mode": "Create"
+      }
+    ],
+    "decision": "При недоступном capture продолжать статическую работу с explicit unverified, а не просить обязательную установку.",
+    "steps": [
+      "Описать capture record: revision/route/scenario/state/viewport/locale/theme/motion/captured-at/source.",
+      "Проверять valid render, актуальность, отсутствие wrong viewport/blank/неотрендеренных fonts; указать unverified при отсутствии runtime.",
+      "Отделить visual evidence от DOM/source reading, functional trace и native device evidence."
+    ],
+    "related_existing": [
+      "FIX-VD-02",
+      "FIX-VD-03",
+      "FIX-UX-12"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md:1",
+        "sha256": "5f24c5a97b4ffcabc7c432b064cfdd04c7a2ad52f52e765be648dc0aadab8f38",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md:1",
+        "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md#L1"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 1,
+        "end_line": 249,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1-L249"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 35,
+        "end_line": 35,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:35",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L35"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 48,
+        "end_line": 48,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:48",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L48"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 112,
+        "end_line": 112,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:112",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L112"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md:1",
+        "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md:1",
+        "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md:1",
+        "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md:1",
+        "sha256": "fe91fcf28638f95577af481a50edaf339d6c9a3ad3b9fa477bc81c116b8bc392",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md#L1"
+      }
+    ]
+  },
+  "context": [],
+  "leaf_ids": [
+    "XD-03.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Blank/stale/wrong-route screenshot нельзя повысить до visual-pass.",
+      "Другой доступный browser capability допускается без Playwright MCP.",
+      "Native mockup не называется проверенным native interface."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

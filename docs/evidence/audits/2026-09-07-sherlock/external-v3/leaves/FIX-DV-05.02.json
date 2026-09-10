@@ -1,0 +1,121 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-DV-05.02",
+  "parent_id": "FIX-DV-05",
+  "title": "Refund and hold lifecycle",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 0,
+  "modules": [
+    "sheleg-dev"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Основной idempotency snippet кредитует не только PAID и блокирует жизненный цикл после PAID",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Refund/hold events обрабатывать отдельным ledger, не отбрасывать после paid как duplicate.",
+  "expected_result": "Paid→refund корректирует ledger, repeated refund не дублируется.",
+  "acceptance": [
+    "Paid→refund корректирует ledger, repeated refund не дублируется."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Refund/hold events обрабатывать отдельным ledger, не отбрасывать после paid как duplicate.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/references/heleket-provider.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "83efcc58634f1bbc34c94c030388d0dfd43f69e7b5a5843ea732497e1a3818ff",
+      "refresh_after": [
+        "FIX-DV-05.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-dev/test/audit_regressions/fix-dv-05.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-DV-05.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-DV-05.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md",
+        "sha256": "d2fb267b6bfe44d80de862bbe9a69d348e81cadd506bedc35f605a81be6464b6",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/references/heleket-provider.md",
+        "sha256": "83efcc58634f1bbc34c94c030388d0dfd43f69e7b5a5843ea732497e1a3818ff",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "pending→confirming→paid→refund_process→refund_paid; repeated pending; paid concurrent; crash до/после commit. Ноль grant до paid, один после, refund отражён."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-DV-05.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-dev/test/audit_regressions/fix-dv-05.02.py",
+    "python3 repo://sheleg-dev/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-DV-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-DV-05.02.md",
+    "sha256": "bc6400bc15284fe90a18d6201c8f81c1ad631659e75845232ca5c247be4bd573",
+    "utf8_bytes": 5038,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "06a61084df307db7c5281343913e0a5bd2727f5ce6755d330a8f59b399388f20"
+  }
+}

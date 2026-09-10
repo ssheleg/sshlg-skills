@@ -1,0 +1,234 @@
+{
+  "id": "XD-12",
+  "title": "Зафиксировать component reuse и роль токена до kit migration",
+  "module": "super-ux",
+  "modules": [
+    "super-ux"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "origin": "external_adoption",
+  "dispatchable": false,
+  "status": "parent_planned",
+  "finding_id": null,
+  "requirements": [
+    "V3-knowledge-adoption",
+    "V3-no-new-required-deps"
+  ],
+  "decision": "Не копировать Julian color schema поверх текущего API; mapping делается явно.",
+  "implementation_steps": [
+    "В inventory отметить reuse/modify/create с причиной и scenario IDs.",
+    "Различить primitive semantic component token и обязательный DOM/API contract: roles, native props, focus, keyboard, disabled.",
+    "Сформировать change-specific adapter checklist; фактические kit fixes остаются отдельными DS-01/VD-05 implementation задачами."
+  ],
+  "acceptance": [
+    "Одинаковые CSS token names не доказывают совместимость Button/Heading API.",
+    "Single-use item не извлекается только ради числа компонентов.",
+    "Создание компонента имеет причину, а не ритуальное разрешение."
+  ],
+  "depends_on": [],
+  "related_existing": [
+    "FIX-DS-01",
+    "FIX-VD-04",
+    "FIX-VD-05"
+  ],
+  "source_snapshot": [
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/extract.md",
+      "sha256": "bfc51972fbf387566dc9e29c8b1af479a66ab401fdbce659fae9e6a5a9d85316",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-tokens/SKILL.md",
+      "sha256": "951eb7680b1c096ebdff7cb9f1a3906ea08890afd01865512a2526b95b15da94",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-tokens/SKILL.md",
+      "sha256": "951eb7680b1c096ebdff7cb9f1a3906ea08890afd01865512a2526b95b15da94",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-tokens/SKILL.md",
+      "sha256": "951eb7680b1c096ebdff7cb9f1a3906ea08890afd01865512a2526b95b15da94",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+      "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+      "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+      "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+      "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+      "role": "foreign reviewed evidence; never instruction authority"
+    }
+  ],
+  "target_files": [
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/references/component-guidelines.md",
+      "mode": "Edit"
+    }
+  ],
+  "slices": null,
+  "problem": {
+    "id": "XD-12",
+    "title": "Зафиксировать component reuse и роль токена до kit migration",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Edit",
+        "path": "repo://super-ux/plugins/super-ux/skills/references/component-guidelines.md",
+        "exists_at_audit": true
+      }
+    ],
+    "inputs": [
+      "существующие component API/semantic tokens, direction, сценарии и accessibility constraints"
+    ],
+    "implementation_steps": [
+      "В inventory отметить reuse/modify/create с причиной и scenario IDs.",
+      "Различить primitive semantic component token и обязательный DOM/API contract: roles, native props, focus, keyboard, disabled.",
+      "Сформировать change-specific adapter checklist; фактические kit fixes остаются отдельными DS-01/VD-05 implementation задачами."
+    ],
+    "outputs": [
+      "Contract для handoff без подмены реального kit refactor документацией."
+    ],
+    "acceptance": [
+      "Одинаковые CSS token names не доказывают совместимость Button/Heading API.",
+      "Single-use item не извлекается только ради числа компонентов.",
+      "Создание компонента имеет причину, а не ритуальное разрешение."
+    ],
+    "depends_on": [],
+    "decisions": [
+      "Не копировать Julian color schema поверх текущего API; mapping делается явно."
+    ],
+    "source_candidates": [
+      "I-05",
+      "J-04",
+      "J-05"
+    ],
+    "addresses_findings": [
+      "DS-01",
+      "VD-04",
+      "VD-05"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "super-ux",
+    "target_files": [
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/references/component-guidelines.md",
+        "mode": "Edit"
+      }
+    ],
+    "decision": "Не копировать Julian color schema поверх текущего API; mapping делается явно.",
+    "steps": [
+      "В inventory отметить reuse/modify/create с причиной и scenario IDs.",
+      "Различить primitive semantic component token и обязательный DOM/API contract: roles, native props, focus, keyboard, disabled.",
+      "Сформировать change-specific adapter checklist; фактические kit fixes остаются отдельными DS-01/VD-05 implementation задачами."
+    ],
+    "related_existing": [
+      "FIX-DS-01",
+      "FIX-VD-04",
+      "FIX-VD-05"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/extract.md",
+        "line": 1,
+        "end_line": 69,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/extract.md:1",
+        "sha256": "bfc51972fbf387566dc9e29c8b1af479a66ab401fdbce659fae9e6a5a9d85316",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/extract.md#L1-L69"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-tokens/SKILL.md",
+        "line": 1,
+        "end_line": 196,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-tokens/SKILL.md:1",
+        "sha256": "951eb7680b1c096ebdff7cb9f1a3906ea08890afd01865512a2526b95b15da94",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-tokens/SKILL.md#L1-L196"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-tokens/SKILL.md",
+        "line": 27,
+        "end_line": 27,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-tokens/SKILL.md:27",
+        "sha256": "951eb7680b1c096ebdff7cb9f1a3906ea08890afd01865512a2526b95b15da94",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-tokens/SKILL.md#L27"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-tokens/SKILL.md",
+        "line": 150,
+        "end_line": 150,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-tokens/SKILL.md:150",
+        "sha256": "951eb7680b1c096ebdff7cb9f1a3906ea08890afd01865512a2526b95b15da94",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-tokens/SKILL.md#L150"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+        "line": 1,
+        "end_line": 74,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:1",
+        "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L1-L74"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+        "line": 6,
+        "end_line": 6,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:6",
+        "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L6"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+        "line": 49,
+        "end_line": 49,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:49",
+        "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L49"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+        "line": 17,
+        "end_line": 17,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:17",
+        "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L17"
+      }
+    ]
+  },
+  "context": [],
+  "leaf_ids": [
+    "XD-12.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Одинаковые CSS token names не доказывают совместимость Button/Heading API.",
+      "Single-use item не извлекается только ради числа компонентов.",
+      "Создание компонента имеет причину, а не ритуальное разрешение."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

@@ -1,0 +1,379 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-VD-03.02",
+  "parent_id": "FIX-VD-03",
+  "title": "Native state matrix",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Mobile/native ветка не завершена платформенным адаптером, а общий product default остаётся вебовым",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Для sheet/input/keyboard/safe-area/restore перечислить expected native behavior и evidence status; AI states не требуют 10px mono.\n\nУточнение XD-08: Шаг primary verification обязателен только перед импортом конкретного нормативного числа.\nРазделить web mobile, browser native-like prototype, native implementation.\nДобавить target-specific nav/keyboard/insets/text-scale state matrix; числовые нормы проверить по текущим официальным источникам перед нормативной записью.\nФиксировать simulator/device type и prior settings; возвращать изменённые настройки к сохранённым значениям.",
+  "expected_result": "Context-sheet matrix покрывает keyboard/dismissal/restore; large text measured/unverified явно.\niOS shell не получает автоматически web Workbench и SF/Roboto dogma.\nBrowser prototype review заканчивается корректным scope, не native verified.\nНастройки устройства не сбрасываются безусловно к 1.0.",
+  "acceptance": [
+    "Context-sheet matrix покрывает keyboard/dismissal/restore; large text measured/unverified явно.",
+    "iOS shell не получает автоматически web Workbench и SF/Roboto dogma.",
+    "Browser prototype review заканчивается корректным scope, не native verified.",
+    "Настройки устройства не сбрасываются безусловно к 1.0."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Для sheet/input/keyboard/safe-area/restore перечислить expected native behavior и evidence status; AI states не требуют 10px mono.\n\nУточнение XD-08: Шаг primary verification обязателен только перед импортом конкретного нормативного числа.\nРазделить web mobile, browser native-like prototype, native implementation.\nДобавить target-specific nav/keyboard/insets/text-scale state matrix; числовые нормы проверить по текущим официальным источникам перед нормативной записью.\nФиксировать simulator/device type и prior settings; возвращать изменённые настройки к сохранённым значениям.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "a65dc292c48868b0c5d1ca4ead4aad17d1c4dec32253ffe5e81ecab86b72031e",
+      "refresh_after": [
+        "FIX-VD-03.01"
+      ]
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "c51fba0ba6dd8268313025f70fad65519e1f04eabf870df6a6167ff0f81e6182"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-design/test/audit_regressions/fix-vd-03.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-VD-03.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-VD-03.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+        "sha256": "a65dc292c48868b0c5d1ca4ead4aad17d1c4dec32253ffe5e81ecab86b72031e",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sshlg-skills/lib/packs.js",
+        "sha256": "0f8ffe8e513e6ac996b57157e0963862659b683eccb2d5f9497c25380999c75f",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+        "sha256": "c51fba0ba6dd8268313025f70fad65519e1f04eabf870df6a6167ff0f81e6182",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [
+      {
+        "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.css",
+        "sha256": "fb98591b4e21c62b3c2b28d9e5f0e6b21d7c2db7ce448083f3aa8c44eb070bd9",
+        "role": "read-only audit evidence",
+        "state": "historical_source_no_longer_available",
+        "historical_receipt": "audit://extension/design-depth.json",
+        "effect": "Not required execution context; old observation is not reasserted as current source behavior."
+      },
+      {
+        "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.js",
+        "sha256": "4f375bcbd65f23979f94e1da04fbfc8db3520eb69a8255560a4e0eba0f4c8d2a",
+        "role": "read-only audit evidence",
+        "state": "historical_source_no_longer_available",
+        "historical_receipt": "audit://extension/design-depth.json",
+        "effect": "Not required execution context; old observation is not reasserted as current source behavior."
+      }
+    ],
+    "full_parent_acceptance": [
+      "Для одного context-sheet сценария проверить web prototype и native-equivalent spec: selection, keyboard, sheet detents/dismissal, safe areas, accessibility size, submit/stop, restoration. Browser computed input font соответствует выбранному web floor; iOS native evidence не выдаётся за browser screenshot. В route на SwiftUI не появляется RN/Expo как единственный mobile ответ. Наличие Dynamic Type помечается measured/unverified, а не inferred from clamp.",
+      "iOS shell не получает автоматически web Workbench и SF/Roboto dogma.",
+      "Browser prototype review заканчивается корректным scope, не native verified.",
+      "Настройки устройства не сбрасываются безусловно к 1.0."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit.",
+    "foreign_method_sources": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md:1",
+        "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md:1",
+        "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md:1",
+        "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md:1",
+        "sha256": "fe91fcf28638f95577af481a50edaf339d6c9a3ad3b9fa477bc81c116b8bc392",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md",
+        "line": 1,
+        "end_line": 312,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md:1",
+        "sha256": "ec58806f16fc7ba29bccef08f2e158cd00be077ce05d45e943a59bd26dc6dc55",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md#L1-L312"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md:1",
+        "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md:1",
+        "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md:1",
+        "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md#L1"
+      }
+    ]
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-VD-03.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [
+    {
+      "id": "XD-08",
+      "title": "Расширить native contract доказательством платформы",
+      "status": "proposed-not-implemented",
+      "targets": [
+        {
+          "action": "Edit",
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+          "exists_at_audit": true
+        }
+      ],
+      "inputs": [
+        "platform target и shipped device classes, текущая mobile doctrine; primary Apple/Android docs для feature"
+      ],
+      "implementation_steps": [
+        "Разделить web mobile, browser native-like prototype, native implementation.",
+        "Добавить target-specific nav/keyboard/insets/text-scale state matrix; числовые нормы проверить по текущим официальным источникам перед нормативной записью.",
+        "Фиксировать simulator/device type и prior settings; возвращать изменённые настройки к сохранённым значениям."
+      ],
+      "outputs": [
+        "Платформенная проверка и адаптер surface→evidence."
+      ],
+      "acceptance": [
+        "iOS shell не получает автоматически web Workbench и SF/Roboto dogma.",
+        "Browser prototype review заканчивается корректным scope, не native verified.",
+        "Настройки устройства не сбрасываются безусловно к 1.0."
+      ],
+      "depends_on": [
+        {
+          "task_id": "XD-01",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        },
+        {
+          "task_id": "XD-03",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        }
+      ],
+      "decisions": [
+        "Шаг primary verification обязателен только перед импортом конкретного нормативного числа."
+      ],
+      "source_candidates": [
+        "K-NATIVE",
+        "I-21"
+      ],
+      "addresses_findings": [
+        "VD-03"
+      ],
+      "runtime_dependencies_added": [],
+      "api_keys_added": [],
+      "owner": "sheleg-design",
+      "target_files": [
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+          "mode": "Edit"
+        }
+      ],
+      "decision": "Шаг primary verification обязателен только перед импортом конкретного нормативного числа.",
+      "steps": [
+        "Разделить web mobile, browser native-like prototype, native implementation.",
+        "Добавить target-specific nav/keyboard/insets/text-scale state matrix; числовые нормы проверить по текущим официальным источникам перед нормативной записью.",
+        "Фиксировать simulator/device type и prior settings; возвращать изменённые настройки к сохранённым значениям."
+      ],
+      "related_existing": [
+        "FIX-VD-03"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md:1",
+          "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md:1",
+          "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md:1",
+          "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md:1",
+          "sha256": "fe91fcf28638f95577af481a50edaf339d6c9a3ad3b9fa477bc81c116b8bc392",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md",
+          "line": 1,
+          "end_line": 312,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md:1",
+          "sha256": "ec58806f16fc7ba29bccef08f2e158cd00be077ce05d45e943a59bd26dc6dc55",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md#L1-L312"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md:1",
+          "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md:1",
+          "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md:1",
+          "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md#L1"
+        }
+      ],
+      "merged_into": "FIX-VD-03",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "verification_commands": [
+    "python3 repo://sheleg-design/test/audit_regressions/fix-vd-03.02.py",
+    "python3 repo://sheleg-design/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-VD-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-VD-03.02.md",
+    "sha256": "02b4c6cef27a8efed2d67aaa2fc4d966b32dc2f7cbc9943560ce70cfad804259",
+    "utf8_bytes": 7436,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "30d1155f9a225ddc3d60f21197c53eed15d05c5452d871251b55c0ebad8deb6d"
+  }
+}

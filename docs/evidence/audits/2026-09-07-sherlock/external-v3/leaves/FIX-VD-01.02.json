@@ -1,0 +1,143 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-VD-01.02",
+  "parent_id": "FIX-VD-01",
+  "title": "Provisional pack path",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "super-ux",
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Идентичность фиксируется раньше визуального исследования, а наличие системы закрывает допустимый поиск композиции",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "До выбранного direction использовать provisional semantic tokens; full reusable pack contract только при консолидации/публикации.",
+  "expected_result": "Первый эскиз не блокируется 13 headings; reusable pack всё ещё проходит contract.",
+  "acceptance": [
+    "Первый эскиз не блокируется 13 headings; reusable pack всё ещё проходит contract."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "До выбранного direction использовать provisional semantic tokens; full reusable pack contract только при консолидации/публикации.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://super-ux/plugins/super-ux/skills/references/visual-identity.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "3771fd7aab529c71ff15fe0cd9bb38c71cd1e016162ca73edd7f37acf955d36e"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "54af980e952ed2d95a1fbbea613b6924c633d86e37f38c41052268abac798d38"
+    }
+  ],
+  "test_target": {
+    "path": "repo://super-ux/test/audit_regressions/fix-vd-01.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-VD-01.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-VD-01.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "sha256": "245951a4a3adc9f52566b13cbb35b7e9548200e6d04fbf59a857502c4a442bf2",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/references/visual-identity.md",
+        "sha256": "3771fd7aab529c71ff15fe0cd9bb38c71cd1e016162ca73edd7f37acf955d36e",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+        "sha256": "54af980e952ed2d95a1fbbea613b6924c633d86e37f38c41052268abac798d38",
+        "role": "baseline source"
+      },
+      {
+        "path": "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+        "sha256": "6c78ff0be8abac64f3031ad158f54884e0080bef2be77bd12f48b032e678343e",
+        "role": "read-only audit evidence"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "На брифе «улучшить Nicegram, сохранить бренд» показать минимум две реально разные композиции стартового чата и context sheet; у каждой неизменны бренд и сценарий, явно различаются ≥2 открытых визуальных оси. На «исправить spacing по точному Figma» вариаций не создавать. Повторить с существующим токен-файлом и без него; наличие токенов само по себе не должно закрывать exploration.",
+      "Refinement сохраняет identity, но допускает другой rhythm/composition в пределах scope.",
+      "Ни style pack, ни dials, ни число шрифтов не объявлены доказательством craft.",
+      "Выполнение возможно offline без concept roll/imagegen."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-VD-01.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://super-ux/test/audit_regressions/fix-vd-01.02.py",
+    "python3 repo://super-ux/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-VD-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-VD-01.02.md",
+    "sha256": "b99091a30a26eecc6ddd0d40155ee177060ce5f37b089d639b26e0c9e8fcebf1",
+    "utf8_bytes": 7801,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "8588a7a1db1cd3fe970fa9bd71ff7b38d14ac99f4bb41b88ccc5d2f58ed8234b"
+  }
+}

@@ -1,0 +1,61 @@
+# FIX-DV-02 — Пример renewal противоречит тесту переупорядоченных периодов и не сериализует grant
+
+P1 · очередь 0 · расчётная волна 2 · planned_not_implemented
+
+Модули: sheleg-dev. Требования: E-05, E-06.
+
+Риск потери денег/данных/владения либо побочные эффекты updater: исправить первым.
+
+## Проблема и доказательства
+
+Пример отбрасывает periodStart <= lastGrantedPeriodStart; fixture требует выдать оба периода при February→January. SELECT→UPDATE внутри транзакции сам по себе не задаёт isolation/row lock; reconciliation не несёт event.id.
+
+- [repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/subscription-lifecycle.md:146](https://github.com/ssheleg/sheleg-dev/blob/42dfb5df929897f5cf39c72c0c69725f6bb664e2/plugins/sheleg-dev/skills/stripe-billing/references/subscription-lifecycle.md#L146)
+- [repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/webhook-events.md:215](https://github.com/ssheleg/sheleg-dev/blob/42dfb5df929897f5cf39c72c0c69725f6bb664e2/plugins/sheleg-dev/skills/stripe-billing/references/webhook-events.md#L215)
+- [repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/reference-handler.mjs:214](https://github.com/ssheleg/sheleg-dev/blob/42dfb5df929897f5cf39c72c0c69725f6bb664e2/plugins/sheleg-dev/skills/stripe-billing/fixtures/reference-handler.mjs#L214)
+
+## Связанный контекст
+
+- [user requirements](../work-brief.md) · sha256 `ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1`
+- [program](../context/program.md) · sha256 `984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137`
+- [decisions](../context/decisions.json) · sha256 `6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f`
+- [module:sheleg-dev](../context/modules/sheleg-dev.md) · sha256 `15267b79bd525b710fbceab7c11d0592be900bff0e0d471daa0b87fc309e708f`
+- [contract:integration](../context/contracts/integration.md) · sha256 `6afa0b0347b041557ffabcfeaed821ff999542ac765d9088fb166dbde0360054`
+- [contract:evidence](../context/contracts/evidence.md) · sha256 `5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88`
+- [supporting evidence appendix](../../integrations-findings.json) · sha256 `60b3011f1cd6e94c9c851c310db9279cde7feb4601845e619abb72d263676beb`
+
+## Решение и последовательность
+
+1. Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.
+
+2. Уникальная запись grant по subscription/item/invoice/period и атомарная выдача; отдельно monotonic mirror состояния. Определить isolation и retry serialization failures.
+
+3. Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.
+
+4. Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge.
+
+## Приёмка
+
+Реальная БД: webhook + reconciliation одновременно для одного invoice; затем February→January. Два разных оплаченных периода начислены, один период не дублируется, mirror остаётся February.
+
+Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate.
+
+## Зависимости и входы
+
+Независимая задача; source/context freshness и claim всё равно обязательны.
+
+## Передача исполнителю
+
+Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.
+
+Source bases: `{"sheleg-dev": "42dfb5df929897f5cf39c72c0c69725f6bb664e2"}`.
+
+Write scope: `repo:repo://sheleg-dev`, `file:repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/subscription-lifecycle.md`, `file:repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/references/webhook-events.md`, `file:repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/fixtures/reference-handler.mjs`.
+
+Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.
+
+Outputs: candidate change, verification receipt, context delta — точные поля в [JSON packet](FIX-DV-02.json).
+
+Rollback: Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.
+
+Primary context и appendix разделены; prompt token count ещё не измерен. Host выбирается по capability, model наследуется. До actual dispatch никакой claim не выдан.

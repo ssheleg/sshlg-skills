@@ -1,0 +1,208 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-TG-04",
+  "revision": 1,
+  "title": "Матрица launch surfaces неверно запрещает menu-button query flow",
+  "finding_id": "TG-04",
+  "module": "telegram-dev",
+  "modules": [
+    "telegram-dev"
+  ],
+  "priority": "P2",
+  "priority_rank": 2,
+  "priority_reason": "Корректность и поддерживаемость после независимых P1 fixes.",
+  "status": "parent_planned",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements",
+      "audit_original_sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program",
+      "audit_original_sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions",
+      "audit_original_sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f"
+    },
+    {
+      "path": "audit://extension/context/modules/telegram-dev.md",
+      "sha256": "1c015b1901221205065a50ad5c68eee126b10b6775de5c1ecd79eb0c5b0f0f60",
+      "role": "module:telegram-dev",
+      "audit_original_sha256": "89512c15565bbc8f820bb9b4116d663e2ab1a7f1ef6d71377bbf9a04dd3ee442"
+    },
+    {
+      "path": "audit://extension/context/contracts/integration.md",
+      "sha256": "6afa0b0347b041557ffabcfeaed821ff999542ac765d9088fb166dbde0360054",
+      "role": "contract:integration",
+      "audit_original_sha256": "6afa0b0347b041557ffabcfeaed821ff999542ac765d9088fb166dbde0360054"
+    },
+    {
+      "path": "audit://extension/context/contracts/evidence.md",
+      "sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88",
+      "role": "contract:evidence",
+      "audit_original_sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88"
+    },
+    {
+      "path": "audit://integrations-findings.json",
+      "sha256": "6a76338373c94f47fe21b71d97e9d383b2ca6dc9f26bf6bd718bf94c34e6258c",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "60b3011f1cd6e94c9c851c310db9279cde7feb4601845e619abb72d263676beb"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "TG-04",
+    "skills": [
+      "telegram-miniapps"
+    ],
+    "priority": "P2",
+    "title": "Матрица launch surfaces неверно запрещает menu-button query flow",
+    "evidence": [
+      "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/app-to-bot.md:12",
+      "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/app-to-bot.md:13",
+      "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/viewport-and-platform.md:46"
+    ],
+    "observed": "Reference объединяет direct link/menu: neither, no query. Telegram menu button работает как inline button и может answerWebAppQuery. Inline-query app ошибочно приравнен к inline button. DeviceStorage/SecureStorage перечислены 'all 8.0+', хотя требуется проверять capability для каждого метода.",
+    "impact": "Генерация лишних backend обходов и неработающих return paths; функции на старых клиентах вызываются по слишком низкому guard.",
+    "fix": "Разделить keyboard, inline keyboard, menu, inline mode, direct/main/attachment surfaces; capability/API floor у каждого метода с первичным source.",
+    "acceptance": "Scenario matrix по launch mode с наличием query_id и разрешённым API; menu поддерживает inline-button semantics; capability absent gracefully degrades.",
+    "sources": [
+      "https://core.telegram.org/bots/webapps#launching-mini-apps-from-the-menu-button",
+      "https://core.telegram.org/bots/webapps#inline-mode-mini-apps"
+    ],
+    "status": "GAP",
+    "deployment_incidence": "Не проверялась; инцидент в пользовательских проектах не утверждается.",
+    "origin": "integrations-findings.json",
+    "observation": "Reference объединяет direct link/menu: neither, no query. Telegram menu button работает как inline button и может answerWebAppQuery. Inline-query app ошибочно приравнен к inline button. DeviceStorage/SecureStorage перечислены 'all 8.0+', хотя требуется проверять capability для каждого метода.",
+    "evidence_kind": "source_review_and_counterexample",
+    "implementation_status": "proposed",
+    "phase": "M4",
+    "task_id": "FIX-TG-04"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Разделить keyboard, inline keyboard, menu, inline mode, direct/main/attachment surfaces; capability/API floor у каждого метода с первичным source.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Scenario matrix по launch mode с наличием query_id и разрешённым API; menu поддерживает inline-button semantics; capability absent gracefully degrades."
+  ],
+  "verification_plan": {
+    "baseline": "Reference объединяет direct link/menu: neither, no query. Telegram menu button работает как inline button и может answerWebAppQuery. Inline-query app ошибочно приравнен к inline button. DeviceStorage/SecureStorage перечислены 'all 8.0+', хотя требуется проверять capability для каждого метода.",
+    "must_test": "Scenario matrix по launch mode с наличием query_id и разрешённым API; menu поддерживает inline-button semantics; capability absent gracefully degrades.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/app-to-bot.md",
+      "sha256": "b08f44bfb242d2c400778d6788563a6a21e9b1ea8dcb32a1d043ee9ce9f9ee99",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/viewport-and-platform.md",
+      "sha256": "294b1a5d82af37332e72a9c2360bc00f5eb07f581a8fa30acdcbe5aa8b16fba3",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "telegram-dev": "0263b899e5827c65d366d2bbac73557a56045235"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://telegram-dev",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/app-to-bot.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/references/viewport-and-platform.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 4,
+  "origin": "v2",
+  "dispatchable": false,
+  "retired_read_only_evidence": [],
+  "leaf_ids": [
+    "FIX-TG-04.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Scenario matrix по launch mode с наличием query_id и разрешённым API; menu поддерживает inline-button semantics; capability absent gracefully degrades."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

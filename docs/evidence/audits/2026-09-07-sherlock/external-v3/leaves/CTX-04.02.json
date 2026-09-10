@@ -1,0 +1,3089 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "CTX-04.02",
+  "parent_id": "CTX-04",
+  "title": "Actual-load acceptance: Claude Code",
+  "kind": "verification",
+  "priority": "P1",
+  "priority_rank": 3,
+  "modules": [
+    "sshlg-skills"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Итоговая outcome certification, поддержка hosts и staged release",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Запустить чистую и upgraded сессию Claude Code через поддержанный adapter; проверить actual loaded namespace/version/digest и degraded paths.",
+  "expected_result": "Native receipt подтверждает loaded bytes, unsupported API/host = NOT_RUN без installation workaround.",
+  "acceptance": [
+    "Native receipt подтверждает loaded bytes, unsupported API/host = NOT_RUN без installation workaround."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Запустить чистую и upgraded сессию Claude Code через поддержанный adapter; проверить actual loaded namespace/version/digest и degraded paths.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sshlg-skills/docs/evidence/acceptance/ctx-04.02.json",
+      "mode": "Create",
+      "role": "execution receipt; create only after actual run, never prefill PASS",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://sshlg-skills/test/audit_regressions/ctx-04.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/CTX-04.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/CTX-04.json",
+    "source_files": [
+      {
+        "path": "repo://sshlg-skills/package.json",
+        "sha256": "a5a87f2296210ade1a9e20d613a550a385b74b2bb2c047b969a9ffd44d7e56ac",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Каждая finding закрыта regression proof и release digest; нет mandatory NOT_RUN для заявленного support tier. Outcome corpus оценивает изменения продукта/кода, не названия skills. Real two-host handoff и rollback проходят; clean install и upgrade из прошлой поддержанной версии дают expected active digest."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "CTX-04.01",
+      "kind": "control",
+      "reason": "Actual checks follow the accepted support matrix."
+    },
+    {
+      "task_id": "FIX-RT-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-RT-01"
+    },
+    {
+      "task_id": "FIX-RT-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-RT-01"
+    },
+    {
+      "task_id": "FIX-RT-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-RT-02"
+    },
+    {
+      "task_id": "FIX-RT-02.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-RT-02"
+    },
+    {
+      "task_id": "FIX-RT-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-RT-03"
+    },
+    {
+      "task_id": "FIX-RT-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-RT-04"
+    },
+    {
+      "task_id": "FIX-MS-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-MS-01"
+    },
+    {
+      "task_id": "FIX-MS-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-MS-01"
+    },
+    {
+      "task_id": "FIX-MS-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-MS-02"
+    },
+    {
+      "task_id": "FIX-MS-02.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-MS-02"
+    },
+    {
+      "task_id": "FIX-MS-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-MS-03"
+    },
+    {
+      "task_id": "FIX-MS-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-MS-04"
+    },
+    {
+      "task_id": "FIX-TP-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TP-01"
+    },
+    {
+      "task_id": "FIX-TP-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TP-01"
+    },
+    {
+      "task_id": "FIX-TP-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TP-02"
+    },
+    {
+      "task_id": "FIX-TP-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TP-03"
+    },
+    {
+      "task_id": "FIX-TP-03.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TP-03"
+    },
+    {
+      "task_id": "FIX-TP-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TP-04"
+    },
+    {
+      "task_id": "FIX-PA-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PA-01"
+    },
+    {
+      "task_id": "FIX-PA-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PA-02"
+    },
+    {
+      "task_id": "FIX-PA-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PA-03"
+    },
+    {
+      "task_id": "FIX-ED-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-ED-01"
+    },
+    {
+      "task_id": "FIX-ED-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-ED-01"
+    },
+    {
+      "task_id": "FIX-SE-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SE-01"
+    },
+    {
+      "task_id": "FIX-SE-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SE-02"
+    },
+    {
+      "task_id": "FIX-SE-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SE-03"
+    },
+    {
+      "task_id": "FIX-SE-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SE-04"
+    },
+    {
+      "task_id": "FIX-EV-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.06",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.07",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.08",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.09",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.10",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.11",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.12",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.13",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.14",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.15",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.16",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.17",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.18",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.19",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.20",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.21",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.22",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.23",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.24",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.25",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.26",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.27",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.28",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-EV-01.29",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-EV-01"
+    },
+    {
+      "task_id": "FIX-UB-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UB-01"
+    },
+    {
+      "task_id": "FIX-UX-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-01"
+    },
+    {
+      "task_id": "FIX-UX-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-01"
+    },
+    {
+      "task_id": "FIX-UX-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-02"
+    },
+    {
+      "task_id": "FIX-UX-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-03"
+    },
+    {
+      "task_id": "FIX-UX-03.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-03"
+    },
+    {
+      "task_id": "FIX-UX-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-04"
+    },
+    {
+      "task_id": "FIX-UX-05.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-05"
+    },
+    {
+      "task_id": "FIX-UX-05.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-05"
+    },
+    {
+      "task_id": "FIX-UX-06.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-06"
+    },
+    {
+      "task_id": "FIX-UX-07.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-07"
+    },
+    {
+      "task_id": "FIX-UX-07.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-07"
+    },
+    {
+      "task_id": "FIX-UX-08.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-08"
+    },
+    {
+      "task_id": "FIX-UX-09.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-09"
+    },
+    {
+      "task_id": "FIX-UX-10.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-10"
+    },
+    {
+      "task_id": "FIX-UX-11.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-11"
+    },
+    {
+      "task_id": "FIX-UX-12.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-12"
+    },
+    {
+      "task_id": "FIX-UX-13.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-13"
+    },
+    {
+      "task_id": "FIX-DS-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DS-01"
+    },
+    {
+      "task_id": "FIX-DS-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DS-01"
+    },
+    {
+      "task_id": "FIX-DS-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DS-02"
+    },
+    {
+      "task_id": "FIX-DS-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DS-03"
+    },
+    {
+      "task_id": "FIX-DS-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DS-04"
+    },
+    {
+      "task_id": "FIX-DS-05.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DS-05"
+    },
+    {
+      "task_id": "FIX-DS-06.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DS-06"
+    },
+    {
+      "task_id": "FIX-DS-06.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DS-06"
+    },
+    {
+      "task_id": "FIX-DS-06.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DS-06"
+    },
+    {
+      "task_id": "FIX-DS-06.04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DS-06"
+    },
+    {
+      "task_id": "FIX-DS-06.05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DS-06"
+    },
+    {
+      "task_id": "FIX-UX-14.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-14"
+    },
+    {
+      "task_id": "FIX-UX-15.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-15"
+    },
+    {
+      "task_id": "FIX-UX-15.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UX-15"
+    },
+    {
+      "task_id": "FIX-DV-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-01"
+    },
+    {
+      "task_id": "FIX-DV-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-01"
+    },
+    {
+      "task_id": "FIX-DV-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-02"
+    },
+    {
+      "task_id": "FIX-DV-02.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-02"
+    },
+    {
+      "task_id": "FIX-DV-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-03"
+    },
+    {
+      "task_id": "FIX-DV-03.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-03"
+    },
+    {
+      "task_id": "FIX-DV-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-04"
+    },
+    {
+      "task_id": "FIX-DV-05.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-05"
+    },
+    {
+      "task_id": "FIX-DV-05.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-05"
+    },
+    {
+      "task_id": "FIX-DV-06.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-06"
+    },
+    {
+      "task_id": "FIX-DV-06.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-06"
+    },
+    {
+      "task_id": "FIX-DV-07.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-07"
+    },
+    {
+      "task_id": "FIX-DV-07.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-07"
+    },
+    {
+      "task_id": "FIX-DV-08.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-08"
+    },
+    {
+      "task_id": "FIX-DV-09.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-09"
+    },
+    {
+      "task_id": "FIX-DV-09.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-09"
+    },
+    {
+      "task_id": "FIX-DV-10.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-10"
+    },
+    {
+      "task_id": "FIX-DV-11.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-11"
+    },
+    {
+      "task_id": "FIX-DV-12.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-12"
+    },
+    {
+      "task_id": "FIX-DV-13.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-13"
+    },
+    {
+      "task_id": "FIX-DV-13.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-13"
+    },
+    {
+      "task_id": "FIX-DV-14.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-14"
+    },
+    {
+      "task_id": "FIX-DV-15.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-15"
+    },
+    {
+      "task_id": "FIX-DV-15.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-15"
+    },
+    {
+      "task_id": "FIX-DV-16.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-16"
+    },
+    {
+      "task_id": "FIX-DV-16.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-16"
+    },
+    {
+      "task_id": "FIX-DV-17.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-17"
+    },
+    {
+      "task_id": "FIX-DV-18.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-18"
+    },
+    {
+      "task_id": "FIX-DV-19.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-19"
+    },
+    {
+      "task_id": "FIX-DV-19.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-19"
+    },
+    {
+      "task_id": "FIX-DV-19.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-19"
+    },
+    {
+      "task_id": "FIX-DV-19.04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-19"
+    },
+    {
+      "task_id": "FIX-DV-19.05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-19"
+    },
+    {
+      "task_id": "FIX-DV-19.06",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-19"
+    },
+    {
+      "task_id": "FIX-DV-19.07",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-19"
+    },
+    {
+      "task_id": "FIX-DV-20.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-DV-20"
+    },
+    {
+      "task_id": "FIX-TG-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TG-01"
+    },
+    {
+      "task_id": "FIX-TG-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TG-01"
+    },
+    {
+      "task_id": "FIX-TG-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TG-02"
+    },
+    {
+      "task_id": "FIX-TG-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TG-03"
+    },
+    {
+      "task_id": "FIX-TG-03.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TG-03"
+    },
+    {
+      "task_id": "FIX-TG-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TG-04"
+    },
+    {
+      "task_id": "FIX-TG-05.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-TG-05"
+    },
+    {
+      "task_id": "FIX-AS-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-01"
+    },
+    {
+      "task_id": "FIX-AS-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-01"
+    },
+    {
+      "task_id": "FIX-AS-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-02"
+    },
+    {
+      "task_id": "FIX-AS-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-03"
+    },
+    {
+      "task_id": "FIX-AS-03.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-03"
+    },
+    {
+      "task_id": "FIX-AS-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-04"
+    },
+    {
+      "task_id": "FIX-AS-05.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-05"
+    },
+    {
+      "task_id": "FIX-AS-06.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-06"
+    },
+    {
+      "task_id": "FIX-AS-07.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-07"
+    },
+    {
+      "task_id": "FIX-AS-08.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-08"
+    },
+    {
+      "task_id": "FIX-AS-08.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-08"
+    },
+    {
+      "task_id": "FIX-AS-09.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-09"
+    },
+    {
+      "task_id": "FIX-AS-09.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-09"
+    },
+    {
+      "task_id": "FIX-AS-10.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-10"
+    },
+    {
+      "task_id": "FIX-AS-11.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-11"
+    },
+    {
+      "task_id": "FIX-AS-11.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-11"
+    },
+    {
+      "task_id": "FIX-AS-12.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-12"
+    },
+    {
+      "task_id": "FIX-AS-13.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-13"
+    },
+    {
+      "task_id": "FIX-AS-14.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-AS-14"
+    },
+    {
+      "task_id": "FIX-SY-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SY-01"
+    },
+    {
+      "task_id": "FIX-SY-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SY-01"
+    },
+    {
+      "task_id": "FIX-SY-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SY-02"
+    },
+    {
+      "task_id": "FIX-SY-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SY-03"
+    },
+    {
+      "task_id": "FIX-SY-03.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SY-03"
+    },
+    {
+      "task_id": "FIX-SY-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SY-04"
+    },
+    {
+      "task_id": "FIX-SY-04.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SY-04"
+    },
+    {
+      "task_id": "FIX-SY-05.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SY-05"
+    },
+    {
+      "task_id": "FIX-SY-06.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SY-06"
+    },
+    {
+      "task_id": "FIX-SY-06.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SY-06"
+    },
+    {
+      "task_id": "FIX-SY-07.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SY-07"
+    },
+    {
+      "task_id": "FIX-SY-08.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-SY-08"
+    },
+    {
+      "task_id": "FIX-PF-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-01"
+    },
+    {
+      "task_id": "FIX-PF-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-01"
+    },
+    {
+      "task_id": "FIX-PF-01.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-01"
+    },
+    {
+      "task_id": "FIX-PF-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-02"
+    },
+    {
+      "task_id": "FIX-PF-02.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-02"
+    },
+    {
+      "task_id": "FIX-PF-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-03"
+    },
+    {
+      "task_id": "FIX-PF-03.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-03"
+    },
+    {
+      "task_id": "FIX-PF-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-04"
+    },
+    {
+      "task_id": "FIX-PF-04.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-04"
+    },
+    {
+      "task_id": "FIX-PF-05.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-05"
+    },
+    {
+      "task_id": "FIX-PF-05.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-05"
+    },
+    {
+      "task_id": "FIX-PF-05.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-05"
+    },
+    {
+      "task_id": "FIX-PF-06.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-06"
+    },
+    {
+      "task_id": "FIX-PF-06.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-06"
+    },
+    {
+      "task_id": "FIX-PF-06.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-06"
+    },
+    {
+      "task_id": "FIX-PF-07.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-07"
+    },
+    {
+      "task_id": "FIX-PF-07.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-07"
+    },
+    {
+      "task_id": "FIX-PF-08.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-08"
+    },
+    {
+      "task_id": "FIX-PF-08.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-08"
+    },
+    {
+      "task_id": "FIX-PF-09.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-09"
+    },
+    {
+      "task_id": "FIX-PF-09.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-09"
+    },
+    {
+      "task_id": "FIX-PF-10.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-10"
+    },
+    {
+      "task_id": "FIX-PF-10.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-PF-10"
+    },
+    {
+      "task_id": "FIX-VD-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-01"
+    },
+    {
+      "task_id": "FIX-VD-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-01"
+    },
+    {
+      "task_id": "FIX-VD-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-02"
+    },
+    {
+      "task_id": "FIX-VD-02.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-02"
+    },
+    {
+      "task_id": "FIX-VD-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-03"
+    },
+    {
+      "task_id": "FIX-VD-03.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-03"
+    },
+    {
+      "task_id": "FIX-VD-03.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-03"
+    },
+    {
+      "task_id": "FIX-VD-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-04"
+    },
+    {
+      "task_id": "FIX-VD-05.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-05"
+    },
+    {
+      "task_id": "FIX-VD-05.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-05"
+    },
+    {
+      "task_id": "FIX-VD-05.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-05"
+    },
+    {
+      "task_id": "FIX-VD-06.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-06"
+    },
+    {
+      "task_id": "FIX-VD-07.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-VD-07"
+    },
+    {
+      "task_id": "FIX-UP-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-01"
+    },
+    {
+      "task_id": "FIX-UP-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-01"
+    },
+    {
+      "task_id": "FIX-UP-01.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-01"
+    },
+    {
+      "task_id": "FIX-UP-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-02"
+    },
+    {
+      "task_id": "FIX-UP-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-03"
+    },
+    {
+      "task_id": "FIX-UP-03.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-03"
+    },
+    {
+      "task_id": "FIX-UP-04.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-04"
+    },
+    {
+      "task_id": "FIX-UP-04.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-04"
+    },
+    {
+      "task_id": "FIX-UP-05.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-05"
+    },
+    {
+      "task_id": "FIX-UP-05.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-05"
+    },
+    {
+      "task_id": "FIX-UP-05.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-05"
+    },
+    {
+      "task_id": "FIX-UP-05.04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-05"
+    },
+    {
+      "task_id": "FIX-UP-06.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-06"
+    },
+    {
+      "task_id": "FIX-UP-06.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-06"
+    },
+    {
+      "task_id": "FIX-UP-07.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-07.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-07.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-07"
+    },
+    {
+      "task_id": "FIX-UP-08.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-08"
+    },
+    {
+      "task_id": "FIX-UP-08.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-08"
+    },
+    {
+      "task_id": "FIX-UP-08.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "FIX-UP-08"
+    },
+    {
+      "task_id": "CTX-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "CTX-01"
+    },
+    {
+      "task_id": "CTX-01.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "CTX-01"
+    },
+    {
+      "task_id": "CTX-01.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "CTX-01"
+    },
+    {
+      "task_id": "CTX-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "CTX-02"
+    },
+    {
+      "task_id": "CTX-02.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "CTX-02"
+    },
+    {
+      "task_id": "CTX-02.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "CTX-02"
+    },
+    {
+      "task_id": "CTX-02.04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "CTX-02"
+    },
+    {
+      "task_id": "CTX-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "CTX-03"
+    },
+    {
+      "task_id": "CTX-03.02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "CTX-03"
+    },
+    {
+      "task_id": "CTX-03.03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "CTX-03"
+    },
+    {
+      "task_id": "PXS-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "PXS-01"
+    },
+    {
+      "task_id": "PXS-05.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "PXS-05"
+    },
+    {
+      "task_id": "ADOPT-M-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "ADOPT-M-01"
+    },
+    {
+      "task_id": "ADOPT-M-02.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "ADOPT-M-02"
+    },
+    {
+      "task_id": "ADOPT-M-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "ADOPT-M-03"
+    },
+    {
+      "task_id": "ADOPT-M-05.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "ADOPT-M-05"
+    },
+    {
+      "task_id": "ADOPT-M-06.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "ADOPT-M-06"
+    },
+    {
+      "task_id": "ADOPT-M-07.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "ADOPT-M-07"
+    },
+    {
+      "task_id": "ADOPT-M-08.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "ADOPT-M-08"
+    },
+    {
+      "task_id": "ADOPT-M-11.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "ADOPT-M-11"
+    },
+    {
+      "task_id": "ADOPT-M-12.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "ADOPT-M-12"
+    },
+    {
+      "task_id": "ADOPT-M-14.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "ADOPT-M-14"
+    },
+    {
+      "task_id": "XD-01.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "XD-01"
+    },
+    {
+      "task_id": "XD-03.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "XD-03"
+    },
+    {
+      "task_id": "XD-05.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "XD-05"
+    },
+    {
+      "task_id": "XD-06.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "XD-06"
+    },
+    {
+      "task_id": "XD-09.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "XD-09"
+    },
+    {
+      "task_id": "XD-10.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "XD-10"
+    },
+    {
+      "task_id": "XD-11.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "XD-11"
+    },
+    {
+      "task_id": "XD-12.01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts.",
+      "via_parent": "XD-12"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sshlg-skills/test/audit_regressions/ctx-04.02.py",
+    "python3 repo://sshlg-skills/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "CTX-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-RT-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-RT-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-RT-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-RT-02.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-RT-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-RT-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-MS-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-MS-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-MS-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-MS-02.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-MS-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-MS-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TP-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TP-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TP-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TP-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TP-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TP-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PA-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PA-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PA-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-ED-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-ED-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SE-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SE-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SE-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SE-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.04",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.05",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.06",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.07",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.08",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.09",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.10",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.11",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.12",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.13",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.14",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.15",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.16",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.17",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.18",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.19",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.20",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.21",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.22",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.23",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.24",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.25",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.26",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.27",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.28",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-EV-01.29",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UB-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-05.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-06.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-07.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-08.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-09.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-10.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-11.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-12.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-13.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DS-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DS-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DS-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DS-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DS-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DS-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DS-06.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DS-06.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DS-06.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DS-06.04",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DS-06.05",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-14.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-15.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UX-15.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-02.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-05.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-06.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-06.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-07.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-08.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-09.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-09.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-10.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-11.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-12.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-13.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-13.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-14.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-15.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-15.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-16.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-16.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-17.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-18.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-19.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-19.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-19.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-19.04",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-19.05",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-19.06",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-19.07",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-DV-20.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TG-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TG-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TG-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TG-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TG-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TG-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-TG-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-06.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-08.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-08.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-09.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-09.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-10.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-11.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-11.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-12.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-13.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-AS-14.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SY-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SY-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SY-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SY-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SY-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SY-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SY-04.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SY-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SY-06.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SY-06.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SY-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-SY-08.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-01.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-02.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-04.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-05.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-05.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-06.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-06.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-06.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-07.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-08.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-08.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-09.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-09.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-10.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-PF-10.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-02.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-03.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-05.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-05.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-06.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-VD-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-01.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-04.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-04.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-05.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-05.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-05.04",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-06.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-06.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-07.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-08.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-08.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-08.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-02.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-02.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-02.04",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-03.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-03.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "PXS-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "PXS-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "ADOPT-M-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "ADOPT-M-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "ADOPT-M-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "ADOPT-M-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "ADOPT-M-06.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "ADOPT-M-07.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "ADOPT-M-08.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "ADOPT-M-11.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "ADOPT-M-12.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "ADOPT-M-14.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "XD-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "XD-03.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "XD-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "XD-06.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "XD-09.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "XD-10.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "XD-11.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "XD-12.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/CTX-04.02.md",
+    "sha256": "0672dde0569bdcc8f7c35cc489cafab509bb421a9529ec1fcfbaa1d5b0882fd2",
+    "utf8_bytes": 4274,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "e643c1d3a75b819454f193bcf92e56852344a42cee6588ecf353be8903b06ee5"
+  }
+}

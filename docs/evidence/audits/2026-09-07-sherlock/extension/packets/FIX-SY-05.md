@@ -1,0 +1,62 @@
+# FIX-SY-05 — Пустой lock между O_EXCL и payload принимается за просроченный: два acquire выигрывают
+
+P1 · очередь 0 · расчётная волна 5 · planned_not_implemented
+
+Модули: agent-sync. Требования: E-05, E-06.
+
+Риск потери денег/данных/владения либо побочные эффекты updater: исправить первым.
+
+## Проблема и доказательства
+
+Имя lock создаётся атомарно, содержимое записывается позднее. Конкурент читает пустой JSON как {}, не считает его live и может украсть через _steal_expired. Первый продолжает писать в уже удалённый inode и тоже возвращает won.
+
+- [repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py:1584](https://github.com/ssheleg/agent-sync/blob/ef45d404d1604a9a0d142f983b5cccc495133ca0/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py#L1584)
+- [repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py:1644](https://github.com/ssheleg/agent-sync/blob/ef45d404d1604a9a0d142f983b5cccc495133ca0/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py#L1644)
+- [repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py:1670](https://github.com/ssheleg/agent-sync/blob/ef45d404d1604a9a0d142f983b5cccc495133ca0/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py#L1670)
+- [repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py:1679](https://github.com/ssheleg/agent-sync/blob/ef45d404d1604a9a0d142f983b5cccc495133ca0/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py#L1679)
+
+## Связанный контекст
+
+- [user requirements](../work-brief.md) · sha256 `ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1`
+- [program](../context/program.md) · sha256 `984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137`
+- [decisions](../context/decisions.json) · sha256 `6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f`
+- [module:agent-sync](../context/modules/agent-sync.md) · sha256 `91be68a9bb12e4e06b95d9c049f885d2ec1762ff4e5bf7fea4ceb1b4146a69d6`
+- [contract:execution](../context/contracts/execution.md) · sha256 `1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4`
+- [contract:install](../context/contracts/install.md) · sha256 `4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289`
+- [supporting evidence appendix](../../agents-sync.json) · sha256 `2a09f147a9831de08154965e825930738fc668f41918c8304d19c727a0b146ed`
+
+## Решение и последовательность
+
+1. Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.
+
+2. Создание и чтение ownership state сериализовать тем же OS lock либо публиковать уже заполненный объект атомарным no-replace primitive; partial/corrupt lock не считать немедленно stealable. Crash cleanup отличать от активного незавершённого create по арбитражу, не эвристике пустого JSON.
+
+3. Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.
+
+4. Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge.
+
+## Приёмка
+
+Пауза на каждой границе create/open/write/fsync/publish; competitor никогда не получает второй won. Crash на каждой границе восстанавливается управляемо без вечного lock и без split-brain.
+
+Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate.
+
+## Зависимости и входы
+
+Независимая задача; source/context freshness и claim всё равно обязательны.
+
+## Передача исполнителю
+
+Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.
+
+Source bases: `{"agent-sync": "ef45d404d1604a9a0d142f983b5cccc495133ca0"}`.
+
+Write scope: `repo:repo://agent-sync`, `file:repo://agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py`.
+
+Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.
+
+Outputs: candidate change, verification receipt, context delta — точные поля в [JSON packet](FIX-SY-05.json).
+
+Rollback: Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.
+
+Primary context и appendix разделены; prompt token count ещё не измерен. Host выбирается по capability, model наследуется. До actual dispatch никакой claim не выдан.

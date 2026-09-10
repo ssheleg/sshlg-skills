@@ -1,0 +1,17 @@
+{
+  "all_pass": true,
+  "checks": {
+    "all_leaves": true,
+    "detail_has_context": true,
+    "no_wrong_installer": true,
+    "dependency_navigation": true,
+    "module_filter": true,
+    "decision_filter": true,
+    "empty": true,
+    "report_opens": true,
+    "deep_link": true,
+    "no_js_errors": true
+  },
+  "errors": [],
+  "scope": "Local audit report interaction only; no claim about skill output quality."
+}

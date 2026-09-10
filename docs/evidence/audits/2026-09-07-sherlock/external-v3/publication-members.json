@@ -1,0 +1,52 @@
+[
+  {
+    "repo": "super-ux",
+    "path": "repo://super-ux",
+    "branch": "codex/context-ready-skills-20260907",
+    "base": "a60f6b423c619b37a3bb43564b58b02b6200e463",
+    "commit": "707628c5d73449abf299912a78c382e8678c9116",
+    "validation": {
+      "repo": "super-ux",
+      "command": "python3 test/validate.py",
+      "exit_code": 0,
+      "note": "Corrected measured validator fact after adding three handoff documents; rerun passed."
+    }
+  },
+  {
+    "repo": "task-pipeline",
+    "path": "repo://task-pipeline",
+    "branch": "codex/context-ready-skills-20260907",
+    "base": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "commit": "35e1a1c7ff42b48547f0a5e25bcaccb9da884477",
+    "validation": {
+      "repo": "task-pipeline",
+      "command": "python3 test/validate.py",
+      "exit_code": 0,
+      "note": "Rerun after preserving anchored citations and Contents order."
+    }
+  },
+  {
+    "repo": "sheleg-design-skill",
+    "path": "repo://sheleg-design",
+    "branch": "codex/context-ready-skills-20260907",
+    "base": "562786b30f07f50a294d70a4c3ffd40794624f42",
+    "commit": "31938f84a233e808b56f6e6a65030d987ef039b0",
+    "validation": {
+      "repo": "sheleg-design-skill",
+      "command": "python3 test/validate.py",
+      "exit_code": 0
+    }
+  },
+  {
+    "repo": "make-skill",
+    "path": "repo://make-skill",
+    "branch": "codex/dependency-free-knowledge-20260907",
+    "base": "015052149a9c62a8a69e18a2a5dd6bf2f6e8196a",
+    "commit": "9316fbb72941b482f858ddcc93646579251608ac",
+    "validation": {
+      "repo": "make-skill",
+      "command": "python3 test/validate.py",
+      "exit_code": 0
+    }
+  }
+]

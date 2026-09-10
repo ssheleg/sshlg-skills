@@ -1,0 +1,18 @@
+{
+  "packets": 119,
+  "errors": [],
+  "all_pass": true,
+  "first_wave": [
+    "FIX-DV-01",
+    "FIX-SY-01",
+    "FIX-TG-01",
+    "FIX-UP-02",
+    "CTX-01",
+    "CTX-03",
+    "FIX-AS-01",
+    "FIX-DS-01",
+    "FIX-MS-01",
+    "FIX-SE-01"
+  ],
+  "claim": "static context/dependency integrity, not host execution or implementation correctness"
+}

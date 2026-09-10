@@ -1,0 +1,346 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-DS-06.01",
+  "parent_id": "FIX-DS-06",
+  "title": "Visual composition eval: quiet dashboard",
+  "kind": "verification",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Eval-регрессия не покрывает текущий composition/runtime",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Проверить quiet dashboard по actual render с тем же viewport/content и независимым rubric; записать faults, not only token/style name.\n\nУточнение XD-13: Живой model/render eval — отдельный authorized execution batch после реализации; fixture task его не имитирует.\nОписать cases: identity-preserving exploration, system font, one family, dense table, no screenshot, native mockup, unavailable external tools.\nОтдельно оценить routing/constraint/provenance correctness детерминированно и visual outcome по render rubric.\nДля quality comparison запланировать одинаковые inputs/model budget/viewports, слепой порядок variants, repeated samples; сохранять failures/cost/time и unmeasured status до фактического запуска.",
+  "expected_result": "Корректный рендер не обязан меняться; mechanical PASS не заменяет оценку composition.\nTests не принимают упоминание screenshot за существующий валидный файл.\nOffline/no-keys route не предлагает install.\n100% structural PASS не формулируется как доказанное улучшение дизайна.",
+  "acceptance": [
+    "Корректный рендер не обязан меняться; mechanical PASS не заменяет оценку composition.",
+    "Tests не принимают упоминание screenshot за существующий валидный файл.",
+    "Offline/no-keys route не предлагает install.",
+    "100% structural PASS не формулируется как доказанное улучшение дизайна."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Проверить quiet dashboard по actual render с тем же viewport/content и независимым rubric; записать faults, not only token/style name.\n\nУточнение XD-13: Живой model/render eval — отдельный authorized execution batch после реализации; fixture task его не имитирует.\nОписать cases: identity-preserving exploration, system font, one family, dense table, no screenshot, native mockup, unavailable external tools.\nОтдельно оценить routing/constraint/provenance correctness детерминированно и visual outcome по render rubric.\nДля quality comparison запланировать одинаковые inputs/model budget/viewports, слепой порядок variants, repeated samples; сохранять failures/cost/time и unmeasured status до фактического запуска.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-design/evals/cases/fix-ds-06.01.json",
+      "mode": "Create",
+      "role": "focused outcome corpus (new artifact)",
+      "baseline_sha256": null
+    },
+    {
+      "path": "repo://sheleg-design/evals/knowledge-transfer-cases.json",
+      "mode": "Create",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-design/test/audit_regressions/fix-ds-06.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-DS-06.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-DS-06.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-design/test/evals/RESULTS.md",
+        "sha256": "7af44b6abb5488d2089373febf2d9df867072585474e06d5b76c396a4c7ec1c5",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://super-ux/test/evals/RESULTS.md",
+        "sha256": "10578621f15ba00da72899b4c554aaa47ddf598562b66bc2f776a2c8a2feca11",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Каждая текущая версия имеет reproducible run manifest; ambiguous prompt проверяет route+subtools+stopping conditions, не один name. Figma unavailable/no Node/no browser явно measured degradation, не исключённый сценарий.",
+      "Tests не принимают упоминание screenshot за существующий валидный файл.",
+      "Offline/no-keys route не предлагает install.",
+      "100% structural PASS не формулируется как доказанное улучшение дизайна."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit.",
+    "foreign_method_sources": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md",
+        "line": 1,
+        "end_line": 806,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md:1",
+        "sha256": "8bf1b06547f571d9b8d3875426fff6621fadd3bc08ae9ebb16d749f5c5f44b01",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md#L1-L806"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 1,
+        "end_line": 249,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1-L249"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 35,
+        "end_line": 35,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:35",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L35"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 48,
+        "end_line": 48,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:48",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L48"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 112,
+        "end_line": 112,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:112",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L112"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md:1",
+        "sha256": "5f24c5a97b4ffcabc7c432b064cfdd04c7a2ad52f52e765be648dc0aadab8f38",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md:1",
+        "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md#L1"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1"
+      }
+    ]
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [
+    {
+      "id": "XD-13",
+      "title": "Добавить контрпримеры и честный quality eval",
+      "status": "proposed-not-implemented",
+      "targets": [
+        {
+          "action": "Create",
+          "path": "repo://sheleg-design/evals/knowledge-transfer-cases.json",
+          "exists_at_audit": false
+        }
+      ],
+      "inputs": [
+        "XD-02..XD-08 specs, existing eval format, baseline and candidate references, authorized local runtime"
+      ],
+      "implementation_steps": [
+        "Описать cases: identity-preserving exploration, system font, one family, dense table, no screenshot, native mockup, unavailable external tools.",
+        "Отдельно оценить routing/constraint/provenance correctness детерминированно и visual outcome по render rubric.",
+        "Для quality comparison запланировать одинаковые inputs/model budget/viewports, слепой порядок variants, repeated samples; сохранять failures/cost/time и unmeasured status до фактического запуска."
+      ],
+      "outputs": [
+        "Fixture manifest и протокол evaluation; не фиктивный улучшенный score."
+      ],
+      "acceptance": [
+        "Tests не принимают упоминание screenshot за существующий валидный файл.",
+        "Offline/no-keys route не предлагает install.",
+        "100% structural PASS не формулируется как доказанное улучшение дизайна."
+      ],
+      "depends_on": [
+        {
+          "task_id": "FIX-VD-02",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        },
+        {
+          "task_id": "FIX-VD-06",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        },
+        {
+          "task_id": "FIX-VD-03",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        }
+      ],
+      "decisions": [
+        "Живой model/render eval — отдельный authorized execution batch после реализации; fixture task его не имитирует."
+      ],
+      "source_candidates": [
+        "I-06",
+        "J-07",
+        "K-EVID"
+      ],
+      "addresses_findings": [
+        "DS-06",
+        "VD-02",
+        "VD-06"
+      ],
+      "runtime_dependencies_added": [],
+      "api_keys_added": [],
+      "owner": "sheleg-design",
+      "target_files": [
+        {
+          "path": "repo://sheleg-design/evals/knowledge-transfer-cases.json",
+          "mode": "Create"
+        }
+      ],
+      "decision": "Живой model/render eval — отдельный authorized execution batch после реализации; fixture task его не имитирует.",
+      "steps": [
+        "Описать cases: identity-preserving exploration, system font, one family, dense table, no screenshot, native mockup, unavailable external tools.",
+        "Отдельно оценить routing/constraint/provenance correctness детерминированно и visual outcome по render rubric.",
+        "Для quality comparison запланировать одинаковые inputs/model budget/viewports, слепой порядок variants, repeated samples; сохранять failures/cost/time и unmeasured status до фактического запуска."
+      ],
+      "related_existing": [
+        "FIX-DS-06",
+        "FIX-VD-02",
+        "FIX-VD-06"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md",
+          "line": 1,
+          "end_line": 806,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md:1",
+          "sha256": "8bf1b06547f571d9b8d3875426fff6621fadd3bc08ae9ebb16d749f5c5f44b01",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md#L1-L806"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+          "line": 1,
+          "end_line": 249,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+          "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1-L249"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+          "line": 35,
+          "end_line": 35,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:35",
+          "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L35"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+          "line": 48,
+          "end_line": 48,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:48",
+          "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L48"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+          "line": 112,
+          "end_line": 112,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:112",
+          "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L112"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md:1",
+          "sha256": "5f24c5a97b4ffcabc7c432b064cfdd04c7a2ad52f52e765be648dc0aadab8f38",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md:1",
+          "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md#L1"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+          "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1"
+        }
+      ],
+      "merged_into": "FIX-DS-06",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "verification_commands": [
+    "python3 repo://sheleg-design/test/audit_regressions/fix-ds-06.01.py",
+    "python3 repo://sheleg-design/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-DS-06.01.md",
+    "sha256": "623ae8c90c99f25b2749fd8dada6d25e75427f925694b7d11277bab428fd33cc",
+    "utf8_bytes": 5355,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "7be594e7f98b101e72a1d3f128b5205b7c2abd4acaec7c1bdd42f157ac94970e"
+  }
+}

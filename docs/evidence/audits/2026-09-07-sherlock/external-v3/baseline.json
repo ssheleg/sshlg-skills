@@ -1,0 +1,23 @@
+[
+  {
+    "repo": "super-ux",
+    "path": "repo://super-ux",
+    "branch": "codex/context-ready-skills-20260907",
+    "head": "a60f6b423c619b37a3bb43564b58b02b6200e463",
+    "diff_sha256": "e499ac2e9dae89959de79222770185fdb38f03fc2817e93822d1659a17bd343f"
+  },
+  {
+    "repo": "task-pipeline",
+    "path": "repo://task-pipeline",
+    "branch": "codex/context-ready-skills-20260907",
+    "head": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "diff_sha256": "28057d82cd34c162a251439cf51669b91e54bed678870ae97a20ea68f33b94ca"
+  },
+  {
+    "repo": "sheleg-design-skill",
+    "path": "repo://sheleg-design",
+    "branch": "codex/context-ready-skills-20260907",
+    "head": "562786b30f07f50a294d70a4c3ffd40794624f42",
+    "diff_sha256": "275eec4a0c390916befa489e1391c2895cf2f34ce074a016b389dd41df829452"
+  }
+]

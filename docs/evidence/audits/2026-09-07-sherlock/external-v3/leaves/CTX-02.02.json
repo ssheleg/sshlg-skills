@@ -1,0 +1,381 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "CTX-02.02",
+  "parent_id": "CTX-02",
+  "title": "Leaf compiler",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "task-pipeline"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Report → prioritized packet compiler и context freshness gate",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Outcome slices carry resolved decisions, exact scope, parent acceptance mapping and budgeted primary vs appendix.\n\nУточнение ADOPT-M-13: Cold reader получает только разрешённый packet без истории автора. Он должен определить цель, входы, решения, scope, outputs, acceptance, guards и resume. Missing version/output contract блокирует readiness.\nПроверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.\nРеализовать ровно этот контракт в указанном target: Cold reader получает только разрешённый packet без истории автора. Он должен определить цель, входы, решения, scope, outputs, acceptance, guards и resume. Missing version/output contract блокирует readiness.\nПроверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов.\n\nУточнение XD-14: Правило встраивается напрямую в canonical compiler/decomposition; temporary handoff note и второй task-list формат не создаются.\nВстроить reuse/modify/create classification в leaf packet.\nСохранять behavior+styling+states одного outcome вместе; не переносить шаблон Foundation/Core/Interactions/Responsive как независимые обязательные phases.\nVisual uncertainty проверять ранним ограниченным render slice, с тем же scenario contract.",
+  "expected_result": "Broad unresolved parent не dispatch leaf; focused positive/negative acceptance required.\nColdreader answers8concretepacketquestions; missingversionoroutputcontract failsreadiness; no newservice/APIkey.\nНи design-flow, ни .design/TASKS.md не становятся параллельным plan authority.\nFeature выбирается активным ID/explicit path, не mtime.\nКаждый slice имеет конкретный expected result и testable acceptance.",
+  "acceptance": [
+    "Broad unresolved parent не dispatch leaf; focused positive/negative acceptance required.",
+    "Coldreader answers8concretepacketquestions; missingversionoroutputcontract failsreadiness; no newservice/APIkey.",
+    "Ни design-flow, ни .design/TASKS.md не становятся параллельным plan authority.",
+    "Feature выбирается активным ID/explicit path, не mtime.",
+    "Каждый slice имеет конкретный expected result и testable acceptance."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Outcome slices carry resolved decisions, exact scope, parent acceptance mapping and budgeted primary vs appendix.\n\nУточнение ADOPT-M-13: Cold reader получает только разрешённый packet без истории автора. Он должен определить цель, входы, решения, scope, outputs, acceptance, guards и resume. Missing version/output contract блокирует readiness.\nПроверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.\nРеализовать ровно этот контракт в указанном target: Cold reader получает только разрешённый packet без истории автора. Он должен определить цель, входы, решения, scope, outputs, acceptance, guards и resume. Missing version/output contract блокирует readiness.\nПроверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов.\n\nУточнение XD-14: Правило встраивается напрямую в canonical compiler/decomposition; temporary handoff note и второй task-list формат не создаются.\nВстроить reuse/modify/create classification в leaf packet.\nСохранять behavior+styling+states одного outcome вместе; не переносить шаблон Foundation/Core/Interactions/Responsive как независимые обязательные phases.\nVisual uncertainty проверять ранним ограниченным render slice, с тем же scenario contract.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/context_packets.py",
+      "mode": "Edit_from_predecessor",
+      "role": "new capability target; audit does not create it; consume produced path/digest from prerequisite, do not overwrite as a fresh Create",
+      "baseline_sha256": null,
+      "refresh_after": [
+        "CTX-02.01"
+      ]
+    },
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+      "mode": "Edit",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": "52ad2916a11615cd9e58845bd72f82fe0e667a3237a683cd207b9db620b6178c"
+    }
+  ],
+  "test_target": {
+    "path": "repo://task-pipeline/test/audit_regressions/ctx-02.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/CTX-02.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/CTX-02.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/package.json",
+        "sha256": "19c2bf7655aac03d181dc32af94e20604e73ec1a720a952555c871e08017e7cb",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Все 115 findings проходят mapping без дублей и потерь; чистый отдельный процесс импортирует bundle без исходного абсолютного root; повреждение файла, усечение acceptance и изменение upstream output блокируют dispatch. Prompt materialization сохраняет инварианты в объявленном budget.",
+      "Coldreader answers8concretepacketquestions; missingversionoroutputcontract failsreadiness; no newservice/APIkey.",
+      "Ни design-flow, ни .design/TASKS.md не становятся параллельным plan authority.",
+      "Feature выбирается активным ID/explicit path, не mtime.",
+      "Каждый slice имеет конкретный expected result и testable acceptance."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit.",
+    "foreign_method_sources": [
+      {
+        "path": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/doc-coauthoring/SKILL.md",
+        "line": 263,
+        "source_url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/doc-coauthoring/SKILL.md#L263"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+        "line": 1,
+        "end_line": 74,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:1",
+        "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L1-L74"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+        "line": 6,
+        "end_line": 6,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:6",
+        "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L6"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+        "line": 49,
+        "end_line": 49,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:49",
+        "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L49"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+        "line": 17,
+        "end_line": 17,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:17",
+        "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L17"
+      }
+    ]
+  },
+  "depends_on": [
+    {
+      "task_id": "CTX-02.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    },
+    {
+      "task_id": "CTX-01.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "CTX-01"
+    },
+    {
+      "task_id": "CTX-01.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "CTX-01"
+    },
+    {
+      "task_id": "CTX-01.03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "CTX-01"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [
+    {
+      "id": "ADOPT-M-13",
+      "title": "Добавитьcold-reader packetreview",
+      "status": "proposed_not_implemented",
+      "readiness": "planned_requires_dispatch_refresh",
+      "operation": "Edit",
+      "target": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+      "source_files": [
+        {
+          "path": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/doc-coauthoring/SKILL.md",
+          "line": 263,
+          "source_url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/doc-coauthoring/SKILL.md#L263"
+        }
+      ],
+      "decision": "Cold reader получает только разрешённый packet без истории автора. Он должен определить цель, входы, решения, scope, outputs, acceptance, guards и resume. Missing version/output contract блокирует readiness.",
+      "outputs": [
+        "Smallreviewgate complement currentcontext/microtaskpatch"
+      ],
+      "acceptance": [
+        "Coldreader answers8concretepacketquestions; missingversionoroutputcontract failsreadiness; no newservice/APIkey."
+      ],
+      "dependencies": [],
+      "related_existing_tasks": [
+        "CTX-01",
+        "CTX-02",
+        "FIX-PF-05"
+      ],
+      "runtime_dependencies": [],
+      "api_keys": [],
+      "network_required": false,
+      "host": "Markdown/JSON plus already-available family validator/host capabilities",
+      "not_in_scope": [
+        "foreign plugin installation",
+        "foreign script execution",
+        "new mandatory APIs/SDKs",
+        "Fabric runtime implementation"
+      ],
+      "dispatch_refresh": [
+        "resolve exact target base and current doctrine patches",
+        "record source/target hashes and read scope",
+        "serialize overlapping target edits under family coordination"
+      ],
+      "resource_scope": [
+        "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/planning.md"
+      ],
+      "owner": "task-pipeline",
+      "target_files": [
+        {
+          "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+          "mode": "Edit"
+        }
+      ],
+      "steps": [
+        "Проверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.",
+        "Реализовать ровно этот контракт в указанном target: Cold reader получает только разрешённый packet без истории автора. Он должен определить цель, входы, решения, scope, outputs, acceptance, guards и resume. Missing version/output contract блокирует readiness.",
+        "Проверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов."
+      ],
+      "depends_on": [],
+      "related_existing": [
+        "CTX-01",
+        "CTX-02",
+        "FIX-PF-05"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/doc-coauthoring/SKILL.md",
+          "line": 263,
+          "source_url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/doc-coauthoring/SKILL.md#L263"
+        }
+      ],
+      "merged_into": "CTX-02",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    },
+    {
+      "id": "XD-14",
+      "title": "Передать vertical slice правила в единственный pipeline compiler",
+      "status": "proposed-not-implemented",
+      "targets": [
+        {
+          "action": "Create",
+          "path": "repo://task-pipeline/knowledge-design-slice-handoff.md",
+          "exists_at_audit": false
+        }
+      ],
+      "inputs": [
+        "parent microtask compiler schema; existing pipeline stages; J-05 evidence"
+      ],
+      "implementation_steps": [
+        "Подготовить короткий integration note: task input/output, reuse/modify/create, independent verifiable result, risk/visual priority.",
+        "Показать почему shared prerequisites допустимы отдельными задачами, а feature interaction/style не откладываются общим финальным слоем.",
+        "Передать note в compiler task; после принятия содержимое переносится в его canonical reference и временный note удаляется той же задачей."
+      ],
+      "outputs": [
+        "Reviewable transfer note для root compiler owner."
+      ],
+      "acceptance": [
+        "Ни design-flow, ни .design/TASKS.md не становятся параллельным plan authority.",
+        "Feature выбирается активным ID/explicit path, не mtime.",
+        "Каждый slice имеет конкретный expected result и testable acceptance."
+      ],
+      "depends_on": [],
+      "decisions": [
+        "Предпочтительно интегрировать напрямую в уже выделенную parent compiler microtask; не создавать дублирующий постоянный файл."
+      ],
+      "source_candidates": [
+        "J-05"
+      ],
+      "addresses_findings": [
+        "UX-12",
+        "VD-02"
+      ],
+      "runtime_dependencies_added": [],
+      "api_keys_added": [],
+      "owner": "task-pipeline",
+      "target_files": [
+        {
+          "path": "repo://task-pipeline/knowledge-design-slice-handoff.md",
+          "mode": "Create"
+        }
+      ],
+      "decision": "Правило встраивается напрямую в canonical compiler/decomposition; temporary handoff note и второй task-list формат не создаются.",
+      "steps": [
+        "Встроить reuse/modify/create classification в leaf packet.",
+        "Сохранять behavior+styling+states одного outcome вместе; не переносить шаблон Foundation/Core/Interactions/Responsive как независимые обязательные phases.",
+        "Visual uncertainty проверять ранним ограниченным render slice, с тем же scenario contract."
+      ],
+      "related_existing": [
+        "FIX-UX-12",
+        "FIX-VD-02"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+          "line": 1,
+          "end_line": 74,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:1",
+          "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L1-L74"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+          "line": 6,
+          "end_line": 6,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:6",
+          "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L6"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+          "line": 49,
+          "end_line": 49,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:49",
+          "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L49"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+          "line": 17,
+          "end_line": 17,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:17",
+          "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L17"
+        }
+      ],
+      "merged_into": "CTX-02",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "verification_commands": [
+    "python3 repo://task-pipeline/test/audit_regressions/ctx-02.02.py",
+    "python3 repo://task-pipeline/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "CTX-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/CTX-02.02.md",
+    "sha256": "fff5f771bd6d655adeb6f152e2d044d1e2560f7e5ad181004273e372ae229172",
+    "utf8_bytes": 7675,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "3ac98d994bc1a3ef80fd5c4edc98e45a247ecbd365e34b2a34964792e94f118f"
+  }
+}

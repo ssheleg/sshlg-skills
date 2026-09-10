@@ -1,0 +1,82 @@
+  ! --all includes claude-code: a plain Claude copy will be added alongside the plugin (duplicate). Use the default agent set to avoid this.
+
+== Installing to agents via skills CLI: * ==
+
+- add ssheleg/super-ux
+  » npx --yes skills add ssheleg/super-ux --agent * --global --yes
+
+- add ssheleg/task-pipeline
+  » npx --yes skills add ssheleg/task-pipeline --agent * --global --yes
+
+- add ssheleg/agent-sync
+  » npx --yes skills add ssheleg/agent-sync --agent * --global --yes
+
+- add ssheleg/make-skill
+  » npx --yes skills add ssheleg/make-skill --agent * --global --yes
+
+- add ssheleg/sheleg-design-skill
+  » npx --yes skills add ssheleg/sheleg-design-skill --agent * --global --yes
+
+- add ssheleg/seo-aeo-audit
+  » npx --yes skills add ssheleg/seo-aeo-audit --agent * --global --yes
+
+- add ssheleg/sheleg-dev
+  » npx --yes skills add ssheleg/sheleg-dev --agent * --global --yes
+
+- add ssheleg/agent-stack
+  » npx --yes skills add ssheleg/agent-stack --agent * --global --yes
+
+- add ssheleg/telegram-dev
+  » npx --yes skills add ssheleg/telegram-dev --agent * --global --yes
+
+== Installing Claude Code plugins ==
+
+- super-ux
+  » claude plugin marketplace add ssheleg/super-ux
+  » claude plugin install super-ux@super-ux
+
+- task-pipeline
+  » claude plugin marketplace add ssheleg/task-pipeline
+  » claude plugin install task-pipeline@task-pipeline
+
+- agent-sync
+  » claude plugin marketplace add ssheleg/agent-sync
+  » claude plugin install agent-sync@agent-sync
+
+- make-skill
+  » claude plugin marketplace add ssheleg/make-skill
+  » claude plugin install make-skill@make-skill
+
+- sheleg-design
+  » claude plugin marketplace add ssheleg/sheleg-design-skill
+  » claude plugin install sheleg-design@sheleg-design-skill
+
+- seo-aeo-audit
+  » claude plugin marketplace add ssheleg/seo-aeo-audit
+  » claude plugin install seo-aeo-audit@seo-aeo-audit
+
+- sheleg-dev
+  » claude plugin marketplace add ssheleg/sheleg-dev
+  » claude plugin install sheleg-dev@sheleg-dev
+
+- agent-stack
+  » claude plugin marketplace add ssheleg/agent-stack
+  » claude plugin install agent-stack@agent-stack
+
+- telegram-dev
+  » claude plugin marketplace add ssheleg/telegram-dev
+  » claude plugin install telegram-dev@telegram-dev
+
+(restart Claude Code to apply the plugins)
+
+== Refreshing the routing block ==
+stdin не интерактивен — роутинг-блок не записан (non-interactive: treating as no). Запусти `npx sshlg-skills install` в терминале, чтобы решить.
+routers: /var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/audit-up-iTv2yQ/fresh-all-order/.claude/CLAUDE.md — opted-out-recorded
+
+== How the next version arrives ==
+  npx sshlg-skills@latest update
+
+  Auto-update is OFF for these packs on purpose. They are pinned and released
+  as a set, so updating one on its own clock leaves a combination nobody
+  tested — the same reason this launcher takes no member argument.
+  Nothing checks for you: run the line above when you want the next set.

@@ -118,3 +118,8 @@ behind its own tree, and a member moved under the work twice.
 `docs/evidence/backlog.md` — what this repo owes, with computed priority.
 `docs/evidence/verification.md` — what shipped and what confirmed it.
 `docs/evidence/retro.md` — standing instructions, read in full before work.
+
+## Active family audit handoff
+
+Read [docs/HANDOFF.md](docs/HANDOFF.md) before resuming the Sherlock audit.
+Apply [the standing repository handoff instruction](docs/working-rules/repository-handoff.md) to every repository task.

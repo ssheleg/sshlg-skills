@@ -1,0 +1,49 @@
+{
+  "all_pass": true,
+  "errors": [],
+  "observations": [
+    {
+      "kind": "untracked_status_drift",
+      "repo": "fabric",
+      "added": [
+        "?? docs/evidence/plans/2026-09-07-product-walkthrough/",
+        "?? docs/reports/product.html",
+        "?? docs/ux/product-model.json",
+        "?? scripts/build-product-report.mjs"
+      ],
+      "effect": "No audited tracked source changed; this audit made no Fabric writes. Untracked status is not asserted unchanged."
+    }
+  ],
+  "findings": 115,
+  "tasks": 119,
+  "evidence_locators": 434,
+  "local_links": 1962,
+  "baseline": [
+    {
+      "repo": "task-pipeline",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "repo": "super-ux",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "repo": "sheleg-design-skill",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "repo": "sshlg-skills",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "repo": "fabric",
+      "head_unchanged": true,
+      "status_unchanged": false
+    }
+  ],
+  "checks": "Packet/source/evidence/link/patch integrity, history write exclusion, fixture/UI receipts; no live host certification implied."
+}

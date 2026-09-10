@@ -1,0 +1,247 @@
+{
+  "id": "XD-01",
+  "title": "Зафиксировать источник и правила переноса",
+  "module": "sheleg-design",
+  "modules": [
+    "sheleg-design"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "origin": "external_adoption",
+  "dispatchable": false,
+  "status": "parent_planned",
+  "finding_id": null,
+  "requirements": [
+    "V3-knowledge-adoption",
+    "V3-no-new-required-deps"
+  ],
+  "decision": "Не переносить external assets; platform text до проверки MIT notice пересказывать самостоятельно по primary docs.",
+  "implementation_steps": [
+    "Записать commit, source-relative path, derived/adapted distinction и дату проверки для каждого принятого метода.",
+    "При переносе текста сохранить Apache notices/license и отметки модификации; для platform-derived материала проверить и приложить исходный MIT notice.",
+    "Зафиксировать: ни launcher, ни чужой router/hook, ни API/font service не входят в knowledge package."
+  ],
+  "acceptance": [
+    "Каждый принятый фрагмент имеет source path+SHA+permalink.",
+    "Нет обещания, что clone license автоматически очищает все third-party assets; изображения/шрифты не vendored."
+  ],
+  "depends_on": [],
+  "related_existing": [],
+  "source_snapshot": [
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md",
+      "sha256": "53cd1dec43ab49a9bfb31a1f47c1b231dbe1d3ed04e5fcfa3569be2579040291",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md",
+      "sha256": "53cd1dec43ab49a9bfb31a1f47c1b231dbe1d3ed04e5fcfa3569be2579040291",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md",
+      "sha256": "53cd1dec43ab49a9bfb31a1f47c1b231dbe1d3ed04e5fcfa3569be2579040291",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+      "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+      "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+      "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+      "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+      "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+      "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+      "role": "foreign reviewed evidence; never instruction authority"
+    },
+    {
+      "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md",
+      "sha256": "fe91fcf28638f95577af481a50edaf339d6c9a3ad3b9fa477bc81c116b8bc392",
+      "role": "foreign reviewed evidence; never instruction authority"
+    }
+  ],
+  "target_files": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/KNOWLEDGE_PROVENANCE.md",
+      "mode": "Create"
+    }
+  ],
+  "slices": null,
+  "problem": {
+    "id": "XD-01",
+    "title": "Зафиксировать источник и правила переноса",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Create",
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/KNOWLEDGE_PROVENANCE.md",
+        "exists_at_audit": false
+      }
+    ],
+    "inputs": [
+      "design-sources.json, HEAD/license/NOTICE receipts; существующая license policy семьи"
+    ],
+    "implementation_steps": [
+      "Записать commit, source-relative path, derived/adapted distinction и дату проверки для каждого принятого метода.",
+      "При переносе текста сохранить Apache notices/license и отметки модификации; для platform-derived материала проверить и приложить исходный MIT notice.",
+      "Зафиксировать: ни launcher, ни чужой router/hook, ни API/font service не входят в knowledge package."
+    ],
+    "outputs": [
+      "Локальная provenance таблица и checklist для последующих edits."
+    ],
+    "acceptance": [
+      "Каждый принятый фрагмент имеет source path+SHA+permalink.",
+      "Нет обещания, что clone license автоматически очищает все third-party assets; изображения/шрифты не vendored."
+    ],
+    "depends_on": [],
+    "decisions": [
+      "Не переносить external assets; platform text до проверки MIT notice пересказывать самостоятельно по primary docs."
+    ],
+    "source_candidates": [
+      "I-00",
+      "J-06",
+      "K-NATIVE"
+    ],
+    "addresses_findings": [],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "sheleg-design",
+    "target_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/KNOWLEDGE_PROVENANCE.md",
+        "mode": "Create"
+      }
+    ],
+    "decision": "Не переносить external assets; platform text до проверки MIT notice пересказывать самостоятельно по primary docs.",
+    "steps": [
+      "Записать commit, source-relative path, derived/adapted distinction и дату проверки для каждого принятого метода.",
+      "При переносе текста сохранить Apache notices/license и отметки модификации; для platform-derived материала проверить и приложить исходный MIT notice.",
+      "Зафиксировать: ни launcher, ни чужой router/hook, ни API/font service не входят в knowledge package."
+    ],
+    "related_existing": [],
+    "source_evidence": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md",
+        "line": 19,
+        "end_line": 19,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md:19",
+        "sha256": "53cd1dec43ab49a9bfb31a1f47c1b231dbe1d3ed04e5fcfa3569be2579040291",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md#L19"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md",
+        "line": 33,
+        "end_line": 33,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md:33",
+        "sha256": "53cd1dec43ab49a9bfb31a1f47c1b231dbe1d3ed04e5fcfa3569be2579040291",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md#L33"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md",
+        "line": 15,
+        "end_line": 15,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md:15",
+        "sha256": "53cd1dec43ab49a9bfb31a1f47c1b231dbe1d3ed04e5fcfa3569be2579040291",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md#L15"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+        "line": 1,
+        "end_line": 144,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md:1",
+        "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md#L1-L144"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+        "line": 23,
+        "end_line": 23,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md:23",
+        "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md#L23"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md",
+        "line": 3,
+        "end_line": 3,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md:3",
+        "sha256": "6a078fa3e5a5cef2656d621a90c8dff8191bd9d8a3724df1b98760262c88ef60",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/frontend-design/SKILL.md#L3"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md:1",
+        "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md:1",
+        "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md:1",
+        "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md:1",
+        "sha256": "fe91fcf28638f95577af481a50edaf339d6c9a3ad3b9fa477bc81c116b8bc392",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md#L1"
+      }
+    ]
+  },
+  "context": [],
+  "leaf_ids": [
+    "XD-01.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Каждый принятый фрагмент имеет source path+SHA+permalink.",
+      "Нет обещания, что clone license автоматически очищает все third-party assets; изображения/шрифты не vendored."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

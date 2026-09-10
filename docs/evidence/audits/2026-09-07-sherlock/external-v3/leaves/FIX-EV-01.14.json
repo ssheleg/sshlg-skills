@@ -1,0 +1,250 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-EV-01.14",
+  "parent_id": "FIX-EV-01",
+  "title": "Outcome corpus: sheleg-design",
+  "kind": "verification",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Проверка выбора названия не доказывает пользу выполнения скилла",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Для sheleg-design записать минимум positive, negative и ambiguous/no-op case из собственных audit findings; отдельно with/without skill. Не менять production integration для удобства grader.",
+  "expected_result": "Case manifest включает actual output oracle и raw result; sheleg-design не проходит лишь по названию. Недоступный live host = NOT_RUN.",
+  "acceptance": [
+    "Case manifest включает actual output oracle и raw result; sheleg-design не проходит лишь по названию. Недоступный live host = NOT_RUN."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Для sheleg-design записать минимум positive, negative и ambiguous/no-op case из собственных audit findings; отдельно with/without skill. Не менять production integration для удобства grader.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-design/evals/cases/sheleg-design.json",
+      "mode": "Create",
+      "role": "focused outcome corpus (new artifact)",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-design/test/audit_regressions/fix-ev-01.14.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-EV-01.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-EV-01.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/test/evals/RESULTS.md",
+        "sha256": "6f920d8631b8b7309dece75fc9488b178e4cbb6e1d0aa2ac41fc049cd0794b96",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://make-skill/test/evals/RESULTS.md",
+        "sha256": "1e824a230e73b636d85b537f6f73a5a6cd2fea0b197570438100a0ae56d4df6f",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://seo-aeo-audit/test/evals/RESULTS.md",
+        "sha256": "59dc76dd994a4343a990c455c9f0658e4d1059cbc677e51e9734b1ed5e6ae7ab",
+        "role": "baseline source"
+      },
+      {
+        "path": "audit://native-eval.log",
+        "sha256": "760143b98d7496b6e5a345197d121bdd015e5e768d635dda1a0f6b4b621c398d",
+        "role": "read-only audit evidence",
+        "audit_original_sha256": "760143b98d7496b6e5a345197d121bdd015e5e768d635dda1a0f6b4b621c398d"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Каждый из 28 имеет опубликованный manifest сценариев и прогоны на заявленных supported hosts; trace доказывает загрузку и outcome, ухудшение не скрывается средним."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-EV-01.01",
+      "kind": "data",
+      "reason": "Uses common outcome manifest and honest result semantics."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-design/test/audit_regressions/fix-ev-01.14.py",
+    "python3 repo://sheleg-design/test/validate.py"
+  ],
+  "focused_case_context": [
+    {
+      "finding_id": "DS-01",
+      "title": "Сравнение packs сменой CSS не имеет общего token API",
+      "case_acceptance": [
+        "Workbench↔orchard↔showroom на одинаковых button/table/card states: все role vars resolve, после переключения нет старых значений; screenshot+computed-style assertions для light/dark/focus/reduced-motion."
+      ],
+      "packet": "audit://extension/packets/FIX-DS-01.json"
+    },
+    {
+      "finding_id": "DS-02",
+      "title": "Опрос о значении craft превращён в нормативный порядок разработки",
+      "case_acceptance": [
+        "Вопрос «что доказывает 58%?» возвращает association in survey, не причинный эффект/priority. Brief со сломанной основной задачей сначала решает её даже при идеальных токенах."
+      ],
+      "packet": "audit://extension/packets/FIX-DS-02.json"
+    },
+    {
+      "finding_id": "DS-03",
+      "title": "Производительность CSS/API описана абсолютами вместо проверяемых условий",
+      "case_acceptance": [
+        "Дешёвый scroll listener не отклоняется без измеренного дефекта; full-screen animated blur проходит только performance budget; 60/120Hz и reduced-motion проверяются отдельно."
+      ],
+      "packet": "audit://extension/packets/FIX-DS-03.json"
+    },
+    {
+      "finding_id": "DS-04",
+      "title": "Duration table допускает 500ms, общий UI gate запрещает >300ms",
+      "case_acceptance": [
+        "400ms modal fixture получает один однозначный verdict с rule ID; 150ms button и 500ms authored marketing entrance различаются; documentation and token checker используют одну таблицу."
+      ],
+      "packet": "audit://extension/packets/FIX-DS-04.json"
+    },
+    {
+      "finding_id": "DS-05",
+      "title": "No-JS критерий применяется ко всем поверхностям, включая внутренние UI",
+      "case_acceptance": [
+        "Public pricing получает no-JS check; authenticated admin SPA — N/A для crawler HTML; SwiftUI screen не получает требование SSR. Общие contrast/input проверки остаются."
+      ],
+      "packet": "audit://extension/packets/FIX-DS-05.json"
+    },
+    {
+      "finding_id": "DS-06",
+      "title": "Eval-регрессия не покрывает текущий composition/runtime",
+      "case_acceptance": [
+        "Каждая текущая версия имеет reproducible run manifest; ambiguous prompt проверяет route+subtools+stopping conditions, не один name. Figma unavailable/no Node/no browser явно measured degradation, не исключённый сценарий."
+      ],
+      "packet": "audit://extension/packets/FIX-DS-06.json"
+    },
+    {
+      "finding_id": "VD-01",
+      "title": "Идентичность фиксируется раньше визуального исследования, а наличие системы закрывает допустимый поиск композиции",
+      "case_acceptance": [
+        "На брифе «улучшить Nicegram, сохранить бренд» показать минимум две реально разные композиции стартового чата и context sheet; у каждой неизменны бренд и сценарий, явно различаются ≥2 открытых визуальных оси. На «исправить spacing по точному Figma» вариаций не создавать. Повторить с существующим токен-файлом и без него; наличие токенов само по себе не должно закрывать exploration."
+      ],
+      "packet": "audit://extension/packets/FIX-VD-01.json"
+    },
+    {
+      "finding_id": "VD-02",
+      "title": "Скриншоты и quality gates есть, но нет обязательного цикла художественной критики конкретного рендера",
+      "case_acceptance": [
+        "Один reviewer без чтения кода сравнивает до/после на одинаковом viewport/content. Для каждого замечания есть image region и видимое изменение; замечания «premium/generic» без конкретики не считаются. Оба варианта отдельно проходят accessibility/UX. При равном результате user видит осмысленный tradeoff. В eval нельзя засчитывать наличие PNG или слово polish как успех визуального качества."
+      ],
+      "packet": "audit://extension/packets/FIX-VD-02.json"
+    },
+    {
+      "finding_id": "VD-03",
+      "title": "Mobile/native ветка не завершена платформенным адаптером, а общий product default остаётся вебовым",
+      "case_acceptance": [
+        "Для одного context-sheet сценария проверить web prototype и native-equivalent spec: selection, keyboard, sheet detents/dismissal, safe areas, accessibility size, submit/stop, restoration. Browser computed input font соответствует выбранному web floor; iOS native evidence не выдаётся за browser screenshot. В route на SwiftUI не появляется RN/Expo как единственный mobile ответ. Наличие Dynamic Type помечается measured/unverified, а не inferred from clamp."
+      ],
+      "packet": "audit://extension/packets/FIX-VD-03.json"
+    },
+    {
+      "finding_id": "VD-04",
+      "title": "shadcn назван unstyled: token mapping ошибочно подаётся как достаточное отсутствие чужой визуальной системы",
+      "case_acceptance": [
+        "В fixture взять Card/Button/Dialog одной версии shadcn, применить pack и проверить не только цветовые variables, но вычисленные размеры, padding, radius, shadow, fonts, states. Список намеренно сохранённых defaults должен быть явным. Документация dependency подтверждается https://ui.shadcn.com/docs; version/checked date фиксируются."
+      ],
+      "packet": "audit://extension/packets/FIX-VD-04.json"
+    },
+    {
+      "finding_id": "VD-05",
+      "title": "Общий kit spine фиксирует внешний API ценой базовой DOM-семантики и доступных адаптаций",
+      "case_acceptance": [
+        "Small tests: icon-only button передаёт aria-label; trigger передаёт aria-expanded/controls; submit button отправляет форму; ref.focus работает; heading h2 может выглядеть как display/h1, не меняя outline. Проверить это через реальный DOM/render хотя бы одного representative kit и structural shared-contract check39, без обязательных39live builds."
+      ],
+      "packet": "audit://extension/packets/FIX-VD-05.json"
+    },
+    {
+      "finding_id": "VD-06",
+      "title": "Dials дают числовой ритуал без воспроизводимой визуальной калибровки двух осей",
+      "case_acceptance": [
+        "Два независимых исполнителя по одному brief должны объяснить через одинаковые наблюдаемые признаки, что означает density/variance. Число без anchors не считается evidence. Проверить quiet dashboard, consumer chat и accessibility-large-text: одинаковая цифра не подменяет разные платформенные задачи."
+      ],
+      "packet": "audit://extension/packets/FIX-VD-06.json"
+    },
+    {
+      "finding_id": "VD-07",
+      "title": "Каталог внешнего frontend-design приписывает найденному skill запреты, которых его текущий файл не содержит",
+      "case_acceptance": [
+        "Fixture с двумя разными frontend-design реализациями одного имени показывает оба источника, выбирает actual resolved file и не печатает отсутствующие bans. Cast handoff для preserve-brand передаёт palette invariants, но оставляет composition exploration; для exact-Figma reproduction отключает aesthetic risk. Route trace хранит digest прочитанной версии."
+      ],
+      "packet": "audit://extension/packets/FIX-VD-07.json"
+    },
+    {
+      "finding_id": "UP-05",
+      "title": "Перезапись member/runtime не атомарна и не даёт rollback",
+      "case_acceptance": [
+        "Fault injection на первом/среднем/последнем copy и rename сохраняет старую полностью рабочую generation или новую полностью проверенную.\nSIGTERM после stage и до switch не меняет active; после switch journal позволяет rollback.\nПроверка --force=false не перезаписывает existing Design shell files; --force=true создаёт recoverable generation.\nObsolete managed resources удаляются по manifest, неизвестные пользовательские файлы сохраняются."
+      ],
+      "packet": "audit://extension/packets/FIX-UP-05.json"
+    },
+    {
+      "finding_id": "UP-08",
+      "title": "Host roots фиксированы и расходятся с поддерживаемыми overrides",
+      "case_acceptance": [
+        "Fixture custom CODEX_HOME/CLAUDE_CONFIG_DIR меняет только выбранный root, default stays byte-identical.\nPlugin collision в custom root обнаруживается до записи; stale default root не блокирует другой профиль.\nWindows/XDG/root-with-spaces и missing host дают отдельные протестированные results; неподдержанные платформы UNKNOWN."
+      ],
+      "packet": "audit://extension/packets/FIX-UP-08.json"
+    }
+  ],
+  "inputs": [
+    {
+      "from_task": "FIX-EV-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-EV-01.14.md",
+    "sha256": "a3b9b553e11708a715cf8e2398ed0c6eb0a5eb5ff778dba75d629fbc12555fc3",
+    "utf8_bytes": 12931,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "0dec2cfe4fe616de1521eaa3965390ec07e8249f17fae4d5d721d4f6fdf120f1"
+  }
+}

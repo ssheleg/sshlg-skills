@@ -1,0 +1,319 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-ED-01",
+  "revision": 1,
+  "title": "Переносимость зависит от совместной упаковки соседнего task-pipeline",
+  "finding_id": "ED-01",
+  "module": "task-pipeline",
+  "modules": [
+    "task-pipeline",
+    "make-skill"
+  ],
+  "priority": "P2",
+  "priority_rank": 2,
+  "priority_reason": "Корректность и поддерживаемость после независимых P1 fixes.",
+  "status": "parent_planned",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements",
+      "audit_original_sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program",
+      "audit_original_sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions",
+      "audit_original_sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f"
+    },
+    {
+      "path": "audit://extension/context/modules/task-pipeline.md",
+      "sha256": "5f24020ff6f76773c0c655abdea45f8928d0954e20f0e52e2447edb5ff2c5fdd",
+      "role": "module:task-pipeline",
+      "audit_original_sha256": "28e7c9316bc1a404c821b54e382b8944583945506f889d5d59fce880cf5c5d4e"
+    },
+    {
+      "path": "audit://extension/context/modules/make-skill.md",
+      "sha256": "2773f94e0c217e5a4fb2722eb030de5f1e660b01568699686826f510a384e103",
+      "role": "module:make-skill",
+      "audit_original_sha256": "65c7beadcbe0174176ac10fe9e46de09dea5379d9bf46c7b32d84a726b8b8df4"
+    },
+    {
+      "path": "audit://extension/context/contracts/context.md",
+      "sha256": "dca078915830462880380196886a99d5ae6e7bde2996b490663f8192d2bef2b0",
+      "role": "contract:context",
+      "audit_original_sha256": "dca078915830462880380196886a99d5ae6e7bde2996b490663f8192d2bef2b0"
+    },
+    {
+      "path": "audit://extension/context/contracts/execution.md",
+      "sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4",
+      "role": "contract:execution",
+      "audit_original_sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4"
+    },
+    {
+      "path": "audit://extension/context/contracts/evidence.md",
+      "sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88",
+      "role": "contract:evidence",
+      "audit_original_sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88"
+    },
+    {
+      "path": "audit://extension/context/contracts/install.md",
+      "sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289",
+      "role": "contract:install",
+      "audit_original_sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289"
+    },
+    {
+      "path": "audit://parent-findings.json",
+      "sha256": "43e0bd08635bfe927e595157ac07e4849857cd5206fcc123bb29fe9e0591ce7a",
+      "role": "supporting evidence appendix",
+      "audit_original_sha256": "86af0f7e1fc5918b3f5a1564bb1ddb688167e604436637b5178a1c2c42affe83"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "ED-01",
+    "skills": [
+      "evidence-docs",
+      "project-audit",
+      "make-skill"
+    ],
+    "title": "Переносимость зависит от совместной упаковки соседнего task-pipeline",
+    "priority": "P2",
+    "kind": "reproduced",
+    "evidence": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/evidence-docs/SKILL.md:16",
+      "repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py:501",
+      "audit://auditor-reproductions.json"
+    ],
+    "impact": "При установленном полном plugin всё разрешается. В изолированной копии одного evidence-docs воспроизводятся 11 broken links, project-audit — 3. Bundled auditor разрешает escape при наличии соседа и затем пишет «stays inside». Это условная ошибка для single-skill transport, не доказательство поломки текущей полной установки.",
+    "fix": "Либо объявлять bundle dependency и тестировать package closure, либо собирать автономный skill artifact с канонической документацией внутри references. Одна source-home, generated copies с digest; не править дубликаты вручную.",
+    "acceptance": "Clean install каждого заявленного канала, в том числе одного скилла, разрешает все обязательные ссылки; при недоступной зависимости печатается capability unavailable вместо all links inside.",
+    "origin": "parent-findings.json",
+    "observation": "При установленном полном plugin всё разрешается. В изолированной копии одного evidence-docs воспроизводятся 11 broken links, project-audit — 3. Bundled auditor разрешает escape при наличии соседа и затем пишет «stays inside». Это условная ошибка для single-skill transport, не доказательство поломки текущей полной установки.",
+    "evidence_kind": "reproduced",
+    "sources": [],
+    "implementation_status": "proposed",
+    "phase": "M5",
+    "task_id": "FIX-ED-01"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Либо объявлять bundle dependency и тестировать package closure, либо собирать автономный skill artifact с канонической документацией внутри references. Одна source-home, generated copies с digest; не править дубликаты вручную.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Clean install каждого заявленного канала, в том числе одного скилла, разрешает все обязательные ссылки; при недоступной зависимости печатается capability unavailable вместо all links inside.",
+    "Empty name/description rejected and valid nonempty metadata accepted",
+    "Missing required reference detected в actual packaged copy, не только whole checkout",
+    "Symlink наружу и undeclared secret fixture не попадают в publishable payload"
+  ],
+  "verification_plan": {
+    "baseline": "При установленном полном plugin всё разрешается. В изолированной копии одного evidence-docs воспроизводятся 11 broken links, project-audit — 3. Bundled auditor разрешает escape при наличии соседа и затем пишет «stays inside». Это условная ошибка для single-skill transport, не доказательство поломки текущей полной установки.",
+    "must_test": "Clean install каждого заявленного канала, в том числе одного скилла, разрешает все обязательные ссылки; при недоступной зависимости печатается capability unavailable вместо all links inside.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/evidence-docs/SKILL.md",
+      "sha256": "a3fade838d53aab95f6f77d21f8ec99bcaa355310f72f32b1bd174638574383e",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py",
+      "sha256": "a6417a004f7d3d8d68f229bcc9cee5e8a7bfff81a3f360787692da6de63afd1c",
+      "role": "baseline source"
+    },
+    {
+      "path": "audit://auditor-reproductions.json",
+      "sha256": "ece50924846b89f3882bd44027edc2a9dd5b2ec2c6bb32fc2019421e6074c501",
+      "role": "read-only audit evidence",
+      "audit_original_sha256": "ece50924846b89f3882bd44027edc2a9dd5b2ec2c6bb32fc2019421e6074c501"
+    }
+  ],
+  "source_bases": {
+    "task-pipeline": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "make-skill": "015052149a9c62a8a69e18a2a5dd6bf2f6e8196a"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://task-pipeline",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://make-skill",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://task-pipeline/plugins/task-pipeline/skills/evidence-docs/SKILL.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 20,
+  "origin": "v2",
+  "dispatchable": false,
+  "retired_read_only_evidence": [],
+  "knowledge_enrichments": [
+    {
+      "id": "PXS-06",
+      "title": "Превратить слабости чужого skill-creator в регрессии наших валидаторов",
+      "owner": "make-skill",
+      "target_files": [
+        {
+          "path": "repo://make-skill/test/checker_parity_test.py",
+          "mode": "Edit"
+        },
+        {
+          "path": "repo://make-skill/test/evals/fixtures/resource-closure.json",
+          "mode": "Create"
+        },
+        {
+          "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/distribution.md",
+          "mode": "Edit"
+        }
+      ],
+      "decision": "ENRICH_EXISTING_MS_AND_ED; Не копировать quick_validate/package_skill.py и не добавлять PyYAML ради чужого runtime Применить текущий parser improvement из MS-02 Бюджет только actual tokenizer или UNKNOWN; words/lines не становятся tokens",
+      "steps": [
+        "Добавить самостоятельно написанные минимальные негативные corpus fixtures, не копировать foreign runtime.",
+        "Расширить checker parity tests на empty metadata и package resource closure.",
+        "Уточнить distribution acceptance на external symlink/undeclared secret exclusion."
+      ],
+      "acceptance": [
+        "Empty name/description rejected and valid nonempty metadata accepted",
+        "Missing required reference detected в actual packaged copy, не только whole checkout",
+        "Symlink наружу и undeclared secret fixture не попадают в publishable payload"
+      ],
+      "depends_on": [
+        {
+          "task_id": "PXS-01",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        }
+      ],
+      "related_existing": [
+        "FIX-MS-02",
+        "FIX-MS-04",
+        "FIX-ED-01"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/SKILL.md",
+          "line": 304,
+          "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+          "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/SKILL.md#L304"
+        },
+        {
+          "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/quick_validate.py",
+          "line": 60,
+          "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+          "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/quick_validate.py#L60"
+        },
+        {
+          "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/package_skill.py",
+          "line": 71,
+          "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+          "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/package_skill.py#L71"
+        }
+      ],
+      "inputs": [
+        "Minimal independently written cases: empty metadata, missing plain-path ref, sibling-only install, external symlink, accidental secret file",
+        "Current make-skill checker and family package manifests"
+      ],
+      "outputs": [
+        "Negative regression corpus with explicit expected scope",
+        "Packaging acceptance requiring resource closure and allowed payload list"
+      ],
+      "new_required_runtime": [],
+      "new_api_keys": [],
+      "merged_into": "FIX-ED-01",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "leaf_ids": [
+    "FIX-ED-01.01",
+    "FIX-ED-01.02"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Clean install каждого заявленного канала, в том числе одного скилла, разрешает все обязательные ссылки; при недоступной зависимости печатается capability unavailable вместо all links inside.",
+      "Empty name/description rejected and valid nonempty metadata accepted",
+      "Missing required reference detected в actual packaged copy, не только whole checkout",
+      "Symlink наружу и undeclared secret fixture не попадают в publishable payload"
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-DV-16.02",
+  "parent_id": "FIX-DV-16",
+  "title": "Cross-pack recovery agreement",
+  "kind": "implementation",
+  "priority": "P2",
+  "priority_rank": 2,
+  "modules": [
+    "sheleg-dev",
+    "telegram-dev"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Правила восстановления дают противоположные действия для отозванной сессии",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Error-tracking и telegram-userbots используют один contract; supervisor restart только recoverable policy.",
+  "expected_result": "Одинаковое revoked событие не получает противоположные действия в двух skills.",
+  "acceptance": [
+    "Одинаковое revoked событие не получает противоположные действия в двух skills."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Error-tracking и telegram-userbots используют один contract; supervisor restart только recoverable policy.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/error-tracking/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "5ccaa51ef3999be20a2faec8c15db27858e5ca97c04822406dc2403f4bc62b53",
+      "refresh_after": [
+        "FIX-DV-16.01"
+      ]
+    },
+    {
+      "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "1bbe25fd5c4aa896a0fb7a6aabc96d70c3252ff7c716ce9123415447ee025cc2",
+      "refresh_after": [
+        "FIX-DV-16.01"
+      ]
+    },
+    {
+      "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/references/sessions-and-auth.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "2cff0833777a9d5c6f78cde1d3d02ed4dfda4ba163e52e6a7354eb166565b47e",
+      "refresh_after": [
+        "FIX-DV-16.01"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-dev/test/audit_regressions/fix-dv-16.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-DV-16.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-DV-16.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/error-tracking/SKILL.md",
+        "sha256": "5ccaa51ef3999be20a2faec8c15db27858e5ca97c04822406dc2403f4bc62b53",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/SKILL.md",
+        "sha256": "1bbe25fd5c4aa896a0fb7a6aabc96d70c3252ff7c716ce9123415447ee025cc2",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/references/sessions-and-auth.md",
+        "sha256": "2cff0833777a9d5c6f78cde1d3d02ed4dfda4ba163e52e6a7354eb166565b47e",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Composition scenario: Telegram session revoked + Sentry installed → один actionable alert, работы остановлены, ограниченные retries и отсутствие бесконечного crash loop."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-DV-16.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-dev/test/audit_regressions/fix-dv-16.02.py",
+    "python3 repo://sheleg-dev/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-DV-16.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-DV-16.02.md",
+    "sha256": "f4e86541d18958f6c35a24528ced12f9bf98ec78b3cacc47915aa47e32cadf57",
+    "utf8_bytes": 8389,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "985bddaffd101557c8612cff7bb5f868af05de49cb23bb9d7818aac40ee08ca3"
+  }
+}

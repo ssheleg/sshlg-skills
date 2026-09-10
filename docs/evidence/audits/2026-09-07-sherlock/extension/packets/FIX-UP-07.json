@@ -1,0 +1,237 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-UP-07",
+  "revision": 1,
+  "title": "Updater не управляет native Codex plugin provider и не проверяет active digest",
+  "finding_id": "UP-07",
+  "module": "sshlg-skills",
+  "modules": [
+    "sshlg-skills",
+    "sheleg-design"
+  ],
+  "priority": "P2",
+  "priority_rank": 2,
+  "priority_reason": "Корректность и поддерживаемость после независимых P1 fixes.",
+  "status": "planned_not_implemented",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06",
+    "E-07",
+    "E-08"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions"
+    },
+    {
+      "path": "audit://extension/context/modules/sshlg-skills.md",
+      "sha256": "1ba5c103f173da419a57a05153cf840fe5a10515f5f8261d194c719fb8420363",
+      "role": "module:sshlg-skills"
+    },
+    {
+      "path": "audit://extension/context/modules/sheleg-design.md",
+      "sha256": "4f855319ae55cbe0e8ea9371442a5b10cec3cf1cf77153040cd47d883aa4b982",
+      "role": "module:sheleg-design"
+    },
+    {
+      "path": "audit://extension/context/contracts/install.md",
+      "sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289",
+      "role": "contract:install"
+    },
+    {
+      "path": "audit://extension/context/contracts/routing.md",
+      "sha256": "9e54f451c9efbda462e0f798751573114c5b787fb2fe435591057e96e108954b",
+      "role": "contract:routing"
+    },
+    {
+      "path": "audit://extension/context/contracts/visual.md",
+      "sha256": "f0ade3ef08c35a0e93c97543b950062ac20b21f709f0cac84e943f21c1453c36",
+      "role": "contract:visual"
+    },
+    {
+      "path": "audit://extension/context/contracts/product.md",
+      "sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163",
+      "role": "contract:product"
+    },
+    {
+      "path": "audit://extension/install-routing.json",
+      "sha256": "cde90833817785137df98f034a0edec82514445c2421695b8ea6cf8282645451",
+      "role": "supporting evidence appendix"
+    },
+    {
+      "path": "audit://extension/install-logs/results.json",
+      "sha256": "6c74ddf4586897cd821c34addcbfaaabf34e963644b3fc1433168d007387b2e0",
+      "role": "supporting evidence appendix"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "UP-07",
+    "priority": "P2",
+    "title": "Updater не управляет native Codex plugin provider и не проверяет active digest",
+    "skills": [
+      "sshlg-skills"
+    ],
+    "evidence": [
+      "repo://sshlg-skills/skills.json:225",
+      "repo://sshlg-skills/bin/sshlg-skills.js:231",
+      "repo://sshlg-skills/bin/sshlg-skills.js:283",
+      "repo://sshlg-skills/bin/sshlg-skills.js:323",
+      "repo://sshlg-skills/bin/sshlg-skills.js:64",
+      "repo://sheleg-design/bin/cli.js:528"
+    ],
+    "source_files": [
+      "repo://sshlg-skills/bin/sshlg-skills.js",
+      "repo://sshlg-skills/skills.json",
+      "repo://sheleg-design/bin/cli.js"
+    ],
+    "observed": "В skills.json Codex описан только каналом skills CLI. Install/update имеют только skills CLI, Claude plugin и local runtime операции. Узкая filesystem инвентаризация прочитала 336 SKILL.md candidates в hub и семейных Claude/Codex caches; все 28 skill names имеют hub, для 25 names есть native Codex plugin cache (telegram только hub/Claude в измерении). Historical cache versions не равны active providers. Провайдер, реально выбранный host для следующей/текущей сессии, launcher не разрешает и его digest не сравнивает.",
+    "impact": "Обновить hub недостаточно для утверждения, что Codex использует новую plugin-копию. Установка и обновление могут быть успешными в одном канале, тогда как namespaced invocation берёт другой. Это lifecycle-пробел в дополнение к RT-03 про inventory и SY-08 про lookup; не утверждается, что все cache candidates активны или что plain skill всегда затеняет namespaced plugin в каждом host.",
+    "fix": "Ввести read-only provider resolver с host API adapter, project/user/admin scopes, exact skill id и namespace, canonical realpath, source digest, installed/enabled/applicable/loaded states. Codex native plugin install/update передавать только поддерживаемому host API; при отсутствии API выдавать UNSUPPORTED_UPDATE и конкретный ручной шаг. Receipt имеет desired/installed/loaded digest и reload-required, а неизвестное не окрашивает зелёным. Одинаковые capabilities должны лежать под make-skill/runtime/toolkit/update, а не в разных списках.",
+    "acceptance": [
+      "Fixture: stale native plugin + fresh hub => report mismatch и не overall current.",
+      "Fixture: cache old versions + только одна enabled version => candidates не считаются active duplicates.",
+      "Project override и namespaced invocation разрешаются отдельно; unknown runtime precedence => UNKNOWN, без prune.",
+      "После supported update/reload smoke-test host показывает нужный skill/version/source digest; без live host статус NOT-RUN."
+    ],
+    "depends_on": [],
+    "related_existing": [
+      "RT-03",
+      "SY-08"
+    ],
+    "limits": "Подтверждён дефект/пробел реализации; наличие внешнего инцидента и фактическая версия в уже работающих сессиях не установлены.",
+    "origin": "extension/install-routing.json",
+    "observation": "В skills.json Codex описан только каналом skills CLI. Install/update имеют только skills CLI, Claude plugin и local runtime операции. Узкая filesystem инвентаризация прочитала 336 SKILL.md candidates в hub и семейных Claude/Codex caches; все 28 skill names имеют hub, для 25 names есть native Codex plugin cache (telegram только hub/Claude в измерении). Historical cache versions не равны active providers. Провайдер, реально выбранный host для следующей/текущей сессии, launcher не разрешает и его digest не сравнивает.",
+    "evidence_kind": "source_and_isolated_fixture",
+    "implementation_status": "proposed"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Ввести read-only provider resolver с host API adapter, project/user/admin scopes, exact skill id и namespace, canonical realpath, source digest, installed/enabled/applicable/loaded states. Codex native plugin install/update передавать только поддерживаемому host API; при отсутствии API выдавать UNSUPPORTED_UPDATE и конкретный ручной шаг. Receipt имеет desired/installed/loaded digest и reload-required, а неизвестное не окрашивает зелёным. Одинаковые capabilities должны лежать под make-skill/runtime/toolkit/update, а не в разных списках.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Fixture: stale native plugin + fresh hub => report mismatch и не overall current.\nFixture: cache old versions + только одна enabled version => candidates не считаются active duplicates.\nProject override и namespaced invocation разрешаются отдельно; unknown runtime precedence => UNKNOWN, без prune.\nПосле supported update/reload smoke-test host показывает нужный skill/version/source digest; без live host статус NOT-RUN."
+  ],
+  "verification_plan": {
+    "baseline": "В skills.json Codex описан только каналом skills CLI. Install/update имеют только skills CLI, Claude plugin и local runtime операции. Узкая filesystem инвентаризация прочитала 336 SKILL.md candidates в hub и семейных Claude/Codex caches; все 28 skill names имеют hub, для 25 names есть native Codex plugin cache (telegram только hub/Claude в измерении). Historical cache versions не равны active providers. Провайдер, реально выбранный host для следующей/текущей сессии, launcher не разрешает и его digest не сравнивает.",
+    "must_test": "Fixture: stale native plugin + fresh hub => report mismatch и не overall current.\nFixture: cache old versions + только одна enabled version => candidates не считаются active duplicates.\nProject override и namespaced invocation разрешаются отдельно; unknown runtime precedence => UNKNOWN, без prune.\nПосле supported update/reload smoke-test host показывает нужный skill/version/source digest; без live host статус NOT-RUN.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://sshlg-skills/skills.json",
+      "sha256": "2cad25e3e8a6768f2d39b2e8be05a64b4d642932f6af132cc691835f8bd4e094",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://sshlg-skills/bin/sshlg-skills.js",
+      "sha256": "ca46e7513b7554452333322fb6ff8d4b27bea58a2b17917724d2df5e44942930",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://sheleg-design/bin/cli.js",
+      "sha256": "e61994965d33da1d88ca261cd985acdd1e6c04b9d9a545a0a8834e003ae99e53",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "sshlg-skills": "7ef37e8bd5220d6ab355346634ff19196de8f41b",
+    "sheleg-design": "562786b30f07f50a294d70a4c3ffd40794624f42"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://sshlg-skills",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://sheleg-design",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://sshlg-skills/skills.json",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://sshlg-skills/bin/sshlg-skills.js",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://sheleg-design/bin/cli.js",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 15
+}

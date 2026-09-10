@@ -1,0 +1,239 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-EV-01",
+  "revision": 1,
+  "title": "Проверка выбора названия не доказывает пользу выполнения скилла",
+  "finding_id": "EV-01",
+  "module": "task-pipeline",
+  "modules": [
+    "task-pipeline",
+    "make-skill",
+    "seo-aeo-audit"
+  ],
+  "priority": "P1",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "planned_not_implemented",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions"
+    },
+    {
+      "path": "audit://extension/context/modules/task-pipeline.md",
+      "sha256": "28e7c9316bc1a404c821b54e382b8944583945506f889d5d59fce880cf5c5d4e",
+      "role": "module:task-pipeline"
+    },
+    {
+      "path": "audit://extension/context/modules/make-skill.md",
+      "sha256": "65c7beadcbe0174176ac10fe9e46de09dea5379d9bf46c7b32d84a726b8b8df4",
+      "role": "module:make-skill"
+    },
+    {
+      "path": "audit://extension/context/modules/seo-aeo-audit.md",
+      "sha256": "3a3482cd54111b6e826aaa1c30b42d69d0a889a5ffdf42fd987017f2b85e13f0",
+      "role": "module:seo-aeo-audit"
+    },
+    {
+      "path": "audit://extension/context/contracts/context.md",
+      "sha256": "dca078915830462880380196886a99d5ae6e7bde2996b490663f8192d2bef2b0",
+      "role": "contract:context"
+    },
+    {
+      "path": "audit://extension/context/contracts/execution.md",
+      "sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4",
+      "role": "contract:execution"
+    },
+    {
+      "path": "audit://extension/context/contracts/evidence.md",
+      "sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88",
+      "role": "contract:evidence"
+    },
+    {
+      "path": "audit://extension/context/contracts/install.md",
+      "sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289",
+      "role": "contract:install"
+    },
+    {
+      "path": "audit://extension/context/contracts/product.md",
+      "sha256": "cc0ab01df11f1558d5d8d1a1869363a437d5499de8537fc521391e28af01e163",
+      "role": "contract:product"
+    },
+    {
+      "path": "audit://parent-findings.json",
+      "sha256": "86af0f7e1fc5918b3f5a1564bb1ddb688167e604436637b5178a1c2c42affe83",
+      "role": "supporting evidence appendix"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "EV-01",
+    "skills": [
+      "task-pipeline",
+      "make-skill",
+      "seo-aeo-audit"
+    ],
+    "title": "Проверка выбора названия не доказывает пользу выполнения скилла",
+    "priority": "P1",
+    "kind": "observed",
+    "evidence": [
+      "repo://task-pipeline/test/evals/RESULTS.md:3",
+      "repo://make-skill/test/evals/RESULTS.md:91",
+      "repo://seo-aeo-audit/test/evals/RESULTS.md:38",
+      "audit://native-eval.log"
+    ],
+    "impact": "Исторические результаты честно фиксируют ограничения: contaminated family roster, одиночные ответы name/none, pipeline scenarios не выполнены. В текущем запуске native eval отказал early access. Сводный performance gain над режимом без скиллов не измерен; нельзя заключить, что семейство улучшает работу в целом.",
+    "fix": "Три испытательных слоя: deterministic tools, routing actual-load traces, end-to-end outcome with/without. Одинаковые задачи, изолированные workspaces, зафиксированные host/model/digests, независимые outcome graders и cost/latency. Разрешить синтетические safety/effect contract тесты до production.",
+    "acceptance": "Каждый из 28 имеет опубликованный manifest сценариев и прогоны на заявленных supported hosts; trace доказывает загрузку и outcome, ухудшение не скрывается средним.",
+    "origin": "parent-findings.json",
+    "observation": "Исторические результаты честно фиксируют ограничения: contaminated family roster, одиночные ответы name/none, pipeline scenarios не выполнены. В текущем запуске native eval отказал early access. Сводный performance gain над режимом без скиллов не измерен; нельзя заключить, что семейство улучшает работу в целом.",
+    "evidence_kind": "observed",
+    "sources": [],
+    "implementation_status": "proposed",
+    "phase": "M6",
+    "task_id": "FIX-EV-01"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Три испытательных слоя: deterministic tools, routing actual-load traces, end-to-end outcome with/without. Одинаковые задачи, изолированные workspaces, зафиксированные host/model/digests, независимые outcome graders и cost/latency. Разрешить синтетические safety/effect contract тесты до production.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Каждый из 28 имеет опубликованный manifest сценариев и прогоны на заявленных supported hosts; trace доказывает загрузку и outcome, ухудшение не скрывается средним."
+  ],
+  "verification_plan": {
+    "baseline": "Исторические результаты честно фиксируют ограничения: contaminated family roster, одиночные ответы name/none, pipeline scenarios не выполнены. В текущем запуске native eval отказал early access. Сводный performance gain над режимом без скиллов не измерен; нельзя заключить, что семейство улучшает работу в целом.",
+    "must_test": "Каждый из 28 имеет опубликованный manifest сценариев и прогоны на заявленных supported hosts; trace доказывает загрузку и outcome, ухудшение не скрывается средним.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://task-pipeline/test/evals/RESULTS.md",
+      "sha256": "6f920d8631b8b7309dece75fc9488b178e4cbb6e1d0aa2ac41fc049cd0794b96",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://make-skill/test/evals/RESULTS.md",
+      "sha256": "1e824a230e73b636d85b537f6f73a5a6cd2fea0b197570438100a0ae56d4df6f",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://seo-aeo-audit/test/evals/RESULTS.md",
+      "sha256": "59dc76dd994a4343a990c455c9f0658e4d1059cbc677e51e9734b1ed5e6ae7ab",
+      "role": "baseline source"
+    },
+    {
+      "path": "audit://native-eval.log",
+      "sha256": "760143b98d7496b6e5a345197d121bdd015e5e768d635dda1a0f6b4b621c398d",
+      "role": "read-only audit evidence"
+    }
+  ],
+  "source_bases": {
+    "task-pipeline": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "make-skill": "015052149a9c62a8a69e18a2a5dd6bf2f6e8196a",
+    "seo-aeo-audit": "db261482a520df1b7373283955921f1282de866d"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://task-pipeline",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://make-skill",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "repo:repo://seo-aeo-audit",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://task-pipeline/test/evals/RESULTS.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://make-skill/test/evals/RESULTS.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://seo-aeo-audit/test/evals/RESULTS.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 3
+}

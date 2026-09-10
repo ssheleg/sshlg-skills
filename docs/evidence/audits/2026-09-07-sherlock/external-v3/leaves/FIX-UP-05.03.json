@@ -1,0 +1,175 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-UP-05.03",
+  "parent_id": "FIX-UP-05",
+  "title": "Design installer adapter",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 0,
+  "modules": [
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Перезапись member/runtime не атомарна и не даёт rollback",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Тот же writer contract для design cli/shell; no runtime dependency on sibling checkout.",
+  "expected_result": "--force=true recoverable generation; obsolete managed-only removal.",
+  "acceptance": [
+    "--force=true recoverable generation; obsolete managed-only removal."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Тот же writer contract для design cli/shell; no runtime dependency on sibling checkout.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-design/bin/cli.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "e61994965d33da1d88ca261cd985acdd1e6c04b9d9a545a0a8834e003ae99e53"
+    },
+    {
+      "path": "repo://sheleg-design/install.sh",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "9f9b08d7d4d430b7c74b0d6b64a6b2b7977a5fff25ecb037a1338f7d8d74fbd2"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-design/test/audit_regressions/fix-up-05.03.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-UP-05.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-UP-05.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/bin/task-pipeline.js",
+        "sha256": "f1bb12004a95f273de184a397e456d224f4edfcc5911e706eb75ff67edffc12d",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://task-pipeline/install.sh",
+        "sha256": "7f39315a8faf2f0c75bfa4a1e3e985305512868292271e0a02fb566617d5fe71",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/bin/cli.js",
+        "sha256": "e61994965d33da1d88ca261cd985acdd1e6c04b9d9a545a0a8834e003ae99e53",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/install.sh",
+        "sha256": "9f9b08d7d4d430b7c74b0d6b64a6b2b7977a5fff25ecb037a1338f7d8d74fbd2",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sshlg-skills/lib/runtime.js",
+        "sha256": "cd88458e46f3b729b6da27c163c3d3b43dba8bffaf210247275d6acab6f32032",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Fault injection на первом/среднем/последнем copy и rename сохраняет старую полностью рабочую generation или новую полностью проверенную.\nSIGTERM после stage и до switch не меняет active; после switch journal позволяет rollback.\nПроверка --force=false не перезаписывает existing Design shell files; --force=true создаёт recoverable generation.\nObsolete managed resources удаляются по manifest, неизвестные пользовательские файлы сохраняются."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-UP-05.01",
+      "kind": "data",
+      "reason": "Uses transaction writer or adapters for recovery testing."
+    },
+    {
+      "task_id": "FIX-UP-01.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-UP-01"
+    },
+    {
+      "task_id": "FIX-UP-01.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-UP-01"
+    },
+    {
+      "task_id": "FIX-UP-01.03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "FIX-UP-01"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-design/test/audit_regressions/fix-up-05.03.py",
+    "python3 repo://sheleg-design/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-UP-05.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "FIX-UP-01.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-UP-05.03.md",
+    "sha256": "ae3250778312bb747567b202691a1401bfdc5a889370bec9e305c7647756a362",
+    "utf8_bytes": 8346,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "184d01ac8ac744817402701d39fe35f5d7a69da3b635a1c440760343555e0ed9"
+  }
+}

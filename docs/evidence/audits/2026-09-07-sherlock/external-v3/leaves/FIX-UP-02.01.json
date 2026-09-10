@@ -1,0 +1,196 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-UP-02.01",
+  "parent_id": "FIX-UP-02",
+  "title": "Central operation plan",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 0,
+  "modules": [
+    "sshlg-skills"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Принятый --dry-run всё равно запускает обновления и удаляет файлы",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Install/update сначала строят immutable OperationPlan всех subprocess/prune/router/runtime действий; dry-run только render.\n\nУточнение PXS-02: ENRICH_EXISTING_UP_NOT_DUPLICATE; Оставить Node stdlib, без Rust/SDK/CLI parser package Не делать live network inside default doctor; network check отдельный явный режим Эта запись уточняет UP tasks, не добавляет второй independent implementation\nОпределить typed OperationResult в Node stdlib: scope/status/evidence/error class/remediation.\nПодключить result к существующим операциям umbrella вместо parse human prose.\nДобавить unit fixtures dry-run/partial/unknown/error и сверить их с UP counterexamples.",
+  "expected_result": "HOME/project/runtime hashes unchanged, 0 mutation calls для --all/--bump-pins.\nDry-run имеет 0 mutations, но complete plan receipt\nAuth/network/parse/child failures nonzero; unsupported/unknown не masquerade as success\nUP fixtures возвращают scope и effect fields без секретов",
+  "acceptance": [
+    "HOME/project/runtime hashes unchanged, 0 mutation calls для --all/--bump-pins.",
+    "Dry-run имеет 0 mutations, но complete plan receipt",
+    "Auth/network/parse/child failures nonzero; unsupported/unknown не masquerade as success",
+    "UP fixtures возвращают scope и effect fields без секретов"
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Install/update сначала строят immutable OperationPlan всех subprocess/prune/router/runtime действий; dry-run только render.\n\nУточнение PXS-02: ENRICH_EXISTING_UP_NOT_DUPLICATE; Оставить Node stdlib, без Rust/SDK/CLI parser package Не делать live network inside default doctor; network check отдельный явный режим Эта запись уточняет UP tasks, не добавляет второй independent implementation\nОпределить typed OperationResult в Node stdlib: scope/status/evidence/error class/remediation.\nПодключить result к существующим операциям umbrella вместо parse human prose.\nДобавить unit fixtures dry-run/partial/unknown/error и сверить их с UP counterexamples.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sshlg-skills/bin/sshlg-skills.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "ca46e7513b7554452333322fb6ff8d4b27bea58a2b17917724d2df5e44942930"
+    },
+    {
+      "path": "repo://sshlg-skills/lib/operation-result.js",
+      "mode": "Create",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": null
+    },
+    {
+      "path": "repo://sshlg-skills/test/operation-result_test.js",
+      "mode": "Create",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://sshlg-skills/test/audit_regressions/fix-up-02.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-UP-02.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-UP-02.json",
+    "source_files": [
+      {
+        "path": "repo://sshlg-skills/bin/sshlg-skills.js",
+        "sha256": "ca46e7513b7554452333322fb6ff8d4b27bea58a2b17917724d2df5e44942930",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Снимки всех temp HOME/project/runtime файлов до и после install/update --dry-run побайтно равны.\nSpy подтверждает 0 mutating child calls, 0 deletes, 0 writes, в том числе при --bump-pins и --all.\nJSON plan показывает будущие удаления, scope и версии без фразы про выполненную установку.",
+      "Dry-run имеет 0 mutations, но complete plan receipt",
+      "Auth/network/parse/child failures nonzero; unsupported/unknown не masquerade as success",
+      "UP fixtures возвращают scope и effect fields без секретов"
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit.",
+    "foreign_method_sources": [
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/SKILL.md",
+        "line": 45,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/SKILL.md#L45"
+      },
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/references/agent-cli-patterns.md",
+        "line": 87,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/references/agent-cli-patterns.md#L87"
+      }
+    ]
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [
+    {
+      "id": "PXS-02",
+      "title": "Дополнить UP backlog точным CLI operation-result контрактом",
+      "owner": "sshlg-skills",
+      "target_files": [
+        {
+          "path": "repo://sshlg-skills/lib/operation-result.js",
+          "mode": "Create"
+        },
+        {
+          "path": "repo://sshlg-skills/bin/sshlg-skills.js",
+          "mode": "Edit"
+        },
+        {
+          "path": "repo://sshlg-skills/test/operation-result_test.js",
+          "mode": "Create"
+        }
+      ],
+      "decision": "ENRICH_EXISTING_UP_NOT_DUPLICATE; Оставить Node stdlib, без Rust/SDK/CLI parser package Не делать live network inside default doctor; network check отдельный явный режим Эта запись уточняет UP tasks, не добавляет второй independent implementation",
+      "steps": [
+        "Определить typed OperationResult в Node stdlib: scope/status/evidence/error class/remediation.",
+        "Подключить result к существующим операциям umbrella вместо parse human prose.",
+        "Добавить unit fixtures dry-run/partial/unknown/error и сверить их с UP counterexamples."
+      ],
+      "acceptance": [
+        "Dry-run имеет 0 mutations, но complete plan receipt",
+        "Auth/network/parse/child failures nonzero; unsupported/unknown не masquerade as success",
+        "UP fixtures возвращают scope и effect fields без секретов"
+      ],
+      "depends_on": [],
+      "related_existing": [
+        "FIX-UP-02",
+        "FIX-UP-03",
+        "FIX-UP-06",
+        "FIX-UP-08"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/SKILL.md",
+          "line": 45,
+          "sha": "49f948faa9258a0c61caceaf225e179651397431",
+          "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/SKILL.md#L45"
+        },
+        {
+          "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/references/agent-cli-patterns.md",
+          "line": 87,
+          "sha": "49f948faa9258a0c61caceaf225e179651397431",
+          "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/references/agent-cli-patterns.md#L87"
+        }
+      ],
+      "inputs": [
+        "Existing UP OperationPlan: requested hosts/channels/preview flag",
+        "Child exit/error/signal; desired/installed/active evidence"
+      ],
+      "outputs": [
+        "Typed JSON receipt with operation id, status, scope, evidence, error class, remediation",
+        "stdout JSON/stderr progress; empty results distinct from missing observation"
+      ],
+      "new_required_runtime": [],
+      "new_api_keys": [],
+      "merged_into": "FIX-UP-02",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "verification_commands": [
+    "python3 repo://sshlg-skills/test/audit_regressions/fix-up-02.01.py",
+    "python3 repo://sshlg-skills/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-UP-02.01.md",
+    "sha256": "637da62c629626e2fcc7dc20e0f66871ce57d58e97a205d4f67e94b6b29e0d8f",
+    "utf8_bytes": 6456,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "1ead243c3ae606de0ae43a6024d34804a6d0c0f8a25bfcece9f2fedb07096a79"
+  }
+}

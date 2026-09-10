@@ -1,0 +1,21 @@
+{
+  "all_pass": true,
+  "errors": [],
+  "negative_cases": {
+    "missing_decision": true,
+    "duplicate_id": true,
+    "cycle": true,
+    "unknown_dependency": true,
+    "oversized_context": true,
+    "primary_hash_change": true,
+    "source_hash_change": true,
+    "false_done": true,
+    "model_override": true,
+    "missing_parent_leaf": true,
+    "parent_dispatch": true,
+    "untyped_edge": true
+  },
+  "parents": 139,
+  "leaves": 254,
+  "scope": "Artifact contract/freshness/dependency checks, not LLM quality or execution authority proof."
+}

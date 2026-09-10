@@ -1,0 +1,1462 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "CTX-04",
+  "revision": 1,
+  "title": "Итоговая outcome certification, поддержка hosts и staged release",
+  "finding_id": null,
+  "module": "sshlg-skills",
+  "modules": [
+    "sshlg-skills"
+  ],
+  "priority": "P1",
+  "priority_rank": 3,
+  "priority_reason": "Интегральный gate после всех fixes и enabling outputs.",
+  "status": "parent_planned",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06",
+    "E-01",
+    "E-02",
+    "E-10"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements",
+      "audit_original_sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program",
+      "audit_original_sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions",
+      "audit_original_sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f"
+    },
+    {
+      "path": "audit://extension/context/modules/sshlg-skills.md",
+      "sha256": "239fabba599e87d49984cffd1b031b2fbb41009aa1db310fcfbb4d11c7328c35",
+      "role": "module:sshlg-skills",
+      "audit_original_sha256": "1ba5c103f173da419a57a05153cf840fe5a10515f5f8261d194c719fb8420363"
+    },
+    {
+      "path": "audit://extension/context/contracts/install.md",
+      "sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289",
+      "role": "contract:install",
+      "audit_original_sha256": "4b090371d7db5576524793dd70a93b0be5bb3803b339e42f2932513eab8db289"
+    },
+    {
+      "path": "audit://extension/context/contracts/routing.md",
+      "sha256": "9e54f451c9efbda462e0f798751573114c5b787fb2fe435591057e96e108954b",
+      "role": "contract:routing",
+      "audit_original_sha256": "9e54f451c9efbda462e0f798751573114c5b787fb2fe435591057e96e108954b"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "kind": "user_requested_capability",
+    "fix": "Зафиксировать support tiers/version/model matrix и выполнить полный bounded corpus для 28 skills. Проверить реальную загрузку Claude Code и Codex, другие заявленные adapters по выбранному tier; затем handoff разных сессий через Fabric, stale/retry/cancel/merge cases, и A/B visual outcomes. Собрать immutable release set, staged install/upgrade/rollback receipts; обновить family pins и publish channels одной согласованной версией."
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Зафиксировать support tiers/version/model matrix и выполнить полный bounded corpus для 28 skills. Проверить реальную загрузку Claude Code и Codex, другие заявленные adapters по выбранному tier; затем handoff разных сессий через Fabric, stale/retry/cancel/merge cases, и A/B visual outcomes. Собрать immutable release set, staged install/upgrade/rollback receipts; обновить family pins и publish channels одной согласованной версией.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Каждая finding закрыта regression proof и release digest; нет mandatory NOT_RUN для заявленного support tier. Outcome corpus оценивает изменения продукта/кода, не названия skills. Real two-host handoff и rollback проходят; clean install и upgrade из прошлой поддержанной версии дают expected active digest."
+  ],
+  "verification_plan": {
+    "baseline": "Новая capability: негативные fixtures заданы в acceptance; audit prototype только иллюстрирует интерфейс.",
+    "must_test": "Каждая finding закрыта regression proof и release digest; нет mandatory NOT_RUN для заявленного support tier. Outcome corpus оценивает изменения продукта/кода, не названия skills. Real two-host handoff и rollback проходят; clean install и upgrade из прошлой поддержанной версии дают expected active digest.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [
+    {
+      "from_task": "FIX-RT-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-RT-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-RT-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-RT-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-MS-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-MS-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-MS-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-MS-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-TP-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-TP-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-TP-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-TP-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PA-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PA-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PA-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-ED-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-SE-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-SE-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-SE-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-SE-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-EV-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UB-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-05",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-06",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-07",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-08",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-09",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-10",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-11",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-12",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-13",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DS-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DS-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DS-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DS-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DS-05",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DS-06",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-14",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UX-15",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-05",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-06",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-07",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-08",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-09",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-10",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-11",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-12",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-13",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-14",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-15",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-16",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-17",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-18",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-19",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-DV-20",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-TG-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-TG-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-TG-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-TG-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-TG-05",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-05",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-06",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-07",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-08",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-09",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-10",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-11",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-12",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-13",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-AS-14",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-SY-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-SY-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-SY-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-SY-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-SY-05",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-SY-06",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-SY-07",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-SY-08",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-05",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-06",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-07",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-08",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-09",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-PF-10",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-VD-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-VD-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-VD-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-VD-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-VD-05",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-VD-06",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-VD-07",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UP-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UP-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UP-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UP-04",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UP-05",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UP-06",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UP-07",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "FIX-UP-08",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "CTX-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "CTX-02",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    },
+    {
+      "from_task": "CTX-03",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://sshlg-skills/package.json",
+      "sha256": "a5a87f2296210ade1a9e20d613a550a385b74b2bb2c047b969a9ffd44d7e56ac",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "sshlg-skills": "7ef37e8bd5220d6ab355346634ff19196de8f41b"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://sshlg-skills",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://sshlg-skills/test/family_outcomes.cases.json",
+      "mode": "proposed_create",
+      "reason": "Planned implementation/test target; not created by this audit. Confirm naming against current architecture before dispatch."
+    },
+    {
+      "resource": "file:repo://sshlg-skills/test/host_release_acceptance.js",
+      "mode": "proposed_create",
+      "reason": "Planned implementation/test target; not created by this audit. Confirm naming against current architecture before dispatch."
+    }
+  ],
+  "depends_on": [
+    {
+      "task_id": "FIX-RT-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-RT-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-RT-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-RT-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-MS-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-MS-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-MS-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-MS-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-TP-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-TP-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-TP-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-TP-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PA-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PA-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PA-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-ED-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-SE-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-SE-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-SE-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-SE-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-EV-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UB-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-06",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-07",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-08",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-09",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-10",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-11",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-12",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-13",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DS-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DS-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DS-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DS-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DS-05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DS-06",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-14",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UX-15",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-06",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-07",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-08",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-09",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-10",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-11",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-12",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-13",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-14",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-15",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-16",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-17",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-18",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-19",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-DV-20",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-TG-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-TG-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-TG-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-TG-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-TG-05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-06",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-07",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-08",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-09",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-10",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-11",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-12",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-13",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-AS-14",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-SY-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-SY-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-SY-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-SY-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-SY-05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-SY-06",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-SY-07",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-SY-08",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PF-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PF-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PF-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PF-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PF-05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PF-06",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PF-07",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PF-08",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PF-09",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-PF-10",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-VD-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-VD-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-VD-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-VD-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-VD-05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-VD-06",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-VD-07",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UP-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UP-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UP-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UP-04",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UP-05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UP-06",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UP-07",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "FIX-UP-08",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "CTX-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "CTX-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "CTX-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "PXS-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "PXS-05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "ADOPT-M-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "ADOPT-M-02",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "ADOPT-M-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "ADOPT-M-05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "ADOPT-M-06",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "ADOPT-M-07",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "ADOPT-M-08",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "ADOPT-M-11",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "ADOPT-M-12",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "ADOPT-M-14",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "XD-01",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "XD-03",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "XD-05",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "XD-06",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "XD-09",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "XD-10",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "XD-11",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    },
+    {
+      "task_id": "XD-12",
+      "kind": "control",
+      "reason": "Final release requires this parent acceptance and current receipts."
+    }
+  ],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 24,
+  "origin": "v2",
+  "dispatchable": false,
+  "retired_read_only_evidence": [],
+  "leaf_ids": [
+    "CTX-04.01",
+    "CTX-04.02",
+    "CTX-04.03",
+    "CTX-04.04",
+    "CTX-04.05",
+    "CTX-04.06"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Каждая finding закрыта regression proof и release digest; нет mandatory NOT_RUN для заявленного support tier. Outcome corpus оценивает изменения продукта/кода, не названия skills. Real two-host handoff и rollback проходят; clean install и upgrade из прошлой поддержанной версии дают expected active digest."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

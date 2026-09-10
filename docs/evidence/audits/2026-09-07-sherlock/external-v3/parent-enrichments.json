@@ -1,0 +1,1354 @@
+[
+  {
+    "id": "PXS-02",
+    "title": "Дополнить UP backlog точным CLI operation-result контрактом",
+    "owner": "sshlg-skills",
+    "target_files": [
+      {
+        "path": "repo://sshlg-skills/lib/operation-result.js",
+        "mode": "Create"
+      },
+      {
+        "path": "repo://sshlg-skills/bin/sshlg-skills.js",
+        "mode": "Edit"
+      },
+      {
+        "path": "repo://sshlg-skills/test/operation-result_test.js",
+        "mode": "Create"
+      }
+    ],
+    "decision": "ENRICH_EXISTING_UP_NOT_DUPLICATE; Оставить Node stdlib, без Rust/SDK/CLI parser package Не делать live network inside default doctor; network check отдельный явный режим Эта запись уточняет UP tasks, не добавляет второй independent implementation",
+    "steps": [
+      "Определить typed OperationResult в Node stdlib: scope/status/evidence/error class/remediation.",
+      "Подключить result к существующим операциям umbrella вместо parse human prose.",
+      "Добавить unit fixtures dry-run/partial/unknown/error и сверить их с UP counterexamples."
+    ],
+    "acceptance": [
+      "Dry-run имеет 0 mutations, но complete plan receipt",
+      "Auth/network/parse/child failures nonzero; unsupported/unknown не masquerade as success",
+      "UP fixtures возвращают scope и effect fields без секретов"
+    ],
+    "depends_on": [],
+    "related_existing": [
+      "FIX-UP-02",
+      "FIX-UP-03",
+      "FIX-UP-06",
+      "FIX-UP-08"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/SKILL.md",
+        "line": 45,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/SKILL.md#L45"
+      },
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/references/agent-cli-patterns.md",
+        "line": 87,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/cli-creator/references/agent-cli-patterns.md#L87"
+      }
+    ],
+    "inputs": [
+      "Existing UP OperationPlan: requested hosts/channels/preview flag",
+      "Child exit/error/signal; desired/installed/active evidence"
+    ],
+    "outputs": [
+      "Typed JSON receipt with operation id, status, scope, evidence, error class, remediation",
+      "stdout JSON/stderr progress; empty results distinct from missing observation"
+    ],
+    "new_required_runtime": [],
+    "new_api_keys": [],
+    "merged_into": "FIX-UP-02",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "PXS-03",
+    "title": "Дать agent-evals офлайн seed corpus до production",
+    "owner": "agent-stack/agent-evals",
+    "target_files": [
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md",
+        "mode": "Edit"
+      },
+      {
+        "path": "repo://agent-stack/test/evals/scenarios.json",
+        "mode": "Edit"
+      },
+      {
+        "path": "repo://agent-stack/test/evals/fixtures/bootstrap-corpus.json",
+        "mode": "Create"
+      }
+    ],
+    "decision": "ENRICH_EXISTING_AS06; Не брать OpenAI/MCP evaluator, XML wrappers или API keys Точный scalar matcher только для scalar задач; side effects и trajectories отдельные assertions Seed corpus дополняется production traces, не объявляется доказательством полного coverage",
+    "steps": [
+      "Разрешить synthetic bootstrap corpus в agent-evals с явной provenance рядом с production corpus.",
+      "Добавить шесть замороженных локальных кейсов с known answers и forbidden side effects.",
+      "Связать кейсы с behavioral scenarios и проверить isolation плюс TEST_ERROR classification."
+    ],
+    "acceptance": [
+      "Первый релиз имеет исполняемые offline assertions без production telemetry",
+      "Повреждённый fixture/input/runner => TEST_ERROR, не behavior fail/pass",
+      "Isolation: результат case B одинаков независимо от запуска case A"
+    ],
+    "depends_on": [
+      {
+        "task_id": "PXS-01",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      }
+    ],
+    "related_existing": [
+      "FIX-AS-06",
+      "FIX-EV-01"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/SKILL.md",
+        "line": 261,
+        "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+        "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/SKILL.md#L261"
+      },
+      {
+        "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/reference/evaluation.md",
+        "line": 35,
+        "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+        "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/mcp-builder/reference/evaluation.md#L35"
+      }
+    ],
+    "inputs": [
+      "Документированные outcome/forbidden-effects",
+      "6 synthetic immutable local cases plus production cases when available"
+    ],
+    "outputs": [
+      "Corpus provenance synthetic|production, frozen inputs/expected outputs, reset rules",
+      "Behavioral fixtures beyond name-trigger matching"
+    ],
+    "new_required_runtime": [],
+    "new_api_keys": [],
+    "merged_into": "FIX-AS-06",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "PXS-04",
+    "title": "Развести кодовый дефект, эксплуатационный факт и предположение в аудите",
+    "owner": "task-pipeline/evidence-docs",
+    "target_files": [
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/audit.md",
+        "mode": "Edit"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/documentation.md",
+        "mode": "Edit"
+      },
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/templates/finding-evidence.json",
+        "mode": "Create"
+      }
+    ],
+    "decision": "ENRICH_EXISTING_AUDIT_FIXES; Не превращать отсутствие production/logs в запрет finding Не навязывать интервью; спросить только если неизвестное меняет действие Не копировать threat model quota или требование report always waits",
+    "steps": [
+      "Добавить minimal finding-evidence schema и отобразить distinction code mechanism/deployment observation/assumptions.",
+      "Согласовать audit.md/documentation.md с этой схемой без mandatory interview.",
+      "Проверить три контрпримера: local defect/no production, documented exception, unknown attacker control."
+    ],
+    "acceptance": [
+      "Confirmed local crash + no production logs остаётся code defect, external incidence UNKNOWN",
+      "Documented exception не меняет failed invariant в PASS",
+      "Unknown attacker control понижает уверенность exploitability, не стирает observed behavior"
+    ],
+    "depends_on": [],
+    "related_existing": [
+      "FIX-PA-02",
+      "FIX-AS-14",
+      "FIX-PA-01"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/security-threat-model/SKILL.md",
+        "line": 19,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/security-threat-model/SKILL.md#L19"
+      },
+      {
+        "path": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/security-threat-model/references/prompt-template.md",
+        "line": 28,
+        "sha": "49f948faa9258a0c61caceaf225e179651397431",
+        "permalink": "https://github.com/openai/skills/blob/49f948faa9258a0c61caceaf225e179651397431/skills/.curated/security-threat-model/references/prompt-template.md#L28"
+      }
+    ],
+    "inputs": [
+      "Source path+line+SHA; reproduction command/output; environment scope",
+      "Deployment evidence available or missing; attacker model if security applies"
+    ],
+    "outputs": [
+      "Minimal finding schema observed_mechanism / observed_incident / assumption / deployment_unknown",
+      "Risk priority with prerequisites and mitigation evidence"
+    ],
+    "new_required_runtime": [],
+    "new_api_keys": [],
+    "merged_into": "FIX-PA-02",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "PXS-06",
+    "title": "Превратить слабости чужого skill-creator в регрессии наших валидаторов",
+    "owner": "make-skill",
+    "target_files": [
+      {
+        "path": "repo://make-skill/test/checker_parity_test.py",
+        "mode": "Edit"
+      },
+      {
+        "path": "repo://make-skill/test/evals/fixtures/resource-closure.json",
+        "mode": "Create"
+      },
+      {
+        "path": "repo://make-skill/plugins/make-skill/skills/make-skill/references/distribution.md",
+        "mode": "Edit"
+      }
+    ],
+    "decision": "ENRICH_EXISTING_MS_AND_ED; Не копировать quick_validate/package_skill.py и не добавлять PyYAML ради чужого runtime Применить текущий parser improvement из MS-02 Бюджет только actual tokenizer или UNKNOWN; words/lines не становятся tokens",
+    "steps": [
+      "Добавить самостоятельно написанные минимальные негативные corpus fixtures, не копировать foreign runtime.",
+      "Расширить checker parity tests на empty metadata и package resource closure.",
+      "Уточнить distribution acceptance на external symlink/undeclared secret exclusion."
+    ],
+    "acceptance": [
+      "Empty name/description rejected and valid nonempty metadata accepted",
+      "Missing required reference detected в actual packaged copy, не только whole checkout",
+      "Symlink наружу и undeclared secret fixture не попадают в publishable payload"
+    ],
+    "depends_on": [
+      {
+        "task_id": "PXS-01",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      }
+    ],
+    "related_existing": [
+      "FIX-MS-02",
+      "FIX-MS-04",
+      "FIX-ED-01"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/SKILL.md",
+        "line": 304,
+        "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+        "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/SKILL.md#L304"
+      },
+      {
+        "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/quick_validate.py",
+        "line": 60,
+        "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+        "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/quick_validate.py#L60"
+      },
+      {
+        "path": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/package_skill.py",
+        "line": 71,
+        "sha": "0930e1373789d2eda449039f7ac154b33031de89",
+        "permalink": "https://github.com/composio-community/awesome-codex-skills/blob/0930e1373789d2eda449039f7ac154b33031de89/skill-creator/scripts/package_skill.py#L71"
+      }
+    ],
+    "inputs": [
+      "Minimal independently written cases: empty metadata, missing plain-path ref, sibling-only install, external symlink, accidental secret file",
+      "Current make-skill checker and family package manifests"
+    ],
+    "outputs": [
+      "Negative regression corpus with explicit expected scope",
+      "Packaging acceptance requiring resource closure and allowed payload list"
+    ],
+    "new_required_runtime": [],
+    "new_api_keys": [],
+    "merged_into": "FIX-ED-01",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "ADOPT-M-04",
+    "title": "Разделить tuningvalidation и finalholdout",
+    "status": "proposed_not_implemented",
+    "readiness": "planned_requires_dispatch_refresh",
+    "operation": "Edit",
+    "target": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md",
+    "source_files": [
+      {
+        "path": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/skill-creator/scripts/run_loop.py",
+        "line": 216,
+        "source_url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/skill-creator/scripts/run_loop.py#L216"
+      }
+    ],
+    "decision": "Case IDs и группировки фиксированы. Validation разрешено использовать для настройки; final holdout не используется для выбора версии. Зависимые повторы не считать iid, малая выборка не даёт мнимой уверенности.",
+    "outputs": [
+      "Selection-vs-final evaluation section"
+    ],
+    "acceptance": [
+      "Synthetic reusedvalidation example cannot be labeled unseenfinaltest; dependentrepeats notiidclaimed."
+    ],
+    "dependencies": [],
+    "related_existing_tasks": [
+      "FIX-AS-08",
+      "FIX-EV-01"
+    ],
+    "runtime_dependencies": [],
+    "api_keys": [],
+    "network_required": false,
+    "host": "Markdown/JSON plus already-available family validator/host capabilities",
+    "not_in_scope": [
+      "foreign plugin installation",
+      "foreign script execution",
+      "new mandatory APIs/SDKs",
+      "Fabric runtime implementation"
+    ],
+    "dispatch_refresh": [
+      "resolve exact target base and current doctrine patches",
+      "record source/target hashes and read scope",
+      "serialize overlapping target edits under family coordination"
+    ],
+    "resource_scope": [
+      "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md"
+    ],
+    "owner": "agent-stack",
+    "target_files": [
+      {
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md",
+        "mode": "Edit"
+      }
+    ],
+    "steps": [
+      "Проверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.",
+      "Реализовать ровно этот контракт в указанном target: Case IDs и группировки фиксированы. Validation разрешено использовать для настройки; final holdout не используется для выбора версии. Зависимые повторы не считать iid, малая выборка не даёт мнимой уверенности.",
+      "Проверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов."
+    ],
+    "depends_on": [],
+    "related_existing": [
+      "FIX-AS-08",
+      "FIX-EV-01"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/skill-creator/scripts/run_loop.py",
+        "line": 216,
+        "source_url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/skill-creator/scripts/run_loop.py#L216"
+      }
+    ],
+    "merged_into": "FIX-AS-08",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "ADOPT-M-09",
+    "title": "Добавитьscenarios-first browserwalk checklist",
+    "status": "proposed_not_implemented",
+    "readiness": "planned_requires_dispatch_refresh",
+    "operation": "Create",
+    "target": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/prototype-walkthrough.md",
+    "source_files": [
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/test-scenario/SKILL.md",
+        "line": 9,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/test-scenario/SKILL.md#L9"
+      },
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/interaction-design/skills/state-machine/SKILL.md",
+        "line": 24,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/interaction-design/skills/state-machine/SKILL.md#L24"
+      },
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/prototype-strategy/SKILL.md",
+        "line": 23,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/prototype-strategy/SKILL.md#L23"
+      }
+    ],
+    "decision": "Дополнить существующий interactive-flow contract walkthrough без подсказок UI: цель пользователя, reset/back/error/keyboard/async. Не создавать второй flow store; declared и walked states разделены.",
+    "outputs": [
+      "Walk record template"
+    ],
+    "acceptance": [
+      "Offlineinteractivefixture hasdeclaredvswalkedstates; screenshotonlynotfunctionalPASS; externalpayment mockexplicit."
+    ],
+    "dependencies": [],
+    "related_existing_tasks": [
+      "CTX-03",
+      "FIX-UX-12"
+    ],
+    "runtime_dependencies": [],
+    "api_keys": [],
+    "network_required": false,
+    "host": "Markdown/JSON plus already-available family validator/host capabilities",
+    "not_in_scope": [
+      "foreign plugin installation",
+      "foreign script execution",
+      "new mandatory APIs/SDKs",
+      "Fabric runtime implementation"
+    ],
+    "dispatch_refresh": [
+      "resolve exact target base and current doctrine patches",
+      "record source/target hashes and read scope",
+      "serialize overlapping target edits under family coordination"
+    ],
+    "resource_scope": [
+      "repo://super-ux/plugins/super-ux/skills/ux-flows/references/prototype-walkthrough.md"
+    ],
+    "owner": "super-ux",
+    "target_files": [
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/references/prototype-walkthrough.md",
+        "mode": "Create"
+      }
+    ],
+    "steps": [
+      "Проверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.",
+      "Реализовать ровно этот контракт в указанном target: Дополнить существующий interactive-flow contract walkthrough без подсказок UI: цель пользователя, reset/back/error/keyboard/async. Не создавать второй flow store; declared и walked states разделены.",
+      "Проверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов."
+    ],
+    "depends_on": [],
+    "related_existing": [
+      "CTX-03",
+      "FIX-UX-12"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/test-scenario/SKILL.md",
+        "line": 9,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/test-scenario/SKILL.md#L9"
+      },
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/interaction-design/skills/state-machine/SKILL.md",
+        "line": 24,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/interaction-design/skills/state-machine/SKILL.md#L24"
+      },
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/prototype-strategy/SKILL.md",
+        "line": 23,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/prototyping-testing/skills/prototype-strategy/SKILL.md#L23"
+      }
+    ],
+    "merged_into": "CTX-03",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "ADOPT-M-10",
+    "title": "Уточнитьvisualcritique contract",
+    "status": "proposed_not_implemented",
+    "readiness": "planned_requires_dispatch_refresh",
+    "operation": "Edit",
+    "target": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+    "source_files": [
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/visual-critique/skills/critique-composition/SKILL.md",
+        "line": 35,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/visual-critique/skills/critique-composition/SKILL.md#L35"
+      },
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/visual-critique/skills/critique-brand-consistency/SKILL.md",
+        "line": 14,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/visual-critique/skills/critique-brand-consistency/SKILL.md#L14"
+      },
+      {
+        "path": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/frontend-design/SKILL.md",
+        "line": 45,
+        "source_url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/frontend-design/SKILL.md#L45"
+      }
+    ],
+    "decision": "Линзы visual critique применяются по brief; observed render, субъективное суждение и source CSS — разные evidence. Clean-stop и budget обязательны; нет квоты дефектов, универсального ratio или automatic brand P1.",
+    "outputs": [
+      "Small extension to prepared directorpatch"
+    ],
+    "acceptance": [
+      "Sameflowvisualalternatives remainvalid; missingbrand=NOT_ASSESSED; no fabricateddefectoncleanrender; strictconstraints gatebefore softwinner."
+    ],
+    "dependencies": [],
+    "related_existing_tasks": [
+      "FIX-DS-02",
+      "FIX-DS-06"
+    ],
+    "runtime_dependencies": [],
+    "api_keys": [],
+    "network_required": false,
+    "host": "Markdown/JSON plus already-available family validator/host capabilities",
+    "not_in_scope": [
+      "foreign plugin installation",
+      "foreign script execution",
+      "new mandatory APIs/SDKs",
+      "Fabric runtime implementation"
+    ],
+    "dispatch_refresh": [
+      "resolve exact target base and current doctrine patches",
+      "record source/target hashes and read scope",
+      "serialize overlapping target edits under family coordination"
+    ],
+    "resource_scope": [
+      "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md"
+    ],
+    "owner": "sheleg-design-skill",
+    "target_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "mode": "Edit"
+      }
+    ],
+    "steps": [
+      "Проверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.",
+      "Реализовать ровно этот контракт в указанном target: Линзы visual critique применяются по brief; observed render, субъективное суждение и source CSS — разные evidence. Clean-stop и budget обязательны; нет квоты дефектов, универсального ratio или automatic brand P1.",
+      "Проверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов."
+    ],
+    "depends_on": [],
+    "related_existing": [
+      "FIX-DS-02",
+      "FIX-DS-06"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/visual-critique/skills/critique-composition/SKILL.md",
+        "line": 35,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/visual-critique/skills/critique-composition/SKILL.md#L35"
+      },
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/visual-critique/skills/critique-brand-consistency/SKILL.md",
+        "line": 14,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/visual-critique/skills/critique-brand-consistency/SKILL.md#L14"
+      },
+      {
+        "path": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/frontend-design/SKILL.md",
+        "line": 45,
+        "source_url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/frontend-design/SKILL.md#L45"
+      }
+    ],
+    "merged_into": "FIX-VD-02",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "ADOPT-M-13",
+    "title": "Добавитьcold-reader packetreview",
+    "status": "proposed_not_implemented",
+    "readiness": "planned_requires_dispatch_refresh",
+    "operation": "Edit",
+    "target": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+    "source_files": [
+      {
+        "path": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/doc-coauthoring/SKILL.md",
+        "line": 263,
+        "source_url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/doc-coauthoring/SKILL.md#L263"
+      }
+    ],
+    "decision": "Cold reader получает только разрешённый packet без истории автора. Он должен определить цель, входы, решения, scope, outputs, acceptance, guards и resume. Missing version/output contract блокирует readiness.",
+    "outputs": [
+      "Smallreviewgate complement currentcontext/microtaskpatch"
+    ],
+    "acceptance": [
+      "Coldreader answers8concretepacketquestions; missingversionoroutputcontract failsreadiness; no newservice/APIkey."
+    ],
+    "dependencies": [],
+    "related_existing_tasks": [
+      "CTX-01",
+      "CTX-02",
+      "FIX-PF-05"
+    ],
+    "runtime_dependencies": [],
+    "api_keys": [],
+    "network_required": false,
+    "host": "Markdown/JSON plus already-available family validator/host capabilities",
+    "not_in_scope": [
+      "foreign plugin installation",
+      "foreign script execution",
+      "new mandatory APIs/SDKs",
+      "Fabric runtime implementation"
+    ],
+    "dispatch_refresh": [
+      "resolve exact target base and current doctrine patches",
+      "record source/target hashes and read scope",
+      "serialize overlapping target edits under family coordination"
+    ],
+    "resource_scope": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/planning.md"
+    ],
+    "owner": "task-pipeline",
+    "target_files": [
+      {
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+        "mode": "Edit"
+      }
+    ],
+    "steps": [
+      "Проверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.",
+      "Реализовать ровно этот контракт в указанном target: Cold reader получает только разрешённый packet без истории автора. Он должен определить цель, входы, решения, scope, outputs, acceptance, guards и resume. Missing version/output contract блокирует readiness.",
+      "Проверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов."
+    ],
+    "depends_on": [],
+    "related_existing": [
+      "CTX-01",
+      "CTX-02",
+      "FIX-PF-05"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/doc-coauthoring/SKILL.md",
+        "line": 263,
+        "source_url": "https://github.com/anthropics/skills/blob/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/doc-coauthoring/SKILL.md#L263"
+      }
+    ],
+    "merged_into": "CTX-02",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "XD-02",
+    "title": "Описать исследование композиции внутри известных инвариантов",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Create",
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_EXPLORATION.md",
+        "exists_at_audit": false
+      }
+    ],
+    "inputs": [
+      "scenarios, реальный content, существующая identity, target surface, ограничения пользователя"
+    ],
+    "implementation_steps": [
+      "Разделить invariants / open axes / hypothesis и назвать два направления с разной композицией.",
+      "Определить одинаковую scenario/state/viewport матрицу сравнения; разрешить один cast без нового skill.",
+      "Выбрать направление по аргументам и сохранению задачи; затем формализовать semantic tokens, записать отложенные решения."
+    ],
+    "outputs": [
+      "Reference: direction contract, comparison matrix, locked/open axes."
+    ],
+    "acceptance": [
+      "Refinement сохраняет identity, но допускает другой rhythm/composition в пределах scope.",
+      "Ни style pack, ни dials, ни число шрифтов не объявлены доказательством craft.",
+      "Выполнение возможно offline без concept roll/imagegen."
+    ],
+    "depends_on": [
+      {
+        "task_id": "XD-01",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      }
+    ],
+    "decisions": [
+      "Число направлений пропорционально задаче: две для исследования, одна для уже явного решения."
+    ],
+    "source_candidates": [
+      "K-DIR",
+      "I-09",
+      "I-10",
+      "J-02"
+    ],
+    "addresses_findings": [
+      "VD-01",
+      "VD-06"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "sheleg-design",
+    "target_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_EXPLORATION.md",
+        "mode": "Create"
+      }
+    ],
+    "decision": "Число направлений пропорционально задаче: две для исследования, одна для уже явного решения.",
+    "steps": [
+      "Разделить invariants / open axes / hypothesis и назвать два направления с разной композицией.",
+      "Определить одинаковую scenario/state/viewport матрицу сравнения; разрешить один cast без нового skill.",
+      "Выбрать направление по аргументам и сохранению задачи; затем формализовать semantic tokens, записать отложенные решения."
+    ],
+    "related_existing": [
+      "FIX-VD-01",
+      "FIX-VD-06"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/new-work.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/new-work.md:1",
+        "sha256": "03caa6d583ed2c1b0c923f9aec0932ce429ebdce141d6bdae1a834610b2042f9",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/new-work.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/operate.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/operate.md:1",
+        "sha256": "a9d2203acd45ca33a13d5c68b02b23ed512425ac15f0e8438318ed124b43729d",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/operate.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/bolder.md",
+        "line": 1,
+        "end_line": 33,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/bolder.md:1",
+        "sha256": "4879f38b23d0a251a63cbb0327e660296194cd2e71eb4da3236c6ebfe5807746",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/bolder.md#L1-L33"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md",
+        "line": 1,
+        "end_line": 99,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md:1",
+        "sha256": "ee6d6d127c1c2ab3526d529a8e3698be2185b5e346ac617f37501de2c0698b97",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md#L1-L99"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md",
+        "line": 1,
+        "end_line": 120,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md:1",
+        "sha256": "e5b49117e5df4ba48dc95e60a662ab1a15685d04ae9b06cb0598a7314436a7c9",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md#L1-L120"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md",
+        "line": 31,
+        "end_line": 31,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md:31",
+        "sha256": "e5b49117e5df4ba48dc95e60a662ab1a15685d04ae9b06cb0598a7314436a7c9",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md#L31"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md",
+        "line": 19,
+        "end_line": 19,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md:19",
+        "sha256": "e5b49117e5df4ba48dc95e60a662ab1a15685d04ae9b06cb0598a7314436a7c9",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md#L19"
+      }
+    ],
+    "merged_into": "FIX-VD-01",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "XD-04",
+    "title": "Добавить независимую художественную критику и проверку исправлений",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Edit",
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "exists_at_audit": true
+      }
+    ],
+    "inputs": [
+      "VISUAL_EXPLORATION.md, VISUAL_REVIEW.md; уже предложенные root Act3/5 edits; актуальные renders"
+    ],
+    "implementation_steps": [
+      "Встроить ссылки в Act3/5, не дублируя основной pipeline и не перезаписывая принятую узкую рекомендацию.",
+      "До mechanical results сделать visual read: focal order, hierarchy, density, typography, intentional detail; дать keep/change с evidence.",
+      "После fix проверить ту же матрицу: resolved/partial/unresolved и регрессии; quality judgment отделить от compliance/functional result."
+    ],
+    "outputs": [
+      "Узкое дополнение director с достижимым finish condition."
+    ],
+    "acceptance": [
+      "Токены PASS + одинаковая скучная композиция не дают автоматически craft PASS.",
+      "Для already-chosen direction доступен один critique pass без обязательного fork.",
+      "Budget exhaustion оставляет unresolved, не переименовывает его в ship."
+    ],
+    "depends_on": [
+      {
+        "task_id": "FIX-VD-01",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      },
+      {
+        "task_id": "XD-03",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      }
+    ],
+    "decisions": [
+      "Fresh subagent optional; последовательный независимый pass разрешён имеющимися средствами."
+    ],
+    "source_candidates": [
+      "I-06",
+      "I-08",
+      "K-EVID"
+    ],
+    "addresses_findings": [
+      "VD-02",
+      "DS-02"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "sheleg-design",
+    "target_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "mode": "Edit"
+      }
+    ],
+    "decision": "Fresh subagent optional; последовательный независимый pass разрешён имеющимися средствами.",
+    "steps": [
+      "Встроить ссылки в Act3/5, не дублируя основной pipeline и не перезаписывая принятую узкую рекомендацию.",
+      "До mechanical results сделать visual read: focal order, hierarchy, density, typography, intentional detail; дать keep/change с evidence.",
+      "После fix проверить ту же матрицу: resolved/partial/unresolved и регрессии; quality judgment отделить от compliance/functional result."
+    ],
+    "related_existing": [
+      "FIX-VD-02",
+      "FIX-DS-02"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md",
+        "line": 1,
+        "end_line": 806,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md:1",
+        "sha256": "8bf1b06547f571d9b8d3875426fff6621fadd3bc08ae9ebb16d749f5c5f44b01",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md#L1-L806"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+        "line": 1,
+        "end_line": 105,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md:1",
+        "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md#L1-L105"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md:1",
+        "sha256": "5f24c5a97b4ffcabc7c432b064cfdd04c7a2ad52f52e765be648dc0aadab8f38",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md:1",
+        "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md#L1"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1"
+      }
+    ],
+    "merged_into": "FIX-VD-02",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "XD-07",
+    "title": "Связать craft references с текущим owner",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Edit",
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SHELEG_DESIGN.md",
+        "exists_at_audit": true
+      }
+    ],
+    "inputs": [
+      "TYPE_CRAFT.md, LAYOUT_CRAFT.md, текущие dials и design doctrine"
+    ],
+    "implementation_steps": [
+      "Сослаться на focused references только для нужной задачи.",
+      "Назвать dials preference hints, добавить observed anchors вместо claims об измерении качества.",
+      "Развести invariant token contract и открытый composition choice, не запрещая существующую систему."
+    ],
+    "outputs": [
+      "Изменённые только относящиеся к craft разделы doctrine."
+    ],
+    "acceptance": [
+      "Вход не заставляет загрузить все новые refs.",
+      "В конкуренции с brief побеждает явное требование пользователя, а не dogmatic style floor."
+    ],
+    "depends_on": [
+      {
+        "task_id": "XD-05",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      },
+      {
+        "task_id": "XD-06",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      }
+    ],
+    "decisions": [
+      "Согласовать с отдельным VD-06 redesign dials; не создавать второй owner той же задачи."
+    ],
+    "source_candidates": [
+      "I-16",
+      "I-17",
+      "K-FLOOR"
+    ],
+    "addresses_findings": [
+      "VD-06",
+      "VD-07"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "sheleg-design",
+    "target_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SHELEG_DESIGN.md",
+        "mode": "Edit"
+      }
+    ],
+    "decision": "Согласовать с отдельным VD-06 redesign dials; не создавать второй owner той же задачи.",
+    "steps": [
+      "Сослаться на focused references только для нужной задачи.",
+      "Назвать dials preference hints, добавить observed anchors вместо claims об измерении качества.",
+      "Развести invariant token contract и открытый composition choice, не запрещая существующую систему."
+    ],
+    "related_existing": [
+      "FIX-VD-06",
+      "FIX-VD-07"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md",
+        "line": 1,
+        "end_line": 80,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md:1",
+        "sha256": "da98692848aa2e9ea22c681522a082f2226cb5dbfdb704ac38903be1b4cffafd",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/typeset.md#L1-L80"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md",
+        "line": 1,
+        "end_line": 84,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md:1",
+        "sha256": "1d6d2658482b7e2df0c4d27b1b29c5195f0803b402278b96590598f4d3e57aa7",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/layout.md#L1-L84"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/craft-floor.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/craft-floor.md:1",
+        "sha256": "96e2e6bd4fcf9a2c6da65fb029f96d9176308fae2efd9d8653d3b8d838960e07",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/craft-floor.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md",
+        "line": 27,
+        "end_line": 27,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md:27",
+        "sha256": "53cd1dec43ab49a9bfb31a1f47c1b231dbe1d3ed04e5fcfa3569be2579040291",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/SKILL.md#L27"
+      }
+    ],
+    "merged_into": "FIX-VD-06",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "XD-08",
+    "title": "Расширить native contract доказательством платформы",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Edit",
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+        "exists_at_audit": true
+      }
+    ],
+    "inputs": [
+      "platform target и shipped device classes, текущая mobile doctrine; primary Apple/Android docs для feature"
+    ],
+    "implementation_steps": [
+      "Разделить web mobile, browser native-like prototype, native implementation.",
+      "Добавить target-specific nav/keyboard/insets/text-scale state matrix; числовые нормы проверить по текущим официальным источникам перед нормативной записью.",
+      "Фиксировать simulator/device type и prior settings; возвращать изменённые настройки к сохранённым значениям."
+    ],
+    "outputs": [
+      "Платформенная проверка и адаптер surface→evidence."
+    ],
+    "acceptance": [
+      "iOS shell не получает автоматически web Workbench и SF/Roboto dogma.",
+      "Browser prototype review заканчивается корректным scope, не native verified.",
+      "Настройки устройства не сбрасываются безусловно к 1.0."
+    ],
+    "depends_on": [
+      {
+        "task_id": "XD-01",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      },
+      {
+        "task_id": "XD-03",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      }
+    ],
+    "decisions": [
+      "Шаг primary verification обязателен только перед импортом конкретного нормативного числа."
+    ],
+    "source_candidates": [
+      "K-NATIVE",
+      "I-21"
+    ],
+    "addresses_findings": [
+      "VD-03"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "sheleg-design",
+    "target_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+        "mode": "Edit"
+      }
+    ],
+    "decision": "Шаг primary verification обязателен только перед импортом конкретного нормативного числа.",
+    "steps": [
+      "Разделить web mobile, browser native-like prototype, native implementation.",
+      "Добавить target-specific nav/keyboard/insets/text-scale state matrix; числовые нормы проверить по текущим официальным источникам перед нормативной записью.",
+      "Фиксировать simulator/device type и prior settings; возвращать изменённые настройки к сохранённым значениям."
+    ],
+    "related_existing": [
+      "FIX-VD-03"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md:1",
+        "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md:1",
+        "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md:1",
+        "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md:1",
+        "sha256": "fe91fcf28638f95577af481a50edaf339d6c9a3ad3b9fa477bc81c116b8bc392",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/audit.native.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md",
+        "line": 1,
+        "end_line": 312,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md:1",
+        "sha256": "ec58806f16fc7ba29bccef08f2e158cd00be077ce05d45e943a59bd26dc6dc55",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.md#L1-L312"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md:1",
+        "sha256": "17c583cf8ad41266ea1e787b666b9d91fe13469d3d0f6af57c08e0146f9b17ac",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/adapt.native.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md:1",
+        "sha256": "40c87038b5f75147a5952a96237acf312a327bf70c1bcd8e0a5f064625ae9668",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/ios.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md:1",
+        "sha256": "058f81f256134841875fd3183e06b37a023de0c877fd2b9eecd97011640791fe",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/android.md#L1"
+      }
+    ],
+    "merged_into": "FIX-VD-03",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "XD-13",
+    "title": "Добавить контрпримеры и честный quality eval",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Create",
+        "path": "repo://sheleg-design/evals/knowledge-transfer-cases.json",
+        "exists_at_audit": false
+      }
+    ],
+    "inputs": [
+      "XD-02..XD-08 specs, existing eval format, baseline and candidate references, authorized local runtime"
+    ],
+    "implementation_steps": [
+      "Описать cases: identity-preserving exploration, system font, one family, dense table, no screenshot, native mockup, unavailable external tools.",
+      "Отдельно оценить routing/constraint/provenance correctness детерминированно и visual outcome по render rubric.",
+      "Для quality comparison запланировать одинаковые inputs/model budget/viewports, слепой порядок variants, repeated samples; сохранять failures/cost/time и unmeasured status до фактического запуска."
+    ],
+    "outputs": [
+      "Fixture manifest и протокол evaluation; не фиктивный улучшенный score."
+    ],
+    "acceptance": [
+      "Tests не принимают упоминание screenshot за существующий валидный файл.",
+      "Offline/no-keys route не предлагает install.",
+      "100% structural PASS не формулируется как доказанное улучшение дизайна."
+    ],
+    "depends_on": [
+      {
+        "task_id": "FIX-VD-02",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      },
+      {
+        "task_id": "FIX-VD-06",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      },
+      {
+        "task_id": "FIX-VD-03",
+        "kind": "data",
+        "reason": "Consumes accepted method/artifact from prerequisite."
+      }
+    ],
+    "decisions": [
+      "Живой model/render eval — отдельный authorized execution batch после реализации; fixture task его не имитирует."
+    ],
+    "source_candidates": [
+      "I-06",
+      "J-07",
+      "K-EVID"
+    ],
+    "addresses_findings": [
+      "DS-06",
+      "VD-02",
+      "VD-06"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "sheleg-design",
+    "target_files": [
+      {
+        "path": "repo://sheleg-design/evals/knowledge-transfer-cases.json",
+        "mode": "Create"
+      }
+    ],
+    "decision": "Живой model/render eval — отдельный authorized execution batch после реализации; fixture task его не имитирует.",
+    "steps": [
+      "Описать cases: identity-preserving exploration, system font, one family, dense table, no screenshot, native mockup, unavailable external tools.",
+      "Отдельно оценить routing/constraint/provenance correctness детерминированно и visual outcome по render rubric.",
+      "Для quality comparison запланировать одинаковые inputs/model budget/viewports, слепой порядок variants, repeated samples; сохранять failures/cost/time и unmeasured status до фактического запуска."
+    ],
+    "related_existing": [
+      "FIX-DS-06",
+      "FIX-VD-02",
+      "FIX-VD-06"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md",
+        "line": 1,
+        "end_line": 806,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md:1",
+        "sha256": "8bf1b06547f571d9b8d3875426fff6621fadd3bc08ae9ebb16d749f5c5f44b01",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md#L1-L806"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 1,
+        "end_line": 249,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1-L249"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 35,
+        "end_line": 35,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:35",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L35"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 48,
+        "end_line": 48,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:48",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L48"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 112,
+        "end_line": 112,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:112",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L112"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md:1",
+        "sha256": "5f24c5a97b4ffcabc7c432b064cfdd04c7a2ad52f52e765be648dc0aadab8f38",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md:1",
+        "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md#L1"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1"
+      }
+    ],
+    "merged_into": "FIX-DS-06",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  },
+  {
+    "id": "XD-14",
+    "title": "Передать vertical slice правила в единственный pipeline compiler",
+    "status": "proposed-not-implemented",
+    "targets": [
+      {
+        "action": "Create",
+        "path": "repo://task-pipeline/knowledge-design-slice-handoff.md",
+        "exists_at_audit": false
+      }
+    ],
+    "inputs": [
+      "parent microtask compiler schema; existing pipeline stages; J-05 evidence"
+    ],
+    "implementation_steps": [
+      "Подготовить короткий integration note: task input/output, reuse/modify/create, independent verifiable result, risk/visual priority.",
+      "Показать почему shared prerequisites допустимы отдельными задачами, а feature interaction/style не откладываются общим финальным слоем.",
+      "Передать note в compiler task; после принятия содержимое переносится в его canonical reference и временный note удаляется той же задачей."
+    ],
+    "outputs": [
+      "Reviewable transfer note для root compiler owner."
+    ],
+    "acceptance": [
+      "Ни design-flow, ни .design/TASKS.md не становятся параллельным plan authority.",
+      "Feature выбирается активным ID/explicit path, не mtime.",
+      "Каждый slice имеет конкретный expected result и testable acceptance."
+    ],
+    "depends_on": [],
+    "decisions": [
+      "Предпочтительно интегрировать напрямую в уже выделенную parent compiler microtask; не создавать дублирующий постоянный файл."
+    ],
+    "source_candidates": [
+      "J-05"
+    ],
+    "addresses_findings": [
+      "UX-12",
+      "VD-02"
+    ],
+    "runtime_dependencies_added": [],
+    "api_keys_added": [],
+    "owner": "task-pipeline",
+    "target_files": [
+      {
+        "path": "repo://task-pipeline/knowledge-design-slice-handoff.md",
+        "mode": "Create"
+      }
+    ],
+    "decision": "Правило встраивается напрямую в canonical compiler/decomposition; temporary handoff note и второй task-list формат не создаются.",
+    "steps": [
+      "Встроить reuse/modify/create classification в leaf packet.",
+      "Сохранять behavior+styling+states одного outcome вместе; не переносить шаблон Foundation/Core/Interactions/Responsive как независимые обязательные phases.",
+      "Visual uncertainty проверять ранним ограниченным render slice, с тем же scenario contract."
+    ],
+    "related_existing": [
+      "FIX-UX-12",
+      "FIX-VD-02"
+    ],
+    "source_evidence": [
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+        "line": 1,
+        "end_line": 74,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:1",
+        "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L1-L74"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+        "line": 6,
+        "end_line": 6,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:6",
+        "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L6"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+        "line": 49,
+        "end_line": 49,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:49",
+        "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L49"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md",
+        "line": 17,
+        "end_line": 17,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md:17",
+        "sha256": "9b22fbd915c031a4de4f209f549c6224dab8534b7a3357b1b0086d472858d585",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/brief-to-tasks/SKILL.md#L17"
+      }
+    ],
+    "merged_into": "CTX-02",
+    "resolution": "enrich existing parent; no duplicate independent implementation"
+  }
+]

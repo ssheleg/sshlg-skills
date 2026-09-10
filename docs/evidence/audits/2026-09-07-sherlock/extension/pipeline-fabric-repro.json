@@ -1,0 +1,72 @@
+{
+  "planner_add": {
+    "code": 0,
+    "stdout": "N-001 added: Produce artifact",
+    "stderr": ""
+  },
+  "independent_executors": [
+    {
+      "code": 0,
+      "stdout": "N-001  implementer  Produce artifact",
+      "stderr": ""
+    },
+    {
+      "code": 0,
+      "stdout": "N-001  implementer  Produce artifact",
+      "stderr": ""
+    }
+  ],
+  "status_after_two_reads": "pending",
+  "concurrent_add": {
+    "all_exit_0": true,
+    "count": 8,
+    "unique": 8
+  },
+  "park_required_producer": {
+    "code": 0,
+    "stdout": "N-001 parked: producer unavailable",
+    "stderr": ""
+  },
+  "next_after_park": {
+    "code": 0,
+    "stdout": "N-002  implementer  Produce artifact",
+    "stderr": ""
+  },
+  "orphan_running": {
+    "code": 4,
+    "stdout": "",
+    "stderr": ""
+  },
+  "stale_close": {
+    "code": 0,
+    "stdout": "goal: Scratch handoff\nN-001 closed \u00b7 added 0 \u00b7 parked 0 \u00b7 frontier 0\nnot verified: none within the scope this verdict names",
+    "stderr": "",
+    "old_head": "5a0c6019784651abb8151e3102523b92af7b1ee1",
+    "new_head": "605a39a034614591208a32413b3799b23d3fca88",
+    "closed_node": {
+      "id": "N-001",
+      "title": "Produce artifact",
+      "owner": "implementer",
+      "status": "done",
+      "serves": "REQ-001",
+      "check": "test output is v2",
+      "touches": [
+        "src/shared.txt"
+      ],
+      "evidence": [
+        "test on 5a0c6019784651abb8151e3102523b92af7b1ee1: v1 PASS",
+        "observed at 605a39a034614591208a32413b3799b23d3fca88"
+      ]
+    }
+  },
+  "failed_certification": {
+    "code": 1,
+    "stdout": "",
+    "stderr": "N-001: certification round 1 FAILED at `unit`\n  [unit] code.txt \u2014 wrong output\n      fix:   (not stated)\n      check: test v2\n\nThe node stays open. Round 1 is recorded on it."
+  },
+  "direct_close_after_fail": {
+    "code": 0,
+    "stdout": "goal: Scratch handoff\nN-001 closed \u00b7 added 0 \u00b7 parked 0 \u00b7 frontier 0\nnot verified: none within the scope this verdict names",
+    "stderr": ""
+  }
+}

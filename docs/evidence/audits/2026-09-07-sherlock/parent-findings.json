@@ -1,0 +1,374 @@
+[
+  {
+    "id": "RT-01",
+    "skills": [
+      "sshlg-skills"
+    ],
+    "title": "Лексический роутер теряет намерение и смешивает аудит с изменением",
+    "priority": "P1",
+    "kind": "reproduced",
+    "evidence": [
+      "repo://sshlg-skills/lib/triggers.js:40",
+      "repo://sshlg-skills/lib/triggers.js:740",
+      "audit://routing-reproductions.json"
+    ],
+    "impact": "Ваш запрос выбрал только task-pipeline. «Объясни причину и почини…» возвращает пустой маршрут. Read-only аудит получает одновременно diagnosis и delivery; использование sub-agent ошибочно считается созданием агентной системы. Это доказано для классификатора; фактическое поведение LLM может исправить или усугубить ошибку.",
+    "fix": "Классифицировать по отдельным полям intent, subject, effects и facets; regex оставить источником кандидатов. Audit → make-skill/project-audit без исполнения delivery. Отрицания и поясняющая часть не должны выключать самостоятельную часть запроса на действие.",
+    "acceptance": "Набор RU/EN: audit-only, объясни+исправь, обычная работа subagent, опечатки и склонения; проверки ожидаемого набора маршрутов и запрещённых побочных действий."
+  },
+  {
+    "id": "RT-02",
+    "skills": [
+      "sshlg-skills"
+    ],
+    "title": "Отказ от одного маршрута выключает всю эскалацию; цитата тоже считается отказом",
+    "priority": "P1",
+    "kind": "reproduced",
+    "evidence": [
+      "repo://sshlg-skills/lib/triggers.js:726",
+      "repo://sshlg-skills/lib/turnstate.js:56",
+      "audit://routing-reproductions.json"
+    ],
+    "impact": "«…без дизайна» обнуляет все маршруты в данном ходе; optedOut сохраняется на сессию. Цитируемое «no pipeline.» тоже даёт true. Общая эскалация выключается намеренно по текущей доктрине, но цитата — не выбор пользователя. Это не выключает гарантированно сами LLM-инструкции.",
+    "fix": "Хранить waivers по route_id, scope и источнику: явный акт пользователя, не цитата/пример/ответ инструмента. Общесессионный отказ от всех подсказок оставить отдельным осознанным флагом. Изменение нынешней общей политики записать как решение, а не скрытую починку.",
+    "acceptance": "Отказ от design сохраняет billing и UX; обсуждение фразы отказа не меняет state; явно выбранный session waiver переживает следующий ход и может быть отозван."
+  },
+  {
+    "id": "RT-03",
+    "skills": [
+      "sshlg-skills"
+    ],
+    "title": "Toolkit объявляет доступность машины по инвентарю только Claude Code",
+    "priority": "P2",
+    "kind": "observed",
+    "evidence": [
+      "repo://sshlg-skills/lib/conflicts.js:157",
+      "repo://sshlg-skills/lib/conflicts.js:182",
+      "repo://sshlg-skills/lib/toolkit.js:200"
+    ],
+    "impact": "527 — число строк Claude inventory, а не измерение доступных именно этому Codex инструментов/скиллов. Plain-ветка включает каталоги и symlink без требования живого SKILL.md; объявление family зависит от id, а не происхождения. Возможны ложная доступность и ошибочный выбор версии.",
+    "fix": "Host adapters: discovered / enabled / exposed / callable отдельно, namespace+provenance+content digest вместо голого id. В отчёте показывать host и недоступные capability; сохранить просмотр других хостов как inventory.",
+    "acceptance": "Синтетические host homes: broken symlink, одноимённый чужой скилл, plugin только в Claude и skill только в Codex; roster active host содержит только реально разрешимые записи."
+  },
+  {
+    "id": "RT-04",
+    "skills": [
+      "sshlg-skills"
+    ],
+    "title": "Route gate принимает наличие pipeline run за доказательство любого пройденного маршрута",
+    "priority": "P2",
+    "kind": "observed",
+    "evidence": [
+      "repo://sshlg-skills/lib/routegate.js:53",
+      "repo://sshlg-skills/lib/routegate.js:75"
+    ],
+    "impact": "Открытый run снимает вопрос сразу для всех маршрутов, а законный отдельный make-skill/UX-аудит без pipeline run может получить «nothing has taken that route yet». Факт работы с предметным скиллом и факт pipeline run — разные события. Bash по договору вообще вне gate; это advisory enforcement, не security boundary.",
+    "fix": "Использовать receipt выбранного маршрута с task_id, skill_digest и допустимыми эффектами. Проверять нужный маршрут, а не существование чужого run.md. Не превращать это в новое подтверждение каждого обратимого действия.",
+    "acceptance": "Read-only audit с receipt не запрашивает pipeline; старый run не разрешает новую несвязанную публикацию; все bypass/degraded поверхности явно перечислены."
+  },
+  {
+    "id": "MS-01",
+    "skills": [
+      "make-skill"
+    ],
+    "title": "Приближение chars/3.9 выдаёт PASS токенового лимита",
+    "priority": "P1",
+    "kind": "reproduced",
+    "evidence": [
+      "repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py:95",
+      "repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py:371",
+      "audit://auditor-reproductions.json"
+    ],
+    "impact": "Синтетический body из 16 000 иероглифов = 16 000 cl100k tokens, но аудитор сообщает ~4102 и PASS. На текущих 28 телах реальный токенизатор переполнения не нашёл; дефект в гарантии валидатора, а не в доказанном переполнении семейства.",
+    "fix": "Подключить реальный именованный tokenizer; без него budget status=UNMEASURED, estimate отдельным полем. House thresholds отделить от требований формата и host policy.",
+    "acceptance": "Unicode, английский, код, смешанный RU/EN; сравнение с независимым tokenizer; отсутствие библиотеки не возвращает PASS измерения."
+  },
+  {
+    "id": "MS-02",
+    "skills": [
+      "make-skill"
+    ],
+    "title": "Самодельный YAML parser теряет типы metadata",
+    "priority": "P1",
+    "kind": "reproduced",
+    "evidence": [
+      "repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py:144",
+      "repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py:187",
+      "audit://auditor-reproductions.json",
+      "https://agentskills.io/specification"
+    ],
+    "impact": "metadata.version: 1.0 парсится настоящим YAML как float, но bundled audit возвращает ноль GAP. Контракт требует string→string. В текущих скиллах эта planted ошибка не заявляется найденной: проверяется способность аудитора обнаружить будущий дефект.",
+    "fix": "Разделить полноценный YAML validation и быстрый stdlib precheck. Либо bundle безопасный parser, либо явно ограничить supported subset и не пропускать неподдержанные формы как корректные.",
+    "acceptance": "Двусторонние fixtures: quoted/unquoted numeric, boolean, null, YAML escapes, multiline scalars, duplicate keys; одинаковые вердикты с upstream validator."
+  },
+  {
+    "id": "MS-03",
+    "skills": [
+      "make-skill"
+    ],
+    "title": "Аудит по описанию автоматически превращается в исправление и release",
+    "priority": "P1",
+    "kind": "instruction_conflict",
+    "evidence": [
+      "repo://make-skill/plugins/make-skill/skills/make-skill/SKILL.md:201",
+      "repo://make-skill/plugins/make-skill/skills/make-skill/SKILL.md:221"
+    ],
+    "impact": "Workflow Retrofit предписывает исправить всё, bump и release даже когда вход — вопрос о соответствии. Команда skill-audit ограничивает исправления до отчёта, а agent-аудитор вообще только читает. Три входа имеют разные effect contracts. В текущем аудите исходники не менялись благодаря явному пользовательскому scope.",
+    "fix": "Явные режимы audit / retrofit / release. По «audit» только доказательства и план. Переход к записи/публикации определяется намерением и ранее данной авторизацией, а не выбранным скиллом.",
+    "acceptance": "Один fixture и три входа: audit оставляет исходные hashes, retrofit меняет только scratch, release не запускается без scope release; одинаковые findings во всех режимах."
+  },
+  {
+    "id": "MS-04",
+    "skills": [
+      "make-skill"
+    ],
+    "title": "Платформенные ограничения описаны как универсальные и частично устарели",
+    "priority": "P2",
+    "kind": "observed",
+    "evidence": [
+      "repo://make-skill/plugins/make-skill/skills/make-skill/SKILL.md:132",
+      "repo://make-skill/plugins/make-skill/skills/make-skill/references/agent-skills-spec.md:137",
+      "https://code.claude.com/docs/en/skills"
+    ],
+    "impact": "Фраза «MCP/subagents существуют только внутри Claude Code» неверно описывает этот Codex runtime. Документ о manifests-only тоже устарел: Claude Code с v2.1.233 умеет валидировать frontmatter skill directories. Рекомендации 500/5000 и house правила не равны универсальной причине отказа загрузки.",
+    "fix": "Матрица adapter capabilities по версии хоста; native fallback по обнаруженным инструментам. В таблице каждой нормы owner=spec/host/house, required vs recommended и дата последней проверки.",
+    "acceptance": "Codex с native subagents/MCP не считается лишённым этих возможностей; Claude version-gated validation; portable body не требует конкретного tool spelling."
+  },
+  {
+    "id": "TP-01",
+    "skills": [
+      "task-pipeline"
+    ],
+    "title": "Обязательное интервью и подтверждение модели предшествуют даже полностью определённой работе",
+    "priority": "P1",
+    "kind": "instruction_conflict",
+    "evidence": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md:99",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/grill.md:51",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/model-tiering.md:16"
+    ],
+    "impact": "Доктрина гарантированно требует дополнительный human round вместо проверки, есть ли реальный пробел. Утверждение, что меньшая модель всегда дороже из-за переделок, не подкреплено сравнительным измерением. Это увеличивает остановки и стоимость по инструкции; величина реальной потери не измерена.",
+    "fix": "Intake должен строить brief из запроса и источников, спрашивать только недостающие необратимые/продуктовые решения. Сохранять выбранную пользователем модель; менять уровень по измерению задач, а не универсальному постулату.",
+    "acceptance": "Полный brief → 0 лишних вопросов, задача с реальным неоднозначным контрактом → один содержательный вопрос; отдельно измерить quality/time/tokens с baseline."
+  },
+  {
+    "id": "TP-02",
+    "skills": [
+      "task-pipeline"
+    ],
+    "title": "Заявленная независимость от companions противоречит обязательному super-ux и оценке «undesigned»",
+    "priority": "P1",
+    "kind": "instruction_conflict",
+    "evidence": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md:96",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/companion-skills.md:53",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/companion-skills.md:175"
+    ],
+    "impact": "Отсутствие бренда семейства превращается в невозможность пройти UI gate, даже если сценарии уже эквивалентно описаны. Чужой полноценный design workflow объявляется undesigned при отсутствии sheleg-design. Это подмена качества наличием конкретного пакета.",
+    "fix": "Гейт проверяет обязательные артефакты/поведение и их качество. Preferred provider из семейства, альтернативный provider с тем же контрактом или inline fallback допустимы. При отсутствии инструмента писать, какая именно проверка не сделана.",
+    "acceptance": "Без super-ux, но с валидными scenarios проходит контракт; без любого сценарного артефакта требует его создать; чужой дизайн оценивается по результату."
+  },
+  {
+    "id": "TP-03",
+    "skills": [
+      "task-pipeline"
+    ],
+    "title": "Расширяемая schema спорит с обязательными стандартными стадиями и глобальными правилами",
+    "priority": "P2",
+    "kind": "instruction_conflict",
+    "evidence": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md:253",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md:165",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md:90"
+    ],
+    "impact": "Один текст разрешает wholesale replacement stages, другой запрещает идти дальше без конкретного stage0 и сохраняет references/stages как нормативные. Не определено, какой документ побеждает на custom pipeline; растёт риск ложного gate либо скрытого пропуска контракта.",
+    "fix": "Разделить kernel (effect scope, evidence, dependencies, resume) и default profile (0–10). Сначала компилировать выбранный profile, затем исполнять только его gates. Доктрины называются capability, а не фиксированным номером стадии.",
+    "acceptance": "Трёхстадийный custom profile валиден и не получает дополнительные stage0/7/10; обязательные kernel invariants всё равно проверяются."
+  },
+  {
+    "id": "TP-04",
+    "skills": [
+      "task-pipeline"
+    ],
+    "title": "Неиспользованное правило автоматически считается ненужным",
+    "priority": "P1",
+    "kind": "observed",
+    "evidence": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/retrospective.md:280"
+    ],
+    "impact": "Пять run stamps или 60 дней без срабатывания объявляются доказательством situational rule и поводом удалить standing instruction. Для редкой аварии, security-инварианта и recovery-процедуры отсутствие события не означает отсутствие ценности. Архив сохраняет текст, но убирает активную защиту.",
+    "fix": "Классы rules: permanent safety/contract, situational, temporary. TTL только временным; cold означает review-needed, не автоматическое отключение. У situational хранить exposure opportunities, не только число запусков.",
+    "acceptance": "Пять запусков без платежей не удаляют payment safety; истёкший временный workaround с проверенным заменяющим механизмом уходит в архив; все удаления объяснимы."
+  },
+  {
+    "id": "PA-01",
+    "skills": [
+      "project-audit"
+    ],
+    "title": "Документированное решение автоматически оправдывает дефект",
+    "priority": "P1",
+    "kind": "observed",
+    "evidence": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/SKILL.md:162",
+      "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/SKILL.md:163"
+    ],
+    "impact": "Решение «так задумано» может быть ошибочным, устаревшим или нарушать внешний контракт. Правило разрешает findings только undecided и unpropagated; documented по определению исключается. Это системный источник false negatives в аудите.",
+    "fix": "Decision status и technical validity — разные оси. Accepted trade-off может быть отмечен принятой ценой; документированное нарушение остаётся finding с decision_id, причиной пересмотра и контрдоказательством.",
+    "acceptance": "Фикстура ADR разрешает логирование refresh token: аудитор всё равно обнаруживает раскрытие, связывает с ADR; сознательная поддержка только одного браузера при подходящем контракте — accepted limitation."
+  },
+  {
+    "id": "PA-02",
+    "skills": [
+      "project-audit"
+    ],
+    "title": "Отсутствие production измерения запрещает считать доказанный механизм дефектом",
+    "priority": "P1",
+    "kind": "observed",
+    "evidence": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/SKILL.md:141",
+      "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/scripts/audit.py:898"
+    ],
+    "impact": "Ошибку auth/гонку можно доказать воспроизведением до реального инцидента. Текст требует production incidence для finding, а collector _finding не имеет полей frequency/consequence status, поэтому поведение prose и данных расходится. Может недооценить редкую катастрофическую ошибку.",
+    "fix": "Отдельно mechanism status, exploit/reproduction, exposure, observed incidence и impact uncertainty. Доказанный defect может иметь incidence unknown. UNKNOWN не равно 0; отсутствие телеметрии не понижает техническую истинность.",
+    "acceptance": "Race reproduced/production unknown остаётся finding; нулевая выборка не превращается в нулевой риск; JSON хранит scope и время наблюдения."
+  },
+  {
+    "id": "PA-03",
+    "skills": [
+      "project-audit"
+    ],
+    "title": "Опциональная HTML-страница обязательна в критерии выхода",
+    "priority": "P2",
+    "kind": "instruction_conflict",
+    "evidence": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/SKILL.md:212",
+      "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/SKILL.md:258"
+    ],
+    "impact": "Основная часть пишет HTML только при --report, exit criterion требует страницу и её открытие всегда. Read-only также используется как «ничего не записано», хотя sidecar создаётся в docs/audit. Это провоцирует лишние артефакты или ложный done.",
+    "fix": "Указать read-only относительно target source/data, разрешённый output dir; условный DoD по requested deliverables. Добавить mode stdout/json/html и не требовать браузер для json-only.",
+    "acceptance": "Без --report HTML не создаётся и run complete допустим; --report требует существующий HTML, безопасные ссылки и inspect/render status."
+  },
+  {
+    "id": "ED-01",
+    "skills": [
+      "evidence-docs",
+      "project-audit",
+      "make-skill"
+    ],
+    "title": "Переносимость зависит от совместной упаковки соседнего task-pipeline",
+    "priority": "P2",
+    "kind": "reproduced",
+    "evidence": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/evidence-docs/SKILL.md:16",
+      "repo://make-skill/plugins/make-skill/skills/make-skill/scripts/audit_skill.py:501",
+      "audit://auditor-reproductions.json"
+    ],
+    "impact": "При установленном полном plugin всё разрешается. В изолированной копии одного evidence-docs воспроизводятся 11 broken links, project-audit — 3. Bundled auditor разрешает escape при наличии соседа и затем пишет «stays inside». Это условная ошибка для single-skill transport, не доказательство поломки текущей полной установки.",
+    "fix": "Либо объявлять bundle dependency и тестировать package closure, либо собирать автономный skill artifact с канонической документацией внутри references. Одна source-home, generated copies с digest; не править дубликаты вручную.",
+    "acceptance": "Clean install каждого заявленного канала, в том числе одного скилла, разрешает все обязательные ссылки; при недоступной зависимости печатается capability unavailable вместо all links inside."
+  },
+  {
+    "id": "SE-01",
+    "skills": [
+      "seo-aeo-audit"
+    ],
+    "title": "Рекомендации Discover превращены в обязательный gate",
+    "priority": "P1",
+    "kind": "externally_confirmed",
+    "evidence": [
+      "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md:163",
+      "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/discover.md:147",
+      "https://developers.google.com/search/docs/appearance/google-discover"
+    ],
+    "impact": "Google допускает indexed+policy-compliant контент без специальных tags; скилл утверждает отсутствие карточки без двух метатегов и маркирует это CONFIRMED blocker. Условия большой картинки, рекомендации и eligibility смешаны.",
+    "fix": "Три отдельные проверки: eligibility, large preview permission (с альтернативой AMP), image selection recommendation. SDK reverse engineering оставить FIELD, без бинарного вывода о допуске.",
+    "acceptance": "Страница без og tags не получает confirmed ineligible; рекомендация изображения сохраняется; every confirmed rule ведёт к точному поддерживающему первоисточнику."
+  },
+  {
+    "id": "SE-02",
+    "skills": [
+      "seo-aeo-audit"
+    ],
+    "title": "Любая manual action объявлена обнулением всех улучшений сайта",
+    "priority": "P1",
+    "kind": "externally_confirmed",
+    "evidence": [
+      "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md:182",
+      "https://support.google.com/webmasters/answer/9044175?hl=en"
+    ],
+    "impact": "Google описывает частичные и sitewide manual actions, понижение и исключение страниц. Правило «nothing counts until lifted» может отменить полезную работу для незатронутых страниц и конверсии.",
+    "fix": "Записывать action type, affected URL patterns, surface, severity и scope. Приоритет устранения нарушения сохранять, блокировать зависимые действия только в затронутой области.",
+    "acceptance": "Partial action /spam/* не блокирует доказанный auth/availability fix на /checkout; sitewide action отражается иначе, чем partial."
+  },
+  {
+    "id": "SE-03",
+    "skills": [
+      "seo-aeo-audit"
+    ],
+    "title": "Cross-track проверка объявляет совместимые наблюдения противоречием",
+    "priority": "P2",
+    "kind": "observed",
+    "evidence": [
+      "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md:26",
+      "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md:219",
+      "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md:216"
+    ],
+    "impact": "Короткая малоценная страница может идеально извлекаться, а один URL может иметь confirmed HTTP status и hypothetical ranking cause. Предписанное «one did not look properly» заставляет искусственно согласовывать разные свойства и терять реальные данные.",
+    "fix": "Сравнивать claim key=(subject,predicate,scope,time,instrument). Противоречие возникает только для несовместимых значений одного predicate; независимые аспекты сохранять.",
+    "acceptance": "Thin+extractable проходит без конфликта; same URL different predicates/tier допустимы; same canonical at same snapshot with different values запускает разбор."
+  },
+  {
+    "id": "SE-04",
+    "skills": [
+      "seo-aeo-audit"
+    ],
+    "title": "Тип источника автоматически подменяет силу конкретного утверждения",
+    "priority": "P2",
+    "kind": "instruction_conflict",
+    "evidence": [
+      "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/tooling.md:44",
+      "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/references/evidence-tiers.md:29",
+      "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md:243"
+    ],
+    "impact": "Любой third-party index capped STUDY, но STUDY требует опубликованной методики и выборки. В одном месте STUDY можно ship на подходящей популяции, в другом всё ниже CONFIRMED требует experiments. Наблюдение и переносимость эффекта закодированы одним label.",
+    "fix": "Разнести source quality, directness, population scope, causal support и uncertainty. Политика rollout определяется риском действия и доказательством эффекта; не blanket рангом поставщика.",
+    "acceptance": "Неизвестная vendor estimate не становится STUDY; direct HTTP observation может быть confirmed без GSC; rollout policy едина между таблицей и SKILL."
+  },
+  {
+    "id": "EV-01",
+    "skills": [
+      "task-pipeline",
+      "make-skill",
+      "seo-aeo-audit"
+    ],
+    "title": "Проверка выбора названия не доказывает пользу выполнения скилла",
+    "priority": "P1",
+    "kind": "observed",
+    "evidence": [
+      "repo://task-pipeline/test/evals/RESULTS.md:3",
+      "repo://make-skill/test/evals/RESULTS.md:91",
+      "repo://seo-aeo-audit/test/evals/RESULTS.md:38",
+      "audit://native-eval.log"
+    ],
+    "impact": "Исторические результаты честно фиксируют ограничения: contaminated family roster, одиночные ответы name/none, pipeline scenarios не выполнены. В текущем запуске native eval отказал early access. Сводный performance gain над режимом без скиллов не измерен; нельзя заключить, что семейство улучшает работу в целом.",
+    "fix": "Три испытательных слоя: deterministic tools, routing actual-load traces, end-to-end outcome with/without. Одинаковые задачи, изолированные workspaces, зафиксированные host/model/digests, независимые outcome graders и cost/latency. Разрешить синтетические safety/effect contract тесты до production.",
+    "acceptance": "Каждый из 28 имеет опубликованный manifest сценариев и прогоны на заявленных supported hosts; trace доказывает загрузку и outcome, ухудшение не скрывается средним."
+  },
+  {
+    "id": "UB-01",
+    "skills": [
+      "sshlg-skills"
+    ],
+    "title": "Аудитор bundle выдаёт расчёт стоимости каталога за фактический расход каждого сеанса",
+    "priority": "P2",
+    "kind": "observed",
+    "evidence": [
+      "repo://sshlg-skills/test/audit_bundle.py:163",
+      "repo://sshlg-skills/test/audit_bundle.py:21",
+      "https://code.claude.com/docs/en/skills"
+    ],
+    "impact": "Сумма статических description+commands+Claude block не знает активный host, сокращение listing, загрузку по требованию и reuse после compaction. Текст «every session» придаёт расчёту полноты, которой у прибора нет.",
+    "fix": "Переименовать в raw_catalog_cl100k; отдельно measured_prompt_cost из runtime trace, host version и реально exposed listing. Missing runtime sample → unknown; не оценивать качество по размеру каталога.",
+    "acceptance": "Сравнить generated listing и фактически переданный prompt на выбранном host; статический подсчёт и runtime measurement никогда не используют одинаковое поле/подпись."
+  }
+]

@@ -1,0 +1,338 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-VD-01.01",
+  "parent_id": "FIX-VD-01",
+  "title": "Invariant/open-axis split",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Идентичность фиксируется раньше визуального исследования, а наличие системы закрывает допустимый поиск композиции",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Brand lock фиксирует palette/logo/accessibility, но оставляет composition/type hierarchy/imagery open; exact Figma исключает exploration.\n\nУточнение XD-02: Число направлений пропорционально задаче: две для исследования, одна для уже явного решения.\nРазделить invariants / open axes / hypothesis и назвать два направления с разной композицией.\nОпределить одинаковую scenario/state/viewport матрицу сравнения; разрешить один cast без нового skill.\nВыбрать направление по аргументам и сохранению задачи; затем формализовать semantic tokens, записать отложенные решения.",
+  "expected_result": "Existing token file не запрещает два существенно разных direction renders; exact-Figma не генерирует варианты.\nRefinement сохраняет identity, но допускает другой rhythm/composition в пределах scope.\nНи style pack, ни dials, ни число шрифтов не объявлены доказательством craft.\nВыполнение возможно offline без concept roll/imagegen.",
+  "acceptance": [
+    "Existing token file не запрещает два существенно разных direction renders; exact-Figma не генерирует варианты.",
+    "Refinement сохраняет identity, но допускает другой rhythm/composition в пределах scope.",
+    "Ни style pack, ни dials, ни число шрифтов не объявлены доказательством craft.",
+    "Выполнение возможно offline без concept roll/imagegen."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Brand lock фиксирует palette/logo/accessibility, но оставляет composition/type hierarchy/imagery open; exact Figma исключает exploration.\n\nУточнение XD-02: Число направлений пропорционально задаче: две для исследования, одна для уже явного решения.\nРазделить invariants / open axes / hypothesis и назвать два направления с разной композицией.\nОпределить одинаковую scenario/state/viewport матрицу сравнения; разрешить один cast без нового skill.\nВыбрать направление по аргументам и сохранению задачи; затем формализовать semantic tokens, записать отложенные решения.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "245951a4a3adc9f52566b13cbb35b7e9548200e6d04fbf59a857502c4a442bf2"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_EXPLORATION.md",
+      "mode": "Create",
+      "role": "External-method enrichment owned by this outcome",
+      "baseline_sha256": null
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-design/test/audit_regressions/fix-vd-01.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-VD-01.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-VD-01.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "sha256": "245951a4a3adc9f52566b13cbb35b7e9548200e6d04fbf59a857502c4a442bf2",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://super-ux/plugins/super-ux/skills/references/visual-identity.md",
+        "sha256": "3771fd7aab529c71ff15fe0cd9bb38c71cd1e016162ca73edd7f37acf955d36e",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/DESIGN_SYNC_BRIDGE.md",
+        "sha256": "54af980e952ed2d95a1fbbea613b6924c633d86e37f38c41052268abac798d38",
+        "role": "baseline source"
+      },
+      {
+        "path": "machine-snapshot://.codex/visualizations/2026/09/07/01a07b38-06f9-75a0-86d9-0a775883b3e7/assistant-concept/style.md",
+        "sha256": "6c78ff0be8abac64f3031ad158f54884e0080bef2be77bd12f48b032e678343e",
+        "role": "read-only audit evidence"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "На брифе «улучшить Nicegram, сохранить бренд» показать минимум две реально разные композиции стартового чата и context sheet; у каждой неизменны бренд и сценарий, явно различаются ≥2 открытых визуальных оси. На «исправить spacing по точному Figma» вариаций не создавать. Повторить с существующим токен-файлом и без него; наличие токенов само по себе не должно закрывать exploration.",
+      "Refinement сохраняет identity, но допускает другой rhythm/composition в пределах scope.",
+      "Ни style pack, ни dials, ни число шрифтов не объявлены доказательством craft.",
+      "Выполнение возможно offline без concept roll/imagegen."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit.",
+    "foreign_method_sources": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/new-work.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/new-work.md:1",
+        "sha256": "03caa6d583ed2c1b0c923f9aec0932ce429ebdce141d6bdae1a834610b2042f9",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/new-work.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/operate.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/operate.md:1",
+        "sha256": "a9d2203acd45ca33a13d5c68b02b23ed512425ac15f0e8438318ed124b43729d",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/operate.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/bolder.md",
+        "line": 1,
+        "end_line": 33,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/bolder.md:1",
+        "sha256": "4879f38b23d0a251a63cbb0327e660296194cd2e71eb4da3236c6ebfe5807746",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/bolder.md#L1-L33"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md",
+        "line": 1,
+        "end_line": 99,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md:1",
+        "sha256": "ee6d6d127c1c2ab3526d529a8e3698be2185b5e346ac617f37501de2c0698b97",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md#L1-L99"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md",
+        "line": 1,
+        "end_line": 120,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md:1",
+        "sha256": "e5b49117e5df4ba48dc95e60a662ab1a15685d04ae9b06cb0598a7314436a7c9",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md#L1-L120"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md",
+        "line": 31,
+        "end_line": 31,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md:31",
+        "sha256": "e5b49117e5df4ba48dc95e60a662ab1a15685d04ae9b06cb0598a7314436a7c9",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md#L31"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md",
+        "line": 19,
+        "end_line": 19,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md:19",
+        "sha256": "e5b49117e5df4ba48dc95e60a662ab1a15685d04ae9b06cb0598a7314436a7c9",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md#L19"
+      }
+    ]
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [
+    {
+      "id": "XD-02",
+      "title": "Описать исследование композиции внутри известных инвариантов",
+      "status": "proposed-not-implemented",
+      "targets": [
+        {
+          "action": "Create",
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_EXPLORATION.md",
+          "exists_at_audit": false
+        }
+      ],
+      "inputs": [
+        "scenarios, реальный content, существующая identity, target surface, ограничения пользователя"
+      ],
+      "implementation_steps": [
+        "Разделить invariants / open axes / hypothesis и назвать два направления с разной композицией.",
+        "Определить одинаковую scenario/state/viewport матрицу сравнения; разрешить один cast без нового skill.",
+        "Выбрать направление по аргументам и сохранению задачи; затем формализовать semantic tokens, записать отложенные решения."
+      ],
+      "outputs": [
+        "Reference: direction contract, comparison matrix, locked/open axes."
+      ],
+      "acceptance": [
+        "Refinement сохраняет identity, но допускает другой rhythm/composition в пределах scope.",
+        "Ни style pack, ни dials, ни число шрифтов не объявлены доказательством craft.",
+        "Выполнение возможно offline без concept roll/imagegen."
+      ],
+      "depends_on": [
+        {
+          "task_id": "XD-01",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        }
+      ],
+      "decisions": [
+        "Число направлений пропорционально задаче: две для исследования, одна для уже явного решения."
+      ],
+      "source_candidates": [
+        "K-DIR",
+        "I-09",
+        "I-10",
+        "J-02"
+      ],
+      "addresses_findings": [
+        "VD-01",
+        "VD-06"
+      ],
+      "runtime_dependencies_added": [],
+      "api_keys_added": [],
+      "owner": "sheleg-design",
+      "target_files": [
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_EXPLORATION.md",
+          "mode": "Create"
+        }
+      ],
+      "decision": "Число направлений пропорционально задаче: две для исследования, одна для уже явного решения.",
+      "steps": [
+        "Разделить invariants / open axes / hypothesis и назвать два направления с разной композицией.",
+        "Определить одинаковую scenario/state/viewport матрицу сравнения; разрешить один cast без нового skill.",
+        "Выбрать направление по аргументам и сохранению задачи; затем формализовать semantic tokens, записать отложенные решения."
+      ],
+      "related_existing": [
+        "FIX-VD-01",
+        "FIX-VD-06"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/new-work.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/new-work.md:1",
+          "sha256": "03caa6d583ed2c1b0c923f9aec0932ce429ebdce141d6bdae1a834610b2042f9",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/new-work.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/operate.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/operate.md:1",
+          "sha256": "a9d2203acd45ca33a13d5c68b02b23ed512425ac15f0e8438318ed124b43729d",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/operate.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/bolder.md",
+          "line": 1,
+          "end_line": 33,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/bolder.md:1",
+          "sha256": "4879f38b23d0a251a63cbb0327e660296194cd2e71eb4da3236c6ebfe5807746",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/bolder.md#L1-L33"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md",
+          "line": 1,
+          "end_line": 99,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md:1",
+          "sha256": "ee6d6d127c1c2ab3526d529a8e3698be2185b5e346ac617f37501de2c0698b97",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/quieter.md#L1-L99"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md",
+          "line": 1,
+          "end_line": 120,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md:1",
+          "sha256": "e5b49117e5df4ba48dc95e60a662ab1a15685d04ae9b06cb0598a7314436a7c9",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md#L1-L120"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md",
+          "line": 31,
+          "end_line": 31,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md:31",
+          "sha256": "e5b49117e5df4ba48dc95e60a662ab1a15685d04ae9b06cb0598a7314436a7c9",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md#L31"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md",
+          "line": 19,
+          "end_line": 19,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md:19",
+          "sha256": "e5b49117e5df4ba48dc95e60a662ab1a15685d04ae9b06cb0598a7314436a7c9",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-brief/SKILL.md#L19"
+        }
+      ],
+      "merged_into": "FIX-VD-01",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "verification_commands": [
+    "python3 repo://sheleg-design/test/audit_regressions/fix-vd-01.01.py",
+    "python3 repo://sheleg-design/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-VD-01.01.md",
+    "sha256": "e7144d0273329b75eb9efb6d039cfeb6decb2af157ff9ca0b66fd611efff964e",
+    "utf8_bytes": 7597,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "d0d9b76fd79440d969e0bb8db45e78eb6c872d37dd528eb81fbe1aba2bc91f90"
+  }
+}

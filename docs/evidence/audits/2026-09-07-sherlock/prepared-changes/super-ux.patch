@@ -1,0 +1,385 @@
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 0000000..c179e59
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,5 @@
++# Agent entry point
++
++Read [CLAUDE.md](CLAUDE.md) for repository conventions.
++
++Read [docs/HANDOFF.md](docs/HANDOFF.md) before resuming the Sherlock family audit.
+diff --git a/CLAUDE.md b/CLAUDE.md
+index 9dcb97e..91f2bc6 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -150,3 +150,8 @@ against `docs/ux/vision.md` — specifically the **anti-vision** and the
+ **Do NOT trigger for:** bug fixes, refactors, dependency work, tests,
+ documentation, or anything with no user-facing surface. A vision check on a
+ typo fix is how a team learns to skip the check that matters.
++
++## Active audit handoff
++
++Read [docs/HANDOFF.md](docs/HANDOFF.md) for the family audit, bounded task packets
++and cross-repository branch index before resuming that work.
+diff --git a/docs/HANDOFF.md b/docs/HANDOFF.md
+new file mode 100644
+index 0000000..cfe8433
+--- /dev/null
++++ b/docs/HANDOFF.md
+@@ -0,0 +1,17 @@
++# Sherlock family audit: handoff
++
++This branch contains the prepared super-ux instruction changes from the family
++audit. The runtime backlog has not been implemented or released.
++
++Start with the [central handoff](https://github.com/ssheleg/sshlg-skills/blob/codex/sherlock-audit-handoff-20260907/docs/HANDOFF.md).
++It links the 139 parent outcomes, 254 bounded task packets, module contracts,
++source provenance, execution order and all member branch revisions.
++
++Read the central repository manifest before choosing a task. Filter the plan by
++this repository's module, then read one leaf and its prerequisites. Refresh source
++hashes against the chosen checkout and materialize predecessor outputs before
++editing. A prepared instruction is not evidence that an agent outcome improved.
++
++Validation receipts for these instruction changes are in the central bundle.
++Commit and push each completed task with its updated context and checks; leave a
++new entry point for the following agent. Follow the [standing handoff rule](https://github.com/ssheleg/sshlg-skills/blob/codex/sherlock-audit-handoff-20260907/docs/working-rules/repository-handoff.md).
+diff --git a/docs/brand/facts.md b/docs/brand/facts.md
+index 22dd0a1..e7c4ef4 100644
+--- a/docs/brand/facts.md
++++ b/docs/brand/facts.md
+@@ -56,7 +56,7 @@ worth more than a row a loop skips while claiming to check everything.
+ | practices in the catalog | 241 | `grep -c '^#### BP-' plugins/super-ux/skills/references/best-practices.md` | 2026-08-22 | 2026-11-20 | yes |
+ | design heuristics | 24 | `grep -c '^\| PRN-' plugins/super-ux/skills/references/ux-design-principles.md` | 2026-08-20 | 2026-11-20 | yes |
+ | brand-lint checks | 41 | `grep -o '"B[0-9]\{3\}"' plugins/super-ux/scripts/brand_lint.py \| sort -u \| wc -l \| tr -d ' '` | 2026-08-20 | 2026-11-20 | yes |
+-| repo validator checks | 4623 | `python3 test/validate.py \| sed -n 's/^OK (\([0-9]*\) checks)$/\1/p'` | 2026-09-06 | 2026-12-06 | no |
++| repo validator checks | 4632 | `python3 test/validate.py \| sed -n 's/^OK (\([0-9]*\) checks)$/\1/p'` | 2026-09-07 | 2026-12-07 | no |
+ | agents reachable via the skills CLI | 70+ | not recomputable here: the vercel-labs/skills agent registry is an external list, and no command in this repository returns it | 2026-08-20 | 2026-11-20 | yes |
+ 
+ `Public: no` marks figures that exist and must never be quoted — internal
+diff --git a/plugins/super-ux/skills/references/interactive-flow-prototypes.md b/plugins/super-ux/skills/references/interactive-flow-prototypes.md
+new file mode 100644
+index 0000000..0935211
+--- /dev/null
++++ b/plugins/super-ux/skills/references/interactive-flow-prototypes.md
+@@ -0,0 +1,77 @@
++# Clickable flow prototypes — review the journey, not isolated screens
++
++Recommend a runnable, clickable preview for a new or substantially changed
++multi-screen journey, onboarding, checkout, permission flow or complex recovery
++path. When the operator asks to click through the flow, it is a deliverable.
++A wording-only change or a settled single-state screen does not need a new app.
++
++## Start from the scenario model
++
++Draft the flow and its scenario set together, then use the preview to refine both.
++Do not wait for final scenario approval to make a review prototype: that would
++make the evidence needed for approval depend on approval itself. Production UI
++implementation still follows the agreed chain.
++
++Enumerate entry points, screen-state nodes, transitions and terminal outcomes.
++For each in-scope scenario include its happy path, alternative decisions, error
++and recovery paths, back/cancel, and returning-user variants. Include interrupted,
++pending and externally owned outcomes when the platform cannot report success
++or failure immediately. Bound repeat loops and explain equivalence classes;
++"all variations" means the declared state/transition model, not infinite paths.
++
++Use FLW, SCR and scenario IDs already in the project. While a scenario is being
++drafted, mark its temporary ID and replace it before handoff. Avoid a separate
++untraceable vocabulary for the prototype.
++
++## What the operator receives
++
++- A screen map beside the active screen, with the current node highlighted.
++- Clickable controls that follow the real flow edges; a visible back/reset action.
++- A scenario selector and explicit controls for simulated success, empty, error,
++  denied, timeout and pending outcomes relevant to this flow.
++- Deep links or stable entry controls for each screen-state, so reviewers and
++  later agents can reopen a specific case without replaying a long journey.
++- Realistic representative content, long text and populated/empty variants;
++  synthetic values are labelled and are never evidence about the product.
++- A coverage receipt: scenario → transitions → screen-states → preview locator
++  → walked / not walked / deferred with reason. Declared coverage and observed
++  clickthrough are different columns.
++
++The preview may be a local HTML file, a small local app, or a connected design
++prototype when that tool is available and chosen. Use the host's file/browser
++preview to show it when possible; record how another agent can reopen it.
++Figma is optional for this preview. Missing browser access means clickthrough
++is NOT_RUN; a screenshot or generated file alone is not an observed journey.
++
++## Safe simulation and honest evidence
++
++Use an in-memory state model with a deterministic reset. Simulate payments,
++credentials, destructive actions and server errors; do not send real requests
++to prove the prototype. Mock controls must be visibly labelled as simulation.
++Do not fabricate waiting periods to imply work took place.
++
++Walk at least the primary path and each high-risk recovery branch. Enumerate
++unwalked branches instead of reporting the prototype as fully verified. A cheap
++graph check can catch unknown targets, unreachable required states and missing
++recovery edges; it does not replace clicking through the actual preview.
++
++This is review scaffolding, not production UI. It can be executable before the
++production build gate. Do not add production persistence, services or a component
++framework merely to make the preview. Reuse existing infrastructure when useful.
++
++## Keep decisions and handoff linked
++
++UX owns transitions, states and scenario coverage. Visual direction belongs to
++sheleg-design; a low-fidelity flow preview does not approve palette, typography
++or visual craft. Compare visual alternatives separately when those are unsettled.
++
++After review, update flows, screens and scenarios together. Record accepted
++decisions, rejected alternatives and remaining unknowns. A prototype click does
++not promote implementation Coverage or Product outcome status.
++
++Keep a retrievable preview artifact and its revision/digest linked from the flow
++or implementation packet until the approved behavior is implemented and its
++decision record no longer depends on the sketch. If the preview is retired,
++retain the coverage receipt and the decision; mark its locator retired rather
++than leaving a broken link. The next implementer receives those links with the
++scenario IDs, not only a screenshot or a chat summary.
+diff --git a/plugins/super-ux/skills/ux-flows/SKILL.md b/plugins/super-ux/skills/ux-flows/SKILL.md
+index d131244..d56064f 100644
+--- a/plugins/super-ux/skills/ux-flows/SKILL.md
++++ b/plugins/super-ux/skills/ux-flows/SKILL.md
+@@ -253,31 +253,23 @@ Follow the improvement procedure in the principles doc, strictly:
+    `/plugin install task-pipeline@task-pipeline`; or superpowers
+    writing-plans / by hand. Same-change rule holds; re-audit after.
+ 
+-## Prototype when the answer is not on paper (optional step)
++## Clickable journey preview (recommended for multi-screen flows)
+ 
+-Between a designed flow and production code sits a question the documents
+-cannot settle: does this actually feel right? When it comes up — a state
+-model nobody can reason about, a layout where two options both look
+-defensible — build a throwaway prototype that answers exactly that question
+-and nothing else.
++For a new or substantially changed journey, recommend an interactive preview
++with a screen map, scenario selector, working transitions and explicit simulated
++error/recovery states. When requested, deliver it. Draft scenario coverage with
++the flow and let the preview inform approval; a review prototype may be built
++before the production build gate. A copy-only change need not grow a prototype.
+ 
+-- **Logic question** → the smallest runnable thing that drives the state
+-  machine through the cases that are hard to hold in the head.
+-- **Look-and-feel question** → the shortlisted variants on one throwaway
+-  route, switchable, so they are compared side by side rather than in memory.
+-
+-Rules: it is throwaway from the first line and named so a reader can tell;
+-no persistence, no tests, no abstractions; one command to run. When it has
+-answered its question, fold the decision into the chain and keep the
+-prototype as a primary source — a throwaway branch with a pointer from the
+-issue. The main branch keeps the decision, not the sketch.
+-
+-Skip it when the answer is already obvious; the step exists so that "we
+-weren't sure and shipped anyway" stops being the default.
++Follow [interactive-flow-prototypes.md](references/interactive-flow-prototypes.md)
++for bounded variation coverage, screen-state links, browser/tool fallbacks and
++the handoff receipt. Keep logic review separate from visual-direction approval.
++Record what was actually clicked and what remains unwalked; mock behavior is
++not production Coverage or a measured Product outcome.
+ 
+ ## The build gate (state this to the user plainly)
+ 
+-Interface code does not get written until this workflow is done: the chain
++Production interface code does not get written until this workflow is done: the chain
+ (foundation → flows → screens → scenarios) is designed and approved, the
+ style pack is recorded, and — when Figma is enabled (default) — the UI is
+ mocked up with every screen linked to its frame. When a user jumps straight
+@@ -291,6 +283,8 @@ the whole point of super-ux.
+ - Every screen the flows touch exists in `screens.md` with states,
+   elements, coverage, scenarios, resources; no orphan screens either way.
+ - Scenarios cover every node and edge (checked with `ux-scenarios`).
++- When a clickable preview is requested or selected: it is linked, resettable,
++  traced to screen-states/scenarios, and reports walked and unwalked branches.
+ - When Figma enabled: every screen state has a frame link in `screens.md`;
+   visual-craft practices applied on the frames; Design system block filled
+   (including `Style pack` — a named pack or an explicit "none — platform
+diff --git a/plugins/super-ux/skills/ux-flows/references/interactive-flow-prototypes.md b/plugins/super-ux/skills/ux-flows/references/interactive-flow-prototypes.md
+new file mode 100644
+index 0000000..0935211
+--- /dev/null
++++ b/plugins/super-ux/skills/ux-flows/references/interactive-flow-prototypes.md
+@@ -0,0 +1,77 @@
++# Clickable flow prototypes — review the journey, not isolated screens
++
++Recommend a runnable, clickable preview for a new or substantially changed
++multi-screen journey, onboarding, checkout, permission flow or complex recovery
++path. When the operator asks to click through the flow, it is a deliverable.
++A wording-only change or a settled single-state screen does not need a new app.
++
++## Start from the scenario model
++
++Draft the flow and its scenario set together, then use the preview to refine both.
++Do not wait for final scenario approval to make a review prototype: that would
++make the evidence needed for approval depend on approval itself. Production UI
++implementation still follows the agreed chain.
++
++Enumerate entry points, screen-state nodes, transitions and terminal outcomes.
++For each in-scope scenario include its happy path, alternative decisions, error
++and recovery paths, back/cancel, and returning-user variants. Include interrupted,
++pending and externally owned outcomes when the platform cannot report success
++or failure immediately. Bound repeat loops and explain equivalence classes;
++"all variations" means the declared state/transition model, not infinite paths.
++
++Use FLW, SCR and scenario IDs already in the project. While a scenario is being
++drafted, mark its temporary ID and replace it before handoff. Avoid a separate
++untraceable vocabulary for the prototype.
++
++## What the operator receives
++
++- A screen map beside the active screen, with the current node highlighted.
++- Clickable controls that follow the real flow edges; a visible back/reset action.
++- A scenario selector and explicit controls for simulated success, empty, error,
++  denied, timeout and pending outcomes relevant to this flow.
++- Deep links or stable entry controls for each screen-state, so reviewers and
++  later agents can reopen a specific case without replaying a long journey.
++- Realistic representative content, long text and populated/empty variants;
++  synthetic values are labelled and are never evidence about the product.
++- A coverage receipt: scenario → transitions → screen-states → preview locator
++  → walked / not walked / deferred with reason. Declared coverage and observed
++  clickthrough are different columns.
++
++The preview may be a local HTML file, a small local app, or a connected design
++prototype when that tool is available and chosen. Use the host's file/browser
++preview to show it when possible; record how another agent can reopen it.
++Figma is optional for this preview. Missing browser access means clickthrough
++is NOT_RUN; a screenshot or generated file alone is not an observed journey.
++
++## Safe simulation and honest evidence
++
++Use an in-memory state model with a deterministic reset. Simulate payments,
++credentials, destructive actions and server errors; do not send real requests
++to prove the prototype. Mock controls must be visibly labelled as simulation.
++Do not fabricate waiting periods to imply work took place.
++
++Walk at least the primary path and each high-risk recovery branch. Enumerate
++unwalked branches instead of reporting the prototype as fully verified. A cheap
++graph check can catch unknown targets, unreachable required states and missing
++recovery edges; it does not replace clicking through the actual preview.
++
++This is review scaffolding, not production UI. It can be executable before the
++production build gate. Do not add production persistence, services or a component
++framework merely to make the preview. Reuse existing infrastructure when useful.
++
++## Keep decisions and handoff linked
++
++UX owns transitions, states and scenario coverage. Visual direction belongs to
++sheleg-design; a low-fidelity flow preview does not approve palette, typography
++or visual craft. Compare visual alternatives separately when those are unsettled.
++
++After review, update flows, screens and scenarios together. Record accepted
++decisions, rejected alternatives and remaining unknowns. A prototype click does
++not promote implementation Coverage or Product outcome status.
++
++Keep a retrievable preview artifact and its revision/digest linked from the flow
++or implementation packet until the approved behavior is implemented and its
++decision record no longer depends on the sketch. If the preview is retired,
++retain the coverage receipt and the decision; mark its locator retired rather
++than leaving a broken link. The next implementer receives those links with the
++scenario IDs, not only a screenshot or a chat summary.
+diff --git a/plugins/super-ux/skills/ux-scenarios/SKILL.md b/plugins/super-ux/skills/ux-scenarios/SKILL.md
+index 87e7a83..1665be1 100644
+--- a/plugins/super-ux/skills/ux-scenarios/SKILL.md
++++ b/plugins/super-ux/skills/ux-scenarios/SKILL.md
+@@ -149,6 +149,14 @@ idea):
+ 
+ ## Moderated test tasks from the base (on request)
+ 
++For a multi-screen journey, recommend a clickable scenario preview alongside
++the base; when requested, it is a deliverable. Follow
++[interactive-flow-prototypes.md](references/interactive-flow-prototypes.md).
++The preview may refine draft scenarios before production approval: trace each
++case to screen-states and transitions, include alternative/error/recovery paths,
++and keep declared coverage separate from observed clickthrough. A simulated
++success does not change implementation Coverage or Product outcome status.
++
+ A scenario is already the shape a usability-test task wants: a situation, a
+ goal, and an observable success condition. Turning one into the other is a
+ rewrite, not a new artifact — so when someone is about to test with users,
+diff --git a/plugins/super-ux/skills/ux-scenarios/references/interactive-flow-prototypes.md b/plugins/super-ux/skills/ux-scenarios/references/interactive-flow-prototypes.md
+new file mode 100644
+index 0000000..0935211
+--- /dev/null
++++ b/plugins/super-ux/skills/ux-scenarios/references/interactive-flow-prototypes.md
+@@ -0,0 +1,77 @@
++# Clickable flow prototypes — review the journey, not isolated screens
++
++Recommend a runnable, clickable preview for a new or substantially changed
++multi-screen journey, onboarding, checkout, permission flow or complex recovery
++path. When the operator asks to click through the flow, it is a deliverable.
++A wording-only change or a settled single-state screen does not need a new app.
++
++## Start from the scenario model
++
++Draft the flow and its scenario set together, then use the preview to refine both.
++Do not wait for final scenario approval to make a review prototype: that would
++make the evidence needed for approval depend on approval itself. Production UI
++implementation still follows the agreed chain.
++
++Enumerate entry points, screen-state nodes, transitions and terminal outcomes.
++For each in-scope scenario include its happy path, alternative decisions, error
++and recovery paths, back/cancel, and returning-user variants. Include interrupted,
++pending and externally owned outcomes when the platform cannot report success
++or failure immediately. Bound repeat loops and explain equivalence classes;
++"all variations" means the declared state/transition model, not infinite paths.
++
++Use FLW, SCR and scenario IDs already in the project. While a scenario is being
++drafted, mark its temporary ID and replace it before handoff. Avoid a separate
++untraceable vocabulary for the prototype.
++
++## What the operator receives
++
++- A screen map beside the active screen, with the current node highlighted.
++- Clickable controls that follow the real flow edges; a visible back/reset action.
++- A scenario selector and explicit controls for simulated success, empty, error,
++  denied, timeout and pending outcomes relevant to this flow.
++- Deep links or stable entry controls for each screen-state, so reviewers and
++  later agents can reopen a specific case without replaying a long journey.
++- Realistic representative content, long text and populated/empty variants;
++  synthetic values are labelled and are never evidence about the product.
++- A coverage receipt: scenario → transitions → screen-states → preview locator
++  → walked / not walked / deferred with reason. Declared coverage and observed
++  clickthrough are different columns.
++
++The preview may be a local HTML file, a small local app, or a connected design
++prototype when that tool is available and chosen. Use the host's file/browser
++preview to show it when possible; record how another agent can reopen it.
++Figma is optional for this preview. Missing browser access means clickthrough
++is NOT_RUN; a screenshot or generated file alone is not an observed journey.
++
++## Safe simulation and honest evidence
++
++Use an in-memory state model with a deterministic reset. Simulate payments,
++credentials, destructive actions and server errors; do not send real requests
++to prove the prototype. Mock controls must be visibly labelled as simulation.
++Do not fabricate waiting periods to imply work took place.
++
++Walk at least the primary path and each high-risk recovery branch. Enumerate
++unwalked branches instead of reporting the prototype as fully verified. A cheap
++graph check can catch unknown targets, unreachable required states and missing
++recovery edges; it does not replace clicking through the actual preview.
++
++This is review scaffolding, not production UI. It can be executable before the
++production build gate. Do not add production persistence, services or a component
++framework merely to make the preview. Reuse existing infrastructure when useful.
++
++## Keep decisions and handoff linked
++
++UX owns transitions, states and scenario coverage. Visual direction belongs to
++sheleg-design; a low-fidelity flow preview does not approve palette, typography
++or visual craft. Compare visual alternatives separately when those are unsettled.
++
++After review, update flows, screens and scenarios together. Record accepted
++decisions, rejected alternatives and remaining unknowns. A prototype click does
++not promote implementation Coverage or Product outcome status.
++
++Keep a retrievable preview artifact and its revision/digest linked from the flow
++or implementation packet until the approved behavior is implemented and its
++decision record no longer depends on the sketch. If the preview is retired,
++retain the coverage receipt and the decision; mark its locator retired rather
++than leaving a broken link. The next implementer receives those links with the
++scenario IDs, not only a screenshot or a chat summary.

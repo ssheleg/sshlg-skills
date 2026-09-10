@@ -1,0 +1,18 @@
+Exit code: 0
+  ok      a description over the house limit
+  ok      a front-matter name that does not match the directory
+  ok      a reserved substring in a skill name
+  ok      a link to a reference that does not exist
+  ok      a version that drifted in one file
+  ok      a skill card whose version stopped moving
+  ok      a fixture the skill stops naming
+  ok      a real-looking bot token in the payload
+  ok      a README count that stops matching the tree
+  ok      a reference the README table stops naming
+  ok      a python3 fixture with no compatibility declaration
+  ok      the dead $schema address restored
+  ok      a $schema naming the wrong document type
+  ok      a $schema in the inert nested position
+  ok      a manifest that declares no $schema at all
+
+self-test OK — 15 planted defects, every one refused

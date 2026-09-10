@@ -1,0 +1,239 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-PF-02",
+  "revision": 1,
+  "title": "Старое доказательство принимается после смены кода и контракта узла",
+  "finding_id": "PF-02",
+  "module": "task-pipeline",
+  "modules": [
+    "task-pipeline"
+  ],
+  "priority": "P1",
+  "priority_rank": 1,
+  "priority_reason": "Прямой запрос пользователя или P1 invariant; готовность определяется prerequisites.",
+  "status": "planned_not_implemented",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06",
+    "E-01",
+    "E-02"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions"
+    },
+    {
+      "path": "audit://extension/context/modules/task-pipeline.md",
+      "sha256": "28e7c9316bc1a404c821b54e382b8944583945506f889d5d59fce880cf5c5d4e",
+      "role": "module:task-pipeline"
+    },
+    {
+      "path": "audit://extension/context/contracts/context.md",
+      "sha256": "dca078915830462880380196886a99d5ae6e7bde2996b490663f8192d2bef2b0",
+      "role": "contract:context"
+    },
+    {
+      "path": "audit://extension/context/contracts/execution.md",
+      "sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4",
+      "role": "contract:execution"
+    },
+    {
+      "path": "audit://extension/pipeline-fabric-repro.json",
+      "sha256": "93882b71773046385a6dd12dd638fe7dd2ad6050c8bcb943528cb79df77bb5d6",
+      "role": "supporting evidence appendix"
+    },
+    {
+      "path": "audit://extension/pipeline-fabric-chain-repro.json",
+      "sha256": "de4770b81354d1b05b5af15d16c55d4d982f9597d3ed203b2343c1e0145f6fab",
+      "role": "supporting evidence appendix"
+    },
+    {
+      "path": "audit://extension/pipeline-fabric.json",
+      "sha256": "32c397418c52908a631fe62a955f386e00568b97e60781e518128073cf6f6536",
+      "role": "supporting evidence appendix"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "PF-02",
+    "severity": "P1",
+    "title": "Старое доказательство принимается после смены кода и контракта узла",
+    "epistemic_status": "reproduced_code_defect",
+    "observed": "Создан verdict для commit v1, затем code commit v2 и node.check заменён на v2. close exit0, evidence сохраняет v1 PASS и добавляет observed at v2. Stamping текущего HEAD не проверяет, что reviewer видел этот HEAD; graph revisions — только verb/node/why, без version/precondition.",
+    "evidence": [
+      {
+        "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+        "line": 1206
+      },
+      {
+        "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+        "line": 1308
+      },
+      {
+        "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+        "line": 1346
+      },
+      {
+        "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+        "line": 1356
+      },
+      {
+        "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+        "line": 768
+      },
+      {
+        "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+        "line": 269
+      }
+    ],
+    "fix": "Review receipt обязан связывать run/node/attempt, graph revision, packet digest, tested base/head/tree digest и checks. close сравнивает их с accepted candidate, а не переписывает provenance текущим HEAD. Изменение brief/REQ/interface инвалидирует затронутые nodes/descendants; новый graph version хранит supersedes+reason.",
+    "acceptance": "Старый verdict после v2 либо изменения check/REQ/packet получает STALE и graph byte-identical; downstream stale пересобирается; изменение независимого node не требует бессмысленной инвалидизации всего графа.",
+    "source_files": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json"
+    ],
+    "module_interfaces": [
+      "ReviewReceipt v1 → validateReceiptAgainstCandidate",
+      "GraphVersion/revision and stale closure planner"
+    ],
+    "depends_on": [
+      "PF-01"
+    ],
+    "reproduction": "pipeline-fabric-repro.json: stale_close",
+    "status": "proposed",
+    "production_occurrence": "unknown",
+    "origin": "extension/pipeline-fabric.json",
+    "priority": "P1",
+    "skills": [
+      "task-pipeline"
+    ],
+    "observation": "Создан verdict для commit v1, затем code commit v2 и node.check заменён на v2. close exit0, evidence сохраняет v1 PASS и добавляет observed at v2. Stamping текущего HEAD не проверяет, что reviewer видел этот HEAD; graph revisions — только verb/node/why, без version/precondition.",
+    "evidence_kind": "reproduced_code_defect",
+    "implementation_status": "proposed"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Review receipt обязан связывать run/node/attempt, graph revision, packet digest, tested base/head/tree digest и checks. close сравнивает их с accepted candidate, а не переписывает provenance текущим HEAD. Изменение brief/REQ/interface инвалидирует затронутые nodes/descendants; новый graph version хранит supersedes+reason.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Старый verdict после v2 либо изменения check/REQ/packet получает STALE и graph byte-identical; downstream stale пересобирается; изменение независимого node не требует бессмысленной инвалидизации всего графа."
+  ],
+  "verification_plan": {
+    "baseline": "pipeline-fabric-repro.json: stale_close",
+    "must_test": "Старый verdict после v2 либо изменения check/REQ/packet получает STALE и graph byte-identical; downstream stale пересобирается; изменение независимого node не требует бессмысленной инвалидизации всего графа.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [
+    {
+      "from_task": "FIX-PF-01",
+      "expected": "Принятый output + digest + interface revision; отсутствует до выполнения prerequisite.",
+      "required_before_dispatch": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+      "sha256": "9627d7e27b0495358a55cd250b48ff39359e3493633ffe23335c783f5900b723",
+      "role": "baseline source"
+    },
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+      "sha256": "4082692ee896c4edb96576aa93772046e3a48c9b53944e649af7241774ac7405",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "task-pipeline": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://task-pipeline",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    },
+    {
+      "resource": "file:repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [
+    {
+      "task_id": "FIX-PF-01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма."
+    }
+  ],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 8
+}

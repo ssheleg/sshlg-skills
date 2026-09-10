@@ -1,0 +1,590 @@
+{
+  "date": "2026-09-07",
+  "baseline": {
+    "task_pipeline": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "fabric": "91337391aa8d24966bf0c57db381e6fe63b48bce"
+  },
+  "source_mutations": false,
+  "findings": [
+    {
+      "id": "PF-01",
+      "severity": "P1",
+      "title": "Graph mutation lock не является claim узла или fencing исполнителя",
+      "epistemic_status": "measured_capability_gap",
+      "observed": "Два независимых процесса next получают N-001, status остаётся pending. owner — название роли, не session/attempt. running можно записать вручную, но CLI не имеет acquire/start/renew/release/recover; потерянный running даёт next exit4 навсегда до внешней правки. flock защищает add/park/close/certify, что подтверждено восемью параллельными add без потерь. При ошибке lock реализация продолжает unlocked с предупреждением.",
+      "evidence": [
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 683
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 722
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 747
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 758
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 1418
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 1493
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+          "line": 83
+        }
+      ],
+      "fix": "В external-executor режиме отдать claim одному durable coordinator; атомарно ready→claimed выдаёт attempt_id, lease_generation/fencing token, owner_id и expires_at. Mutations выполняются только с expected revision. Fail-closed при невозможности арбитража; advisory режим остаётся явно отдельным. Не держать OS lock на всё время LLM job.",
+      "acceptance": "Два claim одного node/version дают одного победителя; restart/expiry позволяет новый attempt, late old attempt не публикует result; независимые add сохраняются; недоступный lock не запускает external work.",
+      "source_files": [
+        "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+        "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json"
+      ],
+      "module_interfaces": [
+        "TaskPipeline graph.py: claim/renew/release/recover API либо адаптер к Fabric coordinator",
+        "Fabric durable coordinator: claim(run_id,node_id,node_revision,owner,idempotency_key) → AttemptGrant"
+      ],
+      "depends_on": [],
+      "reproduction": "pipeline-fabric-repro.json: independent_executors, concurrent_add, orphan_running",
+      "status": "proposed",
+      "production_occurrence": "unknown"
+    },
+    {
+      "id": "PF-02",
+      "severity": "P1",
+      "title": "Старое доказательство принимается после смены кода и контракта узла",
+      "epistemic_status": "reproduced_code_defect",
+      "observed": "Создан verdict для commit v1, затем code commit v2 и node.check заменён на v2. close exit0, evidence сохраняет v1 PASS и добавляет observed at v2. Stamping текущего HEAD не проверяет, что reviewer видел этот HEAD; graph revisions — только verb/node/why, без version/precondition.",
+      "evidence": [
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 1206
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 1308
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 1346
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 1356
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 768
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+          "line": 269
+        }
+      ],
+      "fix": "Review receipt обязан связывать run/node/attempt, graph revision, packet digest, tested base/head/tree digest и checks. close сравнивает их с accepted candidate, а не переписывает provenance текущим HEAD. Изменение brief/REQ/interface инвалидирует затронутые nodes/descendants; новый graph version хранит supersedes+reason.",
+      "acceptance": "Старый verdict после v2 либо изменения check/REQ/packet получает STALE и graph byte-identical; downstream stale пересобирается; изменение независимого node не требует бессмысленной инвалидизации всего графа.",
+      "source_files": [
+        "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+        "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json"
+      ],
+      "module_interfaces": [
+        "ReviewReceipt v1 → validateReceiptAgainstCandidate",
+        "GraphVersion/revision and stale closure planner"
+      ],
+      "depends_on": [
+        "PF-01"
+      ],
+      "reproduction": "pipeline-fabric-repro.json: stale_close",
+      "status": "proposed",
+      "production_occurrence": "unknown"
+    },
+    {
+      "id": "PF-03",
+      "severity": "P1",
+      "title": "Прямой close обходит проваленную обязательную certification",
+      "epistemic_status": "reproduced_code_defect",
+      "observed": "Реальный certify записывает unit=fail и exit1; затем прямой close со структурно валидным verdict возвращает0 и done. close проверяет форму и blockers, но не требует успешную certification текущего candidate. Регулярное выражение cross-tier проверяет текст, а не независимость sessions/reviewers.",
+      "evidence": [
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 563
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 1136
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 1223
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 1300
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 1336
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+          "line": 380
+        }
+      ],
+      "fix": "Закрытие только через trusted coordinator с receipt успешного gate profile на том же candidate digest. Ручное исключение — отдельное authorized disposition с причиной, а не имитация pass. Сохранять reviewer identity/context exposure; syntax lint не называть доказательством blind review.",
+      "acceptance": "Fail любого обязательного gate не позволяет complete; изменение candidate сбрасывает certification; raw fabricated verdict или чужой attempt не проходит; authorized waiver не становится measured PASS.",
+      "source_files": [
+        "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+        "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md"
+      ],
+      "module_interfaces": [
+        "TaskPipeline close/certify: CertificationReceipt and candidate binding",
+        "Fabric review/integration transition guard"
+      ],
+      "depends_on": [
+        "PF-02"
+      ],
+      "reproduction": "pipeline-fabric-repro.json: failed_certification, direct_close_after_fail",
+      "status": "proposed",
+      "production_occurrence": "unknown"
+    },
+    {
+      "id": "PF-04",
+      "severity": "P1",
+      "title": "Parked обязательного producer делает его consumer runnable без payload",
+      "epistemic_status": "reproduced_semantic_defect",
+      "observed": "TERMINAL={done,parked}; frontier, close и certify считают parked выполненной зависимостью. В scratch N-002 с required artifact-v1 становится runnable после park N-001 с причиной producer unavailable. Это сознательная семантика кода, но она не выражает необходимость конкретного результата. Fabric mayStartStep справедливо различает done/cancelled и missing.",
+      "evidence": [
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 79
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 85
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 406
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+          "line": 1164
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/shared/chain.ts",
+          "line": 50
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/work-graph.md",
+          "line": 42
+        }
+      ],
+      "fix": "Разделить terminal execution status и dependency satisfaction. Required artifact/control/authorization edge имеет predicate; park producer блокирует consumer до explicit alternative/replan. Waiver ребра создаёт версию графа и затронутого packet.",
+      "acceptance": "Park/cancel required producer не запускает consumer; optional skipped edge разрешён только с declared fallback; retry/replan создаёт новую provenance, coverage не объявляет parked requirement fulfilled.",
+      "source_files": [
+        "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+        "repo://fabric/apps/desktop/src/shared/chain.ts",
+        "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/work-graph.md"
+      ],
+      "module_interfaces": [
+        "DependencyContract v1 {kind,required,artifact_schema,acceptance_predicate,fallback}",
+        "TaskPipeline frontier/close/certify use satisfiedEdge()"
+      ],
+      "depends_on": [
+        "PF-02"
+      ],
+      "reproduction": "pipeline-fabric-repro.json: park_required_producer, next_after_park",
+      "status": "proposed",
+      "production_occurrence": "unknown"
+    },
+    {
+      "id": "PF-05",
+      "severity": "P2",
+      "title": "Saved Markdown brief уже есть, portable immutable node packet ещё нет",
+      "epistemic_status": "source_contract_gap",
+      "observed": "build.md требует task brief/report файлами, REQ цитаты, interfaces и отдельные worktree. Но graph schema не связывает node с brief/packet/base revision/output schema, next печатает только id/role/title. Graph и build workspace git-ignored; build cleanup удаляет packet/report. Fabric context pack содержит memory selection и task brief с SHA, но session directory удаляется, DB lock хранит ids/hash, не точные bytes и compiler version. Это не проверенный export/import пакета planner→executor.",
+      "evidence": [
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+          "line": 132
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+          "line": 194
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+          "line": 201
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+          "line": 560
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+          "line": 65
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/contextPack.ts",
+          "line": 30
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/sessionBundle.ts",
+          "line": 195
+        },
+        {
+          "file": "repo://fabric/supabase/migrations/20260901000013_context_packs.sql",
+          "line": 19
+        }
+      ],
+      "fix": "Compiler фиксирует goal/REQ text/global constraints/interfaces, input artifacts с digest, base/tree, allowed scope, budgets, validation profile, skill lock. Immutable packet хранится отдельно от ephemeral credentials/worktree; resolver материализует пути на другом host. Agent transcript не нужен. Global constraints включать в каждый packet или pin shared immutable artifact; output metadata typed.",
+      "acceptance": "Planner process завершается; свежий executor другой runtime читает только packet и разрешённые artifact refs, выполняет task и выдаёт validated result; отсутствующий digest input → BLOCKED_INPUT; packet bytes доступны после session cleanup; воспроизведение не зависит от cwd/домашнего пути.",
+      "source_files": [
+        "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+        "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+        "repo://fabric/apps/desktop/src/main/contextPack.ts",
+        "repo://fabric/apps/desktop/src/main/sessionBundle.ts",
+        "repo://fabric/supabase/migrations/20260901000013_context_packs.sql"
+      ],
+      "module_interfaces": [
+        "New TaskPacketCompiler(plan,scope,artifacts,skillLock) → NodePacket",
+        "ArtifactStore put/get(sha256), PacketResolver",
+        "NodeResult {attempt_id,packet_digest,base,head,outputs,checks,decisions,concerns}"
+      ],
+      "depends_on": [
+        "PF-02"
+      ],
+      "reproduction": null,
+      "status": "proposed",
+      "production_occurrence": "unknown"
+    },
+    {
+      "id": "PF-06",
+      "severity": "P2",
+      "title": "Fabric pipeline/skill provisioning из ADR не является существующим task-pipeline integration",
+      "epistemic_status": "source_inventory_gap",
+      "observed": "ADR-0009 обещает versioned pipeline, pinned running graph и registry skills. В прочитанных runtime paths работают project_tasks/task_links/task_handoffs, session context и runner registry. Поиск всего supabase/migrations не нашёл pipeline/graph_version storage или skill provisioning; migration1 прямо откладывает runs/nodes. Не найден импорт pipeline.schema.json/graph.schema.json или bridge CLI. Совпадение слова pipeline в docs не подтверждает интеграцию.",
+      "evidence": [
+        {
+          "file": "repo://fabric/docs/adr/0009-the-development-pipeline-is-data-the-operator-can-edit.md",
+          "line": 17
+        },
+        {
+          "file": "repo://fabric/docs/adr/0030-a-run-is-one-execution-of-one-graph.md",
+          "line": 17
+        },
+        {
+          "file": "repo://fabric/supabase/migrations/20260831000001_migration_one.sql",
+          "line": 8
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+          "line": 24
+        },
+        {
+          "file": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json",
+          "line": 227
+        }
+      ],
+      "fix": "Ввести explicit import/compile adapter. task-pipeline остаётся внешним authoring/verification package; Fabric хранит execution authority и projection. Pipeline version pins skill source/version/digest, stage contract, gate profile; compiler сообщает unsupported field вместо молчаливой потери. Выбрать одну authority, не два scheduler поверх одной очереди.",
+      "acceptance": "Golden import/export сохраняет REQ/node/typed edge/check/skills и manual gates; unsupported schema version явная ошибка; edit pipeline не меняет in-flight run; fresh host подтверждает bytes реально загруженного skill; planning agent не перепроходит grill для executors.",
+      "source_files": [
+        "repo://fabric/docs/adr/0009-the-development-pipeline-is-data-the-operator-can-edit.md",
+        "repo://fabric/docs/adr/0030-a-run-is-one-execution-of-one-graph.md",
+        "repo://fabric/supabase/migrations/20260831000001_migration_one.sql",
+        "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+        "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json"
+      ],
+      "module_interfaces": [
+        "New pipelineAdapter.ts: importTaskPipeline(bundle) → FabricGraphVersion",
+        "New pipeline/graph-version/run/attempt storage and event projectors",
+        "SkillResolver: source+version+digest+host compatibility"
+      ],
+      "depends_on": [
+        "PF-01",
+        "PF-04",
+        "PF-05"
+      ],
+      "reproduction": null,
+      "status": "proposed",
+      "production_occurrence": "unknown"
+    },
+    {
+      "id": "PF-07",
+      "severity": "P1",
+      "title": "Fabric chainAdvance повторно запускает follower, создавая новые задачи",
+      "epistemic_status": "reproduced_module_defect_mock_store",
+      "observed": "chainAdvance выбирает backlog follower и вызывает startTask без его taskId. Реальный startTask создаёт новый UUID, не меняет исходный follower. Mutex running локален одному process/call. Два последовательных вызова actual advancer с mock DB дают два spawn, исходный B остаётся backlog. Tick не записывает idempotency/start claim для B; loop-depth связь созданному task здесь также не добавляется.",
+      "evidence": [
+        {
+          "file": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+          "line": 37
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+          "line": 57
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+          "line": 127
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/index.ts",
+          "line": 839
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/index.ts",
+          "line": 851
+        }
+      ],
+      "fix": "Запускать existing follower через durable dispatch intent, keyed run/node/version/attempt. CAS backlog→dispatching и outbox до spawn; после crash reconcile process/session. Если создаётся child attempt task, parent mapping и spawned link должны появиться в той же логической операции. Не выдавать бесконечную серию независимых task UUID.",
+      "acceptance": "Два ticks и два desktop workers дают один logical attempt; crash до/после spawn не теряет mapping и не повторяет completed work; retry получает новый attempt с predecessor; loop bound считает chain переходы.",
+      "source_files": [
+        "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+        "repo://fabric/apps/desktop/src/main/index.ts"
+      ],
+      "module_interfaces": [
+        "Replace ChainDeps.startTask with dispatchExistingNode(command)",
+        "startTask/startExistingTask adapter and durable DispatchIntent projector"
+      ],
+      "depends_on": [
+        "PF-01"
+      ],
+      "reproduction": "pipeline-fabric-chain-repro.json: after_first, after_second, follower_status",
+      "status": "proposed",
+      "production_occurrence": "unknown"
+    },
+    {
+      "id": "PF-08",
+      "severity": "P1",
+      "title": "Fabric fan-in проверяет каждое ребро отдельно, поэтому запускает неполный consumer",
+      "epistemic_status": "reproduced_module_defect_mock_store",
+      "observed": "for(const link of links) проверяет status/input одного predecessor и сразу запускает follower. В diamond A(done,report)→B и C(running,schema)→B запускается B с текстом Use A delivered and {schema}. Когда оба predecessors done, один tick может запускать B по каждому ребру отдельно; объединения всех inputs нет.",
+      "evidence": [
+        {
+          "file": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+          "line": 68
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+          "line": 84
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+          "line": 123
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/shared/chain.ts",
+          "line": 62
+        }
+      ],
+      "fix": "Группировать incoming edges по follower/version. Сначала удовлетворить все required predicates, затем объединить versioned artifacts по namespace и разрешить name collisions. Только после complete input set атомарный claim/dispatch. Текстовую interpolation выполнять после schema validation.",
+      "acceptance": "Diamond: C running → zero spawn; оба done и all inputs → один spawn с report+schema; conflicting names → explicit conflict, не last-write-wins; один predecessor cancelled/parked → consumer blocked или declared fallback.",
+      "source_files": [
+        "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+        "repo://fabric/apps/desktop/src/shared/chain.ts"
+      ],
+      "module_interfaces": [
+        "ChainPlanner.resolveInputs(follower,incomingEdges,artifactVersions) → ReadyPacket | Blocked",
+        "chainAdvance dispatch one node, not one edge"
+      ],
+      "depends_on": [
+        "PF-04",
+        "PF-07"
+      ],
+      "reproduction": "pipeline-fabric-chain-repro.json: after_first[0].instruction",
+      "status": "proposed",
+      "production_occurrence": "unknown"
+    },
+    {
+      "id": "PF-09",
+      "severity": "P1",
+      "title": "Fabric task lease не ограничивает публикацию handoff текущим owner/attempt",
+      "epistemic_status": "source_level_authority_gap",
+      "observed": "fabric_task_claim имеет server-side SQL arbitration: on conflict update only expired; append_event serializes per estate, API read-back сообщает winner. Это сильнее check-then-write в tool. Однако ownTask проверяет только project_id. fabric_task_handoff принимает любой taskId своего проекта, не сверяет live lease/attempt; apply_handoffs заменяет value по (task_id,name), не проверяя fencing/version. writeScopes лишь намерение для соседей, не file lock. Stale/другой project session может заменить result, на который опирается follower. Live DB/host attack не запускался.",
+      "evidence": [
+        {
+          "file": "repo://fabric/apps/desktop/src/main/agentSurface.ts",
+          "line": 788
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/agentSurface.ts",
+          "line": 925
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/agentSurface.ts",
+          "line": 976
+        },
+        {
+          "file": "repo://fabric/supabase/migrations/20260905000016_operating_surfaces.sql",
+          "line": 288
+        },
+        {
+          "file": "repo://fabric/supabase/migrations/20260905000027_chains.sql",
+          "line": 53
+        },
+        {
+          "file": "repo://fabric/supabase/migrations/20260831000001_migration_one.sql",
+          "line": 185
+        }
+      ],
+      "fix": "publishResult требует authenticated owner+run/node/attempt+fence и output schema. Проверка и append единая DB transaction. Принятые outputs immutable; исправление — new version, downstream stale. Для writes отдельные resource scopes/isolation; не считать task lease защитой всех путей. Append-only journal сохраняется.",
+      "acceptance": "СессияB не публикует за live ownerA; после takeover публикация старого A rejected; повтор same idempotency key возвращает тот же receipt; correction creates output version и инвалидирует подписанных consumers; read-only observers продолжают читать.",
+      "source_files": [
+        "repo://fabric/apps/desktop/src/main/agentSurface.ts",
+        "repo://fabric/supabase/migrations/20260905000016_operating_surfaces.sql",
+        "repo://fabric/supabase/migrations/20260905000027_chains.sql",
+        "repo://fabric/supabase/migrations/20260831000001_migration_one.sql"
+      ],
+      "module_interfaces": [
+        "AgentSurface fabric_node_result_publish → Coordinator.publishResult",
+        "SQL atomic owner/fence check + result version projection"
+      ],
+      "depends_on": [
+        "PF-01",
+        "PF-05"
+      ],
+      "reproduction": null,
+      "status": "proposed",
+      "production_occurrence": "unknown"
+    },
+    {
+      "id": "PF-10",
+      "severity": "P2",
+      "title": "Provider-independent packet возможен, но Codex в текущем Fabric не подключён к его tools",
+      "epistemic_status": "observed_runtime_adapter_boundary",
+      "observed": "AgentDescriptor Codex явно connectsToSurface=false, adapter none. Bundle compiler умеет mcp-config-flag и none, остальные отказывает; Claude adapter получает config+preamble. Поэтому запуск Codex terminal не доказывает доступ к claim/handoff/memory и равенство executor capabilities. Смена модели и смена runtime — разные оси.",
+      "evidence": [
+        {
+          "file": "repo://fabric/apps/desktop/src/shared/agents.ts",
+          "line": 54
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/shared/agents.ts",
+          "line": 123
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/sessionBundle.ts",
+          "line": 148
+        },
+        {
+          "file": "repo://fabric/apps/desktop/src/main/sessionBundle.ts",
+          "line": 176
+        }
+      ],
+      "fix": "Сохранить portable packet и отдельный executor capability adapter. Для каждого host подтвердить actual registration/tool call и project/run/session scope. Unsupported adapter не получает ready-for-dispatch; headless packet-only executor возможен через отдельный trusted result channel. Provider/model preferences наследуются отдельно от транспорта.",
+      "acceptance": "Один golden packet Claude/Codex executors: одинаковые contract inputs/outputs и authority restrictions; actual tool discovery/call receipt, cleanup/revoke; отрицательный unsupported host не запускается как supposedly connected. Не переносить native hidden reasoning/transcript между vendor runtimes.",
+      "source_files": [
+        "repo://fabric/apps/desktop/src/shared/agents.ts",
+        "repo://fabric/apps/desktop/src/main/sessionBundle.ts"
+      ],
+      "module_interfaces": [
+        "ExecutorAdapter capabilities/launch/deliver/resume/cancel/result",
+        "HostConnectionReceipt separate from SkillLoadReceipt"
+      ],
+      "depends_on": [
+        "PF-05",
+        "PF-06"
+      ],
+      "reproduction": null,
+      "status": "proposed",
+      "production_occurrence": "unknown"
+    }
+  ],
+  "coverage": {
+    "full_read": [
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.example.json",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/work-graph.md",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/continuity.md",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/decomposition.md",
+      "repo://fabric/apps/desktop/src/main/chainAdvance.ts",
+      "repo://fabric/apps/desktop/src/shared/chain.ts",
+      "repo://fabric/apps/desktop/src/shared/plan.ts",
+      "repo://fabric/apps/desktop/src/shared/agents.ts",
+      "repo://fabric/apps/desktop/src/main/contextPack.ts",
+      "repo://fabric/apps/desktop/src/main/sessionBundle.ts",
+      "repo://fabric/supabase/migrations/20260905000027_chains.sql",
+      "repo://fabric/supabase/migrations/20260903000015_authority_plane.sql",
+      "repo://fabric/apps/desktop/test/chain.test.mjs",
+      "repo://fabric/docs/adr/0009-the-development-pipeline-is-data-the-operator-can-edit.md",
+      "repo://fabric/docs/adr/0030-a-run-is-one-execution-of-one-graph.md",
+      "repo://fabric/docs/adr/0005-a-rebuilt-graph-is-a-new-version-not-a-mutation.md"
+    ],
+    "targeted_read": [
+      "repo://fabric/AGENTS.md",
+      "repo://fabric/apps/desktop/src/main/agentSurface.ts",
+      "repo://fabric/apps/desktop/src/main/index.ts",
+      "repo://fabric/apps/desktop/src/shared/types.ts",
+      "repo://fabric/supabase/migrations/20260905000016_operating_surfaces.sql",
+      "repo://fabric/supabase/migrations/20260831000001_migration_one.sql",
+      "repo://fabric/supabase/migrations/20260901000013_context_packs.sql",
+      "repo://fabric/supabase/migrations/20260906000030_dissolve_legacy_projector.sql"
+    ],
+    "source_digests": {
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md": "f8876b8eb0b20169e7ca037869c4eb83164754c9bc271da52895fc27c1d0dc8a",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json": "99ff340ca0a9e3a1e35ad891723c200c5b06f3371429d65a88765c1dd63cd2f6",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.schema.json": "4082692ee896c4edb96576aa93772046e3a48c9b53944e649af7241774ac7405",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/graph.example.json": "a1986ff41a67f5c5bac283f0c2c6afa24d36f2b3ede1ee7a0f098b2aab36608c",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/graph.py": "9627d7e27b0495358a55cd250b48ff39359e3493633ffe23335c783f5900b723",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/work-graph.md": "1a7e7631173e03e582469738583c37e4025797eabf9263ecf1b5de9d7e806ac6",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/planning.md": "52ad2916a11615cd9e58845bd72f82fe0e667a3237a683cd207b9db620b6178c",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/build.md": "38e00b2a5845805a7ae02921099c37e9fddf832272aaa360c33d61546fffb47b",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/continuity.md": "bf5370f711fd8aa25d5b0010ee397053e63c7e0a137c622d4c56b2e7b5588ed1",
+      "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/decomposition.md": "1e34a8cc45b18363b309a2aa41908f93b882a16f1040b28aba25e9cf8f6f54cb",
+      "repo://fabric/apps/desktop/src/main/chainAdvance.ts": "5d02c078f5e2cbbbd2d2de571575e7b4b2105b66ae57a51c775326558b8e4e35",
+      "repo://fabric/apps/desktop/src/shared/chain.ts": "e1d0b6d7e9db699c984de8ee3656a31d1f6eefed8a83d82b4e006c2ba47df111",
+      "repo://fabric/apps/desktop/src/shared/plan.ts": "f181f03796b7a61333143e7e6a2899dc6626ffa3619d6893883175aeb4febc0e",
+      "repo://fabric/apps/desktop/src/shared/agents.ts": "182d2bca580003c197aacc3bcebcc16e0d2f3b0f84be6e252ea5f4f33d846703",
+      "repo://fabric/apps/desktop/src/main/contextPack.ts": "b0a6e6059527e6538c88067c3b76f9e6c28c179cfc71ff4cd745bc7457e573ec",
+      "repo://fabric/apps/desktop/src/main/sessionBundle.ts": "8e481d8051c2a32e1c31b40236c9a6ace85c244ea83f7d14df0256af0240c4d1",
+      "repo://fabric/supabase/migrations/20260905000027_chains.sql": "621a8b19240484bdaba970edb5de11cc34fffc09be82291a8286789b06e237cc",
+      "repo://fabric/supabase/migrations/20260903000015_authority_plane.sql": "6c30e3b4ca35c2fd5e0f61bac1b5dffed52f8ab66cba786eca436c195a216b35",
+      "repo://fabric/apps/desktop/test/chain.test.mjs": "221562389c672b5948e6c31bf9c243f8e1067e20d8c9a9f5071e69666e730e5c",
+      "repo://fabric/docs/adr/0009-the-development-pipeline-is-data-the-operator-can-edit.md": "552fa0152e144f129d4c036de85131db7256d5e0f9aef03a658c66a57accabfb",
+      "repo://fabric/docs/adr/0030-a-run-is-one-execution-of-one-graph.md": "320cdb80cd91d3f032397dc9117ca038029c3c7d5b6f34b077af775014358f80",
+      "repo://fabric/docs/adr/0005-a-rebuilt-graph-is-a-new-version-not-a-mutation.md": "4270be7dc9243e49e92f02b4e18c53068a7a727738f344ee87fa8033a6ed41f5",
+      "repo://fabric/AGENTS.md": "0099d80ef2e41c22210c9a1bdbd1c44ede7a8247db0a8cb34209dbdcdbd026e9",
+      "repo://fabric/apps/desktop/src/main/agentSurface.ts": "b7335a6b973de06035ab81e3051d3f497fea70774c9e98d3755094e58a5a7913",
+      "repo://fabric/apps/desktop/src/main/index.ts": "a075532e4620e6515459da26be6f81b15a46f024ca7ab7858f0e49582ea8e30a",
+      "repo://fabric/apps/desktop/src/shared/types.ts": "eadc234982ba44bc066f7016a2a9511a56823b0a25794b0f1f7f341d4274e2ac",
+      "repo://fabric/supabase/migrations/20260905000016_operating_surfaces.sql": "9befadf715078b492ad2648ee5e1946dbc5511e7d19ade00610c6b86a0a9cf37",
+      "repo://fabric/supabase/migrations/20260831000001_migration_one.sql": "2f9b6ed39b313af19e0bd08b2c004d4e482b353606170714ad52601dfbfbbe03",
+      "repo://fabric/supabase/migrations/20260901000013_context_packs.sql": "fdf7744dd848ce001f344ed8232d2bfce4d8025764b4856b81884d88fb35d671",
+      "repo://fabric/supabase/migrations/20260906000030_dissolve_legacy_projector.sql": "2b209aebe19f6c6a327734ded19192451fdcb8fc918e715e6045ab47f6ef53c3"
+    }
+  },
+  "tests": [
+    {
+      "command": "python3 pipeline-fabric-repro.py",
+      "status": "PASS_COUNTEREXAMPLES_REPRODUCED",
+      "output": "pipeline-fabric-repro.json"
+    },
+    {
+      "command": "node pipeline-fabric-chain-repro.mjs",
+      "status": "PASS_COUNTEREXAMPLES_REPRODUCED_MOCK_STORE",
+      "output": "pipeline-fabric-chain-repro.json"
+    }
+  ],
+  "not_run": [
+    "Fabric DB mutations, local/cloud integration suites",
+    "actual LLM planner/executor/reviewer",
+    "cross-machine lease semantics",
+    "host MCP discovery and permission checks",
+    "npm test:all",
+    "production incidence measurement"
+  ]
+}

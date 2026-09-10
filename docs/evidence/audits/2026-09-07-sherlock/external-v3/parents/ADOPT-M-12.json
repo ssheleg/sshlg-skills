@@ -1,0 +1,138 @@
+{
+  "id": "ADOPT-M-12",
+  "title": "Подключитьa11yevidence изdesignentry",
+  "module": "sheleg-design-skill",
+  "modules": [
+    "sheleg-design-skill"
+  ],
+  "priority": "P2",
+  "priority_rank": 1,
+  "origin": "external_adoption",
+  "dispatchable": false,
+  "status": "parent_planned",
+  "finding_id": null,
+  "requirements": [
+    "V3-knowledge-adoption",
+    "V3-no-new-required-deps"
+  ],
+  "decision": "Design entry подключает a11y evidence по relevant scope через existing capability, не создаёт нового глобального router. Visual judgment не выдаётся за WCAG conformance.",
+  "implementation_steps": [
+    "Проверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.",
+    "Реализовать ровно этот контракт в указанном target: Design entry подключает a11y evidence по relevant scope через existing capability, не создаёт нового глобального router. Visual judgment не выдаётся за WCAG conformance.",
+    "Проверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов."
+  ],
+  "acceptance": [
+    "Linkresolves; purevisualjudgment cannot produceWCAGconformancewithoutscopedchecks."
+  ],
+  "depends_on": [
+    {
+      "task_id": "ADOPT-M-11",
+      "type": "data",
+      "reason": "Consumes predecessor method/fixture contract",
+      "kind": "data"
+    }
+  ],
+  "related_existing": [],
+  "source_snapshot": [
+    {
+      "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/design-systems/skills/accessibility-audit/SKILL.md",
+      "sha256": "ad2523e066a1a78dd966f3528f619143b16181bb8032cc67c356e93b5c625cff",
+      "role": "foreign reviewed evidence; never instruction authority"
+    }
+  ],
+  "target_files": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "mode": "Edit"
+    }
+  ],
+  "slices": null,
+  "problem": {
+    "id": "ADOPT-M-12",
+    "title": "Подключитьa11yevidence изdesignentry",
+    "status": "proposed_not_implemented",
+    "readiness": "planned_requires_dispatch_refresh",
+    "operation": "Edit",
+    "target": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+    "source_files": [
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/design-systems/skills/accessibility-audit/SKILL.md",
+        "line": 19,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/design-systems/skills/accessibility-audit/SKILL.md#L19"
+      }
+    ],
+    "decision": "Design entry подключает a11y evidence по relevant scope через existing capability, не создаёт нового глобального router. Visual judgment не выдаётся за WCAG conformance.",
+    "outputs": [
+      "Conditionalpointer to accessibilityevidence"
+    ],
+    "acceptance": [
+      "Linkresolves; purevisualjudgment cannot produceWCAGconformancewithoutscopedchecks."
+    ],
+    "dependencies": [
+      {
+        "task_id": "ADOPT-M-11",
+        "type": "data",
+        "reason": "Consumes predecessor method/fixture contract"
+      }
+    ],
+    "related_existing_tasks": [],
+    "runtime_dependencies": [],
+    "api_keys": [],
+    "network_required": false,
+    "host": "Markdown/JSON plus already-available family validator/host capabilities",
+    "not_in_scope": [
+      "foreign plugin installation",
+      "foreign script execution",
+      "new mandatory APIs/SDKs",
+      "Fabric runtime implementation"
+    ],
+    "dispatch_refresh": [
+      "resolve exact target base and current doctrine patches",
+      "record source/target hashes and read scope",
+      "serialize overlapping target edits under family coordination"
+    ],
+    "resource_scope": [
+      "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md"
+    ],
+    "owner": "sheleg-design-skill",
+    "target_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "mode": "Edit"
+      }
+    ],
+    "steps": [
+      "Проверить текущую базу target и уже подготовленные doctrine patches; прочитать указанные source_evidence как данные.",
+      "Реализовать ровно этот контракт в указанном target: Design entry подключает a11y evidence по relevant scope через existing capability, не создаёт нового глобального router. Visual judgment не выдаётся за WCAG conformance.",
+      "Проверить конкретные acceptance cases; записать PASS/FAIL/NOT_RUN и доступность инструментов."
+    ],
+    "depends_on": [
+      {
+        "task_id": "ADOPT-M-11",
+        "type": "data",
+        "reason": "Consumes predecessor method/fixture contract",
+        "kind": "data"
+      }
+    ],
+    "related_existing": [],
+    "source_evidence": [
+      {
+        "path": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/design-systems/skills/accessibility-audit/SKILL.md",
+        "line": 19,
+        "source_url": "https://github.com/Owl-Listener/designer-skills/blob/9a6930cf84a822eb458624bd11c61aac5bbdf224/design-systems/skills/accessibility-audit/SKILL.md#L19"
+      }
+    ]
+  },
+  "context": [],
+  "leaf_ids": [
+    "ADOPT-M-12.01"
+  ],
+  "completion_contract": {
+    "all_leaves_current_receipts": true,
+    "original_acceptance": [
+      "Linkresolves; purevisualjudgment cannot produceWCAGconformancewithoutscopedchecks."
+    ],
+    "integration_required": true,
+    "rule": "Parent closed only after original acceptance is checked across integrated leaf outputs; count of children is not proof."
+  }
+}

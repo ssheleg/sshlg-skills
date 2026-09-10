@@ -1,0 +1,269 @@
+[
+  {
+    "member": "super-ux",
+    "pin": "0.55.1",
+    "path": "repo://super-ux",
+    "local": "repo://super-ux",
+    "sha": "a60f6b423c619b37a3bb43564b58b02b6200e463",
+    "local_sha": "a60f6b423c619b37a3bb43564b58b02b6200e463",
+    "local_status": "",
+    "skills": [
+      {
+        "name": "brand-voice",
+        "path": "repo://super-ux/plugins/super-ux/skills/brand-voice/SKILL.md",
+        "exit": 0,
+        "lines": 133
+      },
+      {
+        "name": "copywriting",
+        "path": "repo://super-ux/plugins/super-ux/skills/copywriting/SKILL.md",
+        "exit": 0,
+        "lines": 164
+      },
+      {
+        "name": "ux-audit",
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-audit/SKILL.md",
+        "exit": 0,
+        "lines": 312
+      },
+      {
+        "name": "ux-flows",
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-flows/SKILL.md",
+        "exit": 0,
+        "lines": 300
+      },
+      {
+        "name": "ux-foundation",
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-foundation/SKILL.md",
+        "exit": 0,
+        "lines": 164
+      },
+      {
+        "name": "ux-scenarios",
+        "path": "repo://super-ux/plugins/super-ux/skills/ux-scenarios/SKILL.md",
+        "exit": 0,
+        "lines": 180
+      },
+      {
+        "name": "vision",
+        "path": "repo://super-ux/plugins/super-ux/skills/vision/SKILL.md",
+        "exit": 0,
+        "lines": 168
+      }
+    ]
+  },
+  {
+    "member": "task-pipeline",
+    "pin": "1.85.2",
+    "path": "repo://task-pipeline",
+    "local": "repo://task-pipeline",
+    "sha": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "local_sha": "66487ce32e7d4548fdaf7405eba5a21b44bb86d5",
+    "local_status": "",
+    "skills": [
+      {
+        "name": "evidence-docs",
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/evidence-docs/SKILL.md",
+        "exit": 0,
+        "lines": 105
+      },
+      {
+        "name": "project-audit",
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/project-audit/SKILL.md",
+        "exit": 0,
+        "lines": 277
+      },
+      {
+        "name": "task-pipeline",
+        "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+        "exit": 0,
+        "lines": 262
+      }
+    ]
+  },
+  {
+    "member": "agent-sync",
+    "pin": "1.19.3",
+    "path": "repo://agent-sync",
+    "local": "repo://agent-sync",
+    "sha": "ef45d404d1604a9a0d142f983b5cccc495133ca0",
+    "local_sha": "ef45d404d1604a9a0d142f983b5cccc495133ca0",
+    "local_status": "",
+    "skills": [
+      {
+        "name": "agent-sync",
+        "path": "repo://agent-sync/plugins/agent-sync/skills/agent-sync/SKILL.md",
+        "exit": 0,
+        "lines": 347
+      }
+    ]
+  },
+  {
+    "member": "make-skill",
+    "pin": "0.27.1",
+    "path": "repo://make-skill",
+    "local": "repo://make-skill",
+    "sha": "015052149a9c62a8a69e18a2a5dd6bf2f6e8196a",
+    "local_sha": "015052149a9c62a8a69e18a2a5dd6bf2f6e8196a",
+    "local_status": "",
+    "skills": [
+      {
+        "name": "make-skill",
+        "path": "repo://make-skill/plugins/make-skill/skills/make-skill/SKILL.md",
+        "exit": 1,
+        "lines": 318
+      }
+    ]
+  },
+  {
+    "member": "sheleg-design",
+    "pin": "1.59.4",
+    "path": "repo://sheleg-design",
+    "local": "repo://sheleg-design",
+    "sha": "ca855d92f4a82dfd95f376d5dd07e4f911e7f6b9",
+    "local_sha": "562786b30f07f50a294d70a4c3ffd40794624f42",
+    "local_status": "",
+    "skills": [
+      {
+        "name": "sheleg-design",
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "exit": 0,
+        "lines": 318
+      }
+    ]
+  },
+  {
+    "member": "seo-aeo-audit",
+    "pin": "0.25.11",
+    "path": "repo://seo-aeo-audit",
+    "local": "repo://seo-aeo-audit",
+    "sha": "aa38de5f8f078ac6c3ed3239e358dffad3993cb8",
+    "local_sha": "db261482a520df1b7373283955921f1282de866d",
+    "local_status": "",
+    "skills": [
+      {
+        "name": "seo-aeo-audit",
+        "path": "repo://seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md",
+        "exit": 1,
+        "lines": 312
+      }
+    ]
+  },
+  {
+    "member": "sheleg-dev",
+    "pin": "0.11.8",
+    "path": "repo://sheleg-dev",
+    "local": "repo://sheleg-dev",
+    "sha": "42dfb5df929897f5cf39c72c0c69725f6bb664e2",
+    "local_sha": "42dfb5df929897f5cf39c72c0c69725f6bb664e2",
+    "local_status": "",
+    "skills": [
+      {
+        "name": "ad-tracking",
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/SKILL.md",
+        "exit": 0,
+        "lines": 400
+      },
+      {
+        "name": "crypto-payments",
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md",
+        "exit": 0,
+        "lines": 403
+      },
+      {
+        "name": "error-tracking",
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/error-tracking/SKILL.md",
+        "exit": 0,
+        "lines": 257
+      },
+      {
+        "name": "frontend-performance",
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/SKILL.md",
+        "exit": 0,
+        "lines": 166
+      },
+      {
+        "name": "google-auth",
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-auth/SKILL.md",
+        "exit": 0,
+        "lines": 269
+      },
+      {
+        "name": "google-signin",
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/google-signin/SKILL.md",
+        "exit": 0,
+        "lines": 121
+      },
+      {
+        "name": "stripe-billing",
+        "path": "repo://sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/SKILL.md",
+        "exit": 0,
+        "lines": 398
+      }
+    ]
+  },
+  {
+    "member": "agent-stack",
+    "pin": "0.23.2",
+    "path": "repo://agent-stack",
+    "local": "repo://agent-stack",
+    "sha": "1f99f8f0914f122da1629e6ede6fd60a7e23d1ea",
+    "local_sha": "1f99f8f0914f122da1629e6ede6fd60a7e23d1ea",
+    "local_status": "",
+    "skills": [
+      {
+        "name": "agent-evals",
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md",
+        "exit": 0,
+        "lines": 346
+      },
+      {
+        "name": "agent-harness",
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-harness/SKILL.md",
+        "exit": 0,
+        "lines": 203
+      },
+      {
+        "name": "agent-interop",
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-interop/SKILL.md",
+        "exit": 0,
+        "lines": 176
+      },
+      {
+        "name": "agent-orchestrator",
+        "path": "repo://agent-stack/plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+        "exit": 0,
+        "lines": 347
+      }
+    ]
+  },
+  {
+    "member": "telegram-dev",
+    "pin": "0.1.11",
+    "path": "repo://telegram-dev",
+    "local": "repo://telegram-dev",
+    "sha": "0263b899e5827c65d366d2bbac73557a56045235",
+    "local_sha": "0263b899e5827c65d366d2bbac73557a56045235",
+    "local_status": "",
+    "skills": [
+      {
+        "name": "telegram-bots",
+        "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-bots/SKILL.md",
+        "exit": 0,
+        "lines": 203
+      },
+      {
+        "name": "telegram-miniapps",
+        "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/SKILL.md",
+        "exit": 0,
+        "lines": 185
+      },
+      {
+        "name": "telegram-userbots",
+        "path": "repo://telegram-dev/plugins/telegram-dev/skills/telegram-userbots/SKILL.md",
+        "exit": 0,
+        "lines": 164
+      }
+    ]
+  }
+]

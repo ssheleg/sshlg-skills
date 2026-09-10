@@ -1,0 +1,111 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-RT-02.01",
+  "parent_id": "FIX-RT-02",
+  "title": "Route-scoped waiver state",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "sshlg-skills"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Отказ от одного маршрута выключает всю эскалацию; цитата тоже считается отказом",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Хранить route_id/scope/source/user_act; quoted/tool text не создаёт waiver.",
+  "expected_result": "Отказ от design оставляет billing/UX; цитата refusal не меняет state.",
+  "acceptance": [
+    "Отказ от design оставляет billing/UX; цитата refusal не меняет state."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Хранить route_id/scope/source/user_act; quoted/tool text не создаёт waiver.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sshlg-skills/lib/turnstate.js",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "71306bf03e2175c4ec2e984f29e00fca133ff60ec94202e87da65697bc5db093"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sshlg-skills/test/audit_regressions/fix-rt-02.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-RT-02.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-RT-02.json",
+    "source_files": [
+      {
+        "path": "repo://sshlg-skills/lib/triggers.js",
+        "sha256": "6c9810816a3a85c44f8bbd265d4a38a6d80d793a2ba94e1b5cbc9b4995a84bcc",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sshlg-skills/lib/turnstate.js",
+        "sha256": "71306bf03e2175c4ec2e984f29e00fca133ff60ec94202e87da65697bc5db093",
+        "role": "baseline source"
+      },
+      {
+        "path": "audit://routing-reproductions.json",
+        "sha256": "3bc3fabc9f0a0de6eea49fcb0e4827b8da4bdf07ab2d707270a514e1c445337f",
+        "role": "read-only audit evidence",
+        "audit_original_sha256": "3bc3fabc9f0a0de6eea49fcb0e4827b8da4bdf07ab2d707270a514e1c445337f"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Отказ от design сохраняет billing и UX; обсуждение фразы отказа не меняет state; явно выбранный session waiver переживает следующий ход и может быть отозван."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sshlg-skills/test/audit_regressions/fix-rt-02.01.py",
+    "python3 repo://sshlg-skills/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-RT-02.01.md",
+    "sha256": "d01d59c819f555c3ac9d45c53f3997ce108cc1d1e39852085d12e8c96e4c794e",
+    "utf8_bytes": 4649,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "dc3d77617f43d6ae90b5ef71fe2c8c8ea99031a009622f48e1aa07f0bc640f3f"
+  }
+}

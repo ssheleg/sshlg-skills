@@ -1,0 +1,100 @@
+[
+  {
+    "verdict": "PASS",
+    "check": "NAME_CHARSET",
+    "message": "name 'sheleg-design' uses a legal charset",
+    "file": "sheleg-design/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_DIR",
+    "message": "name matches the directory",
+    "file": "sheleg-design/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_RESERVED",
+    "message": "no reserved word in name",
+    "file": "sheleg-design/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_LENGTH",
+    "message": "description is 960/1024 chars",
+    "file": "sheleg-design/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_PERSON",
+    "message": "description is third person",
+    "file": "sheleg-design/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_USEWHEN",
+    "message": "description opens with 'Use when …' (house rule)",
+    "file": "sheleg-design/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_RU",
+    "message": "description carries Russian trigger phrases (house rule)",
+    "file": "sheleg-design/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_WHAT",
+    "message": "description states WHAT the skill does in 251 chars beyond its triggers (house rule)",
+    "file": "sheleg-design/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_HEADROOM",
+    "message": "description is 960/970 chars, inside the working limit",
+    "file": "sheleg-design/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "FM_UNKNOWN_KEY",
+    "message": "no frontmatter key outside spec ∪ host extensions",
+    "file": "sheleg-design/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BODY_BUDGET",
+    "message": "body is 311 lines / ~4410 tokens (budget 500 / 5000)",
+    "file": "sheleg-design/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BODY_HEADROOM",
+    "message": "body is ~4410/4750 tokens, inside the working limit",
+    "file": "sheleg-design/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "LINK_INTEGRITY",
+    "message": "every relative link resolves and stays inside the skill",
+    "file": "sheleg-design/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "PROSE",
+    "message": "no Windows paths, time-branching, or bare directory pointers",
+    "file": "sheleg-design/SKILL.md",
+    "line": null
+  }
+]

@@ -1,0 +1,158 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "CTX-02.04",
+  "parent_id": "CTX-02",
+  "title": "Pre-dispatch freshness and budget",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "task-pipeline"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Report → prioritized packet compiler и context freshness gate",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Materialize prerequisite outputs/current source, enforce configured primary budget, capability and resource ownership.",
+  "expected_result": "Source drift/oversized mandatory context/missing upstream prevents claim; no silent truncation.",
+  "acceptance": [
+    "Source drift/oversized mandatory context/missing upstream prevents claim; no silent truncation."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Materialize prerequisite outputs/current source, enforce configured primary budget, capability and resource ownership.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/context_packets.py",
+      "mode": "Edit_from_predecessor",
+      "role": "new capability target; audit does not create it; consume produced path/digest from prerequisite, do not overwrite as a fresh Create",
+      "baseline_sha256": null,
+      "refresh_after": [
+        "CTX-02.01",
+        "CTX-02.02",
+        "CTX-02.03"
+      ]
+    }
+  ],
+  "test_target": {
+    "path": "repo://task-pipeline/test/audit_regressions/ctx-02.04.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/CTX-02.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/CTX-02.json",
+    "source_files": [
+      {
+        "path": "repo://task-pipeline/package.json",
+        "sha256": "19c2bf7655aac03d181dc32af94e20604e73ec1a720a952555c871e08017e7cb",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Все 115 findings проходят mapping без дублей и потерь; чистый отдельный процесс импортирует bundle без исходного абсолютного root; повреждение файла, усечение acceptance и изменение upstream output блокируют dispatch. Prompt materialization сохраняет инварианты в объявленном budget.",
+      "Coldreader answers8concretepacketquestions; missingversionoroutputcontract failsreadiness; no newservice/APIkey.",
+      "Ни design-flow, ни .design/TASKS.md не становятся параллельным plan authority.",
+      "Feature выбирается активным ID/explicit path, не mtime.",
+      "Каждый slice имеет конкретный expected result и testable acceptance."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [
+    {
+      "task_id": "CTX-02.03",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    },
+    {
+      "task_id": "CTX-01.01",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "CTX-01"
+    },
+    {
+      "task_id": "CTX-01.02",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "CTX-01"
+    },
+    {
+      "task_id": "CTX-01.03",
+      "kind": "data",
+      "reason": "Нужен согласованный результат prerequisite, указанный в аудите этого механизма.",
+      "via_parent": "CTX-01"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://task-pipeline/test/audit_regressions/ctx-02.04.py",
+    "python3 repo://task-pipeline/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "CTX-02.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.02",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    },
+    {
+      "from_task": "CTX-01.03",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/CTX-02.04.md",
+    "sha256": "7e8446480eba118a943af64c3819c652ee2e849436be3d82d980cc9a47a021ab",
+    "utf8_bytes": 4666,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "9927255943a67ebf0fdaa154c4eeb5b6c72bd274d93ce33a68bcc45399b6b8b9"
+  }
+}

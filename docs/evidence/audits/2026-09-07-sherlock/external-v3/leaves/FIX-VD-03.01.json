@@ -1,0 +1,141 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-VD-03.01",
+  "parent_id": "FIX-VD-03",
+  "title": "Platform/renderer contract",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Mobile/native ветка не завершена платформенным адаптером, а общий product default остаётся вебовым",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Разделить ios-native/android-native/RN/web и HTML prototype; выбрать native-equivalent spec для web preview.",
+  "expected_result": "SwiftUI route не получает Expo как единственный ответ; browser screenshot не native proof.",
+  "acceptance": [
+    "SwiftUI route не получает Expo как единственный ответ; browser screenshot не native proof."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Разделить ios-native/android-native/RN/web и HTML prototype; выбрать native-equivalent spec для web preview.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "a65dc292c48868b0c5d1ca4ead4aad17d1c4dec32253ffe5e81ecab86b72031e"
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-design/test/audit_regressions/fix-vd-03.01.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-VD-03.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-VD-03.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/MOBILE_SURFACES.md",
+        "sha256": "a65dc292c48868b0c5d1ca4ead4aad17d1c4dec32253ffe5e81ecab86b72031e",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sshlg-skills/lib/packs.js",
+        "sha256": "0f8ffe8e513e6ac996b57157e0963862659b683eccb2d5f9497c25380999c75f",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/AI_PRODUCT_PATTERNS.md",
+        "sha256": "c51fba0ba6dd8268313025f70fad65519e1f04eabf870df6a6167ff0f81e6182",
+        "role": "baseline source"
+      }
+    ],
+    "retired_read_only_evidence": [
+      {
+        "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.css",
+        "sha256": "fb98591b4e21c62b3c2b28d9e5f0e6b21d7c2db7ce448083f3aa8c44eb070bd9",
+        "role": "read-only audit evidence",
+        "state": "historical_source_no_longer_available",
+        "historical_receipt": "audit://extension/design-depth.json",
+        "effect": "Not required execution context; old observation is not reasserted as current source behavior."
+      },
+      {
+        "path": "machine-snapshot://DATA/nicegram-assistant-preview/public/inchat.js",
+        "sha256": "4f375bcbd65f23979f94e1da04fbfc8db3520eb69a8255560a4e0eba0f4c8d2a",
+        "role": "read-only audit evidence",
+        "state": "historical_source_no_longer_available",
+        "historical_receipt": "audit://extension/design-depth.json",
+        "effect": "Not required execution context; old observation is not reasserted as current source behavior."
+      }
+    ],
+    "full_parent_acceptance": [
+      "Для одного context-sheet сценария проверить web prototype и native-equivalent spec: selection, keyboard, sheet detents/dismissal, safe areas, accessibility size, submit/stop, restoration. Browser computed input font соответствует выбранному web floor; iOS native evidence не выдаётся за browser screenshot. В route на SwiftUI не появляется RN/Expo как единственный mobile ответ. Наличие Dynamic Type помечается measured/unverified, а не inferred from clamp.",
+      "iOS shell не получает автоматически web Workbench и SF/Roboto dogma.",
+      "Browser prototype review заканчивается корректным scope, не native verified.",
+      "Настройки устройства не сбрасываются безусловно к 1.0."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit."
+  },
+  "depends_on": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [],
+  "verification_commands": [
+    "python3 repo://sheleg-design/test/audit_regressions/fix-vd-03.01.py",
+    "python3 repo://sheleg-design/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-VD-03.01.md",
+    "sha256": "7bbb5a82cc9e2cdf30473ac45c59dbf4f7cecdb60c3245203a0b3b795a6bc799",
+    "utf8_bytes": 6799,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "54d88876eab39cc35cdcf974b50b8974a680975fadef64db0603e08194afe65d"
+  }
+}

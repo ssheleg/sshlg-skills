@@ -1,0 +1,176 @@
+{
+  "schema_version": "audit-plan/1",
+  "id": "FIX-AS-08",
+  "revision": 1,
+  "title": "Статистические правила выдают предположения за универсальные границы",
+  "finding_id": "AS-08",
+  "module": "agent-stack",
+  "modules": [
+    "agent-stack"
+  ],
+  "priority": "P2",
+  "priority_rank": 2,
+  "priority_reason": "Корректность и поддерживаемость после независимых P1 fixes.",
+  "status": "planned_not_implemented",
+  "readiness": "planned_requires_dispatch_refresh",
+  "requirements": [
+    "E-05",
+    "E-06"
+  ],
+  "context": [
+    {
+      "path": "audit://extension/work-brief.md",
+      "sha256": "ad3ad9a4108e26d14e3a9938454dc9b367c675ffc41f33958438f37f3350e8a1",
+      "role": "user requirements"
+    },
+    {
+      "path": "audit://extension/context/program.md",
+      "sha256": "984a3785a4fcaf9ac7e83939f59ab8aecb5aea0caf78feea73ba19bcbaa1b137",
+      "role": "program"
+    },
+    {
+      "path": "audit://extension/context/decisions.json",
+      "sha256": "6e24144cc9b4da987300cd8168b1d5fb7dd777d627fdac9012cc55706c37768f",
+      "role": "decisions"
+    },
+    {
+      "path": "audit://extension/context/modules/agent-stack.md",
+      "sha256": "7f735a083a16130f6f7c517bfe939c7765ecd15e2f0b2192676e3bb133b0e2db",
+      "role": "module:agent-stack"
+    },
+    {
+      "path": "audit://extension/context/contracts/execution.md",
+      "sha256": "1232bc9f2df522dd87e97fdcd1f7b1450d12be824964655a765bb587fb3365b4",
+      "role": "contract:execution"
+    },
+    {
+      "path": "audit://extension/context/contracts/evidence.md",
+      "sha256": "5eebd2b6e79abf83c1f46244a65acd4abc4624f688000166a6204635f1ce7a88",
+      "role": "contract:evidence"
+    },
+    {
+      "path": "audit://agents-sync.json",
+      "sha256": "2a09f147a9831de08154965e825930738fc668f41918c8304d19c727a0b146ed",
+      "role": "supporting evidence appendix"
+    }
+  ],
+  "decision": {
+    "D01": "Контекст хранится версионированным графом program → module → contracts/decisions → task, не зависит от памяти одной сессии.",
+    "D02": "Task-pipeline отвечает за план/пакет/приёмку; один authority исполняет run. В Fabric этот authority принадлежит Fabric, отдельного конкурирующего dispatcher нет.",
+    "D03": "Priority, dependency readiness, context completeness, implementation status и runtime certification — отдельные поля.",
+    "D04": "Approval, fact, prototype coverage и production outcome не повышаются друг в друга без соответствующей проверки.",
+    "D05": "Сначала выбор визуального направления в рамках brand invariants, затем консолидация tokens; конкретный render проходит critique/change/rerender.",
+    "D06": "Декларированная поддержка host, installed bytes и реально загруженный skill проверяются отдельно; fallback не обещает отсутствующий enforcement.",
+    "D07": "Релиз — воспроизводимый набор байтов с scoped dry-run, atomic apply, failure propagation и rollback.",
+    "D08": "Текущие source patches — локальные рекомендации. Ни один из 115 defects не объявляется полностью исправленным или выпущенным на их основании.",
+    "D09": "Зависимость может переносить данные, порядок или владение ресурсом. Отсутствие payload не даёт права удалить ребро.",
+    "D10": "Все роли наследуют выбранную пользователем модель. Host/model capability проверяется до dispatch; дополнительное подтверждение модели не является обязательной стадией."
+  },
+  "problem": {
+    "id": "AS-08",
+    "skills": [
+      "agent-evals"
+    ],
+    "priority": "P2",
+    "verdict": "GAP",
+    "kind": "measured_mathematical_counterexample",
+    "title": "Статистические правила выдают предположения за универсальные границы",
+    "evidence": [
+      "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md:31",
+      "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md:52",
+      "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md:106",
+      "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md:118"
+    ],
+    "observation": "Wald interval дан без ограничений по n/p; зависимость всегда должна расширять band; p^k объявлено worst case; независимые средние запрещено сравнивать вообще. Всё это требует дополнительных предположений.",
+    "reproduction": "Скрипт показывает n=3,p=1→band=0. Для четырёх trial с ровно одним случайно расположенным failure marginal p=.75, но all-pass=0, меньше p^4=.3164. Следовательно independence не универсальный worst case. Отрицательная зависимость может уменьшить variance.",
+    "production_occurrence": "Не проверялось: production-трафик, кошельки, облачные журналы и реальные пользовательские данные не затрагивались.",
+    "impact": "Ложная уверенность на маленьком наборе, неверные thresholds и отбрасывание корректного unpaired экспериментального дизайна.",
+    "fix": "Для proportion использовать Wilson/exact и явно описать iid/cluster assumptions; pass@k/pass^k считать по task-level trials. Для clustered/paired результатов применять соответствующий bootstrap/McNemar; unpaired сравнение допускается с его SE. Вместо never/worst case дать условные утверждения.",
+    "acceptance": "Граничные n=1,3 и p=0,1 не дают нулевую неопределённость; контрольные positive/negative correlation кейсы, paired и unpaired дизайны дают заранее вычисленные интервалы.",
+    "sources": [],
+    "origin": "agents-sync.json",
+    "evidence_kind": "measured_mathematical_counterexample",
+    "implementation_status": "proposed",
+    "phase": "M2",
+    "task_id": "FIX-AS-08"
+  },
+  "implementation_steps": [
+    "Восстановить именно описанный механизм на закреплённых ниже исходниках; сохранить отрицательный baseline и не заменять его проверкой формулировки.",
+    "Для proportion использовать Wilson/exact и явно описать iid/cluster assumptions; pass@k/pass^k считать по task-level trials. Для clustered/paired результатов применять соответствующий bootstrap/McNemar; unpaired сравнение допускается с его SE. Вместо never/worst case дать условные утверждения.",
+    "Согласовать изменённые interfaces с перечисленными module contracts; обновить канонический текст и реально поставляемые generated copies в той же правке.",
+    "Выполнить конкретную приёмку ниже; привязать receipts к candidate commit, packet revision и environment. Независимый reviewer проверяет смысл, затем integrator проверяет результат после merge."
+  ],
+  "acceptance": [
+    "Граничные n=1,3 и p=0,1 не дают нулевую неопределённость; контрольные positive/negative correlation кейсы, paired и unpaired дизайны дают заранее вычисленные интервалы."
+  ],
+  "verification_plan": {
+    "baseline": "Скрипт показывает n=3,p=1→band=0. Для четырёх trial с ровно одним случайно расположенным failure marginal p=.75, но all-pass=0, меньше p^4=.3164. Следовательно independence не универсальный worst case. Отрицательная зависимость может уменьшить variance.",
+    "must_test": "Граничные n=1,3 и p=0,1 не дают нулевую неопределённость; контрольные positive/negative correlation кейсы, paired и unpaired дизайны дают заранее вычисленные интервалы.",
+    "negative_cases": "Использовать failure conditions, перечисленные в acceptance. Недоступный инструмент даёт NOT_RUN, не PASS. Данные eval не должны содержать ожидаемый ответ как критерий поведения.",
+    "scope": "Targeted regression + validator изменённого пакета; полный suite только для затронутого runtime/validator/contract или release gate."
+  },
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "contract": "isolated commit/diff + base + source digests + migration/compatibility notes"
+    },
+    {
+      "name": "verification_receipt",
+      "contract": "named cases, command/result, environment, code/packet digests, observed outcome and limitations"
+    },
+    {
+      "name": "context_delta",
+      "contract": "changed decisions/interfaces, affected consumers and new packet revision requirements"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md",
+      "sha256": "a9da4f542487b66e4005e4031213ea6e9aa8cee048a1dba60647fa3f3bbe8943",
+      "role": "baseline source"
+    }
+  ],
+  "source_bases": {
+    "agent-stack": "1f99f8f0914f122da1629e6ede6fd60a7e23d1ea"
+  },
+  "write_scope": [
+    {
+      "resource": "repo:repo://agent-stack",
+      "mode": "exclusive_integration",
+      "reason": "Консервативный review/merge slot; параллельные isolated worktrees допустимы только после уточнения write sets."
+    },
+    {
+      "resource": "file:repo://agent-stack/plugins/agent-stack/skills/agent-evals/references/statistics.md",
+      "mode": "candidate_edit",
+      "reason": "Existing source implicated by this finding; refine exact edit in executor after fresh checkout."
+    }
+  ],
+  "depends_on": [],
+  "read_only_evidence": [],
+  "scope_finalization": "Candidate edit targets are not arbitrary write grants. Before dispatch reserve explicit Create paths, new migration/ADR IDs if needed, test paths and generated-copy targets; regenerate packet and re-check ownership. Historical migrations/ADRs are immutable evidence.",
+  "execution": {
+    "planner": "context compiler",
+    "executor": "independent agent session",
+    "reviewer": "separate review context",
+    "integrator": "repository owner/merge authority",
+    "model": "inherit",
+    "host": "capability-selected",
+    "authority": "one per run; production adapter not implemented here",
+    "max_parallelism": "configured by available workers and conflicts; not encoded as permission"
+  },
+  "freshness_policy": "Validate all hashes, upstream outputs and source base immediately before dispatch; recompile revision after prerequisite/merge changes. These are local audit packets, not pre-approved future execution grants.",
+  "context_budget": {
+    "primary": "brief + program + own modules/contracts + task acceptance",
+    "appendix": "supporting evidence/source ranges fetched by locator; never silently truncate invariants",
+    "measured_prompt_tokens": null,
+    "status": "NOT_MATERIALISED; measure using selected host tokenizer before dispatch"
+  },
+  "rollback": "Keep previous commit/release digest. Revert this isolated change if acceptance regresses; state migrations require explicit reversible migration or recovery plan before execution. Never delete installed plain copies before verified replacement.",
+  "uncertainties": [
+    "Live model/host outcomes have not been measured by this packet.",
+    "Exact patch may change after a prerequisite: refresh context instead of treating this plan as immutable implementation truth."
+  ],
+  "prepared_local_doctrine": false,
+  "planning_wave": 11
+}

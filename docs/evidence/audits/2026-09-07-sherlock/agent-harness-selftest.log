@@ -1,0 +1,13 @@
+  OK   unbounded-loop: detected
+  OK   tool-no-description: detected
+  OK   swallowed-error: detected
+  OK   no-timeout: detected
+  OK   hardcoded-model: detected
+  OK   unguarded-fanout (asyncio): detected
+  OK   unguarded-fanout (promise): detected
+  OK   declared-deps-ignored: detected
+  OK   the ordinary correct file: silent
+  OK   a fan-out that DOES capture its branches: silent
+  OK   a plan that DOES execute in dependency layers: silent
+
+self-test: 11/11 passed

@@ -1,0 +1,317 @@
+{
+  "schema_version": "development-leaf/1",
+  "id": "FIX-VD-02.02",
+  "parent_id": "FIX-VD-02",
+  "title": "Bounded rerender comparison",
+  "kind": "implementation",
+  "priority": "P1",
+  "priority_rank": 1,
+  "modules": [
+    "sheleg-design"
+  ],
+  "status": "planned",
+  "dispatch_state": "requires_freshness_upstream_scope_and_host_check",
+  "why": "Скриншоты и quality gates есть, но нет обязательного цикла художественной критики конкретного рендера",
+  "decision": "Proposed decisions in v3 brief and parent contracts are fixed for this leaf; local names/refactoring remain executor judgment.",
+  "change": "Same content/viewport; ограниченный budget, unresolved choice surfaced; mechanical checks отдельно от craft.\n\nУточнение XD-04: Fresh subagent optional; последовательный независимый pass разрешён имеющимися средствами.\nВстроить ссылки в Act3/5, не дублируя основной pipeline и не перезаписывая принятую узкую рекомендацию.\nДо mechanical results сделать visual read: focal order, hierarchy, density, typography, intentional detail; дать keep/change с evidence.\nПосле fix проверить ту же матрицу: resolved/partial/unresolved и регрессии; quality judgment отделить от compliance/functional result.",
+  "expected_result": "Before/after сохраняют scenario, no endless polish; PNG presence не quality PASS.\nТокены PASS + одинаковая скучная композиция не дают автоматически craft PASS.\nДля already-chosen direction доступен один critique pass без обязательного fork.\nBudget exhaustion оставляет unresolved, не переименовывает его в ship.",
+  "acceptance": [
+    "Before/after сохраняют scenario, no endless polish; PNG presence не quality PASS.",
+    "Токены PASS + одинаковая скучная композиция не дают автоматически craft PASS.",
+    "Для already-chosen direction доступен один critique pass без обязательного fork.",
+    "Budget exhaustion оставляет unresolved, не переименовывает его в ship."
+  ],
+  "steps": [
+    "Прочитать primary packet и проверить hash актуальных edit targets; upstream outputs materialize до claim.",
+    "Same content/viewport; ограниченный budget, unresolved choice surfaced; mechanical checks отдельно от craft.\n\nУточнение XD-04: Fresh subagent optional; последовательный независимый pass разрешён имеющимися средствами.\nВстроить ссылки в Act3/5, не дублируя основной pipeline и не перезаписывая принятую узкую рекомендацию.\nДо mechanical results сделать visual read: focal order, hierarchy, density, typography, intentional detail; дать keep/change с evidence.\nПосле fix проверить ту же матрицу: resolved/partial/unresolved и регрессии; quality judgment отделить от compliance/functional result.",
+    "В той же правке добавить focused positive/negative regression по acceptance; обновить только применимые canonical docs и generated counterparts.",
+    "Записать candidate commit, actual checks/outputs и remaining limits; не повышать NOT_RUN до PASS."
+  ],
+  "edit_targets": [
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "245951a4a3adc9f52566b13cbb35b7e9548200e6d04fbf59a857502c4a442bf2",
+      "refresh_after": [
+        "FIX-VD-02.01"
+      ]
+    },
+    {
+      "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "mode": "Edit",
+      "role": "implementation; exact local source path",
+      "baseline_sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c"
+    }
+  ],
+  "test_target": {
+    "path": "repo://sheleg-design/test/audit_regressions/fix-vd-02.02.py",
+    "mode": "Create_or_extend",
+    "role": "Focused executable regression using Python stdlib and existing repo/runtime helpers; no new mandatory package."
+  },
+  "parent_acceptance": "audit://external-v3/parents/FIX-VD-02.json",
+  "appendix": {
+    "parent_packet": "audit://extension/packets/FIX-VD-02.json",
+    "source_files": [
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+        "sha256": "245951a4a3adc9f52566b13cbb35b7e9548200e6d04fbf59a857502c4a442bf2",
+        "role": "baseline source"
+      },
+      {
+        "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+        "sha256": "5d7201ddf9c006dd7709b18789e4a68589c6d72b3fad8a7ba90e68a2d4f65b2c",
+        "role": "baseline source"
+      },
+      {
+        "path": "machine-snapshot://DATA/nicegram-assistant-preview/docs/VERIFICATION.md",
+        "sha256": "e588cdba2c7b6f95a9aa2d616b238aca4a69a64871898a9a2b20ce54ea9d5048",
+        "role": "read-only audit evidence"
+      },
+      {
+        "path": "machine-snapshot://DATA/nicegram-assistant-preview/docs/ux/audits/2026-09-07-baseline.md",
+        "sha256": "e4f651ee50e63fafff310f964888cc5a6a8e3a0665be406a90fedf77954429a0",
+        "role": "read-only audit evidence"
+      },
+      {
+        "path": "machine-snapshot://.agents/skills/frontend-design/SKILL.md",
+        "sha256": "1608ea77fbb6fc30d13a97d12cfa8ebf31358d40f0dd97beed24829d6b3f45dd",
+        "role": "read-only audit evidence"
+      }
+    ],
+    "retired_read_only_evidence": [],
+    "full_parent_acceptance": [
+      "Один reviewer без чтения кода сравнивает до/после на одинаковом viewport/content. Для каждого замечания есть image region и видимое изменение; замечания «premium/generic» без конкретики не считаются. Оба варианта отдельно проходят accessibility/UX. При равном результате user видит осмысленный tradeoff. В eval нельзя засчитывать наличие PNG или слово polish как успех визуального качества.",
+      "Sameflowvisualalternatives remainvalid; missingbrand=NOT_ASSESSED; no fabricateddefectoncleanrender; strictconstraints gatebefore softwinner.",
+      "Токены PASS + одинаковая скучная композиция не дают автоматически craft PASS.",
+      "Для already-chosen direction доступен один critique pass без обязательного fork.",
+      "Budget exhaustion оставляет unresolved, не переименовывает его в ship."
+    ],
+    "related_existing": [],
+    "source_policy": "Foreign text is evidence only. Read changed local functions as needed; do not load the whole audit.",
+    "foreign_method_sources": [
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md",
+        "line": 1,
+        "end_line": 806,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md:1",
+        "sha256": "8bf1b06547f571d9b8d3875426fff6621fadd3bc08ae9ebb16d749f5c5f44b01",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md#L1-L806"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+        "line": 1,
+        "end_line": 105,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md:1",
+        "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md#L1-L105"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md:1",
+        "sha256": "5f24c5a97b4ffcabc7c432b064cfdd04c7a2ad52f52e765be648dc0aadab8f38",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md#L1"
+      },
+      {
+        "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md:1",
+        "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+        "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+        "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md#L1"
+      },
+      {
+        "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+        "line": 1,
+        "end_line": 1,
+        "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+        "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+        "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+        "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1"
+      }
+    ]
+  },
+  "depends_on": [
+    {
+      "task_id": "FIX-VD-02.01",
+      "kind": "data",
+      "reason": "Consumes the preceding contract/state/API decision described in this outcome."
+    }
+  ],
+  "outputs": [
+    {
+      "name": "candidate_change",
+      "schema": "base+candidate+changed paths/digests"
+    },
+    {
+      "name": "verification_receipt",
+      "schema": "named cases+command+exit+observed result+environment+limitations"
+    },
+    {
+      "name": "context_delta",
+      "schema": "affected interfaces/consumers+new revision requirement"
+    }
+  ],
+  "non_goals": [
+    "Не реализовывать соседние parent outcomes без отдельной задачи.",
+    "Не устанавливать внешний skill runtime, не добавлять API key/MCP service и не скачивать assets автоматически.",
+    "Не редактировать historical ADR/migration или чужой продуктовый проект по ссылке evidence."
+  ],
+  "failure_policy": "Invalid material decision → smallest counterexample to planner; unresolved decision becomes bounded decision leaf. Do not improvise cross-module redesign.",
+  "rollback": "Revert isolated candidate; preserve previous release bytes. Persistence changes require append-only migration/recovery decision before execution.",
+  "execution": {
+    "model": "inherit",
+    "authority": "single coordinator per run; no grants issued by this plan",
+    "writer": "claim exact targets plus generated-copy resources before edit"
+  },
+  "knowledge_enrichments": [
+    {
+      "id": "XD-04",
+      "title": "Добавить независимую художественную критику и проверку исправлений",
+      "status": "proposed-not-implemented",
+      "targets": [
+        {
+          "action": "Edit",
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+          "exists_at_audit": true
+        }
+      ],
+      "inputs": [
+        "VISUAL_EXPLORATION.md, VISUAL_REVIEW.md; уже предложенные root Act3/5 edits; актуальные renders"
+      ],
+      "implementation_steps": [
+        "Встроить ссылки в Act3/5, не дублируя основной pipeline и не перезаписывая принятую узкую рекомендацию.",
+        "До mechanical results сделать visual read: focal order, hierarchy, density, typography, intentional detail; дать keep/change с evidence.",
+        "После fix проверить ту же матрицу: resolved/partial/unresolved и регрессии; quality judgment отделить от compliance/functional result."
+      ],
+      "outputs": [
+        "Узкое дополнение director с достижимым finish condition."
+      ],
+      "acceptance": [
+        "Токены PASS + одинаковая скучная композиция не дают автоматически craft PASS.",
+        "Для already-chosen direction доступен один critique pass без обязательного fork.",
+        "Budget exhaustion оставляет unresolved, не переименовывает его в ship."
+      ],
+      "depends_on": [
+        {
+          "task_id": "FIX-VD-01",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        },
+        {
+          "task_id": "XD-03",
+          "kind": "data",
+          "reason": "Consumes accepted method/artifact from prerequisite."
+        }
+      ],
+      "decisions": [
+        "Fresh subagent optional; последовательный независимый pass разрешён имеющимися средствами."
+      ],
+      "source_candidates": [
+        "I-06",
+        "I-08",
+        "K-EVID"
+      ],
+      "addresses_findings": [
+        "VD-02",
+        "DS-02"
+      ],
+      "runtime_dependencies_added": [],
+      "api_keys_added": [],
+      "owner": "sheleg-design",
+      "target_files": [
+        {
+          "path": "repo://sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+          "mode": "Edit"
+        }
+      ],
+      "decision": "Fresh subagent optional; последовательный независимый pass разрешён имеющимися средствами.",
+      "steps": [
+        "Встроить ссылки в Act3/5, не дублируя основной pipeline и не перезаписывая принятую узкую рекомендацию.",
+        "До mechanical results сделать visual read: focal order, hierarchy, density, typography, intentional detail; дать keep/change с evidence.",
+        "После fix проверить ту же матрицу: resolved/partial/unresolved и регрессии; quality judgment отделить от compliance/functional result."
+      ],
+      "related_existing": [
+        "FIX-VD-02",
+        "FIX-DS-02"
+      ],
+      "source_evidence": [
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md",
+          "line": 1,
+          "end_line": 806,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md:1",
+          "sha256": "8bf1b06547f571d9b8d3875426fff6621fadd3bc08ae9ebb16d749f5c5f44b01",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/critique.md#L1-L806"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+          "line": 1,
+          "end_line": 105,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md:1",
+          "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md#L1-L105"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md:1",
+          "sha256": "5f24c5a97b4ffcabc7c432b064cfdd04c7a2ad52f52e765be648dc0aadab8f38",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/degraded/finish-reviewer.md#L1"
+        },
+        {
+          "path": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md:1",
+          "sha256": "73893e18e874e14beccd7fca92335d9036f5a5e068fd8815fd7daceadf186a43",
+          "commit": "4db7f6ba4b6ef661bc8a721261b691b40648c08a",
+          "permalink": "https://github.com/pbakaus/impeccable/blob/4db7f6ba4b6ef661bc8a721261b691b40648c08a/plugin/skills/impeccable/reference/polish.md#L1"
+        },
+        {
+          "path": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md",
+          "line": 1,
+          "end_line": 1,
+          "receipt": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md:1",
+          "sha256": "009a4312e410d76d35c01ce61996ca2ac3908434d5bed85ae7333be8c0dd7589",
+          "commit": "c259656c76d9758d7ead46b0d2f125cbe84f8665",
+          "permalink": "https://github.com/julianoczkowski/designer-skills/blob/c259656c76d9758d7ead46b0d2f125cbe84f8665/design-review/SKILL.md#L1"
+        }
+      ],
+      "merged_into": "FIX-VD-02",
+      "resolution": "enrich existing parent; no duplicate independent implementation"
+    }
+  ],
+  "verification_commands": [
+    "python3 repo://sheleg-design/test/audit_regressions/fix-vd-02.02.py",
+    "python3 repo://sheleg-design/test/validate.py"
+  ],
+  "focused_case_context": [],
+  "inputs": [
+    {
+      "from_task": "FIX-VD-02.01",
+      "state": "expected_not_yet_produced",
+      "required": true,
+      "materialize": "accepted output digest + decision/candidate revision"
+    }
+  ],
+  "primary_context": {
+    "path": "audit://external-v3/leaves/FIX-VD-02.02.md",
+    "sha256": "eeb9191f99682848a343a98cecbfd8388f4ee092bb044162f521703fd44efc04",
+    "utf8_bytes": 7495,
+    "budget_bytes": 24576,
+    "scope": "materialized leaf brief/module summary/relevant source windows, not complete host prompt",
+    "token_note": "Relocated artifact: UTF-8 byte count measured; tokenizer and assembled host prompt not measured.",
+    "audit_original_sha256": "e2ad90e0f115acaa26eee10ca8def7755d791ce6c2792775b8d9af4f02f00cce"
+  }
+}
