@@ -192,16 +192,48 @@ jobs:
         if: steps.pub.outputs.skip == 'false'
         run: |
           set -eu
-          # The read replica lags the write master by a minute or two, so a fresh
-          # publish can still 404 on read. "Published" is a claim until it is
-          # served — poll instead of trusting publish's exit code alone.
-          for _ in $(seq 1 18); do
-            got=$(npm view "${{ steps.pub.outputs.name }}" version 2>/dev/null || echo "")
-            if [ "$got" = "${{ steps.t.outputs.ver }}" ]; then
-              echo "OK: registry serves ${{ steps.pub.outputs.name }}@$got"
+          # The read replica lags the write master, and npm says so on every publish:
+          # "Your package is being processed and may take a few minutes to become
+          # available." "Published" is a claim until it is served, so this polls
+          # rather than trusting publish's exit code.
+          #
+          # This step is the SAME in all ten repositories on purpose, because the two
+          # things it gets right were learned separately and each cost a red release:
+          #
+          # - **Ten minutes, not three.** Measured in telegram-dev on 2026-08-25, its
+          #   first publish: `npm publish` printed `+ …@0.1.3` and signed provenance,
+          #   and the replica served nothing for over three minutes. A first publish
+          #   creates the package document, which propagates more slowly than a new
+          #   version of an existing one. The fix lived in that one member for six
+          #   weeks; on 2026-09-10 sshlg-skills@1.48.1 hit the identical wall in a
+          #   workflow that had never received it, and the registry served the version
+          #   minutes after the job gave up.
+          # - **Ask for the VERSION, not the tag.** `npm view <name> version` answers
+          #   "what is the latest dist-tag", which is a different question: it differs
+          #   while the tag lags, and it differs permanently for a patch published
+          #   behind a newer minor. That one was found in sshlg-skills and telegram-dev
+          #   had never hit it.
+          #
+          # A lesson fixed in one member and left in the other nine is not fixed.
+          NAME="${{ steps.pub.outputs.name }}"
+          WANT="${{ steps.t.outputs.ver }}"
+          for i in $(seq 1 60); do
+            got=$(npm view "$NAME@$WANT" version 2>/dev/null || echo "")
+            if [ "$got" = "$WANT" ]; then
+              echo "OK: registry serves $NAME@$got (after ${i}0s)"
               exit 0
             fi
             sleep 10
           done
-          echo "registry still does not serve ${{ steps.t.outputs.ver }} after 3 minutes"
+          # The two failures need different answers, so name which one this is.
+          if npm view "$NAME" name >/dev/null 2>&1; then
+            echo "::error::the registry knows $NAME but does not serve $WANT after 10 minutes."
+            echo "::error::If the publish step printed '+ $NAME@$WANT' the write landed and the"
+            echo "::error::read lags: re-run this job — it reports 'already on the registry' and"
+            echo "::error::skips rather than publishing twice."
+          else
+            echo "::error::the registry does not know $NAME at all after 10 minutes — if this"
+            echo "::error::was a first publish, check the publish step: it prints '+ $NAME@$WANT'"
+            echo "::error::on success, and this step is a propagation check, not a publish check"
+          fi
           exit 1
