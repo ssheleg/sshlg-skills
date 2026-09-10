@@ -31,7 +31,13 @@ const ROOT = path.join(__dirname, '..');
 // the backup key — a HOME spelled through the symlink names a different key than the
 // hook computes, and `latest()` silently finds nothing.
 const HOME = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-hooks-e2e-')));
-const ENV = Object.assign({}, process.env, { HOME, USERPROFILE: HOME });
+// `SSHLG_SKILLS_NO_PROBE` because the session-start probes are DETACHED and write
+// `~/.sshlg-skills/state.json`. Without it an earlier test's probe lands between a
+// later test's fixture write and the hook's read, destroying the fixture — which
+// failed on CI and passed locally on the same commit. A suite that spawns network
+// processes into shared state is testing the network's timing.
+const ENV = Object.assign({}, process.env,
+  { HOME, USERPROFILE: HOME, SSHLG_SKILLS_NO_PROBE: '1' });
 
 /** Run a hook script the way Claude Code runs it: JSON on stdin, JSON on stdout. */
 function runHook(script, payload) {
@@ -379,12 +385,26 @@ it('a repaired settings file stops being reported', () => {
 it('a cache saying a newer set is out becomes exactly one line', () => {
   const dir = path.join(HOME, '.sshlg-skills');
   fs.mkdirSync(dir, { recursive: true });
+  const cache = { at: Date.now(), latest: '99.0.0' };
   fs.writeFileSync(path.join(dir, 'state.json'), JSON.stringify(
-    { routers: 'yes', updateCheck: { at: Date.now(), latest: '99.0.0' } }) + '\n');
+    { routers: 'yes', updateCheck: cache }) + '\n');
+
+  // The fixture is checked BEFORE the hook, in-process. This test failed once on
+  // CI and passed on the author's machine with the same inputs, and the message
+  // ("got 0") could not say which half was wrong: the module that decides, or the
+  // hook that carries it. Now it can — the module is asserted first, so a failure
+  // names the layer instead of the symptom.
+  const chk = require(path.join(ROOT, 'lib', 'updatecheck.js'));
+  const installed = require(path.join(ROOT, 'package.json')).version;
+  const decided = chk.plan(installed, cache, Date.now(), undefined, {}).line;
+  assert.ok(decided, `the MODULE produced no line for installed=${installed} latest=${cache.latest}`);
+
   const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
   const ctx = started.hookSpecificOutput.additionalContext;
   const hits = ctx.split('\n').filter((l) => /A newer set is out/.test(l));
-  assert.strictEqual(hits.length, 1, `expected one notice line, got ${hits.length}:\n${ctx}`);
+  assert.strictEqual(hits.length, 1,
+    `the module decided a line and the HOOK emitted ${hits.length}. `
+    + `installed=${installed} home=${HOME} cache=${JSON.stringify(cache)}\ncontext:\n${ctx}`);
   assert.match(hits[0], /99\.0\.0/, 'the notice does not name the version that is out');
   assert.match(hits[0], /npx sshlg-skills@latest update/, 'the notice does not carry the command');
 });
@@ -396,8 +416,12 @@ it('a cache saying the set is current says nothing', () => {
   fs.writeFileSync(path.join(dir, 'state.json'), JSON.stringify(
     { routers: 'yes', updateCheck: { at: Date.now(), latest: installed } }) + '\n');
   const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
-  assert.ok(!/A newer set is out/.test(started.hookSpecificOutput.additionalContext),
-    'a current set was announced as out of date');
+  const ctx = started.hookSpecificOutput.additionalContext;
+  // An absence is only evidence when something present proves the hook ran. Three
+  // of these four cases were satisfiable by the feature being missing entirely,
+  // which is a suite that cannot tell "silent" from "absent".
+  assert.match(ctx, /ssheleg family/, 'the hook did not run, so its silence proves nothing');
+  assert.ok(!/A newer set is out/.test(ctx), 'a current set was announced as out of date');
 });
 
 it('a CORRUPT cache starts the session and claims nothing', () => {

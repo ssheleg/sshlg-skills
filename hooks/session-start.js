@@ -40,6 +40,13 @@ process.stdin.on('end', () => {
     const triggers = require(path.join(LIB, 'triggers.js'));
 
     const context = [triggers.sessionNote()];
+    // A suite must not spawn background processes that mutate shared state. Both
+    // probes below write `~/.sshlg-skills/state.json`, and an earlier test's
+    // detached probe landed between a later test's fixture write and the hook's
+    // read — destroying the fixture and making the hook correctly report
+    // "current". It failed on CI and passed locally on the same commit, which is
+    // the signature of a race rather than a defect in what is being tested.
+    const noProbe = process.env.SSHLG_SKILLS_NO_PROBE === '1';
     const cwd = data.cwd || process.env.CLAUDE_PROJECT_DIR || process.cwd();
     const out = { hookEventName: 'SessionStart' };
 
@@ -76,7 +83,7 @@ process.stdin.on('end', () => {
       const cfg = require(path.join(LIB, 'config.js')).readConfig(home);
       const p = chk.plan(installed, state.updateCheck, Date.now(), undefined, cfg);
       if (p.line) context.push(p.line);
-      if (p.probe) {
+      if (p.probe && !noProbe) {
         const { spawn } = require('child_process');
         const probe = spawn(process.execPath,
           [path.join(__dirname, '..', 'lib', 'updateprobe.js')],
@@ -109,7 +116,7 @@ process.stdin.on('end', () => {
         } catch (e) { st = {}; }
         const p = hand.plan(st.inbound, repo, Date.now());
         if (p.line) context.push(p.line);
-        if (p.probe) {
+        if (p.probe && !noProbe) {
           const probe = spawn(process.execPath,
             [path.join(LIB, 'handoffprobe.js'), repo],
             { detached: true, stdio: 'ignore' });
