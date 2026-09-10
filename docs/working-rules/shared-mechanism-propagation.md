@@ -28,6 +28,12 @@ permanently for a patch published behind a newer minor.
 So each repository held half the knowledge, and neither half had reached the
 other. Both halves are now in one step, identical in all ten.
 
+**The first release through the fixed step measured the window.** `v1.48.2`, an
+hour later: `OK: registry serves sshlg-skills@1.48.2 (after 330s)`. Five and a
+half minutes — so the three-minute bound would have failed that release too, and
+the case for ten minutes stops being an argument and becomes two dated
+observations past the old bound.
+
 ## The rule
 
 **A shared mechanism is fixed in every copy, in the same change, or it is not
