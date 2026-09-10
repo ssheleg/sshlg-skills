@@ -411,8 +411,8 @@
       ],
       "status": "in_progress",
       "commit": null,
-      "checks": "final sweep on the merged mains: 9 of 10 gates EXIT=0 (241 audit-regression suites total); all nine umbrella pins resolve to their released tags; zero open issues family-wide; local installs match the released versions; shadow check empty; 0 broken symlinks",
-      "notes": "the tenth, task-pipeline, is red because v1.86.0 was tagged but its release never published — fixed in PR #89 (v1.86.1). This is what the sweep was for: eight releases verified as tag+release+publish, and the ninth turned out to have only the tag."
+      "checks": "all ten gates EXIT=0 on main (task-pipeline green after v1.86.1); 241 audit-regression suites; zero open issues family-wide; 0 broken symlinks across EVERY channel found by discovery (104 fixed this pass); local installs match released versions; shadow check empty. Pending: task-pipeline v1.86.1 release workflow, and the umbrella pin correction in PR #127.",
+      "notes": "the sweep earned its keep twice: it caught v1.86.0 tagged-but-never-published, and then that the umbrella had pinned that unpublished tag. A pin to a tag nothing published is a promise nothing can keep."
     }
   ],
   "flags": [
