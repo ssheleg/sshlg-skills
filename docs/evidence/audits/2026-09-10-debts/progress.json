@@ -475,6 +475,11 @@
       "id": "UNLOOKED-LINE-READ-20260910",
       "state": "measured",
       "detail": "R-010's third half says a green local suite is not evidence until you know WHICH checks looked, so the unlooked line was read rather than the exit code taken. task-pipeline `test:all` EXIT=0 with unlooked: 3 — (a) coordination, which reports what it discovered (15 guarded patterns, 4 version surfaces) rather than skipping; (b) backlog citations, 9 spans checked and 6 single-line citations unanchored because one line carries no phrase to compare; (c) routed triggers, the known standalone-checkout limit with no umbrella above it. None is a check that silently switched off, and the one that matters here — the release-gap/run-stamp gate — DID run: it is what refused v1.86.0 and then v1.86.1 until both were declared."
+    },
+    {
+      "id": "DEAD-LINKS-IN-50-CHANNELS-20260910",
+      "state": "resolved",
+      "detail": "104 broken symlinks across 49 skill channels, invisible to the health check this family documents — that check names five channels and the machine now has ~50, so it reported 0 broken while 104 sat outside its list. Two causes. (1) Eight links in ~/.codex/skills pointed six levels up (../../../../../../) where two are needed: hand-copied between channels, which CLAUDE.md warns about by name (\"symlink depth differs per channel — never hand-copy a symlink between channels\"). All eight targets existed; only the depth was wrong. Repointed absolutely, matching that channel's own working links. (2) 96 links, exactly two per channel across 48 channels, pointed at ~/.agents/skills/brand-voice-enforcement and ux-copy — the names super-ux used before they became brand-voice and copywriting. The hub entries went with the rename; the channel links did not. Removed. Verified: 0 broken across EVERY channel found by discovery, not by a list."
     }
   ]
 }
