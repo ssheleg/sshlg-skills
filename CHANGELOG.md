@@ -1,4 +1,44 @@
-## [Unreleased]
+## v1.47.0 — the family's audit closes, and every pin moves at once
+
+Nine members released, four handoff branches integrated, one issue closed, and
+the whole family re-pinned. What each member fixed is in its own CHANGELOG; what
+belongs here is what the umbrella learned holding them together.
+
+**Every pin moves, in all three of its homes.**
+
+  super-ux        0.56.0
+  task-pipeline   1.86.0
+  agent-sync      1.20.0
+  make-skill      0.28.0
+  sheleg-design   1.60.2
+  seo-aeo-audit   0.26.0
+  sheleg-dev      0.12.0
+  agent-stack     0.24.2
+  telegram-dev    0.2.0
+
+**The lagging-ledger ratchet drops 1 → 0.** The release wave shipped two members
+whose evidence ledger still named the previous version — their own gates do not
+demand a section, this one does. Both caught up in their own patch releases, and
+then the guard REFUSED THE TREE until the smaller number was written down: *"lower
+it to 0 in test/validate.py, in the same change that earned it, so the next reader
+inherits the smaller number"*. A ratchet that also fails below its floor is the
+only kind that means anything.
+
+**The first catch-up patch shipped still lagging.** The release script wrote the
+ledger section and THEN bumped the version, so the section named the version
+being replaced and the lag survived its own fix. Only a re-run of the pin dry-run
+caught it. Bump first, then write the section — the rule now lives in the script.
+
+**CTX-04.06's acceptance receipt refused to be stale**, twice: *"receipt disagrees
+with a fresh staging run (pins moved under it)"*. Regenerated from the new state
+each time, never edited into agreement.
+
+**The house skill audit now MEASURES the token budget instead of estimating it.**
+The pinned auditor ran with no tokenizer on the runner, fell back to chars/3.9
+and issued a token verdict from it — gapping seven family skills that are all
+inside the working limit when actually measured. That is the defect the auditor's
+own doctrine names. Every member's CI installs tiktoken now and pins
+make-skill@5ca5c36.
 
 **The way back exists now.** `install` had no reverse, and clearing an agent's
 skill store had no recoverable path — the operator's own audit said so, in so
