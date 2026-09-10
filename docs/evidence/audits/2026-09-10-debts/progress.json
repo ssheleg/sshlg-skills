@@ -3,7 +3,7 @@
   "source": "open issues + open PRs + unmerged sherlock branches + release/doc debts",
   "counts": {
     "total": 30,
-    "done": 20,
+    "done": 21,
     "blocked": 0
   },
   "queue": [
@@ -310,7 +310,7 @@
       ],
       "status": "in_progress",
       "commit": null,
-      "checks": "RELEASED with annotated tags: super-ux v0.56.0 (c5b2528), seo-aeo-audit v0.26.0 (3359c4e), telegram-dev v0.2.0 (ad16fc0), agent-stack v0.24.0 (ddf53a1), sheleg-dev v0.12.0 (bb5432a). Open: agent-sync#18 v1.20.0 (BEHIND, needs a rebase), make-skill (no release yet), sheleg-design (no release yet), task-pipeline#86 still merging its sherlock branch.",
+      "checks": "RELEASED with annotated tags (7 of 9): super-ux v0.56.0, seo-aeo-audit v0.26.0, telegram-dev v0.2.0, agent-stack v0.24.0, sheleg-dev v0.12.0, agent-sync v1.20.0, make-skill v0.28.0. Open: sheleg-design#31 v1.60.0 (CI), task-pipeline (sherlock PR #86 still merging, release after).",
       "notes": "each repo dictates its own shape and the guards proved it: agent-sync's self-test caught a bare CHANGELOG heading (only a v-prefixed one can detect its release-notes mutation); sheleg-dev keeps ONE living Shipped-state block rather than a history, and its REQ-001 must quote the line the run prints; seo-aeo-audit needs a retro run stamp in the same change. The bumper leaves historical mentions alone — telegram-dev prose names v0.1.11 in a \"until\" clause."
     },
     {
@@ -392,10 +392,10 @@
       "deps": [
         "REL-03"
       ],
-      "status": "todo",
+      "status": "done",
       "commit": null,
-      "checks": null,
-      "notes": null
+      "checks": "all 10 descriptions read against what each repo ships; homepage URLs return 200; the \"nine packs\" claim verified against skills.json and the submodule count",
+      "notes": "descriptions were already current — the one correction: sheleg-design advertised \"accessibility\" while the family map states accessibility has NO owner and the repo ships ACCESSIBILITY_EVIDENCE.md, which says what counts as PROOF of such a claim. Now reads \"the evidence bar for accessibility claims\". Topics: +accessibility, +evidence-based, +skills-marketplace."
     },
     {
       "id": "FINAL-01",
