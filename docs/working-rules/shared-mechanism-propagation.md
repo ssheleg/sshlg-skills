@@ -49,6 +49,35 @@ Before closing a finding about machinery that more than one repository runs:
    measurements. A future reader deleting a ten-minute window needs to know it
    replaced a three-minute one that failed twice.
 
+## Counting the copies can answer ONE, and that is a result
+
+This rule creates its own opposite failure: a fix pushed into nine repositories
+that never had the mechanism, leaving nine files carrying a remedy for a bug they
+cannot have. Step 1 is a measurement, not a formality, and `1` is a legitimate
+answer to it.
+
+**Measured 2026-09-10, the wired hook runtime.** `sshlg-skills@1.48.0` shipped a
+module the runtime could not load — `require('../package.json')` resolves in the
+package and resolved to nothing in `~/.sshlg-skills/runtime/`, the copy the hooks
+actually execute. The obvious next move was to look for the same shape in the
+other nine. The count came back **one**:
+
+```
+lib/runtime.js in each member ............ 0 of 9
+member hooks, and where they run from .... ${CLAUDE_PLUGIN_ROOT}, the whole
+                                           plugin directory — not a copied subset
+```
+
+Only the umbrella copies a SUBSET of its own tree to a second location, so only
+the umbrella can have a module that exists in the package and not where it runs.
+The members' hooks were still resolved rather than assumed — every command in
+every `hooks.json`, and every `${CLAUDE_PLUGIN_ROOT}` reference inside those
+scripts: `missing_hooks=none dangling_refs=none` across all nine.
+
+**The rule this adds:** print the count and what it was over, even when it is one.
+A propagation that did not happen and a propagation nobody looked for read the
+same in a diff.
+
 ## The boundary
 
 This is about mechanisms the family SHARES — release steps, hook runtimes,
