@@ -1,3 +1,15 @@
+## v1.47.1 — the pin follows the release, not the tag
+
+`v1.47.0` pinned `task-pipeline` at `v1.86.0`, which was the newest TAG and
+never became a release: its own `release.yml` refused the tag's tree over an
+undeclared run stamp, so the tag existed while the GitHub release and the npm
+version did not. A pin to a tag nothing published is a promise nothing can keep
+— the same rule that correctly held this pin at 1.85.2 until a release landed,
+applied and then broken in one day by reading "newest tag" for "newest release".
+
+Now pinned at `v1.86.1`, verified as all three claims: tag `b3770b1`, GitHub
+release `v1.86.1`, npm `task-pipeline-skill@1.86.1`.
+
 ## v1.47.0 — the family's audit closes, and every pin moves at once
 
 Nine members released, four handoff branches integrated, one issue closed, and

@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**717** id'd requirement rows below, **635** read `verified` and none of them says which
+**719** id'd requirement rows below, **635** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -37,6 +37,13 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-10 — v1.47.1, the pin follows the release rather than the tag
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| PT-1 | `task-pipeline` is pinned at a version that actually published | `v1.47.0` pinned `v1.86.0`, the newest TAG, which never became a release — its `release.yml` refused the tag's own tree over an undeclared run stamp. All three claims checked for the replacement: tag `b3770b1`, GitHub release `v1.86.1`, npm `task-pipeline-skill@1.86.1` | v1.47.1 | reading "newest tag" for "newest release" again — which is exactly how v1.47.0 broke a rule it had applied correctly an hour earlier | 2026-09-10, main thread |
+| PT-2 | The package name is read, not assumed | `npm view @ssheleg/task-pipeline` returns nothing; the package publishes as `task-pipeline-skill`, like `super-ux` and `sheleg-design-skill`, which publish unscoped. An absent scoped version reads as a failed publish and is not one | v1.47.1 | a check that hardcodes the `@ssheleg/` prefix instead of reading `package.json` | 2026-09-10, main thread |
 
 ## 2026-09-10 — v1.47.0, the family's audit closes and every pin moves at once
 
