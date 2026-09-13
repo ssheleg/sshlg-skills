@@ -1,0 +1,208 @@
+{
+  "plan": "family audit 2026-09-13 — the hook key nobody read",
+  "source": "docs/evidence/audits/2026-09-13-family-hooks/plan.md",
+  "method": "find (toolkit, ten gates, schema lint, 4 read-only auditors) → confirm (every finding re-opened at file:line) → propose (one task per defect, shared-mechanism boundaries) → plan-audit (contradictions, priority, decomposition, packet context)",
+  "model_routing": {
+    "plan": "Fable 5.1 effort high",
+    "execute": "Opus 5 effort high (xhigh: HK-05, HK-20 build)",
+    "rule": "a leaf whose packet is incomplete stops and returns to planning"
+  },
+  "counts": {
+    "total": 13,
+    "done": 0,
+    "in_flight": 3,
+    "blocked": 0
+  },
+  "queue": [
+    {
+      "id": "HK-01",
+      "title": "agent-sync: the group-level `if` leaves hooks.json — v1.20.1",
+      "repo": "agent-sync",
+      "priority": "P0",
+      "kind": "fix",
+      "deps": [],
+      "status": "in_flight",
+      "branch": "fix-hk-01-hooks-if",
+      "commit": null,
+      "checks": "npm test: validate PASS v1.20.1; self-test plant 'hooks.json key at the wrong level' detected",
+      "notes": "remaining: PR, CI, squash-merge, annotated tag v1.20.1 on the merge commit, npm publish"
+    },
+    {
+      "id": "HK-02",
+      "title": "task-pipeline: the exported template stops filtering nothing — v1.86.2",
+      "repo": "task-pipeline",
+      "priority": "P0",
+      "kind": "fix",
+      "deps": [],
+      "status": "in_flight",
+      "branch": "fix-hk-02-hooks-if",
+      "commit": "6f6871a",
+      "pr": "https://github.com/ssheleg/task-pipeline/pull/92",
+      "checks": "npm test EXIT=0; fix-hk-02.py all green (plant refused by name)",
+      "notes": "CI ~105 min (#91); then squash-merge, annotated tag v1.86.2, publish"
+    },
+    {
+      "id": "HK-03",
+      "title": "sshlg-skills: pins 1.20.1/1.86.2 + injectors cites the running version — v1.48.3",
+      "repo": "sshlg-skills",
+      "priority": "P0",
+      "kind": "fix+pin",
+      "deps": [
+        "HK-01",
+        "HK-02"
+      ],
+      "status": "in_flight",
+      "branch": "fix-hk-03-family-hooks",
+      "commit": null,
+      "checks": "node test/injectors_test.js PASS 14 checks; live: injectors cites 1.20.0 path (was 1.18.6)",
+      "notes": "pins move only after both members are on the registry (check_pins exit 1 otherwise); three homes per pin; re-derive DOCMAP ratchet marker via npm test"
+    },
+    {
+      "id": "HK-20",
+      "title": "task-pipeline: plan-audit gate + model routing (operator's ask)",
+      "repo": "task-pipeline",
+      "priority": "P1",
+      "kind": "feature",
+      "deps": [
+        "HK-02"
+      ],
+      "status": "planned",
+      "commit": null,
+      "checks": "",
+      "notes": "see plan.md HK-20 — six-step decomposition; design at Fable high, build at Opus xhigh; SKILL.md body must displace, not add (4691/4750)"
+    },
+    {
+      "id": "HK-04",
+      "title": "make-skill: the family auditor refuses a hook key Claude Code does not know",
+      "repo": "make-skill",
+      "priority": "P1",
+      "kind": "guard",
+      "deps": [],
+      "status": "planned",
+      "commit": null,
+      "checks": "",
+      "notes": "HOOKS_SCHEMA check in scripts/audit_skill.py + host-capabilities.md key sets + __pycache__ skip; covers all nine members via the pinned CI auditor"
+    },
+    {
+      "id": "HK-05",
+      "title": "task-pipeline #91: batch the negatives, free the 512 KB workflow ceiling",
+      "repo": "task-pipeline",
+      "priority": "P1",
+      "kind": "ci",
+      "deps": [
+        "HK-02"
+      ],
+      "status": "planned",
+      "commit": null,
+      "checks": "",
+      "notes": "511,941 of 512,000 bytes today; two PRs (runner+registry, then delete steps); Guards count must stay derivable"
+    },
+    {
+      "id": "HK-06",
+      "title": "sheleg-design: four unreachable references + reachability gate",
+      "repo": "sheleg-design-skill",
+      "priority": "P2",
+      "kind": "fix",
+      "deps": [],
+      "status": "planned",
+      "commit": null,
+      "checks": "",
+      "notes": "LAYOUT_CRAFT/TYPE_CRAFT/KNOWLEDGE_PROVENANCE/VISUAL_REVIEW (17,001 B, 381d2f9); body 4730/4750 — displace"
+    },
+    {
+      "id": "HK-07",
+      "title": "super-ux: vision's contract path points at a sibling skill",
+      "repo": "super-ux",
+      "priority": "P2",
+      "kind": "fix",
+      "deps": [],
+      "status": "planned",
+      "commit": null,
+      "checks": "",
+      "notes": "vision/SKILL.md:71 → references/scenario-format.md via test/sync_references.py"
+    },
+    {
+      "id": "HK-08",
+      "title": "sheleg-dev: money gate degradation section + биллинг trigger collision",
+      "repo": "sheleg-dev",
+      "priority": "P2",
+      "kind": "fix",
+      "deps": [],
+      "status": "planned",
+      "commit": null,
+      "checks": "",
+      "notes": "stripe-billing + crypto-payments ## Degradation from error-tracking:258-270; trigger decision touches umbrella lib/triggers.js:402,452 and agent-stack"
+    },
+    {
+      "id": "HK-09",
+      "title": "evals re-run where the description moved; evidence-docs/project-audit eval sets",
+      "repo": "copywriting,make-skill,sheleg-design,task-pipeline,sheleg-dev,agent-stack,telegram-dev",
+      "priority": "P2",
+      "kind": "evals",
+      "deps": [],
+      "status": "planned",
+      "commit": null,
+      "checks": "",
+      "notes": "one PR per repo; method = agent-sync test/evals/RESULTS.md 2026-08-31"
+    },
+    {
+      "id": "HK-10",
+      "title": "171 expired leases reaped by named operator decision; agent-sync leaks refs of dead runs",
+      "repo": "sshlg-skills,agent-sync",
+      "priority": "P3",
+      "kind": "hygiene+fix",
+      "deps": [],
+      "status": "planned",
+      "commit": null,
+      "checks": "",
+      "notes": "161 refs on origin + 10 local (umbrella), 2 local (agent-sync); reap --i-own-this; then agent-sync backlog row: session-end must reap own git-plane refs"
+    },
+    {
+      "id": "HK-11",
+      "title": "low hygiene batch, one PR per repo (six repos)",
+      "repo": "agent-sync,task-pipeline,sheleg-dev,agent-stack,telegram-dev,seo-aeo-audit,super-ux",
+      "priority": "P3",
+      "kind": "hygiene",
+      "deps": [],
+      "status": "planned",
+      "commit": null,
+      "checks": "",
+      "notes": "see plan.md HK-11 bullet list; acceptance = make-skill-audit 0 GAP + npm test EXIT=0 per repo"
+    },
+    {
+      "id": "HK-12",
+      "title": "close the four stale flags in the 2026-09-10 debt plan",
+      "repo": "sshlg-skills",
+      "priority": "P3",
+      "kind": "ledger",
+      "deps": [],
+      "status": "planned",
+      "commit": null,
+      "checks": "",
+      "notes": "may ride HK-03's PR"
+    },
+    {
+      "id": "HK-13",
+      "title": "operator decisions: plugin cache history, ~/DATA/skills, codex channel, hub triage",
+      "repo": "machine",
+      "priority": "P3",
+      "kind": "decision",
+      "deps": [],
+      "status": "open-for-the-operator",
+      "commit": null,
+      "checks": "",
+      "notes": "reported, not changed"
+    }
+  ],
+  "measured_clean": [
+    "ten gates 10/10 EXIT=0",
+    "pins match registry 9/9",
+    "plugin validate --strict 9/9",
+    "settings.json hooks 19 groups clean",
+    "shadows 0 / broken links 0",
+    "routers unchanged ×4",
+    "doc claims 1,104 / 0 dead",
+    "CHANGELOG head = package.json 9/9"
+  ],
+  "written": "2026-09-13"
+}

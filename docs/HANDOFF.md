@@ -1,3 +1,19 @@
+# Start here — the active plan
+
+**Active plan (2026-09-13):**
+[Family audit 2026-09-13 — the hook key nobody read](evidence/audits/2026-09-13-family-hooks/plan.md),
+state in [`progress.json`](evidence/audits/2026-09-13-family-hooks/progress.json).
+Every task carries a packet an unfamiliar agent can execute; the model-routing table
+at its top says who plans and who executes. **Exact next action:** finish HK-01 → HK-02
+→ HK-03 (releases in flight), then HK-20 (the plan-audit gate the operator asked for),
+then HK-04 and HK-05. Read the "Standing rules every task inherits" section before the
+first commit.
+
+The Sherlock handoff below is complete (255/255 leaves done, debt plan 30/30) and kept
+as the record of how the previous programme was run.
+
+---
+
 # Sherlock Skills: start here
 
 The family audit, architecture, source reviews and complete development plan are
