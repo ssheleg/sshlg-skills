@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**745** id'd requirement rows below, **638** read `verified` and none of them says which
+**748** id'd requirement rows below, **641** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -37,6 +37,14 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-14 — v1.48.4, the recovery store broke the command it protects
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| QT-1 | A second run over the same skill id no longer throws | `quarantine_test.js` captures one id twice; v1.48.3 threw `EEXIST` at `lib/quarantine.js:47` and took `update` with it | v1.48.4 | the store gaining a second writer that does not roll | verified |
+| QT-2 | A previous run's bytes survive the roll | the fixture writes different bytes under one id across two runs and asserts the archived copy still holds the first — overwriting would lose the only copy of an edited plain skill | v1.48.4 | `rollPrevious` being replaced by an overwrite | verified |
+| QT-3 | The failure's blast radius is stated, not guessed | the crash left **20** shadowed plugins and nine plugins un-updated on this machine, because `pruneClaudeShadows` runs after the copies are made and before they are pruned; both counts were read off the machine, and the repair (shadow symlinks removed, nine `claude plugin update` runs) was watched | v1.48.4 | — | verified |
 
 ## 2026-09-13/14 — v1.48.3, the hook key nobody read
 
