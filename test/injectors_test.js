@@ -96,6 +96,41 @@ it('the report names each file, and refuses to call the list a list of offenders
     'the honest limit is stated in the output, not only in the source');
 });
 
+it('the installed version is consulted first, whatever order the cache lists', () => {
+  // 2026-09-13: readdirSync yielded 1.18.6 first and the command cited a hooks.json two
+  // releases stale while 1.20.0 was the one running (FIX-HK-03).
+  const dirs = ['1.18.6', '1.18.7', '1.19.0', '1.19.3', '1.20.0'];
+  assert.deepStrictEqual(I.orderVersions(dirs, '1.19.3')[0], '1.19.3');
+  assert.deepStrictEqual(I.orderVersions(dirs, '1.20.0')[0], '1.20.0');
+});
+
+it('with no registry answer the newest semver wins, not the first directory entry', () => {
+  assert.deepStrictEqual(I.orderVersions(['1.18.6', '1.20.0', '1.19.3'], null),
+    ['1.20.0', '1.19.3', '1.18.6']);
+  assert.deepStrictEqual(I.orderVersions(['1.9.0', '1.10.0'], null), ['1.10.0', '1.9.0'],
+    'semver, not string order');
+});
+
+it('a preferred version the cache does not hold is not invented', () => {
+  assert.deepStrictEqual(I.orderVersions(['1.18.6'], '1.20.0'), ['1.18.6']);
+  assert.deepStrictEqual(I.orderVersions([], '1.20.0'), []);
+  assert.deepStrictEqual(I.orderVersions(undefined, null), []);
+});
+
+it('non-semver directory names sort after real versions and never crash the walk', () => {
+  assert.deepStrictEqual(I.orderVersions(['25d22f864ad6', '2.2.0'], null), ['2.2.0', '25d22f864ad6']);
+});
+
+it('installedVersion reads the registry record, or answers null rather than guessing', () => {
+  const reg = { plugins: { 'a@b': [{ version: '1.20.0', installPath: '/h/cache/b/a/1.20.0' }],
+                           'c@d': [{ installPath: '/h/cache/d/c/2.2.0/' }] } };
+  assert.strictEqual(I.installedVersion(reg, 'a@b'), '1.20.0');
+  assert.strictEqual(I.installedVersion(reg, 'c@d'), '2.2.0', 'falls back to the path tail');
+  assert.strictEqual(I.installedVersion(reg, 'x@y'), null);
+  assert.strictEqual(I.installedVersion(null, 'a@b'), null);
+  assert.strictEqual(I.installedVersion({ plugins: { 'a@b': 'junk' } }, 'a@b'), null);
+});
+
 if (failures.length) {
   for (const f of failures) console.error(`FAIL: ${f}`);
   console.error(`\n${failures.length} of ${checks} failed`);

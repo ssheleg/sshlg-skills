@@ -12,14 +12,14 @@
   ],
   "run": {
     "host_platform": "darwin",
-    "node": "v26.8.1"
+    "node": "v26.8.2"
   },
   "scenarios": {
     "member_count": 9,
     "upgraded_member": "agent-stack",
     "clean_install": {
-      "expected": "1de32a6935e17ac903d58fab91bd2e30b67c9255dcbd373cf40b6f8f15b7f411",
-      "installed": "1de32a6935e17ac903d58fab91bd2e30b67c9255dcbd373cf40b6f8f15b7f411",
+      "expected": "8eb72f046a27dd4ccb76cb9b1a4294d18e71003788b978161415c50de451d960",
+      "installed": "8eb72f046a27dd4ccb76cb9b1a4294d18e71003788b978161415c50de451d960",
       "active": "current",
       "channels": {
         "claude": "current",
@@ -28,8 +28,8 @@
       }
     },
     "upgrade": {
-      "expected": "9cfc58554c662f4356fd1d8a6a6caad57aab7a781f92162366a30a91f82d2edf",
-      "installed": "9cfc58554c662f4356fd1d8a6a6caad57aab7a781f92162366a30a91f82d2edf",
+      "expected": "4a31abd3ad17ffe42697dc77f4bf0d27aa676a17b66d99b0c505f392f32cb68a",
+      "installed": "4a31abd3ad17ffe42697dc77f4bf0d27aa676a17b66d99b0c505f392f32cb68a",
       "active": "current",
       "channels": {
         "claude": "current",
@@ -38,8 +38,8 @@
       }
     },
     "faulted_upgrade": {
-      "expected": "9cfc58554c662f4356fd1d8a6a6caad57aab7a781f92162366a30a91f82d2edf",
-      "installed": "1de32a6935e17ac903d58fab91bd2e30b67c9255dcbd373cf40b6f8f15b7f411",
+      "expected": "4a31abd3ad17ffe42697dc77f4bf0d27aa676a17b66d99b0c505f392f32cb68a",
+      "installed": "8eb72f046a27dd4ccb76cb9b1a4294d18e71003788b978161415c50de451d960",
       "active": "stale",
       "channels": {
         "claude": "stale",
@@ -48,8 +48,8 @@
       }
     },
     "recovery": {
-      "expected": "1de32a6935e17ac903d58fab91bd2e30b67c9255dcbd373cf40b6f8f15b7f411",
-      "installed": "1de32a6935e17ac903d58fab91bd2e30b67c9255dcbd373cf40b6f8f15b7f411",
+      "expected": "8eb72f046a27dd4ccb76cb9b1a4294d18e71003788b978161415c50de451d960",
+      "installed": "8eb72f046a27dd4ccb76cb9b1a4294d18e71003788b978161415c50de451d960",
       "active": "current",
       "channels": {
         "claude": "current",

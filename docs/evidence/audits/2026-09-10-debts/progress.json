@@ -418,8 +418,9 @@
   "flags": [
     {
       "id": "HOUSE-GAPS-FROM-SHERLOCK-20260910",
-      "state": "open",
-      "detail": "Pre-merge audit found the House skill audit (a required CI check in all 9 members) failing on the sherlock branches. Five SKILL bodies grew past their limit from the sherlock doctrine edits — sheleg-design 4275→5703 and task-pipeline 4607→5429 are HARD breaches of the 5000 budget; super-ux ux-audit 4304→4882, ux-flows 4229→4809 and agent-sync 4506→4765 are past the 4750 working limit. Four references crossed 100 lines without a '## Contents' list, and evidence-docs/GENERATED.md is unreachable from its SKILL.md. The member gates never caught this: npm test does not run the house auditor. Recorded as HOUSE-01..07, each blocking its repo's merge. __pycache__ BUNDLE_NESTED hits are untracked local artifacts, not a debt."
+      "state": "resolved",
+      "detail": "Pre-merge audit found the House skill audit (a required CI check in all 9 members) failing on the sherlock branches. Five SKILL bodies grew past their limit from the sherlock doctrine edits — sheleg-design 4275→5703 and task-pipeline 4607→5429 are HARD breaches of the 5000 budget; super-ux ux-audit 4304→4882, ux-flows 4229→4809 and agent-sync 4506→4765 are past the 4750 working limit. Four references crossed 100 lines without a '## Contents' list, and evidence-docs/GENERATED.md is unreachable from its SKILL.md. The member gates never caught this: npm test does not run the house auditor. Recorded as HOUSE-01..07, each blocking its repo's merge. __pycache__ BUNDLE_NESTED hits are untracked local artifacts, not a debt.",
+      "resolution": "resolved 2026-09-13 (HK-12): HOUSE-01..07 all done in this queue"
     },
     {
       "id": "CI-MEASURES-BUDGET-20260910",
@@ -458,8 +459,9 @@
     },
     {
       "id": "PIN-DRY-RUN-FOUND-TWO-DEBTS-20260910",
-      "state": "open",
-      "detail": "Moving the eight pins in a throwaway branch BEFORE the real pin commit surfaced two things the umbrella would have failed on. (1) The README table is the third place the pin lives and the validator refuses it when skills.json and the table disagree — the pin script now moves all three. (2) Two members shipped a release whose evidence ledger still described the previous version (agent-stack, sheleg-design), against an umbrella ratchet of 1. The ratchet is lowered when a member catches up and NEVER raised to match a regression, and it says why it does not simply fail: only that member's own release can move its ledger. Both caught up in patch releases — agent-stack#29 v0.24.1, sheleg-design#32 v1.60.1. Also confirmed working: my own CTX-04.06 acceptance receipt refused the tree with \"receipt disagrees with a fresh staging run (pins moved under it)\", which is exactly what it was written to do."
+      "state": "resolved",
+      "detail": "Moving the eight pins in a throwaway branch BEFORE the real pin commit surfaced two things the umbrella would have failed on. (1) The README table is the third place the pin lives and the validator refuses it when skills.json and the table disagree — the pin script now moves all three. (2) Two members shipped a release whose evidence ledger still described the previous version (agent-stack, sheleg-design), against an umbrella ratchet of 1. The ratchet is lowered when a member catches up and NEVER raised to match a regression, and it says why it does not simply fail: only that member's own release can move its ledger. Both caught up in patch releases — agent-stack#29 v0.24.1, sheleg-design#32 v1.60.1. Also confirmed working: my own CTX-04.06 acceptance receipt refused the tree with \"receipt disagrees with a fresh staging run (pins moved under it)\", which is exactly what it was written to do.",
+      "resolution": "resolved 2026-09-13 (HK-12): agent-stack#29 v0.24.1 and sheleg-design#32 v1.60.1 shipped; pins moved in #126/#127"
     },
     {
       "id": "LEDGER-SECTION-LAGGED-ITS-OWN-BUMP-20260910",
@@ -468,8 +470,9 @@
     },
     {
       "id": "TP-186-TAGGED-BUT-NOT-RELEASED-20260910",
-      "state": "open",
-      "detail": "The final sweep caught task-pipeline red on main: v1.86.0 was TAGGED and its release.yml FAILED, so the tag exists, the GitHub release does not, and npm never served it. Cause: the run-stamp gate reads the tag OWN tree and a branch push cannot see a tag that does not exist yet — the seventh instance of a mechanism that repo's retro.md names six times, and its R-010 already held the rule (\"run the suite the RELEASE runs, against the tree you are about to tag\"). The lesson was written and read past. Fixing it in v1.86.1 surfaced two more: the ledger header must bump in the same change as the version, and moving the conditionals check to a one-line `run:` made the step INVISIBLE to negatives.py (which parses `run: |`), silently emptying the property-check category from 15 to 14 — its own floor caught it. Also learned: GitHub's 512,000 limit is BYTES, and em dashes in a comment cost more than the characters suggest (512,026 bytes vs 510,272 chars)."
+      "state": "resolved",
+      "detail": "The final sweep caught task-pipeline red on main: v1.86.0 was TAGGED and its release.yml FAILED, so the tag exists, the GitHub release does not, and npm never served it. Cause: the run-stamp gate reads the tag OWN tree and a branch push cannot see a tag that does not exist yet — the seventh instance of a mechanism that repo's retro.md names six times, and its R-010 already held the rule (\"run the suite the RELEASE runs, against the tree you are about to tag\"). The lesson was written and read past. Fixing it in v1.86.1 surfaced two more: the ledger header must bump in the same change as the version, and moving the conditionals check to a one-line `run:` made the step INVISIBLE to negatives.py (which parses `run: |`), silently emptying the property-check category from 15 to 14 — its own floor caught it. Also learned: GitHub's 512,000 limit is BYTES, and em dashes in a comment cost more than the characters suggest (512,026 bytes vs 510,272 chars).",
+      "resolution": "resolved 2026-09-13 (HK-12): v1.86.1 released and pinned (#127); v1.86.2 followed"
     },
     {
       "id": "UNLOOKED-LINE-READ-20260910",
