@@ -9,8 +9,8 @@
   },
   "counts": {
     "total": 13,
-    "done": 0,
-    "in_flight": 3,
+    "done": 3,
+    "in_flight": 1,
     "blocked": 0
   },
   "queue": [
@@ -21,11 +21,13 @@
       "priority": "P0",
       "kind": "fix",
       "deps": [],
-      "status": "in_flight",
+      "status": "done",
       "branch": "fix-hk-01-hooks-if",
-      "commit": null,
-      "checks": "npm test: validate PASS v1.20.1; self-test plant 'hooks.json key at the wrong level' detected",
-      "notes": "remaining: PR, CI, squash-merge, annotated tag v1.20.1 on the merge commit, npm publish"
+      "commit": "a0c9825",
+      "checks": "npm test: validate PASS v1.20.1; self-test plant 'hooks.json key at the wrong level' detected; CI validate pass 14m21s; release run 34782190717 success; npm 1.20.1",
+      "notes": "released 2026-09-13",
+      "pr": "https://github.com/ssheleg/agent-sync/pull/20",
+      "tag": "v1.20.1"
     },
     {
       "id": "HK-02",
@@ -34,12 +36,13 @@
       "priority": "P0",
       "kind": "fix",
       "deps": [],
-      "status": "in_flight",
+      "status": "done",
       "branch": "fix-hk-02-hooks-if",
-      "commit": "6f6871a",
+      "commit": "ce321cc",
       "pr": "https://github.com/ssheleg/task-pipeline/pull/92",
-      "checks": "npm test EXIT=0; fix-hk-02.py all green (plant refused by name)",
-      "notes": "CI ~105 min (#91); then squash-merge, annotated tag v1.86.2, publish"
+      "checks": "npm test EXIT=0; fix-hk-02.py all green (plant refused by name); CI validate pass; squash-merged; annotated tag on ce321cc",
+      "notes": "release.yml on the tag re-runs validate (~105 min, #91); pin waits for npm",
+      "tag": "v1.86.2"
     },
     {
       "id": "HK-03",
@@ -176,10 +179,10 @@
       "priority": "P3",
       "kind": "ledger",
       "deps": [],
-      "status": "planned",
+      "status": "done",
       "commit": null,
       "checks": "",
-      "notes": "may ride HK-03's PR"
+      "notes": "rode HK-03: three stale flags set to resolved in 2026-09-10-debts/progress.json"
     },
     {
       "id": "HK-13",

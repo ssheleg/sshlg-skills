@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**741** id'd requirement rows below, **635** read `verified` and none of them says which
+**745** id'd requirement rows below, **638** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -37,6 +37,15 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-13/14 — v1.48.3, the hook key nobody read
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| HK-1 | A hook key outside Claude Code's schema is a defect no member gate saw, and now two do | linted 6 family `hooks.json` + 19 `settings.json` groups against the 2.1.270 key sets: one hit (agent-sync `PreToolUse[1]`); `claude plugin validate --strict` 9/9 passed the defective file; agent-sync `check_hooks_manifest` plant `hooks.json key at the wrong level` → detected (61 fixtures); task-pipeline `fix-hk-02.py` → plant refused by name | agent-sync 1.20.1, task-pipeline 1.86.2 | the schema gaining a group-level key | verified |
+| HK-2 | `injectors` names the hooks.json of the version that runs | `injectors_test.js` 14 checks (`orderVersions` installed-first then semver, `installedVersion` null rather than a guess); live: the command cites `…/agent-sync/1.20.0/…` where it cited `1.18.6` | v1.48.3 | `installed_plugins.json` changing shape | verified |
+| HK-3 | Both pins moved only after the registry served the version | `npm view @ssheleg/agent-sync version` → 1.20.1 before the pin commit; task-pipeline the same before its pin; `check_pins.py` → every pin matches its release; CTX-04.06 receipt regenerated | v1.48.3 | a pin moved without its registry read | verified |
+| HK-4 | The plan is executable by an unfamiliar agent | every task in `plan.md` carries objective, receipt, files, steps, acceptance command + expected line, deps, model; `progress.json` mirrors state | v1.48.3 | a task leaving the queue without a commit hash and a gate line | stated — HK-20 makes the check mechanical |
 
 ## 2026-09-10 — v1.48.2, the auto-update that could not run where it runs
 

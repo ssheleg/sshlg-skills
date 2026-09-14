@@ -1,3 +1,30 @@
+## v1.48.3 — the hook key nobody read, in three repositories at once
+
+Claude Code 2.1.270 prints `agent-sync: hooks.json: unknown key "if" in
+hooks.PreToolUse[1] ignored` at every session start. Read out of the binary's hook
+schema: a matcher group is `{matcher, hooks}` and nothing else; `if` exists on a command
+handler only. The key had sat beside `matcher` since agent-sync 0.1.0 — declared, never
+evaluated — and `claude plugin validate --strict` passes the defective file in all nine
+members. Only a repository gate can catch the class before a session start.
+
+- **agent-sync → 1.20.1.** The key is removed rather than moved: `guard.sh` narrows to a
+  commit with its own parser, and a handler-level `if` would skip `git -C`, env-prefixed
+  and compound commits. Its validator now refuses any hook key outside the schema, with a
+  plant that puts the old file back.
+- **task-pipeline → 1.86.2.** The same shape sat in the one template that skill exports
+  into consumer projects' `settings.json`, so the docs gate ran on EVERY Bash call there.
+  Moved onto the handler, doctrine corrected in both `hooks.md` copies, regression in
+  `test/audit_regressions/` — not a workflow step, because `validate.yml` is 59 bytes
+  under GitHub's 512,000-byte ceiling (#91).
+- **`injectors` cited a hooks.json two releases stale.** `readRegistry` took the first
+  cache directory `readdirSync` yielded, which was `1.18.6` while `1.20.0` ran. It reads
+  the version `installed_plugins.json` names first, then newest semver; five fixtures.
+- **A plan with packets.** `docs/evidence/audits/2026-09-13-family-hooks/plan.md` —
+  the audit (ten gates, four read-only auditors over 28 skills, 1,104 doc addresses) and
+  thirteen tasks, each carrying enough context for an agent that never saw the session,
+  with the model-routing table the operator asked for (Fable high plans, Opus executes).
+  `docs/HANDOFF.md` points at it.
+
 ## v1.48.2 — the update surface that could not run where it runs
 
 v1.48.0 shipped the set-update surface the operator asked for. **None of it ever
