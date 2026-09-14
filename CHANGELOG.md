@@ -1,3 +1,36 @@
+## v1.48.4 — the recovery store broke the command it protects
+
+`npx sshlg-skills@latest update` on v1.48.3 died mid-run:
+
+```
+Error: EEXIST: file already exists, symlink '../../.agents/skills/vision'
+    -> '/Users/sshlg/.claude/skills-quarantine/vision'
+    at Object.capture (lib/quarantine.js:47)
+    at pruneClaudeShadows (bin/sshlg-skills.js:242)
+```
+
+The quarantine store is keyed by skill id and `capture` wrote its entry blind, so a
+SECOND run over the same id threw. The throw escaped `pruneClaudeShadows`, and that
+function runs **after** the skills CLI has created the plain copies and **before**
+anything prunes them — so the command exited leaving **20 shadowed plugins** on this
+machine and nine plugins un-updated. Worse than the state it started in, from the
+mechanism whose whole job is recoverability. Measured 2026-09-14 against a quarantine
+written 2026-09-10.
+
+- **`rollPrevious()`** moves a previous run's store to `archive/<its stamp>/`, manifest
+  included, before the first capture. Rolled rather than overwritten, because a previous
+  entry may be the only copy of a plain skill somebody edited — the fixture holds both
+  sets of bytes and checks each.
+- **`capture` clears its own destination** before writing. After the roll, anything at
+  that id belongs to this run.
+- `restore` is untouched: it still reads the live `manifest.json`.
+- **`test/quarantine_test.js`** — 7 fixtures, including the second capture that used to
+  throw, a roll that keeps the archived bytes, and a capture that cannot be verified
+  returning `null` rather than authorising a delete.
+
+The operator's machine was repaired by hand in the same session: 20 shadow symlinks
+removed, all nine plugins updated to the versions v1.48.3 pinned.
+
 ## v1.48.3 — the hook key nobody read, in three repositories at once
 
 Claude Code 2.1.270 prints `agent-sync: hooks.json: unknown key "if" in

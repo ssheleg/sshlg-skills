@@ -238,7 +238,15 @@ function pruneClaudeShadows() {
   const skillstore = require('../lib/skillstore.js');
   const pruned = [];
   const rows = [];
-  for (const id of shadowCandidates()) {
+  const candidates = shadowCandidates();
+  // A previous run's store is keyed by the same ids. Roll it aside BEFORE the first
+  // capture, or the second run throws EEXIST here and `update` dies with the plain
+  // copies already created and nothing pruned (v1.48.3, measured 2026-09-14).
+  if (candidates.length) {
+    const rolled = q.rollPrevious();
+    if (rolled) log(`  previous quarantine archived: ${rolled}`);
+  }
+  for (const id of candidates) {
     const row = q.capture(id);
     if (!row) { /* could not quarantine → do NOT delete: recoverability first */ continue; }
     try {
