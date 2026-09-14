@@ -8,9 +8,9 @@
     "rule": "a leaf whose packet is incomplete stops and returns to planning"
   },
   "counts": {
-    "total": 14,
-    "done": 10,
-    "in_flight": 2,
+    "total": 15,
+    "done": 13,
+    "in_flight": 0,
     "planned": 1,
     "open_for_the_operator": 1
   },
@@ -55,11 +55,12 @@
         "HK-01",
         "HK-02"
       ],
-      "status": "in_flight",
+      "status": "done",
       "branch": "fix-hk-03-family-hooks",
-      "commit": null,
+      "commit": "60883d2",
       "checks": "node test/injectors_test.js PASS 14 checks; live: injectors cites 1.20.0 path (was 1.18.6)",
-      "notes": "eight of nine pins moved and pushed (70e1cc7, c660e8b); task-pipeline waits for 1.87.0. Then the umbrella release and `npx sshlg-skills@latest update`"
+      "notes": "nine pins moved, umbrella v1.48.3 released and published. Then v1.48.4 for the defect the update itself surfaced (HK-14). Machine verified after: 0 shadows, 9 plugins on the new versions, 0 broken symlinks across five channels, `injectors` cites 1.20.2, 0 unknown hook keys in the installed manifests",
+      "tag": "v1.48.3"
     },
     {
       "id": "HK-20",
@@ -70,10 +71,11 @@
       "deps": [
         "HK-02"
       ],
-      "status": "in_flight",
-      "commit": null,
+      "status": "done",
+      "commit": "ba6ec49",
       "checks": "",
-      "notes": "PR #94 open, CI running; plan_audit.py --self-test 11 cases, fix-hk-20.py 8 cases, SKILL.md 4765 → 4721/4750 by displacement"
+      "notes": "released and pinned; npm 1.87.0. plan_audit.py --self-test 11 cases, fix-hk-20.py 8 cases, SKILL.md 4765 → 4721/4750 by displacement",
+      "tag": "v1.87.0"
     },
     {
       "id": "HK-04",
@@ -201,6 +203,21 @@
       "commit": null,
       "checks": "",
       "notes": "reported, not changed"
+    },
+    {
+      "id": "HK-14",
+      "title": "sshlg-skills: the quarantine store broke the update it protects — v1.48.4",
+      "repo": "sshlg-skills",
+      "priority": "P0",
+      "kind": "fix",
+      "deps": [
+        "HK-03"
+      ],
+      "status": "done",
+      "commit": "6b0f2b1",
+      "tag": "v1.48.4",
+      "checks": "node test/run.js PASS 88 suites / 1028 fixtures; quarantine_test.js 7 cases; the repaired update ran 55/55 green",
+      "notes": "FOUND BY RUNNING THE WORK: `update` on v1.48.3 threw EEXIST out of lib/quarantine.js:47 because the store is keyed by skill id and capture wrote blind. pruneClaudeShadows runs after the plain copies are made and before they are pruned, so the crash left 20 shadowed plugins and 9 un-updated — worse than the state it started in. rollPrevious() archives a previous store under its own stamp; capture clears its own destination. Machine repaired by hand first."
     }
   ],
   "measured_clean": [

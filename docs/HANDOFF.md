@@ -2,12 +2,23 @@
 
 **Active plan (2026-09-13):**
 [Family audit 2026-09-13 — the hook key nobody read](evidence/audits/2026-09-13-family-hooks/plan.md),
-state in [`progress.json`](evidence/audits/2026-09-13-family-hooks/progress.json).
-Every task carries a packet an unfamiliar agent can execute; the model-routing table
-at its top says who plans and who executes. **Exact next action:** finish HK-01 → HK-02
-→ HK-03 (releases in flight), then HK-20 (the plan-audit gate the operator asked for),
-then HK-04 and HK-05. Read the "Standing rules every task inherits" section before the
-first commit.
+state in [`progress.json`](evidence/audits/2026-09-13-family-hooks/progress.json),
+routing measured in [`routing-2026-09-14.md`](evidence/audits/2026-09-13-family-hooks/routing-2026-09-14.md).
+
+**13 of 15 tasks are done and released** — ten members, eleven releases: agent-sync
+1.20.2, task-pipeline 1.87.0, super-ux 0.56.2, make-skill 0.29.0, sheleg-design 1.61.0,
+seo-aeo-audit 0.26.1, sheleg-dev 0.13.0, agent-stack 0.24.3, telegram-dev 0.2.1, and
+this repository at 1.48.4. Every pin moved after its registry read; the machine was
+verified afterwards (0 shadows, 0 broken symlinks, 0 unknown hook keys installed).
+
+**Exact next action: HK-05** — `task-pipeline`'s validate job takes 105 minutes and its
+workflow sits 59 bytes under GitHub's 512,000-byte ceiling, so two regressions in this
+wave had to route around it (both went to `test/audit_regressions/` instead of being
+workflow steps). Its packet in the plan carries the four-step decomposition, the
+measured before/after it must record, and the rule that keeps `Guards: N → M`
+derivable. After it, **HK-13** is four decisions only the operator can make.
+
+Read the "Standing rules every task inherits" section before the first commit.
 
 The Sherlock handoff below is complete (255/255 leaves done, debt plan 30/30) and kept
 as the record of how the previous programme was run.
