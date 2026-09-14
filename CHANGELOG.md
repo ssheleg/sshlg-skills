@@ -19,6 +19,24 @@ members. Only a repository gate can catch the class before a session start.
 - **`injectors` cited a hooks.json two releases stale.** `readRegistry` took the first
   cache directory `readdirSync` yielded, which was `1.18.6` while `1.20.0` ran. It reads
   the version `installed_plugins.json` names first, then newest semver; five fixtures.
+- **The plan itself, and the nine releases it produced.** Thirteen tasks, ten done in
+  one pass: the hook key in three repositories (agent-sync 1.20.2, task-pipeline 1.86.3,
+  make-skill 0.29.0 — the last one closing the CLASS, since its auditor is the only gate
+  covering all nine members), four unreachable reference files made reachable
+  (sheleg-design 1.61.0), a contract that pointed into a sibling skill (super-ux 0.56.1),
+  the money gate's degradation written in all seven bodies where one had it (sheleg-dev
+  0.13.0), and — three times over — **a body budget that was ESTIMATED rather than
+  measured**. That last one is the finding worth naming: `seo-aeo-audit`'s board row B-27
+  asked for a split for a month over a body the tokenizer puts 315 tokens inside the
+  budget; `agent-stack` reported two skills past the working limit with 300+ tokens of
+  headroom each. make-skill v0.28.0 had fixed exactly this in the family's CI auditor and
+  three member validators kept the divisor.
+- **The coordination plane was swept, not just reported.** 161 lease refs on this
+  remote from two runs that ended five days earlier, plus 10 local locks — and until
+  v1.20.2 no command could clear any of them: `reap` refused correctly (a dead run's ref
+  is foreign) and `--i-own-this`, the one path a person has, walked the local directory
+  only. Fixed, then executed: `residue` now reads *no lease refs on the remote — swept
+  and empty, not unread*, and `status` reads *expired locks: none*.
 - **A plan with packets.** `docs/evidence/audits/2026-09-13-family-hooks/plan.md` —
   the audit (ten gates, four read-only auditors over 28 skills, 1,104 doc addresses) and
   thirteen tasks, each carrying enough context for an agent that never saw the session,

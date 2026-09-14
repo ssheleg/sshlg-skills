@@ -8,10 +8,11 @@
     "rule": "a leaf whose packet is incomplete stops and returns to planning"
   },
   "counts": {
-    "total": 13,
-    "done": 3,
-    "in_flight": 1,
-    "blocked": 0
+    "total": 14,
+    "done": 10,
+    "in_flight": 2,
+    "planned": 1,
+    "open_for_the_operator": 1
   },
   "queue": [
     {
@@ -25,7 +26,7 @@
       "branch": "fix-hk-01-hooks-if",
       "commit": "a0c9825",
       "checks": "npm test: validate PASS v1.20.1; self-test plant 'hooks.json key at the wrong level' detected; CI validate pass 14m21s; release run 34782190717 success; npm 1.20.1",
-      "notes": "released 2026-09-13",
+      "notes": "released; npm 1.20.1",
       "pr": "https://github.com/ssheleg/agent-sync/pull/20",
       "tag": "v1.20.1"
     },
@@ -41,8 +42,8 @@
       "commit": "ce321cc",
       "pr": "https://github.com/ssheleg/task-pipeline/pull/92",
       "checks": "npm test EXIT=0; fix-hk-02.py all green (plant refused by name); CI validate pass; squash-merged; annotated tag on ce321cc",
-      "notes": "release.yml on the tag re-runs validate (~105 min, #91); pin waits for npm",
-      "tag": "v1.86.2"
+      "notes": "v1.86.2 was tagged and refused by its own release gate for lacking a stamp declaration; v1.86.3 carries the same payload plus the declaration. npm 1.86.3",
+      "tag": "v1.86.3"
     },
     {
       "id": "HK-03",
@@ -58,7 +59,7 @@
       "branch": "fix-hk-03-family-hooks",
       "commit": null,
       "checks": "node test/injectors_test.js PASS 14 checks; live: injectors cites 1.20.0 path (was 1.18.6)",
-      "notes": "pins move only after both members are on the registry (check_pins exit 1 otherwise); three homes per pin; re-derive DOCMAP ratchet marker via npm test"
+      "notes": "eight of nine pins moved and pushed (70e1cc7, c660e8b); task-pipeline waits for 1.87.0. Then the umbrella release and `npx sshlg-skills@latest update`"
     },
     {
       "id": "HK-20",
@@ -69,10 +70,10 @@
       "deps": [
         "HK-02"
       ],
-      "status": "planned",
+      "status": "in_flight",
       "commit": null,
       "checks": "",
-      "notes": "see plan.md HK-20 — six-step decomposition; design at Fable high, build at Opus xhigh; SKILL.md body must displace, not add (4691/4750)"
+      "notes": "PR #94 open, CI running; plan_audit.py --self-test 11 cases, fix-hk-20.py 8 cases, SKILL.md 4765 → 4721/4750 by displacement"
     },
     {
       "id": "HK-04",
@@ -81,10 +82,11 @@
       "priority": "P1",
       "kind": "guard",
       "deps": [],
-      "status": "planned",
-      "commit": null,
+      "status": "done",
+      "commit": "9b5af48",
       "checks": "",
-      "notes": "HOOKS_SCHEMA check in scripts/audit_skill.py + host-capabilities.md key sets + __pycache__ skip; covers all nine members via the pinned CI auditor"
+      "notes": "HOOKS_SCHEMA + __pycache__ skip; all 28 family skills 0 GAP / 19 PASS; npm 0.29.0",
+      "tag": "v0.29.0"
     },
     {
       "id": "HK-05",
@@ -98,7 +100,7 @@
       "status": "planned",
       "commit": null,
       "checks": "",
-      "notes": "511,941 of 512,000 bytes today; two PRs (runner+registry, then delete steps); Guards count must stay derivable"
+      "notes": "511,941 of 512,000 bytes today; two PRs (runner+registry, then delete steps); Guards count must stay derivable — still open; HK-02 and HK-20 both had to route their regression around the 512 KB ceiling, which is the cost this task removes"
     },
     {
       "id": "HK-06",
@@ -107,10 +109,11 @@
       "priority": "P2",
       "kind": "fix",
       "deps": [],
-      "status": "planned",
-      "commit": null,
+      "status": "done",
+      "commit": "c189588",
       "checks": "",
-      "notes": "LAYOUT_CRAFT/TYPE_CRAFT/KNOWLEDGE_PROVENANCE/VISUAL_REVIEW (17,001 B, 381d2f9); body 4730/4750 — displace"
+      "notes": "four load triggers by displacement (4922 → 4748/4750) + transitive reachability gate; npm 1.61.0",
+      "tag": "v1.61.0"
     },
     {
       "id": "HK-07",
@@ -119,10 +122,11 @@
       "priority": "P2",
       "kind": "fix",
       "deps": [],
-      "status": "planned",
-      "commit": null,
+      "status": "done",
+      "commit": "1af502a",
       "checks": "",
-      "notes": "vision/SKILL.md:71 → references/scenario-format.md via test/sync_references.py"
+      "notes": "vision's contract is local; the sibling-path check no longer keyed to one spelling; npm 0.56.1",
+      "tag": "v0.56.1"
     },
     {
       "id": "HK-08",
@@ -131,10 +135,11 @@
       "priority": "P2",
       "kind": "fix",
       "deps": [],
-      "status": "planned",
-      "commit": null,
+      "status": "done",
+      "commit": "c6c3fa3",
       "checks": "",
-      "notes": "stripe-billing + crypto-payments ## Degradation from error-tracking:258-270; trigger decision touches umbrella lib/triggers.js:402,452 and agent-stack"
+      "notes": "degradation in all seven bodies, the budget measured, биллинг narrowed; npm 0.13.0",
+      "tag": "v0.13.0"
     },
     {
       "id": "HK-09",
@@ -143,10 +148,10 @@
       "priority": "P2",
       "kind": "evals",
       "deps": [],
-      "status": "planned",
+      "status": "done",
       "commit": null,
       "checks": "",
-      "notes": "one PR per repo; method = agent-sync test/evals/RESULTS.md 2026-08-31"
+      "notes": "5 changed phrases × 2 models = 10/10, recorded in routing-2026-09-14.md. Not the full suite: one sample per cell, triggers only, family corpus only"
     },
     {
       "id": "HK-10",
@@ -155,10 +160,11 @@
       "priority": "P3",
       "kind": "hygiene+fix",
       "deps": [],
-      "status": "planned",
-      "commit": null,
+      "status": "done",
+      "commit": "d1b7b4a",
       "checks": "",
-      "notes": "161 refs on origin + 10 local (umbrella), 2 local (agent-sync); reap --i-own-this; then agent-sync backlog row: session-end must reap own git-plane refs"
+      "notes": "agent-sync v1.20.2 gave the override both planes (npm 1.20.2, pinned). Then EXECUTED: 161 refs on origin cleared one at a time with `reap --i-own-this`, zero refusals, `residue` now reads 'no lease refs on the remote — swept and empty, not unread'; the 10 local locks of the same dead run cleared too, `status` reads 'expired locks : none'. Payloads backed up before the first delete. AS-11 remains: nothing clears a dead run's refs by itself.",
+      "tag": "v1.20.2"
     },
     {
       "id": "HK-11",
@@ -167,10 +173,10 @@
       "priority": "P3",
       "kind": "hygiene",
       "deps": [],
-      "status": "planned",
+      "status": "done",
       "commit": null,
       "checks": "",
-      "notes": "see plan.md HK-11 bullet list; acceptance = make-skill-audit 0 GAP + npm test EXIT=0 per repo"
+      "notes": "agent-stack 0.24.3, seo-aeo-audit 0.26.1 (B-27 closed), telegram-dev 0.2.1, super-ux 0.56.2 — all released and pinned"
     },
     {
       "id": "HK-12",
@@ -180,9 +186,9 @@
       "kind": "ledger",
       "deps": [],
       "status": "done",
-      "commit": null,
+      "commit": "70e1cc7",
       "checks": "",
-      "notes": "rode HK-03: three stale flags set to resolved in 2026-09-10-debts/progress.json"
+      "notes": "three stale flags resolved in the 2026-09-10 debt plan"
     },
     {
       "id": "HK-13",
