@@ -1180,7 +1180,7 @@ function cmdConflicts() {
 /**
  * `toolkit` — what this machine can reach, before a task decides what to use.
  *
- * The family's map answers "what do I have" with nine packs. This answers it with the
+ * The family's map answers "what do I have" with its packs. This answers it with the
  * number that is actually true: 490 reachable skills on the machine it was written on, of
  * which 28 are the family's. An agent choosing tools from the block alone is choosing from
  * 6% of what is installed, and the other 94% is invisible rather than rejected.

@@ -1,3 +1,11 @@
+## v1.49.1 — the launcher was still counting to nine
+
+v1.49.0 added the tenth member and its own output kept saying "all nine
+together" — in the update notice, in the session-start line, and in three
+docstrings. The number was typed in places where nothing can compute it, so the
+honest fix is to stop saying it: the packs move together, however many there
+are. One test pinned the old wording and now pins the new promise instead.
+
 ## v1.49.0 — a tenth member: XR
 
 `xr-dev` joins the family, pinned at v0.1.3: five skills for Meta Quest and
