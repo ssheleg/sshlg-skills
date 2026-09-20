@@ -25,3 +25,6 @@
 [submodule "skills/telegram-dev"]
 	path = skills/telegram-dev
 	url = https://github.com/ssheleg/telegram-dev.git
+[submodule "skills/xr-dev"]
+	path = skills/xr-dev
+	url = https://github.com/ssheleg/xr-dev.git

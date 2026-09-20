@@ -28,13 +28,13 @@ it.
 ## What this repository is
 
 The **umbrella** of the ssheleg skill family: a zero-dependency Node launcher
-plus nine skill packs as pinned git submodules. It ships no doctrine of its own —
+plus 10 skill packs as pinned git submodules. It ships no doctrine of its own —
 each skill carries its own — but it owns the family's **routing block**, the
 one piece of the family that edits a file the operator owns and did not write.
 
-**Three of the nine members have their own `CLAUDE.md` house rules** —
-`seo-aeo-audit`, `super-ux` and `task-pipeline` — counted with
-`git -C skills/<name> ls-files CLAUDE.md` on 2026-08-16. The other six carry a
+**5 of the 10 members have their own `CLAUDE.md` house rules** —
+`seo-aeo-audit`, `super-ux`, `task-pipeline`, `telegram-dev` and `xr-dev` — counted with
+`git -C skills/<name> ls-files CLAUDE.md`, re-run 2026-09-20. The other 5 carry a
 validator and CI but no house rules. This paragraph said *"the first six"* until
 that count was run, which named five repositories as having a file they do not
 have. This repository grew its own on 2026-08-10, closing carry-over C-06.
@@ -164,8 +164,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=88 fixtures=1028 members=9 -->
-**Ratchets.** 88 suites, 1028 fixtures, 9 pinned members — and these three numbers are
+<!-- ratchets: suites=88 fixtures=1028 members=10 -->
+**Ratchets.** 88 suites, 1028 fixtures, 10 pinned members — and these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree — and this
 sentence is checked against the same run, not against the marker.** It quoted the marker
