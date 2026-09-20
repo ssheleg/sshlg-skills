@@ -1,3 +1,12 @@
+## v1.49.2 — xr-dev 0.2.1: the Kotlin lane
+
+The tenth member gains `quest-spatial`. Meta Spatial SDK is how an Android team
+reaches Horizon OS, and the pack had nothing to say about it — not whether the
+lane is right, not the toolchain it demands, and not the numbers that decide an
+architecture before anyone writes a system: three video panels before the frame
+rate dips, two activity-based ones, 2,000 entity operations per tick, ~1,000
+scene-graph entities.
+
 ## v1.49.1 — the launcher was still counting to nine
 
 v1.49.0 added the tenth member and its own output kept saying "all nine
