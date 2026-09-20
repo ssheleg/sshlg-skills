@@ -60,7 +60,7 @@ it('IT DESCRIBES THE ACTUAL STATE, and gives the reason in either', () => {
   assert.match(off, /does not update itself/, off);
   assert.match(off, /`update\.auto` is off/, off);
   for (const out of [on, off]) {
-    assert.match(out, /all nine together/, 'the notice does not say the set moves as a set');
+    assert.match(out, /all of them together/, 'the notice does not say the set moves as a set');
     assert.match(out, /no member argument/,
       'the notice does not tie the reason to the launcher rule it comes from');
   }
