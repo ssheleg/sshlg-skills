@@ -238,7 +238,7 @@
         "quest-store",
         "quest-webxr"
       ],
-      "version": "0.1.3",
+      "version": "0.1.5",
       "entry": null,
       "role": "how an XR app is built, measured and shipped on Meta Quest",
       "npm": "@ssheleg/xr-dev",
