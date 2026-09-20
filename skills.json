@@ -223,6 +223,27 @@
       "npm": "@ssheleg/telegram-dev",
       "shape": "static",
       "shapeWhy": "Three fixed surfaces with fixed seams; the only branch is which of the three a task is on, and the first table in each SKILL.md decides that before any code."
+    },
+    {
+      "name": "xr-dev",
+      "repo": "ssheleg/xr-dev",
+      "dir": "skills/xr-dev",
+      "pluginMarketplace": "ssheleg/xr-dev",
+      "pluginInstall": "xr-dev@xr-dev",
+      "desc": "Meta Quest and Horizon OS in five skills, split by the question rather than the tool. quest-native owns the native OpenXR lane: the development manifest that sideloads happily and fails review, the Khronos loader that crashes rather than degrades below 1.0.34, the focus rules that are a VRC and not a nicety, and targetSdk 34 for anything created since 1 March 2026. quest-perf owns the number everyone misreads — at half rate a GPU-bound app reports ~65% utilisation, and App in milliseconds against 13.9, 11.1 or 8.3 ms is the honest one. quest-tooling owns the machine: the metavr CLI and its MCP server, the managed tool matrix, and the rule measured when `metavr init` wrote 29 skills into 25 directories inside a game repository. quest-store owns the four release channels, the VRC list generated from Meta's own page, and the release manifest delta. quest-webxr owns the browser lane through to the asset-links step that decides whether an immersive PWA launches at all. Unity and Unreal stay with Meta's own skills; this pack routes rather than duplicates.",
+      "skillNames": [
+        "quest-native",
+        "quest-perf",
+        "quest-tooling",
+        "quest-store",
+        "quest-webxr"
+      ],
+      "version": "0.1.5",
+      "entry": null,
+      "role": "how an XR app is built, measured and shipped on Meta Quest",
+      "npm": "@ssheleg/xr-dev",
+      "shape": "static",
+      "shapeWhy": "Five fixed lanes with fixed seams; the only branch is which lane a project is on, and the first table in quest-native decides that before any code."
     }
   ],
   "agents": [

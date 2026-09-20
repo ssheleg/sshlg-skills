@@ -178,7 +178,9 @@ def t_clean_install_digests_match():
     c = sc["clean_install"]
     assert c["expected"] == c["installed"], "clean install: expected != installed"
     assert c["active"] == "current", c["channels"]
-    assert sc["member_count"] == 9, sc["member_count"]
+    # Computed, never typed: the family gains members, and a hand-written count
+    # turns every addition into a red suite that says nothing about the pipeline.
+    assert sc["member_count"] == len(member_pins()), (sc["member_count"], len(member_pins()))
 
 
 def t_upgrade_digests_match():
@@ -222,7 +224,7 @@ def main():
     if "--emit" in sys.argv[1:]:
         emit()
         return 0
-    case("clean install: expected/installed/active digests match (9 members)",
+    case(f"clean install: expected/installed/active digests match ({len(member_pins())} members)",
          t_clean_install_digests_match)
     case("upgrade: digests match and differ from the previous set", t_upgrade_digests_match)
     case("a faulted upgrade is detected as stale", t_faulted_upgrade_is_stale)

@@ -1,3 +1,24 @@
+## v1.49.0 — a tenth member: XR
+
+`xr-dev` joins the family, pinned at v0.1.3: five skills for Meta Quest and
+Horizon OS, split by the question rather than the tool. `quest-native` owns the
+native OpenXR lane, `quest-perf` the frame budget and the GPU% figure that reads
+low exactly when an app is GPU-bound, `quest-tooling` the metavr CLI and the
+machine hygiene that keeps a skill install out of a product repository,
+`quest-store` the four release channels and 80 VRCs generated from Meta's own
+page, `quest-webxr` the browser lane through to Digital Asset Links.
+
+Meta publishes 29 task skills of its own and twelve are Unity-specific; the new
+member routes to them rather than restating them, which is why the family gains
+a domain pack and not a second opinion.
+
+Two counts stopped being typed in this release. `ctx-04.06` asserted "9 members"
+in a string and in a label, so a tenth member turned a green pipeline red while
+saying nothing about the pipeline; both now derive from `member_pins()`. And
+`docs/DOCMAP.md` claimed three members carry their own `CLAUDE.md` — a figure
+from 2026-08-16 that had been wrong since `telegram-dev` grew one. Re-counted:
+five of ten.
+
 ## v1.48.4 — the recovery store broke the command it protects
 
 `npx sshlg-skills@latest update` on v1.48.3 died mid-run:
