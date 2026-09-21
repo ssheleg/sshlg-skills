@@ -1,0 +1,112 @@
+{
+  "verifiedAt": "2026-09-21T12:13:47.112716+00:00",
+  "commit": "bf6a78d32de8fc2d5851e1313cba47db8a70d82e",
+  "workflow": "https://github.com/ssheleg/sshlg-skills/actions/runs/35597679245",
+  "pages": [
+    {
+      "route": "/404.html",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "03d252aa4b65ed7d5342bcef3aeb47203d519821ef00644c90985b3aaa52b840",
+      "title": "Not found \u00b7 ssheleg skills"
+    },
+    {
+      "route": "/agents/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "2b3c7c93f1b9bbca5c09d0b92d3598b3cf00e9b5e1968ed89b38543440ca44b9",
+      "title": "Agents \u2014 where these skills run \u00b7 Claude Code, DeepSeek Harness, Cursor and more"
+    },
+    {
+      "route": "/harness/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "3a8cfd981a8ad916c1163d039b3b55e97581283008ada9e1b41d167d5d52dbe4",
+      "title": "How the ssheleg harness works"
+    },
+    {
+      "route": "/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "f4fccf7c7c7403105988c3d8ca297cb7050c524f3b68c6fd1f23d408c64ed5c7",
+      "title": "ssheleg skills \u00b7 skill packs for coding agents"
+    },
+    {
+      "route": "/routing/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "d1a3d2866c3db9e67d4b8831bb01a12fe388c81bccd77ebb42fa6a4ffd4d4d79",
+      "title": "Routing \u2014 which agent skill answers what, and when \u00b7 ssheleg skills"
+    },
+    {
+      "route": "/skills/agent-stack/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "77a0a12469e03a1fa930369e96d65cbf9736c82ab56079de109d77a9a8278874",
+      "title": "agent-stack \u2014 orchestration, prompts, evals, protocols, and the LLM wallet \u00b7 ssheleg skills"
+    },
+    {
+      "route": "/skills/agent-sync/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "bb9def1c6f8b52ffa6b1abfaf71ad4a612f1cd3a201040b80b3531e305557ba2",
+      "title": "agent-sync \u2014 who is holding this file right now \u00b7 ssheleg skills"
+    },
+    {
+      "route": "/skills/make-skill/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "3d0b53c9231421de07df95a7c6cf2a432d8074181b9a32983b84f6fad0073a21",
+      "title": "make-skill \u2014 how the skill or plugin itself is built \u00b7 ssheleg skills"
+    },
+    {
+      "route": "/skills/seo-aeo-audit/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "6ecea9d9e273e7b4f336b54a96bb943eff31a8af457e649a3e3d0e534c91779c",
+      "title": "seo-aeo-audit \u2014 whether a machine will find it \u00b7 ssheleg skills"
+    },
+    {
+      "route": "/skills/sheleg-design/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "37361809f2a065c1af5e08656115d4335c680feeb84ea101c4f5245438e43012",
+      "title": "sheleg-design \u2014 how it looks and moves \u00b7 ssheleg skills"
+    },
+    {
+      "route": "/skills/sheleg-dev/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "2fa963824e7496ff47215903b1473b13ff68d39191bf0929e0606e7c77cbd332",
+      "title": "sheleg-dev \u2014 integrations: money in, tracking, errors, sign-in, speed \u00b7 ssheleg skills"
+    },
+    {
+      "route": "/skills/super-ux/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "fda2f494ecdcf4e737e150c2170948474ebb01e9973a4f4a2aa0bba3b92b6d57",
+      "title": "super-ux \u2014 what the interface must do \u00b7 ssheleg skills"
+    },
+    {
+      "route": "/skills/task-pipeline/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "95c605570e0ee740419d0c6ac16e2f697cbaa72a93f65c2eb62007d95d924d90",
+      "title": "task-pipeline \u2014 how a change reaches the repository \u00b7 ssheleg skills"
+    },
+    {
+      "route": "/skills/telegram-dev/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "8998a7660b744d554d4ea24992c4bb91832b778ec748985b68aac075f8732ea1",
+      "title": "telegram-dev \u2014 which Telegram API each surface speaks, and what each one costs \u00b7 ssheleg skills"
+    },
+    {
+      "route": "/skills/xr-dev/",
+      "status": 200,
+      "matchesBuiltBytes": true,
+      "sha256": "267d7a4b2392e1e0f89b55d0dcffba2e8a5286b8064bd304ca0b2a3c2b050bd8",
+      "title": "xr-dev \u2014 how an XR app is built, measured and shipped on Meta Quest \u00b7 ssheleg skills"
+    }
+  ]
+}
