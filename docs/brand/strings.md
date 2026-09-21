@@ -11,3 +11,7 @@ This registry holds only family-level labels repeated across repositories.
 | family.verify | Verify | member release notes | release acceptance | agreed |
 | family.boundary | Where it stops | member README | skill selection | agreed |
 
+
+| harness.overview | How the harness works | `scripts/site.js` | SCN-001 | agreed |
+| harness.install | Install the skill family | `scripts/site.js` | SCN-001 | agreed |
+| harness.observatory | Explore Project Observatory | `scripts/site.js` | SCN-003 | agreed |

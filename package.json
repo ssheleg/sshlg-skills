@@ -1,8 +1,8 @@
 {
   "name": "sshlg-skills",
-  "version": "1.49.2",
+  "version": "1.50.0",
   "skillsCli": "skills@1.5.25",
-  "description": "Install and update nine ssheleg skill packs across Claude Code, Codex, Cursor, OpenCode and other Agent Skills-compatible tools.",
+  "description": "The ssheleg harness skill layer: routing, delivery gates, specialist skills and durable handoffs for coding agents.",
   "bin": {
     "sshlg-skills": "bin/sshlg-skills.js"
   },
@@ -40,6 +40,8 @@
     "submodules",
     "claude-code",
     "cursor",
-    "agents"
+    "agents",
+    "harness",
+    "agent-harness"
   ]
 }

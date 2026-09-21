@@ -478,7 +478,7 @@ img,svg{max-width:100%;height:auto}
 @media (max-width:760px){.nav nav a.opt{display:none}}
 
 /* ── hero: two columns, because the right rail was empty at every width */
-.hero{padding:var(--space-6) 0 var(--space-5)}
+.hero{padding-block:var(--space-6) var(--space-5)}
 .hero-grid{display:grid;gap:var(--space-6);align-items:start;
   grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}
 @media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
@@ -546,7 +546,7 @@ img,svg{max-width:100%;height:auto}
 .btn--ghost{background:transparent}
 
 /* ── sections */
-.sec{padding:var(--space-6) 0 0}
+.sec{padding-block:var(--space-6) 0}
 .sec>h2{font-size:var(--t-section)}
 .sec>.sub{color:var(--muted);max-width:68ch;margin:var(--space-3) 0 0}
 .rule{border:0;border-top:1px solid var(--border);margin:var(--space-6) 0 0}
@@ -639,13 +639,13 @@ footer a{color:var(--muted)}
 footer a:hover{color:var(--ink)}
 footer nav{display:flex;gap:var(--space-4);flex-wrap:wrap}
 
-.crumb{color:var(--muted);font-size:var(--t-body);padding:var(--space-5) 0 0}
+.crumb{color:var(--muted);font-size:var(--t-body);padding-block:var(--space-5) 0}
 .crumb a{color:var(--muted)}
 
 @media (max-width:640px){
   .wrap{padding:0 var(--space-4)}
-  .hero{padding:var(--space-5) 0 var(--space-3)}
-  .sec{padding:var(--space-5) 0 0}
+  .hero{padding-block:var(--space-5) var(--space-3)}
+  .sec{padding-block:var(--space-5) 0}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition-duration:0s!important}
@@ -782,7 +782,7 @@ function layout(o) {
 ${o.noindex ? '<meta name="robots" content="noindex">\n' : ''}
 <meta name="theme-color" content="#0f1218">
 <meta property="og:type" content="${o.ogType || 'website'}">
-<meta property="og:site_name" content="ssheleg skills">
+<meta property="og:site_name" content="ssheleg harness">
 <meta property="og:title" content="${esc(o.title)}">
 <meta property="og:description" content="${esc(o.description)}">
 <meta property="og:url" content="${canonical}">
@@ -808,8 +808,9 @@ ${jsonld}
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="nav"><div class="wrap">
-  <a class="brand" href="${rel || './'}">${MARK}<span>ssheleg skills</span></a>
+  <a class="brand" href="${rel || './'}">${MARK}<span>ssheleg harness</span></a>
   <nav>
+    <a href="${rel}harness/">Harness</a>
     <a class="opt" href="${rel}#skills">Skills</a>
     <a class="opt" href="${rel}agents/">Agents</a>
     <a class="opt" href="${rel}routing/">Routing</a>
@@ -865,18 +866,18 @@ function indexPage() {
   <div class="hero-grid">
     <div>
       <p class="eyebrow">${members.length} packs · ${totalSkills} Agent Skills · one command</p>
-      <h1>Agent skills for the work around the code.</h1>
-      <p class="lede">A coding agent writes code well and does almost everything
-      around it badly. It builds an interface with no idea who uses it, calls a task
-      done without checking what was asked, and ships a page no answer engine can
-      read. These ${members.length} packs each take one of those gaps and give the
-      agent <b>a contract it has to follow</b> — documentation, validators and small
-      standard-library scripts. No services, no telemetry, no API keys.</p>
+      <h1>A harness for work that agents can prove done.</h1>
+      <p class="lede">Give your coding agent a working method: choose the right
+      tools, keep the intent, check the result and leave a task another run can
+      continue. The <b>ssheleg harness</b> brings routing, delivery gates and
+      specialist skills together. Project Observatory adds a separately installed
+      view of your projects and credential exposures.</p>
       ${term('npx sshlg-skills install', 'install the whole family')}
       <div class="ctas">
         ${xFollowBtn()}
         ${ghBtn(`https://github.com/${GH_OWNER}/${GH_REPO}`, 'Get it on GitHub')}
         <a class="btn btn--ghost" href="#skills">Browse the skills</a>
+        <a class="btn btn--ghost" href="harness/">How the harness works</a>
       </div>
     </div>
 
@@ -902,14 +903,14 @@ function indexPage() {
     <div class="stat"><b>${members.length}</b><span>skill packs, pinned and released together</span></div>
     <div class="stat"><b>${totalSkills}</b><span>entry points an agent can be routed to</span></div>
     <div class="stat"><b>${agentCount}+</b><span>agents, from Claude Code to DeepSeek Harness</span></div>
-    <div class="stat is-ok"><b>0</b><span>runtime dependencies, services or keys</span></div>
+    <div class="stat is-ok"><b>0</b><span>runtime dependencies in the skill launcher</span></div>
   </div>
 </section>
 
 <hr class="rule">
 
 <section class="wrap sec" id="skills">
-  <h2>The family</h2>
+  <h2>The skill family inside the harness</h2>
   <p class="sub">Each pack owns one question. They compose: the router decides the
   route, and every route names the phrase that declines it.</p>
   <div class="grid">${members.map((m) => memberCard(m, rel)).join('\n')}</div>
@@ -1001,16 +1002,15 @@ function indexPage() {
     url: '/',
     card: 'index',
     cardAlt: `ssheleg skills — ${members.length} agent skill packs, one command, every agent`,
-    title: 'ssheleg skills — agent skills for the work around the code',
-    description: `${members.length} agent skill packs for Claude Code, Cursor, Codex and `
-      + `${agentCount}+ more agents: UX scenarios, gated delivery, multi-agent leases, `
-      + `skill authoring, design tokens, SEO/AEO audits, payment and agent-system `
-      + `patterns. One command installs all of them.`,
+    title: 'ssheleg harness · skills, delivery gates and Project Observatory',
+    description: `An operating layer for coding agents: ${members.length} skill packs, `
+      + 'routing, verified delivery and durable handoffs. Add Project Observatory '
+      + 'separately to inspect project state and credential exposures.',
     jsonld: [
       {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
-        name: 'ssheleg skills',
+        name: 'ssheleg harness',
         url: `${SITE}/`,
         author: { '@id': PERSON_ID },
       },
@@ -1058,6 +1058,8 @@ function memberPage(m) {
 <section class="wrap hero" style="padding-top:22px">
   <p class="eyebrow">${esc(m.role)}</p>
   <h1>${esc(m.name)}</h1>
+  <p class="sub">Part of the <a href="${rel}harness/">ssheleg harness</a>.
+  This pack supplies ${esc(m.role.toLowerCase())} and also works on its own.</p>
   <p class="lede">${esc(m.desc)}</p>
   <div class="ctas">
     ${ghBtn(repoUrl, 'Repository')}
@@ -1187,6 +1189,74 @@ ${m.routers.length ? `<hr class="rule">
       },
     ],
     body,
+  });
+}
+
+// --------------------------------------------------------------- harness page
+
+function harnessPage() {
+  return layout({
+    rel: '../', url: '/harness/', card: 'harness',
+    title: 'How the ssheleg harness works',
+    description: 'Routing, skill packs, delivery gates, coordination and optional Project Observatory. What each layer owns and how an agent hands over verified work.',
+    jsonld: [{ '@context': 'https://schema.org', '@type': 'WebPage',
+      name: 'How the ssheleg harness works', url: `${SITE}/harness/`,
+      author: { '@id': PERSON_ID } }],
+    body: `<section class="wrap hero">
+      <p class="eyebrow">The method around your coding agent</p>
+      <h1>From a request to a result you can inspect.</h1>
+      <p class="lede">A useful agent needs more than instructions for writing code.
+      It needs to know who the work is for, what completion means, which tools own
+      each step and what the next session must remember. That is the job of the
+      ssheleg harness.</p>
+      <div class="ctas"><a class="btn" href="../#install">Install the skill family</a>
+      <a class="btn btn--ghost" href="https://observatory.sshlg.me/">Explore Project Observatory</a></div>
+    </section>
+    <hr class="rule">
+    <section class="wrap sec"><h2>One method, distinct responsibilities</h2>
+      <div class="tw"><table><thead><tr><th>Layer</th><th>What it does</th><th>Where it lives</th></tr></thead><tbody>
+      <tr><td>Routing</td><td>Select a capability for the task and state its boundary</td><td><a href="../routing/">Family routers</a></td></tr>
+      <tr><td>Delivery</td><td>Keep scope, dependencies, acceptance evidence and a resume point</td><td><a href="../skills/task-pipeline/">task-pipeline</a></td></tr>
+      <tr><td>Coordination</td><td>Claim shared work and record who changed what</td><td><a href="../skills/agent-sync/">agent-sync</a></td></tr>
+      <tr><td>Specialist skills</td><td>Apply product, design, integration and agent engineering contracts</td><td><a href="../#skills">${members.length} independently usable packs</a></td></tr>
+      <tr><td>Observation</td><td>Inspect enrolled projects, changes and possible credential exposures</td><td><a href="https://observatory.sshlg.me/">Project Observatory</a></td></tr>
+      </tbody></table></div>
+      <div class="note"><p><strong>Your agent remains the runtime.</strong> Claude Code,
+      Codex and other hosts execute the model and tools and enforce their permissions.
+      The harness supplies working contracts and checks; it does not create a sandbox.</p></div>
+    </section>
+    <hr class="rule">
+    <section class="wrap sec"><h2>A task that survives the next session</h2>
+      <div class="prose"><ol>
+      <li><strong>Understand.</strong> Capture the request and the scenarios it must serve.</li>
+      <li><strong>Plan.</strong> Name each dependency, owner and completion check.</li>
+      <li><strong>Build.</strong> Use the specialist pack for the work in front of the agent.</li>
+      <li><strong>Verify.</strong> Check the artifact that will ship. Keep missing evidence visible.</li>
+      <li><strong>Hand over.</strong> Save decisions, results and the exact next action in Git.</li>
+      <li><strong>Observe.</strong> With Observatory installed, inspect project state after the change.</li>
+      </ol></div>
+    </section>
+    <hr class="rule">
+    <section class="wrap sec"><h2>Project Observatory</h2>
+      <p class="sub">A local instrument for the projects an agent works on. Enroll
+      explicit folders, inspect Git state and project metrics, and check selected
+      artifacts for known credential values. Findings point to a next action without
+      reproducing the credential.</p>
+      <div class="note"><p><strong>Separate installation. Explicit access.</strong>
+      Installing the skill family does not start Observatory or scan your computer.
+      The portable edition documents its supported scope and the integrations still
+      awaiting migration. Public examples use synthetic projects and credentials.</p></div>
+      <div class="ctas"><a class="btn" href="https://observatory.sshlg.me/">Explore Project Observatory</a></div>
+    </section>
+    <hr class="rule">
+    <section class="wrap sec"><h2>Borrow mechanisms. Keep one contract.</h2>
+      <p class="sub">Our ECC study focuses on installation ownership, bounded hooks,
+      durable handoffs and evaluations tied to the artifact tested. We adapt those
+      ideas to the family's existing contracts. The research records what we adopted,
+      what we already had and what we chose to leave out.</p>
+      <div class="ctas">${ghBtn('https://github.com/ssheleg/agent-stack', 'Read the harness engineering sources', 'btn btn--ghost')}
+      ${ghBtn('https://github.com/ssheleg/sshlg-skills/blob/main/docs/harness/README.md', 'Read the architecture', 'btn btn--ghost')}</div>
+    </section>`,
   });
 }
 
@@ -1465,7 +1535,7 @@ function notFoundPage() {
 // ------------------------------------------------------------- machine-readable
 
 function sitemap() {
-  const urls = ['/', '/agents/', '/routing/', ...members.map((m) => `/skills/${m.slug}/`)];
+  const urls = ['/', '/harness/', '/agents/', '/routing/', ...members.map((m) => `/skills/${m.slug}/`)];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((u) => `  <url><loc>${SITE}${u}</loc>`
@@ -1486,19 +1556,21 @@ Sitemap: ${SITE}/sitemap.xml
  * so the site carries it: a plain-text map an LLM can quote without running JS.
  */
 function llms() {
-  return `# ssheleg skills
+  return `# ssheleg harness
 
-> ${members.length} agent skill packs that give a coding agent a contract for the
+> An operating layer around existing coding agents. ${members.length} skill packs give a coding agent a contract for the
 > work around the code: what the interface must do, how a change reaches the
 > repository, who is holding a file, how a skill is built, how it looks, whether a
 > machine will find it, what the integrations run on, and how an agent system is
 > built and metered. Documentation, validators and small standard-library scripts.
-> No services, no telemetry, no API keys. MIT. Author: ${AUTHOR} (@${X_HANDLE}).
+> The skill layer needs no services, telemetry or API keys. Project Observatory is separately installed and has its own explicit data and access configuration. MIT. Author: ${AUTHOR} (@${X_HANDLE}).
 
 Install: \`npx sshlg-skills install\`
 Repository: https://github.com/${GH_OWNER}/${GH_REPO}
 Site: ${SITE}/
 Manifesto: ${MANIFESTO}
+Harness architecture: ${SITE}/harness/
+Project Observatory: https://observatory.sshlg.me/
 
 ## Skills
 
@@ -1547,6 +1619,7 @@ function build(outDir) {
 
   const written = [];
   written.push(write('index.html', indexPage()));
+  written.push(write('harness/index.html', harnessPage()));
   written.push(write('routing/index.html', routingPage()));
   written.push(write('agents/index.html', agentsPage()));
   for (const m of members) written.push(write(`skills/${m.slug}/index.html`, memberPage(m)));
@@ -1560,10 +1633,17 @@ function build(outDir) {
   // painting into the frame. Member cards are gated through LEGACY_FIT below.
   written.push(write2('og/index.png', og.card({
     eyebrow: `${members.length} packs · ${totalSkills} Agent Skills · one command`,
-    title: 'ssheleg skills',
-    lines: ['agent skills for the work around the code',
-      'no services, no telemetry, no api keys'],
+    title: 'ssheleg harness',
+    lines: ['skills, delivery gates and durable handoffs',
+      'with project observatory as the observation layer'],
     footer: SITE.replace(/^https?:\/\//, ''),
+    fitTracking: true,
+  })));
+  written.push(write2('og/harness.png', og.card({
+    eyebrow: 'The method around your coding agent',
+    title: 'the harness',
+    lines: ['route, build, verify, hand over, observe'],
+    footer: `${SITE.replace(/^https?:\/\//, '')}/harness`,
     fitTracking: true,
   })));
   written.push(write2('og/agents.png', og.card({

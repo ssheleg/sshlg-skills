@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**748** id'd requirement rows below, **641** read `verified` and none of them says which
+**751** id'd requirement rows below, **641** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -37,6 +37,14 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-21 — v1.50.0, the family inside the harness
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| HAR-1 | The architecture names each layer and preserves the host runtime boundary | `docs/harness/README.md`, generated `/harness/`; `node test/site_test.js` passed 42 checks over 15 pages | v1.50.0 | Changing generated architecture or installation wording | 2026-09-21, command and agent review |
+| HAR-2 | Every pack page identifies its harness relationship without changing its standalone install | `test/site_test.js` iterates manifest members and asserts the shared route and installation content | v1.50.0 | Manifest, member renderer or test changes | 2026-09-21, command |
+| HAR-3 | Mobile content keeps a side inset | `docs/ux/scenarios.md` records the browser correction and measured 16px h1 inset at 390px; CSS uses block-axis padding | v1.50.0 | CSS, tokens or markup changes | 2026-09-21, agent browser review |
 
 ## 2026-09-14 — v1.48.4, the recovery store broke the command it protects
 

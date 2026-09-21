@@ -4,7 +4,7 @@ Locales: en (primary)
 Locale parity threshold: 100%
 Derived-from: inferred
 Status: draft
-Last calibrated: 2026-08-26
+Last calibrated: 2026-09-21
 
 # Voice
 
@@ -24,7 +24,7 @@ Last calibrated: 2026-08-26
 Hero:         the builder accountable for what an agent ships
 Enemy:        invisible process and confident claims without receipts
 Product role: instrument
-Promise:      each pack says when to use it, where it stops and how to verify it
+Promise:      the agent preserves intent, verifies the artifact and leaves a durable handoff
 ```
 
 ## Invariant in every language

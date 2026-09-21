@@ -76,13 +76,16 @@ function decodedPng(buf) {
 it('every member in skills.json has a page, and no page has no member', () => {
   const expected = data.skills.map((s) => `skills/${s.name}/index.html`).sort();
   const actual = pages.filter((p) => p.startsWith('skills/')).sort();
+  assert.ok(read('harness/index.html').includes('Your agent remains the runtime.'));
+  assert.ok(read('harness/index.html').includes('Separate installation. Explicit access.'));
+  for (const page of actual) assert.ok(read(page).includes('ssheleg harness'), page);
   assert.deepStrictEqual(actual, expected,
     'a member without a page is a member the site does not sell');
 });
 
 it('every page has a card of its own, and no card belongs to no page', () => {
   const cards = built.written.filter((f) => f.startsWith('og/'));
-  const expected = ['og/index.png', 'og/routing.png', 'og/agents.png',
+  const expected = ['og/index.png', 'og/harness.png', 'og/routing.png', 'og/agents.png',
     ...data.skills.map((m) => `og/skills-${m.name}.png`)].sort();
   assert.deepStrictEqual(cards.sort(), expected,
     'a member without a card shares as a blank box');
@@ -138,7 +141,7 @@ it('every LEGACY_FIT entry still needs the gate, and gates a member that exists'
 });
 
 it('the entry points a reader is handed all exist', () => {
-  for (const rel of ['index.html', 'routing/index.html', 'agents/index.html', '404.html',
+  for (const rel of ['index.html', 'harness/index.html', 'routing/index.html', 'agents/index.html', '404.html',
     'sitemap.xml', 'robots.txt', 'llms.txt', '.nojekyll']) {
     assert.ok(built.written.includes(rel), `${rel} was not built`);
   }

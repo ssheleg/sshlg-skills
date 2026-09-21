@@ -8,7 +8,7 @@ Contract: brand-contract v1
 |---|---|---|
 | skill | prompt, bot | one Agent Skills entry point |
 | skill pack | bundle, suite of prompts | one installable member repository |
-| family | ecosystem, platform | the nine coordinated skill packs |
+| family | ecosystem, platform | the coordinated skill packs inside the harness |
 | audit | review, check-up | a reproducible inspection with evidence |
 | gate | best practice | a condition that blocks progress when it fails |
 | evidence | proof point | a command, file, test or observed external state |
@@ -18,6 +18,8 @@ Contract: brand-contract v1
 | Name | Wrong forms seen |
 |---|---|
 | ssheleg | SSHLG, Ssheleg |
+| ssheleg harness | SSHLG Harness |
+| Project Observatory | project observatory |
 | sshlg-skills | sshlg skills, SSHLG Skills |
 | Agent Skills | agent skills standard, Agent skills |
 | Claude Code | Claude code, Claude |
@@ -46,3 +48,7 @@ Member repository names follow `skills.json` exactly.
 | house audit | the Agent Skills audit plus this family's stricter headroom and trigger rules |
 | social preview | the 1200×630 image GitHub and link unfurlers display |
 
+
+## Harness vocabulary
+
+A harness is the operating layer around an existing coding agent: routing, task contracts, verification, handoffs and optional observation. It is not a model runtime or a sandbox. The family is the independently installable skill layer. Observatory is a separate tool with explicit project enrollment and local state.

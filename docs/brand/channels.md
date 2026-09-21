@@ -64,3 +64,15 @@ Proof:      generated from `skills.json`
 Locales:    English only
 ```
 
+
+## Harness architecture page
+
+```
+Register:   density -1
+Format:     purpose, layer ownership, task journey, separate Observatory setup
+Limits:     readable without JavaScript
+Forbidden:  physics: hidden primary content | brand: sandbox claims, unverified incident counts
+CTA:        Install the skill family; Explore Project Observatory
+Proof:      docs/harness/README.md and the published Observatory capability contract
+Locales:    English primary
+```
