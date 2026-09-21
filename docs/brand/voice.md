@@ -4,6 +4,7 @@ Locales: en (primary)
 Locale parity threshold: 100%
 Derived-from: inferred
 Status: draft
+Humanization: on
 Last calibrated: 2026-09-21
 
 # Voice
