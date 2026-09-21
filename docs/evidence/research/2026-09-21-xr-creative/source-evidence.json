@@ -1,0 +1,345 @@
+{
+  "checked_at": "2026-09-21",
+  "scope": "Receipts for selected downloaded inputs, not every web page consulted. External content is not bundled. Narrative links identify additional primary sources read through web tools.",
+  "selected_source_files": [
+    {
+      "repo": "ahujasid/mcp-for-blender",
+      "commit": "7cc602252386b92829bc7364e3a897253610be38",
+      "path": "README.md",
+      "url": "https://github.com/ahujasid/mcp-for-blender/blob/7cc602252386b92829bc7364e3a897253610be38/README.md",
+      "sha256": "5754d0a4a17b4c24f3779427d293e82a3642bc4da223fe6c25a334efb0413905",
+      "lines": 800,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "ahujasid/mcp-for-blender",
+      "commit": "7cc602252386b92829bc7364e3a897253610be38",
+      "path": "addon.py",
+      "url": "https://github.com/ahujasid/mcp-for-blender/blob/7cc602252386b92829bc7364e3a897253610be38/addon.py",
+      "sha256": "3f10d15f8a2b607e16c1cdd616a0012c3b64cdc185366322d5013f7891cf353c",
+      "lines": 5344,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "ahujasid/mcp-for-blender",
+      "commit": "7cc602252386b92829bc7364e3a897253610be38",
+      "path": "pyproject.toml",
+      "url": "https://github.com/ahujasid/mcp-for-blender/blob/7cc602252386b92829bc7364e3a897253610be38/pyproject.toml",
+      "sha256": "69e3112477da6cdde6c0645de99dc87a6fbdb8c8a9ebcdc341ec9a37ad001f74",
+      "lines": 39,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "ahujasid/mcp-for-blender",
+      "commit": "7cc602252386b92829bc7364e3a897253610be38",
+      "path": "src/blender_mcp/server.py",
+      "url": "https://github.com/ahujasid/mcp-for-blender/blob/7cc602252386b92829bc7364e3a897253610be38/src/blender_mcp/server.py",
+      "sha256": "e6c7eb59abb4b61507f8e76d533d2e232ba1d63e49b5fc1008ba60dbd8519156",
+      "lines": 2208,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "freshtechbro/claudedesignskills",
+      "commit": "1da73febff0c3e1dfefc07f8a5ef8f7d1dfdb6cd",
+      "path": ".claude/skills/blender-web-pipeline/SKILL.md",
+      "url": "https://github.com/freshtechbro/claudedesignskills/blob/1da73febff0c3e1dfefc07f8a5ef8f7d1dfdb6cd/.claude/skills/blender-web-pipeline/SKILL.md",
+      "sha256": "788e4c2fa8d559b5f682a0c49c87159bed06207fd04119ec6f8c3fc7203a7b4c",
+      "lines": 613,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "freshtechbro/claudedesignskills",
+      "commit": "1da73febff0c3e1dfefc07f8a5ef8f7d1dfdb6cd",
+      "path": ".claude/skills/modern-web-design/SKILL.md",
+      "url": "https://github.com/freshtechbro/claudedesignskills/blob/1da73febff0c3e1dfefc07f8a5ef8f7d1dfdb6cd/.claude/skills/modern-web-design/SKILL.md",
+      "sha256": "062b0120b59067744c135ec5d49d71e468b8e16de92ec2dec6fc19c41c4a9a24",
+      "lines": 990,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "freshtechbro/claudedesignskills",
+      "commit": "1da73febff0c3e1dfefc07f8a5ef8f7d1dfdb6cd",
+      "path": ".claude/skills/web3d-integration-patterns/SKILL.md",
+      "url": "https://github.com/freshtechbro/claudedesignskills/blob/1da73febff0c3e1dfefc07f8a5ef8f7d1dfdb6cd/.claude/skills/web3d-integration-patterns/SKILL.md",
+      "sha256": "3c5f22042307a59751de6684fdae033c011048d5fe8d3a7525b9e51564254034",
+      "lines": 852,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "freshtechbro/claudedesignskills",
+      "commit": "1da73febff0c3e1dfefc07f8a5ef8f7d1dfdb6cd",
+      "path": "README.md",
+      "url": "https://github.com/freshtechbro/claudedesignskills/blob/1da73febff0c3e1dfefc07f8a5ef8f7d1dfdb6cd/README.md",
+      "sha256": "b769f55e90a97ac0ec6d249f8ab7da0ce7e3c2e34a9c0af00ccffb4413a54889",
+      "lines": 281,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "heygen-com/skills",
+      "commit": "1bd5e4d33a028dfed3abf504c5e3dd644fb9ea8a",
+      "path": ".mcp.json",
+      "url": "https://github.com/heygen-com/skills/blob/1bd5e4d33a028dfed3abf504c5e3dd644fb9ea8a/.mcp.json",
+      "sha256": "bcea78831e0a151943ebf03249c65e8b2d9a7ed2887f93e889b84a425ba7f831",
+      "lines": 9,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "heygen-com/skills",
+      "commit": "1bd5e4d33a028dfed3abf504c5e3dd644fb9ea8a",
+      "path": "README.md",
+      "url": "https://github.com/heygen-com/skills/blob/1bd5e4d33a028dfed3abf504c5e3dd644fb9ea8a/README.md",
+      "sha256": "2c9a369ac22e9f94c050db66f9a93bcd95ba6f983e6c52057620245d57c293f9",
+      "lines": 242,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "heygen-com/skills",
+      "commit": "1bd5e4d33a028dfed3abf504c5e3dd644fb9ea8a",
+      "path": "heygen-avatar/SKILL.md",
+      "url": "https://github.com/heygen-com/skills/blob/1bd5e4d33a028dfed3abf504c5e3dd644fb9ea8a/heygen-avatar/SKILL.md",
+      "sha256": "9f27d6d1724143a5a07c7535c509a8bef2be5ba2c69daf834bdd9b6c74794eba",
+      "lines": 466,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "heygen-com/skills",
+      "commit": "1bd5e4d33a028dfed3abf504c5e3dd644fb9ea8a",
+      "path": "heygen-translate/SKILL.md",
+      "url": "https://github.com/heygen-com/skills/blob/1bd5e4d33a028dfed3abf504c5e3dd644fb9ea8a/heygen-translate/SKILL.md",
+      "sha256": "d4b1d860abf2dfee6c28598e3c290c43b45d7a8f9a4263b3510edd27e99bffc0",
+      "lines": 446,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "heygen-com/skills",
+      "commit": "1bd5e4d33a028dfed3abf504c5e3dd644fb9ea8a",
+      "path": "heygen-video/SKILL.md",
+      "url": "https://github.com/heygen-com/skills/blob/1bd5e4d33a028dfed3abf504c5e3dd644fb9ea8a/heygen-video/SKILL.md",
+      "sha256": "ba73aa1e0a5c6584cc7314ecbd592f9043f24705e860f297bd2cf0e9b4751d18",
+      "lines": 679,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "heygen-com/skills",
+      "commit": "1bd5e4d33a028dfed3abf504c5e3dd644fb9ea8a",
+      "path": "mcp.json",
+      "url": "https://github.com/heygen-com/skills/blob/1bd5e4d33a028dfed3abf504c5e3dd644fb9ea8a/mcp.json",
+      "sha256": "bcea78831e0a151943ebf03249c65e8b2d9a7ed2887f93e889b84a425ba7f831",
+      "lines": 9,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "jame581/GodotPrompter",
+      "commit": "3e8d0f005f9604e1dbdad3de693e39555384c5af",
+      "path": "README.md",
+      "url": "https://github.com/jame581/GodotPrompter/blob/3e8d0f005f9604e1dbdad3de693e39555384c5af/README.md",
+      "sha256": "afd80c93ba8bf242704fd1a1e357357eaa94910fdfb9bb512ff6377dc0c2ebd8",
+      "lines": 391,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "jame581/GodotPrompter",
+      "commit": "3e8d0f005f9604e1dbdad3de693e39555384c5af",
+      "path": "skills/assets-pipeline/SKILL.md",
+      "url": "https://github.com/jame581/GodotPrompter/blob/3e8d0f005f9604e1dbdad3de693e39555384c5af/skills/assets-pipeline/SKILL.md",
+      "sha256": "7dbc4d807be87641ee0383f7be6db34950aa99b6d9d135ca879ceb5ba72da7ba",
+      "lines": 305,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "jame581/GodotPrompter",
+      "commit": "3e8d0f005f9604e1dbdad3de693e39555384c5af",
+      "path": "skills/gdextension/SKILL.md",
+      "url": "https://github.com/jame581/GodotPrompter/blob/3e8d0f005f9604e1dbdad3de693e39555384c5af/skills/gdextension/SKILL.md",
+      "sha256": "f295de63452f15f48f7caf3bc9f28599b1849173f1aabc90159083661f271ad6",
+      "lines": 230,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "jame581/GodotPrompter",
+      "commit": "3e8d0f005f9604e1dbdad3de693e39555384c5af",
+      "path": "skills/godot-testing/SKILL.md",
+      "url": "https://github.com/jame581/GodotPrompter/blob/3e8d0f005f9604e1dbdad3de693e39555384c5af/skills/godot-testing/SKILL.md",
+      "sha256": "d16ab0a15b0ee47b8ddc24835f69b6e696ea384c6e248d78693f16bd7ea1b08f",
+      "lines": 147,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "jame581/GodotPrompter",
+      "commit": "3e8d0f005f9604e1dbdad3de693e39555384c5af",
+      "path": "skills/using-godot-prompter/SKILL.md",
+      "url": "https://github.com/jame581/GodotPrompter/blob/3e8d0f005f9604e1dbdad3de693e39555384c5af/skills/using-godot-prompter/SKILL.md",
+      "sha256": "5022ad27d5615aef6141e123d68191e9d8ae954cb7d5579b36f0b092ebe508b5",
+      "lines": 248,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "jame581/GodotPrompter",
+      "commit": "3e8d0f005f9604e1dbdad3de693e39555384c5af",
+      "path": "skills/xr-development/SKILL.md",
+      "url": "https://github.com/jame581/GodotPrompter/blob/3e8d0f005f9604e1dbdad3de693e39555384c5af/skills/xr-development/SKILL.md",
+      "sha256": "ff47a1f4c5b9169f982e0fdde5b507c4958ef483e043684b6a64128b62beda40",
+      "lines": 291,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "meta-quest/Meta-Spatial-SDK-Samples",
+      "commit": "f233e2327b95f9871b75bdba867d6fdd726f07cc",
+      "path": "README.md",
+      "url": "https://github.com/meta-quest/Meta-Spatial-SDK-Samples/blob/f233e2327b95f9871b75bdba867d6fdd726f07cc/README.md",
+      "sha256": "aca0fd27a2ff27a268b67ccd5638b4991f1f97c59e2d257907ac6eca89d2be01",
+      "lines": 182,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "meta-quest/agentic-tools",
+      "commit": "18b183dfcb6a5fcec6615d882ca6922c08b7094f",
+      "path": "skills/hz-spatial-sdk/SKILL.md",
+      "url": "https://github.com/meta-quest/agentic-tools/blob/18b183dfcb6a5fcec6615d882ca6922c08b7094f/skills/hz-spatial-sdk/SKILL.md",
+      "sha256": "6c9dc83368c74470eb7bacb42c91664c7340f99ad953be0de9422dac9569f9c6",
+      "lines": 283,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "meta-quest/agentic-tools",
+      "commit": "18b183dfcb6a5fcec6615d882ca6922c08b7094f",
+      "path": "skills/hz-unity-project-analyzer/SKILL.md",
+      "url": "https://github.com/meta-quest/agentic-tools/blob/18b183dfcb6a5fcec6615d882ca6922c08b7094f/skills/hz-unity-project-analyzer/SKILL.md",
+      "sha256": "5b77cfcd0d6bffc052912a4b944e1b28501d31dd27f0e8b07f0e469e6dae4cb2",
+      "lines": 217,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "sshlg/heygen-hyperframes-vr",
+      "commit": "952e9228b5cdf4387ecb4b6f220ef8e5d9143a73",
+      "path": "README.md",
+      "url": "https://github.com/sshlg/heygen-hyperframes-vr/blob/952e9228b5cdf4387ecb4b6f220ef8e5d9143a73/README.md",
+      "sha256": "71b2e997813f56e0d26e3a365bb2482002a501d6119564b0c7066e88652d7a55",
+      "lines": 346,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "sshlg/heygen-hyperframes-vr",
+      "commit": "952e9228b5cdf4387ecb4b6f220ef8e5d9143a73",
+      "path": "package.json",
+      "url": "https://github.com/sshlg/heygen-hyperframes-vr/blob/952e9228b5cdf4387ecb4b6f220ef8e5d9143a73/package.json",
+      "sha256": "7954edde489fe927843de00251c5fcb42aeb394a638a8f0bee09463bb132855d",
+      "lines": 94,
+      "method": "selected source read, not executed"
+    },
+    {
+      "repo": "sshlg/heygen-hyperframes-vr",
+      "commit": "952e9228b5cdf4387ecb4b6f220ef8e5d9143a73",
+      "path": "skills/hyperframes/SKILL.md",
+      "url": "https://github.com/sshlg/heygen-hyperframes-vr/blob/952e9228b5cdf4387ecb4b6f220ef8e5d9143a73/skills/hyperframes/SKILL.md",
+      "sha256": "49e0854d6142edb8b067c56bdedb711eca4fb828e944918b5a3f8422b74ec7ad",
+      "lines": 129,
+      "method": "selected source read, not executed"
+    }
+  ],
+  "http_receipts": [
+    {
+      "id": "fal-queue",
+      "url": "https://fal.ai/docs/documentation/model-apis/inference/queue.md",
+      "resolved_url": "https://fal.ai/docs/documentation/model-apis/inference/queue.md",
+      "status": 200,
+      "bytes": 25463,
+      "saved_content_sha256": "577c207e98e21b13a2a33505feb704562d5e028d7f11e0e480975487cf4313e6",
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "fal-webhooks",
+      "url": "https://fal.ai/docs/documentation/model-apis/inference/webhooks.md",
+      "resolved_url": "https://fal.ai/docs/documentation/model-apis/inference/webhooks.md",
+      "status": 200,
+      "bytes": 19893,
+      "saved_content_sha256": "bf76cb38c37ebde1d3ed3108648e4a217bad032a39b0b2182435643738d037a6",
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "blender-current",
+      "url": "https://docs.blender.org/manual/en/5.2/addons/scene_gltf2.html",
+      "resolved_url": "https://docs.blender.org/manual/en/5.2/addons/scene_gltf2.html",
+      "status": 200,
+      "bytes": 537529,
+      "saved_content_sha256": "b9329aa33f5b220a4f96e50d293714554ca27291e24f5149d02f50b93fb0cfa5",
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "unity-markers",
+      "url": "https://docs.unity3d.com/6000.0/Documentation/Manual/profiler-markers.html",
+      "resolved_url": "https://docs.unity3d.com/6000.0/Documentation/Manual/profiler-markers.html",
+      "status": 200,
+      "bytes": 45767,
+      "saved_content_sha256": "4cc05945c8439b63d449c390410c8dbe078e2156d31a6de750cc794f6de074e0",
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-store-channels",
+      "url": "https://developers.meta.com/horizon/resources/publish-release-channels.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/resources/publish-release-channels.md/",
+      "status": 200,
+      "bytes": 5336,
+      "saved_content_sha256": "9aa5d6f0014b244b50c9e7ac11440d415e0df9bab47b022bc3c56355f11d8b3d",
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-store-vrc",
+      "url": "https://developers.meta.com/horizon/resources/publish-quest-req.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/resources/publish-quest-req.md/",
+      "status": 200,
+      "bytes": 21736,
+      "saved_content_sha256": "f3ec297ecd5a17ba629062e2a97674388c5acf1f813edeeff5f00cf1f8da525a",
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-store-manifest",
+      "url": "https://developers.meta.com/horizon/resources/publish-mobile-manifest.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/resources/publish-mobile-manifest.md/",
+      "status": 200,
+      "bytes": 9499,
+      "saved_content_sha256": "97925a2964626eb6993d1c49d873a2583438454644c19be6a566692f7fdf2850",
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-unreal-compat",
+      "url": "https://developers.meta.com/horizon/documentation/unreal/unreal-compatibility-matrix.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/documentation/unreal/unreal-compatibility-matrix.md/",
+      "status": 200,
+      "bytes": 7525,
+      "saved_content_sha256": "fd1be9cbcf9c1dc41c86569d804faeeadbb414908322d1326ee8ad5bf79f5a46",
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-design",
+      "url": "https://developers.meta.com/horizon/design/",
+      "resolved_url": "https://developers.meta.com/horizon/design/",
+      "status": 200,
+      "bytes": 1077772,
+      "saved_content_sha256": "9c59c1601a1dc55ae92080ef521cb9d893b8d178178fe3dc40a154b1dca50736",
+      "checked_at": "2026-09-21"
+    }
+  ],
+  "design_resource_checks": {
+    "repo": "freshtechbro/claudedesignskills",
+    "commit": "1da73febff0c3e1dfefc07f8a5ef8f7d1dfdb6cd",
+    "method": "substring search of recursive Git tree paths",
+    "matches": {
+      "export_template.blend": [],
+      "starter_unified": []
+    }
+  },
+  "mcp_unauthenticated_probes": [
+    {
+      "endpoint": "https://mcp.higgsfield.ai/mcp",
+      "status": 401,
+      "classification": "OAuth confirmed by protected resource challenge",
+      "resource_metadata": "https://mcp.higgsfield.ai/.well-known/oauth-protected-resource/mcp"
+    },
+    {
+      "endpoint": "https://mcp.heygen.com/mcp/v1/",
+      "status": 403,
+      "classification": "probe inconclusive; OAuth described in official documentation"
+    }
+  ]
+}
