@@ -1,6 +1,6 @@
 # Harness and Project Observatory publication
 
-Status: in progress. Owner: this repository coordinates; each implementation lives in its owning repository.
+Status: implementation and public releases complete; deployment receipts are linked below. Owner: this repository coordinates; each implementation lives in its owning repository.
 
 ## Brief and authority
 
@@ -37,12 +37,12 @@ Contradictions: the family README and brand facts still state historical pack to
 
 | Module | Owner | Reads | Output | State |
 |---|---|---|---|---|
-| ECC adaptation | agent-stack | pinned ECC, existing contracts | reference changes + research matrix | running |
-| Observatory privacy and portability | new clean source export | private source locally only | generic runtime, onboarding, tests, privacy report | running |
-| Harness narrative and site | sshlg-skills | ECC conclusions + portable Observatory contract | architecture, generated family/member pages | running |
-| Personal site | sshlg-me | harness vocabulary + Observatory public URL | existing site update | running |
-| Observatory marketing site | clean export `site/` | portable feature contract | independent static site, synthetic examples | pending contract |
-| Convergence and release | this repository | all above + checks | deployment, installed skills, final handoff | pending |
+| ECC adaptation | agent-stack | pinned ECC, existing contracts | reference changes + research matrix | complete |
+| Observatory privacy and portability | new clean source export | private source locally only | generic runtime, onboarding, tests, privacy report | complete |
+| Harness narrative and site | sshlg-skills | ECC conclusions + portable Observatory contract | architecture, generated family/member pages | complete |
+| Personal site | sshlg-me | harness vocabulary + Observatory public URL | existing site update | complete |
+| Observatory marketing site | clean export `site/` | portable feature contract | independent static site, synthetic examples | complete |
+| Convergence and release | this repository | all above + checks | deployment, installed skills, final handoff | complete |
 
 The public feature contract, not the private installation's breadth, is the dependency shared by the three websites. Publication requires the privacy gate before any public remote, artifact or deployment. No private source report is copied into the family repository.
 
@@ -56,4 +56,4 @@ The public feature contract, not the private installation's breadth, is the depe
 
 ## Resume
 
-Read this file, then `docs/harness/README.md` when created, and the final publication index in this directory. The exact next task is the first unfinished module above; never make the private Observatory repository public as a shortcut.
+Read the [publication handoff](2026-09-21-harness-publication.md), then `docs/harness/README.md`. The next development task is Observatory M01 from its published migration plan; never make the private Observatory repository public as a shortcut.

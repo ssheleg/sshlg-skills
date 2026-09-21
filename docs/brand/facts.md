@@ -32,5 +32,5 @@ its source before extending its review date.
 |---|---|---|
 | Skill packs belong to the ssheleg harness and remain independently installable | `docs/harness/README.md`; `scripts/site.js` | yes |
 | The host owns model execution and permissions | `docs/harness/README.md` | yes |
-| Observatory has separate installation and an explicit portable scope | its public README, verified before deployment | pending release |
+| Observatory has separate installation and an explicit portable scope | [portable v0.1.0 README](https://github.com/ssheleg/project-observatory-open-source/blob/d2ac94082a31b64a95482dc6b97727b119955d1c/README.md) | yes |
 | Historical private exposure totals | private operational evidence, heterogeneous populations | no |
