@@ -38,7 +38,7 @@ python3 docs/evidence/research/2026-09-21-xr-creative/verify_report.py
 git diff --check
 ```
 
-The script checks JSON parseability, required report files, internal Markdown link targets/anchors, unique P01–P15 packet IDs, requirement references, and absence of machine-specific temporary/home paths in the public report. It does not certify external service uptime or semantic correctness. [HANDOFF](HANDOFF.md) records remote/fresh-checkout verification separately.
+The report check passed both in the worktree and a fresh remote clone (13 required files, 52 local links at report commit; see [delivery receipt](delivery.json)). The script checks JSON parseability, required report files, internal Markdown link targets/anchors, unique P01–P15 packet IDs, requirement references, and absence of machine-specific temporary/home paths in the public report. It does not certify external service uptime or semantic correctness. [HANDOFF](HANDOFF.md) records remote/fresh-checkout verification separately.
 
 ## Remaining verification belongs to implementation
 

@@ -6,7 +6,7 @@ Start with [README](README.md), then [PACKETS](PACKETS.md). Shared ownership and
 
 | Owner / remote | Branch | Source or receipt commit | Status / entry |
 |---|---|---|---|
-| `git@github.com:ssheleg/sshlg-skills.git` | `codex/xr-creative-research` | base `5e3be02127310935522dcd41856439405e8a25e6`; delivery recorded below after push | This report; [README](README.md) |
+| `git@github.com:ssheleg/sshlg-skills.git` | `codex/xr-creative-research` | report `516e906e6e6ad51ceda0195e30713fa74b69964d`; delivery receipt below | This report; [README](README.md) |
 | `git@github.com:ssheleg/asset-foundry.git` (private) | `codex/creative-public-readiness` | `c9ba900ba6d5f57390f557bc8d1559dae36fa810` | [Private source assessment and exact next task](https://github.com/ssheleg/asset-foundry/blob/c9ba900ba6d5f57390f557bc8d1559dae36fa810/docs/research/2026-09-21-creative-public-readiness/README.md) |
 | `git@github.com:ssheleg/xr-dev.git` | `main` inspected; no implementation branch created | `7954ba2a884f5a71d7487981b4335c0ecdbc25d4` | P01 proposed; [source inventory](xr-inventory.json) |
 | `git@github.com:ssheleg/agent-stack.git` | `main` inspected; no implementation branch created | `20cebb27f2824da6a95ae3f29241c76bb0ef61e6` | Existing harness/interop ownership; no changes |
@@ -42,4 +42,4 @@ See [VERIFICATION](VERIFICATION.md) for commands actually run, results and limit
 
 Local-only: provider secrets/accounts, gateway and app configuration, job/catalog state, real project registrations/media, build caches and downloaded upstream trees remain outside the public report. The private receipt contains only task-owned research; it changes no operational settings.
 
-Remote branch and fresh-checkout evidence is recorded in `delivery.json` after verification. A fresh checkout can run `verify_report.py` without submodules or local private paths. The private Foundry receipt requires authorized access; public readers can use the generic architecture and packets independently.
+Both report commits were pushed, their remote refs matched, and fresh clones passed the documented checks. Exact remote branch and fresh-checkout evidence is recorded in [delivery.json](delivery.json). A fresh checkout can run `verify_report.py` without submodules or local private paths. The private Foundry receipt requires authorized access; public readers can use the generic architecture and packets independently.

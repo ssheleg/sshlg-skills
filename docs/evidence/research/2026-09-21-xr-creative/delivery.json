@@ -1,0 +1,51 @@
+{
+  "checked_at": "2026-09-21",
+  "kind": "research handoff, not a release",
+  "repositories": [
+    {
+      "remote": "git@github.com:ssheleg/sshlg-skills.git",
+      "branch": "codex/xr-creative-research",
+      "verified_report_commit": "516e906e6e6ad51ceda0195e30713fa74b69964d",
+      "remote_ref_matched": true,
+      "fresh_clone": {
+        "depth": 1,
+        "submodules": false,
+        "exit_code": 0,
+        "check": "python3 docs/evidence/research/2026-09-21-xr-creative/verify_report.py",
+        "result": {
+          "status": "PASS",
+          "required_files": 13,
+          "json_files": 5,
+          "local_links_checked": 52,
+          "implementation_packets": 15,
+          "errors": []
+        }
+      },
+      "entry": "docs/evidence/research/2026-09-21-xr-creative/README.md",
+      "status": "research complete; implementation packets open"
+    },
+    {
+      "remote": "git@github.com:ssheleg/asset-foundry.git",
+      "visibility": "private",
+      "branch": "codex/creative-public-readiness",
+      "verified_report_commit": "c9ba900ba6d5f57390f557bc8d1559dae36fa810",
+      "remote_ref_matched": true,
+      "fresh_clone": {
+        "depth": 1,
+        "submodules": false,
+        "exit_code": 0,
+        "check": "receipt existence and relative Markdown targets",
+        "result": "PASS"
+      },
+      "entry": "docs/research/2026-09-21-creative-public-readiness/README.md",
+      "status": "private owner assessment complete; public edition not published"
+    }
+  ],
+  "unchanged": [
+    "production family member pins",
+    "installed skills",
+    "gateway and app configuration",
+    "operational Foundry state"
+  ],
+  "note": "This receipt records the report commits checked before adding this receipt. The branch may contain later documentation-only delivery metadata; verify its current tip with git ls-remote. No self-referential commit hash is asserted."
+}
