@@ -1,0 +1,68 @@
+{
+  "checked_at": "2026-09-21T13:43:24.126943+00:00",
+  "status": "complete",
+  "trigger": "push a vX.Y.Z tag after the versioned commit reaches the default branch; branch pushes validate only",
+  "xr": {
+    "remote": "https://github.com/ssheleg/xr-dev",
+    "branch": "main",
+    "commit": "7515a914ce4aad860b5fd08ce472509d6f7f5bbf",
+    "tag": "v0.3.1",
+    "package": "@ssheleg/xr-dev",
+    "version": "0.3.1",
+    "integrity": "sha512-xNnVAdjN8oPpPvEBRIzsgzraTRRa1Tt08SLKV1OPBKwbj1NEzGZgNsJ0kXdMsfJP1Sur86etgfM7B2t0QSusTw==",
+    "release_run": "https://github.com/ssheleg/xr-dev/actions/runs/35605315535",
+    "publish_step": "success, not skipped",
+    "auth": "GitHub OIDC; trusted release.yml with direct publish permission; no repository npm secret",
+    "handoff_branch": "codex/xr-npm-automation",
+    "handoff_commit": "6179bc3036c5a12c0419a2e4f265d48eeb7307c1",
+    "handoff_path": "docs/evidence/releases/2026-09-21-npm-automation/README.md"
+  },
+  "family": {
+    "remote": "https://github.com/ssheleg/sshlg-skills",
+    "branch": "main",
+    "commit": "c75ebde4e229f9b4e2dacb0b091da91d62e11178",
+    "tag": "v1.51.1",
+    "package": "sshlg-skills",
+    "version": "1.51.1",
+    "integrity": "sha512-xeFT4gUmutB51tKIpeZPj0JgIhQEFYvSCyL/qmgJxhwM/ZLfvSAjDHQO5Ux794fXgmj9jKD4N5HnfWzGr0NJDg==",
+    "member_pin": "7515a914ce4aad860b5fd08ce472509d6f7f5bbf",
+    "release_run": "https://github.com/ssheleg/sshlg-skills/actions/runs/35606192705",
+    "pages_run": "https://github.com/ssheleg/sshlg-skills/actions/runs/35606184263",
+    "handoff_branch": "codex/xr-npm-family",
+    "handoff_path": "docs/evidence/releases/2026-09-21-xr-npm/README.md"
+  },
+  "checks": {
+    "xr_local": "11 structural, 8 negative, 11 installer cases, 2 strict plugin validations passed",
+    "family_npm_test": "88 suites, 1031 fixtures, 10 pinned members passed",
+    "family_site_test": "45 checks passed",
+    "pin_check": "all 10 pins match npm and Git release tags; run before parent release, umbrella latest was then 1.51.0",
+    "xr_npm_smoke": "39 package files; 7 skills; 32 installed Markdown files byte-identical to package",
+    "family_npm_smoke": {
+      "package": "sshlg-skills",
+      "version": "1.51.1",
+      "integrity": "sha512-xeFT4gUmutB51tKIpeZPj0JgIhQEFYvSCyL/qmgJxhwM/ZLfvSAjDHQO5Ux794fXgmj9jKD4N5HnfWzGr0NJDg==",
+      "files": 58,
+      "xr_version": "0.3.1",
+      "npm_available": true,
+      "launcher_list": "passed"
+    },
+    "website": {
+      "url": "https://skills.sshlg.me/skills/xr-dev/",
+      "http": 200,
+      "xr": "0.3.1",
+      "family": "1.51.1",
+      "npm_link": true,
+      "pending_marker": false,
+      "llms_txt": "XR 0.3.1, npm available"
+    },
+    "local_update": "66/66 steps passed; shared skills and Claude plugin each match all 32 Markdown files against the tagged release"
+  },
+  "limits": [
+    "An active agent session must reload to discover updated skills.",
+    "The family launcher does not update the Codex native plugin cache; it updated the shared Agent Skills channel.",
+    "Provenance statement fields/digest were compared; no independent cryptographic signature verification was performed."
+  ],
+  "open_work": [],
+  "next_task": "Normal next release: update all XR version metadata, merge a tested change, push its vX.Y.Z tag, then advance and release the family pin. No manual npm login or publish is needed for XR releases while this trust remains configured.",
+  "local_only": "Credentials, machine configuration, npm caches and temporary dependency/test directories are excluded from Git."
+}

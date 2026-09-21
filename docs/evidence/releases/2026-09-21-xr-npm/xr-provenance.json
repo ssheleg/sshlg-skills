@@ -1,0 +1,52 @@
+{
+  "source": "https://registry.npmjs.org/-/npm/v1/attestations/@ssheleg%2fxr-dev@0.3.1",
+  "statement": {
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+      {
+        "name": "pkg:npm/%40ssheleg/xr-dev@0.3.1",
+        "digest": {
+          "sha512": "c4d9d501d8cdf283e93ef101448cec833ada4d145ad53b74f122ca57538f04ac1b8f5344cc666036c27491774cb1f24fd52babf3a7ad81f33b076b74412bac4f"
+        }
+      }
+    ],
+    "predicateType": "https://slsa.dev/provenance/v1",
+    "predicate": {
+      "buildDefinition": {
+        "buildType": "https://slsa-framework.github.io/github-actions-buildtypes/workflow/v1",
+        "externalParameters": {
+          "workflow": {
+            "ref": "refs/tags/v0.3.1",
+            "repository": "https://github.com/ssheleg/xr-dev",
+            "path": ".github/workflows/release.yml"
+          }
+        },
+        "internalParameters": {
+          "github": {
+            "event_name": "push",
+            "repository_id": "1378485440",
+            "repository_owner_id": "306188923"
+          }
+        },
+        "resolvedDependencies": [
+          {
+            "uri": "git+https://github.com/ssheleg/xr-dev@refs/tags/v0.3.1",
+            "digest": {
+              "gitCommit": "7515a914ce4aad860b5fd08ce472509d6f7f5bbf"
+            }
+          }
+        ]
+      },
+      "runDetails": {
+        "builder": {
+          "id": "https://github.com/actions/runner/github-hosted"
+        },
+        "metadata": {
+          "invocationId": "https://github.com/ssheleg/xr-dev/actions/runs/35605315535/attempts/1"
+        }
+      }
+    }
+  },
+  "integrity_subject_match": true,
+  "scope": "statement field/digest comparison; not an independent cryptographic signature verification"
+}
