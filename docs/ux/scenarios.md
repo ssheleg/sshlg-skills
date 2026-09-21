@@ -2,16 +2,17 @@
 
 <!-- Managed with super-ux (ux-contract v4). -->
 
-Scope: the public family website's harness introduction and member relationship. Existing launcher behavior is unchanged. Approved for autonomous implementation by the operator's 2026-09-21 request; product outcomes remain unobserved.
+Scope: the public Skills website, its separate Harness section and member relationships. Existing launcher behavior is unchanged. Approved for autonomous implementation by the operator's 2026-09-21 request; product outcomes remain unobserved.
 
 ## Index
 
 | ID | Title | Feature | Persona | Traces | Status | Last audit |
 |----|-------|---------|---------|--------|--------|------------|
-| SCN-001 | Understand the harness | Public website | builder | — | validated | 2026-09-21: browser + site suite |
+| SCN-001 | Find skills, then understand the harness | Public website | builder | — | validated | 2026-09-21: browser + site suite |
 | SCN-002 | Locate a pack's role | Member page | builder | — | validated | 2026-09-21: browser + site suite |
 | SCN-003 | Choose Observatory separately | Harness page | maintainer | — | validated | 2026-09-21: browser + site suite |
-| SCN-004 | Find the Quest lifecycle workflow | XR member page | builder | — | validated | 2026-09-21: desktop/mobile browser + site suite |
+| SCN-004 | Understand Foundry availability | Harness page | builder | — | validated | 2026-09-21: browser + site suite |
+| SCN-005 | Find the Quest lifecycle workflow | XR member page | builder | — | validated | 2026-09-21: desktop/mobile browser + site suite |
 
 ## Personas
 
@@ -20,15 +21,16 @@ Scope: the public family website's harness introduction and member relationship.
 
 ## Public website
 
-### SCN-001: Understand the harness
+### SCN-001: Find skills, then understand the harness
 - **Persona:** builder
 - **Feature:** Public website
 - **Entry point:** /
 - **Preconditions:** none
 - **Steps:**
-  1. Open the home page -> see the harness purpose and a family installation command in HTML.
-  2. Follow “How the harness works” -> see each layer's owner and the host-runtime boundary.
-- **Expected result:** the visitor can distinguish the harness, its skill family and optional Observatory.
+  1. Open the home page -> see skills as the main offer, a pack catalogue and a family installation command in HTML.
+  2. Follow “Browse the skills” or the visible Skills navigation link -> reach the pack catalogue, including on a narrow screen.
+  3. Follow “How the harness works” -> reach the separate Harness page and see each layer's owner and the host-runtime boundary.
+- **Expected result:** the visitor can choose skills first, then distinguish the wider harness and its separately installed tools.
 - **UI elements:** hero, install command, harness link, navigation, architecture table
 - **States covered:** success, error
 - **Errors & recovery:** JavaScript unavailable -> explanation and links still work; missing route -> 404 offers home and routing.
@@ -60,7 +62,7 @@ Scope: the public family website's harness introduction and member relationship.
 - **Preconditions:** none
 - **Steps:**
   1. Read the observation layer -> see what Observatory inspects and its local-data boundary.
-  2. Follow the Observatory website -> read the portable edition's scope and agent-led onboarding.
+  2. Follow the Observatory website -> read the published scope and agent-led onboarding.
 - **Expected result:** the visitor understands separate installation and opt-in credentials before starting.
 - **UI elements:** observation description, Observatory link, installation boundary
 - **States covered:** success, empty
@@ -69,13 +71,39 @@ Scope: the public family website's harness introduction and member relationship.
 - **Coverage:** scripts/site.js
 - **Product:** unobserved
 
+### SCN-004: Understand Foundry availability
+- **Persona:** builder
+- **Feature:** Harness page
+- **Entry point:** /harness/#asset-foundry
+- **Preconditions:** none
+- **Steps:**
+  1. Open the asset creation layer -> see Asset Foundry's role in 3D, image and audio workflows.
+  2. Read its availability -> see “In development” and understand it has separate availability from the skill packs.
+- **Expected result:** the visitor understands the planned role without mistaking it for an available installation or following a private repository link.
+- **UI elements:** architecture table, Asset Foundry section, development state
+- **States covered:** success, empty
+- **Errors & recovery:** no public release -> an explicit development state replaces an install or source link.
+- **Status:** validated
+- **Coverage:** scripts/site.js; test/site_test.js
+- **Product:** unobserved
+
 ## Verification receipt
 
 2026-09-21: local generated home and harness pages reviewed at desktop width; harness and agent-stack member page reviewed at 390×844. Document width equalled the viewport (390px). A browser-observed missing side inset on combined `.wrap.hero` / `.wrap.sec` elements was corrected by using block-axis padding in `scripts/site.js`; the member h1 then measured 16px from the viewport edge. The content and navigation are generated HTML; no script is required for the three scenario paths. `node test/site_test.js` checks every member relationship and the separate-installation boundary. This is implementation verification, not observed conversion or adoption evidence.
 
+2026-09-21 Skills-first correction: home and Harness reviewed at 1440×900;
+home navigation and catalogue at 320×740 and 390×844; all ten member pages at
+320×740. Skills and Harness remained visible. Every measured page's document
+width equalled its viewport. The catalogue previously produced 336px of document
+width at 320px; its grid minimum now respects available width (288px cards inside
+16px side insets). Member affiliation now preserves acronym case. Foundry's
+section states “In development” and separate availability. Browser console
+reported no errors. The generated-site suite passes 44 checks over 15 pages;
+these are implementation checks, not user research or production verification.
+
 ## XR member workflow
 
-### SCN-004: Find the Quest lifecycle workflow
+### SCN-005: Find the Quest lifecycle workflow
 - **Persona:** builder
 - **Feature:** XR member page
 - **Entry point:** /skills/xr-dev/

@@ -83,6 +83,30 @@ it('every member in skills.json has a page, and no page has no member', () => {
     'a member without a page is a member the site does not sell');
 });
 
+it('Skills leads the home identity and stays beside Harness in narrow navigation', () => {
+  const home = read('index.html');
+  assert.ok(home.includes('<title>ssheleg skills · skill packs for coding agents</title>'));
+  assert.ok(home.includes('Skills for work your agent can prove done.'));
+  assert.ok(home.includes('class="btn btn--primary" href="#skills">Browse the skills'));
+  for (const page of pages) {
+    const html = read(page);
+    assert.match(html, /<a href="[^"]*#skills">Skills<\/a>\s*<a href="[^"]*harness\/">Harness<\/a>/, page);
+    assert.ok(html.includes('property="og:site_name" content="ssheleg skills"'), page);
+  }
+  assert.ok(read('llms.txt').startsWith('# ssheleg skills'));
+});
+
+it('Foundry has a truthful development boundary and no private code link', () => {
+  const harness = read('harness/index.html');
+  const section = harness.match(/<section[^>]+id="asset-foundry"[\s\S]*?<\/section>/);
+  assert.ok(section, 'Foundry section is addressable');
+  assert.ok(section[0].includes('In development'));
+  assert.match(section[0], /3D, images and\s+audio/);
+  assert.ok(section[0].includes('not included in the skill installation'));
+  assert.ok(!harness.includes('github.com/ssheleg/asset-foundry'));
+  assert.ok(harness.includes('href="#asset-foundry"'));
+});
+
 it('every page has a card of its own, and no card belongs to no page', () => {
   const cards = built.written.filter((f) => f.startsWith('og/'));
   const expected = ['og/index.png', 'og/harness.png', 'og/routing.png', 'og/agents.png',

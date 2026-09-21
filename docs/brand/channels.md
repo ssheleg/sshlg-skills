@@ -76,3 +76,15 @@ CTA:        Install the skill family; Explore Project Observatory
 Proof:      docs/harness/README.md and the published Observatory capability contract
 Locales:    English primary
 ```
+
+## Skills website home and navigation
+
+```
+Register:   density -1
+Format:     skills offer, pack selection, installation; Harness as a secondary destination
+Limits:     primary Skills and Harness navigation remain visible at narrow widths
+Forbidden:  physics: content hidden behind JavaScript | brand: changing the site identity to Harness
+CTA:        Browse the skills
+Proof:      skills.json; docs/ux/scenarios.md SCN-001
+Locales:    English primary
+```
