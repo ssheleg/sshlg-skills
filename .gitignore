@@ -20,3 +20,6 @@ __pycache__/
 .env
 .env.*
 !.env.example
+
+# Disposable site build, also the brand lint marketing input
+/_site/

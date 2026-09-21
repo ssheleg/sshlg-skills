@@ -15,7 +15,7 @@ The host agent still executes the model, tools and permission checks. Installing
 | Coordination | Who owns this work and this shared file? | [agent-sync](../../skills/agent-sync/README.md) |
 | Specialist work | How should this interface, integration, design or agent system be built? | [Pinned skill packs](../../skills.json) |
 | Learning | Which failure becomes a regression, and which instruction should retire? | [Retrospective contract](../../skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/references/retrospective.md) |
-| Asset creation | How can an agent create 3D, image and audio assets? | Asset Foundry — in development, separate availability |
+| Asset creation | How can an agent create 3D, image and audio assets? | Asset Foundry (in development; separate availability) |
 | Observation | What changed across explicitly enrolled projects and where are credential exposures? | Project Observatory, a separate portable distribution |
 
 ## A task through the harness
