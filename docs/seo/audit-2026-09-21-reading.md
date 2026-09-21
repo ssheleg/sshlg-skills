@@ -53,3 +53,11 @@ PageSpeed Insights returned HTTP 429: no new lab performance or field Core Web V
 result is claimed. Search Console inspection is a dated observation, not a crawl
 request or forecast. Raw account responses, traffic analytics, credential material
 and local configuration stay outside Git.
+
+## Production closure
+
+[Exact-artifact receipt](evidence/production-2026-09-21.json) confirms all 33 files
+match the successful Pages run for `8f76ad754c812519f8954f9bdbc6cc13f8dd0e1a`.
+Both sites return real 404 responses. All fourteen Skills URLs pass the final
+metadata/canonical/heading crawl. The local and CI PNGs have identical decoded
+pixels despite differing compressed bytes; production is checked against CI.

@@ -1,0 +1,272 @@
+{
+  "source_commit": "8f76ad754c812519f8954f9bdbc6cc13f8dd0e1a",
+  "origin": "https://skills.sshlg.me",
+  "unknown_path_status": 404,
+  "files": [
+    {
+      "route": "/llms.txt",
+      "status": 200,
+      "sha256": "eb0308db9f4002ac8ee7641eb7cc6dd7c92cdd274f91d16bf9b912ccf71adeea",
+      "matches_source": true
+    },
+    {
+      "route": "/",
+      "status": 200,
+      "sha256": "2df4558f128dabbc497e9f6dfc4de1577e6e7db288cfc41e3ef2f57c8899c47d",
+      "matches_source": true
+    },
+    {
+      "route": "/404.html",
+      "status": 200,
+      "sha256": "c60e18fb165c9aeff8bb1dcca561407780eb424f90117cadbb5c678016e4147c",
+      "matches_source": true
+    },
+    {
+      "route": "/.nojekyll",
+      "status": 200,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches_source": true
+    },
+    {
+      "route": "/sitemap.xml",
+      "status": 200,
+      "sha256": "4eb021dcb3bf52b777803339409ef3e428369c8cf4c186a7a3b1f03b69fe0542",
+      "matches_source": true
+    },
+    {
+      "route": "/robots.txt",
+      "status": 200,
+      "sha256": "1a84a4ce3833f322c4cd4f047dd76bfa5339941229f1fcf41ca075d245cb4e9b",
+      "matches_source": true
+    },
+    {
+      "route": "/agents/",
+      "status": 200,
+      "sha256": "15650c447a47f9aa442d7a1b2649d868402cb9ef6cbc6cc91d937521ac0c690a",
+      "matches_source": true
+    },
+    {
+      "route": "/harness/",
+      "status": 200,
+      "sha256": "bd5382ba87f6133a5fe94ea8e96b644f92c56cb72f4e7affbaba9b9edbe686c7",
+      "matches_source": true
+    },
+    {
+      "route": "/routing/",
+      "status": 200,
+      "sha256": "39f899cd58a9219a6c529db8f176ec3279d4a8e7e128317a3dc14527f5c7d259",
+      "matches_source": true
+    },
+    {
+      "route": "/og/skills-xr-dev.png",
+      "status": 200,
+      "sha256": "6e22c7f9ad8eea03cf8b147ad69ca060d70337c1f6c40281f13f5cd82b5e8dbb",
+      "matches_source": true
+    },
+    {
+      "route": "/og/harness.png",
+      "status": 200,
+      "sha256": "eb3adccc9862396774233e703af45629980e7697b8a25576c08cba8314d02132",
+      "matches_source": true
+    },
+    {
+      "route": "/og/skills-seo-aeo-audit.png",
+      "status": 200,
+      "sha256": "0efc59d202258da7af0b938483c5572f1160c3fb593e22278ece78ac95f14404",
+      "matches_source": true
+    },
+    {
+      "route": "/og/index.png",
+      "status": 200,
+      "sha256": "71c6fa289dd862be94670bb608fc7746ae6ae956ba7497e4119505f936628c06",
+      "matches_source": true
+    },
+    {
+      "route": "/og/skills-super-ux.png",
+      "status": 200,
+      "sha256": "4cd72e093a0a7779814352e371bf44bef5724fe3c5bb27f5a1012296c82a42b6",
+      "matches_source": true
+    },
+    {
+      "route": "/og/skills-agent-sync.png",
+      "status": 200,
+      "sha256": "b349709a2af17abe503507e763f7bfb0fce3c73746f183cb0e81050e95f3fcf6",
+      "matches_source": true
+    },
+    {
+      "route": "/og/agents.png",
+      "status": 200,
+      "sha256": "e0d5173edeaf78aaab3e43d7c16c86c7a3fe1c7e1f151109d41e1ae443fafdc6",
+      "matches_source": true
+    },
+    {
+      "route": "/og/skills-sheleg-design.png",
+      "status": 200,
+      "sha256": "c90447f520fb8b6f1194ebc7324a1ec37e8b537ba3b87d321ea0ae80c120c26e",
+      "matches_source": true
+    },
+    {
+      "route": "/og/routing.png",
+      "status": 200,
+      "sha256": "20d5f7217572266822b8a609f214f71fd45da50fd6db795e610f8b6252e807a7",
+      "matches_source": true
+    },
+    {
+      "route": "/og/skills-agent-stack.png",
+      "status": 200,
+      "sha256": "3d5fff24eec554691617e60a9ca80a86c478a327b6030fd85f97be849fb47d51",
+      "matches_source": true
+    },
+    {
+      "route": "/og/skills-telegram-dev.png",
+      "status": 200,
+      "sha256": "f34320267176a796bfafaed779f1197b4dce37840832faa5f9fc2fecdca790fa",
+      "matches_source": true
+    },
+    {
+      "route": "/og/skills-make-skill.png",
+      "status": 200,
+      "sha256": "5e8f6cd35699c78481c0a4d81a3cf31634caa41b7c30c71250fbd6b29e6a47e0",
+      "matches_source": true
+    },
+    {
+      "route": "/og/skills-task-pipeline.png",
+      "status": 200,
+      "sha256": "a2f8659bfa30922f2e862457eedb5fe30079e9956337fbb8a3f0f41ac62e787c",
+      "matches_source": true
+    },
+    {
+      "route": "/og/skills-sheleg-dev.png",
+      "status": 200,
+      "sha256": "80341a46bc240863d74de42bf822c015f65db6e5a4855d719a16bc27127969c7",
+      "matches_source": true
+    },
+    {
+      "route": "/skills/make-skill/",
+      "status": 200,
+      "sha256": "7903c3f80dca63750af1bfbcb4a21cbc606426c88fc7aa2c19189aa6654c8816",
+      "matches_source": true
+    },
+    {
+      "route": "/skills/xr-dev/",
+      "status": 200,
+      "sha256": "55957e3ae00186fb794052f9109dff75fb80da9ef23aff76fce7b9a4ed4d8c39",
+      "matches_source": true
+    },
+    {
+      "route": "/skills/sheleg-dev/",
+      "status": 200,
+      "sha256": "a80aebc483979f1563f7cdd04371eba7e8dccc627dd983778027673dd37dc115",
+      "matches_source": true
+    },
+    {
+      "route": "/skills/telegram-dev/",
+      "status": 200,
+      "sha256": "7bfebbbc5a4858ce43c747050668c15c6217391b109a11dc311c058670155caf",
+      "matches_source": true
+    },
+    {
+      "route": "/skills/agent-sync/",
+      "status": 200,
+      "sha256": "4f1230edfbd8bcfcbed4c859a7271c59b2822b7541b3f0ac4734660297a55374",
+      "matches_source": true
+    },
+    {
+      "route": "/skills/sheleg-design/",
+      "status": 200,
+      "sha256": "5aa0f8a030a12abeea6cef9b69bf160a60a158a5bdac42f3f861932a449a7f4e",
+      "matches_source": true
+    },
+    {
+      "route": "/skills/seo-aeo-audit/",
+      "status": 200,
+      "sha256": "dc6aa3dd20bed07ce16f69c7a510df32745b22d164dc6ad97ecf0b06d3895a26",
+      "matches_source": true
+    },
+    {
+      "route": "/skills/super-ux/",
+      "status": 200,
+      "sha256": "5eb1093277013be04f68f7ce585409af5d047a551c82d8f43c9a181635a4b149",
+      "matches_source": true
+    },
+    {
+      "route": "/skills/task-pipeline/",
+      "status": 200,
+      "sha256": "79be572edacdead17da9bb202735fd2dd63c41983ff63dfd60d2e2958bcdc9f6",
+      "matches_source": true
+    },
+    {
+      "route": "/skills/agent-stack/",
+      "status": 200,
+      "sha256": "0df041855ff75750d5172643c8154dc2fe1905b1bfd580b653f040c9a145ab50",
+      "matches_source": true
+    }
+  ],
+  "passed": true,
+  "artifact_origin": "github-pages artifact from the exact source workflow",
+  "workflow": "https://github.com/ssheleg/sshlg-skills/actions/runs/35611252365",
+  "observed_date": "2026-09-21",
+  "local_png_equivalence": [
+    {
+      "file": "og/skills-xr-dev.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/harness.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/skills-seo-aeo-audit.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/index.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/skills-super-ux.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/skills-agent-sync.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/agents.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/skills-sheleg-design.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/routing.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/skills-agent-stack.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/skills-telegram-dev.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/skills-make-skill.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/skills-task-pipeline.png",
+      "same_pixels_and_format": true
+    },
+    {
+      "file": "og/skills-sheleg-dev.png",
+      "same_pixels_and_format": true
+    }
+  ],
+  "fresh_checkout": {
+    "repository": "sshlg-skills",
+    "checked_relative_links": 4,
+    "passed": true
+  }
+}
