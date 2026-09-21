@@ -1,6 +1,6 @@
 {
   "name": "sshlg-skills",
-  "version": "1.51.0",
+  "version": "1.51.1",
   "skillsCli": "skills@1.5.25",
   "description": "The ssheleg harness skill layer: routing, delivery gates, specialist skills and durable handoffs for coding agents.",
   "bin": {

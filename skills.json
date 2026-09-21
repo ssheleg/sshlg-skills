@@ -240,7 +240,7 @@
         "quest-store",
         "quest-webxr"
       ],
-      "version": "0.3.0",
+      "version": "0.3.1",
       "entry": null,
       "role": "how a Quest product moves from platform choice to launch and operation",
       "npm": "@ssheleg/xr-dev",
@@ -252,8 +252,7 @@
           "url": "https://github.com/ssheleg/xr-dev/blob/main/plugins/xr-dev/skills/quest-lifecycle/SKILL.md",
           "note": "Stage map, engine paths and immersive design acceptance, with separate evidence for build, device, Store and operation."
         }
-      ],
-      "npmPublished": false
+      ]
     }
   ],
   "agents": [

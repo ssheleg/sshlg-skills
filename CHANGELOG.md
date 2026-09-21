@@ -1,3 +1,8 @@
+## v1.51.1 — 2026-09-21
+
+- Pin xr-dev 0.3.1 with GitHub OIDC npm releases and maintainer release/recovery instructions.
+- Mark @ssheleg/xr-dev available on npm after its first publication; restore the catalog npm link and remove the pending-publication notice.
+
 ## v1.51.0 — 2026-09-21
 
 - Ship xr-dev 0.3.0 in the family: quest-lifecycle connects platform discovery, immersive design, development, publication and operation with stage owners and evidence gates.
