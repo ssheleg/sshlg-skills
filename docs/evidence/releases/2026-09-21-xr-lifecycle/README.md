@@ -8,7 +8,14 @@ Objective: turn the operator's Meta documentation leads into a usable full-produ
 
 The member implementation is merged and tagged **xr-dev v0.3.0**, at [6a5053253f45916937bde0972e5cae4bcee57007](https://github.com/ssheleg/xr-dev/commit/6a5053253f45916937bde0972e5cae4bcee57007). Read its [verification entry](https://github.com/ssheleg/xr-dev/blob/6a5053253f45916937bde0972e5cae4bcee57007/docs/evidence/verification/2026-09-21-lifecycle/README.md), then the shipped [quest-lifecycle](https://github.com/ssheleg/xr-dev/blob/6a5053253f45916937bde0972e5cae4bcee57007/plugins/xr-dev/skills/quest-lifecycle/SKILL.md).
 
-The family candidate is **sshlg-skills v1.51.0**, branch `codex/xr-lifecycle-release`. It pins that member commit, carries seven XR entry points and updates descriptions, social cards and the generated website. Final remote/registry/site results belong in [delivery.json](delivery.json); a pending state there is not a completed release.
+The family source is **sshlg-skills v1.51.0**, merged to [2ad129d204e01718a4479386705e25922ba286d3](https://github.com/ssheleg/sshlg-skills/commit/2ad129d204e01718a4479386705e25922ba286d3) with an annotated tag. It pins that member commit, carries seven XR entry points and updates descriptions, social cards and the generated website. The merged tree equals the exact head validated by both CI runs. The delivery receipt is maintained on `codex/xr-lifecycle-release`; [delivery.json](delivery.json) distinguishes source, registry, website and local installation states.
+
+## Delivery result
+
+- **sshlg-skills v1.51.0:** GitHub release and npm package verified; the downloaded 58-file npm payload matches source files (npm-normalized package.json metadata is checked separately). `npx --yes sshlg-skills@1.51.0 list` ran successfully from a clean working directory.
+- **Public site:** [XR catalogue](https://skills.sshlg.me/skills/xr-dev/) observed with seven skills, xr-dev v0.3.0, family v1.51.0, lifecycle guide and explicit npm-pending state. Pages run 35599029729 succeeded. Release run 35599054967 succeeded.
+- **Local installation:** all 66 launcher steps passed; shared Agent Skills hub and Claude Code XR plugin files match v0.3.0. Restart/reopen agent sessions to load changed context. No claim of native Codex cache mutation or running-session hot reload.
+- **Registry distinction:** nine other member npm versions and the umbrella match; xr-dev's Git tag resolves, but its separate npm package is still unpublished because authorization is absent. A green tag-fallback check does not change that result.
 
 ## What changed
 
@@ -32,7 +39,7 @@ Member: structural suite (11 checks); eight planted-defect refusals; installer s
 
 GitHub member validation passed at the merged commit: [run 35596683757](https://github.com/ssheleg/xr-dev/actions/runs/35596683757). [Release run 35596956680](https://github.com/ssheleg/xr-dev/actions/runs/35596956680) created the GitHub release and passed validation, then npm publishing failed with ENEEDAUTH. Registry lookup returned 404 for `@ssheleg/xr-dev`; local `npm whoami` returned 401. An operator login is required; no credential was requested in chat or committed. Until publication is verified, `npmPublished: false` suppresses the dead npm link on the site and marks it pending in llms.txt; GitHub/plugin install paths remain available.
 
-Family: site suite initially caught two stale social cards, corrected from the generator; the inventory/staging suites caught the entry and pin-receipt errors described above. The final run results, new temporary unpublished-package regression, browser checks and remote receipts are recorded in delivery.json. The registry-pin checker accepts Git tags for an unpublished member, so its green exit does **not** prove XR is on npm. The nine other member pins and umbrella 1.50.0 were verified on npm before this release.
+Family: site suite initially caught two stale social cards, corrected from the generator; the inventory/staging suites caught the entry and pin-receipt errors described above. The final run results, temporary unpublished-package regression, browser checks and remote receipts are recorded in delivery.json. The local launcher completed all 66 update steps. All 32 XR Markdown files matched the source byte-for-byte in the shared Agent Skills hub and Claude Code plugin v0.3.0; currently running sessions were not attested or restarted. The registry-pin checker accepts Git tags for an unpublished member, so its green exit does **not** prove XR is on npm. The nine other member pins and umbrella 1.50.0 were verified on npm before this release.
 
 Browser: local XR page reviewed at desktop and 390×844; seven descriptions, lifecycle link and v0.3.0 visible; mobile document width equalled 390px. SCN-005 records the path. Product adoption/conversion remains unobserved.
 
@@ -42,7 +49,7 @@ Optional documentation audit is **not green**. Before the concurrent merge, bran
 
 ## Exact next task and boundaries
 
-First resolve XR npm authorization, publish the exact v0.3.0 payload, verify the version and tarball, then remove the pending publication flag in a normal family patch. Use the existing release workflow for future trusted publishing after the operator configures npm authorization; never put tokens in source or move the release tag to hide a failure. If delivery.json records this already completed, proceed to project acceptance instead.
+First resolve XR npm authorization, publish the exact v0.3.0 payload, verify the version and tarball, then remove the pending publication flag in a normal family patch. The operator was asked to run `npm login`; local whoami still returned 401 at the last check. No repeated release attempt can repair absent authorization. Use the existing release workflow for future trusted publishing after the operator configures npm authorization; never put tokens in source or move the release tag to hide a failure. If delivery.json records this already completed, proceed to project acceptance instead.
 
 For a real Quest project: start quest-lifecycle from repository evidence, select the platform/engine/device and record the earliest unresolved stage. Run the relevant build and headset/Store checks before claiming readiness. Device capture, rendering, live billing, Meta account tasks and Store review were NOT RUN by this knowledge release.
 

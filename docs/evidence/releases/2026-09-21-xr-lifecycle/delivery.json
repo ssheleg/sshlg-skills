@@ -13,7 +13,62 @@
     "repo": "ssheleg/sshlg-skills",
     "branch": "codex/xr-lifecycle-release",
     "version": "1.51.0",
-    "status": "pending checks and release"
+    "status": "GitHub release, npm package and live site verified",
+    "source_branch": "main",
+    "commit": "2ad129d204e01718a4479386705e25922ba286d3",
+    "tag": "v1.51.0",
+    "validated_head": "74d11c91ba7ff32ce77a0d06c7db1f1897085f40",
+    "tree": "8f092ee295409c096669c447b3b5697355324fa8",
+    "pull_request": "https://github.com/ssheleg/sshlg-skills/pull/147",
+    "checks": [
+      "https://github.com/ssheleg/sshlg-skills/actions/runs/35598378473",
+      "https://github.com/ssheleg/sshlg-skills/actions/runs/35598383924"
+    ],
+    "release_run": "https://github.com/ssheleg/sshlg-skills/actions/runs/35599054967",
+    "pages_run": "https://github.com/ssheleg/sshlg-skills/actions/runs/35599029729",
+    "github_release": "https://github.com/ssheleg/sshlg-skills/releases/tag/v1.51.0",
+    "pages": "published; workflow succeeded",
+    "live_site": {
+      "url": "https://skills.sshlg.me/skills/xr-dev/",
+      "browser_observed": {
+        "member_version": "0.3.0",
+        "family_version": "1.51.0",
+        "skill_count": 7,
+        "lifecycle_guide_link": true,
+        "npm_pending_label": true
+      }
+    },
+    "npm": {
+      "registry": {
+        "version": "1.51.0",
+        "dist.shasum": "4d7115c76007d317b5e36c650acae3f785212791",
+        "dist.integrity": "sha512-VQOReZAxSIwXpb/p9IOtRY+D5aeKqhPZNj0HATUTkdES4yHmK3ZZ4cyAkRnlA7ab6cIgYKw3xxBh6XVxpekrjQ=="
+      },
+      "payload": {
+        "name": "sshlg-skills",
+        "version": "1.51.0",
+        "tarball_sha1": "4d7115c76007d317b5e36c650acae3f785212791",
+        "files": 58,
+        "non_package_json_mismatches": [],
+        "package_json_note": "npm normalizes repository metadata; version and identity verified",
+        "xr": {
+          "version": "0.3.0",
+          "skillNames": [
+            "quest-lifecycle",
+            "quest-native",
+            "quest-spatial",
+            "quest-perf",
+            "quest-tooling",
+            "quest-store",
+            "quest-webxr"
+          ],
+          "npmPublished": false
+        }
+      },
+      "npx_list_exit": 0
+    },
+    "release_workflow": "success (validate, release, publish)",
+    "pages_workflow": "success (validate, build, deploy)"
   },
   "hardware_and_store": "NOT_RUN",
   "checks": {
@@ -87,6 +142,26 @@
       "suites": 88,
       "fixtures": 1029,
       "members": 10
+    },
+    "fresh_family": {
+      "remote": "https://github.com/ssheleg/sshlg-skills.git",
+      "checkout": "74d11c91ba7ff32ce77a0d06c7db1f1897085f40",
+      "tag_commit": "2ad129d204e01718a4479386705e25922ba286d3",
+      "checkout_and_tag_tree_equal": true,
+      "structural_exit": 0,
+      "site_checks": 45,
+      "site_exit": 0,
+      "submodules_initialized": 10,
+      "local_report_links_missing": 0
+    },
+    "final_registry_pins": {
+      "exit": 0,
+      "npm_members": 9,
+      "git_only_members": [
+        "xr-dev@0.3.0"
+      ],
+      "umbrella_npm": "sshlg-skills@1.51.0",
+      "all_pins_resolve": true
     }
   },
   "local_install": {
@@ -103,7 +178,21 @@
     "launcher_result": {
       "steps": 66,
       "failures": 0
+    },
+    "toolkit": {
+      "default_report_host": "claude",
+      "reported_skill_count": 586,
+      "family_skills": 35,
+      "all_seven_xr_names_found": true,
+      "limit": "Inventory and file equality do not attest the currently running Codex/Claude context."
     }
   },
-  "integrated_main": "bf6a78d32de8fc2d5851e1313cba47db8a70d82e"
+  "integrated_main": "bf6a78d32de8fc2d5851e1313cba47db8a70d82e",
+  "remaining": [
+    "Authorize first npm publication of @ssheleg/xr-dev@0.3.0; local npm login is still required.",
+    "Remove npmPublished:false only after exact XR version and tarball verification, in a normal family patch.",
+    "Real Quest project build/headset/account/Store acceptance is NOT_RUN; skill knowledge is not device proof.",
+    "P02-P16 creative/engine/Foundry strategy remains proposed; active owners retain their repositories.",
+    "Broader brand-lint parser/style/registry debt remains recorded; it is not a passing audit."
+  ]
 }
