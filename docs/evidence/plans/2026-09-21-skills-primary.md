@@ -2,7 +2,7 @@
 
 # Skills first, harness as a separate section
 
-Status: implemented and locally verified; draft PR #146 handed off; brand contract follow-up locally verified. Base: `5e3be02` on `origin/main`.
+Status: deployed and verified. See the [release receipt](2026-09-21-skills-primary-release.md). Base: `5e3be02` on `origin/main`.
 Branch: `codex/skills-primary-harness-20260921`.
 
 ## Brief and authority
