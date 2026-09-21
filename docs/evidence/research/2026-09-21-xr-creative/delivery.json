@@ -47,5 +47,68 @@
     "gateway and app configuration",
     "operational Foundry state"
   ],
-  "note": "This receipt records the report commits checked before adding this receipt. The branch may contain later documentation-only delivery metadata; verify its current tip with git ls-remote. No self-referential commit hash is asserted."
+  "note": "This receipt records the report commits checked before adding this receipt. The branch may contain later documentation-only delivery metadata; verify its current tip with git ls-remote. No self-referential commit hash is asserted.",
+  "follow_up": {
+    "checked_at": "2026-09-21",
+    "kind": "vLLM-Omni research and initial XR skill source implementation; not a release",
+    "repositories": [
+      {
+        "remote": "git@github.com:ssheleg/sshlg-skills.git",
+        "branch": "codex/xr-creative-research",
+        "verified_report_commit": "69dcf964b968bcc48ec3da56c5bb1bdf19bf8529",
+        "remote_ref_matched": true,
+        "fresh_clone": {
+          "submodules": false,
+          "exit_code": 0,
+          "check": "python3 docs/evidence/research/2026-09-21-xr-creative/verify_report.py",
+          "result": {
+            "status": "PASS",
+            "required_files": 17,
+            "json_files": 8,
+            "local_links_checked": 66,
+            "implementation_packets": 16,
+            "errors": []
+          }
+        },
+        "entry": "docs/evidence/research/2026-09-21-xr-creative/README.md"
+      },
+      {
+        "remote": "git@github.com:ssheleg/xr-dev.git",
+        "branch": "codex/xr-platform-coverage",
+        "verified_source_commit": "584be61cafc965d8c4f1352747639c48e5cc968e",
+        "remote_ref_matched": true,
+        "fresh_clone": {
+          "submodules": false,
+          "exit_code": 0,
+          "checks": [
+            {
+              "command": "python3 test/validate.py",
+              "result": "PASS: 11 checks, 6 skills, 17 references"
+            },
+            {
+              "command": "python3 test/evals_validate.py",
+              "result": "PASS: 18 trigger cases, 13 scenarios; definitions only"
+            },
+            {
+              "command": "resolve relative Markdown links in member HANDOFF.md",
+              "result": "PASS: 11 targets exist"
+            }
+          ]
+        },
+        "entry": "docs/evidence/verification/2026-09-21-platform-coverage/HANDOFF.md",
+        "status": "source implementation pushed; model/device evaluation and release pending"
+      }
+    ],
+    "not_run": [
+      "model behavior evaluations",
+      "target engine/device/Store validation",
+      "GPU inference"
+    ],
+    "unchanged": [
+      "installed skills",
+      "release version and tags",
+      "parent member pins",
+      "private operational configuration"
+    ]
+  }
 }
