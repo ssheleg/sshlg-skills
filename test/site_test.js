@@ -314,6 +314,24 @@ it('every launcher command the site hands a reader is one the CLI implements', (
     `the site claims a launcher command bin/sshlg-skills.js does not dispatch: ${bad.join(' | ')}`);
 });
 
+it('an unpublished npm package has a GitHub fallback, not a dead registry link', () => {
+  const m = site.members[0];
+  const previous = m.npmPublished;
+  try {
+    m.npmPublished = false;
+    site.build(OUT);
+    const html = read(`skills/${m.name}/index.html`);
+    assert.ok(!html.includes(`href="https://www.npmjs.com/package/${m.npm}"`));
+    assert.ok(html.includes('npm publication pending'));
+    assert.ok(html.includes(`npx skills add ${m.repo}`));
+    assert.ok(read('llms.txt').includes(`${m.npm} (not published; install from GitHub)`));
+  } finally {
+    if (previous === undefined) delete m.npmPublished;
+    else m.npmPublished = previous;
+    site.build(OUT);
+  }
+});
+
 it('the per-member install commands are the identifiers the manifest carries', () => {
   for (const m of data.skills) {
     const html = read(`skills/${m.name}/index.html`);

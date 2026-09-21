@@ -1,0 +1,109 @@
+{
+  "date": "2026-09-21",
+  "member": {
+    "repo": "ssheleg/xr-dev",
+    "branch": "main",
+    "commit": "6a5053253f45916937bde0972e5cae4bcee57007",
+    "tag": "v0.3.0",
+    "github_release": "published",
+    "npm": "blocked: ENEEDAUTH; npm whoami 401; registry 404",
+    "entry": "https://github.com/ssheleg/xr-dev/blob/6a5053253f45916937bde0972e5cae4bcee57007/docs/evidence/verification/2026-09-21-lifecycle/README.md"
+  },
+  "family": {
+    "repo": "ssheleg/sshlg-skills",
+    "branch": "codex/xr-lifecycle-release",
+    "version": "1.51.0",
+    "status": "pending checks and release"
+  },
+  "hardware_and_store": "NOT_RUN",
+  "checks": {
+    "family_npm_test": {
+      "exit": 0,
+      "suites": 88,
+      "fixtures": 1031,
+      "members": 10
+    },
+    "site": {
+      "exit": 0,
+      "checks": 45,
+      "pages": 15
+    },
+    "member_fresh_checkout": {
+      "remote": "https://github.com/ssheleg/xr-dev.git",
+      "tag": "v0.3.0",
+      "commit": "6a5053253f45916937bde0972e5cae4bcee57007",
+      "npm_test_exit": 0,
+      "skills": 7,
+      "references": 25
+    },
+    "registry_pin_check": {
+      "exit": 0,
+      "nine_other_members": "npm versions match",
+      "xr-dev": "git tag verified; not published on npm",
+      "sshlg-skills_before_release": "1.50.0 on npm"
+    },
+    "browser": {
+      "desktop": "reviewed",
+      "mobile": {
+        "width": 390,
+        "height": 844,
+        "document_width": 390
+      },
+      "pending_npm_label": "observed",
+      "lifecycle_link": "observed",
+      "combined_tree": {
+        "xr_document_width": 320,
+        "home_document_width": 320,
+        "viewport_width": 320,
+        "skills_first_and_foundry_development_state": "observed"
+      }
+    },
+    "optional_legacy_lints": {
+      "brand": {
+        "errors": 9,
+        "warnings": 2,
+        "status": "pre-existing format debt"
+      },
+      "ux": {
+        "errors": 0,
+        "warnings": 1,
+        "status": "pre-existing missing web-surface declaration"
+      },
+      "brand_after_incoming_main": {
+        "errors": 1095,
+        "warnings": 521,
+        "status": "NOT_PASS: raw HTML numeric parsing and wider style/string debt; see report",
+        "by_code": {
+          "B030": 973,
+          "B062": 121,
+          "B021": 1,
+          "B022": 520,
+          "B003": 1
+        }
+      }
+    },
+    "pre_merge_family_test": {
+      "exit": 0,
+      "suites": 88,
+      "fixtures": 1029,
+      "members": 10
+    }
+  },
+  "local_install": {
+    "hub_markdown_files": 32,
+    "hub_mismatches": [],
+    "claude": [
+      {
+        "version": "0.3.0",
+        "scope": "user",
+        "markdown_mismatches": []
+      }
+    ],
+    "codex_native_cache": "not mutated; shared Agent Skills hub updated; running sessions not attested",
+    "launcher_result": {
+      "steps": 66,
+      "failures": 0
+    }
+  },
+  "integrated_main": "bf6a78d32de8fc2d5851e1313cba47db8a70d82e"
+}

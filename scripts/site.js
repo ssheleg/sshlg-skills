@@ -1062,8 +1062,8 @@ function memberPage(m) {
   <p class="lede">${esc(m.desc)}</p>
   <div class="ctas">
     ${ghBtn(repoUrl, 'Repository')}
-    <a class="btn btn--ghost" href="${esc(npmUrl)}" rel="noopener" target="_blank"
-      >${NPM_ICON}<span>${esc(m.npm)}</span></a>
+    ${m.npmPublished === false ? '<span class="sub">GitHub installation available · npm publication pending</span>' : `<a class="btn btn--ghost" href="${esc(npmUrl)}" rel="noopener" target="_blank"
+      >${NPM_ICON}<span>${esc(m.npm)}</span></a>`}
     ${xFollowBtn('btn btn--x')}
   </div>
   <div class="stats">
@@ -1588,7 +1588,7 @@ Project Observatory: https://observatory.sshlg.me/
 
 ${members.map((m) => `- [${m.name} v${m.version}](${SITE}/skills/${m.slug}/): `
   + `${m.role}. Ships ${(m.skillNames || []).join(', ')}. `
-  + `Repository https://github.com/${m.repo}, npm ${m.npm}.`).join('\n')}
+  + `Repository https://github.com/${m.repo}, npm ${m.npm}${m.npmPublished === false ? ' (not published; install from GitHub)' : ''}.`).join('\n')}
 
 ## Routing — which pack answers what, when
 

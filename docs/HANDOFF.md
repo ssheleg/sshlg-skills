@@ -1,3 +1,9 @@
+# Quest lifecycle release — 2026-09-21
+
+[Current XR release handoff](evidence/releases/2026-09-21-xr-lifecycle/README.md) records the member implementation, catalogue/site work, npm authorization boundary and links to the earlier creative strategy. Other workstreams below retain their own scope.
+
+---
+
 # Start here — the active plan
 
 **Active plan (2026-09-13):**

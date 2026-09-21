@@ -230,8 +230,9 @@
       "dir": "skills/xr-dev",
       "pluginMarketplace": "ssheleg/xr-dev",
       "pluginInstall": "xr-dev@xr-dev",
-      "desc": "Meta Quest and Horizon OS in six skills, split by the question rather than the tool. quest-native owns the native OpenXR lane: the development manifest that sideloads happily and fails review, the Khronos loader that crashes rather than degrades below 1.0.34, the focus rules that are a VRC and not a nicety, and targetSdk 34 for anything created since 1 March 2026. quest-spatial owns the Kotlin lane — Meta Spatial SDK's toolchain (Horizon OS v69+, AGP 8.11.1 under the Gradle 9.4.1 wrapper), its ECS model, and the budgets that decide a design rather than tune it: three video panels before the frame rate dips, two activity-based ones, 2,000 entity operations per tick, ~1,000 scene-graph entities. quest-perf owns the number everyone misreads — at half rate a GPU-bound app reports ~65% utilisation, and App in milliseconds against 13.9, 11.1 or 8.3 ms is the honest one. quest-tooling owns the machine: the metavr CLI and its MCP server, the managed tool matrix, and the rule measured when `metavr init` wrote 29 skills into 25 directories inside a game repository. quest-store owns the four release channels, the VRC list generated from Meta's own page, and the release manifest delta. quest-webxr owns the browser lane through to the asset-links step that decides whether an immersive PWA launches at all. Unity and Unreal stay with Meta's own skills; this pack routes rather than duplicates.",
+      "desc": "Quest product delivery from platform choice to launch and operation, with stage owners, evidence gates and next actions. quest-lifecycle connects immersive design, engine discovery, account readiness, development, capture and launch planning. quest-native covers C/C++ OpenXR and MR capability boundaries; quest-spatial covers Kotlin, ECS, measured panel budgets and hybrid activities; quest-perf covers rendering experiments and sustained device performance; quest-tooling covers current-source research and CLI/MCP discovery; quest-store covers submission, monetization, Store assets and growth; quest-webxr covers browser and packaged PWA delivery. Engine-specific Meta companions and official Godot XR documentation remain separate sources, with explicit fallbacks when tools or devices are absent.",
       "skillNames": [
+        "quest-lifecycle",
         "quest-native",
         "quest-spatial",
         "quest-perf",
@@ -239,12 +240,20 @@
         "quest-store",
         "quest-webxr"
       ],
-      "version": "0.2.1",
+      "version": "0.3.0",
       "entry": null,
-      "role": "how an XR app is built, measured and shipped on Meta Quest",
+      "role": "how a Quest product moves from platform choice to launch and operation",
       "npm": "@ssheleg/xr-dev",
       "shape": "static",
-      "shapeWhy": "Five fixed lanes with fixed seams; the only branch is which lane a project is on, and the first table in quest-native decides that before any code."
+      "shapeWhy": "Fixed platform owners with an explicit lifecycle entry. The agent selects the earliest unresolved stage from repository and device evidence, then records the owner, prerequisites and next action instead of starting a competing delivery process.",
+      "extraLinks": [
+        {
+          "label": "Follow the Quest product lifecycle",
+          "url": "https://github.com/ssheleg/xr-dev/blob/main/plugins/xr-dev/skills/quest-lifecycle/SKILL.md",
+          "note": "Stage map, engine paths and immersive design acceptance, with separate evidence for build, device, Store and operation."
+        }
+      ],
+      "npmPublished": false
     }
   ],
   "agents": [
