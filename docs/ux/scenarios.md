@@ -12,6 +12,7 @@ Scope: the public Skills website, its separate Harness section and member relati
 | SCN-002 | Locate a pack's role | Member page | builder | — | validated | 2026-09-21: browser + site suite |
 | SCN-003 | Choose Observatory separately | Harness page | maintainer | — | validated | 2026-09-21: browser + site suite |
 | SCN-004 | Understand Foundry availability | Harness page | builder | — | validated | 2026-09-21: browser + site suite |
+| SCN-005 | Find the Quest lifecycle workflow | XR member page | builder | — | validated | 2026-09-21: desktop/mobile browser + site suite |
 
 ## Personas
 
@@ -99,3 +100,25 @@ width at 320px; its grid minimum now respects available width (288px cards insid
 section states “In development” and separate availability. Browser console
 reported no errors. The generated-site suite passes 44 checks over 15 pages;
 these are implementation checks, not user research or production verification.
+
+## XR member workflow
+
+### SCN-005: Find the Quest lifecycle workflow
+- **Persona:** builder
+- **Feature:** XR member page
+- **Entry point:** /skills/xr-dev/
+- **Preconditions:** xr-dev is present in the family manifest
+- **Steps:**
+  1. Open the XR member page -> see the product lifecycle role and current package version.
+  2. Read the skill list -> distinguish the lifecycle entry from native, Spatial, performance, tooling, Store and WebXR owners.
+  3. Follow the lifecycle guide -> reach the shipped skill and its stage/engine/design references.
+  4. Choose installation -> see the existing family and standalone channels; an unpublished npm package is labelled pending and has no dead registry link.
+- **Expected result:** the visitor can start a whole-product Quest plan or choose one specialist without assuming tools, engines or hardware are installed.
+- **UI elements:** member role, version, skill list, lifecycle guide, installation commands
+- **States covered:** success, error
+- **Errors & recovery:** missing shipped skill fails site generation; without JavaScript, the lifecycle link and descriptions remain accessible in HTML.
+- **Status:** validated
+- **Coverage:** skills.json; scripts/site.js; test/site_test.js
+- **Product:** unobserved
+
+XR verification, 2026-09-21: the local generated member page displayed v0.3.0, all seven skill descriptions and the lifecycle guide. Desktop and 390×844 previews were inspected; document width was 390px at the mobile viewport. Registry publication is a separate check recorded in the release handoff.
