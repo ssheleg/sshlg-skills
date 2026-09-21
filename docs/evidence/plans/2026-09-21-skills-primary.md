@@ -116,11 +116,12 @@ This file is the entry point. Website implementation commit: [0c3fe8c](https://g
 [brand](../../brand/README.md), [harness architecture](../../harness/README.md),
 [home social card](../../assets/social-preview.png).
 
-Next owner: parent release task. Review the draft PR, retain the documented raw-HTML parser limitation for a super-ux follow-up,
-integrate against
-fresh main, and deploy using the GitHub Pages workflow above. Verify its exact
-commit and the production home/Harness/member routes. [Draft PR #146](https://github.com/ssheleg/sshlg-skills/pull/146) is a pushed
-handoff, not a deployment or npm release. No version or submodule pin changed.
+Next owner: parent cross-project release record. Link the
+[completed deployment receipt](2026-09-21-skills-primary-release.md) and retain
+the documented raw-HTML parser limitation for a super-ux follow-up.
+[PR #146](https://github.com/ssheleg/sshlg-skills/pull/146) is merged; GitHub Pages
+and all production routes were verified at the recorded commit. No version or
+submodule pin changed, and this site release made no installed-skill mutations.
 
 Keep local-only browser previews, test logs, lease state and private project
 inventory out of Git. Preserve concurrent Quest/Godot worktrees.
