@@ -1,3 +1,9 @@
+## v1.50.0 — 2026-09-21
+
+The family now presents its role inside the ssheleg harness: routing, scoped work, verification, handoff and optional Project Observatory. A new architecture page connects all member pages without changing install identifiers or silently installing Observatory. The agent-stack pin moves to 0.25.2 with ECC-informed installation ownership, bounded hook, resume and evaluation contracts.
+
+The public site keeps its existing design, adds a dedicated harness route and distinguishes the host runtime from the working method. Counts come from the current manifest; the social preview and machine-readable map follow the same narrative. Verification: repository suite, site link/version checks and desktop/mobile browser walkthrough.
+
 ## v1.49.2 — xr-dev 0.2.1: the Kotlin lane
 
 The tenth member gains `quest-spatial`. Meta Spatial SDK is how an Android team
