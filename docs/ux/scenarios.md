@@ -122,3 +122,13 @@ these are implementation checks, not user research or production verification.
 - **Product:** unobserved
 
 XR verification, 2026-09-21: the local generated member page displayed v0.3.0, all seven skill descriptions and the lifecycle guide. Desktop and 390×844 previews were inspected; document width was 390px at the mobile viewport. Registry publication is a separate check recorded in the release handoff.
+
+## Search and reading refinement (2026-09-21)
+
+SCN-001/002: a visitor arriving from search reads the pack's purpose before the
+harness relationship. The header keeps task navigation; following the author
+remains available in the footer. Search/social metadata describes a software pack
+as a website and points the author entity to the public personal profile.
+SCN-003: the Harness observation section links directly to the Observatory origin
+story; that link is labelled with its subject rather than a generic “read more”.
+The existing no-JS, standalone installation and private-data boundaries hold.

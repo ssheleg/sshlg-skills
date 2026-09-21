@@ -760,7 +760,7 @@ function layout(o) {
     '@id': PERSON_ID,
     '@type': 'Person',
     name: AUTHOR,
-    url: `${SITE}/`,
+    url: 'https://sshlg.me/',
     sameAs: [
       `https://x.com/${X_HANDLE}`,
       `https://github.com/${GH_OWNER}`,
@@ -779,7 +779,7 @@ function layout(o) {
 <meta name="description" content="${esc(o.description)}">
 <link rel="canonical" href="${canonical}">
 <meta name="author" content="${esc(AUTHOR)}">
-${o.noindex ? '<meta name="robots" content="noindex">\n' : ''}
+${o.noindex ? '<meta name="robots" content="noindex">\n' : '<meta name="robots" content="index,follow,max-image-preview:large">\n'}
 <meta name="theme-color" content="#0f1218">
 <meta property="og:type" content="${o.ogType || 'website'}">
 <meta property="og:site_name" content="ssheleg skills">
@@ -816,8 +816,6 @@ ${jsonld}
     <a class="opt" href="${rel}routing/">Routing</a>
     <a class="opt" href="${rel}#install">Install</a>
     <a class="opt" href="https://github.com/${GH_OWNER}/${GH_REPO}" rel="noopener" target="_blank">GitHub</a>
-    <a class="opt" data-x-follow rel="noopener noreferrer" target="_blank"
-       href="https://x.com/intent/follow?screen_name=${X_HANDLE}">X</a>
   </nav>
 </div></header>
 <main id="main">
@@ -1057,14 +1055,13 @@ function memberPage(m) {
 <section class="wrap hero" style="padding-top:22px">
   <p class="eyebrow">${esc(m.role)}</p>
   <h1>${esc(m.name)}</h1>
-  <p class="sub">Part of the <a href="${rel}harness/">ssheleg harness</a>.
-  This pack also works on its own. Its role: ${esc(m.role)}.</p>
   <p class="lede">${esc(m.desc)}</p>
+  <p class="sub">Install this pack on its own, or use it with the
+  <a href="${rel}harness/">ssheleg harness</a>.</p>
   <div class="ctas">
     ${ghBtn(repoUrl, 'Repository')}
     ${m.npmPublished === false ? '<span class="sub">GitHub installation available · npm publication pending</span>' : `<a class="btn btn--ghost" href="${esc(npmUrl)}" rel="noopener" target="_blank"
       >${NPM_ICON}<span>${esc(m.npm)}</span></a>`}
-    ${xFollowBtn('btn btn--x')}
   </div>
   <div class="stats">
     <div class="stat"><b>v${esc(m.version)}</b><span>pinned in this release of the family</span></div>
@@ -1160,7 +1157,7 @@ ${m.routers.length ? `<hr class="rule">
     url: `/skills/${m.slug}/`,
     card: `skills-${m.slug}`,
     cardAlt: `${m.name} v${m.version} — ${m.role}`,
-    ogType: 'article',
+    ogType: 'website',
     title: `${m.name} — ${m.role} · ssheleg skills`,
     description: firstSentence(m.desc, 300),
     jsonld: [
@@ -1200,14 +1197,18 @@ function harnessPage() {
     description: 'The method around your coding agent: skill packs, routing, verified delivery, Project Observatory and Asset Foundry in development. Each component has its own role and availability.',
     jsonld: [{ '@context': 'https://schema.org', '@type': 'WebPage',
       name: 'How the ssheleg harness works', url: `${SITE}/harness/`,
-      author: { '@id': PERSON_ID } }],
+      author: { '@id': PERSON_ID } }, { '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'ssheleg skills', item: `${SITE}/` },
+        { '@type': 'ListItem', position: 2, name: 'Harness', item: `${SITE}/harness/` }
+      ] }],
     body: `<section class="wrap hero">
       <p class="eyebrow">The method around your coding agent</p>
       <h1>From a request to a result you can inspect.</h1>
-      <p class="lede">A useful agent needs more than instructions for writing code.
-      It needs to know who the work is for, what completion means, which tools own
-      each step and what the next session must remember. That is the job of the
-      ssheleg harness.</p>
+      <p class="lede">The ssheleg harness is a set of skill packs, routing rules
+      and companion tools for coding agents. It helps an agent define the task,
+      choose the right tools, check the result and leave enough context for the
+      next session to continue.</p>
       <div class="ctas"><a class="btn" href="../#install">Install the skill family</a>
       <a class="btn btn--ghost" href="https://observatory.sshlg.me/">Explore Project Observatory</a></div>
     </section>
@@ -1246,7 +1247,8 @@ function harnessPage() {
       Installing the skill family does not start Observatory or scan your computer.
       The project documents its supported scope, private workspace setup and
       integration requirements. Public examples use synthetic projects and credentials.</p></div>
-      <div class="ctas"><a class="btn" href="https://observatory.sshlg.me/">Explore Project Observatory</a></div>
+      <div class="ctas"><a class="btn" href="https://observatory.sshlg.me/">Explore Project Observatory</a>
+      <a class="btn btn--ghost" href="https://observatory.sshlg.me/field-notes/">Why I built it: folders, projects and API-key copies</a></div>
     </section>
     <hr class="rule">
     <section class="wrap sec" id="asset-foundry">
