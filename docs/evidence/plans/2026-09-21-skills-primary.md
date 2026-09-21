@@ -1,6 +1,8 @@
+<sub>ssheleg skills — task-pipeline · ux-scenarios · copywriting · brand-voice · sheleg-design · agent-sync</sub>
+
 # Skills first, harness as a separate section
 
-Status: implementation in progress. Base: `5e3be02` on `origin/main`.
+Status: implemented and locally verified; draft PR handoff pending. Base: `5e3be02` on `origin/main`.
 Branch: `codex/skills-primary-harness-20260921`.
 
 ## Brief and authority
@@ -68,7 +70,46 @@ This branch does not deploy. After parent review/merge, verify the Pages run for
 that exact head SHA, then open the deployed home, Harness and a member page on
 desktop/mobile. No npm release or version bump is needed for this site packet.
 
-## Resume
+## Actual verification and limits
 
-Next task: implement the requirements, replace this section with actual checks,
-and hand the draft PR to the parent for integration with its publication work.
+- `node test/site_test.js`: PASS, 44 checks over 15 pages, 10 members, 12 routers.
+  Two added cases check Skills identity/navigation and Foundry's availability.
+  Existing checks cover internal paths/fragments, cards, runtime dependencies,
+  every member and its standalone/harness boundaries.
+- `npm test`: PASS, 88 suites, 1030 fixtures, 10 pinned members. The ratchet in
+  [DOCMAP](../../DOCMAP.md) was updated from the computed count.
+- `git diff --check`: clean.
+- Browser: desktop home/Harness 1440×900; home 390×844 and 320×740; all ten
+  members 320×740. Skills and Harness are visible at 320px. Document widths
+  equal viewport widths. Catalogue overflow found and corrected from 336px to
+  320px by allowing its grid minimum to shrink to available width. Console:
+  no errors. See [scenario receipt](../../ux/scenarios.md#verification-receipt).
+- UX lint: no errors, one pre-existing warning for the absent Web surfaces
+  declaration. Brand lint is **not clean**: baseline 9 errors/2 warnings; this
+  change 9 errors/247 warnings. Existing errors are source declarations,
+  non-resolving label locations and an entity-heading mismatch. Resolving the
+  four new label locations exposes existing unregistered source literals.
+  These are explicitly recorded, not counted as a green copy gate. A separate
+  brand-contract cleanup is required; rewriting the entire registry is outside
+  this navigation/component packet.
+- Humanization: on, own pass. New copy reviewed against the existing bans and
+  ai-tells reference. Foundry has no launch promise, public code link, counts
+  or accepted-provider claim. Skills retain their own install paths.
+
+## Resume and delivery
+
+This file is the entry point. Implementation: [site generator](../../../scripts/site.js),
+[regression tests](../../../test/site_test.js), [scenarios](../../ux/scenarios.md),
+[brand](../../brand/README.md), [harness architecture](../../harness/README.md),
+[home social card](../../assets/social-preview.png).
+
+Next owner: parent release task. Review the draft PR, resolve the existing brand
+contract findings as a separately scoped follow-up if needed, integrate against
+fresh main, and deploy using the GitHub Pages workflow above. Verify its exact
+commit and the production home/Harness/member routes. This branch is a pushed
+handoff, not a deployment or npm release. No version or submodule pin changed.
+
+Keep local-only browser previews, test logs, lease state and private project
+inventory out of Git. Preserve concurrent Quest/Godot worktrees.
+
+**Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**

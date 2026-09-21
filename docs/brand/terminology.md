@@ -18,7 +18,9 @@ Contract: brand-contract v1
 | Name | Wrong forms seen |
 |---|---|
 | ssheleg | SSHLG, Ssheleg |
+| ssheleg skills | the Skills site branded as ssheleg harness |
 | ssheleg harness | SSHLG Harness |
+| Asset Foundry | Foundry presented as a released public package |
 | Project Observatory | project observatory |
 | sshlg-skills | sshlg skills, SSHLG Skills |
 | Agent Skills | agent skills standard, Agent skills |
@@ -52,3 +54,5 @@ Member repository names follow `skills.json` exactly.
 ## Harness vocabulary
 
 A harness is the operating layer around an existing coding agent: routing, task contracts, verification, handoffs and optional observation. It is not a model runtime or a sandbox. The family is the independently installable skill layer. Observatory is a separate tool with explicit project enrollment and local state.
+
+The public site at skills.sshlg.me is **ssheleg skills**. **Harness** names its separate architecture section; it does not replace the skills catalogue identity.

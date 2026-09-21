@@ -34,3 +34,11 @@ its source before extending its review date.
 | The host owns model execution and permissions | `docs/harness/README.md` | yes |
 | Observatory has separate installation and an explicit portable scope | [portable v0.1.0 README](https://github.com/ssheleg/project-observatory-open-source/blob/d2ac94082a31b64a95482dc6b97727b119955d1c/README.md) | yes |
 | Historical private exposure totals | private operational evidence, heterogeneous populations | no |
+
+## Skills website identity and component availability (2026-09-21)
+
+| Claim | Source | Public |
+|---|---|---|
+| skills.sshlg.me leads with skills; Harness is a separate architecture section | operator correction; `docs/evidence/plans/2026-09-21-skills-primary.md`; `scripts/site.js` | yes |
+| Asset Foundry is in development for agent-led 3D, image and audio asset workflows | owner-authorized project inventory; availability is not a public release claim | yes |
+| Foundry repository address, consumer projects and provider acceptance details | private development evidence; not public release evidence | no |
