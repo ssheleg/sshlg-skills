@@ -1,0 +1,68 @@
+{
+  "date": "2026-09-21",
+  "member": {
+    "repo": "ssheleg/xr-dev",
+    "branch": "main",
+    "commit": "6a5053253f45916937bde0972e5cae4bcee57007",
+    "tag": "v0.3.0",
+    "github_release": "published",
+    "npm": "blocked: ENEEDAUTH; npm whoami 401; registry 404",
+    "entry": "https://github.com/ssheleg/xr-dev/blob/6a5053253f45916937bde0972e5cae4bcee57007/docs/evidence/verification/2026-09-21-lifecycle/README.md"
+  },
+  "family": {
+    "repo": "ssheleg/sshlg-skills",
+    "branch": "codex/xr-lifecycle-release",
+    "version": "1.51.0",
+    "status": "pending checks and release"
+  },
+  "hardware_and_store": "NOT_RUN",
+  "checks": {
+    "family_npm_test": {
+      "exit": 0,
+      "suites": 88,
+      "fixtures": 1029,
+      "members": 10
+    },
+    "site": {
+      "exit": 0,
+      "checks": 43,
+      "pages": 15
+    },
+    "member_fresh_checkout": {
+      "remote": "https://github.com/ssheleg/xr-dev.git",
+      "tag": "v0.3.0",
+      "commit": "6a5053253f45916937bde0972e5cae4bcee57007",
+      "npm_test_exit": 0,
+      "skills": 7,
+      "references": 25
+    },
+    "registry_pin_check": {
+      "exit": 0,
+      "nine_other_members": "npm versions match",
+      "xr-dev": "git tag verified; not published on npm",
+      "sshlg-skills_before_release": "1.50.0 on npm"
+    },
+    "browser": {
+      "desktop": "reviewed",
+      "mobile": {
+        "width": 390,
+        "height": 844,
+        "document_width": 390
+      },
+      "pending_npm_label": "observed",
+      "lifecycle_link": "observed"
+    },
+    "optional_legacy_lints": {
+      "brand": {
+        "errors": 9,
+        "warnings": 2,
+        "status": "pre-existing format debt"
+      },
+      "ux": {
+        "errors": 0,
+        "warnings": 1,
+        "status": "pre-existing missing web-surface declaration"
+      }
+    }
+  }
+}

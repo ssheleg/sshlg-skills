@@ -11,6 +11,7 @@ Scope: the public family website's harness introduction and member relationship.
 | SCN-001 | Understand the harness | Public website | builder | — | validated | 2026-09-21: browser + site suite |
 | SCN-002 | Locate a pack's role | Member page | builder | — | validated | 2026-09-21: browser + site suite |
 | SCN-003 | Choose Observatory separately | Harness page | maintainer | — | validated | 2026-09-21: browser + site suite |
+| SCN-004 | Find the Quest lifecycle workflow | XR member page | builder | — | validated | 2026-09-21: desktop/mobile browser + site suite |
 
 ## Personas
 
@@ -71,3 +72,25 @@ Scope: the public family website's harness introduction and member relationship.
 ## Verification receipt
 
 2026-09-21: local generated home and harness pages reviewed at desktop width; harness and agent-stack member page reviewed at 390×844. Document width equalled the viewport (390px). A browser-observed missing side inset on combined `.wrap.hero` / `.wrap.sec` elements was corrected by using block-axis padding in `scripts/site.js`; the member h1 then measured 16px from the viewport edge. The content and navigation are generated HTML; no script is required for the three scenario paths. `node test/site_test.js` checks every member relationship and the separate-installation boundary. This is implementation verification, not observed conversion or adoption evidence.
+
+## XR member workflow
+
+### SCN-004: Find the Quest lifecycle workflow
+- **Persona:** builder
+- **Feature:** XR member page
+- **Entry point:** /skills/xr-dev/
+- **Preconditions:** xr-dev is present in the family manifest
+- **Steps:**
+  1. Open the XR member page -> see the product lifecycle role and current package version.
+  2. Read the skill list -> distinguish the lifecycle entry from native, Spatial, performance, tooling, Store and WebXR owners.
+  3. Follow the lifecycle guide -> reach the shipped skill and its stage/engine/design references.
+  4. Choose installation -> see the existing family and standalone channels; an unpublished npm package is labelled pending and has no dead registry link.
+- **Expected result:** the visitor can start a whole-product Quest plan or choose one specialist without assuming tools, engines or hardware are installed.
+- **UI elements:** member role, version, skill list, lifecycle guide, installation commands
+- **States covered:** success, error
+- **Errors & recovery:** missing shipped skill fails site generation; without JavaScript, the lifecycle link and descriptions remain accessible in HTML.
+- **Status:** validated
+- **Coverage:** skills.json; scripts/site.js; test/site_test.js
+- **Product:** unobserved
+
+XR verification, 2026-09-21: the local generated member page displayed v0.3.0, all seven skill descriptions and the lifecycle guide. Desktop and 390×844 previews were inspected; document width was 390px at the mobile viewport. Registry publication is a separate check recorded in the release handoff.

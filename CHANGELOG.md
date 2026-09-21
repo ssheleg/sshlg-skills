@@ -1,3 +1,12 @@
+## v1.51.0 — 2026-09-21
+
+- Ship xr-dev 0.3.0 in the family: quest-lifecycle connects platform discovery, immersive design, development, publication and operation with stage owners and evidence gates.
+- Refresh the XR catalog and generated website descriptions; expose the lifecycle entry and guide. Remove stale fixed Spatial budgets and unsupported companion promises.
+- Keep existing skill identifiers and installation channels. The added lifecycle skill is opt-in through task selection; a single engine bug stays with its specialist.
+- Record source research, planning evaluation limitations and coordinated Git/npm/site verification in the XR lifecycle handoff.
+- Show an explicit GitHub installation fallback while xr-dev npm publication awaits authorization; the package identity stays declared and a site regression rejects a dead registry link.
+
+
 ## v1.50.0 — 2026-09-21
 
 The family now presents its role inside the ssheleg harness: routing, scoped work, verification, handoff and optional Project Observatory. A new architecture page connects all member pages without changing install identifiers or silently installing Observatory. The agent-stack pin moves to 0.25.2 with ECC-informed installation ownership, bounded hook, resume and evaluation contracts.

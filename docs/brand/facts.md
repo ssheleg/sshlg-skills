@@ -8,7 +8,7 @@ its source before extending its review date.
 | Fact | Value | Source | Checked | Review by | Public |
 |---|---|---|---|---|---|
 | installable skill packs | 10 | `skills.json` → `skills.length` | 2026-09-21 | 2026-12-20 | yes |
-| Agent Skills entry points | 34 | sum of `skills.json` → `skills[].skillNames.length` | 2026-09-21 | 2026-12-20 | yes |
+| Agent Skills entry points | 35 | sum of `skills.json` → `skills[].skillNames.length` | 2026-09-21 | 2026-12-20 | yes |
 | umbrella repository plus member repositories | 11 repositories | `skills.json` plus this repository | 2026-09-21 | 2026-12-20 | yes |
 | social-preview dimensions | 1200×630 px | `scripts/og-card.js` constants | 2026-08-26 | 2026-11-24 | yes |
 
