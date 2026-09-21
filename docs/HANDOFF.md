@@ -112,3 +112,7 @@ are separate states, and the successor must be able to see which occurred.
 - [task-pipeline](https://github.com/ssheleg/task-pipeline/pull/85)
 - [sheleg-design-skill](https://github.com/ssheleg/sheleg-design-skill/pull/28)
 - [make-skill](https://github.com/ssheleg/make-skill/pull/18)
+
+## Illustrated reading and SEO update
+
+[Latest bounded handoff](runs/2026-09-21-reading-seo.md) records the cross-site article, reading and search work, checks and delivery status.
