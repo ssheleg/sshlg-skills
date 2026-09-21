@@ -12,7 +12,8 @@ REQUIRED = {
     "README.md", "BRIEF.md", "XR.md", "CREATIVE.md", "ARCHITECTURE.md",
     "PACKETS.md", "VERIFICATION.md", "HANDOFF.md", "mechanical-audit.json",
     "xr-inventory.json", "installed-creative-inventory.json",
-    "upstream-snapshots.json", "source-evidence.json",
+    "upstream-snapshots.json", "source-evidence.json", "VLLM-OMNI.md",
+    "XR-COVERAGE.md", "omni-source-evidence.json", "xr-platform-source-links.json",
 }
 
 
@@ -62,8 +63,8 @@ def main():
                     errors.append(f"{path.name}: unresolved heading: {target}")
     packets = (ROOT / "PACKETS.md").read_text()
     ids = re.findall(r"^## (P\d{2}) —", packets, re.M)
-    if ids != [f"P{i:02d}" for i in range(1, 16)]:
-        errors.append("Packet IDs must be P01–P15 once each, in order")
+    if ids != [f"P{i:02d}" for i in range(1, 17)]:
+        errors.append("Packet IDs must be P01–P16 once each, in order")
     brief = (ROOT / "BRIEF.md").read_text()
     for number in range(1, 9):
         if f"XR-{number:02d}" not in brief:

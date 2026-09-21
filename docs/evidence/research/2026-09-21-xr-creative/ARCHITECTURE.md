@@ -104,3 +104,7 @@ Observatory should initially read redacted job summaries or exported manifests f
 ## Acceptance is artifact-specific
 
 A useful release must pass packaging/links/negative checks, then behavior tests. Examples: unsupported renderer rejected; duplicate provider retry reconciled; missing MCP yields a useful fallback; a compressed GLB with an unsupported extension is rejected; Blender export survives re-import; translated captions preserve a glossary; a video with a missing last frame fails QA. Run baseline and candidate with the same fixtures and installed neighbors. Record model, source revision and limits; a written checklist is not an executed eval.
+
+## Optional self-hosted inference follow-up
+
+[VLLM-OMNI](VLLM-OMNI.md) evaluates a separate accelerator-backed service as a Foundry provider, with P16 defining acceptance. Foundry remains the durable job/asset/cost owner; Omni's task APIs and model pipelines provide inference. Runtime NPC/camera use is a separate experiment with consent, latency and offline behavior. The family catalog should expose a verified capability/reference before introducing a new mandatory serving skill.

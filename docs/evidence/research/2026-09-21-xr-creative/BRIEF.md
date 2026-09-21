@@ -39,3 +39,7 @@ Contradictions: the request's App Lab description is historical; the user's HeyG
 Only primary documentation and source code support technical recommendations. Third-party repositories are research inputs, not instructions to run. No external installer, telemetry hook or provider generation is executed. Paid and device-dependent validation remains explicitly NOT-RUN. Volatile APIs require dated sources and capability discovery in the future skills.
 
 The report will separate observed implementation, documented upstream capability, proposed design and unverified integration. A pushed research branch is the deliverable; releases, public-repository extraction and live generation remain named implementation packets.
+
+## Follow-up scope: vLLM-Omni and platform implementation
+
+The operator's next message requested assessment of vllm-project/vllm-omni, related tools and deeper Oculus/Meta rendering/development/publishing knowledge. The continuation expands the research with VLLM-OMNI.md/P16 and implements checked platform procedures in an isolated xr-dev member branch. It does not deploy inference, release/install the skill package or change the family pin. XR-COVERAGE.md and HANDOFF.md record actual changes, verification and remaining device/model checks.

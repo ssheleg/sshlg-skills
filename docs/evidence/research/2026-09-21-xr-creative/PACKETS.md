@@ -1,6 +1,6 @@
 # Implementation packets
 
-Status: proposed work, not executed. Start at P01; the shared design is [ARCHITECTURE](ARCHITECTURE.md), the source assessment is [XR](XR.md) and [CREATIVE](CREATIVE.md). Every owner must refresh its base and read its own repository rules before editing. Paths below are proposed outputs unless explicitly identified as existing.
+Status: implementation plan. P01 has an initial source implementation on the member branch linked by [XR-COVERAGE](XR-COVERAGE.md); behavioral/device verification and release remain open. Other packets are proposed work. the shared design is [ARCHITECTURE](ARCHITECTURE.md), the source assessment is [XR](XR.md) and [CREATIVE](CREATIVE.md). Every owner must refresh its base and read its own repository rules before editing. Paths below are proposed outputs unless explicitly identified as existing.
 
 ## Sequence and common acceptance
 
@@ -133,6 +133,14 @@ For each packet, save commands, exit codes, source revisions, artifacts and NOT-
 - **Change:** read job outcome/cost/QA summaries and source receipt links; preserve opaque IDs. No prompts, biometric inputs, signed URLs or credentials are needed for the first version.
 - **Cases:** (1) failed job appears with actionable source link; (2) sensitive fields are removed before export; (3) unavailable Foundry yields stale/unavailable observation, not invented health. Observation cannot create/retry jobs or increase budget.
 - **Acceptance:** offline fixture import plus redaction/permission tests. Keep optional until a real consumer needs it; do not claim this integration ships with today's research.
+
+## P16 — Optional self-hosted multimodal inference
+
+- **Owner:** Asset Foundry adapter; infrastructure/deployment reference under the chosen service owner. Dependencies: P02, P08 and P09. Sources and decisions: [VLLM-OMNI](VLLM-OMNI.md).
+- **Files:** provider implementation and task schema fixtures, versioned deploy example, readiness/compute budget integration, operating/benchmark reference, output and recovery tests.
+- **Change:** pin compatible Omni/vLLM/backend/model revisions; implement one image or speech operation first. Discover the actual loaded model/task; preserve Foundry job intent, uncertain outcomes, provenance, compute cost and QA. Existing API routes and in-memory video jobs do not establish durable recovery.
+- **Cases:** (1) task fixture yields a decoded artifact with complete manifest and measured GPU cost; (2) timeout/restart/cancel/OOM produces a reconciled bounded outcome without duplicate submission; (3) no GPU/auth or unsupported model reports unavailable/NOT-RUN while preserving local brief and existing service paths. Compare one hosted or simple local baseline on identical accepted-output criteria.
+- **Acceptance:** explicit model/weight license, deployment lock, read-only readiness, synthetic contract tests and an actually executed separately budgeted GPU benchmark. Runtime NPC/camera use additionally needs data/latency/offline/frame-budget tests; it is not implied by a successful offline image. No automatic GPU purchase, provider installation or new global MCP registration.
 
 ## Later candidates, deliberately outside the first release
 

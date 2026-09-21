@@ -1,6 +1,6 @@
 # Verification and research limits
 
-Executed on 2026-09-21. Subject revisions are fixed in [BRIEF](BRIEF.md), [upstream snapshots](upstream-snapshots.json) and [xr-dev inventory](xr-inventory.json). This research branch changes documentation and evidence only; it does not change engine code, provider adapters, installed skills or family submodule pins.
+Executed on 2026-09-21. Subject revisions are fixed in [BRIEF](BRIEF.md), [upstream snapshots](upstream-snapshots.json) and [xr-dev inventory](xr-inventory.json). This umbrella branch changes documentation and evidence only. The follow-up also changes xr-dev source on a separate member branch; see [XR-COVERAGE](XR-COVERAGE.md). Neither branch changes engine code, provider adapters, installed skills or family submodule pins.
 
 ## Current xr-dev checks
 
@@ -38,8 +38,12 @@ python3 docs/evidence/research/2026-09-21-xr-creative/verify_report.py
 git diff --check
 ```
 
-The report check passed both in the worktree and a fresh remote clone (13 required files, 52 local links at report commit; see [delivery receipt](delivery.json)). The script checks JSON parseability, required report files, internal Markdown link targets/anchors, unique P01–P15 packet IDs, requirement references, and absence of machine-specific temporary/home paths in the public report. It does not certify external service uptime or semantic correctness. [HANDOFF](HANDOFF.md) records remote/fresh-checkout verification separately.
+The report check passed both in the worktree and a fresh remote clone (13 required files, 52 local links at report commit; see [delivery receipt](delivery.json)). The script checks JSON parseability, required report files, internal Markdown link targets/anchors, unique P01–P16 packet IDs, requirement references, and absence of machine-specific temporary/home paths in the public report. It does not certify external service uptime or semantic correctness. [HANDOFF](HANDOFF.md) records remote/fresh-checkout verification separately.
 
 ## Remaining verification belongs to implementation
 
 Run baseline/candidate routing and behavior with the actual neighboring skill set; clean package/install/uninstall and public extraction checks; original engine/Blender/media fixtures; version-compatible API contract tests; budgeted live provider probes; on-device performance/comfort/permissions; Store dashboard review; optional Observatory redaction/enrollment tests. Every packet identifies its relevant subset. Do not turn this list into mandatory work for unrelated one-line changes.
+
+## Follow-up checks
+
+The xr-dev candidate has 17 references and 13 authored scenarios, with all member structural/installer/strict/negative/house checks passing. See XR-COVERAGE.md and the pinned member handoff for exact commands. `omni-source-evidence.json` records selected primary downloads at pinned development/release revisions; no inference/server/model execution occurred. Original check counts above are retained as historical receipts, not substituted for candidate results.

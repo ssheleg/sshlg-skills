@@ -1,0 +1,288 @@
+{
+  "checked_at": "2026-09-21",
+  "main_commit": "5e28163ba5b329f5bed36272aca2f9f65e53ef88",
+  "latest_release": "v0.28.0",
+  "release_commit": "eb11446b7f2e30ca582f8aff3afe12e9a2e66f6c",
+  "scope": "Selected source/content fetches, not GPU or API execution. Full third-party content is excluded. A 404 stable serving index is retained as an observed path change, not an inference that the release lacks serving APIs.",
+  "receipts": [
+    {
+      "id": "omni-docs--serving--README.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/serving/README.md",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/serving/README.md",
+      "http_status": 200,
+      "sha256": "a502badaa299cd75df79a9b5218b53a63476cc3593cea9698984c9822b8bbe0e",
+      "bytes": 8486,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-docs--serving--videos_api.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/serving/videos_api.md",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/serving/videos_api.md",
+      "http_status": 200,
+      "sha256": "1d61b75225f5a04f79040f21a60dac397c5761f27612d5b72a63566339a28b3b",
+      "bytes": 16355,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-docs--serving--speech_api.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/serving/speech_api.md",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/serving/speech_api.md",
+      "http_status": 200,
+      "sha256": "e896f2a6f25690cd5444582780c6bd28162c49784e488cc6f954458ee61d2c7e",
+      "bytes": 40098,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-docs--serving--realtime_duplex_api.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/serving/realtime_duplex_api.md",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/serving/realtime_duplex_api.md",
+      "http_status": 200,
+      "sha256": "b300134476edf765b3b3ae67b8245d910ea70218eddf1155ee3117e8851546a7",
+      "bytes": 63902,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-docs--models--supported_models.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/models/supported_models.md",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/models/supported_models.md",
+      "http_status": 200,
+      "sha256": "7d06bac19dd24dad5585855fd2a29c541be568a3120f064ee165d98d7a389590",
+      "bytes": 16530,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-docs--getting_started--installation--gpu--cuda.inc.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/getting_started/installation/gpu/cuda.inc.md",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/getting_started/installation/gpu/cuda.inc.md",
+      "http_status": 200,
+      "sha256": "9dda61598a6aaff5077514aae3bfa7d0b323a152463b61b05189cd9a1e4c5bc8",
+      "bytes": 6294,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-docs--getting_started--installation--README.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/getting_started/installation/README.md",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/getting_started/installation/README.md",
+      "http_status": 200,
+      "sha256": "133bb06d183138479045083cde94a9dab2b1b5b8328c1eedca339a1cadfc6234",
+      "bytes": 477,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-docs--configuration--gpu_memory_utilization.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/configuration/gpu_memory_utilization.md",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/configuration/gpu_memory_utilization.md",
+      "http_status": 200,
+      "sha256": "db5e5305d759085c3c7e0a4ef319b6a68fbcf7ac84c086597e70258dab268961",
+      "bytes": 5458,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-docs--usage--metrics.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/usage/metrics.md",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/usage/metrics.md",
+      "http_status": 200,
+      "sha256": "edf0fdf88f3ca8d6f660c30130e0a9c4c635d02c0a54c55ed3f86889bfe3ed29",
+      "bytes": 8825,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-docs--user_guide--fault_injection_reliability_matrix.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/user_guide/fault_injection_reliability_matrix.md",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/user_guide/fault_injection_reliability_matrix.md",
+      "http_status": 200,
+      "sha256": "46b840edfaaffb29d555754eece52482c1059d4442bf60c23a1f84eaa51ee2e5",
+      "bytes": 12274,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-vllm_omni--entrypoints--openai--storage.py",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/vllm_omni/entrypoints/openai/storage.py",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/vllm_omni/entrypoints/openai/storage.py",
+      "http_status": 200,
+      "sha256": "cd6309916d383f0f91faa8e3cd2ea81a335cf1f2be6b13fb228baea6d40ea334",
+      "bytes": 7296,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-vllm_omni--entrypoints--openai--stores.py",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/vllm_omni/entrypoints/openai/stores.py",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/vllm_omni/entrypoints/openai/stores.py",
+      "http_status": 200,
+      "sha256": "d4e100c78f35d028c784ea50f67d5c155d0c02916f5077b8a24f8c1ccdb5d1a3",
+      "bytes": 2300,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-docs--serving--image_generation_api.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/serving/image_generation_api.md",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/serving/image_generation_api.md",
+      "http_status": 200,
+      "sha256": "cac0de10bd0fa261e3f3a074d4cf35bc9102f1391913ea2523e1a1f089d3e8ea",
+      "bytes": 7137,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-docs--serving--image_edit_api.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/serving/image_edit_api.md",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/docs/serving/image_edit_api.md",
+      "http_status": 200,
+      "sha256": "dbc1d73629aa1fede85c1ca61e4ee6549060df658dc4cc8419fb7cd8d91d38c5",
+      "bytes": 8484,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "omni-pyproject.toml",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/pyproject.toml",
+      "resolved_url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/5e28163ba5b329f5bed36272aca2f9f65e53ef88/pyproject.toml",
+      "http_status": 200,
+      "sha256": "31285392cdb502f17fa5cf341bdcf6eabef417a46ab33ffde731ee517b2b4794",
+      "bytes": 14662,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-ffr.md",
+      "url": "https://developers.meta.com/horizon/essentials/fixed-foveated-rendering.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/essentials/fixed-foveated-rendering.md/",
+      "http_status": 200,
+      "sha256": "ef181334b66f29915cde6bdb4c17b04cb7b6f4c88560e254c59fbb05ebfd0f28",
+      "bytes": 4206,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-symmetric.md",
+      "url": "https://developers.meta.com/horizon/documentation/native/android/os-symmetric-projection.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/documentation/native/android/os-symmetric-projection.md/",
+      "http_status": 200,
+      "sha256": "8e7b3ea97db875c294be4624e8ee1d3b78d0cb5866414bfbefc936b44c28f0a4",
+      "bytes": 15928,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-layers.md",
+      "url": "https://developers.meta.com/horizon/essentials/compositor-layers.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/essentials/compositor-layers.md/",
+      "http_status": 200,
+      "sha256": "959e79635be072462a3878968b02e2617dc9e8174788dbfded9ec0c7674208c1",
+      "bytes": 3434,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-pca.md",
+      "url": "https://developers.meta.com/horizon/documentation/spatial-sdk/spatial-sdk-pca-overview.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/documentation/spatial-sdk/spatial-sdk-pca-overview.md/",
+      "http_status": 200,
+      "sha256": "1e9f6c65d3332e28ea5bf89951c79065313438f5e576b7d8eb79c92bb958515c",
+      "bytes": 8940,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-camera-native.md",
+      "url": "https://developers.meta.com/horizon/documentation/native/android/pca-native-documentation.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/documentation/native/android/pca-native-documentation.md/",
+      "http_status": 200,
+      "sha256": "f5ad5fdc18ec0407d6cd591ead939d3d45f28e626bff6929a1b95eacc48bf0cf",
+      "bytes": 7493,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-manifest.md",
+      "url": "https://developers.meta.com/horizon/resources/publish-mobile-manifest.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/resources/publish-mobile-manifest.md/",
+      "http_status": 200,
+      "sha256": "97925a2964626eb6993d1c49d873a2583438454644c19be6a566692f7fdf2850",
+      "bytes": 9499,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-review.md",
+      "url": "https://developers.meta.com/horizon/resources/publish-app-review.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/resources/publish-app-review.md/",
+      "http_status": 200,
+      "sha256": "70482a9df55495e9efc8e677b27afd22f0883c6e4a4d765e07d5c471c34a166b",
+      "bytes": 6847,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-vrc.md",
+      "url": "https://developers.meta.com/horizon/resources/publish-quest-req.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/resources/publish-quest-req.md/",
+      "http_status": 200,
+      "sha256": "f3ec297ecd5a17ba629062e2a97674388c5acf1f813edeeff5f00cf1f8da525a",
+      "bytes": 21736,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-presence.md",
+      "url": "https://developers.meta.com/horizon/documentation/native/ps-group-presence-overview.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/documentation/native/ps-group-presence-overview.md/",
+      "http_status": 200,
+      "sha256": "82d7952b821b4a3c87bff9b407843d9f832f42df19823d41242567e92cafdddd",
+      "bytes": 11950,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-spatial-permission.md",
+      "url": "https://developers.meta.com/horizon/documentation/unity/unity-spatial-data-perm.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/documentation/unity/unity-spatial-data-perm.md/",
+      "http_status": 200,
+      "sha256": "43cd658a0a4e4d971b0188ca178045878bffe78d73a461bed28e897a8775c3f7",
+      "bytes": 11858,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-multiview.md",
+      "url": "https://developers.meta.com/horizon/documentation/unreal/unreal-multi-view.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/documentation/unreal/unreal-multi-view.md/",
+      "http_status": 200,
+      "sha256": "eaf8c5a2f75534fc9cdb65de1dcd4a60260d0baa6d77d4d6cb2c2c678ef4fac5",
+      "bytes": 2860,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "meta-vulkan.md",
+      "url": "https://developers.meta.com/horizon/documentation/unreal/os-vulkan-opengl.md",
+      "resolved_url": "https://developers.meta.com/horizon/llmstxt/documentation/unreal/os-vulkan-opengl.md/",
+      "http_status": 200,
+      "sha256": "ed0ea67869b4455278ab74f36cea4aa3760c75510c32ffc90d08c83a62889ac9",
+      "bytes": 4384,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "stable-README.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/eb11446b7f2e30ca582f8aff3afe12e9a2e66f6c/README.md",
+      "sha256": "2b0b725a0cf72e04c95a16a70aa5b3c0b4f58766c94a976b7bdcaab34d013287",
+      "http_status": 200,
+      "bytes": 8069,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/eb11446b7f2e30ca582f8aff3afe12e9a2e66f6c/docs/serving/README.md",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "id": "stable-docs--models--supported_models.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/eb11446b7f2e30ca582f8aff3afe12e9a2e66f6c/docs/models/supported_models.md",
+      "sha256": "904d110f10bbd638d5ce34835dcce499ec7c5d2b8662f2637884c6c2dc6738e5",
+      "http_status": 200,
+      "bytes": 14794,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "stable-docs--getting_started--installation--README.md",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/eb11446b7f2e30ca582f8aff3afe12e9a2e66f6c/docs/getting_started/installation/README.md",
+      "sha256": "3cac0dab93e2c420fd2d605cac47fd5246e17e11d4b72e39afe7a4778fda72f1",
+      "http_status": 200,
+      "bytes": 396,
+      "checked_at": "2026-09-21"
+    },
+    {
+      "id": "stable-vllm_omni--entrypoints--openai--stores.py",
+      "url": "https://raw.githubusercontent.com/vllm-project/vllm-omni/eb11446b7f2e30ca582f8aff3afe12e9a2e66f6c/vllm_omni/entrypoints/openai/stores.py",
+      "sha256": "d4e100c78f35d028c784ea50f67d5c155d0c02916f5077b8a24f8c1ccdb5d1a3",
+      "http_status": 200,
+      "bytes": 2300,
+      "checked_at": "2026-09-21"
+    }
+  ]
+}
