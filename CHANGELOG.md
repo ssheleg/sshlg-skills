@@ -1,3 +1,22 @@
+## v1.52.0 — web3d-dev joins as the eleventh member
+
+Realtime 3D on the web had no owner: `sheleg-design` owns one particle pattern for landing
+heroes, `xr-dev` owns the Quest product, and three.js on WebGPU, the glTF asset pipeline and
+character animation fell between them. `web3d-dev` 0.1.1 takes that ground in three skills —
+`web3d-runtime` (renderer, fallback, TSL, compute, profiling, R3F on WebGPU), `web3d-assets`
+(the glTF pipeline, budgets, loaders, sourcing and licences, and Asset Foundry when a machine
+runs it) and `web3d-animation` (a two-sided animation protocol with a shared clip canon).
+Every fact is pinned to three@0.186.1, and the member's gate checks each code block against a
+snapshot of that release's exports.
+
+- The neighbours name it at the boundary: `sheleg-design` 1.61.1 (the WebGL line of *When
+  to Use*) and `xr-dev` 0.3.2 (`quest-webxr`'s `NOT for`).
+- The member is listed with `npmPublished: false`: its first npm publish needs the owner's
+  two-factor challenge before trusted publishing can be configured. GitHub, plugin and
+  skills-CLI installs work now.
+- The joining surfaced one rule the member had missed: a committed `.claude/agent-sync.json`,
+  which this repository requires of every member (0.1.1 adds it).
+
 ## v1.51.2 — the SessionEnd budget no host gave
 
 Codex 0.157 printed two warnings at every session start: `clamping SessionEnd hook

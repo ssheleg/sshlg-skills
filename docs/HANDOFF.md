@@ -6,6 +6,19 @@
 
 # Start here — the active plan
 
+**Done (2026-09-28): web3d-dev, the eleventh member.** Realtime 3D on the web —
+`web3d-runtime`, `web3d-assets`, `web3d-animation` — at
+[ssheleg/web3d-dev](https://github.com/ssheleg/web3d-dev) 0.1.1, pinned here in v1.52.0;
+neighbours name it (`sheleg-design` 1.61.1, `xr-dev` 0.3.2); the private `asset-foundry`
+skill 0.3.0 now states its real endpoint, health check and animation recipe. Spec, docs
+study (120 rows against three@0.186.1) and probes live in the member's `docs/evidence/`.
+**Human step still open:** the member is `npmPublished: false` — its first npm publish needs
+the owner's `npm login` + 2FA, then `npm trust github @ssheleg/web3d-dev --repo
+ssheleg/web3d-dev --file release.yml --allow-publish --yes`, then set its `PUBLISH_NPMJS`
+variable to `true` and flip `npmPublished` here. **Next action after that:** re-run the
+member's probes (`docs/evidence/verification/2026-09-27-probes/run_probes.sh`) against the
+corrected text; both candidate errors found there were fixed after the run.
+
 **Done (2026-09-27): the Codex SessionEnd clamp.** Codex 0.157.1 printed
 `clamping SessionEnd hook timeout to 3s` for agent-sync (20 s) and task-pipeline (10 s) at
 every session start. Released: agent-sync **1.21.0** (also fixes the macOS `run_limited`

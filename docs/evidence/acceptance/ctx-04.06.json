@@ -15,11 +15,11 @@
     "node": "v26.8.2"
   },
   "scenarios": {
-    "member_count": 10,
+    "member_count": 11,
     "upgraded_member": "agent-stack",
     "clean_install": {
-      "expected": "de02fd31a99875482704bcb7cc83391d22af925cea5529174a18638578209d19",
-      "installed": "de02fd31a99875482704bcb7cc83391d22af925cea5529174a18638578209d19",
+      "expected": "ae4ed933254a6b812e23b0c7800615ffef2063994fb8da31a8596f0db3ab24b3",
+      "installed": "ae4ed933254a6b812e23b0c7800615ffef2063994fb8da31a8596f0db3ab24b3",
       "active": "current",
       "channels": {
         "claude": "current",
@@ -28,8 +28,8 @@
       }
     },
     "upgrade": {
-      "expected": "e2cd6a189fb6e44b9327373dafa15a10d2e2a4312aa90174bc669d59715fd373",
-      "installed": "e2cd6a189fb6e44b9327373dafa15a10d2e2a4312aa90174bc669d59715fd373",
+      "expected": "3b33fc5659fc3044f1bea75c9eefa847617ff31e10253f265679a1d208250867",
+      "installed": "3b33fc5659fc3044f1bea75c9eefa847617ff31e10253f265679a1d208250867",
       "active": "current",
       "channels": {
         "claude": "current",
@@ -38,8 +38,8 @@
       }
     },
     "faulted_upgrade": {
-      "expected": "e2cd6a189fb6e44b9327373dafa15a10d2e2a4312aa90174bc669d59715fd373",
-      "installed": "de02fd31a99875482704bcb7cc83391d22af925cea5529174a18638578209d19",
+      "expected": "3b33fc5659fc3044f1bea75c9eefa847617ff31e10253f265679a1d208250867",
+      "installed": "ae4ed933254a6b812e23b0c7800615ffef2063994fb8da31a8596f0db3ab24b3",
       "active": "stale",
       "channels": {
         "claude": "stale",
@@ -48,8 +48,8 @@
       }
     },
     "recovery": {
-      "expected": "de02fd31a99875482704bcb7cc83391d22af925cea5529174a18638578209d19",
-      "installed": "de02fd31a99875482704bcb7cc83391d22af925cea5529174a18638578209d19",
+      "expected": "ae4ed933254a6b812e23b0c7800615ffef2063994fb8da31a8596f0db3ab24b3",
+      "installed": "ae4ed933254a6b812e23b0c7800615ffef2063994fb8da31a8596f0db3ab24b3",
       "active": "current",
       "channels": {
         "claude": "current",
