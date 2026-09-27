@@ -127,7 +127,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.61.0",
+      "version": "1.61.1",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -240,7 +240,7 @@
         "quest-store",
         "quest-webxr"
       ],
-      "version": "0.3.1",
+      "version": "0.3.2",
       "entry": null,
       "role": "how a Quest product moves from platform choice to launch and operation",
       "npm": "@ssheleg/xr-dev",
@@ -253,6 +253,26 @@
           "note": "Stage map, engine paths and immersive design acceptance, with separate evidence for build, device, Store and operation."
         }
       ]
+    },
+    {
+      "name": "web3d-dev",
+      "repo": "ssheleg/web3d-dev",
+      "dir": "skills/web3d-dev",
+      "pluginMarketplace": "ssheleg/web3d-dev",
+      "pluginInstall": "web3d-dev@web3d-dev",
+      "desc": "Realtime 3D on the web with three.js and React Three Fiber, in three skills split by the question. web3d-runtime owns how the scene runs: WebGPURenderer and its WebGL2 fallback, TSL and compute, post-processing, device loss, the frame loop and profiling, led by the failures that are silent in r186 — render() before init() throws, positionNode collapsing every instance to a point, computeAsync not waiting for the GPU, twenty drei components that do not run on WebGPU. web3d-assets owns the glTF pipeline from a source to the frame within a written budget — gltf-transform and gltfpack, KTX2 and meshopt, loaders and colour spaces, sourcing and licences — and delegates orders to Asset Foundry when a machine runs it. web3d-animation owns a two-sided animation protocol with a shared clip canon: rigs, clips, blending, retargeting, root motion, crowds and vertex-animation textures. Every fact is pinned to three@0.186.1 and the gate checks each code block against that release's exports.",
+      "skillNames": [
+        "web3d-runtime",
+        "web3d-assets",
+        "web3d-animation"
+      ],
+      "version": "0.1.1",
+      "entry": null,
+      "role": "how realtime 3D on the web runs, ships its assets and moves",
+      "npm": "@ssheleg/web3d-dev",
+      "npmPublished": false,
+      "shape": "static",
+      "shapeWhy": "Three fixed questions with fixed seams — runtime, assets, motion — and one shared contract, the clip canon, duplicated into both skills that need it and checked identical."
     }
   ],
   "agents": [

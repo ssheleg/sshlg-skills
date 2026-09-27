@@ -28,3 +28,6 @@
 [submodule "skills/xr-dev"]
 	path = skills/xr-dev
 	url = https://github.com/ssheleg/xr-dev.git
+[submodule "skills/web3d-dev"]
+	path = skills/web3d-dev
+	url = https://github.com/ssheleg/web3d-dev.git

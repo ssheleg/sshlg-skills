@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**753** id'd requirement rows below, **641** read `verified` and none of them says which
+**756** id'd requirement rows below, **641** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -37,6 +37,14 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-28 — v1.52.0, web3d-dev joins as the eleventh member
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| W3D-1 | The eleventh member is pinned, catalogued and rendered | `validate.py` → 11 skills, 11 submodules; `site_test.js` → 45 checks, 11 members; the member's committed card byte-equals the generated one | v1.52.0 | the pin, the manifest or the card generator moving | 2026-09-28, `npm test` EXIT=0 (88 suites, 1031 fixtures, 11 members) |
+| W3D-2 | The member's facts are pinned and its code blocks resolve | member gate: 14 checks, 13 planted defects caught, including `bloom` imported from `three/tsl` and a namespace member the release lacks | v1.52.0 (pin web3d-dev 0.1.1) | a three.js pin move without regenerating the snapshot | 2026-09-28 |
+| W3D-3 | Neighbours name the new boundary | `sheleg-design` 1.61.1 *When to Use*; `xr-dev` 0.3.2 `quest-webxr` description | v1.52.0 | either line removed | 2026-09-28 |
 
 ## 2026-09-27 — v1.51.2, the SessionEnd budget no host gave
 
