@@ -1,5 +1,17 @@
 # Start here — the active plan
 
+**Done (2026-09-27): the Codex SessionEnd clamp.** Codex 0.157.1 printed
+`clamping SessionEnd hook timeout to 3s` for agent-sync (20 s) and task-pipeline (10 s) at
+every session start. Released: agent-sync **1.21.0** (also fixes the macOS `run_limited`
+watchdog that held the caller's pipe for its whole limit), task-pipeline **1.87.1** (hosted
+`validate` 1h46m green), and this repository **1.50.1** with `check_member_hooks_fit_every_host`
+reading every member's `hooks.json` at its pin. The receipt is in
+`docs/evidence/verification.md` (SE-1, SE-2). Open, not fixed here: task-pipeline's negative
+plants leave `/tmp/*-copy` trees behind (211 of them, 6.2 GB, on one `test:all`). Codex
+reports `Exceeded skills context budget`: 423 hub skills, so 162 are dropped, and which to
+prune is the operator's call. **Next action:** the HK-05 line below. The workflow room it
+asks for is now 5,950 bytes, after `test/plant_gap_mention.py` moved out.
+
 **Active plan (2026-09-13):**
 [Family audit 2026-09-13 — the hook key nobody read](evidence/audits/2026-09-13-family-hooks/plan.md),
 state in [`progress.json`](evidence/audits/2026-09-13-family-hooks/progress.json),

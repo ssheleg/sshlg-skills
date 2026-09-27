@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**751** id'd requirement rows below, **641** read `verified` and none of them says which
+**753** id'd requirement rows below, **641** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -37,6 +37,13 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-27 — v1.50.1, the SessionEnd budget no host gave
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| SE-1 | No member's SessionEnd handler declares more than the 3 s Codex allows | `check_member_hooks_fit_every_host` red on the prior pins (agent-sync 20, task-pipeline 10), green on 1.21.0 / 1.87.1; negative step *a member SessionEnd timeout a host clamps must fail* | v1.50.1 | a Codex release changing the clamp, or a member adding a SessionEnd handler | 2026-09-27, `codex exec` 0.157.1 printed both clamp warnings before the fix |
+| SE-2 | agent-sync releases a run's leases inside that budget on stock macOS | agent-sync `test/hooks_session_test.py`: three leases released in under 3 s by the real hook; the old `run_limited` fallback took 10.4 s | v1.50.1 (pin agent-sync 1.21.0) | `_lib.sh` or `session-end.sh` changing | 2026-09-27 |
 
 ## 2026-09-21 — v1.50.0, the family inside the harness
 

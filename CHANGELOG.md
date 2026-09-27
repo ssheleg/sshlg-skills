@@ -1,3 +1,21 @@
+## v1.50.1 — the SessionEnd budget no host gave
+
+Codex 0.157 printed two warnings at every session start: `clamping SessionEnd hook
+timeout to 3s` for agent-sync (declared 20 s) and task-pipeline (declared 10 s). Neither
+number was honoured by any host. Claude Code sizes its SessionEnd wait from the largest
+handler timeout, and Codex clamps it to 3 s. The set moves with both fixes, and this
+repository gains the guard that keeps the class out of every member.
+
+- **agent-sync 1.21.0.** SessionEnd declares 3 s. `release --held` frees every lease in
+  one process. On stock macOS the `run_limited` fallback watchdog had held the caller's
+  pipe for its whole limit, so session-end took 10.4 s for three leases.
+- **task-pipeline 1.87.1.** SessionEnd declares 3 s, and the validator reads the plugin's
+  own hooks file for the first time. `validate.yml` gets back 6.4 kB under GitHub's limit,
+  and the dormancy guard now follows a step into the plant script it calls.
+- **`check_member_hooks_fit_every_host`** reads each member's `hooks.json` at its pin and
+  refuses a SessionEnd timeout above 3 s. It was watched red on the previous pins. The new
+  negative step plants a 20.
+
 ## v1.50.0 — 2026-09-21
 
 The family now presents its role inside the ssheleg harness: routing, scoped work, verification, handoff and optional Project Observatory. A new architecture page connects all member pages without changing install identifiers or silently installing Observatory. The agent-stack pin moves to 0.25.2 with ECC-informed installation ownership, bounded hook, resume and evaluation contracts.
