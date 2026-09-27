@@ -266,11 +266,10 @@
         "web3d-assets",
         "web3d-animation"
       ],
-      "version": "0.1.1",
+      "version": "0.1.2",
       "entry": null,
       "role": "how realtime 3D on the web runs, ships its assets and moves",
       "npm": "@ssheleg/web3d-dev",
-      "npmPublished": false,
       "shape": "static",
       "shapeWhy": "Three fixed questions with fixed seams — runtime, assets, motion — and one shared contract, the clip canon, duplicated into both skills that need it and checked identical."
     }
