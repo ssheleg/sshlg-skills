@@ -8,7 +8,7 @@ exists to keep visible.
 **This ledger has no `Human` column, and that is a decision with a consequence.**
 `verified` above means *a person or a command* — the two are not separated here, so the
 question *"has anybody actually looked?"* cannot be asked of these rows at all. Of the
-**756** id'd requirement rows below, **641** read `verified` and none of them says which
+**757** id'd requirement rows below, **641** read `verified` and none of them says which
 
 **Ids are scoped to their section.** An id names one row inside the dated heading it was written under, and the same id under a later heading is a different row — 21 ids are reused that way on purpose, and `R-01` names eleven requirements across the file. Inside one section reuse is a defect, because a citation then resolves to two rows with different evidence; `check_ledger_ids_are_unique_within_their_section` refuses it, and the trailing-letter form (`PP-2a`) is how a second row in the same section gets an id without renumbering history.
 — **recomputed by the run itself** (`test/validate.py`, the counted-claims registry), with
@@ -37,6 +37,12 @@ shipped eleven releases without a ledger, and inventing retrospective
 verification statuses for them would be the exact failure the `evidence-docs`
 router names. What shipped earlier is confirmed by its own CHANGELOG section
 and nothing more, and that is stated rather than papered over.
+
+## 2026-09-28 — v1.52.1, update installs the member it has never seen
+
+| id | Claim | Evidence | Shipped in | Invalidated by | Observed at |
+|---|---|---|---|---|---|
+| UPD-1 | `update` adds and installs a member's plugin that this machine has never seen, and refreshes the rest | `test/plan_test.js` four `pluginUpdatePlan` cases (red before the change); `update --dry-run` on this machine lists `marketplace add ssheleg/web3d-dev` + `plugin install web3d-dev@web3d-dev` beside `marketplace update xr-dev` | v1.52.1 | the plugin half building argv outside `pluginUpdatePlan` | 2026-09-28 |
 
 ## 2026-09-28 — v1.52.0, web3d-dev joins as the eleventh member
 

@@ -1,3 +1,16 @@
+## v1.52.1 — update installs the member it has never seen
+
+The day `web3d-dev` joined, `update` ended `FAILED 2 of 71 steps`: it refreshed every
+member's Claude plugin with `marketplace update` + `plugin update`, and both fail for a
+member this machine has never seen. Its skills-CLI half had already reconciled — it adds
+what is missing — so one channel delivered the new member and the other reported it red.
+
+`plan.pluginUpdatePlan` now reconciles the plugin channel the same way: an unknown
+marketplace is added, an uninstalled plugin is installed, everything else is refreshed as
+before. Registries that cannot be read keep the refresh-only plan rather than writing the
+operator's files on a guess. The dry-run receipt and the real run read the same function.
+Four fixtures in `test/plan_test.js`, red before the change.
+
 ## v1.52.0 — web3d-dev joins as the eleventh member
 
 Realtime 3D on the web had no owner: `sheleg-design` owns one particle pattern for landing
