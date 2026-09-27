@@ -76,7 +76,7 @@
         "evidence-docs",
         "project-audit"
       ],
-      "version": "1.87.0",
+      "version": "1.87.1",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
@@ -93,7 +93,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.20.2",
+      "version": "1.21.0",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
