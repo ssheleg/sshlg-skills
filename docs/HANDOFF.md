@@ -12,12 +12,12 @@
 neighbours name it (`sheleg-design` 1.61.1, `xr-dev` 0.3.2); the private `asset-foundry`
 skill 0.3.0 now states its real endpoint, health check and animation recipe. Spec, docs
 study (120 rows against three@0.186.1) and probes live in the member's `docs/evidence/`.
-**Human step still open:** the member is `npmPublished: false` — its first npm publish needs
-the owner's `npm login` + 2FA, then `npm trust github @ssheleg/web3d-dev --repo
-ssheleg/web3d-dev --file release.yml --allow-publish --yes`, then set its `PUBLISH_NPMJS`
-variable to `true` and flip `npmPublished` here. **Next action after that:** re-run the
-member's probes (`docs/evidence/verification/2026-09-27-probes/run_probes.sh`) against the
-corrected text; both candidate errors found there were fixed after the run.
+**npm is live (2026-09-28):** the owner published 0.1.1 and configured trusted publishing;
+0.1.2 was published by its tag alone (release run 36359053252, SLSA provenance), and the
+member is no longer marked `npmPublished: false`. **Next action:** the member's probe
+re-run showed fabricated execution with tools disabled (`test/evals/RESULTS.md` in the
+member); 0.1.2 added a rule against it — re-run the candidate probes once more to see
+whether the rule changes the behaviour.
 
 **Done (2026-09-27): the Codex SessionEnd clamp.** Codex 0.157.1 printed
 `clamping SessionEnd hook timeout to 3s` for agent-sync (20 s) and task-pipeline (10 s) at

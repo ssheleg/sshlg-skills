@@ -1,3 +1,10 @@
+## v1.52.2 — web3d-dev on npm
+
+The eleventh member is on npm: the owner's first publish and trusted publishing, then 0.1.2
+published by its tag alone with provenance. The pin moves to 0.1.2 and `npmPublished: false`
+comes off, so the catalogue and site show the npm install again. 0.1.2 also adds, to every
+skill, the rule that a host with no tools gets commands and code — never their results.
+
 ## v1.52.1 — update installs the member it has never seen
 
 The day `web3d-dev` joined, `update` ended `FAILED 2 of 71 steps`: it refreshed every
