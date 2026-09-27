@@ -370,6 +370,20 @@ function planInstall(f) {
   return opres.buildPlan(steps);
 }
 
+/** Plugin registries as sets, or null when unreadable — the input `plan.pluginUpdatePlan` needs. */
+function pluginRegistries() {
+  const read = (file) => {
+    try { return JSON.parse(fs.readFileSync(path.join(claudeRoot(), 'plugins', file), 'utf8')); }
+    catch (_) { return null; }
+  };
+  const known = read('known_marketplaces.json');
+  const installed = read('installed_plugins.json');
+  return {
+    known: known && typeof known === 'object' ? new Set(Object.keys(known)) : null,
+    installed: installed && installed.plugins ? new Set(Object.keys(installed.plugins)) : null,
+  };
+}
+
 /** The same contract for `update` — every subprocess, prune, router and runtime action. */
 function planUpdate(f) {
   const steps = [];
@@ -390,11 +404,9 @@ function planUpdate(f) {
       { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
   }
   if (f.claude || f.claudeOnly) {
-    for (const s of SKILLS) {
-      steps.push(opres.step('subprocess', 'home', `claude plugin marketplace update (${s.name})`,
-        { cmd: 'claude', args: ['plugin', 'marketplace', 'update', s.pluginInstall.split('@')[1]] }));
-      steps.push(opres.step('subprocess', 'home', `claude plugin update ${s.pluginInstall}`,
-        { cmd: 'claude', args: ['plugin', 'update', s.pluginInstall] }));
+    const reg = pluginRegistries();
+    for (const args of plan.pluginUpdatePlan(SKILLS, reg.known, reg.installed)) {
+      steps.push(opres.step('subprocess', 'home', `claude ${args.join(' ')}`, { cmd: 'claude', args }));
     }
   }
   if (!f.member) {
@@ -544,9 +556,12 @@ function cmdUpdate(f) {
   }
   if (f.claude || f.claudeOnly) {
     log(`\n== Updating Claude Code plugins ==`);
-    for (const s of SKILLS) {
-      ok = run('claude', ['plugin', 'marketplace', 'update', s.pluginInstall.split('@')[1]]) && ok;
-      ok = run('claude', ['plugin', 'update', s.pluginInstall]) && ok;
+    // Reconciles like the skills-CLI half: a member this machine has never seen is added
+    // and installed rather than refreshed (plan.pluginUpdatePlan). The plan and this loop
+    // read the same function, so the dry-run receipt and the real run cannot drift.
+    const reg = pluginRegistries();
+    for (const args of plan.pluginUpdatePlan(SKILLS, reg.known, reg.installed)) {
+      ok = run('claude', args) && ok;
     }
     log('\n(restart Claude Code to apply)');
   }

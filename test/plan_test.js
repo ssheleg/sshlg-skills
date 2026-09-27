@@ -195,6 +195,47 @@ it('an empty agent set produces no add commands rather than an unscoped install'
   assert.deepStrictEqual(P.updatePlan(SKILLS, []).filter((a) => a[2] === 'add'), []);
 });
 
+// --- the plugin channel reconciles too (2026-09-28) --------------------------------
+// `update` refreshed every member's plugin with `marketplace update` + `plugin update`,
+// and both fail for a member that joined the family after this machine was fed: the
+// marketplace is unknown and the plugin is not installed. Watched on the day web3d-dev
+// joined: `update` ended "FAILED 2 of 71 steps" while its skills-CLI half had already
+// added the same member — one channel reconciled, the other only refreshed.
+const PLUGIN_MEMBERS = [
+  { name: 'xr-dev', pluginMarketplace: 'ssheleg/xr-dev', pluginInstall: 'xr-dev@xr-dev' },
+  { name: 'web3d-dev', pluginMarketplace: 'ssheleg/web3d-dev', pluginInstall: 'web3d-dev@web3d-dev' },
+];
+
+it('a known marketplace and an installed plugin are refreshed, as before', () => {
+  assert.deepStrictEqual(P.pluginUpdatePlan([PLUGIN_MEMBERS[0]], new Set(['xr-dev']), new Set(['xr-dev@xr-dev'])), [
+    ['plugin', 'marketplace', 'update', 'xr-dev'],
+    ['plugin', 'update', 'xr-dev@xr-dev'],
+  ]);
+});
+
+it('a member this machine has never seen is added and installed, not refreshed', () => {
+  assert.deepStrictEqual(P.pluginUpdatePlan([PLUGIN_MEMBERS[1]], new Set(['xr-dev']), new Set(['xr-dev@xr-dev'])), [
+    ['plugin', 'marketplace', 'add', 'ssheleg/web3d-dev'],
+    ['plugin', 'install', 'web3d-dev@web3d-dev'],
+  ]);
+});
+
+it('a known marketplace whose plugin is gone is refreshed, then the plugin installed', () => {
+  assert.deepStrictEqual(P.pluginUpdatePlan([PLUGIN_MEMBERS[0]], new Set(['xr-dev']), new Set()), [
+    ['plugin', 'marketplace', 'update', 'xr-dev'],
+    ['plugin', 'install', 'xr-dev@xr-dev'],
+  ]);
+});
+
+it('registries that could not be read keep the old refresh-only plan rather than guessing', () => {
+  // null = unreadable. Adding a marketplace on a guess would write the operator's
+  // known_marketplaces.json on the strength of a failed read.
+  assert.deepStrictEqual(P.pluginUpdatePlan([PLUGIN_MEMBERS[1]], null, null), [
+    ['plugin', 'marketplace', 'update', 'web3d-dev'],
+    ['plugin', 'update', 'web3d-dev@web3d-dev'],
+  ]);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
