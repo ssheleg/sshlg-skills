@@ -457,6 +457,40 @@ def check_hook_channels_do_not_mix():
 check_hook_channels_do_not_mix()
 
 
+# Codex 0.157 clamps a SessionEnd handler's timeout to 3 s and prints `clamping SessionEnd
+# hook timeout to 3s in …/hooks.json` at every session start; Claude Code sizes its own
+# SessionEnd wait from the largest handler timeout. agent-sync shipped 20 s and
+# task-pipeline 10 s — numbers no host honoured — until 1.21.0 and 1.87.1. Each member now
+# guards its own file; this reads every member at its PIN, so an eleventh member, or a
+# member whose own check is lost, cannot bring the warning back through this set.
+SESSION_END_TIMEOUT_CAP = 3
+
+
+def check_member_hooks_fit_every_host():
+    skdir = os.path.join(ROOT, "skills")
+    if not os.path.isdir(skdir):
+        return
+    for name in sorted(os.listdir(skdir)):
+        for manifest in sorted(glob.glob(os.path.join(skdir, name, "plugins", "*", "hooks", "hooks.json"))):
+            rel = os.path.relpath(manifest, ROOT)
+            try:
+                with open(manifest, encoding="utf-8") as fh:
+                    hooks = (json.load(fh).get("hooks") or {})
+            except (OSError, ValueError) as e:
+                fail(f"{rel}: unreadable ({e}) — every host skips a hooks file it cannot parse")
+                continue
+            for i, group in enumerate(hooks.get("SessionEnd") or []):
+                for j, h in enumerate(group.get("hooks") or []):
+                    t = h.get("timeout")
+                    if not isinstance(t, (int, float)) or t > SESSION_END_TIMEOUT_CAP:
+                        fail(f"{rel}: SessionEnd[{i}].hooks[{j}] timeout {t!r} — declare at most "
+                             f"{SESSION_END_TIMEOUT_CAP} s; Codex clamps anything larger and "
+                             "warns at every session start")
+
+
+check_member_hooks_fit_every_host()
+
+
 def check_npm_payload():
     """Every path bin/ requires must be inside the published tarball.
 

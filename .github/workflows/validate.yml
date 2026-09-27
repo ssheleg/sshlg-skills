@@ -463,6 +463,31 @@ jobs:
             echo "OK: validator refuses a plugin member that also writes settings.json"
           fi
 
+      - name: Negative self-test (a member SessionEnd timeout a host clamps must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/se3 && cp -R . /tmp/se3
+          python3 - <<'PY'
+          # Codex clamps a SessionEnd handler to 3 s and warns at every session start;
+          # agent-sync shipped 20 and task-pipeline 10 before either guarded its own file.
+          import glob, json
+          hits = [p for p in sorted(glob.glob("/tmp/se3/skills/*/plugins/*/hooks/hooks.json"))
+                  if json.load(open(p)).get("hooks", {}).get("SessionEnd")]
+          assert hits, "PLANT DID NOT LAND: no member ships a SessionEnd hook"
+          d = json.load(open(hits[0]))
+          d["hooks"]["SessionEnd"][0]["hooks"][0]["timeout"] = 20
+          json.dump(d, open(hits[0], "w"), indent=2)
+          assert json.load(open(hits[0]))["hooks"]["SessionEnd"][0]["hooks"][0]["timeout"] == 20, \
+              "PLANT DID NOT LAND"
+          print("planted SessionEnd timeout 20 in", hits[0].split("/skills/")[1])
+          PY
+          if python3 /tmp/se3/test/validate.py; then
+            echo "ERROR: validator accepted a member SessionEnd timeout Codex clamps"
+            exit 1
+          else
+            echo "OK: validator refuses a member SessionEnd timeout above 3 s"
+          fi
+
       - name: Negative self-test (reusing a retired instruction id must fail)
         run: |
           set -eu
