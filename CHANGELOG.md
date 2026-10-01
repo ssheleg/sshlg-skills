@@ -1,3 +1,16 @@
+## v1.52.6 — display-copy rules reach semantic source checks
+
+- Pin sheleg-design 1.61.2: visual review reads actual headings, fragments,
+  captions and labels against project policy; meaningful punctuation and normal
+  prose are preserved. The empty-state kit example now follows the title rule.
+- Pin super-ux 0.56.3: semantic HTML/Markdown title checks, required selective
+  B063 gating, non-empty source coverage and the advertised brace globs. Main,
+  Cursor and command instructions agree on policy and actual linter paths.
+- The root-cause report records old literal expectations, flat projections,
+  baseline/candidate plants and member/package evidence; machine installation
+  is verified separately after publication.
+  Deterministic scanner checks are not a model-outcome evaluation.
+
 ## v1.52.5 — agent-sync 1.21.3: one key, one name
 
 The pin moves to agent-sync 1.21.3. Under `leaseBackend: "git"` a lease key with a dot was

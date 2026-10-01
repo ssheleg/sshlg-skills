@@ -1,3 +1,13 @@
+## 2026-10-01 — v1.52.6 display-copy guard release candidate
+
+The [root-cause report](audits/2026-10-01-display-copy/README.md) links the four
+owners and baseline/candidate receipts. Pins: super-ux 0.56.3 at d3aa694163cf,
+sheleg-design 1.61.2 at 55d6b4e8af42; both published and registry-served.
+`npm test`: 88 suites / 1035 fixtures / 11 members, exit 0.
+`python3 test/check_pins.py`: every pin matches its published release, exit 0.
+The CTX-04.06 simulated staging receipt was regenerated for the new set and
+rechecked. Real machine installation is a separate receipt, still pending here.
+
 # Verification ledger — sshlg-skills
 
 One row per shipped REQ, and what confirmed it. `green` in a gate means the

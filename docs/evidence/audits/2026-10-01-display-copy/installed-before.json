@@ -1,0 +1,20 @@
+[
+  {
+    "skill": "copywriting",
+    "installed_path": "/Users/sshlg/.agents/skills/copywriting/SKILL.md",
+    "installed_is_symlink": false,
+    "installed_sha256": "cad5bd0930d4a68c993bd2c17ade7c2a414401e842303b69a920d8108e9a58b4",
+    "pinned_source": "skills/super-ux/plugins/super-ux/skills/copywriting/SKILL.md",
+    "pinned_sha256": "cad5bd0930d4a68c993bd2c17ade7c2a414401e842303b69a920d8108e9a58b4",
+    "matches_pin": true
+  },
+  {
+    "skill": "sheleg-design",
+    "installed_path": "/Users/sshlg/.agents/skills/sheleg-design/SKILL.md",
+    "installed_is_symlink": false,
+    "installed_sha256": "03e8eee8092c69cedec989f019ccc44e0e0cddf9133491d4fd2bc29d35a960ac",
+    "pinned_source": "skills/sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+    "pinned_sha256": "03e8eee8092c69cedec989f019ccc44e0e0cddf9133491d4fd2bc29d35a960ac",
+    "matches_pin": true
+  }
+]
