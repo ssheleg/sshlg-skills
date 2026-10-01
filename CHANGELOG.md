@@ -1,3 +1,13 @@
+## v1.52.3 — agent-sync 1.21.1: registers on a local record plane
+
+The pin moves to agent-sync 1.21.1. Its `check` refused every `idRegisters` entry on
+`backend: "fs"` + `leaseBackend: "git"` — the shape this repository runs — although
+`reserve` allocated those ids race-free through `refs/agent-sync/ids/*` at the remote, so
+repositories with a local journal took numbers by hand. One predicate now answers for
+`reserve`, `release_id`, `check` and the generated snapshot; `fs` + a local lease and a git
+lease pointed at a missing remote are still refused, and a missing remote is named instead
+of reading as "held by another run" or "another allocator is racing".
+
 ## v1.52.2 — web3d-dev on npm
 
 The eleventh member is on npm: the owner's first publish and trusted publishing, then 0.1.2
