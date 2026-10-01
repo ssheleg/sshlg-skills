@@ -1,3 +1,15 @@
+# Display-copy regression guard — 2026-10-01
+
+The current bounded task is [the root-cause report and owner index](evidence/audits/2026-10-01-display-copy/README.md).
+Copywriting already forbade decorative title periods; HTML/source-role coverage,
+flat projections and literal expectations let them pass. The site guard is live;
+member releases and installed-byte readback are tracked in that report.
+Next: finish the member publication, update the three pin homes, release the
+umbrella, refresh this machine and verify installed source bytes. This entry does
+not mark unrelated workstreams below complete.
+
+---
+
 # Quest lifecycle release — 2026-09-21
 
 [Current XR release handoff](evidence/releases/2026-09-21-xr-lifecycle/README.md) records the member implementation, catalogue/site work, npm authorization boundary and links to the earlier creative strategy. Other workstreams below retain their own scope.

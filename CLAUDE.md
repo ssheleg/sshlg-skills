@@ -8,7 +8,7 @@ drifts. What follows is what is true *here* and nowhere else.
 ## What this repo is
 
 The **umbrella** of the ssheleg skill family: a zero-dependency Node launcher
-plus eight skills as pinned git submodules. It ships no doctrine of its own —
+plus the family members as pinned git submodules. It ships no doctrine of its own —
 each member carries its own — but it owns the family's **routing block**, the
 one piece of the family that writes into a file the operator owns and did not
 write.
