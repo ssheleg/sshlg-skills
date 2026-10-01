@@ -6,6 +6,15 @@
 
 # Start here — the active plan
 
+**Done (2026-10-01): agent-sync 1.21.1 — registers on a local record plane.** `check`
+refused `idRegisters` on `backend: "fs"` + `leaseBackend: "git"` while `reserve` served them
+race-free through `refs/agent-sync/ids/*`; one predicate (`id_allocator`) now answers for
+both. Released at [ssheleg/agent-sync#23](https://github.com/ssheleg/agent-sync/pull/23),
+tag `v1.21.1`, npm `@ssheleg/agent-sync@1.21.1`; pinned here in v1.52.3. **Open:** the
+consuming repositories that took register numbers by hand can now declare `idRegisters`.
+The first is `passioncode-ai/fabric-vr`, and it waits on that repository's PR #1, which
+was still open on 2026-10-01.
+
 **Done (2026-09-28): web3d-dev, the eleventh member.** Realtime 3D on the web —
 `web3d-runtime`, `web3d-assets`, `web3d-animation` — at
 [ssheleg/web3d-dev](https://github.com/ssheleg/web3d-dev) 0.1.1, pinned here in v1.52.0;
