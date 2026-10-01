@@ -6,6 +6,16 @@
 
 # Start here — the active plan
 
+**Done (2026-10-01): agent-sync 1.21.2 — the guard asks the repository that owns the write.**
+The `PreToolUse` guard read the SESSION's `.claude/agent-sync.json` and then checked another
+repository: a configured session's commit into a repository without a config was blocked,
+an edit in another repository was judged by the session's `guardedFiles`, and an
+unconfigured session guarded nothing. The owning repository's toplevel now decides.
+Released at [ssheleg/agent-sync#24](https://github.com/ssheleg/agent-sync/pull/24) (`6c100d4`),
+tag `v1.21.2`, npm `@ssheleg/agent-sync@1.21.2`; pinned here in v1.52.4. **Open:** leases
+taken in a second repository are still neither renewed nor released by the lifecycle hooks
+(agent-sync backlog AS-07).
+
 **Done (2026-10-01): agent-sync 1.21.1 — registers on a local record plane.** `check`
 refused `idRegisters` on `backend: "fs"` + `leaseBackend: "git"` while `reserve` served them
 race-free through `refs/agent-sync/ids/*`; one predicate (`id_allocator`) now answers for
