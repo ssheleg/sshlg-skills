@@ -6,6 +6,15 @@
 
 # Start here — the active plan
 
+**Done (2026-10-01): agent-sync 1.21.3 — one key, one name.** A dotted git lease key was
+reported and released by its dash-slug, so `release --held` printed "released" and left the
+ref on the remote (the `SK-AGENT-SYNC-1.21.2` lease here). The ref and the local note now
+share one injective name and `release` proves the ref is gone. Released at
+[ssheleg/agent-sync#26](https://github.com/ssheleg/agent-sync/pull/26) (`637424e`), tag
+`v1.21.3`, npm `@ssheleg/agent-sync@1.21.3`; pinned here in v1.52.5. **Open:** agent-sync
+backlog AS-14 — a 1.21.2 and a 1.21.3 run racing one path key before any ref exists push
+two refs; every machine should update.
+
 **Done (2026-10-01): agent-sync 1.21.2 — the guard asks the repository that owns the write.**
 The `PreToolUse` guard read the SESSION's `.claude/agent-sync.json` and then checked another
 repository: a configured session's commit into a repository without a config was blocked,

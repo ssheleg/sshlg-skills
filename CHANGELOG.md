@@ -1,3 +1,14 @@
+## v1.52.5 — agent-sync 1.21.3: one key, one name
+
+The pin moves to agent-sync 1.21.3. Under `leaseBackend: "git"` a lease key with a dot was
+reported and released under a name nothing had been taken under: the ref kept the dot, the
+local note slugged it to `-`, and `held()` reported the note — so `release --held` printed
+`released T-1-2` while `refs/agent-sync/leases/T-1.2` stayed on the remote. That is how
+`SK-AGENT-SYNC-1.21.2` outlived its release in this repository. Now the ref and the note
+share one injective name, keys that cannot travel unchanged are refused at `acquire`,
+`release` says `released` only after re-reading the remote, and leases 1.21.2 left behind
+stay exclusive and releasable. Upstream: ssheleg/agent-sync#25, #26.
+
 ## v1.52.4 — agent-sync 1.21.2: the guard asks the repository that owns the write
 
 The pin moves to agent-sync 1.21.2. Its `PreToolUse` guard decided whether coordination
