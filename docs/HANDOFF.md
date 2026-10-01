@@ -4,9 +4,12 @@ The current bounded task is [the root-cause report and owner index](evidence/aud
 Copywriting already forbade decorative title periods; HTML/source-role coverage,
 flat projections and literal expectations let them pass. The site guard is live;
 member releases and installed-byte readback are tracked in that report.
-The two member releases are published and the three pin homes agree. Next:
-publish the reviewed umbrella, refresh this machine and verify installed bytes. This entry does
-not mark unrelated workstreams below complete.
+The umbrella 1.52.6 and member releases are published; the full machine updater
+completed 71/71 steps. Twelve installed-byte comparisons and three installed-linter
+probes pass; four host files preserve text outside managed routers.
+Next: restart existing agent sessions to load the updated context. SITE-005 owns
+the remaining interface-registry advisories; model-outcome experiments remain NOT_RUN.
+This entry does not mark unrelated workstreams below complete.
 
 ---
 

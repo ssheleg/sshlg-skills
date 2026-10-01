@@ -1,3 +1,5 @@
+<sub>ssheleg skills — make-skill · task-pipeline · agent-sync · copywriting · sheleg-design · brand-voice</sub>
+
 # Display-copy regression: 2026-10-01
 
 ## Objective and route
@@ -71,7 +73,7 @@ its punctuation. The design kit had the same issue in the Deskmate Empty title.
 | PassionCode site | [source 2513989](https://github.com/passioncode-ai/passioncode-ai.github.io/blob/2513989fe3fdd423df5679aec6a3e24756824d32/docs/tasks/2026-10-01-copy-guard.md) | Main CI success; deployed Worker e00ec2e7-51ac-4445-9bb0-bdba53e2bab2; 37 live checks and three specimen viewports pass |
 | sheleg-design | [PR 37](https://github.com/ssheleg/sheleg-design-skill/pull/37), merge 55d6b4e8af42b943486ad839e65cb3a0d1172e66 | Reviewed, CI success, annotated v1.61.2; GitHub/npm publication verified (release run 36925352294) |
 | super-ux | [PR 31](https://github.com/ssheleg/super-ux/pull/31), [DC-01 packet](super-ux.md) | Merge d3aa694163cfa696406198495f1d428ce850e0c3, annotated v0.56.3; GitHub/npm publication verified (release run 36926697905) |
-| sshlg-skills | This entry | Candidate 1.52.6 pins both released members; local full gate and release-pin readback pass; publication/install remain |
+| sshlg-skills | [release v1.52.6](https://github.com/ssheleg/sshlg-skills/releases/tag/v1.52.6), merge eb184ab95fcda33642fb319736e845f9d8152f0e | Published; release run 36928238775 success; full machine updater 71/71; installed-byte and consumer readback pass |
 
 The generic real-consumer pass also found joined navigation labels; the final
 parser separates controls while preserving prose links and narrows HTML B022 to
@@ -102,5 +104,52 @@ not a before/after model-outcome experiment (NOT_RUN).
 - Host-file backups were kept privately before the machine update. No credential
   or private config content is included in this repository.
 
-Next: publish the reviewed umbrella, execute its full updater, compare installed
-entry/reference/script bytes with these source pins, and append the receipt.
+## Publication and installation receipt
+
+[Release CI](https://github.com/ssheleg/sshlg-skills/actions/runs/36928238775)
+succeeded on `eb184ab95fcda33642fb319736e845f9d8152f0e`; npm served
+`sshlg-skills@1.52.6`. The full `npx --yes sshlg-skills@latest update` completed
+71 of 71 steps with exit 0. Its runtime reports 1.52.6.
+
+[Installed-byte receipt](installed-after.json), produced by
+[verify-install.py](verify-install.py), records twelve source comparisons across
+the shared skill hub, Claude plugin installation and native Codex design cache.
+All match. Four host instruction files retain exactly the text outside managed
+router blocks; private baseline contents stay outside Git. The installed linter
+rejects a nested HTML title period (exit 1), permits a question and `git add .`
+(exit 0), and rejects a missing declared source (exit 2).
+
+[Real-site readback](installed-consumer.json) runs that installed linter against
+site revision `a51f264d24b72bad4f0571480ff4f26eb9c9a352`: exit 0, no B063
+findings, 185 B022 advisories. These are not silently waived or counted as errors;
+[the site's SITE-005 backlog](https://github.com/passioncode-ai/passioncode-ai.github.io/blob/a51f264d24b72bad4f0571480ff4f26eb9c9a352/docs/backlog.md)
+keeps the interface-registry review open. Its
+[latest CI](https://github.com/passioncode-ai/passioncode-ai.github.io/actions/runs/36926393478)
+passed on that exact revision. No public asset changed after the verified deployment.
+
+To repeat the bounded installation check from this checkout, run:
+
+```sh
+python3 docs/evidence/audits/2026-10-01-display-copy/verify-install.py --output /tmp/display-copy-install-new.json
+```
+
+Use a new output path. Without the private `--host-baseline` file, host preservation
+is explicitly NOT_RUN; installed-file comparisons and linter probes still run.
+This verifier targets this dated release and is not an assertion about later versions.
+
+**Next action:** restart already-running agent sessions so they load the updated
+skill context. Installed bytes do not prove an existing context was reloaded.
+Future copy changes must pass the website's mandatory gate and rendered review.
+Model-outcome experiments remain NOT_RUN; SITE-005 remains open. Other organisation
+workstreams retain their separate handoffs and are not marked complete here.
+
+---
+
+**Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**
+
+- [`make-skill`](https://github.com/ssheleg/make-skill) — аудит и исправление навыков
+- [`task-pipeline`](https://github.com/ssheleg/task-pipeline) — проверки и доставка
+- [`agent-sync`](https://github.com/ssheleg/agent-sync) — координация изменений
+- [`copywriting`](https://github.com/ssheleg/super-ux) — правила текста
+- [`sheleg-design`](https://github.com/ssheleg/sheleg-design-skill) — проверка видимого текста
+- [`brand-voice`](https://github.com/ssheleg/super-ux) — сверка бренд-пака

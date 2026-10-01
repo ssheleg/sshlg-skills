@@ -1,0 +1,10 @@
+{
+  "exit": 0,
+  "counts": {
+    "B022": 185
+  },
+  "site_revision": "a51f264d24b72bad4f0571480ff4f26eb9c9a352",
+  "command": "python3 <installed-super-ux>/scripts/brand_lint.py docs/brand --fail-on B063 --json",
+  "installed_version": "0.56.3",
+  "scope": "Zero errors; B022 advisories remain owned by SITE-005"
+}

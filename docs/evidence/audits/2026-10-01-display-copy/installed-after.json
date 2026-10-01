@@ -1,0 +1,131 @@
+{
+  "umbrella_runtime": "1.52.6",
+  "host_preservation_status": "PASS",
+  "members": {
+    "super-ux": "0.56.3",
+    "sheleg-design": "1.61.2"
+  },
+  "file_checks": [
+    {
+      "source": "skills/super-ux/plugins/super-ux/skills/copywriting/SKILL.md",
+      "installed": "~/.agents/skills/copywriting/SKILL.md",
+      "expected_sha256": "6d1e476d65efc18f492aa35262c44cfc82974c2b74e8689d637e6c93f66c005c",
+      "actual_sha256": "6d1e476d65efc18f492aa35262c44cfc82974c2b74e8689d637e6c93f66c005c",
+      "matches": true
+    },
+    {
+      "source": "skills/super-ux/plugins/super-ux/skills/copywriting/references/ai-tells.md",
+      "installed": "~/.agents/skills/copywriting/references/ai-tells.md",
+      "expected_sha256": "b5c72d69482c91c00db088e21ca4dd8467601a634adfe83367b530894ece4428",
+      "actual_sha256": "b5c72d69482c91c00db088e21ca4dd8467601a634adfe83367b530894ece4428",
+      "matches": true
+    },
+    {
+      "source": "skills/super-ux/plugins/super-ux/skills/copywriting/references/brand-contract.md",
+      "installed": "~/.agents/skills/copywriting/references/brand-contract.md",
+      "expected_sha256": "ab2a4b4be30f8b055135836faa97b7b47551e3b9032c5ae69946f66bbd3b291d",
+      "actual_sha256": "ab2a4b4be30f8b055135836faa97b7b47551e3b9032c5ae69946f66bbd3b291d",
+      "matches": true
+    },
+    {
+      "source": "skills/super-ux/plugins/super-ux/skills/copywriting/references/marketing-copy.md",
+      "installed": "~/.agents/skills/copywriting/references/marketing-copy.md",
+      "expected_sha256": "ac29d9e2e670206dd826288bd5a943f989dd9dcf0db636d5f5e6dac320454a7a",
+      "actual_sha256": "ac29d9e2e670206dd826288bd5a943f989dd9dcf0db636d5f5e6dac320454a7a",
+      "matches": true
+    },
+    {
+      "source": "skills/sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "installed": "~/.agents/skills/sheleg-design/SKILL.md",
+      "expected_sha256": "5cb5eafd7e0db3aa7b1e12285f4c5a43d0a05e1fe33e69cb6dcb5ffb41df0840",
+      "actual_sha256": "5cb5eafd7e0db3aa7b1e12285f4c5a43d0a05e1fe33e69cb6dcb5ffb41df0840",
+      "matches": true
+    },
+    {
+      "source": "skills/sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_REVIEW.md",
+      "installed": "~/.agents/skills/sheleg-design/VISUAL_REVIEW.md",
+      "expected_sha256": "0338b4a46b62e9c47fca9304b5300abb1a8d8ceac81afb8356cfc21219f30aa4",
+      "actual_sha256": "0338b4a46b62e9c47fca9304b5300abb1a8d8ceac81afb8356cfc21219f30aa4",
+      "matches": true
+    },
+    {
+      "source": "skills/sheleg-design/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+      "installed": "~/.agents/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+      "expected_sha256": "1938588242c4f9e00b9238d9d939eec9da3e7ce75abcf8b380553c95ae03f6f5",
+      "actual_sha256": "1938588242c4f9e00b9238d9d939eec9da3e7ce75abcf8b380553c95ae03f6f5",
+      "matches": true
+    },
+    {
+      "source": "skills/super-ux/plugins/super-ux/scripts/brand_lint.py",
+      "installed": "~/.claude/plugins/cache/super-ux/super-ux/0.56.3/scripts/brand_lint.py",
+      "matches": true,
+      "sha256": "8b7c337f76c4f2810e19e08f6c7d3217b172ded1534d7bff6fd1dc322410ed9f"
+    },
+    {
+      "source": "skills/super-ux/plugins/super-ux/skills/copywriting/SKILL.md",
+      "installed": "~/.claude/plugins/cache/super-ux/super-ux/0.56.3/skills/copywriting/SKILL.md",
+      "matches": true,
+      "sha256": "6d1e476d65efc18f492aa35262c44cfc82974c2b74e8689d637e6c93f66c005c"
+    },
+    {
+      "source": "skills/sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "installed": "~/.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.61.2/skills/sheleg-design/SKILL.md",
+      "matches": true,
+      "sha256": "5cb5eafd7e0db3aa7b1e12285f4c5a43d0a05e1fe33e69cb6dcb5ffb41df0840"
+    },
+    {
+      "source": "skills/sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_REVIEW.md",
+      "installed": "~/.claude/plugins/cache/sheleg-design-skill/sheleg-design/1.61.2/skills/sheleg-design/VISUAL_REVIEW.md",
+      "matches": true,
+      "sha256": "0338b4a46b62e9c47fca9304b5300abb1a8d8ceac81afb8356cfc21219f30aa4"
+    },
+    {
+      "source": "skills/sheleg-design/plugins/sheleg-design/skills/sheleg-design/VISUAL_REVIEW.md",
+      "installed": "~/.codex/plugins/cache/sheleg-design-skill/sheleg-design/1.61.2/skills/sheleg-design/VISUAL_REVIEW.md",
+      "matches": true
+    }
+  ],
+  "host_file_preservation": [
+    {
+      "path": "~/.claude/CLAUDE.md",
+      "outside_managed_router_unchanged": true
+    },
+    {
+      "path": "~/.codex/AGENTS.md",
+      "outside_managed_router_unchanged": true
+    },
+    {
+      "path": "~/.gemini/GEMINI.md",
+      "outside_managed_router_unchanged": true
+    },
+    {
+      "path": "~/.cursor/rules/sshlg-routing.mdc",
+      "outside_managed_router_unchanged": true
+    }
+  ],
+  "installed_linter_smoke": [
+    {
+      "case": "nested title",
+      "exit": 1,
+      "expected": 1,
+      "codes": [
+        "B063"
+      ]
+    },
+    {
+      "case": "meaningful punctuation",
+      "exit": 0,
+      "expected": 0,
+      "codes": []
+    },
+    {
+      "case": "missing source",
+      "exit": 2,
+      "expected": 2,
+      "codes": [
+        "B009"
+      ]
+    }
+  ],
+  "activation": "Installed bytes verified; already-running agent sessions require restart to load the new skill context."
+}
