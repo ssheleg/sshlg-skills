@@ -1,3 +1,14 @@
+## v1.52.4 — agent-sync 1.21.2: the guard asks the repository that owns the write
+
+The pin moves to agent-sync 1.21.2. Its `PreToolUse` guard decided whether coordination
+was on from the SESSION's project and then checked a different repository: a configured
+session's `git -C <repo> commit` into a repository with no `.claude/agent-sync.json` was
+blocked (the coordinator there exits 2 for "no config", read as "no lease"), an edit in
+another repository was judged by the session's `guardedFiles`, and a session rooted in an
+unconfigured project guarded nothing anywhere. The repository that owns the write — the
+edited file's git toplevel, or the repository a commit targets — now decides, from its own
+config and its own leases. Upstream: ssheleg/agent-sync#24.
+
 ## v1.52.3 — agent-sync 1.21.1: registers on a local record plane
 
 The pin moves to agent-sync 1.21.1. Its `check` refused every `idRegisters` entry on
