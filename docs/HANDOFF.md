@@ -4,8 +4,8 @@ The current bounded task is [the root-cause report and owner index](evidence/aud
 Copywriting already forbade decorative title periods; HTML/source-role coverage,
 flat projections and literal expectations let them pass. The site guard is live;
 member releases and installed-byte readback are tracked in that report.
-Next: finish the member publication, update the three pin homes, release the
-umbrella, refresh this machine and verify installed source bytes. This entry does
+The two member releases are published and the three pin homes agree. Next:
+publish the reviewed umbrella, refresh this machine and verify installed bytes. This entry does
 not mark unrelated workstreams below complete.
 
 ---
