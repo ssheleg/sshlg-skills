@@ -737,6 +737,11 @@ it('every phrase a description advertises reaches its own route', () => {
   // Exceptions are DECLARED with the reason, never a bare count: an entry here is a
   // phrase whose route needs a member release to reach, and the release is the fix.
   const EXCUSED = new Map([
+    ['hook', 'super-ux 0.57.0 advertises the bare word; as a trigger it would route every '
+      + 'git hook and Claude Code hook to copywriting. The fix is the member narrowing it to '
+      + '"video hook" / «хук ролика», then this entry goes'],
+    ['хук', 'the Russian twin of "hook", same collision with git and Claude Code hooks; '
+      + 'fixed by the same super-ux release'],
     ['add stripe', 'an English trigger under a Russian verb — «добавь stripe» needs '
       + '`stripe` alone, which the description does not advertise on its own'],
   ]);
