@@ -505,6 +505,72 @@ it('a surface verdict with no measured reason is refused', () => {
     /a decision, not a recommendation/);
 });
 
+/* -- the 2026-10-07 design decision: one set installed, two taken by attribution -- */
+
+// `--skill <id>` names, read out of a `skills add` line. Several flags, as the CLI accepts.
+function skillFlags(cmd) {
+  const out = [];
+  const re = /--skill\s+('([^']+)'|"([^"]+)"|(\S+))/g;
+  let m;
+  while ((m = re.exec(cmd))) out.push(m[2] || m[3] || m[4]);
+  return out;
+}
+
+it('a `skills add --skill` line installs exactly what the entry says proves it present', () => {
+  // A pack that installs one set and checks presence against another reports
+  // "missing" for ever after a correct install — or "present" after a partial one.
+  for (const p of Object.values(P.PACKS)) {
+    for (const e of p.entries) {
+      for (const cmd of e.install) {
+        const named = skillFlags(cmd);
+        if (!named.length) continue;
+        assert.deepStrictEqual([...named].sort(), [...e.provides].sort(),
+          `${e.id}: installs ${named.join(', ')} but presence reads ${e.provides.join(', ')}`);
+      }
+    }
+  }
+  // The reader itself, against a known line, so a parser that finds nothing cannot pass.
+  assert.deepStrictEqual(skillFlags("npx --yes skills add o/r --skill a --skill 'b c'"), ['a', 'b c']);
+});
+
+it('emilkowalski/skills is recommended inside the lanes its skills actually serve', () => {
+  const emil = P.PACKS.design.entries.filter((e) => e.source === 'emilkowalski/skills');
+  const byLane = Object.fromEntries(emil.map((e) => [e.lane, e.provides.slice().sort()]));
+  assert.deepStrictEqual(byLane, {
+    motion: ['animate', 'animation-vocabulary', 'apple-design', 'emil-design-eng',
+      'find-animation-opportunities', 'improve-animations', 'review-animations'],
+    mobile: ['animate-expo'],
+    implement: ['mobile-native'],
+    verify: ['break-ui'],
+  });
+});
+
+it('only the genuinely RN emil skill sits in the mobile lane', () => {
+  // The mobile lane maps to react-native (FIX-VD-03.03): a web-feel skill
+  // parked there reads as RN cover, the exact mis-selection the fix forbids.
+  const emil = P.PACKS.design.entries.filter((e) => e.source === 'emilkowalski/skills');
+  const mobile = emil.filter((e) => e.lane === 'mobile').flatMap((e) => e.provides);
+  assert.deepStrictEqual(mobile, ['animate-expo'],
+    'mobile-native (web CSS) and apple-design (web springs) are not React Native');
+});
+
+it('the auto-triggering emil skill is named a tool, never a second entry point', () => {
+  const motion = P.PACKS.design.entries.find((e) => e.source === 'emilkowalski/skills' && e.lane === 'motion');
+  assert.ok(motion && motion.caveat, 'the motion entry carries no caveat');
+  assert.ok(motion.caveat.includes('emil-design-eng'), 'the caveat does not name the skill that auto-triggers');
+  assert.ok(/not a second entry point/.test(motion.caveat), motion.caveat);
+});
+
+it('impeccable and taste-skill are declined with a measured reason, not recommended', () => {
+  const design = P.PACKS.design;
+  for (const source of ['pbakaus/impeccable', 'Leonxlnx/taste-skill']) {
+    assert.ok(!design.entries.some((e) => e.source === source), `${source} is still recommended`);
+    const row = design.declined.find((d) => d.source === source);
+    assert.ok(row, `${source} has no declined row — a removed recommendation reads as never looked at`);
+    assert.ok(row.reason.length >= 120, `${source}: the reason is too short to be a measurement`);
+  }
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

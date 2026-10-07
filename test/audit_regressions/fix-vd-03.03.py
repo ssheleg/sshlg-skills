@@ -54,8 +54,10 @@ def t_web_selects_web_candidates():
 def t_react_native_selects_the_rn_candidate():
     v = node("console.log(JSON.stringify(p.selectForPlatform(p.PACKS.design, 'react-native')));")
     ids = [m["id"] for m in v["matches"]]
-    assert ids == ["vercel-react-native-skills"], \
+    assert "vercel-react-native-skills" in ids, \
         f"react-native did not select the RN candidate: {ids}"
+    assert all(m["lane"] == "mobile" for m in v["matches"]), \
+        f"a non-RN candidate was offered for a react-native request: {v['matches']}"
     assert v["native_unsupported"] is False
 
 
