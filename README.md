@@ -499,9 +499,14 @@ somebody hands you a list of skills to install. A pack declares the entries,
 measures which are already present with the same walk `toolkit` and `conflicts`
 use, and prints the exact install command for the rest — cut into **lanes**, so
 that choosing a visual direction, animating a hero, re-theming a dashboard and
-auditing contrast are four questions with four owners rather than one list. Three
-of the `design` pack's lanes have no owner in this family, and **accessibility is
-one of them**; the pack is where that is stated rather than implied.
+auditing contrast are four questions with four owners rather than one list. Five
+of the `design` pack's seventeen lanes have no owner in this family, and
+**accessibility is one of them**; the pack is where that is stated rather than
+implied, with a default for each (`a11y-debugging` for accessibility) and a phrase
+for declining it out loud. Checking it in a browser is two lanes, not one:
+`verify` asks whether it works, `visual-qa` what it looks like across states,
+viewports, themes, text sizes and locales — and `references` (the sweep of shipped
+products) and `critique` (what is wrong with a render) sit with `sheleg-design`.
 
 It **prints and never installs**: `settings.json` and `known_marketplaces.json`
 belong to the operator, which is the refusal `lib/updatemodel.js` already records.

@@ -58,6 +58,46 @@ it('punctuation and hyphens are word boundaries, so a hyphenated id still matche
     ['build-an-mcp-server-now→agent-stack']);
 });
 
+// --- sheleg-design's ground, widened 2026-10-07 ------------------------------
+//
+// The family audit found three skills that build or theme a whole surface — and one of
+// them DEPLOYS it — that `conflicts` did not see at all. The descriptions below are
+// their real front matter, copied verbatim from the installed SKILL.md on the machine
+// the audit ran on (higgsfield-ai/skills 0.12.0, anthropics/skills), not paraphrased:
+// a fixture written to match the lexicon proves only that the lexicon matches itself.
+
+const REAL = {
+  'higgsfield-websites': 'Build, edit, and deploy full-stack websites, apps and games via the Higgsfield CLI (`higgsfield website …`). Each is a React 19 + TanStack Start SSR app in one Cloudflare Worker (D1/R2/KV/DO/Containers). THREE product types, picked via `--type` on create: `website` (standalone, no Higgsfield integration — references/website-flow.md), `app` (Sign in with Higgsfield + fnf SDK, Quanta — references/app-flow.md), `game` (realtime multiplayer rooms — references/game-flow.md). Routes to the right flow; each carries its own rules and deploy/publish gates. Use when: "build me a website", "make a landing page", "create a web app", "build a SaaS dashboard / portfolio", "make me a game", "deploy this site", "publish". Also owns GAME ART: "make a spritesheet", "tileable texture", "animate a 3D character", game music/SFX — see the game-* references. NOT for: single image/video/audio generation (higgsfield-generate), product photos (higgsfield-product-photoshoot), marketplace cards (higgsfield-marketplace-cards).',
+  'web-artifacts-builder': 'Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using modern frontend web technologies (React, Tailwind CSS, shadcn/ui). Use for complex artifacts requiring state management, routing, or shadcn/ui components - not for simple single-file HTML/JSX artifacts.',
+  'theme-factory': 'Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly.',
+  // the control: a real skill with no visual subject at all
+  'sql-queries': 'Write correct, performant SQL across all major data warehouse dialects (Snowflake, BigQuery, Databricks, PostgreSQL, etc.). Use when writing queries, optimizing slow SQL, translating between dialects, or building complex analytical queries with CTEs, window functions, or aggregations.',
+};
+
+it('the surface-building skills the audit found now land on sheleg-design', () => {
+  const want = {
+    'higgsfield-websites': ['landing', 'website'],
+    'web-artifacts-builder': ['frontend'],
+    'theme-factory': ['landing', 'theme'],
+  };
+  for (const [id, terms] of Object.entries(want)) {
+    const rows = C.collisions([skill(id, REAL[id])], { routers: ['sheleg-design'] });
+    assert.strictEqual(rows.length, 1, `${id} did not land on sheleg-design`);
+    for (const t of terms) assert.ok(rows[0].terms.includes(t), `${id}: ${t} not matched in ${rows[0].terms}`);
+  }
+});
+
+it('a real skill with no visual subject still lands nowhere', () => {
+  assert.deepStrictEqual(hits(C.collisions([skill('sql-queries', REAL['sql-queries'])])), []);
+});
+
+it('the new phrase terms match across a space or a hyphen, and not inside a word', () => {
+  assert.deepStrictEqual(hits(C.collisions([skill('x', 'Opinionated UI design for apps')], { routers: ['sheleg-design'] })), ['x→sheleg-design']);
+  assert.deepStrictEqual(hits(C.collisions([skill('ui-design-kit', '')], { routers: ['sheleg-design'] })), ['ui-design-kit→sheleg-design']);
+  // `theme` inside `themes`, `website` inside `websites`, `mockup` inside `mockups`
+  assert.deepStrictEqual(hits(C.collisions([skill('y', 'Ten themes, many websites and mockups')], { routers: ['sheleg-design'] })), []);
+});
+
 // --- what it must not claim -------------------------------------------------
 
 it("the family's own plugins are excluded, or its own ground buries the rest", () => {

@@ -1,3 +1,46 @@
+## Unreleased — design pack: references, critique, and the look split from the function
+
+Not a release. This section carries no version on purpose: `.github/workflows/release.yml`, `scripts/tag.sh`
+and `test/validate.py` read only `## vX.Y.Z` headings, so it can never ship as some
+version's notes. The umbrella release that pins the members renames it.
+
+- **`pack design` gains three lanes `sheleg-design` owns, each one a file the router already
+  ships.** `references` — the sweep of shipped products, printed as the Refero, Lazyweb and
+  Mobbin MCP servers its DESIGN_SYNC_BRIDGE §4 names (a lane can now say what serves it
+  when no entry does). `critique` — what is wrong with a render, with `design-critique`
+  from `anthropics/knowledge-work-plugins` as a tool, caveated as never a second entry
+  point. `visual-qa` — what it looks like across states × viewport, theme, text size and
+  locale, the axes of sheleg-design's VISUAL_REVIEW capture record.
+- **`verify` now asks only whether it works in a browser.** Its default stays
+  `webapp-testing`; `break-ui` moves to `visual-qa` (long names and non-Latin text are the
+  text and locale axes), and a `chrome-devtools` entry joins it for screenshots per
+  viewport and colour scheme. The modes name the new lanes: a new design enters at
+  `references`, a redesign measures `verify + visual-qa + a11y` first, an audit runs
+  `a11y → verify → visual-qa → speed`.
+- **The `a11y` default is `a11y-debugging`** (`ChromeDevTools/chrome-devtools-mcp`): it
+  measures the rendered page — Lighthouse, the accessibility tree, Chrome's own issues —
+  where `accesslint`, the previous default, was not installed on the machine the audit
+  measured. `accessibility-review` (knowledge-work-plugins) covers the stage with nothing
+  rendered yet; `accesslint` stays an option. The lane stays DELEGATED, owner null.
+- **Presence can exclude a same-named skill.** `design-ops@designer-skills` ships its own
+  `design-critique`; an entry's `excludeProviders` keeps that copy from answering *you have
+  it* for a different skill.
+- **Surfaces re-measured against their live MCP schemas.** Pencil: its refusal waited for
+  `.pen` to expose variables, and `get_variables` now does — it is a reader where a design
+  already lives in `.pen`, still refused as a second editor because nothing writes code
+  tokens back. New rows: `lazyweb_compare_image` (taken into references; the screenshot is
+  uploaded), `lazyweb_generate_mockup` (deprecated upstream, and a raster carries no
+  tokens), `lazyweb_propose_ui_changes` (a flow diagram — `super-ux`'s ground), Figma
+  motion (a reader for the motion lane, not its source). `refero-design` is declined: its
+  description names itself the primary skill for all design work and forbids others as "a
+  parallel design authority" — a second entry point written to win.
+- **`conflicts` sees the surface builders.** `sheleg-design`'s lexicon gains `landing`,
+  `website`, `frontend`, `theme`, `mockup`, `aesthetic`, `ui design`, so
+  `higgsfield-websites`, `web-artifacts-builder` and `theme-factory` register — fixtured on
+  their real descriptions, with an unrelated real skill as the control. Measured on the
+  machine the audit ran on: 606 skills, landings on this router 54 → 68, four of the new
+  ones off-subject and stated as such beside the terms.
+
 ## v1.52.6 — display-copy rules reach semantic source checks
 
 - Pin sheleg-design 1.61.2: visual review reads actual headings, fragments,
