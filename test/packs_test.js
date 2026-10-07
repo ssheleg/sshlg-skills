@@ -541,7 +541,9 @@ it('emilkowalski/skills is recommended inside the lanes its skills actually serv
       'find-animation-opportunities', 'improve-animations', 'review-animations'],
     mobile: ['animate-expo'],
     implement: ['mobile-native'],
-    verify: ['break-ui'],
+    // `break-ui` feeds a rendered screen long names, empty lists and non-Latin text —
+    // the text and locale axes of the visual matrix, not whether a click works.
+    'visual-qa': ['break-ui'],
   });
 });
 
@@ -569,6 +571,133 @@ it('impeccable and taste-skill are declined with a measured reason, not recommen
     assert.ok(row, `${source} has no declined row — a removed recommendation reads as never looked at`);
     assert.ok(row.reason.length >= 120, `${source}: the reason is too short to be a measurement`);
   }
+});
+
+/* -- 2026-10-07 lanes: references, critique, and the look split from the function -- */
+
+const design = P.PACKS.design;
+const lane = (id) => design.lanes.find((l) => l.id === id);
+const entry = (id) => design.entries.find((e) => e.id === id);
+
+it('references, critique and visual-qa are lanes sheleg-design owns', () => {
+  // Each one is a file the router already ships — DESIGN_SYNC_BRIDGE §4 (reference
+  // sweeps), CREATIVE_DIRECTOR "Render critique", VISUAL_REVIEW (the capture record:
+  // viewport, theme, locale, motion, state). A lane printed as GAP there would be false.
+  for (const id of ['references', 'critique', 'visual-qa']) {
+    assert.ok(lane(id), `lane ${id} is not declared`);
+    assert.strictEqual(lane(id).owner, 'sheleg-design', `${id} owner`);
+  }
+});
+
+it('verify is the FUNCTIONAL look, and its default still is a browser that clicks', () => {
+  const v = lane('verify');
+  assert.ok(v, 'verify is gone');
+  assert.strictEqual(v.owner, null);
+  assert.strictEqual(v.fallback, 'webapp-testing');
+  assert.strictEqual(v.refusal, 'not looked at');
+  assert.ok(/work/i.test(v.asks) && !/looks like/i.test(v.asks),
+    `verify still asks the visual question: ${v.asks}`);
+  assert.ok(/looks like/i.test(lane('visual-qa').asks), 'visual-qa does not ask what it looks like');
+});
+
+it('the visual matrix tools sit in visual-qa, the functional browser in verify', () => {
+  assert.strictEqual(entry('webapp-testing').lane, 'verify');
+  assert.strictEqual(entry('emil-break-ui').lane, 'visual-qa');
+  const cdt = entry('chrome-devtools');
+  assert.ok(cdt, 'no chrome-devtools entry for screenshots per viewport and theme');
+  assert.strictEqual(cdt.lane, 'visual-qa');
+  assert.strictEqual(cdt.source, 'ChromeDevTools/chrome-devtools-mcp');
+  assert.deepStrictEqual(cdt.install, ['npx --yes skills add ChromeDevTools/chrome-devtools-mcp --skill chrome-devtools']);
+});
+
+it('an owned lane served by MCP servers names them instead of "the router\'s own"', () => {
+  const out = P.report(design, [], {});
+  const row = out.split('\n').find((l) => l.trim().startsWith('references'));
+  assert.ok(row, 'the references lane is not printed');
+  for (const name of ['Refero', 'Lazyweb', 'Mobbin']) assert.ok(row.includes(name), `${name} missing: ${row}`);
+});
+
+it('design-critique is a tool in the critique lane, never a second entry point', () => {
+  const e = entry('design-critique');
+  assert.ok(e, 'design-critique is not declared');
+  assert.strictEqual(e.lane, 'critique');
+  assert.strictEqual(e.source, 'anthropics/knowledge-work-plugins');
+  assert.deepStrictEqual(e.install, ['npx --yes skills add anthropics/knowledge-work-plugins --skill design-critique']);
+  assert.ok(/not a second entry point/.test(e.caveat || ''), e.caveat);
+});
+
+it('a same-named skill from an excluded provider does not make an entry present', () => {
+  // `design-ops@designer-skills` ships its OWN `design-critique` (measured in its tree
+  // 2026-10-07). Presence keyed on the bare id would report the knowledge-work skill
+  // installed on a machine that has only the other one.
+  const e = entry('design-critique');
+  assert.deepStrictEqual(e.excludeProviders, ['design-ops@designer-skills']);
+  const only = P.presence(design, [{ plugin: 'design-ops@designer-skills', id: 'design-critique' }]);
+  assert.ok(only.missing.some((m) => m.entry.id === 'design-critique'),
+    'the designer-skills copy was counted as the knowledge-work skill');
+  const both = P.presence(design, [
+    { plugin: 'design-ops@designer-skills', id: 'design-critique' },
+    { plugin: '(plain ~/.claude/skills)', id: 'design-critique' },
+  ]);
+  const hit = both.present.find((p) => p.entry.id === 'design-critique');
+  assert.ok(hit, 'a plain install was not counted');
+  assert.deepStrictEqual(hit.providers, ['(plain ~/.claude/skills)'], 'the excluded provider was still listed');
+});
+
+it('excludeProviders that is not a list of strings is refused', () => {
+  assert.throws(() => P.assertPack(pack({
+    entries: [{ id: 'alpha', provides: ['alpha'], lane: 'style', source: 'o/a', install: ['x'], why: 'w', excludeProviders: 'p@m' }],
+  })), /excludeProviders/);
+});
+
+it('the modes enter the new lanes where the work actually starts', () => {
+  const modes = Object.fromEntries(design.modes);
+  assert.ok(/^references\b/.test(modes['new design']), `new design: ${modes['new design']}`);
+  assert.ok(/visual-qa/.test(modes.redesign), `redesign: ${modes.redesign}`);
+  assert.ok(/visual-qa/.test(modes.audit), `audit: ${modes.audit}`);
+  // and every lane-shaped token a mode names is a lane the pack declares
+  const ids = new Set(design.lanes.map((l) => l.id));
+  for (const [mode, route] of design.modes) {
+    for (const t of route.match(/\b[a-z0-9]+(?:-[a-z0-9]+)+\b/g) || []) {
+      assert.ok(ids.has(t), `${mode} names an undeclared lane: ${t}`);
+    }
+  }
+});
+
+it('the a11y default is an installable skill that measures, and accesslint stays an option', () => {
+  const a = lane('a11y');
+  assert.strictEqual(a.owner, null, 'the delegated lane gained an owner');
+  assert.strictEqual(a.delegated, true);
+  assert.strictEqual(a.fallback, 'a11y-debugging');
+  const dbg = entry('a11y-debugging');
+  assert.strictEqual(dbg.lane, 'a11y');
+  assert.strictEqual(dbg.source, 'ChromeDevTools/chrome-devtools-mcp');
+  assert.deepStrictEqual(dbg.install, ['npx --yes skills add ChromeDevTools/chrome-devtools-mcp --skill a11y-debugging']);
+  assert.ok(/MCP/.test(dbg.caveat || ''), 'the MCP-server dependency is not stated');
+  const rev = entry('accessibility-review');
+  assert.strictEqual(rev.lane, 'a11y');
+  assert.strictEqual(rev.source, 'anthropics/knowledge-work-plugins');
+  assert.deepStrictEqual(rev.install, ['npx --yes skills add anthropics/knowledge-work-plugins --skill accessibility-review']);
+  assert.strictEqual(entry('accesslint').lane, 'a11y', 'accesslint was dropped rather than kept as an option');
+});
+
+it('the 2026-10-07 surfaces each carry a considered verdict', () => {
+  const ids = design.surfaces.map((x) => x.id);
+  for (const want of ['lazyweb_generate_mockup', 'lazyweb_propose_ui_changes', 'lazyweb_compare_image', 'get_motion_context']) {
+    assert.ok(ids.some((i) => i.includes(want)), `${want} is unnamed`);
+  }
+  const pencil = design.surfaces.find((x) => x.id === 'pencil');
+  // The 2026-08-17 refusal said "revisit when `.pen` exposes variables"; the live schema
+  // now carries `get_variables`, so a reason that still waits for it is stale.
+  assert.ok(/get_variables/.test(pencil.reason), 'the pencil verdict was not re-measured');
+});
+
+it('refero-design is declined as a second entry point, with a measured reason', () => {
+  const row = design.declined.find((d) => d.id === 'refero-design');
+  assert.ok(row, 'refero-design has no declined row');
+  assert.strictEqual(row.source, 'referodesign/refero_skill');
+  assert.ok(/second entry point/.test(row.reason) && row.reason.length >= 120, row.reason);
+  assert.ok(!design.entries.some((e) => e.id === 'refero-design'), 'refero-design is recommended');
 });
 
 if (failures.length) {
