@@ -1,8 +1,31 @@
-## Unreleased — design pack: references, critique, and the look split from the function
+## v1.53.0 — a visual floor, a director record and a look the gates actually read
 
-Not a release. This section carries no version on purpose: `.github/workflows/release.yml`, `scripts/tag.sh`
-and `test/validate.py` read only `## vX.Y.Z` headings, so it can never ship as some
-version's notes. The umbrella release that pins the members renames it.
+The pins move as a set: **sheleg-design 1.63.0**, **super-ux 0.58.2**, **task-pipeline 1.89.1**.
+Together they turn the family's design doctrine from prose into checks:
+
+- **sheleg-design 1.61.3 → 1.63.0.** Every borrowed rule names its source; a catalogue of 49
+  visual markers with `npx sheleg-design-skill --lint <dir>` (S1 findings fail, waivers need a
+  reason); the director record as a file with `--check-record`; an Apple Design Awards-derived
+  rubric R1–R25 stated as derived; a mandatory reference sweep for new and redesigned brand
+  surfaces; the bundle's own kits now pass its floor in CI.
+- **super-ux 0.56.3 → 0.58.2.** Short video, hooks and captions in `copywriting` (B044–B046,
+  B066); the look decided before the frames and approved on a critique; one Figma file per
+  surface; `visual-drift` in `ux-audit`; screens declare states and axes (a warning on existing
+  files, a gate once `<!-- screens-format: 2 -->` is added); store limits read from each store's
+  own page.
+- **task-pipeline 1.87.1 → 1.89.1.** A surface class at intake picks the gate profile; the
+  stage-3 visual track is checked by the director record's fields; the visual half of the
+  browser look (state × axes contact sheet, linter, Figma and baseline diff) gates flagship,
+  product and ad surfaces; a fourth blind reading, `verifier-visual`; review rounds counted.
+  1.89.0 was refused by its own release check and never published; 1.89.1 is the same payload
+  with that declared.
+
+The umbrella's own changes in this release:
+
+- **`copywriting` answers «reel script» and «сценарий рилса»,** the short-video phrases
+  super-ux 0.57.0 advertises. The bare "hook" / «хук» it also advertises is declared, not
+  routed: as a trigger it would take every git hook and Claude Code hook; the member release
+  that narrows it to "video hook" removes the declaration.
 
 - **`pack design` gains three lanes `sheleg-design` owns, each one a file the router already
   ships.** `references` — the sweep of shipped products, printed as the Refero, Lazyweb and
