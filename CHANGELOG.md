@@ -1,3 +1,11 @@
+## v1.53.1 — copywriting is reached by "video hook", and the declaration that excused "hook" goes
+
+The pin moves to **super-ux 0.58.3**, which narrows the advertised trigger from the bare
+"hook" / «хук» to "video hook" / «хук ролика». The selector now routes both phrases to
+`copywriting`, and the two `EXCUSED` entries in `test/triggers_test.js` — which stated the bare
+word unreachable because it would take every git hook and Claude Code hook — are removed in the
+same change, as their own text said they would be.
+
 ## v1.53.0 — a visual floor, a director record and a look the gates actually read
 
 The pins move as a set: **sheleg-design 1.63.0**, **super-ux 0.58.2**, **task-pipeline 1.89.1**.
