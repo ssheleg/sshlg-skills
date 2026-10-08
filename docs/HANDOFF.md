@@ -1,3 +1,5 @@
+Latest bounded research delivery: [channel evidence and SEO correction](runs/2026-10-09-channel-digest.md).
+
 # Display-copy regression guard — 2026-10-01
 
 The current bounded task is [the root-cause report and owner index](evidence/audits/2026-10-01-display-copy/README.md).
