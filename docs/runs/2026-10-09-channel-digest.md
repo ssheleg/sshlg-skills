@@ -35,10 +35,15 @@ site rankings, citations, revenue or running model behavior improved.
 
 This change pins the merged SEO commit and advertises 0.26.2 consistently in
 `skills.json` and the README. The launcher candidate is 1.54.2.
-Umbrella `npm test` passed: 90 suites, 1106 fixtures, 11 pinned members.
+Initial SEO-only umbrella `npm test` passed: 90 suites, 1106 fixtures, 11 pinned members.
+Final two-member pin set passed the same 90 suites / 1106 fixtures.
+`python3 test/check_pins.py` passed: every member pin matches its published release.
 The CTX-04.06 simulated release-set receipt was regenerated and rechecked.
 Complete the public release, registry readback and installed-file readback.
 Record each result separately; an installed file is not a reload of this running session.
+The published-pin check additionally found agent-sync behind: 1.21.3 → 1.21.4
+at `169436a28d4ba788ca471c83c8e7ddc024999466`. Its release and validate runs
+passed, and npm serves it. This release includes that published linked-worktree fix.
 Other member pointers and unrelated audit queues retain their prior state.
 
 Used: task-pipeline (delivery and gates), agent-sync (claims), make-skill
