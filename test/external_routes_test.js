@@ -160,6 +160,25 @@ it('`conflicts` flags foreign skills on declared ground, and never the declared 
   assert.deepStrictEqual(C.collisions(ROSTER, { routers: [] }), []);
 });
 
+it('the COMMANDS read the declaration — `conflicts` and `toolkit --for` as processes', () => {
+  // The library fixtures above passed while `sshlg-skills conflicts` never handed the
+  // declaration to the library: found by running the command on a real machine, which
+  // is the layer an operator uses. Asserted here at that layer.
+  const home = tmpHome();
+  const plain = path.join(home, '.claude', 'skills');
+  for (const [id, desc] of [['product-launch-video', 'Turn a URL into a promo video for a launch.'],
+                            ['example-media', 'Any media: promo video, icon, voice-over.']]) {
+    fs.mkdirSync(path.join(plain, id), { recursive: true });
+    fs.writeFileSync(path.join(plain, id, 'SKILL.md'), `---\nname: ${id}\ndescription: ${desc}\n---\n# ${id}\n`);
+  }
+  cli(home, 'config', 'set', 'routes.external.example-media.triggers', MEDIA);
+  const c = cli(home, 'conflicts');
+  assert.ok(/product-launch-video\s+→ example-media.*\[declared route\]/.test(c.out), c.out);
+  assert.ok(!/\n\s+example-media\s+→ example-media/.test(c.out), 'the declared skill landed on its own ground');
+  const t = cli(home, 'toolkit', '--for', 'make a promo video');
+  assert.ok(/>example-media\s+\[declared route example-media\]/.test(t.out), t.out);
+});
+
 it('`toolkit --for` puts the declared skill FIRST on its terms', () => {
   const seeds = K.seedsFor(T, 'make a promo video for the app', ext);
   assert.deepStrictEqual(seeds.map((s) => s.id), ['example-media']);

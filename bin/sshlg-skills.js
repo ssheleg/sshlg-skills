@@ -1275,8 +1275,15 @@ function cmdConflicts() {
   const owned = manifest.skills.map((s) => s.pluginInstall).filter(Boolean);
   const installed = manifest.skills.map((s) => s.name);
   const routers = registry.scope({ installed });
+  // Routes the operator declared: their triggers are their ground (REQ-04, 2026-10-08).
+  let external = [];
+  try {
+    const triggers = require(path.join(ROOT, 'lib', 'triggers.js'));
+    const configLib = require(path.join(ROOT, 'lib', 'config.js'));
+    external = triggers.externalRoutes(configLib.externalGet(configLib.readConfig(home)));
+  } catch (e) { external = []; }
   log(conflicts.report(
-    conflicts.collisions(skills, { owned, routers }),
+    conflicts.collisions(skills, { owned, routers, external }),
     { scanned: skills.length }));
 }
 
