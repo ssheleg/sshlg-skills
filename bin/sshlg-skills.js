@@ -289,6 +289,9 @@ Usage:
   npx sshlg-skills routers --update --adopt <name>    # take the packaged wording for it
   npx sshlg-skills config  [list]
   npx sshlg-skills config  set routers.<name> on|off
+  npx sshlg-skills config  set routes.external.<name>.triggers "a, b, c"
+                                                      # a route YOU declare for a skill outside
+                                                      # the family (.skill <id>, .line <text>, or off)
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
   npx sshlg-skills hooks   install [--force] [--dry-run]
   npx sshlg-skills hooks   remove
@@ -1062,8 +1065,20 @@ function cmdConfig(argv) {
       log(`  routers.${name.padEnd(16)} ${configLib.isEnabled(config, name) ? 'on' : 'off'}`);
     }
     log(`  update.auto${' '.repeat(11)} ${configLib.autoUpdateEnabled(config) ? 'on' : 'off'}`);
+    const declared = configLib.externalGet(config);
+    const names = Object.keys(declared).sort();
+    log(names.length ? '\nОбъявленные маршруты (не участники семьи):' : '\nОбъявленных маршрутов нет.');
+    for (const n of names) {
+      const spec = declared[n] || {};
+      const problems = triggersLib().routeProblems(n, spec);
+      log(`  routes.external.${n}  → ${spec.skill || n}${problems.length ? '  (НЕ действует: ' + problems[0] + ')' : ''}`);
+      log(`    triggers: ${triggersLib().splitTriggers(spec.triggers).join(', ')}`);
+    }
     log('\nПоменять:  npx sshlg-skills config set routers.<имя> on|off');
     log('           npx sshlg-skills config set update.auto on|off');
+    log('           npx sshlg-skills config set routes.external.<имя>.triggers "слово, фраза, …"');
+    log('           npx sshlg-skills config set routes.external.<имя>.skill <skill-id>');
+    log('           npx sshlg-skills config set routes.external.<имя> off');
     return 0;
   }
 
@@ -1090,8 +1105,10 @@ function cmdConfig(argv) {
     return 0;
   }
 
+  if (key && key.indexOf('routes.external.') === 0) return configExternal(home, key, argv.slice(2));
+
   if (!key || key.indexOf('routers.') !== 0) {
-    log('config set: ключ должен начинаться с "routers." или быть "update.auto"');
+    log('config set: ключ должен начинаться с "routers." или "routes.external.", или быть "update.auto"');
     return 2;
   }
 
@@ -1115,6 +1132,66 @@ function cmdConfig(argv) {
   configLib.setRouter(home, name, value);
   log(`routers.${name}: ${was} → ${value}`);
   log('Запусти `npx sshlg-skills routers --update`, чтобы применить.');
+  return 0;
+}
+
+function triggersLib() { return require('../lib/triggers.js'); }
+
+/**
+ * `config set routes.external.<name>[.triggers|.skill|.line] <value…>` — a route the
+ * operator declares for a skill outside the family.
+ *
+ * Every word after the key is the value, so an unquoted trigger list still arrives
+ * whole. The declaration is validated BEFORE it is written: the prompt hook that reads
+ * it must fail silent and would drop a bad entry without a word, so this is the one
+ * place a mistake can be said out loud. `off` removes the declaration.
+ */
+function configExternal(home, key, rest) {
+  const configLib = require('../lib/config.js');
+  const T = triggersLib();
+  const m = /^routes\.external\.([^.]+)(?:\.(triggers|skill|line))?$/.exec(key);
+  const value = rest.join(' ').trim();
+  if (!m) {
+    log(`config set: не понял ключ "${key}" — routes.external.<имя>.triggers|skill|line или routes.external.<имя> off`);
+    return 2;
+  }
+  const [, name, field] = m;
+  if (!field) {
+    if (value !== 'off') {
+      log(`config set ${key}: без поля принимается только off — получено "${value}"`);
+      return 2;
+    }
+    const was = configLib.externalClear(home, name);
+    log(was === undefined ? `routes.external.${name}: не объявлен (без изменений)`
+                          : `routes.external.${name}: удалён — ${configLib.configPath(home)}`);
+    return 0;
+  }
+  if (!value) {
+    log(`config set ${key}: нужно значение`);
+    return 2;
+  }
+  const current = configLib.externalGet(configLib.readConfig(home))[name] || {};
+  const patch = { [field]: field === 'triggers' ? T.splitTriggers(value) : value };
+  const next = Object.assign({}, current, patch);
+  // Setting the skill or the line before the triggers is allowed; anything else wrong
+  // with the declaration is refused now rather than dropped by the hook later.
+  const problems = T.routeProblems(name, next)
+    .filter((p) => field === 'triggers' || !/^no triggers/.test(p));
+  if (problems.length) {
+    log(`config set ${key}: не записано —`);
+    for (const p of problems) log(`  - ${p}`);
+    return 2;
+  }
+  const stored = configLib.externalSet(home, name, patch);
+  log(`routes.external.${name}.${field}: записано в ${configLib.configPath(home)}`);
+  const route = T.externalRoutes({ [name]: stored })[0];
+  if (route) {
+    log(`  → ${route.skill}; ${route.triggers.length} trigger(s): ${route.triggers.join(', ')}`);
+    log('  Хук промпта назовёт этот маршрут со следующего сообщения; `conflicts` и');
+    log('  `toolkit --for` читают его при каждом запуске.');
+  } else {
+    log('  Маршрут ещё не действует: задай routes.external.' + name + '.triggers');
+  }
   return 0;
 }
 
@@ -1158,9 +1235,20 @@ function cmdInjectors() {
     // The registry is the input. Saying "nothing else injects" because a file could
     // not be read would be the false-clear this module exists to refuse.
     log(`cannot read the plugin registry (${e.message}) — no answer rather than a wrong one`);
+    read = null;
+  }
+  if (read) log(inj.report(inj.injectors(...read)));
+  // The second half is independent of the first: MCP declarations live in other files,
+  // so a registry that could not be read must not silence what can be.
+  let mcp;
+  try {
+    mcp = inj.readMcp(home);
+  } catch (e) {
+    log(`\ncannot read the MCP declarations (${e.message}) — no answer rather than a wrong one`);
     return;
   }
-  log(inj.report(inj.injectors(...read)));
+  log('');
+  log(inj.mcpReport(inj.mcpFindings(mcp.servers, mcp.delivered), { transcript: mcp.transcript }));
 }
 
 /**
@@ -1187,8 +1275,15 @@ function cmdConflicts() {
   const owned = manifest.skills.map((s) => s.pluginInstall).filter(Boolean);
   const installed = manifest.skills.map((s) => s.name);
   const routers = registry.scope({ installed });
+  // Routes the operator declared: their triggers are their ground (REQ-04, 2026-10-08).
+  let external = [];
+  try {
+    const triggers = require(path.join(ROOT, 'lib', 'triggers.js'));
+    const configLib = require(path.join(ROOT, 'lib', 'config.js'));
+    external = triggers.externalRoutes(configLib.externalGet(configLib.readConfig(home)));
+  } catch (e) { external = []; }
   log(conflicts.report(
-    conflicts.collisions(skills, { owned, routers }),
+    conflicts.collisions(skills, { owned, routers, external }),
     { scanned: skills.length }));
 }
 
@@ -1226,7 +1321,19 @@ function cmdToolkit(argv) {
   const li = argv.indexOf('--limit');
   const limit = li !== -1 && argv[li + 1] ? Number(argv[li + 1]) || 12 : 12;
 
-  log(toolkit.report(skills, family, { for: forQuery, expand, limit }));
+  // The shortlist starts from what the prompt hook would route this task to, so the two
+  // never disagree — and the words the family's own routes are built from are never
+  // thrown away as too common (REQ-06, 2026-10-08).
+  const triggers = require(path.join(ROOT, 'lib', 'triggers.js'));
+  let external = [];
+  try {
+    const configLib = require(path.join(ROOT, 'lib', 'config.js'));
+    external = triggers.externalRoutes(configLib.externalGet(configLib.readConfig(home)));
+  } catch (e) { external = []; }
+  const seeds = forQuery ? toolkit.seedsFor(triggers, forQuery, external) : [];
+  const protect = toolkit.advertisedWords(triggers.ROUTES);
+
+  log(toolkit.report(skills, family, { for: forQuery, expand, limit, seeds, protect }));
 }
 
 /**

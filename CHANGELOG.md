@@ -1,3 +1,55 @@
+## v1.54.0 — the hook names the chain, reads word forms, and takes routes you declare
+
+A routing audit on 2026-10-08 typed twelve ordinary tasks at the installed 1.53.0, and six of
+the Russian ones printed no routing line at all — so the `PreToolUse` escalation, which acts
+only on routes the prompt hook recorded, had nothing to act on either. No pin moves. The
+twelve tasks, their English variants and eight boundary controls are now a gate
+(`test/hook_routing_eval_test.js`, `test/evals/hook-routing.json`), and the harness is
+watched refusing three planted defects.
+
+- **Word forms.** A three-letter Cyrillic noun inflects (`бот` reaches «бота», `баг` «бага»);
+  a declared Cyrillic brand stem also matches its Latin spelling inside Russian text, so
+  «добавь Telegram-бота» reaches `telegram-dev`; a Latin word cut at `-ion` regains its
+  plural ("animations"). A route may declare **objects** — nouns that route only behind an
+  action verb: «сделай дашборд в админке», «исправь баг», «напиши описание для App Store»,
+  "improve the animations" route, while «открой дашборд графаны» and «баг воспроизводится
+  редко» stay silent. New triggers: `fix` (task-pipeline), `figma`/`фигма`
+  (sheleg-design), `оплата`/`payment` (sheleg-dev), `макет` (super-ux).
+- **The chain, not its facets.** When a subject route matched and `classify()` says the
+  prompt writes, the task-pipeline line is printed too. «сделай редизайн лендинга» used to
+  get the visual and copy lines and nothing about delivery. A question, an explanation and
+  an audit stay facets — «проверь дизайн лендинга» names `sheleg-design` alone.
+- **Routes you declare.** `npx sshlg-skills config set routes.external.<name>.triggers "…"`
+  records a route for a skill outside the family in `~/.sshlg-skills/config.json`. The
+  prompt hook prints it, the `PreToolUse` escalation can name it, `conflicts` flags foreign
+  skills on its ground, and `toolkit --for` ranks its skill first. A declaration that could
+  never work — a family router's name, a trigger inside a refusal phrase, a question phrase
+  — is refused with the reason and nothing is written. This package ships only the neutral
+  `example-media`; which media skill a machine uses is that machine's fact.
+- **`injectors` reads MCP server instructions.** Declarations from `~/.claude.json` (global
+  and every project scope) and enabled plugins' `.mcp.json`, and the text Claude Code
+  recorded as delivered (`mcp_instructions_delta` in the newest session transcript).
+  Routing language — "whenever", "MANDATORY", "even if … isn't named", "use this server
+  for any", "always use", "prefer this over" — is listed as a candidate, never an offender.
+  Read-only, held to it by a fixture that hashes a HOME before and after; it starts no
+  server. A server with no delivered record is reported as not read, not as clean.
+- **`toolkit --for` never prints NOTHING for a task the hook routes.** Its shortlist starts
+  from `triggers.match()` (one seed per source skill whose words matched, declared routes
+  first, a seed not installed here says so), and a word a family trigger carries is never
+  dropped as non-discriminating. The six audit tasks that printed NOTHING now lead with the
+  routed skill.
+- **`xr-dev` and `web3d-dev` get router paragraphs**, hook routes and refusal phrases
+  ("no xr" / «без xr», "no web3d" / «без web3d»). They sat in the map table with no rule
+  saying when to reach for them; the README's router table already listed both while the
+  registry held twelve. `routers --update` adds them and keeps an operator's `authored`
+  wording for every other router — run three times against a real file, the hashes agree.
+  Neither member's own gate calls `test/advertised_check.js` yet, so `npm run test:plants`
+  names both in `AWAITING_MEMBER_GATE` instead of planting a refusal they cannot make.
+- **Pending advertisements are declared, once.** `PENDING` in `lib/triggers.js` names the two
+  words a member does not advertise yet and the member change each waits on: «макет»
+  (super-ux `ux-flows`) and «баг» (task-pipeline). The soundness fixture and
+  `test/advertised_check.js` both read it; an excuse whose word has arrived fails as stale.
+
 ## v1.53.1 — copywriting is reached by "video hook", and the declaration that excused "hook" goes
 
 The pin moves to **super-ux 0.58.3**, which narrows the advertised trigger from the bare

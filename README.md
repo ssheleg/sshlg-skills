@@ -259,7 +259,7 @@ oblige. So the pack writes a **managed routing block** into your global agent
 instructions, and the rules engage in every project instead of only when
 someone remembers to ask.
 
-The block opens with the **map**: nine members, the single command that starts
+The block opens with the **map**: eleven members, the single command that starts
 each, and one line saying what it closes. It is generated from `skills.json`,
 so a release moves it — and `install` and `update` refresh it, which is what
 makes "the instruction your agents read is current" a mechanism rather than a
@@ -291,7 +291,7 @@ npx sshlg-skills routers --diff <name>            # your wording vs the packaged
 npx sshlg-skills routers --update --adopt <name>  # take the packaged wording for it
 ```
 
-Twelve routers, and they are **different axes rather than competing
+Fourteen routers, and they are **different axes rather than competing
 priorities** — a landing page passes several, an internal script passes none:
 
 | Router | Answers | When | Needs installed |
@@ -302,8 +302,8 @@ priorities** — a landing page passes several, an internal script passes none:
 | `sheleg-dev` | what it runs on to charge, track and sign in | money, tracking, errors, sign-in or speed is being wired | sheleg-dev |
 | `agent-stack` | how an agent system is built, judged and metered | the thing being built is an agent | agent-stack |
 | `telegram-dev` | which Telegram API a surface speaks, and what it costs | the thing being built lives inside Telegram | telegram-dev |
-| `xr-dev` | how a Quest product moves from platform choice to launch and operation | the thing being built runs on a headset | xr-dev |
-| `web3d-dev` | how realtime 3D on the web runs, ships its assets and moves | the thing being built is a 3D scene in a browser | web3d-dev |
+| `xr-dev` | how a Quest product moves from platform choice to launch and operation | the thing being built runs on a Meta Quest headset | xr-dev |
+| `web3d-dev` | how a realtime 3D scene on the web runs, ships its assets and moves | a three.js or React Three Fiber scene renders in the page | web3d-dev |
 | `seo-llmo` | whether a machine will find it | a logged-out reader can see it | — |
 | `evidence-docs` | what proves it | something is stated as true | — |
 | `task-pipeline` | how the change reaches the repo | the repository changes | task-pipeline |
@@ -346,6 +346,26 @@ wording of yours that migration had moved in. Settings live in
 `~/.sshlg-skills/config.json` (mode 0600) and store deviations only, so a
 router added in a later release arrives switched on rather than silently off.
 
+### Routes you declare — skills outside the family
+
+The family cannot know what your machine uses for media, data or anything else it
+does not ship, and a published package naming one would ship a fact about one
+laptop as doctrine. So you declare the route, and it lives only in your settings:
+
+```bash
+npx sshlg-skills config set routes.external.example-media.triggers "promo video, ad video, icon, voice-over, ролик, иконка"
+npx sshlg-skills config set routes.external.example-media.skill example-media   # defaults to the name
+npx sshlg-skills config                                                          # lists what you declared
+npx sshlg-skills config set routes.external.example-media off                   # forget it
+```
+
+From the next prompt the hook prints the route when its words appear, the
+`PreToolUse` escalation can name it, `conflicts` lists foreign skills that land on
+its ground, and `toolkit --for` puts its skill first. A declaration that could
+never work — a family router's name, a trigger inside a refusal phrase, a question
+phrase — is refused with the reason, and nothing is written; the hook itself drops
+an unusable entry silently, because it must never cost you a turn.
+
 ### Making it engage by itself — hooks
 
 The routing block loads in every session and is still routed around, because
@@ -357,7 +377,7 @@ npx sshlg-skills hooks                    # what would be wired, and what holds 
 npx sshlg-skills hooks install            # wire it (refuses to take someone else's status line)
 npx sshlg-skills hooks install --force    # take it anyway, parking what it displaced
 npx sshlg-skills hooks remove             # unwire, and give the displaced one back
-npx sshlg-skills injectors                # who else speaks at SessionStart, and from which file
+npx sshlg-skills injectors                # who else speaks at SessionStart, and which MCP server instructions claim ground
 npx sshlg-skills conflicts                # installed skills that land on a router's ground
 npx sshlg-skills toolkit                  # every skill this machine can reach, as an index
 npx sshlg-skills toolkit --for "<task>"   # ...narrowed to one task, as a shortlist
@@ -441,6 +461,17 @@ family routes **and no run is open**, the first `Edit` or `Write` of that turn a
 and name the route; that is the whole of it, and claiming more would be the false
 guarantee `task-pipeline`'s own hook doctrine warns about.
 
+**It names the chain, not only the facets.** When a route that says what a change
+contains (`super-ux`, `sheleg-design`, `copywriting`, `sheleg-dev`, `agent-stack`,
+`telegram-dev`, `xr-dev`, `web3d-dev`) matched and the prompt writes, the
+`task-pipeline` line is printed beside it — «сделай редизайн лендинга» names the
+visual layer *and* delivery. A question, an explanation or an audit does not write,
+and gets the facet alone. Words are matched in the forms people type: inflected
+(«телеграм-бота»), with a Latin brand inside Russian («Telegram-бота»), and a few
+nouns that mean a request only behind a verb («сделай дашборд», «исправь баг») route
+only there. `test/hook_routing_eval_test.js` holds twelve real tasks, their English
+variants and the silent controls to an exact route set.
+
 **The prompt hook is deliberately quiet.** A question beats any trigger — with one
 derived exception: a trigger that is *itself* phrased as a question wins, because
 `seo-aeo-audit` advertises «почему упал трафик» and the generic filter was
@@ -449,7 +480,9 @@ and a prompt with no signal costs nothing.
 Every word it fires on must already appear in the target skill's own
 `description`; a fixture reads the shipped descriptions and fails on any trigger
 the skill does not itself advertise, so this cannot become a second routing
-policy that drifts from the skills it routes to.
+policy that drifts from the skills it routes to. A word a member is still being
+asked to advertise is declared in `PENDING` in `lib/triggers.js`, with the member
+change it waits on — and fails as stale the moment the member ships it.
 
 **It will not quietly take a `statusLine` it did not set.** One held by another
 tool is reported and nothing is written. `--force` takes it and parks the

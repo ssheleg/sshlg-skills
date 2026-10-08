@@ -181,6 +181,61 @@ it('the roster walk is conflicts.js\'s, not a second copy of it', () => {
     'toolkit exports a different reader than conflicts — that is a second home for one fact');
 });
 
+// --- a routed task never prints NOTHING (REQ-06, 2026-10-08) --------------------------
+
+const TR = require('../lib/triggers.js');
+
+/** A roster big enough for the spread filter to run, where the routed words are common. */
+function crowded() {
+  const out = [];
+  for (let i = 0; i < 60; i += 1) {
+    out.push({ plugin: 'noise@vendor', id: `noise-${i}`,
+      description: `a payment bot animation helper number ${i} for checkout` });
+  }
+  out.push({ plugin: 'sheleg-dev@sheleg-dev', id: 'stripe-billing', description: 'Stripe checkout, payment webhooks.' });
+  out.push({ plugin: 'telegram-dev@telegram-dev', id: 'telegram-bots', description: 'A Telegram bot on the Bot API.' });
+  return out;
+}
+const FAM = ['stripe-billing', 'telegram-bots', 'task-pipeline', 'sheleg-design', 'agent-orchestrator'];
+
+it('the six tasks the audit saw print NOTHING each name a routed skill first', () => {
+  const roster = crowded();
+  for (const [task, first] of [
+    ['payment bug', 'stripe-billing'],
+    ['Telegram bot', 'telegram-bots'],
+    ['improve the animations', 'task-pipeline'],
+    ['build an orchestrator', 'task-pipeline'],
+    ['add Stripe checkout', 'task-pipeline'],
+  ]) {
+    const seeds = T.seedsFor(TR, task, []);
+    const { rows } = T.rank(roster, task, 12, FAM, { seeds, protect: T.advertisedWords(TR.ROUTES) });
+    assert.ok(rows.length, `${task}: NOTHING`);
+    assert.strictEqual(rows[0].id, first, `${task}: ${rows.map((r) => r.id).join(',')}`);
+    assert.ok(rows[0].seeded, `${task}: the first row is not the routed one`);
+  }
+  // `icon` routes nowhere in the family; with no declaration it is a term-overlap question
+  assert.deepStrictEqual(T.seedsFor(TR, 'make an icon', []), []);
+});
+
+it('a seed that is not installed still prints, and says so', () => {
+  const seeds = T.seedsFor(TR, 'add a Telegram bot', []);
+  const out = T.report([{ plugin: 'x@y', id: 'pdf', description: 'PDF.' }], [], { for: 'add a Telegram bot', seeds });
+  assert.ok(/telegram-bots .*NOT installed on this machine/.test(out), out);
+  assert.ok(!/NOTHING on this machine matched/.test(out), 'a routed task printed NOTHING');
+});
+
+it('a word a family trigger carries is never dropped as non-discriminating', () => {
+  const roster = crowded();
+  const protect = T.advertisedWords(TR.ROUTES);
+  assert.ok(protect.has('payment') && protect.has('bot') && protect.has('checkout'));
+  const plain = T.rank(roster, 'payment checkout', 12, FAM);
+  assert.ok(plain.weak.includes('payment'), 'the fixture no longer reproduces the drop — it proves nothing');
+  const kept = T.rank(roster, 'payment checkout', 12, FAM, { protect });
+  assert.deepStrictEqual(kept.weak, [], `still dropped: ${kept.weak.join(', ')}`);
+  // …and a word no trigger carries is still measured: the filter is narrowed, not off
+  assert.ok(T.rank(roster, 'helper number', 12, FAM, { protect }).weak.includes('helper'));
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

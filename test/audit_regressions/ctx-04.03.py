@@ -160,7 +160,7 @@ def t_clean_session_loaded_real_bytes():
     c = r["clean_session"]["loaded"]
     assert r["clean_session"]["action"] in ("updated", "unchanged")
     assert c["byte_count"] > 1000, c["byte_count"]
-    assert len(c["namespaces"]) == 12, c["namespaces"]
+    assert len(c["namespaces"]) == 14, c["namespaces"]  # 12 → 14 with xr-dev and web3d-dev (2026-10-08)
     assert len(c["digest"]) == 64
 
 

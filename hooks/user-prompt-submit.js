@@ -29,6 +29,16 @@ process.stdin.on('end', () => {
     const prompt = data.prompt || data.user_prompt || data.userPrompt ||
                    data.message || (raw.trim().startsWith('{') ? '' : raw);
     const triggers = require(path.join(__dirname, '..', 'lib', 'triggers.js'));
+    const os = require('os');
+    // Routes the operator declared for skills outside the family. A file that cannot
+    // be read yields none — `readConfig` returns {} — and `externalRoutes` drops any
+    // entry it cannot use, so a bad declaration costs its own route and nothing else.
+    let external = [];
+    try {
+      const config = require(path.join(__dirname, '..', 'lib', 'config.js'));
+      const home = process.env.HOME || os.homedir();
+      external = triggers.externalRoutes(config.externalGet(config.readConfig(home)));
+    } catch (e) { external = []; }
 
     // Record what this turn asked for, so `PreToolUse` can act on it several tool
     // calls and one process later. Naming a route is a hint the model may ignore;
@@ -41,18 +51,17 @@ process.stdin.on('end', () => {
     // The lib decides what a system turn is; this file only declines to write.
     if (!triggers.isSystemTurn(prompt)) {
       try {
-        const os = require('os');
         const turnstate = require(path.join(__dirname, '..', 'lib', 'turnstate.js'));
         turnstate.write(os.homedir(), data.session_id, {
           promptId: data.prompt_id || null,
-          routes: triggers.match(prompt),
+          routes: triggers.match(prompt, { external }),
           optedOut: triggers.optedOut(prompt),
           asked: false,
         });
       } catch (e) { /* a hint that cannot be stored is a hint that does not happen */ }
     }
 
-    const out = triggers.render(prompt);
+    const out = triggers.render(prompt, { external });
     if (out) process.stdout.write(out + '\n');
   } catch (e) {
     // Silence, deliberately. The alternative is a stack trace injected into the

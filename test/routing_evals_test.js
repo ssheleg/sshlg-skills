@@ -39,10 +39,19 @@ it('every named router is probed at least once', () => {
   const reg = require('./../lib/routers-registry.js');
   const probed = new Set(probes.map((p) => p.want).filter(Boolean));
   const missing = reg.order().filter((n) => !probed.has(n));
-  // telegram-dev and agent-harness have no curated operator phrasing yet; the point
-  // of this assertion is that the gap is DECLARED, not that it is zero.
-  assert.ok(missing.length <= 2,
-    `${missing.length} routers never probed (${missing.join(', ')}) — add a probe or state why`);
+  // The point of this assertion is that the gap is DECLARED, not that it is zero — and
+  // it is now declared by NAME rather than by a count, because a count of two let the
+  // next unprobed router in silently once one of the two was probed. A probe needs a
+  // model run per arm to earn its RESULTS.md row, which these have not had:
+  // telegram-dev has no curated operator phrasing yet, and xr-dev and web3d-dev joined
+  // the block on 2026-10-08 (their deterministic routing is gated in
+  // `hook_routing_eval_test.js`, which is not this instrument).
+  const DECLARED = ['telegram-dev', 'xr-dev', 'web3d-dev'];
+  const undeclared = missing.filter((n) => !DECLARED.includes(n));
+  assert.deepStrictEqual(undeclared, [],
+    `routers never probed and not declared (${undeclared.join(', ')}) — add a probe or declare why`);
+  const stale = DECLARED.filter((n) => probed.has(n) || !reg.order().includes(n));
+  assert.deepStrictEqual(stale, [], `declared unprobed but now probed or gone: ${stale.join(', ')}`);
 });
 
 it('at least one silence probe — over-routing is invisible without one', () => {
