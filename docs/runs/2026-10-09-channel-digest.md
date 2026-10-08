@@ -78,3 +78,8 @@ Additional skill actually consulted: plugin-management, to inspect capability sc
 Its app manages ChatGPT connections, not native Codex cache refresh; the local Codex
 plugin CLI supplied the native installed-state readback. No permission or connection
 settings were changed.
+
+Extended installed-file acceptance: all **38 family skills** in both skills-CLI
+and Claude plugin channels matched their pinned Git payloads: **1066 file comparisons**,
+no missing or mismatched tracked file. [Full payload receipt](../evidence/channel-digest-20261009/family-payload-readback.json).
+This still does not certify a reload of a running session or a behavioral outcome.
