@@ -1,3 +1,13 @@
+## v1.54.2 — source-scoped search evidence
+
+- **seo-aeo-audit 0.26.1 → 0.26.2.** Retrieval study observations now retain
+  their units, sample and conditions. The skill checks current Search Console
+  controls and measurement limits, Cloudflare zone configuration, rollout dates
+  and regional site-reputation policy against the relevant primary source.
+- The submodule pointer, advertised version and README row move together.
+  The staged release-set receipt is regenerated; it models staging and rollback,
+  and does not certify an already-running agent context.
+
 ## v1.54.1 — five members move, and the words they now advertise route
 
 The launcher change of v1.54.0 shipped with the old pins. This release moves the five members
