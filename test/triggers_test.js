@@ -90,12 +90,14 @@ function description(file) {
 
 it('every trigger is a word the skill itself advertises', () => {
   const missing = [];
+  const stale = [];
   let checkedRoutes = 0;
   for (const [route, spec] of Object.entries(T.ROUTES)) {
     // A pack-fronted route holds each group of triggers against its OWN skill.
     // Checking them all against one description would either reject real words
     // or force the route to point at a skill it does not mean.
-    const groups = spec.sources || [{ skill: spec.skill, triggers: spec.triggers }];
+    const groups = spec.sources
+      || [{ skill: spec.skill, triggers: spec.triggers, objects: spec.objects || [] }];
     let sawOne = false;
     for (const group of groups) {
       const file = skillFile(group.skill);
@@ -105,8 +107,18 @@ it('every trigger is a word the skill itself advertises', () => {
       assert.ok(desc.length > 200,
         `${group.skill}: description did not parse (${desc.length} chars) — the folded ` +
         `scalar is longer than this, so the regex stopped early`);
-      for (const t of group.triggers) {
-        if (!desc.includes(t)) missing.push(`${route}: ${JSON.stringify(t)} not in ${group.skill}'s description`);
+      // An OBJECT is a trigger that needs a verb in front of it; it is still a word the
+      // hook fires on, so it is held to the same advertisement rule.
+      for (const t of (group.triggers || []).concat(group.objects || [])) {
+        const pending = T.PENDING[t];
+        if (desc.includes(t)) {
+          // The member advertised it: the excuse has done its job and must go, or it
+          // would excuse the NEXT removal of this word silently.
+          if (pending && pending.skill === group.skill) stale.push(`${t} (${group.skill})`);
+          continue;
+        }
+        if (pending && pending.skill === group.skill) continue;
+        missing.push(`${route}: ${JSON.stringify(t)} not in ${group.skill}'s description`);
       }
     }
     if (sawOne) checkedRoutes += 1;
@@ -115,6 +127,28 @@ it('every trigger is a word the skill itself advertises', () => {
     'no submodule was materialized, so this check proved nothing — clone with --recursive');
   assert.deepStrictEqual(missing, [],
     `the hook fires on words the skill does not claim:\n  ${missing.join('\n  ')}`);
+  assert.deepStrictEqual(stale, [],
+    `PENDING excuses whose member now advertises the word — delete them from lib/triggers.js:\n  ${stale.join('\n  ')}`);
+});
+
+it('a PENDING excuse names its skill, the member change it waits on, and a real trigger', () => {
+  // The excuse is the EXCUSED mechanism of the completeness check below, applied to the
+  // soundness check above: an entry is a word the member is being asked to advertise in a
+  // parallel member change, never a bare count, and it must be a word the table uses.
+  const used = new Set();
+  for (const spec of Object.values(T.ROUTES)) {
+    for (const g of spec.sources || [{ triggers: spec.triggers, objects: spec.objects || [] }]) {
+      for (const t of (g.triggers || []).concat(g.objects || [])) used.add(t);
+    }
+  }
+  const entries = Object.entries(T.PENDING);
+  assert.ok(entries.length <= 4, `${entries.length} pending words — prefer words the descriptions already carry`);
+  for (const [word, p] of entries) {
+    assert.ok(used.has(word), `${word} is excused but no route fires on it`);
+    assert.ok(skillFile(p.skill), `${word}: ${p.skill} is not a shipped skill`);
+    assert.ok(p.waits && p.waits.length > 30 && p.waits.includes(p.skill.split('/')[0]),
+      `${word}: the excuse does not name the member change it waits on`);
+  }
 });
 
 it('a trigger carrying ё routes identically without it, which is how it is typed', () => {
@@ -196,7 +230,7 @@ it('a refusal phrase silences the hook completely', () => {
 // THE MISSING DIRECTION. Two fixtures above assert that no refusal is also a
 // trigger; until 2026-09-01 nothing asserted the converse — that ordinary work
 // language is not read as a refusal. It was not a hypothetical: `optedOut` is
-// one boolean for all twelve routers, sticky for the session and silent, and
+// one boolean for all fourteen routers, sticky for the session and silent, and
 // `quick` and `as is` fired on six of the thirteen prompts below, so the most
 // natural sentence in software English switched the whole enforcement layer off
 // with nothing printed.
@@ -227,7 +261,7 @@ it('ORDINARY WORK LANGUAGE IS NOT A REFUSAL — the invariant that ran one way',
   ];
   const refused = ordinary.filter((p) => T.optedOut(p));
   assert.deepStrictEqual(refused, [],
-    'ordinary work language read as a refusal — that silences ALL twelve routers '
+    'ordinary work language read as a refusal — that silences ALL fourteen routers '
     + 'for the rest of the session, and prints nothing');
 });
 
@@ -508,8 +542,9 @@ it('a word can always still match itself, whatever was cut from it', () => {
 // hyphens, which is why only one half of the seam was ever exercised.
 
 it('a hyphenated trigger matches both spellings, and so does a hyphenated prompt', () => {
-  assert.deepStrictEqual(T.match('подключи mcp сервер'), ['agent-stack']);
-  assert.deepStrictEqual(T.match('подключи mcp-сервер'), ['agent-stack']);
+  // «подключи» writes, so the chain names delivery beside the subject (REQ-03, 2026-10-08)
+  assert.deepStrictEqual(T.match('подключи mcp сервер'), ['task-pipeline', 'agent-stack']);
+  assert.deepStrictEqual(T.match('подключи mcp-сервер'), ['task-pipeline', 'agent-stack']);
   assert.deepStrictEqual(T.match('нужен суб агент'), ['agent-stack']);
   assert.deepStrictEqual(T.match('нужен суб-агент'), ['agent-stack']);
 });
@@ -656,7 +691,8 @@ it('EVERY GENUINE REFUSAL IS STILL HEARD — the direction that makes the rule s
 
 it('the refusal rule did not narrow ordinary routing', () => {
   // `matches()` stays tolerant for TRIGGERS on purpose — only refusals got stricter.
-  assert.deepStrictEqual(T.match('build an onboarding flow'), ['super-ux']);
+  // "build" writes, so the chain adds delivery (REQ-03); the refusal rule narrowed nothing
+  assert.deepStrictEqual(T.match('build an onboarding flow'), ['task-pipeline', 'super-ux']);
   assert.deepStrictEqual(T.match('подключи stripe и сделай миграцию').sort(),
     ['sheleg-dev', 'task-pipeline']);
 });
@@ -667,7 +703,8 @@ it('a Russian verbal prefix does not hide an advertised stem', () => {
   // модуль» did not — one word, two answers. Measured across the shipped table before
   // the fix: not one prefixed form of any single-word Cyrillic trigger reached its own
   // route. `B-84` recorded this class as settled and it was not.
-  assert.deepStrictEqual(T.match('отрефактори модуль оплаты'), ['task-pipeline']);
+  // `оплата` is sheleg-dev's since 2026-10-08, so the payment module names the pack too
+  assert.deepStrictEqual(T.match('отрефактори модуль оплаты'), ['task-pipeline', 'sheleg-dev']);
   assert.deepStrictEqual(T.match('зарефакторь этот класс'), ['task-pipeline']);
   assert.deepStrictEqual(T.match('перепроверь прод'), ['task-pipeline']);
   // and the bare stem still matches itself, which every earlier change to this
@@ -765,6 +802,136 @@ it('every phrase a description advertises reaches its own route', () => {
   for (const [phrase, why] of EXCUSED) {
     assert.ok(why && why.length > 30, `${phrase} is excused without a reason`);
   }
+});
+
+// --- word forms the 2026-10-08 audit lost (REQ-01) -----------------------------------
+//
+// Six of twelve ordinary Russian tasks printed no routing line on the installed 1.53.0.
+// Each fixture below reproduced on 4374ffe before the matcher changed.
+
+it('a three-letter Cyrillic noun inflects — «бота» is `бот`', () => {
+  // `wordPattern` returned a word under four letters verbatim, so `телеграм бот` could
+  // match «телеграм бот» and never «телеграм-бота», the accusative an operator types.
+  assert.ok(T.match('добавь телеграм-бота').includes('telegram-dev'));
+  assert.ok(T.match('сделай телеграм бота').includes('telegram-dev'));
+  assert.ok(T.match('нужен телеграм ботом').includes('telegram-dev'));
+  // …and the allowance is two letters, so the word still has to END near the stem
+  assert.ok(!T.match('телеграм ботинок').includes('telegram-dev'));
+});
+
+it('a declared Cyrillic brand stem matches its Latin spelling inside Russian text', () => {
+  // «Telegram-бота»: a Latin brand followed by a Cyrillic inflection, which neither the
+  // English trigger `telegram bot` nor the Russian `телеграм бот` could reach.
+  assert.ok(T.match('добавь Telegram-бота').includes('telegram-dev'));
+  assert.ok(T.match('добавь Telegram бота в проект').includes('telegram-dev'));
+  assert.ok(T.match('перенеси дизайн из Figma в код').includes('sheleg-design'));
+  // The alias table is declared, one-directional and tiny; every key is a stem a
+  // trigger actually carries, or the entry could never fire.
+  for (const stem of Object.keys(T.BRAND_ALIASES)) {
+    const carried = Object.values(T.ROUTES).some((s) =>
+      (s.triggers || []).concat(s.objects || []).some((t) =>
+        t.toLowerCase().replace(/ё/g, 'е').split(/[\s\-–—]+/).some((w) => w.startsWith(stem))));
+    assert.ok(carried, `BRAND_ALIASES.${stem} names a stem no trigger carries`);
+  }
+});
+
+it('an OBJECT routes only when an action verb governs it', () => {
+  // `дашборд`, `баг`, `app store` are words that occur in questions, logs and status talk
+  // as often as in instructions. As objects they need «сделай/добавь/почини/…» or
+  // make/build/add/fix/write in front of them, within the same two-word gap a phrase uses.
+  assert.ok(T.match('сделай дашборд в админке').includes('sheleg-design'));
+  assert.ok(T.match('build a dashboard in the admin panel').includes('sheleg-design'));
+  assert.ok(T.match('исправь баг в апи').includes('task-pipeline'));
+  assert.ok(T.match('напиши описание для App Store').includes('copywriting'));
+  assert.ok(T.match('improve the animations').includes('sheleg-design'));
+  // …and without the verb they are silent
+  assert.deepStrictEqual(T.match('открой дашборд графаны'), []);
+  assert.deepStrictEqual(T.match('баг воспроизводится редко'), []);
+  assert.deepStrictEqual(T.match('the app store review took a week'), []);
+});
+
+it('every object reaches its route behind a verb, and no object is also a bare trigger', () => {
+  for (const [route, spec] of Object.entries(T.ROUTES)) {
+    for (const o of spec.objects || []) {
+      assert.ok(T.match(`сделай ${o}`).includes(route) || T.match(`make ${o}`).includes(route),
+        `${route}: object ${JSON.stringify(o)} does not route even behind a verb`);
+      assert.ok(!spec.triggers.includes(o), `${route}: ${o} is both a trigger and an object`);
+    }
+  }
+});
+
+it('no object fires inside a refusal phrase', () => {
+  const clash = [];
+  for (const [route, spec] of Object.entries(T.ROUTES)) {
+    for (const o of spec.objects || []) {
+      for (const r of T.REFUSALS) if (T.matches(r, o)) clash.push(`${route}:${o} in ${r}`);
+    }
+  }
+  assert.deepStrictEqual(clash, []);
+});
+
+// --- the chain (REQ-03) ---------------------------------------------------------------
+
+it('a subject route on a prompt that writes also names the pipeline', () => {
+  // «сделай редизайн лендинга» classified as change + write and printed the visual and
+  // copy lines with no delivery line, so the agent was told how it should look and not
+  // how it reaches the repository.
+  for (const p of ['сделай редизайн лендинга', 'добавь экран онбординга в приложение',
+                   'добавь Telegram-бота', 'улучши анимации', 'собери агента-оркестратора',
+                   'add an onboarding screen to the app', 'redesign the landing page']) {
+    assert.ok(T.match(p).includes('task-pipeline'), `${JSON.stringify(p)} → ${JSON.stringify(T.match(p))}`);
+  }
+  assert.ok(T.render('сделай редизайн лендинга').includes('/task-pipeline'));
+});
+
+it('a question, an explanation and an audit do NOT gain the pipeline — the other direction', () => {
+  // The boundary cuts both ways: «проверь дизайн лендинга» still names the visual route,
+  // because it is about how it looks, and still does not name delivery, because an audit
+  // asks for a verdict, not a diff.
+  assert.deepStrictEqual(T.match('проверь дизайн лендинга'), ['sheleg-design']);
+  assert.deepStrictEqual(T.match('объясни, как работает онбординг'), []);
+  assert.deepStrictEqual(T.match('почему телеграм бот молчит?'), []);
+  assert.deepStrictEqual(T.match('3D-сцена тормозит'), ['web3d-dev']);
+  // a subject route with no write intent at all stays a facet
+  assert.deepStrictEqual(T.match('палитра лендинга'), ['sheleg-design']);
+});
+
+it('the chain is the subject list, and the list names only routes the table has', () => {
+  for (const r of T.SUBJECT_ROUTES) assert.ok(T.ROUTES[r], `SUBJECT_ROUTES names ${r}, which has no route`);
+  for (const r of ['task-pipeline', 'project-audit', 'evidence-docs', 'agent-sync', 'make-skill', 'seo-llmo']) {
+    assert.ok(!T.SUBJECT_ROUTES.includes(r), `${r} is not a subject route`);
+  }
+});
+
+it('a refusal still beats the chain', () => {
+  assert.deepStrictEqual(T.match('добавь экран онбординга, без пайплайна'), []);
+});
+
+// --- the two routers that were only map rows (REQ-07) ------------------------------------
+
+it('xr-dev and web3d-dev are routes, reached by their own advertised words', () => {
+  assert.ok(T.match('add a WebXR session to the site').includes('xr-dev'));
+  assert.ok(T.match('нативное приложение для Quest').includes('xr-dev'));
+  assert.ok(T.match('3D-сцена тормозит').includes('web3d-dev'));
+  assert.ok(T.match('the React Three Fiber scene drops frames').includes('web3d-dev'));
+  assert.strictEqual(T.optedOut('добавь WebXR, без xr'), true);
+  assert.strictEqual(T.optedOut('make it 3d, no web3d'), true);
+});
+
+// --- operator-declared routes (REQ-04) ----------------------------------------------------
+
+it('a declared external route is printed after the family routes, and never shadows one', () => {
+  const external = T.externalRoutes({ 'example-media': { triggers: ['иконка', 'promo video'] } });
+  assert.deepStrictEqual(T.match('сделай иконку', { external }), ['example-media']);
+  assert.deepStrictEqual(T.match('сделай иконку'), [], 'an undeclared route must not fire');
+  const out = T.render('make a promo video', { external });
+  assert.ok(out.includes('example-media'), out);
+  assert.ok(/declared/.test(out), 'the line does not say the route is the operator\'s declaration');
+  // a declaration may not take a family router's name
+  assert.deepStrictEqual(T.externalRoutes({ 'task-pipeline': { triggers: ['ролик'] } }), []);
+  // the question filter and the refusal phrases govern declared routes exactly as family ones
+  assert.deepStrictEqual(T.match('что такое иконка?', { external }), []);
+  assert.deepStrictEqual(T.match('сделай иконку, без пайплайна', { external }), []);
 });
 
 if (failures.length) {

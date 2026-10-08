@@ -40,8 +40,9 @@ if (!member) {
 }
 
 let ROUTES;
+let PENDING = {};
 try {
-  ({ ROUTES } = require(path.join(__dirname, '..', 'lib', 'triggers.js')));
+  ({ ROUTES, PENDING = {} } = require(path.join(__dirname, '..', 'lib', 'triggers.js')));
 } catch (e) {
   console.error(`blind: cannot load the routing table — ${e.message}`);
   process.exit(2);
@@ -56,8 +57,12 @@ try {
  */
 const groups = [];
 for (const spec of Object.values(ROUTES)) {
-  for (const g of spec.sources || [{ skill: spec.skill, triggers: spec.triggers }]) {
-    if (g.skill.split('/')[0] === member) groups.push(g);
+  for (const g of spec.sources || [{ skill: spec.skill, triggers: spec.triggers, objects: spec.objects }]) {
+    // An OBJECT (a noun that routes behind an action verb) is still a word the hook
+    // fires on, so it is held to the same rule as a trigger.
+    if (g.skill.split('/')[0] === member) {
+      groups.push({ skill: g.skill, triggers: (g.triggers || []).concat(g.objects || []) });
+    }
   }
 }
 // NOT an early exit any more. This script also checks front-matter validity, which
@@ -154,6 +159,7 @@ if (!hasRoutes) {
 }
 
 const missing = [];
+const pending = [];
 for (const g of groups) {
   const name = g.skill.split('/')[1];
   const { desc, err } = description(name);
@@ -161,8 +167,17 @@ for (const g of groups) {
     console.error(`blind: ${err}`);
     process.exit(2);
   }
-  for (const t of g.triggers) if (!desc.includes(t)) missing.push(`${name}: ${JSON.stringify(t)}`);
+  for (const t of g.triggers) {
+    if (desc.includes(t)) continue;
+    // Declared in `lib/triggers.js` PENDING: the umbrella is waiting on THIS member to
+    // advertise the word. Reported, not failed — the member's gate is where the word is
+    // being added, and turning it red for the request would block the fix it asks for.
+    const p = PENDING[t];
+    if (p && p.skill === g.skill) { pending.push(`${name}: ${JSON.stringify(t)} — ${p.waits}`); continue; }
+    missing.push(`${name}: ${JSON.stringify(t)}`);
+  }
 }
+for (const p of pending) console.log(`pending: the umbrella routes on a word ${member} does not advertise yet — ${p}`);
 
 if (missing.length) {
   console.error(
@@ -178,5 +193,6 @@ if (missing.length) {
   );
   process.exit(1);
 }
-const n = groups.reduce((a, g) => a + g.triggers.length, 0);
-console.log(`ok: ${member} advertises all ${n} routed trigger(s) across ${groups.length} skill(s)`);
+const n = groups.reduce((a, g) => a + g.triggers.length, 0) - pending.length;
+const waiting = pending.length ? `; ${pending.length} pending, declared in lib/triggers.js` : '';
+console.log(`ok: ${member} advertises all ${n} routed trigger(s) across ${groups.length} skill(s)${waiting}`);

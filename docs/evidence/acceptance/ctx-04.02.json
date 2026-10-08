@@ -5,14 +5,14 @@
   "prefilled_pass": false,
   "run": {
     "host_platform": "darwin",
-    "node": "v26.8.1",
-    "pack_version": "1.46.1"
+    "node": "v26.10.0",
+    "pack_version": "1.54.0"
   },
   "clean_session": {
     "action": "updated",
     "loaded": {
-      "byte_count": 17047,
-      "digest": "805e54dff22a60e0d34470801a9358e30023e96809f72f4a7ffcc22d3bc0587a",
+      "byte_count": 19211,
+      "digest": "114da7e879031746550bf24f093f24b4c1b921e04f199928523f05a5a20e4978",
       "namespaces": [
         "super-ux",
         "sheleg-design",
@@ -20,6 +20,8 @@
         "sheleg-dev",
         "agent-stack",
         "telegram-dev",
+        "xr-dev",
+        "web3d-dev",
         "seo-llmo",
         "evidence-docs",
         "task-pipeline",
@@ -32,8 +34,8 @@
   "upgraded_session": {
     "action": "unchanged",
     "loaded": {
-      "byte_count": 17047,
-      "digest": "805e54dff22a60e0d34470801a9358e30023e96809f72f4a7ffcc22d3bc0587a",
+      "byte_count": 19211,
+      "digest": "114da7e879031746550bf24f093f24b4c1b921e04f199928523f05a5a20e4978",
       "namespaces": [
         "super-ux",
         "sheleg-design",
@@ -41,6 +43,8 @@
         "sheleg-dev",
         "agent-stack",
         "telegram-dev",
+        "xr-dev",
+        "web3d-dev",
         "seo-llmo",
         "evidence-docs",
         "task-pipeline",
@@ -65,8 +69,8 @@
   "native_corroboration": {
     "live_host_file_present": true,
     "loaded": {
-      "byte_count": 19126,
-      "digest": "14d71820f75f9ab12dbdf7d612198abf118b3de1ebe3ab538abff0eddc2d8a7f",
+      "byte_count": 19457,
+      "digest": "108bd89337019dd18c6fcb46b4dd8584634e7afdb951a31d98e00f4129272a4e",
       "namespaces": [
         "super-ux",
         "sheleg-design",

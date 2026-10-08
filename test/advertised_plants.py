@@ -58,13 +58,27 @@ def groups():
     return json.loads(proc.stdout)
 
 
+# Members whose routes arrived in the umbrella BEFORE their own gate learned to ask.
+# Declared by name with the member change it waits on, never by a count: xr-dev and
+# web3d-dev gained hook routes on 2026-10-08 (the routing-coverage change), and neither
+# member's `test/validate.py` calls `test/advertised_check.js` yet. A plant there would
+# assert a refusal the member cannot make. The entry turns STALE — and fails this sweep —
+# the moment the member's validator names the check, so it cannot outlive its reason.
+AWAITING_MEMBER_GATE = {
+    "xr-dev": "xr-dev: test/validate.py calling the umbrella's test/advertised_check.js "
+              "(routes added by the 2026-10-08 routing-coverage change)",
+    "web3d-dev": "web3d-dev: test/validate.py calling the umbrella's test/advertised_check.js "
+                 "(routes added by the 2026-10-08 routing-coverage change)",
+}
+
+
 def main():
     gs = groups()
     if gs is None:
         print("SKIP: advertised plants — the routing table could not be read")
         return 0
 
-    rows, skipped, seen = [], [], set()
+    rows, skipped, seen, stale = [], [], set(), []
     for g in gs:
         member, skill = g["skill"].split("/")
         if member in seen:
@@ -74,6 +88,12 @@ def main():
         validator = f"{ROOT}/skills/{member}/test/validate.py"
         if not hits or not os.path.isfile(validator):
             skipped.append(f"{member}: submodule not materialized")
+            continue
+        if member in AWAITING_MEMBER_GATE:
+            if "advertised_check" in open(validator, encoding="utf-8").read():
+                stale.append(member)
+            else:
+                skipped.append(f"{member}: awaiting {AWAITING_MEMBER_GATE[member]}")
             continue
         path = hits[0]
         original = open(path, encoding="utf-8").read()
@@ -111,6 +131,10 @@ def main():
     for s in skipped:
         print(f"  unlooked: {s}")
 
+    if stale:
+        print(f"\nFAIL: AWAITING_MEMBER_GATE names {', '.join(stale)}, whose validator now "
+              "calls advertised_check — delete the entry so the plant runs")
+        return 1
     missed = [r[0] for r in rows if not r[3]]
     if missed:
         print(f"\nFAIL: {len(missed)} member(s) did not refuse their own planted drop: "

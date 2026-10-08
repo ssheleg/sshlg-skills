@@ -1,0 +1,53 @@
+{
+  "about": "What the UserPromptSubmit hook names for the twelve tasks of the 2026-10-08 routing audit and their English variants. Deterministic: lib/triggers.js decides, no model is called, so this IS a gate (test/hook_routing_eval_test.js). `want` is the exact route set, order-free; [] means silence is the right answer. `external` is the neutral operator-declared route every case runs with; the cases marked `noExternal` run without it.",
+  "external": {
+    "example-media": {
+      "triggers": ["ролик", "видео", "реклама видео", "иконка", "озвучка", "музыка", "субтитры",
+                   "promo video", "ad video", "icon", "voice-over"]
+    }
+  },
+  "cases": [
+    { "id": "ru-01", "prompt": "сделай редизайн лендинга", "want": ["sheleg-design", "copywriting", "task-pipeline"] },
+    { "id": "ru-02", "prompt": "добавь экран онбординга в приложение", "want": ["super-ux", "task-pipeline"] },
+    { "id": "ru-03", "prompt": "почини баг в оплате", "want": ["task-pipeline", "sheleg-dev"] },
+    { "id": "ru-04", "prompt": "сделай рекламный ролик для приложения", "want": ["example-media"] },
+    { "id": "ru-05", "prompt": "напиши описание для App Store", "want": ["copywriting"] },
+    { "id": "ru-06", "prompt": "сделай иконку", "want": ["example-media"] },
+    { "id": "ru-07", "prompt": "проверь прод", "want": ["task-pipeline"] },
+    { "id": "ru-08", "prompt": "добавь Telegram-бота", "want": ["telegram-dev", "task-pipeline"] },
+    { "id": "ru-09", "prompt": "сделай дашборд в админке", "want": ["sheleg-design", "task-pipeline"] },
+    { "id": "ru-10", "prompt": "улучши анимации", "want": ["sheleg-design", "task-pipeline"] },
+    { "id": "ru-11", "prompt": "сделай макеты в Figma", "want": ["super-ux", "sheleg-design", "task-pipeline"] },
+    { "id": "ru-12", "prompt": "собери агента-оркестратора", "want": ["agent-stack", "task-pipeline"] },
+
+    { "id": "en-01", "prompt": "redesign the landing page", "want": ["sheleg-design", "task-pipeline"] },
+    { "id": "en-02", "prompt": "add an onboarding screen to the app", "want": ["super-ux", "task-pipeline"] },
+    { "id": "en-03", "prompt": "fix the payment bug", "want": ["task-pipeline", "sheleg-dev"] },
+    { "id": "en-04", "prompt": "make a promo video for the app", "want": ["example-media"] },
+    { "id": "en-05", "prompt": "write the App Store description", "want": ["copywriting"] },
+    { "id": "en-06", "prompt": "make an icon", "want": ["example-media"] },
+    { "id": "en-07", "prompt": "run a production check", "want": ["task-pipeline"] },
+    { "id": "en-08", "prompt": "add a Telegram bot", "want": ["telegram-dev", "task-pipeline"] },
+    { "id": "en-09", "prompt": "build a dashboard in the admin panel", "want": ["sheleg-design", "task-pipeline"] },
+    { "id": "en-10", "prompt": "improve the animations", "want": ["sheleg-design", "task-pipeline"] },
+    { "id": "en-11", "prompt": "make mockups in Figma", "want": ["super-ux", "sheleg-design", "task-pipeline"] },
+    { "id": "en-12", "prompt": "build an orchestrator agent", "want": ["agent-stack", "task-pipeline"] },
+
+    { "id": "audit-01", "prompt": "fix this bug", "want": ["task-pipeline"] },
+    { "id": "audit-02", "prompt": "promo video", "want": ["example-media"] },
+    { "id": "audit-03", "prompt": "добавь телеграм-бота", "want": ["telegram-dev", "task-pipeline"] },
+    { "id": "audit-04", "prompt": "исправь ошибку в оплате", "want": ["task-pipeline", "sheleg-dev"] },
+
+    { "id": "xr-01", "prompt": "add a WebXR session to the site", "want": ["xr-dev", "task-pipeline"] },
+    { "id": "3d-01", "prompt": "3D-сцена тормозит", "want": ["web3d-dev"] },
+
+    { "id": "quiet-01", "prompt": "почему падает оплата?", "want": [] },
+    { "id": "quiet-02", "prompt": "объясни, как работает Telegram-бот", "want": [] },
+    { "id": "quiet-03", "prompt": "проверь дизайн лендинга", "want": ["sheleg-design"] },
+    { "id": "quiet-04", "prompt": "what does the orchestrator do?", "want": [] },
+    { "id": "quiet-05", "prompt": "баг воспроизводится редко", "want": [] },
+    { "id": "quiet-06", "prompt": "открой дашборд графаны", "want": [] },
+    { "id": "quiet-07", "prompt": "сделай иконку", "want": [], "noExternal": true },
+    { "id": "quiet-08", "prompt": "сделай лендинг без телеграма", "want": [] }
+  ]
+}

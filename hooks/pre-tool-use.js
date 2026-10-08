@@ -100,8 +100,14 @@ function routeGate(data, home) {
     } catch (e) { /* no receipts file is the ordinary state */ }
 
     const triggers = require(path.join(LIB, 'triggers.js'));
-    const lines = {};
-    for (const [name, spec] of Object.entries(triggers.ROUTES)) lines[name] = spec.line;
+    // The operator's declared routes reach the turn state through the prompt hook, so
+    // the escalation must be able to NAME them too, or it prints a bare route id.
+    let external = [];
+    try {
+      const config = require(path.join(LIB, 'config.js'));
+      external = triggers.externalRoutes(config.externalGet(config.readConfig(home)));
+    } catch (e) { external = []; }
+    const lines = triggers.routeLines(external);
 
     const verdict = routegate.decide(data, state,
       { receipts, effect: data.tool_name, lines });

@@ -31,11 +31,11 @@ function it(name, fn) {
 
 const EXPECTED = [
   'super-ux', 'sheleg-design', 'copywriting', 'sheleg-dev', 'agent-stack',
-  'telegram-dev', 'seo-llmo', 'evidence-docs', 'task-pipeline',
+  'telegram-dev', 'xr-dev', 'web3d-dev', 'seo-llmo', 'evidence-docs', 'task-pipeline',
   'project-audit', 'make-skill', 'agent-sync',
 ];
 
-it('the registry holds exactly the twelve routers, in table order', () => {
+it('the registry holds exactly the fourteen routers, in table order', () => {
   assert.deepStrictEqual(registry.order(), EXPECTED);
 });
 
@@ -132,7 +132,7 @@ it('installing nothing still contributes the rules that need no skill', () => {
 // same shape as the gap the tenth router closed, in the fixture that was meant to
 // prove the family is fully covered. It is now read from `skills.json` rather than
 // typed, so a member added to the manifest cannot be missing from this list too.
-it('installing the whole family contributes all ten', () => {
+it('installing the whole family contributes every router', () => {
   const members = require('../skills.json').skills.map((s) => s.name);
   assert.ok(members.includes('agent-stack'), 'the manifest is what this reads; it must hold the members');
   const r = T.forMembers(members);
