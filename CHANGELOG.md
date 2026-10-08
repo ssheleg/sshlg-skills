@@ -1,3 +1,20 @@
+## v1.54.1 — five members move, and the words they now advertise route
+
+The launcher change of v1.54.0 shipped with the old pins. This release moves the five members
+the 2026-10-08 routing and Figma work released, and closes what their new descriptions opened.
+
+- **Pins:** sheleg-design 1.63.0 → **1.64.0**, super-ux 0.58.3 → **0.59.0**, task-pipeline
+  1.89.1 → **1.90.0**, sheleg-dev 0.13.0 → **0.13.1**, telegram-dev 0.2.1 → **0.2.2** —
+  `skills.json`, the submodule pointers and the README rows together.
+- **The advertised words reach their routes.** sheleg-design now advertises «админка» and
+  «макеты», copywriting "App Store description" / «описание для App Store»; the completeness
+  fixture refused all four until `lib/triggers.js` carried them.
+- **`PENDING` loses «макет»:** super-ux 0.59.0 advertises it, and a stale excuse fails the
+  fixture by design. «баг» stays pending: task-pipeline 1.90.0 added "bug", not «баг».
+- **The description reserve ratchet 12 → 13.** sheleg-design spent its description on the
+  routing words the audit asked for (964 of 970); the trim is that member's to make.
+- **`docs/evidence/acceptance/ctx-04.06.json`** re-emitted for the new pin set.
+
 ## v1.54.0 — the hook names the chain, reads word forms, and takes routes you declare
 
 A routing audit on 2026-10-08 typed twelve ordinary tasks at the installed 1.53.0, and six of
