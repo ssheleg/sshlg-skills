@@ -1,0 +1,204 @@
+{
+  "runtime_version": "1.54.2",
+  "checks": [
+    {
+      "member": "seo-aeo-audit",
+      "channel": "skills_cli",
+      "file": "SKILL.md",
+      "expected_sha256": "f47141259d522c415531f0efef9a2635443da9fb824b3f0c555ae536a4641fbb",
+      "installed_sha256": "f47141259d522c415531f0efef9a2635443da9fb824b3f0c555ae536a4641fbb",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "skills_cli",
+      "file": "references/aeo-geo.md",
+      "expected_sha256": "f45cf4f8aa81906ed545a28ecdd82979e5034350e0d343048d93768366eefe35",
+      "installed_sha256": "f45cf4f8aa81906ed545a28ecdd82979e5034350e0d343048d93768366eefe35",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "skills_cli",
+      "file": "references/architecture-and-equity.md",
+      "expected_sha256": "acdbef138a5ba1bdfaa7c92952eb7f88656f6aebf2d2d933764ae56b6c203045",
+      "installed_sha256": "acdbef138a5ba1bdfaa7c92952eb7f88656f6aebf2d2d933764ae56b6c203045",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "skills_cli",
+      "file": "references/algorithm-updates.md",
+      "expected_sha256": "8e877a49d41121902ae44bdf0e06f51416bfb87cf443e937a03e8c3d3e17f1d4",
+      "installed_sha256": "8e877a49d41121902ae44bdf0e06f51416bfb87cf443e937a03e8c3d3e17f1d4",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "skills_cli",
+      "file": "references/measurement.md",
+      "expected_sha256": "68fc67c6470cdcd28590362f61c014be4ee804d9afd281604a7922997002e558",
+      "installed_sha256": "68fc67c6470cdcd28590362f61c014be4ee804d9afd281604a7922997002e558",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "skills_cli",
+      "file": "references/experiments.md",
+      "expected_sha256": "b64124eb089dada94ae9b45f492321ceca44ccdedc57a180d7a93b239f093a4f",
+      "installed_sha256": "b64124eb089dada94ae9b45f492321ceca44ccdedc57a180d7a93b239f093a4f",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "skills_cli",
+      "file": "references/technical-checks.md",
+      "expected_sha256": "9dff759cf4d29dbc9c6eeaf8cf69a2b213ab40f07d405e3f501185e828333638",
+      "installed_sha256": "9dff759cf4d29dbc9c6eeaf8cf69a2b213ab40f07d405e3f501185e828333638",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "skills_cli",
+      "file": "references/threats-and-defense.md",
+      "expected_sha256": "08e98fc23f1c38f415e184edc55d3c2f691245711448c8ef14223d4993f73959",
+      "installed_sha256": "08e98fc23f1c38f415e184edc55d3c2f691245711448c8ef14223d4993f73959",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "claude_plugin",
+      "file": "SKILL.md",
+      "expected_sha256": "f47141259d522c415531f0efef9a2635443da9fb824b3f0c555ae536a4641fbb",
+      "installed_sha256": "f47141259d522c415531f0efef9a2635443da9fb824b3f0c555ae536a4641fbb",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "claude_plugin",
+      "file": "references/aeo-geo.md",
+      "expected_sha256": "f45cf4f8aa81906ed545a28ecdd82979e5034350e0d343048d93768366eefe35",
+      "installed_sha256": "f45cf4f8aa81906ed545a28ecdd82979e5034350e0d343048d93768366eefe35",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "claude_plugin",
+      "file": "references/architecture-and-equity.md",
+      "expected_sha256": "acdbef138a5ba1bdfaa7c92952eb7f88656f6aebf2d2d933764ae56b6c203045",
+      "installed_sha256": "acdbef138a5ba1bdfaa7c92952eb7f88656f6aebf2d2d933764ae56b6c203045",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "claude_plugin",
+      "file": "references/algorithm-updates.md",
+      "expected_sha256": "8e877a49d41121902ae44bdf0e06f51416bfb87cf443e937a03e8c3d3e17f1d4",
+      "installed_sha256": "8e877a49d41121902ae44bdf0e06f51416bfb87cf443e937a03e8c3d3e17f1d4",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "claude_plugin",
+      "file": "references/measurement.md",
+      "expected_sha256": "68fc67c6470cdcd28590362f61c014be4ee804d9afd281604a7922997002e558",
+      "installed_sha256": "68fc67c6470cdcd28590362f61c014be4ee804d9afd281604a7922997002e558",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "claude_plugin",
+      "file": "references/experiments.md",
+      "expected_sha256": "b64124eb089dada94ae9b45f492321ceca44ccdedc57a180d7a93b239f093a4f",
+      "installed_sha256": "b64124eb089dada94ae9b45f492321ceca44ccdedc57a180d7a93b239f093a4f",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "claude_plugin",
+      "file": "references/technical-checks.md",
+      "expected_sha256": "9dff759cf4d29dbc9c6eeaf8cf69a2b213ab40f07d405e3f501185e828333638",
+      "installed_sha256": "9dff759cf4d29dbc9c6eeaf8cf69a2b213ab40f07d405e3f501185e828333638",
+      "match": true
+    },
+    {
+      "member": "seo-aeo-audit",
+      "channel": "claude_plugin",
+      "file": "references/threats-and-defense.md",
+      "expected_sha256": "08e98fc23f1c38f415e184edc55d3c2f691245711448c8ef14223d4993f73959",
+      "installed_sha256": "08e98fc23f1c38f415e184edc55d3c2f691245711448c8ef14223d4993f73959",
+      "match": true
+    },
+    {
+      "member": "agent-sync",
+      "channel": "skills_cli",
+      "file": "SKILL.md",
+      "expected_sha256": "c9c536b35eb3cb0f4dd0d9b42b49f094440a7a4aad29e092cc233957258a22de",
+      "installed_sha256": "c9c536b35eb3cb0f4dd0d9b42b49f094440a7a4aad29e092cc233957258a22de",
+      "match": true
+    },
+    {
+      "member": "agent-sync",
+      "channel": "skills_cli",
+      "file": "scripts/agent_sync.py",
+      "expected_sha256": "15ec22f53bc548d015ea9fcceebc698df5bcdf7094ced86b83f3bcc294ff5977",
+      "installed_sha256": "15ec22f53bc548d015ea9fcceebc698df5bcdf7094ced86b83f3bcc294ff5977",
+      "match": true
+    },
+    {
+      "member": "agent-sync",
+      "channel": "claude_plugin",
+      "file": "SKILL.md",
+      "expected_sha256": "c9c536b35eb3cb0f4dd0d9b42b49f094440a7a4aad29e092cc233957258a22de",
+      "installed_sha256": "c9c536b35eb3cb0f4dd0d9b42b49f094440a7a4aad29e092cc233957258a22de",
+      "match": true
+    },
+    {
+      "member": "agent-sync",
+      "channel": "claude_plugin",
+      "file": "scripts/agent_sync.py",
+      "expected_sha256": "15ec22f53bc548d015ea9fcceebc698df5bcdf7094ced86b83f3bcc294ff5977",
+      "installed_sha256": "15ec22f53bc548d015ea9fcceebc698df5bcdf7094ced86b83f3bcc294ff5977",
+      "match": true
+    }
+  ],
+  "operator_instruction_preservation": [
+    {
+      "file": ".claude/CLAUDE.md",
+      "outside_router_unchanged": true
+    },
+    {
+      "file": ".codex/AGENTS.md",
+      "outside_router_unchanged": true
+    },
+    {
+      "file": ".gemini/GEMINI.md",
+      "outside_router_unchanged": true
+    },
+    {
+      "file": ".cursor/rules/sshlg-routing.mdc",
+      "outside_router_unchanged": true
+    }
+  ],
+  "running_session_reloaded": false,
+  "as_of": "2026-10-09",
+  "updater_steps_passed": 72,
+  "updater_exit_code": 0,
+  "codex_native": {
+    "agent_sync": "1.21.4 enabled, already current",
+    "seo_aeo_audit": "not registered in native plugin manager; skills-CLI copy verified",
+    "cache_updated_by_family": false
+  },
+  "release": {
+    "hub_commit": "79158b6190fcb9520d7801074adb3c810f2c23c1",
+    "hub_version": "1.54.2",
+    "hub_run": 37854507325,
+    "seo_commit": "3f2ffd846d525483f88d82b388fb3b840a1bf688",
+    "seo_version": "0.26.2",
+    "seo_run": 37852723582
+  },
+  "registry_readback": {
+    "sshlg-skills": "1.54.2",
+    "@ssheleg/seo-aeo-audit": "0.26.2"
+  }
+}

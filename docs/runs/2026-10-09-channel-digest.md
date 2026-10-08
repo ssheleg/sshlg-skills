@@ -48,3 +48,33 @@ Other member pointers and unrelated audit queues retain their prior state.
 
 Used: task-pipeline (delivery and gates), agent-sync (claims), make-skill
 (plugin/version conformance). Private report management used project-reports.
+
+
+## Final public delivery receipt — supersedes pending steps above
+
+- Hub PR [170](https://github.com/ssheleg/sshlg-skills/pull/170) merged at
+  `79158b6190fcb9520d7801074adb3c810f2c23c1`. Both exact-head validate runs
+  passed for `1b93d734faba93cd7d3ba392e43d2e9903b796e6`; merged tree matched.
+- [Hub release workflow](https://github.com/ssheleg/sshlg-skills/actions/runs/37854507325)
+  passed; npm serves **sshlg-skills@1.54.2**.
+- [SEO release workflow](https://github.com/ssheleg/seo-aeo-audit/actions/runs/37852723582)
+  passed; npm serves **@ssheleg/seo-aeo-audit@0.26.2**.
+- [Pages deployment](https://github.com/ssheleg/sshlg-skills/actions/runs/37854498368)
+  passed. This is a deployment receipt, not a visual or crawler acceptance test.
+- The supported updater completed **72/72 steps, exit 0**. Twenty installed-file
+  comparisons across skills-CLI and Claude plugin channels matched the pinned source.
+  Runtime is **1.54.2**; operator text outside managed blocks in four instruction
+  files is unchanged. [Byte readback](../evidence/channel-digest-20261009/installed-readback.json).
+- Native Codex agent-sync was already **1.21.4**, enabled. Its plugin manager lists
+  no registered native SEO plugin; the SEO skills-CLI channel is verified instead.
+  No native cache was edited by hand. Running sessions were not restarted and are
+  not certified to have loaded the new content.
+
+Public delivery is complete at the release/installed-file layer. Next use: reload
+an agent session, then apply the corrected SEO checks to a real target and record
+that target's measurements. No ranking, citation or revenue outcome is claimed.
+
+Additional skill actually consulted: plugin-management, to inspect capability scope.
+Its app manages ChatGPT connections, not native Codex cache refresh; the local Codex
+plugin CLI supplied the native installed-state readback. No permission or connection
+settings were changed.
