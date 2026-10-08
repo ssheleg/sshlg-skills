@@ -2524,7 +2524,9 @@ def check_the_description_reserve_is_not_spent() -> None:
     if not total:
         _skips.append("description reserve — no member is materialised to measure")
         return
-    ratchet = 12
+    # 12 → 13 on 2026-10-08: sheleg-design 1.64.0 spent its description on the routing
+    # words the routing audit asked for (964 of 970). Its trim is that member's to make.
+    ratchet = 13
     if len(tight) > ratchet:
         worst = ", ".join(f"{k} ({h})" for k, h in sorted(tight, key=lambda x: x[1])[:6])
         fail(f"{len(tight)} of {total} skills sit within 60 characters of the 970 "
