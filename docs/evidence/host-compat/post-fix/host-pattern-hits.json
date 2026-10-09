@@ -1,0 +1,1170 @@
+[
+  {
+    "member": "super-ux",
+    "skill": "vision",
+    "path": "plugins/super-ux/skills/vision/references/scenario-format.md",
+    "line": 886,
+    "kind": "delegation",
+    "text": "subagent build \u2192 tests \u2192 deploy \u2192 docs), the ssheleg **task-pipeline**"
+  },
+  {
+    "member": "super-ux",
+    "skill": "vision",
+    "path": "plugins/super-ux/skills/vision/references/scenario-format.md",
+    "line": 899,
+    "kind": "delegation",
+    "text": "subagent-driven execution, or implement by hand. Either way, keep the"
+  },
+  {
+    "member": "super-ux",
+    "skill": "vision",
+    "path": "plugins/super-ux/skills/vision/references/system-map.md",
+    "line": 142,
+    "kind": "delegation",
+    "text": "  subagent build \u2192 tests \u2192 deploy \u2192 docs). Offered after audits and Improve"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-foundation",
+    "path": "plugins/super-ux/skills/ux-foundation/references/scenario-format.md",
+    "line": 886,
+    "kind": "delegation",
+    "text": "subagent build \u2192 tests \u2192 deploy \u2192 docs), the ssheleg **task-pipeline**"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-foundation",
+    "path": "plugins/super-ux/skills/ux-foundation/references/scenario-format.md",
+    "line": 899,
+    "kind": "delegation",
+    "text": "subagent-driven execution, or implement by hand. Either way, keep the"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-foundation",
+    "path": "plugins/super-ux/skills/ux-foundation/references/system-map.md",
+    "line": 142,
+    "kind": "delegation",
+    "text": "  subagent build \u2192 tests \u2192 deploy \u2192 docs). Offered after audits and Improve"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-flows",
+    "path": "plugins/super-ux/skills/ux-flows/references/scenario-format.md",
+    "line": 886,
+    "kind": "delegation",
+    "text": "subagent build \u2192 tests \u2192 deploy \u2192 docs), the ssheleg **task-pipeline**"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-flows",
+    "path": "plugins/super-ux/skills/ux-flows/references/scenario-format.md",
+    "line": 899,
+    "kind": "delegation",
+    "text": "subagent-driven execution, or implement by hand. Either way, keep the"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-flows",
+    "path": "plugins/super-ux/skills/ux-flows/references/system-map.md",
+    "line": 142,
+    "kind": "delegation",
+    "text": "  subagent build \u2192 tests \u2192 deploy \u2192 docs). Offered after audits and Improve"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-scenarios",
+    "path": "plugins/super-ux/skills/ux-scenarios/references/scenario-format.md",
+    "line": 886,
+    "kind": "delegation",
+    "text": "subagent build \u2192 tests \u2192 deploy \u2192 docs), the ssheleg **task-pipeline**"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-scenarios",
+    "path": "plugins/super-ux/skills/ux-scenarios/references/scenario-format.md",
+    "line": 899,
+    "kind": "delegation",
+    "text": "subagent-driven execution, or implement by hand. Either way, keep the"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-scenarios",
+    "path": "plugins/super-ux/skills/ux-scenarios/references/system-map.md",
+    "line": 142,
+    "kind": "delegation",
+    "text": "  subagent build \u2192 tests \u2192 deploy \u2192 docs). Offered after audits and Improve"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-audit",
+    "path": "plugins/super-ux/skills/ux-audit/SKILL.md",
+    "line": 161,
+    "kind": "argument-variable",
+    "text": "   `$ARGUMENTS` if given (`all`, `feature:<name>`, `SCN-010..SCN-020`,"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-audit",
+    "path": "plugins/super-ux/skills/ux-audit/SKILL.md",
+    "line": 257,
+    "kind": "delegation",
+    "text": "   - user prefers otherwise \u2192 superpowers `writing-plans` \u2192 subagent"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-audit",
+    "path": "plugins/super-ux/skills/ux-audit/references/scenario-format.md",
+    "line": 886,
+    "kind": "delegation",
+    "text": "subagent build \u2192 tests \u2192 deploy \u2192 docs), the ssheleg **task-pipeline**"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-audit",
+    "path": "plugins/super-ux/skills/ux-audit/references/scenario-format.md",
+    "line": 899,
+    "kind": "delegation",
+    "text": "subagent-driven execution, or implement by hand. Either way, keep the"
+  },
+  {
+    "member": "super-ux",
+    "skill": "ux-audit",
+    "path": "plugins/super-ux/skills/ux-audit/references/system-map.md",
+    "line": 142,
+    "kind": "delegation",
+    "text": "  subagent build \u2192 tests \u2192 deploy \u2192 docs). Offered after audits and Improve"
+  },
+  {
+    "member": "super-ux",
+    "skill": "brand-voice",
+    "path": "plugins/super-ux/skills/brand-voice/references/system-map.md",
+    "line": 142,
+    "kind": "delegation",
+    "text": "  subagent build \u2192 tests \u2192 deploy \u2192 docs). Offered after audits and Improve"
+  },
+  {
+    "member": "super-ux",
+    "skill": "copywriting",
+    "path": "plugins/super-ux/skills/copywriting/references/system-map.md",
+    "line": 142,
+    "kind": "delegation",
+    "text": "  subagent build \u2192 tests \u2192 deploy \u2192 docs). Offered after audits and Improve"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+    "line": 142,
+    "kind": "delegation",
+    "text": "1. Restate the task in one line. Track each stage from 0 using the host task tool or a prose checklist (for resume). Then run the"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/artifacts.md",
+    "line": 127,
+    "kind": "delegation",
+    "text": "| **5 Dev** | one task at a time | the plan task \u00b7 the spec's Global Constraints, copied verbatim \u00b7 host test/lint commands \u00b7 the brief's branch policy. **A subagent reads only its own file-based brief** \u2014 that is the whole of its context |"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/brainstorm.md",
+    "line": 80,
+    "kind": "delegation",
+    "text": "- Smaller focused files are also what the *implementer* (often a subagent with a"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 3,
+    "kind": "delegation",
+    "text": "Executing the plan: an isolated workspace, one fresh implementer subagent per task,"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 7,
+    "kind": "delegation",
+    "text": "> Ported from the `using-git-worktrees` and `subagent-driven-development` skills in"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 161,
+    "kind": "delegation",
+    "text": "for every subagent \u2014 implementers, reviewers, fixers. Pin it explicitly on each"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 185,
+    "kind": "delegation",
+    "text": "Everything you paste into a dispatch prompt \u2014 and everything a subagent prints back"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 212,
+    "kind": "delegation",
+    "text": "Never make a subagent read the whole plan. If an earlier task parked a finding in"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 244,
+    "kind": "delegation",
+    "text": "**A subagent never writes the register.** Not a style rule; the same physical"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 335,
+    "kind": "delegation",
+    "text": "A subagent's own report is not evidence about the text it left behind. Run the"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 457,
+    "kind": "delegation",
+    "text": "  its context is intact. If the harness can't message a live subagent, dispatch a"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 476,
+    "kind": "delegation",
+    "text": "**In a subagent run, never fix findings yourself in the controller session** \u2014"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 611,
+    "kind": "delegation",
+    "text": "If it returns findings, dispatch **ONE** fix subagent with the complete list \u2014 not"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 654,
+    "kind": "delegation",
+    "text": "the base branch** (\u00a74.1a \u2014 a subagent never writes the register), or is sitting in"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 663,
+    "kind": "delegation",
+    "text": "| \"I'll fix it myself, dispatching is overhead\" | In a subagent run, controller fixes skip review and pollute your context \u2014 resume the implementer. (Inline runs are the declared exception, and still review the fix diff.) |"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+    "line": 671,
+    "kind": "delegation",
+    "text": "| \"I'll paste the earlier tasks so it has context\" | A fresh subagent needs its task, its interfaces and the constraints. Pasted history is pure cost. |"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/companion-skills.md",
+    "line": 113,
+    "kind": "delegation",
+    "text": "`superpowers:subagent-driven-development`, `superpowers:test-driven-development`."
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/companion-skills.md",
+    "line": 336,
+    "kind": "delegation",
+    "text": "  `using-git-worktrees`, `subagent-driven-development`, `test-driven-development`"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/continuity.md",
+    "line": 173,
+    "kind": "universal-negative",
+    "text": "`/loop` is **Claude Code only**, in the same way the `PreToolUse` contract in"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/gates.md",
+    "line": 564,
+    "kind": "universal-negative",
+    "text": "| **Hook** ([`hooks.md`](hooks.md)) | stops the edit *before* it happens | Claude Code only; a crashing hook **fails open** |"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/hooks.md",
+    "line": 55,
+    "kind": "delegation",
+    "text": "| `SubagentStart` \u00b7 `SubagentStop` | a subagent starts or finishes | stage 5 runs implementers as subagents; this is where a per-agent identity or ledger line belongs |"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/hooks.md",
+    "line": 99,
+    "kind": "delegation",
+    "text": "inside a subagent \u2014 `agent_id` and `agent_type`. `prompt_id` is present from a"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/hooks.md",
+    "line": 117,
+    "kind": "plugin-variable",
+    "text": "| a plugin's `hooks/hooks.json`, paths via `${CLAUDE_PLUGIN_ROOT}` | every project the plugin is installed in | the rule travels with a tool |"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/model-tiering.md",
+    "line": 49,
+    "kind": "delegation",
+    "text": "at preflight) is the CHOICE, and the plan, every stage and every subagent"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+    "line": 10,
+    "kind": "delegation",
+    "text": "> file-ownership rules this pipeline's stage-5 subagent build depends on."
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+    "line": 241,
+    "kind": "delegation",
+    "text": "A checklist you run yourself, inline. No subagent:"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+    "line": 444,
+    "kind": "delegation",
+    "text": "These are roles, not hardcoded models or host-specific subagent names."
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/portability.md",
+    "line": 78,
+    "kind": "delegation",
+    "text": "| Workspace isolation, the subagent loop, who may write the register | `references/build.md` |"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/prioritisation.md",
+    "line": 128,
+    "kind": "delegation",
+    "text": "four fields are the contract; anything else is a subagent that spent context to guess."
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/progress.md",
+    "line": 399,
+    "kind": "delegation",
+    "text": "event: <compact|session-end|subagent|memory> \u2014 <detail> \u2014 <ISO-8601>"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/residue.md",
+    "line": 37,
+    "kind": "claude-tool-name",
+    "text": "TaskList              \u2192  \"No tasks found\""
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/review.md",
+    "line": 140,
+    "kind": "delegation",
+    "text": "1. **A subagent this run dispatches** \u2014 the only option whose execution the run can"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/review.md",
+    "line": 246,
+    "kind": "delegation",
+    "text": "the orchestrator after integration, never by a subagent"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/spec.md",
+    "line": 3,
+    "kind": "delegation",
+    "text": "Writing the approved design down so a zero-context implementer \u2014 human or subagent"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/spec.md",
+    "line": 221,
+    "kind": "delegation",
+    "text": "Read what you wrote with fresh eyes and fix inline. No subagent, no second pass:"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/stages.md",
+    "line": 446,
+    "kind": "delegation",
+    "text": "- **Freedom: low** \u2014 TDD order, worktree isolation and 'a subagent never writes the register' are the narrow bridge ([`gates.md`](gates.md) \u2192 *Axis C*)."
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/stages.md",
+    "line": 450,
+    "kind": "delegation",
+    "text": "  then one fresh implementer subagent per task with a file-based brief and report,"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/references/stages.md",
+    "line": 597,
+    "kind": "delegation",
+    "text": "  widens a check, the run dispatches a reader \u2014 a subagent it can watch, a bot whose"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/templates/run.md",
+    "line": 72,
+    "kind": "delegation",
+    "text": "event: <compact|session-end|subagent|memory> \u2014 <detail> \u2014 <ISO-8601>"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/templates/run.md",
+    "line": 96,
+    "kind": "delegation",
+    "text": "  progress. `subagent` records one finishing, so the `hand:` count below has"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "task-pipeline",
+    "path": "plugins/task-pipeline/skills/task-pipeline/templates/run.md",
+    "line": 141,
+    "kind": "delegation",
+    "text": "event: subagent \u2014 general-purpose \u2014 2026-08-10T12:00Z"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "evidence-docs",
+    "path": "plugins/task-pipeline/skills/evidence-docs/references/gates.md",
+    "line": 564,
+    "kind": "universal-negative",
+    "text": "| **Hook** ([`hooks.md`](hooks.md)) | stops the edit *before* it happens | Claude Code only; a crashing hook **fails open** |"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "evidence-docs",
+    "path": "plugins/task-pipeline/skills/evidence-docs/references/hooks.md",
+    "line": 55,
+    "kind": "delegation",
+    "text": "| `SubagentStart` \u00b7 `SubagentStop` | a subagent starts or finishes | stage 5 runs implementers as subagents; this is where a per-agent identity or ledger line belongs |"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "evidence-docs",
+    "path": "plugins/task-pipeline/skills/evidence-docs/references/hooks.md",
+    "line": 99,
+    "kind": "delegation",
+    "text": "inside a subagent \u2014 `agent_id` and `agent_type`. `prompt_id` is present from a"
+  },
+  {
+    "member": "task-pipeline",
+    "skill": "evidence-docs",
+    "path": "plugins/task-pipeline/skills/evidence-docs/references/hooks.md",
+    "line": 117,
+    "kind": "plugin-variable",
+    "text": "| a plugin's `hooks/hooks.json`, paths via `${CLAUDE_PLUGIN_ROOT}` | every project the plugin is installed in | the rule travels with a tool |"
+  },
+  {
+    "member": "agent-sync",
+    "skill": "agent-sync",
+    "path": "plugins/agent-sync/skills/agent-sync/SKILL.md",
+    "line": 189,
+    "kind": "plugin-variable",
+    "text": "`scripts/agent_sync.py` exists. `${CLAUDE_PLUGIN_ROOT}/skills/agent-sync` is a"
+  },
+  {
+    "member": "agent-sync",
+    "skill": "agent-sync",
+    "path": "plugins/agent-sync/skills/agent-sync/references/hooks.md",
+    "line": 59,
+    "kind": "plugin-variable",
+    "text": "        \"hooks\": [{ \"type\": \"command\", \"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh\" }] }"
+  },
+  {
+    "member": "agent-sync",
+    "skill": "agent-sync",
+    "path": "plugins/agent-sync/skills/agent-sync/references/hooks.md",
+    "line": 63,
+    "kind": "plugin-variable",
+    "text": "        \"hooks\": [{ \"type\": \"command\", \"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" }] },"
+  },
+  {
+    "member": "agent-sync",
+    "skill": "agent-sync",
+    "path": "plugins/agent-sync/skills/agent-sync/references/hooks.md",
+    "line": 65,
+    "kind": "plugin-variable",
+    "text": "        \"hooks\": [{ \"type\": \"command\", \"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/guard.sh\" }] }"
+  },
+  {
+    "member": "agent-sync",
+    "skill": "agent-sync",
+    "path": "plugins/agent-sync/skills/agent-sync/references/hooks.md",
+    "line": 69,
+    "kind": "plugin-variable",
+    "text": "        \"hooks\": [{ \"type\": \"command\", \"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/renew.sh\" }] }"
+  },
+  {
+    "member": "agent-sync",
+    "skill": "agent-sync",
+    "path": "plugins/agent-sync/skills/agent-sync/references/hooks.md",
+    "line": 72,
+    "kind": "plugin-variable",
+    "text": "      { \"hooks\": [{ \"type\": \"command\", \"command\": \"${CLAUDE_PLUGIN_ROOT}/hooks/session-end.sh\" }] }"
+  },
+  {
+    "member": "agent-sync",
+    "skill": "agent-sync",
+    "path": "plugins/agent-sync/skills/agent-sync/references/hooks.md",
+    "line": 133,
+    "kind": "plugin-variable",
+    "text": "  | \"$CLAUDE_PLUGIN_ROOT/hooks/guard.sh\"; echo \"exit=$?\""
+  },
+  {
+    "member": "agent-sync",
+    "skill": "agent-sync",
+    "path": "plugins/agent-sync/skills/agent-sync/references/lease-protocol.md",
+    "line": 127,
+    "kind": "universal-negative",
+    "text": "this machine \u2014 so a ref won elsewhere leaves nothing to walk, and for a while `residue`"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/SKILL.md",
+    "line": 28,
+    "kind": "delegation",
+    "text": "| `references/host-capabilities.md` | shipping a **hook, subagent, command, script or MCP dependency** \u2014 what each buys and costs, hook events and exit codes, the degradation clauses |"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/SKILL.md",
+    "line": 39,
+    "kind": "argument-variable",
+    "text": "Detect from the request and any path in `$ARGUMENTS`; announce the choice."
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/SKILL.md",
+    "line": 134,
+    "kind": "universal-negative",
+    "text": "some non-Claude runtimes, so DETECT them, never assume \"Claude Code only\"."
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/assets/command.template.md",
+    "line": 17,
+    "kind": "argument-variable",
+    "text": "Do <the task> for `$ARGUMENTS`."
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/assets/command.template.md",
+    "line": 23,
+    "kind": "argument-variable",
+    "text": "   PLUGIN_NAME-something $ARGUMENTS"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/agent-skills-spec.md",
+    "line": 142,
+    "kind": "universal-negative",
+    "text": "\"Claude Code only\" is wrong for several of these: some non-Claude runtimes"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/claude-code-plugin.md",
+    "line": 221,
+    "kind": "delegation",
+    "text": "| `context: fork`, `agent`, `background` | run the skill in a subagent |"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/claude-code-plugin.md",
+    "line": 281,
+    "kind": "plugin-variable",
+    "text": "and never loaded from a project-scope `@skills-dir` plugin. `${CLAUDE_PLUGIN_ROOT}`,"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/claude-code-plugin.md",
+    "line": 282,
+    "kind": "plugin-variable",
+    "text": "`${CLAUDE_PLUGIN_DATA}`, `${CLAUDE_PROJECT_DIR}` and `${ENV_VAR}` substitute;"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/claude-code-plugin.md",
+    "line": 291,
+    "kind": "plugin-variable",
+    "text": "| `${CLAUDE_PLUGIN_ROOT}` | the plugin's install directory \u2014 **changes on every update**, never store state there |"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/claude-code-plugin.md",
+    "line": 293,
+    "kind": "plugin-variable",
+    "text": "| `${CLAUDE_PROJECT_DIR}` | project root |"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/claude-code-plugin.md",
+    "line": 294,
+    "kind": "plugin-variable",
+    "text": "| `${CLAUDE_SKILL_DIR}` | the skill's own directory (skill content and `allowed-tools` Bash rules) |"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/claude-code-plugin.md",
+    "line": 299,
+    "kind": "plugin-variable",
+    "text": "`\"${CLAUDE_PLUGIN_ROOT}\"/scripts/x.sh`."
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/claude-code-plugin.md",
+    "line": 372,
+    "kind": "plugin-variable",
+    "text": "- [ ] scripts referenced through `${CLAUDE_PLUGIN_ROOT}`, state through"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/distribution.md",
+    "line": 62,
+    "kind": "universal-negative",
+    "text": "\u2502   \u251c\u2500\u2500 hooks/hooks.json + *.sh         # Claude Code only \u2014 see host-capabilities.md"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/distribution.md",
+    "line": 63,
+    "kind": "universal-negative",
+    "text": "\u2502   \u251c\u2500\u2500 agents/*.md                     # Claude Code only"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+    "line": 3,
+    "kind": "delegation",
+    "text": "**Load this when:** deciding whether a skill should ship a hook, a subagent, a"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+    "line": 67,
+    "kind": "plugin-variable",
+    "text": "                 \"command\": \"\\\"${CLAUDE_PLUGIN_ROOT}/hooks/check.sh\\\"\","
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+    "line": 79,
+    "kind": "delegation",
+    "text": "| `Stop` / `SubagentStop` | a turn or subagent finishes | yes | completion gates |"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+    "line": 126,
+    "kind": "plugin-variable",
+    "text": "**Environment:** `${CLAUDE_PLUGIN_ROOT}`, `${CLAUDE_PLUGIN_DATA}`,"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+    "line": 127,
+    "kind": "plugin-variable",
+    "text": "`${CLAUDE_PROJECT_DIR}` substitute in the command and are exported. Quote them \u2014"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+    "line": 157,
+    "kind": "delegation",
+    "text": "A subagent earns its always-on cost when the work is *voluminous and separable* \u2014"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+    "line": 170,
+    "kind": "argument-variable",
+    "text": "body receives `$ARGUMENTS`. Two rules cost a debugging round each:"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+    "line": 200,
+    "kind": "plugin-variable",
+    "text": "`${CLAUDE_PLUGIN_ROOT}` in loaded Markdown; it does not export that variable to"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+    "line": 206,
+    "kind": "plugin-variable",
+    "text": "$ echo \"[${CLAUDE_PLUGIN_ROOT}]\""
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+    "line": 208,
+    "kind": "plugin-variable",
+    "text": "$ python3 \"${CLAUDE_PLUGIN_ROOT}/skills/x/scripts/x.py\" ."
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+    "line": 277,
+    "kind": "plugin-variable",
+    "text": "- [ ] Hook commands quote `\"${CLAUDE_PLUGIN_ROOT}\"` and set a `timeout`"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/outcome-evaluation.md",
+    "line": 16,
+    "kind": "delegation",
+    "text": "| Actors | the host supplies the tool names \u2014 a CLI, a browser, a subagent are ways to RUN an arm, and **no specific one is mandatory**; an eval hard-wired to one host's tool cannot run anywhere else, which is a hostlock wearing a harness |"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/outcome-evaluation.md",
+    "line": 42,
+    "kind": "delegation",
+    "text": "  subagent, no network where one is required). NOT_RUN is never PASS, and it"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/retrofit.md",
+    "line": 33,
+    "kind": "plugin-variable",
+    "text": "**Do not build the command out of `${CLAUDE_PLUGIN_ROOT}`.** That variable is"
+  },
+  {
+    "member": "make-skill",
+    "skill": "make-skill",
+    "path": "plugins/make-skill/skills/make-skill/references/retrofit.md",
+    "line": 126,
+    "kind": "delegation",
+    "text": "    (`references/host-capabilities.md`) if it ships a hook, subagent, command or"
+  },
+  {
+    "member": "sheleg-design",
+    "skill": "sheleg-design",
+    "path": "plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md",
+    "line": 376,
+    "kind": "delegation",
+    "text": "  and a sequential independent pass is a valid substitute for a fresh subagent."
+  },
+  {
+    "member": "sheleg-design",
+    "skill": "sheleg-design",
+    "path": "plugins/sheleg-design/skills/sheleg-design/styles/field-notes.md",
+    "line": 518,
+    "kind": "delegation",
+    "text": "  pack bans.** Corrected 2026-08-08. Surfaced by a routing-scenario subagent"
+  },
+  {
+    "member": "seo-aeo-audit",
+    "skill": "seo-aeo-audit",
+    "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md",
+    "line": 91,
+    "kind": "plugin-variable",
+    "text": "`${CLAUDE_PLUGIN_ROOT}/skills/seo-aeo-audit` under the Claude Code plugin, the"
+  },
+  {
+    "member": "seo-aeo-audit",
+    "skill": "seo-aeo-audit",
+    "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/benchmarks.md",
+    "line": 179,
+    "kind": "universal-negative",
+    "text": "| Bounce/dwell thresholds for intent match | bounce <40% and >2 min = match; >70% = mismatch | practitioner convention, **undated and untiered elsewhere in this corpus** \u2014 treat as a triage prompt, not a threshold. GA4 reports engagement rate rather than bounce rate, and experience-signals.md H1 argues there is no universal benchmark for the neighbouring metric |"
+  },
+  {
+    "member": "sheleg-dev",
+    "skill": "stripe-billing",
+    "path": "plugins/sheleg-dev/skills/stripe-billing/SKILL.md",
+    "line": 385,
+    "kind": "universal-negative",
+    "text": "- **Not Claude Code** (Cursor, Codex, the skills CLI, the API container): the"
+  },
+  {
+    "member": "sheleg-dev",
+    "skill": "crypto-payments",
+    "path": "plugins/sheleg-dev/skills/crypto-payments/SKILL.md",
+    "line": 405,
+    "kind": "universal-negative",
+    "text": "- **Not Claude Code** (Cursor, Codex, the skills CLI, the API container): the"
+  },
+  {
+    "member": "sheleg-dev",
+    "skill": "ad-tracking",
+    "path": "plugins/sheleg-dev/skills/ad-tracking/SKILL.md",
+    "line": 420,
+    "kind": "universal-negative",
+    "text": "- **Not Claude Code** (Cursor, Codex, the skills CLI, the API container): the pack's"
+  },
+  {
+    "member": "sheleg-dev",
+    "skill": "google-signin",
+    "path": "plugins/sheleg-dev/skills/google-signin/SKILL.md",
+    "line": 157,
+    "kind": "universal-negative",
+    "text": "- **Not Claude Code** (Cursor, Codex, the skills CLI, the API container): the pack's"
+  },
+  {
+    "member": "sheleg-dev",
+    "skill": "google-auth",
+    "path": "plugins/sheleg-dev/skills/google-auth/SKILL.md",
+    "line": 285,
+    "kind": "universal-negative",
+    "text": "- **Not Claude Code** (Cursor, Codex, the skills CLI, the API container): the pack's"
+  },
+  {
+    "member": "sheleg-dev",
+    "skill": "frontend-performance",
+    "path": "plugins/sheleg-dev/skills/frontend-performance/SKILL.md",
+    "line": 198,
+    "kind": "universal-negative",
+    "text": "- **Not Claude Code** (Cursor, Codex, the skills CLI, the API container): the pack's"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "line": 7,
+    "kind": "delegation",
+    "text": "  architecture, retrieval and decay, context budgets, sub-agent coordination, error hierarchies; the"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "line": 11,
+    "kind": "delegation",
+    "text": "  \"orchestrator\", \"tool calling\", \"sub-agent\", \"LLM router\", \"fallback chain\", \"human in the"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "line": 43,
+    "kind": "delegation",
+    "text": "Pass a single immutable-ish context object to every sub-agent. It carries the request"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "line": 47,
+    "kind": "delegation",
+    "text": "orchestrator's shared context and sub-agent protocol*."
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "line": 55,
+    "kind": "delegation",
+    "text": "### Sub-Agent Protocol"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "line": 57,
+    "kind": "delegation",
+    "text": "Every sub-agent extends one base class with a single abstract `run(context) -> Result`,"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "line": 100,
+    "kind": "delegation",
+    "text": "never learns the sub-agent exists."
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "line": 121,
+    "kind": "delegation",
+    "text": "## 4. Sub-Agent Retry and Validation"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "line": 123,
+    "kind": "delegation",
+    "text": "Wrap every sub-agent call in retry **and** validation, and keep the two apart: a call that"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "line": 271,
+    "kind": "delegation",
+    "text": "**A sub-agent's value is its own window**: it returns a typed summary, not a"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/context-engineering.md",
+    "line": 26,
+    "kind": "delegation",
+    "text": "- Sub-agent context isolation"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/context-engineering.md",
+    "line": 162,
+    "kind": "delegation",
+    "text": "## Sub-agent context isolation"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/context-engineering.md",
+    "line": 164,
+    "kind": "delegation",
+    "text": "A sub-agent's value is not that it is a different prompt. **It is that it has its own"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/context-engineering.md",
+    "line": 167,
+    "kind": "delegation",
+    "text": "The contract: the sub-agent receives a task and the context it needs, works in a window"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/context-engineering.md",
+    "line": 172,
+    "kind": "delegation",
+    "text": "costs the parent one paragraph. It also sets the design rule \u2014 if a sub-agent's return"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/governance.md",
+    "line": 36,
+    "kind": "delegation",
+    "text": "The last one is the one most designs miss: a sub-agent that inherits its caller's"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/governance.md",
+    "line": 51,
+    "kind": "delegation",
+    "text": "rather than the first. Sub-agent isolation comes from exactly two mechanisms used together:"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/governance.md",
+    "line": 54,
+    "kind": "delegation",
+    "text": "sub-agent handed its parent's transcript has been told about every capability you carefully"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md",
+    "line": 66,
+    "kind": "delegation",
+    "text": "same subagent may own several nodes, and a node owned by a person is still a node. The"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md",
+    "line": 345,
+    "kind": "delegation",
+    "text": "| `agent(prompt, opts)` | one subagent | `opts.schema` forces a validated object back, so downstream stages get data, not prose to parse |"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+    "line": 15,
+    "kind": "delegation",
+    "text": "- [Sub-agent retry, and the error hierarchy under it](#sub-agent-retry-and-the-error-hierarchy-under-it)"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+    "line": 203,
+    "kind": "delegation",
+    "text": "## The orchestrator's shared context and sub-agent protocol"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+    "line": 244,
+    "kind": "delegation",
+    "text": "The single abstract method is what keeps the orchestrator ignorant of any sub-agent's"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+    "line": 532,
+    "kind": "delegation",
+    "text": "## Sub-agent retry, and the error hierarchy under it"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+    "line": 534,
+    "kind": "delegation",
+    "text": "Wrap every sub-agent call in retry + validation:"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-orchestrator",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+    "line": 559,
+    "kind": "delegation",
+    "text": "\u2514\u2500\u2500 AgentValidationError   \u2192 sub-agent result failed quality checks"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-interop",
+    "path": "plugins/agent-stack/skills/agent-interop/references/mcp-scale.md",
+    "line": 56,
+    "kind": "delegation",
+    "text": "| Subagent (small fast model picks) | works very well | the most expensive |"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-harness",
+    "path": "plugins/agent-stack/skills/agent-harness/SKILL.md",
+    "line": 45,
+    "kind": "delegation",
+    "text": "Before adding a retry, a router, or a sub-agent, check in this order:"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-harness",
+    "path": "plugins/agent-stack/skills/agent-harness/SKILL.md",
+    "line": 173,
+    "kind": "delegation",
+    "text": "trimming, sub-agent dispatch, provider routing, memory layers, checkpoints. This one owns"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-harness",
+    "path": "plugins/agent-stack/skills/agent-harness/references/pi.md",
+    "line": 149,
+    "kind": "argument-variable",
+    "text": "(`<required>`, `[optional]`). Arguments substitute as `$1`, `$@` / `$ARGUMENTS`,"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-harness",
+    "path": "plugins/agent-stack/skills/agent-harness/references/pi.md",
+    "line": 223,
+    "kind": "delegation",
+    "text": "- **No sub-agents.** Deliberate. `agent-orchestrator`'s sub-agent protocol and"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-harness",
+    "path": "plugins/agent-stack/skills/agent-harness/references/techniques.md",
+    "line": 40,
+    "kind": "delegation",
+    "text": "| **Sub-agents** | specialists returning distilled summaries | **Yes where the sub-task has its own context need.** The value is the *isolated window*; a sub-agent returns a 1\u20132k-token distilled summary, never a transcript |"
+  },
+  {
+    "member": "agent-stack",
+    "skill": "agent-harness",
+    "path": "plugins/agent-stack/skills/agent-harness/references/techniques.md",
+    "line": 107,
+    "kind": "delegation",
+    "text": "3. **Does the sub-task need its own window?** \u2192 a sub-agent returning a distilled summary."
+  }
+]

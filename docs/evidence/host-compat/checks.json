@@ -94,5 +94,15 @@
       "hosted_result": "SUCCESS",
       "initial_local_result": "FAIL 73/74; repaired fixture independently reproduced before passing full hosted gate"
     }
+  },
+  "post_fix_census": {
+    "source": "c46496a6d4d2303f1003ae359468012d18244d89",
+    "result": "PASS",
+    "skills": 38,
+    "files": 542,
+    "audit_exit_zero": 38,
+    "pass_verdicts": 721,
+    "required_payload_escapes": 0,
+    "evidence": "post-fix/summary.json"
   }
 }
