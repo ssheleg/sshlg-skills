@@ -4,17 +4,27 @@
   "member_version": "0.25.5",
   "member_source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
   "source_gate": "PASS",
-  "publication": "PENDING",
-  "installation": "PENDING",
+  "publication": "PASS",
+  "installation": "PASS for explicitly verified channels; Eve/PromptScript global unsupported",
   "fresh_interactive_host": "NOT_RUN",
-  "next_action": "Integrate the reviewed source, publish1.54.5 and verify installed bytes.",
+  "next_action": "Fresh supported host load and bounded behavioral admission/resume evaluation; no further source or publication gate remains.",
   "native": {
     "command": "npm test",
     "suites": 91,
     "fixtures": 1112,
     "pinned_members": 11,
     "exit_code": 0,
-    "log_sha256": "15057b221f13804ed41859603f4b61c9830ffe9557388f7c855927419837ea56"
+    "log_sha256": "15057b221f13804ed41859603f4b61c9830ffe9557388f7c855927419837ea56",
+    "scope": "Local integration working-tree observation; exact release SHA test evidence is separately in release-ci-readback.json"
   },
-  "published_pins": "PASS: all11 memberversions/tags; hubpre-releaseexistingtag1.54.4"
+  "published_pins": "PASS: all11 memberversions/tags; hubpre-releaseexistingtag1.54.4",
+  "hub_source": "d8fae7c45f1f18d7cec511231ad2688f840872e7",
+  "receipts": {
+    "release": "release-readback.json",
+    "release_ci": "release-ci-readback.json",
+    "installer": "installed-readback.json",
+    "payload": "family-payload-readback.json",
+    "runtime": "runtime-readback.json",
+    "handoff": "DELIVERY.md"
+  }
 }

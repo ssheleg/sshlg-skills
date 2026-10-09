@@ -1,0 +1,27 @@
+{
+  ".claude/CLAUDE.md": {
+    "file_sha256": "18dd5ee8ec20802dcd26cb4616f227b089bbbd5b6fb468c5c386aa03bd884225",
+    "outside_router_sha256": "0aee034b0bdd00adf0602be7b962f5fe4c002b423b217ad9dd6d13ab646633e2",
+    "characters": 33864
+  },
+  ".codex/AGENTS.md": {
+    "file_sha256": "71c771f5cc1ea1c7bae52fbaa1836a8d00b630504a87b1288454b3894347be6a",
+    "outside_router_sha256": "620ab5eed5dc5ed70c431e0d0642337ee0ce43bb2031b6b9fb1a1d5754bf53e3",
+    "characters": 27913
+  },
+  ".gemini/GEMINI.md": {
+    "file_sha256": "0cf448a6c702489164cc98b1d866906671dc91d1625855d356b7e971f54014db",
+    "outside_router_sha256": "ba802c6e3a683fce20da41fb6f6130a7bd86444f0dd14d52535de72440eeeaee",
+    "characters": 23475
+  },
+  ".cursor/rules/sshlg-routing.mdc": {
+    "file_sha256": "538bef664a6fd9fda482581f8fe604b41a51d79b648160bbab7d33583547e6a9",
+    "outside_router_sha256": "9fe1a79d281baa17b570ee1bcbec5546ecdd5e7877d112e010abb8d05f48ef26",
+    "characters": 21383
+  },
+  "CLAUDE.md": {
+    "file_sha256": "eb67653b20c368f9e4d58ac9bcdb284c1866c007f0cbdb970406fd1bc94ebf2c",
+    "outside_router_sha256": "eb67653b20c368f9e4d58ac9bcdb284c1866c007f0cbdb970406fd1bc94ebf2c",
+    "characters": 6973
+  }
+}

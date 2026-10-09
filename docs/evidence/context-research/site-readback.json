@@ -1,0 +1,9 @@
+{
+  "as_of": "2026-10-09",
+  "url": "https://skills.sshlg.me",
+  "http_status": 200,
+  "sha256": "3de7d91cb81a6f38db8b642e1fadc33ca68f7ebf136c45836626a559fb9998d3",
+  "hub_version_present": true,
+  "member_version_present": true,
+  "method": "HTTP text readback; no browser visual or interaction acceptance"
+}

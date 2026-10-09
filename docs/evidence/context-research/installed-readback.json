@@ -1,0 +1,27 @@
+{
+  "as_of": "2026-10-09",
+  "command": "npx --yes sshlg-skills@1.54.5 update --all",
+  "cwd": "/tmp",
+  "exit_code": 0,
+  "runner_steps": 71,
+  "runner_steps_succeeded": 71,
+  "log_sha256": "8ba96eb71738677d6ce1920f3f709ed40a40ed5cd55995ea1981096616e8efa5",
+  "unsupported_global_install_rows": 76,
+  "unsupported_hosts": [
+    "Eve",
+    "PromptScript"
+  ],
+  "unsupported_scope": "38 skills per host; runner completion is not every-host support",
+  "verified_family_channels": [
+    "skills CLI plain payloads",
+    "Claude plugin payloads"
+  ],
+  "family_skills": 38,
+  "family_file_comparisons": 1074,
+  "family_mismatches": 0,
+  "runtime_files": 54,
+  "runtime_mismatches": 0,
+  "native_codex_agent_stack": "0.25.5; separate member receipt verifies 38 files",
+  "fresh_interactive_host": "NOT_RUN",
+  "behavioral_replay": "NOT_RUN"
+}

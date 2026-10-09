@@ -1,0 +1,278 @@
+{
+  "as_of": "2026-10-09",
+  "version": "1.54.5",
+  "source_commit": "d8fae7c45f1f18d7cec511231ad2688f840872e7",
+  "files": 54,
+  "checks": [
+    {
+      "file": "hooks/config-change.js",
+      "sha256": "55bb354ac95eb6d8be4f7f07b4a9e798996c89f697da6069e4dc314d3536bf6b",
+      "matches": true
+    },
+    {
+      "file": "hooks/file-changed.js",
+      "sha256": "758bf24003845f22c3f2684c40ef05c7cd9e813a37b08f07515227657830d179",
+      "matches": true
+    },
+    {
+      "file": "hooks/notification.js",
+      "sha256": "316d122920b917c8ce4f937caeeaadc2dd1c1760ec9ec3f4de6d391ae8d1e1fc",
+      "matches": true
+    },
+    {
+      "file": "hooks/post-tool-use.js",
+      "sha256": "bf9c7bc34513e1472ba615fe738560f91cb7766c81365824caacde8a6d324fde",
+      "matches": true
+    },
+    {
+      "file": "hooks/pre-tool-use.js",
+      "sha256": "67110da23b37059f5609b04670c04c28da183dcc2ff1365f47b90d4dbdb15ee0",
+      "matches": true
+    },
+    {
+      "file": "hooks/repo-gate.js",
+      "sha256": "cd2f4abbe9243943ceb3afa37b3194f50a83822519689a698038541303d3fc50",
+      "matches": true
+    },
+    {
+      "file": "hooks/session-start.js",
+      "sha256": "752a4114f2096845c32a6c38f4476eb31decdb591323c592e637eec4c990b984",
+      "matches": true
+    },
+    {
+      "file": "hooks/statusline.js",
+      "sha256": "e98b8176b497cb0acbc70f3084597a64251686b8840a195a640663169c19918f",
+      "matches": true
+    },
+    {
+      "file": "hooks/user-prompt-submit.js",
+      "sha256": "e339c1b9dcdd739af2fe8df6073f7a3df945ad9737e3a4f745d0813f93cc46a3",
+      "matches": true
+    },
+    {
+      "file": "lib/apply.js",
+      "sha256": "5815a5b7fa8ce8f2ecd21e5a822e93299497bfa98209c93bd8183b848bcfa63b",
+      "matches": true
+    },
+    {
+      "file": "lib/backup.js",
+      "sha256": "72c445a7bf1d7ffd311db261503af9d5c20e8595c176aed892af3b96e082d1ea",
+      "matches": true
+    },
+    {
+      "file": "lib/brief.js",
+      "sha256": "97d0bba3174c70833b8e0e242d062ffd68458973c89f2238629081730faf78c0",
+      "matches": true
+    },
+    {
+      "file": "lib/config.js",
+      "sha256": "51e9d3a556abe7563b12742c61e3b6f76a7283538a293740177ba57aa7a873f2",
+      "matches": true
+    },
+    {
+      "file": "lib/conflicts.js",
+      "sha256": "d5977f6a7e81b5fbe0ddda05603da0ce9b16aea4d82724572b3064a3eb92d759",
+      "matches": true
+    },
+    {
+      "file": "lib/consent.js",
+      "sha256": "de3318d108c1bba55c568f356b2ebb70b09f12e94ace690a095ea73392925a5e",
+      "matches": true
+    },
+    {
+      "file": "lib/cursor.js",
+      "sha256": "00ee38fe95331e0cd7c49ddeed9040c274a214f4733bdb3b155f311dfa49ffe7",
+      "matches": true
+    },
+    {
+      "file": "lib/displace.js",
+      "sha256": "3c2c51be94d96e322730cdf585cc55c28be6abdd4866b889c70886c67085e4f3",
+      "matches": true
+    },
+    {
+      "file": "lib/drift.js",
+      "sha256": "927b1c7d09db121a0bcaacc504141420d64742ef914ddbdbc083ea83305aa018",
+      "matches": true
+    },
+    {
+      "file": "lib/guard.js",
+      "sha256": "08a174ebd7622f64ae027b5809ce12219bd8d17949dbc7d393cbbd6e5a7aba94",
+      "matches": true
+    },
+    {
+      "file": "lib/handoff.js",
+      "sha256": "87a35c08fa3e6cd7aec19cd7fad355ff14647be96c4e7fa89de14ffb707bec97",
+      "matches": true
+    },
+    {
+      "file": "lib/handoffprobe.js",
+      "sha256": "a3ca1bd7fee49fa959b0fba11d42a33a9c29fd2f29f24c970d3811f35441efc1",
+      "matches": true
+    },
+    {
+      "file": "lib/hooks.js",
+      "sha256": "5df7edb223dc3c95484926df007057d2702c0da0cab95f79b9e8864558f921ff",
+      "matches": true
+    },
+    {
+      "file": "lib/humanizers.js",
+      "sha256": "202ac3d57d535dca90b8632a44d7daffa5a9569f9e96524b79552de68853aaf6",
+      "matches": true
+    },
+    {
+      "file": "lib/hygiene.js",
+      "sha256": "91079e1d91f7b7851b00e3c2dfeafe1ec21813587b8eb355b1b4b081e3a3d845",
+      "matches": true
+    },
+    {
+      "file": "lib/injectors.js",
+      "sha256": "2c9fa234cf13479c726fcc34c3ccdce0374f49ed9e039a39f96440c92564395e",
+      "matches": true
+    },
+    {
+      "file": "lib/inventory.js",
+      "sha256": "d2ddb3019d523b637c2d398812ddcfd94301cbba53b4b774b3e19b82567f7cc6",
+      "matches": true
+    },
+    {
+      "file": "lib/lifecycle.js",
+      "sha256": "f1993de7acfe2acb4ed0bab41557092790a4c157b960c8dd5be0a7349bf39acf",
+      "matches": true
+    },
+    {
+      "file": "lib/materialised.js",
+      "sha256": "347d7fb7f5a3cbc18c3c1c73006c13cad03d62980b4f4d1350a08696edafd9da",
+      "matches": true
+    },
+    {
+      "file": "lib/migrate.js",
+      "sha256": "360b74d737039b243b1bd8cef3f68703493a9f86777af671ca40a70cca568ea1",
+      "matches": true
+    },
+    {
+      "file": "lib/notify.js",
+      "sha256": "75cf93e97bc7bdc2fbd7dfaefa02d731709f5b398f74e54606aa1afba629c0fb",
+      "matches": true
+    },
+    {
+      "file": "lib/operation-result.js",
+      "sha256": "4516dd2ee4e7bc33d46077763c76a740379b6037e054c1d79de5b45a4aa1738c",
+      "matches": true
+    },
+    {
+      "file": "lib/packs.js",
+      "sha256": "e20d50d662cb3366060a4bd7f4d97087245fcc31a903598b2a391305e9326070",
+      "matches": true
+    },
+    {
+      "file": "lib/plan.js",
+      "sha256": "5311557c2f74e203b1b4eca838233a0619fe71ea4a6f240e3865477216ef435e",
+      "matches": true
+    },
+    {
+      "file": "lib/quarantine.js",
+      "sha256": "e682cbc0c8a86b633ce5a3ce0d5fffc814a525f0ed8ed993bd4bf621e6dab911",
+      "matches": true
+    },
+    {
+      "file": "lib/repogate.js",
+      "sha256": "85613b9a4cef762dd78cd6b42ec55bce241db5370007970d38fa9c90273c036e",
+      "matches": true
+    },
+    {
+      "file": "lib/routegate.js",
+      "sha256": "9ee898e4683bcc2ef29f8789a610f8602dd80853f1fa9fe09c03afad31d80770",
+      "matches": true
+    },
+    {
+      "file": "lib/routers-registry.js",
+      "sha256": "e9c9ffeadfb7f2b9a6eef3de36d1fb6cae8966181770dce82b50087d7608edd6",
+      "matches": true
+    },
+    {
+      "file": "lib/routers.js",
+      "sha256": "e4c786e0bdb119e30575f518eb570c696fce70c655d5d96cbf3371b83d53aa00",
+      "matches": true
+    },
+    {
+      "file": "lib/runledger.js",
+      "sha256": "9370b94bbdfbb838ac035576e4bb1782da79b55b419c345d02afdb82f24bb401",
+      "matches": true
+    },
+    {
+      "file": "lib/runtime.js",
+      "sha256": "3d3fb2dd10536ab5077bd7e20846794295f334e3eb0c777233ee52e33dfd12d5",
+      "matches": true
+    },
+    {
+      "file": "lib/secrets.js",
+      "sha256": "acc3c2bc797f8126c6526ab79806792acb26b3ce0aac940ac90b03fec906493f",
+      "matches": true
+    },
+    {
+      "file": "lib/shadow.js",
+      "sha256": "e49cba0b0e382f2ae002b046c789e2d5fc0697e0d66527bdae3775dfa264423d",
+      "matches": true
+    },
+    {
+      "file": "lib/signature.js",
+      "sha256": "6942160db08b958b96980dcf84a203945ddcec29d5ca694f4bd8199bff344cd4",
+      "matches": true
+    },
+    {
+      "file": "lib/skillstore.js",
+      "sha256": "7fd48786fdc7c0dd6b45cddf2ef6eb0803d2f40c5e0efac737a56df38cbcfb60",
+      "matches": true
+    },
+    {
+      "file": "lib/store.js",
+      "sha256": "62df2cb07bae91a9004e6d61a3bc052efcd210be5cde8beb2d8065a53e644b98",
+      "matches": true
+    },
+    {
+      "file": "lib/toolkit.js",
+      "sha256": "df7fc779ab248edb74ede740a0a0e78503e3209b4471b6f3e6530575466376a8",
+      "matches": true
+    },
+    {
+      "file": "lib/triggers.js",
+      "sha256": "4df9598f1173445f2435b61628348ffd74f576a2db194dac4dde75c14b5d4e79",
+      "matches": true
+    },
+    {
+      "file": "lib/turnstate.js",
+      "sha256": "d6d0a1a45e21c4548839b22d181becf7f558d338fb507a91c3461bde7de7e590",
+      "matches": true
+    },
+    {
+      "file": "lib/updatecheck.js",
+      "sha256": "8101975958c335a0032e53e76330dc98a7ca431a4567dc05c59d1ed0115dfffe",
+      "matches": true
+    },
+    {
+      "file": "lib/updatemodel.js",
+      "sha256": "5b2488c11921068bbc03017528c64eb84e40fb632657888bd5ce205141d61a7b",
+      "matches": true
+    },
+    {
+      "file": "lib/updateprobe.js",
+      "sha256": "4bd54e89de126852672b9d25265800579a856ec1179f5908c6225c102683e60c",
+      "matches": true
+    },
+    {
+      "file": "lib/updaterun.js",
+      "sha256": "77ad1f33e1b7421ad97bedf721f76652a5b47e9a65f35983a8c2b0b647983407",
+      "matches": true
+    },
+    {
+      "file": "skills.json",
+      "sha256": "826533a71f04f39f227d91826b6f2fc0257fcbb4722652cf263474e79c126e19",
+      "matches": true
+    },
+    {
+      "file": "package.json",
+      "sha256": "f25f4ef02640a64bb01462d4fc33285ce947ce4467b6f382c6654e3e57044708",
+      "matches": true
+    }
+  ]
+}
