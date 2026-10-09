@@ -7,7 +7,7 @@ load at startup. The public member owns the implementation and synthetic control
 At baseline hub402e3d3, all38 pinned SKILL bodies fit the4750 cl100k_base token working
 limit and500lines; largest4748. Packaged routing is21218Unicodecharacters and the
 SessionStartnote442. These counts are source measurements, not host-loading receipts.
-Private instruction files and operational readbacks remain outside this public repo.
+Private instruction bodies and private-chain readbacks remain outside this public repo.
 
 Acceptance: member native/strict/house checks plus14synthetic budget cases; exact member
 publication; parent catalogue/gitlink/README agreement; native hub suite and all published
