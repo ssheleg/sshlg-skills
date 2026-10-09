@@ -80,7 +80,7 @@ updates to user-facing *code*. The reviewer caught this; the follow-up restores
 new positive check was observed failing before correction; a structural
 code-only negative control also rejects the narrowed wording.
 
-Final focused checks, each exit 0:
+Focused checks at `9c4f12c`, each exit 0:
 
 | Command | Result |
 |---|---|
@@ -92,6 +92,16 @@ Final focused checks, each exit 0:
 | `node test/drift_test.js` | OK (27 checks) |
 | `node test/triggers_test.js` | OK (61 checks) |
 | `node test/hooks_e2e_test.js` | OK (42 checks) |
+
+The parent integration suite subsequently caught an omitted existing literal
+contract in `inventory_test.js`: the map must say "does not outrank this map".
+A direct rerun reproduced its one failure before correction. The replacement
+retains that wording without changing its precedence meaning or block size.
+Follow-up checks on the corrected source: `node test/inventory_test.js` →
+OK (12 checks), `node test/router_compaction_test.js` → OK (8 checks),
+`node test/protocol_test.js` → OK (13 checks), all exit 0. Existing tests remain
+unchanged. The parent owns the final full-suite check and official installation;
+the earlier local application receipt describes its own dated source cut.
 
 The installation suite runs the real `routers --update` CLI three times in a
 real temporary HOME, compares file hashes, and verifies authored wording,
@@ -121,8 +131,8 @@ primary documentation supplied the authentication correction.
 - [`task-pipeline`](https://github.com/ssheleg/task-pipeline) — bounded router compaction and verification
 
 
-Source fingerprints for the focused check cut (SHA-256):
+Source fingerprints after the inventory-contract correction (SHA-256):
 
-- `lib/routers.js`: `9627d4e13359bdb5cac63f0cdd91631c79d6a6068afb0e88182bb275705cd619`
+- `lib/routers.js`: `7f9e3ddf6b3fc857aa3d64d0328ea1992e2ec2f050bb6127325db49af8eb81ea`
 - `lib/routers-registry.js`: `7b867ac354c1bd8bf33a27b991def30b31e1408d4dd2b226e1994bd6c3c8c032`
 - `test/router_compaction_test.js`: `4ac8de1f608513f37736e24007f7a9b8f6beb166a4226b49d1d81800a128f13b`
