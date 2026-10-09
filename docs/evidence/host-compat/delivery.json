@@ -100,6 +100,15 @@
       "families": 29,
       "source_urls": 84,
       "evidence": "research/SOURCES.md"
+    },
+    {
+      "scope": "Complete integrated source, final pins, census, report links and source ledger",
+      "reviewer": "/root/host_contracts",
+      "source": "8af76fc67677ad1f3fd0105ea13d2482bf23962d",
+      "result": "ACCEPT",
+      "checked_file_hashes": 542,
+      "local_links": 62,
+      "evidence": "post-fix/summary.json"
     }
   ]
 }

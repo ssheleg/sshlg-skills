@@ -31,9 +31,39 @@
       "run": 37998338658,
       "reason": "CTX-04.06 simulated release-set receipt still describes prior pins",
       "action": "regenerate after final five-member pins; never treat it as native runtime acceptance"
+    },
+    {
+      "source": "8af76fc67677ad1f3fd0105ea13d2482bf23962d",
+      "scope": "First full local gate with final pins",
+      "reason": "Tags fetched but local origin/main refs in two isolated submodules were stale; validator did not see containing remote refs",
+      "action": "Fetched origin/main in both isolated submodules, confirmed containment, repeated full gate on unchanged source; PASS",
+      "failed_log_sha256": "7083489e00ab636e32d3d0439e0fd5c072334ac04c6151d980307d4737518636"
     }
   ],
-  "final_combined_gate": "PENDING",
+  "final_combined_gate": {
+    "source": "8af76fc67677ad1f3fd0105ea13d2482bf23962d",
+    "command": "npm test",
+    "exit": 0,
+    "suites": 93,
+    "fixtures": 1136,
+    "members": 11,
+    "log_sha256": "d61615c9dde39550d526971220601f0657c5c7b563a52c99ee25f625386fdacc",
+    "source_scope": "All five final merged/tagged member pins; publication/install still separate",
+    "unlooked": [
+      {
+        "mechanism": "plant_guard_test.py",
+        "copies": 4,
+        "similarity": 0.861,
+        "gate_floor": 0.9
+      },
+      {
+        "mechanism": "social_preview.py",
+        "copies": 11,
+        "similarity": 0.828,
+        "gate_floor": 0.9
+      }
+    ]
+  },
   "model_runtime": "NOT_RUN",
   "continue_regression": {
     "source": "63ac417cca23c3def2bec87741dac933f79b0a04",
