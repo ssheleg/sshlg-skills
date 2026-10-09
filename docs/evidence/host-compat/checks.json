@@ -73,5 +73,15 @@
       "repair": "focused actual mutation/checker rerun passed; independent review ACCEPT",
       "release_repeats_validator_and_mutations": true
     }
+  },
+  "continue_combined_gate": {
+    "source": "8c7704e",
+    "command": "npm test",
+    "exit": 0,
+    "suites": 93,
+    "fixtures": 1136,
+    "members": 11,
+    "log_sha256": "0ef509b43a1efb7b410d2a65cf2fd92bed3a984f9eb2ecd1e1632b662118df2c",
+    "scope": "Continue and research integrated; three new owner pins, task-pipeline and agent-sync pending"
   }
 }
