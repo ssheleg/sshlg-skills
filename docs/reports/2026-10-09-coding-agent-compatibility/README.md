@@ -142,6 +142,8 @@ report:
 
 ## Источники и передача
 
+[Единый читаемый список всех 71 ссылок по агентам](../../evidence/host-compat/research/SOURCES.md).
+
 - [Первые 47 ссылок](../../evidence/host-compat/research/sources.json) и
   [ещё 24 ссылки с датами и статусом чтения](../../evidence/host-compat/research/additional-sources.json).
 - [Дополнительное исследование и воспроизведение Continue](../../evidence/host-compat/research/README-additional.md).
