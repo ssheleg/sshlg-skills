@@ -56,5 +56,22 @@
     "read": 70,
     "body_unavailable": 1,
     "reference_check_exit": 0
+  },
+  "pending_owner_gates": {
+    "task_pipeline": {
+      "candidate": "9b19e878e9630bf084896a5631e7f730e9695949",
+      "pr": 103,
+      "local_gate": "npm run test:all; active, liveness verified",
+      "hosted_run": 37997668725,
+      "release_repeats_full_gate": true
+    },
+    "agent_sync": {
+      "candidate": "6aa321ac1a7045498847c9318233d407448a506c",
+      "pr": 29,
+      "hosted_run": 37999800607,
+      "initial_local_gate": "73/74 mutation detections; fixture crossed into historical ledger",
+      "repair": "focused actual mutation/checker rerun passed; independent review ACCEPT",
+      "release_repeats_validator_and_mutations": true
+    }
   }
 }
