@@ -1,0 +1,123 @@
+{
+  "as_of": "2026-10-10",
+  "sources": [
+    {
+      "id": "extra-droid-skills",
+      "url": "https://docs.factory.com/harness/skills",
+      "sections": "Roots, same-name precedence, invocation and metadata",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "extra-droid-instructions",
+      "url": "https://docs.factory.com/harness/agents-md",
+      "sections": "Personal/project context directories and compatible filenames",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "extra-droid-subagents",
+      "url": "https://docs.factory.com/harness/subagents",
+      "sections": "Custom droids, Task tool, enforced tool policy",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "extra-droid-hooks",
+      "url": "https://docs.factory.com/harness/hooks",
+      "sections": "hooks.json scopes, legacy settings fallback",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "extra-droid-plugins",
+      "url": "https://docs.factory.com/harness/plugins",
+      "sections": "Native plugin components and compatible Claude translation",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "extra-droid-releases",
+      "url": "https://docs.factory.com/changelog/release-notes",
+      "sections": "CLI0.56.0 symlink discovery fix and CLI0.187.0 broken-link isolation",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "extra-pi-skills",
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/docs/skills.md",
+      "sections": "Progressive loading, slash invocation, schema and shared roots",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read",
+      "revision": "42a3497d03ad17e308a2299fa824727894f2c0ec",
+      "sha256": "5b9805525b194474ef1fe5455a0917ef15ed7f710aa9bec2eee11879556469e5"
+    },
+    {
+      "id": "extra-pi-config",
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/docs/configuration.md",
+      "sections": "Agent directory override, context roots and project trust",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read",
+      "revision": "42a3497d03ad17e308a2299fa824727894f2c0ec",
+      "sha256": "fc48d1ce7d885c5253222415fb7a4b46d75f80e6431eb924174657ff775099eb"
+    },
+    {
+      "id": "extra-pi-extensions",
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/docs/extensions.md",
+      "sections": "Executable TypeScript extensions distinct from skills",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read",
+      "revision": "42a3497d03ad17e308a2299fa824727894f2c0ec",
+      "sha256": "bd2ed1f728173c1defc035e90c3894c308ae153fa08575c12b4a9988e11f8108"
+    },
+    {
+      "id": "extra-pi-readme",
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/README.md",
+      "sections": "Current canonical project/package identity; no built-in subagents",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read",
+      "revision": "42a3497d03ad17e308a2299fa824727894f2c0ec",
+      "sha256": "fbc7abec7d0829ac8bc4b217e950794e1ba4d8d1b3e0850f970da318ad72e863"
+    },
+    {
+      "id": "extra-pi-skill-source",
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/src/core/skills.ts",
+      "sections": "loadSkillsFromDirInternal symlink stat fallback; first-name collision wins",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read",
+      "revision": "42a3497d03ad17e308a2299fa824727894f2c0ec",
+      "sha256": "8dcc644dbabbb34238f609ecf191c0da370d74873ccaccaf3c3cd0e7703d9431"
+    },
+    {
+      "id": "extra-pi-resource-source",
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/src/core/resource-loader.ts",
+      "sections": "Actual CLI callchain includeDefaults:false; context filename/ancestor order",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read",
+      "revision": "42a3497d03ad17e308a2299fa824727894f2c0ec",
+      "sha256": "ccc798224d070e7a18c918f74be48c15eacc67f76aaa66b9809c015327b555d4"
+    },
+    {
+      "id": "extra-pi-package-source",
+      "url": "https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/src/core/package-manager.ts",
+      "sections": "collectSkillEntries symlink handling and automatic resource discovery order",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read",
+      "revision": "42a3497d03ad17e308a2299fa824727894f2c0ec",
+      "sha256": "c571e652abec58e1302177137e6640c228afa1d68089afd904d3073693691863"
+    }
+  ]
+}
