@@ -7,8 +7,8 @@ flags accumulate, and snapshot/pin mismatch stops before installation. `agents`
 lists every pinned ID and its global/project-only scope without running installers.
 
 Host paths and capability guidance now distinguish shared skill storage from
-native plugins, hooks and delegation. Five member updates repair standalone
-payload links and retain portable fallback procedures; the dated 29-host report
+native plugins, hooks and delegation. Five separately tracked member updates
+repair standalone payload links and retain portable fallback procedures; the dated 29-host report
 links primary contracts and keeps native discovery separate from model outcomes.
 Continue receives an isolated `--copy` invocation, including locked plans: its
 verified loader skips symlink skill directories. Other target flags and order

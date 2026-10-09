@@ -1,5 +1,9 @@
 # Post-fix pinned family census
 
+Dated source evidence from 2026-10-10 for the forthcoming member-pin PR. The
+launcher-only PR retains the previously released member pins; this census
+describes the immutable candidate below, not that PR’s active member inventory.
+
 Source parent: `c46496a6d4d2303f1003ae359468012d18244d89`. The immutable parent
 supplies both skills.json and all 11 gitlinks. The candidate includes all five
 reviewed owner fixes; publication and installation are separate delivery gates.
