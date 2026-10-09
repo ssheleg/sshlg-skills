@@ -1,0 +1,11 @@
+{
+  "as_of": "2026-10-09",
+  "archives": [
+    {
+      "path": "docs/HANDOFF-2026-10-09-archive.md",
+      "source_path": "docs/HANDOFF.md",
+      "source_commit": "a4c65581787b5ddcb3df1e36a8cae1c89c066479",
+      "sha256": "bdfa3beec65b836d1894c9e5a29de2fd661c3c3a6ff25571c1002130533fb64e"
+    }
+  ]
+}

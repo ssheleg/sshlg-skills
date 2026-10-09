@@ -1,6 +1,7 @@
 # CR-3: active hub context repair
 
-Status: scoped implementation; independent parent review required before push.
+Status: locked scope; implementation outcome and delivery in [README.md](README.md).
+Independent parent review is required before push.
 Base: `a4c65581787b5ddcb3df1e36a8cae1c89c066479`.
 
 ## Authority and profile

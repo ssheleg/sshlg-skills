@@ -1,125 +1,75 @@
 # CLAUDE.md — sshlg-skills
 
-House rules for **this repository only**. Global doctrine (language, quality
-bar, ops autonomy, skill routing) already loads from `~/.claude/CLAUDE.md` in
-the same session; repeating it here would create a second source of truth that
-drifts. What follows is what is true *here* and nowhere else.
+House rules for this repository. Global language, quality, autonomy and routing
+belong to the host's instruction files; do not duplicate them here.
 
-## What this repo is
+## Start here
 
-The **umbrella** of the ssheleg skill family: a zero-dependency Node launcher
-plus the family members as pinned git submodules. It ships no doctrine of its own —
-each member carries its own — but it owns the family's **routing block**, the
-one piece of the family that writes into a file the operator owns and did not
-write.
+Read [docs/HANDOFF.md](docs/HANDOFF.md) for the current entry and dated receipts.
+Apply [the standing repository handoff instruction](docs/working-rules/repository-handoff.md)
+to every task. Read [the retrospective's standing instructions](docs/evidence/retro.md)
+in full before work and [coordination](docs/AGENT_SYNC.md) before editing a shared
+registry. [DOCMAP](docs/DOCMAP.md) owns single homes and propagation rules;
+[backlog](docs/evidence/backlog.md) owns outstanding work;
+[verification](docs/evidence/verification.md) owns delivery evidence.
 
-That last sentence is the whole risk profile. `~/.claude/CLAUDE.md` has no
-version control behind it. Everything below exists because of it.
+## What this repo owns
 
-## The gate
+A zero-dependency Node launcher and the family members as pinned git submodules.
+[skills.json](skills.json) is the member inventory; each member owns its doctrine.
+The hub owns the routing block that writes into operator-owned instruction files.
+Those files may have no version control: every write must be recoverable.
+
+## Gate and evidence
 
 ```bash
-npm test          # test/validate.py, then every discovered test/*_test.js
+npm test          # structural validator and discovered test suites
 ```
 
-Ratchets live in `docs/DOCMAP.md` and are counted by running that command, never
-carried across from a previous edit. `python3 test/check_pins.py` is deliberately
-outside it: it queries the npm registry, and `npm test` must work offline.
+DOCMAP's ratchets are computed by that run, never carried from another revision.
+`python3 test/check_pins.py` queries npm and stays outside the offline gate.
+Numbers are measured; named commands run and named files resolve. Evidence belongs
+to the checked artifact, and a historical receipt is not a current runtime claim.
 
-## Invariants — each one has a check, and the check has been watched failing
+## Invariants
 
-- **One channel per agent.** A plain copy under `~/.claude/skills/<id>` shadows
-  the plugin of the same name and serves its frozen version forever. `install`
-  and `update` prune those copies after every skills-CLI run.
-- **An address a live document claims resolves, or the commit does not land.** This
-  repository's README is an argument about evidence carrying its own receipt, and it told a
-  reader to run a **`test:negatives`** script — `task-pipeline`'s, and `Missing script`
-  here — beside a convergence file naming a `scripts/` check that has never existed in this
-  tree (UM-03, requirement M-07). **Name a dead command, never claim it:** a document that
-  quotes one as runnable is refused by this guard, correctly, and both repairs above are
-  written that way. Neither was found by reading them;
-  both were found by resolving all 83 addresses in the five live documents at once.
-  `test/doc_refs.py` extracts and resolves, `test/validate.py` owns the corpus, and four
-  plants in CI cover the three claim classes plus the empty corpus that would pass
-  everything. The dated records are counted, not gated, and the count prints on every run —
-  their rows cite member repositories and states that were true at a commit, and rewriting
-  those is a thing this repository has already decided against.
-- **Submodule urls are HTTPS.** `gh repo create --source .` sets an SSH remote
-  and `git submodule add` inherits it; everything stays green on the machine
-  that has the key and the release smoke test exits 128 everywhere else.
-  `test/validate.py` refuses a non-HTTPS url, with a negative self-test in CI.
-- **The pin is the promise.** A checkout of any hub commit must install exactly
-  the versions `skills.json` advertises, so the validator reads the version out
-  of the submodule rather than trusting `.gitmodules`. Three places move
-  together: `skills.json`, the submodule pointer, the README table.
-- **The operator's wording wins — and now says when it has diverged.** `authored`
-  entries take precedence over the packaged text on every run. Since that means
-  a reworded router never arrives, `routers` reports drift and `--adopt` is the
-  only path that replaces a person's words, one router at a time, parking what
-  it replaced.
-- **A guard reads what would RUN, not what a payload contains.** The hygiene guard
-  refused any Bash text carrying `skills update <member>` — including a document quoting
-  it, which blocked a verification-ledger row from being committed. `executablePart()`
-  now drops heredoc bodies fed to a non-shell and whole-line comments, and keeps
-  everything else: a `bash <<EOF` body still runs, and quoted strings are still read,
-  because `bash -c '…'` is a real invocation. Closing the false positive turned up the
-  matching bypass — `bareName` kept the trailing quote, so a genuine quoted invocation had
-  been passing untouched.
-- **A guard decides in a pure module; the hook only moves bytes.** Every refusal
-  this pack can make is a function of a payload (`lib/guard.js`, `lib/hygiene.js`,
-  `lib/repogate.js`), fixtured without a `HOME`, and the filesystem appears only
-  where a backup is actually taken. Nothing depends on a hook entry's `if` filter:
-  the reference states it is best-effort and **fails open** on a command it cannot
-  parse, so a guard resting on it ships with a documented bypass.
-- **A hook fails silent, and a refusal names its remedy.** A guard that throws
-  breaks every turn in every session, including sessions of packs that never asked
-  for this one; a refusal with no next step is how an operator learns to switch a
-  hook off. Both are asserted in `test/hooks_e2e_test.js`, which runs the real
-  scripts as processes.
+- **One channel per agent.** Plain `~/.claude/skills/<id>` copies shadow plugins
+  and freeze their version. `install` and `update` prune them after every skills-CLI run.
+- **Live document addresses resolve.** `test/doc_refs.py` extracts and resolves;
+  `test/validate.py` owns the live/dated corpus. Live dead commands and paths fail;
+  dated records are counted and disclosed, not rewritten. Negative controls cover
+  the claim classes and an empty corpus. Quote a dead command as dead, never runnable.
+- **Submodule URLs are HTTPS.** An SSH URL works for a key holder and fails for
+  other installers. `test/validate.py` rejects it; CI has a negative self-test.
+- **The pin is the promise.** The committed member version, `skills.json`, submodule
+  pointer and README table agree. A checkout installs the advertised version.
+- **The operator's wording wins.** `authored` entries outrank packaged text;
+  `routers` reports drift. Only `--adopt` replaces wording, one router at a time,
+  retaining what it replaced.
+- **Inspect executable input.** The hygiene guard's `executablePart()` removes
+  non-shell heredoc bodies and whole-line comments, but retains shell heredocs and
+  quoted invocations, including `bash -c`. Quoting must not bypass `bareName` checks.
+- **Guards decide in pure modules; hooks move bytes.** `lib/guard.js`,
+  `lib/hygiene.js` and `lib/repogate.js` decide from payloads, fixtured without a
+  `HOME`; filesystem access is confined to backup boundaries. A hook entry's `if`
+  filter is best-effort and fails open on unparsed commands; do not rely on it.
+- **Hooks fail silent; refusals name a remedy.** A malformed payload must not break
+  other sessions. `test/hooks_e2e_test.js` asserts both through real script processes.
 
-## Writing to the operator's file
+## Writing to operator files
 
-Anything touching `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`,
-`~/.gemini/GEMINI.md`, `~/.cursor/rules/sshlg-routing.mdc` — or
-`~/.obsidian-wiki/config`, which the post-tool-use restore rewrites:
+Applies to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`,
+`~/.cursor/rules/sshlg-routing.mdc` and `~/.obsidian-wiki/config`, including the
+post-tool-use restore.
 
-1. **The backup is a mechanism, not your memory.** `lib/backup.js` copies the
-   file before every write, and a copy it cannot take cancels the write. New
-   code that writes to one of these files goes through `protect()` in
-   `lib/apply.js` — there is no second write path, and adding one is the
-   regression to watch for. The restore in `hooks/post-tool-use.js` WAS that
-   second path until 2026-08-30 (UM-06): it rewrote the wiki config from the
-   pre-run snapshot without copying what it was about to overwrite. It routes
-   through `protect()` now, watched failing in `test/hooks_e2e_test.js`. Two
-   defects in this repo's history destroyed or overwrote `~/.claude/CLAUDE.md`;
-   both times the copy that saved it was made by hand, once ten minutes before
-   it was needed (B-05, closed 2026-08-12).
-2. **Prove idempotence at the layer that repeats.** Run the real command three
-   times against a real file and compare hashes — a pure core with passing
-   round-trip fixtures sat under a command whose second run destroyed the file.
-3. **Everything outside the sentinels is preserved byte for byte**, and a
-   preview must show its removals, not only its additions.
+1. `lib/backup.js` copies before every write; backup failure cancels the write.
+   Every new write path goes through `protect()` in `lib/apply.js`. Restore is a
+   write too; `test/hooks_e2e_test.js` covers it. No second write path.
+2. Prove idempotence where repetition happens: run the real command three times
+   against a real file and compare hashes, not just pure round-trip fixtures.
+3. Preserve everything outside sentinels byte for byte. Previews show removals
+   as well as additions.
 
-## Evidence
-
-Numbers here are counted by running something. The v0.22.0 notes said 71
-fixtures, its acceptance record said 74, and the count at that commit was 75 —
-both restated numbers were wrong and the counted one was right. Every named
-command must be runnable and every named file resolvable.
-
-## Where things live
-
-`docs/AGENT_SYNC.md` — how coordination is wired here, and what it does NOT
-guarantee. **Read it before editing a shared registry.** Coordination went on
-2026-08-14, after a second session released the umbrella and two members while
-this one was mid-run: nothing was lost, but a CHANGELOG got written at a version
-behind its own tree, and a member moved under the work twice.
-`docs/DOCMAP.md` — single homes, the propagation matrix, the gate.
-`docs/evidence/backlog.md` — what this repo owes, with computed priority.
-`docs/evidence/verification.md` — what shipped and what confirmed it.
-`docs/evidence/retro.md` — standing instructions, read in full before work.
-
-## Active family audit handoff
-
-Read [docs/HANDOFF.md](docs/HANDOFF.md) before resuming the Sherlock audit.
-Apply [the standing repository handoff instruction](docs/working-rules/repository-handoff.md) to every repository task.
+Incident narratives remain in the [pre-cleanup source](https://github.com/ssheleg/sshlg-skills/blob/a4c65581787b5ddcb3df1e36a8cae1c89c066479/CLAUDE.md).
+The [coverage record](docs/evidence/context-research/README.md) maps this compaction
+back to each rule; the retrospective itself is unchanged.

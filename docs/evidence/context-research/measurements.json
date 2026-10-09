@@ -1,0 +1,36 @@
+{
+  "source_commit": "a4c65581787b5ddcb3df1e36a8cae1c89c066479",
+  "method": "UTF-8 byte count, splitlines line count and Unicode whitespace split word count; these are not token or runtime-load measurements",
+  "files": [
+    {
+      "path": "CLAUDE.md",
+      "before": {
+        "bytes": 7612,
+        "lines": 125,
+        "words": 1164,
+        "sha256": "039f8214630e23d20da707622cbe8df2e987db73981eda3aa6cc31d5364984e0"
+      },
+      "after": {
+        "bytes": 4292,
+        "lines": 75,
+        "words": 547,
+        "sha256": "3a6620f49a1fdb80ff8e507cdd0a84b29fb30a6d851243f16d738b454d695b42"
+      }
+    },
+    {
+      "path": "docs/HANDOFF.md",
+      "before": {
+        "bytes": 12015,
+        "lines": 190,
+        "words": 1447,
+        "sha256": "bdfa3beec65b836d1894c9e5a29de2fd661c3c3a6ff25571c1002130533fb64e"
+      },
+      "after": {
+        "bytes": 3365,
+        "lines": 53,
+        "words": 363,
+        "sha256": "5128170a3e9446cfab07d7a1866aa13f800bf9d65076299d115009a18bdc66f3"
+      }
+    }
+  ]
+}
