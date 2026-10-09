@@ -30,5 +30,41 @@
     "status": "CANDIDATE"
   },
   "installation": "PENDING",
-  "model_runtime": "NOT_RUN"
+  "model_runtime": "NOT_RUN",
+  "reviews": [
+    {
+      "scope": "installer",
+      "implementation": "aea8f002829350bcde2f6a90c6007349a676d3d0",
+      "reviewer": "/root/host_contracts",
+      "result": "ACCEPT",
+      "evidence": "installer-review.md"
+    },
+    {
+      "scope": "make-skill",
+      "reviewer": "/root/installer_targets",
+      "result": "ACCEPT",
+      "evidence": "https://github.com/ssheleg/make-skill/blob/de548e7e96c7cf89aa14486d608687a924990059/docs/evidence/host-compat/README.md"
+    },
+    {
+      "scope": "task-pipeline and agent-sync",
+      "reviewer": "/root/installer_targets",
+      "result": "ACCEPT after four corrections",
+      "reviewed_sources": [
+        "a121c38c69db8a4d998a4af9202141fc97ad65c8",
+        "5669423d8f568e90294f619c40f7cb3f8a9d9232"
+      ]
+    },
+    {
+      "scope": "hub contracts and source ledger",
+      "reviewer": "/root/host_contracts",
+      "result": "ACCEPT",
+      "evidence": "research/README.md"
+    },
+    {
+      "scope": "local readback scripts",
+      "reviewer": "/root/installer_targets",
+      "result": "ACCEPT after missing-provider, source-identity and fail-open corrections",
+      "evidence": "local/README.md"
+    }
+  ]
 }
