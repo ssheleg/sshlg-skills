@@ -1,0 +1,431 @@
+{
+  "package": "@ssheleg/agent-stack",
+  "version": "0.25.4",
+  "source_commit": "7f0c2f942ded0c8922650883db7347d2cc695577",
+  "pr": 37,
+  "ci_run": 37902580681,
+  "release_run": 37902720485,
+  "annotated_tag_object": "110868da6ef9229f4cfc382728a1ebd641ba8fb8",
+  "native_codex": {
+    "installed": true,
+    "enabled": true,
+    "version": "0.25.4",
+    "plugin_files_matched": 37,
+    "skill_files_matched": 36,
+    "files": [
+      {
+        "path": "plugins/agent-stack/.claude-plugin/plugin.json",
+        "sha256": "e747976f2bc6d0a5edf6cfac63fe8a9a513fd81d1dbbd136f0c36c5d0dc19122",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-evals/SKILL.md",
+        "sha256": "e565a39ab596501113eabf1062f12fc13bce6b8dec2cc4cd087135cd966ef89d",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-evals/references/multi-agent.md",
+        "sha256": "e0c3175aa8858de1ba8117c613d2e201e32ff581453078c927a3ebddcff6c0bb",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-evals/references/otel-genai.md",
+        "sha256": "d2cadad0a6a0632d234a51621b136f3001f5a7422e256f84d261d7c0ff1660d5",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-evals/references/statistics.md",
+        "sha256": "77cd03cc4f258a097888f81b817e8c9487b4d777d9ac092f76fe48de8de692ca",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/SKILL.md",
+        "sha256": "cf79585f0df1f41acd68681af6cd1853a2befe7790dce676b5e7bfaba764d84f",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/audit.md",
+        "sha256": "b91b966250438edd91b87c392113404d830b06301518d9120246321c88d9a1aa",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/instruction-budget.md",
+        "sha256": "3962dbe1643ca1f867575786597cfeea93a28b1d0cc940811020e2d4b49fc6a6",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/layers.md",
+        "sha256": "e2f4fd73424b0896c493616dbb98e7bd973eaad3b8365b3c1b31964fbac46d89",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/pi-sdk.md",
+        "sha256": "b7eb9375934887ed5f85e597e80c5f3d83c02c37cd585aff13960104a31ddcd5",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/pi.md",
+        "sha256": "684616062c9d109ff13eed83a5b9a10544040f1ee22790ee70e8d8156b286c08",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/system-prompt.md",
+        "sha256": "0eb99152d900367614334a6d6f62963ff2f694469437ada180e8503b25dc15dc",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/techniques.md",
+        "sha256": "4198c8d2d8a0d6da2f8ba7f2370310578167819abbb9bd351a722491ee8f31e8",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/tools.md",
+        "sha256": "921be9b410394bb545f5a876949f9bb760bc9354c6bb676ef11491f95c2e9c3f",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/workbench-contracts.md",
+        "sha256": "a17af9cc84dcc8661085ebb606b09ac08ebe39f6c1fc436ab547ac21747bca80",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/scripts/audit_agent.py",
+        "sha256": "f0193565dd3851d3ea779a05f018099b9f2bca3eccacc370b9a43048baba656a",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/scripts/instruction_budget.py",
+        "sha256": "0f88ff1764cc5a87a2b523126c871e71af750bc29128e05b97f9e6955db999ab",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/SKILL.md",
+        "sha256": "7f9456260f131195557a2be3b31396515af74e9895136ab8761ef5fd358ef245",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/references/a2a.md",
+        "sha256": "e39c4c6d1f19b39e09720c40a09a50e8f2a59824aeb83c5336443f8b709a6c34",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/references/gateway.md",
+        "sha256": "accfc522162b27e45353ece7de420ede93baf030ff770d75003716159d8268f8",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/references/mcp-scale.md",
+        "sha256": "c69b0bfd73e189776fcc6ecdd7d3e88964073ab19a66ffcf79aab579b341a892",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/references/mcp-ship.md",
+        "sha256": "2918ca0beed94ca7f7e34bb30e2609495c421121d3a94a0e43e743fc76b644a2",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/references/mcp.md",
+        "sha256": "09e685d219cde8ae3ccc2473a1a43d6133865241c197bbf97025649bfe59fa69",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/references/registry.md",
+        "sha256": "648e7649369b9aa5dac5f424c9a4373292e5d73c90d9466b58171934e5c7b51f",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+        "sha256": "d12ac258efa0ad8a355c53b0ba74033cf69e64b5d3636c9b7349a173a5c447a5",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/context-engineering.md",
+        "sha256": "57811d800b75f25a5a242505e8e6be2b33775fb156893ebec51af5ea18fcfc1e",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/governance.md",
+        "sha256": "bb2e3389779a56d4ace610bb14b5df05ace7fa6efc1e5810b0ae929f7050e435",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md",
+        "sha256": "c594d1b0a4813f0d47e60a26e2b7905a964c3017556a400fcbd534f390811e70",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/kv-cache.md",
+        "sha256": "b8ae7c5ba9531ebb02ded2e403a8fcb4ae2b944940076a4f15f966d05f6caeae",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/llm-proxy-billing.md",
+        "sha256": "84c2144d6a5a917c042c5e31ecfacfe6238c60870da567abc00bd770e3bccccd",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/memory-architecture.md",
+        "sha256": "860466e4e54d0116063146401c3df54a25bbf07cdfba18b63d0fb0e06a285f1a",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/memory-landscape.md",
+        "sha256": "b297b121ebb07c50579f929f0e5361598625b024dbf49653b82e12b1dc0b4f4d",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/memory-lifecycle.md",
+        "sha256": "6c7252553bc6308e6f5ec88bb802a62e4bacd98f7946ec5b2e82fef8c1aa0073",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+        "sha256": "a239bc4549339b049b54b154f88536bed68256ffffdcdc4a0f41cf7185eeb360",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/pipeline.md",
+        "sha256": "89f160068715136c6f7793b305f78371831ebef9527cdb481e15b5af9a1af40b",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/provider-lifecycle.md",
+        "sha256": "d9b4462baf1c805daf05612d7ee8556ac5e666f72de62609666f1ee469294de3",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/runtime.md",
+        "sha256": "7164776ed0c53dc7eaa3edf21e01620e0db1a2bdef4f573469039be9ac5ad435",
+        "match": true
+      }
+    ],
+    "loaded_in_running_session": "NOT_VERIFIED"
+  },
+  "npm": {
+    "version": "0.25.4",
+    "gitHead": "7f0c2f942ded0c8922650883db7347d2cc695577",
+    "integrity": "sha512-SJa1rLA76ptzSWlGtvlgsPhmgzDnTa63ZOcly2Yv2EXGaiO89De0ORpkROdrjJmpGgEWzTilheUdIIwAhnVP8g==",
+    "metadata_accept": "application/json",
+    "files_matched": 43,
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+        "match": true
+      },
+      {
+        "path": "bin/agent-stack.js",
+        "sha256": "5706481b1f1266174eeefebc1f2fc5ff6f30f77b395289490b182e95d5c97b00",
+        "match": true
+      },
+      {
+        "path": "package.json",
+        "sha256": "56dde80643dc4f9b285efed59db35ff48ad461ca08d869d5447630d5614f0a5c",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/.claude-plugin/plugin.json",
+        "sha256": "e747976f2bc6d0a5edf6cfac63fe8a9a513fd81d1dbbd136f0c36c5d0dc19122",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/references/a2a.md",
+        "sha256": "e39c4c6d1f19b39e09720c40a09a50e8f2a59824aeb83c5336443f8b709a6c34",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/audit.md",
+        "sha256": "b91b966250438edd91b87c392113404d830b06301518d9120246321c88d9a1aa",
+        "match": true
+      },
+      {
+        "path": "CHANGELOG.md",
+        "sha256": "7f2b5617b9b14b498e2fc8688ece1b3f5e6e4ba49142a5e755c95257acfb4870",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/context-engineering.md",
+        "sha256": "57811d800b75f25a5a242505e8e6be2b33775fb156893ebec51af5ea18fcfc1e",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/references/gateway.md",
+        "sha256": "accfc522162b27e45353ece7de420ede93baf030ff770d75003716159d8268f8",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/governance.md",
+        "sha256": "bb2e3389779a56d4ace610bb14b5df05ace7fa6efc1e5810b0ae929f7050e435",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md",
+        "sha256": "c594d1b0a4813f0d47e60a26e2b7905a964c3017556a400fcbd534f390811e70",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/instruction-budget.md",
+        "sha256": "3962dbe1643ca1f867575786597cfeea93a28b1d0cc940811020e2d4b49fc6a6",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/kv-cache.md",
+        "sha256": "b8ae7c5ba9531ebb02ded2e403a8fcb4ae2b944940076a4f15f966d05f6caeae",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/layers.md",
+        "sha256": "e2f4fd73424b0896c493616dbb98e7bd973eaad3b8365b3c1b31964fbac46d89",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/llm-proxy-billing.md",
+        "sha256": "84c2144d6a5a917c042c5e31ecfacfe6238c60870da567abc00bd770e3bccccd",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/references/mcp-scale.md",
+        "sha256": "c69b0bfd73e189776fcc6ecdd7d3e88964073ab19a66ffcf79aab579b341a892",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/references/mcp-ship.md",
+        "sha256": "2918ca0beed94ca7f7e34bb30e2609495c421121d3a94a0e43e743fc76b644a2",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/references/mcp.md",
+        "sha256": "09e685d219cde8ae3ccc2473a1a43d6133865241c197bbf97025649bfe59fa69",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/memory-architecture.md",
+        "sha256": "860466e4e54d0116063146401c3df54a25bbf07cdfba18b63d0fb0e06a285f1a",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/memory-landscape.md",
+        "sha256": "b297b121ebb07c50579f929f0e5361598625b024dbf49653b82e12b1dc0b4f4d",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/memory-lifecycle.md",
+        "sha256": "6c7252553bc6308e6f5ec88bb802a62e4bacd98f7946ec5b2e82fef8c1aa0073",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-evals/references/multi-agent.md",
+        "sha256": "e0c3175aa8858de1ba8117c613d2e201e32ff581453078c927a3ebddcff6c0bb",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-evals/references/otel-genai.md",
+        "sha256": "d2cadad0a6a0632d234a51621b136f3001f5a7422e256f84d261d7c0ff1660d5",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+        "sha256": "a239bc4549339b049b54b154f88536bed68256ffffdcdc4a0f41cf7185eeb360",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/pi-sdk.md",
+        "sha256": "b7eb9375934887ed5f85e597e80c5f3d83c02c37cd585aff13960104a31ddcd5",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/pi.md",
+        "sha256": "684616062c9d109ff13eed83a5b9a10544040f1ee22790ee70e8d8156b286c08",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/pipeline.md",
+        "sha256": "89f160068715136c6f7793b305f78371831ebef9527cdb481e15b5af9a1af40b",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/provider-lifecycle.md",
+        "sha256": "d9b4462baf1c805daf05612d7ee8556ac5e666f72de62609666f1ee469294de3",
+        "match": true
+      },
+      {
+        "path": "README.md",
+        "sha256": "d3dc2f7e6e48630ea98cc225a622984d8c932f6d5178e13476dd8c5a4fb43321",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/references/registry.md",
+        "sha256": "648e7649369b9aa5dac5f424c9a4373292e5d73c90d9466b58171934e5c7b51f",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/references/runtime.md",
+        "sha256": "7164776ed0c53dc7eaa3edf21e01620e0db1a2bdef4f573469039be9ac5ad435",
+        "match": true
+      },
+      {
+        "path": "SECURITY.md",
+        "sha256": "87715bb85d820beb6179cf5294fc7ed461cb234657df810031c0eb527fb00b62",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-evals/SKILL.md",
+        "sha256": "e565a39ab596501113eabf1062f12fc13bce6b8dec2cc4cd087135cd966ef89d",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/SKILL.md",
+        "sha256": "cf79585f0df1f41acd68681af6cd1853a2befe7790dce676b5e7bfaba764d84f",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-interop/SKILL.md",
+        "sha256": "7f9456260f131195557a2be3b31396515af74e9895136ab8761ef5fd358ef245",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+        "sha256": "d12ac258efa0ad8a355c53b0ba74033cf69e64b5d3636c9b7349a173a5c447a5",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-evals/references/statistics.md",
+        "sha256": "77cd03cc4f258a097888f81b817e8c9487b4d777d9ac092f76fe48de8de692ca",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/system-prompt.md",
+        "sha256": "0eb99152d900367614334a6d6f62963ff2f694469437ada180e8503b25dc15dc",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/techniques.md",
+        "sha256": "4198c8d2d8a0d6da2f8ba7f2370310578167819abbb9bd351a722491ee8f31e8",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/tools.md",
+        "sha256": "921be9b410394bb545f5a876949f9bb760bc9354c6bb676ef11491f95c2e9c3f",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/references/workbench-contracts.md",
+        "sha256": "a17af9cc84dcc8661085ebb606b09ac08ebe39f6c1fc436ab547ac21747bca80",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/scripts/audit_agent.py",
+        "sha256": "f0193565dd3851d3ea779a05f018099b9f2bca3eccacc370b9a43048baba656a",
+        "match": true
+      },
+      {
+        "path": "plugins/agent-stack/skills/agent-harness/scripts/instruction_budget.py",
+        "sha256": "0f88ff1764cc5a87a2b523126c871e71af750bc29128e05b97f9e6955db999ab",
+        "match": true
+      }
+    ],
+    "npm_view_abbreviated": "MATCH"
+  },
+  "release_status": "completed",
+  "release_conclusion": "success"
+}

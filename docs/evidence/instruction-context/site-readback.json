@@ -1,0 +1,12 @@
+{
+  "as_of": "2026-10-09",
+  "url": "https://skills.sshlg.me/",
+  "http_status": 200,
+  "sha256": "3b3c1ba813ca5ead1702b48c5dd333e8fe336732f666e689051eca9636dfba21",
+  "observed_versions": [
+    "1.54.4",
+    "0.25.4"
+  ],
+  "scope": "HTTP source/version readback; no browser visual acceptance",
+  "pages_run": 37903625882
+}
