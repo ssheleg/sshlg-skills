@@ -1,0 +1,38 @@
+{
+  "baseline": {
+    "source": "ffa4a72e8d4b56477a00f50902f0ce9786ca0af2",
+    "command": "npm test",
+    "exit": 0,
+    "suites": 92,
+    "fixtures": 1120,
+    "members": 11,
+    "log_sha256": "05ad4d0a196b09a483caba623cc24c1fabb05d552a4f2c4c74c08b58de14fcb0"
+  },
+  "focused_installer": {
+    "source": "aea8f002829350bcde2f6a90c6007349a676d3d0",
+    "commands": [
+      "node test/plan_test.js",
+      "node test/host_targets_test.js",
+      "node test/cli_config_test.js",
+      "node test/skillstore_test.js",
+      "node test/runtime_test.js"
+    ],
+    "owner_exit": 0,
+    "independent_review": "ACCEPT; plan and host-target suites rerun, source hashes/table verified"
+  },
+  "intermediate_failures": [
+    {
+      "scope": "working-tree full hub gate before final pins",
+      "reason": "README count still 70 while updated source snapshot says 79",
+      "action": "corrected source-derived count; structural rerun passed"
+    },
+    {
+      "source": "9bc0bfd2d66a7343bec3f27c25d04fc258f63d1f",
+      "run": 37998338658,
+      "reason": "CTX-04.06 simulated release-set receipt still describes prior pins",
+      "action": "regenerate after final five-member pins; never treat it as native runtime acceptance"
+    }
+  ],
+  "final_combined_gate": "PENDING",
+  "model_runtime": "NOT_RUN"
+}
