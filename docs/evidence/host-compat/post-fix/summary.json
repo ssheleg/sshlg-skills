@@ -1,0 +1,19 @@
+{
+  "source": "c46496a6d4d2303f1003ae359468012d18244d89",
+  "members": 11,
+  "skills": 38,
+  "files": 542,
+  "audit_exit_zero": 38,
+  "verdicts": {
+    "PASS": 721
+  },
+  "escaping_symlinks": 0,
+  "links": {
+    "total": 1471,
+    "existing_internal": 1466,
+    "intentional_sibling_navigation": 2,
+    "template_examples_missing": 3,
+    "required_payload_escapes": 0
+  },
+  "semantic_review": "Five owner fixes accepted independently; two remaining sibling links are navigation with local methods, three missing links are seeded template examples. Mechanical counts do not prove native execution."
+}

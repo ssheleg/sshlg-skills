@@ -21,7 +21,9 @@ for the machines. · **[Follow @sshlg93 on X](https://x.com/intent/follow?screen
 
 Works with **Claude Code** (as plugins) and **DeepSeek Harness** (`dsh`), plus
 Cursor, OpenCode, Codex, Kilo, Kimi, Hermes, OpenClaw, Gemini CLI, Windsurf, Zed
-and the rest of the 70+ agents the vercel `skills` CLI supports.
+and other targets among the 79+ agents the vercel `skills` CLI supports.
+The pinned snapshot has 77 global targets; native extension support is checked
+separately in the [compatibility report](docs/reports/2026-10-09-coding-agent-compatibility/README.md).
 
 ---
 
@@ -126,16 +128,22 @@ git clone --recursive https://github.com/ssheleg/sshlg-skills
 cd sshlg-skills && ./install.sh
 ```
 
-Flags: `--agent a,b` picks agents, `--all` covers every agent the CLI supports,
+Flags: `--agent a,b` picks valid global targets, `--all` selects the pinned CLI’s
+77 globally supported targets (76 while Claude uses plugins),
 `--no-claude` skips the plugin step, `--claude-only` does nothing else.
 
 ### What `install` actually does
 
 - **Claude Code** → each skill as a **plugin** (`claude plugin marketplace add` +
   `claude plugin install`), never as a plain `~/.claude/skills/` copy.
-- **Every other agent** → the vercel
-  [`skills`](https://github.com/vercel-labs/skills) CLI, installed globally into
-  `~/.agents/skills/`, with the agent list passed as repeated `--agent` flags.
+- **Other installer targets** → the vercel
+  [`skills`](https://github.com/vercel-labs/skills) CLI, using shared storage and
+  each adapter’s global destination, with repeated `--agent` flags. Hermes and
+  Kiro use native roots; shared `~/.agents/skills` loading is host-specific.
+- **Unsupported global targets** → Eve and PromptScript are excluded from
+  `--all`; explicit unknown or project-only names fail before installation.
+  The [dated compatibility report](docs/reports/2026-10-09-coding-agent-compatibility/README.md)
+  separates skill discovery from plugins, hooks, delegation and runtime evidence.
 - **Then it prunes** the plain Claude copies the skills CLI recreates on its own.
   That duplicate shadows your plugin and silently serves a stale skill — the one
   failure mode worth automating away.
@@ -506,8 +514,9 @@ The commit gate is honest only because of a number: the suite costs **~8.5 s**
 here. At three minutes it would be a gate people route around, and a gate people
 route around is worse than none — it teaches that gates are noise.
 
-Neither hook runs for any other agent (hooks are a Claude Code feature), so the
-same rules stay a self-check elsewhere. Working with a different agent, or want
+These hook adapters are installed through the Claude Code channel. Other hosts
+may support hooks, but need separately verified adapters; without one, these
+rules remain a self-check. Working with a different agent, or want
 them off? Delete the file — nothing else reads it.
 
 ## Other commands
@@ -561,7 +570,7 @@ reaching for one as a tool is the system working.
 ## How it works
 
 A thin, zero-dependency Node launcher over the three mechanisms that already
-reach these agents — the `skills` CLI (70+ agents), `claude plugin` (Claude
+reach these agents — the `skills` CLI (79 agent IDs; 77 global targets), `claude plugin` (Claude
 Code), and `git submodule` (pinned snapshots). It invents no new install path. It
 curates the family, drives those three, and encodes the rules that are easy to
 get wrong: one channel per agent, exact agent ids, repeated `--agent` flags, full

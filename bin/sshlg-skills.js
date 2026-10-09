@@ -141,8 +141,9 @@ function parseFlags(argv) {
     else if (a === '--agent' || a === '-a') {
       const v = argv[++i];
       if (!v || v.startsWith('-')) { log('--agent needs a value, e.g. --agent cursor,zed'); process.exit(2); }
-      f.agents = v.split(',').map(s => s.trim()).filter(Boolean);
-      if (!f.agents.length) { log('--agent got an empty list'); process.exit(2); }
+      const added = v.split(',').map(s => s.trim()).filter(Boolean);
+      if (!added.length) { log('--agent got an empty list'); process.exit(2); }
+      f.agents = (f.agents || []).concat(added);
     }
     else if (a.startsWith('-')) { log(`unknown option: ${a}`); process.exit(2); }
     // ignore stray non-flag tokens (e.g. a trailing shell comment zsh doesn't strip)
@@ -150,12 +151,6 @@ function parseFlags(argv) {
   }
   if (f.claudeOnly && !f.claude) { log('--claude-only and --no-claude contradict each other'); process.exit(2); }
   return f;
-}
-
-function agentList(f) {
-  if (f.all) return ['*'];
-  if (f.agents && f.agents.length) return f.agents;
-  return manifest.defaultAgents.slice();
 }
 
 // The skills CLI auto-detects Claude Code and writes ~/.claude/skills/<id> even when
@@ -311,8 +306,8 @@ Usage:
 Defaults:
   - Non-Claude agents (${manifest.defaultAgents.join(', ')}) via the skills CLI.
   - Claude Code via its PLUGIN (not a plain copy) to avoid a shadow duplicate.
-  - --all       every agent the skills CLI supports ('*'); with Claude plugins on,
-                this also drops a plain Claude copy — prefer the default.
+  - --all       all globally supported agents in the pinned skills CLI snapshot.
+                Excludes project-only targets and plain Claude while plugins are on.
   - --no-claude skip the Claude plugin step.
   - --claude-only install/update only the Claude plugins.
   - --bump-pins  (update only) also fast-forward the pinned submodules to their
@@ -324,9 +319,7 @@ Defaults:
 
 function skillsCliAgents(f) {
   // Never let the skills CLI drop a plain Claude copy while we manage Claude via plugin.
-  const agents = plan.resolveAgents(agentList(f), f);
-  if (f.all && f.claude) log('  ! --all includes claude-code: a plain Claude copy will be added alongside the plugin (duplicate). Use the default agent set to avoid this.');
-  return agents;
+  return plan.resolveAgents(manifest.defaultAgents, f);
 }
 
 /**
@@ -741,10 +734,17 @@ function cmdList(argv) {
 }
 
 function cmdAgents() {
-  log('Agents are handled by the vercel `skills` CLI (70+). The named ones:\n');
-  log('  claude-code (via plugin), cursor, opencode, kilo, kimi-code-cli,');
-  log('  hermes-agent, openclaw, codex, gemini-cli, windsurf, zed, and more.\n');
-  log("Full list / exact ids:  npx skills add <any-repo> --agent __x__  (prints valid agents)");
+  const targets = require('../lib/host-targets.js');
+  const snapshot = targets.validateSnapshot(targets.snapshot, cliSpec());
+  const rows = snapshot.agents;
+  const globals = rows.filter(row => row.global).length;
+  const width = Math.max(...rows.map(row => row.id.length)) + 2;
+  log(`Pinned installer targets (${snapshot.skillsCli}): ${rows.length} IDs, ${globals} global, ${rows.length - globals} project-only.\n`);
+  for (const row of rows) log(`  ${row.id.padEnd(width)}${row.global ? 'global' : 'project-only'}`);
+  log('\nThese are installer destinations, not native runtime acceptance.');
+  log('Project-only targets cannot be selected by this global-install wrapper.');
+  log('Claude Code uses the plugin channel by default; --all excludes its plain skill target.');
+  log('--all --no-claude includes the plain claude-code target and skips the plugin step.');
   log(`Default set: ${manifest.defaultAgents.join(', ')}  (Claude via plugin)`);
 }
 
@@ -1984,6 +1984,16 @@ function main(argv) {
   // `restore` takes a positional archive name.
   if (cmd === 'restore') return cmdRestoreAll(rest) ? 0 : 1;
   const f = parseFlags(rest);
+  if (['install', 'i', 'update', 'up'].includes(cmd)) {
+    // Fail before building/executing any operation, including plugin-only runs.
+    try { skillsCliAgents(f); }
+    catch (e) { log(e.message); return 2; }
+    if (f.all && !f.claudeOnly) {
+      const excluded = require('../lib/host-targets.js').excludedGlobal();
+      log(`  --all excludes non-global targets (${cliSpec()}): ${excluded.join(', ')}`);
+      if (f.claude) log('  claude-code uses the plugin channel; no plain Claude target is added.');
+    }
+  }
   if (cmd === 'install' || cmd === 'i') return cmdInstall(f) ? 0 : 1;
   if (cmd === 'update' || cmd === 'up') return cmdUpdate(f) ? 0 : 1;
   if (cmd === 'uninstall' || cmd === 'un') return cmdUninstall(f) ? 0 : 1;

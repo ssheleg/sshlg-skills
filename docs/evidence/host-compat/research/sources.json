@@ -1,0 +1,381 @@
+{
+  "as_of": "2026-10-09",
+  "sources": [
+    {
+      "id": "kimi-skills",
+      "url": "https://www.kimi.com/code/docs/en/kimi-code-cli/customization/skills.html",
+      "sections": "Skill Locations; Frontmatter Fields",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "kimi-agents",
+      "url": "https://www.kimi.com/code/docs/en/kimi-code-cli/customization/agents.html",
+      "sections": "Instruction Files; Agent Locations; SYSTEM.md",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "kimi-data",
+      "url": "https://www.kimi.com/code/docs/en/kimi-code-cli/configuration/data-locations.html",
+      "sections": "Data root",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "kimi-hooks",
+      "url": "https://www.kimi.com/code/docs/en/kimi-code-cli/customization/hooks.html",
+      "sections": "Configuration; failure behavior",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "kimi-legacy-help",
+      "url": "https://www.kimi.com/en/help/plugins-and-skills/use-skills-in-code",
+      "sections": "Conflicting general help; not selected for current CLI contract",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "hermes-skills",
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/skills/",
+      "sections": "External Skill Directories; Project-Local Skills",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "hermes-context",
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/context-files/",
+      "sections": "Priority system; Directory Chain; SOUL.md",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "hermes-hooks",
+      "url": "https://hermes-agent.nousresearch.com/docs/user-guide/features/hooks",
+      "sections": "Four hook systems; cache-safe sections",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "cursor-skills",
+      "url": "https://prod.cursor.com/docs/skills",
+      "sections": "Skill directories; nested and remote scope",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "cursor-rules",
+      "url": "https://prod.cursor.com/docs/rules",
+      "sections": "Project rules; AGENTS.md",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "cursor-rules-help",
+      "url": "https://prod.cursor.com/help/customization/rules",
+      "sections": "User rule files; CLAUDE.md",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "cursor-components",
+      "url": "https://prod.cursor.com/docs/customize-cursor",
+      "sections": "Extension components",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "gemini-skills",
+      "url": "https://geminicli.com/docs/cli/skills/",
+      "sections": "Discovery tiers; precedence and aliases",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "gemini-context",
+      "url": "https://geminicli.com/docs/cli/gemini-md/",
+      "sections": "Context hierarchy; configurable filenames",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "opencode-skills",
+      "url": "https://opencode.ai/docs/skills/",
+      "sections": "Place files; frontmatter; permissions",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "opencode-rules",
+      "url": "https://opencode.ai/docs/rules/",
+      "sections": "Types; precedence; imports",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "windsurf-skills",
+      "url": "https://docs.devin.ai/desktop/cascade/skills",
+      "sections": "Current redirect target of Windsurf skills docs",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "windsurf-rules",
+      "url": "https://docs.devin.ai/desktop/cascade/memories",
+      "sections": "Rules scopes and discovery",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "copilot-skills",
+      "url": "https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/add-skills",
+      "sections": "Locations; required metadata; script tools",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "copilot-plugin",
+      "url": "https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference",
+      "sections": "Loading order; Agent Plugins vs legacy",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "copilot-instructions",
+      "url": "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions",
+      "sections": "Locations; combined instructions",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "cline-skills",
+      "url": "https://docs.cline.bot/customization/skills",
+      "sections": "Location and scope; global precedence",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "cline-rules",
+      "url": "https://docs.cline.bot/customization/cline-rules",
+      "sections": "Locations; global cross-tool instructions",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "roo-skills",
+      "url": "https://roocodeinc.github.io/Roo-Code/features/skills/",
+      "sections": "Exact override priority; symlink names",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "roo-instructions",
+      "url": "https://roocodeinc.github.io/Roo-Code/features/custom-instructions/",
+      "sections": "Global and project rules; AGENTS.md",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "kilo-skills",
+      "url": "https://kilo.ai/docs/customize/skills",
+      "sections": "Current platform .kilo roots; mode migration; trusted shell; contradictory name guidance",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "goose-skills",
+      "url": "https://github.com/aaif-goose/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/documentation/docs/guides/context-engineering/using-skills.md",
+      "sections": "Current primary repository after block/goose move",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "goose-source",
+      "url": "https://github.com/aaif-goose/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/crates/goose/src/skills/mod.rs",
+      "sections": "global_skills_dir; skill_directories_with_config",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "goose-hints",
+      "url": "https://github.com/aaif-goose/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/documentation/docs/guides/context-engineering/using-goosehints.md",
+      "sections": "Global/local hints; Developer extension",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "goose-hooks",
+      "url": "https://github.com/aaif-goose/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/documentation/docs/guides/context-engineering/hooks.md",
+      "sections": "Separate native hook contract",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "openclaw-skills",
+      "url": "https://docs.openclaw.ai/skills",
+      "sections": "Loading order; state overrides; symlinks",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "openclaw-workspace",
+      "url": "https://docs.openclaw.ai/concepts/agent-workspace",
+      "sections": "Workspace context files",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "kiro-skills",
+      "url": "https://kiro.dev/docs/skills/",
+      "sections": "Scopes; custom agent resources; surface support",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "kiro-steering",
+      "url": "https://kiro.dev/docs/steering/",
+      "sections": "Global/project steering; AGENTS; custom agents",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "zed-skills",
+      "url": "https://zed.dev/docs/ai/skills",
+      "sections": "Where Skills Live; Limits; external agents",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "zed-instructions",
+      "url": "https://zed.dev/docs/ai/instructions",
+      "sections": "Personal/project instructions; external agents",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "amp-skills",
+      "url": "https://ampcode.com/docs/customize/skills",
+      "sections": "Sources and precedence; MCP",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "amp-global",
+      "url": "https://ampcode.com/docs/customize/global-plugins-and-skills",
+      "sections": "Hosted vs machine-local skills",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "amp-instructions",
+      "url": "https://ampcode.com/docs/customize/agents-md",
+      "sections": "Instruction roots and inclusion",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "kilo-rules",
+      "url": "https://kilo.ai/docs/customize/custom-rules",
+      "sections": "Instruction locations",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "kilo-agents",
+      "url": "https://kilo.ai/docs/customize/agents-md",
+      "sections": "Instruction locations",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "claude-skills",
+      "url": "https://code.claude.com/docs/en/skills",
+      "sections": "Locations; frontmatter; allowed-tools; account sync; string substitution",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "claude-plugins",
+      "url": "https://code.claude.com/docs/en/plugins-reference",
+      "sections": "Plugin components; substitution versus shell environment",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "codex-skills",
+      "url": "https://learn.chatgpt.com/docs/build-skills",
+      "sections": "Skill discovery roots; optional openai.yaml",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "codex-plugins",
+      "url": "https://developers.openai.com/plugins/build/plugins",
+      "sections": "Portable plugin manifests; compatibility layouts; hooks publishing restrictions",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "codex-hooks",
+      "url": "https://learn.chatgpt.com/docs/hooks",
+      "sections": "Host-specific hooks",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "codex-subagents",
+      "url": "https://learn.chatgpt.com/docs/agent-configuration/subagents",
+      "sections": "Native delegation",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    }
+  ]
+}

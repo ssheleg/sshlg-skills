@@ -1,0 +1,230 @@
+{
+  "schema": 1,
+  "task": "HC-20261009",
+  "status": "IN_PROGRESS",
+  "members": [
+    {
+      "owner": "make-skill",
+      "version": "0.29.2",
+      "source": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c",
+      "status": "PUBLISHED",
+      "registry_receipt": "releases/make-skill.json"
+    },
+    {
+      "owner": "super-ux",
+      "version": "0.59.1",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "status": "PUBLISHED",
+      "registry_receipt": "releases/super-ux.json"
+    },
+    {
+      "owner": "sheleg-dev",
+      "version": "0.13.2",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "status": "PUBLISHED",
+      "registry_receipt": "releases/sheleg-dev.json"
+    },
+    {
+      "owner": "task-pipeline",
+      "version": "1.90.1",
+      "source": "07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
+      "status": "SOURCE_MERGED_TAGGED_RELEASE_GATING",
+      "release_run": 38003499991
+    },
+    {
+      "owner": "agent-sync",
+      "version": "1.21.5",
+      "source": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+      "status": "PUBLISHED",
+      "release_run": 38002166721,
+      "registry_receipt": "releases/agent-sync.json",
+      "payload_completeness": "releases/agent-sync-payload.json"
+    }
+  ],
+  "hub": {
+    "version": "1.54.7",
+    "status": "CANDIDATE",
+    "release_order": "CONTRIBUTING.md requires member publication before parent pin integration and release; wait for all five registry receipts before hub integration.",
+    "integration_plan": "Two sequential source PRs per CONTRIBUTING.md: launcher/contracts first without member pin changes, then five published member pins and final receipts. One final hub release."
+  },
+  "installation": "PENDING",
+  "model_runtime": "NOT_RUN",
+  "reviews": [
+    {
+      "scope": "installer",
+      "implementation": "aea8f002829350bcde2f6a90c6007349a676d3d0",
+      "reviewer": "/root/host_contracts",
+      "result": "ACCEPT",
+      "evidence": "installer-review.md"
+    },
+    {
+      "scope": "make-skill",
+      "reviewer": "/root/installer_targets",
+      "result": "ACCEPT",
+      "evidence": "https://github.com/ssheleg/make-skill/blob/de548e7e96c7cf89aa14486d608687a924990059/docs/evidence/host-compat/README.md"
+    },
+    {
+      "scope": "task-pipeline and agent-sync",
+      "reviewer": "/root/installer_targets",
+      "result": "ACCEPT after four corrections",
+      "reviewed_sources": [
+        "a121c38c69db8a4d998a4af9202141fc97ad65c8",
+        "5669423d8f568e90294f619c40f7cb3f8a9d9232"
+      ]
+    },
+    {
+      "scope": "hub contracts and source ledger",
+      "reviewer": "/root/host_contracts",
+      "result": "ACCEPT",
+      "evidence": "research/README.md"
+    },
+    {
+      "scope": "local readback scripts",
+      "reviewer": "/root/installer_targets",
+      "result": "ACCEPT after missing-provider, source-identity and fail-open corrections",
+      "evidence": "local/README.md"
+    },
+    {
+      "scope": "Continue installed-shape readback and removal/count audit",
+      "reviewer": "/root/installer_targets",
+      "result": "ACCEPT",
+      "evidence": "local/README.md"
+    },
+    {
+      "scope": "Continue plan grouping and real copy lifecycle",
+      "reviewer": "/root/host_contracts",
+      "result": "ACCEPT after correcting physical storage-mode claim",
+      "implementation": "63ac417cca23c3def2bec87741dac933f79b0a04",
+      "evidence": "local/continue-copy-lifecycle.json"
+    },
+    {
+      "scope": "Three-ledger source index",
+      "reviewer": "/root/installer_targets",
+      "result": "ACCEPT",
+      "families": 29,
+      "source_urls": 84,
+      "evidence": "research/SOURCES.md"
+    },
+    {
+      "scope": "Complete integrated source, final pins, census, report links and source ledger",
+      "reviewer": "/root/host_contracts",
+      "source": "8af76fc67677ad1f3fd0105ea13d2482bf23962d",
+      "result": "ACCEPT",
+      "checked_file_hashes": 542,
+      "local_links": 62,
+      "evidence": "post-fix/summary.json"
+    }
+  ],
+  "owner_index": [
+    {
+      "owner": "super-ux",
+      "remote": "https://github.com/ssheleg/super-ux.git",
+      "branch": "main",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "version": "0.59.1",
+      "status": "CHANGED_SOURCE_INTEGRATED",
+      "entry": "https://github.com/ssheleg/super-ux/tree/99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "evidence": "post-fix/census.json"
+    },
+    {
+      "owner": "task-pipeline",
+      "remote": "https://github.com/ssheleg/task-pipeline.git",
+      "branch": "main",
+      "source": "07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
+      "version": "1.90.1",
+      "status": "CHANGED_SOURCE_INTEGRATED",
+      "entry": "https://github.com/ssheleg/task-pipeline/tree/07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
+      "evidence": "post-fix/census.json"
+    },
+    {
+      "owner": "agent-sync",
+      "remote": "https://github.com/ssheleg/agent-sync.git",
+      "branch": "main",
+      "source": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+      "version": "1.21.5",
+      "status": "CHANGED_SOURCE_INTEGRATED",
+      "entry": "https://github.com/ssheleg/agent-sync/tree/52bf0dd2f40913d10f684b967e1ba8c489a63660",
+      "evidence": "post-fix/census.json"
+    },
+    {
+      "owner": "make-skill",
+      "remote": "https://github.com/ssheleg/make-skill.git",
+      "branch": "main",
+      "source": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c",
+      "version": "0.29.2",
+      "status": "CHANGED_SOURCE_INTEGRATED",
+      "entry": "https://github.com/ssheleg/make-skill/tree/c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c",
+      "evidence": "post-fix/census.json"
+    },
+    {
+      "owner": "sheleg-design",
+      "remote": "https://github.com/ssheleg/sheleg-design-skill.git",
+      "branch": "main",
+      "source": "bf043e89f209c219c8a88dd30b066cbba9371781",
+      "version": "1.64.0",
+      "status": "AUDITED_UNCHANGED",
+      "entry": "https://github.com/ssheleg/sheleg-design-skill/tree/bf043e89f209c219c8a88dd30b066cbba9371781",
+      "evidence": "post-fix/census.json"
+    },
+    {
+      "owner": "seo-aeo-audit",
+      "remote": "https://github.com/ssheleg/seo-aeo-audit.git",
+      "branch": "main",
+      "source": "ba2d319f2d01842e7087ff1ef76185b12067e45d",
+      "version": "0.26.3",
+      "status": "AUDITED_UNCHANGED",
+      "entry": "https://github.com/ssheleg/seo-aeo-audit/tree/ba2d319f2d01842e7087ff1ef76185b12067e45d",
+      "evidence": "post-fix/census.json"
+    },
+    {
+      "owner": "sheleg-dev",
+      "remote": "https://github.com/ssheleg/sheleg-dev.git",
+      "branch": "main",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "version": "0.13.2",
+      "status": "CHANGED_SOURCE_INTEGRATED",
+      "entry": "https://github.com/ssheleg/sheleg-dev/tree/d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "evidence": "post-fix/census.json"
+    },
+    {
+      "owner": "agent-stack",
+      "remote": "https://github.com/ssheleg/agent-stack.git",
+      "branch": "main",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "version": "0.25.5",
+      "status": "AUDITED_UNCHANGED",
+      "entry": "https://github.com/ssheleg/agent-stack/tree/b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "evidence": "post-fix/census.json"
+    },
+    {
+      "owner": "telegram-dev",
+      "remote": "https://github.com/ssheleg/telegram-dev.git",
+      "branch": "main",
+      "source": "4627d27336d01ce7c9276396913195406ef428c6",
+      "version": "0.2.2",
+      "status": "AUDITED_UNCHANGED",
+      "entry": "https://github.com/ssheleg/telegram-dev/tree/4627d27336d01ce7c9276396913195406ef428c6",
+      "evidence": "post-fix/census.json"
+    },
+    {
+      "owner": "xr-dev",
+      "remote": "https://github.com/ssheleg/xr-dev.git",
+      "branch": "main",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "version": "0.3.2",
+      "status": "AUDITED_UNCHANGED",
+      "entry": "https://github.com/ssheleg/xr-dev/tree/c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "evidence": "post-fix/census.json"
+    },
+    {
+      "owner": "web3d-dev",
+      "remote": "https://github.com/ssheleg/web3d-dev.git",
+      "branch": "main",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "version": "0.1.2",
+      "status": "AUDITED_UNCHANGED",
+      "entry": "https://github.com/ssheleg/web3d-dev/tree/cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "evidence": "post-fix/census.json"
+    }
+  ]
+}

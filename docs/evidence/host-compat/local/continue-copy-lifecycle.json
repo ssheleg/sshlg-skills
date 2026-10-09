@@ -1,0 +1,36 @@
+{
+  "skills": "1.5.25",
+  "scope": "Disposable HOME actual pinned CLI; no native model session",
+  "results": [
+    {
+      "mode": "prior",
+      "symlinks": {
+        "hermes-agent": true,
+        "continue": true,
+        "roo": true
+      },
+      "initial_payload_exact": true,
+      "updated_payload_exact": true,
+      "targeted_remove_complete": true
+    },
+    {
+      "mode": "split",
+      "symlinks": {
+        "hermes-agent": false,
+        "continue": false,
+        "roo": false
+      },
+      "initial_payload_exact": true,
+      "updated_payload_exact": true,
+      "targeted_remove_complete": true
+    }
+  ],
+  "reviewer": "/root/host_contracts",
+  "implementation": "63ac417cca23c3def2bec87741dac933f79b0a04",
+  "as_of": "2026-10-10",
+  "fixture_targets": [
+    "hermes-agent",
+    "continue",
+    "roo"
+  ]
+}

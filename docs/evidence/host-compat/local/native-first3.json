@@ -1,0 +1,28 @@
+{
+  "as_of": "2026-10-10",
+  "rows": [
+    {
+      "owner": "make-skill",
+      "version": "0.29.2",
+      "source": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c",
+      "files": 25,
+      "all_equal": true
+    },
+    {
+      "owner": "super-ux",
+      "version": "0.59.1",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 195,
+      "all_equal": true
+    },
+    {
+      "owner": "sheleg-dev",
+      "version": "0.13.2",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 61,
+      "all_equal": true
+    }
+  ],
+  "method": "Native marketplace repin and plugin add; exact Git blob comparison",
+  "model_runtime": "NOT_RUN"
+}

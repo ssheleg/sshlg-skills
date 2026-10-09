@@ -321,50 +321,50 @@
       "name": "Windsurf",
       "id": "windsurf",
       "channel": "skills CLI",
-      "reads": "~/.agents/skills",
-      "note": ""
+      "reads": "~/.agents/skills; ~/.codeium/windsurf/skills; ~/.config/devin/skills",
+      "note": "Current documentation redirects to Devin Desktop/Cascade; .windsurf remains a legacy project skill path."
     },
     {
       "name": "Zed",
       "id": "zed",
       "channel": "skills CLI",
       "reads": "~/.agents/skills",
-      "note": ""
+      "note": "Native Zed Agent discovers direct skill children; embedded external agents use their own loaders. Project skill loading depends on trust."
     },
     {
       "name": "Kilo Code",
       "id": "kilo",
       "channel": "skills CLI",
-      "reads": "~/.agents/skills",
-      "note": ""
+      "reads": "~/.agents/skills; ~/.kilo/skills",
+      "note": "Current Kilo platform uses .kilo; older .kilocode layouts are not a universal current contract."
     },
     {
       "name": "Kimi CLI",
       "id": "kimi-code-cli",
       "channel": "skills CLI",
-      "reads": "~/.agents/skills",
-      "note": ""
+      "reads": "~/.agents/skills; $KIMI_CODE_HOME/skills (default ~/.kimi-code/skills)",
+      "note": "Current Kimi Code 2.x uses .kimi-code; older Python CLI paths are a different generation. Shared storage is native; no duplicate copy is required."
     },
     {
       "name": "Hermes",
       "id": "hermes-agent",
       "channel": "skills CLI",
-      "reads": "~/.agents/skills",
-      "note": ""
+      "reads": "$HERMES_HOME/skills (default ~/.hermes/skills)",
+      "note": "Profile-local installation; ~/.agents/skills requires skills.external_dirs. Project skills require trust; copying a skill does not register native plugins or hooks."
     },
     {
       "name": "OpenClaw",
       "id": "openclaw",
       "channel": "skills CLI",
-      "reads": "~/.agents/skills",
-      "note": ""
+      "reads": "<state-dir>/skills (default ~/.openclaw/skills)",
+      "note": "Shared ~/.agents/skills is discovered only with the default state directory; custom profiles must use their native roots."
     },
     {
       "name": "Kiro",
       "id": "kiro-cli",
       "channel": "skills CLI",
-      "reads": "~/.agents/skills",
-      "note": ""
+      "reads": "~/.kiro/skills",
+      "note": "Native Kiro global root; shared ~/.agents/skills loading is not established by the inspected primary documentation."
     },
     {
       "name": "Goose",
@@ -372,12 +372,41 @@
       "channel": "skills CLI",
       "reads": "~/.agents/skills",
       "note": ""
+    },
+    {
+      "name": "GitHub Copilot",
+      "id": "github-copilot",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills; ~/.copilot/skills",
+      "note": "Current CLI/IDE skill roots vary by surface; native plugin features need their own registration."
+    },
+    {
+      "name": "Cline",
+      "id": "cline",
+      "channel": "skills CLI",
+      "reads": "~/.cline/skills",
+      "note": "Current documented precedence gives global skills priority; shared ~/.agents/skills loading is not established."
+    },
+    {
+      "name": "Roo Code",
+      "id": "roo",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills; ~/.roo/skills",
+      "note": "Mode-specific skill directories participate in discovery; verify the active mode."
+    },
+    {
+      "name": "Amp",
+      "id": "amp",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills; ~/.config/agents/skills; ~/.config/amp/skills",
+      "note": "Its documented search order includes global local roots before project roots; do not assume project-first precedence."
     }
   ],
   "agentsUpstream": {
-    "count": 70,
-    "source": "the vercel `skills` CLI's own agent list",
-    "read": "2026-09-01",
-    "note": "Not computable from this tree — it is a property of another project. Sourced and dated instead, which is the honest version of a number nothing here can recompute."
+    "count": 79,
+    "globalCount": 77,
+    "source": "skills@1.5.25 published dist/cli.mjs; lib/host-targets.snapshot.js",
+    "read": "2026-10-09",
+    "note": "Dated installer-target snapshot, independently checked against the pinned upstream agents.ts. Eve and PromptScript are project-only. This count does not assert native runtime compatibility."
   }
 }

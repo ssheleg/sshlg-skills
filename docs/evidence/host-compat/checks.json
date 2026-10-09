@@ -1,0 +1,147 @@
+{
+  "baseline": {
+    "source": "ffa4a72e8d4b56477a00f50902f0ce9786ca0af2",
+    "command": "npm test",
+    "exit": 0,
+    "suites": 92,
+    "fixtures": 1120,
+    "members": 11,
+    "log_sha256": "05ad4d0a196b09a483caba623cc24c1fabb05d552a4f2c4c74c08b58de14fcb0"
+  },
+  "focused_installer": {
+    "source": "aea8f002829350bcde2f6a90c6007349a676d3d0",
+    "commands": [
+      "node test/plan_test.js",
+      "node test/host_targets_test.js",
+      "node test/cli_config_test.js",
+      "node test/skillstore_test.js",
+      "node test/runtime_test.js"
+    ],
+    "owner_exit": 0,
+    "independent_review": "ACCEPT; plan and host-target suites rerun, source hashes/table verified"
+  },
+  "intermediate_failures": [
+    {
+      "scope": "working-tree full hub gate before final pins",
+      "reason": "README count still 70 while updated source snapshot says 79",
+      "action": "corrected source-derived count; structural rerun passed"
+    },
+    {
+      "source": "9bc0bfd2d66a7343bec3f27c25d04fc258f63d1f",
+      "run": 37998338658,
+      "reason": "CTX-04.06 simulated release-set receipt still describes prior pins",
+      "action": "regenerate after final five-member pins; never treat it as native runtime acceptance"
+    },
+    {
+      "source": "8af76fc67677ad1f3fd0105ea13d2482bf23962d",
+      "scope": "First full local gate with final pins",
+      "reason": "Tags fetched but local origin/main refs in two isolated submodules were stale; validator did not see containing remote refs",
+      "action": "Fetched origin/main in both isolated submodules, confirmed containment, repeated full gate on unchanged source; PASS",
+      "failed_log_sha256": "7083489e00ab636e32d3d0439e0fd5c072334ac04c6151d980307d4737518636"
+    }
+  ],
+  "final_combined_gate": {
+    "source": "8af76fc67677ad1f3fd0105ea13d2482bf23962d",
+    "command": "npm test",
+    "exit": 0,
+    "suites": 93,
+    "fixtures": 1136,
+    "members": 11,
+    "log_sha256": "d61615c9dde39550d526971220601f0657c5c7b563a52c99ee25f625386fdacc",
+    "source_scope": "All five final merged/tagged member pins; publication/install still separate",
+    "unlooked": [
+      {
+        "mechanism": "plant_guard_test.py",
+        "copies": 4,
+        "similarity": 0.861,
+        "gate_floor": 0.9
+      },
+      {
+        "mechanism": "social_preview.py",
+        "copies": 11,
+        "similarity": 0.828,
+        "gate_floor": 0.9
+      }
+    ]
+  },
+  "model_runtime": "NOT_RUN",
+  "continue_regression": {
+    "source": "63ac417cca23c3def2bec87741dac933f79b0a04",
+    "owner_checks": {
+      "plan": 26,
+      "host_targets": 14,
+      "locked_plan": 6,
+      "runtime": 8
+    },
+    "root_replay": {
+      "plan": 26,
+      "host_targets": 14
+    },
+    "exit": 0,
+    "full_gate": "PASS; final_combined_gate at8af76fc"
+  },
+  "research_extension": {
+    "families": 29,
+    "source_urls": 84,
+    "read": 83,
+    "body_unavailable": 1,
+    "reference_check_exit": 0
+  },
+  "continue_combined_gate": {
+    "source": "8c7704ee3edb54547e6f03d8503a88974392eed3",
+    "command": "npm test",
+    "exit": 0,
+    "suites": 93,
+    "fixtures": 1136,
+    "members": 11,
+    "log_sha256": "0ef509b43a1efb7b410d2a65cf2fd92bed3a984f9eb2ecd1e1632b662118df2c",
+    "scope": "Continue and research integrated; three new owner pins, task-pipeline and agent-sync pending"
+  },
+  "continue_hosted_gates": {
+    "source": "3bf480f2ff127b1d8059564c7fc42e0f693a0d8b",
+    "runs": [
+      38001235647,
+      38001231190
+    ],
+    "result": "SUCCESS",
+    "scope": "Before final task-pipeline and agent-sync pins"
+  },
+  "owner_source_gates": {
+    "task_pipeline": {
+      "tested_candidate": "9b19e878e9630bf084896a5631e7f730e9695949",
+      "merged_source": "07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
+      "complete_tree_equal": true,
+      "local_test_all_exit": 0,
+      "local_log_sha256": "dc0b8087af1f30aff59c8e809fbd61f19871115ac63068b8d5e54fb04da28733",
+      "hosted_run": 37997668725,
+      "hosted_result": "SUCCESS"
+    },
+    "agent_sync": {
+      "tested_candidate": "6aa321ac1a7045498847c9318233d407448a506c",
+      "merged_source": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+      "complete_tree_equal": true,
+      "hosted_run": 37999800607,
+      "hosted_result": "SUCCESS",
+      "initial_local_result": "FAIL 73/74; repaired fixture independently reproduced before passing full hosted gate"
+    }
+  },
+  "post_fix_census": {
+    "source": "c46496a6d4d2303f1003ae359468012d18244d89",
+    "result": "PASS",
+    "skills": 38,
+    "files": 542,
+    "audit_exit_zero": 38,
+    "pass_verdicts": 721,
+    "required_payload_escapes": 0,
+    "evidence": "post-fix/summary.json"
+  },
+  "final_hosted_gates": {
+    "source": "8af76fc67677ad1f3fd0105ea13d2482bf23962d",
+    "runs": [
+      38003767837,
+      38003763759
+    ],
+    "result": "SUCCESS"
+  },
+  "pin_gate_scope": "test/check_pins.py accepts the union of npm versions and Git tags; separate registry receipts prove npm publication."
+}

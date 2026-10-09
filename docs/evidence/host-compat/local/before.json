@@ -1,0 +1,218 @@
+{
+  "as_of": "2026-10-10",
+  "phase": "before",
+  "model_executed": false,
+  "versions": [
+    {
+      "client": "claude",
+      "installed": true,
+      "exit": 0,
+      "version": "2.1.296 (Claude Code)"
+    },
+    {
+      "client": "codex",
+      "installed": true,
+      "exit": 0,
+      "version": "codex-cli 0.162.0"
+    },
+    {
+      "client": "kimi",
+      "installed": true,
+      "exit": 0,
+      "version": "2.1.1"
+    },
+    {
+      "client": "hermes",
+      "installed": true,
+      "exit": 0,
+      "version": "Hermes Agent v0.21.4 (2026.9.21) · upstream a928a959"
+    },
+    {
+      "client": "gemini",
+      "installed": true,
+      "exit": 0,
+      "version": "0.46.0"
+    },
+    {
+      "client": "opencode",
+      "installed": true,
+      "exit": 0,
+      "version": "1.18.10"
+    },
+    {
+      "client": "goose",
+      "installed": true,
+      "exit": 0,
+      "version": "1.44.0"
+    },
+    {
+      "client": "cursor-agent",
+      "installed": true,
+      "exit": 0,
+      "version": "2026.09.02-c22c1a3"
+    },
+    {
+      "client": "copilot",
+      "installed": false
+    },
+    {
+      "client": "kiro-cli",
+      "installed": false
+    }
+  ],
+  "plugins_registered": {
+    "codex": [
+      {
+        "name": "agent-stack",
+        "version": "0.25.5",
+        "enabled": true
+      },
+      {
+        "name": "agent-sync",
+        "version": "1.21.4",
+        "enabled": true
+      },
+      {
+        "name": "make-skill",
+        "version": "0.29.1",
+        "enabled": true
+      },
+      {
+        "name": "seo-aeo-audit",
+        "version": "0.26.3",
+        "enabled": true
+      },
+      {
+        "name": "sheleg-design",
+        "version": "1.64.0",
+        "enabled": true
+      },
+      {
+        "name": "sheleg-dev",
+        "version": "0.13.1",
+        "enabled": true
+      },
+      {
+        "name": "super-ux",
+        "version": "0.59.0",
+        "enabled": true
+      },
+      {
+        "name": "task-pipeline",
+        "version": "1.90.0",
+        "enabled": true
+      },
+      {
+        "name": "web3d-dev",
+        "version": "0.1.2",
+        "enabled": true
+      }
+    ],
+    "claude": [
+      {
+        "name": "agent-stack",
+        "version": "0.25.5",
+        "enabled": true
+      },
+      {
+        "name": "agent-sync",
+        "version": "1.21.4",
+        "enabled": true
+      },
+      {
+        "name": "make-skill",
+        "version": "0.29.1",
+        "enabled": true
+      },
+      {
+        "name": "seo-aeo-audit",
+        "version": "0.26.3",
+        "enabled": true
+      },
+      {
+        "name": "sheleg-design",
+        "version": "1.64.0",
+        "enabled": true
+      },
+      {
+        "name": "sheleg-dev",
+        "version": "0.13.1",
+        "enabled": true
+      },
+      {
+        "name": "super-ux",
+        "version": "0.59.0",
+        "enabled": true
+      },
+      {
+        "name": "task-pipeline",
+        "version": "1.90.0",
+        "enabled": true
+      },
+      {
+        "name": "telegram-dev",
+        "version": "0.2.2",
+        "enabled": true
+      },
+      {
+        "name": "web3d-dev",
+        "version": "0.1.2",
+        "enabled": true
+      },
+      {
+        "name": "xr-dev",
+        "version": "0.3.2",
+        "enabled": true
+      }
+    ]
+  },
+  "discovery": {
+    "codex_plain_roster": {
+      "total": 566,
+      "enabled": 537,
+      "errors": 0,
+      "family_found": 38,
+      "family_missing": [],
+      "duplicate_family_rows": 0,
+      "family_enabled": 10,
+      "note": "Native plugin registration is a separate row; preserved explicit path exclusions explain disabled shared copies."
+    },
+    "gemini": {
+      "family_found": 38,
+      "family_missing": [],
+      "scope": "native skills list --all; file stdout capture"
+    },
+    "opencode": {
+      "total": 534,
+      "family_found": 38,
+      "family_missing": [],
+      "scope": "native --pure debug skill; external plugins not loaded; file stdout capture"
+    },
+    "hermes": {
+      "version": "0.21.4",
+      "scope": "native filtered loader; no model call",
+      "total": 544,
+      "family_found": 38,
+      "family_missing": [],
+      "model_executed": false
+    },
+    "kimi": {
+      "scope": "documented native shared root and filesystem presence; no native loader probe exposed by CLI",
+      "shared_family_found": 38,
+      "native_runtime": "NOT_RUN"
+    }
+  },
+  "limits": [
+    "No model/provider turn, hook-effect test or delegation behavior executed.",
+    "First piped Gemini/OpenCode outputs were truncated despite exit 0; only complete file-captured outputs count.",
+    "Hermes emitted pre-existing Teams/Google Chat toolset warnings; those channels were not changed."
+  ],
+  "checks": {
+    "codex_discovery_complete": true,
+    "gemini_discovery_complete": true,
+    "opencode_discovery_complete": true,
+    "hermes_discovery_complete": true,
+    "claude_family_registered": true
+  },
+  "acceptance": "PASS"
+}

@@ -62,8 +62,17 @@ it('--agent replaces the defaults rather than adding to them', () => {
   assert.deepStrictEqual(P.resolveAgents(DEFAULTS, { agents: ['zed'] }), ['zed']);
 });
 
-it('--all collapses to the CLI wildcard', () => {
-  assert.deepStrictEqual(P.resolveAgents(DEFAULTS, { all: true }), ['*']);
+it('--all expands only globally supported agents, excluding the plugin channel', () => {
+  const agents = P.resolveAgents(DEFAULTS, { all: true });
+  assert.ok(agents.includes('codex') && agents.includes('kimi-code-cli') && agents.includes('hermes-agent'));
+  for (const id of ['*', 'eve', 'promptscript', 'claude-code']) assert.ok(!agents.includes(id), id);
+});
+
+it('explicit unsupported or unknown global targets fail even beside --all', () => {
+  for (const id of ['eve', 'promptscript', 'unknown-host', '*']) {
+    assert.throws(() => P.resolveAgents(DEFAULTS, { agents: [id] }), /global|Unknown|wildcard/);
+    assert.throws(() => P.resolveAgents(DEFAULTS, { agents: [id], all: true }), /global|Unknown|wildcard/);
+  }
 });
 
 it('claude-code is dropped from the skills-CLI set while the plugin channel is on', () => {
@@ -112,6 +121,35 @@ it('install and update issue the SAME add command for the same inputs', () => {
   const fromInstall = P.installPlan(SKILLS, agents).filter((a) => a[2] === 'add');
   const fromUpdate = P.updatePlan(SKILLS, agents).filter((a) => a[2] === 'add');
   assert.deepStrictEqual(fromUpdate, fromInstall);
+});
+
+it('Continue copy groups preserve target coverage and order for install, update and locked plans', () => {
+  const skills = [{name:'a',repo:'owner/a',skillNames:['a']},{name:'b',repo:'owner/b',skillNames:['b']}];
+  const lock = {members:skills.map(s=>({name:s.name,status:'pinned',ref:'abc123'})).concat({name:'unavailable',status:'UNSUPPORTED_PIN'})};
+  const byName = Object.fromEntries(skills.concat({name:'unavailable',repo:'owner/unavailable'}).map(s=>[s.name,s]));
+  const selected = args => args.flatMap((arg,i)=>arg==='--agent'?[args[i+1]]:[]);
+  for (const agents of [[], ['continue'], ['continue','codex'], ['codex','continue'],
+    ['zed','continue','codex'], ['codex','zed'], P.resolveAgents(DEFAULTS,{all:true})]) {
+    const original = agents.slice();
+    const install = P.installPlan(skills,agents);
+    assert.deepStrictEqual(P.updatePlan(skills,agents).filter(a=>a[2]==='add'),install);
+    const locked = P.installPlanLocked(lock,byName,agents);
+    assert.strictEqual(locked.skipped.length,agents.length?1:0);
+    for (const [plan,pinned] of [[install,false],[locked.plan,true]]) {
+      for (const skill of skills) {
+        const calls = plan.filter(args=>args[3]===skill.repo+(pinned?'@abc123':''));
+        assert.deepStrictEqual(calls.flatMap(selected),agents,'target order/coverage changed');
+        for (const args of calls) {
+          const ids = selected(args);
+          assert.ok(ids.length,'unscoped install group');
+          assert.strictEqual(args.includes('--copy'),ids.includes('continue'));
+          if (ids.includes('continue')) assert.deepStrictEqual(ids,['continue'],'Continue needs an isolated copy');
+        }
+      }
+      assert.strictEqual(new Set(plan.map(args=>args[3])).size,agents.length?skills.length:0);
+    }
+    assert.deepStrictEqual(agents,original);
+  }
 });
 
 it('the refresh runs before the add, so a present skill is not reinstalled first', () => {

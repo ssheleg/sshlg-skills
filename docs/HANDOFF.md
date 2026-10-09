@@ -1,21 +1,23 @@
 # Start here — sshlg-skills
 
-Snapshot: 2026-10-09. This page selects evidence and the next bounded action;
+Snapshot: 2026-10-10. This page selects evidence and the next bounded action;
 [skills.json](../skills.json) owns the current member inventory and pins.
 Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 [standing retrospective instructions](evidence/retro.md) and the
 [repository handoff rule](working-rules/repository-handoff.md) before editing.
 
-## Current context delivery
+## Current host compatibility delivery
 
-[Comprehensive skills and context follow-up](evidence/comprehensive-context/README.md)
-owns the current bounded work. It builds on the delivered 1.54.5 context repair,
-adds whole-install census and scoped fresh/resume acceptance, and repairs measured
-router/parser/host-duplicate defects. Read its plan and independent review before
-continuing. Source, package, installation and behavioral evidence are separate.
-**Delivery:** version 1.54.6 is published and installed; [exact receipts](evidence/comprehensive-context/DELIVERY.md).
-**Next action:** the bounded visibility-profile follow-up named there; do not restart
-historical exact-next instructions.
+[Host compatibility report](reports/2026-10-09-coding-agent-compatibility/README.md)
+and [execution packet](evidence/host-compat/README.md) own the current work:
+29 host-family contracts, all 38 family skills, supported global installer targets,
+and bounded fixes in five members. Exact source, release and installed readback
+are separate in [delivery.json](evidence/host-compat/delivery.json).
+Candidate hub version: 1.54.7. Integration and installed readback are in progress.
+
+The previous [1.54.6 context delivery](evidence/comprehensive-context/DELIVERY.md)
+remains a historical receipt. After current delivery, the proposed next bounded
+task is VISIBILITY-1, not a restart of historical exact-next instructions.
 
 ## Most recent completed delivery receipts
 

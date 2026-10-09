@@ -1,0 +1,10 @@
+{
+  "generator_sha256": "ff75b52665d2577248057205c57e184e2b1b610db149dcd472df75aee99afece",
+  "original_hub": "6415e3e652da36ce5bd4d9638b1fdad90d76c1ce",
+  "replay_hub": "de870cd99196eb7bb5e472551bba5e9fdf77a9ef",
+  "all_38_rows_and_audits_identical": true,
+  "all_pattern_hits_identical": true,
+  "all_links_equivalent_after_sorting_file_line_target": true,
+  "python": "3.14.7",
+  "note": "Hub revision changed only evidence; all 11 member pins identical. The reusable collector sorts filesystem traversal; original link rows used filesystem traversal order."
+}

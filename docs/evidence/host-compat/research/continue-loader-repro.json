@@ -1,0 +1,35 @@
+{
+  "as_of": "2026-10-09T22:32:13.244Z",
+  "sourceURL": "https://raw.githubusercontent.com/continuedev/continue/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/util/loadMarkdownSkills.ts",
+  "source_sha256": "7c8ac3242ca5aeb9b119f62186fc1d70f24bbe810ac6cd1f0ee7bdc293ee840c",
+  "helper_sha256": "8d72a4362ee1539f120f86c5700b0382f2abfa5dbe2fc85126629bc46d4e8706",
+  "skillsCli": "skills@1.5.25",
+  "skills_cli_sha256": "8409e4055ea6753255f1439eddf3fbc2f9989bc54e08708bc00ad0a00bfbed0d",
+  "node": "v26.10.0",
+  "platform": "darwin",
+  "scope": "Exact Continue discovery helper (types stripped only), not full native/model run; actual pinned skills installer against a temporary HOME",
+  "results": [
+    {
+      "mode": "single-default",
+      "installer_exit": 0,
+      "target_is_symlink": false,
+      "discovered_count": 1,
+      "canonical_present": false
+    },
+    {
+      "mode": "mixed-default",
+      "installer_exit": 0,
+      "target_is_symlink": true,
+      "discovered_count": 0,
+      "canonical_present": true
+    },
+    {
+      "mode": "mixed-copy",
+      "installer_exit": 0,
+      "target_is_symlink": false,
+      "discovered_count": 1,
+      "canonical_present": true
+    }
+  ],
+  "temporary_home_removed": true
+}
