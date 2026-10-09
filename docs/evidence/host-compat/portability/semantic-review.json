@@ -1,0 +1,154 @@
+{
+  "vision": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "File-based workflow; Figma/brand/scenario inputs explicitly scoped. Slash labels are invocation examples, not proof of Claude dependence."
+  },
+  "ux-foundation": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "File-based workflow; Figma/brand/scenario inputs explicitly scoped. Slash labels are invocation examples, not proof of Claude dependence."
+  },
+  "ux-flows": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "File-based workflow; Figma/brand/scenario inputs explicitly scoped. Slash labels are invocation examples, not proof of Claude dependence."
+  },
+  "ux-scenarios": {
+    "verdict": "FALLBACK_CLARITY_GAP",
+    "reason": "Large-codebase delegation is prescribed without explicit same-batches-inline branch in body; add conditional host-native delegation and sequential fallback."
+  },
+  "ux-audit": {
+    "verdict": "FALLBACK_CLARITY_GAP",
+    "reason": "Large-codebase delegation is prescribed without explicit same-batches-inline branch in body; add conditional host-native delegation and sequential fallback."
+  },
+  "brand-voice": {
+    "verdict": "FALLBACK_CLARITY_GAP",
+    "reason": "Large-codebase delegation is prescribed without explicit same-batches-inline branch in body; add conditional host-native delegation and sequential fallback."
+  },
+  "copywriting": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "File-based workflow; Figma/brand/scenario inputs explicitly scoped. Slash labels are invocation examples, not proof of Claude dependence."
+  },
+  "task-pipeline": {
+    "verdict": "GAP",
+    "reason": "Four verifier links escape skill; host hooks prose overgeneralizes. build.md33 already supplies no-subagent inline fallback. TaskList should mean host task tracker or prose, not guaranteed literal tool."
+  },
+  "evidence-docs": {
+    "verdict": "GAP",
+    "reason": "Duplicated hooks reference has false universal non-Claude capability exclusion; ordinary doctrine self-contained."
+  },
+  "project-audit": {
+    "verdict": "GAP",
+    "reason": "Three required method/prioritisation links depend on sibling task-pipeline payload absent in isolated install."
+  },
+  "agent-sync": {
+    "verdict": "GAP",
+    "reason": "Universal shared root assumption fails native/custom install; resolve current SKILL.md parent. Scope hook claims to shipped adapter and actual registration."
+  },
+  "make-skill": {
+    "verdict": "GAP",
+    "reason": "Contradictory blanket Claude-only capability/distribution prose in references defeats correct body detection contract."
+  },
+  "sheleg-design": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Companions optional, platform/default/CLI fallback explicit; source/browser/tool checks remain unverified when absent."
+  },
+  "seo-aeo-audit": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Resolves actual file directory outside Claude, marks missing credentials/source tools as evidence gaps; literal Claude substitution is scoped example."
+  },
+  "stripe-billing": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Pack-specific PreToolUse fallback is correctly scoped to missing shipped adapter. Keep permission/effect requirements; hooks elsewhere do not imply this adapter installed."
+  },
+  "crypto-payments": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Pack-specific PreToolUse fallback is correctly scoped to missing shipped adapter. Keep permission/effect requirements; hooks elsewhere do not imply this adapter installed. Sibling testing link is explanatory; own test matrix and defect-plant rule are present."
+  },
+  "error-tracking": {
+    "verdict": "GAP",
+    "reason": "No MCP/commands on non-Claude and setup Claude/Cursor-only are false platform exclusions."
+  },
+  "ad-tracking": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Pack-specific PreToolUse fallback is correctly scoped to missing shipped adapter. Keep permission/effect requirements; hooks elsewhere do not imply this adapter installed."
+  },
+  "google-signin": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Pack-specific PreToolUse fallback is correctly scoped to missing shipped adapter. Keep permission/effect requirements; hooks elsewhere do not imply this adapter installed."
+  },
+  "google-auth": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Pack-specific PreToolUse fallback is correctly scoped to missing shipped adapter. Keep permission/effect requirements; hooks elsewhere do not imply this adapter installed."
+  },
+  "frontend-performance": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Pack-specific PreToolUse fallback is correctly scoped to missing shipped adapter. Keep permission/effect requirements; hooks elsewhere do not imply this adapter installed."
+  },
+  "agent-orchestrator": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Capability-independent domain workflow; declared tools/data needed for actual verification remain prerequisites."
+  },
+  "agent-evals": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Capability-independent domain workflow; declared tools/data needed for actual verification remain prerequisites."
+  },
+  "agent-interop": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Capability-independent domain workflow; declared tools/data needed for actual verification remain prerequisites."
+  },
+  "agent-harness": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Capability-independent domain workflow; declared tools/data needed for actual verification remain prerequisites."
+  },
+  "telegram-bots": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Capability-independent domain workflow; declared tools/data needed for actual verification remain prerequisites."
+  },
+  "telegram-userbots": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Capability-independent domain workflow; declared tools/data needed for actual verification remain prerequisites."
+  },
+  "telegram-miniapps": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "Capability-independent domain workflow; declared tools/data needed for actual verification remain prerequisites."
+  },
+  "quest-lifecycle": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "All seven declare inline planning and tool/device/network-dependent checks as unverified; owner companions have inline fallback."
+  },
+  "quest-native": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "All seven declare inline planning and tool/device/network-dependent checks as unverified; owner companions have inline fallback."
+  },
+  "quest-spatial": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "All seven declare inline planning and tool/device/network-dependent checks as unverified; owner companions have inline fallback."
+  },
+  "quest-perf": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "All seven declare inline planning and tool/device/network-dependent checks as unverified; owner companions have inline fallback."
+  },
+  "quest-tooling": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "All seven declare inline planning and tool/device/network-dependent checks as unverified; owner companions have inline fallback."
+  },
+  "quest-store": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "All seven declare inline planning and tool/device/network-dependent checks as unverified; owner companions have inline fallback."
+  },
+  "quest-webxr": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "All seven declare inline planning and tool/device/network-dependent checks as unverified; owner companions have inline fallback."
+  },
+  "web3d-runtime": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "All three retain no-tools/no-browser NOT_RUN branches; domain WebGPU fallback is not host capability."
+  },
+  "web3d-assets": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "All three retain no-tools/no-browser NOT_RUN branches; domain WebGPU fallback is not host capability."
+  },
+  "web3d-animation": {
+    "verdict": "NO_CONFIRMED_HOST_DEFECT",
+    "reason": "All three retain no-tools/no-browser NOT_RUN branches; domain WebGPU fallback is not host capability."
+  }
+}

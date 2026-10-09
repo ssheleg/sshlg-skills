@@ -1,0 +1,135 @@
+[
+  {
+    "verdict": "PASS",
+    "check": "FM_DUPLICATE_KEY",
+    "message": "no duplicate frontmatter keys",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "FM_YAML_CONFORMANCE",
+    "message": "the subset parse matches the installed YAML parser",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_CHARSET",
+    "message": "name 'agent-orchestrator' uses a legal charset",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_DIR",
+    "message": "name matches the directory",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_RESERVED",
+    "message": "no reserved word in name",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_LENGTH",
+    "message": "description is 959/1024 chars",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_PERSON",
+    "message": "description is third person",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_USEWHEN",
+    "message": "description opens with 'Use when \u2026' (house rule)",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_RU",
+    "message": "description carries Russian trigger phrases (house rule)",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_WHAT",
+    "message": "description states WHAT the skill does in 590 chars beyond its triggers (house rule)",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_HEADROOM",
+    "message": "description is 959/970 chars, inside the working limit",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "FM_UNKNOWN_KEY",
+    "message": "no frontmatter key outside spec \u222a host extensions",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BODY_BUDGET",
+    "message": "body is 337 lines / 4309 tokens (tiktoken:cl100k_base; budget 500 / 5000)",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BODY_HEADROOM",
+    "message": "body is 4309/4750 tokens (tiktoken:cl100k_base), inside the working limit",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BUNDLE_LAYOUT",
+    "message": "bundled directories present and checked",
+    "file": null,
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "HOOKS_SCHEMA",
+    "message": "the plugin ships no hooks/hooks.json \u2014 nothing to read",
+    "file": "agent-stack/hooks/hooks.json",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "LINK_INTEGRITY",
+    "message": "every relative link resolves and stays inside the skill",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "DIST_PAYLOAD",
+    "message": "publishable payload carries no outward symlink or undeclared secret",
+    "file": "agent-orchestrator",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "PROSE",
+    "message": "no Windows paths, time-branching, or bare directory pointers",
+    "file": "agent-orchestrator/SKILL.md",
+    "line": null
+  }
+]
