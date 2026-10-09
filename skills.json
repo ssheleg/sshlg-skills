@@ -16,7 +16,7 @@
   ],
   "providerContract": {
     "version": 1,
-    "note": "The ONE versioned provider-resolution contract every consumer reads \u2014 toolkit, make-skill, the runtime shadow guard and update (FIX-UP-07.03). A consumer resolves a skill's active provider by THIS shape, not by importing a sibling consumer's runtime: no consumer depends on another's code, so a stale-plugin/fresh-hub digest mismatch surfaces IDENTICALLY everywhere. resolveProviders() in bin/sshlg-skills.js is the reference implementation; a version bump is a breaking change every consumer must re-read.",
+    "note": "The ONE versioned provider-resolution contract every consumer reads — toolkit, make-skill, the runtime shadow guard and update (FIX-UP-07.03). A consumer resolves a skill's active provider by THIS shape, not by importing a sibling consumer's runtime: no consumer depends on another's code, so a stale-plugin/fresh-hub digest mismatch surfaces IDENTICALLY everywhere. resolveProviders() in bin/sshlg-skills.js is the reference implementation; a version bump is a breaking change every consumer must re-read.",
     "keyFields": [
       "host",
       "scope",
@@ -38,7 +38,7 @@
       "namespace",
       "loaded"
     ],
-    "mismatchSignal": "when two installed+enabled candidates share a (host, scope, skillId) but differ in digest, state stays 'active' and precedence is 'UNKNOWN' \u2014 the shadow. A stale plugin beside a fresh hub copy is this case, and every consumer reads it the same way."
+    "mismatchSignal": "when two installed+enabled candidates share a (host, scope, skillId) but differ in digest, state stays 'active' and precedence is 'UNKNOWN' — the shadow. A stale plugin beside a fresh hub copy is this case, and every consumer reads it the same way."
   },
   "skills": [
     {
@@ -56,13 +56,13 @@
       ],
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
-      "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ \u2014 the product vision, personas and jobs, user flows and the paid-acquisition funnel among them, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans \u2014 plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 41-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
+      "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows and the paid-acquisition funnel among them, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 41-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
       "version": "0.59.0",
       "entry": "/ux",
       "role": "what the interface must do",
       "npm": "super-ux",
       "shape": "static",
-      "shapeWhy": "The chain is fixed \u2014 foundation, flows, screens, scenarios \u2014 and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable."
+      "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable."
     },
     {
       "name": "task-pipeline",
@@ -70,7 +70,7 @@
       "dir": "skills/task-pipeline",
       "pluginMarketplace": "ssheleg/task-pipeline",
       "pluginInstall": "task-pipeline@task-pipeline",
-      "desc": "Full-cycle delivery orchestrator: an intake grill turns the request into a complete brief, then ten gated stages carry it from docs to acceptance, refusing to advance until each gate passes. Ships `project-audit`: a cold-start audit of a whole project \u2014 discovery, a probe registry whose unmet needs read as `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved since the last run. Read-only.",
+      "desc": "Full-cycle delivery orchestrator: an intake grill turns the request into a complete brief, then ten gated stages carry it from docs to acceptance, refusing to advance until each gate passes. Ships `project-audit`: a cold-start audit of a whole project — discovery, a probe registry whose unmet needs read as `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved since the last run. Read-only.",
       "skillNames": [
         "task-pipeline",
         "evidence-docs",
@@ -81,7 +81,7 @@
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
       "shape": "static",
-      "shapeWhy": "The stage list is decided before the run and stays decided, because stage 10 has to account for what ran. THREE places discover structure, and they do not land the same way: the module map and the carry-over ledger are committed artifacts, and since v1.69.0 the work graph is a third \u2014 `.task-pipeline/graph.json`, mutated mid-run by `graph.py add` and deliberately NOT committed. Every mutation records why it happened, which is what keeps a run from explaining its completion by a plan that existed only at the end; that the graph itself does not survive the run is an open row rather than a settled decision."
+      "shapeWhy": "The stage list is decided before the run and stays decided, because stage 10 has to account for what ran. THREE places discover structure, and they do not land the same way: the module map and the carry-over ledger are committed artifacts, and since v1.69.0 the work graph is a third — `.task-pipeline/graph.json`, mutated mid-run by `graph.py add` and deliberately NOT committed. Every mutation records why it happened, which is what keeps a run from explaining its completion by a plan that existed only at the end; that the graph itself does not survive the run is an open row rather than a settled decision."
     },
     {
       "name": "agent-sync",
@@ -106,7 +106,7 @@
       "dir": "skills/make-skill",
       "pluginMarketplace": "ssheleg/make-skill",
       "pluginInstall": "make-skill@make-skill",
-      "desc": "A skill that builds skills: create, retrofit, audit and publish agent skills and Claude Code plugins \u2014 Agent Skills standard conformance, marketplace layout, version sync, validator + CI, every distribution channel, MCP and A2A rules.",
+      "desc": "A skill that builds skills: create, retrofit, audit and publish agent skills and Claude Code plugins — Agent Skills standard conformance, marketplace layout, version sync, validator + CI, every distribution channel, MCP and A2A rules.",
       "skillNames": [
         "make-skill"
       ],
@@ -123,7 +123,7 @@
       "dir": "skills/sheleg-design",
       "pluginMarketplace": "ssheleg/sheleg-design-skill",
       "pluginInstall": "sheleg-design@sheleg-design-skill",
-      "desc": "The taste layer: cinematic scroll-driven landing pages (one scroll clock, motion that degrades to calm, WebGL particle formations), product-UI style packs with a ready token layer each, and the Figma border \u2014 tokens as variables, design to code.",
+      "desc": "The taste layer: cinematic scroll-driven landing pages (one scroll clock, motion that degrades to calm, WebGL particle formations), product-UI style packs with a ready token layer each, and the Figma border — tokens as variables, design to code.",
       "skillNames": [
         "sheleg-design"
       ],
@@ -141,7 +141,7 @@
           "countExclude": [
             "STYLE_PACK_TEMPLATE.md"
           ],
-          "note": "the catalogue, rendered from each pack's own token layer \u2014 a data surface too large for this page, kept where it is built"
+          "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
       ]
     },
@@ -168,7 +168,7 @@
       "dir": "skills/sheleg-dev",
       "pluginMarketplace": "ssheleg/sheleg-dev",
       "pluginInstall": "sheleg-dev@sheleg-dev",
-      "desc": "The integration layer a product reaches once it has users: Stripe subscription billing reconciled into your own database \u2014 checkout, renewals, seats and proration, refunds, claim-first webhook idempotency, reconciliation and price drift; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4/Ads/Meta/LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side Google auth surface; Core Web Vitals work that moves the score, and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it.",
+      "desc": "The integration layer a product reaches once it has users: Stripe subscription billing reconciled into your own database — checkout, renewals, seats and proration, refunds, claim-first webhook idempotency, reconciliation and price drift; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4/Ads/Meta/LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side Google auth surface; Core Web Vitals work that moves the score, and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it.",
       "skillNames": [
         "stripe-billing",
         "crypto-payments",
@@ -191,7 +191,7 @@
       "dir": "skills/agent-stack",
       "pluginMarketplace": "ssheleg/agent-stack",
       "pluginInstall": "agent-stack@agent-stack",
-      "desc": "Production patterns for AI agent systems, in four skills. The orchestrator: tool-calling loops that survive context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, four memory layers with confidence decay, and the shape of the work as a graph \u2014 an edge that carries no data is no edge, and a parallel layer gets a checker before the node that consumes it. The harness: what the agent is TOLD \u2014 system prompts, tool descriptions, technique choice, workflow versus agent, static versus dynamic, plus a seven-track audit of somebody else's agent and a scanner for the defects that are mechanically visible. The evals: suites that measure whether it actually works. The interop layer: MCP 2026-07-28 and what it deprecated, A2A 1.0, the registry, the gateway. Plus the wallet side of reselling LLM access.",
+      "desc": "Production patterns for AI agent systems, in four skills. The orchestrator: tool-calling loops that survive context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, four memory layers with confidence decay, and the shape of the work as a graph — an edge that carries no data is no edge, and a parallel layer gets a checker before the node that consumes it. The harness: what the agent is TOLD — system prompts, tool descriptions, technique choice, workflow versus agent, static versus dynamic, plus a seven-track audit of somebody else's agent and a scanner for the defects that are mechanically visible. The evals: suites that measure whether it actually works. The interop layer: MCP 2026-07-28 and what it deprecated, A2A 1.0, the registry, the gateway. Plus the wallet side of reselling LLM access.",
       "skillNames": [
         "agent-orchestrator",
         "agent-evals",
@@ -211,7 +211,7 @@
       "dir": "skills/telegram-dev",
       "pluginMarketplace": "ssheleg/telegram-dev",
       "pluginInstall": "telegram-dev@telegram-dev",
-      "desc": "Telegram, split by the API each surface actually speaks, in three skills. telegram-bots covers the official HTTP Bot API: update_id as the only idempotency key an update carries, the allowed_updates default that subscribes you to everything except chat_member and the two reaction types while returning ok, the webhook secret header that is the real check, rate limits as a design constraint rather than an error path, and Telegram Stars with a ten-second pre-checkout window and the grant that belongs to successful_payment. telegram-userbots covers MTProto and Telethon: the session file as a credential equal to the password, FloodWaitError as the API telling you exactly how long to wait, pinning across minor releases that move session and entity-cache behaviour, and the account-ban risk a bot token does not carry \u2014 opening with whether a user account is needed at all. telegram-miniapps covers the web layer, whose entire security model is one signed query string: verifying initData server-side, the auth_date window, the Ed25519 path for a third party, and the SDK package whose name moved. Both the verifier and the delivery invariants ship as runnable fixtures with their mutants.",
+      "desc": "Telegram, split by the API each surface actually speaks, in three skills. telegram-bots covers the official HTTP Bot API: update_id as the only idempotency key an update carries, the allowed_updates default that subscribes you to everything except chat_member and the two reaction types while returning ok, the webhook secret header that is the real check, rate limits as a design constraint rather than an error path, and Telegram Stars with a ten-second pre-checkout window and the grant that belongs to successful_payment. telegram-userbots covers MTProto and Telethon: the session file as a credential equal to the password, FloodWaitError as the API telling you exactly how long to wait, pinning across minor releases that move session and entity-cache behaviour, and the account-ban risk a bot token does not carry — opening with whether a user account is needed at all. telegram-miniapps covers the web layer, whose entire security model is one signed query string: verifying initData server-side, the auth_date window, the Ed25519 path for a third party, and the SDK package whose name moved. Both the verifier and the delivery invariants ship as runnable fixtures with their mutants.",
       "skillNames": [
         "telegram-bots",
         "telegram-userbots",
@@ -260,7 +260,7 @@
       "dir": "skills/web3d-dev",
       "pluginMarketplace": "ssheleg/web3d-dev",
       "pluginInstall": "web3d-dev@web3d-dev",
-      "desc": "Realtime 3D on the web with three.js and React Three Fiber, in three skills split by the question. web3d-runtime owns how the scene runs: WebGPURenderer and its WebGL2 fallback, TSL and compute, post-processing, device loss, the frame loop and profiling, led by the failures that are silent in r186 \u2014 render() before init() throws, positionNode collapsing every instance to a point, computeAsync not waiting for the GPU, twenty drei components that do not run on WebGPU. web3d-assets owns the glTF pipeline from a source to the frame within a written budget \u2014 gltf-transform and gltfpack, KTX2 and meshopt, loaders and colour spaces, sourcing and licences \u2014 and delegates orders to Asset Foundry when a machine runs it. web3d-animation owns a two-sided animation protocol with a shared clip canon: rigs, clips, blending, retargeting, root motion, crowds and vertex-animation textures. Every fact is pinned to three@0.186.1 and the gate checks each code block against that release's exports.",
+      "desc": "Realtime 3D on the web with three.js and React Three Fiber, in three skills split by the question. web3d-runtime owns how the scene runs: WebGPURenderer and its WebGL2 fallback, TSL and compute, post-processing, device loss, the frame loop and profiling, led by the failures that are silent in r186 — render() before init() throws, positionNode collapsing every instance to a point, computeAsync not waiting for the GPU, twenty drei components that do not run on WebGPU. web3d-assets owns the glTF pipeline from a source to the frame within a written budget — gltf-transform and gltfpack, KTX2 and meshopt, loaders and colour spaces, sourcing and licences — and delegates orders to Asset Foundry when a machine runs it. web3d-animation owns a two-sided animation protocol with a shared clip canon: rigs, clips, blending, retargeting, root motion, crowds and vertex-animation textures. Every fact is pinned to three@0.186.1 and the gate checks each code block against that release's exports.",
       "skillNames": [
         "web3d-runtime",
         "web3d-assets",
@@ -271,7 +271,7 @@
       "role": "how realtime 3D on the web runs, ships its assets and moves",
       "npm": "@ssheleg/web3d-dev",
       "shape": "static",
-      "shapeWhy": "Three fixed questions with fixed seams \u2014 runtime, assets, motion \u2014 and one shared contract, the clip canon, duplicated into both skills that need it and checked identical."
+      "shapeWhy": "Three fixed questions with fixed seams — runtime, assets, motion — and one shared contract, the clip canon, duplicated into both skills that need it and checked identical."
     }
   ],
   "agents": [
@@ -280,14 +280,14 @@
       "id": "claude-code",
       "channel": "plugin",
       "reads": "~/.claude/plugins",
-      "note": "installed as plugins, never as a plain ~/.claude/skills copy \u2014 that copy shadows the plugin and serves its frozen version forever"
+      "note": "installed as plugins, never as a plain ~/.claude/skills copy — that copy shadows the plugin and serves its frozen version forever"
     },
     {
       "name": "DeepSeek Harness",
       "id": "dsh",
       "channel": "reads the hub directly",
       "reads": "~/.agents/skills (rank 500)",
-      "note": "no plugin to write: the skills subsystem is in the default web profile, and its local provider scans six roots nearest-first \u2014 a project-local .dsh/skills or .agents/skills outranks the installed one"
+      "note": "no plugin to write: the skills subsystem is in the default web profile, and its local provider scans six roots nearest-first — a project-local .dsh/skills or .agents/skills outranks the installed one"
     },
     {
       "name": "Cursor",
@@ -301,7 +301,7 @@
       "id": "codex",
       "channel": "skills CLI",
       "reads": "~/.agents/skills",
-      "note": "routing block goes to ~/.codex/AGENTS.md. Codex ALSO keeps a native plugin cache, so a filesystem sweep sees historical cache SKILL.md copies alongside the hub \u2014 those are NOT the active provider. A read-only resolver separates installed/enabled/applicable/loaded and counts only the active one; native plugin install/update is passed to a supported host API, and UNSUPPORTED when no such API is present."
+      "note": "routing block goes to ~/.codex/AGENTS.md. Codex ALSO keeps a native plugin cache, so a filesystem sweep sees historical cache SKILL.md copies alongside the hub — those are NOT the active provider. A read-only resolver separates installed/enabled/applicable/loaded and counts only the active one; native plugin install/update is passed to a supported host API, and UNSUPPORTED when no such API is present."
     },
     {
       "name": "Gemini CLI",
@@ -378,6 +378,6 @@
     "count": 70,
     "source": "the vercel `skills` CLI's own agent list",
     "read": "2026-09-01",
-    "note": "Not computable from this tree \u2014 it is a property of another project. Sourced and dated instead, which is the honest version of a number nothing here can recompute."
+    "note": "Not computable from this tree — it is a property of another project. Sourced and dated instead, which is the honest version of a number nothing here can recompute."
   }
 }
