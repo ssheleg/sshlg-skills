@@ -10,6 +10,9 @@ Host paths and capability guidance now distinguish shared skill storage from
 native plugins, hooks and delegation. Five member updates repair standalone
 payload links and retain portable fallback procedures; the dated 17-host report
 links primary contracts and keeps native discovery separate from model outcomes.
+Continue receives an isolated `--copy` invocation, including locked plans: its
+verified loader skips symlink skill directories. Other target flags and order
+remain stable; upstream may auto-copy singleton neighboring groups.
 
 ## v1.54.6 — less router context, accurate YAML auditing
 

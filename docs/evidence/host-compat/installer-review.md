@@ -111,9 +111,12 @@ case. Final focused totals: host-targets 14, plan 25. Combined parent ratchet is
 
 Implementation `63ac417cca23c3def2bec87741dac933f79b0a04` isolates Continue
 with explicit `--copy` in install, reconciliation and locked plans. Contiguous
-groups preserve the flattened caller order without changing other target modes
-or defaults. Actual upstream CLI and pinned loader reproduction is recorded in
+groups preserve the flattened caller order, other target argv flags and defaults.
+Upstream may auto-copy a singleton neighboring group; identical physical symlink
+mode is not promised. These are managed skill copies with the same source payload. Actual upstream CLI and pinned loader reproduction is recorded in
 [the research receipt](research/continue-loader-repro.json). Before the repair,
 the new plan case and mixed install/update assertions failed. After: plan 26,
 host targets 14, locked-plan audit 6, runtime 8 passed. This adds one fixture:
-combined ratchet 93 suites / 1136 fixtures. Independent review is pending.
+combined ratchet 93 suites / 1136 fixtures. Independent reviewer `/root/host_contracts` accepted after rerunning plan 26
+and host-targets 14 checks. Actual pinned CLI verified initial/update bytes and
+targeted removal in both layouts; [receipt](local/continue-copy-lifecycle.json).

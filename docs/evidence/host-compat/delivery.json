@@ -71,6 +71,13 @@
       "reviewer": "/root/installer_targets",
       "result": "ACCEPT",
       "evidence": "local/README.md"
+    },
+    {
+      "scope": "Continue plan grouping and real copy lifecycle",
+      "reviewer": "/root/host_contracts",
+      "result": "ACCEPT after correcting physical storage-mode claim",
+      "implementation": "63ac417cca23c3def2bec87741dac933f79b0a04",
+      "evidence": "local/continue-copy-lifecycle.json"
     }
   ]
 }
