@@ -82,3 +82,20 @@ All four named hosts and other targets still require separate discovery/adapter 
 ## Handoff
 
 Next: implement and review bounded owner fixes P-1 through P-6; explicitly decide P-7; run isolated payload checks and owning gates before changing family pins or claiming installation. This census remains an immutable pre-fix snapshot; post-fix verification gets a separate receipt.
+
+## Re-run after the family pins move
+
+`collect.py` uses Python 3.12+ and git, with no Python packages. Run:
+
+```sh
+python3 docs/evidence/host-compat/portability/collect.py --hub /path/to/final-hub-checkout --repositories /path/to/existing-hub-with-member-git-repositories --output /path/to/new-post-fix-snapshot
+```
+
+The output directory must not exist. The collector reads committed skills.json
+and gitlinks, extracts exact Git archives, and fetches missing objects into temporary
+bare repositories. It does not read dirty member payloads, update submodules or
+modify installed skills. The auditor comes from that hub's make-skill pin.
+A replay of the original pins produced identical 38 skill rows, 38 auditor results
+and pattern hits; link rows are equivalent after sorting by file/line/target.
+See `collector-replay.json`. Post-fix snapshots remain separate. The collector
+makes no semantic verdict from a pattern hit or an escaped link.
