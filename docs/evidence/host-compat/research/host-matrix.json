@@ -1,0 +1,579 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-09",
+  "scope": "HC-1 delegated research: 15 named hosts; Claude Code and Codex owned by parent report",
+  "evidence_level": "PRIMARY_DOCUMENTATION_AND_ONE_PINNED_SOURCE; runtime NOT_RUN",
+  "unknown_semantics": "NOT_ESTABLISHED means not established by inspected evidence, not unsupported.",
+  "hosts": [
+    {
+      "id": "kimi-code",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "$KIMI_CODE_HOME/skills (default ~/.kimi-code/skills)",
+          "~/.agents/skills"
+        ],
+        "project": [
+          ".kimi-code/skills",
+          ".agents/skills"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "Project > user > extra_skill_dirs > built-in. Same-tier alias collision order not established here.",
+      "instructions": {
+        "global": [
+          "$KIMI_CODE_HOME/AGENTS.md",
+          "~/.agents/AGENTS.md"
+        ],
+        "project": [
+          ".kimi-code/AGENTS.md",
+          "AGENTS.md"
+        ],
+        "notes": "KIMI_CODE_HOME relocates native root, not generic OS-home .agents. SYSTEM.md replaces the main system prompt; not an instruction append."
+      },
+      "format": "name+description required in directory SKILL.md; flat .md permits fallback. type prompt/inline/flow; whenToUse, disableModelInvocation, arguments are Kimi fields.",
+      "extensions": "Native agents use .kimi-code/agents and .agents/agents at user/project scopes; tool names and delegation allowlists are host-specific. Hooks use TOML [[hooks]], fail-open errors; not Claude JSON hooks.",
+      "sources": [
+        "kimi-skills",
+        "kimi-agents",
+        "kimi-data",
+        "kimi-hooks",
+        "kimi-legacy-help"
+      ],
+      "limitations": [
+        "Current Kimi Code contract is distinct from older Python kimi-cli/general help. Do not migrate profiles solely from old ~/.kimi or ~/.config/agents advice.",
+        "No native loader invocation was run in this research."
+      ]
+    },
+    {
+      "id": "hermes",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "$HERMES_HOME/skills (default ~/.hermes/skills)"
+        ],
+        "project": [
+          "<git-root>/.hermes/skills",
+          "<git-root>/.agents/skills"
+        ],
+        "shared_agents_global": "requires skills.external_dirs configuration"
+      },
+      "skill_precedence": "Trusted project > profile-local > skills.create_dir > external_dirs.",
+      "instructions": {
+        "global": [
+          "$HERMES_HOME/SOUL.md"
+        ],
+        "project": [
+          ".hermes.md / HERMES.md",
+          "AGENTS.override.md",
+          "AGENTS.md",
+          "CLAUDE.md",
+          ".cursorrules",
+          ".cursor/rules/*.mdc"
+        ],
+        "notes": "First project type wins; AGENTS chain git-root to cwd with deeper guidance later. Outside Git only cwd. SOUL is independently profile-global. No evidence generic ~/.agents/AGENTS.md is loaded."
+      },
+      "format": "Agent Skills markdown with Hermes metadata; referenced bundles. Same-root duplicate names require explicit relative identity; external roots are mutable if writable.",
+      "extensions": "Native Python plugins and shell hooks have separate registration/config; gateway hooks are gateway-only. Copying SKILL.md does not register hooks.",
+      "sources": [
+        "hermes-skills",
+        "hermes-context",
+        "hermes-hooks"
+      ],
+      "limitations": [
+        "Project skill discovery requires explicit trust and scans changed content.",
+        "No global AGENTS bootstrap should be fabricated. Prefer a reviewed bounded pointer in existing global context if needed; preserve persona."
+      ]
+    },
+    {
+      "id": "cursor",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.cursor/skills",
+          "~/.agents/skills",
+          "~/.claude/skills",
+          "~/.codex/skills"
+        ],
+        "project": [
+          ".cursor/skills",
+          ".agents/skills",
+          ".claude/skills",
+          ".codex/skills"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "Same-name skill priority not specified by inspected pages; nested project skills are file-scope-limited.",
+      "instructions": {
+        "global": [
+          "~/.cursor/rules/*.mdc",
+          "account User Rules"
+        ],
+        "project": [
+          ".cursor/rules/*.mdc",
+          "AGENTS.md",
+          "CLAUDE.md"
+        ],
+        "notes": "Nested AGENTS combine, more-specific instructions win. Rules precedence team > project > user."
+      },
+      "format": "SKILL.md with resources; recursive skill discovery. Rule metadata is not skill metadata.",
+      "extensions": "Plugins can bundle rules, skills, subagents, commands, MCP and hooks; each needs native component delivery.",
+      "sources": [
+        "cursor-skills",
+        "cursor-rules",
+        "cursor-rules-help",
+        "cursor-components"
+      ],
+      "limitations": [
+        "Only ~/.cursor/skills personal sync is documented for Cloud Agents; shared ~/.agents and unsynced locals do not travel to remote workers."
+      ]
+    },
+    {
+      "id": "gemini-cli",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.gemini/skills",
+          "~/.agents/skills"
+        ],
+        "project": [
+          ".gemini/skills",
+          ".agents/skills"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "Workspace > user > extensions > built-in; .agents alias wins over .gemini within same tier.",
+      "instructions": {
+        "global": [
+          "~/.gemini/GEMINI.md"
+        ],
+        "project": [
+          "GEMINI.md in workspace/parents and accessed trusted subtrees"
+        ],
+        "notes": "context.fileName may configure AGENTS.md or several names; AGENTS.md is not implied by default."
+      },
+      "format": "Agent Skills SKILL.md/resources; activate_skill adds skill directory to allowed reads after host consent.",
+      "extensions": "Extensions contribute skills; hook/command/subagent formats require separate native adapter, not inferred from SKILL.md.",
+      "sources": [
+        "gemini-skills",
+        "gemini-context"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "opencode",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.config/opencode/skills",
+          "~/.claude/skills",
+          "~/.agents/skills"
+        ],
+        "project": [
+          ".opencode/skills",
+          ".claude/skills",
+          ".agents/skills"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "Inspected stable documentation does not define duplicate priority; project discovery walks cwd to Git worktree boundary.",
+      "instructions": {
+        "global": [
+          "~/.config/opencode/AGENTS.md",
+          "~/.claude/CLAUDE.md fallback"
+        ],
+        "project": [
+          "AGENTS.md",
+          "CLAUDE.md fallback"
+        ],
+        "notes": "Native file wins within each category; opencode.json instructions combine. @file text is not automatically imported."
+      },
+      "format": "name+description required; optional license, compatibility, metadata. Unknown frontmatter ignored. Name must match folder; 1-64 chars, description 1-1024.",
+      "extensions": "skill permission allow/ask/deny controls loading. Claude hook/model/context frontmatter does not gain semantics from unknown-field acceptance.",
+      "sources": [
+        "opencode-skills",
+        "opencode-rules"
+      ],
+      "limitations": [
+        "Stable docs only; do not mix a separate v2/beta contract into this row."
+      ]
+    },
+    {
+      "id": "windsurf",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.codeium/windsurf/skills",
+          "~/.config/devin/skills",
+          "~/.agents/skills"
+        ],
+        "project": [
+          ".devin/skills",
+          ".windsurf/skills legacy",
+          ".agents/skills"
+        ],
+        "shared_agents_global": "native current Devin Desktop/Cascade docs"
+      },
+      "skill_precedence": "Exact same-name skill priority not established; system Devin directory replaces legacy Windsurf directory rather than merging.",
+      "instructions": {
+        "global": [
+          "~/.codeium/windsurf/memories/global_rules.md"
+        ],
+        "project": [
+          ".devin/rules",
+          "legacy .windsurf/rules",
+          "AGENTS.md"
+        ],
+        "notes": "Current docs redirect to Devin Desktop; .devin rules preferred to legacy .windsurf. Global rules budget 6000 characters; workspace rule budget 12000 each."
+      },
+      "format": "name+description required; @skill-name manual invocation plus automatic selection.",
+      "extensions": "Native Cascade hooks/workflows are separate. Claude skill roots require Claude compatibility setting.",
+      "sources": [
+        "windsurf-skills",
+        "windsurf-rules"
+      ],
+      "limitations": [
+        "Current renamed host documentation is not proof an older installed Windsurf build reads newer .devin roots."
+      ]
+    },
+    {
+      "id": "github-copilot",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.copilot/skills",
+          "~/.agents/skills"
+        ],
+        "project": [
+          ".github/skills",
+          ".agents/skills",
+          ".claude/skills"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "CLI: project .github > .agents > .claude > inherited parents > personal .copilot > .agents > plugin > custom.",
+      "instructions": {
+        "global": [
+          "$COPILOT_HOME/copilot-instructions.md (default ~/.copilot)",
+          "$COPILOT_HOME/instructions/**/*.instructions.md"
+        ],
+        "project": [
+          ".github/copilot-instructions.md",
+          ".github/instructions/**/*.instructions.md",
+          "AGENTS.md",
+          "CLAUDE.md",
+          ".claude/CLAUDE.md",
+          "GEMINI.md"
+        ],
+        "notes": "CLI combines applicable files, deduplicates identical content; no general instruction precedence. applyTo gates modular instructions."
+      },
+      "format": "name+description required; allowed-tools is host permission pre-approval, not merely metadata.",
+      "extensions": "CLI legacy and Agent Plugins manifests differ. Agent Plugins portable skills/MCP do not imply portable hooks, agents, commands, rules or LSP; these are namespaced.",
+      "sources": [
+        "copilot-skills",
+        "copilot-plugin",
+        "copilot-instructions"
+      ],
+      "limitations": [
+        "Copilot surfaces differ; CLI order must not be asserted for every IDE/cloud surface."
+      ]
+    },
+    {
+      "id": "cline",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.cline/skills"
+        ],
+        "project": [
+          ".cline/skills",
+          ".clinerules/skills",
+          ".claude/skills"
+        ],
+        "shared_agents_global": "NOT_ESTABLISHED by inspected skills page"
+      },
+      "skill_precedence": "Global wins over same-name project skills.",
+      "instructions": {
+        "global": [
+          "~/.agents/AGENTS.md",
+          "~/.cline/rules",
+          "~/Cline/Rules",
+          "platform Cline Rules directory"
+        ],
+        "project": [
+          ".clinerules",
+          ".cline/rules",
+          "AGENTS.md"
+        ],
+        "notes": "Applicable rules combine; workspace rules win conflicts. Platform global roots vary."
+      },
+      "format": "name+description required, folder-name equality; bundles read progressively.",
+      "extensions": "Skills are instruction/resources, not evidence of Claude plugin hooks or subagent definitions being registered.",
+      "sources": [
+        "cline-skills",
+        "cline-rules"
+      ],
+      "limitations": [
+        "Do not infer shared ~/.agents/skills merely from installer targeting; primary skills page did not establish it."
+      ]
+    },
+    {
+      "id": "roo",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.roo/skills",
+          "~/.agents/skills",
+          "mode-specific skills-{modeSlug} under both"
+        ],
+        "project": [
+          ".roo/skills",
+          ".agents/skills",
+          "mode-specific skills-{modeSlug} under both"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "Project before global; within each .roo mode > .roo generic > .agents mode > .agents generic.",
+      "instructions": {
+        "global": [
+          "~/.roo/rules",
+          "~/.roo/rules-{modeSlug}"
+        ],
+        "project": [
+          ".roo/rules",
+          ".roo/rules-{modeSlug}",
+          "AGENTS.md (AGENT.md fallback)",
+          ".roorules fallback"
+        ],
+        "notes": "AGENTS load can be disabled with roo-cline.useAgentRules; workspace wins global rules."
+      },
+      "format": "Name equals folder or symlink name; name 1-64, description 1-1024; both required.",
+      "extensions": "Skills do not register executable tools. Roo custom modes and slash commands are distinct formats.",
+      "sources": [
+        "roo-skills",
+        "roo-instructions"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "kilo",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.kilo/skills",
+          "~/.agents/skills"
+        ],
+        "project": [
+          ".kilo/skills",
+          ".agents/skills"
+        ],
+        "shared_agents_global": "native current platform"
+      },
+      "skill_precedence": "Project .kilo outranks global .kilo; exact ordering of aliases/additional roots unresolved.",
+      "instructions": {
+        "global": [
+          "instructions paths in ~/.config/kilo/kilo.jsonc"
+        ],
+        "project": [
+          "AGENTS.md",
+          "instructions paths in kilo.jsonc",
+          ".kilocode/rules legacy compatibility"
+        ],
+        "notes": "Project instructions override global; .kilo/rules paths can be declared in instructions."
+      },
+      "format": "name+description required. Docs contradict directory-name equality in troubleshooting; keep names equal for conservative portability.",
+      "extensions": "Current platform uses shared skill pool, not old mode-specific roots. Claude roots conditional. Trusted global skill shell placeholders can execute; project/remote placeholders do not.",
+      "sources": [
+        "kilo-skills",
+        "kilo-rules",
+        "kilo-agents"
+      ],
+      "limitations": [
+        "Current .kilo platform vs historical .kilocode version must be distinguished.",
+        "Skills install does not register plugin hooks."
+      ]
+    },
+    {
+      "id": "goose",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.agents/skills",
+          "platform config/skills",
+          "~/.claude/skills",
+          "~/.config/agents/skills"
+        ],
+        "project": [
+          ".agents/skills",
+          ".goose/skills",
+          ".claude/skills"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "Source orders project .agents/.goose/.claude, project plugins, global .agents, config/skills, Claude/config-agents; full plugin collision semantics require native readback.",
+      "instructions": {
+        "global": [
+          "~/.config/goose/.goosehints"
+        ],
+        "project": [
+          ".goosehints"
+        ],
+        "notes": "Developer extension required; CONTEXT_FILE_NAMES can customize context filenames. Local hints prevail over global."
+      },
+      "format": "SKILL.md+resources; docs require name/description, parser permits fallback name. Skills extension must be available.",
+      "extensions": "Native plugins/hooks/custom agents have independent components; skill directory presence does not prove runtime tool availability.",
+      "sources": [
+        "goose-skills",
+        "goose-source",
+        "goose-hints",
+        "goose-hooks"
+      ],
+      "limitations": [
+        "Upstream moved from block/goose to aaif-goose/goose; inspected source pinned to 3bd852002903e016ff30947e973f76e2fcfcf90f."
+      ]
+    },
+    {
+      "id": "openclaw",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "<state-dir>/skills (default ~/.openclaw/skills)",
+          "~/.agents/skills under default state only"
+        ],
+        "project": [
+          "<workspace>/skills",
+          "<workspace>/.agents/skills"
+        ],
+        "shared_agents_global": "native only default state"
+      },
+      "skill_precedence": "Workspace skills > workspace .agents > personal .agents > managed state > workshop > bundled > extras/plugin.",
+      "instructions": {
+        "global": [],
+        "project": [
+          "<configured-workspace>/AGENTS.md",
+          "<configured-workspace>/SOUL.md"
+        ],
+        "notes": "Workspace-based agent context; exact workspace loader details not fully audited here."
+      },
+      "format": "SKILL.md metadata governs gating; grouped discovery to depth6. Names from metadata or folder fallback.",
+      "extensions": "Hooks/subagents/plugins are separate runtime systems; state, sandbox materialization and allowlists affect visibility.",
+      "sources": [
+        "openclaw-skills",
+        "openclaw-workspace"
+      ],
+      "limitations": [
+        "Custom OPENCLAW_STATE_DIR excludes home personal roots. Project/extra symlinks outside root need allowSymlinkTargets; managed/personal roots differ."
+      ]
+    },
+    {
+      "id": "kiro",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.kiro/skills"
+        ],
+        "project": [
+          ".kiro/skills"
+        ],
+        "shared_agents_global": "NOT_ESTABLISHED"
+      },
+      "skill_precedence": "Workspace > global.",
+      "instructions": {
+        "global": [
+          "~/.kiro/steering/*.md",
+          "~/.kiro/steering/AGENTS.md"
+        ],
+        "project": [
+          ".kiro/steering/*.md",
+          "AGENTS.md including subdirectories"
+        ],
+        "notes": "Workspace steering wins global; custom agents must explicitly list steering resources."
+      },
+      "format": "SKILL.md Agent Skills metadata/resources.",
+      "extensions": "Custom agents need skill:// resources explicitly. Steering and hooks are different mechanisms; a skill copy does not configure them.",
+      "sources": [
+        "kiro-skills",
+        "kiro-steering"
+      ],
+      "limitations": [
+        "Local global skills are available in IDE/CLI, not automatically cloud Web/Mobile."
+      ]
+    },
+    {
+      "id": "zed",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.agents/skills"
+        ],
+        "project": [
+          "<worktree>/.agents/skills"
+        ],
+        "shared_agents_global": "native Zed Agent"
+      },
+      "skill_precedence": "Project > global; project worktree must be trusted.",
+      "instructions": {
+        "global": [
+          "~/.config/zed/AGENTS.md"
+        ],
+        "project": [
+          "AGENTS.md",
+          "CLAUDE.md",
+          "GEMINI.md",
+          ".github/copilot-instructions.md",
+          "AGENT.md"
+        ],
+        "notes": "Project overrides personal. Compatible project filenames supported; exact among-name order not inferred."
+      },
+      "format": "Direct-child skill directories only; name+description, disable-model-invocation. 50KB total metadata budget.",
+      "extensions": "Zed Agent skills/instructions do not configure external agents or terminal CLIs. Those retain native loaders.",
+      "sources": [
+        "zed-skills",
+        "zed-instructions"
+      ],
+      "limitations": [
+        "No custom skill search paths or runtime registry; nested skill groups excluded."
+      ]
+    },
+    {
+      "id": "amp",
+      "scope": "current primary documentation; installed-version runtime acceptance NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.config/agents/skills",
+          "~/.agents/skills",
+          "~/.config/amp/skills",
+          "~/.claude/skills"
+        ],
+        "project": [
+          ".agents/skills in project/parents",
+          ".claude/skills in project/parents"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "First name wins: config/agents > .agents > config/amp > project .agents > project .claude > home .claude, then hosted sources.",
+      "instructions": {
+        "global": [
+          "~/.config/amp/AGENTS.md",
+          "~/.config/AGENTS.md",
+          "OS system ampcode/AGENTS.md"
+        ],
+        "project": [
+          "AGENTS.md in cwd/parents to home and read subtrees",
+          "AGENT.md or CLAUDE.md fallback"
+        ],
+        "notes": "Hosted workspace guidance precedes personal/repository; does not apply to subagents/Puck/raw custom agents."
+      },
+      "format": "SKILL.md/resources; local scan up to5levels; hosted repo skills must be immediate children.",
+      "extensions": "Native plugin-qualified skills avoid bare-name collisions. Skill MCP can use mcpServers or sibling mcp.json; not a generic portable guarantee.",
+      "sources": [
+        "amp-skills",
+        "amp-global",
+        "amp-instructions"
+      ],
+      "limitations": [
+        "Machine-local --global install is distinct from hosted personal/workspace publication."
+      ]
+    }
+  ]
+}
