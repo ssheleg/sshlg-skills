@@ -62,8 +62,17 @@ it('--agent replaces the defaults rather than adding to them', () => {
   assert.deepStrictEqual(P.resolveAgents(DEFAULTS, { agents: ['zed'] }), ['zed']);
 });
 
-it('--all collapses to the CLI wildcard', () => {
-  assert.deepStrictEqual(P.resolveAgents(DEFAULTS, { all: true }), ['*']);
+it('--all expands only globally supported agents, excluding the plugin channel', () => {
+  const agents = P.resolveAgents(DEFAULTS, { all: true });
+  assert.ok(agents.includes('codex') && agents.includes('kimi-code-cli') && agents.includes('hermes-agent'));
+  for (const id of ['*', 'eve', 'promptscript', 'claude-code']) assert.ok(!agents.includes(id), id);
+});
+
+it('explicit unsupported or unknown global targets fail even beside --all', () => {
+  for (const id of ['eve', 'promptscript', 'unknown-host', '*']) {
+    assert.throws(() => P.resolveAgents(DEFAULTS, { agents: [id] }), /global|Unknown|wildcard/);
+    assert.throws(() => P.resolveAgents(DEFAULTS, { agents: [id], all: true }), /global|Unknown|wildcard/);
+  }
 });
 
 it('claude-code is dropped from the skills-CLI set while the plugin channel is on', () => {
