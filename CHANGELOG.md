@@ -1,3 +1,10 @@
+## v1.54.3 — evaluate the composed agent team
+
+Pin agent-stack0.25.3: a reachable team-level evaluation reference for global constraints,
+source independence, objections, authority provenance, late branches and human verification
+cost. Proposed synthetic cases and bounded research findings remain explicitly separate
+from measured model improvements. The launcher changes only its published member pin.
+
 ## v1.54.2 — source-scoped search evidence
 
 - **seo-aeo-audit 0.26.1 → 0.26.2.** Retrieval study observations now retain
