@@ -1,0 +1,135 @@
+[
+  {
+    "verdict": "PASS",
+    "check": "FM_DUPLICATE_KEY",
+    "message": "no duplicate frontmatter keys",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "FM_YAML_CONFORMANCE",
+    "message": "the subset parse matches the installed YAML parser",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_CHARSET",
+    "message": "name 'seo-aeo-audit' uses a legal charset",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_DIR",
+    "message": "name matches the directory",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "NAME_RESERVED",
+    "message": "no reserved word in name",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 2
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_LENGTH",
+    "message": "description is 959/1024 chars",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_PERSON",
+    "message": "description is third person",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_USEWHEN",
+    "message": "description opens with 'Use when \u2026' (house rule)",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_RU",
+    "message": "description carries Russian trigger phrases (house rule)",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_WHAT",
+    "message": "description states WHAT the skill does in 949 chars beyond its triggers (house rule)",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "DESC_HEADROOM",
+    "message": "description is 959/970 chars, inside the working limit",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": 3
+  },
+  {
+    "verdict": "PASS",
+    "check": "FM_UNKNOWN_KEY",
+    "message": "no frontmatter key outside spec \u222a host extensions",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BODY_BUDGET",
+    "message": "body is 325 lines / 4685 tokens (tiktoken:cl100k_base; budget 500 / 5000)",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BODY_HEADROOM",
+    "message": "body is 4685/4750 tokens (tiktoken:cl100k_base), inside the working limit",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "BUNDLE_LAYOUT",
+    "message": "bundled directories present and checked",
+    "file": null,
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "HOOKS_SCHEMA",
+    "message": "the plugin ships no hooks/hooks.json \u2014 nothing to read",
+    "file": "seo-aeo-audit/hooks/hooks.json",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "LINK_INTEGRITY",
+    "message": "every relative link resolves and stays inside the skill",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "DIST_PAYLOAD",
+    "message": "publishable payload carries no outward symlink or undeclared secret",
+    "file": "seo-aeo-audit",
+    "line": null
+  },
+  {
+    "verdict": "PASS",
+    "check": "PROSE",
+    "message": "no Windows paths, time-branching, or bare directory pointers",
+    "file": "seo-aeo-audit/SKILL.md",
+    "line": null
+  }
+]
