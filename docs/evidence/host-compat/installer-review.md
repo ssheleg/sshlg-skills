@@ -96,3 +96,13 @@ that all 77 upstream adapters install or load successfully.
 - Integration should cherry-pick this implementation and report commits, review
   their diff, then run the full gate on the combined owner tree. No foreign worktree
   or operator configuration was modified.
+
+## Discovery follow-up
+
+Commit `6ceb255dfc2afeb64e76a769b2f3c8b2850e4eb0` replaces the hardcoded 70+
+partial `agents` output with all 79 pinned IDs and their global/project-only
+status. Its new fixture observed zero capability rows before the change, then
+passed with all 79; no child process or HOME write occurs. Parent review ACCEPT.
+The parent also ties catalogue total/global counts to the snapshot in the existing
+case. Final focused totals: host-targets 14, plan 25. Combined parent ratchet is
+93 suites / 1135 fixtures; this follow-up adds one fixture, not another suite.

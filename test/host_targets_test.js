@@ -21,6 +21,9 @@ it('snapshot is bound to the exact package pin and rejects missing/mismatched pi
 it('snapshot is ordered, distinct and enumerates the published unsupported targets', () => {
   const ids = H.snapshot.agents.map(row => row.id);
   assert.strictEqual(ids.length, 79);
+  const catalog = require('../skills.json').agentsUpstream;
+  assert.strictEqual(ids.length, catalog.count);
+  assert.strictEqual(H.snapshot.agents.filter(row => row.global).length, catalog.globalCount);
   assert.deepStrictEqual(ids, [...new Set(ids)].sort());
   assert.deepStrictEqual(H.excludedGlobal(), ['eve', 'promptscript']);
   for (const agents of [[], [{id:'x',global:true},{id:'x',global:false}], [{id:'x',global:'yes'}]]) {

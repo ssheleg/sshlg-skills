@@ -3,7 +3,8 @@
 `--all` selects explicit global destinations from the pinned skills CLI snapshot:
 76 while Claude uses plugins, 77 with `--no-claude`. Eve, PromptScript and unknown
 explicit targets cannot produce a successful global-install plan. Repeated agent
-flags accumulate, and snapshot/pin mismatch stops before installation.
+flags accumulate, and snapshot/pin mismatch stops before installation. `agents`
+lists every pinned ID and its global/project-only scope without running installers.
 
 Host paths and capability guidance now distinguish shared skill storage from
 native plugins, hooks and delegation. Five member updates repair standalone

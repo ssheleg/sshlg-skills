@@ -372,6 +372,34 @@
       "channel": "skills CLI",
       "reads": "~/.agents/skills",
       "note": ""
+    },
+    {
+      "name": "GitHub Copilot",
+      "id": "github-copilot",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills; ~/.copilot/skills",
+      "note": "Current CLI/IDE skill roots vary by surface; native plugin features need their own registration."
+    },
+    {
+      "name": "Cline",
+      "id": "cline",
+      "channel": "skills CLI",
+      "reads": "~/.cline/skills",
+      "note": "Current documented precedence gives global skills priority; shared ~/.agents/skills loading is not established."
+    },
+    {
+      "name": "Roo Code",
+      "id": "roo",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills; ~/.roo/skills",
+      "note": "Mode-specific skill directories participate in discovery; verify the active mode."
+    },
+    {
+      "name": "Amp",
+      "id": "amp",
+      "channel": "skills CLI",
+      "reads": "~/.agents/skills; ~/.config/agents/skills; ~/.config/amp/skills",
+      "note": "Its documented search order includes global local roots before project roots; do not assume project-first precedence."
     }
   ],
   "agentsUpstream": {
