@@ -23,7 +23,7 @@ model/effort; no new provider, auth reset or production task execution.
 
 ## Source ledger and decisions
 
-[All 71 source links, grouped by 27 host families](research/SOURCES.md).
+[All 84 source links, grouped by 29 host families](research/SOURCES.md).
 
 - User's current request supplies named hosts and adaptation objective.
 - CLAUDE.md, docs/HANDOFF.md, docs/DOCMAP.md, docs/AGENT_SYNC.md and the standing

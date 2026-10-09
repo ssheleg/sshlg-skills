@@ -10,6 +10,7 @@ from urllib.parse import urlsplit
 PAIRS = (
     ("sources.json", "host-matrix.json"),
     ("additional-sources.json", "additional-hosts.json"),
+    ("extra-sources.json", "extra-hosts.json"),
 )
 
 
@@ -66,10 +67,11 @@ def render(base):
         f"{len(sources)} unique source URLs mapped to {len(hosts)} host families. "
         f"Recorded ledger dates: {min(dates)}–{max(dates)}.",
         "",
-        "Generated from [sources.json](sources.json) and "
-        "[additional-sources.json](additional-sources.json). "
+        "Generated from [sources.json](sources.json), "
+        "[additional-sources.json](additional-sources.json) and [extra-sources.json](extra-sources.json). "
         "Contracts and limitations live in the machine-readable "
-        "[host matrix](host-matrix.json) and [additional host matrix](additional-hosts.json).",
+        "[host matrix](host-matrix.json), [additional host matrix](additional-hosts.json) "
+        "and [final breadth matrix](extra-hosts.json).",
         "",
         "Dates and statuses below are the researchers' recorded observations; this generator "
         "does not revisit URLs. `read` means the body was consulted. `BODY_UNAVAILABLE` means "

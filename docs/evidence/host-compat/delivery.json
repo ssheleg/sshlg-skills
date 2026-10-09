@@ -78,6 +78,14 @@
       "result": "ACCEPT after correcting physical storage-mode claim",
       "implementation": "63ac417cca23c3def2bec87741dac933f79b0a04",
       "evidence": "local/continue-copy-lifecycle.json"
+    },
+    {
+      "scope": "Three-ledger source index",
+      "reviewer": "/root/installer_targets",
+      "result": "ACCEPT",
+      "families": 29,
+      "source_urls": 84,
+      "evidence": "research/SOURCES.md"
     }
   ]
 }

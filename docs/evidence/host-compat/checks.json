@@ -51,9 +51,9 @@
     "full_gate": "PENDING final owner pins"
   },
   "research_extension": {
-    "families": 27,
-    "source_urls": 71,
-    "read": 70,
+    "families": 29,
+    "source_urls": 84,
+    "read": 83,
     "body_unavailable": 1,
     "reference_check_exit": 0
   },
@@ -75,7 +75,7 @@
     }
   },
   "continue_combined_gate": {
-    "source": "8c7704e",
+    "source": "8c7704ee3edb54547e6f03d8503a88974392eed3",
     "command": "npm test",
     "exit": 0,
     "suites": 93,
@@ -83,5 +83,14 @@
     "members": 11,
     "log_sha256": "0ef509b43a1efb7b410d2a65cf2fd92bed3a984f9eb2ecd1e1632b662118df2c",
     "scope": "Continue and research integrated; three new owner pins, task-pipeline and agent-sync pending"
+  },
+  "continue_hosted_gates": {
+    "source": "3bf480f2ff127b1d8059564c7fc42e0f693a0d8b",
+    "runs": [
+      38001235647,
+      38001231190
+    ],
+    "result": "SUCCESS",
+    "scope": "Before final task-pipeline and agent-sync pins"
   }
 }

@@ -9,7 +9,7 @@ report:
   status: draft
   valid_until: 2026-11-09
   summary: >-
-    Проверены 38 скиллов в 11 пакетах и первичные контракты 27 семейств клиентов.
+    Проверены 38 скиллов в 11 пакетах и первичные контракты 29 семейств клиентов.
     Исправления затрагивают выбор глобальных целей установщика, автономность
     устанавливаемой папки и инструкции о возможностях хоста в пяти пакетах.
     Обнаружение скилла, активация плагина и проверка поведения разделены.
@@ -18,6 +18,8 @@ report:
       path: ../../evidence/host-compat/research/sources.json
     - name: "Additional primary source ledger: 24 entries, one unavailable body"
       path: ../../evidence/host-compat/research/additional-sources.json
+    - name: "Final breadth ledger: Droid and Pi, 13 readable sources"
+      path: ../../evidence/host-compat/research/extra-sources.json
     - name: "Pinned family payload census"
       path: ../../evidence/host-compat/portability/README.md
     - name: "Pinned installer source"
@@ -45,13 +47,15 @@ report:
   формат, локальные ссылки и инструкции с привязкой к хосту. Исходный
   [census](../../evidence/host-compat/portability/README.md) сохраняет найденные
   проблемы; он не переписывается в якобы изначально чистый результат.
-- **27 семейств клиентов**, **71 ссылка на первичные источники** (70 прочитаны;
+- **29 семейств клиентов**, **84 ссылки на первичные источники** (83 прочитаны;
   тело международной страницы TRAE недоступно): пути, приоритеты, формат,
   команды, делегирование, hooks и границы неизвестного. Полные
   [матрица](../../evidence/host-compat/research/host-matrix.json) и
   [первый список ссылок](../../evidence/host-compat/research/sources.json),
   [дополнительные 10 семейств](../../evidence/host-compat/research/additional-hosts.json)
-  и [24 дополнительные ссылки](../../evidence/host-compat/research/additional-sources.json).
+  [24 дополнительные ссылки](../../evidence/host-compat/research/additional-sources.json),
+  [Droid и Pi](../../evidence/host-compat/research/extra-hosts.json) и
+  [их 13 источников](../../evidence/host-compat/research/extra-sources.json).
 - Установщик `skills@1.5.25`: 79 идентификаторов, 77 глобальных целей;
   Eve и PromptScript поддерживают только проектную установку. Источник и
   воспроизводимая проверка — [HC-3](../../evidence/host-compat/installer-review.md).
@@ -92,6 +96,8 @@ report:
 | Mistral Vibe | Нативные roots по матрице | `allowed-tools` ограничивает инструменты; семантика отличается от Claude |
 | TRAE | CN и международный клиент разделены | Международный контракт не установлен по недоступной странице |
 | Aider | Явное чтение convention Markdown | Нативное обнаружение SKILL не установлено; AiderDesk — другой продукт |
+| Factory Droid | Нативные `.factory` и общие `.agents` roots | Скиллы не регистрируют hooks и custom droids; installer использует общий root |
+| Pi | Общий `.agents` и `$PI_CODING_AGENT_DIR/skills` | Порядок загрузки проверен по цепочке вызовов; subagents требуют расширения, симлинки поддержаны в проверенном исходнике |
 
 Дополнительная матрица содержит точные пути, scope каждого клиента и ссылки;
 неизвестные поля не превращены в обещание поддержки.
@@ -142,10 +148,11 @@ report:
 
 ## Источники и передача
 
-[Единый читаемый список всех 71 ссылок по агентам](../../evidence/host-compat/research/SOURCES.md).
+[Единый читаемый список всех 84 ссылок по агентам](../../evidence/host-compat/research/SOURCES.md).
 
 - [Первые 47 ссылок](../../evidence/host-compat/research/sources.json) и
   [ещё 24 ссылки с датами и статусом чтения](../../evidence/host-compat/research/additional-sources.json).
+- [Droid и Pi: заключительный срез и 13 источников](../../evidence/host-compat/research/README-extra.md).
 - [Дополнительное исследование и воспроизведение Continue](../../evidence/host-compat/research/README-additional.md).
 - [Выводы исследования и противоречия источников](../../evidence/host-compat/research/README.md).
 - [Единый план и границы задачи](../../evidence/host-compat/README.md).

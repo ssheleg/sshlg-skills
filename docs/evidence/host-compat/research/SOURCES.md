@@ -1,8 +1,8 @@
 # Host compatibility source links
 
-71 unique source URLs mapped to 27 host families. Recorded ledger dates: 2026-10-09–2026-10-10.
+84 unique source URLs mapped to 29 host families. Recorded ledger dates: 2026-10-09–2026-10-10.
 
-Generated from [sources.json](sources.json) and [additional-sources.json](additional-sources.json). Contracts and limitations live in the machine-readable [host matrix](host-matrix.json) and [additional host matrix](additional-hosts.json).
+Generated from [sources.json](sources.json), [additional-sources.json](additional-sources.json) and [extra-sources.json](extra-sources.json). Contracts and limitations live in the machine-readable [host matrix](host-matrix.json), [additional host matrix](additional-hosts.json) and [final breadth matrix](extra-hosts.json).
 
 Dates and statuses below are the researchers' recorded observations; this generator does not revisit URLs. `read` means the body was consulted. `BODY_UNAVAILABLE` means the page resolved but its body was unavailable to the research tool; it is not proof of the host contract. Documentation and installer support do not establish native runtime acceptance. Host families may contain distinct IDE, CLI or regional surfaces.
 
@@ -19,6 +19,7 @@ Dates and statuses below are the researchers' recorded observations; this genera
 | codex | [host-matrix.json](host-matrix.json) | [codex-hooks](#source-codex-hooks), [codex-plugins](#source-codex-plugins), [codex-skills](#source-codex-skills), [codex-subagents](#source-codex-subagents) |
 | continue | [additional-hosts.json](additional-hosts.json) | [additional-installer](#source-additional-installer), [additional-installer-implementation](#source-additional-installer-implementation), [continue-cli-source](#source-continue-cli-source), [continue-core-source](#source-continue-core-source), [continue-env-source](#source-continue-env-source), [continue-rules](#source-continue-rules) |
 | cursor | [host-matrix.json](host-matrix.json) | [cursor-components](#source-cursor-components), [cursor-rules](#source-cursor-rules), [cursor-rules-help](#source-cursor-rules-help), [cursor-skills](#source-cursor-skills) |
+| droid | [extra-hosts.json](extra-hosts.json) | [additional-installer](#source-additional-installer), [additional-installer-implementation](#source-additional-installer-implementation), [extra-droid-hooks](#source-extra-droid-hooks), [extra-droid-instructions](#source-extra-droid-instructions), [extra-droid-plugins](#source-extra-droid-plugins), [extra-droid-releases](#source-extra-droid-releases), [extra-droid-skills](#source-extra-droid-skills), [extra-droid-subagents](#source-extra-droid-subagents) |
 | gemini-cli | [host-matrix.json](host-matrix.json) | [gemini-context](#source-gemini-context), [gemini-skills](#source-gemini-skills) |
 | github-copilot | [host-matrix.json](host-matrix.json) | [copilot-instructions](#source-copilot-instructions), [copilot-plugin](#source-copilot-plugin), [copilot-skills](#source-copilot-skills) |
 | goose | [host-matrix.json](host-matrix.json) | [goose-hints](#source-goose-hints), [goose-hooks](#source-goose-hooks), [goose-skills](#source-goose-skills), [goose-source](#source-goose-source) |
@@ -31,6 +32,7 @@ Dates and statuses below are the researchers' recorded observations; this genera
 | openclaw | [host-matrix.json](host-matrix.json) | [openclaw-skills](#source-openclaw-skills), [openclaw-workspace](#source-openclaw-workspace) |
 | opencode | [host-matrix.json](host-matrix.json) | [opencode-rules](#source-opencode-rules), [opencode-skills](#source-opencode-skills) |
 | openhands | [additional-hosts.json](additional-hosts.json) | [additional-installer](#source-additional-installer), [openhands-skills](#source-openhands-skills) |
+| pi | [extra-hosts.json](extra-hosts.json) | [additional-installer](#source-additional-installer), [extra-pi-config](#source-extra-pi-config), [extra-pi-extensions](#source-extra-pi-extensions), [extra-pi-package-source](#source-extra-pi-package-source), [extra-pi-readme](#source-extra-pi-readme), [extra-pi-resource-source](#source-extra-pi-resource-source), [extra-pi-skill-source](#source-extra-pi-skill-source), [extra-pi-skills](#source-extra-pi-skills) |
 | qwen-code | [additional-hosts.json](additional-hosts.json) | [additional-installer](#source-additional-installer), [qwen-settings](#source-qwen-settings), [qwen-skills](#source-qwen-skills) |
 | roo | [host-matrix.json](host-matrix.json) | [roo-instructions](#source-roo-instructions), [roo-skills](#source-roo-skills) |
 | trae | [additional-hosts.json](additional-hosts.json) | [additional-installer](#source-additional-installer), [trae-cn-rules](#source-trae-cn-rules), [trae-cn-skills](#source-trae-cn-skills), [trae-international-skills](#source-trae-international-skills) |
@@ -72,6 +74,19 @@ Dates and statuses below are the researchers' recorded observations; this genera
 | <a id="source-cursor-rules"></a>[cursor-rules](https://prod.cursor.com/docs/rules) | 2026-10-09 | read | primary | Project rules; AGENTS.md |
 | <a id="source-cursor-rules-help"></a>[cursor-rules-help](https://prod.cursor.com/help/customization/rules) | 2026-10-09 | read | primary | User rule files; CLAUDE.md |
 | <a id="source-cursor-skills"></a>[cursor-skills](https://prod.cursor.com/docs/skills) | 2026-10-09 | read | primary | Skill directories; nested and remote scope |
+| <a id="source-extra-droid-hooks"></a>[extra-droid-hooks](https://docs.factory.com/harness/hooks) | 2026-10-10 | read | primary | hooks.json scopes, legacy settings fallback |
+| <a id="source-extra-droid-instructions"></a>[extra-droid-instructions](https://docs.factory.com/harness/agents-md) | 2026-10-10 | read | primary | Personal/project context directories and compatible filenames |
+| <a id="source-extra-droid-plugins"></a>[extra-droid-plugins](https://docs.factory.com/harness/plugins) | 2026-10-10 | read | primary | Native plugin components and compatible Claude translation |
+| <a id="source-extra-droid-releases"></a>[extra-droid-releases](https://docs.factory.com/changelog/release-notes) | 2026-10-10 | read | primary | CLI0.56.0 symlink discovery fix and CLI0.187.0 broken-link isolation |
+| <a id="source-extra-droid-skills"></a>[extra-droid-skills](https://docs.factory.com/harness/skills) | 2026-10-10 | read | primary | Roots, same-name precedence, invocation and metadata |
+| <a id="source-extra-droid-subagents"></a>[extra-droid-subagents](https://docs.factory.com/harness/subagents) | 2026-10-10 | read | primary | Custom droids, Task tool, enforced tool policy |
+| <a id="source-extra-pi-config"></a>[extra-pi-config](https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/docs/configuration.md) | 2026-10-10 | read | primary | Agent directory override, context roots and project trust |
+| <a id="source-extra-pi-extensions"></a>[extra-pi-extensions](https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/docs/extensions.md) | 2026-10-10 | read | primary | Executable TypeScript extensions distinct from skills |
+| <a id="source-extra-pi-package-source"></a>[extra-pi-package-source](https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/src/core/package-manager.ts) | 2026-10-10 | read | primary | collectSkillEntries symlink handling and automatic resource discovery order |
+| <a id="source-extra-pi-readme"></a>[extra-pi-readme](https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/README.md) | 2026-10-10 | read | primary | Current canonical project/package identity; no built-in subagents |
+| <a id="source-extra-pi-resource-source"></a>[extra-pi-resource-source](https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/src/core/resource-loader.ts) | 2026-10-10 | read | primary | Actual CLI callchain includeDefaults:false; context filename/ancestor order |
+| <a id="source-extra-pi-skill-source"></a>[extra-pi-skill-source](https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/src/core/skills.ts) | 2026-10-10 | read | primary | loadSkillsFromDirInternal symlink stat fallback; first-name collision wins |
+| <a id="source-extra-pi-skills"></a>[extra-pi-skills](https://raw.githubusercontent.com/earendil-works/pi/42a3497d03ad17e308a2299fa824727894f2c0ec/packages/coding-agent/docs/skills.md) | 2026-10-10 | read | primary | Progressive loading, slash invocation, schema and shared roots |
 | <a id="source-gemini-context"></a>[gemini-context](https://geminicli.com/docs/cli/gemini-md/) | 2026-10-09 | read | primary | Context hierarchy; configurable filenames |
 | <a id="source-gemini-skills"></a>[gemini-skills](https://geminicli.com/docs/cli/skills/) | 2026-10-09 | read | primary | Discovery tiers; precedence and aliases |
 | <a id="source-goose-hints"></a>[goose-hints](https://github.com/aaif-goose/goose/blob/3bd852002903e016ff30947e973f76e2fcfcf90f/documentation/docs/guides/context-engineering/using-goosehints.md) | 2026-10-09 | read | primary | Global/local hints; Developer extension |
