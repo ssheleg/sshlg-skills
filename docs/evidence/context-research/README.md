@@ -85,9 +85,14 @@ No five-run retirement trigger was inferred and no standing rule was retired.
 - `npm test`: PASS, 91 suites, 1112 fixtures, 11 pinned members, exit 0. The
   first full run passed its suites but exited 1 on DOCMAP's old 90/1106 counters;
   those were updated from its measured result and the full rerun passed.
+- Independent fresh local clone at `e72e1bdb76dbef4dd2296a6ff1168248951a249d`:
+  `node test/context_handoff_test.js` PASS, all six cases, exit 0. No submodule
+  initialization is needed for this bounded entry/integrity check.
 - Source/archive byte equality and both active-file measurement hashes passed.
   Hosted CI, publication, installed-host loading and model outcomes are NOT_RUN
   for this docs-only task. No full hosted suite was dispatched.
+
+Machine-readable check outcomes: [checks.json](checks.json).
 
 ## Handoff
 
