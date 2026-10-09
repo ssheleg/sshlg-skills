@@ -23,6 +23,20 @@
       "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
       "status": "PUBLISHED",
       "registry_receipt": "releases/sheleg-dev.json"
+    },
+    {
+      "owner": "task-pipeline",
+      "version": "1.90.1",
+      "source": "07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
+      "status": "SOURCE_MERGED_TAGGED_RELEASE_GATING",
+      "release_run": 38003499991
+    },
+    {
+      "owner": "agent-sync",
+      "version": "1.21.5",
+      "source": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+      "status": "SOURCE_MERGED_TAGGED_RELEASE_GATING",
+      "release_run": 38002166721
     }
   ],
   "hub": {

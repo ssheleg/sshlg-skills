@@ -57,23 +57,6 @@
     "body_unavailable": 1,
     "reference_check_exit": 0
   },
-  "pending_owner_gates": {
-    "task_pipeline": {
-      "candidate": "9b19e878e9630bf084896a5631e7f730e9695949",
-      "pr": 103,
-      "local_gate": "npm run test:all; active, liveness verified",
-      "hosted_run": 37997668725,
-      "release_repeats_full_gate": true
-    },
-    "agent_sync": {
-      "candidate": "6aa321ac1a7045498847c9318233d407448a506c",
-      "pr": 29,
-      "hosted_run": 37999800607,
-      "initial_local_gate": "73/74 mutation detections; fixture crossed into historical ledger",
-      "repair": "focused actual mutation/checker rerun passed; independent review ACCEPT",
-      "release_repeats_validator_and_mutations": true
-    }
-  },
   "continue_combined_gate": {
     "source": "8c7704ee3edb54547e6f03d8503a88974392eed3",
     "command": "npm test",
@@ -92,5 +75,24 @@
     ],
     "result": "SUCCESS",
     "scope": "Before final task-pipeline and agent-sync pins"
+  },
+  "owner_source_gates": {
+    "task_pipeline": {
+      "tested_candidate": "9b19e878e9630bf084896a5631e7f730e9695949",
+      "merged_source": "07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
+      "complete_tree_equal": true,
+      "local_test_all_exit": 0,
+      "local_log_sha256": "dc0b8087af1f30aff59c8e809fbd61f19871115ac63068b8d5e54fb04da28733",
+      "hosted_run": 37997668725,
+      "hosted_result": "SUCCESS"
+    },
+    "agent_sync": {
+      "tested_candidate": "6aa321ac1a7045498847c9318233d407448a506c",
+      "merged_source": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+      "complete_tree_equal": true,
+      "hosted_run": 37999800607,
+      "hosted_result": "SUCCESS",
+      "initial_local_result": "FAIL 73/74; repaired fixture independently reproduced before passing full hosted gate"
+    }
   }
 }

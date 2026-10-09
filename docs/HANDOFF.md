@@ -1,6 +1,6 @@
 # Start here — sshlg-skills
 
-Snapshot: 2026-10-09. This page selects evidence and the next bounded action;
+Snapshot: 2026-10-10. This page selects evidence and the next bounded action;
 [skills.json](../skills.json) owns the current member inventory and pins.
 Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 [standing retrospective instructions](evidence/retro.md) and the
@@ -10,7 +10,7 @@ Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 
 [Host compatibility report](reports/2026-10-09-coding-agent-compatibility/README.md)
 and [execution packet](evidence/host-compat/README.md) own the current work:
-17 host contracts, all 38 family skills, supported global installer targets,
+29 host-family contracts, all 38 family skills, supported global installer targets,
 and bounded fixes in five members. Exact source, release and installed readback
 are separate in [delivery.json](evidence/host-compat/delivery.json).
 Candidate hub version: 1.54.7. Integration and installed readback are in progress.
