@@ -34,3 +34,17 @@ the private task folder; final distribution readback must use the released packa
 No generic 30% target was met or claimed: finalrender21218→15760Unicode characters,
 5458saved(25.72%). Excluding the trailing newline both counts are one lower;
 savings are identical. This is a text measure, not a billed-token saving.
+
+## Integration follow-up
+
+The full hub gate initially failed two navigation/text-contract checks. The prior
+context-research README link was restored rather than weakening archive navigation.
+At bf2541bba1fe2889ef1bcabf3919e31bffa89a69 the map again uses its original
+"does not outrank this map" precedence phrase; meaning and15760-character count
+are unchanged. Independent inventory12checks and handoff6cases then passed.
+The exact release integration gate is recorded separately.
+
+Independent router_compact reviewer accepted root-authored entry/HANDOFF docs
+at9bea7ad with21resolved links and independently reread all6outside-block hashes.
+That reviewer also accepted make-skill0.29.1 version-only surfaces, excluding its
+own router implementation. Root reviewed parser separately atdfa8d067.
