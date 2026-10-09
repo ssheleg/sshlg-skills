@@ -49,3 +49,8 @@ are explicit errors (also under Python -O), and empty payloads are refused.
 Summaries allowlist public fields, count unique family names (duplicates are
 separate), name missing IDs, and exit nonzero if discovery or preservation checks
 fail. CODEX_HOME and HERMES_HOME overrides are honored; this machine used defaults.
+
+Continue readback additionally requires every family skill directory to be a real
+directory, not a symlink, then compares its files against the pinned Git blobs.
+This verifies the installed shape required by the pinned loader reproduction;
+it is not a full Continue application/model run.

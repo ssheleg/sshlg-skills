@@ -34,5 +34,27 @@
     }
   ],
   "final_combined_gate": "PENDING",
-  "model_runtime": "NOT_RUN"
+  "model_runtime": "NOT_RUN",
+  "continue_regression": {
+    "source": "63ac417cca23c3def2bec87741dac933f79b0a04",
+    "owner_checks": {
+      "plan": 26,
+      "host_targets": 14,
+      "locked_plan": 6,
+      "runtime": 8
+    },
+    "root_replay": {
+      "plan": 26,
+      "host_targets": 14
+    },
+    "exit": 0,
+    "full_gate": "PENDING final owner pins"
+  },
+  "research_extension": {
+    "families": 27,
+    "source_urls": 71,
+    "read": 70,
+    "body_unavailable": 1,
+    "reference_check_exit": 0
+  }
 }

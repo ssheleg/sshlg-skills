@@ -65,6 +65,12 @@
       "reviewer": "/root/installer_targets",
       "result": "ACCEPT after missing-provider, source-identity and fail-open corrections",
       "evidence": "local/README.md"
+    },
+    {
+      "scope": "Continue installed-shape readback and removal/count audit",
+      "reviewer": "/root/installer_targets",
+      "result": "ACCEPT",
+      "evidence": "local/README.md"
     }
   ]
 }

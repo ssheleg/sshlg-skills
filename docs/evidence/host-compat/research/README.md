@@ -76,3 +76,10 @@ read-only discovery where available. Keep runtime `NOT_RUN` otherwise.
 Validation: JSON parses; exactly 17 unique hosts; every matrix source ID resolves;
 all 47 source IDs unique and dated; all source URLs use HTTPS. These checks are
 structural, not a native-host or semantic compatibility test.
+
+## Breadth extension, 2026-10-10
+
+[Ten additional families](README-additional.md) extend this slice to 27 families
+and 71 source URLs, of which 70 were readable. The original 17-host matrix and
+47-source ledger retain their original scope; use both linked slices. Continue
+loader reproduction distinguishes single-target success from mixed-target failure.

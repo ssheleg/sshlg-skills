@@ -106,3 +106,14 @@ passed with all 79; no child process or HOME write occurs. Parent review ACCEPT.
 The parent also ties catalogue total/global counts to the snapshot in the existing
 case. Final focused totals: host-targets 14, plan 25. Combined parent ratchet is
 93 suites / 1135 fixtures; this follow-up adds one fixture, not another suite.
+
+## Continue discovery correction
+
+Implementation `63ac417cca23c3def2bec87741dac933f79b0a04` isolates Continue
+with explicit `--copy` in install, reconciliation and locked plans. Contiguous
+groups preserve the flattened caller order without changing other target modes
+or defaults. Actual upstream CLI and pinned loader reproduction is recorded in
+[the research receipt](research/continue-loader-repro.json). Before the repair,
+the new plan case and mixed install/update assertions failed. After: plan 26,
+host targets 14, locked-plan audit 6, runtime 8 passed. This adds one fixture:
+combined ratchet 93 suites / 1136 fixtures. Independent review is pending.

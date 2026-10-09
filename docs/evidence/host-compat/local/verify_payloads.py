@@ -33,7 +33,9 @@ for m in manifest['skills']:
   return result
  for name,d in skilldirs.items():
   files=payload(d)
-  for ch,target in [('shared',home/'.agents/skills'/name),('hermes',hermes_home/'skills'/name)]:compare(name,ch,target,files,sha)
+  for ch,target in [('shared',home/'.agents/skills'/name),('hermes',hermes_home/'skills'/name),('continue-copy',home/'.continue/skills'/name)]:
+   if ch=='continue-copy':require(target.is_dir() and not target.is_symlink(),'Continue requires a real skill directory: '+name)
+   compare(name,ch,target,files,sha)
  manifests=[f for f in tracked if f.startswith('plugins/') and f.endswith('/.claude-plugin/plugin.json')];require(len(manifests)==1,'Expected one plugin manifest: '+m['name']);plugin=str(PurePosixPath(manifests[0]).parent.parent)
  plugin_meta=json.loads(git(repo,'show',sha+':'+manifests[0]));require(plugin_meta['version']==m['version'],'Pin/version mismatch: '+m['name']);files=payload(plugin)
  c=cc.get(m['name']);require(c and c['enabled'] and c['version']==m['version'],'Claude registration mismatch: '+m['name']);compare(m['name'],'claude-plugin',Path(c['installPath']),files,sha)

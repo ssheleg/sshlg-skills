@@ -9,13 +9,15 @@ report:
   status: draft
   valid_until: 2026-11-09
   summary: >-
-    Проверены 38 скиллов в 11 пакетах и первичные контракты 17 клиентов.
+    Проверены 38 скиллов в 11 пакетах и первичные контракты 27 семейств клиентов.
     Исправления затрагивают выбор глобальных целей установщика, автономность
     устанавливаемой папки и инструкции о возможностях хоста в пяти пакетах.
     Обнаружение скилла, активация плагина и проверка поведения разделены.
   sources:
     - name: "Dated primary source ledger: 47 entries"
       path: ../../evidence/host-compat/research/sources.json
+    - name: "Additional primary source ledger: 24 entries, one unavailable body"
+      path: ../../evidence/host-compat/research/additional-sources.json
     - name: "Pinned family payload census"
       path: ../../evidence/host-compat/portability/README.md
     - name: "Pinned installer source"
@@ -43,10 +45,13 @@ report:
   формат, локальные ссылки и инструкции с привязкой к хосту. Исходный
   [census](../../evidence/host-compat/portability/README.md) сохраняет найденные
   проблемы; он не переписывается в якобы изначально чистый результат.
-- **17 клиентов**, **47 первичных источников**: пути, приоритеты, формат,
+- **27 семейств клиентов**, **71 ссылка на первичные источники** (70 прочитаны;
+  тело международной страницы TRAE недоступно): пути, приоритеты, формат,
   команды, делегирование, hooks и границы неизвестного. Полные
   [матрица](../../evidence/host-compat/research/host-matrix.json) и
-  [список ссылок](../../evidence/host-compat/research/sources.json).
+  [первый список ссылок](../../evidence/host-compat/research/sources.json),
+  [дополнительные 10 семейств](../../evidence/host-compat/research/additional-hosts.json)
+  и [24 дополнительные ссылки](../../evidence/host-compat/research/additional-sources.json).
 - Установщик `skills@1.5.25`: 79 идентификаторов, 77 глобальных целей;
   Eve и PromptScript поддерживают только проектную установку. Источник и
   воспроизводимая проверка — [HC-3](../../evidence/host-compat/installer-review.md).
@@ -77,12 +82,26 @@ report:
 | Kiro | `.kiro/skills` | Общий `.agents` не подтверждён; CLI/IDE/cloud различаются |
 | Zed | Прямые дочерние папки `.agents/skills` | Trust и лимит metadata; встроенный внешний агент использует свой loader |
 | Amp | Несколько нативных/common roots | Нельзя обобщать правило «проект всегда выше global» |
+| Continue | `.continue/skills`, отдельная установка с `--copy` | Проверенный loader пропускает дочерние симлинки; смешанная установка воспроизведена и исправлена |
+| Qwen Code | Нативные `.qwen` roots | Общий global `.agents` не подтверждён |
+| Antigravity | Отдельные пути IDE 2.0 и CLI | Legacy adapter не доказывает приём текущим клиентом |
+| Warp | Нативный и общий формат по источникам | См. точные roots и ограничения в дополнительной матрице |
+| Augment / Auggie | `.augment/skills` и совместимые roots | User `.augment` имеет приоритет над project |
+| JetBrains Junie | `.junie` и общий `.agents` | Импорт сторонних roots и native discovery различаются |
+| OpenHands | Предпочтительно `.agents`, поддерживаются legacy roots | Сохранять границы legacy формата |
+| Mistral Vibe | Нативные roots по матрице | `allowed-tools` ограничивает инструменты; семантика отличается от Claude |
+| TRAE | CN и международный клиент разделены | Международный контракт не установлен по недоступной странице |
+| Aider | Явное чтение convention Markdown | Нативное обнаружение SKILL не установлено; AiderDesk — другой продукт |
+
+Дополнительная матрица содержит точные пути, scope каждого клиента и ссылки;
+неизвестные поля не превращены в обещание поддержки.
 
 ## Исправления
 
 | Владелец | Подтверждённая проблема | Изменение и проверка |
 |---|---|---|
 | sshlg-skills | `--all` передавал wildcard вместе с global, включая неподдерживаемые цели и plain Claude | Явный snapshot: 76 целей с plugin-каналом Claude, 77 без него; неизвестные/project-only цели отклоняются до изменений. Регрессии сначала падали, затем прошли; проверен реальный argv и копируемый runtime |
+| sshlg-skills / Continue | Смешанная установка создаёт симлинки, которые loader пропускает | Continue выделен в отдельный `--copy` вызов, включая pinned lock; порядок остальных целей сохранён. Реальный upstream CLI + pinned loader: single 1 / mixed 0 / copy 1 |
 | make-skill | Обобщения «это бывает только у Claude», путаница текстовой подстановки и shell env, устаревшее отсутствие sync | Проверка capability каждого хоста; текущие Codex ссылки; versioned validator probe 0/1/0; условная односторонняя claude.ai sync; независимое review |
 | task-pipeline | Обязательные verifier-файлы и audit-метод выходили за устанавливаемую папку | Локальные verifier-процедуры с проверкой точного тела; самостоятельный audit-method; offline JSON/HTML и JSON-only; независимость review не подменяется self-review |
 | agent-sync | Жёсткий путь `.agents` и универсальное отрицание hooks | Путь от реально загруженного SKILL; native adapter проверяется отдельно; board lease arbitration не считается доказательством hook enforcement |
@@ -119,7 +138,9 @@ report:
 
 ## Источники и передача
 
-- [47 ссылок с датой и разделом чтения](../../evidence/host-compat/research/sources.json).
+- [Первые 47 ссылок](../../evidence/host-compat/research/sources.json) и
+  [ещё 24 ссылки с датами и статусом чтения](../../evidence/host-compat/research/additional-sources.json).
+- [Дополнительное исследование и воспроизведение Continue](../../evidence/host-compat/research/README-additional.md).
 - [Выводы исследования и противоречия источников](../../evidence/host-compat/research/README.md).
 - [Единый план и границы задачи](../../evidence/host-compat/README.md).
 - [Коммиты, релизы, registry и установленный payload](../../evidence/host-compat/delivery.json).
