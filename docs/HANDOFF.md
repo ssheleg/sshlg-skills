@@ -6,15 +6,16 @@ Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 [standing retrospective instructions](evidence/retro.md) and the
 [repository handoff rule](working-rules/repository-handoff.md) before editing.
 
-## Current work
+## Current context delivery
 
-[CR-3 context repair](evidence/context-research/README.md) records the scope,
-semantic coverage, measurements, checks and review boundary. Its
-[plan](evidence/context-research/PLAN.md) is the bounded task packet.
-**Next action:** the parent reviews this branch independently, integrates the member
-work separately, then runs the final repository gate and verifies the pushed revision.
-This branch does not claim that integration, publication or host reload has happened.
-After integration, update this paragraph with the resulting receipt and next task.
+[Context repair and member integration](evidence/context-research/README.md) owns
+this bounded delivery. [Delivery status](evidence/context-research/delivery.json)
+separates source, package, installation and fresh-host evidence; read its dated
+receipt before acting. [The plan](evidence/context-research/PLAN.md) and
+[independent review](evidence/context-research/review.md) retain scope and checks.
+**Next action:** resolve the first incomplete gate in that receipt. When all
+implementation/release gates are complete, choose a task from the current backlog
+and revalidate its owner state; do not restart historical exact-next instructions.
 
 ## Most recent completed delivery receipts
 

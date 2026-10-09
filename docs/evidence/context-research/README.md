@@ -2,11 +2,12 @@
 
 # CR-3 active context repair
 
-Status: implementation complete; independent parent review and integrated delivery
-pending. Entry: [active handoff](../../HANDOFF.md). Scope and requirements:
+Status: CR-3 implementation independently accepted; [integrated delivery status](delivery.json)
+records the subsequent member/release/install gates. Entry: [active handoff](../../HANDOFF.md). Scope and requirements:
 [PLAN.md](PLAN.md), committed before implementation at `bc7d8d1`.
-The parent owns the member integration, final full gate, push, release and installation;
-this task changes no package version, pin, runtime or private/global instruction file.
+The CR-3 snapshot changes no package version, pin, runtime or private/global instruction file.
+The parent subsequently integrates agent-stack0.25.5 and hub1.54.5; those gates have
+separate receipts below.
 
 ## Source and findings
 
@@ -43,7 +44,7 @@ repository size. The archived bytes remain available on demand.
 
 Semantic review is the implementer's explicit judgment, not the checker's verdict.
 All line references below use the frozen base linked above and the resulting
-[CLAUDE.md](../../../CLAUDE.md). The independent parent must review this mapping.
+[CLAUDE.md](../../../CLAUDE.md). The [independent parent review](review.md) accepted this mapping.
 
 | Source lines / obligation | Result lines | Coverage decision |
 |---|---|---|
@@ -99,8 +100,7 @@ Machine-readable check outcomes: [checks.json](checks.json).
 REQ-1: current entry separated from historical instructions; all old handoff bytes
 and link base retained. REQ-2: compaction measured and obligations mapped, no retro
 pruning. REQ-3: bounded deterministic checker plus negative controls and native
-validation. REQ-4: task-local branch and evidence; independent review before push
-remains the parent's next task. Final merged source can differ from this branch:
+validation. REQ-4: task-local branch and evidence; independent review accepted before push. Final merged source can differ from this branch:
 rerun the native gate after member integration and update the active handoff then.
 
 No processes or timers are intentionally left running by this task. The coordination
@@ -114,3 +114,16 @@ explicitly local-only and absent from this public task packet.
 
 - [`task-pipeline`](https://github.com/ssheleg/task-pipeline) — bounded repository delivery
 - [`evidence-docs`](https://github.com/ssheleg/task-pipeline) — source and semantic coverage receipts
+
+## Parent integration
+
+Agent-stack0.25.5 source `b512cb4d67c1acbfd36fde94935cc993e1fc91b7` adds context admission
+and promotion guidance; its [reviewed contract](https://github.com/ssheleg/agent-stack/blob/b512cb4d67c1acbfd36fde94935cc993e1fc91b7/plugins/agent-stack/skills/agent-harness/references/context-lifecycle.md)
+is on demand. Hub1.54.5 moves only that member pin. The measurements table above is
+frozen to CR-3; later active-entry measurements are recorded in [entry-readback.json](entry-readback.json).
+The plan's original human/model-check boundaries remain unchanged.
+
+Final parent candidate `npm test` passed91 suites /1112 fixtures /11 pinned members;
+`python3 test/check_pins.py` verified all11 published memberpins (including0.25.5).
+The hub existingtag at that pre-release check was1.54.4. [Delivery receipt](delivery.json)
+records exact command scope; source/package/install are separate gates.

@@ -1,0 +1,20 @@
+{
+  "as_of": "2026-10-09",
+  "hub_version": "1.54.5",
+  "member_version": "0.25.5",
+  "member_source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+  "source_gate": "PASS",
+  "publication": "PENDING",
+  "installation": "PENDING",
+  "fresh_interactive_host": "NOT_RUN",
+  "next_action": "Integrate the reviewed source, publish1.54.5 and verify installed bytes.",
+  "native": {
+    "command": "npm test",
+    "suites": 91,
+    "fixtures": 1112,
+    "pinned_members": 11,
+    "exit_code": 0,
+    "log_sha256": "15057b221f13804ed41859603f4b61c9830ffe9557388f7c855927419837ea56"
+  },
+  "published_pins": "PASS: all11 memberversions/tags; hubpre-releaseexistingtag1.54.4"
+}

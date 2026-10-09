@@ -1,0 +1,18 @@
+{
+  "as_of": "2026-10-09",
+  "scope": "post-integration active file bytes; not host-loaded tokens",
+  "files": [
+    {
+      "path": "CLAUDE.md",
+      "bytes": 4292,
+      "characters": 4290,
+      "sha256": "3a6620f49a1fdb80ff8e507cdd0a84b29fb30a6d851243f16d738b454d695b42"
+    },
+    {
+      "path": "docs/HANDOFF.md",
+      "bytes": 3465,
+      "characters": 3463,
+      "sha256": "78f215e56e76001c25e2233ae70a0167831b141ce8fd7bbe93118b8d6cfbfbbb"
+    }
+  ]
+}
