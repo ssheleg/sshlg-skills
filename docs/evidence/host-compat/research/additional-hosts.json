@@ -1,0 +1,480 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-10",
+  "scope": "10 additional named host families; surface variants remain explicit",
+  "evidence_level": "PRIMARY_DOCUMENTATION_AND_PINNED_CONTINUE_SOURCE; runtime NOT_RUN",
+  "upstream_snapshot": "skills@1.5.25",
+  "hosts": [
+    {
+      "id": "aider",
+      "name": "Aider",
+      "upstream_skills_cli_ids": [],
+      "upstream_installer_global_roots": {},
+      "native_skill_support": "NOT_ESTABLISHED",
+      "skill_roots": {
+        "global": [],
+        "project": [],
+        "shared_agents_global": "NOT_ESTABLISHED"
+      },
+      "skill_precedence": "NOT_ESTABLISHED",
+      "instructions": {
+        "mechanism": "Explicit --read or /read of convention Markdown; read config key persists selection.",
+        "config_roots": [
+          "~/.aider.conf.yml",
+          "<git-root>/.aider.conf.yml",
+          "<cwd>/.aider.conf.yml"
+        ],
+        "precedence": "Home then git root then cwd; later config wins. --config selects one file."
+      },
+      "format": "Plain Markdown convention input; no inspected native SKILL.md schema.",
+      "extensions": "No plugin/hook/subagent compatibility established by these sources.",
+      "limitations": [
+        "Aider is not AiderDesk. skills@1.5.25 has aider-desk but no aider adapter.",
+        "Loading Markdown explicitly does not establish skill autodiscovery or automatic AGENTS.md loading."
+      ],
+      "sources": [
+        "aider-conventions",
+        "aider-config",
+        "additional-installer"
+      ],
+      "runtime_acceptance": "NOT_RUN"
+    },
+    {
+      "id": "continue",
+      "name": "Continue",
+      "upstream_skills_cli_ids": [
+        "continue"
+      ],
+      "upstream_installer_global_roots": {
+        "continue": "~/.continue/skills"
+      },
+      "native_skill_support": "SOURCE_VERIFIED",
+      "skill_roots": {
+        "global": [
+          "$CONTINUE_GLOBAL_DIR/skills (default ~/.continue/skills)"
+        ],
+        "project": [
+          ".continue/skills",
+          ".claude/skills"
+        ],
+        "shared_agents_global": "NOT_ESTABLISHED"
+      },
+      "skill_precedence": "CLI source collects candidates asynchronously; no same-name resolution guarantee established.",
+      "instructions": {
+        "project": [
+          ".continue/rules/*.md or YAML rules"
+        ],
+        "ordering": "Rules lexicographical then concatenated in toolbar order; apply in Agent/Chat/Edit, not autocomplete/apply."
+      },
+      "format": "Required nonempty name and description; CLI exposes sanitized /skill-<name>.",
+      "extensions": "IDE and CLI loaders are different implementations; no foreign hook or frontmatter semantics inferred.",
+      "limitations": [
+        "Pinned official source 5522c6f44ca0ac3528b37244818fbfa39b5af470; not an installed version check.",
+        "Exact source helper reproduces mixed-target installer symlink loss: single Continue copy discovers1, mixed Continue+Codex symlink discovers0, mixed --copy discovers1. See continue-loader-repro.json; full native/model acceptance NOT_RUN."
+      ],
+      "sources": [
+        "continue-cli-source",
+        "continue-core-source",
+        "continue-env-source",
+        "continue-rules",
+        "additional-installer",
+        "additional-installer-implementation"
+      ],
+      "runtime_acceptance": "NOT_RUN"
+    },
+    {
+      "id": "qwen-code",
+      "name": "Qwen Code",
+      "upstream_skills_cli_ids": [
+        "qwen-code"
+      ],
+      "upstream_installer_global_roots": {
+        "qwen-code": "~/.qwen/skills"
+      },
+      "native_skill_support": "DOCUMENTED",
+      "skill_roots": {
+        "global": [
+          "$QWEN_HOME/skills (default ~/.qwen/skills)"
+        ],
+        "project": [
+          ".qwen/skills"
+        ],
+        "other": [
+          "enabled extension skills",
+          "bundled skills"
+        ],
+        "shared_agents_global": "NOT_ESTABLISHED"
+      },
+      "skill_precedence": "Exact same-name project/user priority not established by inspected page; extension skills namespaced.",
+      "instructions": {
+        "global": [
+          "$QWEN_HOME/QWEN.md (default context filename configurable)"
+        ],
+        "project": [
+          "QWEN.md in cwd/ancestors to git root or home",
+          "scoped subdirectory context"
+        ],
+        "precedence": "More specific context supplements or overrides general; /memory exposes assembled context."
+      },
+      "format": "Nonempty name/description; Unicode names allowed; priority affects skill-list ordering only. Optional paths gates model visibility.",
+      "extensions": "Manual /<registered-name>; extensions prefix owner:name. A skill-only directory does not register extensions.",
+      "limitations": [
+        "Pinned installer uses default home .qwen; QWEN_HOME overrides require separate destination verification.",
+        "Safe/trusted workspace and disabled-skill settings constrain availability."
+      ],
+      "sources": [
+        "qwen-skills",
+        "qwen-settings",
+        "additional-installer"
+      ],
+      "runtime_acceptance": "NOT_RUN"
+    },
+    {
+      "id": "antigravity",
+      "name": "Google Antigravity (2.0 / IDE / CLI)",
+      "upstream_skills_cli_ids": [
+        "antigravity",
+        "antigravity-cli"
+      ],
+      "upstream_installer_global_roots": {
+        "antigravity": "~/.gemini/antigravity/skills",
+        "antigravity-cli": "~/.gemini/antigravity-cli/skills"
+      },
+      "native_skill_support": "DOCUMENTED",
+      "skill_roots": {
+        "global": [
+          "2.0/IDE: ~/.gemini/config/skills",
+          "IDE legacy: ~/.gemini/antigravity/skills",
+          "CLI: ~/.gemini/antigravity-cli/skills"
+        ],
+        "project": [
+          ".agents/skills"
+        ],
+        "other": [
+          "CLI plugin skills"
+        ],
+        "shared_agents_global": "NOT_ESTABLISHED"
+      },
+      "skill_precedence": "Exact same-name order not established.",
+      "instructions": {
+        "global": [
+          "~/.gemini/AGENTS.md",
+          "~/.gemini/GEMINI.md",
+          "~/.gemini/config/AGENTS.md",
+          "~/.gemini/config/GEMINI.md",
+          "~/.gemini/config/rules/*.md",
+          "CLI additionally ~/.gemini/antigravity-cli/rules/*.md"
+        ],
+        "project": [
+          "AGENTS.md",
+          "GEMINI.md",
+          ".agents/AGENTS.md",
+          ".agents/GEMINI.md",
+          ".agents/rules/*.md"
+        ],
+        "precedence": "Directory-scoped instructions become more specific; modular rules require valid trigger frontmatter."
+      },
+      "format": "Directory SKILL.md; manual slash invocation and relevance-based activation.",
+      "extensions": "Plugin skills require native registration; do not equate IDE, 2.0 and CLI surfaces.",
+      "limitations": [
+        "Installer antigravity root is documented legacy IDE support, not proof of 2.0 current root acceptance."
+      ],
+      "sources": [
+        "antigravity-skills",
+        "antigravity-rules",
+        "additional-installer"
+      ],
+      "runtime_acceptance": "NOT_RUN"
+    },
+    {
+      "id": "warp",
+      "name": "Warp",
+      "upstream_skills_cli_ids": [
+        "warp"
+      ],
+      "upstream_installer_global_roots": {
+        "warp": "~/.agents/skills"
+      },
+      "native_skill_support": "DOCUMENTED",
+      "skill_roots": {
+        "global": [
+          "~/.agents/skills",
+          "~/.warp/skills",
+          "~/.claude/skills",
+          "~/.codex/skills",
+          "~/.cursor/skills",
+          "~/.gemini/skills",
+          "~/.copilot/skills",
+          "~/.factory/skills",
+          "~/.github/skills",
+          "~/.opencode/skills"
+        ],
+        "project": [
+          ".agents/skills",
+          ".warp/skills",
+          ".claude/skills",
+          ".codex/skills",
+          ".cursor/skills",
+          ".gemini/skills",
+          ".copilot/skills",
+          ".factory/skills",
+          ".github/skills",
+          ".opencode/skills"
+        ],
+        "other": [
+          "WARP_SKILL_DIRS for cloud runs"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "Exact same-name priority not established.",
+      "instructions": {
+        "project": [
+          "AGENTS.md",
+          "WARP.md"
+        ],
+        "global": "Personal/team rules managed in Warp Drive; no global instruction-file path inferred."
+      },
+      "format": "Named directory containing SKILL.md with name/description and relative supporting resources.",
+      "extensions": "Cloud/factory skills are scoped to their environment; local home discovery does not prove cloud availability.",
+      "limitations": [
+        "All supported root names are scanned; alias presence does not determine same-name precedence."
+      ],
+      "sources": [
+        "warp-skills",
+        "warp-rules",
+        "additional-installer"
+      ],
+      "runtime_acceptance": "NOT_RUN"
+    },
+    {
+      "id": "augment",
+      "name": "Augment / Auggie CLI",
+      "upstream_skills_cli_ids": [
+        "augment"
+      ],
+      "upstream_installer_global_roots": {
+        "augment": "~/.augment/skills"
+      },
+      "native_skill_support": "DOCUMENTED",
+      "skill_roots": {
+        "global": [
+          "~/.augment/skills",
+          "~/.claude/skills",
+          "~/.agents/skills"
+        ],
+        "project": [
+          ".augment/skills",
+          ".claude/skills",
+          ".agents/skills"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "Highest first: user .augment > workspace .augment > user .claude > workspace .claude > user .agents > workspace .agents.",
+      "instructions": {
+        "global": [
+          "~/.augment/rules"
+        ],
+        "project": [
+          "CLAUDE.md",
+          "AGENTS.md",
+          ".augment-guidelines",
+          ".augment/rules"
+        ],
+        "precedence": "--rules then CLAUDE.md then AGENTS.md then workspace guidelines/rules then user rules; hierarchical AGENTS/CLAUDE added by file scope."
+      },
+      "format": "name 1–64 lowercase alphanumeric/hyphen, directory matching; description 1–1024.",
+      "extensions": "Direct /<directory-name>; built-in command collisions win. CLI manual rules skipped; user rules always apply.",
+      "limitations": [
+        "Auggie-specific evidence; do not automatically transfer every extension behavior to IDE clients."
+      ],
+      "sources": [
+        "augment-skills",
+        "augment-rules",
+        "additional-installer"
+      ],
+      "runtime_acceptance": "NOT_RUN"
+    },
+    {
+      "id": "junie",
+      "name": "JetBrains Junie",
+      "upstream_skills_cli_ids": [
+        "junie"
+      ],
+      "upstream_installer_global_roots": {
+        "junie": "~/.junie/skills"
+      },
+      "native_skill_support": "DOCUMENTED",
+      "skill_roots": {
+        "global": [
+          "~/.junie/skills",
+          "~/.agents/skills"
+        ],
+        "project": [
+          ".junie/skills",
+          ".agents/skills (trusted project)"
+        ],
+        "other": [
+          "--skill-location / skill-locations",
+          "enabled extensions",
+          "builtins"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "Project .junie overrides user .junie; other alias/candidate priorities not established.",
+      "instructions": {
+        "project": [
+          ".junie/AGENTS.md exclusively if present",
+          "otherwise AGENTS.md + .junie/playbook.md + .junie/rules/*.md",
+          "legacy .junie/guidelines.md or .junie/guidelines fallback"
+        ],
+        "global": "NOT_ESTABLISHED"
+      },
+      "format": "name required; description may fall back to first body paragraph. Keep explicit description for portability.",
+      "extensions": "CLI /<skill> and $<skill>; disabling excludes automatic/manual selection. --skill-default-locations false disables native/shared default roots.",
+      "limitations": [
+        "Other-host skill detection/import suggestions are not automatic native loading of every foreign root.",
+        "Skills supported in CLI and JetBrains IDE; loader details here are specifically documented for CLI."
+      ],
+      "sources": [
+        "junie-skills",
+        "junie-guidelines",
+        "additional-installer"
+      ],
+      "runtime_acceptance": "NOT_RUN"
+    },
+    {
+      "id": "trae",
+      "name": "TRAE international / CN",
+      "upstream_skills_cli_ids": [
+        "trae",
+        "trae-cn"
+      ],
+      "upstream_installer_global_roots": {
+        "trae": "~/.trae/skills",
+        "trae-cn": "~/.trae-cn/skills"
+      },
+      "native_skill_support": "DOCUMENTED_CN; INTERNATIONAL_NOT_ESTABLISHED",
+      "skill_roots": {
+        "global": [
+          "CN: ~/.trae-cn/skills"
+        ],
+        "project": [
+          "CN: .trae/skills"
+        ],
+        "shared_agents_global": "NOT_ESTABLISHED"
+      },
+      "skill_precedence": "NOT_ESTABLISHED",
+      "instructions": {
+        "global": [
+          "CN: ~/.trae-cn/user_rules"
+        ],
+        "project": [
+          "CN: .trae/rules"
+        ],
+        "international": "NOT_ESTABLISHED"
+      },
+      "format": "CN documents directory SKILL.md with name/description YAML; optional scripts/resources.",
+      "extensions": "CN skills distinct from MCP tools; native catalog enable/disable is separate from a filesystem copy.",
+      "limitations": [
+        "International official page returned no extractable body; do not promote upstream ~/.trae installer destination to native acceptance.",
+        "Regional builds and cloud/local scopes must be distinguished."
+      ],
+      "sources": [
+        "trae-international-skills",
+        "trae-cn-skills",
+        "trae-cn-rules",
+        "additional-installer"
+      ],
+      "runtime_acceptance": "NOT_RUN"
+    },
+    {
+      "id": "openhands",
+      "name": "OpenHands",
+      "upstream_skills_cli_ids": [
+        "openhands"
+      ],
+      "upstream_installer_global_roots": {
+        "openhands": "~/.openhands/skills"
+      },
+      "native_skill_support": "DOCUMENTED",
+      "skill_roots": {
+        "global": [
+          "~/.agents/skills",
+          "legacy ~/.openhands/skills",
+          "legacy ~/.openhands/microagents"
+        ],
+        "project": [
+          ".agents/skills",
+          "legacy .openhands/skills",
+          "legacy .openhands/microagents"
+        ],
+        "shared_agents_global": "native when loader enabled"
+      },
+      "skill_precedence": "Project > user > public; .agents wins legacy within scope. Explicit SDK skills override automatic user/public, but project wins same-name.",
+      "instructions": {
+        "project": [
+          "AGENTS.md",
+          "model-specific CLAUDE.md or GEMINI.md"
+        ],
+        "global": "User/organization context depends on selected surface and enabled loaders."
+      },
+      "format": "Portable name/description; optional triggers inject matching messages; paths takes priority and turns skill into a nonadvertised file rule.",
+      "extensions": "Canvas, SDK/agent server and Cloud enablement differ; explicit catalog allowlists may restrict skills.",
+      "limitations": [
+        "Global public registry is not synonymous with local home root.",
+        "Legacy .md without trigger is always loaded; avoid confusing that with progressive SKILL.md loading."
+      ],
+      "sources": [
+        "openhands-skills",
+        "additional-installer"
+      ],
+      "runtime_acceptance": "NOT_RUN"
+    },
+    {
+      "id": "mistral-vibe",
+      "name": "Mistral Vibe Code",
+      "upstream_skills_cli_ids": [
+        "mistral-vibe"
+      ],
+      "upstream_installer_global_roots": {
+        "mistral-vibe": "$VIBE_HOME/skills (default ~/.vibe/skills)"
+      },
+      "native_skill_support": "DOCUMENTED",
+      "skill_roots": {
+        "global": [
+          "~/.vibe/skills"
+        ],
+        "project": [
+          ".vibe/skills",
+          ".agents/skills (trusted)"
+        ],
+        "other": [
+          "config.toml skill_paths"
+        ],
+        "shared_agents_global": "NOT_ESTABLISHED"
+      },
+      "skill_precedence": "Discovery order custom paths > trusted project > user.",
+      "instructions": {
+        "global": [
+          "$VIBE_HOME/AGENTS.md (default ~/.vibe/AGENTS.md)"
+        ],
+        "project": [
+          "nearest AGENTS.md walking ancestors within trusted folders",
+          "scoped subdirectory AGENTS discovered on file reads"
+        ]
+      },
+      "format": "Agent Skills; user-invocable exposes slash command; allowed-tools restricts tool set.",
+      "extensions": "Custom agent/subagent TOML separate; task tool delegates, subagents cannot ask questions.",
+      "limitations": [
+        "Do not import Claude allowed-tools preapproval semantics into Vibe restrictive semantics.",
+        "Vibe Code is not Vibe Work; shared standard does not imply shared installation lifecycle."
+      ],
+      "sources": [
+        "mistral-skills",
+        "mistral-agents",
+        "additional-installer"
+      ],
+      "runtime_acceptance": "NOT_RUN"
+    }
+  ]
+}
