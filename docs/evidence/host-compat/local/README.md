@@ -54,3 +54,10 @@ Continue readback additionally requires every family skill directory to be a rea
 directory, not a symlink, then compares its files against the pinned Git blobs.
 This verifies the installed shape required by the pinned loader reproduction;
 it is not a full Continue application/model run.
+
+`continue-discovery.mjs --root <explicit-directory>` retrieves and verifies the
+immutable upstream source and helper digests, strips only TypeScript annotations,
+and runs its directory-selection helper. It emits directory names and relative
+paths, not SKILL contents. [Before update](continue-before.json), it found zero of
+the 38 family directories because they were symlinks. This is source-helper
+replay against the installed tree, not full frontmatter parsing or native runtime.
