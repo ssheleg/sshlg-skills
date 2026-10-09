@@ -1,0 +1,595 @@
+{
+  "version": "0.25.3",
+  "commit": "07d8fc8a6a0ac56ef389e96b093def101367e4f1",
+  "registry_files": [
+    {
+      "file": "LICENSE",
+      "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d"
+    },
+    {
+      "file": "bin/agent-stack.js",
+      "sha256": "5706481b1f1266174eeefebc1f2fc5ff6f30f77b395289490b182e95d5c97b00"
+    },
+    {
+      "file": "package.json",
+      "sha256": "fa8a306eeb674087b086523e07e8e2759807fc8a2eaf61dcb554861a42a8d612"
+    },
+    {
+      "file": "plugins/agent-stack/.claude-plugin/plugin.json",
+      "sha256": "435df39e4b2279bbddc6bb7381b6b219ba850c95906588f67bff010c0ec003d5"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-interop/references/a2a.md",
+      "sha256": "e39c4c6d1f19b39e09720c40a09a50e8f2a59824aeb83c5336443f8b709a6c34"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-harness/references/audit.md",
+      "sha256": "b91b966250438edd91b87c392113404d830b06301518d9120246321c88d9a1aa"
+    },
+    {
+      "file": "CHANGELOG.md",
+      "sha256": "5689348345da6cfedb4af0364f6ab4166aad6a771159a905041a69b24d296956"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/references/context-engineering.md",
+      "sha256": "57811d800b75f25a5a242505e8e6be2b33775fb156893ebec51af5ea18fcfc1e"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-interop/references/gateway.md",
+      "sha256": "accfc522162b27e45353ece7de420ede93baf030ff770d75003716159d8268f8"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/references/governance.md",
+      "sha256": "bb2e3389779a56d4ace610bb14b5df05ace7fa6efc1e5810b0ae929f7050e435"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md",
+      "sha256": "c594d1b0a4813f0d47e60a26e2b7905a964c3017556a400fcbd534f390811e70"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/references/kv-cache.md",
+      "sha256": "b8ae7c5ba9531ebb02ded2e403a8fcb4ae2b944940076a4f15f966d05f6caeae"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-harness/references/layers.md",
+      "sha256": "e2f4fd73424b0896c493616dbb98e7bd973eaad3b8365b3c1b31964fbac46d89"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/references/llm-proxy-billing.md",
+      "sha256": "84c2144d6a5a917c042c5e31ecfacfe6238c60870da567abc00bd770e3bccccd"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-interop/references/mcp-scale.md",
+      "sha256": "c69b0bfd73e189776fcc6ecdd7d3e88964073ab19a66ffcf79aab579b341a892"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-interop/references/mcp-ship.md",
+      "sha256": "2918ca0beed94ca7f7e34bb30e2609495c421121d3a94a0e43e743fc76b644a2"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-interop/references/mcp.md",
+      "sha256": "09e685d219cde8ae3ccc2473a1a43d6133865241c197bbf97025649bfe59fa69"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/references/memory-architecture.md",
+      "sha256": "860466e4e54d0116063146401c3df54a25bbf07cdfba18b63d0fb0e06a285f1a"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/references/memory-landscape.md",
+      "sha256": "b297b121ebb07c50579f929f0e5361598625b024dbf49653b82e12b1dc0b4f4d"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/references/memory-lifecycle.md",
+      "sha256": "6c7252553bc6308e6f5ec88bb802a62e4bacd98f7946ec5b2e82fef8c1aa0073"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-evals/references/multi-agent.md",
+      "sha256": "e0c3175aa8858de1ba8117c613d2e201e32ff581453078c927a3ebddcff6c0bb"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-evals/references/otel-genai.md",
+      "sha256": "d2cadad0a6a0632d234a51621b136f3001f5a7422e256f84d261d7c0ff1660d5"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+      "sha256": "a239bc4549339b049b54b154f88536bed68256ffffdcdc4a0f41cf7185eeb360"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-harness/references/pi-sdk.md",
+      "sha256": "b7eb9375934887ed5f85e597e80c5f3d83c02c37cd585aff13960104a31ddcd5"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-harness/references/pi.md",
+      "sha256": "684616062c9d109ff13eed83a5b9a10544040f1ee22790ee70e8d8156b286c08"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/references/pipeline.md",
+      "sha256": "89f160068715136c6f7793b305f78371831ebef9527cdb481e15b5af9a1af40b"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/references/provider-lifecycle.md",
+      "sha256": "d9b4462baf1c805daf05612d7ee8556ac5e666f72de62609666f1ee469294de3"
+    },
+    {
+      "file": "README.md",
+      "sha256": "d3dc2f7e6e48630ea98cc225a622984d8c932f6d5178e13476dd8c5a4fb43321"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-interop/references/registry.md",
+      "sha256": "648e7649369b9aa5dac5f424c9a4373292e5d73c90d9466b58171934e5c7b51f"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/references/runtime.md",
+      "sha256": "7164776ed0c53dc7eaa3edf21e01620e0db1a2bdef4f573469039be9ac5ad435"
+    },
+    {
+      "file": "SECURITY.md",
+      "sha256": "87715bb85d820beb6179cf5294fc7ed461cb234657df810031c0eb527fb00b62"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-evals/SKILL.md",
+      "sha256": "e565a39ab596501113eabf1062f12fc13bce6b8dec2cc4cd087135cd966ef89d"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-harness/SKILL.md",
+      "sha256": "cc76c8d25404937dea4cab49f5877806ec900a10beed01fecf731df8b31e279e"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-interop/SKILL.md",
+      "sha256": "7f9456260f131195557a2be3b31396515af74e9895136ab8761ef5fd358ef245"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+      "sha256": "d12ac258efa0ad8a355c53b0ba74033cf69e64b5d3636c9b7349a173a5c447a5"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-evals/references/statistics.md",
+      "sha256": "77cd03cc4f258a097888f81b817e8c9487b4d777d9ac092f76fe48de8de692ca"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-harness/references/system-prompt.md",
+      "sha256": "0eb99152d900367614334a6d6f62963ff2f694469437ada180e8503b25dc15dc"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-harness/references/techniques.md",
+      "sha256": "4198c8d2d8a0d6da2f8ba7f2370310578167819abbb9bd351a722491ee8f31e8"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-harness/references/tools.md",
+      "sha256": "921be9b410394bb545f5a876949f9bb760bc9354c6bb676ef11491f95c2e9c3f"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-harness/references/workbench-contracts.md",
+      "sha256": "a17af9cc84dcc8661085ebb606b09ac08ebe39f6c1fc436ab547ac21747bca80"
+    },
+    {
+      "file": "plugins/agent-stack/skills/agent-harness/scripts/audit_agent.py",
+      "sha256": "f0193565dd3851d3ea779a05f018099b9f2bca3eccacc370b9a43048baba656a"
+    }
+  ],
+  "codex_native_files": [
+    {
+      "file": "skills/agent-evals/SKILL.md",
+      "sha256": "e565a39ab596501113eabf1062f12fc13bce6b8dec2cc4cd087135cd966ef89d"
+    },
+    {
+      "file": "skills/agent-evals/references/multi-agent.md",
+      "sha256": "e0c3175aa8858de1ba8117c613d2e201e32ff581453078c927a3ebddcff6c0bb"
+    },
+    {
+      "file": "skills/agent-evals/references/otel-genai.md",
+      "sha256": "d2cadad0a6a0632d234a51621b136f3001f5a7422e256f84d261d7c0ff1660d5"
+    },
+    {
+      "file": "skills/agent-evals/references/statistics.md",
+      "sha256": "77cd03cc4f258a097888f81b817e8c9487b4d777d9ac092f76fe48de8de692ca"
+    },
+    {
+      "file": "skills/agent-harness/SKILL.md",
+      "sha256": "cc76c8d25404937dea4cab49f5877806ec900a10beed01fecf731df8b31e279e"
+    },
+    {
+      "file": "skills/agent-harness/references/audit.md",
+      "sha256": "b91b966250438edd91b87c392113404d830b06301518d9120246321c88d9a1aa"
+    },
+    {
+      "file": "skills/agent-harness/references/layers.md",
+      "sha256": "e2f4fd73424b0896c493616dbb98e7bd973eaad3b8365b3c1b31964fbac46d89"
+    },
+    {
+      "file": "skills/agent-harness/references/pi-sdk.md",
+      "sha256": "b7eb9375934887ed5f85e597e80c5f3d83c02c37cd585aff13960104a31ddcd5"
+    },
+    {
+      "file": "skills/agent-harness/references/pi.md",
+      "sha256": "684616062c9d109ff13eed83a5b9a10544040f1ee22790ee70e8d8156b286c08"
+    },
+    {
+      "file": "skills/agent-harness/references/system-prompt.md",
+      "sha256": "0eb99152d900367614334a6d6f62963ff2f694469437ada180e8503b25dc15dc"
+    },
+    {
+      "file": "skills/agent-harness/references/techniques.md",
+      "sha256": "4198c8d2d8a0d6da2f8ba7f2370310578167819abbb9bd351a722491ee8f31e8"
+    },
+    {
+      "file": "skills/agent-harness/references/tools.md",
+      "sha256": "921be9b410394bb545f5a876949f9bb760bc9354c6bb676ef11491f95c2e9c3f"
+    },
+    {
+      "file": "skills/agent-harness/references/workbench-contracts.md",
+      "sha256": "a17af9cc84dcc8661085ebb606b09ac08ebe39f6c1fc436ab547ac21747bca80"
+    },
+    {
+      "file": "skills/agent-harness/scripts/audit_agent.py",
+      "sha256": "f0193565dd3851d3ea779a05f018099b9f2bca3eccacc370b9a43048baba656a"
+    },
+    {
+      "file": "skills/agent-interop/SKILL.md",
+      "sha256": "7f9456260f131195557a2be3b31396515af74e9895136ab8761ef5fd358ef245"
+    },
+    {
+      "file": "skills/agent-interop/references/a2a.md",
+      "sha256": "e39c4c6d1f19b39e09720c40a09a50e8f2a59824aeb83c5336443f8b709a6c34"
+    },
+    {
+      "file": "skills/agent-interop/references/gateway.md",
+      "sha256": "accfc522162b27e45353ece7de420ede93baf030ff770d75003716159d8268f8"
+    },
+    {
+      "file": "skills/agent-interop/references/mcp-scale.md",
+      "sha256": "c69b0bfd73e189776fcc6ecdd7d3e88964073ab19a66ffcf79aab579b341a892"
+    },
+    {
+      "file": "skills/agent-interop/references/mcp-ship.md",
+      "sha256": "2918ca0beed94ca7f7e34bb30e2609495c421121d3a94a0e43e743fc76b644a2"
+    },
+    {
+      "file": "skills/agent-interop/references/mcp.md",
+      "sha256": "09e685d219cde8ae3ccc2473a1a43d6133865241c197bbf97025649bfe59fa69"
+    },
+    {
+      "file": "skills/agent-interop/references/registry.md",
+      "sha256": "648e7649369b9aa5dac5f424c9a4373292e5d73c90d9466b58171934e5c7b51f"
+    },
+    {
+      "file": "skills/agent-orchestrator/SKILL.md",
+      "sha256": "d12ac258efa0ad8a355c53b0ba74033cf69e64b5d3636c9b7349a173a5c447a5"
+    },
+    {
+      "file": "skills/agent-orchestrator/references/context-engineering.md",
+      "sha256": "57811d800b75f25a5a242505e8e6be2b33775fb156893ebec51af5ea18fcfc1e"
+    },
+    {
+      "file": "skills/agent-orchestrator/references/governance.md",
+      "sha256": "bb2e3389779a56d4ace610bb14b5df05ace7fa6efc1e5810b0ae929f7050e435"
+    },
+    {
+      "file": "skills/agent-orchestrator/references/graph-engineering.md",
+      "sha256": "c594d1b0a4813f0d47e60a26e2b7905a964c3017556a400fcbd534f390811e70"
+    },
+    {
+      "file": "skills/agent-orchestrator/references/kv-cache.md",
+      "sha256": "b8ae7c5ba9531ebb02ded2e403a8fcb4ae2b944940076a4f15f966d05f6caeae"
+    },
+    {
+      "file": "skills/agent-orchestrator/references/llm-proxy-billing.md",
+      "sha256": "84c2144d6a5a917c042c5e31ecfacfe6238c60870da567abc00bd770e3bccccd"
+    },
+    {
+      "file": "skills/agent-orchestrator/references/memory-architecture.md",
+      "sha256": "860466e4e54d0116063146401c3df54a25bbf07cdfba18b63d0fb0e06a285f1a"
+    },
+    {
+      "file": "skills/agent-orchestrator/references/memory-landscape.md",
+      "sha256": "b297b121ebb07c50579f929f0e5361598625b024dbf49653b82e12b1dc0b4f4d"
+    },
+    {
+      "file": "skills/agent-orchestrator/references/memory-lifecycle.md",
+      "sha256": "6c7252553bc6308e6f5ec88bb802a62e4bacd98f7946ec5b2e82fef8c1aa0073"
+    },
+    {
+      "file": "skills/agent-orchestrator/references/patterns.md",
+      "sha256": "a239bc4549339b049b54b154f88536bed68256ffffdcdc4a0f41cf7185eeb360"
+    },
+    {
+      "file": "skills/agent-orchestrator/references/pipeline.md",
+      "sha256": "89f160068715136c6f7793b305f78371831ebef9527cdb481e15b5af9a1af40b"
+    },
+    {
+      "file": "skills/agent-orchestrator/references/provider-lifecycle.md",
+      "sha256": "d9b4462baf1c805daf05612d7ee8556ac5e666f72de62609666f1ee469294de3"
+    },
+    {
+      "file": "skills/agent-orchestrator/references/runtime.md",
+      "sha256": "7164776ed0c53dc7eaa3edf21e01620e0db1a2bdef4f573469039be9ac5ad435"
+    }
+  ],
+  "all_match": true,
+  "running_session_reload": false,
+  "seo_registry": {
+    "version": "0.26.3",
+    "gitHead": "ba2d319f2d01842e7087ff1ef76185b12067e45d",
+    "release_run": 37870451406,
+    "tarball_sha256": "34380eb98f94059e73e541f733446e580e07c12b4f4b0e319526c37d0ad22edc",
+    "files": 46,
+    "checks": [
+      {
+        "file": "LICENSE",
+        "expected_sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+        "registry_sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+        "match": true
+      },
+      {
+        "file": "bin/seo-aeo-audit.js",
+        "expected_sha256": "a011a0f1b3c61a0d4941fddacca48cd4794a97c84d31464020c55b69691a8945",
+        "registry_sha256": "a011a0f1b3c61a0d4941fddacca48cd4794a97c84d31464020c55b69691a8945",
+        "match": true
+      },
+      {
+        "file": "package.json",
+        "expected_sha256": "30314817957e8a577b57efbe6fed896351607d06d57d364b02d811a37a925602",
+        "registry_sha256": "30314817957e8a577b57efbe6fed896351607d06d57d364b02d811a37a925602",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/.claude-plugin/plugin.json",
+        "expected_sha256": "abcc0e77afad719ac8937fa57aed20f537dc48e97288920da159566c3930ea9d",
+        "registry_sha256": "abcc0e77afad719ac8937fa57aed20f537dc48e97288920da159566c3930ea9d",
+        "match": true
+      },
+      {
+        "file": "templates/action-plan.template.md",
+        "expected_sha256": "ba17ac29878512008244a363ac255e8f60b08f4c32fecb09740fb13e03b6a104",
+        "registry_sha256": "ba17ac29878512008244a363ac255e8f60b08f4c32fecb09740fb13e03b6a104",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/aeo-geo.md",
+        "expected_sha256": "60961ddef16b44e58967af746db07acda1ea64f834e4b16c8136e8757160d389",
+        "registry_sha256": "60961ddef16b44e58967af746db07acda1ea64f834e4b16c8136e8757160d389",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/agent-readiness.md",
+        "expected_sha256": "6234354410250751c74185c57f6ab4fbb1d678d789357d1ef11d183a12730a32",
+        "registry_sha256": "6234354410250751c74185c57f6ab4fbb1d678d789357d1ef11d183a12730a32",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/algorithm-updates.md",
+        "expected_sha256": "8e877a49d41121902ae44bdf0e06f51416bfb87cf443e937a03e8c3d3e17f1d4",
+        "registry_sha256": "8e877a49d41121902ae44bdf0e06f51416bfb87cf443e937a03e8c3d3e17f1d4",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/architecture-and-equity.md",
+        "expected_sha256": "d63a9db573ff4acba8e4ef4c07a3facf58393e42f1049082ed8658fd170fc082",
+        "registry_sha256": "d63a9db573ff4acba8e4ef4c07a3facf58393e42f1049082ed8658fd170fc082",
+        "match": true
+      },
+      {
+        "file": "templates/audit-report.template.md",
+        "expected_sha256": "5f08c0571539bb704d7d4f49cdcf84c1e85da4f60f3b1ed97ccb244c8aa001da",
+        "registry_sha256": "5f08c0571539bb704d7d4f49cdcf84c1e85da4f60f3b1ed97ccb244c8aa001da",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/benchmarks.md",
+        "expected_sha256": "cc265508e082b94fb554e7fa13ddd2e80bc69b30c6050b7f2db000fc5c538cf4",
+        "registry_sha256": "cc265508e082b94fb554e7fa13ddd2e80bc69b30c6050b7f2db000fc5c538cf4",
+        "match": true
+      },
+      {
+        "file": "CHANGELOG.md",
+        "expected_sha256": "bf56599f0a391aba9864c6dd4012de3dbf79a54a3de48371db35606fd814cade",
+        "registry_sha256": "bf56599f0a391aba9864c6dd4012de3dbf79a54a3de48371db35606fd814cade",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/deliverable-templates.md",
+        "expected_sha256": "2f4be100c39ddcd4b862f2b3b1f05c7cb6f331cf72e76bf6f8b752780d3d02df",
+        "registry_sha256": "2f4be100c39ddcd4b862f2b3b1f05c7cb6f331cf72e76bf6f8b752780d3d02df",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/demand-and-conversion.md",
+        "expected_sha256": "d8d401734cf6bca344ce23cccb177b1a35ebef9573f3a2b832ea708224e677e1",
+        "registry_sha256": "d8d401734cf6bca344ce23cccb177b1a35ebef9573f3a2b832ea708224e677e1",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/discover.md",
+        "expected_sha256": "ab690edceb734bae2cbb2ff8b6204766b0f94a986d8f92200a2a19e5bfd2abfe",
+        "registry_sha256": "ab690edceb734bae2cbb2ff8b6204766b0f94a986d8f92200a2a19e5bfd2abfe",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/entity-and-brand.md",
+        "expected_sha256": "b00a154c866ceab70b122d903294b5703149d638509acc35aaf4cf652299120e",
+        "registry_sha256": "b00a154c866ceab70b122d903294b5703149d638509acc35aaf4cf652299120e",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/evidence-tiers.md",
+        "expected_sha256": "e97af0272392bda69d8d0a8089a5967d1c71abd48844938fdbc71de3ccbecb60",
+        "registry_sha256": "e97af0272392bda69d8d0a8089a5967d1c71abd48844938fdbc71de3ccbecb60",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/experience-signals.md",
+        "expected_sha256": "712eb2c417820fda81806fb7f5229e4cee15a97ffcaddc132442eb35ab282b42",
+        "registry_sha256": "712eb2c417820fda81806fb7f5229e4cee15a97ffcaddc132442eb35ab282b42",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/experiments.md",
+        "expected_sha256": "fa2258a71b2bdf5073c320ca98b4123f293def4de070af5aa8e393d416dddeff",
+        "registry_sha256": "fa2258a71b2bdf5073c320ca98b4123f293def4de070af5aa8e393d416dddeff",
+        "match": true
+      },
+      {
+        "file": "templates/experiments.template.md",
+        "expected_sha256": "5ff577b232bfd2d722ababd29c4125009a631bef34a26fec9f436dbf9a88d976",
+        "registry_sha256": "5ff577b232bfd2d722ababd29c4125009a631bef34a26fec9f436dbf9a88d976",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/growth-plays.md",
+        "expected_sha256": "0fe4ed46eec616c0889a8c27104251b65cf1455f924925b3cc427556562ccf86",
+        "registry_sha256": "0fe4ed46eec616c0889a8c27104251b65cf1455f924925b3cc427556562ccf86",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/intent-and-content.md",
+        "expected_sha256": "bb9c72c0e142c282c19b6ce78d30f98bcc8fc979688663920e61daa1aadbd46d",
+        "registry_sha256": "bb9c72c0e142c282c19b6ce78d30f98bcc8fc979688663920e61daa1aadbd46d",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/linkbuilding.md",
+        "expected_sha256": "6caf8a1ccf5312bdb33201d227f4bdf033fdfed689d8543603e0dd1d9bc78b86",
+        "registry_sha256": "6caf8a1ccf5312bdb33201d227f4bdf033fdfed689d8543603e0dd1d9bc78b86",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/measurement.md",
+        "expected_sha256": "087f42534002f1c3e6150e3cbcce49bba8859ed29a4ba732d1d0575b7c17dd95",
+        "registry_sha256": "087f42534002f1c3e6150e3cbcce49bba8859ed29a4ba732d1d0575b7c17dd95",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/myths.md",
+        "expected_sha256": "8c29602bb1ce32303a5ea9c7718548480f364e511db7a5573857115915d58ad6",
+        "registry_sha256": "8c29602bb1ce32303a5ea9c7718548480f364e511db7a5573857115915d58ad6",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/onpage-checks.md",
+        "expected_sha256": "f3dc1ec6f9f2b5245c809a203b658d4ad730c390fc8ba988107f5540b91c8e52",
+        "registry_sha256": "f3dc1ec6f9f2b5245c809a203b658d4ad730c390fc8ba988107f5540b91c8e52",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/preflight.md",
+        "expected_sha256": "f4430fa918766af17dbcc53cc185c7d28370afc58e57841d000931aa71635376",
+        "registry_sha256": "f4430fa918766af17dbcc53cc185c7d28370afc58e57841d000931aa71635376",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/prowl-mcp.md",
+        "expected_sha256": "d4e7fc94fe9dea08cd8e48bde71c3dbe423af45ddba34bc1c3ceb70dd115a6ba",
+        "registry_sha256": "d4e7fc94fe9dea08cd8e48bde71c3dbe423af45ddba34bc1c3ceb70dd115a6ba",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/ranking-model.md",
+        "expected_sha256": "70bda614739de40299d2d3ae2511fa4628ea781d5c7c67cbe74b947d71729315",
+        "registry_sha256": "70bda614739de40299d2d3ae2511fa4628ea781d5c7c67cbe74b947d71729315",
+        "match": true
+      },
+      {
+        "file": "README.md",
+        "expected_sha256": "8f3da54907b1e9f1ca06947c2da7c68fab3d020b2e9e95820bd2a5fa2b433d16",
+        "registry_sha256": "8f3da54907b1e9f1ca06947c2da7c68fab3d020b2e9e95820bd2a5fa2b433d16",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/REFERENCE_INDEX.md",
+        "expected_sha256": "367493754ea2dc44eaf1491286c04b963b44785eae4520d95eebf40272751126",
+        "registry_sha256": "367493754ea2dc44eaf1491286c04b963b44785eae4520d95eebf40272751126",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/scripts.md",
+        "expected_sha256": "22e929b391aa5345b21a6b27c97242cd0de2f6712c2706ad15a3324607343d6c",
+        "registry_sha256": "22e929b391aa5345b21a6b27c97242cd0de2f6712c2706ad15a3324607343d6c",
+        "match": true
+      },
+      {
+        "file": "SECURITY.md",
+        "expected_sha256": "b93cd25a61e835aaee99fddc47fd92a96f506c7902ebd093c03e571db5789ec6",
+        "registry_sha256": "b93cd25a61e835aaee99fddc47fd92a96f506c7902ebd093c03e571db5789ec6",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/commands/seo-aeo-audit.md",
+        "expected_sha256": "504084df9a35ded95191da2839ab9c23d850f936055e0d22bcc3b0964ad2ba9b",
+        "registry_sha256": "504084df9a35ded95191da2839ab9c23d850f936055e0d22bcc3b0964ad2ba9b",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md",
+        "expected_sha256": "f47141259d522c415531f0efef9a2635443da9fb824b3f0c555ae536a4641fbb",
+        "registry_sha256": "f47141259d522c415531f0efef9a2635443da9fb824b3f0c555ae536a4641fbb",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/technical-checks.md",
+        "expected_sha256": "e61177f07305a5f336e2c0a7ba6d4e55fdaca3f5f9f535020308a243a8c17f1e",
+        "registry_sha256": "e61177f07305a5f336e2c0a7ba6d4e55fdaca3f5f9f535020308a243a8c17f1e",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/threats-and-defense.md",
+        "expected_sha256": "08e98fc23f1c38f415e184edc55d3c2f691245711448c8ef14223d4993f73959",
+        "registry_sha256": "08e98fc23f1c38f415e184edc55d3c2f691245711448c8ef14223d4993f73959",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/tooling.md",
+        "expected_sha256": "f41e9b09fd905f2cc0656c1f83cb39077e16426dd3fc2fd034e1a198624172f6",
+        "registry_sha256": "f41e9b09fd905f2cc0656c1f83cb39077e16426dd3fc2fd034e1a198624172f6",
+        "match": true
+      },
+      {
+        "file": "cursor/rules/seo-aeo-audit.mdc",
+        "expected_sha256": "1b35d9cbc532d233dd2163909cd57d6b85c7ac9316be08b5aa0e1a84dc60adb2",
+        "registry_sha256": "1b35d9cbc532d233dd2163909cd57d6b85c7ac9316be08b5aa0e1a84dc60adb2",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/agent_surface.py",
+        "expected_sha256": "f00bc2f81ae2ac32214fb795cd11fea4c2eb491d2a8d4bbea6bb6ade947fb9bb",
+        "registry_sha256": "f00bc2f81ae2ac32214fb795cd11fea4c2eb491d2a8d4bbea6bb6ade947fb9bb",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/gsc_pull.py",
+        "expected_sha256": "3c41cb2b1b6124332ca66a1d2c87c277db329cfb34af1fc56e1e6c79c31fe435",
+        "registry_sha256": "3c41cb2b1b6124332ca66a1d2c87c277db329cfb34af1fc56e1e6c79c31fe435",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/page_audit.py",
+        "expected_sha256": "20cd89e71e6ed4d9f2198f3711248fbcbdec641a21f22f155efb378f8ce4eb68",
+        "registry_sha256": "20cd89e71e6ed4d9f2198f3711248fbcbdec641a21f22f155efb378f8ce4eb68",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/preflight.py",
+        "expected_sha256": "41658fb437ad6252ebc5983f4c41557fbe0a2154bbbada6db8e62d9c2c0344b4",
+        "registry_sha256": "41658fb437ad6252ebc5983f4c41557fbe0a2154bbbada6db8e62d9c2c0344b4",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/psi_pull.py",
+        "expected_sha256": "e435692654b1b77e8dd8908b791b7aae664292b1881c0a9b08d26a5e692161dc",
+        "registry_sha256": "e435692654b1b77e8dd8908b791b7aae664292b1881c0a9b08d26a5e692161dc",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/sitemap_audit.py",
+        "expected_sha256": "947082dd6d651c9f83f263c1c15f4ae8a626f57ef07c28bafa8be3c68e194943",
+        "registry_sha256": "947082dd6d651c9f83f263c1c15f4ae8a626f57ef07c28bafa8be3c68e194943",
+        "match": true
+      },
+      {
+        "file": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/url_inspection.py",
+        "expected_sha256": "a615acb05f6a3b6b7495489a366241b20d5b7ea4d079346631f03f2c4377c089",
+        "registry_sha256": "a615acb05f6a3b6b7495489a366241b20d5b7ea4d079346631f03f2c4377c089",
+        "match": true
+      }
+    ]
+  }
+}

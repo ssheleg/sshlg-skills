@@ -1,0 +1,16 @@
+# Final two-member umbrella review — conditional acceptance
+
+Independent reviewer: selection_one, 2026-10-09. **No blocking content finding** in the final two-member candidate. Publication and installed-host acceptance remain separate, currently open gates.
+
+Reviewed the working candidate at hub HEAD `d058345` plus its final two-member delta against base `639da1f0618d07671c0c5ded82f1e4eb28f29d40`. This addendum supersedes the earlier review's one-member scope only for the checks listed here; it is not a complete reaudit of either member's pre-existing doctrine.
+
+- Exactly two of 11 member targets differ from the base: agent-stack `20cebb27f2824da6a95ae3f29241c76bb0ef61e6` → `07d8fc8a6a0ac56ef389e96b093def101367e4f1` (0.25.3), and seo-aeo-audit `3f2ffd846d525483f88d82b388fb3b840a1bf688` → `ba2d319f2d01842e7087ff1ef76185b12067e45d` (0.26.3). Both member checkouts are clean. The other nine targets are unchanged.
+- Parsed catalogue comparison finds only those two version-field changes. Their README rows and member package metadata agree; the hub package is 1.54.3. The parent delta has no launcher implementation or permission change.
+- Read the final run note, both member-review references, changed public prose and new payload receipt. No copied private corpus, private project links, personal filesystem paths or credentials were found in the reviewed public delta. Synthetic cases, local checks and live outcomes remain distinct. The initial one-member review retains its original scope.
+- Independently ran `python3 test/audit_regressions/ctx-04.06.py`: all six checks passed, including fresh set-digest matching and fault recovery. The regenerated snapshot keeps `published:false`, `prefilled_pass:false`, the stale failed-upgrade state and the separate-publication note. It is an in-memory lifecycle simulation, not an actual host installation or running-session reload.
+- Read the completed parent native test log: **90 suites, 1106 fixtures, 11 pinned members; PASS**. This reviewer did not rerun the full native suite. `git diff --check` passed independently.
+- Independently checked every source hash in `member-payload-readback.json`: all 41 registry-file entries and 34 native-file entries match the pinned agent-stack source. This verifies receipt-to-source consistency; actual installed files were not independently inspected in this review.
+
+Publication observation at review time: `npm view @ssheleg/agent-stack@0.25.3 version gitHead --json` returned the expected version and exact pin. The corresponding SEO 0.26.3 query returned E404, while [SEO release workflow 37870451406](https://github.com/ssheleg/seo-aeo-audit/actions/runs/37870451406) reported `in_progress` at `ba2d319f2d01842e7087ff1ef76185b12067e45d`. This is a pending publication gate, not a passing release receipt.
+
+Before parent integration/publication: obtain successful final SEO publication and exact npm gitHead, run the complete published-member pin check, retain the native command exit receipt, and update the final delivery note. Then follow the parent release and supported-host byte-readback gates. A passing candidate review or simulation cannot establish publication, installation, session reload or improved outcomes. No hub file was edited by this reviewer.
