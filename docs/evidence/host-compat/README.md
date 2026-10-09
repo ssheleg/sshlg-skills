@@ -44,9 +44,9 @@ model/effort; no new provider, auth reset or production task execution.
 1. DONE — Research primary host contracts and inspect pinned CLI adapters.
 2. DONE — All 38 skills at 11 pins audited; see portability/README.md.
    Repair owners: make-skill, task-pipeline, agent-sync, sheleg-dev and super-ux.
-3. IN_PROGRESS — Implement global target regression and owner-scoped portability fixes.
-4. IN_PROGRESS — Independent reviews ACCEPT; final owner gates and installed readback pending.
-5. PENDING — Normal source integration, release/install if changed, report/index.
+3. DONE — Implement global target regression and owner-scoped portability fixes.
+4. DONE — Independent source reviews ACCEPT; final combined local and hosted gates PASS.
+5. IN_PROGRESS — Normal source integration and releases; installation/readback and generated report index follow all registry receipts.
 
 No interface design is being changed; retain the existing CLI flow. Documentation
 and install evidence must distinguish portable skills from host-specific plugins,

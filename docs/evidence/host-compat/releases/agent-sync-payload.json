@@ -1,0 +1,17 @@
+{
+  "package": "@ssheleg/agent-sync",
+  "version": "1.21.5",
+  "source_commit": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+  "registry_gitHead": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+  "tarball": "https://registry.npmjs.org/@ssheleg/agent-sync/-/agent-sync-1.21.5.tgz",
+  "integrity": "sha512-csvbBL0Le7IIdhLIAuhBGS8Y28c5CLuecmj2V13i3oMbwgmnpe2lWPG4Ee4Esmf9wgzCETr/SL5m7cW+/zeBnQ==",
+  "shasum": "85b4094ba88bede6d42c641722d800e3c941b10a",
+  "tarball_sha256": "280ff3edbba3149808e49863de4a49a1441a6154391409721d6d2af6d7800b7b",
+  "archive_files": 28,
+  "expected_plugin_files": 21,
+  "all_archive_files_byte_identical_to_source": true,
+  "all_expected_plugin_files_present": true,
+  "skill_entries": [
+    "plugins/agent-sync/skills/agent-sync/SKILL.md"
+  ]
+}
