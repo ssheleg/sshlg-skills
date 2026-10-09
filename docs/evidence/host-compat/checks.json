@@ -78,7 +78,7 @@
       "host_targets": 14
     },
     "exit": 0,
-    "full_gate": "PENDING final owner pins"
+    "full_gate": "PASS; final_combined_gate at8af76fc"
   },
   "research_extension": {
     "families": 29,
@@ -134,5 +134,14 @@
     "pass_verdicts": 721,
     "required_payload_escapes": 0,
     "evidence": "post-fix/summary.json"
-  }
+  },
+  "final_hosted_gates": {
+    "source": "8af76fc67677ad1f3fd0105ea13d2482bf23962d",
+    "runs": [
+      38003767837,
+      38003763759
+    ],
+    "result": "SUCCESS"
+  },
+  "pin_gate_scope": "test/check_pins.py accepts the union of npm versions and Git tags; separate registry receipts prove npm publication."
 }
