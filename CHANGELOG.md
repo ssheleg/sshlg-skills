@@ -1,3 +1,11 @@
+## v1.54.4 — instruction budget measurement
+
+- Pin agent-stack 0.25.4: agent-harness now includes an on-demand instruction
+  cleanup procedure and a read-only checker for explicitly supplied files/imports.
+- Distinguish eager instruction imports, skill discovery and on-demand bodies;
+  preserve essential requirements and report unresolved inputs as PARTIAL.
+- Router text, launcher behavior and authority boundaries are unchanged.
+
 ## v1.54.3 — team evaluation and crawl evidence
 
 - Pin agent-stack0.25.3: a reachable team-level evaluation reference for global

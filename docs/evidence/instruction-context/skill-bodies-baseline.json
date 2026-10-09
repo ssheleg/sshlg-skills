@@ -1,0 +1,344 @@
+[
+  {
+    "member": "super-ux",
+    "name": "vision",
+    "sha": "29acd2badefea5e2c7f613c3029d184ecf97ff9b",
+    "path": "plugins/super-ux/skills/vision/SKILL.md",
+    "chars": 9129,
+    "body_lines": 178,
+    "body_tokens": 2001
+  },
+  {
+    "member": "super-ux",
+    "name": "ux-foundation",
+    "sha": "29acd2badefea5e2c7f613c3029d184ecf97ff9b",
+    "path": "plugins/super-ux/skills/ux-foundation/SKILL.md",
+    "chars": 11937,
+    "body_lines": 194,
+    "body_tokens": 2594
+  },
+  {
+    "member": "super-ux",
+    "name": "ux-flows",
+    "sha": "29acd2badefea5e2c7f613c3029d184ecf97ff9b",
+    "path": "plugins/super-ux/skills/ux-flows/SKILL.md",
+    "chars": 21138,
+    "body_lines": 326,
+    "body_tokens": 4712
+  },
+  {
+    "member": "super-ux",
+    "name": "ux-scenarios",
+    "sha": "29acd2badefea5e2c7f613c3029d184ecf97ff9b",
+    "path": "plugins/super-ux/skills/ux-scenarios/SKILL.md",
+    "chars": 10496,
+    "body_lines": 190,
+    "body_tokens": 2213
+  },
+  {
+    "member": "super-ux",
+    "name": "ux-audit",
+    "sha": "29acd2badefea5e2c7f613c3029d184ecf97ff9b",
+    "path": "plugins/super-ux/skills/ux-audit/SKILL.md",
+    "chars": 19022,
+    "body_lines": 304,
+    "body_tokens": 4352
+  },
+  {
+    "member": "super-ux",
+    "name": "brand-voice",
+    "sha": "29acd2badefea5e2c7f613c3029d184ecf97ff9b",
+    "path": "plugins/super-ux/skills/brand-voice/SKILL.md",
+    "chars": 6864,
+    "body_lines": 130,
+    "body_tokens": 1495
+  },
+  {
+    "member": "super-ux",
+    "name": "copywriting",
+    "sha": "29acd2badefea5e2c7f613c3029d184ecf97ff9b",
+    "path": "plugins/super-ux/skills/copywriting/SKILL.md",
+    "chars": 12726,
+    "body_lines": 201,
+    "body_tokens": 2787
+  },
+  {
+    "member": "task-pipeline",
+    "name": "task-pipeline",
+    "sha": "33a7066388912d66501989e3a9760fedc1dc0bf5",
+    "path": "plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+    "chars": 20811,
+    "body_lines": 274,
+    "body_tokens": 4748
+  },
+  {
+    "member": "task-pipeline",
+    "name": "evidence-docs",
+    "sha": "33a7066388912d66501989e3a9760fedc1dc0bf5",
+    "path": "plugins/task-pipeline/skills/evidence-docs/SKILL.md",
+    "chars": 9114,
+    "body_lines": 105,
+    "body_tokens": 1912
+  },
+  {
+    "member": "task-pipeline",
+    "name": "project-audit",
+    "sha": "33a7066388912d66501989e3a9760fedc1dc0bf5",
+    "path": "plugins/task-pipeline/skills/project-audit/SKILL.md",
+    "chars": 18973,
+    "body_lines": 313,
+    "body_tokens": 4195
+  },
+  {
+    "member": "agent-sync",
+    "name": "agent-sync",
+    "sha": "169436a28d4ba788ca471c83c8e7ddc024999466",
+    "path": "plugins/agent-sync/skills/agent-sync/SKILL.md",
+    "chars": 20768,
+    "body_lines": 343,
+    "body_tokens": 4747
+  },
+  {
+    "member": "make-skill",
+    "name": "make-skill",
+    "sha": "9b5af484c868d246dfc28fed83f7986e238b25f5",
+    "path": "plugins/make-skill/skills/make-skill/SKILL.md",
+    "chars": 19861,
+    "body_lines": 305,
+    "body_tokens": 4624
+  },
+  {
+    "member": "sheleg-design",
+    "name": "sheleg-design",
+    "sha": "bf043e89f209c219c8a88dd30b066cbba9371781",
+    "path": "plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+    "chars": 20802,
+    "body_lines": 348,
+    "body_tokens": 4747
+  },
+  {
+    "member": "seo-aeo-audit",
+    "name": "seo-aeo-audit",
+    "sha": "ba2d319f2d01842e7087ff1ef76185b12067e45d",
+    "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md",
+    "chars": 21018,
+    "body_lines": 325,
+    "body_tokens": 4685
+  },
+  {
+    "member": "sheleg-dev",
+    "name": "stripe-billing",
+    "sha": "3c16c9cde6e91fdd1057658dcce2ddef2b0ff803",
+    "path": "plugins/sheleg-dev/skills/stripe-billing/SKILL.md",
+    "chars": 20482,
+    "body_lines": 397,
+    "body_tokens": 4521
+  },
+  {
+    "member": "sheleg-dev",
+    "name": "crypto-payments",
+    "sha": "3c16c9cde6e91fdd1057658dcce2ddef2b0ff803",
+    "path": "plugins/sheleg-dev/skills/crypto-payments/SKILL.md",
+    "chars": 20413,
+    "body_lines": 402,
+    "body_tokens": 4618
+  },
+  {
+    "member": "sheleg-dev",
+    "name": "error-tracking",
+    "sha": "3c16c9cde6e91fdd1057658dcce2ddef2b0ff803",
+    "path": "plugins/sheleg-dev/skills/error-tracking/SKILL.md",
+    "chars": 13522,
+    "body_lines": 270,
+    "body_tokens": 3042
+  },
+  {
+    "member": "sheleg-dev",
+    "name": "ad-tracking",
+    "sha": "3c16c9cde6e91fdd1057658dcce2ddef2b0ff803",
+    "path": "plugins/sheleg-dev/skills/ad-tracking/SKILL.md",
+    "chars": 20041,
+    "body_lines": 413,
+    "body_tokens": 4638
+  },
+  {
+    "member": "sheleg-dev",
+    "name": "google-signin",
+    "sha": "3c16c9cde6e91fdd1057658dcce2ddef2b0ff803",
+    "path": "plugins/sheleg-dev/skills/google-signin/SKILL.md",
+    "chars": 9487,
+    "body_lines": 149,
+    "body_tokens": 2099
+  },
+  {
+    "member": "sheleg-dev",
+    "name": "google-auth",
+    "sha": "3c16c9cde6e91fdd1057658dcce2ddef2b0ff803",
+    "path": "plugins/sheleg-dev/skills/google-auth/SKILL.md",
+    "chars": 10951,
+    "body_lines": 276,
+    "body_tokens": 2379
+  },
+  {
+    "member": "sheleg-dev",
+    "name": "frontend-performance",
+    "sha": "3c16c9cde6e91fdd1057658dcce2ddef2b0ff803",
+    "path": "plugins/sheleg-dev/skills/frontend-performance/SKILL.md",
+    "chars": 13263,
+    "body_lines": 191,
+    "body_tokens": 3135
+  },
+  {
+    "member": "agent-stack",
+    "name": "agent-orchestrator",
+    "sha": "07d8fc8a6a0ac56ef389e96b093def101367e4f1",
+    "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+    "chars": 19617,
+    "body_lines": 337,
+    "body_tokens": 4309
+  },
+  {
+    "member": "agent-stack",
+    "name": "agent-evals",
+    "sha": "07d8fc8a6a0ac56ef389e96b093def101367e4f1",
+    "path": "plugins/agent-stack/skills/agent-evals/SKILL.md",
+    "chars": 20599,
+    "body_lines": 349,
+    "body_tokens": 4413
+  },
+  {
+    "member": "agent-stack",
+    "name": "agent-interop",
+    "sha": "07d8fc8a6a0ac56ef389e96b093def101367e4f1",
+    "path": "plugins/agent-stack/skills/agent-interop/SKILL.md",
+    "chars": 14929,
+    "body_lines": 180,
+    "body_tokens": 3357
+  },
+  {
+    "member": "agent-stack",
+    "name": "agent-harness",
+    "sha": "07d8fc8a6a0ac56ef389e96b093def101367e4f1",
+    "path": "plugins/agent-stack/skills/agent-harness/SKILL.md",
+    "chars": 14134,
+    "body_lines": 200,
+    "body_tokens": 2954
+  },
+  {
+    "member": "telegram-dev",
+    "name": "telegram-bots",
+    "sha": "4627d27336d01ce7c9276396913195406ef428c6",
+    "path": "plugins/telegram-dev/skills/telegram-bots/SKILL.md",
+    "chars": 11519,
+    "body_lines": 197,
+    "body_tokens": 2549
+  },
+  {
+    "member": "telegram-dev",
+    "name": "telegram-userbots",
+    "sha": "4627d27336d01ce7c9276396913195406ef428c6",
+    "path": "plugins/telegram-dev/skills/telegram-userbots/SKILL.md",
+    "chars": 8592,
+    "body_lines": 160,
+    "body_tokens": 1878
+  },
+  {
+    "member": "telegram-dev",
+    "name": "telegram-miniapps",
+    "sha": "4627d27336d01ce7c9276396913195406ef428c6",
+    "path": "plugins/telegram-dev/skills/telegram-miniapps/SKILL.md",
+    "chars": 10068,
+    "body_lines": 180,
+    "body_tokens": 2266
+  },
+  {
+    "member": "xr-dev",
+    "name": "quest-lifecycle",
+    "sha": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+    "path": "plugins/xr-dev/skills/quest-lifecycle/SKILL.md",
+    "chars": 6309,
+    "body_lines": 81,
+    "body_tokens": 1057
+  },
+  {
+    "member": "xr-dev",
+    "name": "quest-native",
+    "sha": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+    "path": "plugins/xr-dev/skills/quest-native/SKILL.md",
+    "chars": 9772,
+    "body_lines": 172,
+    "body_tokens": 2172
+  },
+  {
+    "member": "xr-dev",
+    "name": "quest-spatial",
+    "sha": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+    "path": "plugins/xr-dev/skills/quest-spatial/SKILL.md",
+    "chars": 8936,
+    "body_lines": 151,
+    "body_tokens": 1996
+  },
+  {
+    "member": "xr-dev",
+    "name": "quest-perf",
+    "sha": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+    "path": "plugins/xr-dev/skills/quest-perf/SKILL.md",
+    "chars": 7132,
+    "body_lines": 109,
+    "body_tokens": 1423
+  },
+  {
+    "member": "xr-dev",
+    "name": "quest-tooling",
+    "sha": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+    "path": "plugins/xr-dev/skills/quest-tooling/SKILL.md",
+    "chars": 8650,
+    "body_lines": 139,
+    "body_tokens": 1923
+  },
+  {
+    "member": "xr-dev",
+    "name": "quest-store",
+    "sha": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+    "path": "plugins/xr-dev/skills/quest-store/SKILL.md",
+    "chars": 8392,
+    "body_lines": 128,
+    "body_tokens": 1648
+  },
+  {
+    "member": "xr-dev",
+    "name": "quest-webxr",
+    "sha": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+    "path": "plugins/xr-dev/skills/quest-webxr/SKILL.md",
+    "chars": 6577,
+    "body_lines": 123,
+    "body_tokens": 1299
+  },
+  {
+    "member": "web3d-dev",
+    "name": "web3d-runtime",
+    "sha": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+    "path": "plugins/web3d-dev/skills/web3d-runtime/SKILL.md",
+    "chars": 7747,
+    "body_lines": 107,
+    "body_tokens": 1687
+  },
+  {
+    "member": "web3d-dev",
+    "name": "web3d-assets",
+    "sha": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+    "path": "plugins/web3d-dev/skills/web3d-assets/SKILL.md",
+    "chars": 8726,
+    "body_lines": 116,
+    "body_tokens": 1862
+  },
+  {
+    "member": "web3d-dev",
+    "name": "web3d-animation",
+    "sha": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+    "path": "plugins/web3d-dev/skills/web3d-animation/SKILL.md",
+    "chars": 10334,
+    "body_lines": 136,
+    "body_tokens": 2298
+  }
+]
