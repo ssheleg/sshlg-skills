@@ -18,7 +18,8 @@ historical exact-next instructions.
 
 ## Most recent completed delivery receipts
 
-- [Context research1.54.5](evidence/context-research/DELIVERY.md): agent-stack0.25.5,
+- [Context research 1.54.5](evidence/context-research/README.md),
+  [delivery receipt](evidence/context-research/DELIVERY.md): agent-stack 0.25.5,
   source/package/installed-byte receipts. The new follow-up owns later host tests.
 - [Instruction context1.54.4](evidence/instruction-context/README.md): earlier
   compaction and installation slice; its NOT_VERIFIED labels describe that date.
