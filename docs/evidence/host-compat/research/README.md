@@ -83,3 +83,10 @@ structural, not a native-host or semantic compatibility test.
 and 71 source URLs, of which 70 were readable. The original 17-host matrix and
 47-source ledger retain their original scope; use both linked slices. Continue
 loader reproduction distinguishes single-target success from mixed-target failure.
+
+## Final breadth slice
+
+[Droid and Pi](README-extra.md) add two host families and 13 readable primary
+sources. The complete result is 29 families and 84 unique source URLs, 83 readable
+and one BODY_UNAVAILABLE. Use the [generated source index](SOURCES.md) for all
+three slices; the earlier slice counts above remain historical scope statements.
