@@ -1,0 +1,22 @@
+{
+  "as_of": "2026-10-09",
+  "command": "npx --yes sshlg-skills@1.54.6 update --all",
+  "exit_code": 0,
+  "steps": 71,
+  "completed": 71,
+  "log_sha256": "c1fa52134ce4c1529a8bd548b0b6a41c211f6ad960acda53cb9221bddd3b5b32",
+  "native_codex_update": "UNSUPPORTED_UPDATE: separately verified through native lifecycle",
+  "evidence": [
+    "runtime-readback.json",
+    "family-payload-readback.json",
+    "router-preservation.json"
+  ],
+  "unsupported_foreign_host_targets": {
+    "hosts": [
+      "Eve",
+      "PromptScript"
+    ],
+    "rows": 76,
+    "meaning": "Child skills-CLI refused global installation on these targets; wrapper green is not all-host acceptance."
+  }
+}

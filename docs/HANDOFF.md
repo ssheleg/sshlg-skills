@@ -9,11 +9,12 @@ Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 ## Current context delivery
 
 [Comprehensive skills and context follow-up](evidence/comprehensive-context/README.md)
-owns the current bounded work. It builds on the delivered1.54.5 context repair,
+owns the current bounded work. It builds on the delivered 1.54.5 context repair,
 adds whole-install census and scoped fresh/resume acceptance, and repairs measured
 router/parser/host-duplicate defects. Read its plan and independent review before
 continuing. Source, package, installation and behavioral evidence are separate.
-**Next action:** complete the delivery gates recorded by that entry; do not restart
+**Delivery:** version 1.54.6 is published and installed; [exact receipts](evidence/comprehensive-context/DELIVERY.md).
+**Next action:** the bounded visibility-profile follow-up named there; do not restart
 historical exact-next instructions.
 
 ## Most recent completed delivery receipts
@@ -21,9 +22,9 @@ historical exact-next instructions.
 - [Context research 1.54.5](evidence/context-research/README.md),
   [delivery receipt](evidence/context-research/DELIVERY.md): agent-stack 0.25.5,
   source/package/installed-byte receipts. The new follow-up owns later host tests.
-- [Instruction context1.54.4](evidence/instruction-context/README.md): earlier
+- [Instruction context 1.54.4](evidence/instruction-context/README.md): earlier
   compaction and installation slice; its NOT_VERIFIED labels describe that date.
-- [Team evaluation and crawl evidence](runs/2026-10-09-knowledge-wave2.md):1.54.3.
+- [Team evaluation and crawl evidence](runs/2026-10-09-knowledge-wave2.md): 1.54.3.
 - [Channel evidence and SEO correction](runs/2026-10-09-channel-digest.md): preceding delivery.
 
 ## Historical work and unresolved follow-ups

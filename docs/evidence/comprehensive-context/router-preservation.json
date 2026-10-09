@@ -1,0 +1,60 @@
+{
+  "as_of": "2026-10-09",
+  "rows": [
+    {
+      "name": "claude",
+      "chars_before": 33864,
+      "chars_after": 28406,
+      "block_chars_before": 21217,
+      "block_chars_after": 15759,
+      "outside_unchanged": true,
+      "block_matches_release": true
+    },
+    {
+      "name": "codex",
+      "chars_before": 27913,
+      "chars_after": 22455,
+      "block_chars_before": 21217,
+      "block_chars_after": 15759,
+      "outside_unchanged": true,
+      "block_matches_release": true
+    },
+    {
+      "name": "gemini",
+      "chars_before": 23475,
+      "chars_after": 18017,
+      "block_chars_before": 21217,
+      "block_chars_after": 15759,
+      "outside_unchanged": true,
+      "block_matches_release": true
+    },
+    {
+      "name": "cursor",
+      "chars_before": 21383,
+      "chars_after": 15925,
+      "block_chars_before": 21217,
+      "block_chars_after": 15759,
+      "outside_unchanged": true,
+      "block_matches_release": true
+    },
+    {
+      "name": "home",
+      "chars_before": 6973,
+      "chars_after": 6973,
+      "block_chars_before": 0,
+      "block_chars_after": 0,
+      "outside_unchanged": true,
+      "block_matches_release": null
+    },
+    {
+      "name": "repo",
+      "chars_before": 4290,
+      "chars_after": 4290,
+      "block_chars_before": 0,
+      "block_chars_after": 0,
+      "outside_unchanged": true,
+      "block_matches_release": null
+    }
+  ],
+  "hub_instruction_chain_chars": 39669
+}

@@ -48,5 +48,6 @@ the work look broad. Global optimization means every discovered skill is account
 for and actual defects are corrected or assigned an explicit owner/prerequisite,
 not every file is shortened regardless of its purpose.
 
-Next: receive census and recovery findings; select source-owned repairs and
-record the concrete acceptance packets before edits.
+Historical next action at intake: receive census and recovery findings and select
+source-owned repairs. That selection and implementation are complete; current
+delivery state and the next bounded task are in [DELIVERY.md](DELIVERY.md).

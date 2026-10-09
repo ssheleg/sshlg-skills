@@ -10,10 +10,12 @@ skills, tested scoped fresh/resume behavior, and selected three repairs: compact
 managed routers, correct the make-skill plain YAML parser, and remove verified
 redundant native-host catalogue entries without deleting shared skills.
 
-Source implementation is reviewed; release, registry, installed bytes and final
-report/wiki delivery are being recorded separately. Existing sessions and native
-compaction are not accepted merely because files changed. Do not claim every skill
-received semantic or model-quality evaluation: the broad pass is mechanical.
+[Delivery receipts](DELIVERY.md) record the merged release, canonical package and
+installed payloads; [independent delivery review](delivery-review.md) checks those
+claims separately from implementation review. The official updater completed all
+71 steps. The private report owns later native-host behavior and the wiki index.
+Do not infer GUI refresh or semantic evaluation of every skill from byte equality.
 
-Next: integrate the reviewed member release, publish the hub, verify package and
-installed payloads, then close the private report and generated wiki index.
+Next: the private owner's proposed visibility-profile packet, preserving rare-skill
+discovery and the original corpus. Source/package/install delivery for this bounded
+repair is complete; it does not close the independent product owner queues.

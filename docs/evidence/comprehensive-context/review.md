@@ -18,8 +18,8 @@ The other substantive change is the intended raw initData/server validation and
 initDataUnsafe distrust rule, supported by official Telegram field definitions.
 Payment event deduplication, idempotency/session risks and all exclusions remain.
 
-Independently ran node test/router_compaction_test.js on finalsource:8checksPASS.
-Read existing focused-suite receipt:296checks across8suites; these are the
+Independently ran node test/router_compaction_test.js on final source: 8 checks PASS.
+Read existing focused-suite receipt: 296 checks across 8 suites; these are the
 implementer's runs, not additional independent counts. Real CLI filesystem
 idempotence/outside-byte/authored preservation is covered by its install suite.
 Text matching proves structural coverage, not universal agent compliance.
@@ -31,8 +31,8 @@ unchanged. Six-file independent before/after hashes confirm outside-router bytes
 home instructions and project CLAUDE.md preserved. Local-only snapshots remain in
 the private task folder; final distribution readback must use the released package.
 
-No generic 30% target was met or claimed: finalrender21218→15760Unicode characters,
-5458saved(25.72%). Excluding the trailing newline both counts are one lower;
+No generic 30% target was met or claimed: final render 21218 → 15760 Unicode characters,
+5458 saved (25.72%). Excluding the trailing newline both counts are one lower;
 savings are identical. This is a text measure, not a billed-token saving.
 
 ## Integration follow-up
@@ -40,11 +40,11 @@ savings are identical. This is a text measure, not a billed-token saving.
 The full hub gate initially failed two navigation/text-contract checks. The prior
 context-research README link was restored rather than weakening archive navigation.
 At bf2541bba1fe2889ef1bcabf3919e31bffa89a69 the map again uses its original
-"does not outrank this map" precedence phrase; meaning and15760-character count
-are unchanged. Independent inventory12checks and handoff6cases then passed.
+"does not outrank this map" precedence phrase; meaning and 15760-character count
+are unchanged. Independent inventory 12 checks and handoff 6 cases then passed.
 The exact release integration gate is recorded separately.
 
 Independent router_compact reviewer accepted root-authored entry/HANDOFF docs
-at9bea7ad with21resolved links and independently reread all6outside-block hashes.
-That reviewer also accepted make-skill0.29.1 version-only surfaces, excluding its
-own router implementation. Root reviewed parser separately atdfa8d067.
+at 9bea7ad with 21 resolved links and independently reread all 6 outside-block hashes.
+That reviewer also accepted make-skill 0.29.1 version-only surfaces, excluding its
+own router implementation. Root reviewed parser separately at dfa8d067.
