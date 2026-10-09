@@ -1,3 +1,15 @@
+## v1.54.6 — less router context, accurate YAML auditing
+
+The managed routing block is 25.72% shorter while retaining all14 routes,
+refusal phrases, scope boundaries and delivery obligations. Mini App guidance
+now distinguishes server-validated raw initData from untrusted initDataUnsafe.
+Existing authored wording, outside-block text and backups retain their behavior.
+
+Pins make-skill0.29.1: legal indented plain YAML descriptions are no longer
+misreported as missing; unsupported forms report the parser's measurement limit.
+Other member pins are unchanged. Installed files and fresh-host behavior are
+verified separately from publication.
+
 ## v1.54.5 — current context and research admission
 
 - Pin agent-stack 0.25.5: on-demand context admission, current-versus-historical

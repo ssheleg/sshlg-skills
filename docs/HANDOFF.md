@@ -8,27 +8,23 @@ Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 
 ## Current context delivery
 
-[Context repair and member integration](evidence/context-research/README.md) owns
-this bounded delivery. [Delivery status](evidence/context-research/delivery.json)
-separates source, package, installation and fresh-host evidence; read its dated
-receipt before acting. [The plan](evidence/context-research/PLAN.md) and
-[independent review](evidence/context-research/review.md) retain scope and checks.
-**Next action:** resolve the first incomplete gate in that receipt. When all
-implementation/release gates are complete, choose a task from the current backlog
-and revalidate its owner state; do not restart historical exact-next instructions.
+[Comprehensive skills and context follow-up](evidence/comprehensive-context/README.md)
+owns the current bounded work. It builds on the delivered1.54.5 context repair,
+adds whole-install census and scoped fresh/resume acceptance, and repairs measured
+router/parser/host-duplicate defects. Read its plan and independent review before
+continuing. Source, package, installation and behavioral evidence are separate.
+**Next action:** complete the delivery gates recorded by that entry; do not restart
+historical exact-next instructions.
 
 ## Most recent completed delivery receipts
 
-- [Instruction context delivery](evidence/instruction-context/README.md): hub 1.54.4
-  and agent-stack 0.25.4 publication and installed-byte receipts. This is the latest
-  completed delivery in this snapshot, not an assertion about a later release.
-  Fresh interactive host loading remains NOT_VERIFIED; existing sessions retain
-  earlier context. Unsupported global host targets are disclosed in the receipt.
-- [Team evaluation and crawl evidence](runs/2026-10-09-knowledge-wave2.md): 1.54.3
-  delivery, source/package/installed-channel comparisons and separate review receipts.
-  Installation does not establish model, indexing or business improvements.
-- [Channel evidence and SEO correction](runs/2026-10-09-channel-digest.md): the
-  preceding bounded delivery and its explicit acceptance limits.
+- [Context research 1.54.5](evidence/context-research/README.md),
+  [delivery receipt](evidence/context-research/DELIVERY.md): agent-stack 0.25.5,
+  source/package/installed-byte receipts. The new follow-up owns later host tests.
+- [Instruction context1.54.4](evidence/instruction-context/README.md): earlier
+  compaction and installation slice; its NOT_VERIFIED labels describe that date.
+- [Team evaluation and crawl evidence](runs/2026-10-09-knowledge-wave2.md):1.54.3.
+- [Channel evidence and SEO correction](runs/2026-10-09-channel-digest.md): preceding delivery.
 
 ## Historical work and unresolved follow-ups
 
