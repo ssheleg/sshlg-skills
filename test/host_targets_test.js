@@ -71,6 +71,21 @@ function cli(args) {
   } finally { fs.rmSync(tmp,{recursive:true,force:true}); }
 }
 const targets = args => args.flatMap((arg,i) => arg === '--agent' ? [args[i+1]] : []);
+it('agents lists every pinned installer ID and global capability without children or HOME writes', () => {
+  const r = cli(['agents']);
+  assert.strictEqual(r.status,0,r.stdout+r.stderr);
+  const rows = [...r.stdout.matchAll(/^  ([a-z0-9-]+)\s+(global|project-only)$/gm)]
+    .map(m => ({id:m[1],global:m[2]==='global'}));
+  assert.deepStrictEqual(rows,H.snapshot.agents);
+  assert.strictEqual(rows.filter(row=>!row.global).length,2);
+  assert.ok(r.stdout.includes(spec),'exact upstream pin missing');
+  assert.match(r.stdout,/Default set:/);
+  assert.match(r.stdout,/Claude Code uses the plugin channel/);
+  assert.match(r.stdout,/installer destinations, not native runtime acceptance/);
+  assert.ok(!r.stdout.includes('__x__'),'listing delegates discovery to an invalid external install');
+  assert.deepStrictEqual(r.calls,[]); assert.deepStrictEqual(r.homeFiles,[]);
+});
+
 for (const verb of ['install','update']) {
   it(`${verb}: invalid requests reject before any subprocess or HOME write, including mixed flags`, () => {
     for (const extra of [[],['--all'],['--claude-only'],['--dry-run'],['--agent','codex']]) {

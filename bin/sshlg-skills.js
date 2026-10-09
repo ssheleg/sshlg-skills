@@ -734,10 +734,17 @@ function cmdList(argv) {
 }
 
 function cmdAgents() {
-  log('Agents are handled by the vercel `skills` CLI (70+). The named ones:\n');
-  log('  claude-code (via plugin), cursor, opencode, kilo, kimi-code-cli,');
-  log('  hermes-agent, openclaw, codex, gemini-cli, windsurf, zed, and more.\n');
-  log("Full list / exact ids:  npx skills add <any-repo> --agent __x__  (prints valid agents)");
+  const targets = require('../lib/host-targets.js');
+  const snapshot = targets.validateSnapshot(targets.snapshot, cliSpec());
+  const rows = snapshot.agents;
+  const globals = rows.filter(row => row.global).length;
+  const width = Math.max(...rows.map(row => row.id.length)) + 2;
+  log(`Pinned installer targets (${snapshot.skillsCli}): ${rows.length} IDs, ${globals} global, ${rows.length - globals} project-only.\n`);
+  for (const row of rows) log(`  ${row.id.padEnd(width)}${row.global ? 'global' : 'project-only'}`);
+  log('\nThese are installer destinations, not native runtime acceptance.');
+  log('Project-only targets cannot be selected by this global-install wrapper.');
+  log('Claude Code uses the plugin channel by default; --all excludes its plain skill target.');
+  log('--all --no-claude includes the plain claude-code target and skips the plugin step.');
   log(`Default set: ${manifest.defaultAgents.join(', ')}  (Claude via plugin)`);
 }
 
