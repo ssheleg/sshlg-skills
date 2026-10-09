@@ -58,8 +58,8 @@ conflated parsed untrusted data with signed input. Primary source checked on
 Implemented locally; independent review, integration, publication and installed
 readback belong to the parent run and are not claimed here.
 
-Rendered whole-family block: **21,218 → 15,768 Unicode characters**, saving
-**5,450 (25.69%)**. The lower bound of the frozen target is met; the aspirational
+Rendered whole-family block: **21,218 → 15,760 Unicode characters**, saving
+**5,458 (25.72%)**. The lower bound of the frozen target is met; the aspirational
 30% is not. Keep the remaining text rather than remove route scope for that goal.
 All 14 parsed sections and all member/map and router/table rows remain present.
 The new test computes the current figure and enforces the 25% ceiling.
@@ -68,16 +68,23 @@ The first new-test probe exposed a fixture error: `upsert` correctly refuses to
 create an absent block. The fixture was corrected to seed `apply.EMPTY_BLOCK`.
 The corrected baseline then failed exactly the intended two assertions:
 `21218 chars exceed 25% reduction budget` and
-`raw initData must be validated server-side`. Post-change it passes, with three
+`raw initData must be validated server-side`. Post-change it passes, with four
 negative controls: unsafe-only authentication, missing unsafe-data prohibition,
-and a structurally removed route. Each control asserts the changed parsed input
+a structurally removed route,
+and a code-only scenario-update obligation. Each control asserts the changed parsed input
 before asserting rejection.
+
+Review correction: the first compact draft accidentally narrowed scenario
+updates to user-facing *code*. The reviewer caught this; the follow-up restores
+"the SAME user-facing change", including product decisions without code. Its
+new positive check was observed failing before correction; a structural
+code-only negative control also rejects the narrowed wording.
 
 Final focused checks, each exit 0:
 
 | Command | Result |
 |---|---|
-| `node test/router_compaction_test.js` | OK (6 checks) |
+| `node test/router_compaction_test.js` | OK (8 checks) |
 | `node test/router_texts_test.js` | OK (90 checks) |
 | `node test/protocol_test.js` | OK (13 checks) |
 | `node test/routers_test.js` | OK (38 checks) |
@@ -117,5 +124,5 @@ primary documentation supplied the authentication correction.
 Source fingerprints for the focused check cut (SHA-256):
 
 - `lib/routers.js`: `9627d4e13359bdb5cac63f0cdd91631c79d6a6068afb0e88182bb275705cd619`
-- `lib/routers-registry.js`: `40cc54fe21b68fd02eaaca4381d254949a8e7f4b9d43fb8d43a5462a9364b47c`
-- `test/router_compaction_test.js`: `758f7f7e6ce59321e4c1bfc216902f6e18eb789a5c8b0bbcbd164b89ddee848c`
+- `lib/routers-registry.js`: `7b867ac354c1bd8bf33a27b991def30b31e1408d4dd2b226e1994bd6c3c8c032`
+- `test/router_compaction_test.js`: `4ac8de1f608513f37736e24007f7a9b8f6beb166a4226b49d1d81800a128f13b`

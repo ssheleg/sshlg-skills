@@ -40,6 +40,20 @@ it('all declared routes and both generated tables survive compaction', () => {
   assert.deepStrictEqual(rows('TABLE'), names);
 });
 it('Telegram separates signed input from untrusted parsed data', () => checkTelegram(block));
+function checkScenarioScope(text) {
+  const section = R.parse(text).sections.find(s => s.name === 'super-ux');
+  assert.ok(section, 'UX section absent');
+  assert.match(flat(section.body), /Update scenarios in the SAME user-facing change/,
+    'scenario updates must include non-code product changes');
+}
+it('scenario updates include non-code user-facing changes', () => checkScenarioScope(block));
+it('scenario checker rejects a code-only obligation', () => {
+  const section = R.parse(block).sections.find(s => s.name === 'super-ux');
+  const plantedBody = '**Update scenarios in the SAME change as user-facing code.**';
+  const planted = block.replace(section.raw, R.sectionRaw(section.name, plantedBody));
+  assert.strictEqual(R.parse(planted).sections.find(s => s.name === section.name).body.trim(), plantedBody);
+  assert.throws(() => checkScenarioScope(planted), /non-code product changes/);
+});
 it('auth checker rejects unsafe-only prose planted in a parsed section', () => {
   const parsed = R.parse(block);
   const section = parsed.sections.find(s => s.name === 'telegram-dev');
