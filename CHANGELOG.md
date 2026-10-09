@@ -1,9 +1,13 @@
-## v1.54.3 — evaluate the composed agent team
+## v1.54.3 — team evaluation and crawl evidence
 
-Pin agent-stack0.25.3: a reachable team-level evaluation reference for global constraints,
-source independence, objections, authority provenance, late branches and human verification
-cost. Proposed synthetic cases and bounded research findings remain explicitly separate
-from measured model improvements. The launcher changes only its published member pin.
+- Pin agent-stack0.25.3: a reachable team-level evaluation reference for global
+  constraints, independent sources, objections, authority provenance, late branches
+  and human verification cost. Synthetic cases remain separate from measured outcomes.
+- Pin seo-aeo-audit0.26.3: correct robots-prefix matching, locale headers and empty-read
+  diagnoses; retain evidence limits across indexing, rendering, canonical and retrieval
+  guidance. Status labels and patent descriptions no longer supply universal causes.
+- Both published member pins, catalogue versions and README rows move together.
+  No launcher runtime or permission behavior changes.
 
 ## v1.54.2 — source-scoped search evidence
 

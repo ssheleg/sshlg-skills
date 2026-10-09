@@ -1,4 +1,4 @@
-Latest bounded knowledge update: [team evaluation release](runs/2026-10-09-knowledge-wave2.md).
+Latest bounded knowledge update: [team evaluation and crawl evidence release](runs/2026-10-09-knowledge-wave2.md).
 
 Latest bounded research delivery: [channel evidence and SEO correction](runs/2026-10-09-channel-digest.md).
 
