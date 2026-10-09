@@ -108,13 +108,23 @@ for (const verb of ['install','update']) {
     assert.deepStrictEqual(r.calls,[]); assert.deepStrictEqual(r.homeFiles,[]);
   });
   it(`${verb}: actual CLI add calls propagate the same explicit supported targets`, () => {
-    for (const extra of [[],['--no-claude']]) {
-      const r = cli([verb,'--all','--member','make-skill',...extra]);
-      assert.strictEqual(r.status,0,r.stdout+r.stderr);
-      const adds = r.calls.filter(c => c.cmd === 'npx' && c.args[2] === 'add');
-      assert.ok(adds.length > 0,'no add calls reached child-process boundary');
-      const expected = P.resolveAgents(defaults,{all:true,claude:extra.length?false:true});
-      for (const call of adds) { assert.strictEqual(call.args[1],spec); assert.deepStrictEqual(targets(call.args),expected); }
+    for (const selection of [['--all'],['--agent','continue'],['--agent','zed,continue,codex']]) {
+      for (const extra of [[],['--no-claude']]) {
+        const r = cli([verb,...selection,'--member','make-skill',...extra]);
+        assert.strictEqual(r.status,0,r.stdout+r.stderr);
+        const adds = r.calls.filter(c => c.cmd === 'npx' && c.args[2] === 'add');
+        assert.ok(adds.length > 0,'no add calls reached child-process boundary');
+        const expected = P.resolveAgents(defaults,{all:selection[0]==='--all',agents:selection[0]==='--agent'?selection[1].split(','):undefined,claude:extra.length?false:true});
+        for (const repo of new Set(adds.map(call=>call.args[3]))) {
+          assert.deepStrictEqual(adds.filter(call=>call.args[3]===repo).flatMap(call=>targets(call.args)),expected);
+        }
+        for (const call of adds) {
+          assert.strictEqual(call.args[1],spec);
+          const ids=targets(call.args); assert.ok(ids.length);
+          assert.strictEqual(call.args.includes('--copy'),ids.includes('continue'));
+          if(ids.includes('continue')) assert.deepStrictEqual(ids,['continue']);
+        }
+      }
     }
   });
 }
