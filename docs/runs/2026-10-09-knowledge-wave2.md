@@ -19,7 +19,7 @@ npm gate, strict Claude manifests and house audit0GAP/19PASS passed. Live GSC an
 indexing/model outcome trials are NOT_RUN. Release workflow37870451406 completed successfully; npm serves0.26.3 with the exact
 merged gitHead. All published package files match the pinned source in the payload receipt.
 
-## Umbrella candidate
+## Umbrella verification
 
 Version1.54.3 changes exactly those two published-member targets and associated
 catalogue/README/changelog/handoff receipts. No launcher runtime behavior changes.
@@ -32,13 +32,37 @@ retains its original scope instead of being silently promoted.
 The [release-set receipt](../evidence/acceptance/ctx-04.06.json) is regenerated for
 the final pins. It is a simulation, not an installed-host or running-session result.
 
-## Delivery
+## Delivered and read back
 
-Both members are published and verified. The complete published-pin check passes
-for all11 members after SEO publication; its earlier pre-publication attempt correctly
-reported the then-missing version and did not authorize a push. Parent CI/release, supported updater and
-complete installed-byte readback are pending. Do not infer improved autonomous outcomes or
-reload of an already-running session from installation.
+PR172 merged at `3d888f3933024c7fe5635d9438e0dc08ac5709e2`; annotated tag1.54.3
+peels to that exact commit. [Release/registry receipt](../evidence/knowledge-wave2/release-readback.json):
+workflow37871403596 attempt2SUCCESS,58 published files match source. Attempt1 passed
+full validation but rejected the mistakenly lightweight tag before publication.
+The repository tag helper added annotation without changing the target commit;
+only failed release jobs were rerun. The redundant automatic run was cancelled.
+No branch history or payload changed. Pages workflow37871368177SUCCESS and
+[live HTTP checks](../evidence/knowledge-wave2/site-readback.json) show all three versions.
+
+Supported `npx --yes sshlg-skills@1.54.3 update --all` finished with exit0 and71 runner
+steps. **That wrapper result is not all-host success:** the upstream CLI reported76
+unsupported skill/host pairs for Eve and PromptScript, for which that CLI does not support global
+installation. No project-specific installation for those clients is claimed.
+[Installed receipt](../evidence/knowledge-wave2/installed-readback.json) preserves this limit.
+
+Actual acceptance: all38 family skill payloads in skills-CLI and Claude plugin channels
+match their pinned source,1068file comparisons with0mismatches; all54 managed hook-runtime
+files match1.54.3; all34 native Codex agent-stack files match0.25.3, installed/enabled.
+[Full family receipt](../evidence/knowledge-wave2/family-payload-readback.json) and
+[runtime receipt](../evidence/knowledge-wave2/runtime-readback.json). All four operator
+instruction files preserve their text outside managed router blocks.
+Reproduce the local skill comparison with
+`python3 docs/evidence/knowledge-wave2/verify-installed.py` after initializing the
+pinned submodules; the captured operator hashes are specific to this dated update.
+The script changes only its receipt file, not installed skills or operator settings.
+
+Delivery is complete for these verified channels. No running conversation was reloaded;
+no model, indexing or business uplift is inferred from installation. Next task: use
+the updated references in a fresh task/context, retain their source and experiment limits.
 
 Used: task-pipeline for delivery and independent review, agent-sync for repository
 claims, make-skill for conformance and agent-evals for team-evaluation guidance.

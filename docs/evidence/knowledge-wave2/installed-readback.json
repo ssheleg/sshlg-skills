@@ -1,0 +1,37 @@
+{
+  "as_of": "2026-10-09",
+  "command": "npx --yes sshlg-skills@1.54.3 update --all",
+  "runner_exit_code": 0,
+  "runner_steps": 71,
+  "runner_report": "71 of71 steps, all green",
+  "all_host_installations_succeeded": false,
+  "upstream_scope_limit": {
+    "hosts": [
+      "Eve",
+      "PromptScript"
+    ],
+    "unsupported_skill_host_pairs": 76,
+    "message": "The upstream skills CLI does not support global installation for these two targets. Runner exit0 does not certify every host target. No project-specific install was requested or claimed."
+  },
+  "verified": {
+    "family_skills": 38,
+    "channels": [
+      "skills_cli",
+      "claude_plugin"
+    ],
+    "file_comparisons": 1068,
+    "mismatches": 0,
+    "operator_files_preserved": 4
+  },
+  "codex_native": {
+    "pluginId": "agent-stack@agent-stack",
+    "version": "0.25.3",
+    "enabled": true,
+    "files": 34,
+    "mismatches": [],
+    "seo": "Not registered as native plugin; skills-CLI payload verified"
+  },
+  "runtime": "runtime-readback.json",
+  "running_sessions_reloaded": false,
+  "updater_log_sha256": "e66d3f34a70ab04d0a5f27ddd60725a29c5f7f1884a756ca7b16f38aaaf7490c"
+}

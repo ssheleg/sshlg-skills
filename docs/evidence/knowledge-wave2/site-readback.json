@@ -1,0 +1,28 @@
+{
+  "url": "https://skills.sshlg.me/?release=1.54.3",
+  "read_at": "2026-10-09T01:59:43.230545+00:00",
+  "http_status": 200,
+  "headers": {
+    "Last-Modified": "Fri, 09 Oct 2026 01:51:17 GMT",
+    "ETag": "\"6ac84895-9148\"",
+    "Cache-Control": "max-age=600",
+    "Age": "0",
+    "Date": "Fri, 09 Oct 2026 01:59:43 GMT"
+  },
+  "body_sha256": "4aa3ef189f8751e33dd8dac696b68f8bfca51562469266ef11a9295ea7f529af",
+  "version_checks": {
+    "v1.54.3": true,
+    "0.26.3": true,
+    "0.25.3": true
+  },
+  "scope": "Live HTTP version markers; browser/web-search cached text was older and is not used as current deployment evidence.",
+  "canonical_url_readback": {
+    "url": "https://skills.sshlg.me/",
+    "body_sha256": "4aa3ef189f8751e33dd8dac696b68f8bfca51562469266ef11a9295ea7f529af",
+    "version_checks": {
+      "v1.54.3": true,
+      "0.26.3": true,
+      "0.25.3": true
+    }
+  }
+}
