@@ -1,0 +1,197 @@
+{
+  "as_of": "2026-10-10",
+  "sources": [
+    {
+      "id": "additional-installer",
+      "url": "https://raw.githubusercontent.com/vercel-labs/skills/v1.5.25/src/agents.ts",
+      "sections": "Exact adapter IDs and globalSkillsDir; installer source only",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "aider-conventions",
+      "url": "https://aider.chat/docs/usage/conventions.html",
+      "sections": "Explicit read-only convention files",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "aider-config",
+      "url": "https://aider.chat/docs/config/aider_conf.html",
+      "sections": "Config roots and precedence",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "continue-cli-source",
+      "url": "https://raw.githubusercontent.com/continuedev/continue/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/util/loadMarkdownSkills.ts",
+      "sections": "Directory scan, schema, slash names",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "continue-core-source",
+      "url": "https://raw.githubusercontent.com/continuedev/continue/5522c6f44ca0ac3528b37244818fbfa39b5af470/core/config/markdown/loadMarkdownSkills.ts",
+      "sections": "IDE skill loader; separate from CLI",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "continue-env-source",
+      "url": "https://raw.githubusercontent.com/continuedev/continue/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/env.ts",
+      "sections": "CONTINUE_GLOBAL_DIR default",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "continue-rules",
+      "url": "https://docs.continue.dev/customize/deep-dives/rules",
+      "sections": "Rules roots, ordering, invocation scope",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "qwen-skills",
+      "url": "https://qwenlm.github.io/qwen-code-docs/en/users/features/skills/",
+      "sections": "Personal/project/extension roots; fields; invocation",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "qwen-settings",
+      "url": "https://qwenlm.github.io/qwen-code-docs/en/users/configuration/settings/",
+      "sections": "QWEN_HOME; hierarchical QWEN.md",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "antigravity-skills",
+      "url": "https://www.antigravity.google/docs/skills?tab=ide",
+      "sections": "2.0, IDE and CLI skill locations",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "antigravity-rules",
+      "url": "https://www.antigravity.google/docs/rules/",
+      "sections": "Global and scoped rule locations; trigger metadata",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "warp-skills",
+      "url": "https://docs.warp.dev/agents/capabilities/skills",
+      "sections": "Global/project roots; cloud WARP_SKILL_DIRS",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "warp-rules",
+      "url": "https://docs.warp.dev/knowledge-and-collaboration/warp-drive/ai-objects",
+      "sections": "Project and personal/team rules vs file-based skills",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "augment-skills",
+      "url": "https://docs.augmentcode.com/cli/skills",
+      "sections": "Auggie native roots; exact priority; metadata",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "augment-rules",
+      "url": "https://docs.augmentcode.com/cli/rules",
+      "sections": "Custom rules, native/global rule directories, hierarchical guidance",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "junie-skills",
+      "url": "https://junie.jetbrains.com/docs/agent-skills.html",
+      "sections": "Shared and native roots; trust; flags; metadata",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "junie-guidelines",
+      "url": "https://junie.jetbrains.com/docs/guidelines-and-memory.html",
+      "sections": "AGENTS precedence and legacy fallback",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "trae-international-skills",
+      "url": "https://docs.trae.ai/ide/skills",
+      "sections": "Official page resolves but browser returned no extractable body",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "BODY_UNAVAILABLE"
+    },
+    {
+      "id": "trae-cn-skills",
+      "url": "https://docs.trae.cn/ide_skills",
+      "sections": "CN native skill roots and format",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "trae-cn-rules",
+      "url": "https://docs.trae.cn/ide_rules",
+      "sections": "CN user rules and project rules",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "openhands-skills",
+      "url": "https://docs.openhands.dev/overview/skills",
+      "sections": "Current Agent Canvas/SDK/Cloud roots and precedence; legacy loaders",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "mistral-skills",
+      "url": "https://docs.mistral.ai/vibe/code/cli/skills",
+      "sections": "Native roots, priority, filters, allowed-tools",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "mistral-agents",
+      "url": "https://docs.mistral.ai/vibe/code/cli/agents",
+      "sections": "AGENTS discovery, profiles and subagents",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "additional-installer-implementation",
+      "url": "https://raw.githubusercontent.com/vercel-labs/skills/v1.5.25/src/installer.ts",
+      "sections": "Default symlink mode; universal agent exemption; copy fallback",
+      "read_at": "2026-10-10",
+      "kind": "primary",
+      "status": "read"
+    }
+  ]
+}
