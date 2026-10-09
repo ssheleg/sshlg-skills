@@ -35,8 +35,8 @@ def main():
     if sys.version_info < (3, 12):
         parser.error('Python 3.12+ is required for safe archive extraction')
     args.output.mkdir(parents=True, exist_ok=False)
-    manifest = json.loads(run(['git', 'show', 'HEAD:skills.json'], args.hub))
     hub_sha = run(['git', 'rev-parse', 'HEAD'], args.hub).decode().strip()
+    manifest = json.loads(run(['git', 'show', hub_sha + ':skills.json'], args.hub))
     rows, hits, closures = [], [], []
     patterns = {
         'plugin-variable': r'CLAUDE_(?:PLUGIN_ROOT|SKILL_DIR|PROJECT_DIR)',
@@ -49,7 +49,7 @@ def main():
         snapshots = Path(tmp)
         pins = {}
         for member in manifest['skills']:
-            sha = run(['git', 'ls-tree', 'HEAD', member['dir']], args.hub).decode().split()[2]
+            sha = run(['git', 'ls-tree', hub_sha, member['dir']], args.hub).decode().split()[2]
             pins[member['name']] = sha
             source = args.repositories / member['dir']
             available = source.exists() and subprocess.run(['git', 'cat-file', '-e', sha + '^{tree}'], cwd=source, capture_output=True).returncode == 0
