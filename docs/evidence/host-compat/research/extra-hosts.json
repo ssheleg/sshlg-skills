@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-10-10",
+  "scope": "Final bounded extension: Factory Droid and Pi coding agent",
+  "evidence_level": "PRIMARY_DOCUMENTATION_AND_PINNED_PI_SOURCE; runtime NOT_RUN",
+  "upstream_snapshot": "skills@1.5.25",
+  "hosts": [
+    {
+      "id": "droid",
+      "name": "Factory Droid",
+      "upstream_skills_cli_ids": [
+        "droid"
+      ],
+      "upstream_installer_global_roots": {
+        "droid": "~/.factory/skills (registered adapter field; universal installation uses shared ~/.agents/skills)"
+      },
+      "native_skill_support": "DOCUMENTED",
+      "skill_roots": {
+        "global": [
+          "~/.factory/skills",
+          "~/.agents/skills",
+          "~/.agent/skills"
+        ],
+        "project": [
+          ".factory/skills",
+          ".agents/skills",
+          ".agent/skills",
+          "nested project-area .factory/skills"
+        ],
+        "other": [
+          "mission skills",
+          "automation-folder skills",
+          "installed plugin skills",
+          "builtins"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "Ordinary sessions: folder/project > project plugin > personal > user plugin > builtin. Mission/automation and managed/CLI scopes can supersede this; same-bucket duplicate names are invalid.",
+      "instructions": {
+        "global": [
+          "~/.factory/",
+          "~/.agents/",
+          "~/.agent/"
+        ],
+        "project": [
+          "cwd through git root, each directory plus .factory/ .agents/ .agent/"
+        ],
+        "filenames": [
+          "AGENTS.md",
+          "agents.md",
+          "Agents.md",
+          "CLAUDE.md",
+          "Claude.md"
+        ],
+        "precedence": "Nested refines root; project overrides personal. These are alternative supported names, not a request to duplicate files."
+      },
+      "format": "SKILL.md name/description required. enabled, user-invocable, disable-model-invocation control availability. allowed-tools is metadata, not a sandbox; custom command name collision wins slash invocation.",
+      "extensions": "Custom subagents: .factory/droids/*.md or ~/.factory/droids/*.md, Task tool with native tool policy. Hooks: .factory/hooks.json and ~/.factory/hooks.json, settings.json fallback. Plugins separately register skills/commands/droids/hooks/MCP; compatible Claude layouts are translated during cache copy.",
+      "limitations": [
+        "Recursive discovery stops at each SKILL.md directory.",
+        "Symlinked .factory/skills discovery documented fixed in CLI0.56.0 (2026-01-27); broken symlinks skipped from CLI0.187.0 (2026-08-04). Shared-root symlink-specific implementation not inspected.",
+        "Adapter ID is droid, not factory; skillsDir=.agents/skills marks the pinned adapter universal. No extra ~/.factory copy is required merely because the registered globalSkillsDir names it.",
+        "Copying only skills does not register hooks, subagents or native plugins."
+      ],
+      "sources": [
+        "extra-droid-skills",
+        "extra-droid-instructions",
+        "extra-droid-subagents",
+        "extra-droid-hooks",
+        "extra-droid-plugins",
+        "extra-droid-releases",
+        "additional-installer",
+        "additional-installer-implementation"
+      ],
+      "runtime_acceptance": "NOT_RUN"
+    },
+    {
+      "id": "pi",
+      "name": "Pi coding agent",
+      "upstream_skills_cli_ids": [
+        "pi"
+      ],
+      "upstream_installer_global_roots": {
+        "pi": "~/.pi/agent/skills"
+      },
+      "native_skill_support": "SOURCE_VERIFIED",
+      "skill_roots": {
+        "global": [
+          "$PI_CODING_AGENT_DIR/skills (default ~/.pi/agent/skills)",
+          "~/.agents/skills"
+        ],
+        "project": [
+          "<cwd>/.pi/skills (trusted)",
+          "<cwd>/.agents/skills through ancestors to git root, or filesystem root without Git (trusted)"
+        ],
+        "other": [
+          "configured package resources",
+          "settings skill paths",
+          "explicit --skill paths"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "First discovered same-name skill wins with collision diagnostic; canonical same-file duplicates skipped. Automatic roots order: trusted cwd .pi, trusted .agents nearest-to-root, user Pi, user .agents. CLI/package/settings resources can precede defaults; this root order is not a universal priority over explicit resources.",
+      "instructions": {
+        "global": [
+          "$PI_CODING_AGENT_DIR (default ~/.pi/agent), first matching context filename"
+        ],
+        "project": [
+          "cwd and all parent directories; no git-root stop for context files"
+        ],
+        "filenames": [
+          "AGENTS.override.md",
+          "AGENTS.md",
+          "AGENTS.MD",
+          "CLAUDE.md",
+          "CLAUDE.MD"
+        ],
+        "precedence": "First filename per directory; assembled global then filesystem-root-to-cwd context, with linked-worktree shadow suppression. Context does not require project trust. Trusted .pi/SYSTEM.md and .pi/APPEND_SYSTEM.md each replace corresponding global file selection; SYSTEM replaces default prompt."
+      },
+      "format": "Missing name falls back to directory; nonempty description required. Malformed or descriptionless declared skill skipped; most name/length errors warn. /skill:name explicitly invokes; disable-model-invocation hides automatic selection. allowed-tools appears as experimental standard metadata in docs; inspected Skill loader does not enforce tool restrictions.",
+      "extensions": "Native TypeScript extensions register tools, commands and lifecycle handlers; .pi/extensions and agent-dir/extensions are separate resources. No built-in subagent capability is promised: README delegates this to extensions/packages. A plain skill install does not activate extension code.",
+      "limitations": [
+        "Pinned current source 42a3497d03ad17e308a2299fa824727894f2c0ec under earendil-works/pi; former badlogic/pi-mono redirects. Current package @earendil-works/pi-coding-agent, distinguish older @mariozechner releases.",
+        "Both package discovery and skill loading stat symlink targets, follow directory/file symlinks and skip broken links. Ignore files and project trust still filter candidates. Source inspection, not full native execution.",
+        "Actual resource-loader passes includeDefaults:false into loadSkills; avoid inferring CLI priority from the standalone helper default user-before-project branch.",
+        "Pinned installer pi adapter is non-universal and does not honor PI_CODING_AGENT_DIR; overridden native homes need destination verification."
+      ],
+      "sources": [
+        "extra-pi-skills",
+        "extra-pi-config",
+        "extra-pi-extensions",
+        "extra-pi-readme",
+        "extra-pi-skill-source",
+        "extra-pi-resource-source",
+        "extra-pi-package-source",
+        "additional-installer"
+      ],
+      "runtime_acceptance": "NOT_RUN"
+    }
+  ]
+}
