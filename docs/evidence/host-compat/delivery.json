@@ -43,9 +43,11 @@
   ],
   "hub": {
     "version": "1.54.7",
-    "status": "CANDIDATE",
+    "status": "LAUNCHER_MERGED_PIN_CANDIDATE",
     "release_order": "CONTRIBUTING.md requires member publication before parent pin integration and release; wait for all five registry receipts before hub integration.",
-    "integration_plan": "Two sequential source PRs per CONTRIBUTING.md: launcher/contracts first without member pin changes, then five published member pins and final receipts. One final hub release."
+    "integration_plan": "Two sequential source PRs per CONTRIBUTING.md: launcher/contracts first without member pin changes, then five published member pins and final receipts. One final hub release.",
+    "launcher_pr": 181,
+    "launcher_source": "d8e87c1b92fd7e9121671e0be32151a20f858f4b"
   },
   "installation": "PENDING",
   "model_runtime": "NOT_RUN",

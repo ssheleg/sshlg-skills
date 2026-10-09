@@ -143,5 +143,23 @@
     ],
     "result": "SUCCESS"
   },
-  "pin_gate_scope": "test/check_pins.py accepts the union of npm versions and Git tags; separate registry receipts prove npm publication."
+  "pin_gate_scope": "test/check_pins.py accepts the union of npm versions and Git tags; separate registry receipts prove npm publication.",
+  "launcher_policy_split": {
+    "source": "8e7d29aa22c8f59e757291743ceb7eb7ace14107",
+    "merged_source": "d8e87c1b92fd7e9121671e0be32151a20f858f4b",
+    "complete_tree_equal": true,
+    "pr": 181,
+    "local_npm_test": {
+      "exit": 0,
+      "suites": 93,
+      "fixtures": 1136,
+      "log_sha256": "b453523e4cea6bf9657726de49e72b6f95584eb42c2f447c8baad2065accda09"
+    },
+    "hosted_runs": [
+      38005033721,
+      38005053604
+    ],
+    "hosted_result": "SUCCESS",
+    "independent_review": "ACCEPT /root/host_contracts"
+  }
 }
