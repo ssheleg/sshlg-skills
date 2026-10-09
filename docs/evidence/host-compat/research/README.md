@@ -1,8 +1,8 @@
 # HC-1: current host contracts
 
 As of 2026-10-09. Research-only slice of the [execution packet](../README.md).
-Fifteen named hosts, not a claim to cover every popular agent. Claude Code and
-Codex are researched in the parent lane. No client, permission, model, auth or
+Seventeen named hosts, not a claim to cover every popular agent. The parent
+added Claude Code and Codex contracts to the delegated fifteen-host research. No client, permission, model, auth or
 profile configuration changed; no paid/interactive model session was opened.
 
 The machine-readable [matrix](host-matrix.json) maps every assertion to the
@@ -68,11 +68,11 @@ guidance, not copying the entire router block into every possible directory.
 
 ## Handoff and checks
 
-Completed: dated sources, 15 host contracts, explicit conflict/unknown markers.
+Completed: dated sources, 17 host contracts, explicit conflict/unknown markers.
 Next: parent reviews findings against pinned installer adapters and installed
 client versions; implement only reproduced mismatches, then perform native
 read-only discovery where available. Keep runtime `NOT_RUN` otherwise.
 
-Validation: JSON parses; exactly 15 unique hosts; every matrix source ID resolves;
-all 41 source IDs unique and dated; all source URLs use HTTPS. These checks are
+Validation: JSON parses; exactly 17 unique hosts; every matrix source ID resolves;
+all 47 source IDs unique and dated; all source URLs use HTTPS. These checks are
 structural, not a native-host or semantic compatibility test.

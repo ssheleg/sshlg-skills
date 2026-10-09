@@ -39,10 +39,11 @@ model/effort; no new provider, auth reset or production task execution.
 
 ## Plan and resume
 
-1. IN_PROGRESS — Research primary host contracts and inspect pinned CLI adapters.
-2. PENDING — Audit all pinned family payloads and propose exact remediation scope.
-3. PENDING — Implement failing regression cases and fixes in isolated owners.
-4. PENDING — Independent review, full relevant gates and local host readback.
+1. DONE — Research primary host contracts and inspect pinned CLI adapters.
+2. DONE — All 38 skills at 11 pins audited; see portability/README.md.
+   Repair owners: make-skill, task-pipeline, agent-sync, sheleg-dev and super-ux.
+3. IN_PROGRESS — Implement global target regression and owner-scoped portability fixes.
+4. IN_PROGRESS — Independent reviews ACCEPT; final owner gates and installed readback pending.
 5. PENDING — Normal source integration, release/install if changed, report/index.
 
 No interface design is being changed; retain the existing CLI flow. Documentation

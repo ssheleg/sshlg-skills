@@ -1,0 +1,352 @@
+{
+  "as_of": "2026-10-09T22:05:15.608281+00:00",
+  "package": "@ssheleg/sheleg-dev",
+  "version": "0.13.2",
+  "gitHead": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+  "registry": "https://registry.npmjs.org/%40ssheleg%2Fsheleg-dev/0.13.2",
+  "tarball": "https://registry.npmjs.org/@ssheleg/sheleg-dev/-/sheleg-dev-0.13.2.tgz",
+  "integrity": "sha512-+87E74SUGdqglc8G+wleDIlg//1zPBdj67xXM2zNxv1rSZgTRC//O/8NrOLBZ5sflFAYrpDxhmVqlwk7pYZUnw==",
+  "tarball_sha256": "4af434b687095c649c25a9b7e3bda0274d4514d1db0dc3c435b3b7dfd10efd5f",
+  "all_published_files_equal_release_source": true,
+  "published_files": 67,
+  "canonical_manifest_sha256": "a597abb1fa6f14c44c1aa2dee8bf29acf1877b6085492dafcb4e2fbf833fd12b",
+  "release_run": "37996862249",
+  "runtime_acceptance": "NOT_RUN",
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "990cfaa3620af83ddacbb06eae4ccf163f9f1f74818bcc36a982360efaf1e30c",
+      "bytes": 82652
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+      "bytes": 1064
+    },
+    {
+      "path": "README.md",
+      "sha256": "574fa7aa4cbbef824382d44256d76563427b250abceed8cf9dd1dd6d78c3e13c",
+      "bytes": 13955
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "8ba7ddb3cdbe010c02e6d564ed9ef28a41255bce688678235ed4774fed9e37ae",
+      "bytes": 13677
+    },
+    {
+      "path": "bin/sheleg-dev.js",
+      "sha256": "d5d632b90a1c261614e3f46d68640d223882fd423670b71ed676a5451bf5e020",
+      "bytes": 8390
+    },
+    {
+      "path": "package.json",
+      "sha256": "67b2601594addbf0c000dd93c47823a3744e3b13bd5c2cae5f559a6d891cdfbd",
+      "bytes": 1695
+    },
+    {
+      "path": "plugins/sheleg-dev/.claude-plugin/plugin.json",
+      "sha256": "1ffaf2d730a54ffee16c682c72b22dfe250916c43c1c74a915369530ab5145c9",
+      "bytes": 1221
+    },
+    {
+      "path": "plugins/sheleg-dev/hooks/hooks.json",
+      "sha256": "f328ffead67aa08012865ec0250c2f7c2e649b2df7b94c4de6a58daf2ae18452",
+      "bytes": 1184
+    },
+    {
+      "path": "plugins/sheleg-dev/hooks/lib/moneygate.js",
+      "sha256": "d896fdf997c3d2b86dd8d7956c7bf21eb8acb9ff1f14597484d5832e59976689",
+      "bytes": 25485
+    },
+    {
+      "path": "plugins/sheleg-dev/hooks/money-gate.js",
+      "sha256": "eb8c9f4f17a693c6569b74bc8e1bbf862b712c08b4e831e13bc1d4aab0d28380",
+      "bytes": 3012
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/SKILL.md",
+      "sha256": "b318f5fb61df5861a4f0dae7bca4a02c4014e602bdc17e58f25670913f1f2149",
+      "bytes": 20873
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/fixtures/README.md",
+      "sha256": "ff3bfac268df84e5968628984bf3d8246a96f72300cc83ec356a3259814dfd2b",
+      "bytes": 4514
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/fixtures/assert-dedup-contract.mjs",
+      "sha256": "15963bc146d622201be5e86d607f1fdec416c864aa269fe444733906f8a86b0f",
+      "bytes": 17006
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/fixtures/manifest.json",
+      "sha256": "f7c39f10e9a0083381f275d19e7c22dbe5cb5de66e38372a003dbf792d2292a2",
+      "bytes": 2616
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/fixtures/purchase-capi-from-thank-you-page.json",
+      "sha256": "d56dde7d295ede9c18c8175f51626bd59eb880774b97cce637eaa9d283973771",
+      "bytes": 860
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/fixtures/purchase-capi-server.json",
+      "sha256": "812dc17f84e87d90410f30a289767b647ac12786f415903fe8bf70e83478cdc3",
+      "bytes": 806
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/fixtures/purchase-pixel-browser.json",
+      "sha256": "f46b3f58d7ed366cbd6d8c9a98418ef43a49ca25679d32b665bcd3337c144348",
+      "bytes": 227
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/fixtures/reference-emitter.mjs",
+      "sha256": "a0f68f94107cb9f36afe0a81e14de679782331d8540be3f615eceaf7bc93dbf4",
+      "bytes": 4689
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/references/consent-mode.md",
+      "sha256": "097ca44882b6e1996720876cc0b4c13d4d3f5f66342297940cbc4be3e0a5974c",
+      "bytes": 11225
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/references/event-tracking.md",
+      "sha256": "6da422ce4d2bdc13bd851be053194d9a54a280eb6f203a84249a3960826cc16b",
+      "bytes": 9401
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/references/gtag-api.md",
+      "sha256": "6a071e4fd9847edb14b909c84178d851c067a02a179469a609967259762b1410",
+      "bytes": 10812
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/references/meta-linkedin.md",
+      "sha256": "248d065d7f7370beeebf4bc7d718cbb7f9a23cd13fc8c1ded6d76d59bb10bc55",
+      "bytes": 13450
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/references/performance-security.md",
+      "sha256": "19876b1abf39247e26a88b8089e82f391a32cf213b7fa43431b139bc3e854ff3",
+      "bytes": 10578
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/crypto-payments/SKILL.md",
+      "sha256": "84be59b3eac2b23dc21d5c9eb66d7dcc7cfe82500c5e6aa9ebf7eef3731da41d",
+      "bytes": 20715
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/crypto-payments/references/callback-route-hardening.md",
+      "sha256": "6645a1eadb1e0a5bd01d51034168c80e4e131b29ccef3469c06b0511b0f9173a",
+      "bytes": 4461
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/crypto-payments/references/heleket-provider.md",
+      "sha256": "c41ddfbddee75be2c2cfaacc65782092d4c88b01303088bba444085125e31224",
+      "bytes": 77702
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/crypto-payments/references/testing-and-local-dev.md",
+      "sha256": "13bbcc782d24b31ec931817450e8a5402f7b39c914fa63f21a9d45d54ac621b3",
+      "bytes": 2513
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/error-tracking/SKILL.md",
+      "sha256": "a490c6414c8b2c0dbf00961f6a7a00a771432788396dc074bb67cd54e9b6c219",
+      "bytes": 13755
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/error-tracking/references/releases.md",
+      "sha256": "b5f506275f8367110b3f599dc35871cf09db1fed792db9b4d941cd57991253ab",
+      "bytes": 7855
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/error-tracking/references/scrubbing.md",
+      "sha256": "c18eefd40492abbc939236c65173645179d140b4e13c558fe5a2c85dbce9a548",
+      "bytes": 9896
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/error-tracking/references/setup.md",
+      "sha256": "f8e1d7c44403c46d278ea158429bbac47516c72024c79ff5735b754c85a49611",
+      "bytes": 7276
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/frontend-performance/SKILL.md",
+      "sha256": "f4c3882395a2cdccf3ffb73338ece9e53bc388c2a0ef54556ba95869ee02d76b",
+      "bytes": 13349
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/frontend-performance/references/accessibility-perf.md",
+      "sha256": "e6ef05c5f701de8977523b7d999e65391bc3a88449497149e20716fa47ab0468",
+      "bytes": 5787
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/frontend-performance/references/css-performance.md",
+      "sha256": "7270ceb6aa9ac1363320e62f2d10282b035d5f2f293d21a3fd4161109bd9a3f8",
+      "bytes": 5755
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/frontend-performance/references/nextjs.md",
+      "sha256": "de4f76e69ad64c80fe63de332247c552a6a2afffb31e4f97de3f605a966be57c",
+      "bytes": 7640
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/google-auth/SKILL.md",
+      "sha256": "c0b971cea4955e0c338a425f7d0eb2f78ffa07347e2660f8fb5aec4c2a4e8a74",
+      "bytes": 11067
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/google-auth/references/adc-and-service-accounts.md",
+      "sha256": "a635d04ac2b1b8ebeea1abc76c2b29392e0a2bca8b4da3b63bf5e3255e8b686e",
+      "bytes": 12876
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/google-auth/references/oauth2-web-server.md",
+      "sha256": "f633274922bd53829845d6aecdb9de9fa11d90e8c1220e7f1905dc7f18656b7a",
+      "bytes": 23384
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/google-auth/references/sign-in-with-google.md",
+      "sha256": "116c41d7c5968d3ab6c818123bcec1f19d33073222b62a9ab7a25a648965599a",
+      "bytes": 18195
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/google-auth/references/workload-identity.md",
+      "sha256": "c826ddfafb0bfa28e003913213e7a6b9dcf548fcca14eeacb1d6c0f34b9a21fb",
+      "bytes": 11827
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/google-signin/SKILL.md",
+      "sha256": "011127664892aeac2b560fefd9de9460961ed20befb7270bd150fda6c508c686",
+      "bytes": 9609
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/google-signin/references/full-guide.md",
+      "sha256": "c05b8b5494c720adf99201abde2bb29bfaf07d7c9d3b9d0e9a6148f9b258123c",
+      "bytes": 25365
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/SKILL.md",
+      "sha256": "130b485502588d50b6896d6dfec54ce71337dda7c2215b337fb04771423e708b",
+      "bytes": 20930
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/README.md",
+      "sha256": "a41fc53965701613bdc6f770e1f245bfd3126d1d53ef00d2b36aceea55a81ad9",
+      "bytes": 12051
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/assert-money-invariants.mjs",
+      "sha256": "f1c66cef269fee60c7fe3dcf3f499966bc1f3bccaec0f585f5c4a40d738d9ded",
+      "bytes": 39587
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/charge-refunded-partial.json",
+      "sha256": "00d3d14cb13543c2778591793986c221392de82687994683b596c9860250944d",
+      "bytes": 1351
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/charge-refunded-remainder.json",
+      "sha256": "fad5af72fdb46bdb60570586339c2bbc043ef572a5f12489e6d1ed5b9c3d6bb6",
+      "bytes": 1736
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/checkout-session-async-payment-failed.json",
+      "sha256": "b78b32fce6e342e91abcbcef1b2f8fad8a14c83bfbe2d169009ce4d17665f2fb",
+      "bytes": 1184
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/checkout-session-completed-async-unpaid.json",
+      "sha256": "f610cfde62d0f1d8045a90b92bef1251bfb73abfd1a35223b18991761afd243b",
+      "bytes": 1176
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/checkout-session-completed-paid.json",
+      "sha256": "0a0714339ee382b50ff94d0598c83adac6973c0a6b01c86923e7345659744414",
+      "bytes": 1184
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/customer-discount-created-retention.json",
+      "sha256": "b4ceabb841a877724c0bee2b0956f4c618c772840a4bbfc882fe66ae58de85b4",
+      "bytes": 1281
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/customer-subscription-updated-cancel-classic.json",
+      "sha256": "372623c3df1a852616f3a9a87c0015b4352921e8b16a713f95ad23bc6d8354a1",
+      "bytes": 1749
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/customer-subscription-updated-cancel-flexible.json",
+      "sha256": "b932f3f81e45488731d200a6a7958006dfee7a978c1315bba6d2623ba1bd5a23",
+      "bytes": 1757
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/customer-subscription-updated-discount-consumed.json",
+      "sha256": "5a04d5482d6f8b3165ae20de4a614b9d250c914363e2633a094f25ca514ad2f1",
+      "bytes": 1696
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/invoice-paid-subscription-cycle-next-period.json",
+      "sha256": "6a873bfeaf858ffc6de88c5955e8cd06c36367e0aa4c3a687e501e0c081dc2fa",
+      "bytes": 1897
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/invoice-paid-subscription-cycle-redelivery.json",
+      "sha256": "26ece824b42410c64359ed61b032788dbb3dc896f0a681df3f2f043c520b5771",
+      "bytes": 1897
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/invoice-paid-subscription-cycle.json",
+      "sha256": "ec5dc01a7b803aca9ff921309dcef5f56f6121dc3512266af87875d27f997243",
+      "bytes": 1801
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/invoice-paid-subscription-update-proration.json",
+      "sha256": "38f509ace54a7d34155d4a2803213b97e56dcc89ee14192166729ee72f8096f0",
+      "bytes": 2560
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/manifest.json",
+      "sha256": "0ced0b0bb9c6eb4f6724bc43f855cde48ebfba53cdba81c3b2979c786f0e5ece",
+      "bytes": 8691
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/fixtures/reference-handler.mjs",
+      "sha256": "1100eff2221f15da22088b9a6ec9be9e95098c53cc260dcb8855ce0d6a26eff7",
+      "bytes": 31256
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/references/cancellation-and-retention.md",
+      "sha256": "d912bc206d61c10b36d9570a31136995f24e03d84b5f6f8e523f7412720388fd",
+      "bytes": 21045
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/references/price-integrity.md",
+      "sha256": "f5e436cd8ee0e0df6a91781f4869b69dd3ca5be22e1fc7aebe1c1d04d957770b",
+      "bytes": 8618
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/references/provider-concentration.md",
+      "sha256": "6e1e540d62d0948995f205d7e6969961a19e65dda476406889b99e12402ebe1b",
+      "bytes": 6967
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/references/stripe-agent-toolchain.md",
+      "sha256": "d281c4d98b5caca8706775ff073cf71ec6e7762a87e20e781416f69a91d3c8cd",
+      "bytes": 7937
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/references/subscription-lifecycle.md",
+      "sha256": "a4f98f45cd66cc5d61ab8eecbda8fa16e1e527b7cb95834d74ee1a3d1bd99c7b",
+      "bytes": 20893
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/references/testing-and-local-dev.md",
+      "sha256": "742b2f66bf290b0ea843d24b358274b3df55ce17d3e65a0e770bdf46867ea813",
+      "bytes": 10905
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/references/webhook-events.md",
+      "sha256": "83dcb14d03e05ffc507881cbe9abafa1d48fbae00a8c4d424f51413fc3c1070b",
+      "bytes": 17345
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "as_of": "2026-10-09T22:06:21.872572+00:00",
+  "package": "@ssheleg/make-skill",
+  "version": "0.29.2",
+  "gitHead": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c",
+  "registry": "https://registry.npmjs.org/%40ssheleg%2Fmake-skill/0.29.2",
+  "tarball": "https://registry.npmjs.org/@ssheleg/make-skill/-/make-skill-0.29.2.tgz",
+  "integrity": "sha512-8FdzAQ0Gk9CmAH457gk7NKk9KlmqukPTqFjmstkcsM/CmDHjLmmmmJz8XnQHZ7wQ3NhC12hTRHnjE6SewQzaaQ==",
+  "tarball_sha256": "1d5af2224f30076a19d2cac31be8033e9507840031d00217bb01b265b4250c74",
+  "all_published_files_equal_release_source": true,
+  "published_files": 32,
+  "canonical_manifest_sha256": "560fcdd47fd78d1aac052cbf1c0a7efb6be6998de920f074903b81472452d7ec",
+  "release_run": "37997168633",
+  "runtime_acceptance": "NOT_RUN",
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "3af9287718558f6662a032a68455f5540de52aa8bab6c6f1a1dff5ca301327a4",
+      "bytes": 102295
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+      "bytes": 1064
+    },
+    {
+      "path": "README.md",
+      "sha256": "a2619f3c3f479e3c5f4639d713cabfa4cb26e7e93ca3b8d645a744425fab5820",
+      "bytes": 17054
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "becc829e7c65b592f5b86519dd142a3c61cb0a4f70dbaece3441a1c268c41840",
+      "bytes": 3742
+    },
+    {
+      "path": "bin/make-skill.js",
+      "sha256": "b4552e0f96db377c03fd674a83fe5b74053b8241372e5b3dab8278570682d55b",
+      "bytes": 8903
+    },
+    {
+      "path": "cursor/rules/make-skill.mdc",
+      "sha256": "25d1cfbe79663870e59ad59b43e11e0f9412774fcdeb1e099b3e07c1255779c6",
+      "bytes": 13763
+    },
+    {
+      "path": "package.json",
+      "sha256": "8db7e8d019f3fb80b04e4ea0221a600ddc743dc261c72a563961136b0f2790d2",
+      "bytes": 1829
+    },
+    {
+      "path": "plugins/make-skill/.claude-plugin/plugin.json",
+      "sha256": "ac6444a128a6e3d595d2bb139e5976aa9af052c060d1392fe5c09006c21c2f1e",
+      "bytes": 1093
+    },
+    {
+      "path": "plugins/make-skill/agents/skill-auditor.md",
+      "sha256": "41b99e5a68c1709665ff62d98fe83384dc52f787eee90b5a246eb81a3d432db1",
+      "bytes": 1970
+    },
+    {
+      "path": "plugins/make-skill/bin/make-skill-audit",
+      "sha256": "9c6139c593866dea2816b1f3f964e77383dcfa5f9ebd975e39c5ba45507f6a40",
+      "bytes": 1559
+    },
+    {
+      "path": "plugins/make-skill/commands/skill-audit.md",
+      "sha256": "3d281657b832db87fb3d21c44f3c6e199ed365d19cbc82b1c47f9e63ccd72f45",
+      "bytes": 1233
+    },
+    {
+      "path": "plugins/make-skill/hooks/hooks.json",
+      "sha256": "292f4eeb4431899b68c12b11016e3c482a7736e40325ddc5e759ab5018015f87",
+      "bytes": 839
+    },
+    {
+      "path": "plugins/make-skill/hooks/skill-md-audit.sh",
+      "sha256": "e4e13768851fecd9689d14775b1fb932258ce951c14fb75ba16a5ca9496c416a",
+      "bytes": 1885
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/SKILL.md",
+      "sha256": "f2b48f2674611de4091d7c46883f87ad2f58c274f86636c9aa3ff03921189dec",
+      "bytes": 20169
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/assets/SKILL.template.md",
+      "sha256": "7dd2201324db8f79c61a651fe38066ee4e1e7306130fc7cd40c52578972f280a",
+      "bytes": 2833
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/assets/agent.template.md",
+      "sha256": "868b1e5715d4f9e83487b8380cd8c3111d18050fcdbdcf2fd3d0184073a0a7c9",
+      "bytes": 1496
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/assets/command.template.md",
+      "sha256": "a41e2062ced68c8d509721575855481196351dfe79def16395de06c5d600ce68",
+      "bytes": 1257
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/assets/hooks.template.json",
+      "sha256": "bb5f222f6bf7d9f92266eed0773585fa0711b1e57d8242698ac47180a9287129",
+      "bytes": 896
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/assets/marketplace.template.json",
+      "sha256": "8bc0df702926fce4062832866514ba06d281e6c9c14d966052117bc8f123e924",
+      "bytes": 742
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/assets/plugin.template.json",
+      "sha256": "c530969851183a1809193a541c9ca34e0f223e77956a34d960a056a7cf1bb23f",
+      "bytes": 451
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/references/a2a.md",
+      "sha256": "727b4a0bf656d47fd3676d69b2fc77d3be535fde445c41d05cd7d06b389cc51c",
+      "bytes": 3546
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/references/agent-skills-spec.md",
+      "sha256": "36fd88531974e8ab66db82e61516bd257dd4462180ff096a947b5b2a35071d48",
+      "bytes": 11266
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/references/authoring.md",
+      "sha256": "0d683ed6fa867b69f22ad4b69599dfb651b859a519d3297118f064379df70430",
+      "bytes": 22734
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/references/claude-code-plugin.md",
+      "sha256": "47022bac6a5fcba825ca99515563c6cd8fd144131dc3e73d41bf1b45564c866f",
+      "bytes": 22502
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/references/distribution.md",
+      "sha256": "bf0241274a46288829b08859fac9c30a204d108c104e08b6c177db0883d304f4",
+      "bytes": 27729
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/references/enterprise.md",
+      "sha256": "7a9d6fd35f957a5641cc966d0621393f9bda20108a19ae3df42b2297897e15bf",
+      "bytes": 12074
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/references/host-capabilities.md",
+      "sha256": "4bc2dba0d116bb27e111c9c00d7cade44ab785057d9d6d0149c3a1afebf976de",
+      "bytes": 15509
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/references/mcp.md",
+      "sha256": "a194930c4e6284ea71507313f7a19bc694307ba2904e86cac7df04d22f525ba6",
+      "bytes": 4864
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/references/outcome-evaluation.md",
+      "sha256": "74e95948d069d5eee4f9c2c1674a7eb4cf9ffa3e372a4f8d69767b87b8522cea",
+      "bytes": 3288
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/references/retrofit.md",
+      "sha256": "a190ea697aceffe41f479623d8074e62a494e1543bdd9dd4e3a9ee8c8f9ecfaf",
+      "bytes": 8037
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/references/surfaces.md",
+      "sha256": "a0fb9137e4d9ffb842703e1bea3f63f29c4f8240f9683846b6d6648cd6233ca7",
+      "bytes": 7351
+    },
+    {
+      "path": "plugins/make-skill/skills/make-skill/scripts/audit_skill.py",
+      "sha256": "6f1367dca19331e465910fc8c4237be7386133759d8a24aaed6e9ede43e07304",
+      "bytes": 50523
+    }
+  ],
+  "release_workflow_conclusion": "success"
+}

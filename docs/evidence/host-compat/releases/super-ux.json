@@ -1,0 +1,177 @@
+{
+  "as_of": "2026-10-09T22:03:55.701388+00:00",
+  "package": "super-ux",
+  "version": "0.59.1",
+  "gitHead": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+  "registry": "https://registry.npmjs.org/super-ux/0.59.1",
+  "tarball": "https://registry.npmjs.org/super-ux/-/super-ux-0.59.1.tgz",
+  "integrity": "sha512-a6VUu3fHksIv8Qu4V/RZfyehjSxYwyFouTUThS92fjDsGoE6P/f1tmfu4MkTW8USLXBokjVe9izfDg6A5FeUvQ==",
+  "tarball_sha256": "502ae1d7294f0fba030dbf390d19b8514f377caf9b2af0387a67cef715fce488",
+  "all_published_files_equal_release_source": true,
+  "published_files": 32,
+  "canonical_manifest_sha256": "a56b9fcdf83b4b820a69082e0cc0d28f0a8aa22445d71237a1e92e6080232e5f",
+  "release_run": "37996865703",
+  "runtime_acceptance": "NOT_RUN",
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "e18b419576be4f55bc1b961ce79ff24ad8df138a00e6ce8033e136c4e383888f",
+      "bytes": 180754
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+      "bytes": 1064
+    },
+    {
+      "path": "README.md",
+      "sha256": "784a2c4ed66c3227b311afcd49c9d668af9df6370970a426daf6510887d8d2e8",
+      "bytes": 23434
+    },
+    {
+      "path": "bin/super-ux.js",
+      "sha256": "a5df20ce3dd9f0e807826be8444b49279366f8d09469b56e1d77fae2b4692794",
+      "bytes": 23519
+    },
+    {
+      "path": "cursor/rules/brand-voice.mdc",
+      "sha256": "5a88b9fac54777939001f969d1eb4e8105ed74720d35f0749074398f123af7bd",
+      "bytes": 1656
+    },
+    {
+      "path": "cursor/rules/copywriting.mdc",
+      "sha256": "ab949702cd329f6f93e64666afc1d751fb5195029091dae90e3168b54d143402",
+      "bytes": 4450
+    },
+    {
+      "path": "cursor/rules/super-ux.mdc",
+      "sha256": "0e89477322f073ed9d390eade229a11e33f651323d680f801900c1a06af5518c",
+      "bytes": 3929
+    },
+    {
+      "path": "cursor/rules/ux-audit.mdc",
+      "sha256": "f077782089b200a18a3b327ab644edc5b3f5a8c3912cc1362acf7f3d54de56fb",
+      "bytes": 3578
+    },
+    {
+      "path": "cursor/rules/ux-flows.mdc",
+      "sha256": "d79a99d27c055c9b89ddab1800387ba3f7eabff667084668567ba79c32a67dfb",
+      "bytes": 4504
+    },
+    {
+      "path": "cursor/rules/ux-foundation.mdc",
+      "sha256": "449855bc3996301822562127abd3dbdc2c05804a46ee58332e9f25477c604f75",
+      "bytes": 2885
+    },
+    {
+      "path": "cursor/rules/ux-scenarios.mdc",
+      "sha256": "54a6146605d57d7359e3258267819ccfe2a6970fe938112b99d000bf2a5a7c9c",
+      "bytes": 3382
+    },
+    {
+      "path": "cursor/rules/vision.mdc",
+      "sha256": "135249f03e42d3ff61fccedd3b82f191f77ed4cbfc098efe3d9abb459a38ac39",
+      "bytes": 3210
+    },
+    {
+      "path": "package.json",
+      "sha256": "d22b2c637bd75f7bbf2e0f5c0a4556d70ca6512f61fe9356e14fca7b849d5386",
+      "bytes": 1425
+    },
+    {
+      "path": "plugins/super-ux/scripts/brand_lint.py",
+      "sha256": "9f33a7e37e5ac54391501f6b3477c1ba83b90e918754c530b94681786be51f84",
+      "bytes": 116822
+    },
+    {
+      "path": "plugins/super-ux/scripts/ux_doctor.py",
+      "sha256": "5d1d0ec5a3ca71d9420605d84dce506839da1621ffb5fe31c6566a7f920d00de",
+      "bytes": 10427
+    },
+    {
+      "path": "plugins/super-ux/scripts/ux_lint.py",
+      "sha256": "076c625f6bb11f385222739ed0014b4583ffb7ecad82d58439a1fde666508211",
+      "bytes": 63411
+    },
+    {
+      "path": "templates/README.md",
+      "sha256": "3723a9f4bc67b0248966c4532c7e90bb66e2c52fbb4744f9e41f4291a612544b",
+      "bytes": 2950
+    },
+    {
+      "path": "templates/audit-report.md",
+      "sha256": "85c09349cd4f2bc0a5559a9cd27ff01508378c5aa259a4243b7e3921d5bfc705",
+      "bytes": 1676
+    },
+    {
+      "path": "templates/brand/README.md",
+      "sha256": "44ceb7b103753a80578f64ac6442bb62478acd133af6e2b30782556213aef810",
+      "bytes": 2310
+    },
+    {
+      "path": "templates/brand/channels.md",
+      "sha256": "ef19e792989cfdaf3ab83fd1008e9d6348d4bc0b6921768d5136e91eb81e2308",
+      "bytes": 4278
+    },
+    {
+      "path": "templates/brand/facts.md",
+      "sha256": "71220edd6537cc8af1a67dead931059a4f861570b1e4325f8fd84e402b6b1f36",
+      "bytes": 1324
+    },
+    {
+      "path": "templates/brand/locale.md",
+      "sha256": "3f941bdf1ba872883d0040c02d5c1a87606f306c3d91fda63b9189f177a3154b",
+      "bytes": 2211
+    },
+    {
+      "path": "templates/brand/strings.md",
+      "sha256": "13f3d6f2da96516f3742643170a4b09f511325a8f08323c2a86d4d1275d260ed",
+      "bytes": 1772
+    },
+    {
+      "path": "templates/brand/terminology.md",
+      "sha256": "a05df1ef326d22072a4db4b00297010930ced238aa0ce91f18cb2a5a3319ec23",
+      "bytes": 1201
+    },
+    {
+      "path": "templates/brand/voice.md",
+      "sha256": "4ae150fca4476bdecdeddb772686fe0fdc18114acf2ba8c8bb04f9af2ac08611",
+      "bytes": 2095
+    },
+    {
+      "path": "templates/claude-rule.md",
+      "sha256": "e7835bdaa86b8b4e8887ad1393592fb38486a5f11390d437954103c18b8751d0",
+      "bytes": 4054
+    },
+    {
+      "path": "templates/flows.md",
+      "sha256": "898573236bd5e834fffcffec12d671e52dcd21577eed494d0b44272309e43f6a",
+      "bytes": 1394
+    },
+    {
+      "path": "templates/foundation.md",
+      "sha256": "c02e63596762a6d8185452d0c01cbae4f586ecb4c6febc2cbad1fd36be6d75c3",
+      "bytes": 3309
+    },
+    {
+      "path": "templates/scenarios.md",
+      "sha256": "2f214ed2f182ce8fd54820ac97235630c68aafa3070d88663384226fc3b3a224",
+      "bytes": 1504
+    },
+    {
+      "path": "templates/screens.md",
+      "sha256": "241a598e0a8bde653469e4dff8bc3264ca9d94c6da1b31949c531e7263ed73dd",
+      "bytes": 3855
+    },
+    {
+      "path": "templates/vision-rule.md",
+      "sha256": "b76ad91a18828b2bb084ae90a164f8fdca9695df807f2d33a695adf6483c8a55",
+      "bytes": 839
+    },
+    {
+      "path": "templates/vision.md",
+      "sha256": "17f23aa63b1d9a4b872369500e9e132d4b1529817aa6f11aadeab88b854226a7",
+      "bytes": 2423
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "as_of": "2026-10-09",
-  "scope": "HC-1 delegated research: 15 named hosts; Claude Code and Codex owned by parent report",
-  "evidence_level": "PRIMARY_DOCUMENTATION_AND_ONE_PINNED_SOURCE; runtime NOT_RUN",
+  "scope": "HC-1 primary contracts for 17 named coding-agent hosts; native verification is separately recorded",
+  "evidence_level": "PRIMARY_DOCUMENTATION_AND_ONE_PINNED_SOURCE; see separate local receipts for discovery",
   "unknown_semantics": "NOT_ESTABLISHED means not established by inspected evidence, not unsupported.",
   "hosts": [
     {
@@ -573,6 +573,80 @@
       ],
       "limitations": [
         "Machine-local --global install is distinct from hosted personal/workspace publication."
+      ]
+    },
+    {
+      "id": "claude-code",
+      "scope": "primary contract plus local versioned plugin list and strict-validator probes; model runtime NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.claude/skills",
+          "enabled plugin skill roots",
+          "account-managed ~/.claude/skills/synced"
+        ],
+        "project": [
+          ".claude/skills"
+        ],
+        "shared_agents_global": "not the family Claude delivery channel"
+      },
+      "skill_precedence": "Scope/namespace and synced-name rules vary; do not infer every installed provider is selected. Family delivery avoids a duplicate plain Claude copy.",
+      "instructions": {
+        "global": [
+          "~/.claude/CLAUDE.md"
+        ],
+        "project": [
+          "CLAUDE.md",
+          ".claude/CLAUDE.md"
+        ],
+        "notes": "Managed and local policy remain authoritative; no configuration change implied."
+      },
+      "format": "Agent Skills plus Claude frontmatter. allowed-tools is turn-scoped preapproval, not an exclusive tool allowlist. Strict validator checks some skill metadata, not every field.",
+      "extensions": "Plugin hooks, commands and agent definitions need native registration. Markdown path substitution is separate from exported process environment.",
+      "sources": [
+        "claude-skills",
+        "claude-plugins"
+      ],
+      "limitations": [
+        "Account sync requires supported sign-in/policy; one-way downloads do not sync arbitrary plugin installations.",
+        "Existing plugin registration and fixture validation are not proof of a model-run hook effect."
+      ]
+    },
+    {
+      "id": "codex",
+      "scope": "primary contract plus local versioned read-only skills/list and native cache verification; model runtime NOT_RUN",
+      "skill_roots": {
+        "global": [
+          "~/.agents/skills",
+          "/etc/codex/skills",
+          "native plugin skill roots"
+        ],
+        "project": [
+          ".agents/skills along cwd-to-repository-root chain"
+        ],
+        "shared_agents_global": "native"
+      },
+      "skill_precedence": "Same-name skills can remain separate candidates; record enabled/path/provider rather than inventing one global precedence.",
+      "instructions": {
+        "global": [
+          "$CODEX_HOME/AGENTS.md"
+        ],
+        "project": [
+          "AGENTS.override.md",
+          "AGENTS.md"
+        ],
+        "notes": "Preserve current explicit path exclusions and native plugin lifecycle."
+      },
+      "format": "Agent Skills; optional agents/openai.yaml supplies UI, invocation policy and dependencies.",
+      "extensions": "Native plugins, hooks, delegation and MCP exist; Claude schemas and skill-only copies do not activate them automatically. Portable root plugin manifest and host compatibility layouts differ.",
+      "sources": [
+        "codex-skills",
+        "codex-plugins",
+        "codex-hooks",
+        "codex-subagents"
+      ],
+      "limitations": [
+        "Public plugin directory eligibility and manual desktop installation differ for hooks.",
+        "Read-only skill listing may expose the plain-skill roster separately from enabled native plugin tools. Do not infer session activation from cache files."
       ]
     }
   ]

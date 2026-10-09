@@ -21,7 +21,9 @@ for the machines. · **[Follow @sshlg93 on X](https://x.com/intent/follow?screen
 
 Works with **Claude Code** (as plugins) and **DeepSeek Harness** (`dsh`), plus
 Cursor, OpenCode, Codex, Kilo, Kimi, Hermes, OpenClaw, Gemini CLI, Windsurf, Zed
-and the rest of the 70+ agents the vercel `skills` CLI supports.
+and other targets among the 79+ agents the vercel `skills` CLI supports.
+The pinned snapshot has 77 global targets; native extension support is checked
+separately in the [compatibility report](docs/reports/2026-10-09-coding-agent-compatibility/README.md).
 
 ---
 
@@ -41,13 +43,13 @@ scripts. No services, no telemetry, no API keys.
 
 | Skill | Version | What it does |
 |---|---|---|
-| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.59.0 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
+| **[super-ux](https://github.com/ssheleg/super-ux)** | 0.59.1 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
 | **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.90.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project — discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
 | **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.21.4 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
-| **[make-skill](https://github.com/ssheleg/make-skill)** | 0.29.1 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A — the protocols themselves live in `agent-stack`. |
+| **[make-skill](https://github.com/ssheleg/make-skill)** | 0.29.2 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A — the protocols themselves live in `agent-stack`. |
 | **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.64.0 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
 | **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.26.3 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan plus a link-building brief — not a score. |
-| **[sheleg-dev](https://github.com/ssheleg/sheleg-dev)** | 0.13.1 | The integration layer a product reaches once it has users: **money in, tracking, sign-in, speed**. Stripe subscription billing reconciled into your own database — webhook idempotency, renewals, seats and proration, refunds, price drift, and the coupon offered at the cancel step, where a `duration=once` discount leaves `subscription.discounts` the moment its invoice finalizes and the offer can be taken every cycle; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4, Google Ads, Meta and LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side auth surface behind it; Core Web Vitals work that moves the score rather than the report; and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it. |
+| **[sheleg-dev](https://github.com/ssheleg/sheleg-dev)** | 0.13.2 | The integration layer a product reaches once it has users: **money in, tracking, sign-in, speed**. Stripe subscription billing reconciled into your own database — webhook idempotency, renewals, seats and proration, refunds, price drift, and the coupon offered at the cancel step, where a `duration=once` discount leaves `subscription.discounts` the moment its invoice finalizes and the offer can be taken every cycle; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4, Google Ads, Meta and LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side auth surface behind it; Core Web Vitals work that moves the score rather than the report; and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it. |
 | **[agent-stack](https://github.com/ssheleg/agent-stack)** | 0.25.5 | Production patterns for agent systems, in four skills. **The orchestrator** — tool-calling loops that survive their own context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, memory architecture — form, function and dynamics, the four-stage retrieval pipeline, and what a layer table alone cannot say, and **the shape of the work decided before the work**: an edge that carries no data is no edge, a plan that declares its dependencies is executed in layers rather than in list order, and a parallel layer gets a checker before the node that consumes it. **The harness** — what the agent is *told*: system prompts at the right altitude, tool descriptions the model can act on, technique choice with a verdict each, workflow versus agent and static versus dynamic, plus a seven-track audit of an agent somebody else built and a scanner for the defects that are mechanically visible. **The evals** — suites that measure whether it actually works: judging trajectories, regression fixtures grown from production, judges calibrated before they are trusted. **The interop layer** — MCP at revision 2026-07-28 and the four features it deprecated, running many servers at once, the registry, A2A 1.0, and the gateway, every reference carrying the spec revision it was read against. Plus the wallet side of reselling LLM access: tiered balances, one markup boundary, two-phase commit against a provider API. |
 | **[telegram-dev](https://github.com/ssheleg/telegram-dev)** | 0.2.2 | Telegram, split by the API each surface actually speaks. **`telegram-bots`** — the official HTTP Bot API: `update_id` as the only idempotency key an update carries, the `allowed_updates` default that subscribes you to everything *except* `chat_member` and the two reaction types while answering `ok: true`, the webhook secret header that is the real check, rate limits as a design constraint (1/sec per chat, 20/min per group, ~30/sec bulk), and Telegram Stars with a **ten-second** pre-checkout window and a grant that belongs to `successful_payment`. **`telegram-userbots`** — MTProto and Telethon: the session file as a credential equal to the password, `FloodWaitError` as the API telling you exactly how long to wait, pinning across minor releases that move session and entity-cache behaviour, and the account-ban risk a bot token does not carry — the skill opens with whether a user account is needed at all. **`telegram-miniapps`** — the web layer, whose entire security model is one signed query string: verifying `initData` server-side, the `auth_date` window, the Ed25519 path for a third party, and the SDK package whose name moved while the organisation's own page still fronts the old one. Both the verifier and the delivery invariants ship as runnable fixtures with their mutants. |
 | **[xr-dev](https://github.com/ssheleg/xr-dev)** | 0.3.2 | **`quest-lifecycle`** maps the product from platform choice through design, build, testing, Store, monetization, launch and operation. The existing owners cover native OpenXR, Kotlin Spatial/hybrid apps, measured rendering optimization, current-source/tool discovery, commercial and asset readiness, and WebXR/PWA. Every stage names evidence and a next action; Meta engine companions and official Godot XR documentation supply implementation detail. |
@@ -126,16 +128,22 @@ git clone --recursive https://github.com/ssheleg/sshlg-skills
 cd sshlg-skills && ./install.sh
 ```
 
-Flags: `--agent a,b` picks agents, `--all` covers every agent the CLI supports,
+Flags: `--agent a,b` picks valid global targets, `--all` selects the pinned CLI’s
+77 globally supported targets (76 while Claude uses plugins),
 `--no-claude` skips the plugin step, `--claude-only` does nothing else.
 
 ### What `install` actually does
 
 - **Claude Code** → each skill as a **plugin** (`claude plugin marketplace add` +
   `claude plugin install`), never as a plain `~/.claude/skills/` copy.
-- **Every other agent** → the vercel
-  [`skills`](https://github.com/vercel-labs/skills) CLI, installed globally into
-  `~/.agents/skills/`, with the agent list passed as repeated `--agent` flags.
+- **Other installer targets** → the vercel
+  [`skills`](https://github.com/vercel-labs/skills) CLI, using shared storage and
+  each adapter’s global destination, with repeated `--agent` flags. Hermes and
+  Kiro use native roots; shared `~/.agents/skills` loading is host-specific.
+- **Unsupported global targets** → Eve and PromptScript are excluded from
+  `--all`; explicit unknown or project-only names fail before installation.
+  The [dated compatibility report](docs/reports/2026-10-09-coding-agent-compatibility/README.md)
+  separates skill discovery from plugins, hooks, delegation and runtime evidence.
 - **Then it prunes** the plain Claude copies the skills CLI recreates on its own.
   That duplicate shadows your plugin and silently serves a stale skill — the one
   failure mode worth automating away.
@@ -506,8 +514,9 @@ The commit gate is honest only because of a number: the suite costs **~8.5 s**
 here. At three minutes it would be a gate people route around, and a gate people
 route around is worse than none — it teaches that gates are noise.
 
-Neither hook runs for any other agent (hooks are a Claude Code feature), so the
-same rules stay a self-check elsewhere. Working with a different agent, or want
+These hook adapters are installed through the Claude Code channel. Other hosts
+may support hooks, but need separately verified adapters; without one, these
+rules remain a self-check. Working with a different agent, or want
 them off? Delete the file — nothing else reads it.
 
 ## Other commands
@@ -561,7 +570,7 @@ reaching for one as a tool is the system working.
 ## How it works
 
 A thin, zero-dependency Node launcher over the three mechanisms that already
-reach these agents — the `skills` CLI (70+ agents), `claude plugin` (Claude
+reach these agents — the `skills` CLI (79 agent IDs; 77 global targets), `claude plugin` (Claude
 Code), and `git submodule` (pinned snapshots). It invents no new install path. It
 curates the family, drives those three, and encodes the rules that are easy to
 get wrong: one channel per agent, exact agent ids, repeated `--agent` flags, full

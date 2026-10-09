@@ -328,6 +328,54 @@
       "read_at": "2026-10-09",
       "kind": "primary",
       "status": "read"
+    },
+    {
+      "id": "claude-skills",
+      "url": "https://code.claude.com/docs/en/skills",
+      "sections": "Locations; frontmatter; allowed-tools; account sync; string substitution",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "claude-plugins",
+      "url": "https://code.claude.com/docs/en/plugins-reference",
+      "sections": "Plugin components; substitution versus shell environment",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "codex-skills",
+      "url": "https://learn.chatgpt.com/docs/build-skills",
+      "sections": "Skill discovery roots; optional openai.yaml",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "codex-plugins",
+      "url": "https://developers.openai.com/plugins/build/plugins",
+      "sections": "Portable plugin manifests; compatibility layouts; hooks publishing restrictions",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "codex-hooks",
+      "url": "https://learn.chatgpt.com/docs/hooks",
+      "sections": "Host-specific hooks",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
+    },
+    {
+      "id": "codex-subagents",
+      "url": "https://learn.chatgpt.com/docs/agent-configuration/subagents",
+      "sections": "Native delegation",
+      "read_at": "2026-10-09",
+      "kind": "primary",
+      "status": "read"
     }
   ]
 }

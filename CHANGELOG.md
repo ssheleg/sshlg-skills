@@ -1,3 +1,15 @@
+## v1.54.7 — coding-host compatibility and supported install targets
+
+`--all` selects explicit global destinations from the pinned skills CLI snapshot:
+76 while Claude uses plugins, 77 with `--no-claude`. Eve, PromptScript and unknown
+explicit targets cannot produce a successful global-install plan. Repeated agent
+flags accumulate, and snapshot/pin mismatch stops before installation.
+
+Host paths and capability guidance now distinguish shared skill storage from
+native plugins, hooks and delegation. Five member updates repair standalone
+payload links and retain portable fallback procedures; the dated 17-host report
+links primary contracts and keeps native discovery separate from model outcomes.
+
 ## v1.54.6 — less router context, accurate YAML auditing
 
 The managed routing block is 25.72% shorter while retaining all14 routes,

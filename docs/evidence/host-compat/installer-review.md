@@ -1,6 +1,9 @@
 # HC-3 installer target repair — 2026-10-09
 
-Status: IMPLEMENTED; focused checks PASS; independent integration review pending.
+Status: IMPLEMENTED; focused checks PASS; independent integration review ACCEPT.
+Reviewer `/root/host_contracts` independently reran 38 focused checks and verified
+both upstream hashes and all 79 target pairs. Full combined gate belongs to the
+parent delivery receipt.
 Implementation: `aea8f002829350bcde2f6a90c6007349a676d3d0`.
 Base: `d31e3cd948eb55f96beee9370e8b751073b867bf`.
 Owner/worktree branch: `codex/hc3-installer-targets`.
