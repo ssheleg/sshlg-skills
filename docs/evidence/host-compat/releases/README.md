@@ -27,4 +27,5 @@ matched all 32 published files and all prior receipt fields except its new as_of
 instant. Negative checks rejected mismatched version/source, corrupt bytes, empty
 archive, traversal, symlink, differing Git bytes, duplicate entry and a
 noncanonical registry URL. Implementation commit:
-`29a7c450a4490e94a1f83c40813d79a47b37b0cd`.
+`29a7c450a4490e94a1f83c40813d79a47b37b0cd`, integrated as
+`85ddf41cd9d9eacdac98f288d97305e3964ac6f7` in this delivery branch.
