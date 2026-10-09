@@ -1,0 +1,48 @@
+{
+  "scope": "CR-3 hub context only, before parent member integration",
+  "base_commit": "a4c65581787b5ddcb3df1e36a8cae1c89c066479",
+  "checks": [
+    {
+      "command": "node test/context_handoff_test.js",
+      "exit_code": 0,
+      "cases": 6,
+      "negative_controls": 5
+    },
+    {
+      "command": "python3 test/validate.py",
+      "exit_code": 0,
+      "members": 11,
+      "submodules": 11
+    },
+    {
+      "command": "npm test",
+      "exit_code": 1,
+      "reason": "all suites passed; old DOCMAP ratchets rejected",
+      "suites": 91,
+      "fixtures": 1112,
+      "members": 11
+    },
+    {
+      "command": "npm test",
+      "exit_code": 0,
+      "suites": 91,
+      "fixtures": 1112,
+      "members": 11
+    }
+  ],
+  "unchanged_retro_sha256": "3ef10d19abf80d5790807edc2d910932096cf3a3463ead926b1af40165fd87d4",
+  "limitations": [
+    "No hosted CI or release",
+    "No host loading or model-outcome claim",
+    "No semantic currentness inference from structural checker",
+    "Parent reruns final integration gate"
+  ],
+  "fresh_checkout": {
+    "source_commit": "e72e1bdb76dbef4dd2296a6ff1168248951a249d",
+    "method": "independent local clone with --no-hardlinks, detached exact commit; automatic temporary cleanup",
+    "command": "node test/context_handoff_test.js",
+    "exit_code": 0,
+    "cases": 6,
+    "submodules": "not needed by bounded navigation/integrity check"
+  }
+}

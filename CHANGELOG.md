@@ -1,3 +1,13 @@
+## v1.54.5 — current context and research admission
+
+- Pin agent-stack 0.25.5: on-demand context admission, current-versus-historical
+  evidence, compact retrieval packets and research-to-skill promotion.
+- Narrow unscoped benchmark and prompt-improvement claims; repair the member's
+  stale contributor instructions against its actual native checks.
+- Compact the hub's active instructions and handoff with explicit historical
+  boundaries, lossless handoff archive and navigation/integrity checks.
+- Installation and source checks remain distinct from live model outcomes.
+
 ## v1.54.4 — instruction budget measurement
 
 - Pin agent-stack 0.25.4: agent-harness now includes an on-demand instruction

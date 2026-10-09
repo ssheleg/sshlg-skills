@@ -198,7 +198,7 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.25.4",
+      "version": "0.25.5",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
