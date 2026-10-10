@@ -186,5 +186,36 @@
       "npm_published": false,
       "recovery": "Citation-only follow-up1.90.2; no gate bypass"
     }
-  ]
+  ],
+  "recovery_local_attempts": [
+    {
+      "owner": "task-pipeline",
+      "version": "1.90.2",
+      "source": "66c4cb0ead253a09e42e47487a67f9ce4944b108",
+      "command": "npm run test:all",
+      "exit": 1,
+      "result": "ENVIRONMENT_FAILED",
+      "negative_failures": 71,
+      "enospc_occurrences": 186,
+      "log_sha256": "be16e82fd005b39dacb7da1ae0b88410206fa519448afd43c46d2b9d6e8b2cf6",
+      "retry": "Same unchanged source after owned test scratch cleanup; separate log and final exit required"
+    }
+  ],
+  "payload_equivalence_helper": {
+    "source": "9503d8eea213814c94e3f5efac21942bff49aeb1",
+    "integrated_source": "0ec1a680cd4a10abdc9a81099755a260886f132c",
+    "independent_review": "ACCEPT /root/host_contracts",
+    "fixture_cases": 15,
+    "python_modes": [
+      "normal",
+      "-O"
+    ],
+    "baseline_artifact": "8af76fc67677ad1f3fd0105ea13d2482bf23962d",
+    "historical_census_source": "c46496a6d4d2303f1003ae359468012d18244d89",
+    "initial_current_source": "a15c855f3849e947e5d629acb8a22e5518e557a1",
+    "initial_equal_files": 542,
+    "method": "post-fix/EQUIVALENCE.md",
+    "final_pin_receipt": "PENDING",
+    "audit_not_rerun": true
+  }
 }
