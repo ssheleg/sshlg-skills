@@ -1,0 +1,1423 @@
+{
+  "as_of": "2026-10-10",
+  "hub_source": "5a12a70d2d6c44a73b23a474072b6c3681a56b6e",
+  "sources": [
+    {
+      "owner": "super-ux",
+      "version": "0.59.1",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e"
+    },
+    {
+      "owner": "task-pipeline",
+      "version": "1.90.2",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276"
+    },
+    {
+      "owner": "agent-sync",
+      "version": "1.21.5",
+      "source": "52bf0dd2f40913d10f684b967e1ba8c489a63660"
+    },
+    {
+      "owner": "make-skill",
+      "version": "0.29.2",
+      "source": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c"
+    },
+    {
+      "owner": "sheleg-design",
+      "version": "1.64.0",
+      "source": "bf043e89f209c219c8a88dd30b066cbba9371781"
+    },
+    {
+      "owner": "seo-aeo-audit",
+      "version": "0.26.3",
+      "source": "ba2d319f2d01842e7087ff1ef76185b12067e45d"
+    },
+    {
+      "owner": "sheleg-dev",
+      "version": "0.13.2",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0"
+    },
+    {
+      "owner": "agent-stack",
+      "version": "0.25.5",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7"
+    },
+    {
+      "owner": "telegram-dev",
+      "version": "0.2.2",
+      "source": "4627d27336d01ce7c9276396913195406ef428c6"
+    },
+    {
+      "owner": "xr-dev",
+      "version": "0.3.2",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f"
+    },
+    {
+      "owner": "web3d-dev",
+      "version": "0.1.2",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5"
+    }
+  ],
+  "expected_members": 11,
+  "expected_skills": 38,
+  "native_codex_members": [
+    "agent-stack",
+    "agent-sync",
+    "make-skill",
+    "seo-aeo-audit",
+    "sheleg-design",
+    "sheleg-dev",
+    "super-ux",
+    "task-pipeline",
+    "web3d-dev"
+  ],
+  "shared_only_codex_members": [
+    "telegram-dev",
+    "xr-dev"
+  ],
+  "comparisons": 134,
+  "all_equal": true,
+  "rows": [
+    {
+      "owner": "brand-voice",
+      "channel": "shared",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 21,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "876928857c2749224b51e9342e5840c3238410fdf7cdd2a0606d1cc9eee149e8"
+    },
+    {
+      "owner": "brand-voice",
+      "channel": "hermes",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 21,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "876928857c2749224b51e9342e5840c3238410fdf7cdd2a0606d1cc9eee149e8"
+    },
+    {
+      "owner": "brand-voice",
+      "channel": "continue-copy",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 21,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "876928857c2749224b51e9342e5840c3238410fdf7cdd2a0606d1cc9eee149e8"
+    },
+    {
+      "owner": "copywriting",
+      "channel": "shared",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 16,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "1d33c3a59ce6150c9cae5ee0a7609b24dc9d876b0e4eb1776e4d3c6b1d14fd8c"
+    },
+    {
+      "owner": "copywriting",
+      "channel": "hermes",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 16,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "1d33c3a59ce6150c9cae5ee0a7609b24dc9d876b0e4eb1776e4d3c6b1d14fd8c"
+    },
+    {
+      "owner": "copywriting",
+      "channel": "continue-copy",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 16,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "1d33c3a59ce6150c9cae5ee0a7609b24dc9d876b0e4eb1776e4d3c6b1d14fd8c"
+    },
+    {
+      "owner": "ux-audit",
+      "channel": "shared",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 25,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "f246b6003eb73608fe7427237655ae9f17d06ab8d11122f7f874254e756f9c5d"
+    },
+    {
+      "owner": "ux-audit",
+      "channel": "hermes",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 25,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "f246b6003eb73608fe7427237655ae9f17d06ab8d11122f7f874254e756f9c5d"
+    },
+    {
+      "owner": "ux-audit",
+      "channel": "continue-copy",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 25,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "f246b6003eb73608fe7427237655ae9f17d06ab8d11122f7f874254e756f9c5d"
+    },
+    {
+      "owner": "ux-flows",
+      "channel": "shared",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 19,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "be87de246bbb2dd4f3feeeee8ae132a3498d5a9bd55bd9fe6687118fafe02b88"
+    },
+    {
+      "owner": "ux-flows",
+      "channel": "hermes",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 19,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "be87de246bbb2dd4f3feeeee8ae132a3498d5a9bd55bd9fe6687118fafe02b88"
+    },
+    {
+      "owner": "ux-flows",
+      "channel": "continue-copy",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 19,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "be87de246bbb2dd4f3feeeee8ae132a3498d5a9bd55bd9fe6687118fafe02b88"
+    },
+    {
+      "owner": "ux-foundation",
+      "channel": "shared",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 16,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "7fb836a06d5d5429981c3c527091922f6bca9134aba6916fef69606880c9b1d4"
+    },
+    {
+      "owner": "ux-foundation",
+      "channel": "hermes",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 16,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "7fb836a06d5d5429981c3c527091922f6bca9134aba6916fef69606880c9b1d4"
+    },
+    {
+      "owner": "ux-foundation",
+      "channel": "continue-copy",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 16,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "7fb836a06d5d5429981c3c527091922f6bca9134aba6916fef69606880c9b1d4"
+    },
+    {
+      "owner": "ux-scenarios",
+      "channel": "shared",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 15,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "df75ce73c9114164909ba1a3e265c0f23bd1440a913a43ccaede058f362bb946"
+    },
+    {
+      "owner": "ux-scenarios",
+      "channel": "hermes",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 15,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "df75ce73c9114164909ba1a3e265c0f23bd1440a913a43ccaede058f362bb946"
+    },
+    {
+      "owner": "ux-scenarios",
+      "channel": "continue-copy",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 15,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "df75ce73c9114164909ba1a3e265c0f23bd1440a913a43ccaede058f362bb946"
+    },
+    {
+      "owner": "vision",
+      "channel": "shared",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 12,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "19213b276ef7cbd969a05e39e896da950758b65dfe4083dee2eca9be2b513bd9"
+    },
+    {
+      "owner": "vision",
+      "channel": "hermes",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 12,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "19213b276ef7cbd969a05e39e896da950758b65dfe4083dee2eca9be2b513bd9"
+    },
+    {
+      "owner": "vision",
+      "channel": "continue-copy",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 12,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "19213b276ef7cbd969a05e39e896da950758b65dfe4083dee2eca9be2b513bd9"
+    },
+    {
+      "owner": "super-ux",
+      "channel": "claude-plugin",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 195,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "b81c2dd438da35828e03c017c528e2d77a95423ae6b04036c46148982cf35d3b"
+    },
+    {
+      "owner": "super-ux",
+      "channel": "codex-plugin",
+      "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
+      "files": 195,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "b81c2dd438da35828e03c017c528e2d77a95423ae6b04036c46148982cf35d3b"
+    },
+    {
+      "owner": "evidence-docs",
+      "channel": "shared",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "files": 10,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "4619d8dc00e1000177ce7b0b2ecbda05265da05fef175b428dc6eb39e3a911ef"
+    },
+    {
+      "owner": "evidence-docs",
+      "channel": "hermes",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "files": 10,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "4619d8dc00e1000177ce7b0b2ecbda05265da05fef175b428dc6eb39e3a911ef"
+    },
+    {
+      "owner": "evidence-docs",
+      "channel": "continue-copy",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "files": 10,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "4619d8dc00e1000177ce7b0b2ecbda05265da05fef175b428dc6eb39e3a911ef"
+    },
+    {
+      "owner": "project-audit",
+      "channel": "shared",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "a5ba661e9c320590b3fdf8f8b427891e9eff1e1453b19d213398a3af3a350ac1"
+    },
+    {
+      "owner": "project-audit",
+      "channel": "hermes",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "a5ba661e9c320590b3fdf8f8b427891e9eff1e1453b19d213398a3af3a350ac1"
+    },
+    {
+      "owner": "project-audit",
+      "channel": "continue-copy",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "a5ba661e9c320590b3fdf8f8b427891e9eff1e1453b19d213398a3af3a350ac1"
+    },
+    {
+      "owner": "task-pipeline",
+      "channel": "shared",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "files": 82,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "b91bc0f64687fe64046bea1e3738e1360b23f0fb07cf0e0151fd9f3b2036b114"
+    },
+    {
+      "owner": "task-pipeline",
+      "channel": "hermes",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "files": 82,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "b91bc0f64687fe64046bea1e3738e1360b23f0fb07cf0e0151fd9f3b2036b114"
+    },
+    {
+      "owner": "task-pipeline",
+      "channel": "continue-copy",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "files": 82,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "b91bc0f64687fe64046bea1e3738e1360b23f0fb07cf0e0151fd9f3b2036b114"
+    },
+    {
+      "owner": "task-pipeline",
+      "channel": "claude-plugin",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "files": 109,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6aa906b7ace1d2723395a0a912a9ef5a2e1c17b2b9064ab1f8f2e7a610f6aeaa"
+    },
+    {
+      "owner": "task-pipeline",
+      "channel": "codex-plugin",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "files": 109,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6aa906b7ace1d2723395a0a912a9ef5a2e1c17b2b9064ab1f8f2e7a610f6aeaa"
+    },
+    {
+      "owner": "agent-sync",
+      "channel": "shared",
+      "source": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+      "files": 13,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "90f58568314d6f94a85a50d12eba26a6d68c9f65d07437230d540f14d03b502e"
+    },
+    {
+      "owner": "agent-sync",
+      "channel": "hermes",
+      "source": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+      "files": 13,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "90f58568314d6f94a85a50d12eba26a6d68c9f65d07437230d540f14d03b502e"
+    },
+    {
+      "owner": "agent-sync",
+      "channel": "continue-copy",
+      "source": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+      "files": 13,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "90f58568314d6f94a85a50d12eba26a6d68c9f65d07437230d540f14d03b502e"
+    },
+    {
+      "owner": "agent-sync",
+      "channel": "claude-plugin",
+      "source": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+      "files": 21,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "83905043ee8cd137dea02a75ac2b36ddf50b907bbd37b6c12f896b05ec5c45cf"
+    },
+    {
+      "owner": "agent-sync",
+      "channel": "codex-plugin",
+      "source": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+      "files": 21,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "83905043ee8cd137dea02a75ac2b36ddf50b907bbd37b6c12f896b05ec5c45cf"
+    },
+    {
+      "owner": "make-skill",
+      "channel": "shared",
+      "source": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c",
+      "files": 19,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "27ba74a17bb2c57773d6150f3a380d34b5755b57d204cc00347223020fc89cf8"
+    },
+    {
+      "owner": "make-skill",
+      "channel": "hermes",
+      "source": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c",
+      "files": 19,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "27ba74a17bb2c57773d6150f3a380d34b5755b57d204cc00347223020fc89cf8"
+    },
+    {
+      "owner": "make-skill",
+      "channel": "continue-copy",
+      "source": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c",
+      "files": 19,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "27ba74a17bb2c57773d6150f3a380d34b5755b57d204cc00347223020fc89cf8"
+    },
+    {
+      "owner": "make-skill",
+      "channel": "claude-plugin",
+      "source": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c",
+      "files": 25,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "181ceb19447c3478ab4850faffddacba9dbe7e13bf810b8de8dd8f0c91912699"
+    },
+    {
+      "owner": "make-skill",
+      "channel": "codex-plugin",
+      "source": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c",
+      "files": 25,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "181ceb19447c3478ab4850faffddacba9dbe7e13bf810b8de8dd8f0c91912699"
+    },
+    {
+      "owner": "sheleg-design",
+      "channel": "shared",
+      "source": "bf043e89f209c219c8a88dd30b066cbba9371781",
+      "files": 102,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6e58802a2c2d782c0f945b15b1f64fdd5a52d1642e022b617c8376f0950d678b"
+    },
+    {
+      "owner": "sheleg-design",
+      "channel": "hermes",
+      "source": "bf043e89f209c219c8a88dd30b066cbba9371781",
+      "files": 102,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6e58802a2c2d782c0f945b15b1f64fdd5a52d1642e022b617c8376f0950d678b"
+    },
+    {
+      "owner": "sheleg-design",
+      "channel": "continue-copy",
+      "source": "bf043e89f209c219c8a88dd30b066cbba9371781",
+      "files": 102,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6e58802a2c2d782c0f945b15b1f64fdd5a52d1642e022b617c8376f0950d678b"
+    },
+    {
+      "owner": "sheleg-design",
+      "channel": "claude-plugin",
+      "source": "bf043e89f209c219c8a88dd30b066cbba9371781",
+      "files": 104,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "54281c82022b1d4c2ea153b5fa920d00c35ba23b7ee55426ea074767f914ab04"
+    },
+    {
+      "owner": "sheleg-design",
+      "channel": "codex-plugin",
+      "source": "bf043e89f209c219c8a88dd30b066cbba9371781",
+      "files": 104,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "54281c82022b1d4c2ea153b5fa920d00c35ba23b7ee55426ea074767f914ab04"
+    },
+    {
+      "owner": "seo-aeo-audit",
+      "channel": "shared",
+      "source": "ba2d319f2d01842e7087ff1ef76185b12067e45d",
+      "files": 34,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "13b543d205ab787f419232aa7e237aecb8041b42ea70a2864081a62c794d8a37"
+    },
+    {
+      "owner": "seo-aeo-audit",
+      "channel": "hermes",
+      "source": "ba2d319f2d01842e7087ff1ef76185b12067e45d",
+      "files": 34,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "13b543d205ab787f419232aa7e237aecb8041b42ea70a2864081a62c794d8a37"
+    },
+    {
+      "owner": "seo-aeo-audit",
+      "channel": "continue-copy",
+      "source": "ba2d319f2d01842e7087ff1ef76185b12067e45d",
+      "files": 34,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "13b543d205ab787f419232aa7e237aecb8041b42ea70a2864081a62c794d8a37"
+    },
+    {
+      "owner": "seo-aeo-audit",
+      "channel": "claude-plugin",
+      "source": "ba2d319f2d01842e7087ff1ef76185b12067e45d",
+      "files": 36,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "e18ff1edd9d6179053694feb1bf5f8b905a88899b061366f9246e43e264b6d5a"
+    },
+    {
+      "owner": "seo-aeo-audit",
+      "channel": "codex-plugin",
+      "source": "ba2d319f2d01842e7087ff1ef76185b12067e45d",
+      "files": 36,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "e18ff1edd9d6179053694feb1bf5f8b905a88899b061366f9246e43e264b6d5a"
+    },
+    {
+      "owner": "ad-tracking",
+      "channel": "shared",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 13,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "b32acf8c1c69ec532d8ec2e4fb44fe611fe40979820189972ec97ef83372485d"
+    },
+    {
+      "owner": "ad-tracking",
+      "channel": "hermes",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 13,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "b32acf8c1c69ec532d8ec2e4fb44fe611fe40979820189972ec97ef83372485d"
+    },
+    {
+      "owner": "ad-tracking",
+      "channel": "continue-copy",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 13,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "b32acf8c1c69ec532d8ec2e4fb44fe611fe40979820189972ec97ef83372485d"
+    },
+    {
+      "owner": "crypto-payments",
+      "channel": "shared",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "e6ad32065b87399b673e5e0336d2fe9778c8e3428008ff54e2fb79a08343c050"
+    },
+    {
+      "owner": "crypto-payments",
+      "channel": "hermes",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "e6ad32065b87399b673e5e0336d2fe9778c8e3428008ff54e2fb79a08343c050"
+    },
+    {
+      "owner": "crypto-payments",
+      "channel": "continue-copy",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "e6ad32065b87399b673e5e0336d2fe9778c8e3428008ff54e2fb79a08343c050"
+    },
+    {
+      "owner": "error-tracking",
+      "channel": "shared",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "64dda45f5f0386a6559a38f46a60cf4015e0c97b7e253f3b5c3d6581fd148f25"
+    },
+    {
+      "owner": "error-tracking",
+      "channel": "hermes",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "64dda45f5f0386a6559a38f46a60cf4015e0c97b7e253f3b5c3d6581fd148f25"
+    },
+    {
+      "owner": "error-tracking",
+      "channel": "continue-copy",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "64dda45f5f0386a6559a38f46a60cf4015e0c97b7e253f3b5c3d6581fd148f25"
+    },
+    {
+      "owner": "frontend-performance",
+      "channel": "shared",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "d38722c371f1f13aeae6b09acedbd0b5428b39ea43006023010c6ca6c72cc553"
+    },
+    {
+      "owner": "frontend-performance",
+      "channel": "hermes",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "d38722c371f1f13aeae6b09acedbd0b5428b39ea43006023010c6ca6c72cc553"
+    },
+    {
+      "owner": "frontend-performance",
+      "channel": "continue-copy",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "d38722c371f1f13aeae6b09acedbd0b5428b39ea43006023010c6ca6c72cc553"
+    },
+    {
+      "owner": "google-auth",
+      "channel": "shared",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 5,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "a7742723a4cb8408890b10d43ffce3cde88325c44b15eb44b972cbdaafa38eaf"
+    },
+    {
+      "owner": "google-auth",
+      "channel": "hermes",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 5,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "a7742723a4cb8408890b10d43ffce3cde88325c44b15eb44b972cbdaafa38eaf"
+    },
+    {
+      "owner": "google-auth",
+      "channel": "continue-copy",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 5,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "a7742723a4cb8408890b10d43ffce3cde88325c44b15eb44b972cbdaafa38eaf"
+    },
+    {
+      "owner": "google-signin",
+      "channel": "shared",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 2,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "0672c1ebf86572d45bce490a4d5b7ba145eb685e8b56ad247251d1453b979ca0"
+    },
+    {
+      "owner": "google-signin",
+      "channel": "hermes",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 2,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "0672c1ebf86572d45bce490a4d5b7ba145eb685e8b56ad247251d1453b979ca0"
+    },
+    {
+      "owner": "google-signin",
+      "channel": "continue-copy",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 2,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "0672c1ebf86572d45bce490a4d5b7ba145eb685e8b56ad247251d1453b979ca0"
+    },
+    {
+      "owner": "stripe-billing",
+      "channel": "shared",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 25,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "2872086b6ee889ea887edd838a2b47d846b54da895f7cae122d6e69509fa4482"
+    },
+    {
+      "owner": "stripe-billing",
+      "channel": "hermes",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 25,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "2872086b6ee889ea887edd838a2b47d846b54da895f7cae122d6e69509fa4482"
+    },
+    {
+      "owner": "stripe-billing",
+      "channel": "continue-copy",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 25,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "2872086b6ee889ea887edd838a2b47d846b54da895f7cae122d6e69509fa4482"
+    },
+    {
+      "owner": "sheleg-dev",
+      "channel": "claude-plugin",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 61,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "9bd08c55d85439f3e6a56b4b3cc88ebb8a30d9840358d0c37bde92efd5a0bd65"
+    },
+    {
+      "owner": "sheleg-dev",
+      "channel": "codex-plugin",
+      "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
+      "files": 61,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "9bd08c55d85439f3e6a56b4b3cc88ebb8a30d9840358d0c37bde92efd5a0bd65"
+    },
+    {
+      "owner": "agent-evals",
+      "channel": "shared",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "8251665f4115f4f9989771fa90c96d54c4c4c122f7d99d5d984772fb9d92492b"
+    },
+    {
+      "owner": "agent-evals",
+      "channel": "hermes",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "8251665f4115f4f9989771fa90c96d54c4c4c122f7d99d5d984772fb9d92492b"
+    },
+    {
+      "owner": "agent-evals",
+      "channel": "continue-copy",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "8251665f4115f4f9989771fa90c96d54c4c4c122f7d99d5d984772fb9d92492b"
+    },
+    {
+      "owner": "agent-harness",
+      "channel": "shared",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 13,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "8d6882b800d9834db9a396846d4753a49347ec9ca45dfc43fb81a65326fbc9bb"
+    },
+    {
+      "owner": "agent-harness",
+      "channel": "hermes",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 13,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "8d6882b800d9834db9a396846d4753a49347ec9ca45dfc43fb81a65326fbc9bb"
+    },
+    {
+      "owner": "agent-harness",
+      "channel": "continue-copy",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 13,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "8d6882b800d9834db9a396846d4753a49347ec9ca45dfc43fb81a65326fbc9bb"
+    },
+    {
+      "owner": "agent-interop",
+      "channel": "shared",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 7,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "f8ea43bf98db04df6c8d197c393b948a9af87ae79a7cb9a460c032f10345998c"
+    },
+    {
+      "owner": "agent-interop",
+      "channel": "hermes",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 7,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "f8ea43bf98db04df6c8d197c393b948a9af87ae79a7cb9a460c032f10345998c"
+    },
+    {
+      "owner": "agent-interop",
+      "channel": "continue-copy",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 7,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "f8ea43bf98db04df6c8d197c393b948a9af87ae79a7cb9a460c032f10345998c"
+    },
+    {
+      "owner": "agent-orchestrator",
+      "channel": "shared",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 13,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6f83ddf725447a90ce66e226933a471c5074f5d05d3e52404565bfecbe991fad"
+    },
+    {
+      "owner": "agent-orchestrator",
+      "channel": "hermes",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 13,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6f83ddf725447a90ce66e226933a471c5074f5d05d3e52404565bfecbe991fad"
+    },
+    {
+      "owner": "agent-orchestrator",
+      "channel": "continue-copy",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 13,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6f83ddf725447a90ce66e226933a471c5074f5d05d3e52404565bfecbe991fad"
+    },
+    {
+      "owner": "agent-stack",
+      "channel": "claude-plugin",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 38,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "028e328598003ee9d8286225eab7b31aaae23fcf014a3b67e72add0f8a01196f"
+    },
+    {
+      "owner": "agent-stack",
+      "channel": "codex-plugin",
+      "source": "b512cb4d67c1acbfd36fde94935cc993e1fc91b7",
+      "files": 38,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "028e328598003ee9d8286225eab7b31aaae23fcf014a3b67e72add0f8a01196f"
+    },
+    {
+      "owner": "telegram-bots",
+      "channel": "shared",
+      "source": "4627d27336d01ce7c9276396913195406ef428c6",
+      "files": 6,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "b263d773387a0cb43765b372423e83d174b175f00e26d05da397a65e419264bc"
+    },
+    {
+      "owner": "telegram-bots",
+      "channel": "hermes",
+      "source": "4627d27336d01ce7c9276396913195406ef428c6",
+      "files": 6,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "b263d773387a0cb43765b372423e83d174b175f00e26d05da397a65e419264bc"
+    },
+    {
+      "owner": "telegram-bots",
+      "channel": "continue-copy",
+      "source": "4627d27336d01ce7c9276396913195406ef428c6",
+      "files": 6,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "b263d773387a0cb43765b372423e83d174b175f00e26d05da397a65e419264bc"
+    },
+    {
+      "owner": "telegram-miniapps",
+      "channel": "shared",
+      "source": "4627d27336d01ce7c9276396913195406ef428c6",
+      "files": 5,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "e95f279479b6eeb869707b6865ceb34835b8a57729d44f9c312df88aa9232fac"
+    },
+    {
+      "owner": "telegram-miniapps",
+      "channel": "hermes",
+      "source": "4627d27336d01ce7c9276396913195406ef428c6",
+      "files": 5,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "e95f279479b6eeb869707b6865ceb34835b8a57729d44f9c312df88aa9232fac"
+    },
+    {
+      "owner": "telegram-miniapps",
+      "channel": "continue-copy",
+      "source": "4627d27336d01ce7c9276396913195406ef428c6",
+      "files": 5,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "e95f279479b6eeb869707b6865ceb34835b8a57729d44f9c312df88aa9232fac"
+    },
+    {
+      "owner": "telegram-userbots",
+      "channel": "shared",
+      "source": "4627d27336d01ce7c9276396913195406ef428c6",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6d9e7d36455cc6e13f70b433c6b9bd19433e21ddf7cd17de0973b5e4d3f1c404"
+    },
+    {
+      "owner": "telegram-userbots",
+      "channel": "hermes",
+      "source": "4627d27336d01ce7c9276396913195406ef428c6",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6d9e7d36455cc6e13f70b433c6b9bd19433e21ddf7cd17de0973b5e4d3f1c404"
+    },
+    {
+      "owner": "telegram-userbots",
+      "channel": "continue-copy",
+      "source": "4627d27336d01ce7c9276396913195406ef428c6",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6d9e7d36455cc6e13f70b433c6b9bd19433e21ddf7cd17de0973b5e4d3f1c404"
+    },
+    {
+      "owner": "telegram-dev",
+      "channel": "claude-plugin",
+      "source": "4627d27336d01ce7c9276396913195406ef428c6",
+      "files": 16,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "e25265d925555534883e98a1b111178784ac3b757114505fe19c90311bd27573"
+    },
+    {
+      "owner": "quest-lifecycle",
+      "channel": "shared",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "23bd2a6900bca5d6bdce466f2582a4cc8538bb1bbf43b11c1a72c05f50ec7969"
+    },
+    {
+      "owner": "quest-lifecycle",
+      "channel": "hermes",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "23bd2a6900bca5d6bdce466f2582a4cc8538bb1bbf43b11c1a72c05f50ec7969"
+    },
+    {
+      "owner": "quest-lifecycle",
+      "channel": "continue-copy",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "23bd2a6900bca5d6bdce466f2582a4cc8538bb1bbf43b11c1a72c05f50ec7969"
+    },
+    {
+      "owner": "quest-native",
+      "channel": "shared",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 6,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "a45fcc96a6f24161a1ad07c347abffb4b8952785de3a52b443b37ad6ede77ffc"
+    },
+    {
+      "owner": "quest-native",
+      "channel": "hermes",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 6,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "a45fcc96a6f24161a1ad07c347abffb4b8952785de3a52b443b37ad6ede77ffc"
+    },
+    {
+      "owner": "quest-native",
+      "channel": "continue-copy",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 6,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "a45fcc96a6f24161a1ad07c347abffb4b8952785de3a52b443b37ad6ede77ffc"
+    },
+    {
+      "owner": "quest-perf",
+      "channel": "shared",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6195b56a3267f556081d0961cda58674b08f45395ff42ee4bd0266bd82cf77dc"
+    },
+    {
+      "owner": "quest-perf",
+      "channel": "hermes",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6195b56a3267f556081d0961cda58674b08f45395ff42ee4bd0266bd82cf77dc"
+    },
+    {
+      "owner": "quest-perf",
+      "channel": "continue-copy",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "6195b56a3267f556081d0961cda58674b08f45395ff42ee4bd0266bd82cf77dc"
+    },
+    {
+      "owner": "quest-spatial",
+      "channel": "shared",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 6,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "9b1c0eb717a3a2756ad40f2424d1dbc91d609f32ddf288fb719ff76ff6d7b1cd"
+    },
+    {
+      "owner": "quest-spatial",
+      "channel": "hermes",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 6,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "9b1c0eb717a3a2756ad40f2424d1dbc91d609f32ddf288fb719ff76ff6d7b1cd"
+    },
+    {
+      "owner": "quest-spatial",
+      "channel": "continue-copy",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 6,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "9b1c0eb717a3a2756ad40f2424d1dbc91d609f32ddf288fb719ff76ff6d7b1cd"
+    },
+    {
+      "owner": "quest-store",
+      "channel": "shared",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 5,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "9c949fec2670ff80d0b790d1483a7175dd1eb9932d31a1d7c777827d1d092894"
+    },
+    {
+      "owner": "quest-store",
+      "channel": "hermes",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 5,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "9c949fec2670ff80d0b790d1483a7175dd1eb9932d31a1d7c777827d1d092894"
+    },
+    {
+      "owner": "quest-store",
+      "channel": "continue-copy",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 5,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "9c949fec2670ff80d0b790d1483a7175dd1eb9932d31a1d7c777827d1d092894"
+    },
+    {
+      "owner": "quest-tooling",
+      "channel": "shared",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "35be91ae1cbf68bf70b4c4f1fc5bf726e4bdd9850702f83284ab575c906277a9"
+    },
+    {
+      "owner": "quest-tooling",
+      "channel": "hermes",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "35be91ae1cbf68bf70b4c4f1fc5bf726e4bdd9850702f83284ab575c906277a9"
+    },
+    {
+      "owner": "quest-tooling",
+      "channel": "continue-copy",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "35be91ae1cbf68bf70b4c4f1fc5bf726e4bdd9850702f83284ab575c906277a9"
+    },
+    {
+      "owner": "quest-webxr",
+      "channel": "shared",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 3,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "f2f1be522cf36d1ff772b3b0633d76b2d352af9f5152a40dcec5e5baba24b0db"
+    },
+    {
+      "owner": "quest-webxr",
+      "channel": "hermes",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 3,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "f2f1be522cf36d1ff772b3b0633d76b2d352af9f5152a40dcec5e5baba24b0db"
+    },
+    {
+      "owner": "quest-webxr",
+      "channel": "continue-copy",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 3,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "f2f1be522cf36d1ff772b3b0633d76b2d352af9f5152a40dcec5e5baba24b0db"
+    },
+    {
+      "owner": "xr-dev",
+      "channel": "claude-plugin",
+      "source": "c01672238779e3fcbd300bd3bad906cf1edb846f",
+      "files": 33,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "fc16704e42c4063fb53393da14bcf34c033f965b6ce845fb8a6187e375a3c3de"
+    },
+    {
+      "owner": "web3d-animation",
+      "channel": "shared",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "437552029fcf19145aafef3279dee14be71ab4ebb2d43eaa4812af6fc992f826"
+    },
+    {
+      "owner": "web3d-animation",
+      "channel": "hermes",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "437552029fcf19145aafef3279dee14be71ab4ebb2d43eaa4812af6fc992f826"
+    },
+    {
+      "owner": "web3d-animation",
+      "channel": "continue-copy",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "437552029fcf19145aafef3279dee14be71ab4ebb2d43eaa4812af6fc992f826"
+    },
+    {
+      "owner": "web3d-assets",
+      "channel": "shared",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "files": 5,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "febe406ca40e1131be42c0cacd00b61d9848d005760171efe2662d9aa7b3ddac"
+    },
+    {
+      "owner": "web3d-assets",
+      "channel": "hermes",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "files": 5,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "febe406ca40e1131be42c0cacd00b61d9848d005760171efe2662d9aa7b3ddac"
+    },
+    {
+      "owner": "web3d-assets",
+      "channel": "continue-copy",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "files": 5,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "febe406ca40e1131be42c0cacd00b61d9848d005760171efe2662d9aa7b3ddac"
+    },
+    {
+      "owner": "web3d-runtime",
+      "channel": "shared",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "084571ab740c47680347f640698eb24263d3c33253cb09e0aaf0bb1d5c1f3661"
+    },
+    {
+      "owner": "web3d-runtime",
+      "channel": "hermes",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "084571ab740c47680347f640698eb24263d3c33253cb09e0aaf0bb1d5c1f3661"
+    },
+    {
+      "owner": "web3d-runtime",
+      "channel": "continue-copy",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "files": 4,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "084571ab740c47680347f640698eb24263d3c33253cb09e0aaf0bb1d5c1f3661"
+    },
+    {
+      "owner": "web3d-dev",
+      "channel": "claude-plugin",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "files": 14,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "0fb374786077d3bf9b2ead9680079855ad95d74ba17206fc6547de41fd3ec0a7"
+    },
+    {
+      "owner": "web3d-dev",
+      "channel": "codex-plugin",
+      "source": "cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
+      "files": 14,
+      "equal": true,
+      "missing": [],
+      "different": [],
+      "manifest_sha256": "0fb374786077d3bf9b2ead9680079855ad95d74ba17206fc6547de41fd3ec0a7"
+    }
+  ],
+  "runtime_acceptance": "NOT_RUN; pinned blob equality and enabled plugin registration only"
+}

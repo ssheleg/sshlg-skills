@@ -1,0 +1,163 @@
+{
+  "scope": "Exact upstream directory discovery helper; no frontmatter parsing or native/model acceptance",
+  "name_source": "skill directory basename, not parsed frontmatter",
+  "source_url": "https://raw.githubusercontent.com/continuedev/continue/5522c6f44ca0ac3528b37244818fbfa39b5af470/extensions/cli/src/util/loadMarkdownSkills.ts",
+  "source_revision": "5522c6f44ca0ac3528b37244818fbfa39b5af470",
+  "source_sha256": "7c8ac3242ca5aeb9b119f62186fc1d70f24bbe810ac6cd1f0ee7bdc293ee840c",
+  "helper_sha256": "8d72a4362ee1539f120f86c5700b0382f2abfa5dbe2fc85126629bc46d4e8706",
+  "count": 38,
+  "skills": [
+    {
+      "name": "ad-tracking",
+      "path": "ad-tracking/SKILL.md"
+    },
+    {
+      "name": "agent-evals",
+      "path": "agent-evals/SKILL.md"
+    },
+    {
+      "name": "agent-harness",
+      "path": "agent-harness/SKILL.md"
+    },
+    {
+      "name": "agent-interop",
+      "path": "agent-interop/SKILL.md"
+    },
+    {
+      "name": "agent-orchestrator",
+      "path": "agent-orchestrator/SKILL.md"
+    },
+    {
+      "name": "agent-sync",
+      "path": "agent-sync/SKILL.md"
+    },
+    {
+      "name": "brand-voice",
+      "path": "brand-voice/SKILL.md"
+    },
+    {
+      "name": "copywriting",
+      "path": "copywriting/SKILL.md"
+    },
+    {
+      "name": "crypto-payments",
+      "path": "crypto-payments/SKILL.md"
+    },
+    {
+      "name": "error-tracking",
+      "path": "error-tracking/SKILL.md"
+    },
+    {
+      "name": "evidence-docs",
+      "path": "evidence-docs/SKILL.md"
+    },
+    {
+      "name": "frontend-performance",
+      "path": "frontend-performance/SKILL.md"
+    },
+    {
+      "name": "google-auth",
+      "path": "google-auth/SKILL.md"
+    },
+    {
+      "name": "google-signin",
+      "path": "google-signin/SKILL.md"
+    },
+    {
+      "name": "make-skill",
+      "path": "make-skill/SKILL.md"
+    },
+    {
+      "name": "project-audit",
+      "path": "project-audit/SKILL.md"
+    },
+    {
+      "name": "quest-lifecycle",
+      "path": "quest-lifecycle/SKILL.md"
+    },
+    {
+      "name": "quest-native",
+      "path": "quest-native/SKILL.md"
+    },
+    {
+      "name": "quest-perf",
+      "path": "quest-perf/SKILL.md"
+    },
+    {
+      "name": "quest-spatial",
+      "path": "quest-spatial/SKILL.md"
+    },
+    {
+      "name": "quest-store",
+      "path": "quest-store/SKILL.md"
+    },
+    {
+      "name": "quest-tooling",
+      "path": "quest-tooling/SKILL.md"
+    },
+    {
+      "name": "quest-webxr",
+      "path": "quest-webxr/SKILL.md"
+    },
+    {
+      "name": "seo-aeo-audit",
+      "path": "seo-aeo-audit/SKILL.md"
+    },
+    {
+      "name": "sheleg-design",
+      "path": "sheleg-design/SKILL.md"
+    },
+    {
+      "name": "stripe-billing",
+      "path": "stripe-billing/SKILL.md"
+    },
+    {
+      "name": "task-pipeline",
+      "path": "task-pipeline/SKILL.md"
+    },
+    {
+      "name": "telegram-bots",
+      "path": "telegram-bots/SKILL.md"
+    },
+    {
+      "name": "telegram-miniapps",
+      "path": "telegram-miniapps/SKILL.md"
+    },
+    {
+      "name": "telegram-userbots",
+      "path": "telegram-userbots/SKILL.md"
+    },
+    {
+      "name": "ux-audit",
+      "path": "ux-audit/SKILL.md"
+    },
+    {
+      "name": "ux-flows",
+      "path": "ux-flows/SKILL.md"
+    },
+    {
+      "name": "ux-foundation",
+      "path": "ux-foundation/SKILL.md"
+    },
+    {
+      "name": "ux-scenarios",
+      "path": "ux-scenarios/SKILL.md"
+    },
+    {
+      "name": "vision",
+      "path": "vision/SKILL.md"
+    },
+    {
+      "name": "web3d-animation",
+      "path": "web3d-animation/SKILL.md"
+    },
+    {
+      "name": "web3d-assets",
+      "path": "web3d-assets/SKILL.md"
+    },
+    {
+      "name": "web3d-runtime",
+      "path": "web3d-runtime/SKILL.md"
+    }
+  ]
+}

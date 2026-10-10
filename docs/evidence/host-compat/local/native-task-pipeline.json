@@ -1,0 +1,44 @@
+{
+  "as_of": "2026-10-10T02:37:36.210472+00:00",
+  "package": "task-pipeline-skill",
+  "version": "1.90.2",
+  "source_commit": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+  "before": {
+    "marketplace_source": {
+      "source_type": "git",
+      "source": "https://github.com/ssheleg/task-pipeline.git"
+    },
+    "explicit_ref_present": false,
+    "marketplace_head": "07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
+    "installed_version": "1.90.1",
+    "enabled": true
+  },
+  "after": {
+    "marketplace_source": {
+      "source_type": "git",
+      "source": "https://github.com/ssheleg/task-pipeline.git",
+      "ref": "cc2cc63c459576d3069939fa5da6b7482e5ba276"
+    },
+    "marketplace_head": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+    "installed_version": "1.90.2",
+    "enabled": true,
+    "all_plugin_blobs_equal_git": true,
+    "plugin_files": 109
+  },
+  "preservation": {
+    "prior_cache_versions": [
+      "1.90.0",
+      "1.90.1"
+    ],
+    "prior_cache_files": 213,
+    "restored_after_add": [
+      "1.90.0",
+      "1.90.1"
+    ],
+    "all_prior_bytes_modes_preserved": true,
+    "all_non_target_config_equal": true,
+    "skills_config_equal": true,
+    "skills_entries": 29
+  },
+  "runtime_acceptance": "NOT_RUN; no new model/provider session"
+}

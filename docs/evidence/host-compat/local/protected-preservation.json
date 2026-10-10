@@ -1,0 +1,21 @@
+{
+  "as_of": "2026-10-10T02:54:18.339227+00:00",
+  "status": "PASS",
+  "checks": {
+    "selected_host_config_bytes_preserved": true,
+    "claude_mcp_and_tool_policy_preserved": true,
+    "manual_instructions_preserved:CLAUDE.md": true,
+    "manual_instructions_preserved:.claude/CLAUDE.md": true,
+    "manual_instructions_preserved:.codex/AGENTS.md": true,
+    "manual_instructions_preserved:.gemini/GEMINI.md": true,
+    "original_worktree_head_preserved": true,
+    "original_worktree_status_preserved": true,
+    "original_worktree_diff_preserved": true,
+    "original_chat_exports_preserved": true
+  },
+  "selected_config_paths": 7,
+  "selected_present_configs": 5,
+  "instruction_files": 4,
+  "chat_exports": 2,
+  "scope": "Selected host settings and manual instructions, original repository HEAD/status/diff, exact two chat export bytes. Codex model/permissions and disabled paths checked separately. No credential values published."
+}
