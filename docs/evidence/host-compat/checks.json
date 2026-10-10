@@ -260,5 +260,23 @@
       "verified_files": 406,
       "checks": "Complete pathsets, bytes and exact file modes match the five declared Git commits; no symlinks or extra files."
     }
+  },
+  "recovery_source_gate": {
+    "candidate": "66c4cb0ead253a09e42e47487a67f9ce4944b108",
+    "source_ci": 38008003368,
+    "result": "PASS",
+    "validate_steps": 464,
+    "merged_source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+    "merged_tree_equal_candidate": true,
+    "merged_sha_docgate": {
+      "result": "PASS",
+      "exit": 0,
+      "log_sha256": "20f5938c7f103370e21aafbbfc65468edceb99f5a3d494a0f06993984166557f"
+    },
+    "release": {
+      "run": 38015659338,
+      "status": "IN_PROGRESS"
+    },
+    "source_ci_log_sha256": "e29fb9222eb239c326a2dff431aebacefb9f9b0c4877b4b944ccad997a7cc888"
   }
 }

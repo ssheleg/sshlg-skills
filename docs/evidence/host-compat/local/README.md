@@ -35,9 +35,12 @@ The before summary reads `client-versions.json`; the after summary requires a
 fresh `client-versions-after.json` from the same clients' `--version` commands.
 It does not silently reuse initial versions after a long release wait.
 
-Native Codex marketplaces were already pinned to exact source SHAs. `marketplace
-upgrade` returned exit 0 with an empty upgradedRoots list and plugin add retained
-the old version; these no-op receipts are not treated as updates. Installation
+The four updated Codex marketplaces (make-skill, agent-sync, super-ux and
+sheleg-dev) were pinned to exact source SHAs. `marketplace upgrade` returned exit
+0 with an empty upgradedRoots list and plugin add retained the old version; these
+no-op receipts are not treated as updates. The separate task-pipeline preflight
+found a Git source without a fixed ref and version 1.90.1 already registered;
+its final repin preserves that observed state for rollback. Installation
 therefore removes and re-adds only each existing pinned marketplace through the
 native lifecycle, then uses `marketplace add ssheleg/<owner> --ref <released SHA>` followed
 by `plugin add <owner>@<owner>`, verifies the returned version, and compares changed
