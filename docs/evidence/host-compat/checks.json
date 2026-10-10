@@ -279,5 +279,47 @@
       "status": "IN_PROGRESS"
     },
     "source_ci_log_sha256": "e29fb9222eb239c326a2dff431aebacefb9f9b0c4877b4b944ccad997a7cc888"
+  },
+  "final_pin_gate": {
+    "source": "cbbfef2aaef93b4b807dc3e3e56be5e65337ebe1",
+    "command": "npm test",
+    "exit": 0,
+    "suites": 93,
+    "fixtures": 1136,
+    "pinned_members": 11,
+    "log_sha256": "9aa28fc4f5187a4232c1195490c00091275f15b95abe568e97d7e5eb3086b98f",
+    "independent_review": {
+      "result": "ACCEPT",
+      "reviewer": "/root/host_contracts",
+      "complete_payload_files": 542,
+      "ctx_checks": 6,
+      "report_wording_correction": "Describe native hook dispatch as inferred; operator confirms no new errors."
+    }
+  },
+  "release_metadata_residual": {
+    "severity": "P2",
+    "status": "DISCLOSED_NEXT_NORMAL_RELEASE",
+    "introduced_in_this_task": true,
+    "owners": [
+      {
+        "owner": "super-ux",
+        "version": "0.59.1",
+        "commit": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e"
+      },
+      {
+        "owner": "make-skill",
+        "version": "0.29.2",
+        "commit": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c"
+      },
+      {
+        "owner": "sheleg-dev",
+        "version": "0.13.2",
+        "commit": "d15b0603105753a3d26737d77fc955c9b29bf7d0"
+      }
+    ],
+    "finding": "Published tags are lightweight. Registry identity and payload byte checks remain valid; git describe may show a preceding annotated version.",
+    "policy": "test/validate.py:1956-1998 explicitly discloses these through _skips and preserves published lightweight tags until the next normal release. Owner workflows did not enforce annotation.",
+    "next_action": "In each owner, add explicit git tag -a guidance and a pre-publication tag-type guard before its next normal release; preserve existing public tags.",
+    "independent_review": "/root/host_contracts confirmed exact remote refs and release policy; no retag or corrective version cycle required."
   }
 }
