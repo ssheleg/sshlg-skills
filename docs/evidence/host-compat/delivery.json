@@ -37,9 +37,13 @@
         "candidate": "66c4cb0ead253a09e42e47487a67f9ce4944b108",
         "pr": "https://github.com/ssheleg/task-pipeline/pull/104",
         "source_ci": 38008003368,
-        "status": "SOURCE_AND_LOCAL_GATES_IN_PROGRESS",
+        "status": "LOCAL_GATES_PASS_SOURCE_CI_IN_PROGRESS",
         "independent_review": "ACCEPT /root/host_contracts",
-        "required_next": "Pass both gates, normal squash merge, docgate on actual merged SHA, immutable new tag and successful release/registry checks."
+        "required_next": "Pass both gates, normal squash merge, docgate on actual merged SHA, immutable new tag and successful release/registry checks.",
+        "local_full_gate": {
+          "exit": 0,
+          "evidence": "checks.json#recovery_local_attempts"
+        }
       }
     },
     {

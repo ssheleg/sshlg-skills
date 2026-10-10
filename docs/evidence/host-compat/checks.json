@@ -199,6 +199,22 @@
       "enospc_occurrences": 186,
       "log_sha256": "be16e82fd005b39dacb7da1ae0b88410206fa519448afd43c46d2b9d6e8b2cf6",
       "retry": "Same unchanged source after owned test scratch cleanup; separate log and final exit required"
+    },
+    {
+      "owner": "task-pipeline",
+      "version": "1.90.2",
+      "source": "66c4cb0ead253a09e42e47487a67f9ce4944b108",
+      "command": "npm run test:all",
+      "exit": 0,
+      "result": "PASS",
+      "negative_guards": 430,
+      "property_checks": 15,
+      "enospc_occurrences": 0,
+      "log_sha256": "e5158d04c2d11caaf7875615fe8696b32216e21864ad454c063cf9dd3b62a5be",
+      "source_unchanged_from_failed_attempt": true,
+      "scratch_directories_after": 0,
+      "scratch_paths_enumerated": 434,
+      "limits": "Existing unlooked disclosures and 149 human-confirmation REQ items remain; this is a repository gate, not native runtime acceptance."
     }
   ],
   "payload_equivalence_helper": {
