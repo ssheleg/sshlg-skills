@@ -146,6 +146,19 @@ process.stdin.on('end', () => {
       }
     }
 
+    // 0b. The MCP tool whose RESULT carries a credential (lib/mcpsecrets.js). Same
+    //     cost as 0 — a result cannot be redacted once it is in the transcript —
+    //     and the matcher only wakes this hook for the registered tools.
+    if (data.tool_name && data.tool_name.startsWith('mcp__')) {
+      const mcpsecrets = require(path.join(LIB, 'mcpsecrets.js'));
+      const hit = mcpsecrets.inspectTool(data.tool_name);
+      if (hit) {
+        say('deny', hit.why);
+        return;
+      }
+      return process.exit(0);
+    }
+
     // 1. The command that quietly pins a skill at an old version.
     const hygiene = require(path.join(LIB, 'hygiene.js'));
     if (command) {

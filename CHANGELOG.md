@@ -9,6 +9,17 @@ machine holds family skills there, `update` now reinstalls each member for Conti
 with an isolated `--copy` after every refresh; a machine without Continue gets no
 such step. Found by the installed-payload verifier, not by a user.
 
+**MCP tools whose answer is a credential are refused** (from #184).
+`PreToolUse` now also reads MCP calls, for a registry of tools whose RESULT carries a
+secret by design (`lib/mcpsecrets.js`): the DigitalOcean database, registry, Kubernetes,
+Spaces, Functions and vector-database credential tools. On 2026-10-10 one
+`db-cluster-list`, asked for names, printed five clusters' admin and user passwords
+into a transcript; every one had to be reset and its apps redeployed. The refusal
+names the value-free listing and the route that sends a credential to the vault on
+stdin. The hook matcher is built from the registry, so no other MCP call spawns the
+hook; `db-cluster-get-ca` and tools that only name credentials pass
+(`test/mcpsecrets_test.js`, 17 checks).
+
 ## v1.55.0 — a small core, and a search as every task's first step
 
 Measured on the operator's machine: Claude Code's skill listing was 274,398
@@ -33,7 +44,6 @@ opens every task with that step — meaning first, then the search.
 The skills CLI pin moves to `skills@1.7.2`: same 79 targets and global flags; Codex
 and Pi now install to `~/.agents/skills`. Members re-pinned after their releases, every
 new member tag annotated (release workflows now refuse a lightweight tag).
-
 ## v1.54.7 — coding-host compatibility and supported install targets
 
 `--all` selects explicit global destinations from the pinned skills CLI snapshot:
