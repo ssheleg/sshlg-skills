@@ -110,7 +110,9 @@ it('the region names the command that measures, not a recollection', () => {
   const out = write(EMPTY);
   const body = out.slice(out.indexOf(P_BEGIN), out.indexOf(P_END));
   assert.ok(/npx sshlg-skills toolkit/.test(body), 'the protocol names no way to measure');
-  assert.ok(/--for/.test(body), 'the task-scoped form is not shown');
+  // Since 1.55.0 the task-scoped form is `--find`: the agent reads the meaning and
+  // searches by concepts (operator decision 2026-10-10), not by the raw sentence.
+  assert.ok(/--find/.test(body), 'the task-scoped form is not shown');
 });
 
 it('it says to print the plan and NOT to wait for approval', () => {

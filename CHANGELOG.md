@@ -1,3 +1,28 @@
+## v1.55.0 — a small core, and a search as every task's first step
+
+Measured on the operator's machine: Claude Code's skill listing was 274,398
+characters against a 30,000 budget, so descriptions dropped least-used first; Codex
+removed every description and 220 skills from its model-visible list, `task-pipeline`
+among them. `visibility` keeps a core listed — family skills, skills used in the last
+60 days, skills the operator's instructions name in backticks — and hides the rest:
+Claude `skillOverrides: "user-invocable-only"` (still in the `/` menu), Codex
+`enabled = false`. Nothing is deleted; each file is backed up before it is written,
+the launcher records what it actually added, and `--revert` removes exactly that — an
+entry the operator already had survives it. A Codex config that defines `skills` any
+other way (`[[skills.config]]`, dotted keys) is refused rather than edited. Plugin
+skills cannot be hidden this way: on the measured machine the listing falls from
+~267k to ~107k characters, still above the budget, so descriptions still drop
+least-used first — the search step is what reaches the rest.
+
+`toolkit --find "<concept>, …"` searches the whole catalogue by the concepts an agent
+read from the request: a name match weighs three, hidden and shared-root skills are
+included, and every row carries its SKILL.md path. The routing block's protocol now
+opens every task with that step — meaning first, then the search.
+
+The skills CLI pin moves to `skills@1.7.2`: same 79 targets and global flags; Codex
+and Pi now install to `~/.agents/skills`. Members re-pinned after their releases, every
+new member tag annotated (release workflows now refuse a lightweight tag).
+
 ## v1.54.7 — coding-host compatibility and supported install targets
 
 `--all` selects explicit global destinations from the pinned skills CLI snapshot:

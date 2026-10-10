@@ -295,8 +295,11 @@ Usage:
   npx sshlg-skills humanizers                         # anti-AI-writing skills this machine can reach
   npx sshlg-skills signature --used "<skill>[=what it did],…"
                                                       # report header + footer, links looked up
-  npx sshlg-skills toolkit [--for "<task>"] [--expand <provider>]
+  npx sshlg-skills toolkit [--for "<task>"] [--find "<concept>, …"] [--expand <provider>]
                                                       # every skill this machine can reach
+  npx sshlg-skills visibility [--apply | --revert] [--days 60] [--keep a,b]
+                                                      # keep a small core in each host's skill
+                                                      # listing; hide the rest (found by --find)
   npx sshlg-skills pack [<name>] [--lane <id>] [--check]
   npx sshlg-skills materialised                       # routers this project says live in its tree
                                                       # curated recommendations, measured here
@@ -1312,6 +1315,24 @@ function cmdToolkit(argv) {
   const family = manifest.skills.reduce(
     (acc, m) => acc.concat(m.skillNames && m.skillNames.length ? m.skillNames : [m.name]), []);
 
+  const li0 = argv.indexOf('--limit');
+  const findAt = argv.indexOf('--find');
+  if (findAt !== -1) {
+    const query = argv[findAt + 1] && !argv[findAt + 1].startsWith('--') ? argv[findAt + 1] : '';
+    if (!query) { log('usage: npx sshlg-skills toolkit --find "<concept>, <concept>, …"'); return 2; }
+    // Visibility is read, never assumed: a skill the operator hid from the listing is
+    // exactly the one this search exists to reach.
+    let overrides = {};
+    try {
+      overrides = JSON.parse(fs.readFileSync(path.join(home, '.claude', 'settings.json'), 'utf8')).skillOverrides || {};
+    } catch (e) { overrides = {}; }
+    const all = skills.concat(toolkit.readShared(home, skills))
+      .map((s) => Object.assign({}, s, { visibility: s.namespace === 'claude:plain' ? overrides[s.id] : undefined }));
+    const { rows, total } = toolkit.find(all, query, li0 !== -1 ? Number(argv[li0 + 1]) || 12 : 12);
+    log(toolkit.renderFind(rows, query, total));
+    return 0;
+  }
+
   const at = argv.indexOf('--for');
   const forQuery = at !== -1 && argv[at + 1] && !argv[at + 1].startsWith('--') ? argv[at + 1] : '';
   const expand = [];
@@ -1334,6 +1355,129 @@ function cmdToolkit(argv) {
   const protect = toolkit.advertisedWords(triggers.ROUTES);
 
   log(toolkit.report(skills, family, { for: forQuery, expand, limit, seeds, protect }));
+}
+
+/**
+ * `visibility` — which skills a host's model listing keeps, and hiding the rest.
+ *
+ * The decisions live in `lib/visibility.js`; this reads the inputs, backs every file up
+ * through `protect()` before writing it, and records what it wrote so `--revert` removes
+ * exactly that. Without `--apply` or `--revert` it writes nothing.
+ */
+function cmdVisibility(argv) {
+  const V = require(path.join(ROOT, 'lib', 'visibility.js'));
+  const toolkit = require(path.join(ROOT, 'lib', 'toolkit.js'));
+  const apply = require(path.join(ROOT, 'lib', 'apply.js'));
+  const home = process.env.HOME || os.homedir();
+  const read = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch (e) { return null; } };
+  const flag = (name) => argv.includes(name);
+  const value = (name) => { const i = argv.indexOf(name); return i !== -1 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : null; };
+  const doApply = flag('--apply');
+  const doRevert = flag('--revert');
+  const days = Number(value('--days')) || V.DEFAULT_DAYS;
+  const keep = (value('--keep') || '').split(',').map((s) => s.trim()).filter(Boolean);
+
+  const recordPath = path.join(home, '.sshlg-skills', 'visibility.json');
+  let owned = { claude: [], codex: [] };
+  try { owned = Object.assign(owned, JSON.parse(read(recordPath) || '{}')); } catch (e) { /* unreadable: owns nothing */ }
+
+  const skills = toolkit.readSkills(home).filter((s) => s.callable !== false);
+  const personal = skills.filter((s) => s.namespace === 'claude:plain').map((s) => s.id);
+  const family = manifest.skills.reduce((acc, m) => acc.concat(m.skillNames && m.skillNames.length ? m.skillNames : [m.name]), []);
+  let usage = {};
+  try { usage = JSON.parse(read(path.join(home, '.claude.json')) || '{}').skillUsage || {}; } catch (e) { usage = {}; }
+  const instructions = read(path.join(home, '.claude', 'CLAUDE.md')) || '';
+  const coreSet = V.core({ personal, family, usage, now: Date.now(), days, instructions });
+  for (const k of keep) coreSet.add(k);
+
+  // ── Claude ──
+  const settingsPath = path.join(home, '.claude', 'settings.json');
+  const settingsText = read(settingsPath);
+  let overrides = {};
+  try { overrides = JSON.parse(settingsText || '{}').skillOverrides || {}; } catch (e) { overrides = {}; }
+  const mine = new Set(owned.claude.filter((n) => overrides[n] === V.HIDE));
+  const foreign = {};
+  for (const [k, v] of Object.entries(overrides)) if (!mine.has(k)) foreign[k] = v;
+  const plan = doRevert ? { hide: [], respected: [] } : V.claudePlan({ personal, core: coreSet, overrides: foreign, keep });
+  const claudeSet = plan.hide.filter((n) => !mine.has(n));
+  const claudeUnset = [...mine].filter((n) => !plan.hide.includes(n));
+  const stateOf = (s, ov) => {
+    if (s.namespace !== 'claude:plain') return 'on';
+    const v = ov[s.id];
+    if (v === 'off' || v === V.HIDE) return 'hidden';
+    return v === 'name-only' ? 'name-only' : 'on';
+  };
+  const after = Object.assign({}, overrides);
+  for (const n of claudeSet) after[n] = V.HIDE;
+  for (const n of claudeUnset) delete after[n];
+  const charsBefore = V.listingChars(skills.map((s) => ({ name: s.plugin && s.namespace === 'claude:plugin' ? `${s.plugin.split('@')[0]}:${s.id}` : s.id, description: s.description, state: stateOf(s, overrides) })));
+  const charsAfter = V.listingChars(skills.map((s) => ({ name: s.plugin && s.namespace === 'claude:plugin' ? `${s.plugin.split('@')[0]}:${s.id}` : s.id, description: s.description, state: stateOf(s, after) })));
+
+  // ── Codex ──
+  const codexPath = path.join(home, '.codex', 'config.toml');
+  const codexText = read(codexPath);
+  const sharedRoot = path.join(home, '.agents', 'skills');
+  let shared = [];
+  try { shared = fs.readdirSync(sharedRoot).filter((n) => !n.startsWith('.') && fs.existsSync(path.join(sharedRoot, n, 'SKILL.md'))); } catch (e) { shared = []; }
+  const familySet = new Set(family);
+  const codexWant = doRevert ? [] : shared.filter((n) => !familySet.has(n) && !coreSet.has(n)).map((n) => path.join(sharedRoot, n, 'SKILL.md'));
+  const codexAdd = codexWant.filter((p) => !owned.codex.includes(p));
+  const codexDrop = owned.codex.filter((p) => !codexWant.includes(p));
+
+  log(`Skill visibility — core = family + used within ${days} days + named in ~/.claude/CLAUDE.md${keep.length ? ' + --keep' : ''}`);
+  log(`  core: ${coreSet.size} skills`);
+  log(`  Claude: ${personal.length} personal skills; hide ${claudeSet.length} more, un-hide ${claudeUnset.length}; ` +
+      `${Object.keys(foreign).length} operator-set override(s) left alone`);
+  log(`  Claude listing ≈ ${charsBefore} → ${charsAfter} characters (names + descriptions, 1536 cap each).`);
+  log('    Budget: Claude Code logs it — `claude -p x --debug` then look for "Skill listing over budget"');
+  log('    (30000 characters measured on 2026-10-10). Over budget, descriptions drop least-used first.');
+  log(`  Codex: ${shared.length} shared skills; disable up to ${codexAdd.length} more (entries already present are left as they are), re-enable ${codexDrop.length}` +
+      (codexText === null ? ' (no ~/.codex/config.toml — skipped)' : ''));
+  log('  Hidden skills stay installed: Claude keeps them in the / menu, every host can read the file,');
+  log('  and `npx sshlg-skills toolkit --find "<concepts>"` finds them by meaning.');
+  if (!doApply && !doRevert) { log('\n  Nothing written. `--apply` hides, `--revert` undoes only what this command wrote.'); return 0; }
+
+  let failed = false;
+  // 'skipped' (no such file) keeps the old ownership for that host: nothing was
+  // written, so nothing new is owned — and a revert must not claim a value the
+  // operator creates later.
+  const write = (file, before, edit, label) => {
+    if (before === null) return { status: 'skipped' };
+    const r = edit(before);
+    if (!r.ok) { log(`  ${label}: NOT written — ${r.reason}`); failed = true; return { status: 'refused' }; }
+    if (r.text === before) { log(`  ${label}: already as planned`); return { status: 'ok', added: r.added || [] }; }
+    const saved = apply.protect(file, { home });
+    if (saved.action === 'backup-failed') { log(`  ${label}: NOT written — backup failed (${saved.error})`); failed = true; return { status: 'refused' }; }
+    fs.writeFileSync(file, r.text, 'utf8');
+    log(`  ${label}: written (backup ${saved.path || 'taken'})`);
+    return { status: 'ok', added: r.added || [] };
+  };
+  const wc = write(settingsPath, settingsText, (t) => V.editClaudeSettings(t, { set: claudeSet, unset: claudeUnset }), '~/.claude/settings.json');
+  const wx = write(codexPath, codexText, (t) => V.editCodexConfig(t, { disable: codexAdd, enable: codexDrop }), '~/.codex/config.toml');
+  // Ownership is what this command actually wrote and still holds: for Claude the
+  // planned hides (the plan never includes an operator-set key), for Codex the
+  // previously owned paths still wanted plus the ones this run ADDED — never an entry
+  // the operator already had.
+  const record = {
+    note: 'Written by `npx sshlg-skills visibility`; --revert removes exactly these entries.',
+    days,
+    updatedAt: new Date().toISOString(),
+    claude: wc.status === 'ok' ? plan.hide.slice().sort() : owned.claude,
+    codex: wx.status === 'ok'
+      ? [...new Set(owned.codex.filter((p) => codexWant.includes(p)).concat(wx.added))].sort()
+      : owned.codex,
+  };
+  fs.mkdirSync(path.dirname(recordPath), { recursive: true });
+  // The record is the pack's own state, but it decides what a later revert removes
+  // from the operator's files — so it takes the same backup as they do.
+  const savedRecord = apply.protect(recordPath, { home });
+  if (savedRecord.action === 'backup-failed') {
+    log(`  ownership record NOT updated — backup failed (${savedRecord.error}); --revert would act on the old one`);
+    return 1;
+  }
+  fs.writeFileSync(recordPath, JSON.stringify(record, null, 2) + '\n', 'utf8');
+  log('  Restart the host session to load the new listing.');
+  return failed ? 1 : 0;
 }
 
 /**
@@ -1976,7 +2120,8 @@ function main(argv) {
   if (cmd === 'hooks') return cmdHooks(rest) ? 0 : 1;
   if (cmd === 'injectors') { cmdInjectors(); return 0; }
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
-  if (cmd === 'toolkit') { cmdToolkit(argv); return 0; }
+  if (cmd === 'toolkit') { return cmdToolkit(argv) || 0; }
+  if (cmd === 'visibility') return cmdVisibility(argv);
   if (cmd === 'pack' || cmd === 'packs') { return cmdPack(argv); }
   if (cmd === 'materialised' || cmd === 'materialized') { return cmdMaterialised(argv); }
   if (cmd === 'signature') { return cmdSignature(argv); }
