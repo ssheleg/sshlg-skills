@@ -1,3 +1,15 @@
+## Unreleased — MCP tools whose answer is a credential are refused
+
+`PreToolUse` now also reads MCP calls, for a registry of tools whose RESULT carries a
+secret by design (`lib/mcpsecrets.js`): the DigitalOcean database, registry, Kubernetes,
+Spaces, Functions and vector-database credential tools. On 2026-10-10 one
+`db-cluster-list`, asked for names, printed five clusters' admin and user passwords
+into a transcript; every one had to be reset and its apps redeployed. The refusal
+names the value-free listing and the route that sends a credential to the vault on
+stdin. The hook matcher is built from the registry, so no other MCP call spawns the
+hook; `db-cluster-get-ca` and tools that only name credentials pass
+(`test/mcpsecrets_test.js`, 17 checks).
+
 ## v1.54.7 — coding-host compatibility and supported install targets
 
 `--all` selects explicit global destinations from the pinned skills CLI snapshot:
