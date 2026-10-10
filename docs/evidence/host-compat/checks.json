@@ -231,8 +231,9 @@
     "initial_current_source": "a15c855f3849e947e5d629acb8a22e5518e557a1",
     "initial_equal_files": 542,
     "method": "post-fix/EQUIVALENCE.md",
-    "final_pin_receipt": "PENDING",
-    "audit_not_rerun": true
+    "final_pin_receipt": "post-fix/final-pin-equivalence.json",
+    "audit_not_rerun": true,
+    "final_pin_result": "PASS: 11 members, 38 skills, 542 complete files and Git modes; audit not rerun"
   },
   "fresh_after_versions": {
     "required_file": "client-versions-after.json",
