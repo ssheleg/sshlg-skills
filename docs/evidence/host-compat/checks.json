@@ -233,5 +233,32 @@
     "method": "post-fix/EQUIVALENCE.md",
     "final_pin_receipt": "PENDING",
     "audit_not_rerun": true
+  },
+  "fresh_after_versions": {
+    "required_file": "client-versions-after.json",
+    "missing_file_probe": "REFUSED before host reads and receipt writes",
+    "independent_review": "ACCEPT /root/host_contracts",
+    "live_after_collection": "PENDING_INSTALL"
+  },
+  "stale_hook_path_repair": {
+    "evidence": "local/stale-cache-repair.json",
+    "before_exit_codes": [
+      127,
+      127,
+      127
+    ],
+    "after_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "scope": "No-op isolated command startup; native dispatch correlation inferred",
+    "config_bytes_unchanged": true,
+    "independent_review": {
+      "result": "ACCEPT",
+      "reviewer": "/root/host_contracts",
+      "verified_files": 406,
+      "checks": "Complete pathsets, bytes and exact file modes match the five declared Git commits; no symlinks or extra files."
+    }
   }
 }
