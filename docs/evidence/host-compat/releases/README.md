@@ -29,3 +29,13 @@ archive, traversal, symlink, differing Git bytes, duplicate entry and a
 noncanonical registry URL. Implementation commit:
 `29a7c450a4490e94a1f83c40813d79a47b37b0cd`, integrated as
 `85ddf41cd9d9eacdac98f288d97305e3964ac6f7` in this delivery branch.
+
+## Completed publication receipts
+
+- [Hub 1.54.7](hub.json): 60 published files match source `5a12a70d2d6c44a73b23a474072b6c3681a56b6e`; [release run](https://github.com/ssheleg/sshlg-skills/actions/runs/38017671346) succeeded.
+- [task-pipeline 1.90.2](task-pipeline.json): 132 published files; [payload completeness](task-pipeline-payload.json) covers all 109 plugin files. [Release run](https://github.com/ssheleg/task-pipeline/actions/runs/38015659338) succeeded. Failed unpublished 1.90.1 remains in the central release history.
+- [agent-sync 1.21.5](agent-sync.json) and [payload completeness](agent-sync-payload.json).
+- [make-skill 0.29.2](make-skill.json), [super-ux 0.59.1](super-ux.json), [sheleg-dev 0.13.2](sheleg-dev.json).
+
+Local native Codex task-pipeline registration and preserved previous cache paths
+are recorded separately in [native-task-pipeline.json](../local/native-task-pipeline.json).

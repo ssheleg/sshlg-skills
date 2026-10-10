@@ -1,0 +1,19 @@
+{
+  "package": "task-pipeline-skill",
+  "version": "1.90.2",
+  "source_commit": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+  "registry_gitHead": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+  "tarball": "https://registry.npmjs.org/task-pipeline-skill/-/task-pipeline-skill-1.90.2.tgz",
+  "integrity": "sha512-GWIZJ48Y69Si1NmXpJfyfmH4oxGxfBsGo/3mhKrfcT4EouAjqGEyiy1zlHhrCNBJT5c3Zd+wHMvRfwEH+PCjcw==",
+  "shasum": "ab9b6aae485d713b99b3b58f3014af8bd8fc899b",
+  "tarball_sha256": "e3daab1090e136cea4552ce6842b1e7ee9de4f68b84c7718ebe9b05428bb159e",
+  "archive_files": 132,
+  "expected_plugin_files": 109,
+  "all_archive_files_byte_identical_to_source": true,
+  "all_expected_plugin_files_present": true,
+  "skill_entries": [
+    "plugins/task-pipeline/skills/evidence-docs/SKILL.md",
+    "plugins/task-pipeline/skills/project-audit/SKILL.md",
+    "plugins/task-pipeline/skills/task-pipeline/SKILL.md"
+  ]
+}

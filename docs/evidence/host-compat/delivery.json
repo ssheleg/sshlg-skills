@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "task": "HC-20261009",
-  "status": "IN_PROGRESS",
+  "status": "DELIVERED",
   "members": [
     {
       "owner": "make-skill",
@@ -28,16 +28,19 @@
       "owner": "task-pipeline",
       "version": "1.90.2",
       "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
-      "status": "INTEGRATED_RELEASE_PENDING",
+      "status": "PUBLISHED",
       "source_ci": 38008003368,
       "source_ci_result": "PASS",
       "reviewed_candidate": "66c4cb0ead253a09e42e47487a67f9ce4944b108",
       "merged_tree_equal_reviewed_candidate": true,
       "local_gate": "PASS; checks.json#recovery_local_attempts",
       "merged_sha_docgate": "PASS",
-      "registry_receipt": "PENDING",
+      "registry_receipt": "releases/task-pipeline.json",
       "release_run": 38015659338,
-      "annotated_tag": "f27cc493d536916958f2c56dee6168899a87a679"
+      "annotated_tag": "f27cc493d536916958f2c56dee6168899a87a679",
+      "payload_completeness": "releases/task-pipeline-payload.json",
+      "native_installation": "local/native-task-pipeline.json",
+      "release_result": "SUCCESS"
     },
     {
       "owner": "agent-sync",
@@ -51,13 +54,33 @@
   ],
   "hub": {
     "version": "1.54.7",
-    "status": "FINAL_PIN_CANDIDATE_AWAITING_MEMBER_REGISTRY",
-    "release_order": "CONTRIBUTING.md requires member publication before parent pin integration and release; wait for all five registry receipts before hub integration.",
-    "integration_plan": "Two sequential source PRs per CONTRIBUTING.md: launcher/contracts first without member pin changes, then five published member pins and final receipts. One final hub release.",
+    "status": "PUBLISHED",
+    "release_order": "All five changed members were published and registry-verified before parent pins were integrated and hub1.54.7 released.",
+    "integration_plan": "Completed sequential PR181 launcher/contracts and PR182 final member pins/receipts per CONTRIBUTING.md.",
     "launcher_pr": 181,
-    "launcher_source": "d8e87c1b92fd7e9121671e0be32151a20f858f4b"
+    "launcher_source": "d8e87c1b92fd7e9121671e0be32151a20f858f4b",
+    "source": "5a12a70d2d6c44a73b23a474072b6c3681a56b6e",
+    "pins_pr": 182,
+    "reviewed_candidate": "e27db48acadeafb4658b9fb863080045cbe8d62f",
+    "merged_tree_equal_reviewed_candidate": true,
+    "annotated_tag": "fc88a608c021960ae89d1525ebe3ec00953f582b",
+    "release_run": 38017671346,
+    "release_result": "SUCCESS",
+    "registry_receipt": "releases/hub.json"
   },
-  "installation": "PENDING",
+  "installation": {
+    "status": "PASS_WITH_HISTORICAL_BASELINE_DRIFT_DISCLOSED",
+    "command_receipt": "local/installation.json",
+    "discovery_receipt": "local/after.json",
+    "installed_payloads": "local/installed-payloads.json",
+    "comparisons": 134,
+    "all_payloads_equal": true,
+    "continue_discovery": "local/continue-after.json",
+    "protected_settings": "local/protected-preservation.json",
+    "codex_config_reconciliation": "local/config-reconciliation.json",
+    "open_session_cache_preservation": "local/claude-cache-preservation.json",
+    "limits": "Initial baseline config comparison remains FAIL because MCP drift predates the last native update; current config equals its post-update snapshot. No model/provider/hook-effect acceptance."
+  },
   "model_runtime": "NOT_RUN",
   "reviews": [
     {
@@ -123,6 +146,12 @@
       "checked_file_hashes": 542,
       "local_links": 62,
       "evidence": "post-fix/summary.json"
+    },
+    {
+      "scope": "Final installed payload, discovery, old caches, protected settings and initial MCP baseline reconciliation",
+      "reviewer": "/root/host_contracts",
+      "result": "ACCEPT",
+      "evidence": "local-readback.json"
     }
   ],
   "owner_index": [
@@ -132,9 +161,9 @@
       "branch": "main",
       "source": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
       "version": "0.59.1",
-      "status": "CHANGED_SOURCE_INTEGRATED",
+      "status": "PUBLISHED_AND_INSTALLED_VERIFIED",
       "entry": "https://github.com/ssheleg/super-ux/tree/99e17ccbb00edbb4ccb68b6ac21586f219809e7e",
-      "evidence": "post-fix/census.json"
+      "evidence": "local/installed-payloads.json"
     },
     {
       "owner": "task-pipeline",
@@ -142,9 +171,9 @@
       "branch": "main",
       "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
       "version": "1.90.2",
-      "status": "CHANGED_SOURCE_INTEGRATED",
+      "status": "PUBLISHED_AND_INSTALLED_VERIFIED",
       "entry": "https://github.com/ssheleg/task-pipeline/tree/cc2cc63c459576d3069939fa5da6b7482e5ba276",
-      "evidence": "post-fix/census.json"
+      "evidence": "local/installed-payloads.json"
     },
     {
       "owner": "agent-sync",
@@ -152,9 +181,9 @@
       "branch": "main",
       "source": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
       "version": "1.21.5",
-      "status": "CHANGED_SOURCE_INTEGRATED",
+      "status": "PUBLISHED_AND_INSTALLED_VERIFIED",
       "entry": "https://github.com/ssheleg/agent-sync/tree/52bf0dd2f40913d10f684b967e1ba8c489a63660",
-      "evidence": "post-fix/census.json"
+      "evidence": "local/installed-payloads.json"
     },
     {
       "owner": "make-skill",
@@ -162,9 +191,9 @@
       "branch": "main",
       "source": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c",
       "version": "0.29.2",
-      "status": "CHANGED_SOURCE_INTEGRATED",
+      "status": "PUBLISHED_AND_INSTALLED_VERIFIED",
       "entry": "https://github.com/ssheleg/make-skill/tree/c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c",
-      "evidence": "post-fix/census.json"
+      "evidence": "local/installed-payloads.json"
     },
     {
       "owner": "sheleg-design",
@@ -192,9 +221,9 @@
       "branch": "main",
       "source": "d15b0603105753a3d26737d77fc955c9b29bf7d0",
       "version": "0.13.2",
-      "status": "CHANGED_SOURCE_INTEGRATED",
+      "status": "PUBLISHED_AND_INSTALLED_VERIFIED",
       "entry": "https://github.com/ssheleg/sheleg-dev/tree/d15b0603105753a3d26737d77fc955c9b29bf7d0",
-      "evidence": "post-fix/census.json"
+      "evidence": "local/installed-payloads.json"
     },
     {
       "owner": "agent-stack",
@@ -251,14 +280,24 @@
         "candidate": "66c4cb0ead253a09e42e47487a67f9ce4944b108",
         "pr": "https://github.com/ssheleg/task-pipeline/pull/104",
         "source_ci": 38008003368,
-        "status": "LOCAL_GATES_PASS_SOURCE_CI_IN_PROGRESS",
+        "status": "PUBLISHED_AND_NATIVE_CODEX_INSTALLED",
         "independent_review": "ACCEPT /root/host_contracts",
-        "required_next": "Pass both gates, normal squash merge, docgate on actual merged SHA, immutable new tag and successful release/registry checks.",
+        "required_next": "Recovery complete; preserve failed1.90.1 historical evidence. Follow future release metadata guidance without rewriting public tags.",
         "local_full_gate": {
           "exit": 0,
           "evidence": "checks.json#recovery_local_attempts"
-        }
+        },
+        "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+        "release_run": 38015659338,
+        "release_result": "SUCCESS"
       }
     }
-  ]
+  ],
+  "report_catalog": {
+    "owner": "obsidian-memory-vault",
+    "remote": "https://github.com/ssheleg/obsidian-memory-vault.git",
+    "branch": "master",
+    "entry": "sshlg-projects-vault/projects/sshlg-skills/references/report-2026-10-09-coding-agent-compatibility.md",
+    "method": "Generated from the report header using reports.py index --commit --push; delivery commit is recorded in the wiki owner, not duplicated here."
+  }
 }

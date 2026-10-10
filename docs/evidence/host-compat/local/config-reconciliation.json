@@ -1,0 +1,22 @@
+{
+  "as_of": "2026-10-10T02:56:08.768343+00:00",
+  "status": "PASS_FOR_NATIVE_TP_AND_GLOBAL_INSTALL; HISTORICAL_BASELINE_DRIFT_DISCLOSED",
+  "initial_baseline_changed_sections": [
+    "marketplaces",
+    "mcp_servers"
+  ],
+  "mcp_drift_already_present_before_native_task_pipeline": true,
+  "mcp_identical_before_native_task_pipeline_after_and_current": true,
+  "native_task_pipeline_changed_sections": [
+    "marketplaces"
+  ],
+  "global_install_changed_sections_since_native_task_pipeline": [],
+  "global_install_config_bytes_equal_post_native_task_pipeline": true,
+  "config_snapshot_sha256": {
+    "before_native_task_pipeline": "333220e6be251a8bf04e5c56032f813329ac88cdc55d11f1f9cbad2fb1417a1d",
+    "after_native_task_pipeline": "7029aa6fc3659361ccef0e3ac63ceefd4bc2ac8e31dc817fac854c96e77f6552",
+    "current": "7029aa6fc3659361ccef0e3ac63ceefd4bc2ac8e31dc817fac854c96e77f6552"
+  },
+  "initial_model_permissions_and_non_mcp_non_marketplace_sections_preserved": true,
+  "limits": "Initial baseline comparison in after.json remains FAIL rather than erased. MCP hash drift predates the native task-pipeline update and global install; actor/cause not established. Preserve observed configuration, never restore stale MCP values. Codex version changed from0.162.0 to0.162.1 during the long task; this task did not run a client upgrade."
+}

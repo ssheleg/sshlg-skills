@@ -1,0 +1,677 @@
+{
+  "as_of": "2026-10-10T02:36:07.071291+00:00",
+  "package": "task-pipeline-skill",
+  "version": "1.90.2",
+  "gitHead": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+  "registry": "https://registry.npmjs.org/task-pipeline-skill/1.90.2",
+  "tarball": "https://registry.npmjs.org/task-pipeline-skill/-/task-pipeline-skill-1.90.2.tgz",
+  "integrity": "sha512-GWIZJ48Y69Si1NmXpJfyfmH4oxGxfBsGo/3mhKrfcT4EouAjqGEyiy1zlHhrCNBJT5c3Zd+wHMvRfwEH+PCjcw==",
+  "tarball_sha256": "e3daab1090e136cea4552ce6842b1e7ee9de4f68b84c7718ebe9b05428bb159e",
+  "all_published_files_equal_release_source": true,
+  "published_files": 132,
+  "canonical_manifest_sha256": "a5407834a008576be64f90834b39a296f37b93c046d1bc4a9f5e312d23a3d6e5",
+  "release_run": "38015659338",
+  "runtime_acceptance": "NOT_RUN",
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "93328d57588d91396ccc713a7dd659b43bf99be9530c80576fb72f61e66fc592",
+      "bytes": 493797
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "sha256": "b81a02b682ca36e55b26359a0747a08409381bcb45342bcf701e14036108dd12",
+      "bytes": 1472
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "sha256": "5fa7e092e2ac7fe2304aa47f308d03f61735093bc42f7ee5c0ab1cefc9d125ae",
+      "bytes": 45445
+    },
+    {
+      "path": "HOW-IT-WORKS.md",
+      "sha256": "e1cb1e9fe09ad2137b703b5bf5e9d74f1d51ed5b4441b588fbf67c3bfc195d1a",
+      "bytes": 19583
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+      "bytes": 1064
+    },
+    {
+      "path": "README.md",
+      "sha256": "285b8dbcfbf69125ee71623d401d5dac70efb9e2aa607c2096a611b6be15b847",
+      "bytes": 63950
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "137100800f4843281f60045a7938c76498373f12b0891955ff5d8ec439fb4008",
+      "bytes": 3054
+    },
+    {
+      "path": "SKILL-CARD.md",
+      "sha256": "4716337bba07b7c90a10f006a24b3d14c49a7c0f0ad1c9f53a51b719c37cc2b5",
+      "bytes": 5708
+    },
+    {
+      "path": "bin/lib/artifact-root.js",
+      "sha256": "a208e484315acabcf12568cfe6a59c24a87bb8300ba4f8e19460936a6e2f55f1",
+      "bytes": 4624
+    },
+    {
+      "path": "bin/lib/migrate-artifacts.js",
+      "sha256": "6f34559906036ba142c350bee2ba2334adc6303366198a8ce9e75b8bb7777596",
+      "bytes": 9135
+    },
+    {
+      "path": "bin/task-pipeline.js",
+      "sha256": "bc6639bee1a985b7ce1f1d760df122020fd63619c68b3b38c4ed2f4a402d143f",
+      "bytes": 12068
+    },
+    {
+      "path": "cursor/rules/task-pipeline.mdc",
+      "sha256": "934dc8781f7d996b99d6e072dde425beaac5297b3720d731131dd0c35dab4dbf",
+      "bytes": 46412
+    },
+    {
+      "path": "evals/RESULTS.md",
+      "sha256": "50806fd8edfd83487c8c3062ca02f62f07071824ddfdc050eacaa190b2d8574c",
+      "bytes": 16968
+    },
+    {
+      "path": "evals/cases/evidence-docs.json",
+      "sha256": "5eaadd5a23a841b2bf00b94cc8032b33c4fedb20d4b0f35be5f5e51a646fd5aa",
+      "bytes": 5066
+    },
+    {
+      "path": "evals/cases/project-audit.json",
+      "sha256": "ec0aa28bd2e72bb776f2e7fb838845f3660b8fbc78048f499f2738d33de2b889",
+      "bytes": 5101
+    },
+    {
+      "path": "evals/cases/task-pipeline.json",
+      "sha256": "04e3173a27710c8d532c9b203570c868c206d8e45117d57b7d2a02b4dc639111",
+      "bytes": 5151
+    },
+    {
+      "path": "evals/evidence-docs.evals.json",
+      "sha256": "5a5a77e5897458ce3b16bf282eb4acf2be35e04aa37025d0b02982c82261cb04",
+      "bytes": 6106
+    },
+    {
+      "path": "evals/project-audit.evals.json",
+      "sha256": "dfed6b04d214675cec4b17c62a4f0fad0810e7d8cd9681acc3942ae45b265486",
+      "bytes": 5555
+    },
+    {
+      "path": "evals/routing/RESULTS.md",
+      "sha256": "33ce6e9b75891574d3565af29b6396b29c8cedb3f8e28e32c69e50976cf8ac37",
+      "bytes": 5141
+    },
+    {
+      "path": "evals/routing/render.py",
+      "sha256": "3e12db8139447610b79f793dfc204ac483df6202cdf9348ed6d8820acd93f8ed",
+      "bytes": 5699
+    },
+    {
+      "path": "evals/run.py",
+      "sha256": "2b838912383bc26571ace5617c150e372b84c0e3dc4b1d21c56a953a45a25ce3",
+      "bytes": 6737
+    },
+    {
+      "path": "evals/task-pipeline.evals.json",
+      "sha256": "51e49defd3699afdeb953027a468df02bd113492cdb1222b9dc632168a0f58b5",
+      "bytes": 19307
+    },
+    {
+      "path": "package.json",
+      "sha256": "8055de94266af7895bbbd2b6545056b6945ba1372a3f8883b2cb6e0bffe60dc7",
+      "bytes": 2759
+    },
+    {
+      "path": "plugins/task-pipeline/.claude-plugin/plugin.json",
+      "sha256": "257e533651be4769eeba211f11d0dff22dc34b952e505c78c56613b7a2f23a4f",
+      "bytes": 1397
+    },
+    {
+      "path": "plugins/task-pipeline/agents/verifier-product.md",
+      "sha256": "f389b0a086f1a010634985e90e08ab6766e80410674baa27d653b61c38d36427",
+      "bytes": 6095
+    },
+    {
+      "path": "plugins/task-pipeline/agents/verifier-seam.md",
+      "sha256": "0deb617ca89a749d14341f017d1627292a986b68e40066849c6bc0cba8aaa2a6",
+      "bytes": 5725
+    },
+    {
+      "path": "plugins/task-pipeline/agents/verifier-unit.md",
+      "sha256": "a08d37cc756955df68045e2c6f8c55568e66a6d9c626c945b7be595e97d58695",
+      "bytes": 4808
+    },
+    {
+      "path": "plugins/task-pipeline/agents/verifier-visual.md",
+      "sha256": "b01c0d78b98f65fe3b45cbfe690fa9d0044763c0a7a87971a1b4840c46907ef5",
+      "bytes": 7604
+    },
+    {
+      "path": "plugins/task-pipeline/agents/verifier.md",
+      "sha256": "d6ceb7bf8f72faec31cd7b6d7ef08746111a61b48e8cbeb942cbb8fcc3bfd1c1",
+      "bytes": 6724
+    },
+    {
+      "path": "plugins/task-pipeline/commands/project-audit.md",
+      "sha256": "f8fb14d269ab923b161a6750f63fe829ad416722e28f58f00045523cdf4be4d4",
+      "bytes": 1023
+    },
+    {
+      "path": "plugins/task-pipeline/commands/task-pipeline.md",
+      "sha256": "d2c5525cbcd4f669652bd81255fcc99ee1678653e3a9e4a17c87c94fbecdc5f6",
+      "bytes": 11814
+    },
+    {
+      "path": "plugins/task-pipeline/hooks/build-gate.sh",
+      "sha256": "45fdb12cd6da2944a5c3fc5222c9a468b7ef36fe1bc409261fa24a53e0d7eacc",
+      "bytes": 4783
+    },
+    {
+      "path": "plugins/task-pipeline/hooks/gate-observer.sh",
+      "sha256": "adcf21ec3b173e41060ceb47064f0dcb18eacba10e58091f92784f549acd39c3",
+      "bytes": 4912
+    },
+    {
+      "path": "plugins/task-pipeline/hooks/hooks.json",
+      "sha256": "eeb5eda5f3b1017fae9b96d891449e9ef3b54b45e4e7ae2c64c5b9781752eae6",
+      "bytes": 2254
+    },
+    {
+      "path": "plugins/task-pipeline/hooks/release-gate.sh",
+      "sha256": "61cd27ead06ecc8e72dedbef085b54898bac61d9b4dbb28fca058464af073794",
+      "bytes": 13111
+    },
+    {
+      "path": "plugins/task-pipeline/hooks/run-lifecycle.sh",
+      "sha256": "6ae7ab6bc2025d303c364ed6abc7d684fd60da794c0cd5e49a74bc3300477d84",
+      "bytes": 3875
+    },
+    {
+      "path": "plugins/task-pipeline/skills/evidence-docs/SKILL.md",
+      "sha256": "f656ed03bc4dfec4e7a0809022838dc18e8a876905a26603ddb36b447fb83aee",
+      "bytes": 9294
+    },
+    {
+      "path": "plugins/task-pipeline/skills/evidence-docs/references/GENERATED.md",
+      "sha256": "352c733cda7175a39247dc5a43b573445c002be900ca13a85ded5f6d2cc9cf6b",
+      "bytes": 599
+    },
+    {
+      "path": "plugins/task-pipeline/skills/evidence-docs/references/documentation.md",
+      "sha256": "05c1749fd5d18177e60d645562b5d403278e8bce78fcdb4dc290040ba90570ea",
+      "bytes": 26978
+    },
+    {
+      "path": "plugins/task-pipeline/skills/evidence-docs/references/gates.md",
+      "sha256": "c7c648ab5706fc996f745b2e4d719ae475453da5e30b4d89c5bf2af4e7173668",
+      "bytes": 40815
+    },
+    {
+      "path": "plugins/task-pipeline/skills/evidence-docs/references/hooks.md",
+      "sha256": "60950835b283561c482c7d8f9b889001fe2dc100d40d1162d8e8cafe84fdb176",
+      "bytes": 14471
+    },
+    {
+      "path": "plugins/task-pipeline/skills/evidence-docs/references/learned.md",
+      "sha256": "ca133eb8669e33ffc800139472c594d55b1ad91f4555251a4162c49bbb34bcd6",
+      "bytes": 33093
+    },
+    {
+      "path": "plugins/task-pipeline/skills/evidence-docs/references/retrospective.md",
+      "sha256": "cf45639fb78bd690b602f05485847837459174f647e0c60c2b0e2d7a3610387d",
+      "bytes": 32528
+    },
+    {
+      "path": "plugins/task-pipeline/skills/evidence-docs/references/setup.md",
+      "sha256": "9f7248e0a173c9a973c0435a447d2cb86c04981b44bcdc4e2c2726f9def7ce89",
+      "bytes": 8789
+    },
+    {
+      "path": "plugins/task-pipeline/skills/evidence-docs/templates/decisions.md",
+      "sha256": "bc040a7a3f0aa5f609bc39d384c7ba0d8a5672367927f9c85f2792124f935d6f",
+      "bytes": 2246
+    },
+    {
+      "path": "plugins/task-pipeline/skills/evidence-docs/templates/docgate.sh",
+      "sha256": "5507e057a39d695d11d276ea4fca800e84dcb984281095cd8aa5d415c1cddb25",
+      "bytes": 24283
+    },
+    {
+      "path": "plugins/task-pipeline/skills/project-audit/SKILL.md",
+      "sha256": "7bded06cb0a8d007c6dbd85df8a2d86fc8a144b5372f24c573717e148dd26d2b",
+      "bytes": 19294
+    },
+    {
+      "path": "plugins/task-pipeline/skills/project-audit/references/portable-method.md",
+      "sha256": "5bbf1a672bb019d9074a87634acd5e7a819da56fc2a4ed9f1196d0d30b0e7673",
+      "bytes": 5677
+    },
+    {
+      "path": "plugins/task-pipeline/skills/project-audit/references/probes.md",
+      "sha256": "486580b10547c17fe9468cacade1489b46bab085de90e36382c8e616f70b23a5",
+      "bytes": 10433
+    },
+    {
+      "path": "plugins/task-pipeline/skills/project-audit/scripts/audit.py",
+      "sha256": "99d40009b0a1bfde95218be6a20e6dd4e4702f60ef4770cbb6b420fe964c581e",
+      "bytes": 59013
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+      "sha256": "85b454478624363b318aa36bc9a3e929b822c3c83bf1a88b139caa28f309794d",
+      "bytes": 21117
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/assets/verifier-product.md",
+      "sha256": "f826589c2ecadfb07d24a5b4dd82ae550d9ccfb72e2a3c317b388b068c38393c",
+      "bytes": 5522
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/assets/verifier-seam.md",
+      "sha256": "6ae3e5378bb9d016b44dfe686f6b72a626fdb249e8d7b86a16acd835387dd4db",
+      "bytes": 5171
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/assets/verifier-unit.md",
+      "sha256": "db2a9cc6322dbb2d84fee7759b664ae614c60975c8d3c4cdded4d9da624c32d8",
+      "bytes": 4275
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/assets/verifier-visual.md",
+      "sha256": "f490820b08c2fde10c2badef74001ca7275b8279c2bc280703b2cb8355c381d9",
+      "bytes": 6924
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/execution-attempt.schema.json",
+      "sha256": "bb89d40789b9021d68954f1179db8f66a22676b541119953fa63b283186d083a",
+      "bytes": 4394
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/execution-packet.example.json",
+      "sha256": "578f61728da9257ce804a748c35d7b46cea980d7253d567387c64352f11a0436",
+      "bytes": 1327
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/execution-packet.schema.json",
+      "sha256": "b254bdffc62e7955d19b32fd0c467ea658445ddb65a6c02d689f3cad4f9981c2",
+      "bytes": 7444
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/execution-result.example.json",
+      "sha256": "f28f5e7e3c1fd81afbf27ead3d74eeb77e09c6c3ccbb11e86a990c5734affe1a",
+      "bytes": 1301
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/execution-result.schema.json",
+      "sha256": "014bad7b0acb0d8041b97e27b927f4cb5be17102e0a423df82e68fc6c057062c",
+      "bytes": 8574
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/graph.example.json",
+      "sha256": "63ff610a700e7bc317a48136770f67aff02d042734d1dc5fdfcf523885a23557",
+      "bytes": 2412
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/graph.schema.json",
+      "sha256": "e2ddf1f6601d25ab3371db29ca926121be972ae35c2b3c8974b140593c143edb",
+      "bytes": 23921
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/pipeline.example.json",
+      "sha256": "4faddcb87a5e1cdb4130bc7c0887c12423c1428278f5dc0aeed775db39759298",
+      "bytes": 25401
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/pipeline.schema.json",
+      "sha256": "47a6843b5775bf7270cc5c86ba19bb0898a875712446a7c5487222ea3ed22992",
+      "bytes": 17616
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/acceptance.md",
+      "sha256": "dc162d9b16b166d1e7aa306d7e89d5632d4ba9ff0c0d2e559345dca114f63ae3",
+      "bytes": 25794
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/adoption.md",
+      "sha256": "b951a9a727b3d5e3942a49358895295edb5b8d19b37bde07fba8477bb17a9524",
+      "bytes": 11172
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/artifacts.md",
+      "sha256": "832d4d66d6600203968ea467e4d51c31b72577417f0157504386762cc6c774f7",
+      "bytes": 19585
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/audit.md",
+      "sha256": "825f15c2aa62651f577c1c885561cd46e5f2b0c135346da3ca8760195ec1b321",
+      "bytes": 25195
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/backlog.md",
+      "sha256": "a938024ecaf5e2f9c2c6ea67cd9843df6e1d8e01738110da040c585402b37769",
+      "bytes": 12362
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/brainstorm.md",
+      "sha256": "841cff29f38a3d2093768981e28b60a5911ae2dde00ef17f9e905884e67f3b99",
+      "bytes": 8761
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/browser.md",
+      "sha256": "beda3ccd60df742768d8c0553fd3366a198de0a0df33b326991336b238c5599b",
+      "bytes": 23386
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/build.md",
+      "sha256": "cecf4bf9e349e8afe60340d82976245f8e84140d8bc246f78098e60b79bebf58",
+      "bytes": 39258
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/certification.md",
+      "sha256": "50cd27aff74fa7324f95247a7cc7570aa9906f8447e232a5e759d1c21972d1c0",
+      "bytes": 14303
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/companion-skills.md",
+      "sha256": "673b3ce714b6e03c7a2984f6b644dc645cb03ce3697fb5fd9c8447e40b0e581e",
+      "bytes": 30061
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/continuity.md",
+      "sha256": "f040764ea222c89a8fa5788f11dfb9b8101985e7ba7236b6b78f5d6874316edd",
+      "bytes": 19181
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/conventions.md",
+      "sha256": "b68baa9f9cf636b3d638ef16a19e17f0c34061a138006833681ece624ba860ad",
+      "bytes": 8821
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/decomposition.md",
+      "sha256": "9ae598299bb9614f9a117afb81a9ba58280c40c9fce94280e415e6c2a66db2c2",
+      "bytes": 11518
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/deploy-targets.md",
+      "sha256": "55d5c3a2943506853bb6ebfedb38c57282366e51be7c36351b0f0d093e40482c",
+      "bytes": 5907
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/doctrine-map.md",
+      "sha256": "a12637393be1ba42d35929a7b7c95bd9e1645ea845f3363596462c87d3622e9d",
+      "bytes": 3609
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/documentation.md",
+      "sha256": "ac8a761c6f18597de6a13e7af431984dc45f45e6c62675ec864dffdd637ab7a3",
+      "bytes": 26152
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/exposure.md",
+      "sha256": "cdeab4810e18f42dedcef1f91dac17381f26062028de5ccd81dd9e1e0e1ed1d1",
+      "bytes": 7148
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/gates.md",
+      "sha256": "ebdb94b6b02f93ccfa8da30d145d2bf4d6bf3585dda596038a6d22a84de1e5fc",
+      "bytes": 39467
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/grill.md",
+      "sha256": "8822fc949bd8e0457f85a472ec35e9b63842fa6e7576f8c18922ea54939217e1",
+      "bytes": 19785
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/hooks.md",
+      "sha256": "1b1019c16d230358a7ea640f323846b1c90a159ca0f63883df64450ddac393eb",
+      "bytes": 14275
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/knowledge-graph.md",
+      "sha256": "08499097c2d4bf79d82f13397c82450ead08620c686a12dae84001675dadb287",
+      "bytes": 13251
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/knowledge-sources.md",
+      "sha256": "f6bd9ca4ae4439af0a1bbb81f147944f6c7b616fd02ed70585b3e8c4d5a6528b",
+      "bytes": 23530
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/learned.md",
+      "sha256": "cbc5d5c53275875df97dabf7bbd409b7cfa400cf0f1dcb2704e83a5e5c9bb247",
+      "bytes": 31938
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/loop-guard.md",
+      "sha256": "85cf6f8a2c0e0a3f3459e3147a1ba11e5cb6f0b0a3d230dd484a5d1d26a5ded9",
+      "bytes": 11178
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/model-tiering.md",
+      "sha256": "c66933187af1ed891100a951106d2b3a6b5a0d47ab259b2b1603fa0d18d47e4f",
+      "bytes": 7065
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/planning.md",
+      "sha256": "26d0f31048afaa81c8f9f3372aed7699a1111fe4eb5a77ee6023d93f540a4d45",
+      "bytes": 27560
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/portability.md",
+      "sha256": "6381cc1f0060de52ac5e3bf004fd1222efc3543b5a0fe132552254ddbb8c8505",
+      "bytes": 10797
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/prioritisation.md",
+      "sha256": "ab42168d8936922bb070e29ea69dc4c83e08d4f4ddaf563a3affabbf752faaf5",
+      "bytes": 9785
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/probing.md",
+      "sha256": "3d939312701dda787addd8ad484be67e69685cc7aaf3b7bba3c64169f9208598",
+      "bytes": 12039
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/progress.md",
+      "sha256": "0692f07dfe78433ea752d7659d7e6e8383c1b519a43de720946001dc8458cbce",
+      "bytes": 25041
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/residue.md",
+      "sha256": "1c63c29404ef1200c492e823bbf464f08c7dea71cda79a9dbb9dfbc8c4dad991",
+      "bytes": 12662
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/retrospective.md",
+      "sha256": "a4b652f70cd727db538a41e69d16f96f5d6c452474f27f8c175d4097ab3020d7",
+      "bytes": 32017
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/review.md",
+      "sha256": "74fdce3c623a3647df69b62509f6bd174534c81bf0f16f8856e14e99596dc71c",
+      "bytes": 12720
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/setup.md",
+      "sha256": "790a9e0a1324b11b69b8cb9f14bc169a46179a0ccb7ccc8adaf420e9322a2c8d",
+      "bytes": 8068
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/spec.md",
+      "sha256": "58e5bcd9b14ce8fa009ed4a76b6a49e0a2be24716c286ad094cd442c0287357d",
+      "bytes": 18926
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/stages.md",
+      "sha256": "eae12dbc55f853c31ef8288d8b076bbac702ccca075079e3d382bd9562eb14d9",
+      "bytes": 68216
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/tdd.md",
+      "sha256": "0358815880fd19764d6e216d409ec0b719725addcf664e5bc2480a33e60c2858",
+      "bytes": 14502
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/verification.md",
+      "sha256": "c6cc4060288365777be3f1bc47738ed9a44486ad18b260bf6fee5ab50e2532b0",
+      "bytes": 10319
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/references/work-graph.md",
+      "sha256": "45e716f894b7f6b49796f24f3916fab6edd4246fcfb08b149211a564c836765b",
+      "bytes": 12365
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/scripts/context_packets.py",
+      "sha256": "649425f9bf5ac81e1baf1771606182a3de9cb580ec853899cfed188d5b9ab3e5",
+      "bytes": 29469
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/scripts/execution_authority.py",
+      "sha256": "b519590d5ea8b22ed83df7d47059915790fdd639b25c7f1cf4a92e019883860b",
+      "bytes": 13150
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/scripts/graph.py",
+      "sha256": "458ba5b0e586b7a4cdca6345f27e02521aabd0c034561655c116ba80b540c470",
+      "bytes": 97386
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/scripts/packet.py",
+      "sha256": "1a6133bf0b155a5a30a9e5b90cde197e31709fcd0cc40b62e6887cc1a996547b",
+      "bytes": 18679
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/scripts/plan_audit.py",
+      "sha256": "4d5129be4c1daf4b786b78ad8ef5dc817c0c2117a6c3ef9163f000be9e6121a2",
+      "bytes": 17201
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/scripts/stage_checkpoint.py",
+      "sha256": "333a138d56b9aee4ec8feebc7741a5f351778db1af04b7f6a9c5c05cd2f1cba6",
+      "bytes": 14350
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/scripts/visual_gate.py",
+      "sha256": "7226a6443aa4e98102745e7b17f204f7edb01ef06697bb3b0b37e088474fbd7d",
+      "bytes": 36439
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/README.md",
+      "sha256": "4c5c31811f2a1d253350f57218b8f4a243016be218abb3bdf9c363bf30a8ba91",
+      "bytes": 4165
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/adr.md",
+      "sha256": "e6ba78952bbb13fa12a8dca5840388451afa175b59b26001f8c5ce8dcc31a181",
+      "bytes": 3789
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/backlog.md",
+      "sha256": "b7ba801b34b2b244322958219a3a2d7f621cd636fa529c8b1d77ff78e7e01e12",
+      "bytes": 3960
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/brief.md",
+      "sha256": "c876537cd73072c68f8b54d7f9576f7fd83a51663f84dd1ebd410d4a947780c5",
+      "bytes": 11032
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/browser-claims.json",
+      "sha256": "6c9903778744805d63642d03c66fdcff85ef58dd3613787e4572eb0d460c2751",
+      "bytes": 8964
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/carryover.md",
+      "sha256": "5a8403df58be961a4e026d232499362cc0bec9d5d1f6907fe0dfb0f5a7b3d555",
+      "bytes": 3520
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/context.md",
+      "sha256": "0415c6941aa35dcac2f4e13aa4f413c254011c0909950c575c70c053d1605e84",
+      "bytes": 3074
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/convergence.sh",
+      "sha256": "ea9219cb5a5e1d45cb785875a8ef5cb06fcac4dad4f79ff7d79fe0c522cb4854",
+      "bytes": 6593
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/decisions.md",
+      "sha256": "bc040a7a3f0aa5f609bc39d384c7ba0d8a5672367927f9c85f2792124f935d6f",
+      "bytes": 2246
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/docgate.sh",
+      "sha256": "5507e057a39d695d11d276ea4fca800e84dcb984281095cd8aa5d415c1cddb25",
+      "bytes": 24283
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/docmap.md",
+      "sha256": "3af3041c8996a3e41ab51e9dc4bff1ffe3bcdef30002b2ac28f48addf9d1ca27",
+      "bytes": 5067
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/exposure.sh",
+      "sha256": "67d3a1128678b5d436182af1828c505366a2e7b6cd0d95439a32ae0d6b996210",
+      "bytes": 19937
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/finding-evidence.json",
+      "sha256": "b5dd097d334dc71454fa1a5a03d30d46f1dc53ecba6267ee3db015cacde9c4ed",
+      "bytes": 2097
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/hooks.example.json",
+      "sha256": "08c9499c74c7ba8861c6d2f7eb3ced699b57df720963d839969b5ba92123deef",
+      "bytes": 2819
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/hygiene.sh",
+      "sha256": "0691690da74dbc7a3838c5e5d996018f3afeac3fa0cb92649c422ff4e8a9a857",
+      "bytes": 11603
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/open-questions.md",
+      "sha256": "462ac93b002178d6d6e2712bc0c07cce984c4705c4bfa116ddbac9b753189889",
+      "bytes": 969
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/retro-archive.md",
+      "sha256": "8028077cf0b1a77a4b2d00155faf4ae133992748e079dc847f76f2df797bd35b",
+      "bytes": 2453
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/retro.md",
+      "sha256": "09175e2bb940a98fe6fbde53cdf6e6baf7cb9307e15fd4047335ac7b1ce22dfd",
+      "bytes": 4055
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/routing-rule.md",
+      "sha256": "4adf5ec54fa1ab22a46fb359ffb03d63c22c4b57cbc1cc5a7a19caf5e04d81f1",
+      "bytes": 3250
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/run.md",
+      "sha256": "9068f679a3dc8685000a082accd6c564be1f856a72704352bcd8e075cf99a152",
+      "bytes": 11154
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/stage-coverage.sh",
+      "sha256": "d2ffa9bad0a6ed042338b5dd4d3d40a687bd9a687f83a655c982700928862820",
+      "bytes": 3561
+    },
+    {
+      "path": "plugins/task-pipeline/skills/task-pipeline/templates/verification.md",
+      "sha256": "c58f1988cf20a061f5231aa60323680619b8900cd42975430c0a86279f0d846f",
+      "bytes": 8582
+    }
+  ]
+}

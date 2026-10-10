@@ -1,0 +1,320 @@
+{
+  "as_of": "2026-10-10T02:54:09.135556+00:00",
+  "scope": "Pre-existing Claude family cache version paths; exact bytes and modes, including metadata",
+  "versions": 37,
+  "files": 2874,
+  "restored_versions": 0,
+  "all_equal": false,
+  "rows": [
+    {
+      "version_path": "agent-stack/agent-stack/0.25.2",
+      "files": 35,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "agent-stack/agent-stack/0.25.3",
+      "files": 36,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "agent-stack/agent-stack/0.25.4",
+      "files": 38,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "agent-stack/agent-stack/0.25.5",
+      "files": 53,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "agent-sync/agent-sync/1.21.0",
+      "files": 40,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "agent-sync/agent-sync/1.21.1",
+      "files": 22,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "agent-sync/agent-sync/1.21.2",
+      "files": 22,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "agent-sync/agent-sync/1.21.3",
+      "files": 26,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "agent-sync/agent-sync/1.21.4",
+      "files": 37,
+      "restored_absent_directory": false,
+      "equal": false,
+      "different": [],
+      "extra": [
+        ".orphaned_at"
+      ]
+    },
+    {
+      "version_path": "make-skill/make-skill/0.29.0",
+      "files": 33,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "make-skill/make-skill/0.29.1",
+      "files": 36,
+      "restored_absent_directory": false,
+      "equal": false,
+      "different": [],
+      "extra": [
+        ".orphaned_at"
+      ]
+    },
+    {
+      "version_path": "seo-aeo-audit/seo-aeo-audit/0.26.1",
+      "files": 37,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "seo-aeo-audit/seo-aeo-audit/0.26.2",
+      "files": 37,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "seo-aeo-audit/seo-aeo-audit/0.26.3",
+      "files": 51,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "sheleg-design-skill/sheleg-design/1.61.0",
+      "files": 106,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "sheleg-design-skill/sheleg-design/1.61.1",
+      "files": 103,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "sheleg-design-skill/sheleg-design/1.61.2",
+      "files": 102,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "sheleg-design-skill/sheleg-design/1.63.0",
+      "files": 105,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "sheleg-design-skill/sheleg-design/1.64.0",
+      "files": 119,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "sheleg-dev/sheleg-dev/0.13.0",
+      "files": 62,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "sheleg-dev/sheleg-dev/0.13.1",
+      "files": 76,
+      "restored_absent_directory": false,
+      "equal": false,
+      "different": [],
+      "extra": [
+        ".orphaned_at"
+      ]
+    },
+    {
+      "version_path": "super-ux/super-ux/0.56.2",
+      "files": 185,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "super-ux/super-ux/0.56.3",
+      "files": 184,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "super-ux/super-ux/0.58.2",
+      "files": 196,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "super-ux/super-ux/0.58.3",
+      "files": 196,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "super-ux/super-ux/0.59.0",
+      "files": 210,
+      "restored_absent_directory": false,
+      "equal": false,
+      "different": [],
+      "extra": [
+        ".orphaned_at"
+      ]
+    },
+    {
+      "version_path": "task-pipeline/task-pipeline/1.87.0",
+      "files": 102,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "task-pipeline/task-pipeline/1.87.1",
+      "files": 120,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "task-pipeline/task-pipeline/1.88.1",
+      "files": 103,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "task-pipeline/task-pipeline/1.89.1",
+      "files": 105,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "task-pipeline/task-pipeline/1.90.0",
+      "files": 119,
+      "restored_absent_directory": false,
+      "equal": false,
+      "different": [],
+      "extra": [
+        ".orphaned_at"
+      ]
+    },
+    {
+      "version_path": "telegram-dev/telegram-dev/0.2.1",
+      "files": 17,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "telegram-dev/telegram-dev/0.2.2",
+      "files": 31,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "web3d-dev/web3d-dev/0.1.1",
+      "files": 15,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "web3d-dev/web3d-dev/0.1.2",
+      "files": 29,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "xr-dev/xr-dev/0.3.1",
+      "files": 38,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    },
+    {
+      "version_path": "xr-dev/xr-dev/0.3.2",
+      "files": 48,
+      "restored_absent_directory": false,
+      "equal": true,
+      "different": [],
+      "extra": []
+    }
+  ],
+  "all_original_files_bytes_modes_preserved": true,
+  "status": "PASS_WITH_NATIVE_METADATA_ADDITIONS",
+  "new_orphan_metadata_files": 5,
+  "limits": "Exact directory identity differs only by five new native .orphaned_at metadata files; no prior file changed or disappeared. Metadata left under Claude lifecycle ownership. No active session restart."
+}

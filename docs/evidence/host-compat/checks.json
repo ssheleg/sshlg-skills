@@ -235,12 +235,7 @@
     "audit_not_rerun": true,
     "final_pin_result": "PASS: 11 members, 38 skills, 542 complete files and Git modes; audit not rerun"
   },
-  "fresh_after_versions": {
-    "required_file": "client-versions-after.json",
-    "missing_file_probe": "REFUSED before host reads and receipt writes",
-    "independent_review": "ACCEPT /root/host_contracts",
-    "live_after_collection": "PENDING_INSTALL"
-  },
+  "fresh_after_versions": "PASS; local/after.json contains fresh CLI versions including observed Codex0.162.1",
   "stale_hook_path_repair": {
     "evidence": "local/stale-cache-repair.json",
     "before_exit_codes": [
@@ -276,7 +271,9 @@
     },
     "release": {
       "run": 38015659338,
-      "status": "IN_PROGRESS"
+      "status": "SUCCESS",
+      "log_sha256": "88878ddf2fc372a2c79c4aa456d3ca5ad91868c9ffd10baaa9b535b754a9e94b",
+      "registry_receipt": "releases/task-pipeline.json"
     },
     "source_ci_log_sha256": "e29fb9222eb239c326a2dff431aebacefb9f9b0c4877b4b944ccad997a7cc888"
   },
@@ -321,5 +318,40 @@
     "policy": "test/validate.py:1956-1998 explicitly discloses these through _skips and preserves published lightweight tags until the next normal release. Owner workflows did not enforce annotation.",
     "next_action": "In each owner, add explicit git tag -a guidance and a pre-publication tag-type guard before its next normal release; preserve existing public tags.",
     "independent_review": "/root/host_contracts confirmed exact remote refs and release policy; no retag or corrective version cycle required."
+  },
+  "published_hub": {
+    "source": "5a12a70d2d6c44a73b23a474072b6c3681a56b6e",
+    "reviewed_candidate": "e27db48acadeafb4658b9fb863080045cbe8d62f",
+    "complete_tree_equal": true,
+    "pin_pr": 182,
+    "source_hosted_runs": [
+      38015942493,
+      38015946187
+    ],
+    "source_hosted_result": "SUCCESS",
+    "release_run": 38017671346,
+    "release_result": "SUCCESS",
+    "registry_receipt": "releases/hub.json",
+    "published_files": 60
+  },
+  "final_installed_readback": {
+    "source": "5a12a70d2d6c44a73b23a474072b6c3681a56b6e",
+    "installer_exit": 0,
+    "payload_comparisons": 134,
+    "payloads_equal": true,
+    "discovery_families": 38,
+    "codex_disabled_paths_preserved": 29,
+    "continue_before": 0,
+    "continue_after": 38,
+    "fresh_versions": "local/after.json",
+    "settings_and_exports": "local/protected-preservation.json",
+    "config_baseline_reconciliation": "local/config-reconciliation.json",
+    "cache_preservation": "local/claude-cache-preservation.json",
+    "model_runtime": "NOT_RUN",
+    "independent_review": {
+      "reviewer": "/root/host_contracts",
+      "result": "ACCEPT",
+      "checks": "Independent -O payload replay134, exact discovery summary replay retaining exit1, all37 cache versions/2874 files/modes, Continue38, dated config reconciliation, protected manual settings and original WIP/exports."
+    }
   }
 }

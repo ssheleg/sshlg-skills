@@ -1,6 +1,6 @@
 # Host compatibility — execution packet 2026-10-09
 
-Status: IN_PROGRESS. Owner: sshlg-skills. Base: ffa4a72e8d4b56477a00f50902f0ce9786ca0af2.
+Status: DELIVERED (source, publication, installed payload and discovery). Owner: sshlg-skills. Base: ffa4a72e8d4b56477a00f50902f0ce9786ca0af2.
 
 ## Objective and authority
 
@@ -27,7 +27,7 @@ model/effort; no new provider, auth reset or production task execution.
 
 - User's current request supplies named hosts and adaptation objective.
 - CLAUDE.md, docs/HANDOFF.md, docs/DOCMAP.md, docs/AGENT_SYNC.md and the standing
-  retrospective instructions were read. Current source delivery is 1.54.6.
+  retrospective instructions were read. Starting source delivery was 1.54.6.
 - Prior comprehensive-context receipts disclose 76 unsupported global targets and
   separate native Codex lifecycle; these are findings to reproduce, not new PASSes.
 - skills.json, lib/plan.js, lib/apply.js and bin/sshlg-skills.js own host delivery.
@@ -46,9 +46,23 @@ model/effort; no new provider, auth reset or production task execution.
    Repair owners: make-skill, task-pipeline, agent-sync, sheleg-dev and super-ux.
 3. DONE — Implement global target regression and owner-scoped portability fixes.
 4. DONE — Independent source reviews ACCEPT; final combined local and hosted gates PASS.
-5. IN_PROGRESS — Normal source integration and releases; installation/readback and generated report index follow all registry receipts.
+5. DONE — Hub 1.54.7 and all five owner releases published; global update exit 0, 134 payload comparisons equal, native discovery and preservation receipts linked from delivery.json. The generated report catalog is maintained in the wiki owner.
 
 No interface design is being changed; retain the existing CLI flow. Documentation
 and install evidence must distinguish portable skills from host-specific plugins,
 hooks, subagents and actual loaded runtime state. A host being named in an upstream
 installer does not imply each extension works there.
+
+## Completed scope and next task
+
+[Delivery](delivery.json), [checks](checks.json) and [local readback](local-readback.json)
+keep source gates, npm publication, installed bytes and runtime limitations separate.
+All HC-1 through HC-5 checks are delivered; HC-6 uses this report/handoff and the
+wiki-generated catalog. The original initial-baseline MCP comparison remains a
+failed historical check; the later snapshots reconcile preservation for the final
+native update and global installation. No config rollback was performed.
+
+Next bounded task: VISIBILITY-1 — measure the metadata cost of the third-party
+skill catalog before proposing visibility changes. Do not repeat this host rollout
+or remove third-party skills as an implicit continuation. Three owner lightweight
+tag checks remain P2 for their next normal release, as recorded in checks.json.

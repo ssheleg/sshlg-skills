@@ -13,16 +13,35 @@ and [execution packet](evidence/host-compat/README.md) own the current work:
 29 host-family contracts, all 38 family skills, supported global installer targets,
 and bounded fixes in five members. Exact source, release and installed readback
 are separate in [delivery.json](evidence/host-compat/delivery.json).
-Candidate hub version: 1.54.7. Integration and installed readback are in progress.
+Published hub: **1.54.7**, source [5a12a70](https://github.com/ssheleg/sshlg-skills/tree/5a12a70d2d6c44a73b23a474072b6c3681a56b6e).
+Published members: make-skill 0.29.2, task-pipeline 1.90.2, agent-sync 1.21.5,
+super-ux 0.59.1, sheleg-dev 0.13.2. All registry payloads match their release sources.
+Global update completed; [134 installed payload comparisons](evidence/host-compat/local/installed-payloads.json) match.
+Native/disclosed loader checks find all 38 family skills, Continue source-helper
+discovery improved from 0 to 38, and all 29 Codex path exclusions remain.
+[Local readback](evidence/host-compat/local-readback.json) distinguishes this from
+model/provider acceptance, which is NOT_RUN.
 
-Immediate dependency: task-pipeline 1.90.2 has been merged after passing its
-required source CI, local full gate and actual merged-SHA docgate. [Recovery PR 104](https://github.com/ssheleg/task-pipeline/pull/104)
-replaces the failed, unpublished 1.90.1 release; that immutable tag and failed
-receipts remain historical evidence. Finish release run 38015659338 and
-registry verification before integrating the final member pin and releasing
-hub 1.54.7. Then update the installed family and capture fresh readback.
+[Hook 127 repair](evidence/host-compat/local/stale-cache-repair.json) restored
+exact old paths; the operator confirmed no new errors. The final global update
+preserved all 2874 prior files in 37 Claude cache versions, adding only five native
+.orphaned_at markers. [Preservation](evidence/host-compat/local/protected-preservation.json)
+checks retained manual instructions, settings and both original chat exports.
+[Config reconciliation](evidence/host-compat/local/config-reconciliation.json)
+records MCP drift already present before the last native update; do not restore
+stale configuration from the earliest baseline.
+
+The failed unpublished task-pipeline 1.90.1 and ENOSPC attempt remain historical
+evidence; recovery 1.90.2 passed source, local, release and registry gates.
 Historical post-fix audit evidence is reused only through
 [complete payload equivalence](evidence/host-compat/post-fix/EQUIVALENCE.md).
+No owner source integration or installed family update is pending.
+
+Exact next bounded task: **VISIBILITY-1** — measure the third-party skill catalog
+metadata cost and propose scoped visibility changes. Prerequisite: read the
+[previous context delivery](evidence/comprehensive-context/DELIVERY.md) and this
+report; retain excluded skills and do not delete collected chat data. Three
+lightweight-tag process follow-ups are P2 at their owners' next normal release.
 
 The previous [1.54.6 context delivery](evidence/comprehensive-context/DELIVERY.md)
 remains a historical receipt. After current delivery, the proposed next bounded

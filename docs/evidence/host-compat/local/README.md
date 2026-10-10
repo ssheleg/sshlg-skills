@@ -92,3 +92,33 @@ Keep current registration on the intended new release; a fresh session loads its
 new paths. Remove old cache copies only after their consumers have ended, never
 as part of an active-session update. The final task-pipeline repin follows this
 preservation procedure.
+
+## Final settings preservation
+
+`python3 capture-protected-settings.py <new-private-output.json>` captures hashes
+for seven explicitly named host configuration paths, selected Claude MCP/tool-policy
+fields and the manual text outside the managed routing block in four instruction
+files. It refuses existing outputs and ambiguous block boundaries; `--help` writes
+nothing. Run immediately before and after the global update and compare the
+selected hashes. This is a bounded settings check, not an inventory of all machine
+configuration. The raw snapshots stay private.
+
+The task-pipeline [native update receipt](native-task-pipeline.json) independently
+records version 1.90.2 at the exact released ref, all 109 plugin files and preservation
+of 213 old-version files, their modes and all 29 explicit skill configuration entries.
+
+## Final readback and initial-baseline reconciliation
+
+[Installation](installation.json) exited 0; [installed payloads](installed-payloads.json)
+matched all 134 comparisons at published hub 5a12a70. [After discovery](after.json)
+found all 38 family names in each exposed native loader and preserved 29 exclusions.
+Its combined acceptance remains FAIL because the earliest config baseline differs
+in mcp_servers as well as intended marketplaces. [Reconciliation](config-reconciliation.json)
+retains that failure and proves the MCP difference was already present before the
+last native task-pipeline update; the full current config is byte-identical to its
+post-update snapshot. This is not a claim about who made the earlier change.
+
+[Cache preservation](claude-cache-preservation.json) found all 2874 old files in 37
+versions byte/mode-identical; Claude added five .orphaned_at metadata files only.
+No old directory needed restoration during the final global update. The exact
+path-set flag stays false to disclose those additions.
