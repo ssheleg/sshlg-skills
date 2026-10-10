@@ -73,8 +73,8 @@ update. [The repair receipt](stale-cache-repair.json) records a reproducible
 cause: the previous make-skill, agent-sync and task-pipeline PostToolUse commands
 pointed at absent version directories and returned 127; their current-version
 counterparts returned 0 with empty input in an unconfigured temporary directory.
-Exact native dispatch correlation remains an inference until a runtime trace or
-operator observation confirms it.
+The operator subsequently confirmed that new error messages stopped. The exact
+native dispatch trace was not captured; the command-path cause is reproduced.
 
 The old released plugin payloads were restored from the receipt's exact Git
 commits into absent old-version directories, including executable modes. Old

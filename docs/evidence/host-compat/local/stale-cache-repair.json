@@ -114,6 +114,11 @@
     }
   ],
   "probe_scope": "No-op startup in an unconfigured temporary directory; native dispatch not directly observed",
-  "native_session_confirmation": "PENDING_USER_OBSERVATION",
+  "native_session_confirmation": {
+    "status": "OPERATOR_CONFIRMED_NO_NEW_ERRORS",
+    "observed_at": "2026-10-10T01:40:25.750126+00:00",
+    "operator_reply": "Больше не появляются",
+    "scope": "Reported repeated Hook failed code 127 messages stopped after path restoration; does not certify substantive hook behavior or exact native dispatch trace."
+  },
   "preservation": "Existing registered versions and configuration/trust retained; older released payloads coexist for open sessions."
 }
