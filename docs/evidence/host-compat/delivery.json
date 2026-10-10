@@ -28,8 +28,10 @@
       "owner": "task-pipeline",
       "version": "1.90.1",
       "source": "07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
-      "status": "SOURCE_MERGED_TAGGED_RELEASE_GATING",
-      "release_run": 38003499991
+      "status": "RELEASE_FAILED_UNPUBLISHED",
+      "release_run": 38003499991,
+      "failure": "Final docgate rejected four bare intermediate commit citations after squash integration. Tag remains immutable; a citation-only patch release is required.",
+      "recovery_version": "1.90.2"
     },
     {
       "owner": "agent-sync",
@@ -43,7 +45,7 @@
   ],
   "hub": {
     "version": "1.54.7",
-    "status": "LAUNCHER_MERGED_PIN_CANDIDATE",
+    "status": "PIN_CANDIDATE_AWAITING_TASK_PIPELINE_PATCH",
     "release_order": "CONTRIBUTING.md requires member publication before parent pin integration and release; wait for all five registry receipts before hub integration.",
     "integration_plan": "Two sequential source PRs per CONTRIBUTING.md: launcher/contracts first without member pin changes, then five published member pins and final receipts. One final hub release.",
     "launcher_pr": 181,

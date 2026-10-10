@@ -161,5 +161,30 @@
     ],
     "hosted_result": "SUCCESS",
     "independent_review": "ACCEPT /root/host_contracts"
-  }
+  },
+  "pin_pr_review": {
+    "source": "1f1b577822f5dd40216a18833a644090b7d16ad5",
+    "reviewer": "/root/host_contracts",
+    "result": "ACCEPT",
+    "hosted_runs": [
+      38005706184,
+      38005736325
+    ],
+    "hosted_result": "SUCCESS",
+    "runtime_tree_equal_to": "8af76fc67677ad1f3fd0105ea13d2482bf23962d",
+    "member_publication_separate": true
+  },
+  "owner_release_failures": [
+    {
+      "owner": "task-pipeline",
+      "version": "1.90.1",
+      "source": "07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
+      "run": 38003499991,
+      "result": "FAILURE",
+      "phase": "Final docgate: four bare intermediate-commit citations are not ancestors after squash merge",
+      "tag_moved": false,
+      "npm_published": false,
+      "recovery": "Citation-only follow-up1.90.2; no gate bypass"
+    }
+  ]
 }
