@@ -143,5 +143,183 @@
     ],
     "result": "SUCCESS"
   },
-  "pin_gate_scope": "test/check_pins.py accepts the union of npm versions and Git tags; separate registry receipts prove npm publication."
+  "pin_gate_scope": "test/check_pins.py accepts the union of npm versions and Git tags; separate registry receipts prove npm publication.",
+  "launcher_policy_split": {
+    "source": "8e7d29aa22c8f59e757291743ceb7eb7ace14107",
+    "merged_source": "d8e87c1b92fd7e9121671e0be32151a20f858f4b",
+    "complete_tree_equal": true,
+    "pr": 181,
+    "local_npm_test": {
+      "exit": 0,
+      "suites": 93,
+      "fixtures": 1136,
+      "log_sha256": "b453523e4cea6bf9657726de49e72b6f95584eb42c2f447c8baad2065accda09"
+    },
+    "hosted_runs": [
+      38005033721,
+      38005053604
+    ],
+    "hosted_result": "SUCCESS",
+    "independent_review": "ACCEPT /root/host_contracts"
+  },
+  "pin_pr_review": {
+    "source": "1f1b577822f5dd40216a18833a644090b7d16ad5",
+    "reviewer": "/root/host_contracts",
+    "result": "ACCEPT",
+    "hosted_runs": [
+      38005706184,
+      38005736325
+    ],
+    "hosted_result": "SUCCESS",
+    "runtime_tree_equal_to": "8af76fc67677ad1f3fd0105ea13d2482bf23962d",
+    "member_publication_separate": true
+  },
+  "owner_release_failures": [
+    {
+      "owner": "task-pipeline",
+      "version": "1.90.1",
+      "source": "07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
+      "run": 38003499991,
+      "result": "FAILURE",
+      "phase": "Final docgate: four bare intermediate-commit citations are not ancestors after squash merge",
+      "tag_moved": false,
+      "npm_published": false,
+      "recovery": "Citation-only follow-up1.90.2; no gate bypass"
+    }
+  ],
+  "recovery_local_attempts": [
+    {
+      "owner": "task-pipeline",
+      "version": "1.90.2",
+      "source": "66c4cb0ead253a09e42e47487a67f9ce4944b108",
+      "command": "npm run test:all",
+      "exit": 1,
+      "result": "ENVIRONMENT_FAILED",
+      "negative_failures": 71,
+      "enospc_occurrences": 186,
+      "log_sha256": "be16e82fd005b39dacb7da1ae0b88410206fa519448afd43c46d2b9d6e8b2cf6",
+      "retry": "Same unchanged source after owned test scratch cleanup; separate log and final exit required"
+    },
+    {
+      "owner": "task-pipeline",
+      "version": "1.90.2",
+      "source": "66c4cb0ead253a09e42e47487a67f9ce4944b108",
+      "command": "npm run test:all",
+      "exit": 0,
+      "result": "PASS",
+      "negative_guards": 430,
+      "property_checks": 15,
+      "enospc_occurrences": 0,
+      "log_sha256": "e5158d04c2d11caaf7875615fe8696b32216e21864ad454c063cf9dd3b62a5be",
+      "source_unchanged_from_failed_attempt": true,
+      "scratch_directories_after": 0,
+      "scratch_paths_enumerated": 434,
+      "limits": "Existing unlooked disclosures and 149 human-confirmation REQ items remain; this is a repository gate, not native runtime acceptance."
+    }
+  ],
+  "payload_equivalence_helper": {
+    "source": "9503d8eea213814c94e3f5efac21942bff49aeb1",
+    "integrated_source": "0ec1a680cd4a10abdc9a81099755a260886f132c",
+    "independent_review": "ACCEPT /root/host_contracts",
+    "fixture_cases": 15,
+    "python_modes": [
+      "normal",
+      "-O"
+    ],
+    "baseline_artifact": "8af76fc67677ad1f3fd0105ea13d2482bf23962d",
+    "historical_census_source": "c46496a6d4d2303f1003ae359468012d18244d89",
+    "initial_current_source": "a15c855f3849e947e5d629acb8a22e5518e557a1",
+    "initial_equal_files": 542,
+    "method": "post-fix/EQUIVALENCE.md",
+    "final_pin_receipt": "post-fix/final-pin-equivalence.json",
+    "audit_not_rerun": true,
+    "final_pin_result": "PASS: 11 members, 38 skills, 542 complete files and Git modes; audit not rerun"
+  },
+  "fresh_after_versions": {
+    "required_file": "client-versions-after.json",
+    "missing_file_probe": "REFUSED before host reads and receipt writes",
+    "independent_review": "ACCEPT /root/host_contracts",
+    "live_after_collection": "PENDING_INSTALL"
+  },
+  "stale_hook_path_repair": {
+    "evidence": "local/stale-cache-repair.json",
+    "before_exit_codes": [
+      127,
+      127,
+      127
+    ],
+    "after_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "scope": "No-op isolated command startup; native dispatch correlation inferred",
+    "config_bytes_unchanged": true,
+    "independent_review": {
+      "result": "ACCEPT",
+      "reviewer": "/root/host_contracts",
+      "verified_files": 406,
+      "checks": "Complete pathsets, bytes and exact file modes match the five declared Git commits; no symlinks or extra files."
+    }
+  },
+  "recovery_source_gate": {
+    "candidate": "66c4cb0ead253a09e42e47487a67f9ce4944b108",
+    "source_ci": 38008003368,
+    "result": "PASS",
+    "validate_steps": 464,
+    "merged_source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+    "merged_tree_equal_candidate": true,
+    "merged_sha_docgate": {
+      "result": "PASS",
+      "exit": 0,
+      "log_sha256": "20f5938c7f103370e21aafbbfc65468edceb99f5a3d494a0f06993984166557f"
+    },
+    "release": {
+      "run": 38015659338,
+      "status": "IN_PROGRESS"
+    },
+    "source_ci_log_sha256": "e29fb9222eb239c326a2dff431aebacefb9f9b0c4877b4b944ccad997a7cc888"
+  },
+  "final_pin_gate": {
+    "source": "cbbfef2aaef93b4b807dc3e3e56be5e65337ebe1",
+    "command": "npm test",
+    "exit": 0,
+    "suites": 93,
+    "fixtures": 1136,
+    "pinned_members": 11,
+    "log_sha256": "9aa28fc4f5187a4232c1195490c00091275f15b95abe568e97d7e5eb3086b98f",
+    "independent_review": {
+      "result": "ACCEPT",
+      "reviewer": "/root/host_contracts",
+      "complete_payload_files": 542,
+      "ctx_checks": 6,
+      "report_wording_correction": "Describe native hook dispatch as inferred; operator confirms no new errors."
+    }
+  },
+  "release_metadata_residual": {
+    "severity": "P2",
+    "status": "DISCLOSED_NEXT_NORMAL_RELEASE",
+    "introduced_in_this_task": true,
+    "owners": [
+      {
+        "owner": "super-ux",
+        "version": "0.59.1",
+        "commit": "99e17ccbb00edbb4ccb68b6ac21586f219809e7e"
+      },
+      {
+        "owner": "make-skill",
+        "version": "0.29.2",
+        "commit": "c0fe080a46dd2a98fa78d7cd1aee26fb0261d25c"
+      },
+      {
+        "owner": "sheleg-dev",
+        "version": "0.13.2",
+        "commit": "d15b0603105753a3d26737d77fc955c9b29bf7d0"
+      }
+    ],
+    "finding": "Published tags are lightweight. Registry identity and payload byte checks remain valid; git describe may show a preceding annotated version.",
+    "policy": "test/validate.py:1956-1998 explicitly discloses these through _skips and preserves published lightweight tags until the next normal release. Owner workflows did not enforce annotation.",
+    "next_action": "In each owner, add explicit git tag -a guidance and a pre-publication tag-type guard before its next normal release; preserve existing public tags.",
+    "independent_review": "/root/host_contracts confirmed exact remote refs and release policy; no retag or corrective version cycle required."
+  }
 }

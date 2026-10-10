@@ -31,9 +31,16 @@ path via `--output`; `summarize.py` also takes `--phase before|after`. The scrip
 publish no credential values or raw configuration. No third-party skill is
 removed or deduplicated by these checks.
 
-Native Codex marketplaces were already pinned to exact source SHAs. `marketplace
-upgrade` returned exit 0 with an empty upgradedRoots list and plugin add retained
-the old version; these no-op receipts are not treated as updates. Installation
+The before summary reads `client-versions.json`; the after summary requires a
+fresh `client-versions-after.json` from the same clients' `--version` commands.
+It does not silently reuse initial versions after a long release wait.
+
+The four updated Codex marketplaces (make-skill, agent-sync, super-ux and
+sheleg-dev) were pinned to exact source SHAs. `marketplace upgrade` returned exit
+0 with an empty upgradedRoots list and plugin add retained the old version; these
+no-op receipts are not treated as updates. The separate task-pipeline preflight
+found a Git source without a fixed ref and version 1.90.1 already registered;
+its final repin preserves that observed state for rollback. Installation
 therefore removes and re-adds only each existing pinned marketplace through the
 native lifecycle, then uses `marketplace add ssheleg/<owner> --ref <released SHA>` followed
 by `plugin add <owner>@<owner>`, verifies the returned version, and compares changed
@@ -61,3 +68,27 @@ and runs its directory-selection helper. It emits directory names and relative
 paths, not SKILL contents. [Before update](continue-before.json), it found zero of
 the 38 family directories because they were symlinks. This is source-helper
 replay against the installed tree, not full frontmatter parsing or native runtime.
+
+## Keep version paths valid for sessions that are already open
+
+The operator reported three `Hook failed` messages with exit 127 during the
+update. [The repair receipt](stale-cache-repair.json) records a reproducible
+cause: the previous make-skill, agent-sync and task-pipeline PostToolUse commands
+pointed at absent version directories and returned 127; their current-version
+counterparts returned 0 with empty input in an unconfigured temporary directory.
+The operator subsequently confirmed that new error messages stopped. The exact
+native dispatch trace was not captured; the command-path cause is reproduced.
+
+The old released plugin payloads were restored from the receipt's exact Git
+commits into absent old-version directories, including executable modes. Old
+paths then returned 0. Current registration and config bytes stayed unchanged.
+This is startup/no-op evidence, not proof of each hook's substantive behavior.
+
+Before a native marketplace remove/re-add update, preserve every existing version
+directory privately and record its complete byte/mode manifest. If the lifecycle
+prunes old directories, restore the exact prior files for open sessions. Do not
+redirect old trusted paths to new code, alter hook trust, or disable enforcement.
+Keep current registration on the intended new release; a fresh session loads its
+new paths. Remove old cache copies only after their consumers have ended, never
+as part of an active-session update. The final task-pipeline repin follows this
+preservation procedure.

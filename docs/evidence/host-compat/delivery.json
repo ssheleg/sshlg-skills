@@ -26,10 +26,18 @@
     },
     {
       "owner": "task-pipeline",
-      "version": "1.90.1",
-      "source": "07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
-      "status": "SOURCE_MERGED_TAGGED_RELEASE_GATING",
-      "release_run": 38003499991
+      "version": "1.90.2",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "status": "INTEGRATED_RELEASE_PENDING",
+      "source_ci": 38008003368,
+      "source_ci_result": "PASS",
+      "reviewed_candidate": "66c4cb0ead253a09e42e47487a67f9ce4944b108",
+      "merged_tree_equal_reviewed_candidate": true,
+      "local_gate": "PASS; checks.json#recovery_local_attempts",
+      "merged_sha_docgate": "PASS",
+      "registry_receipt": "PENDING",
+      "release_run": 38015659338,
+      "annotated_tag": "f27cc493d536916958f2c56dee6168899a87a679"
     },
     {
       "owner": "agent-sync",
@@ -43,9 +51,11 @@
   ],
   "hub": {
     "version": "1.54.7",
-    "status": "CANDIDATE",
+    "status": "FINAL_PIN_CANDIDATE_AWAITING_MEMBER_REGISTRY",
     "release_order": "CONTRIBUTING.md requires member publication before parent pin integration and release; wait for all five registry receipts before hub integration.",
-    "integration_plan": "Two sequential source PRs per CONTRIBUTING.md: launcher/contracts first without member pin changes, then five published member pins and final receipts. One final hub release."
+    "integration_plan": "Two sequential source PRs per CONTRIBUTING.md: launcher/contracts first without member pin changes, then five published member pins and final receipts. One final hub release.",
+    "launcher_pr": 181,
+    "launcher_source": "d8e87c1b92fd7e9121671e0be32151a20f858f4b"
   },
   "installation": "PENDING",
   "model_runtime": "NOT_RUN",
@@ -130,10 +140,10 @@
       "owner": "task-pipeline",
       "remote": "https://github.com/ssheleg/task-pipeline.git",
       "branch": "main",
-      "source": "07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
-      "version": "1.90.1",
+      "source": "cc2cc63c459576d3069939fa5da6b7482e5ba276",
+      "version": "1.90.2",
       "status": "CHANGED_SOURCE_INTEGRATED",
-      "entry": "https://github.com/ssheleg/task-pipeline/tree/07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
+      "entry": "https://github.com/ssheleg/task-pipeline/tree/cc2cc63c459576d3069939fa5da6b7482e5ba276",
       "evidence": "post-fix/census.json"
     },
     {
@@ -225,6 +235,30 @@
       "status": "AUDITED_UNCHANGED",
       "entry": "https://github.com/ssheleg/web3d-dev/tree/cdaa88f0d3ab072ae6bd811482346cf265dc02d5",
       "evidence": "post-fix/census.json"
+    }
+  ],
+  "release_history": [
+    {
+      "owner": "task-pipeline",
+      "version": "1.90.1",
+      "source": "07971e270ec194e4cbd95ae38bc5027b8fd8fdbf",
+      "status": "RELEASE_FAILED_UNPUBLISHED",
+      "release_run": 38003499991,
+      "failure": "Final docgate rejected four bare intermediate commit citations after squash integration. Tag remains immutable; a citation-only patch release is required.",
+      "recovery_version": "1.90.2",
+      "recovery": {
+        "version": "1.90.2",
+        "candidate": "66c4cb0ead253a09e42e47487a67f9ce4944b108",
+        "pr": "https://github.com/ssheleg/task-pipeline/pull/104",
+        "source_ci": 38008003368,
+        "status": "LOCAL_GATES_PASS_SOURCE_CI_IN_PROGRESS",
+        "independent_review": "ACCEPT /root/host_contracts",
+        "required_next": "Pass both gates, normal squash merge, docgate on actual merged SHA, immutable new tag and successful release/registry checks.",
+        "local_full_gate": {
+          "exit": 0,
+          "evidence": "checks.json#recovery_local_attempts"
+        }
+      }
     }
   ]
 }

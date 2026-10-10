@@ -6,7 +6,8 @@ p=argparse.ArgumentParser();p.add_argument('--private',required=True,type=Path);
 root=Path(__file__).resolve().parents[4]
 manifest=json.loads((root/'skills.json').read_text());family={n for m in manifest['skills'] for n in m.get('skillNames',[m['name']])};members={m['name'] for m in manifest['skills']}
 read=lambda n:json.loads((a.private/n).read_text())
-versions=[{k:x[k] for k in ['client','installed','exit','version','status'] if k in x} for x in read('client-versions.json')]
+versions_file='client-versions.json' if a.phase=='before' else 'client-versions-after.json'
+versions=[{k:x[k] for k in ['client','installed','exit','version','status'] if k in x} for x in read(versions_file)]
 codex_home=Path(os.environ.get('CODEX_HOME',str(Path.home()/'.codex')))
 # Hermes --version includes installation details after the first line: omit them.
 for row in versions:

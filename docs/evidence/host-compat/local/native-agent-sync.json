@@ -1,0 +1,115 @@
+{
+  "owner": "agent-sync",
+  "version": "1.21.5",
+  "source": "52bf0dd2f40913d10f684b967e1ba8c489a63660",
+  "registered": true,
+  "all_plugin_files_match": true,
+  "files": [
+    {
+      "path": ".claude-plugin/plugin.json",
+      "bytes": 695,
+      "sha256": "ff30d74eeee4e3ca42288286c4948b1b1e6bd1b21e693b8380fd40697e8f15ba"
+    },
+    {
+      "path": "commands/agent-sync.md",
+      "bytes": 1213,
+      "sha256": "f0d8a407d850eb09243a8f4bd9e627f73aca8de3884d9bfab35e3da6331aa47a"
+    },
+    {
+      "path": "hooks/_lib.sh",
+      "bytes": 3875,
+      "sha256": "c8d26c5413cce5ee905fdfadbe5b13a0e0499128537337914a0e91f3c9846238"
+    },
+    {
+      "path": "hooks/guard.sh",
+      "bytes": 9424,
+      "sha256": "f7d006cd1157df36d6ea6d6650903cde5f96e911725c5f1962f53cb0da1c7446"
+    },
+    {
+      "path": "hooks/hooks.json",
+      "bytes": 2676,
+      "sha256": "6d89fbcef1f7475d952a912cf3af1606ad393771a487711161ea4399488b640d"
+    },
+    {
+      "path": "hooks/renew.sh",
+      "bytes": 380,
+      "sha256": "3e2240eddf01fc8d1bb8eb223a2f49b93b7b2dd7873329eb26cf931e9ce14118"
+    },
+    {
+      "path": "hooks/session-end.sh",
+      "bytes": 712,
+      "sha256": "2eeb6dde9ddea99d247140216e0b8ee25b7b3ac8f07d0c3d36779d205f6a9d0c"
+    },
+    {
+      "path": "hooks/session-start.sh",
+      "bytes": 1957,
+      "sha256": "ddc6dfa92d7b0d17e3fcf94467c65c7ae76a60818598ddd82ed9f9836f4029a2"
+    },
+    {
+      "path": "skills/agent-sync/SKILL.md",
+      "bytes": 21108,
+      "sha256": "3a04ffe1ed2d08f95041cdcab852af355deb41598e5e8f5058f2d715869b5c7e"
+    },
+    {
+      "path": "skills/agent-sync/references/adapter-contract.md",
+      "bytes": 6469,
+      "sha256": "f68b308883bf132116e899d9836f318eb3ab87ba226dcc434242c8695449bd90"
+    },
+    {
+      "path": "skills/agent-sync/references/backend-fs.md",
+      "bytes": 2943,
+      "sha256": "47ac381dc93241da249e62b14d8d631306e4b21667e797b73ee4afc6ae4c22ed"
+    },
+    {
+      "path": "skills/agent-sync/references/backend-notion.md",
+      "bytes": 7652,
+      "sha256": "7a9300f8176d35cda4dc7e887d91afcf9eeea3e17631904cebe8024c88f1eac6"
+    },
+    {
+      "path": "skills/agent-sync/references/backend-outline.md",
+      "bytes": 4478,
+      "sha256": "9baa5190519f7cf954e9abb5a53a321470804ccc51dde14b9b2ecfac8d2f0b7d"
+    },
+    {
+      "path": "skills/agent-sync/references/branching.md",
+      "bytes": 6432,
+      "sha256": "01969cf0f94d0ab80c4129db78ab7a8060c9d3854f2a9959d95992a7e505d881"
+    },
+    {
+      "path": "skills/agent-sync/references/earned-rules.md",
+      "bytes": 2781,
+      "sha256": "a618027ec01fed6bba76999192bb8b8b1c7686e821e2707a304db633d24cddf6"
+    },
+    {
+      "path": "skills/agent-sync/references/hooks.md",
+      "bytes": 7427,
+      "sha256": "f56d0f9b433546640d61abb17d0656372f85d1005758708f37b58b68985f8cd9"
+    },
+    {
+      "path": "skills/agent-sync/references/lease-protocol.md",
+      "bytes": 27937,
+      "sha256": "47a7a13fdf335d02bc6b414e0f4dc3c8466adfb7c3c5760128ff2bc74b81fae8"
+    },
+    {
+      "path": "skills/agent-sync/references/pipeline-binding.md",
+      "bytes": 8500,
+      "sha256": "b9aba2046f818ae335cbe8adff20b52d23a4fcd97a22a553d32ba50c0ffb0b75"
+    },
+    {
+      "path": "skills/agent-sync/references/roadmap.md",
+      "bytes": 5352,
+      "sha256": "3218df2e60b7e2bdc73ad4ef5e17597a019149e4a23c0944acf00037490d5e80"
+    },
+    {
+      "path": "skills/agent-sync/references/two-sources.md",
+      "bytes": 7298,
+      "sha256": "73d60d8931dea93250c9fc9219ba40cb1be6df94518b7cedf6f55cd2d6708d7a"
+    },
+    {
+      "path": "skills/agent-sync/scripts/agent_sync.py",
+      "bytes": 309222,
+      "sha256": "239b11f8e5ba5911ead77a31f022521e125a67039b54c6e282e6487f3fb89f51"
+    }
+  ],
+  "model_runtime": "NOT_RUN"
+}

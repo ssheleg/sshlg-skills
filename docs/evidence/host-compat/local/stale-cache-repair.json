@@ -1,0 +1,124 @@
+{
+  "as_of": "2026-10-10",
+  "reported_symptom": "Three Hook failed: hook exited with code 127 messages in an open Codex session",
+  "diagnosis": "Stale version-directory references after native plugin cache pruning are reproduced; exact native dispatch trace was not captured.",
+  "diagnosis_status": "REPRODUCED_PATH_FAILURE; NATIVE_SESSION_CORRELATION_INFERRED",
+  "before_probes": [
+    {
+      "plugin": "make-skill",
+      "phase": "old",
+      "version": "0.29.1",
+      "exit": 127
+    },
+    {
+      "plugin": "make-skill",
+      "phase": "current",
+      "version": "0.29.2",
+      "exit": 0
+    },
+    {
+      "plugin": "agent-sync",
+      "phase": "old",
+      "version": "1.21.4",
+      "exit": 127
+    },
+    {
+      "plugin": "agent-sync",
+      "phase": "current",
+      "version": "1.21.5",
+      "exit": 0
+    },
+    {
+      "plugin": "task-pipeline",
+      "phase": "old",
+      "version": "1.90.0",
+      "exit": 127
+    },
+    {
+      "plugin": "task-pipeline",
+      "phase": "current",
+      "version": "1.90.1",
+      "exit": 0
+    }
+  ],
+  "restoration": {
+    "captured_at": "2026-10-10T01:32:53.755143+00:00",
+    "purpose": "Preserve prior version paths used by already running sessions after native marketplace removal pruned cache versions",
+    "scope": "Restore released Git plugin payloads into absent old-version directories; no symlinks, hook disabling, trust changes, registry repinning or process restart",
+    "config_bytes_unchanged": true,
+    "rows": [
+      {
+        "owner": "make-skill",
+        "version": "0.29.1",
+        "source": "2f5a1ad24c2145bcb72c601b3bd899f942a3acca",
+        "restored_files": 25,
+        "bytes_and_modes_equal": true,
+        "registered_current_version_changed": false
+      },
+      {
+        "owner": "agent-sync",
+        "version": "1.21.4",
+        "source": "169436a28d4ba788ca471c83c8e7ddc024999466",
+        "restored_files": 21,
+        "bytes_and_modes_equal": true,
+        "registered_current_version_changed": false
+      },
+      {
+        "owner": "task-pipeline",
+        "version": "1.90.0",
+        "source": "33a7066388912d66501989e3a9760fedc1dc0bf5",
+        "restored_files": 104,
+        "bytes_and_modes_equal": true,
+        "registered_current_version_changed": false
+      },
+      {
+        "owner": "super-ux",
+        "version": "0.59.0",
+        "source": "29acd2badefea5e2c7f613c3029d184ecf97ff9b",
+        "restored_files": 195,
+        "bytes_and_modes_equal": true,
+        "registered_current_version_changed": false
+      },
+      {
+        "owner": "sheleg-dev",
+        "version": "0.13.1",
+        "source": "3c16c9cde6e91fdd1057658dcce2ddef2b0ff803",
+        "restored_files": 61,
+        "bytes_and_modes_equal": true,
+        "registered_current_version_changed": false
+      }
+    ],
+    "native_dispatch_acceptance": "NOT_VERIFIED; isolated command startup probes are separate"
+  },
+  "after_probes": [
+    {
+      "plugin": "make-skill",
+      "version": "0.29.1",
+      "exit": 0,
+      "stderr_empty": true,
+      "stdout_empty": true
+    },
+    {
+      "plugin": "agent-sync",
+      "version": "1.21.4",
+      "exit": 0,
+      "stderr_empty": true,
+      "stdout_empty": true
+    },
+    {
+      "plugin": "task-pipeline",
+      "version": "1.90.0",
+      "exit": 0,
+      "stderr_empty": true,
+      "stdout_empty": true
+    }
+  ],
+  "probe_scope": "No-op startup in an unconfigured temporary directory; native dispatch not directly observed",
+  "native_session_confirmation": {
+    "status": "OPERATOR_CONFIRMED_NO_NEW_ERRORS",
+    "observed_at": "2026-10-10T01:40:25.750126+00:00",
+    "operator_reply": "Больше не появляются",
+    "scope": "Reported repeated Hook failed code 127 messages stopped after path restoration; does not certify substantive hook behavior or exact native dispatch trace."
+  },
+  "preservation": "Existing registered versions and configuration/trust retained; older released payloads coexist for open sessions."
+}
