@@ -15,6 +15,15 @@ and bounded fixes in five members. Exact source, release and installed readback
 are separate in [delivery.json](evidence/host-compat/delivery.json).
 Candidate hub version: 1.54.7. Integration and installed readback are in progress.
 
+Immediate dependency: task-pipeline 1.90.1 has an immutable Git tag but failed
+its final release docgate and was not published to npm. Recovery
+[PR 104](https://github.com/ssheleg/task-pipeline/pull/104) targets 1.90.2;
+[checks.json](evidence/host-compat/checks.json) preserves the failed local
+disk-pressure attempt separately. Wait for source, local, merged-SHA docgate,
+release and registry evidence before integrating the final member pin and
+releasing hub 1.54.7. Historical post-fix audit evidence is reused only through
+[complete payload equivalence](evidence/host-compat/post-fix/EQUIVALENCE.md).
+
 The previous [1.54.6 context delivery](evidence/comprehensive-context/DELIVERY.md)
 remains a historical receipt. After current delivery, the proposed next bounded
 task is VISIBILITY-1, not a restart of historical exact-next instructions.

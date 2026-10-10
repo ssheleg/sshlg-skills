@@ -31,7 +31,16 @@
       "status": "RELEASE_FAILED_UNPUBLISHED",
       "release_run": 38003499991,
       "failure": "Final docgate rejected four bare intermediate commit citations after squash integration. Tag remains immutable; a citation-only patch release is required.",
-      "recovery_version": "1.90.2"
+      "recovery_version": "1.90.2",
+      "recovery": {
+        "version": "1.90.2",
+        "candidate": "66c4cb0ead253a09e42e47487a67f9ce4944b108",
+        "pr": "https://github.com/ssheleg/task-pipeline/pull/104",
+        "source_ci": 38008003368,
+        "status": "SOURCE_AND_LOCAL_GATES_IN_PROGRESS",
+        "independent_review": "ACCEPT /root/host_contracts",
+        "required_next": "Pass both gates, normal squash merge, docgate on actual merged SHA, immutable new tag and successful release/registry checks."
+      }
     },
     {
       "owner": "agent-sync",
