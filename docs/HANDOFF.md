@@ -27,7 +27,7 @@ readback are recorded in the receipt's last section.
 refresh (`skills@1.7.2` had re-linked 13 of 38; verified on this machine 39/39 real
 dirs, 137/137 installed payloads equal); the hygiene guard allows an agent-scoped
 `skills add` (B-153); the MCP credential guard from #184; the XR creative research
-branch merged. Members: task-pipeline 1.91.1 (gates read the current run only; a
+branch merged. Members: task-pipeline 1.91.2 (gates read the current run only; a
 broken python3 stops only releases — B-151, B-152), agent-sync 1.21.7 (shared-identity
 `acquire` refused, worktree session stamps, direct `guard` allows an uncoordinated
 repository — B-150), make-skill 0.30.1 (family members update through the launcher).
