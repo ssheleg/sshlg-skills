@@ -1,0 +1,225 @@
+{
+  "checked_at": "2026-09-21",
+  "links": [
+    {
+      "url": "https://developers.meta.com/horizon/blog/get-apps-ready-app-lab-meta-horizon-store-meta-quest-developers/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/blog/get-apps-ready-app-lab-meta-horizon-store-meta-quest-developers/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/blog/meta-quest-apps-android-14-march-1/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/blog/meta-quest-apps-android-14-march-1/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/blog/meta-xr-operator-close-the-build-test-verify-loop-for-vr/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/blog/meta-xr-operator-close-the-build-test-verify-loop-for-vr/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/blog/new-era-mixed-reality-passthrough-camera-api-machine-learning-computer-vision/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/blog/new-era-mixed-reality-passthrough-camera-api-machine-learning-computer-vision/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/design/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/design/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/develop/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/native/android/mobile-native-manifest/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/native/android/mobile-native-manifest/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/native/android/os-symmetric-projection/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/native/android/os-symmetric-projection/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/native/android/pca-native-documentation/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/native/android/pca-native-documentation/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/native/native-openxr-sdk-sample/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/native/native-openxr-sdk-sample/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/native/ps-attestation-api/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/native/ps-attestation-api/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/native/ps-group-presence-overview/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/native/ps-group-presence-overview/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/spatial-sdk/spatial-sdk-development/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/spatial-sdk/spatial-sdk-development/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/spatial-sdk/spatial-sdk-pca-overview/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/spatial-sdk/spatial-sdk-pca-overview/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/spatial-sdk/spatial-sdk-runtime-guidelines/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/spatial-sdk/spatial-sdk-runtime-guidelines/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/unity/ps-cloud-backup/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/unity/ps-cloud-backup/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/unity/unity-pca-sentis/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/unity/unity-pca-sentis/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/unity/unity-spatial-data-perm/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/unity/unity-spatial-data-perm/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/unity/unity-tutorial-hello-vr/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/unity/unity-tutorial-hello-vr/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/unreal/os-vulkan-opengl/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/unreal/os-vulkan-opengl/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/unreal/ps-platform-intro/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/unreal/ps-platform-intro/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/unreal/unreal-asw/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/unreal/unreal-asw/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/unreal/unreal-compatibility-matrix/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/unreal/unreal-compatibility-matrix/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/unreal/unreal-mr-utility-kit-features/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/unreal/unreal-mr-utility-kit-features/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/unreal/unreal-multi-view/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/unreal/unreal-multi-view/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/documentation/web/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/documentation/web/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/essentials/compositor-layers/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/essentials/compositor-layers/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/essentials/fixed-foveated-rendering/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/essentials/fixed-foveated-rendering/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/essentials/horizon-os-passthrough/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/essentials/horizon-os-passthrough/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/policy/app-policies/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/policy/app-policies/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/reference/mruk/v85/class_meta_x_r_passthrough_camera_access/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/reference/mruk/v85/class_meta_x_r_passthrough_camera_access/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/resources/publish-app-review/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/resources/publish-app-review/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/resources/publish-mobile-manifest/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/resources/publish-mobile-manifest/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/resources/publish-quest-req/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/resources/publish-quest-req/"
+    },
+    {
+      "url": "https://developers.meta.com/horizon/resources/publish-release-channels/",
+      "status": 200,
+      "resolved_url": "https://developers.meta.com/horizon/resources/publish-release-channels/"
+    },
+    {
+      "url": "https://docs.godotengine.org/en/stable/tutorials/xr/deploying_to_android.html",
+      "status": 200,
+      "resolved_url": "https://docs.godotengine.org/en/stable/tutorials/xr/deploying_to_android.html"
+    },
+    {
+      "url": "https://docs.godotengine.org/en/stable/tutorials/xr/setting_up_xr.html",
+      "status": 200,
+      "resolved_url": "https://docs.godotengine.org/en/stable/tutorials/xr/setting_up_xr.html"
+    },
+    {
+      "url": "https://docs.unity3d.com/6000.0/Documentation/Manual/profiler-markers.html",
+      "status": 200,
+      "resolved_url": "https://docs.unity3d.com/6000.0/Documentation/Manual/profiler-markers.html"
+    },
+    {
+      "url": "https://github.com/KhronosGroup/OpenXR-SDK-Source",
+      "status": 200,
+      "resolved_url": "https://github.com/KhronosGroup/OpenXR-SDK-Source"
+    },
+    {
+      "url": "https://github.com/meta-quest/Meta-OpenXR-SDK",
+      "status": 200,
+      "resolved_url": "https://github.com/meta-quest/Meta-OpenXR-SDK"
+    },
+    {
+      "url": "https://github.com/meta-quest/Meta-Spatial-SDK-Samples",
+      "status": 200,
+      "resolved_url": "https://github.com/meta-quest/Meta-Spatial-SDK-Samples"
+    },
+    {
+      "url": "https://github.com/oculus-samples/Unity-SharedSpatialAnchors",
+      "status": 200,
+      "resolved_url": "https://github.com/oculus-samples/Unity-SharedSpatialAnchors"
+    },
+    {
+      "url": "https://github.com/vllm-project/vllm-omni",
+      "status": 200,
+      "resolved_url": "https://github.com/vllm-project/vllm-omni"
+    },
+    {
+      "url": "https://www.w3.org/TR/webxr/",
+      "status": 200,
+      "resolved_url": "https://www.w3.org/TR/webxr/"
+    }
+  ]
+}

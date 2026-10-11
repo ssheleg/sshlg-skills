@@ -1,0 +1,258 @@
+{
+  "repo": "ssheleg/xr-dev",
+  "commit": "7954ba2a884f5a71d7487981b4335c0ecdbc25d4",
+  "skills": [
+    {
+      "skill": "quest-native",
+      "path": "plugins/xr-dev/skills/quest-native/SKILL.md",
+      "sha256": "21ee60afee08b642bbc711f485111f891122730d2e561a8ddbd3e0cdea1c297c",
+      "headings": [
+        {
+          "line": 29,
+          "text": "## Step 0 \u2014 is this project even on this lane?"
+        },
+        {
+          "line": 44,
+          "text": "## Step 1 \u2014 verify, then answer"
+        },
+        {
+          "line": 65,
+          "text": "## Step 2 \u2014 the manifest, which is two manifests"
+        },
+        {
+          "line": 99,
+          "text": "## Step 3 \u2014 SDK levels, which changed in 2026"
+        },
+        {
+          "line": 113,
+          "text": "## Step 4 \u2014 the loader, and the two extensions before any of your code"
+        },
+        {
+          "line": 130,
+          "text": "## Step 5 \u2014 the frame loop that passes review"
+        },
+        {
+          "line": 148,
+          "text": "## Step 6 \u2014 capabilities, never device models"
+        },
+        {
+          "line": 155,
+          "text": "## What this skill hands off"
+        },
+        {
+          "line": 164,
+          "text": "## Gotchas that cost a debugging round"
+        }
+      ],
+      "reference_files": [
+        "references/frame-loop.md",
+        "references/manifest-and-gradle.md",
+        "references/doc-map.md"
+      ]
+    },
+    {
+      "skill": "quest-perf",
+      "path": "plugins/xr-dev/skills/quest-perf/SKILL.md",
+      "sha256": "14af2db39edbf5df1ae75ddb0e562e79c932c97ed3148cc51aed449f4e27ce90",
+      "headings": [
+        {
+          "line": 28,
+          "text": "## The budget is a deadline, not a target"
+        },
+        {
+          "line": 41,
+          "text": "## The GPU% lie, and the 50% threshold"
+        },
+        {
+          "line": 62,
+          "text": "## The four levers, in the order they are worth pulling"
+        },
+        {
+          "line": 77,
+          "text": "## Capture chain \u2014 what each tool answers"
+        },
+        {
+          "line": 94,
+          "text": "## Method, so a second capture means something"
+        },
+        {
+          "line": 104,
+          "text": "## Gotchas that cost a debugging round"
+        }
+      ],
+      "reference_files": [
+        "references/capture-playbook.md"
+      ]
+    },
+    {
+      "skill": "quest-spatial",
+      "path": "plugins/xr-dev/skills/quest-spatial/SKILL.md",
+      "sha256": "5a3b70c1868ebac45fb58f404da48c04b3acc6dbe09fe4ac493b1e899fe2f978",
+      "headings": [
+        {
+          "line": 28,
+          "text": "## Step 0 \u2014 is this the right lane?"
+        },
+        {
+          "line": 42,
+          "text": "## Step 1 \u2014 the toolchain, which is strict"
+        },
+        {
+          "line": 68,
+          "text": "## Step 2 \u2014 the budgets, before the architecture"
+        },
+        {
+          "line": 97,
+          "text": "## Step 3 \u2014 the traps that cost a day each"
+        },
+        {
+          "line": 115,
+          "text": "## Step 4 \u2014 where to read, out of 197 pages"
+        },
+        {
+          "line": 132,
+          "text": "## Step 5 \u2014 the samples answer faster than the prose"
+        },
+        {
+          "line": 140,
+          "text": "## Hybrid apps, in one paragraph"
+        },
+        {
+          "line": 149,
+          "text": "## What this skill hands off"
+        }
+      ],
+      "reference_files": [
+        "references/docs-map.md",
+        "references/samples-map.md",
+        "references/budgets-and-traps.md"
+      ]
+    },
+    {
+      "skill": "quest-store",
+      "path": "plugins/xr-dev/skills/quest-store/SKILL.md",
+      "sha256": "1bc97918f3a27930b6b73f4f954a4c85d7e9e9a1b3a21d30f36f63688a93151c",
+      "headings": [
+        {
+          "line": 28,
+          "text": "## The four channels"
+        },
+        {
+          "line": 46,
+          "text": "## Review, in the order it happens"
+        },
+        {
+          "line": 59,
+          "text": "## What gets checked, grouped by what it costs to fix late"
+        },
+        {
+          "line": 74,
+          "text": "## The release manifest is not the development manifest"
+        },
+        {
+          "line": 91,
+          "text": "## Uploading"
+        },
+        {
+          "line": 111,
+          "text": "## A checklist that fits the two gates"
+        },
+        {
+          "line": 121,
+          "text": "## Gotchas that cost a submission round"
+        }
+      ],
+      "reference_files": [
+        "references/vrc-checklist.md"
+      ]
+    },
+    {
+      "skill": "quest-tooling",
+      "path": "plugins/xr-dev/skills/quest-tooling/SKILL.md",
+      "sha256": "f613592a84ed88d058f2dde40d9566811384980f8794949347a3431d035468e6",
+      "headings": [
+        {
+          "line": 28,
+          "text": "## Install it once, through one channel"
+        },
+        {
+          "line": 44,
+          "text": "## `metavr init` is the trap, not the setup"
+        },
+        {
+          "line": 65,
+          "text": "## The command map"
+        },
+        {
+          "line": 89,
+          "text": "## The MCP server, and how it ends up registered twice"
+        },
+        {
+          "line": 108,
+          "text": "## Meta's 29 skills, and what this pack adds"
+        },
+        {
+          "line": 126,
+          "text": "## No headset on the desk"
+        },
+        {
+          "line": 135,
+          "text": "## Managed developer tools"
+        },
+        {
+          "line": 141,
+          "text": "## Hygiene, because the estate pays for it later"
+        }
+      ],
+      "reference_files": [
+        "references/tool-matrix.md"
+      ]
+    },
+    {
+      "skill": "quest-webxr",
+      "path": "plugins/xr-dev/skills/quest-webxr/SKILL.md",
+      "sha256": "3ce3b9be5620c0c2ce823f24459a446d89709e7a2b2f9f9e1cad56d9fb12256c",
+      "headings": [
+        {
+          "line": 26,
+          "text": "## The order that avoids rework"
+        },
+        {
+          "line": 36,
+          "text": "## Entering immersive mode like a real app"
+        },
+        {
+          "line": 54,
+          "text": "## Which framework"
+        },
+        {
+          "line": 66,
+          "text": "## Packaging as a PWA"
+        },
+        {
+          "line": 90,
+          "text": "## Monetisation and platform features"
+        },
+        {
+          "line": 96,
+          "text": "## Distribution"
+        },
+        {
+          "line": 104,
+          "text": "## Performance, honestly"
+        },
+        {
+          "line": 113,
+          "text": "## Where to read"
+        },
+        {
+          "line": 124,
+          "text": "## Gotchas"
+        }
+      ],
+      "reference_files": [
+        "references/pwa-packaging.md"
+      ]
+    }
+  ]
+}
