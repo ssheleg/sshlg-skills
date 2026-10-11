@@ -203,7 +203,7 @@ Two repositories run in parallel, each with its own release.
 
 **Packets:**
 - **W4-A agent-stack (R23–R26, R28 AG-06a/b).** `agent-interop/references/gateway.md`
-  carries the tiers, cited per the peer note. `interop.md` carries the fabric-interop
+  carries the tiers, pinned to Fabric main `5bf15e5c` and fabric-workspace main `69d31bf` (`authority.md:63`). `interop.md` carries the fabric-interop
   example. Links go to the `fabric-agent-adapter` skills and `observatory-log`.
   Descriptions get ≥ 30 chars spare.
 - **W4-B make-skill (R25, R27 setup, R28 MS-05, R29).** `skill-search` trigger evals in
@@ -246,6 +246,7 @@ Two repositories run in parallel, each with its own release.
 
 | Date | Change | Why |
 |---|---|---|
+| 2026-10-12 | R23 pin: Fabric main `5bf15e5c` (ADR-0144 amendments 1–4, incl. `19ad05ca`) + fabric-workspace main `69d31bf` `authority.md:63`; both verified with `git merge-base --is-ancestor` | peer fabric-workspace-91 |
 | 2026-10-12 | operator answers: R35 (plugins, wave 1), R36 (Gemini, wave 5), R37 (Pi supported, wave 5); 12/21/14/15/19 per wave, 3 operator | planning gate |
 | 2026-10-12 | waves 1 and 3 build concurrently, then waves 2 and 4 — different repositories, no shared seam; each wave keeps its own close pass. Wave 2's R12 citation waits for wave 1's merge | wall time; the operator's "close in one pass" |
 | 2026-10-11 | initial cut: 238 items — 74 in waves 1–5 (8/21/14/15/16), 10 operator, 154 program | wave-0 survey |

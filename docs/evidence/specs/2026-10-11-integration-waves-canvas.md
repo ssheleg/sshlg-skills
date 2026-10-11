@@ -169,8 +169,9 @@ points back. Every agent-stack description has 4–8 chars spare.
   - T1, the operator's enrolled machines: the same as T0.
   - T2, another person's machine or an outside caller: the full on-behalf-of model.
   - Money limits and human gates hold on every tier.
-  - Cited to fabric-workspace `eb451cf`. The Fabric commit `19ad05ca` is named only as
-    "Fabric ADR-0144 amendment 4, wave 2 branch" until it reaches Fabric main.
+  - Pinned to Fabric main `5bf15e5c` (ADR-0144 with amendments 1–4; amendment 4 is
+    `19ad05ca`, verified an ancestor of Fabric `origin/main` on 2026-10-12) and to
+    fabric-workspace main `69d31bf`, `knowledge/authority.md:63` "Trust by machine".
 - **The fabric-interop job extension** (`fabric.job.get/cancel`; working /
   input_required / completed / failed / cancelled) and the
   `degraded`/`human_steps`/`sources` envelope become a worked example beside MCP Tasks,
