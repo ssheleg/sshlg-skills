@@ -9,6 +9,11 @@ machine holds family skills there, `update` now reinstalls each member for Conti
 with an isolated `--copy` after every refresh; a machine without Continue gets no
 such step. Found by the installed-payload verifier, not by a user.
 
+The hygiene guard no longer refuses `skills add … --agent <not Claude>`: an explicit
+agent list without Claude cannot write `~/.claude/skills`. Each invocation of a
+chain is judged on its own, so a scoped first command cannot excuse an unscoped
+second one (B-153).
+
 **MCP tools whose answer is a credential are refused** (from #184).
 `PreToolUse` now also reads MCP calls, for a registry of tools whose RESULT carries a
 secret by design (`lib/mcpsecrets.js`): the DigitalOcean database, registry, Kubernetes,

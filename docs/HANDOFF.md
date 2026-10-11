@@ -1,51 +1,41 @@
 # Start here — sshlg-skills
 
-Snapshot: 2026-10-10. This page selects evidence and the next bounded action;
+Snapshot: 2026-10-11. This page selects evidence and the next bounded action;
 [skills.json](../skills.json) owns the current member inventory and pins.
 Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 [standing retrospective instructions](evidence/retro.md) and the
 [repository handoff rule](working-rules/repository-handoff.md) before editing.
 
-## Current host compatibility delivery
+## Current delivery — family round 1.55.0 (2026-10-10/11)
 
-[Host compatibility report](reports/2026-10-09-coding-agent-compatibility/README.md)
-and [execution packet](evidence/host-compat/README.md) own the current work:
-29 host-family contracts, all 38 family skills, supported global installer targets,
-and bounded fixes in five members. Exact source, release and installed readback
-are separate in [delivery.json](evidence/host-compat/delivery.json).
-Published hub: **1.54.7**, source [5a12a70](https://github.com/ssheleg/sshlg-skills/tree/5a12a70d2d6c44a73b23a474072b6c3681a56b6e).
-Published members: make-skill 0.29.2, task-pipeline 1.90.2, agent-sync 1.21.5,
-super-ux 0.59.1, sheleg-dev 0.13.2. All registry payloads match their release sources.
-Global update completed; [134 installed payload comparisons](evidence/host-compat/local/installed-payloads.json) match.
-Native/disclosed loader checks find all 38 family skills, Continue source-helper
-discovery improved from 0 to 38, and all 29 Codex path exclusions remain.
-[Local readback](evidence/host-compat/local-readback.json) distinguishes this from
-model/provider acceptance, which is NOT_RUN.
+[Brief](evidence/briefs/2026-10-10-family-round.md) · [plan](evidence/plans/2026-10-10-family-round.md) ·
+[delivery receipt](evidence/family-round-1010/DELIVERY.md). Lease `FAMILY-ROUND-1010`.
 
-[Hook 127 repair](evidence/host-compat/local/stale-cache-repair.json) restored
-exact old paths; the operator confirmed no new errors. The final global update
-preserved all 2874 prior files in 37 Claude cache versions, adding only five native
-.orphaned_at markers. [Preservation](evidence/host-compat/local/protected-preservation.json)
-checks retained manual instructions, settings and both original chat exports.
-[Config reconciliation](evidence/host-compat/local/config-reconciliation.json)
-records MCP drift already present before the last native update; do not restore
-stale configuration from the earliest baseline.
+The review of 1.54.7 measured what its readback could not: Claude Code's skill
+listing was 274,398 characters against a 30,000 budget and Codex dropped 220 skills
+(`task-pipeline` among them) from its model list. Operator decisions: a small core
+stays listed, the rest is hidden and reached by a search that is now every task's
+first step (`toolkit --find`, the routing protocol, make-skill's `skill-search`).
+`npx sshlg-skills visibility --apply` writes Claude `skillOverrides` and Codex
+`skills.config` through backups; `--revert` removes only what it added.
 
-The failed unpublished task-pipeline 1.90.1 and ENOSPC attempt remain historical
-evidence; recovery 1.90.2 passed source, local, release and registry gates.
-Historical post-fix audit evidence is reused only through
-[complete payload equivalence](evidence/host-compat/post-fix/EQUIVALENCE.md).
-No owner source integration or installed family update is pending.
+Eleven members released with annotated tags and a release gate that refuses a
+lightweight tag; `skills@1.7.2` pinned. Installation and the post-apply listing
+readback are recorded in the receipt's last section.
 
-Exact next bounded task: **VISIBILITY-1** — measure the third-party skill catalog
-metadata cost and propose scoped visibility changes. Prerequisite: read the
-[previous context delivery](evidence/comprehensive-context/DELIVERY.md) and this
-report; retain excluded skills and do not delete collected chat data. Three
-lightweight-tag process follow-ups are P2 at their owners' next normal release.
+**Open, with owners:** B-145 (plugins keep Claude over budget — operator),
+B-146 (Gemini CLI channel and sign-in — operator), B-147 (`skill-search` evals),
+B-148 (new compatibility cut; Pi links), B-149 (merged branches — operator),
+HK-05/#91 (task-pipeline CI 105 min, `validate.yml` 506 KB of 512 KB).
+A peer session (fabric-90) holds the next change: "wave mode" doctrine across
+task-pipeline, routing and pointers, built on 1.55.0.
 
-The previous [1.54.6 context delivery](evidence/comprehensive-context/DELIVERY.md)
-remains a historical receipt. After current delivery, the proposed next bounded
-task is VISIBILITY-1, not a restart of historical exact-next instructions.
+**Exact next bounded task:** B-147 — paired routing eval of the search-first
+protocol and `skill-search` (arms with/without the protocol sentence, per
+`test/evals/README.md`), then decide whether Codex needs its own core list.
+
+The previous [host compatibility delivery](reports/2026-10-09-coding-agent-compatibility/README.md)
+(1.54.7, [delivery.json](evidence/host-compat/delivery.json)) is now a historical receipt.
 
 ## Most recent completed delivery receipts
 
