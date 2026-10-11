@@ -57,7 +57,7 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows and the paid-acquisition funnel among them, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 41-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.59.1",
+      "version": "0.59.2",
       "entry": "/ux",
       "role": "what the interface must do",
       "npm": "super-ux",
@@ -76,7 +76,7 @@
         "evidence-docs",
         "project-audit"
       ],
-      "version": "1.90.2",
+      "version": "1.91.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
@@ -93,7 +93,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.21.5",
+      "version": "1.21.6",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
@@ -106,11 +106,12 @@
       "dir": "skills/make-skill",
       "pluginMarketplace": "ssheleg/make-skill",
       "pluginInstall": "make-skill@make-skill",
-      "desc": "A skill that builds skills: create, retrofit, audit and publish agent skills and Claude Code plugins — Agent Skills standard conformance, marketplace layout, version sync, validator + CI, every distribution channel, MCP and A2A rules.",
+      "desc": "A skill that builds skills: create, retrofit, audit and publish agent skills and Claude Code plugins — Agent Skills standard conformance, marketplace layout, version sync, validator + CI, every distribution channel, MCP and A2A rules — plus skill-search, the first step that finds the installed skill a task needs.",
       "skillNames": [
-        "make-skill"
+        "make-skill",
+        "skill-search"
       ],
-      "version": "0.29.2",
+      "version": "0.30.0",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
@@ -127,7 +128,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.64.0",
+      "version": "1.64.1",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -155,7 +156,7 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.26.3",
+      "version": "0.26.4",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
@@ -178,7 +179,7 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.13.2",
+      "version": "0.13.3",
       "entry": null,
       "role": "integrations: money in, tracking, errors, sign-in, speed",
       "npm": "@ssheleg/sheleg-dev",
@@ -198,7 +199,7 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.25.5",
+      "version": "0.25.6",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
@@ -217,7 +218,7 @@
         "telegram-userbots",
         "telegram-miniapps"
       ],
-      "version": "0.2.2",
+      "version": "0.2.3",
       "entry": null,
       "role": "which Telegram API each surface speaks, and what each one costs",
       "npm": "@ssheleg/telegram-dev",
@@ -240,7 +241,7 @@
         "quest-store",
         "quest-webxr"
       ],
-      "version": "0.3.2",
+      "version": "0.3.3",
       "entry": null,
       "role": "how a Quest product moves from platform choice to launch and operation",
       "npm": "@ssheleg/xr-dev",
@@ -266,7 +267,7 @@
         "web3d-assets",
         "web3d-animation"
       ],
-      "version": "0.1.2",
+      "version": "0.1.3",
       "entry": null,
       "role": "how realtime 3D on the web runs, ships its assets and moves",
       "npm": "@ssheleg/web3d-dev",

@@ -236,6 +236,69 @@ it('a word a family trigger carries is never dropped as non-discriminating', () 
   assert.ok(T.rank(roster, 'helper number', 12, FAM, { protect }).weak.includes('helper'));
 });
 
+// ── `--find`: the agent parsed the meaning, the search ranks CONCEPTS ─────────────
+// Measured 2026-10-10: `--for "сделай pdf отчёт из таблицы excel"` put
+// portfolio-monitoring first and never printed `pdf` or `xlsx`, because a raw sentence
+// was scored word by word with a two-word floor. `--find` takes the concepts the agent
+// derived and treats each one as deliberate.
+
+const FIND = [
+  { plugin: 'other@vendor', id: 'pdf', description: 'Read, create and merge PDF documents.', path: '/s/pdf/SKILL.md' },
+  { plugin: 'third@vendor', id: 'xlsx', description: 'Spreadsheets: read and write Excel workbooks.', path: '/s/xlsx/SKILL.md' },
+  { plugin: 'fin@vendor', id: 'portfolio-monitoring', description: 'Track portfolio company performance from PDF and Excel packages.', path: '/s/pm/SKILL.md' },
+  { plugin: '(plain ~/.claude/skills)', id: 'project-reports', description: 'Use when work produces a report.', path: '/s/pr/SKILL.md', visibility: 'user-invocable-only' },
+  { plugin: 'other@vendor', id: 'graphify', description: 'Knowledge graph.', path: '/s/g/SKILL.md' },
+];
+
+it('find: concepts the agent chose rank the named skills first (the measured miss)', () => {
+  const { rows } = T.find(FIND, 'pdf, xlsx, excel, spreadsheet');
+  assert.deepStrictEqual(rows.slice(0, 2).map((r) => r.id).sort(), ['pdf', 'xlsx'], rows.map((r) => r.id).join(','));
+});
+
+it('find: a name match outranks a description that merely mentions the concept', () => {
+  const { rows } = T.find(FIND, 'pdf');
+  assert.strictEqual(rows[0].id, 'pdf');
+  assert.ok(rows.some((r) => r.id === 'portfolio-monitoring'), 'a one-concept description hit must still show');
+});
+
+it('find: a skill hidden from the listing is found, marked, and carries its path', () => {
+  const { rows } = T.find(FIND, 'report');
+  const r = rows.find((x) => x.id === 'project-reports');
+  assert.ok(r, 'hidden skill not found');
+  const out = T.renderFind(rows, 'report');
+  assert.ok(/project-reports.*hidden/.test(out), out);
+  assert.ok(out.includes('/s/pr/SKILL.md'), 'the path is what a host without the skill listed opens');
+});
+
+it('find: a multi-word concept needs all its words, not one of them', () => {
+  const { rows } = T.find(FIND, 'knowledge graph');
+  assert.deepStrictEqual(rows.map((r) => r.id), ['graphify']);
+  assert.deepStrictEqual(T.find(FIND, 'knowledge spreadsheet').rows, []);
+});
+
+it('find: nothing matched is said in words, never an empty print', () => {
+  const out = T.renderFind(T.find(FIND, 'kubernetes').rows, 'kubernetes');
+  assert.ok(/NOTHING/.test(out), out);
+});
+
+it('find: a name match is a whole name part, not a substring (review: "ui" hit guidelines)', () => {
+  const rows = T.find([
+    { plugin: 'a@b', id: 'web-design-guidelines', description: 'Review pages.' },
+    { plugin: 'a@b', id: 'ui-toolkit-web', description: 'Components.' },
+    { plugin: 'a@b', id: 'algorithmic-art', description: 'Art.' },
+  ], 'ui, go').rows;
+  assert.deepStrictEqual(rows.map((r) => r.id), ['ui-toolkit-web']);
+});
+
+it('find: a shared-root row is labelled as a file to read, not as listed', () => {
+  const out = T.renderFind([{ id: 'x', score: 1, hits: ['x'], namespace: 'shared', path: '/s/x/SKILL.md', description: '' }], 'x');
+  assert.ok(/shared root/.test(out) && !/listed/.test(out), out);
+});
+
+it('find: concepts split on commas and semicolons, folded, ё to е', () => {
+  assert.deepStrictEqual(T.concepts('PDF; Отчёт ,  excel ,,'), ['pdf', 'отчет', 'excel']);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

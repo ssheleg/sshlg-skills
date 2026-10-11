@@ -55,12 +55,15 @@ to the checked artifact, and a historical receipt is not a current runtime claim
   filter is best-effort and fails open on unparsed commands; do not rely on it.
 - **Hooks fail silent; refusals name a remedy.** A malformed payload must not break
   other sessions. `test/hooks_e2e_test.js` asserts both through real script processes.
+  Claude Code 2.1.295 added `onFailure: "block"`; family hooks keep the default
+  `continue` on purpose — adding `block` is not hardening, it breaks this rule.
 
 ## Writing to operator files
 
 Applies to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`,
-`~/.cursor/rules/sshlg-routing.mdc` and `~/.obsidian-wiki/config`, including the
-post-tool-use restore.
+`~/.cursor/rules/sshlg-routing.mdc`, `~/.obsidian-wiki/config`, and the
+`visibility` edits to `~/.claude/settings.json` and `~/.codex/config.toml`,
+including the post-tool-use restore.
 
 1. `lib/backup.js` copies before every write; backup failure cancels the write.
    Every new write path goes through `protect()` in `lib/apply.js`. Restore is a
