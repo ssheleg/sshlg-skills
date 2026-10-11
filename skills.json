@@ -76,7 +76,7 @@
         "evidence-docs",
         "project-audit"
       ],
-      "version": "1.91.2",
+      "version": "1.92.0",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",

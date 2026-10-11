@@ -7,6 +7,10 @@ as needs-operator instead of stopping the run. The routing block's task-pipeline
 paragraph now names the mode — "a whole board runs as `/task-pipeline waves`, never a
 parallel cycle" — at 15,906 of the 15,913-character budget.
 
+The description reserve ratchet moves 13 → 14: task-pipeline's description, naming
+the mode, stands at 911 of 970 — one character inside the 60 kept for a future
+'not for' clause. Its trim is the member's, on its next release (B-154).
+
 ## v1.55.1 — update keeps Continue's copies
 
 `update` refreshes every family skill with `skills update <id> --global`, and with
