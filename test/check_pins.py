@@ -75,6 +75,21 @@ TIMEOUT = 10
 OK, BEHIND, MISSING = "ok", "behind", "missing"
 
 
+def evidence(npm_known: set[str], tag_known: set[str]) -> tuple[set[str], str]:
+    """Which publication a pin is judged against, and its name.
+
+    A member published to npm is installed FROM npm, so a version that only a git tag
+    carries is a version nobody can install. The union used to stand in: on 2026-10-11
+    `task-pipeline` v1.91.1 was tagged, its release workflow refused the tag's tree,
+    npm stayed at 1.91.0 — and this check printed `ok task-pipeline 1.91.1` because
+    the tag alone satisfied it (B-78's shape, one layer up). Tags remain the evidence
+    only for a member npm has never seen.
+    """
+    if npm_known:
+        return npm_known, "npm"
+    return tag_known, "git tag"
+
+
 def classify(pinned: str, newest: str | None, known: set[str]) -> str:
     """Which of the three a pin is, given what the world publishes.
 
@@ -269,6 +284,19 @@ def self_test() -> int:
         if got != expected:
             failures.append(f"slug {label}: expected {expected}, got {got}")
 
+    # B-78 one layer up (2026-10-11): a member on npm is judged by npm alone.
+    ev = [
+        ("tagged, npm never published it", "1.91.1", {"1.91.0"}, {"1.91.0", "1.91.1"}, MISSING),
+        ("tagged and published",           "1.91.0", {"1.91.0"}, {"1.91.0", "1.91.1"}, OK),
+        ("GitHub-only member, tag counts", "0.1.2",  set(),      {"0.1.2"},           OK),
+    ]
+    for label, pinned, npm_k, tag_k, expected in ev:
+        judged, _ = evidence(npm_k, tag_k)
+        got = classify(pinned, None, judged)
+        mark = "ok  " if got == expected else "FAIL"
+        print(f"  {mark} evidence: {label:<32} -> {got}")
+        if got != expected:
+            failures.append(f"evidence {label}: expected {expected}, got {got}")
     verdicts = {classify(p, n, k) for _, p, n, k, _ in cases}
     if len(verdicts) < 3:
         failures.append(
@@ -283,8 +311,8 @@ def self_test() -> int:
         return 1
     # Counted, not restated: this line said "5 cases" the moment eight slug cases
     # joined it, which is the failure the board keeps re-finding in its own files.
-    print(f"\nself-test: {len(cases) + len(slugs)} cases "
-          f"({len(cases)} classify, {len(slugs)} slug), "
+    print(f"\nself-test: {len(cases) + len(slugs) + len(ev)} cases "
+          f"({len(cases)} classify, {len(slugs)} slug, {len(ev)} evidence), "
           f"{len(verdicts)} distinct verdicts, no network")
     return 0
 
@@ -390,14 +418,10 @@ def main(argv: list[str]) -> int:
         if not known and not tag_known:
             unknown.append(entry["name"])
             continue
-        source = used if known else "git tag"
-        all_known = known | tag_known
-        newest_overall = max(
-            [v for v in (newest, tag_newest) if v],
-            key=lambda v: tuple(int(n) for n in v.split(".")),
-            default=None,
-        )
-        verdict = classify(pinned, newest_overall, all_known)
+        judged, kind = evidence(known, tag_known)
+        source = used if kind == "npm" else "git tag"
+        newest_overall = newest if kind == "npm" else tag_newest
+        verdict = classify(pinned, newest_overall, judged)
         if verdict == MISSING:
             missing.append((entry["name"], pinned, source, newest_overall))
         elif verdict == BEHIND:

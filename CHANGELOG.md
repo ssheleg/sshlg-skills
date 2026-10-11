@@ -14,6 +14,11 @@ agent list without Claude cannot write `~/.claude/skills`. Each invocation of a
 chain is judged on its own, so a scoped first command cannot excuse an unscoped
 second one (B-153).
 
+`check_pins.py` judges a member published to npm by npm alone. It printed
+`ok task-pipeline 1.91.1` on 2026-10-11 while that tag's release had been refused and
+npm served 1.91.0 — a git tag satisfied it. Tags remain the evidence only for a member
+npm has never seen; three self-test cases cover the split.
+
 **MCP tools whose answer is a credential are refused** (from #184).
 `PreToolUse` now also reads MCP calls, for a registry of tools whose RESULT carries a
 secret by design (`lib/mcpsecrets.js`): the DigitalOcean database, registry, Kubernetes,
