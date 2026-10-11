@@ -77,3 +77,15 @@ had reported that tag as OK; fixed in 1.55.1.
 | Continue | 39 of 39 family skills are real directories; task-pipeline carries the wave mode |
 | Codex native task-pipeline | 1.92.0 via marketplace remove/re-add at `47ba011`; installed tree equals the tag (except `__pycache__`); 1.91.2 cache kept; only `ref` changed in `config.toml` |
 | Installed payloads | 137 of 137 equal, after a verifier fix: `claude plugin list` now also returns claude.ai-synced rows (11, `scope: synced`, `version: unknown`) that a same-named local install shadows; keyed by name they overwrote the real rows and the verifier reported `Claude registration mismatch`. It now skips synced rows; it failed on the same snapshots before the fix |
+
+## Delegation doctrine, hub 1.55.3 (2026-10-11, `df8ad34`)
+
+| Step | Evidence |
+|---|---|
+| agent-stack#43 (B-155) | `gateway.md` § "Delegation — who is acting, and for whom" + three traps, pinned to Fabric main (`fabric-agent-contract@8e49fbd`, `fabric@812876cf`); independent fact-check against the spec, 5 findings fixed; the spec-pin check failed on a split pin line before it was fixed; CI green, squash `25ff9cb` |
+| `v0.26.0` | annotated; `npm test` on the tag tree exit 0 before the push; release run 38144992767 success; npm 0.26.0 |
+| Hub PR #190 → `v1.55.3` | `node test/run.js` 96/96; `check_pins.py` every pin matches; release run 38146101319 success; npm 1.55.3 |
+| `npx --yes sshlg-skills@1.55.3 update` | 83 of 83 green |
+| Continue | 39 of 39 real directories; `agent-interop/references/gateway.md` carries the new section |
+| Codex native agent-stack | 0.26.0 at `25ff9cb`, tree equal to the tag; 0.25.5 and 0.25.6 caches kept; the marketplace moved from floating `ref = "main"` to the release SHA, like every other member; `config.toml` parses |
+| Installed payloads | 137 of 137 equal at hub `df8ad34` |
