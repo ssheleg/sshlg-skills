@@ -47,3 +47,19 @@ code, substring name matches, duplicate shared-root rows.
 | web3d-dev | 0.1.3 | tag | web3d-dev#4, #5 |
 
 Hub: 1.55.0 — see the release section appended below once published.
+
+## Installed and measured (2026-10-11, hub 1.55.1 at `4eb7383`)
+
+| Readback | Result |
+|---|---|
+| `npx --yes sshlg-skills@latest update` | 83 of 83 steps green; Continue: 39 of 39 family skills are real directories |
+| Installed payloads (`docs/evidence/host-compat/local/verify_payloads.py`) | 137 of 137 comparisons equal (shared, Hermes, Continue copies; 11 Claude plugins; 9 Codex native plugins) |
+| Codex native plugins | agent-sync 1.21.7, make-skill 0.30.1, task-pipeline 1.91.2 via marketplace remove/re-add at the pinned SHA; every earlier cache file preserved (manifest 0 mismatches), `config.toml` parses |
+| `visibility --apply` (released launcher) | Claude: 417 personal skills `user-invocable-only`; Codex: 429 shared skills `enabled = false`; both files backed up first; a second run wrote nothing (hashes equal) |
+| Claude listing after apply (`claude -p --debug`) | `634 skills, 274398 chars` → `222 skills, 114707 chars` against 30,000 — still over budget from plugin skills (B-145) |
+| Codex model-visible list after apply (`codex exec`) | task-pipeline, make-skill, agent-sync, ux-scenarios, evidence-docs and skill-search all listed (before: 2 of 5); no context-budget warning. The shared `skill-search` copy was a duplicate of the plugin's and is disabled like the other 29 family paths |
+| `python3 test/check_pins.py` | every pin matches its npm release; it now judges npm members by npm alone |
+
+Releases that refused themselves: task-pipeline `v1.91.1` (no no-stamp declaration;
+nothing published) — `v1.91.2` ships the same payload. The hub's own `check_pins`
+had reported that tag as OK; fixed in 1.55.1.
