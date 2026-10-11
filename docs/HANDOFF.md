@@ -23,12 +23,26 @@ Eleven members released with annotated tags and a release gate that refuses a
 lightweight tag; `skills@1.7.2` pinned. Installation and the post-apply listing
 readback are recorded in the receipt's last section.
 
+**1.55.1 (2026-10-11), same round:** `update` restores Continue's copies after every
+refresh (`skills@1.7.2` had re-linked 13 of 38; verified on this machine 39/39 real
+dirs, 137/137 installed payloads equal); the hygiene guard allows an agent-scoped
+`skills add` (B-153); the MCP credential guard from #184; the XR creative research
+branch merged. Members: task-pipeline 1.91.1 (gates read the current run only; a
+broken python3 stops only releases — B-151, B-152), agent-sync 1.21.7 (shared-identity
+`acquire` refused, worktree session stamps, direct `guard` allows an uncoordinated
+repository — B-150), make-skill 0.30.1 (family members update through the launcher).
+Branch cleanup: hub 10 worktrees + 24 local + 71 remote branches, members 5 worktrees +
+54 local + 115 remote branches — each removed only after its PR merged or every file
+it touched was present in `main`; the one unique branch (XR research) was merged and
+the one unique test (`guard_uncoordinated_test.py`) was ported into agent-sync 1.21.7.
+
 **Open, with owners:** B-145 (plugins keep Claude over budget — operator),
 B-146 (Gemini CLI channel and sign-in — operator), B-147 (`skill-search` evals),
-B-148 (new compatibility cut; Pi links), B-149 (merged branches — operator),
-HK-05/#91 (task-pipeline CI 105 min, `validate.yml` 506 KB of 512 KB).
+B-148 (new compatibility cut; Pi links), HK-05/#91 (task-pipeline CI 105 min,
+`validate.yml` 506 KB of 512 KB). Disk: other sessions' test temp directories keep
+free space near 2 GB on this machine — not this repository's to delete.
 A peer session (fabric-90) holds the next change: "wave mode" doctrine across
-task-pipeline, routing and pointers, built on 1.55.0.
+task-pipeline, routing and pointers, built on 1.55.x.
 
 **Exact next bounded task:** B-147 — paired routing eval of the search-first
 protocol and `skill-search` (arms with/without the protocol sentence, per
