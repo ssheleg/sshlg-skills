@@ -49,6 +49,16 @@ Run: `/task-pipeline waves` · lease `WAVES-1011` · branch `waves/2026-10-11-in
 | Scope of this release vs program | this release: nodes N01–N09 (74 items); member-local rows outside the emphasis → `program` (154) | `waves.md` "A board bigger than one release" |
 | Edits in Fabric or Observatory repositories | none from this run — asks go to their owners | `~/.claude/CLAUDE.md` "Coordinate shared domains … with their owner" |
 
+## Operator answers (2026-10-12, planning gate)
+
+| Question | Answer | Effect |
+|---|---|---|
+| Planning gate (stages 0, 2, 3) | **approved — start wave 1** | gates 0/2/3 closed by the operator's go |
+| B-145 plugins | **disable `huggingface-skills`, `atlassian`, `caveman`, `clickhouse`; scope `figma`, `meta-vr`, `stripe`, `cloudflare` per project** | R35, wave 1 |
+| B-146 Gemini | **agent installs `@google/gemini-cli` from npm; the operator signs in** | R36, wave 5 |
+| Pi legacy links | **"Pi will soon be used actively"** — do not prune; support Pi as a host | R37, wave 5 |
+| Pasted root files, temp-dir reap | not answered | the files stay (deletion is irreversible, never assumed); the temp reap is part of approved R07, by owner prefix only |
+
 ## Questions for the operator — one batch, at the end of planning
 
 Asked once (see the plan's planning gate). An unanswered question takes the
@@ -116,6 +126,9 @@ Frozen at the planning gate: rows may be added freely; removing one needs the op
 | R33 | Graph refreshed; DOCMAP, HANDOFF, README current; pins; hub release; installed and read back | INV-015, 200 | `graphify` report; `npm view`; readback receipt |
 | R34 | Cross-product asks delivered to their owners; wiki estate map updated | INV-212, 220, 222, 223, 225, 227 | message ids; wiki diff |
 
-Operator-only items (N10): INV-001 (B-29), INV-005 (B-143), INV-007, INV-211, INV-230,
-INV-231 (B-145), INV-008, INV-234 (B-146), INV-013 (HK-13), INV-236 (Pi links). They
+| R35 | Plugins: 4 disabled globally, 4 enabled only in the projects that use them; listing chars measured before/after | INV-007, 211, 230, 231 | `claude plugin list`/settings diff through a backup; `npx sshlg-skills visibility` chars |
+| R36 | Gemini CLI from npm (dry-run first); after the operator's sign-in, family discovery read back | INV-008, 234 | `gemini --version`; readback in the compatibility cut |
+| R37 | Pi supported: which directories Pi reads is measured from its docs/source; family skills discoverable once, no duplicate listing; Pi in the compatibility cut | INV-236 | readback with Pi installed (installed by the agent if absent) |
+
+Operator-only items (N10): INV-001 (B-29), INV-005 (B-143), INV-013 (HK-13). (B-145, B-146 and Pi became R35–R37 on 2026-10-12.) They
 stay out of every wave until answered.

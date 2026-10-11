@@ -51,8 +51,15 @@ EXPLICIT = {
     ("hub", "B-109"): ("N08", 5),
     ("hub", "B-143"): ("N10", "operator"),
     ("hub", "B-144"): ("N07", 4),
-    ("hub", "B-145"): ("N10", "operator"),
-    ("hub", "B-146"): ("N10", "operator"),
+    # operator 2026-10-12: disable 4 plugins, scope 4 per project — executed in wave 1
+    ("hub", "B-145"): ("N01", 1),
+    ("sshlg-skills", "B-145"): ("N01", 1),
+    ("host:claude", "B-145"): ("N01", 1),
+    # operator 2026-10-12: install Gemini CLI from npm; the operator signs in himself
+    ("hub", "B-146"): ("N07", 5),
+    ("host:gemini", "B-146"): ("N07", 5),
+    # operator 2026-10-12: "Pi will soon be used actively" — keep the links, support the host
+    ("host:pi", "B-148"): ("N07", 5),
     ("hub", "B-147"): ("N07", 4),
     ("hub", "B-148"): ("N07", 5),
     ("hub", "B-154"): ("N06", 2),
@@ -134,6 +141,8 @@ def place(owner, row):
     key = (owner.replace("sshlg-skills", "hub"), row["id"])
     if key in EXPLICIT:
         return EXPLICIT[key]
+    if (owner, row["id"]) in EXPLICIT:
+        return EXPLICIT[(owner, row["id"])]
     is_new = row["id"] == "NEW" or row["id"].startswith("D-")
     if not is_new and owner in FOCUS_MEMBERS | {"seo-aeo-audit", "sheleg-design", "sheleg-dev", "super-ux"}:
         return ("P-" + owner, "program")  # a member board row joins this release only by EXPLICIT

@@ -111,6 +111,12 @@ parallel, each in its own worktree from `origin/main`.
   - A lock older than 30 min, or whose pid is dead, is taken over and logged.
   - The lock is released on every exit path.
 
+### Packet W1-G — plugins scoped (R35, operator 2026-10-12)
+Machine operation, done by the orchestrator: back up `~/.claude/settings.json`; `claude plugin disable` for
+`huggingface-skills`, `atlassian`, `caveman`, `clickhouse`; for `figma`, `meta-vr`, `stripe`, `cloudflare` find the
+repositories that use them (grep `~/DATA/*/` for their MCP prefixes and skills in transcripts of the last 30 days),
+enable them in those repositories' `.claude/settings.json`, then disable globally. Measure the listing before/after.
+
 ### Packet W1-F — hook latency (R06)
 - **Measure:**
   - wall time of each `hooks/*.js` with `SSHLG_SKILLS_NO_PROBE=1` and a sandbox `HOME`,
@@ -240,4 +246,6 @@ Two repositories run in parallel, each with its own release.
 
 | Date | Change | Why |
 |---|---|---|
+| 2026-10-12 | operator answers: R35 (plugins, wave 1), R36 (Gemini, wave 5), R37 (Pi supported, wave 5); 12/21/14/15/19 per wave, 3 operator | planning gate |
+| 2026-10-12 | waves 1 and 3 build concurrently, then waves 2 and 4 — different repositories, no shared seam; each wave keeps its own close pass. Wave 2's R12 citation waits for wave 1's merge | wall time; the operator's "close in one pass" |
 | 2026-10-11 | initial cut: 238 items — 74 in waves 1–5 (8/21/14/15/16), 10 operator, 154 program | wave-0 survey |
