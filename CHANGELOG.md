@@ -1,3 +1,35 @@
+## v1.55.1 — update keeps Continue's copies
+
+`update` refreshes every family skill with `skills update <id> --global`, and with
+`skills@1.7.2` that re-links every agent the CLI remembers in symlink mode —
+Continue included, whose loader skips symlinked skill directories. Measured on
+2026-10-11 right after the 1.55.0 update: 13 of 38 family entries in
+`~/.continue/skills` had become links and `skill-search` was absent. When the
+machine holds family skills there, `update` now reinstalls each member for Continue
+with an isolated `--copy` after every refresh; a machine without Continue gets no
+such step. Found by the installed-payload verifier, not by a user.
+
+The hygiene guard no longer refuses `skills add … --agent <not Claude>`: an explicit
+agent list without Claude cannot write `~/.claude/skills`. Each invocation of a
+chain is judged on its own, so a scoped first command cannot excuse an unscoped
+second one (B-153).
+
+`check_pins.py` judges a member published to npm by npm alone. It printed
+`ok task-pipeline 1.91.1` on 2026-10-11 while that tag's release had been refused and
+npm served 1.91.0 — a git tag satisfied it. Tags remain the evidence only for a member
+npm has never seen; three self-test cases cover the split.
+
+**MCP tools whose answer is a credential are refused** (from #184).
+`PreToolUse` now also reads MCP calls, for a registry of tools whose RESULT carries a
+secret by design (`lib/mcpsecrets.js`): the DigitalOcean database, registry, Kubernetes,
+Spaces, Functions and vector-database credential tools. On 2026-10-10 one
+`db-cluster-list`, asked for names, printed five clusters' admin and user passwords
+into a transcript; every one had to be reset and its apps redeployed. The refusal
+names the value-free listing and the route that sends a credential to the vault on
+stdin. The hook matcher is built from the registry, so no other MCP call spawns the
+hook; `db-cluster-get-ca` and tools that only name credentials pass
+(`test/mcpsecrets_test.js`, 17 checks).
+
 ## v1.55.0 — a small core, and a search as every task's first step
 
 Measured on the operator's machine: Claude Code's skill listing was 274,398
@@ -22,7 +54,6 @@ opens every task with that step — meaning first, then the search.
 The skills CLI pin moves to `skills@1.7.2`: same 79 targets and global flags; Codex
 and Pi now install to `~/.agents/skills`. Members re-pinned after their releases, every
 new member tag annotated (release workflows now refuse a lightweight tag).
-
 ## v1.54.7 — coding-host compatibility and supported install targets
 
 `--all` selects explicit global destinations from the pinned skills CLI snapshot:

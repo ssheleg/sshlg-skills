@@ -274,6 +274,30 @@ it('registries that could not be read keep the old refresh-only plan rather than
   ]);
 });
 
+// 2026-10-11: `skills update <id> --global` rewrote 13 of 38 Continue copies as
+// symlinks (measured: ~/.continue/skills/brand-voice -> ../../.agents/skills/…), and
+// Continue's loader skips symlinked skill dirs. The default agents do not name
+// Continue, so nothing in the plan put the copies back.
+it('update restores Continue copies when the machine has them, after every refresh', () => {
+  const skills = [{name:'a',repo:'owner/a',skillNames:['a']},{name:'b',repo:'owner/b',skillNames:['b']}];
+  const plan = P.updatePlan(skills, ['codex'], { continueCopies: true });
+  const cont = plan.filter((a) => a.includes('continue'));
+  assert.deepStrictEqual(cont.map((a) => a[3]), ['owner/a', 'owner/b']);
+  for (const a of cont) {
+    assert.ok(a.includes('--copy'), a.join(' '));
+    assert.deepStrictEqual(a.flatMap((x, i) => (x === '--agent' ? [a[i + 1]] : [])), ['continue']);
+  }
+  const lastUpdate = plan.map((a) => a[2]).lastIndexOf('update');
+  assert.ok(plan.indexOf(cont[0]) > lastUpdate, 'a copy restored before a refresh is re-linked by it');
+});
+
+it('update adds no Continue step on a machine without Continue copies, or when Continue is already a target', () => {
+  const skills = [{name:'a',repo:'owner/a',skillNames:['a']}];
+  assert.ok(!P.updatePlan(skills, ['codex']).some((a) => a.includes('continue')));
+  const both = P.updatePlan(skills, ['continue'], { continueCopies: true }).filter((a) => a.includes('continue'));
+  assert.strictEqual(both.length, 1, 'Continue reinstalled twice');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
