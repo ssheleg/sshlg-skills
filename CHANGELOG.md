@@ -1,3 +1,14 @@
+## v1.55.3 — agent-stack names who a call is for
+
+Pins agent-stack 0.26.0. `agent-interop`'s gateway reference now describes the on-behalf-of
+model: a short token in RFC 8693 shape carries `sub` (the person), `act` (the chain of agents)
+and exactly one `aud` (the callee), plus `scope`, an effect ceiling and a grant reference.
+One issuer mints these tokens and only ever narrows them on each onward hop. The callee checks
+the token offline against a published key set, and calls go direct. Spend is checked with a
+separate meter token, and `limit-reached` names the window that ran out. An approval is a
+document signed over an RFC 8785 action digest. Fabric's `fabric-delegation/0.1` is the worked
+example (B-155).
+
 ## v1.55.2 — a whole board runs as waves
 
 Pins task-pipeline 1.92.0: `/task-pipeline waves` takes a whole board to its final
