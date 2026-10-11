@@ -38,11 +38,15 @@ the one unique test (`guard_uncoordinated_test.py`) was ported into agent-sync 1
 
 **Open, with owners:** B-145 (plugins keep Claude over budget — operator),
 B-146 (Gemini CLI channel and sign-in — operator), B-147 (`skill-search` evals),
-B-148 (new compatibility cut; Pi links), HK-05/#91 (task-pipeline CI 105 min,
+B-148 (new compatibility cut; Pi links), B-154 (task-pipeline description trim), HK-05/#91 (task-pipeline CI 105 min,
 `validate.yml` 506 KB of 512 KB). Disk: other sessions' test temp directories keep
 free space near 2 GB on this machine — not this repository's to delete.
-A peer session (fabric-90) holds the next change: "wave mode" doctrine across
-task-pipeline, routing and pointers, built on 1.55.x.
+**1.55.2 (2026-10-11):** fabric-90's wave mode shipped — task-pipeline 1.92.0
+(`/task-pipeline waves`: the whole board closed in waves; the grill asks one batch),
+the routing block names it; installed and read back (83/83, Continue 39/39,
+137/137 payloads, Codex native 1.92.0). Reserve ratchet 13 → 14 until task-pipeline
+trims its description (B-154). agent-stack B-155: the on-behalf-of delegation doctrine
+for `gateway.md`, waiting for Fabric's ADR-0144 plan to reach Fabric main.
 
 **Exact next bounded task:** B-147 — paired routing eval of the search-first
 protocol and `skill-search` (arms with/without the protocol sentence, per

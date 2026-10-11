@@ -63,3 +63,17 @@ Hub: 1.55.0 — see the release section appended below once published.
 Releases that refused themselves: task-pipeline `v1.91.1` (no no-stamp declaration;
 nothing published) — `v1.91.2` ships the same payload. The hub's own `check_pins`
 had reported that tag as OK; fixed in 1.55.1.
+
+## Wave mode, hub 1.55.2 (2026-10-11, `0255469`)
+
+| Step | Evidence |
+|---|---|
+| task-pipeline#108 (fabric-90's wave mode) | CI green (validate, strict conformance, house audit); squash-merged as `47ba011` |
+| `v1.92.0` | annotated, cut locally; `python3 test/validate.py` on the tag tree exit 0 **before** the push (R-010); release run 38132891180 success; `npm view task-pipeline-skill version` → 1.92.0 |
+| Hub PR #188 | routing paragraph names `/task-pipeline waves` (15,906 / 15,913); pin 1.92.0; `node test/run.js` 96/96, 1179 fixtures; `check_pins.py` every pin matches |
+| Reserve ratchet 13 → 14 | task-pipeline's description is 911 of 970, one character inside the 60 reserve; the check failed on it before the change; trim is B-154 |
+| `v1.55.2` | `scripts/tag.sh v1.55.2 --push` (annotated); release run 38136733698 success; npm 1.55.2 |
+| `npx --yes sshlg-skills@1.55.2 update` | first pass 81 of 83: two steps hit ENOSPC (other sessions' temp files filled the disk); full re-run through the launcher, 83 of 83 green |
+| Continue | 39 of 39 family skills are real directories; task-pipeline carries the wave mode |
+| Codex native task-pipeline | 1.92.0 via marketplace remove/re-add at `47ba011`; installed tree equals the tag (except `__pycache__`); 1.91.2 cache kept; only `ref` changed in `config.toml` |
+| Installed payloads | 137 of 137 equal, after a verifier fix: `claude plugin list` now also returns claude.ai-synced rows (11, `scope: synced`, `version: unknown`) that a same-named local install shadows; keyed by name they overwrote the real rows and the verifier reported `Claude registration mismatch`. It now skips synced rows; it failed on the same snapshots before the fix |

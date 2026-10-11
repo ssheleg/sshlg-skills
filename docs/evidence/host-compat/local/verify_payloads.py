@@ -9,7 +9,7 @@ def require(ok,message):
 hub_sha=git(root,'rev-parse','HEAD').decode().strip()
 manifest=json.loads(git(root,'show',hub_sha+':skills.json'));home=Path.home();codex_home=Path(os.environ.get('CODEX_HOME',str(home/'.codex')));hermes_home=Path(os.environ.get('HERMES_HOME',str(home/'.hermes')));members={m['name'] for m in manifest['skills']}
 claude=json.loads((a.private/'claude-plugins-after.json').read_text());codex=json.loads((a.private/'codex-plugins-after.json').read_text())['installed'];before=json.loads((a.private/'codex-plugins-before.json').read_text())['installed']
-cc={x['id'].split('@')[0]:x for x in claude};cx={x['name']:x for x in codex};expected_native={x['name'] for x in before if x['name'] in members}
+cc={x['id'].split('@')[0]:x for x in claude if x.get('scope')!='synced'};cx={x['name']:x for x in codex};expected_native={x['name'] for x in before if x['name'] in members}
 require({n for n in cx if n in members}==expected_native,'Codex family plugin identity set differs from before; no silent missing registration')
 rows=[];sources=[]
 def compare(owner,channel,target_dir,files,source_sha):
