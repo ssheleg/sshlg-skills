@@ -48,6 +48,11 @@ the routing block names it; installed and read back (83/83, Continue 39/39,
 trims its description (B-154). agent-stack B-155: the on-behalf-of delegation doctrine
 for `gateway.md`, waiting for Fabric's ADR-0144 plan to reach Fabric main.
 
+**1.55.3 (2026-10-11):** agent-stack 0.26.0 ships that doctrine (B-155 closed) — on-behalf-of
+tokens, offline verification, the meter token, `approval/1`, one refusal vocabulary, with
+Fabric `fabric-delegation/0.1` as the worked example. Installed and read back (83/83,
+Continue 39/39, 137/137 payloads, Codex native 0.26.0).
+
 **Exact next bounded task:** B-147 — paired routing eval of the search-first
 protocol and `skill-search` (arms with/without the protocol sentence, per
 `test/evals/README.md`), then decide whether Codex needs its own core list.
