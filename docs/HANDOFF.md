@@ -6,7 +6,23 @@ Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 [standing retrospective instructions](evidence/retro.md) and the
 [repository handoff rule](working-rules/repository-handoff.md) before editing.
 
-## Current delivery — family round 1.55.0 (2026-10-10/11)
+## In flight — integration waves (2026-10-11, lease `WAVES-1011`)
+
+`/task-pipeline waves` over the whole board, with the operator's emphasis on
+optimization and the family working with Fabric, Observatory and every coding agent.
+[Brief + REQ table](evidence/briefs/2026-10-11-integration-waves.md) ·
+[canvas](evidence/specs/2026-10-11-integration-waves-canvas.md) ·
+[plan + task packets](evidence/plans/2026-10-11-integration-waves.md) ·
+[inventory](evidence/specs/2026-10-11-integration-waves-inventory.json) (238 items:
+74 in waves 1–5, 10 operator, 154 program; regenerate with
+`python3 docs/evidence/specs/2026-10-11-integration-waves-assign.py`).
+Branch `waves/2026-10-11-integration`. New hub rows B-155…B-161.
+
+**Exact next bounded task:** wave 1, packet W1-C — `update` re-wires a consented
+machine (B-157), then W1-A/B/D/E/F, per the plan. B-147 (the former next task) is R27 in
+wave 4.
+
+## Previous delivery — family round 1.55.0 (2026-10-10/11)
 
 [Brief](evidence/briefs/2026-10-10-family-round.md) · [plan](evidence/plans/2026-10-10-family-round.md) ·
 [delivery receipt](evidence/family-round-1010/DELIVERY.md). Lease `FAMILY-ROUND-1010`.
@@ -53,7 +69,7 @@ tokens, offline verification, the meter token, `approval/1`, one refusal vocabul
 Fabric `fabric-delegation/0.1` as the worked example. Installed and read back (83/83,
 Continue 39/39, 137/137 payloads, Codex native 0.26.0).
 
-**Exact next bounded task:** B-147 — paired routing eval of the search-first
+**Former next task (now R27, wave 4):** B-147 — paired routing eval of the search-first
 protocol and `skill-search` (arms with/without the protocol sentence, per
 `test/evals/README.md`), then decide whether Codex needs its own core list.
 
