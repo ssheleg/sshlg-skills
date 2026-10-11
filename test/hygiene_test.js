@@ -41,6 +41,18 @@ it('a bare update of a member is caught, and the remedy is the launcher', () => 
   assert.match(v.remedy, /sshlg-skills@latest update/);
 });
 
+// B-153 (2026-10-11): `skills add ssheleg/super-ux --agent continue --copy` was refused as a
+// shadowing install, though an explicit agent list that does not name Claude cannot write
+// ~/.claude/skills. The 1.55.1 Continue repair runs exactly this command.
+it('an explicit agent list without Claude is not a shadowing install', () => {
+  assert.strictEqual(H.bareFamilyInstall('npx --yes skills@1.7.2 add ssheleg/super-ux --agent continue --global --yes --copy', IDS), null);
+  assert.strictEqual(H.bareFamilyInstall('skills add ssheleg/super-ux -a codex -a continue', IDS), null);
+  assert.ok(H.bareFamilyInstall('skills add ssheleg/super-ux --agent continue --agent claude-code', IDS), 'Claude among several');
+  assert.ok(H.bareFamilyInstall("skills add ssheleg/super-ux --agent '*'", IDS), 'the wildcard reaches Claude');
+  assert.ok(H.bareFamilyInstall('skills update super-ux --agent continue', IDS), '`update` is not scoped by --agent; it re-links every remembered agent');
+  assert.ok(H.bareFamilyInstall('skills add ssheleg/super-ux --agent continue && skills add ssheleg/super-ux', IDS), 'an agent list does not carry across `&&`');
+});
+
 it('flags between the words do not hide it', () => {
   assert.ok(H.bareFamilyInstall('npx --yes skills update super-ux', IDS));
   assert.ok(H.bareFamilyInstall('skills add --agent claude ux-flows', IDS));

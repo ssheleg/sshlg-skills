@@ -395,7 +395,7 @@ function planUpdate(f) {
         : ['-C', ROOT, 'submodule', 'update', '--init', '--recursive'] }));
   }
   if (!f.claudeOnly) {
-    for (const argv of plan.updatePlan(SKILLS, skillsCliAgents(f))) {
+    for (const argv of plan.updatePlan(SKILLS, skillsCliAgents(f), { continueCopies: continueHasFamilyCopies() })) {
       steps.push(opres.step('subprocess', 'home', `skills ${argv[2]} ${argv[3]}`, { cmd: 'npx', args: pinnedArgv(argv) }));
     }
     steps.push(opres.step('prune', 'home',
@@ -520,7 +520,7 @@ function cmdUpdate(f) {
   const agentsForCount = f.claudeOnly ? [] : skillsCliAgents(f);
   progress.total =
     (!f.claudeOnly && fs.existsSync(path.join(ROOT, '.gitmodules')) ? 1 : 0)
-    + (!f.claudeOnly ? plan.updatePlan(SKILLS, agentsForCount).length : 0)
+    + (!f.claudeOnly ? plan.updatePlan(SKILLS, agentsForCount, { continueCopies: continueHasFamilyCopies() }).length : 0)
     + ((f.claude || f.claudeOnly) ? SKILLS.length * 2 : 0);
   progress.done = 0;
   progress.failed = [];
@@ -550,7 +550,7 @@ function cmdUpdate(f) {
     log(`\n== Updating skills-CLI installs (global): ${names.join(', ')} ==`);
     log(`   then reconciling against: ${agents.join(', ') || '(no agents resolved — add step skipped)'}`);
     // One invocation per skill: a single bad id must not fail the whole batch.
-    for (const argv of plan.updatePlan(SKILLS, agents)) ok = runPlanned(argv) && ok;
+    for (const argv of plan.updatePlan(SKILLS, agents, { continueCopies: continueHasFamilyCopies() })) ok = runPlanned(argv) && ok;
     pruneClaudeShadows();
   }
   if (f.claude || f.claudeOnly) {
@@ -1355,6 +1355,19 @@ function cmdToolkit(argv) {
   const protect = toolkit.advertisedWords(triggers.ROUTES);
 
   log(toolkit.report(skills, family, { for: forQuery, expand, limit, seeds, protect }));
+}
+
+/**
+ * Does this machine hold family skills in Continue's directory? Continue reads only
+ * real directories, so `update` restores them as copies (lib/plan.js updatePlan).
+ * Read, never assumed: a machine without Continue gets no Continue step.
+ */
+function continueHasFamilyCopies() {
+  const dir = path.join(process.env.HOME || os.homedir(), '.continue', 'skills');
+  let names = [];
+  try { names = fs.readdirSync(dir); } catch (e) { return false; }
+  const ids = new Set(SKILLS.flatMap((s) => plan.skillIds(s)));
+  return names.some((n) => ids.has(n));
 }
 
 /**

@@ -1,3 +1,14 @@
+## v1.55.1 — update keeps Continue's copies
+
+`update` refreshes every family skill with `skills update <id> --global`, and with
+`skills@1.7.2` that re-links every agent the CLI remembers in symlink mode —
+Continue included, whose loader skips symlinked skill directories. Measured on
+2026-10-11 right after the 1.55.0 update: 13 of 38 family entries in
+`~/.continue/skills` had become links and `skill-search` was absent. When the
+machine holds family skills there, `update` now reinstalls each member for Continue
+with an isolated `--copy` after every refresh; a machine without Continue gets no
+such step. Found by the installed-payload verifier, not by a user.
+
 ## v1.55.0 — a small core, and a search as every task's first step
 
 Measured on the operator's machine: Claude Code's skill listing was 274,398
