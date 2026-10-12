@@ -145,19 +145,19 @@ it('ONE line about the next set, and it never contradicts itself', () => {
 });
 
 it('a completed run asks for the restart that actually loads it', () => {
-  const l = U.ranLine({ lastRun: U.ranRecord('1.47.1', '1.48.0', true, 1) });
+  const l = U.ranLine(U.ranRecord('1.47.1', '1.48.0', true, 1));
   assert.match(l, /1\.47\.1/); assert.match(l, /1\.48\.0/);
   assert.match(l, /Restart/, 'skills are read at session start and the line does not say so');
 });
 
 it('a FAILED run says so — a quiet failure is worse than never running', () => {
-  const l = U.ranLine({ lastRun: U.ranRecord('1.47.1', null, false, 1) });
+  const l = U.ranLine(U.ranRecord('1.47.1', null, false, 1));
   assert.match(l, /FAILED/);
   assert.match(l, /npx sshlg-skills@latest update/, 'the failure gives no way to look');
 });
 
 it('a run that changed nothing says nothing', () => {
-  assert.strictEqual(U.ranLine({ lastRun: U.ranRecord('1.47.1', '1.47.1', true, 1) }), '');
+  assert.strictEqual(U.ranLine(U.ranRecord('1.47.1', '1.47.1', true, 1)), '');
   assert.strictEqual(U.ranLine({}), '');
   assert.strictEqual(U.ranLine(null), '');
 });
@@ -168,25 +168,43 @@ it('a SUCCEEDED run whose version could not be read still asks for the restart',
   // The old code answered that by recording `to = from`, which reads as "nothing
   // moved" — and the line below was empty. The set had moved; the operator was
   // never told to restart, so the session kept running the copy it started with.
-  const l = U.ranLine({ lastRun: U.ranRecord('1.48.1', null, true, 1) });
+  const l = U.ranLine(U.ranRecord('1.48.1', null, true, 1));
   assert.match(l, /Restart/, 'the one thing the operator acts on is the restart');
   assert.match(l, /could not be read/, 'the line must not invent a version it never saw');
   assert.doesNotMatch(l, /FAILED/, 'the run succeeded — only its version is unknown');
 });
 
 it('unknown is not unchanged — the two records differ, and so do their lines', () => {
-  const unknown = U.ranLine({ lastRun: U.ranRecord('1.48.1', null, true, 1) });
-  const unchanged = U.ranLine({ lastRun: U.ranRecord('1.48.1', '1.48.1', true, 1) });
+  const unknown = U.ranLine(U.ranRecord('1.48.1', null, true, 1));
+  const unchanged = U.ranLine(U.ranRecord('1.48.1', '1.48.1', true, 1));
   assert.notStrictEqual(unknown, unchanged,
     'collapsing the two is the defect: a moved set reported as a still one');
   assert.strictEqual(unchanged, '', 'a genuinely unchanged set has nothing to say');
+});
+
+// Fix round, risk j. `ranLine` read `cache.lastRun`, which nothing writes — `updaterun.js`
+// merges FLAT `ranAt/from/to/ok` into `updateCheck` — so every fixture above passed on a
+// shape the writer never produced and the line never printed on a real machine. It reads
+// the flat record now, says it ONCE (the hook stamps `reportedRanAt`), and not about a run
+// older than a week (a machine upgrading into this reads its last run's fields).
+it('ranLine reads the flat record the writer writes, once, and not when it is old', () => {
+  const now = 10 * 24 * 3600 * 1000;
+  const rec = U.ranRecord('1.47.1', '1.48.0', true, now - 1000);
+  assert.match(U.ranLine(rec, now), /1\.47\.1 → 1\.48\.0/);
+  assert.strictEqual(U.ranLine(Object.assign({}, rec, U.reportedRecord(rec.ranAt)), now), '',
+    'a run already reported was reported again');
+  const old = U.ranRecord('1.47.1', null, false, now - 8 * 24 * 3600 * 1000);
+  assert.strictEqual(U.ranLine(old, now), '', 'a run from more than a week ago was reported');
+  assert.strictEqual(U.ranLine({ ranAt: now - 1000 }, now), '', 'a run still in progress (no outcome yet) was reported');
+  assert.strictEqual(U.ranLine(U.busyRecord(now - 1000, undefined), now), '', 'a busy lock was reported as a run');
+  assert.strictEqual(U.ranLine({ lastRun: rec }, now), '', 'the shape nothing writes is still read');
 });
 
 it('plan() orders the lines: what happened, then what is out', () => {
   const now = 1_000_000_000;
   const p = U.plan('1.47.1', {
     at: now, latest: '1.48.0',
-    lastRun: U.ranRecord('1.46.0', '1.47.1', true, now),
+    ...U.ranRecord('1.46.0', '1.47.1', true, now),
   }, now, undefined, {});
   assert.strictEqual(p.lines.length, 2, 'the folded disclosure came back as a third line');
   assert.match(p.lines[0], /updated while you were away/,

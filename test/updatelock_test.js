@@ -41,12 +41,23 @@ it('a young lock with a live pid is a refusal that names pid and age', () => {
   assert.match(d.reason, /90 s/);
 });
 
-it('a lock older than 30 minutes is taken over even when its pid is alive', () => {
-  const d = L.decide({ pid: 1, startedAt: NOW - 31 * MIN, host: 'h' }, NOW, true);
+// Fix round, risk i: on the SAME host a live pid is a running update, however long it has
+// run — a slow `update` past 30 minutes was taken over while it was still writing. The
+// 30-minute clock is only for a lock from another host, whose pid means nothing here.
+it('same host and a live pid is a refusal however old the lock is (risk i)', () => {
+  const d = L.decide({ pid: 1, startedAt: NOW - 31 * MIN, host: 'h' }, NOW, true, true);
+  assert.strictEqual(d.action, 'refuse', 'a live update on this host was taken over for being slow');
+  assert.strictEqual(L.decide({ pid: 1, startedAt: NOW - 600 * MIN, host: 'h' }, NOW, true, true).action, 'refuse');
+  assert.strictEqual(L.decide({ pid: 1, startedAt: NOW - 31 * MIN, host: 'h' }, NOW, false, true).action, 'takeover',
+    'a dead pid on this host must still be taken over');
+});
+
+it('a lock from another host is judged by the clock: stale after 30 minutes, young before', () => {
+  const d = L.decide({ pid: 1, startedAt: NOW - 31 * MIN, host: 'x' }, NOW, true, false);
   assert.strictEqual(d.action, 'takeover');
   assert.match(d.reason, /stale/);
-  assert.strictEqual(L.decide({ pid: 1, startedAt: NOW - 29 * MIN, host: 'h' }, NOW, true).action, 'refuse',
-    'a 29 minute lock is still young');
+  assert.strictEqual(L.decide({ pid: 1, startedAt: NOW - 29 * MIN, host: 'x' }, NOW, true, false).action, 'refuse',
+    'a 29 minute foreign lock is still young');
 });
 
 it('a young lock whose pid is dead is taken over', () => {
@@ -56,8 +67,12 @@ it('a young lock whose pid is dead is taken over', () => {
 });
 
 it('a lock without a readable startedAt is not a reason to refuse for ever', () => {
-  assert.strictEqual(L.decide({ pid: 1 }, NOW, true).action, 'takeover');
-  assert.strictEqual(L.decide({ pid: 1, startedAt: 'x' }, NOW, true).action, 'takeover');
+  // from another host the clock is all there is, and an unreadable clock is no claim
+  assert.strictEqual(L.decide({ pid: 1 }, NOW, true, false).action, 'takeover');
+  assert.strictEqual(L.decide({ pid: 1, startedAt: 'x' }, NOW, true, false).action, 'takeover');
+  // on this host the pid decides: dead is taken over, alive is a running update
+  assert.strictEqual(L.decide({ pid: 1 }, NOW, false, true).action, 'takeover');
+  assert.strictEqual(L.decide({ pid: 1 }, NOW, true, true).action, 'refuse');
 });
 
 // --- the filesystem wrapper -------------------------------------------------
@@ -83,10 +98,10 @@ it('acquire creates the lock exclusively with pid, startedAt and host; release r
   fs.rmSync(home, { recursive: true, force: true });
 });
 
-it('a stale lock is taken over and the takeover is reported', () => {
+it('a stale lock from another host is taken over and the takeover is reported', () => {
   const home = sandbox();
   fs.mkdirSync(path.dirname(L.lockPath(home)), { recursive: true });
-  fs.writeFileSync(L.lockPath(home), JSON.stringify({ pid: 77, startedAt: NOW - 45 * MIN, host: 'h1' }));
+  fs.writeFileSync(L.lockPath(home), JSON.stringify({ pid: 77, startedAt: NOW - 45 * MIN, host: 'h0' }));
   const a = L.acquire(home, { now: NOW, pid: 5, host: 'h1', alive: () => true });
   assert.ok(a.ok);
   assert.match(a.tookOver, /stale/);
@@ -100,6 +115,25 @@ it('a lock from another host is judged by the clock alone, never by a pid that m
   fs.writeFileSync(L.lockPath(home), JSON.stringify({ pid: 424242, startedAt: NOW - MIN, host: 'elsewhere' }));
   const a = L.acquire(home, { now: NOW, pid: 5, host: 'here', alive: () => false });
   assert.strictEqual(a.ok, false, 'a foreign host\'s young lock was taken because its pid is absent here');
+  fs.rmSync(home, { recursive: true, force: true });
+});
+
+// Fix round, risk b: between judging a lock and unlinking it, another `update` can take
+// it over and write its own. Unlinking then deletes the SUCCESSOR's lock, and two updates
+// run at once. The `alive` seam runs after the read and before the unlink, which is
+// exactly the window: it plants a fresh lock there.
+it('a takeover never deletes a lock that changed after it was judged (risk b)', () => {
+  const home = sandbox();
+  fs.mkdirSync(path.dirname(L.lockPath(home)), { recursive: true });
+  fs.writeFileSync(L.lockPath(home), JSON.stringify({ pid: 77, startedAt: NOW - MIN, host: 'h1' }));
+  const fresh = { pid: 88, startedAt: NOW, host: 'h1' };
+  const a = L.acquire(home, { now: NOW, pid: 5, host: 'h1', alive: (pid) => {
+    if (pid === 77) { fs.writeFileSync(L.lockPath(home), JSON.stringify(fresh)); return false; }
+    return true;
+  } });
+  assert.strictEqual(a.ok, false, 'the run took a lock a successor had just written');
+  assert.deepStrictEqual(JSON.parse(fs.readFileSync(L.lockPath(home), 'utf8')), fresh,
+    'the successor\'s lock was deleted');
   fs.rmSync(home, { recursive: true, force: true });
 });
 
@@ -118,8 +152,10 @@ it('a lock file that does not parse is refused while fresh and taken over once o
 
 // --- the real command -------------------------------------------------------
 
+const STUB_DIRS = [];
 function stubEnv(home, extra) {
   const stubs = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-lock-stubs-'));
+  STUB_DIRS.push(stubs);
   const bodies = Object.assign({
     git: '#!/bin/sh\nexit 0\n', claude: '#!/bin/sh\nexit 0\n',
     npx: '#!/bin/sh\nexit 0\n', npm: '#!/bin/sh\necho 9.9.9\n', gh: '#!/bin/sh\necho "[]"\n',
@@ -152,9 +188,19 @@ it('a second real `update` while one holds the lock exits 2 and names the holder
   fs.rmSync(home, { recursive: true, force: true });
 });
 
-it('a stale and a dead-pid lock are taken over by the real command, and the lock is gone after', () => {
+it('a live holder on this host is refused by the real command however old (risk i)', () => {
+  const home = sandbox();
+  fs.mkdirSync(path.join(home, '.sshlg-skills'), { recursive: true });
+  fs.writeFileSync(L.lockPath(home),
+    JSON.stringify({ pid: process.pid, startedAt: Date.now() - 45 * MIN, host: os.hostname() }));
+  const r = update(stubEnv(home));
+  assert.strictEqual(r.status, 2, `a 45-minute live holder was not refused: ${r.status}\n${r.out.slice(-300)}`);
+  fs.rmSync(home, { recursive: true, force: true });
+});
+
+it('a stale foreign and a dead-pid lock are taken over by the real command, and the lock is gone after', () => {
   for (const lock of [
-    { pid: process.pid, startedAt: Date.now() - 31 * MIN, host: os.hostname() },
+    { pid: process.pid, startedAt: Date.now() - 31 * MIN, host: 'another-host.invalid' },
     { pid: 2147483646, startedAt: Date.now() - MIN, host: os.hostname() },
   ]) {
     const home = sandbox();
@@ -195,7 +241,7 @@ it('every state.json writer stamps schemaVersion: 1, and an older file is still 
   const state = path.join(dir, 'state.json');
   const read = () => JSON.parse(fs.readFileSync(state, 'utf8'));
   // an OLD file: no schemaVersion, an updateCheck from before this contract
-  fs.writeFileSync(state, JSON.stringify({ routers: 'yes', updateCheck: { checkedAt: 1, latest: '1.0.0' } }));
+  fs.writeFileSync(state, JSON.stringify({ routers: 'yes', updateCheck: { at: 1, latest: '1.0.0' } }));
   const env = stubEnv(home);
 
   spawnSync('node', [path.join(ROOT, 'lib', 'updateprobe.js')], { env, encoding: 'utf8' });
@@ -218,6 +264,180 @@ it('every state.json writer stamps schemaVersion: 1, and an older file is still 
   assert.strictEqual(read().routers, 'no');
   fs.rmSync(home, { recursive: true, force: true });
 });
+
+// --- signals stop `update` (fix round #1) ------------------------------------
+//
+// The run is synchronous (spawnSync per step). A JS signal handler replaced Node's default
+// terminate action and could only run after the whole body had finished, so Ctrl-C and a
+// supervisor's SIGTERM no longer stopped `update`. Real process, a step that sleeps 5 s.
+const SIGNAL_DRIVER = `
+const { spawn } = require('child_process'); const fs = require('fs');
+const [bin, mark, sig, group] = process.argv.slice(1);
+const child = spawn(process.execPath, [bin, 'update'], { detached: true, stdio: 'ignore' });
+let at = 0;
+child.on('exit', (code, signal) => {
+  try { process.kill(-child.pid, 'SIGKILL'); } catch (e) {}
+  console.log(JSON.stringify({ code, signal, ms: at ? Date.now() - at : -1, pid: child.pid }));
+  process.exit(0);
+});
+const t0 = Date.now();
+const iv = setInterval(() => {
+  if (!at && fs.existsSync(mark)) {
+    at = Date.now();
+    if (group === '1') process.kill(-child.pid, sig); else process.kill(child.pid, sig);
+  } else if (Date.now() - t0 > 30000) {
+    try { process.kill(-child.pid, 'SIGKILL'); } catch (e) {}
+    console.log(JSON.stringify({ timeout: true, signalled: Boolean(at) })); process.exit(0);
+  }
+}, 20);`;
+
+for (const [sig, group] of [['SIGTERM', '0'], ['SIGINT', '1']]) {
+  it(`${sig} to the ${group === '1' ? 'process group' : 'pid'} stops a running \`update\` within 2 s; the next run takes the lock over (#1)`, () => {
+    const home = sandbox();
+    const mark = path.join(home, 'npx-started');
+    const env = stubEnv(home, { npx: `#!/bin/sh\ntouch "${mark}"\nsleep 5\nexit 0\n` });
+    const r = spawnSync(process.execPath, ['-e', SIGNAL_DRIVER, path.join(ROOT, 'bin', 'sshlg-skills.js'), mark, sig, group],
+      { env, encoding: 'utf8', timeout: 40000 });
+    const res = JSON.parse((r.stdout || '').trim().split('\n').pop() || '{}');
+    assert.ok(!res.timeout, res.signalled
+      ? `update was still running 30 s after ${sig} — the signal did not stop it`
+      : `the update never reached the sleeping step: ${r.stdout}${r.stderr}`);
+    assert.strictEqual(res.signal, sig, `update did not end by ${sig}: ${JSON.stringify(res)}`);
+    assert.ok(res.ms >= 0 && res.ms < 2000, `update took ${res.ms} ms to stop after ${sig}`);
+    assert.ok(fs.existsSync(L.lockPath(home)), 'the killed run left no lock — the takeover below proves nothing');
+    const next = update(stubEnv(home));
+    assert.ok(new RegExp(`took over update\\.lock — holder pid ${res.pid} is not running`).test(next.out),
+      `the next update did not take over the dead holder's lock:\n${next.out.slice(0, 400)}`);
+    assert.strictEqual(next.status, 0, `the next update failed: ${next.status}`);
+    fs.rmSync(home, { recursive: true, force: true });
+  });
+}
+
+// --- the idle updater and a held lock (fix round #4) -------------------------
+it('an update.lock held elsewhere (exit 2) is recorded as busy, not a failure, and the next idle retries (#4)', () => {
+  const chk = require('../lib/updatecheck.js');
+  const home = sandbox();
+  const state = path.join(home, '.sshlg-skills', 'state.json');
+  fs.mkdirSync(path.dirname(state), { recursive: true });
+  fs.writeFileSync(state, JSON.stringify({ updateCheck: { at: Date.now(), latest: '9.9.9' } }));
+  const env = stubEnv(home, { npx: '#!/bin/sh\necho "update: refused — another update is running (pid 1, started 3 s ago)."\nexit 2\n' });
+  spawnSync(process.execPath, [path.join(ROOT, 'lib', 'updaterun.js')], { env, encoding: 'utf8' });
+  const uc = JSON.parse(fs.readFileSync(state, 'utf8')).updateCheck;
+  assert.notStrictEqual(uc.ok, false, `a busy lock was recorded as a failed update: ${JSON.stringify(uc)}`);
+  assert.ok(Number.isFinite(uc.busyAt), `the busy outcome was not recorded: ${JSON.stringify(uc)}`);
+  assert.strictEqual(chk.ranLine(uc), '', 'a busy lock printed an unattended-update line');
+  assert.strictEqual(chk.shouldAutoUpdate({}, Object.assign({}, uc, { self: '1.0.0' }), Date.now()).run, true,
+    'the next idle does not retry after a busy lock');
+  // the control: a real failure (exit 1) IS recorded as ok:false
+  spawnSync(process.execPath, [path.join(ROOT, 'lib', 'updaterun.js')],
+    { env: stubEnv(home, { npx: '#!/bin/sh\nexit 1\n' }), encoding: 'utf8' });
+  assert.strictEqual(JSON.parse(fs.readFileSync(state, 'utf8')).updateCheck.ok, false, 'the control failure was not recorded');
+  fs.rmSync(home, { recursive: true, force: true });
+});
+
+// --- the probe merges into updateCheck (fix round #6) ------------------------
+it('the registry probe keeps ranAt/from/to/ok, so the idle interval guard survives (#6)', () => {
+  const chk = require('../lib/updatecheck.js');
+  const home = sandbox();
+  const state = path.join(home, '.sshlg-skills', 'state.json');
+  fs.mkdirSync(path.dirname(state), { recursive: true });
+  const ranAt = Date.now() - 1000;
+  fs.writeFileSync(state, JSON.stringify({ updateCheck: { at: 1, latest: '9.9.9', ranAt, from: '1.0.0', to: '9.9.8', ok: true } }));
+  spawnSync(process.execPath, [path.join(ROOT, 'lib', 'updateprobe.js')], { env: stubEnv(home), encoding: 'utf8' });
+  const uc = JSON.parse(fs.readFileSync(state, 'utf8')).updateCheck;
+  assert.strictEqual(uc.ranAt, ranAt, `the probe erased ranAt: ${JSON.stringify(uc)}`);
+  assert.deepStrictEqual([uc.from, uc.to, uc.ok], ['1.0.0', '9.9.8', true]);
+  assert.ok(uc.at > 1 && uc.latest === '9.9.9', 'the probe did not record its own answer');
+  assert.strictEqual(chk.shouldAutoUpdate({}, Object.assign({}, uc, { self: '1.0.0' }), Date.now()).run, false,
+    'right after a run the idle updater would run again');
+  fs.rmSync(home, { recursive: true, force: true });
+});
+
+// --- the unattended run is reported next session (fix round, risk j) ---------
+it('after an unattended run the next SessionStart says what it did (risk j)', () => {
+  const home = sandbox();
+  const env = stubEnv(home, { npx: '#!/bin/sh\nmkdir -p "$HOME/.sshlg-skills/runtime"\necho \'{"version":"9.9.9"}\' > "$HOME/.sshlg-skills/runtime/package.json"\nexit 0\n' });
+  spawnSync(process.execPath, [path.join(ROOT, 'lib', 'updaterun.js')], { env, encoding: 'utf8' });
+  const r = spawnSync(process.execPath, [path.join(ROOT, 'hooks', 'session-start.js')],
+    { env, encoding: 'utf8', input: JSON.stringify({ hook_event_name: 'SessionStart', source: 'startup', session_id: 's' }) });
+  const ctx = JSON.parse(r.stdout).hookSpecificOutput.additionalContext;
+  assert.ok(/The set updated while you were away: [\d.]+ → 9\.9\.9/.test(ctx),
+    `the run was recorded and never reported:\n${ctx}`);
+  fs.rmSync(home, { recursive: true, force: true });
+});
+
+// --- one writer for state.json (fix round #5, #6, risk g) ---------------------
+it('every state.json writer goes through store.writeJson: 0600, written by rename, keys merged (risk g)', () => {
+  const home = sandbox();
+  const state = path.join(home, '.sshlg-skills', 'state.json');
+  const env = stubEnv(home);
+  const writers = [
+    ['updateprobe', () => spawnSync(process.execPath, [path.join(ROOT, 'lib', 'updateprobe.js')], { env })],
+    ['handoffprobe', () => spawnSync(process.execPath, [path.join(ROOT, 'lib', 'handoffprobe.js'), 'o/r'], { env })],
+    ['updaterun', () => spawnSync(process.execPath, [path.join(ROOT, 'lib', 'updaterun.js')], { env })],
+    ['session-start', () => spawnSync(process.execPath, [path.join(ROOT, 'hooks', 'session-start.js')],
+      { env, input: JSON.stringify({ hook_event_name: 'SessionStart', source: 'startup' }) })],
+    ['consent', () => require('../lib/consent.js').writeState(home, { routers: 'yes' })],
+  ];
+  // session-start writes only when it has something to record: an unattended run to mark
+  // as reported is one (the injectors set is the other, and needs a plugin registry)
+  const seed = { 'session-start': { updateCheck: require('../lib/updatecheck.js').ranRecord('1.0.0', '9.9.9', true, Date.now()) } };
+  for (const [name, run] of writers) {
+    fs.mkdirSync(path.dirname(state), { recursive: true });
+    fs.writeFileSync(state, JSON.stringify(Object.assign({ routers: 'yes', keep: 1 }, seed[name])), { mode: 0o644 });
+    fs.chmodSync(state, 0o644);
+    const before = fs.statSync(state).ino;
+    run();
+    const st = fs.statSync(state);
+    assert.strictEqual(st.mode & 0o777, 0o600, `${name} left state.json at ${(st.mode & 0o777).toString(8)}`);
+    assert.notStrictEqual(st.ino, before, `${name} rewrote state.json in place, not by rename`);
+    const after = JSON.parse(fs.readFileSync(state, 'utf8'));
+    assert.strictEqual(after.keep, 1, `${name} dropped a key it does not own`);
+    assert.strictEqual(after.schemaVersion, 1, `${name} did not stamp schemaVersion`);
+  }
+  const leftovers = fs.readdirSync(path.dirname(state)).filter((n) => n.includes('.tmp'));
+  assert.deepStrictEqual(leftovers, [], 'a temp file was left behind');
+  fs.rmSync(home, { recursive: true, force: true });
+});
+
+it('nothing outside lib/store.js writes state.json directly (risk g)', () => {
+  const offenders = [];
+  for (const dir of ['lib', 'hooks', 'bin']) {
+    for (const n of fs.readdirSync(path.join(ROOT, dir)).filter((x) => x.endsWith('.js'))) {
+      const rel = `${dir}/${n}`;
+      if (rel === 'lib/store.js') continue;
+      const lines = fs.readFileSync(path.join(ROOT, rel), 'utf8').split('\n');
+      lines.forEach((line, i) => {
+        if (!/writeFileSync\(|renameSync\(/.test(line)) return;
+        const near = lines.slice(Math.max(0, i - 3), i + 1).join('\n');
+        if (/state\.json|statePath/.test(near)) offenders.push(`${rel}:${i + 1}`);
+      });
+    }
+  }
+  assert.deepStrictEqual(offenders, [], 'state.json is written outside its one writer');
+});
+
+// --- the documented keys are the written keys (fix round #5) ------------------
+it('docs/working-rules/state-json.md documents every updateCheck key the code writes (#5)', () => {
+  const chk = require('../lib/updatecheck.js');
+  const doc = fs.readFileSync(path.join(ROOT, 'docs', 'working-rules', 'state-json.md'), 'utf8');
+  const row = doc.split('\n').find((l) => l.startsWith('| `updateCheck` |'));
+  assert.ok(row, 'the updateCheck row is gone from the contract');
+  const m = /`\{([^}]*)\}`/.exec(row);
+  assert.ok(m, 'the updateCheck row lists no keys');
+  const documented = new Set(m[1].split(',').map((k) => k.trim()).filter((k) => k && k !== '...' && k !== '…'));
+  const written = new Set(Object.keys(chk.record('1.0.0', 1))
+    .concat(Object.keys(chk.ranRecord('1.0.0', '1.0.1', true, 1)))
+    .concat(Object.keys(chk.busyRecord(1)))
+    .concat(Object.keys(chk.reportedRecord(1))));
+  assert.ok(written.size >= 6, `the collector saw too few keys: ${[...written]}`);
+  const missing = [...written].filter((k) => !documented.has(k));
+  assert.deepStrictEqual(missing, [], `written and undocumented: ${missing.join(', ')}`);
+  const phantom = [...documented].filter((k) => !written.has(k));
+  assert.deepStrictEqual(phantom, [], `documented and never written: ${phantom.join(', ')}`);
+});
+
+for (const d of STUB_DIRS) fs.rmSync(d, { recursive: true, force: true });
 
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));

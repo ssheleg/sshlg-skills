@@ -273,6 +273,82 @@ it('consent is one entry of ours — nothing of ours is no consent', () => {
   assert.strictEqual(H.consented(null, ROOT), false);
 });
 
+// --- the update path: refresh what is there, keep what the operator added (fix round) ---
+//
+// `update` is unattended. It re-applies OUR entries where they still are and nothing else:
+// a field the operator added to one of them survives (#7), an entry the operator removed by
+// hand stays removed (risk c), and a status line somebody else holds is left byte-identical
+// without blocking the hook events (risk d). `hooks install` keeps its own semantics.
+
+it('whyDiffers names the first differing field, and `order` only for position or duplicates (#7)', () => {
+  const fresh = H.plan({}, ROOT, {}).settings;
+  const timed = JSON.parse(JSON.stringify(fresh));
+  timed.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  assert.deepStrictEqual(H.plan(timed, ROOT, {}).reasons, [{ event: 'UserPromptSubmit', reason: 'timeout' }],
+    'install drops an added field and must say which one, not `order`');
+  const asyncFlip = JSON.parse(JSON.stringify(fresh));
+  asyncFlip.hooks.SessionStart[0].hooks[0].async = true;
+  assert.deepStrictEqual(H.plan(asyncFlip, ROOT, {}).reasons, [{ event: 'SessionStart', reason: 'async' }]);
+  const padded = JSON.parse(JSON.stringify(fresh));
+  padded.statusLine.padding = 0;
+  assert.deepStrictEqual(H.plan(padded, ROOT, {}).reasons, [{ event: 'statusLine', reason: 'padding' }]);
+  const slMoved = JSON.parse(JSON.stringify(fresh));
+  slMoved.statusLine.command = `node "${ROOT}/hooks/old-statusline.js"`;
+  assert.deepStrictEqual(H.plan(slMoved, ROOT, {}).reasons, [{ event: 'statusLine', reason: 'command' }]);
+});
+
+it('refreshOnly keeps fields the operator added to our entries and reports no change for them (#7)', () => {
+  const fresh = H.plan({}, ROOT, {}).settings;
+  const s = JSON.parse(JSON.stringify(fresh));
+  s.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  s.statusLine.padding = 0;
+  const same = H.plan(s, ROOT, { refreshOnly: true });
+  assert.deepStrictEqual(same.changed, [], `refresh rewrote current entries: ${JSON.stringify(same.reasons)}`);
+  assert.deepStrictEqual(same.settings, s);
+  // with a stale matcher beside them: the matcher is fixed, the added fields survive
+  s.hooks.PreToolUse[0].matcher = 'Edit|Write';
+  s.hooks.PreToolUse[0].hooks[0].timeout = 9;
+  const r = H.plan(s, ROOT, { refreshOnly: true });
+  assert.deepStrictEqual(r.reasons, [{ event: 'PreToolUse', reason: 'matcher' }]);
+  assert.strictEqual(r.settings.hooks.PreToolUse[0].matcher, fresh.hooks.PreToolUse[0].matcher);
+  assert.strictEqual(r.settings.hooks.PreToolUse[0].hooks[0].timeout, 9, 'the operator\'s timeout was dropped');
+  assert.strictEqual(r.settings.hooks.UserPromptSubmit[0].hooks[0].timeout, 5);
+  assert.strictEqual(r.settings.statusLine.padding, 0);
+  // a known field we own is re-asserted, and the reason names it
+  const flipped = JSON.parse(JSON.stringify(fresh));
+  flipped.hooks.Notification[0].hooks[0].async = true;
+  const f = H.plan(flipped, ROOT, { refreshOnly: true });
+  assert.deepStrictEqual(f.reasons, [{ event: 'Notification', reason: 'async' }]);
+  assert.strictEqual(f.settings.hooks.Notification[0].hooks[0].async, false);
+});
+
+it('refreshOnly never re-adds an entry the operator removed (risk c)', () => {
+  const s = JSON.parse(JSON.stringify(H.plan({}, ROOT, {}).settings));
+  delete s.statusLine;
+  delete s.hooks.Notification;
+  const r = H.plan(s, ROOT, { refreshOnly: true });
+  assert.deepStrictEqual(r.changed, []);
+  assert.ok(!('statusLine' in r.settings) && !('Notification' in r.settings.hooks),
+    'an entry removed by hand came back');
+  assert.ok(r.skipped.some((x) => x.event === 'statusLine') && r.skipped.some((x) => x.event === 'Notification'),
+    `the skipped entries were not reported: ${JSON.stringify(r.skipped)}`);
+  // `hooks install` still adds them — that is the explicit act
+  assert.ok(H.plan(s, ROOT, {}).changed.includes('statusLine (added)'));
+});
+
+it('refreshOnly leaves a foreign status line byte-identical and does not block the events (risk d)', () => {
+  const s = JSON.parse(JSON.stringify(H.plan({}, ROOT, {}).settings));
+  s.statusLine = { type: 'command', command: 'other-tool statusline', padding: 2 };
+  s.hooks.PreToolUse[0].matcher = 'Edit|Write';
+  const r = H.plan(s, ROOT, { refreshOnly: true });
+  assert.deepStrictEqual(r.conflicts, [], 'a key the update never writes was reported as a conflict');
+  assert.deepStrictEqual(r.settings.statusLine, s.statusLine);
+  assert.deepStrictEqual(r.reasons, [{ event: 'PreToolUse', reason: 'matcher' }]);
+  assert.ok(r.skipped.some((x) => x.event === 'statusLine' && /other-tool/.test(x.why)));
+  // install still sees the conflict
+  assert.strictEqual(H.plan(s, ROOT, {}).conflicts.length, 1);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

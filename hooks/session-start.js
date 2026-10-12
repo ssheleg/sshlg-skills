@@ -71,6 +71,10 @@ process.stdin.on('end', () => {
       try { state = JSON.parse(fs.readFileSync(statePath, 'utf8')); } catch (e) { state = {}; }
       // Only on change (R02): the line is paid at every session start, and an
       // unchanged set is not news. Record AFTER deciding, and only on a change.
+      // The record is MACHINE-WIDE, not per session (fix round, risk f — decided): the
+      // line states which plugins are enabled on this machine, a fact about the machine,
+      // so a second session with the same set is told nothing new. Route notes differ:
+      // they are about one context, so `noted` lives in the session's turn state.
       const text = inj.line(rows, state.injectors);
       if (text) context.push(text);
       if (inj.changed(rows, state.injectors)) {
@@ -95,6 +99,17 @@ process.stdin.on('end', () => {
       const cfg = require(path.join(LIB, 'config.js')).readConfig(home);
       const p = chk.plan(installed, state.updateCheck, Date.now(), undefined, cfg);
       if (p.line) context.push(p.line);
+      // What an unattended run did is said ONCE (fix round, risk j): record that it was.
+      if (p.reported) {
+        try {
+          const store = require(path.join(LIB, 'store.js'));
+          const now = store.readJson(statePath);
+          store.writeJson(statePath, {
+            updateCheck: Object.assign({}, now.updateCheck, p.reported),
+            schemaVersion: store.STATE_SCHEMA,
+          });
+        } catch (e) { /* unrecorded means the line is said once more */ }
+      }
       if (p.probe && !noProbe) {
         const { spawn } = require('child_process');
         const probe = spawn(process.execPath,

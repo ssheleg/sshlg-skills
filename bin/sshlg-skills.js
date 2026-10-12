@@ -311,13 +311,16 @@ Defaults:
   - Claude Code via its PLUGIN (not a plain copy) to avoid a shadow duplicate.
   - --all       all globally supported agents in the pinned skills CLI snapshot.
                 Excludes project-only targets and plain Claude while plugins are on.
-  - --no-claude skip the Claude plugin step.
+  - --no-claude skip the Claude plugin step, and leave ~/.claude alone: no
+                routing-block write to CLAUDE.md, no hook re-wiring in
+                settings.json (an --agent list without claude does the same).
   - --claude-only install/update only the Claude plugins.
   - --bump-pins  (update only) also fast-forward the pinned submodules to their
                  upstream tips — off by default so pins stay reproducible.
   - --dry-run    (install/update) build the full operation plan — every
-                 subprocess, prune, router and runtime action — render it, and
-                 execute NOTHING. The receipt is complete; the mutations are zero.`);
+                 subprocess, prune, router, runtime and settings.json hook-wiring
+                 action — render it, and execute NOTHING. The receipt is
+                 complete; the mutations are zero.`);
 }
 
 function skillsCliAgents(f) {
@@ -418,6 +421,8 @@ function planUpdate(f) {
       'refresh the wired hook runtime copy (create: false)',
       { root: require('../lib/hooks.js').runtimeDir(os.homedir()) }));
   } catch (_) { /* no runtime dir resolvable — the execution path reports it */ }
+  // The one write to an operator file this run can make outside the routing block.
+  steps.push(rewireStep(f));
   return opres.buildPlan(steps);
 }
 
@@ -603,7 +608,7 @@ function cmdUpdate(f) {
   // PreToolUse matcher never reached a machine that had run `hooks install` before it.
   // A machine that has consented (one entry of ours in settings.json) is re-wired here;
   // one that has not is left alone — an update is not the moment to ask.
-  ok = rewireConsentedHooks() && ok;
+  ok = rewireConsentedHooks(f) && ok;
   // Native host lifecycle (FIX-UP-07.02). The skills-CLI channel writes plain
   // copies into ~/.codex/ etc., but a host with its OWN plugin loader (Codex)
   // does not load them through that channel — and this launcher has no
@@ -638,10 +643,18 @@ function cmdUpdate(f) {
 
 /**
  * `update` under `~/.sshlg-skills/update.lock` (R05). A preview writes nothing and takes
- * no lock. A live holder is a refusal with exit 2 naming its pid and age; a stale or
- * dead one is taken over and logged. The lock is released on every way out: the normal
- * return, a throw, `process.exit` elsewhere in the run (the `exit` handler), and the
- * two signals a terminal or a supervisor sends.
+ * no lock. A live holder is a refusal with exit 2 naming its pid and age; a dead one (or
+ * a stale one written on another host) is taken over and logged. The lock is released on
+ * the normal return, a throw, and `process.exit` elsewhere in the run (the `exit`
+ * handler).
+ *
+ * **No signal handlers, on purpose** (fix round #1). The run is synchronous — every step
+ * is a `spawnSync` — so a JS handler for SIGINT/SIGTERM/SIGHUP can only run once the whole
+ * body has finished: registering one REPLACED Node's default terminate-on-signal with a
+ * handler that never got a turn, and Ctrl-C or a supervisor's SIGTERM no longer stopped
+ * `update` (measured: exit 0, every remaining step ran). Without handlers the signal kills
+ * the process at once; the lock it leaves names a dead pid, and the next `update` takes it
+ * over by the dead-pid rule and says so.
  */
 function runUpdateLocked(f) {
   if (f.dryRun) return cmdUpdate(f) ? 0 : 1;
@@ -651,16 +664,13 @@ function runUpdateLocked(f) {
   if (!got.ok) {
     const h = got.holder || {};
     log(`update: refused — ${got.message}${h.host ? ` on ${h.host}` : ''}.`);
-    log(`  lock: ${lock.lockPath(home)} (a lock older than 30 minutes, or whose process is gone, is taken over)`);
+    log(`  lock: ${lock.lockPath(home)} (taken over once its process is gone; a lock from another host after 30 minutes)`);
     return 2;
   }
   if (got.tookOver) log(`update: took over update.lock — ${got.tookOver}`);
   if (got.degraded) log(`update: running without a lock — ${got.degraded}`);
   const free = () => { lock.release(home, got.token); };
   process.on('exit', free);
-  for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
-    process.on(sig, () => { free(); process.exit(128 + ({ SIGHUP: 1, SIGINT: 2, SIGTERM: 15 })[sig]); });
-  }
   try {
     return cmdUpdate(f) ? 0 : 1;
   } finally {
@@ -669,48 +679,103 @@ function runUpdateLocked(f) {
 }
 
 /**
- * Re-apply the hooks wiring on a machine that already consented to it.
+ * What `update` would do to `~/.claude/settings.json` — one answer for the run AND for
+ * `--dry-run` (fix round #3: the preview had no such step, so it omitted the one write to
+ * an operator file the run makes).
  *
- * Consent is the presence of one entry of ours in `~/.claude/settings.json`. With none
- * this does nothing. With one, `hooks.plan` computes the edit; it is written only when
- * something changed AND nothing conflicts, through the same `protect()` backup the
- * `hooks install` path takes (a backup that fails cancels the write). Every changed
- * event is logged with its reason (`matcher` | `command` | `order` | `added`).
- *
- * Returns false only on a failure worth a non-zero exit: an unparseable file or a
- * backup that could not be taken. Declining (no consent, conflicts) is success.
+ * `status` is one of:
+ *   - `out of scope` — the run's flags exclude the Claude host (`--no-claude`, an `--agent`
+ *     list without `claude`); `skippedBy` names the flag (fix round #2). The routing
+ *     block already honours the same scope (FIX-UP-03.02), through `plan.resolveScope`.
+ *   - `no settings` / `unparseable` / `no consent` — nothing to write, and why;
+ *   - `current` — the entries already match;
+ *   - `changes` — `settings` is the edit, `reasons` says why per entry.
+ * `skipped` lists entries the refresh leaves alone: removed by hand, or a status line
+ * somebody else holds (`hooks.plan` with `refreshOnly`).
  */
-function rewireConsentedHooks() {
+function planRewire(f) {
   const hooksLib = require('../lib/hooks.js');
-  const apply = require('../lib/apply.js');
   const home = os.homedir();
   const file = path.join(home, '.claude', 'settings.json');
   const root = hooksLib.runtimeDir(home);
+  const base = { file, changed: [], reasons: [], skipped: [] };
+  const flags = f || {};
+  const scope = plan.resolveScope({
+    agents: flags.agents, claude: flags.claude, claudeOnly: flags.claudeOnly,
+    hosts: require('../lib/apply.js').TARGETS, consumers: [],
+  });
+  if (!scope.hostTargets.some((h) => h.agent === 'claude')) {
+    const skippedBy = flags.claude === false ? '--no-claude' : `--agent ${(flags.agents || []).join(',')}`;
+    return Object.assign(base, { status: 'out of scope', skippedBy });
+  }
   let current;
   try {
-    if (!fs.existsSync(file)) return true;
+    if (!fs.existsSync(file)) return Object.assign(base, { status: 'no settings' });
     current = JSON.parse(fs.readFileSync(file, 'utf8'));
   } catch (e) {
-    log(`\n== Hook wiring ==\n  ${file} does not parse (${e.message}) — nothing written`);
-    return false;
+    return Object.assign(base, { status: 'unparseable', error: e.message });
   }
-  if (!hooksLib.consented(current, root)) return true;   // no consent: do nothing
-  const { settings, changed, conflicts, reasons } = hooksLib.plan(current, root, {});
-  log('\n== Hook wiring ==');
-  if (!changed.length) { log('  settings.json already matches this package'); return true; }
-  if (conflicts.length) {
-    for (const c of conflicts) log(`  ${c.key} is held by ${c.held_by} — ${c.note}`);
-    log('  not re-wired (a conflict is a decision for `hooks install --force`)');
+  if (!hooksLib.consented(current, root)) return Object.assign(base, { status: 'no consent' });
+  const p = hooksLib.plan(current, root, { refreshOnly: true });
+  return Object.assign(base, {
+    status: p.changed.length ? 'changes' : 'current',
+    settings: p.settings, changed: p.changed, reasons: p.reasons, skipped: p.skipped,
+  });
+}
+
+/** The `hooks-wiring` line of the `--dry-run` receipt, from the same `planRewire`. */
+function rewireStep(f) {
+  const r = planRewire(f);
+  const changes = r.status === 'changes'
+    ? r.reasons.map((x) => `${x.event}: ${x.reason}`)
+    : [r.status === 'out of scope' ? `out of scope (skipped: ${r.skippedBy})`
+      : r.status === 'unparseable' ? `does not parse (${r.error}) — nothing written`
+        : r.status === 'current' ? 'already matches this package' : r.status];
+  for (const s of r.skipped) if (s.event === 'statusLine' && /held by/.test(s.why)) changes.push(`statusLine: ${s.why}`);
+  return opres.step('hooks-wiring', 'home',
+    r.status === 'changes'
+      ? 're-wire the consented hook entries (copy before write, through protect())'
+      : 'hook entries in settings.json — nothing to write',
+    { file: r.file, changes });
+}
+
+/**
+ * Re-apply the hooks wiring on a machine that already consented to it.
+ *
+ * Consent is the presence of one entry of ours in `~/.claude/settings.json`. With none
+ * this does nothing. With one, `hooks.plan(..., {refreshOnly: true})` computes the edit:
+ * only entries of ours that are present are refreshed, fields the operator added to them
+ * are kept, and a status line somebody else holds is left alone without blocking the rest.
+ * It is written through the same `protect()` backup the `hooks install` path takes (a
+ * backup that fails cancels the write). Every changed entry is logged with the field that
+ * differed (`matcher`, `command`, another field's name, or `order`).
+ *
+ * Returns false only on a failure worth a non-zero exit: an unparseable file or a
+ * backup that could not be taken. Declining (out of scope, no consent) is success.
+ */
+function rewireConsentedHooks(f) {
+  const apply = require('../lib/apply.js');
+  const r = planRewire(f);
+  if (r.status === 'out of scope') {
+    log(`\n== Hook wiring ==\n  skipped: ${r.skippedBy} (the Claude host is outside this run's scope; settings.json untouched)`);
     return true;
   }
-  const saved = apply.protect(file, { home });
-  if (saved.action === 'backup-failed') {
-    log(`  NOT written: no backup could be taken (${saved.error}); ${file} unchanged`);
+  if (r.status === 'no settings' || r.status === 'no consent') return true;
+  log('\n== Hook wiring ==');
+  if (r.status === 'unparseable') {
+    log(`  ${r.file} does not parse (${r.error}) — nothing written`);
     return false;
   }
-  fs.writeFileSync(file, JSON.stringify(settings, null, 2) + '\n', 'utf8');
-  for (const r of reasons) log(`  ${r.event}: ${r.reason}`);
-  log(`  re-wired ${changed.join(', ')}`);
+  for (const s of r.skipped) if (s.event === 'statusLine' && /held by/.test(s.why)) log(`  statusLine: ${s.why}`);
+  if (r.status === 'current') { log('  settings.json already matches this package'); return true; }
+  const saved = apply.protect(r.file, { home: os.homedir() });
+  if (saved.action === 'backup-failed') {
+    log(`  NOT written: no backup could be taken (${saved.error}); ${r.file} unchanged`);
+    return false;
+  }
+  fs.writeFileSync(r.file, JSON.stringify(r.settings, null, 2) + '\n', 'utf8');
+  for (const x of r.reasons) log(`  ${x.event}: ${x.reason}`);
+  log(`  re-wired ${r.changed.join(', ')}`);
   log(`  copy before write: ${saved.path}`);
   log('  restart Claude Code — hooks are read at session start');
   return true;
