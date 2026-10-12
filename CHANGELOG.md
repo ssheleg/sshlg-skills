@@ -1,3 +1,28 @@
+## Unreleased
+
+- **Domain members load only in the projects that need them (B-185, plan L5).** Operator decision
+  2026-10-13: "Yes, by domain". New command: `npx sshlg-skills domains`. Claude Code lists every
+  enabled plugin's skills in every session. The family's plugins took ≈ 38k of a ≈ 61k-character
+  listing, and four members serve one kind of project: `xr-dev`, `web3d-dev`, `telegram-dev`
+  and `sheleg-dev`. Without flags, `domains` previews: it reads each git repository under the
+  projects root (`~/DATA`, `--root`, `$SSHLG_PROJECTS_ROOT`) and prints which of the four the
+  project calls for and the evidence for each. Evidence is what the repository depends on or
+  declares: manifest dependencies, Gradle/CMake/Unity/AndroidManifest XR markers, `navigator.xr`
+  and GA4 `gtag` in source. A project's name or prose never counts. Optionally the 60-day usage
+  table counts too. `--apply` first writes `enabledPlugins` into each matching project's
+  `.claude/settings.local.json` and reads it back. Only after that does it turn the member off at
+  user scope. Both writes go through `protect()`. A project whose git does not ignore that file
+  is refused, and its member stays on machine-wide. `--revert` undoes only the values recorded in
+  `~/.sshlg-skills/domains.json` that still hold. `update` gives a project that has since gained
+  a dependency its member. `hosts` prints how many projects have evidence for each member and
+  how many have it enabled. The core members stay on everywhere. In Fabric-started sessions
+  RM-23 decides. `lib/domains.js` holds the decisions; `lib/domainscan.js` asks git (`ls-files`,
+  `grep`) for eight repositories at a time. `test/domains_test.js` covers evidence, edits and
+  the plan. `test/domains_e2e_test.js` uses a sandbox HOME with one fixture project per domain,
+  one with none, one called for only by usage, and one whose git does not ignore the file. Its
+  checks: three `--apply` runs leave identical bytes; `--revert` restores the original bytes;
+  a project whose write is refused blocks the user-scope removal.
+
 ## v1.61.0 — `hosts` says which local MCP servers are not answering
 
 - **A refused MCP server is named, with what to do (B-177).** Claude Code connects to each
