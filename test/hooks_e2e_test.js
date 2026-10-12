@@ -416,6 +416,17 @@ it('displacement: an entry someone else rewrites is recorded, then reported next
   assert.match(started.hookSpecificOutput.additionalContext, /hooks install/);
 });
 
+// Final polish, item 4: a record parked before 1.56.0 can hold `<Event>:missing` rows.
+it('a parked pre-upgrade `missing` row prints no displacement line, and the stale record is cleared (final polish 4)', () => {
+  const configLib = require(path.join(ROOT, 'lib', 'config.js'));
+  configLib.stashSet(HOME, 'displaced:entries', JSON.stringify({ at: '2026-10-01T00:00:00Z', entries: ['Notification:missing'] }));
+  const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup', session_id: 'e2e-park' });
+  assert.ok(!/no longer match|Notification:missing/.test(started.hookSpecificOutput.additionalContext),
+    `a pre-upgrade missing row was announced:\n${started.hookSpecificOutput.additionalContext}`);
+  assert.strictEqual(configLib.stashGet(configLib.readConfig(HOME), 'displaced:entries'), undefined,
+    'the record holding nothing current was kept');
+});
+
 it('a repaired settings file stops being reported', () => {
   cli(['hooks', 'install']);
   runHook('config-change.js',
@@ -640,6 +651,10 @@ it('`update` and `update --dry-run` name every family event not wired here, with
         `\`update ${args.join(' ')}\` did not name ${ev} with its remedy:\n${r.out.slice(-900)}`);
     }
     assert.ok(!/PostToolUse: not wired/.test(r.out), 'a wired event was reported as not wired');
+    // final polish 7: the remedy re-adds EVERY removed entry, which an operator who removed
+    // one on purpose must be told before running it
+    assert.ok(/`hooks install` re-adds every removed family entry/.test(r.out),
+      `\`update ${args.join(' ')}\` did not say that \`hooks install\` re-adds every removed entry:\n${r.out.slice(-900)}`);
   }
   assert.ok(!('Notification' in readSettings().hooks), 'update added an event — only `hooks install` adds');
 });
@@ -669,6 +684,28 @@ it('`update --no-claude` leaves the wired runtime copy alone too, and says so (L
   } finally {
     fs.writeFileSync(rt, original);
   }
+});
+
+// Final polish, item 8. An `--agent` list skipped the routing block, the wiring and the
+// runtime copy (the Claude host is out of its scope) but still ran `claude plugin update`
+// for every member. Decided: the Claude plugin step follows the same scope (`claudeScope`).
+it('`update --agent codex` runs no Claude plugin step, in the run or its preview; unscoped does (final polish 8)', () => {
+  const env = updateEnv();
+  saveSettings(staleInstall());
+  const calls = path.join(HOME, 'claude-calls.log');
+  const stubDir = env.PATH.split(':')[0];
+  write(path.join(stubDir, 'claude'), `#!/bin/sh\necho "$@" >> "${calls}"\nexit 0\n`);
+  fs.chmodSync(path.join(stubDir, 'claude'), 0o755);
+  const count = () => { try { return fs.readFileSync(calls, 'utf8').split('\n').filter((l) => /^plugin /.test(l)).length; } catch (e) { return 0; } };
+  try { fs.unlinkSync(calls); } catch (e) { /* none yet */ }
+  const r = updateWith(env, ['--agent', 'codex']);
+  assert.strictEqual(count(), 0, `\`update --agent codex\` ran ${count()} claude plugin command(s):\n${r.out.slice(-600)}`);
+  assert.ok(/Claude Code plugins[\s\S]*skipped: --agent codex/.test(r.out), `the run did not say the plugin step was skipped:\n${r.out.slice(-900)}`);
+  const dry = updateWith(env, ['--agent', 'codex', '--dry-run']);
+  assert.ok(!/claude plugin/.test(dry.out), `the preview of \`--agent codex\` lists a claude plugin step:\n${dry.out.slice(-900)}`);
+  // the control: unscoped, the plugin step runs
+  updateWith(env, []);
+  assert.ok(count() > 0, 'the control ran no claude plugin command — the fixture proves nothing');
 });
 
 it('a foreign status line blocks nothing and is left byte-identical (risk d)', () => {
@@ -1077,6 +1114,43 @@ it('an id-less prompt leaves no turn record: it arms nothing and silences nothin
     tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'src.js') }, cwd: dir,
   });
   assert.strictEqual(asked && asked.hookSpecificOutput.permissionDecision, 'ask', 'the control did not escalate');
+});
+
+// Final polish, item 5. The prompt hook read and wrote the turn record under the RAW id
+// while the PreToolUse hook read it under the trimmed one (and wrote `asked` under the raw),
+// so a padded id armed nothing and asked on every Edit. And an id that sanitises to the
+// shared key ('...', 'unknown') is no id at all: it would share `turns/unknown.json`.
+it('a padded session id keys one turn record: the Edit escalates once (final polish 5)', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'route-'));
+  const session = '  e2e-pad  ';
+  runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p1', prompt: 'сделай фичу экспорта в csv' });
+  const edit = (f) => runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', session_id: session, prompt_id: 'p1',
+    tool_name: 'Edit', tool_input: { file_path: path.join(dir, f) }, cwd: dir,
+  });
+  const first = edit('a.js');
+  assert.strictEqual(first && first.hookSpecificOutput.permissionDecision, 'ask',
+    'a padded id armed nothing: the prompt hook wrote under a different key than PreToolUse read');
+  assert.strictEqual(edit('b.js'), null, 'a padded id was asked on every Edit: `asked` went to another key');
+  assert.ok(fs.existsSync(turnsFile('e2e-pad')), 'the record is not under the trimmed id');
+});
+
+it('an id whose key is the shared one (\'...\', \'unknown\') is id-less: no record, no hidden note (final polish 5)', () => {
+  const unknown = turnsFile('unknown');
+  try { fs.unlinkSync(unknown); } catch (e) { /* none yet */ }
+  const prompt = 'сделай фичу экспорта в csv';
+  for (const id of ['...', 'unknown', '..', '  unknown ']) {
+    const out = runHookText('user-prompt-submit.js', { session_id: id, prompt_id: 'p1', prompt });
+    assert.ok(out.includes('[sshlg-routing]'), `the note under id ${JSON.stringify(id)} was hidden by another caller's record`);
+  }
+  runHookText('user-prompt-submit.js', { session_id: '...', prompt_id: 'p2', prompt: 'сделай фичу, без пайплайна' });
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'route-'));
+  runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', session_id: 'unknown', prompt_id: 'p2',
+    tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'x.js') }, cwd: dir,
+  });
+  runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'compact', session_id: '...' });
+  assert.ok(!fs.existsSync(unknown), `an id that sanitises to the shared key wrote ${unknown}`);
 });
 
 it('a refusal phrase silences the session, not merely the turn', () => {

@@ -16,18 +16,23 @@ optimization and the family working with Fabric, Observatory and every coding ag
 [inventory](evidence/specs/2026-10-11-integration-waves-inventory.json) (238 items:
 81 in waves 1–5, 3 operator, 154 program — counted from the committed JSON's `wave` field;
 regenerate with `python3 docs/evidence/specs/2026-10-11-integration-waves-assign.py`).
-Branch `waves/2026-10-11-integration`. New hub rows B-155…B-162.
+Branch `waves/2026-10-11-integration`. New hub rows B-155…B-163.
 
 **Wave 1 (hub skeleton, R01–R06) is built and has had two fix rounds on PR #192** (branch
 `w1/hub-skeleton`): W1-A…W1-F delivered; the first round's twelve findings and thirteen risks,
 and the second blind reading's six breaks and seven risks (A–M), are mapped to commits and tests
 in the [wave-1 receipt](evidence/runs/2026-10-12-wave1.md), sections *Fix round* and
-*Fix round 2*.
+*Fix round 2*. A third blind reading passed all three tiers at `244d67a`; the remaining risks
+were closed without another review round in the receipt's *Final polish* section (nine items:
+the lock refusal exits 75, the store lock never spins, `config.json` merges under its lock, a
+stale parked displacement is cleared, one session-id key, `hooks remove` keeps foreign hooks,
+the `hooks install` caveat, the documents, and `--agent` skipping the Claude plugin step).
 
 **Exact next bounded tasks (orchestrator):**
 1. Certify PR #192 again (unit, seam, product), then merge it and cut the 1.56.0 release
    (rename the CHANGELOG's `Unreleased (1.56.0 …)` heading, bump `package.json`). Send the
-   Fabric Dashboards ask in B-163 (exit 2 from `update` is busy, not failed).
+   Fabric Dashboards ask in B-163 (exit 75 from `update` is busy, not failed; exit 2 is a
+   usage error).
 2. On this machine, after the release: run `npx sshlg-skills@latest routers --dry-run` (plain
    `routers` writes) to see the protocol sentence change `update` is about to write — `update`
    rewrites the managed block in all four instruction files itself (`cmdUpdate` →

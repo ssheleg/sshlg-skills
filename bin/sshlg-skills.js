@@ -314,9 +314,12 @@ Defaults:
   - --no-claude skip the Claude plugin step, and leave the Claude host alone: no
                 routing-block write to CLAUDE.md, no hook re-wiring in
                 settings.json, no refresh of the runtime copy those hooks run.
-                Any --agent list does the same for those three: no --agent value
-                selects Claude (--agent claude exits 2) — scope a run to Claude
-                with --claude-only, or pass no scope flag.
+                Any --agent list does the same for those three, and in update
+                also skips the Claude plugin step: no --agent value selects
+                Claude (--agent claude exits 2) — scope a run to Claude with
+                --claude-only, or pass no scope flag.
+  - update exits 75 when another update holds ~/.sshlg-skills/update.lock
+                (retry later; nothing failed) and 2 on a usage error.
   - update never ADDS a hook entry: one removed by hand stays removed, and an
                 event a later release introduces arrives through
                 \`hooks install\` — update names each one not wired here.
@@ -411,7 +414,9 @@ function planUpdate(f) {
       'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
       { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
   }
-  if (f.claude || f.claudeOnly) {
+  // The Claude plugin step follows the Claude host's scope (final polish 8): an `--agent`
+  // list never selects Claude, so it no longer runs `claude plugin update` either.
+  if (claudeScope(f).inScope) {
     const reg = pluginRegistries();
     for (const args of plan.pluginUpdatePlan(SKILLS, reg.known, reg.installed)) {
       steps.push(opres.step('subprocess', 'home', `claude ${args.join(' ')}`, { cmd: 'claude', args }));
@@ -534,7 +539,7 @@ function cmdUpdate(f) {
   progress.total =
     (!f.claudeOnly && fs.existsSync(path.join(ROOT, '.gitmodules')) ? 1 : 0)
     + (!f.claudeOnly ? plan.updatePlan(SKILLS, agentsForCount, { continueCopies: continueHasFamilyCopies() }).length : 0)
-    + ((f.claude || f.claudeOnly) ? SKILLS.length * 2 : 0);
+    + (claudeScope(f).inScope ? SKILLS.length * 2 : 0);
   progress.done = 0;
   progress.failed = [];
   if (progress.total) log(`\n== ${progress.total} steps ==`);
@@ -566,7 +571,13 @@ function cmdUpdate(f) {
     for (const argv of plan.updatePlan(SKILLS, agents, { continueCopies: continueHasFamilyCopies() })) ok = runPlanned(argv) && ok;
     pruneClaudeShadows();
   }
-  if (f.claude || f.claudeOnly) {
+  // Scoped like the routing block, the wiring and the runtime copy (final polish 8): an
+  // `--agent` list left the Claude host's files alone and still ran `claude plugin update`
+  // for every member. `claudeScope` is the one answer for all four.
+  const pluginScope = claudeScope(f);
+  if (!pluginScope.inScope) {
+    log(`\n== Updating Claude Code plugins ==\n  skipped: ${pluginScope.skippedBy} (the Claude host is outside this run's scope)`);
+  } else {
     log(`\n== Updating Claude Code plugins ==`);
     // Reconciles like the skills-CLI half: a member this machine has never seen is added
     // and installed rather than refreshed (plan.pluginUpdatePlan). The plan and this loop
@@ -658,7 +669,8 @@ function cmdUpdate(f) {
 
 /**
  * `update` under `~/.sshlg-skills/update.lock` (R05). A preview writes nothing and takes
- * no lock. A live holder is a refusal with exit 2 naming its pid and age; a dead one (or
+ * no lock. A live holder is a refusal with exit 75 (EX_TEMPFAIL, `lock.BUSY_EXIT`; exit 2
+ * stays the usage-error code) naming its pid and age; a dead one (or
  * a stale one written on another host) is taken over and logged. The lock is released on
  * the normal return, a throw, and `process.exit` elsewhere in the run (the `exit`
  * handler).
@@ -680,7 +692,7 @@ function runUpdateLocked(f) {
     const h = got.holder || {};
     log(`update: refused — ${got.message}${h.host ? ` on ${h.host}` : ''}.`);
     log(`  lock: ${lock.lockPath(home)} (taken over once its process is gone; a lock from another host after 30 minutes)`);
-    return 2;
+    return lock.BUSY_EXIT;
   }
   if (got.tookOver) log(`update: took over update.lock — ${got.tookOver}`);
   if (got.degraded) log(`update: running without a lock — ${got.degraded}`);
@@ -691,6 +703,40 @@ function runUpdateLocked(f) {
   } finally {
     free();
   }
+}
+
+/**
+ * Whether this run's flags keep the Claude host in scope — the one answer for the
+ * settings.json wiring, the runtime copy those entries execute, and the Claude plugin step
+ * (final polish 8: an `--agent` list still ran `claude plugin update`) (fix round 2, L: the copy
+ * was refreshed under `--no-claude` while its wiring was skipped, so new scripts ran under old
+ * entries). `skippedBy` names the flag. An `--agent` list never selects Claude (`--agent
+ * claude` is refused by the skills-CLI agent table), so any `--agent` list is out of scope.
+ */
+function claudeScope(f) {
+  const flags = f || {};
+  const scope = plan.resolveScope({
+    agents: flags.agents, claude: flags.claude, claudeOnly: flags.claudeOnly,
+    hosts: require('../lib/apply.js').TARGETS, consumers: [],
+  });
+  if (scope.hostTargets.some((h) => h.agent === 'claude')) return { inScope: true };
+  return { inScope: false, skippedBy: flags.claude === false ? '--no-claude' : `--agent ${(flags.agents || []).join(',')}` };
+}
+
+/**
+ * One line per family entry the refresh did not wire, with the remedy (fix round 2, K), and
+ * one sentence after them (final polish 7): the remedy re-adds EVERY removed family entry, so
+ * an operator who removed one on purpose is told before running it — the list repeats on
+ * every `update` for an entry removed on purpose, and that is the cost of never re-adding it.
+ */
+function notWiredLines(skipped) {
+  const lines = (skipped || []).filter((x) => !/held by/.test(x.why)).map((x) =>
+    `${x.event}: not wired here (removed by hand, or new in this release) — \`npx sshlg-skills hooks install\` adds it`);
+  if (lines.length) {
+    lines.push('note: `hooks install` re-adds every removed family entry, not only the new ones — '
+      + 'skip it if you removed these on purpose');
+  }
+  return lines;
 }
 
 /**
@@ -708,29 +754,6 @@ function runUpdateLocked(f) {
  * `skipped` lists entries the refresh leaves alone: removed by hand, or a status line
  * somebody else holds (`hooks.plan` with `refreshOnly`).
  */
-/**
- * Whether this run's flags keep the Claude host in scope — the one answer for the
- * settings.json wiring AND the runtime copy those entries execute (fix round 2, L: the copy
- * was refreshed under `--no-claude` while its wiring was skipped, so new scripts ran under old
- * entries). `skippedBy` names the flag. An `--agent` list never selects Claude (`--agent
- * claude` is refused by the skills-CLI agent table), so any `--agent` list is out of scope.
- */
-function claudeScope(f) {
-  const flags = f || {};
-  const scope = plan.resolveScope({
-    agents: flags.agents, claude: flags.claude, claudeOnly: flags.claudeOnly,
-    hosts: require('../lib/apply.js').TARGETS, consumers: [],
-  });
-  if (scope.hostTargets.some((h) => h.agent === 'claude')) return { inScope: true };
-  return { inScope: false, skippedBy: flags.claude === false ? '--no-claude' : `--agent ${(flags.agents || []).join(',')}` };
-}
-
-/** One line per family entry the refresh did not wire, with the remedy (fix round 2, K). */
-function notWiredLines(skipped) {
-  return (skipped || []).filter((x) => !/held by/.test(x.why)).map((x) =>
-    `${x.event}: not wired here (removed by hand, or new in this release) — \`npx sshlg-skills hooks install\` adds it`);
-}
-
 function planRewire(f) {
   const hooksLib = require('../lib/hooks.js');
   const home = os.homedir();

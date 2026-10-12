@@ -119,6 +119,19 @@ it('nothing recorded renders nothing', () => {
   assert.strictEqual(D.render({ entries: [] }), '');
 });
 
+// Final polish, item 4: a record parked before 1.56.0 can hold `<Event>:missing` rows that
+// check() no longer produces (an entry that is gone is not reported). Rendering them told
+// the operator to run `hooks install`, which re-adds what they removed by hand.
+it('a parked record renders only its altered rows; missing rows from an older release say nothing (final polish 4)', () => {
+  assert.strictEqual(D.render({ at: 'x', entries: ['Notification:missing'] }), '',
+    'a pre-upgrade missing row was rendered as a displacement');
+  const mixed = D.render({ entries: ['Notification:missing', 'PreToolUse:altered'] });
+  assert.match(mixed, /1 of this pack's entries/);
+  assert.ok(!/Notification/.test(mixed), `a missing row was named: ${mixed}`);
+  assert.deepStrictEqual(D.live({ entries: ['A:missing', 'B:altered'] }), ['B:altered']);
+  assert.deepStrictEqual(D.live(null), []);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

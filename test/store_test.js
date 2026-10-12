@@ -156,6 +156,49 @@ it('a lock left by a dead writer does not block the next write for long (I)', ()
   try { fs.unlinkSync(`${file}.lock`); } catch (e) { /* the writer may have broken it */ }
 });
 
+// Final polish, item 2: withLock must never spin. Two retry paths skipped the deadline — a
+// lock whose stat failed (a dangling symlink at `<file>.lock`: `wx` says EEXIST, `stat`
+// follows the link and says ENOENT) and a stale lock that could not be unlinked (a read-only
+// directory) — and looped for ever. Each runs in a child process with a hard timeout, so a
+// regression fails this check instead of hanging the suite.
+function boundedWrite(file) {
+  const { spawnSync } = require('child_process');
+  const code = `const S = require(${JSON.stringify(path.join(__dirname, '..', 'lib', 'store.js'))});
+try { S.writeJson(${JSON.stringify(file)}, { a: 1 }); console.log('wrote'); } catch (e) { console.log('threw ' + e.code); }`;
+  const limit = (S.LOCK_WAIT_MS || 1000) + 4000;
+  const t0 = Date.now();
+  const r = spawnSync(process.execPath, ['-e', code], { encoding: 'utf8', timeout: limit, killSignal: 'SIGKILL' });
+  return { ms: Date.now() - t0, out: (r.stdout || '').trim(), signal: r.signal, limit };
+}
+
+it('a dead writer\'s lock in a read-only directory: writeJson returns or throws within the wait (final polish 2)', () => {
+  const dir = path.join(tmpHome(), 'ro');
+  fs.mkdirSync(dir);
+  const file = path.join(dir, 'state.json');
+  fs.writeFileSync(file, '{}\n');
+  fs.writeFileSync(`${file}.lock`, '999999');
+  const old = (Date.now() - 60 * 1000) / 1000;
+  fs.utimesSync(`${file}.lock`, old, old);
+  fs.chmodSync(dir, 0o500);
+  try {
+    const r = boundedWrite(file);
+    assert.ok(!r.signal, `writeJson spun past ${r.limit} ms on an unremovable stale lock (killed by ${r.signal})`);
+    assert.ok(/^(wrote|threw)/.test(r.out), `no outcome: ${r.out}`);
+  } finally {
+    fs.chmodSync(dir, 0o700);
+  }
+});
+
+it('a dangling symlink at <file>.lock: writeJson returns within the wait and writes (final polish 2)', () => {
+  const home = tmpHome();
+  const file = path.join(home, 'state.json');
+  fs.symlinkSync(path.join(home, 'nowhere', 'gone'), `${file}.lock`);
+  const r = boundedWrite(file);
+  assert.ok(!r.signal, `writeJson spun past ${r.limit} ms on a dangling symlink lock (killed by ${r.signal})`);
+  assert.strictEqual(r.out, 'wrote', `the write did not happen: ${r.out}`);
+  assert.strictEqual(S.readJson(file).a, 1);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

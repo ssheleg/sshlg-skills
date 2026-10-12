@@ -56,9 +56,11 @@ function routeGate(data, home) {
 
     // No session id, no turn record (fix round 2, H): `turns/unknown.json` would be every
     // id-less caller's record at once, so one caller's prompt would escalate another's Edit.
-    const sessionId = typeof data.session_id === 'string' ? data.session_id.trim() : '';
-    if (!sessionId) return process.exit(0);
+    // The key is the prompt hook's (final polish 5): trimmed, and none for an id that
+    // sanitises to the shared fallback.
     const turnstate = require(path.join(LIB, 'turnstate.js'));
+    const sessionId = turnstate.sessionKey(data.session_id);
+    if (!sessionId) return process.exit(0);
     const state = turnstate.read(home, sessionId);
 
     const cwd = data.cwd || process.env.CLAUDE_PROJECT_DIR || process.cwd();
@@ -119,7 +121,7 @@ function routeGate(data, home) {
 
     // Recorded BEFORE the prompt is emitted: a turn that edits forty files must
     // ask once, and an escalation that failed to record itself asks forty times.
-    turnstate.write(home, data.session_id, { asked: true });
+    turnstate.write(home, sessionId, { asked: true });
     say('ask', verdict.reason);
   } catch (e) {
     /* Silence: an escalation that throws must not cost the turn. */

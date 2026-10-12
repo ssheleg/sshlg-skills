@@ -59,18 +59,20 @@ process.stdin.on('end', () => {
     // PreToolUse escalation, which needs the record, does not fire for an id-less caller.
     const system = triggers.isSystemTurn(prompt);
     const turnstate = require(path.join(__dirname, '..', 'lib', 'turnstate.js'));
-    const sessionId = typeof data.session_id === 'string' ? data.session_id.trim() : '';
+    // One key for every hook (final polish 5): trimmed, and '' for an id whose file key is
+    // the shared fallback ('...', 'unknown'), which is no id at all.
+    const sessionId = turnstate.sessionKey(data.session_id);
     let noted = [];
     if (!system && sessionId) {
       try {
-        const n = turnstate.read(os.homedir(), data.session_id).noted;
+        const n = turnstate.read(os.homedir(), sessionId).noted;
         if (Array.isArray(n)) noted = n;
       } catch (e) { noted = []; }
     }
     const routes = system ? [] : triggers.match(prompt, { external });
     if (!system && sessionId) {
       try {
-        turnstate.write(os.homedir(), data.session_id, {
+        turnstate.write(os.homedir(), sessionId, {
           promptId: data.prompt_id || null,
           routes,
           optedOut: triggers.optedOut(prompt),
@@ -84,7 +86,7 @@ process.stdin.on('end', () => {
       process.stdout.write(out + '\n');
       if (sessionId) {
         try {
-          turnstate.write(os.homedir(), data.session_id,
+          turnstate.write(os.homedir(), sessionId,
             { noted: Array.from(new Set(noted.concat(routes))) });
         } catch (e) { /* unrecorded means shown again, the safe direction */ }
       }

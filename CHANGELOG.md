@@ -1,7 +1,7 @@
 ## Unreleased (1.56.0, pending its release PR) — the hooks say less, and `update` finishes the job
 
 Wave 1 of the integration plan (R01-R06; board B-155..B-159), with its two certification fix
-rounds.
+rounds and a final polish.
 Every number below is printed by a committed script under
 `docs/evidence/runs/2026-10-12-wave1/`, run against the pre-wave base `5852c57`; the commands
 and their output are in the [wave-1 receipt](docs/evidence/runs/2026-10-12-wave1.md).
@@ -32,7 +32,8 @@ and their output are in the [wave-1 receipt](docs/evidence/runs/2026-10-12-wave1
   entry apart from a stale one, and the session-start notice no longer reports an entry that is
   gone (it looks exactly like one the operator removed). Under `--no-claude` or any `--agent` list
   (none selects the Claude host; `--agent claude` exits 2 — scope to Claude with `--claude-only`)
-  it leaves `settings.json` and the runtime copy those hooks execute alone and says
+  it leaves `settings.json`, the runtime copy those hooks execute and the Claude plugin step
+  (`claude plugin update`, which an `--agent` list used to run anyway) alone and says
   `skipped: <flag>`; `--dry-run` lists the write as a `hooks-wiring` step. Until now 1.55.1's
   widened `PreToolUse` matcher never reached a machine wired before 1.55.1.
 - **Secret remedies resolve the Observatory engine at run time** (R04):
@@ -50,12 +51,13 @@ and their output are in the [wave-1 receipt](docs/evidence/runs/2026-10-12-wave1
   the one in progress; a held lock is recorded as `busyAt`, never a failure, puts the whole
   previous outcome back and makes the next idle wait ten minutes; the "updated while you were
   away" line is read from the record the updater actually writes, once.
-  `~/.sshlg-skills/update.lock`: a live holder on this host makes the second `update` exit 2 naming
-  it, however old; a dead pid, or a lock from another host older than 30 minutes, is taken over —
+  `~/.sshlg-skills/update.lock`: a live holder on this host makes the second `update` exit **75**
+  (EX_TEMPFAIL) naming it, however old — exit 2 stays the usage-error code, and for one release
+  the idle updater also reads exit 2 with the `update: refused —` line as busy; a dead pid, or a lock from another host older than 30 minutes, is taken over —
   by renaming the judged lock aside, checking it, and restoring a successor's lock instead of
   deleting it. No signal handlers: Ctrl-C and SIGTERM stop `update` at once, and the next run
-  takes the dead holder's lock over. Fabric Dashboards still reads exit 2 as a failed update
-  (B-163).
+  takes the dead holder's lock over. Fabric Dashboards reads every non-zero exit as a failed
+  update; the ask to treat 75 as busy is B-163.
 - **`UserPromptSubmit` is about 2.5 times faster** (R06). A stem prefilter rejects a trigger whose
   word stems are absent before its regular expression is built: the hook's median went from 204 ms
   to 80 ms on a routed prompt and from 177 ms to 73 ms on an unrouted one (`latency.js`, 10 runs,
@@ -69,6 +71,17 @@ and their output are in the [wave-1 receipt](docs/evidence/runs/2026-10-12-wave1
   `update` rewrites the block in every instruction file it manages, so this sentence arrives with
   it (`routers --dry-run` shows the change first).
 - **`test/validate.py` recounts the board's `Open: N` line** (it said 20; twelve were open).
+- **Final polish** (no review round; [receipt](docs/evidence/runs/2026-10-12-wave1.md), *Final
+  polish*). `config.json` sub-objects (`stash`, `authored`, `routes.external`, `routers`,
+  `update`) are edited as a function of the file at write time under `config.json.lock` — four
+  parallel writers of 20 distinct stash keys each kept 20 of 80, and now keep 80. The store's
+  lock never spins: a stale lock it cannot remove, or a dangling symlink in its place, is waited
+  out for 1 s and written past. `hooks remove` keeps another tool's hook that sits inside our
+  group. A displacement record parked by an older release with `<Event>:missing` rows says
+  nothing and is cleared. The turn record is keyed by the trimmed session id in every hook, and
+  an id that sanitises to the shared fallback (`...`, `unknown`) is treated as no id. When
+  `update` lists events not wired here it adds that `hooks install` re-adds every removed family
+  entry.
 
 ## v1.55.3 — agent-stack names who a call is for
 

@@ -3,7 +3,7 @@
 // The update lock and the state.json schema stamp (R05, B-159).
 //
 // `decide()` is pure and fixtured without a HOME. What only a process can show —
-// a second `update` refused with exit 2, a stale lock taken over, the lock gone on
+// a second `update` refused with exit 75 (EX_TEMPFAIL), a stale lock taken over, the lock gone on
 // every way out — runs the real launcher in a sandbox HOME with the tools it drives
 // (git, npx, npm, claude, gh) replaced by PATH stubs, so what is under test is the
 // lock and not the network.
@@ -163,6 +163,30 @@ it('a successor\'s lock written after the re-read is restored, never deleted (J)
   fs.rmSync(home, { recursive: true, force: true });
 });
 
+// Final polish 9: the restore used `link`, and on any link error other than EEXIST (a
+// filesystem without hard links) it unlinked the successor's lock anyway. It now logs and
+// renames the lock back.
+it('a link error other than EEXIST renames the successor\'s lock back and says so, never deletes it (final polish 9)', () => {
+  const home = sandbox();
+  fs.mkdirSync(path.dirname(L.lockPath(home)), { recursive: true });
+  fs.writeFileSync(L.lockPath(home), JSON.stringify({ pid: 77, startedAt: NOW - MIN, host: 'h1' }));
+  const fresh = { pid: 88, startedAt: NOW, host: 'h1' };
+  let planted = 0;
+  const logged = [];
+  const a = L.acquire(home, { now: NOW, pid: 5, host: 'h1', alive: (pid) => pid !== 77,
+    beforeTakeover: () => { if (!planted++) fs.writeFileSync(L.lockPath(home), JSON.stringify(fresh)); },
+    linkSync: () => { const e = new Error('operation not permitted'); e.code = 'EPERM'; throw e; },
+    log: (m) => logged.push(m) });
+  assert.strictEqual(planted, 1, 'the seam never ran — the fixture tests nothing');
+  assert.strictEqual(a.ok, false, 'the run took a lock a successor had just written');
+  assert.ok(fs.existsSync(L.lockPath(home)), 'a link error deleted the successor\'s lock');
+  assert.deepStrictEqual(JSON.parse(fs.readFileSync(L.lockPath(home), 'utf8')), fresh, 'the lock put back is not the successor\'s');
+  assert.ok(logged.some((m) => /EPERM/.test(m) && /renam/.test(m)), `the link error was not said: ${JSON.stringify(logged)}`);
+  assert.deepStrictEqual(fs.readdirSync(path.dirname(L.lockPath(home))).filter((n) => n !== 'update.lock'), [],
+    'a renamed lock was left behind');
+  fs.rmSync(home, { recursive: true, force: true });
+});
+
 it('a lock file that does not parse is refused while fresh and taken over once old', () => {
   const home = sandbox();
   fs.mkdirSync(path.dirname(L.lockPath(home)), { recursive: true });
@@ -199,7 +223,7 @@ function update(env, args) {
   return { out: `${r.stdout}${r.stderr}`, status: r.status };
 }
 
-it('a second real `update` while one holds the lock exits 2 and names the holder', () => {
+it('a second real `update` while one holds the lock exits 75 (EX_TEMPFAIL) and names the holder', () => {
   const home = sandbox();
   const env = stubEnv(home);
   // a live holder: this very process, started a moment ago, on this host
@@ -207,7 +231,8 @@ it('a second real `update` while one holds the lock exits 2 and names the holder
   fs.writeFileSync(L.lockPath(home),
     JSON.stringify({ pid: process.pid, startedAt: Date.now() - 5000, host: os.hostname() }));
   const r = update(env);
-  assert.strictEqual(r.status, 2, `expected exit 2, got ${r.status}:\n${r.out.slice(-400)}`);
+  assert.strictEqual(r.status, L.BUSY_EXIT, `expected exit 75, got ${r.status}:\n${r.out.slice(-400)}`);
+  assert.strictEqual(L.BUSY_EXIT, 75, 'the lock refusal is EX_TEMPFAIL (sysexits.h), not a usage error');
   assert.match(r.out, new RegExp(`pid ${process.pid}`), 'the refusal does not name the holder pid');
   assert.match(r.out, /\d+ s ago/, 'the refusal does not give the holder age');
   assert.ok(fs.existsSync(L.lockPath(home)), 'the refused run deleted the holder\'s lock');
@@ -220,7 +245,7 @@ it('a live holder on this host is refused by the real command however old (risk 
   fs.writeFileSync(L.lockPath(home),
     JSON.stringify({ pid: process.pid, startedAt: Date.now() - 45 * MIN, host: os.hostname() }));
   const r = update(stubEnv(home));
-  assert.strictEqual(r.status, 2, `a 45-minute live holder was not refused: ${r.status}\n${r.out.slice(-300)}`);
+  assert.strictEqual(r.status, 75, `a 45-minute live holder was not refused: ${r.status}\n${r.out.slice(-300)}`);
   fs.rmSync(home, { recursive: true, force: true });
 });
 
@@ -235,7 +260,7 @@ it('a stale foreign and a dead-pid lock are taken over by the real command, and 
     fs.writeFileSync(L.lockPath(home), JSON.stringify(lock));
     const r = update(env);
     assert.match(r.out, /took over update\.lock/, `no takeover was logged:\n${r.out.slice(-400)}`);
-    assert.ok(r.status !== 2, 'a takeover was refused');
+    assert.ok(r.status !== 75 && r.status !== 2, 'a takeover was refused');
     assert.ok(!fs.existsSync(L.lockPath(home)), 'the lock survived the run that took it');
     fs.rmSync(home, { recursive: true, force: true });
   }
@@ -244,7 +269,7 @@ it('a stale foreign and a dead-pid lock are taken over by the real command, and 
 it('the lock is released after a normal run and a failing one, and a dry run takes none', () => {
   const home = sandbox();
   const ok = update(stubEnv(home));
-  assert.ok(ok.status !== 2);
+  assert.ok(ok.status !== 75 && ok.status !== 2);
   assert.ok(!fs.existsSync(L.lockPath(home)), 'the lock survived a normal run');
   // failing: every tool it drives exits 1, so the run ends non-zero — through process.exit paths too
   const bad = update(stubEnv(home, { git: '#!/bin/sh\nexit 1\n', npx: '#!/bin/sh\nexit 1\n', claude: '#!/bin/sh\nexit 1\n' }));
@@ -253,7 +278,19 @@ it('the lock is released after a normal run and a failing one, and a dry run tak
   fs.mkdirSync(path.dirname(L.lockPath(home)), { recursive: true });
   fs.writeFileSync(L.lockPath(home), JSON.stringify({ pid: process.pid, startedAt: Date.now(), host: os.hostname() }));
   const dry = update(stubEnv(home), ['--dry-run']);
-  assert.ok(dry.status !== 2, 'a preview was refused by a lock — it writes nothing and needs none');
+  assert.ok(dry.status !== 75 && dry.status !== 2, 'a preview was refused by a lock — it writes nothing and needs none');
+  fs.rmSync(home, { recursive: true, force: true });
+});
+
+// Final polish, item 1: exit 2 meant both "the lock is held" and "your arguments are wrong",
+// so a consumer could not tell retry-later from fix-the-call. The lock refusal is 75.
+it('usage errors of `update` still exit 2, and never 75 (final polish 1)', () => {
+  const home = sandbox();
+  for (const args of [['--agent'], ['--bogus-flag'], ['--claude-only', '--no-claude'], ['--adopt']]) {
+    const r = update(stubEnv(home), args);
+    assert.strictEqual(r.status, 2, `update ${args.join(' ')} exited ${r.status}, not 2:\n${r.out.slice(-300)}`);
+    assert.ok(!/update: refused/.test(r.out), `a usage error read as a lock refusal: ${r.out.slice(-200)}`);
+  }
   fs.rmSync(home, { recursive: true, force: true });
 });
 
@@ -340,13 +377,13 @@ for (const [sig, group] of [['SIGTERM', '0'], ['SIGINT', '1']]) {
 }
 
 // --- the idle updater and a held lock (fix round #4) -------------------------
-it('an update.lock held elsewhere (exit 2) is recorded as busy, not a failure, and the next idle retries (#4)', () => {
+it('an update.lock held elsewhere (exit 75) is recorded as busy, not a failure, and the next idle retries (#4)', () => {
   const chk = require('../lib/updatecheck.js');
   const home = sandbox();
   const state = path.join(home, '.sshlg-skills', 'state.json');
   fs.mkdirSync(path.dirname(state), { recursive: true });
   fs.writeFileSync(state, JSON.stringify({ updateCheck: { at: Date.now(), latest: '9.9.9' } }));
-  const env = stubEnv(home, { npx: '#!/bin/sh\necho "update: refused — another update is running (pid 1, started 3 s ago)."\nexit 2\n' });
+  const env = stubEnv(home, { npx: '#!/bin/sh\necho "update: refused — another update is running (pid 1, started 3 s ago)."\nexit 75\n' });
   spawnSync(process.execPath, [path.join(ROOT, 'lib', 'updaterun.js')], { env, encoding: 'utf8' });
   const uc = JSON.parse(fs.readFileSync(state, 'utf8')).updateCheck;
   assert.notStrictEqual(uc.ok, false, `a busy lock was recorded as a failed update: ${JSON.stringify(uc)}`);
@@ -360,6 +397,29 @@ it('an update.lock held elsewhere (exit 2) is recorded as busy, not a failure, a
   spawnSync(process.execPath, [path.join(ROOT, 'lib', 'updaterun.js')],
     { env: stubEnv(home, { npx: '#!/bin/sh\nexit 1\n' }), encoding: 'utf8' });
   assert.strictEqual(JSON.parse(fs.readFileSync(state, 'utf8')).updateCheck.ok, false, 'the control failure was not recorded');
+  fs.rmSync(home, { recursive: true, force: true });
+});
+
+// Final polish, item 1: an older launcher (before the lock had its own code) refused with
+// exit 2 and the `update: refused —` line. For one release the idle updater still reads
+// that pair as busy; a bare exit 2 — a usage error — is a failure, as it always was.
+it('the idle updater: 75 is busy; exit 2 is busy only with the refusal line (older launcher); a bare 2 is a failure (final polish 1)', () => {
+  const home = sandbox();
+  const state = path.join(home, '.sshlg-skills', 'state.json');
+  const runWith = (npx) => {
+    fs.mkdirSync(path.dirname(state), { recursive: true });
+    fs.writeFileSync(state, JSON.stringify({ updateCheck: { at: Date.now(), latest: '9.9.9' } }));
+    spawnSync(process.execPath, [path.join(ROOT, 'lib', 'updaterun.js')], { env: stubEnv(home, { npx }), encoding: 'utf8' });
+    return JSON.parse(fs.readFileSync(state, 'utf8')).updateCheck;
+  };
+  const busy = runWith('#!/bin/sh\necho "update: refused — another update is running."\nexit 75\n');
+  assert.ok(Number.isFinite(busy.busyAt) && busy.ok !== false, `exit 75 was not recorded as busy: ${JSON.stringify(busy)}`);
+  const legacy = runWith('#!/bin/sh\necho "update: refused — another update is running."\nexit 2\n');
+  assert.ok(Number.isFinite(legacy.busyAt) && legacy.ok !== false,
+    `an older launcher's refusal (exit 2 + the line) was not recorded as busy: ${JSON.stringify(legacy)}`);
+  const usage = runWith('#!/bin/sh\necho "unknown option: --x"\nexit 2\n');
+  assert.strictEqual(usage.ok, false, `a usage error (exit 2, no refusal line) was recorded as busy: ${JSON.stringify(usage)}`);
+  assert.ok(!Number.isFinite(usage.busyAt), `a usage error set busyAt: ${JSON.stringify(usage)}`);
   fs.rmSync(home, { recursive: true, force: true });
 });
 
@@ -386,7 +446,7 @@ it('a SessionStart while the idle updater runs, and after it exits busy, prints 
   // the last run FAILED and that was already said
   fs.writeFileSync(state, JSON.stringify({ updateCheck: Object.assign(
     { at: Date.now(), latest: null }, chk.ranRecord('1.0.0', null, false, t0), chk.reportedRecord(t0)) }));
-  const env = stubEnv(home, { npx: '#!/bin/sh\nsleep 2\necho "update: refused — another update is running."\nexit 2\n' });
+  const env = stubEnv(home, { npx: '#!/bin/sh\nsleep 2\necho "update: refused — another update is running."\nexit 75\n' });
   const run = spawn(process.execPath, [path.join(ROOT, 'lib', 'updaterun.js')], { env, stdio: 'ignore' });
   const ctx = () => {
     const r = spawnSync(process.execPath, [path.join(ROOT, 'hooks', 'session-start.js')],

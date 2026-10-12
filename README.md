@@ -255,8 +255,8 @@ you deliberately want the submodules fast-forwarded to their upstream tips.
 The scope flags scope the Claude host's files too: under `--no-claude`, or any
 `--agent` list, neither the routing block in `CLAUDE.md`, nor the hook wiring in
 `settings.json`, nor the runtime copy those hooks execute
-(`~/.sshlg-skills/runtime`) is touched, and the run says `skipped: <flag>` (since
-v1.56.0). No `--agent` value selects the Claude host — `--agent claude` exits 2
+(`~/.sshlg-skills/runtime`) is touched, nor is `claude plugin update` run, and the run
+says `skipped: <flag>` (since v1.56.0). No `--agent` value selects the Claude host — `--agent claude` exits 2
 (the pinned skills CLI has no such agent id), and `--agent claude-code` names the
 plain-copy target the plugin channel leaves out — so to scope a run to Claude use
 `--claude-only`, or no scope flag at all.
@@ -264,7 +264,13 @@ plain-copy target the plugin channel leaves out — so to scope a run to Claude 
 the field each entry would change. **`update` never adds a hook entry**: one you
 removed stays removed, and an event a later release introduces is wired only by
 `npx sshlg-skills hooks install` — `update` and its preview name each family event
-not wired here, with that command.
+not wired here, with that command. `hooks install` re-adds every removed family
+entry, not only the new ones, so skip it if you removed an entry on purpose.
+
+**Exit codes of `update`:** 0 done, 1 a step failed, **2 a usage error** (an unknown
+flag, a flag without its value, contradictory flags), **75 another `update` holds
+`~/.sshlg-skills/update.lock`** (EX_TEMPFAIL — retry later, nothing failed; before
+1.56.0's final polish this was also 2). Details: `docs/working-rules/state-json.md`.
 
 > **Update through the launcher, not through a bare `npx skills update <id>`.**
 > Without an explicit `--agent` list the skills CLI auto-detects Claude Code and
@@ -406,7 +412,8 @@ npx sshlg-skills hooks remove             # unwire, and give the displaced one b
 # and the ConfigChange notice — judges an entry by the fields this pack writes, so fields you added to our entries
 # (a `timeout`, a `padding`) are kept and never called stale. `hooks` prints why each entry differs (matcher |
 # command | the field | order) and lists an absent one apart, as "не подключено здесь", with `hooks install`.
-# `update` also takes ~/.sshlg-skills/update.lock: a second one exits 2 naming the holder (docs/working-rules/state-json.md).
+# `update` also takes ~/.sshlg-skills/update.lock: a second one exits 75 naming the holder (docs/working-rules/state-json.md).
+# When `update` lists an event as not wired here, keep in mind that `hooks install` re-adds every removed family entry.
 npx sshlg-skills injectors                # who else speaks at SessionStart, and which MCP server instructions claim ground
 npx sshlg-skills conflicts                # installed skills that land on a router's ground
 npx sshlg-skills toolkit                  # every skill this machine can reach, as an index
@@ -509,8 +516,9 @@ variants and the silent controls to an exact route set.
 **The prompt hook is deliberately quiet.** A question beats any trigger — with one
 derived exception: a trigger that is *itself* phrased as a question wins, because
 `seo-aeo-audit` advertises «почему упал трафик» and the generic filter was
-silencing it on the words it owns. Saying a router's refusal phrase silences it,
-and a prompt with no signal costs nothing.
+silencing it on the words it owns. Any refusal phrase drops every note on that
+prompt, not only its own route's; later prompts still get the notes not yet given.
+A prompt with no signal costs nothing.
 Every word it fires on must already appear in the target skill's own
 `description`; a fixture reads the shipped descriptions and fails on any trigger
 the skill does not itself advertise, so this cannot become a second routing

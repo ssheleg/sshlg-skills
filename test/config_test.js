@@ -95,6 +95,54 @@ it('an unknown state is refused rather than guessed', () => {
   assert.throws(() => C.setRouter(home, 'seo-llmo', 'maybe'), /on.*off|off.*on/);
 });
 
+// Final polish, item 3: the stash, `authored` and `routes.external` were read, rebuilt and
+// written from a copy taken OUTSIDE config.json's lock, so parallel writers erased each
+// other's keys (measured: 4 processes x 20 stashSet of distinct keys kept 20 of 80). Every
+// sub-object write is now a function of the file at write time.
+it('four processes x 20 stashSet of distinct keys keep all 80 (final polish 3)', () => {
+  const home = tmpHome();
+  const writer = path.join(home, 'w.js');
+  fs.writeFileSync(writer, `const C = require(${JSON.stringify(path.join(__dirname, '..', 'lib', 'config.js'))});
+const [home, id] = process.argv.slice(2);
+for (let i = 0; i < 20; i += 1) C.stashSet(home, 'k' + id + '-' + i, 'v' + i);
+`);
+  const { spawnSync } = require('child_process');
+  const cmd = [0, 1, 2, 3].map((i) => `node "${writer}" "${home}" ${i} &`).join(' ') + ' wait';
+  spawnSync('sh', ['-c', cmd], { encoding: 'utf8' });
+  const stash = C.readConfig(home).stash || {};
+  assert.strictEqual(Object.keys(stash).length, 80, `parallel stashSet lost keys: kept ${Object.keys(stash).length} of 80`);
+});
+
+it('authored, external, router and auto-update writes merge into the file as it is at write time (final polish 3)', () => {
+  const home = tmpHome();
+  C.stashSet(home, 'a', 'A');
+  C.authoredSet(home, 'r1', 'one');
+  C.authoredSet(home, 'r2', 'two');
+  C.externalSet(home, 'x', { triggers: ['t'] });
+  C.externalSet(home, 'y', { triggers: ['u'] });
+  C.setRouter(home, 'seo-llmo', 'off');
+  C.setAutoUpdate(home, 'off');
+  assert.strictEqual(C.authoredClear(home, 'r1'), 'one');
+  assert.deepStrictEqual(C.externalClear(home, 'x'), { triggers: ['t'] });
+  C.stashClear(home, 'a');
+  const cfg = C.readConfig(home);
+  assert.deepStrictEqual(cfg.authored, { r2: 'two' });
+  assert.deepStrictEqual(cfg.routes, { external: { y: { triggers: ['u'] } } });
+  assert.deepStrictEqual(cfg.routers, { 'seo-llmo': 'off' });
+  assert.deepStrictEqual(cfg.update, { auto: 'off' });
+  assert.deepStrictEqual(cfg.stash, {});
+  assert.strictEqual(C.externalClear(home, 'y').triggers[0], 'u');
+  assert.ok(!('routes' in C.readConfig(home)), 'an empty routes object was left behind');
+  assert.strictEqual(C.authoredClear(home, 'never'), undefined);
+});
+
+it('no config.js writer merges a sub-object read outside the lock (final polish 3)', () => {
+  const text = fs.readFileSync(path.join(__dirname, '..', 'lib', 'config.js'), 'utf8');
+  const offenders = text.split('\n').map((l, i) => [l, i + 1])
+    .filter(([l]) => /store\.writeJson\(configPath\(home\),\s*\{/.test(l)).map(([, n]) => `lib/config.js:${n}`);
+  assert.deepStrictEqual(offenders, [], 'a config.json write is an object patch built from an earlier read');
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

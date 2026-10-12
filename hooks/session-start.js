@@ -55,8 +55,12 @@ process.stdin.on('end', () => {
       const configLib = require(path.join(LIB, 'config.js'));
       const displace = require(path.join(LIB, 'displace.js'));
       const parked = configLib.stashGet(configLib.readConfig(home), 'displaced:entries');
-      const text = parked ? displace.render(JSON.parse(parked)) : '';
+      const rec = parked ? JSON.parse(parked) : null;
+      const text = displace.render(rec);
       if (text) context.push(text);
+      // A record holding nothing `check()` still produces — `<Event>:missing` rows parked
+      // before 1.56.0 (final polish 4) — is said nothing about, and goes.
+      if (rec && !displace.live(rec).length) configLib.stashClear(home, 'displaced:entries');
     } catch (e) { /* a notice that cannot be read is not worth a broken session */ }
 
     // Who else speaks before the first prompt. One line, and only when there is
@@ -156,9 +160,13 @@ process.stdin.on('end', () => {
     // resume keep it: the same session id, and its context still has them. A fork has a
     // NEW session id (`--fork-session`), so it starts with no record and its notes print
     // again (fix round 2, D) — nothing to reset here.
-    if ((data.source === 'clear' || data.source === 'compact') && data.session_id) {
+    // Keyed like the prompt hook (final polish 5): trimmed, and no record for an id-less or
+    // shared-key payload.
+    if (data.source === 'clear' || data.source === 'compact') {
       try {
-        require(path.join(LIB, 'turnstate.js')).write(home, data.session_id, { noted: [] });
+        const turnstate = require(path.join(LIB, 'turnstate.js'));
+        const sessionId = turnstate.sessionKey(data.session_id);
+        if (sessionId) turnstate.write(home, sessionId, { noted: [] });
       } catch (e) { /* a record that cannot be reset only repeats a note */ }
     }
 

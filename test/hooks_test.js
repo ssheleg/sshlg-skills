@@ -74,6 +74,26 @@ it('removal takes ours out and leaves theirs untouched', () => {
   assert.ok(!settings.statusLine, 'our status line survived removal');
 });
 
+// Final polish, item 6: install and update keep a foreign hook that sits INSIDE our group
+// (refreshGroup), but removal() dropped every group containing ours — and the foreign hook
+// with it. Removal now filters our hook out of a mixed group and keeps the group.
+it('removal keeps a foreign hook co-located in our group, and drops the group only when ours was alone (final polish 6)', () => {
+  const installed = H.plan({}, ROOT, {}).settings;
+  const theirs = { type: 'command', command: 'their-session-hook', timeout: 3 };
+  installed.hooks.SessionStart[0].hooks.push(theirs);
+  const { settings, changed } = H.removal(installed, ROOT);
+  assert.ok(settings.hooks && Array.isArray(settings.hooks.SessionStart),
+    `the mixed group was deleted with the foreign hook in it: ${JSON.stringify(settings.hooks)}`);
+  assert.deepStrictEqual(settings.hooks.SessionStart,
+    [{ matcher: H.entries(ROOT).SessionStart.matcher, hooks: [theirs] }]);
+  assert.ok(changed.includes('SessionStart'), `changed does not name SessionStart: ${changed}`);
+  assert.ok(!('UserPromptSubmit' in settings.hooks), 'a group holding only ours survived');
+  // idempotent: a second removal changes nothing
+  const again = H.removal(settings, ROOT);
+  assert.deepStrictEqual(again.settings, settings);
+  assert.deepStrictEqual(again.changed, []);
+});
+
 it('removal deletes the key rather than leaving an empty array', () => {
   const installed = H.plan({}, ROOT, {}).settings;
   const { settings } = H.removal(installed, ROOT);
