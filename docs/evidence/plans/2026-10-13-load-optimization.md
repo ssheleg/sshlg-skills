@@ -82,7 +82,22 @@ part (profiles read by `update`/`hosts`, the doctrine in agent-stack) becomes hu
 Per-host listing size and MCP processes per session, measured after L1/L2 and held by a
 ratchet where the hub can compute it (`description-total` exists for family skills).
 
+### L5 — family members by domain, per project (proposal; operator decision)
+
+Measured 2026-10-13 (read-only): Claude Code's listing is ≈ 61,000 characters after
+`visibility`; enabled plugins carry ≈ 44,700 of them, and family plugins ≈ 38,000 — the
+largest share. Domain members are expensive and rarely used: `xr-dev` 6.2k characters (5 calls
+in 60 days), `sheleg-dev` 6.4k (8), `telegram-dev` 2.8k (5), `web3d-dev` 2.7k (0). Proposal:
+the core members stay machine-wide (`task-pipeline`, `agent-sync`, `make-skill`, `super-ux`,
+`sheleg-design`, `seo-aeo-audit`, `agent-stack`); domain members (`xr-dev`, `web3d-dev`,
+`telegram-dev`, `sheleg-dev`) are enabled per project — by the project's declared domain, or by
+use — through the same per-project plugin scope used for figma/stripe/cloudflare (wave 1, W1-G).
+Estimated listing ≈ 61k → ≈ 43k in a project outside those domains. In Fabric-started
+sessions RM-23 does the same from `pack-marks.json`. Needs: the operator's decision; the routing
+block keeps naming the domain routers (they say "if … is installed"); a `hosts`/`update` check
+that a project which uses a domain has its member enabled.
+
 ## Order
 
-L1 and L3 run now (independent). L2's design goes out for review now; its build waits on the
+L1 and L3 run now (independent). L5 waits on the operator's decision. L2's design goes out for review now; its build waits on the
 owners' answers and runs as their rows. L4 closes after L1.
