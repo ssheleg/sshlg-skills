@@ -241,6 +241,20 @@ Updates every skills-CLI install and every Claude Code plugin, and materializes
 the pinned submodules in a checkout **without moving the pins**. Restart Claude
 Code afterwards.
 
+**Codex's native plugins move through Codex's own CLI.** Codex loads the family from
+its own marketplace cache, not from the skills-CLI copies, so for every family plugin
+that is installed and enabled in Codex, has the family repository as its marketplace
+source in `config.toml`, and reports a version other than the pin in `codex plugin list`,
+`update` runs `codex plugin marketplace remove <m>` → `codex plugin marketplace add
+https://github.com/<repo>.git --ref <pin>` → `codex plugin add <plugin>@<m>`, then reads
+the version back. Only that readback counts as current. The pin is the submodule commit
+when run from a checkout, or the release tag `v<version>` from npm. A failure after the
+removal re-adds the previous ref, which is read from `config.toml` first. The hub reads
+that file and never writes it. Nothing else in Codex is touched: other marketplaces,
+plugins you disabled or never installed, and family names pointing at another source
+all stay as they are. `--claude-only`, or an `--agent` list without `codex`, skips this
+step. Start a new Codex session afterwards.
+
 **`update` reconciles — it does not only refresh.** It updates every skill that
 is already there, then adds the ones that are not. That second half exists
 because `skills update <id>` is a no-op for a skill installed nowhere: it
@@ -634,6 +648,7 @@ lib/routers-registry.js      the fifteen routers — text, table row and require
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js
 lib/plan.js                  the argv handed to the skills CLI — one builder for install and update
+lib/codexplugins.js          Codex's native plugins, moved through Codex's own CLI and read back
 lib/inventory.js             the family's map — entry points, not a catalogue
 lib/conflicts.js             installed skills on a router's ground — candidates, not offenders
 lib/packs.js                 curated recommendations by lane — what is missing, and the exact command

@@ -75,6 +75,29 @@ merge `"enabledPlugins": {"figma@claude-plugins-official": true}` (or
 `.claude/settings.local.json` and read the file back — `claude plugin enable --scope local`
 reports success and writes nothing (B-162).
 
+## B-166 — Codex native plugins through Codex's CLI (2026-10-12, branch `fix/codex-native-refresh`)
+
+Developer agent under lease `WAVES-1011`. `update` now moves family plugins that Codex holds
+below the pin, using Codex's own CLI: remove the marketplace, re-add it at the pin, add the
+plugin, and read it back from `codex plugin list`. Rollback uses the previous ref, read from
+`config.toml` before the removal
+([lib/codexplugins.js](../lib/codexplugins.js); `refreshCodexPlugins` and `planCodexSteps` in
+[bin/sshlg-skills.js](../bin/sshlg-skills.js)). The pin ref is the gitlink commit in a checkout
+and the tag `v<version>` from npm. The published package ships no SHA; all eleven tags peel
+to their gitlinks, measured 2026-10-12. B-166 is closed in the
+[backlog](evidence/backlog.md) with the evidence; the CHANGELOG entry is under *Unreleased*.
+
+Checks run: the new e2e suite fails 10 of 11 on `ce3983b` (`origin/main`) and passes all 11
+on the branch. The eleventh case is the leave-it-alone guard. Four planted defects were caught
+by `test/codexplugins_test.js`. `npm test` is green with the counted ratchets. A real Codex
+0.162.1 run, with a sandbox HOME and CODEX_HOME through the branch's `update --agent codex`,
+moved agent-sync 1.21.7 → 1.22.0 at `517b4b6` and left web3d-dev, already at its pin,
+untouched. A `--dry-run` against a copy of this machine's `config.toml` lists all nine family
+marketplaces, including the `["marketplaces"."web3d-dev"]` quoting.
+
+**Next:** review and merge the PR. The machine's Codex moves on the first `update` of a
+release that carries this change. This branch was not run against the operator's HOME.
+
 ## Router addition — fabric (2026-10-12, released as 1.58.0)
 
 Requested directly by the operator, outside the waves board: the fifteenth router.

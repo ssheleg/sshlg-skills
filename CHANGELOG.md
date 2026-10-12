@@ -1,3 +1,24 @@
+## Unreleased
+
+- **`update` refreshes the family's native Codex plugins through Codex's own CLI (B-166).**
+  Until now `update` reported Codex's plugin cache `UNSUPPORTED_UPDATE` on every run, so after
+  a re-pin the family plugins stayed at their old versions in Codex — and Codex had no fresh
+  copy anywhere, because the `~/.agents/skills` copies of those skills are excluded in its
+  `skills.config`. Codex 0.162.1 has the supported path, and `update` now drives it: for each
+  family plugin that is installed and enabled in Codex, whose marketplace in `config.toml` is
+  the family repository, and whose `codex plugin list` version differs from the pin, it runs
+  `codex plugin marketplace remove` → `codex plugin marketplace add <repo> --ref <pin>` →
+  `codex plugin add`, then reads the version back. Only that readback counts as `current`. The
+  ref is the pin's commit when run from a checkout, and the member's tag `v<version>` from the
+  published package, which ships no commit SHA. If a step fails after the removal, the previous
+  source and ref, read from `config.toml` beforehand, are re-added; if that fails too, the run
+  prints the commands that restore it. The hub reads `config.toml` and never writes it. Non-family
+  marketplaces, family names on another source, and disabled or uninstalled plugins are left
+  alone. A missing or unreadable Codex is a named skip. `--claude-only`, or an `--agent` list
+  without `codex`, leaves Codex out of scope. `--dry-run` lists the commands and runs none.
+  Suites: `test/codexplugins_test.js` and `test/codex_native_e2e_test.js`, which uses a fake
+  `codex` with a sandbox HOME and CODEX_HOME.
+
 ## v1.58.0 — the fabric router: this machine's agent services get a rule
 
 The fifteenth router, and the third that needs no family member behind it. When Fabric is
