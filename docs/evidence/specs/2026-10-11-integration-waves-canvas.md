@@ -36,6 +36,8 @@ Items that change one seam are designed together here, before any wave is cut.
 
 ## N01 — context budget
 
+**Status: closed in wave 1** — merged #192 (`8b02baf`), released 1.56.0 (`25bac9b`, tag `v1.56.0`), installed and read back 2026-10-12.
+
 **As-is.** `hooks/user-prompt-submit.js` prints the routing note on every prompt that
 matches a route (`lib/triggers.js:1078`), even when it printed the same routes on the
 previous turn. `hooks/session-start.js` prints the pointer, the injectors line, and
@@ -60,6 +62,8 @@ the 970 cap.
 `turnstate` gains one field. `state.json` gains one key (see N02).
 
 ## N02 — hook and credential integrity
+
+**Status: closed in wave 1** — same commits; B-157 verified on this machine (`hooks: всё на месте и совпадает`).
 
 **As-is.** `update` refreshes the runtime copy but never re-applies the
 `settings.json` wiring (`bin/sshlg-skills.js:572-595`). When `WIRED` changed in 1.55.1,
