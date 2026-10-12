@@ -1,0 +1,68 @@
+[
+ {
+  "id": "agent-stack@agent-stack",
+  "version": "0.27.0",
+  "enabled": true,
+  "scope": "user"
+ },
+ {
+  "id": "agent-sync@agent-sync",
+  "version": "1.22.0",
+  "enabled": true,
+  "scope": "user"
+ },
+ {
+  "id": "make-skill@make-skill",
+  "version": "0.31.0",
+  "enabled": true,
+  "scope": "user"
+ },
+ {
+  "id": "seo-aeo-audit@seo-aeo-audit",
+  "version": "0.26.4",
+  "enabled": true,
+  "scope": "user"
+ },
+ {
+  "id": "sheleg-design@sheleg-design-skill",
+  "version": "1.64.1",
+  "enabled": true,
+  "scope": "user"
+ },
+ {
+  "id": "sheleg-dev@sheleg-dev",
+  "version": "0.13.3",
+  "enabled": true,
+  "scope": "user"
+ },
+ {
+  "id": "super-ux@super-ux",
+  "version": "0.59.2",
+  "enabled": true,
+  "scope": "user"
+ },
+ {
+  "id": "task-pipeline@task-pipeline",
+  "version": "1.93.2",
+  "enabled": true,
+  "scope": "user"
+ },
+ {
+  "id": "telegram-dev@telegram-dev",
+  "version": "0.2.3",
+  "enabled": true,
+  "scope": "user"
+ },
+ {
+  "id": "web3d-dev@web3d-dev",
+  "version": "0.1.3",
+  "enabled": true,
+  "scope": "user"
+ },
+ {
+  "id": "xr-dev@xr-dev",
+  "version": "0.3.3",
+  "enabled": true,
+  "scope": "user"
+ }
+]

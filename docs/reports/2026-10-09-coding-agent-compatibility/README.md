@@ -6,7 +6,7 @@ report:
   project: sshlg-skills
   domains: [ai-agent, automation]
   as_of: 2026-10-09
-  status: active
+  status: superseded
   valid_until: 2026-11-09
   summary: >-
     Проверены 38 скиллов в 11 пакетах и первичные контракты 29 семейств клиентов.
@@ -29,6 +29,7 @@ report:
     agent: Codex
     task: host-compat-20261009
   supersedes: []
+  superseded_by: sshlg-skills/2026-10-12-coding-agent-compatibility
   consumers: [make-skill, task-pipeline, agent-sync, super-ux, sheleg-dev]
 ---
 

@@ -1,0 +1,14 @@
+Agent hosts with an instruction file the routing block is written to (Cursor, a separate rules file, is not listed):
+
+  claude   detected  ~/.claude/CLAUDE.md
+  codex    detected  ~/.codex/AGENTS.md
+  gemini   detected  ~/.gemini/GEMINI.md
+  pi       detected  ~/.pi/agent/AGENTS.md
+
+Pi (@earendil-works/pi-coding-agent):
+  pi      detected  via ~/.pi/agent, pi on PATH; agent dir ~/.pi/agent
+  Pi does not load Claude Code plugins: the family reaches it as plain skill directories and through AGENTS.md.
+  skills root (user)  ~/.pi/agent/skills  455 skill(s)
+  skills root (user)  ~/.agents/skills  498 skill(s)
+  family skills visible to Pi (by name): 39 of 39
+  duplicate names across Pi's roots: 455 harmless (one realpath), 0 conflict(s) (different realpaths) of 498 names
