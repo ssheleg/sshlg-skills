@@ -1,4 +1,11 @@
-## Unreleased
+## v1.59.0 — the integration waves close: Codex refreshed by its own CLI, a guard that keeps its remedies, the fabric router where Fabric is
+
+The last release of the 2026-10-11 integration waves ([acceptance](docs/evidence/acceptance/2026-10-11-integration-waves.md)).
+Pins move to the members' re-certification patches: task-pipeline **1.93.3**, agent-sync
+**1.22.1**, agent-stack **0.27.1**, make-skill **0.31.1** — each closes what a second blind
+reading of its earlier fix commits found. Board: B-161 closed (graph refreshed), B-168 closed
+(#200), B-169/B-170 closed (#203), B-171…B-179 filed from the readings and Observatory's
+release-iteration proposal.
 
 - **The `fabric` router holds only on a machine with Fabric (B-169, USR-012).** 1.58.0 wrote it
   into every machine's global instruction files, naming an organisation's tooling to people who
