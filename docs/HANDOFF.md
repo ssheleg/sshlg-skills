@@ -33,12 +33,11 @@ a final polish (receipt `evidence/runs/2026-10-12-wave1.md`), merged as #192, re
 **1.56.0** (#193; tag `v1.56.0`, release run 38215090806: validate, release, publish success;
 npm `latest` = 1.56.0). Installed here with `npx sshlg-skills@latest update`: 83 of 83 steps
 green; `Hook wiring: PreToolUse: matcher — re-wired`; `routers --dry-run` unchanged in all four
-instruction files; `hooks: всё на месте и совпадает` — B-157 closed on this machine.
+instruction files; `hooks: всё на месте и совпадает` — B-157 closed on this machine. B-163 closed
+by Fabric Dashboards `be8b2cf` (exit 75 is busy).
 
 **Exact next bounded tasks (orchestrator):**
-1. Send the Fabric Dashboards ask in B-163 (exit 75 from `update` is busy, not failed; exit 2 is
-   a usage error; the bare `update` it runs now re-wires consented Claude hooks).
-2. Waves 2–4: task-pipeline PR (W2-B CI refactor in flight), agent-sync PR #32 (fix round 2 in
+1. Waves 2–4: task-pipeline PR (W2-B CI refactor in flight), agent-sync PR #32 (fix round 2 in
    flight), agent-stack PR #44 (certification owed); then wave 5 per the
    [plan](evidence/plans/2026-10-11-integration-waves.md); task-pipeline's wave-2 release
    closes B-160 once pinned here.
