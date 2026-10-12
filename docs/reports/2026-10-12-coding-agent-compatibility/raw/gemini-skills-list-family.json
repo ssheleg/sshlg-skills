@@ -1,0 +1,161 @@
+{
+ "gemini_skills_list_total": 416,
+ "family": {
+  "vision": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/vision/SKILL.md"
+  },
+  "ux-foundation": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/ux-foundation/SKILL.md"
+  },
+  "ux-flows": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/ux-flows/SKILL.md"
+  },
+  "ux-scenarios": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/ux-scenarios/SKILL.md"
+  },
+  "ux-audit": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/ux-audit/SKILL.md"
+  },
+  "brand-voice": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/brand-voice/SKILL.md"
+  },
+  "copywriting": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/copywriting/SKILL.md"
+  },
+  "task-pipeline": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/task-pipeline/SKILL.md"
+  },
+  "evidence-docs": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/evidence-docs/SKILL.md"
+  },
+  "project-audit": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/project-audit/SKILL.md"
+  },
+  "agent-sync": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/agent-sync/SKILL.md"
+  },
+  "make-skill": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/make-skill/SKILL.md"
+  },
+  "skill-search": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/skill-search/SKILL.md"
+  },
+  "sheleg-design": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/sheleg-design/SKILL.md"
+  },
+  "seo-aeo-audit": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/seo-aeo-audit/SKILL.md"
+  },
+  "stripe-billing": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/stripe-billing/SKILL.md"
+  },
+  "crypto-payments": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/crypto-payments/SKILL.md"
+  },
+  "error-tracking": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/error-tracking/SKILL.md"
+  },
+  "ad-tracking": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/ad-tracking/SKILL.md"
+  },
+  "google-signin": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/google-signin/SKILL.md"
+  },
+  "google-auth": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/google-auth/SKILL.md"
+  },
+  "frontend-performance": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/frontend-performance/SKILL.md"
+  },
+  "agent-orchestrator": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/agent-orchestrator/SKILL.md"
+  },
+  "agent-evals": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/agent-evals/SKILL.md"
+  },
+  "agent-interop": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/agent-interop/SKILL.md"
+  },
+  "agent-harness": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/agent-harness/SKILL.md"
+  },
+  "telegram-bots": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/telegram-bots/SKILL.md"
+  },
+  "telegram-userbots": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/telegram-userbots/SKILL.md"
+  },
+  "telegram-miniapps": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/telegram-miniapps/SKILL.md"
+  },
+  "quest-lifecycle": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/quest-lifecycle/SKILL.md"
+  },
+  "quest-native": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/quest-native/SKILL.md"
+  },
+  "quest-spatial": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/quest-spatial/SKILL.md"
+  },
+  "quest-perf": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/quest-perf/SKILL.md"
+  },
+  "quest-tooling": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/quest-tooling/SKILL.md"
+  },
+  "quest-store": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/quest-store/SKILL.md"
+  },
+  "quest-webxr": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/quest-webxr/SKILL.md"
+  },
+  "web3d-runtime": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/web3d-runtime/SKILL.md"
+  },
+  "web3d-assets": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/web3d-assets/SKILL.md"
+  },
+  "web3d-animation": {
+   "status": "Enabled",
+   "location": "~/.agents/skills/web3d-animation/SKILL.md"
+  }
+ }
+}

@@ -1,0 +1,32 @@
+{
+ "pi_version": "1.1.0",
+ "agentDir": "~/.pi/agent",
+ "loaded_total": 498,
+ "family_loaded": 39,
+ "family_missing": [],
+ "family_roots": [
+  "~/.pi/agent/skills",
+  "~/.agents/skills"
+ ],
+ "diagnostics_total": 2,
+ "diag_types": {
+  "warning": 2
+ },
+ "family_collisions": 0,
+ "rootCount": {
+  "~/.pi/agent/skills": 455,
+  "~/.agents/skills": 43
+ },
+ "sample_diag": [
+  {
+   "type": "warning",
+   "message": "description exceeds 1024 characters (1068)",
+   "path": "~/.pi/agent/skills/claude-api/SKILL.md"
+  },
+  {
+   "type": "warning",
+   "message": "name contains invalid characters (must be lowercase a-z, 0-9, hyphens only)",
+   "path": "~/.pi/agent/skills/ui-toolkit-web/SKILL.md"
+  }
+ ]
+}

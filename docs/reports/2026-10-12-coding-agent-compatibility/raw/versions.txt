@@ -1,0 +1,16 @@
+claude	2.1.296 (Claude Code)
+codex	codex-cli 0.162.1
+opencode	1.18.10
+kimi	2.1.1
+gemini	0.63.0
+pi	1.1.0
+hermes	Hermes Agent v0.21.4 (2026.9.21) · upstream a928a959
+cursor-agent	2026.09.02-c22c1a3
+cursor IDE	ls: /Applications/Cursor.app: No such file or directory
+hub package.json 1.57.0 / skillsCli skills@1.7.2
+├── @anthropic-ai/claude-code@2.1.296
+├── @earendil-works/pi-coding-agent@1.1.0
+├── @google/gemini-cli@0.63.0
+├── @kilocode/cli@7.4.17
+├── @moonshot-ai/kimi-code@2.1.1
+├── @openhands/agent-canvas@1.10.0
