@@ -1,4 +1,4 @@
-## Unreleased (1.56.0, pending its release PR) — the hooks say less, and `update` finishes the job
+## v1.56.0 — the hooks say less, and `update` finishes the job
 
 Wave 1 of the integration plan (R01-R06; board B-155..B-159), with its two certification fix
 rounds and a final polish.
