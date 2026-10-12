@@ -26,25 +26,37 @@ it('a settings file we just wrote reports nothing', () => {
   assert.deepStrictEqual(D.check(installed(), ROOT), []);
 });
 
-it('an entry someone deleted is reported missing', () => {
+// ONE RULE FOR "OUR ENTRY IS CURRENT" (fix round 2, A). `hooks status`, `hooks install`,
+// `update` and this detector all judge an entry by the fields this pack writes
+// (`lib/hooks.js` OWN_*_KEYS). An operator's `timeout` on our entry is theirs, not a
+// displacement; and an entry that is gone cannot be told apart from one the operator
+// removed by hand, so it is listed by `hooks status` on demand and never nagged about at
+// every session start (whose named repair, `hooks install`, would put it back).
+
+it('a field the operator added to our entry is not reported as altered (A)', () => {
+  const s = installed();
+  s.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  s.hooks.SessionStart[0].note = 'mine';
+  s.statusLine.padding = 0;
+  assert.deepStrictEqual(D.check(s, ROOT), [],
+    'an operator field read as our entry no longer matching — the repair would delete it');
+});
+
+it('an entry that is gone is not nagged about: removed by hand looks the same (A)', () => {
   const s = installed();
   delete s.hooks.PreToolUse;
-  const rows = D.check(s, ROOT);
-  assert.deepStrictEqual(rows, [{ key: 'PreToolUse', state: 'missing' }]);
+  delete s.statusLine;
+  assert.deepStrictEqual(D.check(s, ROOT), [],
+    'a hand-removed entry was reported every session, with a repair that re-adds it');
 });
 
-it('an entry someone rewrote is reported altered, not missing', () => {
-  // Different repairs and different stories: one says another installer dropped
-  // us, the other says it edited us. Collapsing them loses which happened.
+it('an entry someone rewrote is reported altered, with the field that differs', () => {
   const s = installed();
   s.hooks.UserPromptSubmit[0].hooks[0].command = `node "${ROOT}/hooks/user-prompt-submit.js" --их-флаг`;
-  assert.deepStrictEqual(D.check(s, ROOT), [{ key: 'UserPromptSubmit', state: 'altered' }]);
-});
-
-it('a status line dropped entirely is reported', () => {
-  const s = installed();
-  delete s.statusLine;
-  assert.ok(D.check(s, ROOT).some((r) => r.key === 'statusLine' && r.state === 'missing'));
+  assert.deepStrictEqual(D.check(s, ROOT), [{ key: 'UserPromptSubmit', state: 'altered', reason: 'command' }]);
+  const m = installed();
+  m.hooks.PreToolUse[0].matcher = 'Edit';
+  assert.deepStrictEqual(D.check(m, ROOT), [{ key: 'PreToolUse', state: 'altered', reason: 'matcher' }]);
 });
 
 it('a status line another tool legitimately holds is NOT a displacement', () => {
@@ -62,31 +74,42 @@ it('another pack hooking the same event is not a displacement', () => {
   assert.deepStrictEqual(D.check(s, ROOT), [], 'a co-existing hook was read as displacing ours');
 });
 
-it('an empty settings file reports every entry, and does not throw', () => {
-  const rows = D.check({}, ROOT);
-  assert.strictEqual(rows.length, H.EVENTS.length + 1, `expected every event plus statusLine, got ${rows.length}`);
-  assert.deepStrictEqual(D.check(undefined, ROOT), rows);
+it('an empty settings file reports nothing, and does not throw', () => {
+  assert.deepStrictEqual(D.check({}, ROOT), []);
+  assert.deepStrictEqual(D.check(undefined, ROOT), []);
 });
 
 it('the expectation comes from lib/hooks.js, so a rename cannot desynchronise it', () => {
   // If this module carried its own copy of the plan, adding an event would leave
   // the detector describing an install nobody performs.
   const s = installed();
-  for (const e of H.EVENTS) delete s.hooks[e];
-  const reported = D.check(s, ROOT).filter((r) => r.state === 'missing').map((r) => r.key);
+  for (const e of H.EVENTS) s.hooks[e][0].hooks[0].async = true;
+  const reported = D.check(s, ROOT).filter((r) => r.state === 'altered').map((r) => r.key);
   for (const e of H.EVENTS) assert.ok(reported.includes(e), `${e} is wired but not watched`);
 });
 
+it('the detector and `update` agree: what it reports is exactly what a refresh would change (A)', () => {
+  const s = installed();
+  s.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  s.hooks.PreToolUse[0].matcher = 'Edit';
+  delete s.hooks.Notification;
+  const refresh = H.plan(s, ROOT, { refreshOnly: true }).reasons.map((r) => r.event);
+  assert.deepStrictEqual(refresh, ['PreToolUse'], 'the control: a refresh changes the matcher alone');
+  assert.deepStrictEqual(D.check(s, ROOT).map((r) => r.key), refresh);
+});
+
 it('the record survives as data, because the event that makes it cannot speak', () => {
-  const rec = D.record(D.check({}, ROOT), '2026-08-12T10:00:00Z');
+  const s = installed();
+  s.hooks.PreToolUse[0].matcher = 'Edit';
+  const rec = D.record(D.check(s, ROOT), '2026-08-12T10:00:00Z');
   assert.strictEqual(rec.at, '2026-08-12T10:00:00Z');
   assert.ok(rec.entries.length);
-  assert.ok(rec.entries.every((e) => /:(missing|altered)$/.test(e)), `unreadable record: ${rec.entries}`);
+  assert.ok(rec.entries.every((e) => /:altered$/.test(e)), `unreadable record: ${rec.entries}`);
 });
 
 it('the report names the count and the repair', () => {
-  const out = D.render(D.record([{ key: 'PreToolUse', state: 'missing' }], '2026-08-12T10:00:00Z'));
-  assert.match(out, /PreToolUse:missing/);
+  const out = D.render(D.record([{ key: 'PreToolUse', state: 'altered' }], '2026-08-12T10:00:00Z'));
+  assert.match(out, /PreToolUse:altered/);
   assert.match(out, /hooks install/, 'the report does not say how to fix it');
   assert.match(out, /Nothing was blocked/, 'the report must say it did not interfere');
 });
@@ -94,6 +117,19 @@ it('the report names the count and the repair', () => {
 it('nothing recorded renders nothing', () => {
   assert.strictEqual(D.render(null), '');
   assert.strictEqual(D.render({ entries: [] }), '');
+});
+
+// Final polish, item 4: a record parked before 1.56.0 can hold `<Event>:missing` rows that
+// check() no longer produces (an entry that is gone is not reported). Rendering them told
+// the operator to run `hooks install`, which re-adds what they removed by hand.
+it('a parked record renders only its altered rows; missing rows from an older release say nothing (final polish 4)', () => {
+  assert.strictEqual(D.render({ at: 'x', entries: ['Notification:missing'] }), '',
+    'a pre-upgrade missing row was rendered as a displacement');
+  const mixed = D.render({ entries: ['Notification:missing', 'PreToolUse:altered'] });
+  assert.match(mixed, /1 of this pack's entries/);
+  assert.ok(!/Notification/.test(mixed), `a missing row was named: ${mixed}`);
+  assert.deepStrictEqual(D.live({ entries: ['A:missing', 'B:altered'] }), ['B:altered']);
+  assert.deepStrictEqual(D.live(null), []);
 });
 
 if (failures.length) {

@@ -49,20 +49,48 @@ process.stdin.on('end', () => {
     // overwrote the routes the real prompt had armed — the escalation went quiet
     // for the rest of a turn that HAD routed (found by the 2026-09-07 review).
     // The lib decides what a system turn is; this file only declines to write.
-    if (!triggers.isSystemTurn(prompt)) {
+    //
+    // `noted` (R01): routes this session already printed. An unreadable record means
+    // none, which prints as before — fail open toward showing, never toward hiding.
+    // Only with a session id (fix round, risk a; fix round 2, H): every id-less payload maps
+    // to the same `turns/unknown.json`, so ANY record kept there — `noted`, the routes, `asked`
+    // or the sticky `optedOut` — would let one caller's prompt arm, hide or silence another's.
+    // No id, no record at all: the note prints every time (the safe direction), and the
+    // PreToolUse escalation, which needs the record, does not fire for an id-less caller.
+    const system = triggers.isSystemTurn(prompt);
+    const turnstate = require(path.join(__dirname, '..', 'lib', 'turnstate.js'));
+    // One key for every hook (final polish 5): trimmed, and '' for an id whose file key is
+    // the shared fallback ('...', 'unknown'), which is no id at all.
+    const sessionId = turnstate.sessionKey(data.session_id);
+    let noted = [];
+    if (!system && sessionId) {
       try {
-        const turnstate = require(path.join(__dirname, '..', 'lib', 'turnstate.js'));
-        turnstate.write(os.homedir(), data.session_id, {
+        const n = turnstate.read(os.homedir(), sessionId).noted;
+        if (Array.isArray(n)) noted = n;
+      } catch (e) { noted = []; }
+    }
+    const routes = system ? [] : triggers.match(prompt, { external });
+    if (!system && sessionId) {
+      try {
+        turnstate.write(os.homedir(), sessionId, {
           promptId: data.prompt_id || null,
-          routes: triggers.match(prompt, { external }),
+          routes,
           optedOut: triggers.optedOut(prompt),
           asked: false,
         });
       } catch (e) { /* a hint that cannot be stored is a hint that does not happen */ }
     }
 
-    const out = triggers.render(prompt, { external });
-    if (out) process.stdout.write(out + '\n');
+    const out = triggers.render(prompt, { external, noted });
+    if (out) {
+      process.stdout.write(out + '\n');
+      if (sessionId) {
+        try {
+          turnstate.write(os.homedir(), sessionId,
+            { noted: Array.from(new Set(noted.concat(routes))) });
+        } catch (e) { /* unrecorded means shown again, the safe direction */ }
+      }
+    }
   } catch (e) {
     // Silence, deliberately. The alternative is a stack trace injected into the
     // model's context on a turn the operator did not ask anything of this hook.

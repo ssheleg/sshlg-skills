@@ -1,12 +1,60 @@
 # Start here — sshlg-skills
 
-Snapshot: 2026-10-11. This page selects evidence and the next bounded action;
+Snapshot: 2026-10-12. This page selects evidence and the next bounded action;
 [skills.json](../skills.json) owns the current member inventory and pins.
 Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 [standing retrospective instructions](evidence/retro.md) and the
 [repository handoff rule](working-rules/repository-handoff.md) before editing.
 
-## Current delivery — family round 1.55.0 (2026-10-10/11)
+## In flight — integration waves (2026-10-11, lease `WAVES-1011`)
+
+`/task-pipeline waves` over the whole board, with the operator's emphasis on
+optimization and the family working with Fabric, Observatory and every coding agent.
+[Brief + REQ table](evidence/briefs/2026-10-11-integration-waves.md) ·
+[canvas](evidence/specs/2026-10-11-integration-waves-canvas.md) ·
+[plan + task packets](evidence/plans/2026-10-11-integration-waves.md) ·
+[inventory](evidence/specs/2026-10-11-integration-waves-inventory.json) (238 items:
+81 in waves 1–5, 3 operator, 154 program — counted from the committed JSON's `wave` field;
+regenerate with `python3 docs/evidence/specs/2026-10-11-integration-waves-assign.py`).
+Branch `waves/2026-10-11-integration`. New hub rows B-155…B-163.
+
+**Wave 1 (hub skeleton, R01–R06) is built and has had two fix rounds on PR #192** (branch
+`w1/hub-skeleton`): W1-A…W1-F delivered; the first round's twelve findings and thirteen risks,
+and the second blind reading's six breaks and seven risks (A–M), are mapped to commits and tests
+in the [wave-1 receipt](evidence/runs/2026-10-12-wave1.md), sections *Fix round* and
+*Fix round 2*. A third blind reading passed all three tiers at `244d67a`; the remaining risks
+were closed without another review round in the receipt's *Final polish* section (nine items:
+the lock refusal exits 75, the store lock never spins, `config.json` merges under its lock, a
+stale parked displacement is cleared, one session-id key, `hooks remove` keeps foreign hooks,
+the `hooks install` caveat, the documents, and `--agent` skipping the Claude plugin step).
+
+**Exact next bounded tasks (orchestrator):**
+1. Certify PR #192 again (unit, seam, product), then merge it and cut the 1.56.0 release
+   (rename the CHANGELOG's `Unreleased (1.56.0 …)` heading, bump `package.json`). Send the
+   Fabric Dashboards ask in B-163 (exit 75 from `update` is busy, not failed; exit 2 is a
+   usage error).
+2. On this machine, after the release: run `npx sshlg-skills@latest routers --dry-run` (plain
+   `routers` writes) to see the protocol sentence change `update` is about to write — `update`
+   rewrites the managed block in all four instruction files itself (`cmdUpdate` →
+   `refreshBlock(f, 'update')`), so there is no separate decision to make; then
+   `npx sshlg-skills@latest update`; then `routers --dry-run` again, expecting no change; then
+   read `npx sshlg-skills hooks` — clean status (or only "не подключено здесь" lines for entries
+   removed on purpose) closes B-157.
+3. Then waves 2–5 per the [plan](evidence/plans/2026-10-11-integration-waves.md); task-pipeline's
+   wave-2 release closes B-160 once pinned here.
+
+**W1-G (plugins scoped, operator decision 2026-10-12):** `figma`, `stripe` and `cloudflare` are
+off at user scope and on in these repositories' git-ignored `.claude/settings.local.json` —
+figma: longevity-app, nicegram-business, ai-girlfriend-app, sshlg-skills, fabric,
+mobile-publisher-agent, heygen-hyperframes-vr; stripe: screen-record-studio; cloudflare:
+fabric-inbox, screen-record-studio, nicegram-business, project-observatory,
+nicegram-ad-manager-bot, sshlg-analytics, sms-activate-app-website. To enable one elsewhere,
+merge `"enabledPlugins": {"figma@claude-plugins-official": true}` (or
+`stripe@claude-plugins-official`, `cloudflare@cloudflare`) into that repository's
+`.claude/settings.local.json` and read the file back — `claude plugin enable --scope local`
+reports success and writes nothing (B-162).
+
+## Previous delivery — family round 1.55.0 (2026-10-10/11)
 
 [Brief](evidence/briefs/2026-10-10-family-round.md) · [plan](evidence/plans/2026-10-10-family-round.md) ·
 [delivery receipt](evidence/family-round-1010/DELIVERY.md). Lease `FAMILY-ROUND-1010`.
@@ -53,7 +101,7 @@ tokens, offline verification, the meter token, `approval/1`, one refusal vocabul
 Fabric `fabric-delegation/0.1` as the worked example. Installed and read back (83/83,
 Continue 39/39, 137/137 payloads, Codex native 0.26.0).
 
-**Exact next bounded task:** B-147 — paired routing eval of the search-first
+**Former next task (now R27, wave 4):** B-147 — paired routing eval of the search-first
 protocol and `skill-search` (arms with/without the protocol sentence, per
 `test/evals/README.md`), then decide whether Codex needs its own core list.
 

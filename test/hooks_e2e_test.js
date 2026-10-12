@@ -283,6 +283,56 @@ it('session start returns the pointer, and a title only where one lands', () => 
     'a title was sent on `compact`, where the reference says it is ignored');
 });
 
+it('the injectors line prints once per set and again only when the set changes (R02)', () => {
+  const saved = fs.existsSync(SETTINGS) ? fs.readFileSync(SETTINGS, 'utf8') : null;
+  const state = path.join(HOME, '.sshlg-skills', 'state.json');
+  const savedState = fs.existsSync(state) ? fs.readFileSync(state, 'utf8') : null;
+  try {
+    const plugin = (name) => write(path.join(HOME, '.claude', 'plugins', 'cache', 'mk', name, '1.0.0',
+      'hooks', 'hooks.json'), JSON.stringify({ hooks: { SessionStart: [] } }));
+    plugin('alpha'); plugin('beta');
+    const enable = (...names) => write(SETTINGS, JSON.stringify({
+      enabledPlugins: Object.fromEntries(names.map((n) => [`${n}@mk`, true])) }));
+    const start = () => runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' })
+      .hookSpecificOutput.additionalContext;
+    fs.rmSync(state, { force: true });
+    enable('alpha');
+    assert.match(start(), /Also speaking at SessionStart: alpha/, 'the first sighting printed nothing');
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(state, 'utf8')).injectors, ['alpha@mk']);
+    assert.ok(!/Also speaking/.test(start()), 'an unchanged set was printed again');
+    enable('alpha', 'beta');
+    assert.match(start(), /alpha, beta/, 'a grown set was not announced');
+    assert.ok(!/Also speaking/.test(start()));
+  } finally {
+    if (saved === null) fs.rmSync(SETTINGS, { force: true }); else fs.writeFileSync(SETTINGS, saved);
+    if (savedState === null) fs.rmSync(state, { force: true }); else fs.writeFileSync(state, savedState);
+  }
+});
+
+// Risk f, decided: the injectors record is MACHINE-WIDE, not per session. The line says
+// which plugins are enabled on this machine — a fact about the machine, not about a
+// context — so a second session (any id) with the same set is told nothing new. `noted`
+// is per session because a route note is about one context. Both are stated in the hook's
+// docstring and the README hooks table.
+it('the injectors record is machine-wide: a different session with the same set is not told again (risk f)', () => {
+  const saved = fs.existsSync(SETTINGS) ? fs.readFileSync(SETTINGS, 'utf8') : null;
+  const state = path.join(HOME, '.sshlg-skills', 'state.json');
+  const savedState = fs.existsSync(state) ? fs.readFileSync(state, 'utf8') : null;
+  try {
+    write(path.join(HOME, '.claude', 'plugins', 'cache', 'mk', 'gamma', '1.0.0', 'hooks', 'hooks.json'),
+      JSON.stringify({ hooks: { SessionStart: [] } }));
+    write(SETTINGS, JSON.stringify({ enabledPlugins: { 'gamma@mk': true } }));
+    fs.rmSync(state, { force: true });
+    const start = (id) => runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup', session_id: id })
+      .hookSpecificOutput.additionalContext;
+    assert.match(start('session-one'), /Also speaking at SessionStart: gamma/);
+    assert.ok(!/Also speaking/.test(start('session-two')), 'a second session was told the same set again');
+  } finally {
+    if (saved === null) fs.rmSync(SETTINGS, { force: true }); else fs.writeFileSync(SETTINGS, saved);
+    if (savedState === null) fs.rmSync(state, { force: true }); else fs.writeFileSync(state, savedState);
+  }
+});
+
 it('the ledger moving produces one line, and a deleted ledger produces none', () => {
   const project = fs.mkdtempSync(path.join(os.tmpdir(), 'proj-'));
   const ledger = path.join(project, '.task-pipeline', 'run.md');
@@ -348,11 +398,11 @@ it('`hooks remove` restores the file byte for byte', () => {
     'remove is not an undo — something of ours was left behind, or something of theirs was lost');
 });
 
-it('displacement: an entry someone else drops is recorded, then reported next session', () => {
+it('displacement: an entry someone else rewrites is recorded, then reported next session', () => {
   write(SETTINGS, '{}\n');
   cli(['hooks', 'install']);
   const s = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
-  delete s.hooks.PreToolUse;                       // another installer rewrites the file
+  s.hooks.PreToolUse[0].matcher = 'Edit';          // another installer rewrites our entry
   fs.writeFileSync(SETTINGS, JSON.stringify(s, null, 2) + '\n');
 
   const spoke = runHook('config-change.js',
@@ -361,9 +411,20 @@ it('displacement: an entry someone else drops is recorded, then reported next se
     'ConfigChange spoke — the reference says every channel it has is discarded');
 
   const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
-  assert.match(started.hookSpecificOutput.additionalContext, /PreToolUse:missing/,
+  assert.match(started.hookSpecificOutput.additionalContext, /PreToolUse:altered/,
     'the notice never reached a hook that can speak');
   assert.match(started.hookSpecificOutput.additionalContext, /hooks install/);
+});
+
+// Final polish, item 4: a record parked before 1.56.0 can hold `<Event>:missing` rows.
+it('a parked pre-upgrade `missing` row prints no displacement line, and the stale record is cleared (final polish 4)', () => {
+  const configLib = require(path.join(ROOT, 'lib', 'config.js'));
+  configLib.stashSet(HOME, 'displaced:entries', JSON.stringify({ at: '2026-10-01T00:00:00Z', entries: ['Notification:missing'] }));
+  const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup', session_id: 'e2e-park' });
+  assert.ok(!/no longer match|Notification:missing/.test(started.hookSpecificOutput.additionalContext),
+    `a pre-upgrade missing row was announced:\n${started.hookSpecificOutput.additionalContext}`);
+  assert.strictEqual(configLib.stashGet(configLib.readConfig(HOME), 'displaced:entries'), undefined,
+    'the record holding nothing current was kept');
 });
 
 it('a repaired settings file stops being reported', () => {
@@ -373,6 +434,290 @@ it('a repaired settings file stops being reported', () => {
   const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
   assert.ok(!/displaced|no longer match/.test(started.hookSpecificOutput.additionalContext),
     'a displacement that was repaired is still being announced');
+});
+
+// --- one rule for "our entry is current" (fix round 2, A) ------------------
+//
+// `update` kept an operator's `timeout` while `hooks status` and the ConfigChange detector
+// still compared whole entries: every session start then said "N of this pack's entries no
+// longer match … Repair: hooks install", and that repair deleted the field. Now every path
+// judges by the fields this pack writes, and an entry that is gone is listed by `hooks
+// status` on demand, never nagged about at session start.
+
+function operatorTuned() {
+  write(SETTINGS, JSON.stringify({ env: { KEEP: '1' } }, null, 2) + '\n');
+  cli(['hooks', 'install']);
+  const s = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
+  s.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  s.statusLine.padding = 0;
+  fs.writeFileSync(SETTINGS, JSON.stringify(s, null, 2) + '\n');
+  return s;
+}
+
+it('an operator timeout is not a displacement: no "no longer match" line, and `hooks status` is clean (A)', () => {
+  operatorTuned();
+  runHook('config-change.js', { hook_event_name: 'ConfigChange', source: 'user_settings', file_path: SETTINGS });
+  const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
+  assert.ok(!/no longer match/.test(started.hookSpecificOutput.additionalContext),
+    `an operator field was announced as a displacement:\n${started.hookSpecificOutput.additionalContext}`);
+  const status = cli(['hooks', 'status']);
+  assert.match(status, /всё на месте и совпадает/, `status called an operator field stale:\n${status}`);
+});
+
+it('a hand-removed event: status lists it as not wired here, session start does not nag (A)', () => {
+  const s = operatorTuned();
+  delete s.hooks.Notification;
+  fs.writeFileSync(SETTINGS, JSON.stringify(s, null, 2) + '\n');
+  runHook('config-change.js', { hook_event_name: 'ConfigChange', source: 'user_settings', file_path: SETTINGS });
+  const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
+  assert.ok(!/no longer match/.test(started.hookSpecificOutput.additionalContext),
+    `a hand-removed entry was announced at session start:\n${started.hookSpecificOutput.additionalContext}`);
+  const status = cli(['hooks', 'status']);
+  assert.match(status, /не подключено здесь[^\n]*Notification/, `status did not list the removed event:\n${status}`);
+  assert.ok(!/UserPromptSubmit: timeout/.test(status), `status called the operator's timeout stale:\n${status}`);
+});
+
+it('`hooks install` keeps the operator\'s timeout and padding, and a second install changes nothing (A)', () => {
+  operatorTuned();
+  const before = sha(SETTINGS);
+  cli(['hooks', 'install']);
+  const after = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
+  assert.strictEqual(after.hooks.UserPromptSubmit[0].hooks[0].timeout, 5, 'install deleted the operator\'s timeout');
+  assert.strictEqual(after.statusLine.padding, 0, 'install deleted the operator\'s padding');
+  assert.strictEqual(sha(SETTINGS), before, 'install rewrote a file whose entries were current');
+  cli(['hooks', 'install']);
+  assert.strictEqual(sha(SETTINGS), before, 'the second install rewrote the file');
+});
+
+const FOREIGN_HOOK_E2E = { matcher: 'startup', hooks: [{ type: 'command', command: 'other-pack session-start' }] };
+// --- `update` re-wires a machine that has consented (R03) -------------------
+//
+// The real `update` command, three times, against a real settings.json. The network and
+// the other tools it drives (git, npx, claude) are replaced by PATH stubs that exit 0:
+// what is under test is the wiring step and the file it writes, not the skills CLI.
+
+function updateEnv() {
+  // inside HOME, so the suite's own cleanup removes it
+  const stubs = fs.mkdtempSync(path.join(HOME, 'update-stubs-'));
+  for (const name of ['git', 'npx', 'npm', 'claude']) {
+    write(path.join(stubs, name), '#!/bin/sh\nexit 0\n');
+    fs.chmodSync(path.join(stubs, name), 0o755);
+  }
+  return Object.assign({}, ENV, { PATH: `${stubs}:${process.env.PATH}` });
+}
+function update(env) {
+  const r = spawnSync('node', [path.join(ROOT, 'bin', 'sshlg-skills.js'), 'update'],
+    { encoding: 'utf8', env });
+  return { out: `${r.stdout}${r.stderr}`, status: r.status };
+}
+
+it('THREE real runs of `update` re-wire a stale matcher once and then change nothing (R03)', () => {
+  const env = updateEnv();
+  write(SETTINGS, JSON.stringify({ env: { KEEP: '1' } }, null, 2) + '\n');
+  cli(['hooks', 'install']);
+  // 1.55.0 shape: the PreToolUse matcher without the MCP credential tools
+  const s = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
+  const full = s.hooks.PreToolUse[0].matcher;
+  s.hooks.PreToolUse[0].matcher = 'Edit|Write|MultiEdit|NotebookEdit|Bash';
+  fs.writeFileSync(SETTINGS, JSON.stringify(s, null, 2) + '\n');
+  const stale = sha(SETTINGS);
+
+  const first = update(env);
+  assert.ok(/Hook wiring/.test(first.out) && /PreToolUse: matcher/.test(first.out),
+    `the first update did not name the stale matcher:\n${first.out.slice(-600)}`);
+  const h1 = sha(SETTINGS);
+  assert.notStrictEqual(h1, stale, 'the first update changed nothing');
+  const after = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
+  assert.strictEqual(after.hooks.PreToolUse[0].matcher, full, 'the matcher is still stale');
+  assert.strictEqual(after.env.KEEP, '1', 'something outside our entries was lost');
+
+  update(env);
+  const h2 = sha(SETTINGS);
+  update(env);
+  const h3 = sha(SETTINGS);
+  assert.strictEqual(h2, h1, 'the second update changed the file again');
+  assert.strictEqual(h3, h1, 'the third update changed the file again');
+  const status = cli(['hooks', 'status']);
+  assert.match(status, /всё на месте и совпадает/, 'status still reports a stale entry after update');
+});
+
+it('`update` with no entry of ours in settings.json writes nothing (no consent) (R03)', () => {
+  const env = updateEnv();
+  const body = JSON.stringify({ env: { A: '1' }, hooks: { SessionStart: [FOREIGN_HOOK_E2E] } }, null, 2) + '\n';
+  write(SETTINGS, body);
+  const r = update(env);
+  assert.strictEqual(fs.readFileSync(SETTINGS, 'utf8'), body, 'update wrote hooks into a machine that never consented');
+  assert.ok(!/Hook wiring/.test(r.out), 'update announced wiring work it did not do');
+});
+
+// --- the fix round: scope, preview, operator fields, removals, foreign status line ---
+
+/** A consented machine whose PreToolUse matcher is the 1.55.0 one. Returns the parsed file. */
+function staleInstall() {
+  write(SETTINGS, JSON.stringify({ env: { KEEP: '1' } }, null, 2) + '\n');
+  cli(['hooks', 'install']);
+  const s = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
+  s.hooks.PreToolUse[0].matcher = 'Edit|Write|MultiEdit|NotebookEdit|Bash';
+  return s;
+}
+function saveSettings(s) { fs.writeFileSync(SETTINGS, JSON.stringify(s, null, 2) + '\n'); }
+function readSettings() { return JSON.parse(fs.readFileSync(SETTINGS, 'utf8')); }
+function updateWith(env, args) {
+  const r = spawnSync('node', [path.join(ROOT, 'bin', 'sshlg-skills.js'), 'update'].concat(args),
+    { encoding: 'utf8', env });
+  return { out: `${r.stdout}${r.stderr}`, status: r.status };
+}
+const FULL_MATCHER = require('../lib/hooks.js').entries('/x').PreToolUse.matcher;
+
+it('`update --no-claude` and `update --agent codex` leave settings.json alone and say so (#2)', () => {
+  const env = updateEnv();
+  saveSettings(staleInstall());
+  const before = sha(SETTINGS);
+  for (const [args, flag] of [[['--no-claude'], '--no-claude'], [['--agent', 'codex'], '--agent codex']]) {
+    const r = updateWith(env, args);
+    assert.strictEqual(sha(SETTINGS), before, `\`update ${flag}\` rewrote ~/.claude/settings.json`);
+    assert.ok(new RegExp(`Hook wiring[\\s\\S]*skipped: ${flag}`).test(r.out),
+      `\`update ${flag}\` did not say the wiring was skipped:\n${r.out.slice(-500)}`);
+  }
+  // the control: the same machine, unscoped, IS re-wired — so the two above prove scope
+  const r = updateWith(env, []);
+  assert.ok(/PreToolUse: matcher/.test(r.out), 'the control did not re-wire — the fixture proves nothing');
+});
+
+it('`update --dry-run` names the settings.json write and the stale field, and writes nothing (#3)', () => {
+  const env = updateEnv();
+  saveSettings(staleInstall());
+  const before = sha(SETTINGS);
+  const r = updateWith(env, ['--dry-run']);
+  assert.strictEqual(sha(SETTINGS), before, 'a preview wrote settings.json');
+  assert.ok(r.out.includes(SETTINGS), `the receipt does not name settings.json:\n${r.out.slice(-800)}`);
+  assert.ok(/hooks-wiring/.test(r.out), 'the receipt has no hooks-wiring step');
+  assert.ok(/PreToolUse: matcher/.test(r.out), 'the receipt does not say which field is stale');
+  const scoped = updateWith(env, ['--dry-run', '--no-claude']);
+  assert.ok(/hooks-wiring[\s\S]*out of scope/.test(scoped.out), 'a scoped preview does not say the wiring is out of scope');
+});
+
+it('fields the operator added to our entries survive `update`, and the reasons are true (#7)', () => {
+  const env = updateEnv();
+  const s = staleInstall();
+  s.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  s.statusLine.padding = 0;
+  saveSettings(s);
+  const r = updateWith(env, []);
+  const after = readSettings();
+  assert.strictEqual(after.hooks.UserPromptSubmit[0].hooks[0].timeout, 5, 'the operator\'s timeout was dropped');
+  assert.strictEqual(after.statusLine.padding, 0, 'the operator\'s padding was dropped');
+  assert.strictEqual(after.hooks.PreToolUse[0].matcher, FULL_MATCHER.replace('/x', ''), 'the stale matcher was not fixed');
+  assert.ok(/PreToolUse: matcher/.test(r.out), r.out.slice(-500));
+  assert.ok(!/UserPromptSubmit: /.test(r.out) && !/statusLine: /.test(r.out),
+    `an entry whose matcher and command are current was reported as changed:\n${r.out.slice(-500)}`);
+  const again = sha(SETTINGS);
+  updateWith(env, []);
+  assert.strictEqual(sha(SETTINGS), again, 'the second update changed the file');
+});
+
+it('entries the operator removed by hand stay removed across three updates (risk c)', () => {
+  const env = updateEnv();
+  const s = staleInstall();
+  delete s.statusLine;
+  delete s.hooks.Notification;
+  saveSettings(s);
+  const hashes = [];
+  for (let i = 0; i < 3; i += 1) {
+    updateWith(env, []);
+    const now = readSettings();
+    assert.ok(!('statusLine' in now), `run ${i + 1} put back a status line the operator removed`);
+    assert.ok(!('Notification' in now.hooks), `run ${i + 1} put back a Notification hook the operator removed`);
+    assert.strictEqual(now.hooks.PreToolUse[0].matcher, FULL_MATCHER.replace('/x', ''));
+    hashes.push(sha(SETTINGS));
+  }
+  assert.strictEqual(hashes[1], hashes[0]);
+  assert.strictEqual(hashes[2], hashes[0]);
+});
+
+// Fix round 2, K. `update` refreshes only entries that are present, so a family event a later
+// release adds is never wired by it — and nothing said so. Each event of ours that is not wired
+// is now named with the remedy, by the run and by its preview.
+it('`update` and `update --dry-run` name every family event not wired here, with the `hooks install` remedy (K)', () => {
+  const env = updateEnv();
+  const s = staleInstall();
+  delete s.hooks.Notification;
+  delete s.hooks.FileChanged;
+  saveSettings(s);
+  for (const args of [['--dry-run'], []]) {
+    const r = updateWith(env, args);
+    for (const ev of ['Notification', 'FileChanged']) {
+      assert.ok(new RegExp(`${ev}: not wired here[^\\n]*hooks install`).test(r.out),
+        `\`update ${args.join(' ')}\` did not name ${ev} with its remedy:\n${r.out.slice(-900)}`);
+    }
+    assert.ok(!/PostToolUse: not wired/.test(r.out), 'a wired event was reported as not wired');
+    // final polish 7: the remedy re-adds EVERY removed entry, which an operator who removed
+    // one on purpose must be told before running it
+    assert.ok(/`hooks install` re-adds every removed family entry/.test(r.out),
+      `\`update ${args.join(' ')}\` did not say that \`hooks install\` re-adds every removed entry:\n${r.out.slice(-900)}`);
+  }
+  assert.ok(!('Notification' in readSettings().hooks), 'update added an event — only `hooks install` adds');
+});
+
+// Fix round 2, L. `--no-claude` (and an `--agent` list, which can never name Claude) skipped
+// the settings.json wiring but still refreshed the runtime copy those entries execute — new
+// scripts under old wiring. The runtime copy now follows the same scope as the wiring.
+it('`update --no-claude` leaves the wired runtime copy alone too, and says so (L)', () => {
+  const env = updateEnv();
+  saveSettings(staleInstall());
+  const rt = path.join(HOME, '.sshlg-skills', 'runtime', 'hooks', 'notification.js');
+  const original = fs.readFileSync(rt, 'utf8');
+  fs.writeFileSync(rt, original + '\n// stale\n');
+  try {
+    for (const [args, flag] of [[['--no-claude'], '--no-claude'], [['--agent', 'codex'], '--agent codex']]) {
+      const r = updateWith(env, args);
+      assert.ok(fs.readFileSync(rt, 'utf8').endsWith('// stale\n'),
+        `\`update ${flag}\` refreshed the runtime copy while skipping its wiring`);
+      assert.ok(new RegExp(`Wired hook runtime[\\s\\S]*skipped: ${flag}`).test(r.out),
+        `\`update ${flag}\` did not say the runtime copy was skipped:\n${r.out.slice(-700)}`);
+      const dry = updateWith(env, args.concat(['--dry-run']));
+      assert.ok(/runtime-sync:[^\n]*out of scope/.test(dry.out), `the preview of \`${flag}\` would refresh the runtime:\n${dry.out.slice(-900)}`);
+    }
+    // the control: unscoped, the copy IS refreshed
+    updateWith(env, []);
+    assert.strictEqual(fs.readFileSync(rt, 'utf8'), original, 'the control did not refresh the runtime — the fixture proves nothing');
+  } finally {
+    fs.writeFileSync(rt, original);
+  }
+});
+
+// Final polish, item 8. An `--agent` list skipped the routing block, the wiring and the
+// runtime copy (the Claude host is out of its scope) but still ran `claude plugin update`
+// for every member. Decided: the Claude plugin step follows the same scope (`claudeScope`).
+it('`update --agent codex` runs no Claude plugin step, in the run or its preview; unscoped does (final polish 8)', () => {
+  const env = updateEnv();
+  saveSettings(staleInstall());
+  const calls = path.join(HOME, 'claude-calls.log');
+  const stubDir = env.PATH.split(':')[0];
+  write(path.join(stubDir, 'claude'), `#!/bin/sh\necho "$@" >> "${calls}"\nexit 0\n`);
+  fs.chmodSync(path.join(stubDir, 'claude'), 0o755);
+  const count = () => { try { return fs.readFileSync(calls, 'utf8').split('\n').filter((l) => /^plugin /.test(l)).length; } catch (e) { return 0; } };
+  try { fs.unlinkSync(calls); } catch (e) { /* none yet */ }
+  const r = updateWith(env, ['--agent', 'codex']);
+  assert.strictEqual(count(), 0, `\`update --agent codex\` ran ${count()} claude plugin command(s):\n${r.out.slice(-600)}`);
+  assert.ok(/Claude Code plugins[\s\S]*skipped: --agent codex/.test(r.out), `the run did not say the plugin step was skipped:\n${r.out.slice(-900)}`);
+  const dry = updateWith(env, ['--agent', 'codex', '--dry-run']);
+  assert.ok(!/claude plugin/.test(dry.out), `the preview of \`--agent codex\` lists a claude plugin step:\n${dry.out.slice(-900)}`);
+  // the control: unscoped, the plugin step runs
+  updateWith(env, []);
+  assert.ok(count() > 0, 'the control ran no claude plugin command — the fixture proves nothing');
+});
+
+it('a foreign status line blocks nothing and is left byte-identical (risk d)', () => {
+  const env = updateEnv();
+  const s = staleInstall();
+  s.statusLine = { type: 'command', command: 'other-tool statusline', padding: 2 };
+  saveSettings(s);
+  const r = updateWith(env, []);
+  const after = readSettings();
+  assert.deepStrictEqual(after.statusLine, s.statusLine, 'the foreign status line was touched');
+  assert.strictEqual(after.hooks.PreToolUse[0].matcher, FULL_MATCHER.replace('/x', ''),
+    `a status line the update never writes blocked the matcher fix:\n${r.out.slice(-500)}`);
 });
 
 // --- the set-update notice, as a process ------------------------------------
@@ -635,6 +980,177 @@ it('a system-generated turn produces no routing note, as a process', () => {
     prompt: 'agent wired the stripe checkout, сделай лендинг',
   });
   assert.ok(routed.includes('[sshlg-routing]'), 'the control prompt stopped routing — the fixture proves nothing');
+});
+
+function turnsFile(session) { return path.join(HOME, '.sshlg-skills', 'turns', `${session}.json`); }
+
+it('the same prompt twice in a session prints the routing note once (R01)', () => {
+  const session = 'e2e-once';
+  const prompt = 'сделай фичу экспорта в csv';
+  const a = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p1', prompt });
+  const b = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p2', prompt });
+  assert.ok(a.includes('[sshlg-routing]'), 'the first turn printed nothing');
+  assert.strictEqual(b, '', `the second turn repeated the note: ${b.slice(0, 80)}`);
+  const noted = JSON.parse(fs.readFileSync(turnsFile(session), 'utf8')).noted;
+  assert.ok(Array.isArray(noted) && noted.length >= 1, 'the printed routes were not recorded');
+});
+
+it('a new route on turn two prints only the new route (R01)', () => {
+  const session = 'e2e-once-new';
+  const first = runHookText('user-prompt-submit.js',
+    { session_id: session, prompt_id: 'p1', prompt: 'сделай фичу экспорта в csv' });
+  const out = runHookText('user-prompt-submit.js',
+    { session_id: session, prompt_id: 'p2', prompt: 'сделай фичу экспорта в csv, поправь дизайн и анимации лендинга' });
+  assert.ok(out.includes('[sshlg-routing]'), 'a route never shown before was suppressed');
+  const bullets = (t) => t.split('\n').filter((l) => l.startsWith('- this '));
+  const seen = bullets(first);
+  assert.ok(seen.length >= 1);
+  // the delivery line is the one exception (fix round #9): a fresh facet on a writing
+  // prompt brings it back beside itself
+  const delivery = `- this ${require('../lib/triggers.js').routeLines()['task-pipeline']}.`;
+  for (const l of bullets(out)) {
+    if (l === delivery) continue;
+    assert.ok(!seen.includes(l), `already-noted route printed again: ${l}`);
+  }
+});
+
+it('compact and clear reset the noted routes; startup and resume keep them (R01)', () => {
+  const session = 'e2e-once-reset';
+  const prompt = 'сделай фичу экспорта в csv';
+  runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p1', prompt });
+  assert.ok(JSON.parse(fs.readFileSync(turnsFile(session), 'utf8')).noted.length >= 1);
+  for (const source of ['startup', 'resume']) {
+    runHook('session-start.js', { hook_event_name: 'SessionStart', source, session_id: session });
+    assert.ok(JSON.parse(fs.readFileSync(turnsFile(session), 'utf8')).noted.length >= 1,
+      `${source} wiped the record although the context still holds the note`);
+  }
+  for (const source of ['compact', 'clear']) {
+    runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p2', prompt });
+    runHook('session-start.js', { hook_event_name: 'SessionStart', source, session_id: session });
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(turnsFile(session), 'utf8')).noted, [],
+      `${source} kept a record of notes the context no longer holds`);
+    const again = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p3', prompt });
+    assert.ok(again.includes('[sshlg-routing]'), `after ${source} the note never came back`);
+  }
+});
+
+// Fix round 2, D. The CHANGELOG said `fork` keeps the record like `startup` and `resume`.
+// A fork is a NEW session id (`claude --help`: "--fork-session … create a new session ID"),
+// and `noted` is keyed by session id, so the forked session prints its notes again.
+it('a fork is a new session id, so its notes print again (D)', () => {
+  const parent = 'e2e-fork-parent';
+  const child = 'e2e-fork-child';
+  const prompt = 'сделай фичу экспорта в csv';
+  assert.ok(runHookText('user-prompt-submit.js', { session_id: parent, prompt_id: 'p1', prompt }).includes('[sshlg-routing]'));
+  assert.strictEqual(runHookText('user-prompt-submit.js', { session_id: parent, prompt_id: 'p2', prompt }), '',
+    'the control: the parent session does not repeat its note');
+  runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'fork', session_id: child });
+  const forked = runHookText('user-prompt-submit.js', { session_id: child, prompt_id: 'p3', prompt });
+  assert.ok(forked.includes('[sshlg-routing]'), 'the forked session (a new id) was told nothing');
+});
+
+it('an unreadable turnstate still prints the note (R01)', () => {
+  const session = 'e2e-once-bad';
+  write(turnsFile(session), '{not json');
+  const out = runHookText('user-prompt-submit.js',
+    { session_id: session, prompt_id: 'p1', prompt: 'сделай фичу экспорта в csv' });
+  assert.ok(out.includes('[sshlg-routing]'), 'a corrupt record hid the route');
+});
+
+it('a system turn neither prints nor records a note (R01)', () => {
+  const session = 'e2e-once-sys';
+  const out = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p1',
+    prompt: '[SYSTEM NOTIFICATION - NOT USER INPUT]\n<task-notification>сделай лендинг</task-notification>' });
+  assert.strictEqual(out, '');
+  const f = turnsFile(session);
+  const noted = fs.existsSync(f) ? (JSON.parse(fs.readFileSync(f, 'utf8')).noted || []) : [];
+  assert.deepStrictEqual(noted, [], 'a system turn recorded a note');
+});
+
+it('a facet on turn two names task-pipeline beside it although delivery was noted (#9)', () => {
+  const T = require('../lib/triggers.js');
+  const lineOf = T.routeLines();
+  const session = 'e2e-pair';
+  const a = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p1', prompt: 'исправь баг' });
+  assert.ok(a.includes(lineOf['task-pipeline']), 'the control turn did not name delivery');
+  const b = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p2', prompt: 'сделай редизайн лендинга' });
+  assert.ok(b.includes(lineOf['sheleg-design']), `the facet is missing:\n${b}`);
+  assert.ok(b.includes(lineOf['task-pipeline']), `the facet came without its delivery line:\n${b}`);
+});
+
+it('payloads with no session id do not share a record: two plain runs both print (risk a)', () => {
+  const plain = () => {
+    const r = spawnSync('node', [path.join(ROOT, 'hooks', 'user-prompt-submit.js')],
+      { input: 'сделай фичу экспорта в csv', encoding: 'utf8', env: ENV });
+    assert.strictEqual(r.status, 0);
+    return (r.stdout || '').trim();
+  };
+  const idless = () => runHookText('user-prompt-submit.js', { prompt: 'сделай фичу экспорта в csv' });
+  for (const run of [plain, idless]) {
+    assert.ok(run().includes('[sshlg-routing]'), 'the first id-less run printed nothing');
+    assert.ok(run().includes('[sshlg-routing]'), 'a second id-less caller was hidden by the first one\'s record');
+  }
+});
+
+// Fix round 2, H. Risk a stopped id-less payloads sharing `noted`, but the routes, `asked`
+// and the STICKY `optedOut` still went to `turns/unknown.json`: one id-less caller's prompt
+// armed an escalation on another's Edit, and one «без пайплайна» silenced every id-less caller
+// for good. No session id now means no turn record at all — written or read.
+it('an id-less prompt leaves no turn record: it arms nothing and silences nothing (H)', () => {
+  const unknown = turnsFile('unknown');
+  try { fs.unlinkSync(unknown); } catch (e) { /* none yet */ }
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'route-'));
+  const edit = () => runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'src.js') }, cwd: dir,
+  });
+  runHookText('user-prompt-submit.js', { prompt: 'сделай фичу экспорта в csv' });
+  assert.strictEqual(edit(), null, 'an id-less caller\'s Edit was escalated on another id-less caller\'s prompt');
+  runHookText('user-prompt-submit.js', { prompt: 'сделай фичу, без пайплайна' });
+  assert.ok(!fs.existsSync(unknown), `an id-less payload wrote a shared turn record: ${unknown}`);
+  // the refusal reached no shared record, so a caller WITH a session is unaffected (control)
+  runHookText('user-prompt-submit.js', { session_id: 'e2e-h', prompt_id: 'p1', prompt: 'сделай фичу экспорта в csv' });
+  const asked = runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', session_id: 'e2e-h', prompt_id: 'p1',
+    tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'src.js') }, cwd: dir,
+  });
+  assert.strictEqual(asked && asked.hookSpecificOutput.permissionDecision, 'ask', 'the control did not escalate');
+});
+
+// Final polish, item 5. The prompt hook read and wrote the turn record under the RAW id
+// while the PreToolUse hook read it under the trimmed one (and wrote `asked` under the raw),
+// so a padded id armed nothing and asked on every Edit. And an id that sanitises to the
+// shared key ('...', 'unknown') is no id at all: it would share `turns/unknown.json`.
+it('a padded session id keys one turn record: the Edit escalates once (final polish 5)', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'route-'));
+  const session = '  e2e-pad  ';
+  runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p1', prompt: 'сделай фичу экспорта в csv' });
+  const edit = (f) => runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', session_id: session, prompt_id: 'p1',
+    tool_name: 'Edit', tool_input: { file_path: path.join(dir, f) }, cwd: dir,
+  });
+  const first = edit('a.js');
+  assert.strictEqual(first && first.hookSpecificOutput.permissionDecision, 'ask',
+    'a padded id armed nothing: the prompt hook wrote under a different key than PreToolUse read');
+  assert.strictEqual(edit('b.js'), null, 'a padded id was asked on every Edit: `asked` went to another key');
+  assert.ok(fs.existsSync(turnsFile('e2e-pad')), 'the record is not under the trimmed id');
+});
+
+it('an id whose key is the shared one (\'...\', \'unknown\') is id-less: no record, no hidden note (final polish 5)', () => {
+  const unknown = turnsFile('unknown');
+  try { fs.unlinkSync(unknown); } catch (e) { /* none yet */ }
+  const prompt = 'сделай фичу экспорта в csv';
+  for (const id of ['...', 'unknown', '..', '  unknown ']) {
+    const out = runHookText('user-prompt-submit.js', { session_id: id, prompt_id: 'p1', prompt });
+    assert.ok(out.includes('[sshlg-routing]'), `the note under id ${JSON.stringify(id)} was hidden by another caller's record`);
+  }
+  runHookText('user-prompt-submit.js', { session_id: '...', prompt_id: 'p2', prompt: 'сделай фичу, без пайплайна' });
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'route-'));
+  runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', session_id: 'unknown', prompt_id: 'p2',
+    tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'x.js') }, cwd: dir,
+  });
+  runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'compact', session_id: '...' });
+  assert.ok(!fs.existsSync(unknown), `an id that sanitises to the shared key wrote ${unknown}`);
 });
 
 it('a refusal phrase silences the session, not merely the turn', () => {

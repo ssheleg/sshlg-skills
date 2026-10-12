@@ -934,6 +934,138 @@ it('a declared external route is printed after the family routes, and never shad
   assert.deepStrictEqual(T.match('сделай иконку, без пайплайна', { external }), []);
 });
 
+// --- the stem prefilter changes no answer (R06) ----------------------------
+// `matches` rejects a phrase whose word stems are absent before building its regular
+// expression. The cases below are the ones a careless prefilter loses: a Latin brand
+// standing in for a Cyrillic one, a verbal prefix, an inflected ending, a hyphen.
+it('the stem prefilter keeps brand aliases, prefixes, inflections and hyphens', () => {
+  assert.ok(T.match('добавь Telegram-бота для уведомлений').includes('telegram-dev'), 'brand alias lost');
+  assert.ok(T.match('отрефактори модуль оплаты').length > 0, 'verbal prefix lost');
+  assert.ok(T.match('сделай лендинг').includes('sheleg-design'), 'inflected form lost');
+  assert.deepStrictEqual(T.match('привет'), [], 'a prompt with no stem in it routed');
+  assert.strictEqual(T.matches('Рефакторинг оплаты', 'рефакторинг'), true);
+  assert.strictEqual(T.matches('аудитория', 'аудит'), false, 'the word-end rule was lost');
+});
+
+// --- once per route (R01, B-155) -------------------------------------------
+
+it('render lists only the routes not yet noted, and nothing when all were', () => {
+  const prompt = 'сделай фичу экспорта в csv';
+  const routes = T.match(prompt);
+  assert.ok(routes.length >= 1, 'the control prompt no longer routes — the fixture proves nothing');
+  const full = T.render(prompt, { noted: [] });
+  assert.ok(full.includes('[sshlg-routing]'), 'nothing noted must print as today');
+  assert.strictEqual(T.render(prompt, { noted: routes }), '',
+    'a route already noted in this session was printed again');
+  const rest = T.render(prompt, { noted: [routes[0]] });
+  if (routes.length === 1) assert.strictEqual(rest, '');
+  else assert.ok(rest.length > 0 && rest.length < full.length, 'a partial noted set did not shrink the note');
+});
+
+it('a new route on a later turn prints only that route', () => {
+  const first = T.match('сделай фичу экспорта в csv');
+  const second = T.match('сделай фичу экспорта в csv, поправь дизайн и анимации лендинга');
+  const fresh = second.filter((r) => !first.includes(r));
+  assert.ok(fresh.length >= 1, 'the fixture prompts share every route — nothing new to show');
+  const out = T.render('сделай фичу экспорта в csv, поправь дизайн и анимации лендинга', { noted: first });
+  const lines = out.split('\n').filter((l) => l.startsWith('- this '));
+  // The one exception is the delivery pairing (fix round #9): a newly printed facet on a
+  // writing prompt brings the `task-pipeline` line with it even though it was noted.
+  const paired = fresh.some((r) => T.SUBJECT_ROUTES.includes(r)) && second.includes('task-pipeline')
+    && !fresh.includes('task-pipeline') ? 1 : 0;
+  assert.strictEqual(lines.length, fresh.length + paired, `expected only the new routes, got:\n${out}`);
+  const lineOf = T.routeLines();
+  for (const r of first.filter((x) => x !== 'task-pipeline')) {
+    assert.ok(!out.includes(lineOf[r]), `an already-noted route other than delivery was printed again: ${r}`);
+  }
+});
+
+// --- the facet brings its delivery line (fix round #9) ---------------------
+// README: "When a route that says what a change contains … matched and the prompt
+// writes, the `task-pipeline` line is printed beside it". `noted` filtered task-pipeline
+// out once it had been printed, so «исправь баг» then «сделай редизайн лендинга» named
+// the visual layer and copy, and not delivery — the README promise broken on turn two.
+it('a newly printed facet route on a writing prompt prints task-pipeline beside it, even when noted', () => {
+  const lineOf = T.routeLines();
+  const first = T.match('исправь баг');
+  assert.deepStrictEqual(first, ['task-pipeline'], 'the control prompt changed — the fixture proves nothing');
+  const out = T.render('сделай редизайн лендинга', { noted: first });
+  assert.ok(out.includes(lineOf['sheleg-design']), `the facet is missing:\n${out}`);
+  assert.ok(out.includes(lineOf['task-pipeline']), `the facet came without its delivery line:\n${out}`);
+  // nothing new: everything noted, the pairing does not resurrect the note
+  assert.strictEqual(T.render('сделай редизайн лендинга', { noted: T.match('сделай редизайн лендинга') }), '');
+  // a question does not write, so a fresh facet there carries no delivery line
+  const q = T.render('почему сделай редизайн лендинга так выглядит?', { noted: ['task-pipeline'] });
+  assert.ok(!q.includes(lineOf['task-pipeline']), `a non-writing prompt was paired with delivery:\n${q}`);
+});
+
+// --- the prefilter is invisible: a generic invariant (fix round, risk e) ----
+// `matches` and `objectMatches` reject a phrase whose required stems are absent BEFORE
+// building its expression. That is only an optimisation if it never changes an answer, so
+// this compares both against the expression alone, for every shipped phrase — triggers,
+// objects, QUESTION and REFUSALS — and the forms people type: inflected endings, a verbal
+// prefix, a hyphen for a space, upper case, `ё`, and a Latin brand inside Russian.
+// Watched failing with `requiredStems` keeping alias words (receipt, fix round).
+it('the stem prefilter never changes an answer of matches() or objectMatches()', () => {
+  const phrases = new Set(T.QUESTION.concat(T.REFUSALS));
+  const objects = new Set();
+  for (const spec of Object.values(T.ROUTES)) {
+    for (const t of spec.triggers || []) phrases.add(t);
+    for (const o of spec.objects || []) objects.add(o);
+  }
+  const ENDINGS = ['', 'а', 'у', 'ом', 'ами', 'е', 'ы', 'ов', 's', 'ing', 'ed'];
+  const variants = (p) => {
+    const words = p.split(/\s+/);
+    const out = new Set([p, p.toUpperCase(), p.replace(/е/g, 'ё'), p.replace(/\s+/g, '-'),
+      `сделай ${p}`, `от${p}`, `пере${p}`, `please ${p} now`, `${p}, без пайплайна`]);
+    for (const e of ENDINGS) out.add(words.map((w) => w + e).join(' '));
+    for (const [ru, lat] of Object.entries(T.BRAND_ALIASES)) {
+      if (p.includes(ru)) {
+        out.add(p.replace(ru, lat));
+        out.add(p.replace(ru, lat[0].toUpperCase() + lat.slice(1)));
+        out.add(p.replace(new RegExp(`${ru}[а-яё]*`), lat));
+      }
+    }
+    return [...out];
+  };
+  const fold = (t) => String(t).toLowerCase().replace(/ё/g, 'е');
+  const list = [...phrases];
+  let compared = 0;
+  let positives = 0;
+  const wrong = [];
+  list.forEach((phrase, i) => {
+    // its own forms, and a neighbour's — so both the hits and the misses are exercised
+    const texts = variants(phrase).concat(variants(list[(i + 1) % list.length]));
+    const re = T.phrasePattern(phrase);
+    for (const text of texts) {
+      const want = re.test(fold(text));
+      const got = T.matches(text, phrase);
+      compared += 1;
+      if (want) positives += 1;
+      if (got !== want) wrong.push(`matches(${JSON.stringify(text)}, ${JSON.stringify(phrase)}) = ${got}, expression says ${want}`);
+    }
+  });
+  const objList = [...objects];
+  objList.forEach((object, i) => {
+    const texts = variants(object).concat(variants(objList[(i + 1) % objList.length]))
+      .flatMap((t) => [t, `исправь ${t}`, `fix the ${t}`, `сделай ${t}`]);
+    const re = T.objectPattern(object);
+    for (const text of texts) {
+      const want = re.test(fold(text));
+      const got = T.objectMatches(text, object);
+      compared += 1;
+      if (want) positives += 1;
+      if (got !== want) wrong.push(`objectMatches(${JSON.stringify(text)}, ${JSON.stringify(object)}) = ${got}, expression says ${want}`);
+    }
+  });
+  // The collector must have seen both answers, or the equality proves nothing (#11).
+  assert.ok(list.length > 100 && objList.length > 5, `too few phrases collected: ${list.length}/${objList.length}`);
+  assert.ok(positives > 1000 && compared - positives > 1000,
+    `the corpus is one-sided: ${positives} hits of ${compared}`);
+  assert.ok(T.BRAND_ALIASES && Object.keys(T.BRAND_ALIASES).length >= 1);
+  assert.strictEqual(wrong.length, 0, `${wrong.length} of ${compared} differ, e.g.\n  ${wrong.slice(0, 5).join('\n  ')}`);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

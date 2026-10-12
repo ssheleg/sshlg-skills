@@ -74,6 +74,26 @@ it('removal takes ours out and leaves theirs untouched', () => {
   assert.ok(!settings.statusLine, 'our status line survived removal');
 });
 
+// Final polish, item 6: install and update keep a foreign hook that sits INSIDE our group
+// (refreshGroup), but removal() dropped every group containing ours — and the foreign hook
+// with it. Removal now filters our hook out of a mixed group and keeps the group.
+it('removal keeps a foreign hook co-located in our group, and drops the group only when ours was alone (final polish 6)', () => {
+  const installed = H.plan({}, ROOT, {}).settings;
+  const theirs = { type: 'command', command: 'their-session-hook', timeout: 3 };
+  installed.hooks.SessionStart[0].hooks.push(theirs);
+  const { settings, changed } = H.removal(installed, ROOT);
+  assert.ok(settings.hooks && Array.isArray(settings.hooks.SessionStart),
+    `the mixed group was deleted with the foreign hook in it: ${JSON.stringify(settings.hooks)}`);
+  assert.deepStrictEqual(settings.hooks.SessionStart,
+    [{ matcher: H.entries(ROOT).SessionStart.matcher, hooks: [theirs] }]);
+  assert.ok(changed.includes('SessionStart'), `changed does not name SessionStart: ${changed}`);
+  assert.ok(!('UserPromptSubmit' in settings.hooks), 'a group holding only ours survived');
+  // idempotent: a second removal changes nothing
+  const again = H.removal(settings, ROOT);
+  assert.deepStrictEqual(again.settings, settings);
+  assert.deepStrictEqual(again.changed, []);
+});
+
 it('removal deletes the key rather than leaving an empty array', () => {
   const installed = H.plan({}, ROOT, {}).settings;
   const { settings } = H.removal(installed, ROOT);
@@ -236,6 +256,154 @@ it('OURS INSTALLED FIRST, THEIRS ADDED LATER — a second plan is still a no-op'
   const ourIndexAfter = again.settings.hooks.SessionStart.findIndex(
     (m) => (m.hooks || []).some((h) => H.isOurs(h.command, ROOT)));
   assert.strictEqual(ourIndexAfter, 0, 'our entry was moved to the end');
+});
+
+// --- why an entry changed, and who has consented (R03) ----------------------
+
+it('every changed event carries a reason: added | matcher | command | order', () => {
+  const fresh = H.plan({}, ROOT, {});
+  assert.strictEqual(fresh.reasons.length, fresh.changed.length, 'a change without a reason');
+  assert.ok(fresh.reasons.every((r) => r.reason === 'added'), JSON.stringify(fresh.reasons));
+
+  // stale matcher: the 1.55.1 case — everything else identical
+  const stale = JSON.parse(JSON.stringify(fresh.settings));
+  stale.hooks.PreToolUse[0].matcher = 'Edit|Write|MultiEdit|NotebookEdit|Bash';
+  const m = H.plan(stale, ROOT, {});
+  assert.deepStrictEqual(m.reasons, [{ event: 'PreToolUse', reason: 'matcher' }]);
+
+  // stale command: the script moved
+  const moved = JSON.parse(JSON.stringify(fresh.settings));
+  moved.hooks.Notification[0].hooks[0].command = `node "${ROOT}/hooks/old-name.js"`;
+  assert.deepStrictEqual(H.plan(moved, ROOT, {}).reasons,
+    [{ event: 'Notification', reason: 'command' }]);
+
+  // order only: ours duplicated, both with the right content
+  const dup = JSON.parse(JSON.stringify(fresh.settings));
+  dup.hooks.PostToolUse.push(JSON.parse(JSON.stringify(dup.hooks.PostToolUse[0])));
+  assert.deepStrictEqual(H.plan(dup, ROOT, {}).reasons,
+    [{ event: 'PostToolUse', reason: 'order' }]);
+});
+
+it('consent is one entry of ours — nothing of ours is no consent', () => {
+  assert.strictEqual(H.consented({}, ROOT), false);
+  assert.strictEqual(H.consented({ hooks: { SessionStart: [FOREIGN_HOOK] } }, ROOT), false);
+  assert.strictEqual(H.consented(H.plan({}, ROOT, {}).settings, ROOT), true);
+  const one = { hooks: { Notification: [H.entries(ROOT).Notification] } };
+  assert.strictEqual(H.consented(one, ROOT), true, 'a single entry of ours is the consent');
+  assert.strictEqual(H.consented(null, ROOT), false);
+});
+
+// --- the update path: refresh what is there, keep what the operator added (fix round) ---
+//
+// `update` is unattended. It re-applies OUR entries where they still are and nothing else:
+// a field the operator added to one of them survives (#7), an entry the operator removed by
+// hand stays removed (risk c), and a status line somebody else holds is left byte-identical
+// without blocking the hook events (risk d). `hooks install` keeps its own semantics.
+
+it('whyDiffers names the first differing field, and `order` only for position or duplicates (#7)', () => {
+  const fresh = H.plan({}, ROOT, {}).settings;
+  const timed = JSON.parse(JSON.stringify(fresh));
+  timed.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  assert.strictEqual(H.whyDiffers(timed.hooks.UserPromptSubmit[0], H.entries(ROOT).UserPromptSubmit), 'timeout',
+    'a whole-entry comparison must name the field, not `order`');
+  const asyncFlip = JSON.parse(JSON.stringify(fresh));
+  asyncFlip.hooks.SessionStart[0].hooks[0].async = true;
+  assert.deepStrictEqual(H.plan(asyncFlip, ROOT, {}).reasons, [{ event: 'SessionStart', reason: 'async' }]);
+  const padded = JSON.parse(JSON.stringify(fresh));
+  padded.statusLine.padding = 0;
+  assert.strictEqual(H.whyDiffers(padded.statusLine, H.entries(ROOT).statusLine), 'padding');
+  const slMoved = JSON.parse(JSON.stringify(fresh));
+  slMoved.statusLine.command = `node "${ROOT}/hooks/old-statusline.js"`;
+  assert.deepStrictEqual(H.plan(slMoved, ROOT, {}).reasons, [{ event: 'statusLine', reason: 'command' }]);
+});
+
+it('refreshOnly keeps fields the operator added to our entries and reports no change for them (#7)', () => {
+  const fresh = H.plan({}, ROOT, {}).settings;
+  const s = JSON.parse(JSON.stringify(fresh));
+  s.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  s.statusLine.padding = 0;
+  const same = H.plan(s, ROOT, { refreshOnly: true });
+  assert.deepStrictEqual(same.changed, [], `refresh rewrote current entries: ${JSON.stringify(same.reasons)}`);
+  assert.deepStrictEqual(same.settings, s);
+  // with a stale matcher beside them: the matcher is fixed, the added fields survive
+  s.hooks.PreToolUse[0].matcher = 'Edit|Write';
+  s.hooks.PreToolUse[0].hooks[0].timeout = 9;
+  const r = H.plan(s, ROOT, { refreshOnly: true });
+  assert.deepStrictEqual(r.reasons, [{ event: 'PreToolUse', reason: 'matcher' }]);
+  assert.strictEqual(r.settings.hooks.PreToolUse[0].matcher, fresh.hooks.PreToolUse[0].matcher);
+  assert.strictEqual(r.settings.hooks.PreToolUse[0].hooks[0].timeout, 9, 'the operator\'s timeout was dropped');
+  assert.strictEqual(r.settings.hooks.UserPromptSubmit[0].hooks[0].timeout, 5);
+  assert.strictEqual(r.settings.statusLine.padding, 0);
+  // a known field we own is re-asserted, and the reason names it
+  const flipped = JSON.parse(JSON.stringify(fresh));
+  flipped.hooks.Notification[0].hooks[0].async = true;
+  const f = H.plan(flipped, ROOT, { refreshOnly: true });
+  assert.deepStrictEqual(f.reasons, [{ event: 'Notification', reason: 'async' }]);
+  assert.strictEqual(f.settings.hooks.Notification[0].hooks[0].async, false);
+});
+
+it('refreshOnly never re-adds an entry the operator removed (risk c)', () => {
+  const s = JSON.parse(JSON.stringify(H.plan({}, ROOT, {}).settings));
+  delete s.statusLine;
+  delete s.hooks.Notification;
+  const r = H.plan(s, ROOT, { refreshOnly: true });
+  assert.deepStrictEqual(r.changed, []);
+  assert.ok(!('statusLine' in r.settings) && !('Notification' in r.settings.hooks),
+    'an entry removed by hand came back');
+  assert.ok(r.skipped.some((x) => x.event === 'statusLine') && r.skipped.some((x) => x.event === 'Notification'),
+    `the skipped entries were not reported: ${JSON.stringify(r.skipped)}`);
+  // `hooks install` still adds them — that is the explicit act
+  assert.ok(H.plan(s, ROOT, {}).changed.includes('statusLine (added)'));
+});
+
+it('refreshOnly leaves a foreign status line byte-identical and does not block the events (risk d)', () => {
+  const s = JSON.parse(JSON.stringify(H.plan({}, ROOT, {}).settings));
+  s.statusLine = { type: 'command', command: 'other-tool statusline', padding: 2 };
+  s.hooks.PreToolUse[0].matcher = 'Edit|Write';
+  const r = H.plan(s, ROOT, { refreshOnly: true });
+  assert.deepStrictEqual(r.conflicts, [], 'a key the update never writes was reported as a conflict');
+  assert.deepStrictEqual(r.settings.statusLine, s.statusLine);
+  assert.deepStrictEqual(r.reasons, [{ event: 'PreToolUse', reason: 'matcher' }]);
+  assert.ok(r.skipped.some((x) => x.event === 'statusLine' && /other-tool/.test(x.why)));
+  // install still sees the conflict
+  assert.strictEqual(H.plan(s, ROOT, {}).conflicts.length, 1);
+});
+
+// --- one rule for "our entry is current" (fix round 2, A) ---
+//
+// `hooks install`, `hooks status`, `update` and the ConfigChange detector judge an entry of
+// ours by the fields this pack writes. Before, install and status compared whole groups, so
+// an operator's `timeout` read as stale and the named repair (`hooks install`) deleted it.
+
+it('`hooks install` keeps fields the operator added to our entries, and sees no change for them (A)', () => {
+  const fresh = H.plan({}, ROOT, {}).settings;
+  const s = JSON.parse(JSON.stringify(fresh));
+  s.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  s.hooks.SessionStart[0].note = 'mine';
+  s.statusLine.padding = 0;
+  const same = H.plan(s, ROOT, {});
+  assert.deepStrictEqual(same.changed, [], `install would rewrite current entries: ${JSON.stringify(same.reasons)}`);
+  assert.deepStrictEqual(same.settings, s);
+  // beside a stale matcher: the matcher is fixed, the operator's fields survive
+  s.hooks.PreToolUse[0].matcher = 'Edit';
+  const r = H.plan(s, ROOT, {});
+  assert.deepStrictEqual(r.reasons, [{ event: 'PreToolUse', reason: 'matcher' }]);
+  assert.strictEqual(r.settings.hooks.UserPromptSubmit[0].hooks[0].timeout, 5, 'install dropped the operator\'s timeout');
+  assert.strictEqual(r.settings.statusLine.padding, 0, 'install dropped the operator\'s padding');
+  assert.strictEqual(r.settings.hooks.SessionStart[0].note, 'mine');
+});
+
+it('install and refresh differ only in what they add: the same entries are current for both (A)', () => {
+  const fresh = H.plan({}, ROOT, {}).settings;
+  const s = JSON.parse(JSON.stringify(fresh));
+  s.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  s.hooks.PreToolUse[0].matcher = 'Edit';
+  delete s.hooks.Notification;
+  const install = H.plan(s, ROOT, {});
+  const refresh = H.plan(s, ROOT, { refreshOnly: true });
+  assert.deepStrictEqual(install.reasons.filter((x) => x.reason !== 'added'), refresh.reasons);
+  assert.deepStrictEqual(install.reasons.filter((x) => x.reason === 'added').map((x) => x.event), ['Notification']);
+  assert.deepStrictEqual(refresh.skipped.map((x) => x.event), ['Notification']);
 });
 
 if (failures.length) {

@@ -55,8 +55,12 @@ process.stdin.on('end', () => {
       const configLib = require(path.join(LIB, 'config.js'));
       const displace = require(path.join(LIB, 'displace.js'));
       const parked = configLib.stashGet(configLib.readConfig(home), 'displaced:entries');
-      const text = parked ? displace.render(JSON.parse(parked)) : '';
+      const rec = parked ? JSON.parse(parked) : null;
+      const text = displace.render(rec);
       if (text) context.push(text);
+      // A record holding nothing `check()` still produces — `<Event>:missing` rows parked
+      // before 1.56.0 (final polish 4) — is said nothing about, and goes.
+      if (rec && !displace.live(rec).length) configLib.stashClear(home, 'displaced:entries');
     } catch (e) { /* a notice that cannot be read is not worth a broken session */ }
 
     // Who else speaks before the first prompt. One line, and only when there is
@@ -65,8 +69,24 @@ process.stdin.on('end', () => {
     // switched on. `lib/injectors.js` decides; this only reads the registry.
     try {
       const inj = require(path.join(LIB, 'injectors.js'));
-      const text = inj.line(inj.injectors(...inj.readRegistry(home)));
+      const rows = inj.injectors(...inj.readRegistry(home));
+      const statePath = path.join(home, '.sshlg-skills', 'state.json');
+      let state = {};
+      try { state = JSON.parse(fs.readFileSync(statePath, 'utf8')); } catch (e) { state = {}; }
+      // Only on change (R02): the line is paid at every session start, and an
+      // unchanged set is not news. Record AFTER deciding, and only on a change.
+      // The record is MACHINE-WIDE, not per session (fix round, risk f — decided): the
+      // line states which plugins are enabled on this machine, a fact about the machine,
+      // so a second session with the same set is told nothing new. Route notes differ:
+      // they are about one context, so `noted` lives in the session's turn state.
+      const text = inj.line(rows, state.injectors);
       if (text) context.push(text);
+      if (inj.changed(rows, state.injectors)) {
+        try {
+          const store = require(path.join(LIB, 'store.js'));
+          store.writeJson(statePath, { injectors: inj.names(rows), schemaVersion: store.STATE_SCHEMA });
+        } catch (e) { /* unrecorded means the line repeats once more */ }
+      }
     } catch (e) { /* an unreadable plugin registry means no claim, not a wrong one */ }
 
     // Whether a newer SET is out. The cache is READ here and the registry is not
@@ -83,6 +103,16 @@ process.stdin.on('end', () => {
       const cfg = require(path.join(LIB, 'config.js')).readConfig(home);
       const p = chk.plan(installed, state.updateCheck, Date.now(), undefined, cfg);
       if (p.line) context.push(p.line);
+      // What an unattended run did is said ONCE (fix round, risk j): record that it was.
+      if (p.reported) {
+        try {
+          // A function of the file at write time (fix round 2, I), never a merge of what
+          // this hook read earlier: the probe and the idle updater write beside it.
+          const store = require(path.join(LIB, 'store.js'));
+          store.writeJson(statePath,
+            store.nested('updateCheck', p.reported, { schemaVersion: store.STATE_SCHEMA }));
+        } catch (e) { /* unrecorded means the line is said once more */ }
+      }
       if (p.probe && !noProbe) {
         const { spawn } = require('child_process');
         const probe = spawn(process.execPath,
@@ -124,6 +154,21 @@ process.stdin.on('end', () => {
         }
       }
     } catch (e) { /* a queue that cannot be read is not a broken session */ }
+
+    // After `clear` or `compact` the context that held this session's earlier routing
+    // notes is gone, so the record of what was noted goes with it (R01). startup and
+    // resume keep it: the same session id, and its context still has them. A fork has a
+    // NEW session id (`--fork-session`), so it starts with no record and its notes print
+    // again (fix round 2, D) — nothing to reset here.
+    // Keyed like the prompt hook (final polish 5): trimmed, and no record for an id-less or
+    // shared-key payload.
+    if (data.source === 'clear' || data.source === 'compact') {
+      try {
+        const turnstate = require(path.join(LIB, 'turnstate.js'));
+        const sessionId = turnstate.sessionKey(data.session_id);
+        if (sessionId) turnstate.write(home, sessionId, { noted: [] });
+      } catch (e) { /* a record that cannot be reset only repeats a note */ }
+    }
 
     // One small file per session accumulates forever otherwise — the kind of
     // litter nobody notices until it is thousands of files.

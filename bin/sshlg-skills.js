@@ -311,13 +311,25 @@ Defaults:
   - Claude Code via its PLUGIN (not a plain copy) to avoid a shadow duplicate.
   - --all       all globally supported agents in the pinned skills CLI snapshot.
                 Excludes project-only targets and plain Claude while plugins are on.
-  - --no-claude skip the Claude plugin step.
+  - --no-claude skip the Claude plugin step, and leave the Claude host alone: no
+                routing-block write to CLAUDE.md, no hook re-wiring in
+                settings.json, no refresh of the runtime copy those hooks run.
+                Any --agent list does the same for those three, and in update
+                also skips the Claude plugin step: no --agent value selects
+                Claude (--agent claude exits 2) — scope a run to Claude with
+                --claude-only, or pass no scope flag.
+  - update exits 75 when another update holds ~/.sshlg-skills/update.lock
+                (retry later; nothing failed) and 2 on a usage error.
+  - update never ADDS a hook entry: one removed by hand stays removed, and an
+                event a later release introduces arrives through
+                \`hooks install\` — update names each one not wired here.
   - --claude-only install/update only the Claude plugins.
   - --bump-pins  (update only) also fast-forward the pinned submodules to their
                  upstream tips — off by default so pins stay reproducible.
   - --dry-run    (install/update) build the full operation plan — every
-                 subprocess, prune, router and runtime action — render it, and
-                 execute NOTHING. The receipt is complete; the mutations are zero.`);
+                 subprocess, prune, router, runtime and settings.json hook-wiring
+                 action — render it, and execute NOTHING. The receipt is
+                 complete; the mutations are zero.`);
 }
 
 function skillsCliAgents(f) {
@@ -402,7 +414,9 @@ function planUpdate(f) {
       'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
       { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
   }
-  if (f.claude || f.claudeOnly) {
+  // The Claude plugin step follows the Claude host's scope (final polish 8): an `--agent`
+  // list never selects Claude, so it no longer runs `claude plugin update` either.
+  if (claudeScope(f).inScope) {
     const reg = pluginRegistries();
     for (const args of plan.pluginUpdatePlan(SKILLS, reg.known, reg.installed)) {
       steps.push(opres.step('subprocess', 'home', `claude ${args.join(' ')}`, { cmd: 'claude', args }));
@@ -414,10 +428,14 @@ function planUpdate(f) {
       { mode: 'update' }));
   }
   try {
+    const rtScope = claudeScope(f);
     steps.push(opres.step('runtime-sync', 'runtime',
-      'refresh the wired hook runtime copy (create: false)',
+      rtScope.inScope ? 'refresh the wired hook runtime copy (create: false)'
+        : `wired hook runtime copy — out of scope (skipped: ${rtScope.skippedBy}), moves with its wiring`,
       { root: require('../lib/hooks.js').runtimeDir(os.homedir()) }));
   } catch (_) { /* no runtime dir resolvable — the execution path reports it */ }
+  // The one write to an operator file this run can make outside the routing block.
+  steps.push(rewireStep(f));
   return opres.buildPlan(steps);
 }
 
@@ -521,7 +539,7 @@ function cmdUpdate(f) {
   progress.total =
     (!f.claudeOnly && fs.existsSync(path.join(ROOT, '.gitmodules')) ? 1 : 0)
     + (!f.claudeOnly ? plan.updatePlan(SKILLS, agentsForCount, { continueCopies: continueHasFamilyCopies() }).length : 0)
-    + ((f.claude || f.claudeOnly) ? SKILLS.length * 2 : 0);
+    + (claudeScope(f).inScope ? SKILLS.length * 2 : 0);
   progress.done = 0;
   progress.failed = [];
   if (progress.total) log(`\n== ${progress.total} steps ==`);
@@ -553,7 +571,13 @@ function cmdUpdate(f) {
     for (const argv of plan.updatePlan(SKILLS, agents, { continueCopies: continueHasFamilyCopies() })) ok = runPlanned(argv) && ok;
     pruneClaudeShadows();
   }
-  if (f.claude || f.claudeOnly) {
+  // Scoped like the routing block, the wiring and the runtime copy (final polish 8): an
+  // `--agent` list left the Claude host's files alone and still ran `claude plugin update`
+  // for every member. `claudeScope` is the one answer for all four.
+  const pluginScope = claudeScope(f);
+  if (!pluginScope.inScope) {
+    log(`\n== Updating Claude Code plugins ==\n  skipped: ${pluginScope.skippedBy} (the Claude host is outside this run's scope)`);
+  } else {
     log(`\n== Updating Claude Code plugins ==`);
     // Reconciles like the skills-CLI half: a member this machine has never seen is added
     // and installed rather than refreshed (plan.pluginUpdatePlan). The plan and this loop
@@ -574,30 +598,43 @@ function cmdUpdate(f) {
   // from whichever release last installed them. Watched on a real machine at v0.46.0 —
   // 24 modules against the package's 25, and the missing one was that release's whole
   // point (`B-22`). Refresh only: `create` stays false, because a machine with no
-  // runtime has not consented to hooks and an update is not the moment to ask.
-  try {
-    const rt = require('../lib/runtime.js');
-    const root = require('../lib/hooks.js').runtimeDir(os.homedir());
-    const before = rt.stale(ROOT, root);
-    const r = rt.sync(ROOT, root, { create: false });
-    if (r.reason) {
-      log(`\n== Wired hook runtime ==\n  skipped: ${r.reason}`);
-    } else {
-      const moved = before.missing.length + before.differing.length;
-      log(`\n== Wired hook runtime ==`);
-      log(`  ${root}`);
-      log(moved
-        ? `  refreshed ${r.copied.length} file(s) — ${before.missing.length} new, `
-          + `${before.differing.length} changed`
-        : '  already level with this package');
-      for (const m of before.missing) log(`    + ${m}`);
+  // runtime has not consented to hooks and an update is not the moment to ask. Scoped like
+  // the wiring below (fix round 2, L): a run that leaves the Claude host alone leaves both.
+  const rtScope = claudeScope(f);
+  if (!rtScope.inScope) {
+    log(`\n== Wired hook runtime ==\n  skipped: ${rtScope.skippedBy} (the Claude host is outside this run's scope; `
+      + 'the copy its hooks execute moves with their wiring)');
+  } else {
+    try {
+      const rt = require('../lib/runtime.js');
+      const root = require('../lib/hooks.js').runtimeDir(os.homedir());
+      const before = rt.stale(ROOT, root);
+      const r = rt.sync(ROOT, root, { create: false });
+      if (r.reason) {
+        log(`\n== Wired hook runtime ==\n  skipped: ${r.reason}`);
+      } else {
+        const moved = before.missing.length + before.differing.length;
+        log(`\n== Wired hook runtime ==`);
+        log(`  ${root}`);
+        log(moved
+          ? `  refreshed ${r.copied.length} file(s) — ${before.missing.length} new, `
+            + `${before.differing.length} changed`
+          : '  already level with this package');
+        for (const m of before.missing) log(`    + ${m}`);
+      }
+    } catch (e) {
+      // A runtime that cannot be refreshed must not fail the whole update — but it must
+      // say so, because silence here is what made B-22 invisible for five releases.
+      log(`\n== Wired hook runtime ==\n  NOT refreshed: ${e.message}`);
+      ok = false;
     }
-  } catch (e) {
-    // A runtime that cannot be refreshed must not fail the whole update — but it must
-    // say so, because silence here is what made B-22 invisible for five releases.
-    log(`\n== Wired hook runtime ==\n  NOT refreshed: ${e.message}`);
-    ok = false;
   }
+  // The settings entries that point AT that copy (R03, wave 1). Until 1.56.0 `update`
+  // refreshed the scripts and never re-applied their wiring, so 1.55.1's widened
+  // PreToolUse matcher never reached a machine that had run `hooks install` before it.
+  // A machine that has consented (one entry of ours in settings.json) is re-wired here;
+  // one that has not is left alone — an update is not the moment to ask.
+  ok = rewireConsentedHooks(f) && ok;
   // Native host lifecycle (FIX-UP-07.02). The skills-CLI channel writes plain
   // copies into ~/.codex/ etc., but a host with its OWN plugin loader (Codex)
   // does not load them through that channel — and this launcher has no
@@ -628,6 +665,178 @@ function cmdUpdate(f) {
 
   reportProgress();
   return ok;
+}
+
+/**
+ * `update` under `~/.sshlg-skills/update.lock` (R05). A preview writes nothing and takes
+ * no lock. A live holder is a refusal with exit 75 (EX_TEMPFAIL, `lock.BUSY_EXIT`; exit 2
+ * stays the usage-error code) naming its pid and age; a dead one (or
+ * a stale one written on another host) is taken over and logged. The lock is released on
+ * the normal return, a throw, and `process.exit` elsewhere in the run (the `exit`
+ * handler).
+ *
+ * **No signal handlers, on purpose** (fix round #1). The run is synchronous — every step
+ * is a `spawnSync` — so a JS handler for SIGINT/SIGTERM/SIGHUP can only run once the whole
+ * body has finished: registering one REPLACED Node's default terminate-on-signal with a
+ * handler that never got a turn, and Ctrl-C or a supervisor's SIGTERM no longer stopped
+ * `update` (measured: exit 0, every remaining step ran). Without handlers the signal kills
+ * the process at once; the lock it leaves names a dead pid, and the next `update` takes it
+ * over by the dead-pid rule and says so.
+ */
+function runUpdateLocked(f) {
+  if (f.dryRun) return cmdUpdate(f) ? 0 : 1;
+  const lock = require('../lib/updatelock.js');
+  const home = os.homedir();
+  const got = lock.acquire(home);
+  if (!got.ok) {
+    const h = got.holder || {};
+    log(`update: refused — ${got.message}${h.host ? ` on ${h.host}` : ''}.`);
+    log(`  lock: ${lock.lockPath(home)} (taken over once its process is gone; a lock from another host after 30 minutes)`);
+    return lock.BUSY_EXIT;
+  }
+  if (got.tookOver) log(`update: took over update.lock — ${got.tookOver}`);
+  if (got.degraded) log(`update: running without a lock — ${got.degraded}`);
+  const free = () => { lock.release(home, got.token); };
+  process.on('exit', free);
+  try {
+    return cmdUpdate(f) ? 0 : 1;
+  } finally {
+    free();
+  }
+}
+
+/**
+ * Whether this run's flags keep the Claude host in scope — the one answer for the
+ * settings.json wiring, the runtime copy those entries execute, and the Claude plugin step
+ * (final polish 8: an `--agent` list still ran `claude plugin update`) (fix round 2, L: the copy
+ * was refreshed under `--no-claude` while its wiring was skipped, so new scripts ran under old
+ * entries). `skippedBy` names the flag. An `--agent` list never selects Claude (`--agent
+ * claude` is refused by the skills-CLI agent table), so any `--agent` list is out of scope.
+ */
+function claudeScope(f) {
+  const flags = f || {};
+  const scope = plan.resolveScope({
+    agents: flags.agents, claude: flags.claude, claudeOnly: flags.claudeOnly,
+    hosts: require('../lib/apply.js').TARGETS, consumers: [],
+  });
+  if (scope.hostTargets.some((h) => h.agent === 'claude')) return { inScope: true };
+  return { inScope: false, skippedBy: flags.claude === false ? '--no-claude' : `--agent ${(flags.agents || []).join(',')}` };
+}
+
+/**
+ * One line per family entry the refresh did not wire, with the remedy (fix round 2, K), and
+ * one sentence after them (final polish 7): the remedy re-adds EVERY removed family entry, so
+ * an operator who removed one on purpose is told before running it — the list repeats on
+ * every `update` for an entry removed on purpose, and that is the cost of never re-adding it.
+ */
+function notWiredLines(skipped) {
+  const lines = (skipped || []).filter((x) => !/held by/.test(x.why)).map((x) =>
+    `${x.event}: not wired here (removed by hand, or new in this release) — \`npx sshlg-skills hooks install\` adds it`);
+  if (lines.length) {
+    lines.push('note: `hooks install` re-adds every removed family entry, not only the new ones — '
+      + 'skip it if you removed these on purpose');
+  }
+  return lines;
+}
+
+/**
+ * What `update` would do to `~/.claude/settings.json` — one answer for the run AND for
+ * `--dry-run` (fix round #3: the preview had no such step, so it omitted the one write to
+ * an operator file the run makes).
+ *
+ * `status` is one of:
+ *   - `out of scope` — the run's flags exclude the Claude host (`--no-claude`, an `--agent`
+ *     list without `claude`); `skippedBy` names the flag (fix round #2). The routing
+ *     block already honours the same scope (FIX-UP-03.02), through `plan.resolveScope`.
+ *   - `no settings` / `unparseable` / `no consent` — nothing to write, and why;
+ *   - `current` — the entries already match;
+ *   - `changes` — `settings` is the edit, `reasons` says why per entry.
+ * `skipped` lists entries the refresh leaves alone: removed by hand, or a status line
+ * somebody else holds (`hooks.plan` with `refreshOnly`).
+ */
+function planRewire(f) {
+  const hooksLib = require('../lib/hooks.js');
+  const home = os.homedir();
+  const file = path.join(home, '.claude', 'settings.json');
+  const root = hooksLib.runtimeDir(home);
+  const base = { file, changed: [], reasons: [], skipped: [] };
+  const scoped = claudeScope(f);
+  if (!scoped.inScope) return Object.assign(base, { status: 'out of scope', skippedBy: scoped.skippedBy });
+  let current;
+  try {
+    if (!fs.existsSync(file)) return Object.assign(base, { status: 'no settings' });
+    current = JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch (e) {
+    return Object.assign(base, { status: 'unparseable', error: e.message });
+  }
+  if (!hooksLib.consented(current, root)) return Object.assign(base, { status: 'no consent' });
+  const p = hooksLib.plan(current, root, { refreshOnly: true });
+  return Object.assign(base, {
+    status: p.changed.length ? 'changes' : 'current',
+    settings: p.settings, changed: p.changed, reasons: p.reasons, skipped: p.skipped,
+  });
+}
+
+/** The `hooks-wiring` line of the `--dry-run` receipt, from the same `planRewire`. */
+function rewireStep(f) {
+  const r = planRewire(f);
+  const changes = r.status === 'changes'
+    ? r.reasons.map((x) => `${x.event}: ${x.reason}`)
+    : [r.status === 'out of scope' ? `out of scope (skipped: ${r.skippedBy})`
+      : r.status === 'unparseable' ? `does not parse (${r.error}) — nothing written`
+        : r.status === 'current' ? 'already matches this package' : r.status];
+  for (const s of r.skipped) if (s.event === 'statusLine' && /held by/.test(s.why)) changes.push(`statusLine: ${s.why}`);
+  changes.push(...notWiredLines(r.skipped));
+  return opres.step('hooks-wiring', 'home',
+    r.status === 'changes'
+      ? 're-wire the consented hook entries (copy before write, through protect())'
+      : 'hook entries in settings.json — nothing to write',
+    { file: r.file, changes });
+}
+
+/**
+ * Re-apply the hooks wiring on a machine that already consented to it.
+ *
+ * Consent is the presence of one entry of ours in `~/.claude/settings.json`. With none
+ * this does nothing. With one, `hooks.plan(..., {refreshOnly: true})` computes the edit:
+ * only entries of ours that are present are refreshed, fields the operator added to them
+ * are kept, and a status line somebody else holds is left alone without blocking the rest.
+ * It is written through the same `protect()` backup the `hooks install` path takes (a
+ * backup that fails cancels the write). Every changed entry is logged with the field that
+ * differed (`matcher`, `command`, another field's name, or `order`).
+ *
+ * Returns false only on a failure worth a non-zero exit: an unparseable file or a
+ * backup that could not be taken. Declining (out of scope, no consent) is success.
+ */
+function rewireConsentedHooks(f) {
+  const apply = require('../lib/apply.js');
+  const r = planRewire(f);
+  if (r.status === 'out of scope') {
+    log(`\n== Hook wiring ==\n  skipped: ${r.skippedBy} (the Claude host is outside this run's scope; settings.json untouched)`);
+    return true;
+  }
+  if (r.status === 'no settings' || r.status === 'no consent') return true;
+  log('\n== Hook wiring ==');
+  if (r.status === 'unparseable') {
+    log(`  ${r.file} does not parse (${r.error}) — nothing written`);
+    return false;
+  }
+  for (const s of r.skipped) if (s.event === 'statusLine' && /held by/.test(s.why)) log(`  statusLine: ${s.why}`);
+  // `update` never ADDS an entry (an operator's removal stays removed), so an event a later
+  // release introduced arrives only through `hooks install` — said, not left to be noticed.
+  for (const line of notWiredLines(r.skipped)) log(`  ${line}`);
+  if (r.status === 'current') { log('  settings.json already matches this package'); return true; }
+  const saved = apply.protect(r.file, { home: os.homedir() });
+  if (saved.action === 'backup-failed') {
+    log(`  NOT written: no backup could be taken (${saved.error}); ${r.file} unchanged`);
+    return false;
+  }
+  fs.writeFileSync(r.file, JSON.stringify(r.settings, null, 2) + '\n', 'utf8');
+  for (const x of r.reasons) log(`  ${x.event}: ${x.reason}`);
+  log(`  re-wired ${r.changed.join(', ')}`);
+  log(`  copy before write: ${saved.path}`);
+  log('  restart Claude Code — hooks are read at session start');
+  return true;
 }
 
 /**
@@ -1688,12 +1897,26 @@ function cmdHooks(argv) {
   }
 
   if (sub === 'status') {
-    const { changed, conflicts } = hooksLib.plan(current, root, {});
+    // The same plan `hooks install` writes and `update` refreshes (fix round 2, A): an entry
+    // is current when the fields this pack writes match, so a field the operator added (a
+    // `timeout`) is not "stale". An entry of ours that is absent — removed by hand, never
+    // installed, or an event a later release added — is listed apart: `update` never adds
+    // one, only `hooks install` does, and saying "stale" would hide which repair applies.
+    const { conflicts, reasons } = hooksLib.plan(current, root, {});
+    const stale = reasons.filter((r) => r.reason !== 'added');
+    const absent = reasons.filter((r) => r.reason === 'added');
     log('hooks: что ставит семья\n  ' + hooksLib.describe(root).join('\n  '));
-    log(changed.length
-      ? `\nhooks: НЕ установлено или устарело — ${changed.join(', ')}\n  ` +
-        `поставить: npx sshlg-skills hooks install`
-      : '\nhooks: всё на месте и совпадает');
+    if (stale.length) {
+      log(`\nhooks: устарело — ${stale.map((r) => r.event).join(', ')}\n  ` +
+        stale.map((r) => `${r.event}: ${r.reason}`).join('\n  ') + '\n  ' +
+        'обновить: npx sshlg-skills hooks install (или update)');
+    }
+    if (absent.length) {
+      log(`\nhooks: не подключено здесь (снято вручную или ещё не ставилось) — ` +
+        `${absent.map((r) => r.event).join(', ')}\n  ` +
+        'добавить: npx sshlg-skills hooks install (update их не добавляет)');
+    }
+    if (!reasons.length) log('\nhooks: всё на месте и совпадает');
     for (const c of conflicts) log(`hooks: ${c.key} держит ${c.held_by} — ${c.note}`);
     return true;
   }
@@ -2153,7 +2376,7 @@ function main(argv) {
     }
   }
   if (cmd === 'install' || cmd === 'i') return cmdInstall(f) ? 0 : 1;
-  if (cmd === 'update' || cmd === 'up') return cmdUpdate(f) ? 0 : 1;
+  if (cmd === 'update' || cmd === 'up') return runUpdateLocked(f);
   if (cmd === 'uninstall' || cmd === 'un') return cmdUninstall(f) ? 0 : 1;
   if (cmd === 'backup') return cmdBackupAll() ? 0 : 1;
   if (cmd === 'wipe') return cmdWipeAll(f) ? 0 : 1;
