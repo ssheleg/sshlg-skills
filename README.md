@@ -329,7 +329,7 @@ npx sshlg-skills routers --diff <name>            # your wording vs the packaged
 npx sshlg-skills routers --update --adopt <name>  # take the packaged wording for it
 ```
 
-Fourteen routers, and they are **different axes rather than competing
+Fifteen routers, and they are **different axes rather than competing
 priorities** — a landing page passes several, an internal script passes none:
 
 | Router | Answers | When | Needs installed |
@@ -344,13 +344,17 @@ priorities** — a landing page passes several, an internal script passes none:
 | `web3d-dev` | how a realtime 3D scene on the web runs, ships its assets and moves | a three.js or React Three Fiber scene renders in the page | web3d-dev |
 | `seo-llmo` | whether a machine will find it | a logged-out reader can see it | — |
 | `evidence-docs` | what proves it | something is stated as true | — |
+| `fabric` | what runs on this machine and how its Fabric services are read | the subject is a local agent service or the Fabric network | — |
 | `task-pipeline` | how the change reaches the repo | the repository changes | task-pipeline |
 | `project-audit` | what is actually true of this project right now | the question is the whole project, not one change | task-pipeline |
 | `make-skill` | how the skill itself is built | a skill or plugin changes shape | make-skill |
 | `agent-sync` | who is holding this file | the project has coordination on | agent-sync |
 
-Two of them need no skill behind them. `seo-llmo` and `evidence-docs` are
-rules, not tools, so they hold whether or not anything is installed.
+Three of them need no skill behind them. `seo-llmo`, `evidence-docs` and
+`fabric` are rules, not tools, so they hold whether or not anything is
+installed — `fabric`'s condition is the machine, not a member: it holds when
+Fabric's services directory is present, and the Fabric skills it points at
+come from a plugin outside this family.
 
 **Your own wording wins.** Where you already wrote a rule by hand, migration
 moves *your* text in verbatim — asides included — and the packaged default is
@@ -626,7 +630,7 @@ skills.json                  registry — repos, plugin ids, skill names, pins
 skills/*                     the nine skill packs as pinned git submodules
 bin/sshlg-skills.js          the launcher (install / update / routers / config / hooks /
                              injectors / conflicts / list / agents)
-lib/routers-registry.js      the ten routers — text, table row and required members, in one entry
+lib/routers-registry.js      the fifteen routers — text, table row and required members, in one entry
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js
 lib/plan.js                  the argv handed to the skills CLI — one builder for install and update
