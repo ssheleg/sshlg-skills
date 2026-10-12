@@ -12,6 +12,9 @@
  *   npx sshlg-skills update  [--agent a,b | --all] [--no-claude] [--claude-only] [--bump-pins] [--dry-run]
  *   npx sshlg-skills list
  *   npx sshlg-skills agents
+ *   npx sshlg-skills hosts
+  npx sshlg-skills hosts                              # hosts detected here; for Pi, where family skills
+                                                      # are visible and which names are duplicated
  */
 'use strict';
 
@@ -943,6 +946,42 @@ function cmdList(argv) {
   }
   if (!verbose) log('\n  --verbose adds each member\'s repository and full description.');
   log(`\nInstall:  npx sshlg-skills install       Update:  npx sshlg-skills update`);
+}
+
+/**
+ * `hosts` — which agent hosts this machine has, and for Pi where the family is visible.
+ *
+ * Read-only. The instruction-file hosts come from apply.TARGETS (the same list the
+ * routing writer uses, so this report and that write cannot disagree about which
+ * hosts exist). Pi additionally gets lib/pi.js's skill-root report, because Pi reads
+ * skills from several directories and a duplicate name keeps only the first.
+ */
+function cmdHosts() {
+  const apply = require('../lib/apply.js');
+  const piLib = require('../lib/pi.js');
+  const home = os.homedir();
+  log('Agent hosts (instruction file the routing block is written to):\n');
+  for (const t of apply.TARGETS) {
+    const v = apply.hostRootVerdict(t, home, {});
+    const present = v.supported && fs.existsSync(v.root);
+    const file = v.supported ? path.join(v.root, t.file) : '(unsupported platform)';
+    log(`  ${t.agent.padEnd(8)} ${present ? 'detected' : 'absent  '}  ${file}`);
+  }
+  const family = new Set(SKILLS.flatMap((s) => s.skillNames || []));
+  const r = piLib.inspect({ home, env: process.env, cwd: process.cwd(), which: (b) => piLib.whichBin(b), family });
+  log('\nPi (@earendil-works/pi-coding-agent):');
+  if (!r.detected) { log('  pi      absent    no ~/.pi/agent and no `pi` on PATH'); return; }
+  log(`  pi      detected  via ${r.via.join(', ')}; agent dir ${r.agentDir}`);
+  log('  Pi does not load Claude Code plugins: the family reaches it as plain skill directories and through AGENTS.md.');
+  for (const root of r.roots) log(`  skills root (${root.kind})  ${root.path}  ${root.skills} skill(s)`);
+  log(`  family skills visible to Pi: ${r.family.visible.length} of ${r.family.total}` +
+      (r.family.missing.length ? `; not visible: ${r.family.missing.join(', ')}` : ''));
+  log(`  duplicate names across Pi's roots: ${r.duplicates.harmless} harmless (one realpath), ` +
+      `${r.duplicates.conflicts.length} conflict(s) (different realpaths) of ${r.names} names`);
+  for (const c of r.duplicates.conflicts) {
+    const mark = r.duplicates.familyConflicts.includes(c.name) ? ' [family]' : '';
+    log(`  conflict: ${c.name}${mark} — Pi keeps ${c.locations[0].path}; shadowed: ${c.locations.slice(1).map((l) => l.path).join(', ')}`);
+  }
 }
 
 function cmdAgents() {
@@ -2349,6 +2388,7 @@ function main(argv) {
   if (!cmd || cmd === 'help' || cmd === '--help' || cmd === '-h') { usage(); return 0; }
   if (cmd === 'list' || cmd === 'ls') { cmdList(argv); return 0; }
   if (cmd === 'agents') { cmdAgents(); return 0; }
+  if (cmd === 'hosts') { cmdHosts(); return 0; }
   // Before parseFlags: `config` takes positional arguments, and that parser
   // exits on any token it does not recognise as a flag.
   if (cmd === 'config') return cmdConfig(rest);

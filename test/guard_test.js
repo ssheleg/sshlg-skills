@@ -33,10 +33,11 @@ const bash = (command) => ({ tool_name: 'Bash', tool_input: { command } });
 
 it('every documented target is protected, and each one is reachable', () => {
   const list = G.targets(HOME);
-  assert.strictEqual(list.length, 5, `expected five targets, got ${list.length}`);
+  assert.strictEqual(list.length, 6, `expected six targets, got ${list.length}`);
   for (const f of [CLAUDE, CURSOR, SETTINGS,
                    path.join(HOME, '.codex', 'AGENTS.md'),
-                   path.join(HOME, '.gemini', 'GEMINI.md')]) {
+                   path.join(HOME, '.gemini', 'GEMINI.md'),
+                   path.join(HOME, '.pi', 'agent', 'AGENTS.md')]) {
     assert.ok(list.includes(f), `not protected: ${f}`);
   }
 });

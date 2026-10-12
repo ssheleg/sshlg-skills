@@ -1,3 +1,21 @@
+## Unreleased
+
+Wave 5 of the integration plan (R30, R32, R37), hub part.
+
+- **Pi is a host** (R37). The routing block is written to `~/.pi/agent/AGENTS.md` (or
+  `$PI_CODING_AGENT_DIR/AGENTS.md`) through the same writer, `protect()` backup and sentinels as
+  `~/.codex/AGENTS.md`, only where `~/.pi/agent` exists; the write guard protects the file, and
+  `uninstall` removes the block. New read-only `npx sshlg-skills hosts` reports Pi's detection,
+  its skill roots, where the family's skills are visible to it, and duplicate names across its
+  roots (same realpath: harmless; different realpaths: a conflict, named). Nothing is pruned.
+  Checks: `test/pi_test.js` (14), including three real runs against a real file with identical hashes.
+- **The family description total only falls** (R32). `check_the_family_description_total_only_falls`
+  computes the total characters of every family skill description from the pinned members and holds
+  it to the `description-total` recorded in `docs/DOCMAP.md`: above fails naming the excess, below
+  passes and prints the figure to record. Plants in `test/family_plants_test.py`.
+- **The hub board guard has now been watched refusing a member's defect** (R30): a pipe-shifted row
+  in `skills/make-skill`'s board fails with the member, line and row id (same suite).
+
 ## v1.56.0 — the hooks say less, and `update` finishes the job
 
 Wave 1 of the integration plan (R01-R06; board B-155..B-159), with its two certification fix

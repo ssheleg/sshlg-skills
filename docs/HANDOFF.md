@@ -36,6 +36,18 @@ green; `Hook wiring: PreToolUse: matcher — re-wired`; `routers --dry-run` unch
 instruction files; `hooks: всё на месте и совпадает` — B-157 closed on this machine. B-163 closed
 by Fabric Dashboards `be8b2cf` (exit 75 is busy).
 
+**Wave 5, hub part (branch `w5/hub-close`, 2026-10-12; developer agent, lease `WAVES-1011`).**
+R30: the board guard was watched refusing a planted pipe-shifted row in `skills/make-skill`'s board
+(`test/family_plants_test.py`); B-108/B-109 now state what the hub proves and which member repositories
+still owe an own-gate check; the hub reads 8 boards of 11 (`telegram-dev`, `xr-dev`, `web3d-dev` have none).
+R32: `check_the_family_description_total_only_falls` with the floor in `docs/DOCMAP.md`
+(`description-total`, 32635 at the current pins; a fall prints the figure to record). R37: Pi is a host —
+`lib/pi.js`, `hosts` command, `~/.pi/agent/AGENTS.md` through `lib/apply.js` `TARGETS` and the write guard;
+`test/pi_test.js`. B-146 install half recorded, B-164 filed. **Not done here, by instruction:** submodule
+pins, `skills.json`, the README member table, the real install against the operator's HOME (run
+`npx sshlg-skills routers --dry-run` first: it will now preview `~/.pi/agent/AGENTS.md`), and after the
+re-pins lower `description-total` to the figure the gate prints.
+
 **Exact next bounded tasks (orchestrator):**
 1. Waves 2–4: task-pipeline PR (W2-B CI refactor in flight), agent-sync PR #32 (fix round 2 in
    flight), agent-stack PR #44 (certification owed); then wave 5 per the

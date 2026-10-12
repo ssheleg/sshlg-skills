@@ -297,14 +297,25 @@ description from its own runtime; copying those here would put one fact in two
 homes and cost context in every session of every project. What no runtime can
 derive is the shape — where to start, and in what order the members compose.
 
-Four channels get it, and each only where that agent is actually installed:
+Five channels get it, and each only where that agent is actually installed:
 
 | Agent | Where |
 |---|---|
 | Claude Code | `~/.claude/CLAUDE.md` |
 | Codex | `~/.codex/AGENTS.md` |
 | Gemini CLI | `~/.gemini/GEMINI.md` |
+| Pi | `~/.pi/agent/AGENTS.md` (or `$PI_CODING_AGENT_DIR/AGENTS.md`) |
 | Cursor | `~/.cursor/rules/sshlg-routing.mdc` — one file per rule, `alwaysApply: true` |
+
+**Pi** (`@earendil-works/pi-coding-agent`, command `pi`) reads skills from `~/.pi/agent/skills`,
+`~/.agents/skills` and, per project, `.pi/skills` and `.agents/skills` up to the repository root;
+a name found twice keeps the first and warns; it loads no Claude Code plugins, so the family
+reaches it as plain skill directories plus the block above. `npx sshlg-skills hosts` reports,
+read-only, whether Pi is here, where the 39 family skills are visible to it, and how many names
+repeat across its roots — the same realpath twice (a symlink into `~/.agents/skills`) is counted
+as harmless, different realpaths are named as conflicts. Nothing is pruned or moved. The sources
+are Pi 1.1.0's own documentation (its skills page, lines 59-61 and 85, and its configuration page, lines 9 and 18);
+`test/pi_test.js` runs the block through the real writer three times against a real file.
 
 Cursor's file is ours end to end rather than a block inside yours, so it
 carries the same sentinel and a file at that name **without** it is left alone:
@@ -429,7 +440,7 @@ npx sshlg-skills humanizers               # anti-AI-writing skills here, with th
 |---|---|---|
 | `SessionStart` | one note saying the block is not advisory; the session's title and the ledger to watch; **and, since v0.48.0, one line naming any other enabled plugin that also injects here** — silent when there is none, and since v1.56.0 printed only when that set differs from the one recorded in `state.json` — a machine-wide record, so a second session with the same set is not told again | ~90 tokens per session |
 | `UserPromptSubmit` | names the route this prompt asks for — **once per route per session** since v1.56.0 (a route already named is not repeated; `clear` and `compact` reset the record, `resume` keeps it, a fork is a new session id and starts without one; a payload with no session id keeps no turn record at all — its note always prints and it is never escalated). One exception: a facet route printed for the first time on a prompt that writes brings the `task-pipeline` line with it, even when delivery was named earlier | nothing on the turns that don't need it |
-| `PreToolUse` | **copies before any write** to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.cursor/rules/sshlg-routing.mdc` and `~/.claude/settings.json` — and **refuses the write** if the copy cannot be taken. Also refuses a bare `npx skills update <member>` | nothing until one of those files is touched |
+| `PreToolUse` | **copies before any write** to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.pi/agent/AGENTS.md`, `~/.cursor/rules/sshlg-routing.mdc` and `~/.claude/settings.json` — and **refuses the write** if the copy cannot be taken. Also refuses a bare `npx skills update <member>` | nothing until one of those files is touched |
 | `PostToolUse` | after any skills-CLI run, names the plain copies shadowing a plugin; after `obsidian-wiki setup`, puts back the config keys it truncates | nothing on any other command |
 | `Notification` | a desktop ping when a long run goes idle or a background agent finishes | nothing — it emits a terminal sequence |
 | `ConfigChange` | notices when something else rewrites these entries (a field this pack writes changed; a field you added is not a change, and an entry that is gone looks like one you removed, so `hooks` lists it on demand instead) | nothing — it records; `SessionStart` reports |

@@ -40,7 +40,8 @@ def case(name, fn):
 
 HOSTS = {"claude": (".claude", "CLAUDE.md"),
          "codex": (".codex", "AGENTS.md"),
-         "gemini": (".gemini", "GEMINI.md")}
+         "gemini": (".gemini", "GEMINI.md"),
+         "pi": (os.path.join(".pi", "agent"), "AGENTS.md")}
 
 
 def seed_home():
@@ -106,16 +107,16 @@ def scoped_targets(home, *scope):
 
 def t_resolver_scopes_match_the_selection():
     assert scoped_targets(None, "--claude-only") == ["claude"]
-    assert set(scoped_targets(None, "--no-claude")) == {"codex", "gemini"}
+    assert set(scoped_targets(None, "--no-claude")) == {"codex", "gemini", "pi"}
     assert scoped_targets(None, "--agent", "codex") == ["codex"]
-    assert set(scoped_targets(None)) == {"claude", "codex", "gemini"}
+    assert set(scoped_targets(None)) == {"claude", "codex", "gemini", "pi"}
 
 
 def t_scoped_write_leaves_others_byte_identical():
     for scope, written, untouched in (
-        (["--claude-only"], "claude", ["codex", "gemini"]),
+        (["--claude-only"], "claude", ["codex", "gemini", "pi"]),
         (["--no-claude"], None, ["claude"]),
-        (["--agent", "codex"], "codex", ["claude", "gemini"]),
+        (["--agent", "codex"], "codex", ["claude", "gemini", "pi"]),
     ):
         home = seed_home()
         before = {a: digest(path_of(home, a)) for a in HOSTS}
@@ -146,6 +147,7 @@ def t_apply_writes_only_selected_and_leaves_rest_identical():
     after = {a: digest(path_of(home, a)) for a in HOSTS}
     assert after["claude"] == before["claude"], "CLAUDE.md was written despite --agent codex"
     assert after["gemini"] == before["gemini"], "GEMINI.md was written despite --agent codex"
+    assert after["pi"] == before["pi"], "the Pi AGENTS.md was written despite --agent codex"
     assert after["codex"] != before["codex"], "the SELECTED codex file was not written"
     with open(path_of(home, "codex"), encoding="utf-8") as fh:
         body = fh.read()

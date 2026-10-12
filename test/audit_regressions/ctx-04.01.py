@@ -30,7 +30,7 @@ APPLY = os.path.join(ROOT, "lib", "apply.js")
 RECEIPT = os.path.join(ROOT, "docs", "evidence", "acceptance", "ctx-04.01.json")
 
 MANDATORY = ("claude", "codex")            # the baseline that must be smoke-tested
-DECLARED = ("gemini",)                      # adapters that stay declared until their smoke
+DECLARED = ("gemini", "pi")                     # adapters that stay declared until their smoke
 
 REQUIRED_CHECKS = ["root_resolves", "presence_reported", "no_write_on_unknown_platform"]
 OPTIONAL_CHECKS = ["version_detected", "capability_detected"]
