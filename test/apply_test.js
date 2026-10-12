@@ -193,6 +193,28 @@ it('APPLYCURSOR DOES NOT INTRODUCE THE RULE ON `update` — an update is not the
   assert.ok(fs.existsSync(file));
 });
 
+it('update creates the block in a NEW instruction-file target when consent is on record (1.57.0 Pi)', () => {
+  // 1.57.0 added ~/.pi/agent/AGENTS.md as a target. A machine with Pi installed and the
+  // block already consented to had the directory and no AGENTS.md, and `update` reported
+  // the target `absent` and wrote nothing: the channel shipped to nobody.
+  const home = seededHome();
+  fs.mkdirSync(path.join(home, '.pi', 'agent'), { recursive: true });
+  const file = path.join(home, '.pi', 'agent', 'AGENTS.md');
+  const recs = apply.apply({ home, mode: 'update', consent: 'yes', consentRecorded: 'yes',
+                             routers: ROUTERS, members: MEMBERS });
+  const pi = recs.targets.find((r) => r.file === file);
+  assert.ok(pi, JSON.stringify(recs.targets));
+  assert.notStrictEqual(pi.action, 'absent', JSON.stringify(pi));
+  assert.ok(fs.existsSync(file) && fs.readFileSync(file, 'utf8').includes('SSHLG:ROUTERS:BEGIN'),
+            'the consented block did not reach the new target');
+  // Without consent on record, update still introduces nothing.
+  const home2 = seededHome();
+  fs.mkdirSync(path.join(home2, '.pi', 'agent'), { recursive: true });
+  const file2 = path.join(home2, '.pi', 'agent', 'AGENTS.md');
+  apply.apply({ home: home2, mode: 'update', consent: 'yes', routers: ROUTERS, members: MEMBERS });
+  assert.ok(!fs.existsSync(file2), 'update introduced a block the operator never agreed to');
+});
+
 it('applyCursor still creates the file from the template when there is none', () => {
   const home = seededHome();
   const file = path.join(home, '.cursor', 'rules', cursor.FILENAME);

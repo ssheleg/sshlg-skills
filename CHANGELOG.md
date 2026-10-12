@@ -1,3 +1,15 @@
+## v1.57.1 — `update` delivers the routing block to a new host file
+
+1.57.0 added `~/.pi/agent/AGENTS.md` as a routing-block target, and `npx sshlg-skills update`
+on this machine reported it `absent` and wrote nothing: the consented-new-target branch in
+`lib/apply.js` required the FILE to exist, while a new target is usually a file not there yet.
+Now consent on record is enough wherever the host's directory exists (the Cursor branch already
+worked this way); without recorded consent `update` still introduces nothing. Case "update
+creates the block in a NEW instruction-file target when consent is on record (1.57.0 Pi)" in
+`test/apply_test.js`, failing on 1.57.0 with `action: absent`. One consequence, intended: with
+consent on record, a host instruction file the operator deleted is re-created by `update`;
+the way to decline the block is the opt-out marker, not deleting the file.
+
 ## v1.57.0 — four members re-pinned from waves 2–4; Pi is a host
 
 Wave 5 of the integration plan (R30, R32, R33 pins, R37), hub part, and the pins of the
