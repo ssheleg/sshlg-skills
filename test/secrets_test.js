@@ -118,6 +118,13 @@ it('a refusal never repeats the value it is refusing', () => {
     'the guard printed the very credential it exists to keep out of the transcript');
 });
 
+it('no remedy recommends printing part of a value (B-173)', () => {
+  // A slice is still part of the secret in the transcript; the remedy keeps to presence
+  // and length. The guard may still ALLOW a slice an operator types — it does not advise it.
+  const v = S.inspect('echo "key: ${OPENROUTER_API_KEY:-not set}"');
+  assert.ok(v && !/\$\{[A-Z_]+:\s*-?\d/.test(v.why), 'the remedy text advises a slice: ' + (v && v.why));
+});
+
 it('a non-string payload decides nothing rather than throwing', () => {
   // The hook fails silent by design; a guard that throws on an unfamiliar
   // payload would break every tool call in every session.

@@ -283,8 +283,8 @@ entry, not only the new ones, so skip it if you removed an entry on purpose.
 
 **Exit codes of `update`:** 0 done, 1 a step failed, **2 a usage error** (an unknown
 flag, a flag without its value, contradictory flags), **75 another `update` holds
-`~/.sshlg-skills/update.lock`** (EX_TEMPFAIL — retry later, nothing failed; before
-1.56.0's final polish this was also 2). Details: `docs/working-rules/state-json.md`.
+`~/.sshlg-skills/update.lock`** (EX_TEMPFAIL — retry later, nothing failed; every
+published launcher since 1.56.0). Details: `docs/working-rules/state-json.md`.
 
 > **Update through the launcher, not through a bare `npx skills update <id>`.**
 > Without an explicit `--agent` list the skills CLI auto-detects Claude Code and
@@ -586,6 +586,29 @@ These hook adapters are installed through the Claude Code channel. Other hosts
 may support hooks, but need separately verified adapters; without one, these
 rules remain a self-check. Working with a different agent, or want
 them off? Delete the file — nothing else reads it.
+
+## With Fabric and Observatory
+
+The family works on its own; on a machine that also runs PassionCode's agent network it
+connects to it at four points, each with its own owner:
+
+- **The `fabric` router** (written only where Fabric is installed — its services directory
+  exists) sends questions about this machine's agent services to the Fabric tooling and to
+  the `fabric-agent-adapter` skills that build and adapt Fabric agents and services.
+- **agent-stack's `agent-interop`** carries the delegation doctrine — trust by machine
+  (T0 this machine, T1 an enrolled one, T2 everyone else), Fabric jobs
+  (`fabric.job.get` / `cancel`) and the `degraded` envelope — pinned to the
+  fabric-agent-contract commit it was read against.
+- **agent-sync** maps its operations onto Fabric's coordination contract
+  (`references/fabric-coordination.md`), and reads its Notion token from the Observatory
+  vault first.
+- **task-pipeline** writes workflow memory and planned handoffs through Observatory
+  (`stage_checkpoint.py`), and its waves mode reads the task sources a repository
+  declares (its own `backlog-sources.json`, checked by `skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/scripts/backlog_sources.py`).
+
+Credentials go through Project Observatory (`observatory_credentials`, `use_secret.py run
+--vault-only`); the family's secret guard names an Observatory-free route in every refusal
+as well. Observatory: <https://github.com/passioncode-ai/project-observatory-dashboard>.
 
 ## Other commands
 

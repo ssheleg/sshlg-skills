@@ -403,7 +403,7 @@ it('an update.lock held elsewhere (exit 75) is recorded as busy, not a failure, 
 // Final polish, item 1: an older launcher (before the lock had its own code) refused with
 // exit 2 and the `update: refused —` line. For one release the idle updater still reads
 // that pair as busy; a bare exit 2 — a usage error — is a failure, as it always was.
-it('the idle updater: 75 is busy; exit 2 is busy only with the refusal line (older launcher); a bare 2 is a failure (final polish 1)', () => {
+it('the idle updater: 75 is busy; any exit 2 is a failure, refusal line or not (B-178, 1.59.1)', () => {
   const home = sandbox();
   const state = path.join(home, '.sshlg-skills', 'state.json');
   const runWith = (npx) => {
@@ -415,8 +415,9 @@ it('the idle updater: 75 is busy; exit 2 is busy only with the refusal line (old
   const busy = runWith('#!/bin/sh\necho "update: refused — another update is running."\nexit 75\n');
   assert.ok(Number.isFinite(busy.busyAt) && busy.ok !== false, `exit 75 was not recorded as busy: ${JSON.stringify(busy)}`);
   const legacy = runWith('#!/bin/sh\necho "update: refused — another update is running."\nexit 2\n');
-  assert.ok(Number.isFinite(legacy.busyAt) && legacy.ok !== false,
-    `an older launcher's refusal (exit 2 + the line) was not recorded as busy: ${JSON.stringify(legacy)}`);
+  // No published launcher ever refused with 2; the compatibility branch is gone (B-178).
+  assert.strictEqual(legacy.ok, false, `exit 2 with a refusal line was recorded as busy: ${JSON.stringify(legacy)}`);
+  assert.ok(!Number.isFinite(legacy.busyAt), `exit 2 with a refusal line set busyAt: ${JSON.stringify(legacy)}`);
   const usage = runWith('#!/bin/sh\necho "unknown option: --x"\nexit 2\n');
   assert.strictEqual(usage.ok, false, `a usage error (exit 2, no refusal line) was recorded as busy: ${JSON.stringify(usage)}`);
   assert.ok(!Number.isFinite(usage.busyAt), `a usage error set busyAt: ${JSON.stringify(usage)}`);
