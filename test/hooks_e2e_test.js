@@ -398,11 +398,11 @@ it('`hooks remove` restores the file byte for byte', () => {
     'remove is not an undo — something of ours was left behind, or something of theirs was lost');
 });
 
-it('displacement: an entry someone else drops is recorded, then reported next session', () => {
+it('displacement: an entry someone else rewrites is recorded, then reported next session', () => {
   write(SETTINGS, '{}\n');
   cli(['hooks', 'install']);
   const s = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
-  delete s.hooks.PreToolUse;                       // another installer rewrites the file
+  s.hooks.PreToolUse[0].matcher = 'Edit';          // another installer rewrites our entry
   fs.writeFileSync(SETTINGS, JSON.stringify(s, null, 2) + '\n');
 
   const spoke = runHook('config-change.js',
@@ -411,7 +411,7 @@ it('displacement: an entry someone else drops is recorded, then reported next se
     'ConfigChange spoke — the reference says every channel it has is discarded');
 
   const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
-  assert.match(started.hookSpecificOutput.additionalContext, /PreToolUse:missing/,
+  assert.match(started.hookSpecificOutput.additionalContext, /PreToolUse:altered/,
     'the notice never reached a hook that can speak');
   assert.match(started.hookSpecificOutput.additionalContext, /hooks install/);
 });
@@ -423,6 +423,59 @@ it('a repaired settings file stops being reported', () => {
   const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
   assert.ok(!/displaced|no longer match/.test(started.hookSpecificOutput.additionalContext),
     'a displacement that was repaired is still being announced');
+});
+
+// --- one rule for "our entry is current" (fix round 2, A) ------------------
+//
+// `update` kept an operator's `timeout` while `hooks status` and the ConfigChange detector
+// still compared whole entries: every session start then said "N of this pack's entries no
+// longer match … Repair: hooks install", and that repair deleted the field. Now every path
+// judges by the fields this pack writes, and an entry that is gone is listed by `hooks
+// status` on demand, never nagged about at session start.
+
+function operatorTuned() {
+  write(SETTINGS, JSON.stringify({ env: { KEEP: '1' } }, null, 2) + '\n');
+  cli(['hooks', 'install']);
+  const s = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
+  s.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  s.statusLine.padding = 0;
+  fs.writeFileSync(SETTINGS, JSON.stringify(s, null, 2) + '\n');
+  return s;
+}
+
+it('an operator timeout is not a displacement: no "no longer match" line, and `hooks status` is clean (A)', () => {
+  operatorTuned();
+  runHook('config-change.js', { hook_event_name: 'ConfigChange', source: 'user_settings', file_path: SETTINGS });
+  const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
+  assert.ok(!/no longer match/.test(started.hookSpecificOutput.additionalContext),
+    `an operator field was announced as a displacement:\n${started.hookSpecificOutput.additionalContext}`);
+  const status = cli(['hooks', 'status']);
+  assert.match(status, /всё на месте и совпадает/, `status called an operator field stale:\n${status}`);
+});
+
+it('a hand-removed event: status lists it as not wired here, session start does not nag (A)', () => {
+  const s = operatorTuned();
+  delete s.hooks.Notification;
+  fs.writeFileSync(SETTINGS, JSON.stringify(s, null, 2) + '\n');
+  runHook('config-change.js', { hook_event_name: 'ConfigChange', source: 'user_settings', file_path: SETTINGS });
+  const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
+  assert.ok(!/no longer match/.test(started.hookSpecificOutput.additionalContext),
+    `a hand-removed entry was announced at session start:\n${started.hookSpecificOutput.additionalContext}`);
+  const status = cli(['hooks', 'status']);
+  assert.match(status, /не подключено здесь[^\n]*Notification/, `status did not list the removed event:\n${status}`);
+  assert.ok(!/UserPromptSubmit: timeout/.test(status), `status called the operator's timeout stale:\n${status}`);
+});
+
+it('`hooks install` keeps the operator\'s timeout and padding, and a second install changes nothing (A)', () => {
+  operatorTuned();
+  const before = sha(SETTINGS);
+  cli(['hooks', 'install']);
+  const after = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
+  assert.strictEqual(after.hooks.UserPromptSubmit[0].hooks[0].timeout, 5, 'install deleted the operator\'s timeout');
+  assert.strictEqual(after.statusLine.padding, 0, 'install deleted the operator\'s padding');
+  assert.strictEqual(sha(SETTINGS), before, 'install rewrote a file whose entries were current');
+  cli(['hooks', 'install']);
+  assert.strictEqual(sha(SETTINGS), before, 'the second install rewrote the file');
 });
 
 const FOREIGN_HOOK_E2E = { matcher: 'startup', hooks: [{ type: 'command', command: 'other-pack session-start' }] };

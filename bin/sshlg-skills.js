@@ -1839,13 +1839,26 @@ function cmdHooks(argv) {
   }
 
   if (sub === 'status') {
-    const { changed, conflicts, reasons } = hooksLib.plan(current, root, {});
+    // The same plan `hooks install` writes and `update` refreshes (fix round 2, A): an entry
+    // is current when the fields this pack writes match, so a field the operator added (a
+    // `timeout`) is not "stale". An entry of ours that is absent — removed by hand, never
+    // installed, or an event a later release added — is listed apart: `update` never adds
+    // one, only `hooks install` does, and saying "stale" would hide which repair applies.
+    const { conflicts, reasons } = hooksLib.plan(current, root, {});
+    const stale = reasons.filter((r) => r.reason !== 'added');
+    const absent = reasons.filter((r) => r.reason === 'added');
     log('hooks: что ставит семья\n  ' + hooksLib.describe(root).join('\n  '));
-    log(changed.length
-      ? `\nhooks: НЕ установлено или устарело — ${changed.join(', ')}\n  ` +
-        reasons.map((r) => `${r.event}: ${r.reason}`).join('\n  ') + '\n  ' +
-        `поставить: npx sshlg-skills hooks install`
-      : '\nhooks: всё на месте и совпадает');
+    if (stale.length) {
+      log(`\nhooks: устарело — ${stale.map((r) => r.event).join(', ')}\n  ` +
+        stale.map((r) => `${r.event}: ${r.reason}`).join('\n  ') + '\n  ' +
+        'обновить: npx sshlg-skills hooks install (или update)');
+    }
+    if (absent.length) {
+      log(`\nhooks: не подключено здесь (снято вручную или ещё не ставилось) — ` +
+        `${absent.map((r) => r.event).join(', ')}\n  ` +
+        'добавить: npx sshlg-skills hooks install (update их не добавляет)');
+    }
+    if (!reasons.length) log('\nhooks: всё на месте и совпадает');
     for (const c of conflicts) log(`hooks: ${c.key} держит ${c.held_by} — ${c.note}`);
     return true;
   }

@@ -284,14 +284,14 @@ it('whyDiffers names the first differing field, and `order` only for position or
   const fresh = H.plan({}, ROOT, {}).settings;
   const timed = JSON.parse(JSON.stringify(fresh));
   timed.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
-  assert.deepStrictEqual(H.plan(timed, ROOT, {}).reasons, [{ event: 'UserPromptSubmit', reason: 'timeout' }],
-    'install drops an added field and must say which one, not `order`');
+  assert.strictEqual(H.whyDiffers(timed.hooks.UserPromptSubmit[0], H.entries(ROOT).UserPromptSubmit), 'timeout',
+    'a whole-entry comparison must name the field, not `order`');
   const asyncFlip = JSON.parse(JSON.stringify(fresh));
   asyncFlip.hooks.SessionStart[0].hooks[0].async = true;
   assert.deepStrictEqual(H.plan(asyncFlip, ROOT, {}).reasons, [{ event: 'SessionStart', reason: 'async' }]);
   const padded = JSON.parse(JSON.stringify(fresh));
   padded.statusLine.padding = 0;
-  assert.deepStrictEqual(H.plan(padded, ROOT, {}).reasons, [{ event: 'statusLine', reason: 'padding' }]);
+  assert.strictEqual(H.whyDiffers(padded.statusLine, H.entries(ROOT).statusLine), 'padding');
   const slMoved = JSON.parse(JSON.stringify(fresh));
   slMoved.statusLine.command = `node "${ROOT}/hooks/old-statusline.js"`;
   assert.deepStrictEqual(H.plan(slMoved, ROOT, {}).reasons, [{ event: 'statusLine', reason: 'command' }]);
@@ -347,6 +347,43 @@ it('refreshOnly leaves a foreign status line byte-identical and does not block t
   assert.ok(r.skipped.some((x) => x.event === 'statusLine' && /other-tool/.test(x.why)));
   // install still sees the conflict
   assert.strictEqual(H.plan(s, ROOT, {}).conflicts.length, 1);
+});
+
+// --- one rule for "our entry is current" (fix round 2, A) ---
+//
+// `hooks install`, `hooks status`, `update` and the ConfigChange detector judge an entry of
+// ours by the fields this pack writes. Before, install and status compared whole groups, so
+// an operator's `timeout` read as stale and the named repair (`hooks install`) deleted it.
+
+it('`hooks install` keeps fields the operator added to our entries, and sees no change for them (A)', () => {
+  const fresh = H.plan({}, ROOT, {}).settings;
+  const s = JSON.parse(JSON.stringify(fresh));
+  s.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  s.hooks.SessionStart[0].note = 'mine';
+  s.statusLine.padding = 0;
+  const same = H.plan(s, ROOT, {});
+  assert.deepStrictEqual(same.changed, [], `install would rewrite current entries: ${JSON.stringify(same.reasons)}`);
+  assert.deepStrictEqual(same.settings, s);
+  // beside a stale matcher: the matcher is fixed, the operator's fields survive
+  s.hooks.PreToolUse[0].matcher = 'Edit';
+  const r = H.plan(s, ROOT, {});
+  assert.deepStrictEqual(r.reasons, [{ event: 'PreToolUse', reason: 'matcher' }]);
+  assert.strictEqual(r.settings.hooks.UserPromptSubmit[0].hooks[0].timeout, 5, 'install dropped the operator\'s timeout');
+  assert.strictEqual(r.settings.statusLine.padding, 0, 'install dropped the operator\'s padding');
+  assert.strictEqual(r.settings.hooks.SessionStart[0].note, 'mine');
+});
+
+it('install and refresh differ only in what they add: the same entries are current for both (A)', () => {
+  const fresh = H.plan({}, ROOT, {}).settings;
+  const s = JSON.parse(JSON.stringify(fresh));
+  s.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  s.hooks.PreToolUse[0].matcher = 'Edit';
+  delete s.hooks.Notification;
+  const install = H.plan(s, ROOT, {});
+  const refresh = H.plan(s, ROOT, { refreshOnly: true });
+  assert.deepStrictEqual(install.reasons.filter((x) => x.reason !== 'added'), refresh.reasons);
+  assert.deepStrictEqual(install.reasons.filter((x) => x.reason === 'added').map((x) => x.event), ['Notification']);
+  assert.deepStrictEqual(refresh.skipped.map((x) => x.event), ['Notification']);
 });
 
 if (failures.length) {
