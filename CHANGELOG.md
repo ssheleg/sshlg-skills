@@ -1,3 +1,26 @@
+## Unreleased
+
+- **The secret-file guard no longer refuses its own remedies (INB-006).** `reads-secret-file`
+  tests the whole line for a reader and a secret-looking path, so the existence check the
+  refusal itself recommends (`test -f FILE && echo present`) was refused when an unrelated
+  `| head -3` sat elsewhere on the same line. The rule now runs on the line with its
+  provably harmless segments removed — a segment whose first word reads nothing a person
+  could see (`test`, `[`, `stat`, `wc`, `ls`, `chmod`, `chown`, `touch`, `mkdir`, `file`,
+  `du`) and which contains no `$(`, backtick or process substitution. Nothing else changes:
+  the whole-line rule still sees every other segment. Cuts happen outside quotes and
+  substitutions, never at an escaped character or the `&` of a redirect, and a
+  backslash-newline joins its lines first; a wrong cut can only keep too much.
+  Two earlier cuts of this PR tested segment by segment instead, and each blind reading
+  found reads the old rule had refused (a path through a variable, a copy, a link, a
+  continuation line, a separator inside a substitution or escaped, quiet-flag holes); all
+  of them are denied cases now. Measured old-vs-new on the reviewers' 47+ probe commands:
+  the only commands main refused and this allows are the three remedy shapes.
+  `test/secrets_test.js`: 7 allowed (both INB-006 shapes and the size and mode remedies
+  failed on 1.57.1), 18 denied. Observatory's three verbatim commands are allowed.
+  Not changed, recorded as B-171: `grep`/`sed`/`awk` printing a secret file's lines
+  without a listed reader on the line, and the readers main already missed (`cd DIR &&` a
+  relative read, `xargs`, `find -exec`, `bash -c`, `python3 -c open(…)`).
+
 ## v1.58.0 — the fabric router: this machine's agent services get a rule
 
 The fifteenth router, and the third that needs no family member behind it. When Fabric is
