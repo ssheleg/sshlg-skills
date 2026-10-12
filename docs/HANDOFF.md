@@ -28,20 +28,20 @@ the lock refusal exits 75, the store lock never spins, `config.json` merges unde
 stale parked displacement is cleared, one session-id key, `hooks remove` keeps foreign hooks,
 the `hooks install` caveat, the documents, and `--agent` skipping the Claude plugin step).
 
+**Wave 1 delivered (2026-10-12).** Certified by three blind readings after two fix rounds and
+a final polish (receipt `evidence/runs/2026-10-12-wave1.md`), merged as #192, released as
+**1.56.0** (#193; tag `v1.56.0`, release run 38215090806: validate, release, publish success;
+npm `latest` = 1.56.0). Installed here with `npx sshlg-skills@latest update`: 83 of 83 steps
+green; `Hook wiring: PreToolUse: matcher — re-wired`; `routers --dry-run` unchanged in all four
+instruction files; `hooks: всё на месте и совпадает` — B-157 closed on this machine.
+
 **Exact next bounded tasks (orchestrator):**
-1. Certify PR #192 again (unit, seam, product), then merge it and cut the 1.56.0 release
-   (rename the CHANGELOG's `Unreleased (1.56.0 …)` heading, bump `package.json`). Send the
-   Fabric Dashboards ask in B-163 (exit 75 from `update` is busy, not failed; exit 2 is a
-   usage error).
-2. On this machine, after the release: run `npx sshlg-skills@latest routers --dry-run` (plain
-   `routers` writes) to see the protocol sentence change `update` is about to write — `update`
-   rewrites the managed block in all four instruction files itself (`cmdUpdate` →
-   `refreshBlock(f, 'update')`), so there is no separate decision to make; then
-   `npx sshlg-skills@latest update`; then `routers --dry-run` again, expecting no change; then
-   read `npx sshlg-skills hooks` — clean status (or only "не подключено здесь" lines for entries
-   removed on purpose) closes B-157.
-3. Then waves 2–5 per the [plan](evidence/plans/2026-10-11-integration-waves.md); task-pipeline's
-   wave-2 release closes B-160 once pinned here.
+1. Send the Fabric Dashboards ask in B-163 (exit 75 from `update` is busy, not failed; exit 2 is
+   a usage error; the bare `update` it runs now re-wires consented Claude hooks).
+2. Waves 2–4: task-pipeline PR (W2-B CI refactor in flight), agent-sync PR #32 (fix round 2 in
+   flight), agent-stack PR #44 (certification owed); then wave 5 per the
+   [plan](evidence/plans/2026-10-11-integration-waves.md); task-pipeline's wave-2 release
+   closes B-160 once pinned here.
 
 **W1-G (plugins scoped, operator decision 2026-10-12):** `figma`, `stripe` and `cloudflare` are
 off at user scope and on in these repositories' git-ignored `.claude/settings.local.json` —
