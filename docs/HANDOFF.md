@@ -133,9 +133,12 @@ session restored the paragraph and dropped the fabric table row. Nothing is appl
 a checkout again: after release, `npx --yes sshlg-skills@latest update` writes the block
 and its row to every `apply.TARGETS` host file, Pi's `~/.pi/agent/AGENTS.md` included.
 
-**Exact next task:** once the v1.58.0 release run has published, `npx --yes sshlg-skills@latest update` and check that all
-five host files carry `SSHLG:ROUTER:fabric` and its table row. The waves board's next
-bounded task stays W1-C as above.
+**Released and installed 2026-10-12.** #198 squash-merged as `103e25c`, tag `v1.58.0`, release run
+[38272767689](https://github.com/ssheleg/sshlg-skills/actions/runs/38272767689) success (validate, release,
+publish), npm 1.58.0. `npx --yes sshlg-skills@latest update` on this machine: exit 0, 83 of 83 steps green;
+`~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.pi/agent/AGENTS.md` and
+`~/.cursor/rules/sshlg-routing.mdc` each carry `SSHLG:ROUTER:fabric`, its table row and the 1.56.0
+refusal-phrase paragraph. The waves board's next bounded task stays W1-C as above.
 
 ## Previous delivery — family round 1.55.0 (2026-10-10/11)
 

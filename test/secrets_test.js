@@ -37,6 +37,26 @@ const DENIED = [
    'reads-secret-file'],
   ['reading a .env', 'head -20 /Users/x/proj/.env', 'reads-secret-file'],
   ['reading a private key file', 'tail ~/.ssh/id_rsa', 'reads-secret-file'],
+  ['a reader and the secret path in ONE segment of a longer line',
+   'ls; head -5 ~/proj/.env.agent-sync | wc -l', 'reads-secret-file'],
+  ['a reader fed the secret by redirection', 'head < ~/proj/.env', 'reads-secret-file'],
+  ['a reader inside a substitution', 'echo "$(cat ~/proj/.env)"', 'reads-secret-file'],
+  // PR #200's two blind readings: only a provably harmless segment may be set aside;
+  // everything else keeps the whole-line rule, so none of these opens.
+  ['the path through a variable', 'f=~/proj/.env; cat $f', 'reads-secret-file'],
+  ['the path through a local variable', 'local f=~/proj/.env; cat $f', 'reads-secret-file'],
+  ['the path through an exported variable', 'export F=~/x/.env && head "$F"', 'reads-secret-file'],
+  ['a redirect with & is not a separator', 'cat 2>&1 ~/proj/.env', 'reads-secret-file'],
+  ['the same into stderr', 'tail >&2 ~/.ssh/id_rsa', 'reads-secret-file'],
+  ['grep piped into a reader', 'grep TOKEN ~/proj/.env | head -1', 'reads-secret-file'],
+  ['copy, then read the copy', 'cp ~/proj/.env /tmp/x; cat /tmp/x', 'reads-secret-file'],
+  ['link, then read the link', 'ln -s ~/proj/.env /tmp/x; cat /tmp/x', 'reads-secret-file'],
+  ['a separator inside quotes', 'cat "a;b" ~/proj/.env', 'reads-secret-file'],
+  ['a backslash-newline continuation', 'head -n 5 \\\n  ~/proj/.env', 'reads-secret-file'],
+  ['a separator inside a substitution', 'cat $(:; echo ~/proj/.env)', 'reads-secret-file'],
+  ['an escaped separator', 'cat \\& ~/proj/.env', 'reads-secret-file'],
+  ['a harmless first word does not launder a substitution', 'test -n "$(cat ~/proj/.env)"', 'reads-secret-file'],
+  ['a size check beside a real read stays refused', 'wc -c < ~/proj/.env; cat ~/proj/.env', 'reads-secret-file'],
   ['the whole environment', 'env', 'dumps-environment'],
   ['printenv with no argument', 'printenv', 'dumps-environment'],
   ['verbose curl with an auth header',
@@ -64,6 +84,17 @@ const ALLOWED = [
   ['a path that only looks secret-ish', 'cat docs/authentication.md'],
   ['chmod on the secret, which reads nothing', 'chmod 600 ~/.config/agentgateway/secrets/x'],
   ['an empty command', ''],
+  // INB-006 (Observatory, 2026-10-12): a reader in one segment and a secret-looking path
+  // in ANOTHER were joined into one refusal, so the remedy `test -f FILE && echo present`
+  // was refused because an unrelated `| head` sat elsewhere on the line.
+  ['the existence remedy beside an unrelated reader',
+   'launchctl list | grep tick | head -3; test -f ~/DATA/x/.env.agent-sync && echo "token file present"'],
+  ['counting matching lines prints no value', 'grep -c ^TOKEN= ~/proj/.env'],
+  ['the size remedy beside an unrelated reader', 'wc -c < ~/proj/.env; tail -2 ~/log.txt'],
+  ['the mode remedy beside an unrelated reader', 'stat -f "%Sp" ~/proj/.env && head -1 ~/notes.md'],
+  ['a code search for a path pattern', 'rg -n "/credentials" lib/'],
+  ['an unrelated reader on both sides of the existence remedy',
+   'grep -c x ~/notes.md | head -1; test -f ~/x/.env && echo present; tail -2 ~/log.txt'],
 ];
 
 for (const [name, cmd, rule] of DENIED) {
