@@ -439,6 +439,8 @@ function planUpdate(f) {
   } catch (_) { /* no runtime dir resolvable — the execution path reports it */ }
   // The one write to an operator file this run can make outside the routing block.
   steps.push(rewireStep(f));
+  // Codex's native plugins, through Codex's own CLI (B-166).
+  steps.push(...planCodexSteps(f));
   return opres.buildPlan(steps);
 }
 
@@ -638,31 +640,13 @@ function cmdUpdate(f) {
   // A machine that has consented (one entry of ours in settings.json) is re-wired here;
   // one that has not is left alone — an update is not the moment to ask.
   ok = rewireConsentedHooks(f) && ok;
-  // Native host lifecycle (FIX-UP-07.02). The skills-CLI channel writes plain
-  // copies into ~/.codex/ etc., but a host with its OWN plugin loader (Codex)
-  // does not load them through that channel — and this launcher has no
-  // supported API to drive its update. Rather than a fake "current", it says
-  // UNSUPPORTED_UPDATE with the manual step and mutates nothing; a host with a
-  // supported API (Claude Code) was already driven above and stays verifiable.
-  try {
-    const lc = require('../lib/lifecycle.js');
-    const hosts = [
-      { name: 'Claude Code', api: 'claude plugin update' },
-      { name: 'Codex (native plugin cache)', api: null,
-        manualStep: 'Codex loads plugins through its own lifecycle — the family '
-          + 'updates its skills-CLI channel, not Codex\'s native cache. Update it '
-          + 'via Codex\'s own plugin manager and reload the session. No Codex '
-          + 'native files were touched.' },
-    ];
-    const unsupported = hosts.map(lc.planHostLifecycle)
-      .filter((r) => r.outcome === lc.UNSUPPORTED_UPDATE);
-    if (unsupported.length) {
-      log(`\n== Native host lifecycle ==`);
-      for (const u of unsupported) log(`  ${u.host}: UNSUPPORTED_UPDATE — ${u.manualStep}`);
-    }
-  } catch (e) {
-    log(`\n== Native host lifecycle ==\n  not reported: ${e.message}`);
-  }
+  // Native host lifecycle (FIX-UP-07.02, B-166). Codex loads the family's plugins
+  // from its OWN marketplace cache, not from the skills-CLI copies (those are
+  // excluded in its skills.config), so a re-pin reaches Codex only through Codex's
+  // own CLI: remove the marketplace, re-add it at the pin, add the plugin, and read
+  // the loaded version back. Only that readback says `current`. A Codex whose
+  // plugin CLI cannot be driven is still UNSUPPORTED_UPDATE, and nothing is touched.
+  ok = refreshCodexPlugins(f) && ok;
 
   printUpdateModel('update');
 
@@ -724,6 +708,148 @@ function claudeScope(f) {
   });
   if (scope.hostTargets.some((h) => h.agent === 'claude')) return { inScope: true };
   return { inScope: false, skippedBy: flags.claude === false ? '--no-claude' : `--agent ${(flags.agents || []).join(',')}` };
+}
+
+/**
+ * Whether this run's flags keep Codex's native plugins in scope (B-166): not under
+ * `--claude-only`, and under an `--agent` list only when it names `codex`.
+ */
+function codexScope(f) {
+  const flags = f || {};
+  if (flags.claudeOnly) return { inScope: false, skippedBy: '--claude-only' };
+  if (flags.agents && flags.agents.length && !flags.agents.includes('codex')) {
+    return { inScope: false, skippedBy: `--agent ${flags.agents.join(',')}` };
+  }
+  return { inScope: true };
+}
+
+function codexConfigPath() {
+  return path.join(require('../lib/codexplugins.js').codexHome(process.env, os.homedir()), 'config.toml');
+}
+
+function readCodexConfig() {
+  try { return fs.readFileSync(codexConfigPath(), 'utf8'); } catch (_) { return null; }
+}
+
+/**
+ * The ref a member's Codex marketplace is re-added at. A checkout knows the pin's
+ * COMMIT — the gitlink `git ls-tree HEAD skills/<name>` reads from what is committed,
+ * not from the working tree. The published package ships no submodules and no SHA, so
+ * there the ref is the member's release tag `v<version>`; every member's tag peels to
+ * its gitlink (measured for all eleven on 2026-10-12), and the readback checks the
+ * version either way. `--dry-run` runs no subprocess, so it always shows the tag.
+ */
+function codexPinRef(s, opts) {
+  if (!(opts && opts.noGit)) {
+    const r = spawnSync('git', ['-C', ROOT, 'ls-tree', 'HEAD', s.dir], { encoding: 'utf8' });
+    const m = r.status === 0 && /^160000 commit ([0-9a-f]{40})\t/m.exec(r.stdout || '');
+    if (m) return { ref: m[1], kind: 'commit' };
+  }
+  return { ref: `v${s.version}`, kind: 'tag' };
+}
+
+/**
+ * The runner `lib/codexplugins.js` drives Codex through. A mutating call is logged and
+ * counted like every other `update` step, and a failure lands in the closing summary; a
+ * read (`--version`, `plugin list`) is captured and stays quiet.
+ */
+function codexRunner(cmd, args, opts) {
+  const read = opts && opts.read;
+  if (!read && progress.total) {
+    // `onItem` added this item's three steps to the total; a rollback's steps are only
+    // known once it starts, so they extend the total as they run.
+    progress.done++;
+    if (progress.done > progress.total) progress.total = progress.done;
+  }
+  if (!read) {
+    const at = progress.total ? `[${progress.done}/${progress.total}] ` : '';
+    log('  » ' + at + cmd + ' ' + args.join(' '));
+  }
+  const r = spawnSync(cmd, args, { encoding: 'utf8', shell: process.platform === 'win32',
+    stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 32 * 1024 * 1024 });
+  if (!read) {
+    for (const line of `${r.stdout || ''}${r.stderr || ''}`.split(/\r?\n/).filter(Boolean)) log(`      ${line}`);
+    if ((r.error || r.status !== 0) && progress.total) progress.failed.push(`${cmd} ${args.join(' ')}`);
+  }
+  return { status: r.status, stdout: r.stdout || '', stderr: r.stderr || '', error: r.error };
+}
+
+/** The Codex half of `update` (B-166): read, refresh what is behind, read back. */
+function refreshCodexPlugins(f) {
+  log('\n== Native host lifecycle: Codex plugins ==');
+  const scope = codexScope(f);
+  if (!scope.inScope) {
+    log(`  skipped: ${scope.skippedBy} (Codex is outside this run's scope)`);
+    return true;
+  }
+  const cp = require('../lib/codexplugins.js');
+  const lc = require('../lib/lifecycle.js');
+  let out;
+  try {
+    out = cp.refreshAll({
+      skills: SKILLS,
+      only: f.member || null,
+      runner: codexRunner,
+      readConfig: readCodexConfig,
+      configPath: codexConfigPath(),
+      pinRef: (s) => codexPinRef(s),
+      onItem: (it) => (progress.total && (progress.total += cp.refreshCommands(it).length), log(`\n- ${it.pluginId}: Codex reports ${it.from}, the pin is ${it.pin} `
+        + `— re-adding ${it.marketplace} at ${it.ref} (${it.refKind === 'commit' ? 'the pin\'s commit' : 'the release tag'}; `
+        + `previous ${it.prev.ref || 'default branch'} recorded for rollback)`)),
+      onResult: (res) => { for (const l of cp.resultLines(res)) log(l); },
+    });
+  } catch (e) {
+    log(`  NOT refreshed: ${e.message}`);
+    return false;
+  }
+  if (out.status === 'skipped') { log(`  skipped: ${out.why}`); return true; }
+  if (out.status === 'unsupported') {
+    const u = lc.planHostLifecycle({ name: 'Codex', api: null,
+      manualStep: `this Codex has no \`codex plugin\` marketplace CLI (${out.why}). Update the family `
+        + 'plugins through Codex\'s own plugin manager and reload the session. No Codex native files were touched.' });
+    log(`  ${u.host}: UNSUPPORTED_UPDATE — ${u.manualStep}`);
+    return true;
+  }
+  if (out.status === 'unread') {
+    log(`  not read: codex plugin list failed — ${out.why}. Nothing in Codex was touched.`);
+    return true;
+  }
+  for (const it of out.items) {
+    if (it.action === 'skip') log(`  ${it.pluginId}: left alone — ${it.why}`);
+  }
+  log(cp.summaryLine(out));
+  if (out.results.some((r) => r.status === 'current')) log('  (start a new Codex session to load them)');
+  return out.results.every((r) => r.status === 'current');
+}
+
+/**
+ * What the Codex pass WOULD do, for `--dry-run`: read-only, no subprocess. Without
+ * running `codex plugin list` the installed versions are unknown, so every family
+ * marketplace configured in Codex is listed with the condition under which it moves.
+ */
+function planCodexSteps(f) {
+  if (!codexScope(f).inScope) return [];
+  const text = readCodexConfig();
+  if (text === null) return [];
+  const cp = require('../lib/codexplugins.js');
+  const mks = cp.readMarketplaces(text);
+  const steps = [];
+  for (const s of SKILLS) {
+    if (f.member && s.name !== f.member) continue;
+    const ids = cp.splitPluginId(s.pluginInstall);
+    const mk = ids && mks.get(ids.marketplace);
+    if (!mk || mk.source_type !== 'git' || mk.other.length
+      || cp.normalizeSource(mk.source) !== cp.normalizeSource(cp.familyUrl(s))) continue;
+    const pin = codexPinRef(s, { noGit: true });
+    const item = { marketplace: ids.marketplace, url: cp.familyUrl(s), ref: pin.ref, pluginId: s.pluginInstall };
+    for (const c of cp.refreshCommands(item)) {
+      steps.push(opres.step('subprocess', 'home',
+        `Codex ${s.pluginInstall} — ${c.step}, only if \`codex plugin list\` reports a version other than `
+          + `${s.version} (a checkout re-adds at the pin's commit; previous ref ${mk.ref || 'default branch'} kept for rollback)`,
+        { cmd: 'codex', args: c.args }));
+    }
+  }
+  return steps;
 }
 
 /**

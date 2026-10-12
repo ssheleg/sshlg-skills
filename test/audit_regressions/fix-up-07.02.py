@@ -17,6 +17,12 @@ The fix under test (lib/lifecycle.js + bin wiring, driven through node):
 * cmdUpdate surfaces UNSUPPORTED_UPDATE hosts and mutates nothing; the
   sheleg-design cli no longer claims files are loaded on write.
 
+Since B-166 (2026-10-12) Codex HAS a supported API — `codex plugin marketplace`
+and `codex plugin add`, read back through `codex plugin list` — and `update`
+drives it (`lib/codexplugins.js`, its own suites). UNSUPPORTED_UPDATE remains
+the answer for a Codex whose plugin CLI cannot be driven, which is what the
+wiring check below still asserts.
+
 Standard library + node only.
 """
 import json
