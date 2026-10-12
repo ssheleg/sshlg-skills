@@ -12,7 +12,9 @@
   table counts too. `--apply` first writes `enabledPlugins` into each matching project's
   `.claude/settings.local.json` and reads it back. Only after that does it turn the member off at
   user scope. Both writes go through `protect()`. A project whose git does not ignore that file
-  is refused, and its member stays on machine-wide. `--revert` undoes only the values recorded in
+  is refused, and its member stays on machine-wide (or goes back on, if an earlier run turned
+  it off). A negated ignore rule does not count as ignored. A failed write refuses only that
+  project and is recorded. `--revert` undoes only the values recorded in
   `~/.sshlg-skills/domains.json` that still hold. `update` gives a project that has since gained
   a dependency its member. `hosts` prints how many projects have evidence for each member and
   how many have it enabled. The core members stay on everywhere. In Fabric-started sessions

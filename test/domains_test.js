@@ -182,6 +182,25 @@ it('plan: still off and still ours is managed — a new project gets its entry',
   assert.ok(!p.userOff.includes('xr-dev@xr-dev'), 'already off');
 });
 
+it('plan: a member off by domains goes back ON when a new project with evidence cannot be written', () => {
+  const owned = { user: { 'telegram-dev@telegram-dev': false }, projects: {} };
+  const p = D.plan({ projects: [proj('/p/bot', { 'telegram-dev': ['package.json: grammy'] }, {}, { ok: false, why: 'not ignored' })],
+    user: Object.assign({}, USER, { 'telegram-dev@telegram-dev': false }), owned, plugins: PLUG });
+  assert.deepStrictEqual(p.userOn, ['telegram-dev@telegram-dev']);
+  assert.ok(!p.userOff.includes('telegram-dev@telegram-dev'));
+});
+
+it('validRecord: a record of the wrong shape is named, not trusted', () => {
+  assert.strictEqual(D.validRecord({ roots: ['/x'], user: { 'a@a': false }, projects: { '/p': { plugins: ['a@a'] } } }), null);
+  assert.ok(D.validRecord({ roots: 'x', user: {}, projects: {} }));
+  assert.ok(D.validRecord({ roots: [], user: {}, projects: { '/p': {} } }));
+  assert.ok(D.validRecord([]));
+});
+
+it('evidenceIn on a whole source line keeps the word boundary: navigator.xrFoo is not xr', () => {
+  assert.deepStrictEqual(D.evidenceIn('a.js', 'const x = window.mynavigator.xrFoo;'), []);
+});
+
 it('revertPlan: user scope back on first, then only project values still as set', () => {
   const owned = { user: { 'xr-dev@xr-dev': false, 'web3d-dev@web3d-dev': false }, projects: { '/p/a': { plugins: ['xr-dev@xr-dev'] }, '/p/b': { plugins: ['xr-dev@xr-dev'] } } };
   const r = D.revertPlan({ owned, user: { 'xr-dev@xr-dev': false, 'web3d-dev@web3d-dev': true }, locals: { '/p/a': { 'xr-dev@xr-dev': true }, '/p/b': { 'xr-dev@xr-dev': false } } });

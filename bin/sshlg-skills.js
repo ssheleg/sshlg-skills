@@ -1952,13 +1952,24 @@ function cmdVisibility(argv) {
 function domainsInputs(argv, home) {
   const D = require(path.join(ROOT, 'lib', 'domains.js'));
   const read = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch (e) { return null; } };
+  // Only a missing file is "absent"; any other read error is reported, never taken for absence.
+  const readLocal = (p) => {
+    try { return { text: fs.readFileSync(p, 'utf8') }; } catch (e) { return e.code === 'ENOENT' ? { text: null } : { text: null, error: e.code || e.message }; }
+  };
   const value = (name) => { const i = argv.indexOf(name); return i !== -1 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : null; };
   const recordPath = path.join(home, '.sshlg-skills', 'domains.json');
   const recordText = read(recordPath);
+  // A record that does not parse, or has another shape, is NOT "no record": members may be off
+  // by this command's hand. It is named, and --apply/--revert/update refuse to act on it.
   let owned = null;
-  try { owned = recordText ? JSON.parse(recordText) : null; } catch (e) { owned = null; }
+  let recordError = null;
+  if (recordText !== null) {
+    try { owned = JSON.parse(recordText); } catch (e) { recordError = `does not parse (${e.message})`; }
+    if (!recordError) recordError = D.validRecord(owned);
+    if (recordError) owned = null;
+  }
   const rootArg = value('--root') || process.env.SSHLG_PROJECTS_ROOT || null;
-  const roots = (rootArg ? rootArg.split(path.delimiter) : (owned && owned.roots) || [path.join(home, 'DATA')])
+  const roots = (rootArg ? rootArg.split(path.delimiter) : (owned && owned.roots && owned.roots.length ? owned.roots : null) || [path.join(home, 'DATA')])
     .filter(Boolean).map((r) => path.resolve(r.replace(/^~(?=$|\/)/, home)));
   const dirs = [];
   for (const r of roots) {
@@ -1993,7 +2004,7 @@ function domainsInputs(argv, home) {
   const projects = dirs.map((dir) => {
     let s = scanned[dir];
     if (!s) { const w = D.scan(dir, fs, path); s = { evidence: w.evidence, via: w.truncated ? 'walk (stopped early)' : 'walk' }; }
-    if (s.via !== 'git') truncated += 1;
+    if (s.via !== 'git') truncated += 1;  // a walk, a walk that stopped early, or a failed source search
     const evidence = s.evidence;
     const used = usage.get(D.encodeDir(dir)) || {};
     for (const [member, calls] of Object.entries(used)) {
@@ -2003,14 +2014,18 @@ function domainsInputs(argv, home) {
       const k = why.startsWith('used 60d') ? 'usage' : (D.kindOf(why.split(': ')[0]) || 'other');
       kinds[k] = (kinds[k] || 0) + 1;
     }
-    const localText = Object.keys(evidence).length ? read(localPath(dir)) : null;
+    const lr = Object.keys(evidence).length ? readLocal(localPath(dir)) : { text: null };
     return {
-      dir, evidence, local: enabledOf(localText),
+      dir, evidence, local: enabledOf(lr.text),
       ignored: () => {
-        const g = spawnSync('git', ['-C', dir, 'check-ignore', '-v', '.claude/settings.local.json'], { encoding: 'utf8' });
-        if (g.status === 0) return { ok: true, why: `ignored by ${String(g.stdout).trim().split('\t')[0]}` };
-        if (g.status === 1) return { ok: false, why: 'git does not ignore .claude/settings.local.json (or it is tracked) — add it to .gitignore, then run again' };
-        return { ok: false, why: `git check-ignore failed: ${String(g.stderr || (g.error && g.error.message) || '').trim()}` };
+        if (lr.error) return { ok: false, why: `cannot read .claude/settings.local.json (${lr.error})` };
+        // -q decides: with -v, git also exits 0 when the last matching rule is a negation
+        // (`!.claude/settings.local.json`), which leaves the file committable.
+        const q = spawnSync('git', ['-C', dir, 'check-ignore', '-q', '.claude/settings.local.json'], { encoding: 'utf8' });
+        if (q.status === 1) return { ok: false, why: 'git does not ignore .claude/settings.local.json (or it is tracked) — add it to .gitignore, then run again' };
+        if (q.status !== 0) return { ok: false, why: `git check-ignore failed: ${String(q.stderr || (q.error && q.error.message) || '').trim()}` };
+        const v = spawnSync('git', ['-C', dir, 'check-ignore', '-v', '.claude/settings.local.json'], { encoding: 'utf8' });
+        return { ok: true, why: `ignored by ${String(v.stdout).trim().split('\t')[0] || 'git'}` };
       },
     };
   });
@@ -2018,7 +2033,7 @@ function domainsInputs(argv, home) {
   for (const p of projects) { const f = p.ignored; let v; p.ignored = () => (v || (v = f())); }
   const settingsPath = path.join(home, '.claude', 'settings.json');
   const userText = read(settingsPath);
-  return { D, read, roots, dirs, projects, usageFile, kinds, truncated, plugins, owned, recordPath, recordText,
+  return { D, read, readLocal, roots, dirs, projects, usageFile, kinds, truncated, plugins, owned, recordError, recordPath, recordText,
     settingsPath, userText, user: enabledOf(userText), localPath, enabledOf };
 }
 
@@ -2033,6 +2048,11 @@ function cmdDomains(argv) {
   const { D } = I;
   const name = (dir) => path.basename(dir);
   const withEvidence = I.projects.filter((p) => Object.keys(p.evidence).length);
+  if (I.recordError) {
+    log(`domains: ~/.sshlg-skills/domains.json ${I.recordError} — it decides what --revert undoes, so nothing acts on it.`);
+    log('  Restore it from ~/.sshlg-skills/backups/ (newest sshlg-skills_domains.json.*) or move it aside, then run again.');
+    if (doApply || doRevert || updateStep) return 1;
+  }
 
   if (doRevert) return domainsRevert(I, apply, home);
 
@@ -2051,10 +2071,13 @@ function cmdDomains(argv) {
   if (quiet) {
     log('\n== Domain members ==');
     for (const r of P.refused) log(`  ! ${name(r.dir)}: ${r.keys.join(', ')} refused — ${r.why}`);
-    if (!P.adds.length && !P.userOff.length) { log('  every project with evidence has its member; nothing written'); return 0; }
+    if (!P.adds.length && !P.userOff.length && !P.userOn.length) {
+      log(P.refused.length ? '  nothing written; the projects above are refused' : '  every project with evidence has its member; nothing written');
+      return 0;
+    }
   }
   say(`Domain members by project — core members stay on everywhere; ${D.DOMAIN_MEMBERS.join(', ')} load where a project calls for them`);
-  say(`  projects root: ${I.roots.join(path.delimiter)} (${I.dirs.length} git repositories${I.truncated ? `; ${I.truncated} read without git (a bounded walk)` : ''})`);
+  say(`  projects root: ${I.roots.join(path.delimiter)} (${I.dirs.length} git repositories${I.truncated ? `; ${I.truncated} not read in full by git (a bounded walk, or a failed source search)` : ''})`);
   say(`  usage: ${I.usageFile ? `${path.basename(I.usageFile)} (a 60-day call counts as evidence)` : 'none read'}`);
   say(`  ${withEvidence.length} project(s) with evidence`);
   const evOf = (dir, member) => (I.projects.find((p) => p.dir === dir).evidence[member] || []).join('; ');
@@ -2069,10 +2092,11 @@ function cmdDomains(argv) {
     for (const x of P.present) if (x.key === key) say(`    = ${name(x.dir)}: already on in the project`);
     for (const x of P.respected) if (x.key === key) say(`    = ${name(x.dir)}: set false in the project by you; left alone`);
     for (const r of P.refused) if (r.keys.includes(key)) say(`    ! ${name(r.dir)}: refused — ${r.why}`);
-    if (P.userOff.includes(key)) say(`    - ~/.claude/settings.json enabledPlugins["${key}"]: true → false`);
-    else if (P.managed[member] && P.managed[member].off) say(`    = ~/.claude/settings.json enabledPlugins["${key}"]: already false (by domains)`);
     const b = P.blocked.find((x) => x.key === key);
-    if (b) say(`    = ${key} stays on at user scope: ${b.dirs.length} project(s) could not get their entry (${b.dirs.map(name).join(', ')})`);
+    if (P.userOff.includes(key)) say(`    - ~/.claude/settings.json enabledPlugins["${key}"]: true → false`);
+    else if (P.userOn.includes(key)) say(`    + ~/.claude/settings.json enabledPlugins["${key}"]: false → true — ${b.dirs.length} project(s) could not get their entry (${b.dirs.map(name).join(', ')})`);
+    else if (P.managed[member] && P.managed[member].off) say(`    = ~/.claude/settings.json enabledPlugins["${key}"]: already false (by domains)`);
+    else if (b) say(`    = ${key} stays on at user scope: ${b.dirs.length} project(s) could not get their entry (${b.dirs.map(name).join(', ')})`);
   }
   say(`\n  Evidence kinds: ${Object.entries(I.kinds).sort().map(([k, n]) => `${k} ${n}`).join(', ') || 'none'}`);
   say('  In sessions Fabric starts, RM-23 decides which skill layers load; this is the host-wide fallback.');
@@ -2098,37 +2122,57 @@ function cmdDomains(argv) {
   };
   for (const a of P.adds) {
     const file = I.localPath(a.dir);
-    const before = I.read(file);
-    const r = D.editEnabled(before, { set: Object.fromEntries(a.keys.map((k) => [k, true])) });
     const label = `${name(a.dir)}/.claude/settings.local.json`;
-    if (!r.ok) { log(`  ${label}: NOT written — the file ${r.reason}`); failed = true; a.keys.forEach((k) => newlyBlocked.add(k)); continue; }
-    const dirExisted = fs.existsSync(path.dirname(file));
-    if (r.text !== before) {
-      fs.mkdirSync(path.dirname(file), { recursive: true });
-      if (!writeFile(file, before, r.text, label)) { failed = true; a.keys.forEach((k) => newlyBlocked.add(k)); continue; }
-    }
-    const back = I.enabledOf(I.read(file) || '');
-    const bad = a.keys.filter((k) => back[k] !== true);
-    if (bad.length) { log(`  ${label}: read back without ${bad.join(', ')} — not counted`); failed = true; bad.forEach((k) => newlyBlocked.add(k)); continue; }
-    const prev = owned.projects[a.dir] || { created: before === null, createdDir: !dirExisted, plugins: [] };
-    prev.plugins = [...new Set(prev.plugins.concat(a.keys))].sort();
-    owned.projects[a.dir] = prev;
-    log(`  ${label}: ${a.keys.join(', ')} on (read back)`);
+    const block = (why) => { log(`  ${label}: NOT written — ${why}`); failed = true; a.keys.forEach((k) => newlyBlocked.add(k)); };
+    // One project's I/O error is that project's refusal: the run goes on, and the record
+    // below is still written for the projects that succeeded, so --revert can undo them.
+    try {
+      const lr = I.readLocal(file);
+      if (lr.error) { block(`cannot read it (${lr.error})`); continue; }
+      const before = lr.text;
+      const r = D.editEnabled(before, { set: Object.fromEntries(a.keys.map((k) => [k, true])) });
+      if (!r.ok) { block(`the file ${r.reason}`); continue; }
+      const dirExisted = fs.existsSync(path.dirname(file));
+      const prev = owned.projects[a.dir] || { created: before === null, createdDir: !dirExisted, plugins: [] };
+      if (r.text !== before) {
+        fs.mkdirSync(path.dirname(file), { recursive: true });
+        if (!writeFile(file, before, r.text, label)) { failed = true; a.keys.forEach((k) => newlyBlocked.add(k)); continue; }
+      }
+      // Owned from the moment the bytes landed: a failed read-back below still leaves --revert able to undo it.
+      prev.plugins = [...new Set(prev.plugins.concat(a.keys))].sort();
+      owned.projects[a.dir] = prev;
+      const back = I.enabledOf(I.read(file) || '');
+      const bad = a.keys.filter((k) => back[k] !== true);
+      if (bad.length) { log(`  ${label}: read back without ${bad.join(', ')} — not counted`); failed = true; bad.forEach((k) => newlyBlocked.add(k)); continue; }
+      log(`  ${label}: ${a.keys.join(', ')} on (read back)`);
+    } catch (e) { block(e.code || e.message); }
   }
   // ── then user scope ──
+  // Off only for members whose every project write held; back on for a member already off by
+  // this command whose project could not get its entry — now or in a write above.
   const off = P.userOff.filter((k) => !newlyBlocked.has(k));
+  const offByUs = new Set(Object.values(P.managed).filter((m) => m.off).map((m) => m.key));
+  const on = [...new Set(P.userOn.concat([...newlyBlocked].filter((k) => offByUs.has(k))))];
   for (const k of newlyBlocked) if (P.userOff.includes(k)) log(`  ${k} stays on at user scope: a project write above failed`);
-  if (off.length && I.userText !== null) {
-    const r = D.editEnabled(I.userText, { set: Object.fromEntries(off.map((k) => [k, false])) });
+  // Read again now, not at the start: the project writes took time, and the file may have moved.
+  const userNow = I.read(I.settingsPath);
+  if ((off.length || on.length) && userNow !== null) {
+    const set = Object.fromEntries(off.map((k) => [k, false]).concat(on.map((k) => [k, true])));
+    const r = D.editEnabled(userNow, { set });
     if (!r.ok) { log(`  ~/.claude/settings.json: NOT written — the file ${r.reason}`); failed = true; }
-    else if (writeFile(I.settingsPath, I.userText, r.text, '~/.claude/settings.json')) {
+    else if (r.text === userNow || writeFile(I.settingsPath, userNow, r.text, '~/.claude/settings.json')) {
       const back = I.enabledOf(I.read(I.settingsPath) || '');
       for (const k of off) {
         if (back[k] === false) { owned.user[k] = false; log(`  ~/.claude/settings.json: ${k} off at user scope (read back)`); }
         else { log(`  ~/.claude/settings.json: ${k} did not read back false`); failed = true; }
       }
+      for (const k of on) {
+        if (back[k] === true) { delete owned.user[k]; log(`  ~/.claude/settings.json: ${k} back on at user scope — a project calling for it has no entry (read back)`); }
+        else { log(`  ~/.claude/settings.json: ${k} did not read back true`); failed = true; }
+      }
     } else failed = true;
   }
+
   // Ownership of project entries the operator has since removed or flipped is dropped.
   for (const dir of Object.keys(owned.projects)) {
     const lv = I.enabledOf(I.read(I.localPath(dir)) || '');
@@ -2213,6 +2257,7 @@ function domainsSummary(home) {
   const { D } = I;
   const ownedUser = (I.owned && I.owned.user) || {};
   log(`\nDomain members per project (${I.dirs.length} git repositories under ${I.roots.length} root(s); \`domains\` previews):`);
+  if (I.recordError) log(`  ~/.sshlg-skills/domains.json ${I.recordError}; \`domains\` says how to recover it.`);
   for (const member of D.DOMAIN_MEMBERS) {
     const key = I.plugins[member];
     const v = I.user[key];

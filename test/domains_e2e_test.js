@@ -201,6 +201,66 @@ it('a project file that cannot be written blocks its member at user scope (add b
   assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['sheleg-dev@sheleg-dev'], true, r.stdout);
   assert.strictEqual(run('domains', '--revert').status, 0);
   assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+  fs.writeFileSync(local(P.money), MONEY_LOCAL);
+});
+
+it('a negated ignore rule is not "ignored": that project is refused and keeps its member', () => {
+  const neg = project('p-negated', { 'package.json': S({ dependencies: { three: '1' } }) }, false);
+  w(path.join(neg, '.gitignore'), '*.local.json\n!.claude/settings.local.json\n');
+  const r = run('domains', '--apply');
+  assert.ok(/p-negated[^\n]*refused/.test(r.stdout), r.stdout);
+  assert.ok(!fs.existsSync(local(neg)), 'wrote a file git would commit');
+  assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['web3d-dev@web3d-dev'], true);
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  fs.rmSync(neg, { recursive: true, force: true });
+  assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+});
+
+it('a member already off by domains comes back on when a later project cannot get its entry', () => {
+  assert.strictEqual(run('domains', '--apply').status, 0);
+  assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['web3d-dev@web3d-dev'], false);
+  const late = project('p-late-unignored', { 'package.json': S({ dependencies: { three: '1' } }) }, false);
+  const r = run('domains', '--update-step');
+  assert.ok(/p-late-unignored[^\n]*refused/.test(r.stdout), r.stdout);
+  assert.ok(!/every project with evidence has its member/.test(r.stdout), r.stdout);
+  assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['web3d-dev@web3d-dev'], true, r.stdout);
+  fs.rmSync(late, { recursive: true, force: true });
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+});
+
+it('a project write that throws is reported, the others are recorded, and --revert undoes them', () => {
+  // A .claude directory nobody may write into: the read finds no file, the write throws EACCES.
+  fs.mkdirSync(path.join(P.xr, '.claude'), { mode: 0o555 });
+  const r = run('domains', '--apply');
+  fs.chmodSync(path.join(P.xr, '.claude'), 0o755);
+  assert.strictEqual(r.status, 1, r.stdout + r.stderr);
+  assert.ok(!/at .*\.js:\d+/.test(r.stderr), `a stack trace: ${r.stderr}`);
+  assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['xr-dev@xr-dev'], true, 'xr-dev went off with a project unwritten');
+  assert.ok(fs.existsSync(record), 'no ownership record after a partial apply');
+  assert.deepStrictEqual(enabled(local(P.web3d)), { 'web3d-dev@web3d-dev': true });
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  assert.ok(!fs.existsSync(path.join(P.web3d, '.claude')), 'revert left the partial apply behind');
+  fs.rmSync(path.join(P.xr, '.claude'), { recursive: true, force: true });
+  assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+});
+
+it('a project file that cannot be read is refused, not taken for absent', () => {
+  fs.mkdirSync(local(P.xr), { recursive: true }); // a directory where the file should be
+  const r = run('domains');
+  assert.ok(/p-xr[^\n]*refused — cannot read/.test(r.stdout), r.stdout);
+  fs.rmSync(path.join(P.xr, '.claude'), { recursive: true, force: true });
+});
+
+it('a malformed ownership record stops --apply and --revert with a reason', () => {
+  w(record, JSON.stringify({ roots: 'x', user: {}, projects: {} }));
+  for (const flag of ['--apply', '--revert']) {
+    const r = run('domains', flag);
+    assert.strictEqual(r.status, 1, flag + r.stdout + r.stderr);
+    assert.ok(/domains\.json/.test(r.stdout) && !r.stderr.includes('TypeError'), r.stdout + r.stderr);
+  }
+  fs.rmSync(record);
+  assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
 });
 
 it('--root points it at another projects directory', () => {

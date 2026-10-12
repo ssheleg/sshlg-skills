@@ -293,6 +293,72 @@ published launcher since 1.56.0). Details: `docs/working-rules/state-json.md`.
 > after every run — including under `--no-claude`, because the copy appears
 > whether or not the run was asked to manage plugins.
 
+### Domain members load only where a project needs them
+
+Claude Code lists every enabled plugin's skills in every session. Four members serve one
+kind of project — `xr-dev`, `web3d-dev`, `telegram-dev` and `sheleg-dev` (money, tracking,
+errors, sign-in, speed) — and listing them everywhere costs every other project the room.
+The core members (`task-pipeline`, `agent-sync`, `make-skill`, `super-ux`, `sheleg-design`,
+`seo-aeo-audit`, `agent-stack`) stay on everywhere.
+
+```bash
+npx sshlg-skills domains            # preview: each project's members and WHY; nothing written
+npx sshlg-skills domains --apply    # project entries first, read back; then off at user scope
+npx sshlg-skills domains --revert   # undo exactly what --apply wrote, user scope first
+npx sshlg-skills domains --root ~/code --no-usage   # another projects directory; no usage table
+```
+
+- **Which projects.** Every git repository directly under the projects root: `~/DATA` by
+  default, or `--root` / `$SSHLG_PROJECTS_ROOT` (`:`-separated for several); `--apply`
+  records the root, so `update` and `hosts` use it later.
+- **What counts as evidence.** A project gets a member only from what the repository
+  depends on or declares, never from its name or its prose. `web3d-dev`: `three` or
+  `@react-three/*` in a `package.json`. `telegram-dev`: `grammy`, `telegraf`,
+  `node-telegram-bot-api`, `@telegram-apps/*`, or Python `aiogram`, `python-telegram-bot`,
+  `telethon`, `pyrogram`. `xr-dev`: Meta XR, Spatial SDK or OpenXR in Gradle, CMake or a
+  Unity manifest, the Quest VR category in an `AndroidManifest.xml`, or `navigator.xr` in
+  source. `sheleg-dev`: `stripe` / `@stripe/*`, `@sentry/*` / `sentry-sdk`, `posthog`,
+  GA4 `gtag`, Google sign-in libraries, crypto-payment SDKs. Vendored, built and fixture
+  directories don't count (`node_modules`, `dist`, `fixtures` and the like); nor do nested
+  repositories. Optionally, the newest `~/.sshlg-skills/usage/skill-usage-60d-*.tsv`: a
+  project that called a member's skill in the last 60 days gets that member (`--no-usage`
+  turns this off). The preview prints the evidence for every entry.
+- **The order is the safety.** `--apply` writes `enabledPlugins["<member>@<member>"]: true`
+  into each matching project's `.claude/settings.local.json` and reads it back. Only then
+  does it set the member to `false` in `~/.claude/settings.json`. Every existing file is
+  copied through `protect()` before it is written. It does not use `claude plugin enable
+  --scope local`, which reports success and writes nothing (B-162).
+- **A project it will not write.** It only writes where git ignores
+  `.claude/settings.local.json` (`git check-ignore`: the repository's `.gitignore`, its
+  `info/exclude` or your global excludes file). If git does not ignore it, or the file is in
+  a format other than Claude Code's own, that project is refused and named, and **its
+  member stays on at user scope**. A negated rule (`!.claude/settings.local.json`) does not
+  count as ignored. If the member was already turned off by an earlier `--apply`, it goes back
+  on at user scope, so the refused project still has it.
+- **Ownership.** `~/.sshlg-skills/domains.json` records each value `--apply` wrote.
+  `--revert` changes only those values, and only while they still hold what `--apply`
+  set: a value you changed afterwards is yours. To keep a member off in one project, set
+  it to `false` there. If you delete the entry instead, the next `--apply` or `update` adds
+  it back, because the project's evidence is still there. A `domains.json` that does not
+  parse, or has the wrong shape, stops `--apply`, `--revert` and `update` with a reason;
+  the previous copy is in `~/.sshlg-skills/backups/`. Running `--apply` three times leaves
+  identical bytes.
+- **`update` keeps it current.** On a machine where `--apply` has run, `update` gives a
+  project that has since gained a domain dependency its member. On a machine where it has
+  never run, `update` prints one line pointing to `domains`. `hosts` prints how many
+  projects have evidence for each member and how many have it enabled; it prints no
+  project names.
+
+**To get a member back in one project**, add it to that project's
+`.claude/settings.local.json` (git-ignored) and restart the session:
+
+```json
+{ "enabledPlugins": { "xr-dev@xr-dev": true } }
+```
+
+**Inside Fabric**, the per-agent skill layers decide what loads in a session Fabric
+starts (RM-23). `domains` is the fallback for the whole host, as `visibility` is.
+
 ## Routing — making the family engage by default
 
 A skill's `description` influences whether a model reaches for it. It does not
@@ -454,6 +520,7 @@ npx sshlg-skills toolkit                  # every skill this machine can reach, 
 npx sshlg-skills toolkit --for "<task>"   # ...narrowed to one task, as a shortlist
 npx sshlg-skills toolkit --find "pdf, xlsx, отчёт"  # by the concepts YOU read from the task; hidden skills included, with SKILL.md paths
 npx sshlg-skills visibility               # which skills keep their place in Claude/Codex listings; --apply hides the rest, --revert undoes it
+npx sshlg-skills domains                  # xr-dev, web3d-dev, telegram-dev, sheleg-dev only in projects that call for them; --apply, --revert
 npx sshlg-skills pack design              # design/front-end/mobile: present, missing, and the install line
 npx sshlg-skills pack design --check      # do the declared addresses still resolve?
 npx sshlg-skills humanizers               # anti-AI-writing skills here, with the caveat that binds them
