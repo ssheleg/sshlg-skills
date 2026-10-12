@@ -386,11 +386,19 @@ it('every state.json writer goes through store.writeJson: 0600, written by renam
     fs.mkdirSync(path.dirname(state), { recursive: true });
     fs.writeFileSync(state, JSON.stringify(Object.assign({ routers: 'yes', keep: 1 }, seed[name])), { mode: 0o644 });
     fs.chmodSync(state, 0o644);
-    const before = fs.statSync(state).ino;
+    // A hard link to the seeded file: a rename leaves it holding the seed, an in-place
+    // rewrite changes it too. Comparing inode NUMBERS was the first version, and it failed on
+    // CI's ext4, which hands a freed inode number straight back to the next file — a writer
+    // that renames twice ends on the number it started with (retro #11: suspect the checker).
+    const link = `${state}.seed-link`;
+    try { fs.unlinkSync(link); } catch (e) { /* none yet */ }
+    fs.linkSync(state, link);
+    const seeded = fs.readFileSync(link, 'utf8');
     run();
     const st = fs.statSync(state);
     assert.strictEqual(st.mode & 0o777, 0o600, `${name} left state.json at ${(st.mode & 0o777).toString(8)}`);
-    assert.notStrictEqual(st.ino, before, `${name} rewrote state.json in place, not by rename`);
+    assert.strictEqual(fs.readFileSync(link, 'utf8'), seeded, `${name} rewrote state.json in place, not by rename`);
+    fs.unlinkSync(link);
     const after = JSON.parse(fs.readFileSync(state, 'utf8'));
     assert.strictEqual(after.keep, 1, `${name} dropped a key it does not own`);
     assert.strictEqual(after.schemaVersion, 1, `${name} did not stamp schemaVersion`);
