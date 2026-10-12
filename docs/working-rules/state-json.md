@@ -65,6 +65,16 @@ consented Claude hooks in `~/.claude/settings.json` (one entry of ours present),
 That consumer is why the file carries `schemaVersion`. A key may be added without a bump; a
 key renamed, removed or re-typed bumps it, and this page changes in the same commit.
 
+## Other members' files under `~/.sshlg-skills/`
+
+The directory is the family's; a member may keep its own data here when the family is
+installed, and the hub never reads, moves or deletes it.
+
+| Path | Owner | What it is |
+|---|---|---|
+| `lessons/index.jsonl` | task-pipeline (release iteration, ssheleg/task-pipeline #112) | A cross-project lessons index, one JSON line per lesson, read and written each run (Fabric principle §11). Used only when `~/.sshlg-skills/` exists; a standalone task-pipeline keeps `~/.task-pipeline/lessons/` and migrates once the family directory appears, keeping the old file as `index.jsonl.migrated`. Board B-181. |
+| `usage/*.tsv` | the operator's measurements (2026-10-13) | Private 60-day MCP and skill usage per project, mode 600, input to Observatory's MCP profile (PB-159) until its inventory carries usage. Never committed anywhere. |
+
 ## The update lock
 
 `npx sshlg-skills update` takes `~/.sshlg-skills/update.lock` (`lib/updatelock.js`) before it
