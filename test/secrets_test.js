@@ -49,6 +49,7 @@ const DENIED = [
   ['grep prints the matching secret lines', 'grep TOKEN ~/proj/.env | head -1', 'reads-secret-file'],
   ['copy, then read the copy', 'cp ~/proj/.env /tmp/x; cat /tmp/x', 'reads-secret-file'],
   ['a separator inside quotes does not cut the command', 'cat "a;b" ~/proj/.env', 'reads-secret-file'],
+  ['grep -i still prints the lines (only sed -i is quiet)', 'grep -i token ~/proj/.env', 'reads-secret-file'],
   ['the whole environment', 'env', 'dumps-environment'],
   ['printenv with no argument', 'printenv', 'dumps-environment'],
   ['verbose curl with an auth header',
