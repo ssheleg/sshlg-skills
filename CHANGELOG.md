@@ -16,7 +16,8 @@ recorded at 32501 (from 32635). B-160 closes: task-pipeline now cites `handoff-l
 - **Pi is a host** (R37). The routing block is written to `~/.pi/agent/AGENTS.md` (or
   `$PI_CODING_AGENT_DIR/AGENTS.md`) through the same writer, `protect()` backup and sentinels as
   `~/.codex/AGENTS.md`, only where `~/.pi/agent` exists; the write guard protects the file, and
-  `uninstall` removes the block. New read-only `npx sshlg-skills hosts` reports Pi's detection,
+  `uninstall` removes the block — both at the default location (with `PI_CODING_AGENT_DIR` set, only
+  the write follows it: B-165, the same limit `CODEX_HOME` has). New read-only `npx sshlg-skills hosts` reports Pi's detection,
   its skill roots, where the family's skills are visible to it, and duplicate names across its
   roots (same realpath: harmless; different realpaths: a conflict, named). Nothing is pruned.
   Checks: `test/pi_test.js` (14), including three real runs against a real file with identical hashes.

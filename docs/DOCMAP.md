@@ -243,8 +243,8 @@ would otherwise be counted as fixtures.
 <!-- description-total: 32501 -->
 **Family description total (R32, 2026-10-12).** The characters of every family skill
 description — whitespace collapsed, the figure the 970 cap is quoted in — summed over the
-pinned submodules. Measured at the pins of this revision: **32635 characters over 39
-skills**, by `check_the_family_description_total_only_falls` in `test/validate.py`, which
+pinned submodules. Measured at the pins of this revision: **32501 characters over 39
+skills** (32635 before the 1.57.0 re-pins), by `check_the_family_description_total_only_falls` in `test/validate.py`, which
 computes the sum on every run and compares it with the marker above. **It may fall and
 never rise:** a total above the marker fails and names the excess; a total below it passes
 and prints `record N as the new description-total`, so a member's trim is welcomed and

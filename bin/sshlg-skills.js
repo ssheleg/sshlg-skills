@@ -13,8 +13,6 @@
  *   npx sshlg-skills list
  *   npx sshlg-skills agents
  *   npx sshlg-skills hosts
-  npx sshlg-skills hosts                              # hosts detected here; for Pi, where family skills
-                                                      # are visible and which names are duplicated
  */
 'use strict';
 
@@ -293,6 +291,8 @@ Usage:
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
   npx sshlg-skills hooks   install [--force] [--dry-run]
   npx sshlg-skills hooks   remove
+  npx sshlg-skills hosts                              # hosts detected here; for Pi, where family skills
+                                                      # are visible and which names are duplicated
   npx sshlg-skills injectors                          # who else speaks at SessionStart
   npx sshlg-skills conflicts                          # installed skills on a router's ground
   npx sshlg-skills humanizers                         # anti-AI-writing skills this machine can reach
@@ -960,7 +960,7 @@ function cmdHosts() {
   const apply = require('../lib/apply.js');
   const piLib = require('../lib/pi.js');
   const home = os.homedir();
-  log('Agent hosts (instruction file the routing block is written to):\n');
+  log('Agent hosts with an instruction file the routing block is written to (Cursor, a separate rules file, is not listed):\n');
   for (const t of apply.TARGETS) {
     const v = apply.hostRootVerdict(t, home, {});
     const present = v.supported && fs.existsSync(v.root);
