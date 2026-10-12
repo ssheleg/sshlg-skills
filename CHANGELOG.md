@@ -1,3 +1,15 @@
+## Unreleased
+
+- **The secret-file guard reads one segment at a time (INB-006).** `reads-secret-file`
+  matched a reader anywhere on the line and a secret-looking path anywhere on the line, so
+  the existence check the refusal itself recommends (`test -f FILE && echo present`) was
+  refused when an unrelated `| head -3` sat in another segment of the same line. Both must
+  now sit in one segment (split on `;`, `&&`, `||`, `|`, `&`, newline); a reader of the file
+  in a pipe, by redirection or inside a substitution is still refused. Cases in
+  `test/secrets_test.js` (two allowed, three denied); the second allowed case failed on
+  1.57.1. Reported by Observatory's session with three verbatim commands, which `inspect()`
+  now allows.
+
 ## v1.57.1 — `update` delivers the routing block to a new host file
 
 1.57.0 added `~/.pi/agent/AGENTS.md` as a routing-block target, and `npx sshlg-skills update`

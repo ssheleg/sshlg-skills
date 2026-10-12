@@ -37,6 +37,10 @@ const DENIED = [
    'reads-secret-file'],
   ['reading a .env', 'head -20 /Users/x/proj/.env', 'reads-secret-file'],
   ['reading a private key file', 'tail ~/.ssh/id_rsa', 'reads-secret-file'],
+  ['a reader and the secret path in ONE segment of a longer line',
+   'ls; head -5 ~/proj/.env.agent-sync | wc -l', 'reads-secret-file'],
+  ['a reader fed the secret by redirection', 'head < ~/proj/.env', 'reads-secret-file'],
+  ['a reader inside a substitution', 'echo "$(cat ~/proj/.env)"', 'reads-secret-file'],
   ['the whole environment', 'env', 'dumps-environment'],
   ['printenv with no argument', 'printenv', 'dumps-environment'],
   ['verbose curl with an auth header',
@@ -64,6 +68,13 @@ const ALLOWED = [
   ['a path that only looks secret-ish', 'cat docs/authentication.md'],
   ['chmod on the secret, which reads nothing', 'chmod 600 ~/.config/agentgateway/secrets/x'],
   ['an empty command', ''],
+  // INB-006 (Observatory, 2026-10-12): a reader in one segment and a secret-looking path
+  // in ANOTHER were joined into one refusal, so the remedy `test -f FILE && echo present`
+  // was refused because an unrelated `| head` sat elsewhere on the line.
+  ['the existence remedy beside an unrelated reader',
+   'launchctl list | grep tick | head -3; test -f ~/DATA/x/.env.agent-sync && echo "token file present"'],
+  ['an unrelated reader on both sides of the existence remedy',
+   'grep -c x ~/notes.md | head -1; test -f ~/x/.env && echo present; tail -2 ~/log.txt'],
 ];
 
 for (const [name, cmd, rule] of DENIED) {
