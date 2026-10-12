@@ -75,6 +75,26 @@ merge `"enabledPlugins": {"figma@claude-plugins-official": true}` (or
 `.claude/settings.local.json` and read the file back — `claude plugin enable --scope local`
 reports success and writes nothing (B-162).
 
+## B-169 / B-170 — the fabric rule only where Fabric is; the block headed in English (2026-10-12, unreleased)
+
+Asked by project-observatory's release iteration 1 (audit USR-012); rows B-169 and B-170 are filed
+by the waves close-out. **B-169:** routers may declare a machine predicate (`machine:` in
+`lib/routers-registry.js`, predicates in `lib/machine.js`); `fabric` holds only where Fabric's
+services directory exists, in the block and in the prompt hook. A 1.58.0 block on a machine
+without Fabric loses the section and its row on the next update; the packaged text is not stashed,
+an operator's wording is. `working-in-passioncode` left the fabric rule and its hook route.
+**B-170:** the block heading is `## Work routing — the ssheleg family`; the Russian heading is an
+alias, retitled on the next write; migration finds the block by sentinels, so neither heading is
+taken for a hand-written rule.
+
+Checks run: `npm test` green on db49a57 + this change — 102 suites, 1356 fixtures, 11 pinned
+members (DOCMAP ratchet 1349 → 1356, suites 101 → 102 with `test/machine_predicate_test.js`); the six sandbox cases each
+end in three runs with identical hashes.
+
+**Exact next task:** after the hub release that carries this publishes, `npx --yes sshlg-skills@latest update`
+on this machine (Fabric present: the fabric section stays, minus `working-in-passioncode`; every
+host file retitled in English), then tell project-observatory-b1 and sshlg-skills-40.
+
 ## B-166 — Codex native plugins through Codex's CLI (2026-10-12, branch `fix/codex-native-refresh`)
 
 Developer agent under lease `WAVES-1011`. `update` now moves family plugins that Codex holds

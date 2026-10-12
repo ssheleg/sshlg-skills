@@ -1191,12 +1191,19 @@ function cmdRouters(f) {
   // lone installer speaks for itself and never for the family's rules.
   const config = configLib.readConfig(home);
   const isEnabled = (n) => configLib.isEnabled(config, n);
+  // The machine decides the routers that hold only where something is installed
+  // outside the family (B-169: `fabric` needs Fabric's services directory).
+  const machine = require(path.join(ROOT, 'lib', 'machine.js'));
   const scopeOpts = f.member
     ? { member: f.member, isEnabled }
-    : { installed: manifest.skills.map((s) => s.name), isEnabled };
+    : { installed: manifest.skills.map((s) => s.name), isEnabled, machine: machine.probe({ home }) };
 
   const packaged = registry.resolve(scopeOpts);
-  const remove = registry.disabled(scopeOpts);
+  const switchedOff = registry.disabled(scopeOpts);
+  // Off this machine: a section a block already carries (1.58.0 wrote `fabric`
+  // everywhere) leaves it. Not a refusal, so it is not reported as one below.
+  const offMachine = registry.offMachine(scopeOpts);
+  const remove = switchedOff.concat(offMachine);
 
   // The registry's own text, copied before the precedence loop below writes
   // the operator's over it. This is the only moment both sides exist in one
@@ -1360,6 +1367,12 @@ function cmdRouters(f) {
   if (!f.dryRun && decision === 'yes') {
     for (const r of res.targets) {
       for (const [name, body] of Object.entries(r.removed || {})) {
+        // A section that left because the machine lacks what it is about keeps
+        // only words the operator wrote; the packaged text needs no copy, and a
+        // stashed copy would come back instead of the current text the day the
+        // machine gains it.
+        if (offMachine.includes(name) && registry.REGISTRY[name]
+            && body.trim() === registry.REGISTRY[name].text.trim()) continue;
         configLib.stashSet(home, name, body);
       }
     }
@@ -1392,7 +1405,11 @@ function cmdRouters(f) {
     log(`routers: ${b.file} — НЕ записан: не удалось сделать резервную копию ` +
         `(${b.backup && b.backup.error}). Файл не изменён.`);
   }
-  if (remove.length) log(`routers: выключены настройкой — ${remove.join(', ')}`);
+  if (switchedOff.length) log(`routers: выключены настройкой — ${switchedOff.join(', ')}`);
+  for (const name of offMachine) {
+    const what = machine.PREDICATES[registry.REGISTRY[name].machine];
+    log(`routers: ${name} — not on this machine: ${what ? what.what : 'its machine predicate does not hold'}`);
+  }
   for (const id of Object.keys(superseded)) {
     log(`routers: вытеснен рукописный раздел "${id}" — тело сохранено в ${configLib.configPath(home)}`);
   }
@@ -1651,7 +1668,7 @@ function cmdConflicts() {
   }
   const owned = manifest.skills.map((s) => s.pluginInstall).filter(Boolean);
   const installed = manifest.skills.map((s) => s.name);
-  const routers = registry.scope({ installed });
+  const routers = registry.scope({ installed, machine: require(path.join(ROOT, 'lib', 'machine.js')).probe({ home }) });
   // Routes the operator declared: their triggers are their ground (REQ-04, 2026-10-08).
   let external = [];
   try {

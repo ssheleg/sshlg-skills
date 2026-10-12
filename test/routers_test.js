@@ -267,7 +267,7 @@ it('removal never eats a byte that is not a newline', () => {
   const out = R.upsert(wellFormed, {}, { remove: ['copywriting'] });
   // The heading and the table markers are chrome adjacent to the removed
   // section; a greedy separator rule would take them with it.
-  assert.ok(out.text.includes('## Роутинг работы — семья ssheleg'));
+  assert.ok(out.text.includes(R.HEADING));
   assert.ok(out.text.includes('<!-- SSHLG:ROUTERS:TABLE:BEGIN -->'));
   assert.ok(out.text.includes('<!-- SSHLG:ROUTERS:TABLE:END -->'));
 });
@@ -384,3 +384,25 @@ if (failures.length) {
   process.exit(1);
 }
 console.log(`OK (${checks} checks)`);
+
+// --- B-170: the block's heading is English; the Russian one is an alias --------
+
+it('B-170: a block titled in Russian gets the English heading on its next write, once', () => {
+  assert.ok(wellFormed.includes(R.LEGACY_HEADINGS[0]), 'fixture lost its legacy heading');
+  const once = R.upsert(wellFormed, { 'super-ux': 'a' });
+  assert.ok(once.text.includes(R.HEADING), 'the English heading is missing');
+  assert.ok(!once.text.includes(R.LEGACY_HEADINGS[0]), 'the Russian heading survived the write');
+  assert.strictEqual(once.text.split(R.HEADING).length - 1, 1, 'the heading is not there exactly once');
+  const twice = R.upsert(once.text, { 'super-ux': 'a' });
+  assert.strictEqual(twice.changed, false);
+  assert.strictEqual(twice.text, once.text);
+});
+
+it('B-170: the map and the protocol are inserted after either heading', () => {
+  for (const heading of [R.HEADING, R.LEGACY_HEADINGS[0]]) {
+    const bare = [R.BEGIN + ' -->', heading, '', '<!-- SSHLG:ROUTERS:TABLE:BEGIN -->', '<!-- SSHLG:ROUTERS:TABLE:END -->', R.END, ''].join('\n');
+    const out = R.upsert(bare, { 'super-ux': 'a' }, { members: [{ name: 'super-ux', entry: '/ux', closes: 'x' }] });
+    assert.ok(out.text.includes('<!-- SSHLG:ROUTERS:MAP:BEGIN -->'), `no map after ${heading}`);
+    assert.ok(out.text.indexOf(R.HEADING) < out.text.indexOf('<!-- SSHLG:ROUTERS:MAP:BEGIN -->'), `map above the heading for ${heading}`);
+  }
+});

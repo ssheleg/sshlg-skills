@@ -140,7 +140,7 @@ it('routers writes the block into a REAL ~/.pi/agent/AGENTS.md: preview first, b
   const body = fs.readFileSync(file, 'utf8');
   assert.ok(body.startsWith(mine) || body.includes(mine.trim()), 'text outside the sentinels changed');
   assert.ok(/SSHLG:ROUTERS:BEGIN/.test(body) && /SSHLG:ROUTERS:END/.test(body), 'no sentinels');
-  assert.ok(body.includes('Роутинг работы'), 'no routing block');
+  assert.ok(body.includes('## Work routing'), 'no routing block');
   run(home, ['routers']); const second = sha(file);
   run(home, ['routers']); const third = sha(file);
   assert.ok(first === second && second === third, `hashes ${first.slice(0, 8)} ${second.slice(0, 8)} ${third.slice(0, 8)}`);
