@@ -137,6 +137,32 @@ it('a takeover never deletes a lock that changed after it was judged (risk b)', 
   fs.rmSync(home, { recursive: true, force: true });
 });
 
+// Fix round 2, J: the re-read narrowed risk b but left a window between the re-read and the
+// unlink. The takeover is now a rename of the judged lock to a unique name, a check that the
+// renamed file IS the judged lock, and a restore when it is not. `beforeTakeover` runs at the
+// last moment before the destructive step — exactly the remaining window.
+it('a successor\'s lock written after the re-read is restored, never deleted (J)', () => {
+  const home = sandbox();
+  fs.mkdirSync(path.dirname(L.lockPath(home)), { recursive: true });
+  fs.writeFileSync(L.lockPath(home), JSON.stringify({ pid: 77, startedAt: NOW - MIN, host: 'h1' }));
+  const fresh = { pid: 88, startedAt: NOW, host: 'h1' };
+  let planted = 0;
+  const a = L.acquire(home, { now: NOW, pid: 5, host: 'h1', alive: (pid) => pid !== 77,
+    beforeTakeover: () => { if (!planted++) fs.writeFileSync(L.lockPath(home), JSON.stringify(fresh)); } });
+  assert.strictEqual(planted, 1, 'the seam never ran — the fixture tests nothing');
+  assert.strictEqual(a.ok, false, 'the run took a lock a successor had just written');
+  assert.deepStrictEqual(JSON.parse(fs.readFileSync(L.lockPath(home), 'utf8')), fresh,
+    'the successor\'s lock was deleted');
+  assert.deepStrictEqual(fs.readdirSync(path.dirname(L.lockPath(home))).filter((n) => n !== 'update.lock'), [],
+    'a renamed lock was left behind');
+  // the control: with nothing planted the dead holder's lock IS taken over
+  fs.writeFileSync(L.lockPath(home), JSON.stringify({ pid: 77, startedAt: NOW - MIN, host: 'h1' }));
+  const b = L.acquire(home, { now: NOW, pid: 5, host: 'h1', alive: (pid) => pid !== 77 });
+  assert.ok(b.ok && /not running/.test(b.tookOver), `the control was not taken over: ${JSON.stringify(b)}`);
+  assert.strictEqual(JSON.parse(fs.readFileSync(L.lockPath(home), 'utf8')).pid, 5);
+  fs.rmSync(home, { recursive: true, force: true });
+});
+
 it('a lock file that does not parse is refused while fresh and taken over once old', () => {
   const home = sandbox();
   fs.mkdirSync(path.dirname(L.lockPath(home)), { recursive: true });
@@ -326,13 +352,72 @@ it('an update.lock held elsewhere (exit 2) is recorded as busy, not a failure, a
   assert.notStrictEqual(uc.ok, false, `a busy lock was recorded as a failed update: ${JSON.stringify(uc)}`);
   assert.ok(Number.isFinite(uc.busyAt), `the busy outcome was not recorded: ${JSON.stringify(uc)}`);
   assert.strictEqual(chk.ranLine(uc), '', 'a busy lock printed an unattended-update line');
-  assert.strictEqual(chk.shouldAutoUpdate({}, Object.assign({}, uc, { self: '1.0.0' }), Date.now()).run, true,
-    'the next idle does not retry after a busy lock');
+  assert.strictEqual(chk.shouldAutoUpdate({}, Object.assign({}, uc, { self: '1.0.0' }), Date.now()).run, false,
+    'an idle ping right after a busy exit spawned another update (G)');
+  assert.strictEqual(chk.shouldAutoUpdate({}, Object.assign({}, uc, { self: '1.0.0' }),
+    Date.now() + chk.BUSY_BACKOFF_MS + 1000).run, true, 'the idle updater never retries after a busy lock');
   // the control: a real failure (exit 1) IS recorded as ok:false
   spawnSync(process.execPath, [path.join(ROOT, 'lib', 'updaterun.js')],
     { env: stubEnv(home, { npx: '#!/bin/sh\nexit 1\n' }), encoding: 'utf8' });
   assert.strictEqual(JSON.parse(fs.readFileSync(state, 'utf8')).updateCheck.ok, false, 'the control failure was not recorded');
   fs.rmSync(home, { recursive: true, force: true });
+});
+
+// --- no stale outcome during or after a run (fix round 2, B) -----------------
+//
+// The stamp kept the previous run's `ok/from/to`, so a SessionStart while the idle updater
+// was still running reported the PREVIOUS outcome as this attempt's ("FAILED — run update"
+// while that run held the lock), and recorded the stamp as reported; after a busy exit only
+// `ranAt` came back, and the line printed again.
+function sleepMs(ms) { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); }
+function waitFor(pred, ms) {
+  const end = Date.now() + ms;
+  while (Date.now() < end) { if (pred()) return true; sleepMs(50); }
+  return pred();
+}
+
+it('a SessionStart while the idle updater runs, and after it exits busy, prints no ran line (B)', () => {
+  const chk = require('../lib/updatecheck.js');
+  const { spawn } = require('child_process');
+  const home = sandbox();
+  const state = path.join(home, '.sshlg-skills', 'state.json');
+  fs.mkdirSync(path.dirname(state), { recursive: true });
+  const t0 = Date.now() - 2 * 24 * 3600 * 1000;
+  // the last run FAILED and that was already said
+  fs.writeFileSync(state, JSON.stringify({ updateCheck: Object.assign(
+    { at: Date.now(), latest: null }, chk.ranRecord('1.0.0', null, false, t0), chk.reportedRecord(t0)) }));
+  const env = stubEnv(home, { npx: '#!/bin/sh\nsleep 2\necho "update: refused — another update is running."\nexit 2\n' });
+  const run = spawn(process.execPath, [path.join(ROOT, 'lib', 'updaterun.js')], { env, stdio: 'ignore' });
+  const ctx = () => {
+    const r = spawnSync(process.execPath, [path.join(ROOT, 'hooks', 'session-start.js')],
+      { env, encoding: 'utf8', input: JSON.stringify({ hook_event_name: 'SessionStart', source: 'startup', session_id: 's' }) });
+    return JSON.parse(r.stdout).hookSpecificOutput.additionalContext;
+  };
+  try {
+    assert.ok(waitFor(() => store.readJson(state).updateCheck.ranAt > t0, 5000), 'the updater never stamped its run');
+    const during = ctx();
+    assert.ok(!/unattended set update|updated while you were away/.test(during),
+      `a SessionStart during the run reported the previous outcome as this one's:\n${during}`);
+    assert.ok(waitFor(() => Number.isFinite(store.readJson(state).updateCheck.busyAt), 8000), 'the busy exit was never recorded');
+    const after = ctx();
+    assert.ok(!/unattended set update|updated while you were away/.test(after),
+      `after a busy exit the previous outcome was reported again:\n${after}`);
+    const uc = store.readJson(state).updateCheck;
+    assert.deepStrictEqual([uc.ranAt, uc.ok, uc.reportedRanAt], [t0, false, t0], `the previous outcome was not restored: ${JSON.stringify(uc)}`);
+  } finally {
+    try { run.kill(); } catch (e) { /* already gone */ }
+    fs.rmSync(home, { recursive: true, force: true });
+  }
+});
+
+it('no writer merges updateCheck caller-side: every sub-key write is a function of the file (I)', () => {
+  const offenders = [];
+  for (const rel of ['lib/updaterun.js', 'lib/updateprobe.js', 'hooks/session-start.js']) {
+    const text = fs.readFileSync(path.join(ROOT, rel), 'utf8');
+    if (/updateCheck:\s*Object\.assign/.test(text)) offenders.push(rel);
+    if (!/store\.nested\('updateCheck'/.test(text)) offenders.push(`${rel} (no nested write)`);
+  }
+  assert.deepStrictEqual(offenders, [], 'updateCheck is still merged from a copy the caller read earlier');
 });
 
 // --- the probe merges into updateCheck (fix round #6) ------------------------

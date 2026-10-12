@@ -102,12 +102,11 @@ process.stdin.on('end', () => {
       // What an unattended run did is said ONCE (fix round, risk j): record that it was.
       if (p.reported) {
         try {
+          // A function of the file at write time (fix round 2, I), never a merge of what
+          // this hook read earlier: the probe and the idle updater write beside it.
           const store = require(path.join(LIB, 'store.js'));
-          const now = store.readJson(statePath);
-          store.writeJson(statePath, {
-            updateCheck: Object.assign({}, now.updateCheck, p.reported),
-            schemaVersion: store.STATE_SCHEMA,
-          });
+          store.writeJson(statePath,
+            store.nested('updateCheck', p.reported, { schemaVersion: store.STATE_SCHEMA }));
         } catch (e) { /* unrecorded means the line is said once more */ }
       }
       if (p.probe && !noProbe) {
