@@ -177,7 +177,7 @@ it('`hosts` reports Pi: detection, where family skills are visible, duplicates',
   assert.strictEqual(r.code, 0, r.out);
   assert.ok(/pi\s+detected/.test(r.out), r.out);
   assert.ok(/conflict.*ux-flows|ux-flows.*conflict/i.test(r.out), r.out);
-  assert.ok(/family skills visible to Pi: 1 of \d+/.test(r.out), r.out);
+  assert.ok(/family skills visible to Pi \(by name\): 1 of \d+/.test(r.out), r.out);
 });
 
 it('uninstall removes the managed block from the Pi file and keeps the rest', () => {
@@ -188,6 +188,11 @@ it('uninstall removes the managed block from the Pi file and keeps the rest', ()
   assert.ok(fs.readFileSync(file, 'utf8').includes('SSHLG:ROUTERS:BEGIN'));
   const r = run(home, ['uninstall', '--no-claude', '--dry-run']);
   assert.ok(r.out.includes('.pi/agent/AGENTS.md'), r.out.slice(0, 600));
+  assert.ok(fs.readFileSync(file, 'utf8').includes('SSHLG:ROUTERS:BEGIN'), 'the dry run wrote');
+  run(home, ['uninstall', '--no-claude']);
+  const after = fs.readFileSync(file, 'utf8');
+  assert.ok(!after.includes('SSHLG:ROUTERS:BEGIN'), 'the block is still there after uninstall');
+  assert.ok(after.includes('# mine'), 'uninstall took the operator text with it');
 });
 
 if (failures.length) {

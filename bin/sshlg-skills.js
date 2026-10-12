@@ -974,7 +974,7 @@ function cmdHosts() {
   log(`  pi      detected  via ${r.via.join(', ')}; agent dir ${r.agentDir}`);
   log('  Pi does not load Claude Code plugins: the family reaches it as plain skill directories and through AGENTS.md.');
   for (const root of r.roots) log(`  skills root (${root.kind})  ${root.path}  ${root.skills} skill(s)`);
-  log(`  family skills visible to Pi: ${r.family.visible.length} of ${r.family.total}` +
+  log(`  family skills visible to Pi (by name): ${r.family.visible.length} of ${r.family.total}` +
       (r.family.missing.length ? `; not visible: ${r.family.missing.join(', ')}` : ''));
   log(`  duplicate names across Pi's roots: ${r.duplicates.harmless} harmless (one realpath), ` +
       `${r.duplicates.conflicts.length} conflict(s) (different realpaths) of ${r.names} names`);
