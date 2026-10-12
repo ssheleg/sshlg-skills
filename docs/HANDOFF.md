@@ -18,6 +18,19 @@ optimization and the family working with Fabric, Observatory and every coding ag
 regenerate with `python3 docs/evidence/specs/2026-10-11-integration-waves-assign.py`).
 Branch `waves/2026-10-11-integration`. New hub rows B-155…B-163.
 
+**Waves 2–4 released and pinned in 1.57.0 (branch `w5/hub-close`).** Each member PR passed
+three blind readings (unit, seam, product) before merge; remaining risks are on each member's
+board. task-pipeline **1.93.2** (#109 → `8260042`; v1.93.0/v1.93.1 refused by its own release
+gates, #110, #111), agent-sync **1.22.0** (#32 → `517b4b6`), agent-stack **0.27.0** (#44 →
+`96ed0f8`), make-skill **0.31.0** (#33 → `5556e88`). Wave 5 hub part (R30 board plant, R32
+description total, R37 Pi host) is in the 1.57.0 CHANGELOG.
+
+**Next, in order:** release 1.57.0 and install it here (`routers --dry-run` first — it previews
+`~/.pi/agent/AGENTS.md`); the compatibility cut per host (R31; Gemini after the operator signs
+in to `gemini` 0.63.0); W4-C model evals for `skill-search` and the paired routing arms (B-147,
+B-144); graph refresh (B-161); asks to Observatory and Fabric (R34); stage 9–10 close-out and the
+observer's verdict.
+
 **Wave 1 (hub skeleton, R01–R06) is built and has had two fix rounds on PR #192** (branch
 `w1/hub-skeleton`): W1-A…W1-F delivered; the first round's twelve findings and thirteen risks,
 and the second blind reading's six breaks and seven risks (A–M), are mapped to commits and tests
@@ -36,11 +49,20 @@ green; `Hook wiring: PreToolUse: matcher — re-wired`; `routers --dry-run` unch
 instruction files; `hooks: всё на месте и совпадает` — B-157 closed on this machine. B-163 closed
 by Fabric Dashboards `be8b2cf` (exit 75 is busy).
 
+**Wave 5, hub part (branch `w5/hub-close`, 2026-10-12; developer agent, lease `WAVES-1011`).**
+R30: the board guard was watched refusing a planted pipe-shifted row in `skills/make-skill`'s board
+(`test/family_plants_test.py`); B-108/B-109 now state what the hub proves and which member repositories
+still owe an own-gate check; the hub reads 8 boards of 11 (`telegram-dev`, `xr-dev`, `web3d-dev` have none).
+R32: `check_the_family_description_total_only_falls` with the floor in `docs/DOCMAP.md`
+(`description-total`: 32635 before the re-pins, 32501 at the 1.57.0 pins; a fall prints the figure to record). R37: Pi is a host —
+`lib/pi.js`, `hosts` command, `~/.pi/agent/AGENTS.md` through `lib/apply.js` `TARGETS` and the write guard;
+`test/pi_test.js`. B-146 install half recorded, B-164 filed. The submodule pins, `skills.json`, the README member
+table and the lowered `description-total` (32501) followed in the same branch (`796ed2a`). Not done
+yet: the real install against the operator's HOME (run `npx sshlg-skills routers --dry-run` first: it
+will now preview `~/.pi/agent/AGENTS.md`).
+
 **Exact next bounded tasks (orchestrator):**
-1. Waves 2–4: task-pipeline PR (W2-B CI refactor in flight), agent-sync PR #32 (fix round 2 in
-   flight), agent-stack PR #44 (certification owed); then wave 5 per the
-   [plan](evidence/plans/2026-10-11-integration-waves.md); task-pipeline's wave-2 release
-   closes B-160 once pinned here.
+1. Superseded by "Next, in order" above (waves 2–4 released and pinned; B-160 closed).
 
 **W1-G (plugins scoped, operator decision 2026-10-12):** `figma`, `stripe` and `cloudflare` are
 off at user scope and on in these repositories' git-ignored `.claude/settings.local.json` —

@@ -5,8 +5,8 @@
   "prefilled_pass": false,
   "run": {
     "host_platform": "darwin",
-    "node": "v26.8.1",
-    "pack_version": "1.46.1"
+    "node": "v26.10.0",
+    "pack_version": "1.56.0"
   },
   "tiers": {
     "mandatory": [
@@ -14,7 +14,8 @@
       "codex"
     ],
     "declared_untested": [
-      "gemini"
+      "gemini",
+      "pi"
     ]
   },
   "checks": {
@@ -47,6 +48,14 @@
     },
     {
       "agent": "gemini",
+      "tier": "declared_untested",
+      "root_source": "platform-default",
+      "root_present": true,
+      "version": null,
+      "status": "declared"
+    },
+    {
+      "agent": "pi",
       "tier": "declared_untested",
       "root_source": "platform-default",
       "root_present": true,

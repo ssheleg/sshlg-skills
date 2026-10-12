@@ -61,7 +61,7 @@ to the checked artifact, and a historical receipt is not a current runtime claim
 ## Writing to operator files
 
 Applies to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`,
-`~/.cursor/rules/sshlg-routing.mdc`, `~/.obsidian-wiki/config`, and the
+`~/.pi/agent/AGENTS.md`, `~/.cursor/rules/sshlg-routing.mdc`, `~/.obsidian-wiki/config`, and the
 `visibility` edits to `~/.claude/settings.json` and `~/.codex/config.toml`,
 including the post-tool-use restore.
 

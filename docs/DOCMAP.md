@@ -169,8 +169,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=97 fixtures=1269 members=11 -->
-**Ratchets.** 97 suites, 1269 fixtures, 11 pinned members — and these three numbers are
+<!-- ratchets: suites=99 fixtures=1289 members=11 -->
+**Ratchets.** 99 suites, 1289 fixtures, 11 pinned members — and these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree — and this
 sentence is checked against the same run, not against the marker.** It quoted the marker
@@ -239,6 +239,20 @@ carried. A ratchet 73 fixtures below the truth cannot detect the loss of two
 whole suites, which is the entire point of having one. The count above is
 `npm test` with its summary line excluded, since that line reports suites and
 would otherwise be counted as fixtures.
+
+<!-- description-total: 32501 -->
+**Family description total (R32, 2026-10-12).** The characters of every family skill
+description — whitespace collapsed, the figure the 970 cap is quoted in — summed over the
+pinned submodules. Measured at the pins of this revision: **32501 characters over 39
+skills** (32635 before the 1.57.0 re-pins), by `check_the_family_description_total_only_falls` in `test/validate.py`, which
+computes the sum on every run and compares it with the marker above. **It may fall and
+never rise:** a total above the marker fails and names the excess; a total below it passes
+and prints `record N as the new description-total`, so a member's trim is welcomed and
+the floor is lowered in the same change that re-pins it. Two different things are counted
+by two guards: the reserve ratchet counts how many skills are tight, this one counts how
+much text there is, and a member can improve the first while worsening the second. Both
+the failing plant (+1 character in one description) and the accepted trim (−1) are run
+against a copy of the tree by `test/family_plants_test.py`.
 
 ## Release tags are annotated — decided 2026-08-17 (B-69)
 

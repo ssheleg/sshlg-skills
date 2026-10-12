@@ -2506,6 +2506,37 @@ def check_no_member_can_publish_bytecode() -> None:
 check_no_member_can_publish_bytecode()
 
 
+def _family_description_lengths():
+    """[(skill id, characters)] for every family skill description in the pinned members.
+
+    One measure for two guards (the reserve below and the total ratchet after it):
+    whitespace collapsed to single spaces and stripped, the same figure the members' own
+    audits quote against the 970 cap. Read from the checked-out submodules, never from a
+    number written down.
+    """
+    import glob
+    out = []
+    skdir = os.path.join(ROOT, "skills")
+    for s in skills:
+        for f in sorted(glob.glob(os.path.join(skdir, s.get("name") or "",
+                                               "plugins", "*", "skills", "*", "SKILL.md"))):
+            try:
+                with open(f, encoding="utf-8") as fh:
+                    body = fh.read()
+            except OSError:
+                continue
+            fm = re.match(r"^---\n(.*?)\n---", body, re.S)
+            if not fm:
+                continue
+            dm = re.search(r"^description:\s*(?:[>|]-?\s*\n)?([\s\S]*?)(?=\n[a-z-]+:|\Z)",
+                           fm.group(1), re.M)
+            if not dm:
+                continue
+            out.append((os.path.basename(os.path.dirname(f)),
+                        len(re.sub(r"\s+", " ", dm.group(1)).strip())))
+    return out
+
+
 def check_the_description_reserve_is_not_spent() -> None:
     """The 970 limit is a RESERVE, and twelve of twenty-eight skills have spent it.
 
@@ -2538,28 +2569,9 @@ def check_the_description_reserve_is_not_spent() -> None:
     member's own release, and a check that turned twelve skills red here would be the
     umbrella failing for work it does not own.
     """
-    import glob
-    skdir = os.path.join(ROOT, "skills")
-    tight, total = [], 0
-    for s in skills:
-        for f in glob.glob(os.path.join(skdir, s.get("name") or "",
-                                        "plugins", "*", "skills", "*", "SKILL.md")):
-            try:
-                with open(f, encoding="utf-8") as fh:
-                    body = fh.read()
-            except OSError:
-                continue
-            fm = re.match(r"^---\n(.*?)\n---", body, re.S)
-            if not fm:
-                continue
-            dm = re.search(r"^description:\s*(?:[>|]-?\s*\n)?([\s\S]*?)(?=\n[a-z-]+:|\Z)",
-                           fm.group(1), re.M)
-            if not dm:
-                continue
-            n = len(re.sub(r"\s+", " ", dm.group(1)).strip())
-            total += 1
-            if 970 - n < 60:
-                tight.append((os.path.basename(os.path.dirname(f)), 970 - n))
+    measured = _family_description_lengths()
+    tight = [(k, 970 - n) for k, n in measured if 970 - n < 60]
+    total = len(measured)
     if not total:
         _skips.append("description reserve — no member is materialised to measure")
         return
@@ -2567,7 +2579,9 @@ def check_the_description_reserve_is_not_spent() -> None:
     # words the routing audit asked for (964 of 970). Its trim is that member's to make.
     # 13 → 14 on 2026-10-11: task-pipeline 1.92.0 named its wave mode ('waves' / 'волнами')
     # and stands at 911 of 970, one character inside the 60. Its trim is B-154.
-    ratchet = 14
+    # 14 → 13 on 2026-10-12: task-pipeline 1.93.2 trimmed to 890 (B-154 closed); agent-stack
+    # 0.27.0 fell to 929-938, still inside the 60.
+    ratchet = 13
     if len(tight) > ratchet:
         worst = ", ".join(f"{k} ({h})" for k, h in sorted(tight, key=lambda x: x[1])[:6])
         fail(f"{len(tight)} of {total} skills sit within 60 characters of the 970 "
@@ -2590,6 +2604,58 @@ def check_the_description_reserve_is_not_spent() -> None:
 
 
 check_the_description_reserve_is_not_spent()
+
+
+def check_the_family_description_total_only_falls() -> None:
+    """The family's always-on description text is a budget, and it may fall and never rise.
+
+    Every description is paid for in every session of every project, so their TOTAL is
+    the number that matters to a reader and no per-skill rule sees it: the 970 cap is one
+    skill at a time and the reserve ratchet above counts how many are tight, not how
+    much text there is. A member can stay under 970 and under the tight count and still
+    add forty characters to the family's bill.
+
+    The total is COMPUTED here from the pinned submodules. The figure it is compared with
+    is the one recorded in `docs/DOCMAP.md` (`<!-- description-total: N -->`), the single
+    home of the ratchet. Above it fails, naming the total and the excess. Below it passes
+    and prints the new floor, because a member that trims has done what the ratchet is
+    for -- recording the lower figure in the same change is the discipline, and failing
+    the trim would punish it (R32).
+    """
+    measured = _family_description_lengths()
+    if not measured:
+        _skips.append("description total -- no member is materialised to measure")
+        return
+    total = sum(n for _, n in measured)
+    path = os.path.join(ROOT, "docs", "DOCMAP.md")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            m = re.search(r"<!--\s*description-total:\s*(\d+)\s*-->", fh.read())
+    except OSError:
+        m = None
+    if not m:
+        fail("docs/DOCMAP.md carries no `<!-- description-total: N -->` marker -- the family "
+             f"description total ({total} characters over {len(measured)} skills) has no recorded "
+             "floor to be held to")
+        return
+    floor = int(m.group(1))
+    if total > floor:
+        fail(f"the family's descriptions total {total} characters over {len(measured)} skills "
+             f"and the recorded ceiling is {floor} (docs/DOCMAP.md): +{total - floor}. The total may "
+             "fall and never rise -- trim another description in the same change, or the "
+             "always-on cost grows by a figure nobody chose")
+    elif total < floor:
+        # Printed at once, not queued with the disclosures: those appear only after a PASS,
+        # and a fall that happens beside an unrelated red run must still say what to record.
+        print(f"  ratchet: description total {total} characters over {len(measured)} skills, "
+              f"{floor - total} under the recorded {floor} -- record {total} as the new "
+              "`description-total` in docs/DOCMAP.md in this change")
+    else:
+        _skips.append(f"description total -- {total} characters over {len(measured)} skills, "
+                      "at the recorded ceiling")
+
+
+check_the_family_description_total_only_falls()
 
 
 def check_the_split_and_the_ratchet_agree_on_one_threshold() -> None:

@@ -1,3 +1,33 @@
+## v1.57.0 — four members re-pinned from waves 2–4; Pi is a host
+
+Wave 5 of the integration plan (R30, R32, R33 pins, R37), hub part, and the pins of the
+member releases waves 2–4 produced, each certified by three blind readings before it merged:
+
+| Member | Was | Now | What it brings |
+|---|---|---|---|
+| task-pipeline | 1.92.0 | **1.93.2** | negative self-tests out of the workflow into `test/negatives/`, eight CI shards (≈111 → ≈7 minutes); temp-state hygiene; planned executor handoff through Observatory and a memory nudge; `release.approval` (`checks` / `reviewers`); namespaced execution-packet id. v1.93.0 and v1.93.1 published nothing (their own release gates refused them; see that CHANGELOG) |
+| agent-sync | 1.21.7 | **1.22.0** | run id per key; second-repository renew/release; the guard sees Bash writes and `git add && git commit`; a held-too-long notice the model receives; the notion token from the Observatory vault first; a Fabric conformance map |
+| agent-stack | 0.26.0 | **0.27.0** | trust by machine (T0/T1/T2, DL-25/DL-26), Fabric jobs and the degraded list, back-links to the Fabric adapter skills, every description ≥ 30 characters under 970 |
+| make-skill | 0.30.1 | **0.31.0** | a temp tree outside the residue ledger is refused; back-links; `skill-search` trigger evals (authored, not yet model-run) |
+
+The description reserve ratchet falls 14 → 13 (B-154 closed); the family description total is
+recorded at 32501 (from 32635). B-160 closes: task-pipeline now cites `handoff-layers.md`.
+
+- **Pi is a host** (R37). The routing block is written to `~/.pi/agent/AGENTS.md` (or
+  `$PI_CODING_AGENT_DIR/AGENTS.md`) through the same writer, `protect()` backup and sentinels as
+  `~/.codex/AGENTS.md`, only where `~/.pi/agent` exists; the write guard protects the file, and
+  `uninstall` removes the block — both at the default location (with `PI_CODING_AGENT_DIR` set, only
+  the write follows it: B-165, the same limit `CODEX_HOME` has). New read-only `npx sshlg-skills hosts` reports Pi's detection,
+  its skill roots, where the family's skills are visible to it, and duplicate names across its
+  roots (same realpath: harmless; different realpaths: a conflict, named). Nothing is pruned.
+  Checks: `test/pi_test.js` (14), including three real runs against a real file with identical hashes.
+- **The family description total only falls** (R32). `check_the_family_description_total_only_falls`
+  computes the total characters of every family skill description from the pinned members and holds
+  it to the `description-total` recorded in `docs/DOCMAP.md`: above fails naming the excess, below
+  passes and prints the figure to record. Plants in `test/family_plants_test.py`.
+- **The hub board guard has now been watched refusing a member's defect** (R30): a pipe-shifted row
+  in `skills/make-skill`'s board fails with the member, line and row id (same suite).
+
 ## v1.56.0 — the hooks say less, and `update` finishes the job
 
 Wave 1 of the integration plan (R01-R06; board B-155..B-159), with its two certification fix
