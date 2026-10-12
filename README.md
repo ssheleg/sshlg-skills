@@ -320,7 +320,7 @@ Five channels get it, and each only where that agent is actually installed:
 | Claude Code | `~/.claude/CLAUDE.md` |
 | Codex | `~/.codex/AGENTS.md` |
 | Gemini CLI | `~/.gemini/GEMINI.md` |
-| Pi | `~/.pi/agent/AGENTS.md` (or `$PI_CODING_AGENT_DIR/AGENTS.md` for the write; `uninstall` and the write guard read the default location only — B-165) |
+| Pi | `~/.pi/agent/AGENTS.md` (or `$PI_CODING_AGENT_DIR/AGENTS.md` — the writer, `uninstall` and the write guard all follow it) |
 | Cursor | `~/.cursor/rules/sshlg-routing.mdc` — one file per rule, `alwaysApply: true` |
 
 **Pi** (`@earendil-works/pi-coding-agent`, command `pi`) reads skills from `~/.pi/agent/skills`,

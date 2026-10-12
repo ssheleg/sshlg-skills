@@ -1093,6 +1093,21 @@ function cmdHosts() {
     const file = v.supported ? path.join(v.root, t.file) : '(unsupported platform)';
     log(`  ${t.agent.padEnd(8)} ${present ? 'detected' : 'absent  '}  ${file}`);
   }
+  // B-167: Codex will not start while its config defines one table twice.
+  const codexT = apply.TARGETS.find((t) => t.agent === 'codex');
+  const cv = codexT && apply.hostRootVerdict(codexT, home, {});
+  const codexCfg = cv && cv.supported ? path.join(cv.root, 'config.toml') : null;
+  if (codexCfg && fs.existsSync(codexCfg)) {
+    const dups = require('../lib/codexconfig.js').duplicateTables(fs.readFileSync(codexCfg, 'utf8'));
+    const show = require('../lib/codexconfig.js').show;
+    if (dups.length) {
+      log(`\nCodex config ${codexCfg}: ${dups.length} duplicate table(s) — Codex refuses to start (\`duplicate key\`):`);
+      for (const d of dups) log(`  ${show(d.key)} at lines ${d.lines.join(' and ')}`);
+      log('  Copy the file, then delete the later entry if both say the same; nothing here was changed.');
+    } else {
+      log(`\nCodex config ${codexCfg}: no duplicate tables.`);
+    }
+  }
   const family = new Set(SKILLS.flatMap((s) => s.skillNames || []));
   const r = piLib.inspect({ home, env: process.env, cwd: process.cwd(), which: (b) => piLib.whichBin(b), family });
   log('\nPi (@earendil-works/pi-coding-agent):');
@@ -1296,7 +1311,7 @@ function cmdRouters(f) {
   const superseded = {};
   const sources = {};
   for (const t of apply.TARGETS) {
-    const file = path.join(home, t.dir, t.file);
+    const file = path.join(apply.hostRoot(t, home), t.file);   // honours CODEX_HOME & co. (B-165)
     if (!fs.existsSync(file)) continue;
     const src = fs.readFileSync(file, 'utf8');
     const moved = migrate.migrate(src, { fallbacks: packaged });
@@ -2261,8 +2276,8 @@ function planUninstall(f) {
   }
   for (const t of apply.TARGETS) {
     steps.push(opres.step('router-block', 'home',
-      `remove the managed routing block from ~/${t.dir}/${t.file} (backup first; bytes outside the sentinels untouched)`,
-      { file: path.join(os.homedir(), t.dir, t.file) }));
+      `remove the managed routing block from ${path.join(apply.hostRoot(t, os.homedir()), t.file)} (backup first; bytes outside the sentinels untouched)`,
+      { file: path.join(apply.hostRoot(t, os.homedir()), t.file) }));
   }
   steps.push(opres.step('prune', 'home', 'remove the Cursor rules file (backup first)',
     { paths: [path.join(os.homedir(), '.cursor', 'rules', cursor.FILENAME)] }));
@@ -2327,7 +2342,7 @@ function cmdUninstall(f) {
 
   log(`\n== Removing the managed routing block ==`);
   for (const t of apply.TARGETS) {
-    const file = path.join(home, t.dir, t.file);
+    const file = path.join(apply.hostRoot(t, home), t.file);   // honours CODEX_HOME & co. (B-165)
     if (!fs.existsSync(file)) { log(`  routers: ${file} — absent`); continue; }
     const before = fs.readFileSync(file, 'utf8');
     const res = R.removeBlock(before);

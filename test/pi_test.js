@@ -162,6 +162,22 @@ it('PI_CODING_AGENT_DIR is honoured by the writer', () => {
   assert.ok(!fs.existsSync(path.join(home, '.pi', 'agent', 'AGENTS.md')), 'the default path was written too');
 });
 
+it('uninstall and the write guard follow PI_CODING_AGENT_DIR too (B-165)', () => {
+  const home = sandboxWithPi(); const alt = tmp();
+  const env = { PI_CODING_AGENT_DIR: alt };
+  const file = path.join(alt, 'AGENTS.md');
+  fs.writeFileSync(file, '# mine\n');
+  run(home, ['routers'], env);
+  assert.ok(fs.readFileSync(file, 'utf8').includes('SSHLG:ROUTERS:BEGIN'), 'not written');
+  const guard = require('../lib/guard.js');
+  const hit = guard.decide({ tool_name: 'Write', tool_input: { file_path: file } }, home, env);
+  assert.strictEqual(hit, path.resolve(file), 'the relocated Pi file is not protected');
+  run(home, ['uninstall', '--no-claude'], env);
+  const after = fs.readFileSync(file, 'utf8');
+  assert.ok(!after.includes('SSHLG:ROUTERS:BEGIN'), 'uninstall left the block in the relocated file');
+  assert.ok(after.includes('# mine'), 'uninstall took the operator text with it');
+});
+
 it('--agent codex does not touch the Pi file', () => {
   const home = sandboxWithPi();
   fs.mkdirSync(path.join(home, '.codex'), { recursive: true });
