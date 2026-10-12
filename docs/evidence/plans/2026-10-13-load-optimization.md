@@ -63,6 +63,7 @@ Twelve packs hold ~400 of the 531 skills and none of the 46 invoked ones except 
 
 ### L2 — the MCP switch: design, then build with the owners
 
+Observatory took it as board row **PB-159** (passioncode-ai/org-index #69, `c28598b`; wave E, iteration 2), with the review's points (a)–(e) as acceptance.
 Decision input: [specs/2026-10-13-mcp-loading.md](../specs/2026-10-13-mcp-loading.md). It is
 sent to Observatory (switch and inventory owner), Fabric (LC-19, the broker) and Fabric
 Dashboards (FD-61) for review; what each builds becomes a row on its own board, and the hub's
