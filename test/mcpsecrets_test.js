@@ -44,6 +44,8 @@ for (const tool of DENIED) {
     assert.ok(hit, 'expected a refusal');
     assert.strictEqual(hit.rule, 'mcp-credential-result');
     assert.match(hit.why, /vault\.py put/, 'the refusal names the safe route');
+    // USR-011: a skills-only user has no vault.py; the refusal must name a route they can run.
+    assert.match(hit.why, /Without Observatory: .*mode 600/, 'no route for a user without Observatory');
   });
 }
 for (const tool of PASSED) {

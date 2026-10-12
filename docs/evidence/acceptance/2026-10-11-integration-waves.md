@@ -15,7 +15,7 @@ family working with Fabric, Observatory and every coding agent. Brief and REQ ta
 | agent-stack | 0.27.0, 0.27.1 | #44, #45 | second reading pass (unit, seam), product pass with risks; 0.27.1's reading failed on the reaper's guards → fixed (13 cases) |
 | make-skill | 0.31.0, 0.31.1 | #33, #34 | seam+product failed → fixed; re-reading failed on one validator message → 0.31.1, reading pass |
 
-Installed here: hub 1.58.0 at the time of the observer's reading (fabric-dashboards session, 83/83);
+Installed here: hub 1.59.0 (`npx --yes sshlg-skills@latest update`, 95/95 green, runtime `~/.sshlg-skills/runtime/package.json` 1.59.0, `hooks`: всё на месте и совпадает); Codex's native family plugins moved to the pins by the update itself (4 moved, 5 already current, each read back from `codex plugin list`);
 the routing block (with the fabric row) is in all five host files, `~/.pi/agent/AGENTS.md` included.
 Codex's native family plugins moved to the pins through Codex's own CLI (B-166, now automated).
 
@@ -25,9 +25,9 @@ Codex's native family plugins moved to the pins through Codex's own CLI (B-166, 
 |---|---|---|
 | R01–R06 | met | wave-1 receipt `runs/2026-10-12-wave1.md` (simulated notes 45→30, injector lines 10→1, user-prompt-submit 204→80 ms), 1.56.0 |
 | R07 | met | task-pipeline temp guard + leak reap; `$TMPDIR` holds 4 `tp-*` entries (observer) |
-| R08 | met | `validate.yml` 12,714 bytes; PR runs ~7 min (was 90–111) |
+| R08 | met | `validate.yml` 12,853 bytes at v1.93.3; PR runs ~7 min (was 90–111) |
 | R09 | met | description 890/1024, body 4646/4750; hub reserve ratchet 13 |
-| R10 | met | merged-PR branches deleted in all five repos (2026-10-12) |
+| R10 | met | merged-PR branches deleted in all five repos (2026-10-12; a second sweep after the final observer's reading removed 14 more); kept: the planning branch `waves/2026-10-11-integration` and other sessions' open-PR branches |
 | R11 | partially met | `stage_checkpoint.py handoff/accept`, memory nudge, retry semantics (1.93.3); no live Observatory run receipt — Observatory's MCP server in this session was stale |
 | R12 | met | `docs/working-rules/handoff-layers.md`, cited by task-pipeline `continuity.md:324` |
 | R13 | met | `scripts/backlog_sources.py` + `test/backlog_sources_test.py` (31 cases), 1.93.3 |
@@ -45,7 +45,7 @@ Codex's native family plugins moved to the pins through Codex's own CLI (B-166, 
 | R28 | met | MS-05 (make-skill 0.31.0) and AG-06a/b (agent-stack 0.27.1) |
 | R29 | met | make-skill HANDOFF (0.31.1) |
 | R30 | partially met | hub plant watched failing; members' own-gate checks owed (B-108/B-109) |
-| R31 | met | `docs/reports/2026-10-12-coding-agent-compatibility/` (8 hosts; model layer NOT_RUN by design) |
+| R31 | met (the wiki catalog on origin lists it) | `docs/reports/2026-10-12-coding-agent-compatibility/` (8 hosts; model layer NOT_RUN by design) |
 | R32 | met | DOCMAP `description-total: 32501` |
 | R33 | met | graph refreshed (8,219 nodes, `0150822`), pins and releases above, install read back |
 | R34 | met | Observatory INB-001…006 accepted (INB-006 fixed in #200), fabric-workspace #169 (`44bc7f2`), wiki `7df878f` |

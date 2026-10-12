@@ -1,3 +1,14 @@
+## v1.59.1 — the remedies say less, the README says how the family meets Fabric
+
+From the final observer's reading of the integration waves:
+- **No remedy advises printing part of a secret (B-173).** The expansion-into-print refusal
+  recommended `${VAR: -4}` "to identify it" — a slice is still part of the value in the
+  transcript. It now offers presence, length, and a same/different comparison in a program.
+- **The DigitalOcean credential refusal names a route without Observatory (USR-011).**
+- **`update`'s busy check reads exit 75 only (B-178).** The exit-2 branch had outlived its
+  stated sunset, and no published launcher ever refused with 2.
+- **README: "With Fabric and Observatory" (B-176)** — the four connection points and their owners.
+
 ## v1.59.0 — the integration waves close: Codex refreshed by its own CLI, a guard that keeps its remedies, the fabric router where Fabric is
 
 The last release of the 2026-10-11 integration waves ([acceptance](docs/evidence/acceptance/2026-10-11-integration-waves.md)).
