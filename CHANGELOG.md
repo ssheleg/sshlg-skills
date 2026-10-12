@@ -1,5 +1,30 @@
 ## Unreleased
 
+- **The `fabric` router holds only on a machine with Fabric (B-169, USR-012).** 1.58.0 wrote it
+  into every machine's global instruction files, naming an organisation's tooling to people who
+  have never installed it. A router may now declare a machine predicate (`machine:` in
+  `lib/routers-registry.js`, the predicates in the new `lib/machine.js`); `fabric` declares one:
+  Fabric's services directory exists — `$FABRIC_SERVICES_DIR`, else
+  `~/Library/Application Support/ai.passioncode.fabric/services` on macOS,
+  `$XDG_DATA_HOME/passioncode-fabric/services` on Linux, `%LOCALAPPDATA%\passioncode-fabric\services`
+  on Windows. Where it does not hold, the block gets no `fabric` section, and a block that already
+  has one loses it with its table row on the next `routers --update`/`update`, reported as
+  `fabric — not on this machine`, not as a setting. The packaged text is not stashed on the way
+  out (a stash would come back instead of the current text the day Fabric is installed); an
+  operator's own wording is. The prompt hook names the `fabric` route on the same condition.
+  `working-in-passioncode` is no longer named by the fabric rule or its hook route: it is the
+  organisation's repository rules, not Fabric's services.
+- **The routing block is headed `## Work routing — the ssheleg family` (B-170).** Public users read
+  English. `## Роутинг работы — семья ssheleg` stays an alias: it is recognised wherever the
+  heading is looked for (the map and protocol insertion), and a block that carries it is retitled
+  on its next write, once. Migration still takes neither heading for a hand-written rule — the
+  block is found by its sentinels. The Cursor rule's description is English too.
+- Checks: `test/machine_predicate_test.js` (6), real `routers` runs in a sandbox HOME, each ending
+  in three runs with identical hashes — with Fabric, without it, a 1.58.0 block losing the rule and
+  getting it back current, an operator's wording kept, a Russian-titled block retitled, migration
+  over both headings; `test/triggers_test.js` and `test/route_coverage.js` state the machine
+  instead of inheriting the runner's disk; `test/routers_test.js` covers the retitle and the map
+  after either heading.
 - **`update` refreshes the family's native Codex plugins through Codex's own CLI (B-166).**
   Until now `update` reported Codex's plugin cache `UNSUPPORTED_UPDATE` on every run, so after
   a re-pin the family plugins stayed at their old versions in Codex — and Codex had no fresh

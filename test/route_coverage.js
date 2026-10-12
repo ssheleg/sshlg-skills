@@ -28,6 +28,9 @@
 const fs = require('fs');
 const path = require('path');
 const T = require('../lib/triggers.js');
+// The corpus measures what routes on a machine where Fabric IS installed: the
+// fabric route holds only there (B-169), and the runner's own disk must not decide.
+const FABRIC_HERE = require('../lib/machine.js').probe({ env: { FABRIC_SERVICES_DIR: require('os').tmpdir() } });
 
 const CASES = [
   // --- growth: funnels, activation, retention, paywalls -------------------
@@ -261,7 +264,7 @@ const missed = [];
 const noise = [];
 
 for (const [prompt, want] of CASES) {
-  const got = T.match(prompt);
+  const got = T.match(prompt, { machine: FABRIC_HERE });
   const expect = want ? want.split('|') : [];
   const hit = expect.length === 0 ? got.length === 0 : got.some((g) => expect.includes(g));
   const row = [prompt, got.join(',') || '—', want || '(silence)'];

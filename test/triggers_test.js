@@ -600,8 +600,10 @@ it('the four added routes each fire on their own words', () => {
 });
 
 it('fabric fires on its compounds and stays silent on the boundary', () => {
-  // The memberless router's hook half: the network's name in a compound, the
-  // agent-service shape and the org all name the route…
+  // The memberless router's hook half: the network's name in a compound and the
+  // agent-service shape name the route — on a machine where Fabric is installed
+  // (B-169), which this test states rather than inherits from the runner.
+  const fabricHere = require('../lib/machine.js').probe({ env: { FABRIC_SERVICES_DIR: require('os').tmpdir() } });
   for (const prompt of [
     'open the fabric service dashboard',
     'port already taken by an agent service',
@@ -610,10 +612,11 @@ it('fabric fires on its compounds and stays silent on the boundary', () => {
     'сделай агента совместимым с fabric',
     'подключить проект к fabric',
     'новый агент под fabric',
-    'work on a PassionCode repo',
   ]) {
-    assert.ok(T.match(prompt).includes('fabric'), `${JSON.stringify(prompt)} did not route to fabric`);
+    assert.ok(T.match(prompt, { machine: fabricHere }).includes('fabric'), `${JSON.stringify(prompt)} did not route to fabric`);
   }
+  // The org's own working rules are not Fabric's: B-169 took them out of this route.
+  assert.ok(!T.match('work on a PassionCode repo', { machine: fabricHere }).includes('fabric'));
   // …and the boundary the router text draws holds here too: generic services
   // are not Fabric, and a brand-new agent with no contract named is ordinary
   // dev work. «что запущено» is a question no fabric skill advertises, so the
@@ -624,6 +627,21 @@ it('fabric fires on its compounds and stays silent on the boundary', () => {
   // The refusal is sayable: it declines the route it names.
   assert.strictEqual(T.optedOut('open the fabric dashboard, no fabric'), true);
   assert.deepStrictEqual(T.match('подключить проект к fabric, но без фабрики'), []);
+});
+
+it('B-169: without Fabric on the machine the fabric route stays silent', () => {
+  const machine = require('../lib/machine.js');
+  const absent = machine.probe({ env: { FABRIC_SERVICES_DIR: '/nonexistent/fabric-services' } });
+  assert.ok(!T.match('open the fabric service dashboard', { machine: absent }).includes('fabric'));
+  assert.ok(!T.match('подключить проект к fabric', { machine: absent }).includes('fabric'));
+  // The per-OS default is what the router text names.
+  const at = (platform, env) => machine.fabricServicesDir({ platform, env, home: '/h' });
+  assert.strictEqual(at('darwin', {}), '/h/Library/Application Support/ai.passioncode.fabric/services');
+  assert.strictEqual(at('linux', {}), '/h/.local/share/passioncode-fabric/services');
+  assert.strictEqual(at('linux', { XDG_DATA_HOME: '/x' }), '/x/passioncode-fabric/services');
+  assert.strictEqual(at('win32', { LOCALAPPDATA: 'C:\\L' }), 'C:\\L\\passioncode-fabric\\services');
+  assert.strictEqual(at('darwin', { FABRIC_SERVICES_DIR: '/d' }), '/d');
+  assert.strictEqual(machine.holds('no-such-predicate', absent), false, 'an unknown predicate never holds');
 });
 
 // --- the pack's seventh skill, routable at last (XF-02) ----------------------

@@ -300,7 +300,9 @@ oblige. So the pack writes a **managed routing block** into your global agent
 instructions, and the rules engage in every project instead of only when
 someone remembers to ask.
 
-The block opens with the **map**: eleven members, the single command that starts
+The block is headed `## Work routing — the ssheleg family` (until 1.58.0 the
+heading was Russian; a block that still carries it is retitled on its next write).
+It opens with the **map**: eleven members, the single command that starts
 each, and one line saying what it closes. It is generated from `skills.json`,
 so a release moves it — and `install` and `update` refresh it, which is what
 makes "the instruction your agents read is current" a mechanism rather than a
@@ -366,9 +368,12 @@ priorities** — a landing page passes several, an internal script passes none:
 
 Three of them need no skill behind them. `seo-llmo`, `evidence-docs` and
 `fabric` are rules, not tools, so they hold whether or not anything is
-installed — `fabric`'s condition is the machine, not a member: it holds when
-Fabric's services directory is present, and the Fabric skills it points at
-come from a plugin outside this family.
+installed. `fabric`'s condition is the machine instead of a member: the block
+carries it, and the hook names its route, only where Fabric's services
+directory exists (`$FABRIC_SERVICES_DIR`, else the per-OS default; `lib/machine.js`).
+A machine without Fabric gets no `fabric` rule, and a block that already has one
+loses it, row included, on the next `update`. The Fabric skills it points at come
+from a plugin outside this family.
 
 **Your own wording wins.** Where you already wrote a rule by hand, migration
 moves *your* text in verbatim — asides included — and the packaged default is
