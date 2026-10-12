@@ -41,6 +41,14 @@ const DENIED = [
    'ls; head -5 ~/proj/.env.agent-sync | wc -l', 'reads-secret-file'],
   ['a reader fed the secret by redirection', 'head < ~/proj/.env', 'reads-secret-file'],
   ['a reader inside a substitution', 'echo "$(cat ~/proj/.env)"', 'reads-secret-file'],
+  // The PR #200 blind reading: splitting into segments must not open these.
+  ['the path through a variable', 'f=~/proj/.env; cat $f', 'reads-secret-file'],
+  ['the path through an exported variable', 'export F=~/x/.env && head "$F"', 'reads-secret-file'],
+  ['a redirect with & is not a separator', 'cat 2>&1 ~/proj/.env', 'reads-secret-file'],
+  ['the same into stderr', 'tail >&2 ~/.ssh/id_rsa', 'reads-secret-file'],
+  ['grep prints the matching secret lines', 'grep TOKEN ~/proj/.env | head -1', 'reads-secret-file'],
+  ['copy, then read the copy', 'cp ~/proj/.env /tmp/x; cat /tmp/x', 'reads-secret-file'],
+  ['a separator inside quotes does not cut the command', 'cat "a;b" ~/proj/.env', 'reads-secret-file'],
   ['the whole environment', 'env', 'dumps-environment'],
   ['printenv with no argument', 'printenv', 'dumps-environment'],
   ['verbose curl with an auth header',
@@ -73,6 +81,8 @@ const ALLOWED = [
   // was refused because an unrelated `| head` sat elsewhere on the line.
   ['the existence remedy beside an unrelated reader',
    'launchctl list | grep tick | head -3; test -f ~/DATA/x/.env.agent-sync && echo "token file present"'],
+  ['counting matching lines prints no value', 'grep -c ^TOKEN= ~/proj/.env'],
+  ['an in-place edit prints nothing', 'sed -i "" s/a/b/ ~/proj/.env'],
   ['an unrelated reader on both sides of the existence remedy',
    'grep -c x ~/notes.md | head -1; test -f ~/x/.env && echo present; tail -2 ~/log.txt'],
 ];

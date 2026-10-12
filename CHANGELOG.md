@@ -4,11 +4,17 @@
   matched a reader anywhere on the line and a secret-looking path anywhere on the line, so
   the existence check the refusal itself recommends (`test -f FILE && echo present`) was
   refused when an unrelated `| head -3` sat in another segment of the same line. Both must
-  now sit in one segment (split on `;`, `&&`, `||`, `|`, `&`, newline); a reader of the file
-  in a pipe, by redirection or inside a substitution is still refused. Cases in
-  `test/secrets_test.js` (two allowed, three denied); the second allowed case failed on
-  1.57.1. Reported by Observatory's session with three verbatim commands, which `inspect()`
-  now allows.
+  now sit in one segment — split on `;`, `&&`, `||`, `|`, `&` and newlines OUTSIDE quotes,
+  and never at the `&` of a redirect (`2>&1`, `>&2`, `&>`). What legitimately crosses
+  segments is carried forward: a variable assigned a secret path (`f=~/.env; cat $f`) and
+  a copy of a secret (`cp ~/.env /tmp/x; cat /tmp/x`) count as secret paths in the
+  segments after them. `grep`/`sed`/`awk`/`rg` on a secret path are readers now (they
+  print matching lines) unless a flag prints none (`-c`, `-q`, `-l`, `sed -i`). A blind
+  reading of the first cut found those five bypasses; all are cases now. Cases in
+  `test/secrets_test.js`: 4 allowed (both INB-006 shapes failed on 1.57.1), 10 denied.
+  Reported by Observatory's session with three verbatim commands, which `inspect()` now
+  allows. Known and unchanged (pre-existing, recorded): `cd DIR && cat .env`, `xargs cat`,
+  `find -exec cat`, backticks, `bash -c '…'`, `python3 -c open(…)`.
 
 ## v1.58.0 — the fabric router: this machine's agent services get a rule
 
