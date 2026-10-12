@@ -1,3 +1,16 @@
+## v1.61.0 — `hosts` says which local MCP servers are not answering
+
+- **A refused MCP server is named, with what to do (B-177).** Claude Code connects to each
+  MCP server once, when a session starts; a server that refuses then leaves the session
+  without its tools until `/mcp` → reconnect, and nothing says so. On 2026-10-12 a Foundry
+  release restart did this, and an agent fell back to calling the service directly with its
+  client token. `npx sshlg-skills hosts` now lists the loopback `http`/`sse` servers in
+  `~/.claude.json` (user and project scope) with `answers` / `refused`, by a TCP connect
+  only — no request is sent, so no header or token leaves the process, and no third-party
+  host is contacted — and says to reconnect rather than work around it. `lib/mcpreach.js`,
+  `test/mcpreach_test.js` (a real listener and a closed port in a sandbox HOME; no header
+  value printed).
+
 ## v1.60.0 — Codex config duplicates are named; relocated host directories are followed everywhere
 
 - **`hosts` names a duplicate table in Codex's config (B-167).** Codex refuses to start
