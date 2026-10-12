@@ -170,7 +170,7 @@ the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
 <!-- ratchets: suites=99 fixtures=1290 members=11 -->
-**Ratchets.** 99 suites, 1289 fixtures, 11 pinned members — and these three numbers are
+**Ratchets.** 99 suites, 1290 fixtures, 11 pinned members — and these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree — and this
 sentence is checked against the same run, not against the marker.** It quoted the marker
