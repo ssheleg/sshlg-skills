@@ -2579,7 +2579,9 @@ def check_the_description_reserve_is_not_spent() -> None:
     # words the routing audit asked for (964 of 970). Its trim is that member's to make.
     # 13 → 14 on 2026-10-11: task-pipeline 1.92.0 named its wave mode ('waves' / 'волнами')
     # and stands at 911 of 970, one character inside the 60. Its trim is B-154.
-    ratchet = 14
+    # 14 → 13 on 2026-10-12: task-pipeline 1.93.2 trimmed to 890 (B-154 closed); agent-stack
+    # 0.27.0 fell to 929-938, still inside the 60.
+    ratchet = 13
     if len(tight) > ratchet:
         worst = ", ".join(f"{k} ({h})" for k, h in sorted(tight, key=lambda x: x[1])[:6])
         fail(f"{len(tight)} of {total} skills sit within 60 characters of the 970 "

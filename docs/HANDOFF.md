@@ -18,6 +18,19 @@ optimization and the family working with Fabric, Observatory and every coding ag
 regenerate with `python3 docs/evidence/specs/2026-10-11-integration-waves-assign.py`).
 Branch `waves/2026-10-11-integration`. New hub rows B-155…B-163.
 
+**Waves 2–4 released and pinned in 1.57.0 (branch `w5/hub-close`).** Each member PR passed
+three blind readings (unit, seam, product) before merge; remaining risks are on each member's
+board. task-pipeline **1.93.2** (#109 → `8260042`; v1.93.0/v1.93.1 refused by its own release
+gates, #110, #111), agent-sync **1.22.0** (#32 → `517b4b6`), agent-stack **0.27.0** (#44 →
+`96ed0f8`), make-skill **0.31.0** (#33 → `5556e88`). Wave 5 hub part (R30 board plant, R32
+description total, R37 Pi host) is in the 1.57.0 CHANGELOG.
+
+**Next, in order:** release 1.57.0 and install it here (`routers --dry-run` first — it previews
+`~/.pi/agent/AGENTS.md`); the compatibility cut per host (R31; Gemini after the operator signs
+in to `gemini` 0.63.0); W4-C model evals for `skill-search` and the paired routing arms (B-147,
+B-144); graph refresh (B-161); asks to Observatory and Fabric (R34); stage 9–10 close-out and the
+observer's verdict.
+
 **Wave 1 (hub skeleton, R01–R06) is built and has had two fix rounds on PR #192** (branch
 `w1/hub-skeleton`): W1-A…W1-F delivered; the first round's twelve findings and thirteen risks,
 and the second blind reading's six breaks and seven risks (A–M), are mapped to commits and tests

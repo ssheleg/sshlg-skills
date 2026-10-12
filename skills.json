@@ -76,7 +76,7 @@
         "evidence-docs",
         "project-audit"
       ],
-      "version": "1.92.0",
+      "version": "1.93.2",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
@@ -93,7 +93,7 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.21.7",
+      "version": "1.22.0",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
@@ -111,7 +111,7 @@
         "make-skill",
         "skill-search"
       ],
-      "version": "0.30.1",
+      "version": "0.31.0",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
@@ -199,7 +199,7 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.26.0",
+      "version": "0.27.0",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",

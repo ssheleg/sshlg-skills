@@ -240,7 +240,7 @@ whole suites, which is the entire point of having one. The count above is
 `npm test` with its summary line excluded, since that line reports suites and
 would otherwise be counted as fixtures.
 
-<!-- description-total: 32635 -->
+<!-- description-total: 32501 -->
 **Family description total (R32, 2026-10-12).** The characters of every family skill
 description — whitespace collapsed, the figure the 970 cap is quoted in — summed over the
 pinned submodules. Measured at the pins of this revision: **32635 characters over 39

@@ -1,6 +1,17 @@
-## Unreleased
+## v1.57.0 — four members re-pinned from waves 2–4; Pi is a host
 
-Wave 5 of the integration plan (R30, R32, R37), hub part.
+Wave 5 of the integration plan (R30, R32, R33 pins, R37), hub part, and the pins of the
+member releases waves 2–4 produced, each certified by three blind readings before it merged:
+
+| Member | Was | Now | What it brings |
+|---|---|---|---|
+| task-pipeline | 1.92.0 | **1.93.2** | negative self-tests out of the workflow into `test/negatives/`, eight CI shards (≈111 → ≈7 minutes); temp-state hygiene; planned executor handoff through Observatory and a memory nudge; `release.approval` (`checks` / `reviewers`); namespaced execution-packet id. v1.93.0 and v1.93.1 published nothing (their own release gates refused them; see that CHANGELOG) |
+| agent-sync | 1.21.7 | **1.22.0** | run id per key; second-repository renew/release; the guard sees Bash writes and `git add && git commit`; a held-too-long notice the model receives; the notion token from the Observatory vault first; a Fabric conformance map |
+| agent-stack | 0.26.0 | **0.27.0** | trust by machine (T0/T1/T2, DL-25/DL-26), Fabric jobs and the degraded list, back-links to the Fabric adapter skills, every description ≥ 30 characters under 970 |
+| make-skill | 0.30.1 | **0.31.0** | a temp tree outside the residue ledger is refused; back-links; `skill-search` trigger evals (authored, not yet model-run) |
+
+The description reserve ratchet falls 14 → 13 (B-154 closed); the family description total is
+recorded at 32501 (from 32635). B-160 closes: task-pipeline now cites `handoff-layers.md`.
 
 - **Pi is a host** (R37). The routing block is written to `~/.pi/agent/AGENTS.md` (or
   `$PI_CODING_AGENT_DIR/AGENTS.md`) through the same writer, `protect()` backup and sentinels as
