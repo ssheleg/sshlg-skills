@@ -1,10 +1,29 @@
 # Start here — sshlg-skills
 
-Snapshot: 2026-10-12. This page selects evidence and the next bounded action;
+Snapshot: 2026-10-13. This page selects evidence and the next bounded action;
 [skills.json](../skills.json) owns the current member inventory and pins.
 Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 [standing retrospective instructions](evidence/retro.md) and the
 [repository handoff rule](working-rules/repository-handoff.md) before editing.
+
+## L1 — the marked packs hidden on every host (2026-10-13, unreleased, lease `WAVES-1011`)
+
+Plan: [load optimisation, wave L1](evidence/plans/2026-10-13-load-optimization.md).
+**Read first:** [receipt](evidence/runs/2026-10-13-visibility-hosts.md) ·
+[`pack-marks.json`](../pack-marks.json) · README § "Hiding the marked packs on every host".
+B-143 closed (marked; hidden, not deleted); B-148 untouched.
+
+Done on branch `feat/visibility-all-hosts`: the operator's marks as `pack-marks/1` data (34
+packs hidden, 20 kept), per-machine `visibility.showPacks`/`hidePacks` overrides
+(`config set visibility.pack.<owner/repo> hide|show|default`), `visibility` writing Gemini,
+Pi, Hermes and OpenCode through each host's own switch (Cursor and Kimi: "cannot hide"),
+`update` re-applying it where `--apply` ran. Sandbox readbacks with the real host CLIs; the
+operator's machine was only previewed (read-only).
+
+**Exact next task:** after the PR merges and releases, run `npx sshlg-skills visibility --apply`
+on the operator's machine, then read back per host (`gemini skills list`, Pi's loader as in
+the receipt, `opencode debug config`, `hermes skills list`) and append the counts to the
+receipt; then L4 measures the listing sizes.
 
 ## Closed — integration waves (2026-10-11/12, lease `WAVES-1011`)
 
@@ -28,7 +47,7 @@ decide B-144 and B-147. Then the open rows by priority (B-171/B-172 guard covera
 
 **Waiting on the operator:** Gemini sign-in (B-146); AS-14 drop or keep; whether the
 R18 age sweep (`reap --long-expired`) is acceptable; the Notion tokens into the vault (R20);
-B-143 pack-triage marks; who owns the `SSHLG:REPOSITORY-HANDOFF` block (B-174).
+who owns the `SSHLG:REPOSITORY-HANDOFF` block (B-174).
 
 ## B-169 / B-170 — the fabric rule only where Fabric is; the block headed in English (2026-10-12, unreleased)
 

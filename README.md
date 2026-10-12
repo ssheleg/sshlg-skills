@@ -428,6 +428,54 @@ never work — a family router's name, a trigger inside a refusal phrase, a ques
 phrase — is refused with the reason, and nothing is written; the hook itself drops
 an unusable entry silently, because it must never cost you a turn.
 
+### Hiding the marked packs on every host — `visibility`
+
+**This is the fallback for sessions Fabric does not start.** A Fabric-started session
+takes the same marks through Fabric's RM-23 session bundle, which owns visibility there
+and writes nothing to host settings; `visibility` writes each host's own setting so a
+session started by hand sees the same listing.
+
+The operator's marks of 2026-10-13 (B-143) — hide, never delete — live in
+[`pack-marks.json`](pack-marks.json) (schema `pack-marks/1`, shipped in the npm package):
+one row per pack with `hidden`, `host`, `audience`, `markedBy`, `markedAt` and `reason`.
+Revision 1 hides 34 packs and keeps 20 listed (the eleven family packs, `anthropics/skills`,
+`heygen-com/hyperframes`, `emilkowalski/skills`, `vercel-labs/agent-skills`,
+`meta-quest/agentic-tools`, `stablyai/orca`, `kepano/obsidian-skills`,
+`anthropics/claude-code`, `conorbronsdon/avoid-ai-writing`).
+
+**Precedence, strongest first:** a family pack is never hidden; the usage core is never
+hidden (family skills, skills used in the last 60 days by Claude's own usage stats, skills
+`~/.claude/CLAUDE.md` names in backticks, `--keep`); `visibility.showPacks` in
+`~/.sshlg-skills/config.json`; `visibility.hidePacks`; the mark in `pack-marks.json`;
+an unmarked pack stays listed. Override one pack on one machine:
+
+```bash
+npx sshlg-skills config set visibility.pack.anthropics/financial-services show   # or hide, or default
+npx sshlg-skills visibility            # preview: per-host counts, nothing written
+npx sshlg-skills visibility --apply    # write each host's own switch, backups first
+npx sshlg-skills visibility --revert   # remove exactly what --apply wrote
+```
+
+| Host | The switch `visibility` writes | Source |
+|---|---|---|
+| Claude Code | `skillOverrides: "user-invocable-only"` in `~/.claude/settings.json` — every personal skill outside the core (the pack marks are a subset) | since v1.55.0 |
+| Codex | `enabled = false` entries in `~/.codex/config.toml` `[skills] config` — every shared skill outside the core | since v1.55.0 |
+| Gemini CLI 0.63.0 | `skills.disabled` in `~/.gemini/settings.json` — the list `gemini skills disable <name> --scope user` writes; read back with `gemini skills list` (`[Disabled]`) | `packages/cli/src/utils/skillSettings.ts`; `SkillManager.getSkills()` drops disabled skills |
+| Pi 1.1.0 | `-<path>` exact exclusions in the `skills` array of `~/.pi/agent/settings.json`, one per root holding the skill (`~/.agents/skills`, `~/.pi/agent/skills`); the file is created if absent and removed again by `--revert` | Pi's own docs, settings → Resources; `isEnabledByOverrides` in its `dist/core/package-manager.js` |
+| Hermes 0.21.4 | `skills.disabled` in its config.yaml, written by its own CLI (`hermes config set skills.disabled '<json list>'`, read back with `hermes config get --json`); `hermes skills list` shows `disabled` | `hermes_cli/skills_config.py`; `tools/skills_tool.py` `_find_all_skills` |
+| OpenCode 1.18.10 | `permission.skill.<name> = "deny"` in `~/.config/opencode/opencode.json`; a denied skill leaves the listing and its call is refused; read back with `opencode debug config` | opencode.ai/docs/skills; `Skill.available` filters by the `skill` permission |
+| Cursor agent CLI 2026.09.02 | **cannot hide on cursor** — no setting switches a skill off; the only model-side filter is the skill's own `disable-model-invocation` front matter, and editing a third-party SKILL.md is ruled out | the bundled `index.js` (`filterModelDisabledSkills`, `disable-model-invocation`) |
+| Kimi 2.1.1 | **cannot hide on kimi** — `[[permission.rules]] decision = "deny"`, `pattern = "Skill(<name>)"` in `~/.kimi-code/config.toml` refuses the call, but the listing keeps the skill, so it is not applied as hiding | the `kimi` 2.1.1 bundle (`features/skill/catalog` filters built-in skills only) |
+
+Every write to an operator file goes through a backup first (`protect()`) or through the
+host's own CLI; nothing deletes, moves or edits a skill file. The launcher records what it
+added in `~/.sshlg-skills/visibility.json` — never an entry the operator already had — and
+`--revert` removes only that. A settings file in a form the host does not write (comments,
+another indentation) is refused with a reason rather than reformatted. Three `--apply` runs
+leave identical bytes (`test/visibility_hosts_e2e_test.js`). **`update` re-applies it** on a
+machine whose record shows `--apply` ran, with the same window and `--keep`, scoped like the
+rest of the run (`--claude-only`, `--agent <host>`).
+
 ### Making it engage by itself — hooks
 
 The routing block loads in every session and is still routed around, because
@@ -453,7 +501,7 @@ npx sshlg-skills conflicts                # installed skills that land on a rout
 npx sshlg-skills toolkit                  # every skill this machine can reach, as an index
 npx sshlg-skills toolkit --for "<task>"   # ...narrowed to one task, as a shortlist
 npx sshlg-skills toolkit --find "pdf, xlsx, отчёт"  # by the concepts YOU read from the task; hidden skills included, with SKILL.md paths
-npx sshlg-skills visibility               # which skills keep their place in Claude/Codex listings; --apply hides the rest, --revert undoes it
+npx sshlg-skills visibility               # which skills keep their place in each host's listing; --apply hides the rest, --revert undoes it
 npx sshlg-skills pack design              # design/front-end/mobile: present, missing, and the install line
 npx sshlg-skills pack design --check      # do the declared addresses still resolve?
 npx sshlg-skills humanizers               # anti-AI-writing skills here, with the caveat that binds them

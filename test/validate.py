@@ -3106,6 +3106,63 @@ def check_a_new_ledger_section_can_expire():
 
 check_a_new_ledger_section_can_expire()
 
+
+def check_pack_marks():
+    """`pack-marks.json` is the operator's per-pack marks (B-143, 2026-10-13), read by
+    `visibility` and by Fabric's RM-23 session bundle — two readers, so the shape is
+    checked here rather than trusted: schema pack-marks/1, a revision, each pack once,
+    every field present, `hidden` a boolean, no family pack hidden, and the file shipped
+    in the npm payload (the launcher reads it at run time; a missing file marks nothing)."""
+    path = os.path.join(ROOT, "pack-marks.json")
+    if not os.path.isfile(path):
+        fail("pack-marks.json is missing — `visibility` would hide no pack")
+        return
+    try:
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+    except Exception as e:
+        fail(f"pack-marks.json does not parse: {e}")
+        return
+    if data.get("schema") != "pack-marks/1":
+        fail(f"pack-marks.json: schema must be 'pack-marks/1', got {data.get('schema')!r}")
+    rev = data.get("revision")
+    if not isinstance(rev, int) or isinstance(rev, bool) or rev < 1:
+        fail("pack-marks.json: revision must be a positive integer")
+    packs = data.get("packs")
+    if not isinstance(packs, list) or not packs:
+        fail("pack-marks.json: packs must be a non-empty list")
+        return
+    seen = set()
+    for i, m in enumerate(packs):
+        if not isinstance(m, dict):
+            fail(f"pack-marks.json: packs[{i}] is not an object")
+            continue
+        name = m.get("pack")
+        for field in ("pack", "audience", "host", "hidden", "markedBy", "markedAt", "reason"):
+            if field not in m:
+                fail(f"pack-marks.json: packs[{i}] ({name}) has no {field}")
+        if not isinstance(name, str) or not re.match(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$", name):
+            fail(f"pack-marks.json: packs[{i}].pack must be owner/repo, got {name!r}")
+        elif name.lower() in seen:
+            fail(f"pack-marks.json: {name} is marked twice")
+        else:
+            seen.add(name.lower())
+        if not isinstance(m.get("hidden"), bool):
+            fail(f"pack-marks.json: {name}: hidden must be true or false")
+        host = m.get("host")
+        if not isinstance(host, list) or not host or not all(isinstance(h, str) and h for h in host):
+            fail(f"pack-marks.json: {name}: host must be [\"*\"] or a list of host names")
+        if not re.match(r"^\d{4}-\d{2}-\d{2}$", str(m.get("markedAt", ""))):
+            fail(f"pack-marks.json: {name}: markedAt must be YYYY-MM-DD")
+        if m.get("hidden") is True and isinstance(name, str) and name.startswith("ssheleg/"):
+            fail(f"pack-marks.json: {name} is a family pack and cannot be hidden")
+    shipped = [p.strip("/") for p in ((pkg or {}).get("files") or [])]
+    if "pack-marks.json" not in shipped:
+        fail("package.json files[] does not ship pack-marks.json — npx users would hide no pack")
+
+
+check_pack_marks()
+
 if errors:
     print("FAIL: sshlg-skills structure invalid")
     for e in errors:

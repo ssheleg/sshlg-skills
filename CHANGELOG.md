@@ -1,3 +1,31 @@
+## Unreleased — the marked packs are hidden on every host, nothing deleted
+
+- **The operator's pack marks ship as data (B-143).** `pack-marks.json` (schema
+  `pack-marks/1`, revision 1, in the npm package) holds one row per installed pack:
+  34 hidden, 20 kept listed (the eleven family packs and nine the operator kept). Hidden
+  is never a deletion. `test/validate.py` checks the schema, the revision, one row per
+  pack, the fields, that no family pack is hidden, and that `package.json` ships it.
+  Fabric's RM-23 session bundle reads the same file; `visibility` is the host-wide
+  fallback for sessions Fabric does not start, and says so in its first line.
+- **Per-machine overrides.** `npx sshlg-skills config set visibility.pack.<owner/repo>
+  hide|show|default` writes `visibility.hidePacks` / `visibility.showPacks` in
+  `~/.sshlg-skills/config.json`. Precedence: family, then the usage core (used in 60 days,
+  named in `~/.claude/CLAUDE.md`, `--keep`), then `showPacks`, `hidePacks`, the mark.
+- **Each host's own switch, never a file deletion.** Gemini `skills.disabled` in
+  settings.json (what `gemini skills disable --scope user` writes); Pi `-<path>` exact
+  exclusions in `settings.json` `skills`; Hermes `skills.disabled` through
+  `hermes config set` with a readback; OpenCode `permission.skill.<name> = "deny"`.
+  Cursor and Kimi are reported as "cannot hide": Cursor has no per-skill switch, Kimi's
+  permission rule refuses a call but keeps the skill listed. JSON settings are edited only
+  in the 2-space form their host writes, after a backup; the record in
+  `~/.sshlg-skills/visibility.json` names what the launcher added and `--revert` removes
+  exactly that, including the Pi settings file it created. `lib/hostvis.js`;
+  `test/visibility_packs_test.js`, `test/visibility_hosts_e2e_test.js` (a fake Hermes
+  CLI, three applies with identical bytes, revert to the original bytes).
+- **`update` re-applies `visibility`** on a machine whose record shows `--apply` ran, with
+  the same window and `--keep`, scoped like the run (`--claude-only`, `--agent <host>`);
+  `update --dry-run` says it will.
+
 ## v1.61.0 — `hosts` says which local MCP servers are not answering
 
 - **A refused MCP server is named, with what to do (B-177).** Claude Code connects to each
