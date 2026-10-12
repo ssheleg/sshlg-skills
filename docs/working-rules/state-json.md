@@ -10,7 +10,12 @@ them, who reads them, and the lock that keeps two `update` runs from racing.
 the caller's keys into the file, writes a temp file beside it at mode 0600 and renames it over
 the old one, so a reader sees the old file or the new one, never half of one, and the file is
 0600 whoever wrote it last (since the 1.56.0 fix round; before it, three writers wrote in place
-and a file they created was 0644). Every writer stamps `schemaVersion`. Readers must tolerate a
+and a file they created was 0644). **Read-modify-write happens inside the writer** (second fix
+round): the patch may be a function of the file as it is at write time, applied while holding
+`state.json.lock` (created exclusively; a lock older than 2 s is a dead writer's and is removed;
+after 1 s of waiting the write proceeds unlocked rather than hang a hook). Every writer of an
+`updateCheck` sub-key uses `store.nested('updateCheck', …)`, so the probe, the idle updater and
+SessionStart cannot erase each other's keys by merging a copy they read earlier. Every writer stamps `schemaVersion`. Readers must tolerate a
 file without `schemaVersion` (written before 1.56.0) and keys they do not know.
 `test/updatelock_test.js` runs every writer against a 0644 file and refuses a `writeFileSync`
 of `state.json` outside `lib/store.js`.
@@ -19,7 +24,7 @@ of `state.json` outside `lib/store.js`.
 |---|---|---|---|
 | `schemaVersion` | `1` since 1.56.0 (`STATE_SCHEMA`, `lib/store.js`). Bumped only for a change old readers cannot survive | every writer below | external consumers, to detect the contract |
 | `routers` | `"yes"` / `"no"` — recorded consent to edit instruction files | `lib/consent.js` (`writeState`) | `lib/consent.js` (`askConsent`), `bin/sshlg-skills.js` (`consentRecorded`) |
-| `updateCheck` | `{at, latest, ranAt, from, to, ok, busyAt, reportedRanAt}` — the set-update cache, one object, every writer merging its own keys into it. `at` and `latest`: the last registry probe (`record()`). `ranAt`, `from`, `to`, `ok`: the last unattended update (`ranRecord()`; `ranAt` is stamped before the run starts). `busyAt`: that update found `update.lock` held — exit 2, not a failure, `ranAt` put back so the next idle retries (`busyRecord()`). `reportedRanAt`: the run SessionStart has already reported, so it is said once (`reportedRecord()`) | `lib/updateprobe.js` (`at`, `latest`), `lib/updaterun.js` (`ranAt`, `from`, `to`, `ok`, `busyAt`), `hooks/session-start.js` (`reportedRanAt`) | `hooks/session-start.js` via `lib/updatecheck.js` `plan()` (the notice and the "updated while you were away" line); `hooks/notification.js` via `shouldAutoUpdate()` (whether the idle updater runs); **Fabric Dashboards** `launcherLatest()` (`at`, `latest`) |
+| `updateCheck` | `{at, latest, ranAt, from, to, ok, busyAt, reportedRanAt}` — the set-update cache, one object, every writer merging its own keys into it. `at` and `latest`: the last registry probe (`record()`). `ranAt`, `from`, `to`, `ok`: the last unattended update (`ranRecord()`). `ranAt` is stamped before the run starts and the stamp CLEARS `from`, `to`, `ok` and `busyAt` (`startRecord()`), so while a run is in progress there is no outcome to report — the previous one is never read as this attempt's. `busyAt`: that update found `update.lock` held — exit 2, not a failure; the whole previous `ranAt`/`from`/`to`/`ok` is put back (`busyRecord()`), and the idle updater waits 10 minutes after `busyAt` before trying again (`BUSY_BACKOFF_MS`). `reportedRanAt`: the run SessionStart has already reported, so it is said once (`reportedRecord()`) | `lib/updateprobe.js` (`at`, `latest`), `lib/updaterun.js` (`ranAt`, `from`, `to`, `ok`, `busyAt`), `hooks/session-start.js` (`reportedRanAt`) | `hooks/session-start.js` via `lib/updatecheck.js` `plan()` (the notice and the "updated while you were away" line); `hooks/notification.js` via `shouldAutoUpdate()` (whether the idle updater runs); **Fabric Dashboards** `launcherLatest()` (`at`, `latest`) |
 | `inbound` | the open issues/PRs another agent left for the current repository | `lib/handoffprobe.js` | `hooks/session-start.js` via `lib/handoff.js` |
 | `injectors` | sorted spec names of the enabled plugins that speak at `SessionStart` — what the session line last told. **Machine-wide**: a fact about which plugins this machine enables, so a second session with the same set is told nothing (route notes, about one context, are per session in `turns/`) | `hooks/session-start.js` | `hooks/session-start.js` (`lib/injectors.js` `changed`) |
 
@@ -60,8 +65,12 @@ runtime copy and this file.
   judged by its age alone (its pid means nothing here): taken over after 30 minutes. An
   unreadable lock is refused while fresh and taken over once it is 30 seconds old. Every takeover
   is logged (`update: took over update.lock — ...`).
-- A takeover re-reads the lock before deleting it and deletes only the lock it judged; if another
-  update replaced it in between, that one is judged again instead.
+- A takeover removes only the lock it judged, atomically: it RENAMES the lock to a name of its
+  own, checks that the renamed file is the lock it judged (pid and `startedAt`), and if another
+  update had replaced it in between, puts that one back with `link()` and judges again. The one
+  race left: a third update creating a lock in the instant the name is free, after which the
+  restore's `link()` fails and two runs proceed — narrower than the window it replaced (between a
+  check and an `unlink`), not closed.
 - Released on the normal return, a thrown error and `process.exit` elsewhere in the run. **No
   signal handlers**: the run is synchronous, so a handler could only run after every step had
   finished and replaced Node's terminate-on-signal (Ctrl-C and SIGTERM stopped nothing). A run
@@ -78,3 +87,9 @@ was judged), the real launcher refused / taking over stale and dead locks / rele
 and failing runs / stopped within 2 s by SIGTERM and by SIGINT to its group, the idle updater
 recording a held lock as busy, the probe keeping the updater's keys, an unattended run reported by
 the next SessionStart, every writer at 0600 by rename, and the documented `updateCheck` keys.
+Second fix round: a successor's lock planted at the last moment before a takeover is restored,
+not deleted; a SessionStart while the idle updater runs, and after it exits busy, prints no
+outcome line; no writer merges `updateCheck` from an earlier copy. `test/updatecheck_test.js`:
+the stamped shape reports nothing, a busy exit restores the whole outcome, the ten-minute busy
+back-off. `test/store_test.js`: a function patch sees the file at write time; four processes
+interleaving 30 writes each lose none.

@@ -18,18 +18,23 @@ optimization and the family working with Fabric, Observatory and every coding ag
 regenerate with `python3 docs/evidence/specs/2026-10-11-integration-waves-assign.py`).
 Branch `waves/2026-10-11-integration`. New hub rows B-155…B-162.
 
-**Wave 1 (hub skeleton, R01–R06) is built, failed certification once, and its one fix round
-is on PR #192** (branch `w1/hub-skeleton`): W1-A…W1-F delivered, the fix round's twelve
-findings and thirteen risks mapped to commits and tests in the
-[wave-1 receipt](evidence/runs/2026-10-12-wave1.md), section *Fix round*.
+**Wave 1 (hub skeleton, R01–R06) is built and has had two fix rounds on PR #192** (branch
+`w1/hub-skeleton`): W1-A…W1-F delivered; the first round's twelve findings and thirteen risks,
+and the second blind reading's six breaks and seven risks (A–M), are mapped to commits and tests
+in the [wave-1 receipt](evidence/runs/2026-10-12-wave1.md), sections *Fix round* and
+*Fix round 2*.
 
 **Exact next bounded tasks (orchestrator):**
 1. Certify PR #192 again (unit, seam, product), then merge it and cut the 1.56.0 release
-   (rename the CHANGELOG's `Unreleased (1.56.0 …)` heading, bump `package.json`).
-2. On this machine run `npx sshlg-skills@latest update`, then read `npx sshlg-skills hooks`
-   — clean status closes B-157. Run `npx sshlg-skills routers --dry-run` (plain `routers` writes) and decide the reported drift
-   of the protocol sentence (the fix round reworded it; `routers --update` is the
-   orchestrator's call, never a build agent's).
+   (rename the CHANGELOG's `Unreleased (1.56.0 …)` heading, bump `package.json`). Send the
+   Fabric Dashboards ask in B-163 (exit 2 from `update` is busy, not failed).
+2. On this machine, after the release: run `npx sshlg-skills@latest routers --dry-run` (plain
+   `routers` writes) to see the protocol sentence change `update` is about to write — `update`
+   rewrites the managed block in all four instruction files itself (`cmdUpdate` →
+   `refreshBlock(f, 'update')`), so there is no separate decision to make; then
+   `npx sshlg-skills@latest update`; then `routers --dry-run` again, expecting no change; then
+   read `npx sshlg-skills hooks` — clean status (or only "не подключено здесь" lines for entries
+   removed on purpose) closes B-157.
 3. Then waves 2–5 per the [plan](evidence/plans/2026-10-11-integration-waves.md); task-pipeline's
    wave-2 release closes B-160 once pinned here.
 
