@@ -6,13 +6,13 @@
   "run": {
     "host_platform": "darwin",
     "node": "v26.10.0",
-    "pack_version": "1.54.0"
+    "pack_version": "1.55.3"
   },
   "clean_session": {
     "action": "updated",
     "loaded": {
-      "byte_count": 19211,
-      "digest": "114da7e879031746550bf24f093f24b4c1b921e04f199928523f05a5a20e4978",
+      "byte_count": 15900,
+      "digest": "c259eefc41b8083a7df18a05932ae5c6c724d8c2c910bb85c5a6acdb7402bb4a",
       "namespaces": [
         "super-ux",
         "sheleg-design",
@@ -24,6 +24,7 @@
         "web3d-dev",
         "seo-llmo",
         "evidence-docs",
+        "fabric",
         "task-pipeline",
         "project-audit",
         "make-skill",
@@ -34,8 +35,8 @@
   "upgraded_session": {
     "action": "unchanged",
     "loaded": {
-      "byte_count": 19211,
-      "digest": "114da7e879031746550bf24f093f24b4c1b921e04f199928523f05a5a20e4978",
+      "byte_count": 15900,
+      "digest": "c259eefc41b8083a7df18a05932ae5c6c724d8c2c910bb85c5a6acdb7402bb4a",
       "namespaces": [
         "super-ux",
         "sheleg-design",
@@ -47,6 +48,7 @@
         "web3d-dev",
         "seo-llmo",
         "evidence-docs",
+        "fabric",
         "task-pipeline",
         "project-audit",
         "make-skill",
@@ -69,8 +71,8 @@
   "native_corroboration": {
     "live_host_file_present": true,
     "loaded": {
-      "byte_count": 19457,
-      "digest": "108bd89337019dd18c6fcb46b4dd8584634e7afdb951a31d98e00f4129272a4e",
+      "byte_count": 17874,
+      "digest": "8ee7d070e3400e27dd8731714b750a23212285c5accb78ec0648384784ed9354",
       "namespaces": [
         "super-ux",
         "sheleg-design",
@@ -78,8 +80,11 @@
         "sheleg-dev",
         "agent-stack",
         "telegram-dev",
+        "xr-dev",
+        "web3d-dev",
         "seo-llmo",
         "evidence-docs",
+        "fabric",
         "task-pipeline",
         "project-audit",
         "make-skill",

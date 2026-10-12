@@ -1,3 +1,48 @@
+## v1.58.0 — the fabric router: this machine's agent services get a rule
+
+The fifteenth router, and the third that needs no family member behind it. When Fabric is
+installed on the machine — its services directory present, one `<id>.<instance>.json`
+descriptor per agent service — Fabric work and local-service questions go through the
+Fabric tooling: probe `GET <origin>/.well-known/fabric-service`, read the token-gated
+`/fabric/v1/events` and `/fabric/v1/usage` with the descriptor's `auth.tokenFile`, prefer
+the `fabric-dashboards` MCP `list_services` when connected, and never kill or restart a
+service the descriptor's supervisor owns. The boundary cuts both ways: generic
+Docker/PostgreSQL/nginx services are not Fabric, and a brand-new agent with no Fabric
+contract requested is ordinary dev work. Refusal: "no fabric" / «без фабрики».
+
+- **`requires: []` is the deliberate half of the entry.** The router's condition is the
+  machine, not a member: the four target skills (`building-fabric-services`,
+  `creating-fabric-agents`, `adapting-projects-to-fabric`, `working-in-passioncode`) ship
+  in the fabric-agent-adapter plugin outside `skills.json`, so naming them in `requires`
+  would make the router never resolve — and the text must hold on a machine where only
+  detection matters. Documented on the entry itself.
+- **The hook can name it.** `lib/triggers.js` gains a `fabric` route fronting those four
+  skills, declared `foreign: true` — the first route whose skills this repository does
+  not ship, so the two existence fixtures skip it by that declaration rather than by
+  silence. Every trigger is a phrase the named skill's own description advertises
+  (verified against the installed 0.21.0 descriptions); the bare `fabric`/«фабрика»
+  stays out, as `telegram` did before it — the word sits inside the route's own refusal.
+- **`test/route_coverage.js` measures it:** the compounds route (`fabric service
+  dashboard`, «подключить проект к fabric», "port already taken by an agent service"),
+  the question-shaped «что запущено на этой машине» stays silent (no skill advertises
+  it; the block carries the rule), and generic-service prompts stay silent.
+- **The block budget moves 15,913 → 17,600, recorded.** The ceiling 1.54.6 froze at
+  25% under the unmanaged baseline stood at 15,892 spent of 15,913 in 1.57.0; a 1,600-char
+  rule cannot fit in 21 characters. `test/router_compaction_test.js` carries the
+  measurement (17,501) and the reason; the trim that buys the room back is B-154's.
+- **The README count guard's blind spot closes.** `test/validate.py` read router names
+  with `[a-z-]+`, which `web3d-dev` (a digit) never matched — the count sentence was
+  checked against fourteen names while fifteen entries stood. The extraction is
+  `[a-z0-9-]+` now, and the word list learns Thirteen/Fourteen/Fifteen.
+- The acceptance receipts `ctx-04.02.json` / `ctx-04.03.json` are re-emitted for the
+  fifteen-namespace block; the eval corpus declares `fabric` unprobed-by-model beside
+  `telegram-dev`, `xr-dev` and `web3d-dev` until the next paired run (B-147).
+- The README table, the count sentence and the memberless-rules paragraph name all
+  fifteen. The block reaches every host file `apply.TARGETS` writes — Claude, Codex, Gemini,
+  Cursor and, since 1.57.0, Pi — through the same writer, with no special case; a machine
+  gets it from `npx --yes sshlg-skills@latest update` (1.57.1 creates a missing host file
+  where consent is on record).
+
 ## v1.57.1 — `update` delivers the routing block to a new host file
 
 1.57.0 added `~/.pi/agent/AGENTS.md` as a routing-block target, and `npx sshlg-skills update`

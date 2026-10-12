@@ -195,6 +195,11 @@ it('a pack-fronted route reaches every skill it fronts', () => {
   // the field that would hide a typo'd skill in sources 2..N behind a valid one.
   for (const [route, spec] of Object.entries(T.ROUTES)) {
     if (!spec.sources) continue;
+    // `fabric` declares `foreign: true` — its sources ship in the
+    // fabric-agent-adapter plugin, outside this manifest, so no checkout of
+    // THIS repository can hold their SKILL.md files. Declared on the route,
+    // like PENDING, so every consumer reads the same exception.
+    if (spec.foreign) continue;
     for (const group of spec.sources) {
       assert.ok(skillFile(group.skill), `${route}: source names no shipped skill: ${group.skill}`);
     }
@@ -207,7 +212,12 @@ it('a pack-fronted route reaches every skill it fronts', () => {
 
 it('every route names a skill that exists', () => {
   const absent = Object.entries(T.ROUTES)
-    .filter(([, s]) => !skillFile(s.skill))
+    // The one declared exception, and why: `fabric` fronts the
+    // fabric-agent-adapter plugin's skills, which are not family members and
+    // are never materialized under `skills/`. Their descriptions are the
+    // advertisement of record on the machine that has them; this fixture can
+    // only check routes whose skills this repository ships.
+    .filter(([, s]) => !s.foreign && !skillFile(s.skill))
     .map(([r, s]) => `${r} → ${s.skill}`);
   assert.deepStrictEqual(absent, [], `routes pointing at no shipped skill: ${absent.join(', ')}`);
 });
@@ -230,7 +240,7 @@ it('a refusal phrase silences the hook completely', () => {
 // THE MISSING DIRECTION. Two fixtures above assert that no refusal is also a
 // trigger; until 2026-09-01 nothing asserted the converse — that ordinary work
 // language is not read as a refusal. It was not a hypothetical: `optedOut` is
-// one boolean for all fourteen routers, sticky for the session and silent, and
+// one boolean for all fifteen routers, sticky for the session and silent, and
 // `quick` and `as is` fired on six of the thirteen prompts below, so the most
 // natural sentence in software English switched the whole enforcement layer off
 // with nothing printed.
@@ -261,7 +271,7 @@ it('ORDINARY WORK LANGUAGE IS NOT A REFUSAL — the invariant that ran one way',
   ];
   const refused = ordinary.filter((p) => T.optedOut(p));
   assert.deepStrictEqual(refused, [],
-    'ordinary work language read as a refusal — that silences ALL fourteen routers '
+    'ordinary work language read as a refusal — that silences ALL fifteen routers '
     + 'for the rest of the session, and prints nothing');
 });
 
@@ -587,6 +597,33 @@ it('the four added routes each fire on their own words', () => {
   ]) {
     assert.ok(T.match(prompt).includes(route), `${JSON.stringify(prompt)} did not route to ${route}`);
   }
+});
+
+it('fabric fires on its compounds and stays silent on the boundary', () => {
+  // The memberless router's hook half: the network's name in a compound, the
+  // agent-service shape and the org all name the route…
+  for (const prompt of [
+    'open the fabric service dashboard',
+    'port already taken by an agent service',
+    'local agent services on this machine',
+    'add the well-known endpoint for fabric-service/0.1',
+    'сделай агента совместимым с fabric',
+    'подключить проект к fabric',
+    'новый агент под fabric',
+    'work on a PassionCode repo',
+  ]) {
+    assert.ok(T.match(prompt).includes('fabric'), `${JSON.stringify(prompt)} did not route to fabric`);
+  }
+  // …and the boundary the router text draws holds here too: generic services
+  // are not Fabric, and a brand-new agent with no contract named is ordinary
+  // dev work. «что запущено» is a question no fabric skill advertises, so the
+  // hook says nothing and the block carries the rule.
+  assert.deepStrictEqual(T.match('restart the nginx service'), []);
+  assert.deepStrictEqual(T.match('подними сервисы в докере'), []);
+  assert.deepStrictEqual(T.match('что запущено на этой машине'), []);
+  // The refusal is sayable: it declines the route it names.
+  assert.strictEqual(T.optedOut('open the fabric dashboard, no fabric'), true);
+  assert.deepStrictEqual(T.match('подключить проект к fabric, но без фабрики'), []);
 });
 
 // --- the pack's seventh skill, routable at last (XF-02) ----------------------

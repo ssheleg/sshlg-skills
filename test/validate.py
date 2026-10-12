@@ -743,10 +743,15 @@ if os.path.isfile(readme_file):
 if os.path.isfile(readme_file):
     reg = os.path.join(ROOT, "lib", "routers-registry.js")
     with open(reg, encoding="utf-8") as fh:
-        registry_names = re.findall(r"^  '?([a-z-]+)'?: \{$", fh.read(), re.M)
+        # [a-z0-9-]+, not [a-z-]+: `web3d-dev` carries a digit, and a router the
+        # extraction cannot see makes the count sentence below pass against a
+        # SHORTER list — measured when the fifteenth router (fabric) re-armed the
+        # count guard and it read fourteen names out of fifteen entries.
+        registry_names = re.findall(r"^  '?([a-z0-9-]+)'?: \{$", fh.read(), re.M)
     with open(readme_file, encoding="utf-8") as fh:
         readme_text = fh.read()
-    WORDS = {8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve"}
+    WORDS = {8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve",
+             13: "Thirteen", 14: "Fourteen", 15: "Fifteen"}
     if not registry_names:
         fail("test/validate.py: could not read any router name out of "
              "lib/routers-registry.js -- the guard below would pass vacuously")
