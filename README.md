@@ -252,6 +252,11 @@ which is why `update` takes `--agent` and `--all` too.
 Flags: `--no-claude`, `--claude-only`, `--agent a,b`, `--all`, and
 `--bump-pins` — off by default so a checkout stays reproducible; pass it when
 you deliberately want the submodules fast-forwarded to their upstream tips.
+The scope flags scope the writes to `~/.claude` too: under `--no-claude`, or an
+`--agent` list that does not name `claude`, neither the routing block in
+`CLAUDE.md` nor the hook wiring in `settings.json` is touched, and the run says
+`skipped: <flag>` (since v1.56.0). `--dry-run` lists the `settings.json` write
+as its own `hooks-wiring` step, with the field each entry would change.
 
 > **Update through the launcher, not through a bare `npx skills update <id>`.**
 > Without an explicit `--agent` list the skills CLI auto-detects Claude Code and
@@ -367,7 +372,8 @@ npx sshlg-skills config                                                         
 npx sshlg-skills config set routes.external.example-media off                   # forget it
 ```
 
-From the next prompt the hook prints the route when its words appear, the
+From the next prompt the hook prints the route when its words appear — once per
+session, like a family route (`clear` and `compact` re-arm it) — the
 `PreToolUse` escalation can name it, `conflicts` lists foreign skills that land on
 its ground, and `toolkit --for` puts its skill first. A declaration that could
 never work — a family router's name, a trigger inside a refusal phrase, a question
@@ -386,7 +392,9 @@ npx sshlg-skills hooks install            # wire it (refuses to take someone els
 npx sshlg-skills hooks install --force    # take it anyway, parking what it displaced
 npx sshlg-skills hooks remove             # unwire, and give the displaced one back
 # `npx sshlg-skills update` re-wires a machine that already has one of these entries (since v1.56.0), through the
-# same backup; with none it writes nothing. `hooks` prints why each entry differs: matcher | command | order | added.
+# same backup; with none it writes nothing. It refreshes only entries of ours that are present (one you removed stays
+# removed), keeps fields you added to them (a `timeout`, a `padding`), and leaves a status line someone else holds
+# alone without blocking the rest. `hooks` prints why each entry differs: matcher | command | the field | order | added.
 # `update` also takes ~/.sshlg-skills/update.lock: a second one exits 2 naming the holder (docs/working-rules/state-json.md).
 npx sshlg-skills injectors                # who else speaks at SessionStart, and which MCP server instructions claim ground
 npx sshlg-skills conflicts                # installed skills that land on a router's ground
@@ -401,8 +409,8 @@ npx sshlg-skills humanizers               # anti-AI-writing skills here, with th
 
 | Hook | What it does | What it costs |
 |---|---|---|
-| `SessionStart` | one note saying the block is not advisory; the session's title and the ledger to watch; **and, since v0.48.0, one line naming any other enabled plugin that also injects here** — silent when there is none, and since v1.56.0 printed only when that set differs from the one recorded in `state.json` | ~90 tokens per session |
-| `UserPromptSubmit` | names the route this prompt asks for — **once per route per session** since v1.56.0 (a route already named is not repeated; `clear` and `compact` reset the record, `resume` keeps it) | nothing on the turns that don't need it |
+| `SessionStart` | one note saying the block is not advisory; the session's title and the ledger to watch; **and, since v0.48.0, one line naming any other enabled plugin that also injects here** — silent when there is none, and since v1.56.0 printed only when that set differs from the one recorded in `state.json` — a machine-wide record, so a second session with the same set is not told again | ~90 tokens per session |
+| `UserPromptSubmit` | names the route this prompt asks for — **once per route per session** since v1.56.0 (a route already named is not repeated; `clear` and `compact` reset the record, `resume` keeps it; a payload with no session id keeps no record and always prints). One exception: a facet route printed for the first time on a prompt that writes brings the `task-pipeline` line with it, even when delivery was named earlier | nothing on the turns that don't need it |
 | `PreToolUse` | **copies before any write** to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.cursor/rules/sshlg-routing.mdc` and `~/.claude/settings.json` — and **refuses the write** if the copy cannot be taken. Also refuses a bare `npx skills update <member>` | nothing until one of those files is touched |
 | `PostToolUse` | after any skills-CLI run, names the plain copies shadowing a plugin; after `obsidian-wiki setup`, puts back the config keys it truncates | nothing on any other command |
 | `Notification` | a desktop ping when a long run goes idle or a background agent finishes | nothing — it emits a terminal sequence |
@@ -467,8 +475,9 @@ family routes **and no run is open**, the first `Edit` or `Write` of that turn a
 - **Once per turn.** A turn that edits forty files asks once.
 - **`Bash` is never gated** — that would put a permission prompt in front of
   running the tests rather than in front of the change.
-- **A refusal phrase silences the whole session**, not the turn. Someone who said
-  «без пайплайна» has decided.
+- **A refusal phrase silences this escalation for the whole session**, not the turn.
+  Someone who said «без пайплайна» has decided. It does not silence the prompt hook's
+  note, which prints once per route per context anyway.
 
 **A hook cannot make a model invoke a skill.** It can refuse the un-routed path
 and name the route; that is the whole of it, and claiming more would be the false
@@ -478,7 +487,8 @@ guarantee `task-pipeline`'s own hook doctrine warns about.
 contains (`super-ux`, `sheleg-design`, `copywriting`, `sheleg-dev`, `agent-stack`,
 `telegram-dev`, `xr-dev`, `web3d-dev`) matched and the prompt writes, the
 `task-pipeline` line is printed beside it — «сделай редизайн лендинга» names the
-visual layer *and* delivery. A question, an explanation or an audit does not write,
+visual layer *and* delivery, and does so even when an earlier prompt in the session
+already named delivery (the once-per-session rule does not split the pair). A question, an explanation or an audit does not write,
 and gets the facet alone. Words are matched in the forms people type: inflected
 («телеграм-бота»), with a Latin brand inside Russian («Telegram-бота»), and a few
 nouns that mean a request only behind a verb («сделай дашборд», «исправь баг») route

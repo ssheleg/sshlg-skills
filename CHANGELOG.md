@@ -1,29 +1,54 @@
 ## Unreleased (1.56.0, pending its release PR) — the hooks say less, and `update` finishes the job
 
-Wave 1 of the integration plan (R01-R06; board B-155..B-159).
+Wave 1 of the integration plan (R01-R06; board B-155..B-159), with its certification fix round.
+Every number below is printed by a committed script under
+`docs/evidence/runs/2026-10-12-wave1/`, run against the pre-wave base `5852c57`; the commands
+and their output are in the [wave-1 receipt](docs/evidence/runs/2026-10-12-wave1.md).
 
 - **The routing note names each route once per session** (R01). The prompt hook records the
   routes it printed in the session's turn state; a repeat prints nothing, a new route prints only
   itself, `clear` and `compact` reset the record (their context is gone), `startup`, `resume`
   and `fork` keep it, and a system turn neither prints nor records. An unreadable record prints
-  as before. In a scripted 5-session x 12-prompt simulation the notes went from 40 (18,735 chars)
-  to 25 (9,205 chars).
+  as before; a payload with no session id keeps no record and always prints. A facet route printed
+  for the first time on a prompt that writes still brings the `task-pipeline` line with it. In a
+  scripted 5-session x 12-prompt day (`simulate.js`) the notes went from 45 (20,990 chars) to 30
+  (14,335 chars).
 - **The "Also speaking at SessionStart" line prints only when the injector set changed** (R02),
-  compared with `state.json.injectors`, then recorded. Same simulation: 10 lines (1,830 chars) to 1 (183).
+  compared with `state.json.injectors` — a machine-wide record — then recorded. Same day: 10 lines
+  (1,710 chars) to 1 (171).
 - **`update` re-wires a machine that has consented** (R03). One entry of ours in
-  `~/.claude/settings.json` is the consent; `update` then computes `hooks.plan` and, when it has
-  changes and no conflicts, writes them through the same `protect()` backup as `hooks install`,
-  logging each event with its reason. Until now 1.55.1's widened `PreToolUse` matcher never reached
-  an installed machine. `hooks` prints the reason per event: `matcher`, `command`, `order`, `added`.
+  `~/.claude/settings.json` is the consent; `update` then refreshes the entries of ours that are
+  present, through the same `protect()` backup as `hooks install`, logging each with the field that
+  differed (`matcher`, `command`, another field's name, `order`, `added`). Fields the operator added
+  to our entries (a `timeout`, a `padding`) survive; an entry removed by hand stays removed; a
+  status line somebody else holds is left alone and blocks nothing. Under `--no-claude` or an
+  `--agent` list without `claude` it writes nothing and says `skipped: <flag>`; `--dry-run` lists
+  the write as a `hooks-wiring` step. Until now 1.55.1's widened `PreToolUse` matcher never reached
+  a machine wired before 1.55.1.
 - **Secret remedies resolve the Observatory engine at run time** (R04):
-  `"$(project-observatory full-path)/tools/use_secret.py"`, never a checkout path.
+  `"$(project-observatory full-path)/tools/use_secret.py"`, never a checkout path, and the remedy
+  says what to do when `project-observatory` is not on PATH (the expression then expands to the
+  root of the disk).
 - **`state.json` is an interface, and `update` is single-instance** (R05). `schemaVersion: 1`, the
-  keys and their readers (including Fabric Dashboards) in `docs/working-rules/state-json.md`, and
-  `~/.sshlg-skills/update.lock`: a live holder makes the second `update` exit 2 naming it; a stale
-  (over 30 minutes) or dead-pid lock is taken over.
-- **`UserPromptSubmit` is about half as slow** (R06). A stem prefilter rejects a trigger whose word
-  stems are absent before its regular expression is built: the hook's median went from about
-  165-180 ms to about 70-85 ms with the answers unchanged (0 differences over 68,040 prompts).
+  keys (`updateCheck.at`, `latest`, `ranAt`, `from`, `to`, `ok`, `busyAt`, `reportedRanAt` …) and
+  their readers (including Fabric Dashboards) in `docs/working-rules/state-json.md`, checked
+  against the code by a test. One writer, `store.writeJson`: temp file, rename, mode 0600. The
+  registry probe merges into `updateCheck` instead of replacing it, so the idle updater's interval
+  guard survives; the idle updater records a held lock as `busyAt`, never a failure; the "updated
+  while you were away" line is read from the record the updater actually writes, once.
+  `~/.sshlg-skills/update.lock`: a live holder on this host makes the second `update` exit 2 naming
+  it, however old; a dead pid, or a lock from another host older than 30 minutes, is taken over —
+  and only if it is still the lock that was judged. No signal handlers: Ctrl-C and SIGTERM stop
+  `update` at once, and the next run takes the dead holder's lock over.
+- **`UserPromptSubmit` is about 2.5 times faster** (R06). A stem prefilter rejects a trigger whose
+  word stems are absent before its regular expression is built: the hook's median went from 204 ms
+  to 80 ms on a routed prompt and from 177 ms to 73 ms on an unrouted one (`latency.js`, 10 runs,
+  node startup alone 68 ms), with the answers unchanged — 0 differences over 157,485 generated
+  prompts (`equivalence.js`), and a test holds the prefilter to every shipped phrase.
+- **The routing block says what the hook does.** "Later trigger-bearing prompts still print routing
+  notes" stopped being true with R01; the protocol now says a refusal phrase quiets only the
+  permission-prompt escalation, and each route's note prints once per context.
+- **`test/validate.py` recounts the board's `Open: N` line** (it said 20; twelve were open).
 
 ## v1.55.3 — agent-stack names who a call is for
 

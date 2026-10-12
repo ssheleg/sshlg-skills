@@ -2364,6 +2364,45 @@ def check_a_status_cell_opens_with_its_verdict():
 check_a_status_cell_opens_with_its_verdict()
 
 
+def check_the_open_tally_is_counted():
+    """The `**Open: N** — ids` line under the board is the board's own count, recomputed.
+
+    The line says it is "counted with the command rather than carried across", and it was
+    stale again on 2026-10-12: *Open: 20* naming eight rows long closed, while the command
+    printed twelve (the wave-1 fix round, finding m). A sentence that tells its reader it
+    was counted is a claim nothing checked, so the count is derived here from the same
+    status cells `check_a_status_cell_opens_with_its_verdict` reads, ids and all.
+    """
+    board = os.path.join(ROOT, "docs", "evidence", "backlog.md")
+    if not os.path.isfile(board):
+        _skips.append("open tally — no docs/evidence/backlog.md here")
+        return
+    with open(board, encoding="utf-8") as fh:
+        text = fh.read()
+    opened = []
+    for line in text.splitlines():
+        if not re.match(r"^\|\s*B-\d+\s*\|", line):
+            continue
+        cells = [c.strip() for c in re.split(r"(?<!\\)\|", line)]
+        if len(cells) < 9:
+            continue
+        if cells[8].lstrip("*").lower().startswith("open"):
+            opened.append(cells[1])
+    opened.sort(key=lambda x: int(x[2:]))
+    m = re.search(r"^\*\*Open: (\d+)\*\*\s*—\s*(.*)$", text, re.M)
+    if not m:
+        fail("docs/evidence/backlog.md: no `**Open: N** — ids` line — the board's count is gone")
+        return
+    stated_n = int(m.group(1))
+    stated_ids = re.findall(r"B-\d+", m.group(2))
+    if stated_n != len(opened) or stated_ids != opened:
+        fail(f"docs/evidence/backlog.md: the tally says Open: {stated_n} ({', '.join(stated_ids)}); "
+             f"the status cells say {len(opened)} ({', '.join(opened)}) — recount it")
+
+
+check_the_open_tally_is_counted()
+
+
 def check_no_member_can_publish_bytecode() -> None:
     """A member's PACKING CONFIG must be unable to include `__pycache__`, not merely
     happen not to today.
