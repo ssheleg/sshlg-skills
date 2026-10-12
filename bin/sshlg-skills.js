@@ -291,8 +291,8 @@ Usage:
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
   npx sshlg-skills hooks   install [--force] [--dry-run]
   npx sshlg-skills hooks   remove
-  npx sshlg-skills hosts                              # hosts detected here; for Pi, where family skills
-                                                      # are visible and which names are duplicated
+  npx sshlg-skills hosts                              # hosts detected here; Pi visibility; Codex config
+                                                      # duplicates; local MCP servers that do not answer
   npx sshlg-skills injectors                          # who else speaks at SessionStart
   npx sshlg-skills conflicts                          # installed skills on a router's ground
   npx sshlg-skills humanizers                         # anti-AI-writing skills this machine can reach
@@ -1106,6 +1106,26 @@ function cmdHosts() {
       log('  Copy the file, then delete the later entry if both say the same; nothing here was changed.');
     } else {
       log(`\nCodex config ${codexCfg}: no duplicate tables.`);
+    }
+  }
+  // B-177: a local MCP server that does not answer when a session starts leaves that session
+  // without its tools for good. TCP connect only — no request, no header leaves this process.
+  const claudeJson = path.join(home, '.claude.json');
+  if (fs.existsSync(claudeJson)) {
+    let cfg = null;
+    try { cfg = JSON.parse(fs.readFileSync(claudeJson, 'utf8')); } catch (e) { /* unreadable: say so */ }
+    if (!cfg) log(`\nClaude Code MCP: ${claudeJson} is not readable JSON; nothing probed.`);
+    else {
+      const reach = require('../lib/mcpreach.js');
+      const res = reach.probe(reach.configured(cfg), 1500);
+      if (res.length) {
+        log(`\nClaude Code MCP servers on this machine (${res.length}, TCP connect only):`);
+        for (const s of res) log(`  ${s.name.padEnd(24)} ${s.answers ? 'answers' : 'refused'}  ${s.host}:${s.port}  (${s.scope})${s.answers ? '' : ` — ${s.why}`}`);
+        if (res.some((s) => !s.answers)) {
+          log('  A session started while a server refused has none of its tools until `/mcp` → reconnect');
+          log('  (or a new session). Do not work around it by calling the service directly with its token.');
+        }
+      }
     }
   }
   const family = new Set(SKILLS.flatMap((s) => s.skillNames || []));
