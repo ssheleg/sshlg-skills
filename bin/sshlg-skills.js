@@ -311,9 +311,15 @@ Defaults:
   - Claude Code via its PLUGIN (not a plain copy) to avoid a shadow duplicate.
   - --all       all globally supported agents in the pinned skills CLI snapshot.
                 Excludes project-only targets and plain Claude while plugins are on.
-  - --no-claude skip the Claude plugin step, and leave ~/.claude alone: no
+  - --no-claude skip the Claude plugin step, and leave the Claude host alone: no
                 routing-block write to CLAUDE.md, no hook re-wiring in
-                settings.json (an --agent list without claude does the same).
+                settings.json, no refresh of the runtime copy those hooks run.
+                Any --agent list does the same for those three: no --agent value
+                selects Claude (--agent claude exits 2) — scope a run to Claude
+                with --claude-only, or pass no scope flag.
+  - update never ADDS a hook entry: one removed by hand stays removed, and an
+                event a later release introduces arrives through
+                \`hooks install\` — update names each one not wired here.
   - --claude-only install/update only the Claude plugins.
   - --bump-pins  (update only) also fast-forward the pinned submodules to their
                  upstream tips — off by default so pins stay reproducible.
@@ -417,8 +423,10 @@ function planUpdate(f) {
       { mode: 'update' }));
   }
   try {
+    const rtScope = claudeScope(f);
     steps.push(opres.step('runtime-sync', 'runtime',
-      'refresh the wired hook runtime copy (create: false)',
+      rtScope.inScope ? 'refresh the wired hook runtime copy (create: false)'
+        : `wired hook runtime copy — out of scope (skipped: ${rtScope.skippedBy}), moves with its wiring`,
       { root: require('../lib/hooks.js').runtimeDir(os.homedir()) }));
   } catch (_) { /* no runtime dir resolvable — the execution path reports it */ }
   // The one write to an operator file this run can make outside the routing block.
@@ -579,29 +587,36 @@ function cmdUpdate(f) {
   // from whichever release last installed them. Watched on a real machine at v0.46.0 —
   // 24 modules against the package's 25, and the missing one was that release's whole
   // point (`B-22`). Refresh only: `create` stays false, because a machine with no
-  // runtime has not consented to hooks and an update is not the moment to ask.
-  try {
-    const rt = require('../lib/runtime.js');
-    const root = require('../lib/hooks.js').runtimeDir(os.homedir());
-    const before = rt.stale(ROOT, root);
-    const r = rt.sync(ROOT, root, { create: false });
-    if (r.reason) {
-      log(`\n== Wired hook runtime ==\n  skipped: ${r.reason}`);
-    } else {
-      const moved = before.missing.length + before.differing.length;
-      log(`\n== Wired hook runtime ==`);
-      log(`  ${root}`);
-      log(moved
-        ? `  refreshed ${r.copied.length} file(s) — ${before.missing.length} new, `
-          + `${before.differing.length} changed`
-        : '  already level with this package');
-      for (const m of before.missing) log(`    + ${m}`);
+  // runtime has not consented to hooks and an update is not the moment to ask. Scoped like
+  // the wiring below (fix round 2, L): a run that leaves the Claude host alone leaves both.
+  const rtScope = claudeScope(f);
+  if (!rtScope.inScope) {
+    log(`\n== Wired hook runtime ==\n  skipped: ${rtScope.skippedBy} (the Claude host is outside this run's scope; `
+      + 'the copy its hooks execute moves with their wiring)');
+  } else {
+    try {
+      const rt = require('../lib/runtime.js');
+      const root = require('../lib/hooks.js').runtimeDir(os.homedir());
+      const before = rt.stale(ROOT, root);
+      const r = rt.sync(ROOT, root, { create: false });
+      if (r.reason) {
+        log(`\n== Wired hook runtime ==\n  skipped: ${r.reason}`);
+      } else {
+        const moved = before.missing.length + before.differing.length;
+        log(`\n== Wired hook runtime ==`);
+        log(`  ${root}`);
+        log(moved
+          ? `  refreshed ${r.copied.length} file(s) — ${before.missing.length} new, `
+            + `${before.differing.length} changed`
+          : '  already level with this package');
+        for (const m of before.missing) log(`    + ${m}`);
+      }
+    } catch (e) {
+      // A runtime that cannot be refreshed must not fail the whole update — but it must
+      // say so, because silence here is what made B-22 invisible for five releases.
+      log(`\n== Wired hook runtime ==\n  NOT refreshed: ${e.message}`);
+      ok = false;
     }
-  } catch (e) {
-    // A runtime that cannot be refreshed must not fail the whole update — but it must
-    // say so, because silence here is what made B-22 invisible for five releases.
-    log(`\n== Wired hook runtime ==\n  NOT refreshed: ${e.message}`);
-    ok = false;
   }
   // The settings entries that point AT that copy (R03, wave 1). Until 1.56.0 `update`
   // refreshed the scripts and never re-applied their wiring, so 1.55.1's widened
@@ -693,21 +708,37 @@ function runUpdateLocked(f) {
  * `skipped` lists entries the refresh leaves alone: removed by hand, or a status line
  * somebody else holds (`hooks.plan` with `refreshOnly`).
  */
+/**
+ * Whether this run's flags keep the Claude host in scope — the one answer for the
+ * settings.json wiring AND the runtime copy those entries execute (fix round 2, L: the copy
+ * was refreshed under `--no-claude` while its wiring was skipped, so new scripts ran under old
+ * entries). `skippedBy` names the flag. An `--agent` list never selects Claude (`--agent
+ * claude` is refused by the skills-CLI agent table), so any `--agent` list is out of scope.
+ */
+function claudeScope(f) {
+  const flags = f || {};
+  const scope = plan.resolveScope({
+    agents: flags.agents, claude: flags.claude, claudeOnly: flags.claudeOnly,
+    hosts: require('../lib/apply.js').TARGETS, consumers: [],
+  });
+  if (scope.hostTargets.some((h) => h.agent === 'claude')) return { inScope: true };
+  return { inScope: false, skippedBy: flags.claude === false ? '--no-claude' : `--agent ${(flags.agents || []).join(',')}` };
+}
+
+/** One line per family entry the refresh did not wire, with the remedy (fix round 2, K). */
+function notWiredLines(skipped) {
+  return (skipped || []).filter((x) => !/held by/.test(x.why)).map((x) =>
+    `${x.event}: not wired here (removed by hand, or new in this release) — \`npx sshlg-skills hooks install\` adds it`);
+}
+
 function planRewire(f) {
   const hooksLib = require('../lib/hooks.js');
   const home = os.homedir();
   const file = path.join(home, '.claude', 'settings.json');
   const root = hooksLib.runtimeDir(home);
   const base = { file, changed: [], reasons: [], skipped: [] };
-  const flags = f || {};
-  const scope = plan.resolveScope({
-    agents: flags.agents, claude: flags.claude, claudeOnly: flags.claudeOnly,
-    hosts: require('../lib/apply.js').TARGETS, consumers: [],
-  });
-  if (!scope.hostTargets.some((h) => h.agent === 'claude')) {
-    const skippedBy = flags.claude === false ? '--no-claude' : `--agent ${(flags.agents || []).join(',')}`;
-    return Object.assign(base, { status: 'out of scope', skippedBy });
-  }
+  const scoped = claudeScope(f);
+  if (!scoped.inScope) return Object.assign(base, { status: 'out of scope', skippedBy: scoped.skippedBy });
   let current;
   try {
     if (!fs.existsSync(file)) return Object.assign(base, { status: 'no settings' });
@@ -732,6 +763,7 @@ function rewireStep(f) {
       : r.status === 'unparseable' ? `does not parse (${r.error}) — nothing written`
         : r.status === 'current' ? 'already matches this package' : r.status];
   for (const s of r.skipped) if (s.event === 'statusLine' && /held by/.test(s.why)) changes.push(`statusLine: ${s.why}`);
+  changes.push(...notWiredLines(r.skipped));
   return opres.step('hooks-wiring', 'home',
     r.status === 'changes'
       ? 're-wire the consented hook entries (copy before write, through protect())'
@@ -767,6 +799,9 @@ function rewireConsentedHooks(f) {
     return false;
   }
   for (const s of r.skipped) if (s.event === 'statusLine' && /held by/.test(s.why)) log(`  statusLine: ${s.why}`);
+  // `update` never ADDS an entry (an operator's removal stays removed), so an event a later
+  // release introduced arrives only through `hooks install` — said, not left to be noticed.
+  for (const line of notWiredLines(r.skipped)) log(`  ${line}`);
   if (r.status === 'current') { log('  settings.json already matches this package'); return true; }
   const saved = apply.protect(r.file, { home: os.homedir() });
   if (saved.action === 'backup-failed') {

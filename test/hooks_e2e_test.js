@@ -624,6 +624,53 @@ it('entries the operator removed by hand stay removed across three updates (risk
   assert.strictEqual(hashes[2], hashes[0]);
 });
 
+// Fix round 2, K. `update` refreshes only entries that are present, so a family event a later
+// release adds is never wired by it — and nothing said so. Each event of ours that is not wired
+// is now named with the remedy, by the run and by its preview.
+it('`update` and `update --dry-run` name every family event not wired here, with the `hooks install` remedy (K)', () => {
+  const env = updateEnv();
+  const s = staleInstall();
+  delete s.hooks.Notification;
+  delete s.hooks.FileChanged;
+  saveSettings(s);
+  for (const args of [['--dry-run'], []]) {
+    const r = updateWith(env, args);
+    for (const ev of ['Notification', 'FileChanged']) {
+      assert.ok(new RegExp(`${ev}: not wired here[^\\n]*hooks install`).test(r.out),
+        `\`update ${args.join(' ')}\` did not name ${ev} with its remedy:\n${r.out.slice(-900)}`);
+    }
+    assert.ok(!/PostToolUse: not wired/.test(r.out), 'a wired event was reported as not wired');
+  }
+  assert.ok(!('Notification' in readSettings().hooks), 'update added an event — only `hooks install` adds');
+});
+
+// Fix round 2, L. `--no-claude` (and an `--agent` list, which can never name Claude) skipped
+// the settings.json wiring but still refreshed the runtime copy those entries execute — new
+// scripts under old wiring. The runtime copy now follows the same scope as the wiring.
+it('`update --no-claude` leaves the wired runtime copy alone too, and says so (L)', () => {
+  const env = updateEnv();
+  saveSettings(staleInstall());
+  const rt = path.join(HOME, '.sshlg-skills', 'runtime', 'hooks', 'notification.js');
+  const original = fs.readFileSync(rt, 'utf8');
+  fs.writeFileSync(rt, original + '\n// stale\n');
+  try {
+    for (const [args, flag] of [[['--no-claude'], '--no-claude'], [['--agent', 'codex'], '--agent codex']]) {
+      const r = updateWith(env, args);
+      assert.ok(fs.readFileSync(rt, 'utf8').endsWith('// stale\n'),
+        `\`update ${flag}\` refreshed the runtime copy while skipping its wiring`);
+      assert.ok(new RegExp(`Wired hook runtime[\\s\\S]*skipped: ${flag}`).test(r.out),
+        `\`update ${flag}\` did not say the runtime copy was skipped:\n${r.out.slice(-700)}`);
+      const dry = updateWith(env, args.concat(['--dry-run']));
+      assert.ok(/runtime-sync:[^\n]*out of scope/.test(dry.out), `the preview of \`${flag}\` would refresh the runtime:\n${dry.out.slice(-900)}`);
+    }
+    // the control: unscoped, the copy IS refreshed
+    updateWith(env, []);
+    assert.strictEqual(fs.readFileSync(rt, 'utf8'), original, 'the control did not refresh the runtime — the fixture proves nothing');
+  } finally {
+    fs.writeFileSync(rt, original);
+  }
+});
+
 it('a foreign status line blocks nothing and is left byte-identical (risk d)', () => {
   const env = updateEnv();
   const s = staleInstall();
