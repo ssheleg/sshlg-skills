@@ -45,8 +45,10 @@ it('every named router is probed at least once', () => {
   // model run per arm to earn its RESULTS.md row, which these have not had:
   // telegram-dev has no curated operator phrasing yet, and xr-dev and web3d-dev joined
   // the block on 2026-10-08 (their deterministic routing is gated in
-  // `hook_routing_eval_test.js`, which is not this instrument).
-  const DECLARED = ['telegram-dev', 'xr-dev', 'web3d-dev'];
+  // `hook_routing_eval_test.js`, which is not this instrument). fabric joined on
+  // 2026-10-12; its deterministic routing is gated in `triggers_test.js` and measured
+  // in `route_coverage.js`, and a model probe lands with the next paired run (B-147).
+  const DECLARED = ['telegram-dev', 'xr-dev', 'web3d-dev', 'fabric'];
   const undeclared = missing.filter((n) => !DECLARED.includes(n));
   assert.deepStrictEqual(undeclared, [],
     `routers never probed and not declared (${undeclared.join(', ')}) — add a probe or declare why`);

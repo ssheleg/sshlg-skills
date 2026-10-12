@@ -211,6 +211,29 @@ const CASES = [
   ['запиши решение', 'evidence-docs'],
   ['чем это подтверждено', 'evidence-docs'],
 
+  // --- this machine's agent services (fabric) ------------------------------
+  // The fifteenth router, memberless and foreign-fronted: its skills ship in
+  // the fabric-agent-adapter plugin, outside the manifest, so the registry
+  // entry carries `requires: []` and the route declares `foreign: true`. The
+  // compounds name the route; the boundary prompts stay silent, as the router
+  // text's NOT-through half says they should.
+  ['open the fabric service dashboard', 'fabric'],
+  ['port already taken by an agent service', 'fabric'],
+  ['local agent services on this machine', 'fabric'],
+  ['fabric-service/0.1 health probe', 'fabric'],
+  ['сделай агента совместимым с fabric', 'fabric'],
+  ['подключить проект к fabric', 'fabric'],
+  ['новый агент под fabric', 'fabric'],
+  // The words an operator types for "what is running here" are question-shaped
+  // and no fabric skill advertises them — the hook says nothing and the
+  // routing block's fabric paragraph carries the rule. Kept visible, like the
+  // accessibility rows above: silence here is measured, not unconsidered.
+  ['что запущено на этой машине', ''],
+  ['what is running on this machine', ''],
+  // The boundary: generic services are not Fabric.
+  ['restart the postgres service in docker', ''],
+  ['перезапусти сервисы в докере', ''],
+
   // --- no router owns these, and silence may well be right -------------------
   // Kept in the corpus so the decision stays visible rather than implicit: two
   // of them (accessibility, i18n) ARE first-class tags inside super-ux.

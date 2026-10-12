@@ -27,12 +27,21 @@ function checkTelegram(text) {
   assert.match(body, /never trust `initDataUnsafe`/i,
     'parsed unsafe data must not become authentication authority');
 }
-it('whole-family managed context saves at least 25% over the frozen baseline', () => {
+it('whole-family managed context stays inside the recorded block budget', () => {
+  // 1.54.6 compacted the block 25.72% under the 21,218-char unmanaged baseline
+  // and froze the ceiling at Math.floor(21218 * 0.75) = 15,913 — a ratchet that
+  // held while the family added no routers, down to 15,892 of 15,913 spent (1.57.0).
+  // The fifteenth router (fabric, 2026-10-12) is doctrine no existing text could
+  // pay for: 21 characters of headroom against a 1,600-char rule. So the ceiling
+  // moves WITH the router, recorded here and in the CHANGELOG rather than
+  // absorbed silently: 17,501 measured, 17,600 budgeted. Against the frozen
+  // baseline that is a 17.5% saving, not 25% — the trim that buys the room back
+  // is task-pipeline's description work (B-154), not this router's absence.
   const chars = [...R.parse(block).block].length;
-  assert.ok(chars <= Math.floor(21218 * 0.75), `${chars} chars exceed 25% reduction budget`);
+  assert.ok(chars <= 17600, `${chars} chars exceed the 17,600 block budget`);
 });
 it('all declared routes and both generated tables survive compaction', () => {
-  assert.strictEqual(names.length, 14);
+  assert.strictEqual(names.length, 15);
   checkSections(block);
   const region = label => block.match(new RegExp(`<!-- SSHLG:ROUTERS:${label}:BEGIN -->([\\s\\S]*?)<!-- SSHLG:ROUTERS:${label}:END -->`))[1];
   const rows = label => [...region(label).matchAll(/^\| `([^`]+)` \|/gm)].map(m => m[1]);
