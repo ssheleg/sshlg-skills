@@ -228,7 +228,7 @@ process.stdin.on('end', () => {
 
     // 3. The write that cannot be undone.
     const guard = require(path.join(LIB, 'guard.js'));
-    const target = guard.decide(data, home);
+    const target = guard.decide(data, home, process.env);
     if (!target) return routeGate(data, home);
 
     const backup = require(path.join(LIB, 'backup.js'));

@@ -1,3 +1,17 @@
+## v1.60.0 — Codex config duplicates are named; relocated host directories are followed everywhere
+
+- **`hosts` names a duplicate table in Codex's config (B-167).** Codex refuses to start
+  (`duplicate key`) when one table is defined twice; on 2026-10-12 a project-trust table was
+  appended as `[projects."/x"]` beside an existing `["projects"."/x"]`. `lib/codexconfig.js`
+  reads the file (never writes it) and `npx sshlg-skills hosts` prints each duplicate with
+  its two line numbers and the remedy. Read back on today's broken copy: lines 358 and 517.
+  `test/codexconfig_test.js` (4 checks).
+- **A relocated host directory is followed everywhere (B-165).** With `PI_CODING_AGENT_DIR`,
+  `CODEX_HOME`, `GEMINI_CONFIG_DIR` or `CLAUDE_CONFIG_DIR` set, the routing block was written
+  there but `uninstall` and `migrate` looked in the default location and the write guard did
+  not protect the relocated file. All three resolve through `apply.hostRoot`; the guard takes
+  the hook's environment. Case in `test/pi_test.js`, failing on 1.59.1.
+
 ## v1.59.1 — the remedies say less, the README says how the family meets Fabric
 
 From the final observer's reading of the integration waves:
