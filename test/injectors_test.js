@@ -72,6 +72,21 @@ it('the session line names the plugins and stays one line', () => {
   assert.ok(!l.includes('hooks.json'), 'no file paths in the session line; that is the verb');
 });
 
+it('the line prints only when the injector set changed from the recorded one (R02)', () => {
+  const rows = I.injectors(['superpowers@claude-plugins-official', 'agent-sync@agent-sync'], HOOKS);
+  assert.ok(I.line(rows).length > 0, 'nothing recorded must print');
+  assert.ok(I.line(rows, undefined).length > 0, 'undefined record must print');
+  assert.ok(I.line(rows, 'garbage').length > 0, 'a malformed record must print');
+  const same = ['agent-sync@agent-sync', 'superpowers@claude-plugins-official'];
+  assert.strictEqual(I.line(rows, same), '', 'an unchanged set was printed again');
+  assert.strictEqual(I.line(rows, [...same].reverse()), '', 'order of the record must not matter');
+  assert.ok(I.line(rows, ['agent-sync@agent-sync']).length > 0, 'a grown set must print');
+  assert.ok(I.line(rows, [...same, 'x@y']).length > 0, 'a shrunk set must print');
+  assert.deepStrictEqual(I.names(rows), same, 'names() is the sorted recorded form');
+  assert.strictEqual(I.changed([], []), false);
+  assert.strictEqual(I.changed([], ['x@y']), true, 'a set that emptied must be recorded');
+});
+
 it('an unreadable registry produces no claim, not a wrong one', () => {
   // Standing instruction #1: a component that never receives its input must not
   // answer as though it had.

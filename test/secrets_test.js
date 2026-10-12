@@ -120,6 +120,37 @@ it('scan decides nothing on a non-string rather than throwing', () => {
   for (const bad of [undefined, null, 42, {}, []]) assert.strictEqual(S.scan(bad), null);
 });
 
+// R04 (B-158): a remedy must not hardcode where Observatory is checked out.
+it('no remedy hardcodes the Observatory path, and every use_secret.py is runtime-resolved', () => {
+  const fs = require('fs');
+  const path = require('path');
+  const texts = [];
+  // every refusal the guard can produce, from its own corpus of denied commands
+  for (const [, cmd] of DENIED) { const r = S.inspect(cmd); if (r) texts.push(r.why); }
+  const stdinProgram = ['cat x', "python3 - <<'PY'\nprint(1)\nPY"].join(' | ');
+  texts.push(S.inspect(stdinProgram).why);
+  // ...and every source file that can print a remedy
+  for (const f of ['secrets.js', 'hygiene.js', 'guard.js', 'mcpsecrets.js']) {
+    texts.push(fs.readFileSync(path.join(__dirname, '..', 'lib', f), 'utf8')
+      .split('\n').filter((l) => !/^\s*(\/?\*|\/\/)/.test(l)).join('\n'));
+  }
+  assert.ok(texts.every((t) => typeof t === 'string' && t.length), 'a remedy text was empty');
+  assert.ok(texts.some((t) => t.includes('use_secret.py')), 'no remedy names use_secret.py — the fixture proves nothing');
+  const checkout = '~/DATA/' + 'project-observatory';
+  for (const t of texts) {
+    assert.ok(!t.includes(checkout), 'a remedy hardcodes the Observatory checkout path');
+    let at = 0;
+    for (;;) {
+      const i = t.indexOf('/tools/use_secret.py', at);
+      if (i === -1) break;
+      assert.ok(t.slice(0, i).endsWith('$(project-observatory full-path)'),
+        `use_secret.py without the resolver: ...${t.slice(Math.max(0, i - 40), i + 25)}`);
+      at = i + 1;
+    }
+  }
+  assert.strictEqual(S.USE_SECRET, '"$(project-observatory full-path)/tools/use_secret.py"');
+});
+
 if (failures.length) {
   console.error(`secrets_test: ${failures.length}/${checks} failed`);
   for (const f of failures) console.error('  - ' + f);

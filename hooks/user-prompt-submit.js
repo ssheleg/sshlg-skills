@@ -49,20 +49,38 @@ process.stdin.on('end', () => {
     // overwrote the routes the real prompt had armed — the escalation went quiet
     // for the rest of a turn that HAD routed (found by the 2026-09-07 review).
     // The lib decides what a system turn is; this file only declines to write.
-    if (!triggers.isSystemTurn(prompt)) {
+    //
+    // `noted` (R01): routes this session already printed. An unreadable record means
+    // none, which prints as before — fail open toward showing, never toward hiding.
+    const system = triggers.isSystemTurn(prompt);
+    const turnstate = require(path.join(__dirname, '..', 'lib', 'turnstate.js'));
+    let noted = [];
+    if (!system) {
       try {
-        const turnstate = require(path.join(__dirname, '..', 'lib', 'turnstate.js'));
+        const n = turnstate.read(os.homedir(), data.session_id).noted;
+        if (Array.isArray(n)) noted = n;
+      } catch (e) { noted = []; }
+    }
+    const routes = system ? [] : triggers.match(prompt, { external });
+    if (!system) {
+      try {
         turnstate.write(os.homedir(), data.session_id, {
           promptId: data.prompt_id || null,
-          routes: triggers.match(prompt, { external }),
+          routes,
           optedOut: triggers.optedOut(prompt),
           asked: false,
         });
       } catch (e) { /* a hint that cannot be stored is a hint that does not happen */ }
     }
 
-    const out = triggers.render(prompt, { external });
-    if (out) process.stdout.write(out + '\n');
+    const out = triggers.render(prompt, { external, noted });
+    if (out) {
+      process.stdout.write(out + '\n');
+      try {
+        turnstate.write(os.homedir(), data.session_id,
+          { noted: Array.from(new Set(noted.concat(routes))) });
+      } catch (e) { /* unrecorded means shown again, the safe direction */ }
+    }
   } catch (e) {
     // Silence, deliberately. The alternative is a stack trace injected into the
     // model's context on a turn the operator did not ask anything of this hook.

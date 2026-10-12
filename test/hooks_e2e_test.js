@@ -283,6 +283,32 @@ it('session start returns the pointer, and a title only where one lands', () => 
     'a title was sent on `compact`, where the reference says it is ignored');
 });
 
+it('the injectors line prints once per set and again only when the set changes (R02)', () => {
+  const saved = fs.existsSync(SETTINGS) ? fs.readFileSync(SETTINGS, 'utf8') : null;
+  const state = path.join(HOME, '.sshlg-skills', 'state.json');
+  const savedState = fs.existsSync(state) ? fs.readFileSync(state, 'utf8') : null;
+  try {
+    const plugin = (name) => write(path.join(HOME, '.claude', 'plugins', 'cache', 'mk', name, '1.0.0',
+      'hooks', 'hooks.json'), JSON.stringify({ hooks: { SessionStart: [] } }));
+    plugin('alpha'); plugin('beta');
+    const enable = (...names) => write(SETTINGS, JSON.stringify({
+      enabledPlugins: Object.fromEntries(names.map((n) => [`${n}@mk`, true])) }));
+    const start = () => runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' })
+      .hookSpecificOutput.additionalContext;
+    fs.rmSync(state, { force: true });
+    enable('alpha');
+    assert.match(start(), /Also speaking at SessionStart: alpha/, 'the first sighting printed nothing');
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(state, 'utf8')).injectors, ['alpha@mk']);
+    assert.ok(!/Also speaking/.test(start()), 'an unchanged set was printed again');
+    enable('alpha', 'beta');
+    assert.match(start(), /alpha, beta/, 'a grown set was not announced');
+    assert.ok(!/Also speaking/.test(start()));
+  } finally {
+    if (saved === null) fs.rmSync(SETTINGS, { force: true }); else fs.writeFileSync(SETTINGS, saved);
+    if (savedState === null) fs.rmSync(state, { force: true }); else fs.writeFileSync(state, savedState);
+  }
+});
+
 it('the ledger moving produces one line, and a deleted ledger produces none', () => {
   const project = fs.mkdtempSync(path.join(os.tmpdir(), 'proj-'));
   const ledger = path.join(project, '.task-pipeline', 'run.md');
@@ -373,6 +399,66 @@ it('a repaired settings file stops being reported', () => {
   const started = runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup' });
   assert.ok(!/displaced|no longer match/.test(started.hookSpecificOutput.additionalContext),
     'a displacement that was repaired is still being announced');
+});
+
+const FOREIGN_HOOK_E2E = { matcher: 'startup', hooks: [{ type: 'command', command: 'other-pack session-start' }] };
+// --- `update` re-wires a machine that has consented (R03) -------------------
+//
+// The real `update` command, three times, against a real settings.json. The network and
+// the other tools it drives (git, npx, claude) are replaced by PATH stubs that exit 0:
+// what is under test is the wiring step and the file it writes, not the skills CLI.
+
+function updateEnv() {
+  const stubs = fs.mkdtempSync(path.join(os.tmpdir(), 'update-stubs-'));
+  for (const name of ['git', 'npx', 'npm', 'claude']) {
+    write(path.join(stubs, name), '#!/bin/sh\nexit 0\n');
+    fs.chmodSync(path.join(stubs, name), 0o755);
+  }
+  return Object.assign({}, ENV, { PATH: `${stubs}:${process.env.PATH}` });
+}
+function update(env) {
+  const r = spawnSync('node', [path.join(ROOT, 'bin', 'sshlg-skills.js'), 'update'],
+    { encoding: 'utf8', env });
+  return { out: `${r.stdout}${r.stderr}`, status: r.status };
+}
+
+it('THREE real runs of `update` re-wire a stale matcher once and then change nothing (R03)', () => {
+  const env = updateEnv();
+  write(SETTINGS, JSON.stringify({ env: { KEEP: '1' } }, null, 2) + '\n');
+  cli(['hooks', 'install']);
+  // 1.55.0 shape: the PreToolUse matcher without the MCP credential tools
+  const s = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
+  const full = s.hooks.PreToolUse[0].matcher;
+  s.hooks.PreToolUse[0].matcher = 'Edit|Write|MultiEdit|NotebookEdit|Bash';
+  fs.writeFileSync(SETTINGS, JSON.stringify(s, null, 2) + '\n');
+  const stale = sha(SETTINGS);
+
+  const first = update(env);
+  assert.ok(/Hook wiring/.test(first.out) && /PreToolUse: matcher/.test(first.out),
+    `the first update did not name the stale matcher:\n${first.out.slice(-600)}`);
+  const h1 = sha(SETTINGS);
+  assert.notStrictEqual(h1, stale, 'the first update changed nothing');
+  const after = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
+  assert.strictEqual(after.hooks.PreToolUse[0].matcher, full, 'the matcher is still stale');
+  assert.strictEqual(after.env.KEEP, '1', 'something outside our entries was lost');
+
+  update(env);
+  const h2 = sha(SETTINGS);
+  update(env);
+  const h3 = sha(SETTINGS);
+  assert.strictEqual(h2, h1, 'the second update changed the file again');
+  assert.strictEqual(h3, h1, 'the third update changed the file again');
+  const status = cli(['hooks', 'status']);
+  assert.match(status, /всё на месте и совпадает/, 'status still reports a stale entry after update');
+});
+
+it('`update` with no entry of ours in settings.json writes nothing (no consent) (R03)', () => {
+  const env = updateEnv();
+  const body = JSON.stringify({ env: { A: '1' }, hooks: { SessionStart: [FOREIGN_HOOK_E2E] } }, null, 2) + '\n';
+  write(SETTINGS, body);
+  const r = update(env);
+  assert.strictEqual(fs.readFileSync(SETTINGS, 'utf8'), body, 'update wrote hooks into a machine that never consented');
+  assert.ok(!/Hook wiring/.test(r.out), 'update announced wiring work it did not do');
 });
 
 // --- the set-update notice, as a process ------------------------------------
@@ -635,6 +721,70 @@ it('a system-generated turn produces no routing note, as a process', () => {
     prompt: 'agent wired the stripe checkout, сделай лендинг',
   });
   assert.ok(routed.includes('[sshlg-routing]'), 'the control prompt stopped routing — the fixture proves nothing');
+});
+
+function turnsFile(session) { return path.join(HOME, '.sshlg-skills', 'turns', `${session}.json`); }
+
+it('the same prompt twice in a session prints the routing note once (R01)', () => {
+  const session = 'e2e-once';
+  const prompt = 'сделай фичу экспорта в csv';
+  const a = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p1', prompt });
+  const b = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p2', prompt });
+  assert.ok(a.includes('[sshlg-routing]'), 'the first turn printed nothing');
+  assert.strictEqual(b, '', `the second turn repeated the note: ${b.slice(0, 80)}`);
+  const noted = JSON.parse(fs.readFileSync(turnsFile(session), 'utf8')).noted;
+  assert.ok(Array.isArray(noted) && noted.length >= 1, 'the printed routes were not recorded');
+});
+
+it('a new route on turn two prints only the new route (R01)', () => {
+  const session = 'e2e-once-new';
+  const first = runHookText('user-prompt-submit.js',
+    { session_id: session, prompt_id: 'p1', prompt: 'сделай фичу экспорта в csv' });
+  const out = runHookText('user-prompt-submit.js',
+    { session_id: session, prompt_id: 'p2', prompt: 'сделай фичу экспорта в csv, поправь дизайн и анимации лендинга' });
+  assert.ok(out.includes('[sshlg-routing]'), 'a route never shown before was suppressed');
+  const bullets = (t) => t.split('\n').filter((l) => l.startsWith('- this '));
+  const seen = bullets(first);
+  assert.ok(seen.length >= 1);
+  for (const l of bullets(out)) assert.ok(!seen.includes(l), `already-noted route printed again: ${l}`);
+});
+
+it('compact and clear reset the noted routes; startup and resume keep them (R01)', () => {
+  const session = 'e2e-once-reset';
+  const prompt = 'сделай фичу экспорта в csv';
+  runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p1', prompt });
+  assert.ok(JSON.parse(fs.readFileSync(turnsFile(session), 'utf8')).noted.length >= 1);
+  for (const source of ['startup', 'resume']) {
+    runHook('session-start.js', { hook_event_name: 'SessionStart', source, session_id: session });
+    assert.ok(JSON.parse(fs.readFileSync(turnsFile(session), 'utf8')).noted.length >= 1,
+      `${source} wiped the record although the context still holds the note`);
+  }
+  for (const source of ['compact', 'clear']) {
+    runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p2', prompt });
+    runHook('session-start.js', { hook_event_name: 'SessionStart', source, session_id: session });
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(turnsFile(session), 'utf8')).noted, [],
+      `${source} kept a record of notes the context no longer holds`);
+    const again = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p3', prompt });
+    assert.ok(again.includes('[sshlg-routing]'), `after ${source} the note never came back`);
+  }
+});
+
+it('an unreadable turnstate still prints the note (R01)', () => {
+  const session = 'e2e-once-bad';
+  write(turnsFile(session), '{not json');
+  const out = runHookText('user-prompt-submit.js',
+    { session_id: session, prompt_id: 'p1', prompt: 'сделай фичу экспорта в csv' });
+  assert.ok(out.includes('[sshlg-routing]'), 'a corrupt record hid the route');
+});
+
+it('a system turn neither prints nor records a note (R01)', () => {
+  const session = 'e2e-once-sys';
+  const out = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p1',
+    prompt: '[SYSTEM NOTIFICATION - NOT USER INPUT]\n<task-notification>сделай лендинг</task-notification>' });
+  assert.strictEqual(out, '');
+  const f = turnsFile(session);
+  const noted = fs.existsSync(f) ? (JSON.parse(fs.readFileSync(f, 'utf8')).noted || []) : [];
+  assert.deepStrictEqual(noted, [], 'a system turn recorded a note');
 });
 
 it('a refusal phrase silences the session, not merely the turn', () => {

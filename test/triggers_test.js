@@ -934,6 +934,44 @@ it('a declared external route is printed after the family routes, and never shad
   assert.deepStrictEqual(T.match('сделай иконку, без пайплайна', { external }), []);
 });
 
+// --- the stem prefilter changes no answer (R06) ----------------------------
+// `matches` rejects a phrase whose word stems are absent before building its regular
+// expression. The cases below are the ones a careless prefilter loses: a Latin brand
+// standing in for a Cyrillic one, a verbal prefix, an inflected ending, a hyphen.
+it('the stem prefilter keeps brand aliases, prefixes, inflections and hyphens', () => {
+  assert.ok(T.match('добавь Telegram-бота для уведомлений').includes('telegram-dev'), 'brand alias lost');
+  assert.ok(T.match('отрефактори модуль оплаты').length > 0, 'verbal prefix lost');
+  assert.ok(T.match('сделай лендинг').includes('sheleg-design'), 'inflected form lost');
+  assert.deepStrictEqual(T.match('привет'), [], 'a prompt with no stem in it routed');
+  assert.strictEqual(T.matches('Рефакторинг оплаты', 'рефакторинг'), true);
+  assert.strictEqual(T.matches('аудитория', 'аудит'), false, 'the word-end rule was lost');
+});
+
+// --- once per route (R01, B-155) -------------------------------------------
+
+it('render lists only the routes not yet noted, and nothing when all were', () => {
+  const prompt = 'сделай фичу экспорта в csv';
+  const routes = T.match(prompt);
+  assert.ok(routes.length >= 1, 'the control prompt no longer routes — the fixture proves nothing');
+  const full = T.render(prompt, { noted: [] });
+  assert.ok(full.includes('[sshlg-routing]'), 'nothing noted must print as today');
+  assert.strictEqual(T.render(prompt, { noted: routes }), '',
+    'a route already noted in this session was printed again');
+  const rest = T.render(prompt, { noted: [routes[0]] });
+  if (routes.length === 1) assert.strictEqual(rest, '');
+  else assert.ok(rest.length > 0 && rest.length < full.length, 'a partial noted set did not shrink the note');
+});
+
+it('a new route on a later turn prints only that route', () => {
+  const first = T.match('сделай фичу экспорта в csv');
+  const second = T.match('сделай фичу экспорта в csv, поправь дизайн и анимации лендинга');
+  const fresh = second.filter((r) => !first.includes(r));
+  assert.ok(fresh.length >= 1, 'the fixture prompts share every route — nothing new to show');
+  const out = T.render('сделай фичу экспорта в csv, поправь дизайн и анимации лендинга', { noted: first });
+  const lines = out.split('\n').filter((l) => l.startsWith('- this '));
+  assert.strictEqual(lines.length, fresh.length, `expected only the new routes, got:\n${out}`);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

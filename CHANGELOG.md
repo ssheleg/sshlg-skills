@@ -1,3 +1,30 @@
+## Unreleased (1.56.0, pending its release PR) — the hooks say less, and `update` finishes the job
+
+Wave 1 of the integration plan (R01-R06; board B-155..B-159).
+
+- **The routing note names each route once per session** (R01). The prompt hook records the
+  routes it printed in the session's turn state; a repeat prints nothing, a new route prints only
+  itself, `clear` and `compact` reset the record (their context is gone), `startup`, `resume`
+  and `fork` keep it, and a system turn neither prints nor records. An unreadable record prints
+  as before. In a scripted 5-session x 12-prompt simulation the notes went from 40 (18,735 chars)
+  to 25 (9,205 chars).
+- **The "Also speaking at SessionStart" line prints only when the injector set changed** (R02),
+  compared with `state.json.injectors`, then recorded. Same simulation: 10 lines (1,830 chars) to 1 (183).
+- **`update` re-wires a machine that has consented** (R03). One entry of ours in
+  `~/.claude/settings.json` is the consent; `update` then computes `hooks.plan` and, when it has
+  changes and no conflicts, writes them through the same `protect()` backup as `hooks install`,
+  logging each event with its reason. Until now 1.55.1's widened `PreToolUse` matcher never reached
+  an installed machine. `hooks` prints the reason per event: `matcher`, `command`, `order`, `added`.
+- **Secret remedies resolve the Observatory engine at run time** (R04):
+  `"$(project-observatory full-path)/tools/use_secret.py"`, never a checkout path.
+- **`state.json` is an interface, and `update` is single-instance** (R05). `schemaVersion: 1`, the
+  keys and their readers (including Fabric Dashboards) in `docs/working-rules/state-json.md`, and
+  `~/.sshlg-skills/update.lock`: a live holder makes the second `update` exit 2 naming it; a stale
+  (over 30 minutes) or dead-pid lock is taken over.
+- **`UserPromptSubmit` is about half as slow** (R06). A stem prefilter rejects a trigger whose word
+  stems are absent before its regular expression is built: the hook's median went from about
+  165-180 ms to about 70-85 ms with the answers unchanged (0 differences over 68,040 prompts).
+
 ## v1.55.3 — agent-stack names who a call is for
 
 Pins agent-stack 0.26.0. `agent-interop`'s gateway reference now describes the on-behalf-of

@@ -238,6 +238,41 @@ it('OURS INSTALLED FIRST, THEIRS ADDED LATER — a second plan is still a no-op'
   assert.strictEqual(ourIndexAfter, 0, 'our entry was moved to the end');
 });
 
+// --- why an entry changed, and who has consented (R03) ----------------------
+
+it('every changed event carries a reason: added | matcher | command | order', () => {
+  const fresh = H.plan({}, ROOT, {});
+  assert.strictEqual(fresh.reasons.length, fresh.changed.length, 'a change without a reason');
+  assert.ok(fresh.reasons.every((r) => r.reason === 'added'), JSON.stringify(fresh.reasons));
+
+  // stale matcher: the 1.55.1 case — everything else identical
+  const stale = JSON.parse(JSON.stringify(fresh.settings));
+  stale.hooks.PreToolUse[0].matcher = 'Edit|Write|MultiEdit|NotebookEdit|Bash';
+  const m = H.plan(stale, ROOT, {});
+  assert.deepStrictEqual(m.reasons, [{ event: 'PreToolUse', reason: 'matcher' }]);
+
+  // stale command: the script moved
+  const moved = JSON.parse(JSON.stringify(fresh.settings));
+  moved.hooks.Notification[0].hooks[0].command = `node "${ROOT}/hooks/old-name.js"`;
+  assert.deepStrictEqual(H.plan(moved, ROOT, {}).reasons,
+    [{ event: 'Notification', reason: 'command' }]);
+
+  // order only: ours duplicated, both with the right content
+  const dup = JSON.parse(JSON.stringify(fresh.settings));
+  dup.hooks.PostToolUse.push(JSON.parse(JSON.stringify(dup.hooks.PostToolUse[0])));
+  assert.deepStrictEqual(H.plan(dup, ROOT, {}).reasons,
+    [{ event: 'PostToolUse', reason: 'order' }]);
+});
+
+it('consent is one entry of ours — nothing of ours is no consent', () => {
+  assert.strictEqual(H.consented({}, ROOT), false);
+  assert.strictEqual(H.consented({ hooks: { SessionStart: [FOREIGN_HOOK] } }, ROOT), false);
+  assert.strictEqual(H.consented(H.plan({}, ROOT, {}).settings, ROOT), true);
+  const one = { hooks: { Notification: [H.entries(ROOT).Notification] } };
+  assert.strictEqual(H.consented(one, ROOT), true, 'a single entry of ours is the consent');
+  assert.strictEqual(H.consented(null, ROOT), false);
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

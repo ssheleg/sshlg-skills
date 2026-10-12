@@ -385,6 +385,9 @@ npx sshlg-skills hooks                    # what would be wired, and what holds 
 npx sshlg-skills hooks install            # wire it (refuses to take someone else's status line)
 npx sshlg-skills hooks install --force    # take it anyway, parking what it displaced
 npx sshlg-skills hooks remove             # unwire, and give the displaced one back
+# `npx sshlg-skills update` re-wires a machine that already has one of these entries (since v1.56.0), through the
+# same backup; with none it writes nothing. `hooks` prints why each entry differs: matcher | command | order | added.
+# `update` also takes ~/.sshlg-skills/update.lock: a second one exits 2 naming the holder (docs/working-rules/state-json.md).
 npx sshlg-skills injectors                # who else speaks at SessionStart, and which MCP server instructions claim ground
 npx sshlg-skills conflicts                # installed skills that land on a router's ground
 npx sshlg-skills toolkit                  # every skill this machine can reach, as an index
@@ -398,8 +401,8 @@ npx sshlg-skills humanizers               # anti-AI-writing skills here, with th
 
 | Hook | What it does | What it costs |
 |---|---|---|
-| `SessionStart` | one note saying the block is not advisory; the session's title and the ledger to watch; **and, since v0.48.0, one line naming any other enabled plugin that also injects here** — silent when there is none | ~90 tokens per session |
-| `UserPromptSubmit` | names the route this prompt asks for | nothing on the turns that don't need it |
+| `SessionStart` | one note saying the block is not advisory; the session's title and the ledger to watch; **and, since v0.48.0, one line naming any other enabled plugin that also injects here** — silent when there is none, and since v1.56.0 printed only when that set differs from the one recorded in `state.json` | ~90 tokens per session |
+| `UserPromptSubmit` | names the route this prompt asks for — **once per route per session** since v1.56.0 (a route already named is not repeated; `clear` and `compact` reset the record, `resume` keeps it) | nothing on the turns that don't need it |
 | `PreToolUse` | **copies before any write** to `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.gemini/GEMINI.md`, `~/.cursor/rules/sshlg-routing.mdc` and `~/.claude/settings.json` — and **refuses the write** if the copy cannot be taken. Also refuses a bare `npx skills update <member>` | nothing until one of those files is touched |
 | `PostToolUse` | after any skills-CLI run, names the plain copies shadowing a plugin; after `obsidian-wiki setup`, puts back the config keys it truncates | nothing on any other command |
 | `Notification` | a desktop ping when a long run goes idle or a background agent finishes | nothing — it emits a terminal sequence |

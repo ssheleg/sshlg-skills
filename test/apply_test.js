@@ -349,7 +349,10 @@ it('every write to a protected file goes through protect()', () => {
   // instead of being quietly waved through by a growing regex.
   //   quarantine.js the recoverable-prune store under ~/.claude/skills-quarantine/
   //                 and the pack's own managed skill copies it restores (FIX-UP-04.02)
-  const OWN_STATE = ['lib/backup.js', 'lib/store.js', 'lib/turnstate.js', 'lib/quarantine.js'];
+  //   updatelock.js the single-instance lock `update` holds, `~/.sshlg-skills/update.lock`
+  //                 (R05) — created exclusively, never a file the operator owns
+  const OWN_STATE = ['lib/backup.js', 'lib/store.js', 'lib/turnstate.js', 'lib/quarantine.js',
+    'lib/updatelock.js'];
   for (const rel of corpus.filter((f) => !OWN_STATE.includes(f))) {
     const src = fs.readFileSync(path.join(__dirname, '..', rel), 'utf8').split('\n');
     src.forEach((line, i) => {
@@ -384,7 +387,7 @@ it('THE PROTECT EXEMPTIONS ARE EXACTLY THE MODULES THAT WRITE THE PACK\'S OWN ST
     }
   }
   assert.deepStrictEqual([...new Set(unguarded)].sort(),
-    ['lib/backup.js', 'lib/quarantine.js', 'lib/store.js', 'lib/turnstate.js'],
+    ['lib/backup.js', 'lib/quarantine.js', 'lib/store.js', 'lib/turnstate.js', 'lib/updatelock.js'],
     'a module writes outside protect() and is not one of the three declared to write '
     + 'only the pack\'s own state — argue for it in the exemption list or route it '
     + 'through protect()');

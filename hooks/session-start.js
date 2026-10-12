@@ -65,8 +65,20 @@ process.stdin.on('end', () => {
     // switched on. `lib/injectors.js` decides; this only reads the registry.
     try {
       const inj = require(path.join(LIB, 'injectors.js'));
-      const text = inj.line(inj.injectors(...inj.readRegistry(home)));
+      const rows = inj.injectors(...inj.readRegistry(home));
+      const statePath = path.join(home, '.sshlg-skills', 'state.json');
+      let state = {};
+      try { state = JSON.parse(fs.readFileSync(statePath, 'utf8')); } catch (e) { state = {}; }
+      // Only on change (R02): the line is paid at every session start, and an
+      // unchanged set is not news. Record AFTER deciding, and only on a change.
+      const text = inj.line(rows, state.injectors);
       if (text) context.push(text);
+      if (inj.changed(rows, state.injectors)) {
+        try {
+          const store = require(path.join(LIB, 'store.js'));
+          store.writeJson(statePath, { injectors: inj.names(rows), schemaVersion: store.STATE_SCHEMA });
+        } catch (e) { /* unrecorded means the line repeats once more */ }
+      }
     } catch (e) { /* an unreadable plugin registry means no claim, not a wrong one */ }
 
     // Whether a newer SET is out. The cache is READ here and the registry is not
@@ -124,6 +136,15 @@ process.stdin.on('end', () => {
         }
       }
     } catch (e) { /* a queue that cannot be read is not a broken session */ }
+
+    // After `clear` or `compact` the context that held this session's earlier routing
+    // notes is gone, so the record of what was noted goes with it (R01). startup,
+    // resume and fork keep it: the same session id, and its context still has them.
+    if ((data.source === 'clear' || data.source === 'compact') && data.session_id) {
+      try {
+        require(path.join(LIB, 'turnstate.js')).write(home, data.session_id, { noted: [] });
+      } catch (e) { /* a record that cannot be reset only repeats a note */ }
+    }
 
     // One small file per session accumulates forever otherwise — the kind of
     // litter nobody notices until it is thousands of files.

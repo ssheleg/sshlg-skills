@@ -598,6 +598,12 @@ function cmdUpdate(f) {
     log(`\n== Wired hook runtime ==\n  NOT refreshed: ${e.message}`);
     ok = false;
   }
+  // The settings entries that point AT that copy (R03, wave 1). Until 1.56.0 `update`
+  // refreshed the scripts and never re-applied their wiring, so 1.55.1's widened
+  // PreToolUse matcher never reached a machine that had run `hooks install` before it.
+  // A machine that has consented (one entry of ours in settings.json) is re-wired here;
+  // one that has not is left alone — an update is not the moment to ask.
+  ok = rewireConsentedHooks() && ok;
   // Native host lifecycle (FIX-UP-07.02). The skills-CLI channel writes plain
   // copies into ~/.codex/ etc., but a host with its OWN plugin loader (Codex)
   // does not load them through that channel — and this launcher has no
@@ -628,6 +634,86 @@ function cmdUpdate(f) {
 
   reportProgress();
   return ok;
+}
+
+/**
+ * `update` under `~/.sshlg-skills/update.lock` (R05). A preview writes nothing and takes
+ * no lock. A live holder is a refusal with exit 2 naming its pid and age; a stale or
+ * dead one is taken over and logged. The lock is released on every way out: the normal
+ * return, a throw, `process.exit` elsewhere in the run (the `exit` handler), and the
+ * two signals a terminal or a supervisor sends.
+ */
+function runUpdateLocked(f) {
+  if (f.dryRun) return cmdUpdate(f) ? 0 : 1;
+  const lock = require('../lib/updatelock.js');
+  const home = os.homedir();
+  const got = lock.acquire(home);
+  if (!got.ok) {
+    const h = got.holder || {};
+    log(`update: refused — ${got.message}${h.host ? ` on ${h.host}` : ''}.`);
+    log(`  lock: ${lock.lockPath(home)} (a lock older than 30 minutes, or whose process is gone, is taken over)`);
+    return 2;
+  }
+  if (got.tookOver) log(`update: took over update.lock — ${got.tookOver}`);
+  if (got.degraded) log(`update: running without a lock — ${got.degraded}`);
+  const free = () => { lock.release(home, got.token); };
+  process.on('exit', free);
+  for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
+    process.on(sig, () => { free(); process.exit(128 + ({ SIGHUP: 1, SIGINT: 2, SIGTERM: 15 })[sig]); });
+  }
+  try {
+    return cmdUpdate(f) ? 0 : 1;
+  } finally {
+    free();
+  }
+}
+
+/**
+ * Re-apply the hooks wiring on a machine that already consented to it.
+ *
+ * Consent is the presence of one entry of ours in `~/.claude/settings.json`. With none
+ * this does nothing. With one, `hooks.plan` computes the edit; it is written only when
+ * something changed AND nothing conflicts, through the same `protect()` backup the
+ * `hooks install` path takes (a backup that fails cancels the write). Every changed
+ * event is logged with its reason (`matcher` | `command` | `order` | `added`).
+ *
+ * Returns false only on a failure worth a non-zero exit: an unparseable file or a
+ * backup that could not be taken. Declining (no consent, conflicts) is success.
+ */
+function rewireConsentedHooks() {
+  const hooksLib = require('../lib/hooks.js');
+  const apply = require('../lib/apply.js');
+  const home = os.homedir();
+  const file = path.join(home, '.claude', 'settings.json');
+  const root = hooksLib.runtimeDir(home);
+  let current;
+  try {
+    if (!fs.existsSync(file)) return true;
+    current = JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch (e) {
+    log(`\n== Hook wiring ==\n  ${file} does not parse (${e.message}) — nothing written`);
+    return false;
+  }
+  if (!hooksLib.consented(current, root)) return true;   // no consent: do nothing
+  const { settings, changed, conflicts, reasons } = hooksLib.plan(current, root, {});
+  log('\n== Hook wiring ==');
+  if (!changed.length) { log('  settings.json already matches this package'); return true; }
+  if (conflicts.length) {
+    for (const c of conflicts) log(`  ${c.key} is held by ${c.held_by} — ${c.note}`);
+    log('  not re-wired (a conflict is a decision for `hooks install --force`)');
+    return true;
+  }
+  const saved = apply.protect(file, { home });
+  if (saved.action === 'backup-failed') {
+    log(`  NOT written: no backup could be taken (${saved.error}); ${file} unchanged`);
+    return false;
+  }
+  fs.writeFileSync(file, JSON.stringify(settings, null, 2) + '\n', 'utf8');
+  for (const r of reasons) log(`  ${r.event}: ${r.reason}`);
+  log(`  re-wired ${changed.join(', ')}`);
+  log(`  copy before write: ${saved.path}`);
+  log('  restart Claude Code — hooks are read at session start');
+  return true;
 }
 
 /**
@@ -1688,10 +1774,11 @@ function cmdHooks(argv) {
   }
 
   if (sub === 'status') {
-    const { changed, conflicts } = hooksLib.plan(current, root, {});
+    const { changed, conflicts, reasons } = hooksLib.plan(current, root, {});
     log('hooks: что ставит семья\n  ' + hooksLib.describe(root).join('\n  '));
     log(changed.length
       ? `\nhooks: НЕ установлено или устарело — ${changed.join(', ')}\n  ` +
+        reasons.map((r) => `${r.event}: ${r.reason}`).join('\n  ') + '\n  ' +
         `поставить: npx sshlg-skills hooks install`
       : '\nhooks: всё на месте и совпадает');
     for (const c of conflicts) log(`hooks: ${c.key} держит ${c.held_by} — ${c.note}`);
@@ -2153,7 +2240,7 @@ function main(argv) {
     }
   }
   if (cmd === 'install' || cmd === 'i') return cmdInstall(f) ? 0 : 1;
-  if (cmd === 'update' || cmd === 'up') return cmdUpdate(f) ? 0 : 1;
+  if (cmd === 'update' || cmd === 'up') return runUpdateLocked(f);
   if (cmd === 'uninstall' || cmd === 'un') return cmdUninstall(f) ? 0 : 1;
   if (cmd === 'backup') return cmdBackupAll() ? 0 : 1;
   if (cmd === 'wipe') return cmdWipeAll(f) ? 0 : 1;
