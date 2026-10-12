@@ -17,6 +17,7 @@
     "lib",
     "hooks",
     "skills.json",
+    "pack-marks.json",
     "README.md",
     "LICENSE",
     "CHANGELOG.md"

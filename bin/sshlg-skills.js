@@ -448,6 +448,9 @@ function planUpdate(f) {
 function renderDryRun(planned, mode) {
   log(`\n== --dry-run: the ${mode} plan, rendered — nothing executed ==`);
   for (const line of opres.render(planned)) log(line);
+  if (mode === 'update' && fs.existsSync(path.join(process.env.HOME || os.homedir(), '.sshlg-skills', 'visibility.json'))) {
+    log('  then: re-apply skill visibility (this machine ran `visibility --apply`; preview: `npx sshlg-skills visibility`)');
+  }
   const res = opres.result({
     scope: 'home', status: 'dry-run',
     evidence: `${planned.steps.length} action(s) planned; 0 mutations`,
@@ -647,11 +650,48 @@ function cmdUpdate(f) {
   // the loaded version back. Only that readback says `current`. A Codex whose
   // plugin CLI cannot be driven is still UNSUPPORTED_UPDATE, and nothing is touched.
   ok = refreshCodexPlugins(f) && ok;
+  // Skill visibility (B-143, wave L1). A machine whose record shows the operator ran
+  // `visibility --apply` gets it again, with the same window and --keep, so skills the
+  // refresh above just added are hidden by the same rule on every host. One with no
+  // record has not consented — an update is not the moment to ask.
+  ok = reapplyVisibility(f) && ok;
 
   printUpdateModel('update');
 
   reportProgress();
   return ok;
+}
+
+/**
+ * Re-apply `visibility` inside `update`, scoped like the rest of the run: `--claude-only`
+ * reaches Claude alone, an `--agent` list reaches the hosts it names (plus Claude while
+ * `claudeScope` keeps it), no list reaches every host. Silent on a machine without the
+ * record `visibility --apply` leaves.
+ */
+function visibilityScope(f) {
+  const flags = f || {};
+  if (flags.claudeOnly) return new Set(['claude']);
+  if (!flags.agents || !flags.agents.length) return null;
+  const ids = ['claude', 'codex', 'gemini', 'pi', 'opencode', 'hermes', 'cursor', 'kimi'];
+  const out = new Set(ids.filter((id) => flags.agents.some((a) => a === id || a.startsWith(`${id}-`))));
+  if (claudeScope(f).inScope) out.add('claude');
+  return out;
+}
+
+function reapplyVisibility(f) {
+  const home = process.env.HOME || os.homedir();
+  const recordPath = path.join(home, '.sshlg-skills', 'visibility.json');
+  if (!fs.existsSync(recordPath)) return true;
+  let rec = {};
+  try { rec = JSON.parse(fs.readFileSync(recordPath, 'utf8')); } catch (e) {
+    log(`\n== Skill visibility ==\n  NOT re-applied: ${recordPath} does not parse (${e.message})`);
+    return false;
+  }
+  log('\n== Skill visibility (re-applied: this machine ran `visibility --apply`) ==');
+  const only = visibilityScope(f);
+  return runVisibility({
+    mode: 'apply', days: Number(rec.days) || undefined, keep: Array.isArray(rec.keep) ? rec.keep : [], only,
+  }) === 0;
 }
 
 /**
@@ -1503,11 +1543,16 @@ function cmdConfig(argv) {
       log(`  routes.external.${n}  → ${spec.skill || n}${problems.length ? '  (НЕ действует: ' + problems[0] + ')' : ''}`);
       log(`    triggers: ${triggersLib().splitTriggers(spec.triggers).join(', ')}`);
     }
+    const packs = configLib.packOverridesGet(config);
+    log(`\nВидимость паков (поверх pack-marks.json): hidePacks ${packs.hidePacks.length}, showPacks ${packs.showPacks.length}`);
+    for (const p of packs.hidePacks) log(`  visibility.pack.${p}  hide`);
+    for (const p of packs.showPacks) log(`  visibility.pack.${p}  show`);
     log('\nПоменять:  npx sshlg-skills config set routers.<имя> on|off');
     log('           npx sshlg-skills config set update.auto on|off');
     log('           npx sshlg-skills config set routes.external.<имя>.triggers "слово, фраза, …"');
     log('           npx sshlg-skills config set routes.external.<имя>.skill <skill-id>');
     log('           npx sshlg-skills config set routes.external.<имя> off');
+    log('           npx sshlg-skills config set visibility.pack.<owner/repo> hide|show|default');
     return 0;
   }
 
@@ -1536,8 +1581,21 @@ function cmdConfig(argv) {
 
   if (key && key.indexOf('routes.external.') === 0) return configExternal(home, key, argv.slice(2));
 
+  if (key && key.indexOf('visibility.pack.') === 0) {
+    const pack = key.slice('visibility.pack.'.length);
+    const before = configLib.packOverridesGet(configLib.readConfig(home));
+    const was = before.showPacks.includes(pack) ? 'show' : before.hidePacks.includes(pack) ? 'hide' : 'default';
+    try { configLib.setPackOverride(home, pack, value); } catch (e) {
+      log(`config set ${key}: ${e.message}`);
+      return 2;
+    }
+    log(`visibility.pack.${pack}: ${was} → ${value}${was === value ? ' (без изменений)' : ''}`);
+    log('Применить: npx sshlg-skills visibility --apply (предпросмотр — без --apply).');
+    return 0;
+  }
+
   if (!key || key.indexOf('routers.') !== 0) {
-    log('config set: ключ должен начинаться с "routers." или "routes.external.", или быть "update.auto"');
+    log('config set: ключ должен начинаться с "routers.", "routes.external." или "visibility.pack.", или быть "update.auto"');
     return 2;
   }
 
@@ -1805,19 +1863,37 @@ function continueHasFamilyCopies() {
  */
 function cmdVisibility(argv) {
   const V = require(path.join(ROOT, 'lib', 'visibility.js'));
-  const toolkit = require(path.join(ROOT, 'lib', 'toolkit.js'));
-  const apply = require(path.join(ROOT, 'lib', 'apply.js'));
-  const home = process.env.HOME || os.homedir();
-  const read = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch (e) { return null; } };
   const flag = (name) => argv.includes(name);
   const value = (name) => { const i = argv.indexOf(name); return i !== -1 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : null; };
-  const doApply = flag('--apply');
-  const doRevert = flag('--revert');
-  const days = Number(value('--days')) || V.DEFAULT_DAYS;
-  const keep = (value('--keep') || '').split(',').map((s) => s.trim()).filter(Boolean);
+  if (flag('--apply') && flag('--revert')) { log('visibility: --apply and --revert contradict each other'); return 2; }
+  return runVisibility({
+    mode: flag('--revert') ? 'revert' : flag('--apply') ? 'apply' : 'preview',
+    days: Number(value('--days')) || V.DEFAULT_DAYS,
+    keep: (value('--keep') || '').split(',').map((s) => s.trim()).filter(Boolean),
+  });
+}
+
+/**
+ * The work of `visibility`, callable from `update` (which re-applies it on a machine whose
+ * record shows the operator ran `--apply`). `opts.only` limits the run to a set of host
+ * ids; a host outside it keeps its record untouched.
+ */
+function runVisibility(opts) {
+  const V = require(path.join(ROOT, 'lib', 'visibility.js'));
+  const HV = require(path.join(ROOT, 'lib', 'hostvis.js'));
+  const toolkit = require(path.join(ROOT, 'lib', 'toolkit.js'));
+  const apply = require(path.join(ROOT, 'lib', 'apply.js'));
+  const configLib = require(path.join(ROOT, 'lib', 'config.js'));
+  const home = process.env.HOME || os.homedir();
+  const read = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch (e) { return null; } };
+  const doApply = opts.mode === 'apply';
+  const doRevert = opts.mode === 'revert';
+  const days = opts.days || V.DEFAULT_DAYS;
+  const keep = opts.keep || [];
+  const inScope = (id) => !opts.only || opts.only.has(id);
 
   const recordPath = path.join(home, '.sshlg-skills', 'visibility.json');
-  let owned = { claude: [], codex: [] };
+  let owned = { claude: [], codex: [], gemini: [], pi: [], opencode: [], hermes: [], piCreated: false };
   try { owned = Object.assign(owned, JSON.parse(read(recordPath) || '{}')); } catch (e) { /* unreadable: owns nothing */ }
 
   const skills = toolkit.readSkills(home).filter((s) => s.callable !== false);
@@ -1826,7 +1902,8 @@ function cmdVisibility(argv) {
   let usage = {};
   try { usage = JSON.parse(read(path.join(home, '.claude.json')) || '{}').skillUsage || {}; } catch (e) { usage = {}; }
   const instructions = read(path.join(home, '.claude', 'CLAUDE.md')) || '';
-  const coreSet = V.core({ personal, family, usage, now: Date.now(), days, instructions });
+  const now = Date.now();
+  const coreSet = V.core({ personal, family, usage, now, days, instructions });
   for (const k of keep) coreSet.add(k);
 
   // ── Claude ──
@@ -1863,16 +1940,84 @@ function cmdVisibility(argv) {
   const codexAdd = codexWant.filter((p) => !owned.codex.includes(p));
   const codexDrop = owned.codex.filter((p) => !codexWant.includes(p));
 
+  // ── The operator's pack marks, for every other host ──
+  let marksData = null;
+  try { marksData = JSON.parse(read(path.join(ROOT, 'pack-marks.json'))); } catch (e) { marksData = null; }
+  const markProblems = marksData ? V.marksProblems(marksData) : ['pack-marks.json is missing or unreadable'];
+  const marks = V.marksIndex(marksData);
+  const config = configLib.readConfig(home);
+  const lock = HV.readLock(home);
+  const hostList = HV.hosts(home, process.env);
+  const inv = {};
+  const seen = new Set(personal);
+  for (const h of hostList) if (h.present && !h.cannot) { inv[h.id] = HV.inventory(h, lock); inv[h.id].forEach((s) => seen.add(s.name)); }
+  // The core over every name a host reads, not only Claude's personal skills: a skill
+  // used in the window stays listed on every host, whatever its pack's mark.
+  const coreAll = V.core({ personal: [...seen], family, usage, now, days, instructions });
+  for (const k of keep) coreAll.add(k);
+  const hiddenPacks = new Set();
+  for (const p of new Set(lock.values())) if (V.packHidden(p, '*', { marks, config })) hiddenPacks.add(p);
+  const ov = config.visibility || {};
+
+  log('Fallback for sessions Fabric does not start: a Fabric-started session takes pack-marks.json through its RM-23 bundle and writes nothing to host settings.');
   log(`Skill visibility — core = family + used within ${days} days + named in ~/.claude/CLAUDE.md${keep.length ? ' + --keep' : ''}`);
-  log(`  core: ${coreSet.size} skills`);
-  log(`  Claude: ${personal.length} personal skills; hide ${claudeSet.length} more, un-hide ${claudeUnset.length}; ` +
-      `${Object.keys(foreign).length} operator-set override(s) left alone`);
-  log(`  Claude listing ≈ ${charsBefore} → ${charsAfter} characters (names + descriptions, 1536 cap each).`);
-  log('    Budget: Claude Code logs it — `claude -p x --debug` then look for "Skill listing over budget"');
-  log('    (30000 characters measured on 2026-10-10). Over budget, descriptions drop least-used first.');
-  log(`  Codex: ${shared.length} shared skills; disable up to ${codexAdd.length} more (entries already present are left as they are), re-enable ${codexDrop.length}` +
-      (codexText === null ? ' (no ~/.codex/config.toml — skipped)' : ''));
-  log('  Hidden skills stay installed: Claude keeps them in the / menu, every host can read the file,');
+  log(`  core: ${coreSet.size} skills (Claude, Codex); ${coreAll.size} across every host's roots`);
+  log(`  pack marks: pack-marks.json revision ${marksData && marksData.revision}; ${hiddenPacks.size} of ${new Set(lock.values()).size} installed packs hidden` +
+      `${(ov.hidePacks || []).length || (ov.showPacks || []).length ? ` (config: hidePacks ${(ov.hidePacks || []).length}, showPacks ${(ov.showPacks || []).length})` : ''}` +
+      (markProblems.length ? ` — MARKS NOT READ: ${markProblems[0]}` : ''));
+  if (inScope('claude')) {
+    log(`  Claude: ${personal.length} personal skills; hide ${claudeSet.length} more, un-hide ${claudeUnset.length}; ` +
+        `${Object.keys(foreign).length} operator-set override(s) left alone`);
+    log(`  Claude listing ≈ ${charsBefore} → ${charsAfter} characters (names + descriptions, 1536 cap each).`);
+    log('    Budget: Claude Code logs it — `claude -p x --debug` then look for "Skill listing over budget"');
+    log('    (30000 characters measured on 2026-10-10). Over budget, descriptions drop least-used first.');
+  }
+  if (inScope('codex')) {
+    log(`  Codex: ${shared.length} shared skills; disable up to ${codexAdd.length} more (entries already present are left as they are), re-enable ${codexDrop.length}` +
+        (codexText === null ? ' (no ~/.codex/config.toml — skipped)' : ''));
+  }
+  log('  Claude and Codex hide by usage (everything outside the core); the pack marks are a subset there.');
+
+  // Plan every other host. `edit` is pure, so the preview reports what --apply would add.
+  const hostPlans = [];
+  for (const h of hostList) {
+    if (!inScope(h.id)) continue;
+    if (!h.present) { log(`  ${h.id}: not installed here — skipped`); continue; }
+    if (h.cannot) { log(`  ${h.id}: cannot hide on ${h.id} — ${h.cannot}`); continue; }
+    const list = inv[h.id];
+    const names = doRevert ? [] : V.hostHide({ skills: list, host: h.id, marks, config, core: coreAll });
+    const marked = list.filter((s) => s.pack && V.packHidden(s.pack, h.id, { marks, config })).length;
+    const want = HV.items(h, list, names);
+    const ownedHere = owned[h.id] || [];
+    const add = want.filter((x) => !ownedHere.includes(x));
+    const drop = ownedHere.filter((x) => !want.includes(x));
+    const p = { h, names, want, add, drop, ownedHere };
+    if (h.refuse) { p.reason = h.refuse; }
+    else if (h.kind === 'hermes-cli') {
+      const cur = HV.hermesRead(process.env);
+      if (cur.reason) p.reason = cur.reason;
+      else {
+        p.current = cur.list;
+        p.next = cur.list.filter((x) => !drop.includes(x)).concat(add.filter((x) => !cur.list.includes(x)));
+        p.added = add.filter((x) => !cur.list.includes(x));
+        p.changed = p.next.length !== cur.list.length || p.added.length > 0;
+      }
+    } else {
+      p.text = read(h.file);
+      const edit = h.kind === 'json-list'
+        ? V.editJsonList(p.text, { keys: h.keys, add, remove: drop, create: h.create, newline: h.newline })
+        : V.editJsonMap(p.text, { keys: h.keys, set: add, value: h.value, unset: drop });
+      if (!edit.ok) p.reason = `${h.file} ${edit.reason}`;
+      else { p.edit = edit; p.added = edit.added; p.changed = edit.text !== p.text; }
+    }
+    log(`  ${h.id}: ${list.length} skills in its roots, ${marked} in hidden packs` +
+        `${doRevert ? '' : ` (${marked - names.length} kept by the core)`}; hide ${names.length}; ` +
+        (p.reason ? `NOT writable — ${p.reason}`
+          : p.edit && p.edit.skipped ? `no ${path.basename(h.file)} — skipped`
+            : `write ${p.added.length} new entr${p.added.length === 1 ? 'y' : 'ies'}, remove ${drop.length} — ${h.label}`));
+    hostPlans.push(p);
+  }
+  log('  Hidden skills stay installed: no file is deleted or moved, every host can read the SKILL.md,');
   log('  and `npx sshlg-skills toolkit --find "<concepts>"` finds them by meaning.');
   if (!doApply && !doRevert) { log('\n  Nothing written. `--apply` hides, `--revert` undoes only what this command wrote.'); return 0; }
 
@@ -1891,21 +2036,74 @@ function cmdVisibility(argv) {
     log(`  ${label}: written (backup ${saved.path || 'taken'})`);
     return { status: 'ok', added: r.added || [] };
   };
-  const wc = write(settingsPath, settingsText, (t) => V.editClaudeSettings(t, { set: claudeSet, unset: claudeUnset }), '~/.claude/settings.json');
-  const wx = write(codexPath, codexText, (t) => V.editCodexConfig(t, { disable: codexAdd, enable: codexDrop }), '~/.codex/config.toml');
+  const skip = { status: 'skipped' };
+  const wc = inScope('claude') ? write(settingsPath, settingsText, (t) => V.editClaudeSettings(t, { set: claudeSet, unset: claudeUnset }), '~/.claude/settings.json') : skip;
+  const wx = inScope('codex') ? write(codexPath, codexText, (t) => V.editCodexConfig(t, { disable: codexAdd, enable: codexDrop }), '~/.codex/config.toml') : skip;
   // Ownership is what this command actually wrote and still holds: for Claude the
   // planned hides (the plan never includes an operator-set key), for Codex the
   // previously owned paths still wanted plus the ones this run ADDED — never an entry
   // the operator already had.
-  const record = {
+  const record = Object.assign({}, owned, {
     note: 'Written by `npx sshlg-skills visibility`; --revert removes exactly these entries.',
     days,
+    keep,
+    marksRevision: marksData && marksData.revision,
     updatedAt: new Date().toISOString(),
     claude: wc.status === 'ok' ? plan.hide.slice().sort() : owned.claude,
     codex: wx.status === 'ok'
       ? [...new Set(owned.codex.filter((p) => codexWant.includes(p)).concat(wx.added))].sort()
       : owned.codex,
-  };
+  });
+
+  for (const p of hostPlans) {
+    const { h } = p;
+    const keepOwned = () => { record[h.id] = p.ownedHere; };
+    if (p.reason) { log(`  ${h.id}: NOT written — ${p.reason}`); failed = true; keepOwned(); continue; }
+    const nextOwned = [...new Set(p.ownedHere.filter((x) => p.want.includes(x)).concat(p.added))].sort();
+    if (!p.changed) {
+      if (!(p.edit && p.edit.skipped)) log(`  ${h.id}: already as planned`);
+      record[h.id] = p.edit && p.edit.skipped ? p.ownedHere : nextOwned;
+      continue;
+    }
+    // Every write below takes its copy first; a copy that cannot be taken cancels it.
+    const guard = () => (fs.existsSync(h.file) ? apply.protect(h.file, { home }) : { action: 'new-file' });
+    if (h.kind === 'hermes-cli') {
+      const saved = guard();
+      if (saved.action === 'backup-failed') { log(`  hermes: NOT written — backup failed (${saved.error})`); failed = true; keepOwned(); continue; }
+      const w = HV.hermesWrite(p.next, process.env);
+      const back = w.reason ? null : HV.hermesRead(process.env);
+      const okBack = back && !back.reason && p.want.every((x) => back.list.includes(x)) && !p.drop.some((x) => back.list.includes(x));
+      if (w.reason || !okBack) {
+        log(`  hermes: NOT confirmed — ${w.reason || (back && back.reason) || 'the readback does not hold the planned list'}`);
+        failed = true;
+        // What the readback shows is what is owned: never claim an entry that is not there.
+        record.hermes = back && back.list ? nextOwned.filter((x) => back.list.includes(x)) : p.ownedHere;
+        continue;
+      }
+      log(`  hermes: written through \`hermes config ${p.next.length ? 'set' : 'unset'}\` and read back (${back.list.length} disabled; ` +
+          `${saved.path ? `backup ${saved.path}` : 'no config.yaml before'})`);
+      record.hermes = nextOwned;
+      continue;
+    }
+    const text = p.edit.text;
+    const saved = guard();
+    if (saved.action === 'backup-failed') { log(`  ${h.id}: NOT written — backup failed (${saved.error})`); failed = true; keepOwned(); continue; }
+    // Pi's settings file did not exist before the launcher created it: a revert that
+    // leaves only `{}` removes the file again, so the machine returns to its first state.
+    if (h.id === 'pi' && owned.piCreated && text === '{}') {
+      fs.unlinkSync(h.file);
+      record.piCreated = false;
+      record.pi = [];
+      log(`  pi: ${h.file} removed — the launcher created it and nothing else is in it (backup ${saved.path || 'taken'})`);
+      continue;
+    }
+    fs.mkdirSync(path.dirname(h.file), { recursive: true });
+    fs.writeFileSync(h.file, text, 'utf8');
+    if (h.id === 'pi' && p.edit.created) record.piCreated = true;
+    log(`  ${h.id}: written ${h.label}${saved.path ? ` (backup ${saved.path})` : ' (new file)'}`);
+    record[h.id] = nextOwned;
+  }
+
   fs.mkdirSync(path.dirname(recordPath), { recursive: true });
   // The record is the pack's own state, but it decides what a later revert removes
   // from the operator's files — so it takes the same backup as they do.
