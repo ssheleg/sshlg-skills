@@ -58,9 +58,9 @@ const BY_MEMBER = registry.order().reduce((acc, name) => {
 /**
  * The routers contributed by the members actually installed.
  *
- * Routers with no required member (`seo-llmo`, `evidence-docs`) are rules
- * rather than skills, so they are always included: they hold whether or not
- * anything is installed, which is why a router stopped being a property of a
+ * Routers with no required member (`seo-llmo`, `evidence-docs`, `fabric`) are
+ * rules rather than skills, so they are always included: they hold whether or
+ * not anything is installed, which is why a router stopped being a property of a
  * member in the first place.
  */
 function forMembers(names) {

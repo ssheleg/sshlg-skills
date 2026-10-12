@@ -5,8 +5,9 @@
 //
 // The rule check is split by kind on purpose. A router backed by a member is
 // conditional on that member being installed and must say so; a rule with no
-// member behind it (`seo-llmo`, `evidence-docs`) holds unconditionally, and
-// making it claim otherwise would be a lie in the operator's own file.
+// member behind it (`seo-llmo`, `evidence-docs`, `fabric`) holds
+// unconditionally, and making it claim otherwise would be a lie in the
+// operator's own file.
 
 const assert = require('assert');
 const T = require('./router-texts.js');
@@ -31,11 +32,11 @@ function it(name, fn) {
 
 const EXPECTED = [
   'super-ux', 'sheleg-design', 'copywriting', 'sheleg-dev', 'agent-stack',
-  'telegram-dev', 'xr-dev', 'web3d-dev', 'seo-llmo', 'evidence-docs', 'task-pipeline',
-  'project-audit', 'make-skill', 'agent-sync',
+  'telegram-dev', 'xr-dev', 'web3d-dev', 'seo-llmo', 'evidence-docs', 'fabric',
+  'task-pipeline', 'project-audit', 'make-skill', 'agent-sync',
 ];
 
-it('the registry holds exactly the fourteen routers, in table order', () => {
+it('the registry holds exactly the fifteen routers, in table order', () => {
   assert.deepStrictEqual(registry.order(), EXPECTED);
 });
 
@@ -119,13 +120,13 @@ it('installing super-ux alone contributes its two routers plus the memberless ru
   const r = T.forMembers(['super-ux']);
   assert.deepStrictEqual(
     Object.keys(r).sort(),
-    ['copywriting', 'evidence-docs', 'seo-llmo', 'super-ux']
+    ['copywriting', 'evidence-docs', 'fabric', 'seo-llmo', 'super-ux']
   );
 });
 
 it('installing nothing still contributes the rules that need no skill', () => {
   const r = T.forMembers([]);
-  assert.deepStrictEqual(Object.keys(r).sort(), ['evidence-docs', 'seo-llmo']);
+  assert.deepStrictEqual(Object.keys(r).sort(), ['evidence-docs', 'fabric', 'seo-llmo']);
 });
 
 // The member list here read the family as seven and omitted `agent-stack` — the
@@ -141,7 +142,7 @@ it('installing the whole family contributes every router', () => {
 
 it('seo-aeo-audit contributes no router of its own — the rule is not the skill', () => {
   const r = T.forMembers(['seo-aeo-audit']);
-  assert.deepStrictEqual(Object.keys(r).sort(), ['evidence-docs', 'seo-llmo']);
+  assert.deepStrictEqual(Object.keys(r).sort(), ['evidence-docs', 'fabric', 'seo-llmo']);
 });
 
 it('BY_MEMBER is derived from the registry, so it cannot drift from it', () => {
@@ -168,7 +169,7 @@ it('a router switched off is resolved away and reported as disabled', () => {
 
 it('an uninstalled member is not "disabled" — there is no section to remove', () => {
   const off = registry.disabled({ installed: [], isEnabled: () => false });
-  assert.deepStrictEqual(off.sort(), ['evidence-docs', 'seo-llmo']);
+  assert.deepStrictEqual(off.sort(), ['evidence-docs', 'fabric', 'seo-llmo']);
 });
 
 it('a lone member speaks only for its own routers, never for the family rules', () => {

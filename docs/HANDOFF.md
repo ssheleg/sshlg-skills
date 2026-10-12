@@ -75,6 +75,45 @@ merge `"enabledPlugins": {"figma@claude-plugins-official": true}` (or
 `.claude/settings.local.json` and read the file back — `claude plugin enable --scope local`
 reports success and writes nothing (B-162).
 
+## Router addition — fabric (2026-10-12, released as 1.58.0)
+
+Requested directly by the operator, outside the waves board: the fifteenth router.
+If Fabric is installed on the machine (its services directory present), Fabric work and
+local-service questions go through the Fabric tooling; the boundary refuses generic
+Docker/PostgreSQL/nginx services and brand-new agents with no Fabric contract requested.
+Memberless on purpose (`requires: []`, documented on the entry in
+[lib/routers-registry.js](../lib/routers-registry.js)): the condition is the machine, and
+the four target skills ship in the fabric-agent-adapter plugin outside `skills.json`.
+The hook route fronts those skills with `foreign: true` — the first route whose skills
+this repository does not ship — every trigger verbatim from the named skill's own
+description. Refusal "no fabric" / «без фабрики».
+
+Recorded moves, all in the same change: the block budget 15,913 → 17,600
+(`test/router_compaction_test.js` carries the 17,501 measurement on top of 1.57.0; the room-buying trim is
+B-154's); `test/validate.py`'s router extraction is `[a-z0-9-]+` — `web3d-dev`'s digit had
+made the README count guard read fourteen names of fifteen; the acceptance receipts
+[ctx-04.02.json](evidence/acceptance/ctx-04.02.json) and ctx-04.03 are re-emitted for the
+fifteen-namespace block; the eval corpus declares `fabric` unprobed-by-model until the
+next paired run (B-147). The full entry is the [CHANGELOG](../CHANGELOG.md) top section.
+
+Checks run: `npm test` green on `origin/main` 36a5b23 + this change — 99 suites, 1295
+fixtures, 11 pinned members (the DOCMAP ratchet moves 1289 → 1295 with the new corpus
+cases; the description total stays at 32501, the router adds no member description);
+`node test/route_coverage.js` — the twelve fabric corpus cases pass (7 route, 5 measured
+silence).
+
+**What happened on the machine.** The change was first written in the main checkout on
+the stale `waves/2026-10-11-integration` base (5852c57) and applied from there with
+`routers --update` at 13:13:35Z: that put the fabric block into the host files but also
+reverted the 1.56.0 refusal-phrase paragraph. The 1.57.0 machine install by the release
+session restored the paragraph and dropped the fabric table row. Nothing is applied from
+a checkout again: after release, `npx --yes sshlg-skills@latest update` writes the block
+and its row to every `apply.TARGETS` host file, Pi's `~/.pi/agent/AGENTS.md` included.
+
+**Exact next task:** once the v1.58.0 release run has published, `npx --yes sshlg-skills@latest update` and check that all
+five host files carry `SSHLG:ROUTER:fabric` and its table row. The waves board's next
+bounded task stays W1-C as above.
+
 ## Previous delivery — family round 1.55.0 (2026-10-10/11)
 
 [Brief](evidence/briefs/2026-10-10-family-round.md) · [plan](evidence/plans/2026-10-10-family-round.md) ·
