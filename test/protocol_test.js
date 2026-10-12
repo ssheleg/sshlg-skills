@@ -121,6 +121,26 @@ it('it says to print the plan and NOT to wait for approval', () => {
   assert.ok(/print the plan/i.test(body), 'the plan is not asked for');
 });
 
+// Fix round #8. The block said "Later trigger-bearing prompts still print routing notes",
+// which stopped being true when R01 made each route's note print once per context. A
+// sentence an agent reads as the hook's behaviour has to BE the hook's behaviour: the
+// note prints once per context, `clear`/`compact` re-arm it, and a refusal phrase quiets
+// only the permission-prompt escalation.
+it('what it says about later notes matches the once-per-context hook (R01)', () => {
+  const body = write(EMPTY).match(/PROTOCOL:BEGIN -->([\s\S]*?)<!-- SSHLG:ROUTERS:PROTOCOL:END/)[1];
+  const flat = body.replace(/\s+/g, ' ');
+  assert.ok(!/Later trigger-bearing prompts still print routing notes/.test(flat),
+    'the block still promises a note on every later trigger-bearing prompt');
+  assert.ok(/once per context/.test(flat), 'the block does not say a note prints once per context');
+  assert.ok(/`clear`/.test(flat) && /`compact`/.test(flat), 'the block does not say what re-arms a note');
+  assert.ok(/permission-prompt escalation/.test(flat), 'the refusal sentence lost what it quiets');
+  // and the hook really does print once per context
+  const T = require('../lib/triggers.js');
+  const p = 'сделай фичу экспорта в csv';
+  assert.ok(T.render(p, { noted: [] }).length > 0);
+  assert.strictEqual(T.render(p, { noted: T.match(p) }), '');
+});
+
 it('the star ask is bounded, addressed, and conditional on the family doing work', () => {
   // All three clauses were paid for by one session. The ask fired while the operator was
   // killing stray Chrome processes — no family skill had run at all — it named no

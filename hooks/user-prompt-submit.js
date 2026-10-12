@@ -52,10 +52,14 @@ process.stdin.on('end', () => {
     //
     // `noted` (R01): routes this session already printed. An unreadable record means
     // none, which prints as before — fail open toward showing, never toward hiding.
+    // Only with a session id (fix round, risk a): every id-less payload maps to the same
+    // `turns/unknown.json`, so a record kept there would let one caller's note hide
+    // another's. No id, no record — the note prints every time, the safe direction.
     const system = triggers.isSystemTurn(prompt);
     const turnstate = require(path.join(__dirname, '..', 'lib', 'turnstate.js'));
+    const sessionId = typeof data.session_id === 'string' ? data.session_id.trim() : '';
     let noted = [];
-    if (!system) {
+    if (!system && sessionId) {
       try {
         const n = turnstate.read(os.homedir(), data.session_id).noted;
         if (Array.isArray(n)) noted = n;
@@ -76,10 +80,12 @@ process.stdin.on('end', () => {
     const out = triggers.render(prompt, { external, noted });
     if (out) {
       process.stdout.write(out + '\n');
-      try {
-        turnstate.write(os.homedir(), data.session_id,
-          { noted: Array.from(new Set(noted.concat(routes))) });
-      } catch (e) { /* unrecorded means shown again, the safe direction */ }
+      if (sessionId) {
+        try {
+          turnstate.write(os.homedir(), data.session_id,
+            { noted: Array.from(new Set(noted.concat(routes))) });
+        } catch (e) { /* unrecorded means shown again, the safe direction */ }
+      }
     }
   } catch (e) {
     // Silence, deliberately. The alternative is a stack trace injected into the

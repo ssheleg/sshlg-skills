@@ -309,6 +309,30 @@ it('the injectors line prints once per set and again only when the set changes (
   }
 });
 
+// Risk f, decided: the injectors record is MACHINE-WIDE, not per session. The line says
+// which plugins are enabled on this machine — a fact about the machine, not about a
+// context — so a second session (any id) with the same set is told nothing new. `noted`
+// is per session because a route note is about one context. Both are stated in the hook's
+// docstring and the README hooks table.
+it('the injectors record is machine-wide: a different session with the same set is not told again (risk f)', () => {
+  const saved = fs.existsSync(SETTINGS) ? fs.readFileSync(SETTINGS, 'utf8') : null;
+  const state = path.join(HOME, '.sshlg-skills', 'state.json');
+  const savedState = fs.existsSync(state) ? fs.readFileSync(state, 'utf8') : null;
+  try {
+    write(path.join(HOME, '.claude', 'plugins', 'cache', 'mk', 'gamma', '1.0.0', 'hooks', 'hooks.json'),
+      JSON.stringify({ hooks: { SessionStart: [] } }));
+    write(SETTINGS, JSON.stringify({ enabledPlugins: { 'gamma@mk': true } }));
+    fs.rmSync(state, { force: true });
+    const start = (id) => runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'startup', session_id: id })
+      .hookSpecificOutput.additionalContext;
+    assert.match(start('session-one'), /Also speaking at SessionStart: gamma/);
+    assert.ok(!/Also speaking/.test(start('session-two')), 'a second session was told the same set again');
+  } finally {
+    if (saved === null) fs.rmSync(SETTINGS, { force: true }); else fs.writeFileSync(SETTINGS, saved);
+    if (savedState === null) fs.rmSync(state, { force: true }); else fs.writeFileSync(state, savedState);
+  }
+});
+
 it('the ledger moving produces one line, and a deleted ledger produces none', () => {
   const project = fs.mkdtempSync(path.join(os.tmpdir(), 'proj-'));
   const ledger = path.join(project, '.task-pipeline', 'run.md');
@@ -409,7 +433,8 @@ const FOREIGN_HOOK_E2E = { matcher: 'startup', hooks: [{ type: 'command', comman
 // what is under test is the wiring step and the file it writes, not the skills CLI.
 
 function updateEnv() {
-  const stubs = fs.mkdtempSync(path.join(os.tmpdir(), 'update-stubs-'));
+  // inside HOME, so the suite's own cleanup removes it
+  const stubs = fs.mkdtempSync(path.join(HOME, 'update-stubs-'));
   for (const name of ['git', 'npx', 'npm', 'claude']) {
     write(path.join(stubs, name), '#!/bin/sh\nexit 0\n');
     fs.chmodSync(path.join(stubs, name), 0o755);
@@ -459,6 +484,103 @@ it('`update` with no entry of ours in settings.json writes nothing (no consent) 
   const r = update(env);
   assert.strictEqual(fs.readFileSync(SETTINGS, 'utf8'), body, 'update wrote hooks into a machine that never consented');
   assert.ok(!/Hook wiring/.test(r.out), 'update announced wiring work it did not do');
+});
+
+// --- the fix round: scope, preview, operator fields, removals, foreign status line ---
+
+/** A consented machine whose PreToolUse matcher is the 1.55.0 one. Returns the parsed file. */
+function staleInstall() {
+  write(SETTINGS, JSON.stringify({ env: { KEEP: '1' } }, null, 2) + '\n');
+  cli(['hooks', 'install']);
+  const s = JSON.parse(fs.readFileSync(SETTINGS, 'utf8'));
+  s.hooks.PreToolUse[0].matcher = 'Edit|Write|MultiEdit|NotebookEdit|Bash';
+  return s;
+}
+function saveSettings(s) { fs.writeFileSync(SETTINGS, JSON.stringify(s, null, 2) + '\n'); }
+function readSettings() { return JSON.parse(fs.readFileSync(SETTINGS, 'utf8')); }
+function updateWith(env, args) {
+  const r = spawnSync('node', [path.join(ROOT, 'bin', 'sshlg-skills.js'), 'update'].concat(args),
+    { encoding: 'utf8', env });
+  return { out: `${r.stdout}${r.stderr}`, status: r.status };
+}
+const FULL_MATCHER = require('../lib/hooks.js').entries('/x').PreToolUse.matcher;
+
+it('`update --no-claude` and `update --agent codex` leave settings.json alone and say so (#2)', () => {
+  const env = updateEnv();
+  saveSettings(staleInstall());
+  const before = sha(SETTINGS);
+  for (const [args, flag] of [[['--no-claude'], '--no-claude'], [['--agent', 'codex'], '--agent codex']]) {
+    const r = updateWith(env, args);
+    assert.strictEqual(sha(SETTINGS), before, `\`update ${flag}\` rewrote ~/.claude/settings.json`);
+    assert.ok(new RegExp(`Hook wiring[\\s\\S]*skipped: ${flag}`).test(r.out),
+      `\`update ${flag}\` did not say the wiring was skipped:\n${r.out.slice(-500)}`);
+  }
+  // the control: the same machine, unscoped, IS re-wired — so the two above prove scope
+  const r = updateWith(env, []);
+  assert.ok(/PreToolUse: matcher/.test(r.out), 'the control did not re-wire — the fixture proves nothing');
+});
+
+it('`update --dry-run` names the settings.json write and the stale field, and writes nothing (#3)', () => {
+  const env = updateEnv();
+  saveSettings(staleInstall());
+  const before = sha(SETTINGS);
+  const r = updateWith(env, ['--dry-run']);
+  assert.strictEqual(sha(SETTINGS), before, 'a preview wrote settings.json');
+  assert.ok(r.out.includes(SETTINGS), `the receipt does not name settings.json:\n${r.out.slice(-800)}`);
+  assert.ok(/hooks-wiring/.test(r.out), 'the receipt has no hooks-wiring step');
+  assert.ok(/PreToolUse: matcher/.test(r.out), 'the receipt does not say which field is stale');
+  const scoped = updateWith(env, ['--dry-run', '--no-claude']);
+  assert.ok(/hooks-wiring[\s\S]*out of scope/.test(scoped.out), 'a scoped preview does not say the wiring is out of scope');
+});
+
+it('fields the operator added to our entries survive `update`, and the reasons are true (#7)', () => {
+  const env = updateEnv();
+  const s = staleInstall();
+  s.hooks.UserPromptSubmit[0].hooks[0].timeout = 5;
+  s.statusLine.padding = 0;
+  saveSettings(s);
+  const r = updateWith(env, []);
+  const after = readSettings();
+  assert.strictEqual(after.hooks.UserPromptSubmit[0].hooks[0].timeout, 5, 'the operator\'s timeout was dropped');
+  assert.strictEqual(after.statusLine.padding, 0, 'the operator\'s padding was dropped');
+  assert.strictEqual(after.hooks.PreToolUse[0].matcher, FULL_MATCHER.replace('/x', ''), 'the stale matcher was not fixed');
+  assert.ok(/PreToolUse: matcher/.test(r.out), r.out.slice(-500));
+  assert.ok(!/UserPromptSubmit: /.test(r.out) && !/statusLine: /.test(r.out),
+    `an entry whose matcher and command are current was reported as changed:\n${r.out.slice(-500)}`);
+  const again = sha(SETTINGS);
+  updateWith(env, []);
+  assert.strictEqual(sha(SETTINGS), again, 'the second update changed the file');
+});
+
+it('entries the operator removed by hand stay removed across three updates (risk c)', () => {
+  const env = updateEnv();
+  const s = staleInstall();
+  delete s.statusLine;
+  delete s.hooks.Notification;
+  saveSettings(s);
+  const hashes = [];
+  for (let i = 0; i < 3; i += 1) {
+    updateWith(env, []);
+    const now = readSettings();
+    assert.ok(!('statusLine' in now), `run ${i + 1} put back a status line the operator removed`);
+    assert.ok(!('Notification' in now.hooks), `run ${i + 1} put back a Notification hook the operator removed`);
+    assert.strictEqual(now.hooks.PreToolUse[0].matcher, FULL_MATCHER.replace('/x', ''));
+    hashes.push(sha(SETTINGS));
+  }
+  assert.strictEqual(hashes[1], hashes[0]);
+  assert.strictEqual(hashes[2], hashes[0]);
+});
+
+it('a foreign status line blocks nothing and is left byte-identical (risk d)', () => {
+  const env = updateEnv();
+  const s = staleInstall();
+  s.statusLine = { type: 'command', command: 'other-tool statusline', padding: 2 };
+  saveSettings(s);
+  const r = updateWith(env, []);
+  const after = readSettings();
+  assert.deepStrictEqual(after.statusLine, s.statusLine, 'the foreign status line was touched');
+  assert.strictEqual(after.hooks.PreToolUse[0].matcher, FULL_MATCHER.replace('/x', ''),
+    `a status line the update never writes blocked the matcher fix:\n${r.out.slice(-500)}`);
 });
 
 // --- the set-update notice, as a process ------------------------------------
@@ -746,7 +868,13 @@ it('a new route on turn two prints only the new route (R01)', () => {
   const bullets = (t) => t.split('\n').filter((l) => l.startsWith('- this '));
   const seen = bullets(first);
   assert.ok(seen.length >= 1);
-  for (const l of bullets(out)) assert.ok(!seen.includes(l), `already-noted route printed again: ${l}`);
+  // the delivery line is the one exception (fix round #9): a fresh facet on a writing
+  // prompt brings it back beside itself
+  const delivery = `- this ${require('../lib/triggers.js').routeLines()['task-pipeline']}.`;
+  for (const l of bullets(out)) {
+    if (l === delivery) continue;
+    assert.ok(!seen.includes(l), `already-noted route printed again: ${l}`);
+  }
 });
 
 it('compact and clear reset the noted routes; startup and resume keep them (R01)', () => {
@@ -785,6 +913,31 @@ it('a system turn neither prints nor records a note (R01)', () => {
   const f = turnsFile(session);
   const noted = fs.existsSync(f) ? (JSON.parse(fs.readFileSync(f, 'utf8')).noted || []) : [];
   assert.deepStrictEqual(noted, [], 'a system turn recorded a note');
+});
+
+it('a facet on turn two names task-pipeline beside it although delivery was noted (#9)', () => {
+  const T = require('../lib/triggers.js');
+  const lineOf = T.routeLines();
+  const session = 'e2e-pair';
+  const a = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p1', prompt: 'исправь баг' });
+  assert.ok(a.includes(lineOf['task-pipeline']), 'the control turn did not name delivery');
+  const b = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p2', prompt: 'сделай редизайн лендинга' });
+  assert.ok(b.includes(lineOf['sheleg-design']), `the facet is missing:\n${b}`);
+  assert.ok(b.includes(lineOf['task-pipeline']), `the facet came without its delivery line:\n${b}`);
+});
+
+it('payloads with no session id do not share a record: two plain runs both print (risk a)', () => {
+  const plain = () => {
+    const r = spawnSync('node', [path.join(ROOT, 'hooks', 'user-prompt-submit.js')],
+      { input: 'сделай фичу экспорта в csv', encoding: 'utf8', env: ENV });
+    assert.strictEqual(r.status, 0);
+    return (r.stdout || '').trim();
+  };
+  const idless = () => runHookText('user-prompt-submit.js', { prompt: 'сделай фичу экспорта в csv' });
+  for (const run of [plain, idless]) {
+    assert.ok(run().includes('[sshlg-routing]'), 'the first id-less run printed nothing');
+    assert.ok(run().includes('[sshlg-routing]'), 'a second id-less caller was hidden by the first one\'s record');
+  }
 });
 
 it('a refusal phrase silences the session, not merely the turn', () => {

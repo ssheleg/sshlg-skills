@@ -151,6 +151,29 @@ it('no remedy hardcodes the Observatory path, and every use_secret.py is runtime
   assert.strictEqual(S.USE_SECRET, '"$(project-observatory full-path)/tools/use_secret.py"');
 });
 
+// Fix round, risk h: `$(project-observatory full-path)` expands to NOTHING when the engine is
+// not on PATH, so the remedy as printed runs `/tools/use_secret.py` — a path at the root
+// of the disk — and fails with "No such file". A remedy whose own command fails that way
+// must say what to do then, in the same text, because that is when it is read.
+it('a remedy naming use_secret.py says what to do when project-observatory is not on PATH', () => {
+  const { spawnSync } = require('child_process');
+  // the failure mode the sentence describes, measured rather than asserted
+  const r = spawnSync('/bin/sh', ['-c', `echo ${S.USE_SECRET}`],
+    { encoding: 'utf8', env: { PATH: '/usr/bin:/bin' } });
+  assert.strictEqual(r.stdout.trim(), '/tools/use_secret.py',
+    `the resolver did not expand to the root path without the engine: ${JSON.stringify(r.stdout)}`);
+  const stdinProgram = ['cat x', "python3 - <<'PY'\nprint(1)\nPY"].join(' | ');
+  const texts = [S.inspect(stdinProgram).why];
+  for (const [, cmd] of DENIED) { const d = S.inspect(cmd); if (d) texts.push(d.why); }
+  const naming = texts.filter((t) => t.includes('use_secret.py'));
+  assert.ok(naming.length >= 1, 'no remedy names use_secret.py — the fixture proves nothing');
+  for (const t of naming) {
+    assert.ok(/not on PATH/.test(t) && /root of the disk/.test(t),
+      `a remedy names use_secret.py and not what to do without the engine on PATH:\n${t}`);
+    assert.ok(t.includes(S.NOT_ON_PATH), 'the not-on-PATH sentence is not the shared constant');
+  }
+});
+
 if (failures.length) {
   console.error(`secrets_test: ${failures.length}/${checks} failed`);
   for (const f of failures) console.error('  - ' + f);
