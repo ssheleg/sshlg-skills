@@ -54,8 +54,12 @@ function routeGate(data, home) {
     const routegate = require(path.join(LIB, 'routegate.js'));
     if (!routegate.TOOLS.includes(data.tool_name)) return process.exit(0);
 
+    // No session id, no turn record (fix round 2, H): `turns/unknown.json` would be every
+    // id-less caller's record at once, so one caller's prompt would escalate another's Edit.
+    const sessionId = typeof data.session_id === 'string' ? data.session_id.trim() : '';
+    if (!sessionId) return process.exit(0);
     const turnstate = require(path.join(LIB, 'turnstate.js'));
-    const state = turnstate.read(home, data.session_id);
+    const state = turnstate.read(home, sessionId);
 
     const cwd = data.cwd || process.env.CLAUDE_PROJECT_DIR || process.cwd();
     // The hook only GATHERS receipts; what covers what is routegate's judgement.

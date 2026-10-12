@@ -152,8 +152,10 @@ process.stdin.on('end', () => {
     } catch (e) { /* a queue that cannot be read is not a broken session */ }
 
     // After `clear` or `compact` the context that held this session's earlier routing
-    // notes is gone, so the record of what was noted goes with it (R01). startup,
-    // resume and fork keep it: the same session id, and its context still has them.
+    // notes is gone, so the record of what was noted goes with it (R01). startup and
+    // resume keep it: the same session id, and its context still has them. A fork has a
+    // NEW session id (`--fork-session`), so it starts with no record and its notes print
+    // again (fix round 2, D) — nothing to reset here.
     if ((data.source === 'clear' || data.source === 'compact') && data.session_id) {
       try {
         require(path.join(LIB, 'turnstate.js')).write(home, data.session_id, { noted: [] });

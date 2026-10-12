@@ -52,9 +52,11 @@ process.stdin.on('end', () => {
     //
     // `noted` (R01): routes this session already printed. An unreadable record means
     // none, which prints as before — fail open toward showing, never toward hiding.
-    // Only with a session id (fix round, risk a): every id-less payload maps to the same
-    // `turns/unknown.json`, so a record kept there would let one caller's note hide
-    // another's. No id, no record — the note prints every time, the safe direction.
+    // Only with a session id (fix round, risk a; fix round 2, H): every id-less payload maps
+    // to the same `turns/unknown.json`, so ANY record kept there — `noted`, the routes, `asked`
+    // or the sticky `optedOut` — would let one caller's prompt arm, hide or silence another's.
+    // No id, no record at all: the note prints every time (the safe direction), and the
+    // PreToolUse escalation, which needs the record, does not fire for an id-less caller.
     const system = triggers.isSystemTurn(prompt);
     const turnstate = require(path.join(__dirname, '..', 'lib', 'turnstate.js'));
     const sessionId = typeof data.session_id === 'string' ? data.session_id.trim() : '';
@@ -66,7 +68,7 @@ process.stdin.on('end', () => {
       } catch (e) { noted = []; }
     }
     const routes = system ? [] : triggers.match(prompt, { external });
-    if (!system) {
+    if (!system && sessionId) {
       try {
         turnstate.write(os.homedir(), data.session_id, {
           promptId: data.prompt_id || null,

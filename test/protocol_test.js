@@ -141,6 +141,47 @@ it('what it says about later notes matches the once-per-context hook (R01)', () 
   assert.strictEqual(T.render(p, { noted: T.match(p) }), '');
 });
 
+// Fix round 2, C. The refusal sentence said a phrase "quiets that route's permission-prompt
+// escalation" and "does not silence notes". The hooks do otherwise: `match()` returns nothing
+// for a prompt carrying ANY refusal phrase (so that prompt prints no note, for any route), and
+// `optedOut` is sticky in the session's turn record, where `routegate.decide` returns silence
+// for every route. The same block is written into Codex, Gemini and Cursor files, where no
+// prompt hook runs, so the sentence says whose behaviour it describes.
+it('what it says a refusal phrase does is what the hooks do (C)', () => {
+  const body = write(EMPTY).match(/PROTOCOL:BEGIN -->([\s\S]*?)<!-- SSHLG:ROUTERS:PROTOCOL:END/)[1];
+  const flat = body.replace(/\s+/g, ' ');
+  const at = flat.indexOf('refusal phrase');
+  assert.ok(at !== -1, 'the refusal sentence is gone');
+  const sentence = flat.slice(Math.max(0, at - 40), at + 260);
+  assert.ok(!/that route's permission-prompt escalation/.test(sentence) && !/does not silence notes/.test(sentence),
+    `the sentence still says a refusal quiets only its own route and leaves notes alone: ${sentence}`);
+  assert.ok(/In Claude Code/.test(sentence), `the sentence does not say whose behaviour it describes: ${sentence}`);
+  assert.ok(/any refusal phrase/.test(sentence), sentence);
+  assert.ok(/that prompt's notes/.test(sentence), sentence);
+  assert.ok(/every route/.test(sentence) && /rest of the session/.test(sentence), sentence);
+
+  const T = require('../lib/triggers.js');
+  const G = require('../lib/routegate.js');
+  const TS = require('../lib/turnstate.js');
+  // any refusal phrase drops the whole prompt's notes — a route it does not name included
+  const p = 'сделай редизайн лендинга';
+  assert.ok(T.match(p).includes('sheleg-design'), 'the control prompt routes nowhere — the fixture proves nothing');
+  const refused = `${p}, без пайплайна`;
+  assert.strictEqual(T.optedOut(refused), true);
+  assert.deepStrictEqual(T.match(refused), []);
+  assert.strictEqual(T.render(refused, { noted: [] }), '', 'a refusal of one route left another route\'s note');
+  // … and quiets escalation for every route, for the rest of the session (sticky)
+  const home = require('fs').mkdtempSync(require('path').join(require('os').tmpdir(), 'protocol-c-'));
+  TS.write(home, 's', { optedOut: true, routes: [] });
+  const later = TS.write(home, 's', { promptId: 'p9', routes: ['sheleg-design', 'task-pipeline'], optedOut: false, asked: false });
+  assert.strictEqual(later.optedOut, true, 'a later turn un-declined the session');
+  const edit = { tool_name: 'Edit', prompt_id: 'p9', tool_input: { file_path: 'a.js' } };
+  assert.strictEqual(G.decide(edit, later, { receipts: [] }), null, 'a later route was still escalated');
+  assert.ok(G.decide(edit, Object.assign({}, later, { optedOut: false }), { receipts: [] }),
+    'the control (no refusal) did not escalate');
+  require('fs').rmSync(home, { recursive: true, force: true });
+});
+
 it('the star ask is bounded, addressed, and conditional on the family doing work', () => {
   // All three clauses were paid for by one session. The ask fired while the operator was
   // killing stray Chrome processes — no family skill had run at all — it named no

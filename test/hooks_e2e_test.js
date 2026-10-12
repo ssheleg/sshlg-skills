@@ -950,6 +950,21 @@ it('compact and clear reset the noted routes; startup and resume keep them (R01)
   }
 });
 
+// Fix round 2, D. The CHANGELOG said `fork` keeps the record like `startup` and `resume`.
+// A fork is a NEW session id (`claude --help`: "--fork-session … create a new session ID"),
+// and `noted` is keyed by session id, so the forked session prints its notes again.
+it('a fork is a new session id, so its notes print again (D)', () => {
+  const parent = 'e2e-fork-parent';
+  const child = 'e2e-fork-child';
+  const prompt = 'сделай фичу экспорта в csv';
+  assert.ok(runHookText('user-prompt-submit.js', { session_id: parent, prompt_id: 'p1', prompt }).includes('[sshlg-routing]'));
+  assert.strictEqual(runHookText('user-prompt-submit.js', { session_id: parent, prompt_id: 'p2', prompt }), '',
+    'the control: the parent session does not repeat its note');
+  runHook('session-start.js', { hook_event_name: 'SessionStart', source: 'fork', session_id: child });
+  const forked = runHookText('user-prompt-submit.js', { session_id: child, prompt_id: 'p3', prompt });
+  assert.ok(forked.includes('[sshlg-routing]'), 'the forked session (a new id) was told nothing');
+});
+
 it('an unreadable turnstate still prints the note (R01)', () => {
   const session = 'e2e-once-bad';
   write(turnsFile(session), '{not json');
@@ -991,6 +1006,30 @@ it('payloads with no session id do not share a record: two plain runs both print
     assert.ok(run().includes('[sshlg-routing]'), 'the first id-less run printed nothing');
     assert.ok(run().includes('[sshlg-routing]'), 'a second id-less caller was hidden by the first one\'s record');
   }
+});
+
+// Fix round 2, H. Risk a stopped id-less payloads sharing `noted`, but the routes, `asked`
+// and the STICKY `optedOut` still went to `turns/unknown.json`: one id-less caller's prompt
+// armed an escalation on another's Edit, and one «без пайплайна» silenced every id-less caller
+// for good. No session id now means no turn record at all — written or read.
+it('an id-less prompt leaves no turn record: it arms nothing and silences nothing (H)', () => {
+  const unknown = turnsFile('unknown');
+  try { fs.unlinkSync(unknown); } catch (e) { /* none yet */ }
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'route-'));
+  const edit = () => runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'src.js') }, cwd: dir,
+  });
+  runHookText('user-prompt-submit.js', { prompt: 'сделай фичу экспорта в csv' });
+  assert.strictEqual(edit(), null, 'an id-less caller\'s Edit was escalated on another id-less caller\'s prompt');
+  runHookText('user-prompt-submit.js', { prompt: 'сделай фичу, без пайплайна' });
+  assert.ok(!fs.existsSync(unknown), `an id-less payload wrote a shared turn record: ${unknown}`);
+  // the refusal reached no shared record, so a caller WITH a session is unaffected (control)
+  runHookText('user-prompt-submit.js', { session_id: 'e2e-h', prompt_id: 'p1', prompt: 'сделай фичу экспорта в csv' });
+  const asked = runHook('pre-tool-use.js', {
+    hook_event_name: 'PreToolUse', session_id: 'e2e-h', prompt_id: 'p1',
+    tool_name: 'Edit', tool_input: { file_path: path.join(dir, 'src.js') }, cwd: dir,
+  });
+  assert.strictEqual(asked && asked.hookSpecificOutput.permissionDecision, 'ask', 'the control did not escalate');
 });
 
 it('a refusal phrase silences the session, not merely the turn', () => {
