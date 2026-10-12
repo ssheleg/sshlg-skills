@@ -6,74 +6,29 @@ Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 [standing retrospective instructions](evidence/retro.md) and the
 [repository handoff rule](working-rules/repository-handoff.md) before editing.
 
-## In flight — integration waves (2026-10-11, lease `WAVES-1011`)
+## Closed — integration waves (2026-10-11/12, lease `WAVES-1011`)
 
-`/task-pipeline waves` over the whole board, with the operator's emphasis on
-optimization and the family working with Fabric, Observatory and every coding agent.
-[Brief + REQ table](evidence/briefs/2026-10-11-integration-waves.md) ·
-[canvas](evidence/specs/2026-10-11-integration-waves-canvas.md) ·
-[plan + task packets](evidence/plans/2026-10-11-integration-waves.md) ·
-[inventory](evidence/specs/2026-10-11-integration-waves-inventory.json) (238 items:
-81 in waves 1–5, 3 operator, 154 program — counted from the committed JSON's `wave` field;
-regenerate with `python3 docs/evidence/specs/2026-10-11-integration-waves-assign.py`).
-Branch `waves/2026-10-11-integration`. New hub rows B-155…B-163.
+`/task-pipeline waves` over the whole board, with the operator's emphasis on optimisation
+and on the family working with Fabric, Observatory and every coding agent.
+**Read first:** [acceptance and REQ coverage](evidence/acceptance/2026-10-11-integration-waves.md)
+· [brief + REQ table](evidence/briefs/2026-10-11-integration-waves.md)
+· [plan](evidence/plans/2026-10-11-integration-waves.md)
+· [compatibility cut](reports/2026-10-12-coding-agent-compatibility/README.md)
+· retro stamp "2026-10-11/12 — integration waves".
 
-**Waves 2–4 released and pinned in 1.57.0 (branch `w5/hub-close`).** Each member PR passed
-three blind readings (unit, seam, product) before merge; remaining risks are on each member's
-board. task-pipeline **1.93.2** (#109 → `8260042`; v1.93.0/v1.93.1 refused by its own release
-gates, #110, #111), agent-sync **1.22.0** (#32 → `517b4b6`), agent-stack **0.27.0** (#44 →
-`96ed0f8`), make-skill **0.31.0** (#33 → `5556e88`). Wave 5 hub part (R30 board plant, R32
-description total, R37 Pi host) is in the 1.57.0 CHANGELOG.
+Shipped: hub 1.56.0 → 1.59.0; task-pipeline 1.93.3, agent-sync 1.22.1, agent-stack 0.27.1,
+make-skill 0.31.1. Not every member PR passed three readings before its first merge: fix
+commits made after a passing reading were merged unread in four repositories; an independent
+observer caught it, each was re-read, and every finding was fixed in the patch releases above.
 
-**Next, in order:** release 1.57.0 and install it here (`routers --dry-run` first — it previews
-`~/.pi/agent/AGENTS.md`); the compatibility cut per host (R31; Gemini after the operator signs
-in to `gemini` 0.63.0); W4-C model evals for `skill-search` and the paired routing arms (B-147,
-B-144); graph refresh (B-161); asks to Observatory and Fabric (R34); stage 9–10 close-out and the
-observer's verdict.
+**Exact next task:** W4-C — run the `skill-search` trigger evals (make-skill
+`test/evals/skill-search/triggers.json`) and the paired routing arms (`test/evals/README.md`)
+on a model once the Sonnet weekly limit resets (2026-10-16); record run ids, arms, n and cost;
+decide B-144 and B-147. Then the open rows by priority (B-171/B-172 guard coverage first).
 
-**Wave 1 (hub skeleton, R01–R06) is built and has had two fix rounds on PR #192** (branch
-`w1/hub-skeleton`): W1-A…W1-F delivered; the first round's twelve findings and thirteen risks,
-and the second blind reading's six breaks and seven risks (A–M), are mapped to commits and tests
-in the [wave-1 receipt](evidence/runs/2026-10-12-wave1.md), sections *Fix round* and
-*Fix round 2*. A third blind reading passed all three tiers at `244d67a`; the remaining risks
-were closed without another review round in the receipt's *Final polish* section (nine items:
-the lock refusal exits 75, the store lock never spins, `config.json` merges under its lock, a
-stale parked displacement is cleared, one session-id key, `hooks remove` keeps foreign hooks,
-the `hooks install` caveat, the documents, and `--agent` skipping the Claude plugin step).
-
-**Wave 1 delivered (2026-10-12).** Certified by three blind readings after two fix rounds and
-a final polish (receipt `evidence/runs/2026-10-12-wave1.md`), merged as #192, released as
-**1.56.0** (#193; tag `v1.56.0`, release run 38215090806: validate, release, publish success;
-npm `latest` = 1.56.0). Installed here with `npx sshlg-skills@latest update`: 83 of 83 steps
-green; `Hook wiring: PreToolUse: matcher — re-wired`; `routers --dry-run` unchanged in all four
-instruction files; `hooks: всё на месте и совпадает` — B-157 closed on this machine. B-163 closed
-by Fabric Dashboards `be8b2cf` (exit 75 is busy).
-
-**Wave 5, hub part (branch `w5/hub-close`, 2026-10-12; developer agent, lease `WAVES-1011`).**
-R30: the board guard was watched refusing a planted pipe-shifted row in `skills/make-skill`'s board
-(`test/family_plants_test.py`); B-108/B-109 now state what the hub proves and which member repositories
-still owe an own-gate check; the hub reads 8 boards of 11 (`telegram-dev`, `xr-dev`, `web3d-dev` have none).
-R32: `check_the_family_description_total_only_falls` with the floor in `docs/DOCMAP.md`
-(`description-total`: 32635 before the re-pins, 32501 at the 1.57.0 pins; a fall prints the figure to record). R37: Pi is a host —
-`lib/pi.js`, `hosts` command, `~/.pi/agent/AGENTS.md` through `lib/apply.js` `TARGETS` and the write guard;
-`test/pi_test.js`. B-146 install half recorded, B-164 filed. The submodule pins, `skills.json`, the README member
-table and the lowered `description-total` (32501) followed in the same branch (`796ed2a`). Not done
-yet: the real install against the operator's HOME (run `npx sshlg-skills routers --dry-run` first: it
-will now preview `~/.pi/agent/AGENTS.md`).
-
-**Exact next bounded tasks (orchestrator):**
-1. Superseded by "Next, in order" above (waves 2–4 released and pinned; B-160 closed).
-
-**W1-G (plugins scoped, operator decision 2026-10-12):** `figma`, `stripe` and `cloudflare` are
-off at user scope and on in these repositories' git-ignored `.claude/settings.local.json` —
-figma: longevity-app, nicegram-business, ai-girlfriend-app, sshlg-skills, fabric,
-mobile-publisher-agent, heygen-hyperframes-vr; stripe: screen-record-studio; cloudflare:
-fabric-inbox, screen-record-studio, nicegram-business, project-observatory,
-nicegram-ad-manager-bot, sshlg-analytics, sms-activate-app-website. To enable one elsewhere,
-merge `"enabledPlugins": {"figma@claude-plugins-official": true}` (or
-`stripe@claude-plugins-official`, `cloudflare@cloudflare`) into that repository's
-`.claude/settings.local.json` and read the file back — `claude plugin enable --scope local`
-reports success and writes nothing (B-162).
+**Waiting on the operator:** Gemini sign-in (B-146); AS-14 drop or keep; whether the
+R18 age sweep (`reap --long-expired`) is acceptable; the Notion tokens into the vault (R20);
+B-143 pack-triage marks; who owns the `SSHLG:REPOSITORY-HANDOFF` block (B-174).
 
 ## B-166 — Codex native plugins through Codex's CLI (2026-10-12, branch `fix/codex-native-refresh`)
 
