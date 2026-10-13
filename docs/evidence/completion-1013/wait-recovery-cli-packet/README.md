@@ -2,7 +2,8 @@
 
 # MB02c: inspect and finalize wait-rule recovery metadata
 
-Status: bounded implementation authorized by parent on 2026-10-13; source base
+Status: implementation delivered for independent review; see [current evidence](implementation.md).
+Bounded implementation authorized by parent on 2026-10-13; source base
 `8bb7f643d3cab3a05c8d14d00e58c4b977521ce7`, with peer-only successor `bca1015`.
 Source and synthetic acceptance are separate from release, installation and native behavior.
 
@@ -72,8 +73,8 @@ Scenario/copy routes use the existing maintainer persona and technical settings 
 4. Independent parent peer before integration; owner aggregate, release and installed
    readback are later gates. Current 1.63 publication is independent of this next wave.
 
-Exact next task: draft SCN-010, create meaningful CLI controls, observe baseline failures,
-then implement C01–C09. Lock retirement admission, actual host restore and other owner
+Exact next task: independent parent review of C01–C09 against [implementation evidence](implementation.md),
+then a separately scheduled aggregate. Lock retirement admission, actual host restore and other owner
 adapters remain separate packets. A successful metadata result cannot close them.
 
 ---
