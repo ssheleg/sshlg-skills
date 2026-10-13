@@ -91,3 +91,11 @@ usage, never inferred from a shorter description or this corpus count.
 Skills used: agent-evals (corpus/rubric separation), agent-harness (selection scope),
 make-skill (skill contract boundaries), task-pipeline (delivery), agent-sync (task
 lease), evidence-docs (commit-addressed source map).
+
+## Independent label review
+
+The coordinator independently replayed the 116-case/39-source checks and five
+corruption controls and reviewed the label sets. One ambiguity was narrowed:
+`ambiguous-ux-redesign` now explicitly fixes personas/stories and asks about
+navigation/screen states, so a foundation rewrite is outside that prompt.
+The accepted flow/audit alternatives are retained. No comparison has run yet.
