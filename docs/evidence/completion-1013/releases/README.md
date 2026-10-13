@@ -28,6 +28,26 @@ The existing [verify_registry.py](../../host-compat/releases/verify_registry.py)
 | `@ssheleg/sheleg-dev` | `0.13.4` | 68 | [PASS 38340972121](https://github.com/ssheleg/sheleg-dev/actions/runs/38340972121) | [sheleg-dev-0.13.4.json](sheleg-dev-0.13.4.json) |
 | `super-ux` | `0.59.3` | 33 | [PASS 38341429185](https://github.com/ssheleg/super-ux/actions/runs/38341429185) | [super-ux-0.59.3.json](super-ux-0.59.3.json) |
 
+## Design ledger successor correction — 2026-10-13
+
+The aggregate heading check found no 1.64.2 verification entry after publication.
+The source and packaging reviews missed this propagation; [owner correction
+receipt](https://github.com/ssheleg/sheleg-design-skill/blob/678fe483eea128be0125b033f442934f1ece7c32/docs/evidence/runs/2026-10-13-fw05-ledger-correction.md)
+records the baseline mismatch and its repair without changing the ratchet floor.
+[PR45](https://github.com/ssheleg/sheleg-design-skill/pull/45) merged normally as
+`678fe483eea128be0125b033f442934f1ece7c32` after genuine candidate
+[run 38344065529](https://github.com/ssheleg/sheleg-design-skill/actions/runs/38344065529)
+succeeded at `ce45e1fe17d7b6386b847dfe787d6c18053c61b9`.
+
+Owner structural gate: 6654 checks, exit 0. Independent review by the hub integrator
+read all changed documentation and separately compared all 1238 published files
+with the immutable registry receipt. This receipt's author repeated that comparison
+against the accepted successor using `git show <successor>:<path>`: every byte length
+and SHA-256 agrees. `git diff --name-only 9caedc1… 678fe483…` contains only three
+excluded `docs/` files. The dry-run npm file set was also equal to all 1238 receipt
+paths. The hub may pin this documentation successor while retaining published
+version/tag 1.64.2; no replacement publication or native/runtime claim is implied.
+
 ## Bounds and exact next task
 
 Published artifact equality is not installed-host or model/provider acceptance. This packet did not change the operator's home configuration, install skills, run provider calls or certify rendered output. `runtime_acceptance: NOT_RUN` remains explicit in every artifact receipt. The hub integrator owns reviewed member pins, released hub update, installed payload/readback and native-host observations. Next: cherry-pick this evidence commit with the corresponding accepted release pins, then record installation separately.
