@@ -10,11 +10,12 @@ separate published, installed, native-loaded and still-unmeasured quality.
 Current candidate: branch `waves/2026-10-13-installed`, hub 1.62.2. The
 [B-186 installer fix](evidence/completion-1013/installer-pins.md) and
 [B185 lossless settings fix](evidence/completion-1013/domain-lossless.md) are
-implemented and independently checked; aggregate, release and installed readback
-remain pending. Eight published member updates have exact-source receipts;
-agent-sync release verification and task-pipeline iteration review continue.
+implemented and independently checked; the local aggregate passes115 suites/1755 fixtures/11 members at9ad52cf;
+release and installed readback remain pending. Nine published member updates
+have exact-source receipts, including agent-sync1.22.2. Task-pipeline iteration
+and subsequent agent-stack/SEO owner packets continue separately.
 
-Exact next task: finish the candidate gate, integrate through genuine required
+Exact next task: finish independent candidate review, integrate through genuine required
 checks, publish, then perform the full plain-host update and compare installed
 bytes. Reapply owned domain settings with readback; two incomplete foreign Git
 roots must still preserve global coverage. Continue the contextual
