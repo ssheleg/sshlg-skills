@@ -14,7 +14,9 @@ All verification below uses temporary HOME fixtures; no real host configuration 
   Project `.claude/settings*.json` paths remain relative to the project.
 - Domains reads/writes the selected profile's `settings.json`, reads its plugin registry
   when preserving hook-bearing members, and names the selected file in diagnostics.
-  The post-tool-use shadow reader uses the same profile registry.
+  The post-tool-use shadow reader uses the same profile registry and plain-skill root;
+  a copy in an inactive default profile is not reported as a shadow of an active plugin.
+  Its warning names the selected profile.
 - The domains ownership receipt remains under `~/.sshlg-skills/domains.json` and stores
   `profile`, the canonical absolute settings-file path. Alias paths resolving to the same
   file are accepted. A different profile or a retargeted symlink refuses all mutations,
@@ -34,14 +36,17 @@ symlink-retarget refusal.
 
 Focused commands and final results:
 
-- `node test/domains_profile_test.js`: exit 0, 8 checks.
+- `node test/domains_profile_test.js`: exit 0, 9 checks (including the active-profile shadow-hook seam).
 - `node test/domains_test.js`: exit 0, 34 checks.
 - `node test/domains_e2e_test.js`: exit 0, 46 checks.
 - `node test/hooks_e2e_test.js`: exit 0, 70 checks.
 - `node test/toolkit_test.js`: exit 0, 30 checks.
 - `git diff --check`: exit 0.
 
-188 focused checks passed. The new suite adds 8 checks to the aggregate gate.
+189 focused checks passed. The new suite adds 9 checks to the aggregate gate.
+
+A targeted replay of the final shadow-hook case also passed after checking the warning
+path itself.
 
 The profile tests cover unchanged default bytes, active-profile readback, receipt identity,
 all mutators refusing a changed profile, legacy recovery, aliases and retargeting, hook-bearing

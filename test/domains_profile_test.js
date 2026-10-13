@@ -126,6 +126,24 @@ test('enablement readers share the explicit root while keeping project settings 
   assert.strictEqual(E.effective(m.home, m.project, null, m.activeRoot)['web3d-dev@web3d-dev'], true);
 });
 
+test('post-tool shadow checks use the same active profile as its plugin registry', (m) => {
+  const plug = path.join(m.home, 'custom-web3d');
+  m.write('custom-web3d/skills/web3d-runtime/SKILL.md', '---\nname: web3d-runtime\ndescription: fixture\n---\n');
+  m.json('active profile/plugins/installed_plugins.json', { plugins: { 'web3d-dev@web3d-dev': [{ installPath: plug }] } });
+  m.write('.claude/skills/web3d-runtime/SKILL.md', 'unrelated default profile copy');
+  const ps = m.write('shims/ps', '#!/bin/sh\nexit 0\n'); fs.chmodSync(ps, 0o755);
+  const hook = () => spawnSync(process.execPath, [path.join(ROOT, 'hooks/post-tool-use.js')], {
+    cwd: m.project, env: { ...m.env, PATH: path.dirname(ps) + path.delimiter + m.env.PATH }, encoding: 'utf8',
+    input: JSON.stringify({ cwd: m.project, tool_input: { command: 'npx skills add example/foreign' } }),
+  });
+  assert.strictEqual(hook().stdout, '', 'an inactive default-profile copy was called a shadow');
+  m.write('active profile/skills/web3d-runtime/SKILL.md', 'active profile copy');
+  const result = hook();
+  assert.strictEqual(result.status, 0, result.stderr);
+  assert.match(result.stdout, /web3d-runtime/);
+  assert.ok(result.stdout.includes(m.activeRoot), 'the warning names the wrong profile');
+});
+
 for (const failure of failures) console.log(`FAIL: ${failure}`);
 console.log(`${failures.length ? 'FAIL' : 'OK'} (${checks} checks)`);
 if (failures.length) process.exitCode = 1;
