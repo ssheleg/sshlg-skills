@@ -23,6 +23,53 @@ try {
     assert.strictEqual(fs.statSync(file).mode & 0o777, 0o600);
     assert.strictEqual(fs.statSync(path.dirname(file)).mode & 0o777, 0o700);
   });
+  t('an existing public receipt directory refuses without chmod or new writes', () => {
+    const dir = path.dirname(file); const before = fs.readdirSync(dir);
+    fs.chmodSync(dir, 0o777);
+    try { assert.throws(() => P.save(args), /private|permission/); assert.throws(() => P.read(file), /private|permission/);
+      assert.throws(() => P.immutable(path.join(dir, 'new-observation.json'), {}), /private|permission/);
+      assert.strictEqual(fs.statSync(dir).mode & 0o777, 0o777); assert.deepStrictEqual(fs.readdirSync(dir), before); }
+    finally { fs.chmodSync(dir, 0o700); }
+  });
+  t('an existing public receipt refuses read and replay without chmod or replacement', () => {
+    const before = fs.readFileSync(file); fs.chmodSync(file, 0o644);
+    try { assert.throws(() => P.read(file), /private|permission/); assert.throws(() => P.save(args), /private|permission/);
+      assert.strictEqual(fs.statSync(file).mode & 0o777, 0o644); assert.ok(fs.readFileSync(file).equals(before)); }
+    finally { fs.chmodSync(file, 0o600); }
+  });
+  t('an EEXIST publication race validates private ownership and modes before reuse', () => {
+    const original = fs.linkSync; const f = path.join(root, 'raced.json'); const data = { bounded: true };
+    fs.linkSync = (temp, dest) => { fs.copyFileSync(temp, dest); fs.chmodSync(dest, 0o644);
+      const e = new Error('injected concurrent publish'); e.code = 'EEXIST'; throw e; };
+    try { assert.throws(() => P.immutable(f, data), /private|permission/);
+      assert.strictEqual(fs.statSync(f).mode & 0o777, 0o644); assert.deepStrictEqual(JSON.parse(fs.readFileSync(f)), data); }
+    finally { fs.linkSync = original; }
+    assert.ok(!fs.readdirSync(root).some((x) => x.startsWith('.pending-')));
+  });
+  t('foreign file ownership refuses even with private mode', () => {
+    if (typeof process.getuid !== 'function') return;
+    const original = fs.lstatSync;
+    fs.lstatSync = (p, ...rest) => { const stat = original(p, ...rest); if (p === file) stat.uid += 1; return stat; };
+    try { assert.throws(() => P.read(file), /owner|permission/); assert.throws(() => P.save(args), /owner|permission/); }
+    finally { fs.lstatSync = original; }
+  });
+  t('EEXIST publication refuses a privately permissioned but foreign-owned file', () => {
+    if (typeof process.getuid !== 'function') return;
+    const originalLink = fs.linkSync; const originalStat = fs.lstatSync; const f = path.join(root, 'foreign-race.json');
+    fs.linkSync = (temp, dest) => { fs.copyFileSync(temp, dest); const e = new Error('concurrent publish'); e.code = 'EEXIST'; throw e; };
+    fs.lstatSync = (p, ...rest) => { const stat = originalStat(p, ...rest); if (p === f) stat.uid += 1; return stat; };
+    try { assert.throws(() => P.immutable(f, { bounded: true }), /owner|permission/); }
+    finally { fs.linkSync = originalLink; fs.lstatSync = originalStat; }
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(f)), { bounded: true });
+  });
+  t('readable hub root is retained, but another-writable hub root refuses', () => {
+    const base = path.dirname(path.dirname(file)); fs.chmodSync(base, 0o755);
+    assert.strictEqual(P.save(args), file); assert.strictEqual(fs.statSync(base).mode & 0o777, 0o755);
+    fs.chmodSync(base, 0o777);
+    try { assert.throws(() => P.save(args), /permission/); assert.throws(() => P.read(file), /permission/);
+      assert.strictEqual(fs.statSync(base).mode & 0o777, 0o777); }
+    finally { fs.chmodSync(base, 0o700); }
+  });
   t('three identical admissions preserve bytes and one receipt', () => {
     const before = fs.readFileSync(file);
     for (let i = 0; i < 3; i++) assert.strictEqual(P.save(args), file);
@@ -45,7 +92,7 @@ try {
     assert.deepStrictEqual(fs.readdirSync(foreign), []);
   });
   t('preexisting conflicting receipt remains byte-exact', () => {
-    const f = path.join(root, 'collision'); fs.writeFileSync(f, 'foreign');
+    const f = path.join(root, 'collision'); fs.writeFileSync(f, 'foreign', { mode: 0o600 });
     assert.throws(() => P.immutable(f, {}), /collision/); assert.strictEqual(fs.readFileSync(f, 'utf8'), 'foreign');
   });
   t('publish failure leaves no truncated receipt or temporary residue', () => {
@@ -89,7 +136,7 @@ try {
     assert.strictEqual(P.observe(r, () => { throw new Error('spawned'); }).status, 'profile-changed');
   });
   t('invalid UTF-8 and symlink receipts refuse without rewrite', () => {
-    const f = path.join(root, 'bad.json'); const bad = Buffer.from([0xff]); fs.writeFileSync(f, bad);
+    const f = path.join(root, 'bad.json'); const bad = Buffer.from([0xff]); fs.writeFileSync(f, bad, { mode: 0o600 });
     assert.throws(() => P.read(f), /UTF-8/); assert.ok(fs.readFileSync(f).equals(bad));
     const link = path.join(root, 'link.json'); fs.symlinkSync(file, link); assert.throws(() => P.read(link), /plain file/);
   });
