@@ -1,0 +1,163 @@
+{
+  "schema": "mb02b-source-ledger/1",
+  "consumerSource": "e245e961633d5b43c05d9ee4cd1d340e0cbc9ae2",
+  "backupSource": "27e2ed015affd4a9774a7309d37abda9f13fdc58",
+  "readAt": "2026-10-13",
+  "files": [
+    {
+      "revision": "e245e961633d5b43c05d9ee4cd1d340e0cbc9ae2",
+      "path": "lib/apply.js",
+      "gitBlob": "9418a38d9804554bbc3f8dbf011ecad2244e2ea2",
+      "sha256": "dc72c32184657104e683901972d07fd3c56c22dfccc3e3d57037b1b62a2317c4"
+    },
+    {
+      "revision": "e245e961633d5b43c05d9ee4cd1d340e0cbc9ae2",
+      "path": "lib/wait-rules.js",
+      "gitBlob": "c004cfa1f8a9a07fde5f49f13871d0ffc944d6d3",
+      "sha256": "a758eec926e542d595d6bebabf36a8f6be2d8f708b3b2b14415ab17da805ab79"
+    },
+    {
+      "revision": "e245e961633d5b43c05d9ee4cd1d340e0cbc9ae2",
+      "path": "lib/wait-rule-policy.js",
+      "gitBlob": "1c7fb007b3a136d3d84146d422c4840b8ea0b812",
+      "sha256": "d213b44b018a0d5b1f7c9896ae4931fde26c1bf37ebc99ef2f24af5f885235eb"
+    },
+    {
+      "revision": "e245e961633d5b43c05d9ee4cd1d340e0cbc9ae2",
+      "path": "lib/visibility-state.js",
+      "gitBlob": "d4d584a5a7056cafa2b3955b9c1cee4addc85740",
+      "sha256": "3467138e86391ade3dc8fcb86d7513daf4db28e623f56b2e18452d0acd8489ad"
+    },
+    {
+      "revision": "e245e961633d5b43c05d9ee4cd1d340e0cbc9ae2",
+      "path": "lib/claude-pin-transaction.js",
+      "gitBlob": "a9db7c659eee3243e55ef5ebff249d71ceb1def3",
+      "sha256": "5f7c885cf58a9da33ac889de483d69173cae06989cfc9521252e3d998b24dca8"
+    },
+    {
+      "revision": "e245e961633d5b43c05d9ee4cd1d340e0cbc9ae2",
+      "path": "hooks/pre-tool-use.js",
+      "gitBlob": "a324ff3af8b9827a4daf92dfa139f5be690a7055",
+      "sha256": "9d6a92e438ca34224cb8d431e8e85e2cf5251a1f519686dfb273a08a2010b0ed"
+    },
+    {
+      "revision": "e245e961633d5b43c05d9ee4cd1d340e0cbc9ae2",
+      "path": "hooks/post-tool-use.js",
+      "gitBlob": "a7a164b6f37b35a471e5049d3b8d2c392c5af90d",
+      "sha256": "78bfff647f2c303e51ba555a9ba600fdae3c9fa017bed18323bb931ffd8873b5"
+    },
+    {
+      "revision": "e245e961633d5b43c05d9ee4cd1d340e0cbc9ae2",
+      "path": "bin/sshlg-skills.js",
+      "gitBlob": "c8e1619cf5d8032e9416f02a88ec35e6d81d574a",
+      "sha256": "7b5ee1eced54d1f96adab64e5b319c55629af2abee1fa4769fe37c591f91606d",
+      "protectLiteralMatches": [
+        {
+          "line": 470,
+          "source": "? 'give projects that gained a domain dependency their member (project entries first, read back; through protect())'"
+        },
+        {
+          "line": 991,
+          "source": "? 're-wire the consented hook entries (copy before write, through protect())'"
+        },
+        {
+          "line": 1003,
+          "source": "* It is written through the same `protect()` backup the `hooks install` path takes (a"
+        },
+        {
+          "line": 1028,
+          "source": "const saved = apply.protect(r.file, { home: os.homedir() });"
+        },
+        {
+          "line": 1418,
+          "source": "// Through `protect()`, like every other write to a file the operator owns"
+        },
+        {
+          "line": 1425,
+          "source": "const saved = apply.protect(file, { home });"
+        },
+        {
+          "line": 1815,
+          "source": "* write. It goes through `protect()` for the same reason the routing block does"
+        },
+        {
+          "line": 1977,
+          "source": "* through `protect()` before writing it, and records what it wrote so `--revert` removes"
+        },
+        {
+          "line": 2312,
+          "source": "const saved = apply.protect(h.file, { home });"
+        },
+        {
+          "line": 2332,
+          "source": "const saved = apply.protect(h.file, { home });"
+        },
+        {
+          "line": 2397,
+          "source": "const saved = apply.protect(file, { home });"
+        },
+        {
+          "line": 2408,
+          "source": "* every existing file up through `protect()` before writing it, reads every write back,"
+        },
+        {
+          "line": 2578,
+          "source": "const saved = apply.protect(file, { home });"
+        },
+        {
+          "line": 2915,
+          "source": "const saved = apply.protect(file, { home });"
+        },
+        {
+          "line": 2946,
+          "source": "const saved = apply.protect(I.recordPath, { home });"
+        },
+        {
+          "line": 3281,
+          "source": "const saved = apply.protect(file, { home });"
+        },
+        {
+          "line": 3323,
+          "source": "const saved = apply.protect(file, { home });"
+        },
+        {
+          "line": 3410,
+          "source": "'drop the removed ids from ~/.agents/.skill-lock.json (protect() copy first)',"
+        },
+        {
+          "line": 3435,
+          "source": "* their marketplaces, the managed routing blocks (through `protect()`, bytes"
+        },
+        {
+          "line": 3460,
+          "source": "// The same copy-first rule as every other write: protect() takes the"
+        },
+        {
+          "line": 3462,
+          "source": "const savedLock = apply.protect(lockFile, { home });"
+        },
+        {
+          "line": 3493,
+          "source": "const saved = apply.protect(file, { home });"
+        },
+        {
+          "line": 3503,
+          "source": "const saved = apply.protect(mdc, { home });"
+        }
+      ]
+    },
+    {
+      "revision": "27e2ed015affd4a9774a7309d37abda9f13fdc58",
+      "path": "lib/backup.js",
+      "gitBlob": "dae425436f287130757bec7986bb82010cf88b83",
+      "sha256": "d40e3e4ef43d74cd3731b2d0de9c9e039b512f6efc7eaed28ea79a0f574270e2"
+    },
+    {
+      "revision": "27e2ed015affd4a9774a7309d37abda9f13fdc58",
+      "path": "test/backup_identity_test.js",
+      "gitBlob": "b3ce69f331edfb441cd785566bf4074dd87e1614",
+      "sha256": "aa559ba6da258fdba69d36d4ecf202586b22ebdbb8cb3b58792529afc914707b"
+    }
+  ],
+  "bounds": "Committed public source only; no operator settings, private backup bodies or paths."
+}

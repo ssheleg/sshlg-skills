@@ -1,0 +1,6 @@
+{
+  "schema": "mb02-retention-observation/1",
+  "recoveryCopyStillExists": false,
+  "laterOrdinarySaves": 11,
+  "scope": "same target and backup directory; synthetic only"
+}
