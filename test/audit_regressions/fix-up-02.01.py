@@ -35,6 +35,7 @@ BIN = os.path.join(ROOT, "bin", "sshlg-skills.js")
 
 checks = 0
 failures = []
+owned_trees = []
 
 
 def case(name, fn):
@@ -50,6 +51,7 @@ def case(name, fn):
 
 def make_home():
     home = tempfile.mkdtemp(prefix="up02-home-")
+    owned_trees.append(home)
     skills = os.path.join(home, ".claude", "skills", "task-pipeline")
     os.makedirs(skills)
     with open(os.path.join(skills, "SKILL.md"), "w") as fh:
@@ -67,14 +69,19 @@ def make_home():
         fh.write("the real plugin payload\n")
     install_path = os.path.join(plugins, "cache", "task-pipeline", "task-pipeline", "1.0.0")
     import json as _json
+    os.makedirs(os.path.join(install_path, ".claude-plugin"))
+    with open(os.path.join(install_path, ".claude-plugin", "plugin.json"), "w") as fh:
+        _json.dump({"name": "task-pipeline", "version": "1.0.0"}, fh)
     with open(os.path.join(plugins, "installed_plugins.json"), "w") as fh:
         _json.dump({"plugins": {"task-pipeline@task-pipeline": [
-            {"installPath": install_path, "scope": "user", "enabled": True}]}}, fh)
+            {"installPath": install_path, "scope": "user", "enabled": True,
+             "version": "1.0.0", "gitCommitSha": "a" * 40}]}}, fh)
     return home
 
 
 def make_shims(exit_code=0):
     d = tempfile.mkdtemp(prefix="up02-shims-")
+    owned_trees.append(d)
     log = os.path.join(d, "calls.log")
     for name in ("npx", "claude", "git"):
         p = os.path.join(d, name)
@@ -175,7 +182,7 @@ def t_install_dry_run_renders_and_mutates_nothing():
     assert calls(log) == [], f"install --dry-run made calls: {calls(log)[:5]}"
     assert tree_hash(home) == before, "install --dry-run changed the HOME tree"
     out = r.stdout
-    for needle in ("the install plan", "skills add", "claude plugin install",
+    for needle in ("the install plan", "skills add", "claude-pins",
                    "router-block", "0 executed", "result: dry-run"):
         assert needle in out, f"the install receipt is missing {needle!r}"
     # The prune action is in the receipt and its named path still exists on disk.
@@ -202,4 +209,8 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    finally:
+        for owned in owned_trees:
+            shutil.rmtree(owned, ignore_errors=True)
