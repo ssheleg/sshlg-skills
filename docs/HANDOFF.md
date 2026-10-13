@@ -34,7 +34,7 @@ The suite is RUNNING and is not treated as passed.
 Hub publication and actual installed acceptance remain pending.
 
 Accepted whole-source discovery corrections are now pinned: make-skill df53aaa,
-agent-stack b332a92 and SEO1e86edf, each normally merged after required checks.
+agent-stack fefece0 and SEO1e86edf, each normally merged after required checks.
 Their published payloads remain byte-equal. The [independent sibling controls](evidence/completion-1013/fw01-sibling-peer.json)
 and owner integration receipts retain the witnessed failures and corrections.
 AS B159's two named SEO source gaps are now fixed; its docs-only closure
@@ -68,8 +68,9 @@ These changes do not borrow acceptance from the immutable TP release run.
 [Native P2](evidence/completion-1013/native-routing-p2/readout.md) remains
 **NO_ADOPTION**: Google Auth still omits denied-before-switch testing. No installed
 description compression is accepted. The [combined evaluation](reports/2026-10-13-skill-discovery-quality-results/README.md)
-keeps protocol, cost and quality limits separate. The [current static graph](reports/2026-10-13-code-graph-finalization/README.md)
-is independently checked at 5d19e74: 241 files, 2876 nodes, 4341 edges, 216 communities.
+keeps protocol, cost and quality limits separate. The [current static graph](reports/2026-10-13-code-graph-recovery/README.md)
+is independently checked at 00a6b2c: 249 files, 2989 nodes, 4522 edges, 225 communities.
+Its peer reconciles raw/export endpoints explicitly; the prior cut remains intact.
 It is source navigation, not runtime proof. Wiki PR22 merged at a646848, retaining
 all 177 previous report IDs and adding four; source-scanner limitations remain.
 
@@ -78,9 +79,11 @@ retains the missing two real board mutations. Its proposed additional
 parity defect was [retracted](evidence/completion-1013/r30-ux-gfm-interpretation-correction.json)
 after official GFM scanner and GitHub-rendering evidence; production parsing remains
 unchanged. The three source-discovery guards above are accepted and pinned. The proposed owner-only
-pretag helper at5d9adf2 is under independent review: a wrong actual package name
-was found despite passing fixtures. Its author is correcting this and binding the
-controls to the real owner shape. No helper publication or release authority is claimed.
+pretag helper has corrected the independently reproduced package-name, push-destination,
+unsolicited-tag and interruption defects. The composed9b3fa1a source passed58 independent
+focused controls from immutable Git blobs; its full gate and future owner release remain
+pending. A shared family scratch lock is being prepared because distinct TMPDIR locks
+did not protect fixed /tmp plants. The active1.94.1 release source remains frozen.
 
 [Preliminary observer](evidence/completion-1013/observer-pre-release.md) is
 PARTIAL_NOT_FINAL. Reconcile all 37 requirements and 177 original board IDs after
