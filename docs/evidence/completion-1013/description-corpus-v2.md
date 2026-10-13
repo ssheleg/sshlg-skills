@@ -91,3 +91,11 @@ usage, never inferred from a shorter description or this corpus count.
 Skills used: agent-evals (corpus/rubric separation), agent-harness (selection scope),
 make-skill (skill contract boundaries), task-pipeline (delivery), agent-sync (task
 lease), evidence-docs (commit-addressed source map).
+
+## Coordinator source and label review
+
+Root read all116 prompts and accepted sets, the scorer and its mutation controls;
+replayed committed source hashes/anchors for39 skills, exit0. One pre-execution
+clarification remains: `ambiguous-ux-redesign` should name navigation/screen behavior
+or explicitly account for the foundation skill's journey ownership. Author owns
+that correction before provider execution. No selection result is implied.
