@@ -16,7 +16,7 @@ ROOT=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('native_observer',ROOT.parent/'native-quality-v1/run.py')
 r=importlib.util.module_from_spec(spec);spec.loader.exec_module(r)
 b=r.base
-r.SKILLS={'make-skill:make-skill','make-skill:skill-search'}
+r.SKILLS={'make-skill:make-skill','make-skill:skill-search','make-skill:skill-audit'}
 r.TOOLS={'Skill'}
 r.MAX_TURNS=3
 r.RESERVE=0.20
@@ -55,9 +55,9 @@ def materialize(repo,workspace):
         dest.parent.mkdir(parents=True,exist_ok=True,mode=0o700);dest.write_bytes(body);dest.chmod(0o600);hashes[relative]=b.digest(body)
     return hashes
 
-def score(calls):
+def score(calls,cases=None):
     result=[]
-    for case in json.loads((ROOT/'cases.json').read_text())['queries']:
+    for case in (json.loads((ROOT/'cases.json').read_text())['queries'] if cases is None else cases):
         rows=[x for x in calls if x.get('case_id')==case['id'] and x.get('evaluation_status')=='EXECUTED']
         assert len(rows)<=3
         match=sum(('make-skill:skill-search' in x['native']['skill_loads'])==case['should_trigger'] for x in rows)
@@ -71,8 +71,14 @@ def check_admission():
     assert admission['max_calls']==MAX_CALLS and admission['budget_usd']==BUDGET and admission['independent_review']=='PASS'
     return b.digest((ROOT/'admission.json').read_bytes())
 
+def binding():
+    admission_hash=check_admission();source()
+    return {'admission':admission_hash,'runner':b.digest(Path(__file__).read_bytes()),'source':b.digest((ROOT/'source.json').read_bytes()),'cases':b.digest((ROOT/'cases.json').read_bytes())}
+
 def execute(args):
-    admission_hash=check_admission();items=plan();assert len(items)==MAX_CALLS
+    frozen=binding();admission_hash=frozen['admission'];items=plan();assert len(items)==MAX_CALLS
+    frozen_cases=json.loads((ROOT/'cases.json').read_text())['queries']
+    assert binding()==frozen,'protocol_changed_during_plan'
     if args.output.exists() or args.output.with_name(args.output.name+'.pending').exists():raise ValueError('receipt_exists')
     private=args.private_dir
     if not private.is_absolute() or private.is_symlink() or private.exists():raise ValueError('private_directory_must_be_absolute_and_new')
@@ -86,10 +92,13 @@ def execute(args):
     env=dict(os.environ,CLAUDE_CODE_DISABLE_AUTO_MEMORY='1',CLAUDE_CODE_MAX_OUTPUT_TOKENS='900')
     receipt['status']='RUNNING'
     for index,item in enumerate(items):
+        try:assert binding()==frozen,'protocol_changed_before_request'
+        except Exception as exc:
+            receipt.update(status='STOPPED_PROTOCOL_CHANGED',error_class=type(exc).__name__);break
         if receipt['reported_list_usd']+r.RESERVE>BUDGET:receipt['status']='STOPPED_BUDGET';break
         record={k:v for k,v in item.items() if k not in ('prompt','expected')}
         record.update(index=index,state='STARTED',prompt_sha256=b.digest(item['prompt']),started_at_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()))
-        receipt['calls'].append(record);b.save_receipt(args.output,receipt)
+        receipt['calls'].append(record);receipt['cost_incomplete']=True;b.save_receipt(args.output,receipt)
         folder=private/str(index);folder.mkdir(mode=0o700);b.private_write(folder/'prompt.txt',item['prompt'])
         try:
             with tempfile.TemporaryDirectory(prefix='sshlg-search-trigger-') as temp:
@@ -98,6 +107,7 @@ def execute(args):
                     proc=subprocess.Popen(r.command(workspace,item['phase'])+[item['prompt']],cwd=workspace,env=env,stdout=out,stderr=err,start_new_session=True)
                     try:code=proc.wait(timeout=r.TIMEOUT)
                     except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait();code='TIMEOUT'
+                assert binding()==frozen,'protocol_changed_during_request'
                 raw=(folder/'stdout.jsonl').read_bytes();result=r.inspect(raw,code,workspace,item['phase']);r.m.verify(workspace,hashes)
                 if isinstance(result.get('native'),dict):result['native'].pop('google_auth_loaded',None)
                 if result['evaluation_status']=='EXECUTED':
@@ -108,13 +118,15 @@ def execute(args):
             receipt.update(status='STOPPED_EXECUTION_ERROR',cost_incomplete=True);break
         record.update(result,state='FINISHED',stdout_sha256=b.digest(raw),stderr_sha256=b.digest((folder/'stderr.log').read_bytes()))
         if result['cost_usd'] is None:receipt['cost_incomplete']=True
-        else:receipt['reported_list_usd']+=result['cost_usd']
+        else:receipt['reported_list_usd']+=result['cost_usd'];receipt['cost_incomplete']=False
         b.save_receipt(args.output,receipt)
         print(b.encode({k:record.get(k) for k in ('index','phase','case_id','repetition','evaluation_status','error_class','cost_usd')}),flush=True)
         if result['evaluation_status']=='TEST_ERROR':receipt['status']='STOPPED_TEST_ERROR';break
         if receipt['reported_list_usd']>BUDGET:receipt['status']='STOPPED_BUDGET_OVERSHOOT';break
     else:receipt['status']='COMPLETED'
-    receipt['scores']=score(receipt['calls']);receipt['planned_not_started']=len(items)-len(receipt['calls']);b.save_receipt(args.output,receipt)
+    try:assert binding()==frozen,'protocol_changed_before_scoring'
+    except Exception as exc:receipt.update(status='STOPPED_PROTOCOL_CHANGED',error_class=type(exc).__name__)
+    receipt['scores']=score(receipt['calls'],frozen_cases);receipt['planned_not_started']=len(items)-len(receipt['calls']);b.save_receipt(args.output,receipt)
     return 0 if receipt['status']=='COMPLETED' else 1
 
 def main():

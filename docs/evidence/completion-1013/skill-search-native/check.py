@@ -71,6 +71,38 @@ for row in (i,a,f):print(json.dumps(row))
   ok(all((p.stat().st_mode&0o777)==0o600 for p in private.rglob('*') if p.is_file()))
   ok(len(receipt['calls'])==(2 if mode=='ok' else 1))
   ok(receipt['cost_incomplete']==(mode in ('unknown','timeout')))
+ # A coordinated manifest/corpus/admission replacement cannot retain the binding.
+ with patch.object(a,'check_admission',return_value='offline-initial'):
+  frozen=a.binding()
+  with patch.object(a,'check_admission',return_value='offline-replaced'):
+   ok(a.binding()!=frozen)
+  original_read=Path.read_bytes;initial_source=a.source()
+  for changed in ('source.json','cases.json'):
+   with patch.object(Path,'read_bytes',lambda path:original_read(path)+b' ' if path==ROOT/changed else original_read(path)),patch.object(a,'source',return_value=initial_source):
+    ok(a.binding()!=frozen)
+  mutated=copy.deepcopy(json.loads((ROOT/'cases.json').read_text())['queries']);mutated[0]['should_trigger']=False
+  ok(a.score([dummy,dummy,dummy],mutated)[0]['verdict']=='FAIL')
+ # Crash-state receipt: no in-flight invocation is labelled complete-cost.
+ original_save=a.b.save_receipt
+ def observed_save(path,receipt):
+  if receipt.get('calls') and receipt['calls'][-1].get('state')=='STARTED':
+   assert receipt['cost_incomplete'] is True
+  original_save(path,receipt)
+ # Mid-request manifest admission change stops; no later cells execute or regrade.
+ args=SimpleNamespace(source_repo=ROOT.parents[3]/'skills/make-skill',output=root/'midrun.json',private_dir=root/'midrun-raw')
+ calls_to_binding=0
+ original_binding=a.binding
+ def changed_binding():
+  global calls_to_binding
+  calls_to_binding+=1
+  value=original_binding()
+  if calls_to_binding>=4:value=dict(value,source='changed-after-request')
+  return value
+ with patch.object(a,'check_admission',return_value='offline-fake-only'),patch.object(a,'binding',side_effect=changed_binding),patch.object(a,'plan',return_value=items[:2]),patch.object(a,'MAX_CALLS',2),patch.object(a.b,'save_receipt',side_effect=observed_save),patch.dict(os.environ,{'PATH':str(root)+os.pathsep+os.environ['PATH'],'SEARCH_FAKE_MODE':'ok'}),contextlib.redirect_stdout(io.StringIO()):
+  code=a.execute(args)
+ stopped=json.loads(args.output.read_text())
+ ok(code==1 and stopped['status']=='STOPPED_PROTOCOL_CHANGED' and len(stopped['calls'])==1 and stopped['cost_incomplete'])
+ ok(all(x['verdict']=='NOT_SCORED' for x in stopped['scores']))
  # Changed source bytes and changed workspace are refused before/after a request.
  original=a.subprocess.check_output
  with patch.object(a.subprocess,'check_output',side_effect=lambda argv,**kw:b'bad' if argv[1]=='show' else original(argv,**kw)):
