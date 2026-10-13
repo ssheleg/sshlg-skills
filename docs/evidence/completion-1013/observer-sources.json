@@ -1,0 +1,99 @@
+{
+  "schema": "original-goal-observer/1",
+  "observed_at_utc": "2026-10-13T03:21:38.867180+00:00",
+  "source_commit": "392e8f3787d37a32ca1ebc261addee3cdea6994e",
+  "export": {
+    "basename": "2026-10-13-024112-this-session-is-being-continued-from-a-previous-c.txt",
+    "sha256": "98e99136ba2746fe9f513e66390e6628ea3dbcce9d643f3144e0e30eb18bd5eb",
+    "user_message_lines": [
+      42,
+      1914,
+      2425,
+      2554,
+      3478,
+      5028,
+      5233,
+      5495,
+      6098,
+      6200
+    ],
+    "explicit_answer_lines": [
+      5702,
+      6049
+    ],
+    "raw_copy": "LOCAL_ONLY"
+  },
+  "sources": [
+    {
+      "path": "docs/evidence/briefs/2026-10-11-integration-waves.md",
+      "sha256": "06ec7400501a9a685fb356c59b5193f20e467a4a98d183ae3707f44497e4f05a"
+    },
+    {
+      "path": "docs/evidence/specs/2026-10-11-integration-waves-canvas.md",
+      "sha256": "731101e49fe44474ecd70ad8aa472e88f6281cf4ed18917075f245fbd7348337"
+    },
+    {
+      "path": "docs/evidence/plans/2026-10-13-completion.md",
+      "sha256": "57622b3a430279c1b3818d8b3d33e1b02c7cafcc8e27b675cc50558d50e65f44"
+    },
+    {
+      "path": "docs/evidence/completion-1013/family-next-wave.md",
+      "sha256": "d11eb2aaf6fac6ca0a9a1a81df2dd385be6555eb694f418565e804be5203d7f5"
+    },
+    {
+      "path": "docs/evidence/plans/2026-10-13-load-optimization.md",
+      "sha256": "566a7bdcca53c3ca2fafb975d8842d874cc135f97f3c4925bfe00526e1759c8a"
+    },
+    {
+      "path": "docs/evidence/completion-1013/installed-runtime.json",
+      "sha256": "867f06c9fceb184d107b5a495b2928eb39bf99b492ed6e4376fcb9913b91e8bb"
+    },
+    {
+      "path": "docs/evidence/completion-1013/installed-domains.json",
+      "sha256": "d004029b47c81838a9353d5aaa11cb1e179db548aab59c0170f1d13dab8705d1"
+    },
+    {
+      "path": "docs/evidence/completion-1013/description-screening-readout.md",
+      "sha256": "3dbf189f966b774b75f3c86f1ff7a8f9e855c998299a9f93c77033ce55fbd2a1"
+    },
+    {
+      "path": "docs/evidence/backlog.md",
+      "sha256": "374827d43dff78469e488d89e0dea73700bbd4bb146794a0d3edfd986860a43a"
+    },
+    {
+      "path": "skills.json",
+      "sha256": "ee8b5614135bcd4209c5f77fc85e2a207827ef6323cd11ad27017c04962a7369"
+    }
+  ],
+  "live_readback": {
+    "release_run": "38338123714",
+    "headSha": "ae1b415bc79a3d89ca97199299e0e00a2a5e7674",
+    "conclusion": "success",
+    "npm_latest": "1.62.1",
+    "local_runtime_version": "1.62.1",
+    "commands_exit_code": 0
+  },
+  "boundary": "Read-only acceptance review. No model calls, host mutations, broad suite or final all-family verdict.",
+  "related_vision": {
+    "repository": "https://github.com/passioncode-ai/fabric-workspace",
+    "commit": "2d490612c0d313a993a27de05015a3760bfe3b98",
+    "exact_separate_narrative_identity": "UNCONFIRMED",
+    "sources": [
+      {
+        "path": "knowledge/vision.md",
+        "sha256": "d36c13434913da66567f68e6bd58268bc0d3a063cf95a800ba09d156636c7dbc",
+        "matches_committed_head": true
+      },
+      {
+        "path": "knowledge/principles.md",
+        "sha256": "e17eb2e8a5dc69460c5261e9b2be5630694fcc25da2b72b5bf3b429528e4f7a3",
+        "matches_committed_head": true
+      },
+      {
+        "path": "knowledge/agents-first.md",
+        "sha256": "339e3742897a38e5c8c67a1fcb9db7bbb52afb8bd3ddca25904214e198d1d452",
+        "matches_committed_head": true
+      }
+    ]
+  }
+}
