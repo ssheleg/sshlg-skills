@@ -145,19 +145,27 @@ it('journal parent symlink refuses without writing its target', base => {
   const before = fs.readFileSync(path.join(base, 'foreign-hooks/a.js'));
   assert.equal(R.recover(x.rt).ok, false); assert.deepEqual(fs.readFileSync(path.join(base, 'foreign-hooks/a.js')), before); assert(fs.existsSync(path.join(x.rt, '.switch-journal.json')));
 });
-for (const command of [['hooks', 'install'], ['update', '--claude-only']]) for (const fault of ['stage', 'switch']) it('actual CLI ' + command.join(' ') + ' propagates ' + fault + ' failure', base => {
+it('read-only stale refuses to read a source FIFO', base => {
+  const x = seed(base), source = path.join(x.pkg, 'lib/b.js'); fs.unlinkSync(source); assert.equal(spawnSync('mkfifo', [source]).status, 0);
+  const r = spawnSync(process.execPath, ['-e', "console.log(JSON.stringify(require(process.argv[1]).stale(process.argv[2],process.argv[3])))", path.join(ROOT, 'lib/runtime.js'), x.pkg, x.rt], { encoding: 'utf8', timeout: 3000 });
+  assert(!r.error, String(r.error)); assert.equal(r.status, 0, r.stderr); assert(JSON.parse(r.stdout).differing.includes('lib/b.js')); assert(fs.lstatSync(source).isFIFO());
+});
+for (const command of [['hooks', 'install'], ['update', '--claude-only']]) for (const fault of ['stage', 'switch', 'fifo']) it('actual CLI ' + command.join(' ') + ' propagates ' + fault + ' failure', base => {
   const home = path.join(base, 'home'), rt = path.join(home, '.sshlg-skills/runtime'), settings = path.join(home, '.claude/settings.json');
   const original = '{"env":{"KEEP":"fixture"}}\n'; write(settings, original); write(path.join(rt, 'hooks/notification.js'), 'old');
+  if (fault === 'fifo') { fs.unlinkSync(path.join(rt, 'hooks/notification.js')); assert.equal(spawnSync('mkfifo', [path.join(rt, 'hooks/notification.js')]).status, 0); }
   const shim = path.join(base, 'fault.cjs');
   write(shim, `require(${JSON.stringify(path.join(ROOT, 'test/fixtures/native-transaction-boundary.cjs'))});const fs=require('fs');let n=0;const copy=fs.copyFileSync,rename=fs.renameSync;fs.copyFileSync=(a,b,...rest)=>{if(${JSON.stringify(fault)}==='stage'&&b.includes('.staging-'))throw Error('FIXTURE_STAGE');return copy(a,b,...rest);};fs.renameSync=(a,b,...rest)=>{if(${JSON.stringify(fault)}==='switch'&&a.includes('.staging-')&&++n===2)throw Error('FIXTURE_SWITCH');return rename(a,b,...rest);};`);
   const bin = path.join(base, 'bin'); fs.mkdirSync(bin);
   for (const cmd of ['git', 'npx', 'npm', 'claude', 'gh']) { const f = path.join(bin, cmd); write(f, '#!/bin/sh\nexit 0\n'); fs.chmodSync(f, 0o755); }
   const env = { ...process.env, HOME: home, USERPROFILE: home, CODEX_HOME: path.join(home, '.codex'), CLAUDE_CONFIG_DIR: path.join(home, '.claude'), XDG_CONFIG_HOME: path.join(home, '.config'), NODE_OPTIONS: '--require=' + JSON.stringify(shim), SSHLG_SKILLS_NO_PROBE: '1', PATH: bin + path.delimiter + process.env.PATH };
-  const r = spawnSync(process.execPath, [path.join(ROOT, 'bin/sshlg-skills.js'), ...command], { env, cwd: home, encoding: 'utf8', timeout: 30000 });
+  const r = spawnSync(process.execPath, [path.join(ROOT, 'bin/sshlg-skills.js'), ...command], { env, cwd: home, encoding: 'utf8', timeout: fault === 'fifo' ? 3000 : 30000 });
+  assert(!r.error, String(r.error));
   const out = r.stdout + r.stderr;
-  assert.notEqual(r.status, 0, out); assert.match(out, /FIXTURE_STAGE|FIXTURE_SWITCH/);
+  assert.notEqual(r.status, 0, out); assert.match(out, fault === 'fifo' ? /unsafe runtime file/ : /FIXTURE_STAGE|FIXTURE_SWITCH/);
   assert(!/скрипты синхронизированы/.test(out), out); assert.equal(fs.readFileSync(settings, 'utf8'), original);
-  assert.equal(fs.readFileSync(path.join(rt, 'hooks/notification.js'), 'utf8'), 'old');
+  if (fault === 'fifo') assert(fs.lstatSync(path.join(rt, 'hooks/notification.js')).isFIFO());
+  else assert.equal(fs.readFileSync(path.join(rt, 'hooks/notification.js'), 'utf8'), 'old');
 });
 if (failed.length) { console.error(failed.join('\n')); process.exitCode = 1; }
 console.log(`${failed.length ? 'FAIL' : 'PASS'} runtime atomic: ${checks - failed.length}/${checks}`);

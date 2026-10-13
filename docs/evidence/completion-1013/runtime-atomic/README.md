@@ -50,7 +50,7 @@ Unknown user files stay outside the transaction.
 
 ## Focused evidence
 
-- [Focused output](focused.txt): `node test/runtime_atomic_test.js`, 37/37, including
+- [Focused output](focused.txt): `node test/runtime_atomic_test.js`, 40/40, including
   actual CLI faults, caught switch positions, hard child exit, nested writer,
   introduced files, corrupt journal/backup, path kinds, missing source and retry.
 - [Existing tests](existing-focused.json): owner runtime/closure and FIX-UP-05.01 /
@@ -76,3 +76,15 @@ exclusive retirement, recover-only behavior and negative controls before adding 
 A manually inspected environment may restore a preserved complete generation under
 exclusive control, but fixture unlink is not offered as a production procedure.
 No version, release, installation or overall completion claim.
+
+## Independent-review follow-up: read-only discovery admission
+
+The first frozen candidate f665c532 passed the independent 37-control replay. A
+separate self-review then found that update calls `stale()` before `sync()`: an
+existing managed FIFO could block that read. The observer confirmed the source
+seam; [actual CLI baseline](stale-fifo-baseline.json) timed out after two seconds
+in an owned fixture and its child was killed. `stale()` now checks regular-file
+kind before reading and reports unsupported files as differing; strict sync then
+refuses. Two real CLI controls require prompt failure and preserve the target FIFO and
+settings; a separate timed child control proves source FIFO discovery also returns
+without opening it. Earlier source acceptance does not cover this subsequent correction.

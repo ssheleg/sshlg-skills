@@ -31,8 +31,11 @@ ok missing required source refuses before mutation: lib
 ok missing required source refuses before mutation: skills.json
 ok missing required source refuses before mutation: package.json
 ok journal parent symlink refuses without writing its target
+ok read-only stale refuses to read a source FIFO
 ok actual CLI hooks install propagates stage failure
 ok actual CLI hooks install propagates switch failure
+ok actual CLI hooks install propagates fifo failure
 ok actual CLI update --claude-only propagates stage failure
 ok actual CLI update --claude-only propagates switch failure
-PASS runtime atomic: 37/37
+ok actual CLI update --claude-only propagates fifo failure
+PASS runtime atomic: 40/40
