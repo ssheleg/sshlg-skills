@@ -1,0 +1,43 @@
+diff --git a/plugins/task-pipeline/skills/task-pipeline/references/spec.md b/plugins/task-pipeline/skills/task-pipeline/references/spec.md
+index 9fc8750..fc18eaf 100644
+--- a/plugins/task-pipeline/skills/task-pipeline/references/spec.md
++++ b/plugins/task-pipeline/skills/task-pipeline/references/spec.md
+@@ -28,9 +28,12 @@ spec*.
+ 
+ ## UX track (user-facing tasks only)
+ 
+-Runs on **super-ux** — the one companion this pipeline recommends by name
+-([`companion-skills.md`](companion-skills.md)). If it isn't installed on a UI task,
+-give the install line and stop; don't improvise a half-chain.
++Apply [the artifact-provider contract](companion-skills.md): super-ux is the
++preferred provider; equivalent artifacts or the inline fallback remain valid.
++Missing or invalid scenario artifacts stop the gate, regardless of provider.
++Record each unavailable check by name as NOT_RUN; do not claim a linter ran.
++The following chain describes the super-ux provider when available. Other
++providers owe the same scenario quality and traces, not these package commands.
+ 
+ 0. **The design destination is already decided — read it, don't re-open it.** When
+    Figma is on, the stage-0 brief names the team/org and the files — one per surface
+diff --git a/plugins/task-pipeline/skills/task-pipeline/references/stage-03-spec.md b/plugins/task-pipeline/skills/task-pipeline/references/stage-03-spec.md
+index 12e2ce6..9acee68 100644
+--- a/plugins/task-pipeline/skills/task-pipeline/references/stage-03-spec.md
++++ b/plugins/task-pipeline/skills/task-pipeline/references/stage-03-spec.md
+@@ -8,11 +8,13 @@ The full gate and freedom level remain in [stages.md](stages.md).
+   Constraints** block stages 4–5 depend on), the self-review pass and the operator
+   review gate.
+ - **UX track (runs FIRST when stage 2 flagged UI; skip entirely otherwise).**
+-  Requires the **super-ux** skills. If missing on a UI task → give the install
+-  line and stop (see SKILL.md *Prerequisites*: `/plugin marketplace add
+-  ssheleg/super-ux` → `/plugin install super-ux@super-ux`, or `npx skills add
+-  ssheleg/super-ux`). super-ux builds a traced chain — walk it top-down (see its
+-  `system-map.md`):
++  Apply [the artifact-provider contract](companion-skills.md): super-ux is the
++  preferred provider; equivalent artifacts or the inline fallback remain valid.
++  Missing or invalid scenario artifacts stop the gate, regardless of provider.
++  Record each unavailable check by name as NOT_RUN; do not claim a linter ran.
++  The following chain describes the super-ux provider when available. Other
++  providers owe the same scenario quality and traces, not these package commands.
++  When using super-ux, walk its chain top-down (see its `system-map.md`):
+   0. **Destination first, when Figma is on.** The brief already names the team/org
+      and the files — **one per surface** (App, Web, ASO: store screenshots, icon and
+      logo), never one file for every frame; `docs/ux/foundation.md` → *Design tooling*

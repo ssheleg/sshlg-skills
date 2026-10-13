@@ -1,0 +1,19 @@
+{
+  "schema": "matched-doctrine-overlay/1",
+  "reviewed_candidate": "3a8e4ac178bf921a3703c59dee4e832f73de84db",
+  "source_patch": "source-delta.patch",
+  "replacements": [
+    {
+      "control_path": "skills/task-pipeline/references/stages.md",
+      "candidate_path": "skills/task-pipeline/references/stage-03-spec.md",
+      "old": "  Requires the **super-ux** skills. If missing on a UI task \u2192 give the install\n  line and stop (see SKILL.md *Prerequisites*: `/plugin marketplace add\n  ssheleg/super-ux` \u2192 `/plugin install super-ux@super-ux`, or `npx skills add\n  ssheleg/super-ux`). super-ux builds a traced chain \u2014 walk it top-down (see its\n  `system-map.md`):\n",
+      "new": "  Apply [the artifact-provider contract](companion-skills.md): super-ux is the\n  preferred provider; equivalent artifacts or the inline fallback remain valid.\n  Missing or invalid scenario artifacts stop the gate, regardless of provider.\n  Record each unavailable check by name as NOT_RUN; do not claim a linter ran.\n  The following chain describes the super-ux provider when available. Other\n  providers owe the same scenario quality and traces, not these package commands.\n  When using super-ux, walk its chain top-down (see its `system-map.md`):\n"
+    },
+    {
+      "control_path": "skills/task-pipeline/references/spec.md",
+      "candidate_path": "skills/task-pipeline/references/spec.md",
+      "old": "Runs on **super-ux** \u2014 the one companion this pipeline recommends by name\n([`companion-skills.md`](companion-skills.md)). If it isn't installed on a UI task,\ngive the install line and stop; don't improvise a half-chain.\n",
+      "new": "Apply [the artifact-provider contract](companion-skills.md): super-ux is the\npreferred provider; equivalent artifacts or the inline fallback remain valid.\nMissing or invalid scenario artifacts stop the gate, regardless of provider.\nRecord each unavailable check by name as NOT_RUN; do not claim a linter ran.\nThe following chain describes the super-ux provider when available. Other\nproviders owe the same scenario quality and traces, not these package commands.\n"
+    }
+  ]
+}
