@@ -20,6 +20,11 @@ preserves original wording and separates accepted source, publication, installat
 | 4 | Visibility developer plus root peer: dry behavioral harness | Frozen8-case corpus/40fixtures;13 offline controls; no provider call admitted | Immutable input/source binding, fake-trace fault controls, independent runner review; bind final candidate sources before any separately admitted experiment |
 | 5 | New independent observer: compare original request to final system | Earlier observer remains PARTIAL_NOT_FINAL; later hooks recovered in bounded native windows | Source, docs, business logic, package/host and task-quality evidence reviewed separately; unresolved findings become next bounded packets |
 
+The current hub delivery is draft PR219; promotion waits for its final immutable
+aggregate. A new nonauthor observer is running an interim preflight against the
+explicit final-observer packet. TP1.95.0 is a separate frozen source candidate,
+not a replacement for the ongoing accepted1.94.1 release gate.
+
 The candidate installer must defer an unsafe Codex generation transition; a catalog match
 or elapsed watcher timeout cannot retire an active thread. Fabric board tools remain
 unavailable, with the latest identity again returning no project; cross-project asks

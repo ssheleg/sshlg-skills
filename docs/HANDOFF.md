@@ -4,7 +4,9 @@ Hub candidate **1.63.0**, branch `waves/2026-10-13-finalization`, composes immut
 Claude source updates, scoped default-off wait rules, release-iteration routing,
 read-only managed-block previews, the Codex active-generation deferral and bounded
 backup-identity correction. Latest published hub remains 1.62.2. Candidate aggregate,
-publication and actual installed acceptance are pending.
+publication and actual installed acceptance are pending. The normal delivery
+candidate is [draft PR219](https://github.com/ssheleg/sshlg-skills/pull/219); it has
+not been promoted for final candidate checks.
 
 **Hook recovery:** exact old payloads were restored after Codex native plugin
 updates pruned files still used by this session. [Native evidence](evidence/completion-1013/hook-recovery/README.md)
@@ -94,6 +96,13 @@ PARTIAL_NOT_FINAL. Reconcile all 37 requirements and 177 original board IDs afte
 final pins, preserving new defects separately. Fabric com.* remains unavailable;
 cross-project requests are unsent. Final acceptance requires published payload,
 actual host readback and independent comparison against the original objective.
+
+A fresh nonauthor observer is performing an interim source/evidence preflight from
+[the frozen task packet](evidence/completion-1013/final-observer-task/README.md).
+Final verdict still requires actual release/install receipts. Next TP composition
+is a separate1.95.0 source candidate0cb1044; shared-lock SEOd6c87c3 and dev366a2d3
+ports have independent30-control replay each, with aggregate/integration pending.
+No next-wave gate substitutes for the active1.94.1 exact-tag run.
 
 The dated entries below retain previous states and are not current instructions.
 
