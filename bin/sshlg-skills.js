@@ -3217,10 +3217,11 @@ function cmdHooks(argv) {
   if (sub === 'recovery') {
     const args = argv.slice(1), action = args.shift();
     let json = false, expected;
+    // A usage error is exit 2, apart from a refusal (1); JSON only when asked for.
     const invalid = reason => {
-      const result = { ok: false, state: 'UNKNOWN', reason };
-      console.log(JSON.stringify(result));
-      return false;
+      if (args.includes('--json')) console.log(JSON.stringify({ ok: false, state: 'USAGE', reason }));
+      else log(`hooks recovery: ${reason}`);
+      return 2;
     };
     for (let i = 0; i < args.length; i++) {
       if (args[i] === '--json' && !json) json = true;
@@ -3744,7 +3745,7 @@ function main(argv) {
     catch (e) { log(`rules: ${e.message}`); return 2; }
   }
   // Also before parseFlags: `hooks` takes a positional subcommand.
-  if (cmd === 'hooks') return cmdHooks(rest) ? 0 : 1;
+  if (cmd === 'hooks') { const r = cmdHooks(rest); return typeof r === 'number' ? r : (r ? 0 : 1); }
   if (cmd === 'injectors') { cmdInjectors(); return 0; }
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
   if (cmd === 'toolkit') { return cmdToolkit(argv) || 0; }

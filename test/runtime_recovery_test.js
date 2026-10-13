@@ -207,10 +207,55 @@ it('public CLI inspect/recover binds home and leaves settings bytes untouched', 
   const bin = path.resolve(__dirname, '../bin/sshlg-skills.js');
   const run = args => spawnSync(process.execPath, [bin, 'hooks', 'recovery', ...args], { env: { ...process.env, HOME: base }, encoding: 'utf8', timeout: 15000 });
   const view = run(['inspect', '--json']); assert.equal(view.status, 1); assert.equal(JSON.parse(view.stdout).state, 'DEAD');
-  for (const args of [['recover'], ['recover', '--force'], ['inspect', '--root', base], ['inspect', '--json', '--json'], ['recover', '--expect', 'absent', '--expect', 'absent']]) assert.equal(run(args).status, 1);
+  for (const args of [['recover'], ['recover', '--force'], ['inspect', '--root', base], ['inspect', '--json', '--json'], ['recover', '--expect', 'absent', '--expect', 'absent']]) assert.equal(run(args).status, 2);
   const result = run(['recover', '--expect', JSON.parse(view.stdout).expected, '--json']); assert.equal(result.status, 0, result.stdout + result.stderr); assert.equal(JSON.parse(result.stdout).state, 'RECOVERED');
   assert.equal(fs.readFileSync(settings, 'utf8'), '{ deliberately malformed private fixture');
   for (let i = 0; i < 3; i++) assert.equal(run(['inspect', '--json']).status, 0);
+});
+it('worker refusal after retiring the dead lock keeps its own reason', base => {
+  const { rt } = crash(base); fs.writeFileSync(path.join(rt, 'hooks/a.js'), 'tampered');
+  const view = R.inspect(rt); assert.equal(view.state, 'DEAD');
+  const result = R.recover(rt, view.expected);
+  assert.equal(result.ok, false); assert.equal(result.state, 'UNRESOLVED'); assert.strictEqual(result.retired, true, JSON.stringify(result));
+  assert.match(result.reason, /changed outside transaction/); assert.equal(result.exit, 2);
+  assert.equal(R.inspect(rt).state, 'PENDING_JOURNAL'); assert(!fs.existsSync(path.join(rt, '.sync.lock')));
+});
+it('runtime reached through a symlinked home binds the writer identity', base => {
+  const real = path.join(base, 'real'), link = path.join(base, 'link'); fs.mkdirSync(real); fs.symlinkSync(real, link);
+  const { rt } = crash(base, path.join(link, 'rt'));
+  const view = R.inspect(rt); assert.equal(view.state, 'DEAD', JSON.stringify(view)); assert.equal(view.root, path.join(real, 'rt'));
+  assert.equal(R.recover(rt, view.expected).state, 'RECOVERED');
+});
+it('lock swapped for a FIFO after its type check never blocks inspect', base => {
+  const { rt } = crash(base), lock = path.join(rt, '.sync.lock');
+  const code = `const fs=require('fs'),cp=require('child_process'),lstat=fs.lstatSync;let swapped=false;fs.lstatSync=function(p){const s=lstat.apply(this,arguments);if(p===${JSON.stringify(lock)}&&!swapped){swapped=true;fs.unlinkSync(p);cp.spawnSync('/usr/bin/mkfifo',[p]);}return s;};console.log(JSON.stringify(require(${JSON.stringify(path.resolve(__dirname, '../lib/runtime-recovery'))}).inspect(${JSON.stringify(rt)})));`;
+  const r = spawnSync(process.execPath, ['-e', code], { encoding: 'utf8', timeout: 5000 });
+  assert.equal(r.signal, null, 'inspect blocked on a FIFO'); assert.equal(r.status, 0, r.stderr); assert.equal(JSON.parse(r.stdout).state, 'UNKNOWN');
+});
+it('refusals name their next step', base => {
+  const { rt } = seed(base), file = path.join(rt, '.sync.lock');
+  fs.writeFileSync(file, JSON.stringify(R.record(rt)), { mode: 0o600 });
+  const busy = R.recover(rt, R.inspect(rt).expected); assert.equal(busy.state, 'BUSY'); assert.equal(busy.holder, process.pid); assert.match(busy.reason, new RegExp('pid ' + process.pid));
+  const stale = R.recover(rt, '0'.repeat(64)); assert.match(stale.reason, /inspect again/); assert.doesNotMatch(stale.reason, /alive/);
+  fs.unlinkSync(file); fs.chmodSync(rt, 0o775);
+  const open = R.inspect(rt); assert.equal(open.state, 'UNKNOWN'); assert.match(open.reason, /chmod go-w/);
+  fs.chmodSync(rt, 0o755);
+  const missing = R.inspect(path.join(base, 'absent')); assert.equal(missing.state, 'NOT_INSTALLED'); assert.match(missing.reason, /hooks install/);
+  for (const shape of [busy, stale, open, missing, R.recover(path.join(base, 'absent'), 'absent')]) for (const key of ['ok', 'state', 'reason']) assert(key in shape, key + ' missing from ' + JSON.stringify(shape));
+});
+for (const kind of ['missing-python', 'timeout']) it('unknown capability outcome never claims what the worker did: ' + kind, base => {
+  const { rt } = crash(base);
+  const code = `const cp=require('child_process'),real=cp.spawnSync;cp.spawnSync=function(cmd,args,opts){if(cmd==='/usr/bin/python3')return ${JSON.stringify(kind === 'missing-python' ? { error: { code: 'ENOENT' }, status: null } : { error: { code: 'ETIMEDOUT' }, status: null })};return real.apply(this,arguments);};const r=require(${JSON.stringify(path.resolve(__dirname, '../lib/runtime-recovery'))});console.log(JSON.stringify(r.recover(${JSON.stringify(rt)},r.inspect(${JSON.stringify(rt)}).expected)));`;
+  const result = JSON.parse(spawnSync(process.execPath, ['-e', code], { encoding: 'utf8', timeout: 10000 }).stdout);
+  if (kind === 'missing-python') { assert.match(result.reason, /\/usr\/bin\/python3/); assert.strictEqual(result.retired, false); assert.strictEqual(result.recovered, false); }
+  else { assert.strictEqual(result.retired, null); assert.strictEqual(result.recovered, null); }
+});
+it('CLI usage errors exit 2 and print JSON only when asked', base => {
+  const bin = path.resolve(__dirname, '../bin/sshlg-skills.js');
+  const run = args => spawnSync(process.execPath, [bin, 'hooks', 'recovery', ...args], { env: { ...process.env, HOME: base }, encoding: 'utf8', timeout: 15000 });
+  const plain = run(['recover']); assert.equal(plain.status, 2); assert.doesNotMatch(plain.stdout, /^\{/m);
+  const json = run(['recover', '--json']); assert.equal(json.status, 2); assert.equal(JSON.parse(json.stdout).ok, false);
+  const missing = run(['inspect', '--json']); assert.equal(missing.status, 1); assert.equal(JSON.parse(missing.stdout).state, 'NOT_INSTALLED');
 });
 if (failed.length) { console.error(failed.join('\n')); process.exitCode = 1; }
 else console.log(`PASS: runtime recovery — ${checks} checks`);
