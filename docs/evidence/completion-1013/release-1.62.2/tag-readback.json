@@ -1,0 +1,17 @@
+{
+  "schema": "release-watch-state/1",
+  "plan_sha256": "40d47350dc5dc63b00d105bcfbf5c11a9c94be09322c235e944ccec47f9597ec",
+  "candidate": "a17f829e8d652ce7f68423b67e0de00fb89b3693",
+  "run_id": 38348440718,
+  "at": "2026-10-13T04:56:13.142Z",
+  "status": "TAG_PUSHED",
+  "tag_object": "531f93556d4d01a047d63f5f13df793ef58fffb4",
+  "sha": "a17f829e8d652ce7f68423b67e0de00fb89b3693",
+  "pins": {
+    "exit_code": 0,
+    "stdout_sha256": "6dcc7f879c61bbce0af1497105306fa9dd972f2ebc0734cff2db42d5a666d8e3",
+    "warning": null
+  },
+  "main_after_push": "a17f829e8d652ce7f68423b67e0de00fb89b3693",
+  "main_unchanged": true
+}

@@ -1,0 +1,33 @@
+{
+  "conclusion": "success",
+  "headSha": "a17f829e8d652ce7f68423b67e0de00fb89b3693",
+  "jobs": [
+    {
+      "name": "validate / self-tests-a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "validate / self-tests-b",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "validate / validate",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "build",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "name": "deploy",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/ssheleg/sshlg-skills/actions/runs/38348440718"
+}
