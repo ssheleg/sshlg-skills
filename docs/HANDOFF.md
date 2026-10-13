@@ -8,6 +8,13 @@ publication and actual installed acceptance are pending. The normal delivery
 candidate is [draft PR219](https://github.com/ssheleg/sshlg-skills/pull/219); it has
 not been promoted for final candidate checks.
 
+**New runner lifecycle finding:** [IO09](reports/2026-10-13-independent-observer-runtime-3898236/README.md#io-09-shared-scratch-lock-ends-before-orphan-plant-writers)
+shows the new shared scratch lock can release on runner SIGKILL while its plant
+child still writes. The owned-namespace reproduction touched no public scratch.
+The active TP875c6e6 full run remains frozen as pre-fix evidence; a separate
+correction branch must pass descendant-lifetime controls before TP/SEO/dev
+integration. A healthy full run alone does not resolve this interruption defect.
+
 **Current failed gate and next action:** the [first composed aggregate](evidence/completion-1013/hub-first-aggregate/README.md)
 ran132 suites and failed3: stale own-state expectations, staging pin receipt and
 old task-pipeline aliases. Narrow own-state corrections passed independent negative

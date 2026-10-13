@@ -40,3 +40,10 @@ Official reference: [Codex hooks](https://learn.chatgpt.com/docs/hooks).
 A later [50-second observation](followup-0934.json) of the same running thread
 recorded one completed PostToolUse event. It adds a bounded follow-up observation;
 it does not expand the earlier nine-event coverage to unobserved hook types.
+
+## Native followup at 13:59 UTC
+
+A further actual 50-second subscription on the same native thread observed
+11 completed hooks and zero failed hooks. [Metadata receipt](native-followup-20261013-1359.json)
+retains event IDs/timestamps and the observation boundary. This is not all-session
+proof, performance acceptance or publication of the permanent update guard.
