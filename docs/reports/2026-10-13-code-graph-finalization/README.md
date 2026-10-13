@@ -20,7 +20,7 @@ report:
     agent: "Codex root"
     task: "R33 final source graph and document reconciliation"
   supersedes: []
-  superseded_by: ["sshlg-skills/2026-10-13-code-graph-recovery"]
+  superseded_by: "sshlg-skills/2026-10-13-code-graph-recovery"
   consumers: ["sshlg-skills finalization"]
 ---
 
