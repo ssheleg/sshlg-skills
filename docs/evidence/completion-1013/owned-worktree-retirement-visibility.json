@@ -1,0 +1,39 @@
+{
+  "as_of": "2026-10-13",
+  "scope": "Completed owned worktrees only; remote branches and private coordination journals retained",
+  "rows": [
+    {
+      "worktree": "hub-backup-identity",
+      "branch": "fix/backup-identity-1013",
+      "head": "501e8f45166859434703012736ee4e947cd01cea",
+      "remote_exact": true,
+      "clean": true,
+      "active_handles": false,
+      "local_journal_archive": "/Users/sshlg/.sshlg-skills/owned-worktree-archives/2026-10-13-visibility/hub-backup-identity.tar.gz",
+      "archive_sha256": "de9b3acb461e4d2955d0c89b96e91fdceffd39999bc192824596328269a07385",
+      "removed": true
+    },
+    {
+      "worktree": "hub-native-p2",
+      "branch": "eval/native-p2-1013",
+      "head": "19577605aae2c781177bd9e65e3cbb5d18a558c7",
+      "remote_exact": true,
+      "clean": true,
+      "active_handles": false,
+      "local_journal_archive": "/Users/sshlg/.sshlg-skills/owned-worktree-archives/2026-10-13-visibility/hub-native-p2.tar.gz",
+      "archive_sha256": "f46d45498fb2f0e04a618b2f9b0afa55f7df3703303e8c87186509327db45102",
+      "removed": true
+    },
+    {
+      "worktree": "hub-vis-followup",
+      "branch": "fix/visibility-profiles-1013",
+      "head": "27c63c96bc9e47758c9b4957042c78962983df3d",
+      "remote_exact": true,
+      "clean": true,
+      "active_handles": false,
+      "local_journal_archive": "/Users/sshlg/.sshlg-skills/owned-worktree-archives/2026-10-13-visibility/hub-vis-followup.tar.gz",
+      "archive_sha256": "6dafcf09e5dd618e39dbf4b63dc08a8fb30b704aef9fad9272953fe12600a312",
+      "removed": true
+    }
+  ]
+}
