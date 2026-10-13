@@ -64,6 +64,10 @@ reproduced custom-profile checkpoint bug is corrected in draft PR124 (b4fed300);
 were corrected. [Bounded peer](evidence/completion-1013/fw07-checkpoint-peer-final.json)
 is not a full gate or installed claim.
 These changes do not borrow acceptance from the immutable TP release run.
+The dry-only behavioral harness is now composed atf524d22 with an independent
+[68-control replay and source review](evidence/completion-1013/fw07-dry-peer.json).
+It has no live transport and cannot authorize or demonstrate model quality.
+A refreshed source cut and separate provider admission remain pending.
 
 [Native P2](evidence/completion-1013/native-routing-p2/readout.md) remains
 **NO_ADOPTION**: Google Auth still omits denied-before-switch testing. No installed

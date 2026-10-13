@@ -1,0 +1,33 @@
+{
+  "errors": 0,
+  "failures": 0,
+  "native_quality": "NOT_OBSERVED",
+  "provider_calls": 0,
+  "source_hashes": {
+    "README.md": "2b92ce57b370657b6ab0372da908d92a4b16e7e4d035622b424978004d6e9317",
+    "check.py": "c24b70dd195a1906700d3f08fef1d8fc31820406f71b2f6fdc1b3580af244855",
+    "harness.py": "3cf80ed4a239a2a719d892c1cff4ff058f7c65f59ce1ec19038dc9a02d1a3639"
+  },
+  "status": "OFFLINE_PASS",
+  "subprocess_calls": 0,
+  "tests": 68,
+  "schema": "fw07-dry-peer/1",
+  "reviewer": "root independent of harness author",
+  "source": "4db944eec8bb9a156a4ac938cb34adc78436dd05",
+  "composed_source": "f524d22c919688c6e045152ec7df8705c4b22f16",
+  "command": "python3 -B docs/evidence/completion-1013/fw07-dry-runner-v1/check.py --bundle <hash-verified prepared bundle> --result <owned receipt>",
+  "actual_exit_code": 0,
+  "all_composed_packet_bytes_equal": true,
+  "manual_review": [
+    "Immutable original manifest, dependency and complete arm population bindings",
+    "Exact fake adapter only; no process, network or tool executor",
+    "STARTED with uncertainty precedes adapter entry; no retry or resume",
+    "Unique-request accounting and final reconciliation, chronological read/skill trace evidence",
+    "Full pair reservation, known/unknown cost handling and independent semantic review boundary"
+  ],
+  "limits": [
+    "Synthetic controls only; no live CLI compatibility, transport confinement, model quality or token benefit established",
+    "Candidate source rebind and separately authorized provider admission remain pending"
+  ],
+  "log_sha256": "f98419f58f938d1aa41663d8222827a0c9f9e29102241841ccba3d4d0fcb72b0"
+}
