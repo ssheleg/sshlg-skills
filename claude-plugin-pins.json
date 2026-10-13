@@ -4,7 +4,7 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "f974e7f212ddf2482569ab8399091f5d8336c31c",
+      "commit": "7267757e152ce3b434e283596f219dca335b4ed0",
       "version": "0.59.3",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
