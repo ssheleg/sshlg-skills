@@ -59,3 +59,28 @@ were then rechecked against these exact merged commits and matched the release
 receipt above. Thus the coordinator can pin these source successors without a
 new package version or historical tag rewrite. The machine receipt separates
 the tagged release source from this later repository-only successor.
+
+
+## Owner board publication reconciliation
+
+The coordinator independently reviewed the final documentation-only candidates
+and replayed all 81 payload hashes ([bounded review](member-board-publication-review.json)).
+The three owner boards now close GATE-01/GATE-02 from exact source/publication
+receipts, replacing the stale patch-release-pending state. Each owner also
+preserves its complete publication/byte-readback receipt inside its own repository.
+
+| Member | Merged documentation successor | PR | Eligible successful candidate run |
+|---|---|---|---|
+| telegram-dev | `4ffb10ce1b92a599c2214327ea4d878ab514ed6b` | [PR15](https://github.com/ssheleg/telegram-dev/pull/15) | [38348119950](https://github.com/ssheleg/telegram-dev/actions/runs/38348119950) |
+| xr-dev | `6199f2af23d01d7ae3ce84ef9f3b3820f57356c0` | [PR8](https://github.com/ssheleg/xr-dev/pull/8) | [38348121937](https://github.com/ssheleg/xr-dev/actions/runs/38348121937) |
+| web3d-dev | `ef6bc1acff0f1ee0258e66cc74828ebe14c170e2` | [PR9](https://github.com/ssheleg/web3d-dev/pull/9) | [38348123227](https://github.com/ssheleg/web3d-dev/actions/runs/38348123227) |
+
+Draft candidates were promoted once after independent review, passed genuine
+pull-request checks, and merged by ordinary exact-head squash. Each merged tree
+equals the reviewed candidate; all 81 published payload hashes still match.
+Task/resource leases were released after readback. No new package version, tag,
+release or hub pin was created. Family installation and native model acceptance
+remain separate; these six row closures do not claim six new implementation fixes.
+
+Next: coordinator consumes current owner board states when refreshing its source
+map. The already frozen hub release pins remain the coordinator's responsibility.
