@@ -1,0 +1,82 @@
+{
+  "reviewer": "visibility_review",
+  "status": "PASS_BOUNDED",
+  "scope": "Independent docs/source-evidence review, not repeated owner full suites or native runtime",
+  "owners": [
+    {
+      "owner": "agent-stack",
+      "base": "6b71918a4d9b23a1f10af54b7d574a48e401ef26",
+      "head": "3f7ea829f71b50a9bb2bd894bd03f71931dc5071",
+      "status": "PASS_BOUNDED",
+      "changedPaths": [
+        "docs/HANDOFF.md",
+        "docs/evidence/backlog.md",
+        "docs/evidence/runs/2026-10-13-fw00-referrals-checks/payload-parity.json",
+        "docs/evidence/runs/2026-10-13-fw00-referrals-checks/structural.log",
+        "docs/evidence/runs/2026-10-13-fw00-referrals.md",
+        "docs/evidence/verification.md"
+      ],
+      "diffSha256": "2a02b52b10f506cdd6d1232776e4a13ff2c28a67ee113d0ac3208635542bfe9a",
+      "boardIdentifierCount": 25,
+      "onlyDispositionChanged": [
+        "B-159",
+        "B-160"
+      ],
+      "npmCurrentPathsEqualBase": 44,
+      "retainedAuthorLogsRead": {
+        "docs/evidence/runs/2026-10-13-fw00-referrals-checks/structural.log": "  unlooked: front matter vs a strict reader \u2014 no sshlg-skills umbrella above this checkout\nOK: agent-stack structurally valid (17 checks = 13 named + 4 per-skill, 4 skill(s), v0.28.2)\nresidue: this run left nothing \u2014 0 temp tree(s) created, 0 removed\n"
+      },
+      "limits": [
+        "Owner logs were read, not represented as independently rerun suites.",
+        "No code, skill body or package version changed.",
+        "Historical requirement text and old-ID history preserved."
+      ]
+    },
+    {
+      "owner": "super-ux",
+      "base": "a9a7a614f77a9788e154866396cb9b61215a28a3",
+      "head": "3ebecd785cacad496c5eb9727bd58bbcf22f7c54",
+      "status": "PASS_BOUNDED",
+      "changedPaths": [
+        "docs/HANDOFF.md",
+        "docs/brand/facts.md",
+        "docs/evidence/backlog.md",
+        "docs/evidence/runs/2026-10-13-fw00-published/README.md",
+        "docs/evidence/runs/2026-10-13-fw00-published/brand.log",
+        "docs/evidence/runs/2026-10-13-fw00-published/payload-parity.json",
+        "docs/evidence/runs/2026-10-13-fw00-published/publication.json",
+        "docs/evidence/runs/2026-10-13-fw00-published/structural-first.log",
+        "docs/evidence/runs/2026-10-13-fw00-published/structural.log",
+        "docs/evidence/verification.md"
+      ],
+      "diffSha256": "c811398f9d144b9b3535c811e6c4849ded446b6fe991a4e682def63442ef6f37",
+      "boardIdentifierCount": 33,
+      "onlyDispositionChanged": [
+        "B-025",
+        "B-026"
+      ],
+      "npmCurrentPathsEqualBase": 34,
+      "retainedAuthorLogsRead": {
+        "docs/evidence/runs/2026-10-13-fw00-published/brand.log": "warn  B074 copy-brief.md:0: marketing sources have no current copy brief; seed one before the next writing task, retaining unknown inputs\n\n0 error(s), 1 warning(s)\n",
+        "docs/evidence/runs/2026-10-13-fw00-published/structural-first.log": "  unlooked: docs/brand/facts.md `agents reachable via the skills CLI` \u2014 the vercel-labs/skills agent registry is an external list, and no command in this repository returns it\n  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nFAIL: docs/brand/facts.md: `repo validator checks` records '5482' and its own Source command returns '5489' -- `python3 test/validate.py | sed -n 's/^OK (\\([0-9]*\\) checks)$/\\1/p'`\n1 failure(s) out of 5489 checks\n",
+        "docs/evidence/runs/2026-10-13-fw00-published/structural.log": "  unlooked: docs/brand/facts.md `agents reachable via the skills CLI` \u2014 the vercel-labs/skills agent registry is an external list, and no command in this repository returns it\n  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nOK (5489 checks)\n"
+      },
+      "limits": [
+        "Owner logs were read, not represented as independently rerun suites.",
+        "No code, skill body or package version changed.",
+        "Historical requirement text and old-ID history preserved."
+      ]
+    }
+  ],
+  "uxPublicationReceiptExactCopySha256": "3d3d9d7d6633aebb107a781ffa3334ec693fcf0321bc80574788ab045f585307",
+  "uxPublished33HashesMatchCurrentSource": true,
+  "semanticFindings": [
+    "AS B-159 remains partial/open: snapshot accepted, missing scanner at cited cut; pending new SEO candidate not misrepresented as accepted.",
+    "AS B-160 closes the exact repository-wide source-lint referral with exclusions and runtime boundary retained.",
+    "UX B-025 closes Owner field/template/linter, without assigning a real owner.",
+    "UX B-026 closes brief/voice/qualified NN/g source contract, without invented metrics, targets or conversion claims.",
+    "Eight make regression groups correctly distinguish seven pure fixture groups and one actual public validator planted/removal pair.",
+    "UX count correction5482 to5489 matches retained failure/success logs; one existing B074 advisory remains.",
+    "UX current dry-run34 parity and historical published33 proof are distinct; extra current path explicitly named, no new publication claimed."
+  ]
+}
