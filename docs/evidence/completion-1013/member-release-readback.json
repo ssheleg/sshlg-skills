@@ -145,7 +145,23 @@
         "isolatedHome": true,
         "installedSkills": false
       },
-      "acceptance": "published payload equals tagged source; help works; not native installed-hook or model-quality acceptance"
+      "acceptance": "published payload equals tagged source; help works; not native installed-hook or model-quality acceptance",
+      "repositoryOnlySuccessor": {
+        "source": "711576f89d06525ee94ad4aac0f779a5baeefdd5",
+        "candidate": "fbac55f1ed9c7a1ecbf3cd556d1ce0ea5af38a00",
+        "pr": "https://github.com/ssheleg/telegram-dev/pull/14",
+        "eligibleRun": {
+          "conclusion": "success",
+          "databaseId": 38344014201,
+          "event": "pull_request",
+          "headSha": "fbac55f1ed9c7a1ecbf3cd556d1ce0ea5af38a00",
+          "status": "completed",
+          "url": "https://github.com/ssheleg/telegram-dev/actions/runs/38344014201"
+        },
+        "reviewedTreeEqualsMerged": true,
+        "publishedPayloadByteEqual": true,
+        "reason": "test comments and own evidence only; published version/tag unchanged"
+      }
     },
     {
       "repo": "xr-dev",
@@ -376,7 +392,23 @@
         "isolatedHome": true,
         "installedSkills": false
       },
-      "acceptance": "published payload equals tagged source; help works; not native installed-hook or model-quality acceptance"
+      "acceptance": "published payload equals tagged source; help works; not native installed-hook or model-quality acceptance",
+      "repositoryOnlySuccessor": {
+        "source": "d36912f4a69be90b920ff7c15a890c805761b35c",
+        "candidate": "7361419caeceec296dd29f42a37e10c4948d71df",
+        "pr": "https://github.com/ssheleg/xr-dev/pull/7",
+        "eligibleRun": {
+          "conclusion": "success",
+          "databaseId": 38344016163,
+          "event": "pull_request",
+          "headSha": "7361419caeceec296dd29f42a37e10c4948d71df",
+          "status": "completed",
+          "url": "https://github.com/ssheleg/xr-dev/actions/runs/38344016163"
+        },
+        "reviewedTreeEqualsMerged": true,
+        "publishedPayloadByteEqual": true,
+        "reason": "test comments and own evidence only; published version/tag unchanged"
+      }
     },
     {
       "repo": "web3d-dev",
@@ -512,7 +544,23 @@
         "isolatedHome": true,
         "installedSkills": false
       },
-      "acceptance": "published payload equals tagged source; help works; not native installed-hook or model-quality acceptance"
+      "acceptance": "published payload equals tagged source; help works; not native installed-hook or model-quality acceptance",
+      "repositoryOnlySuccessor": {
+        "source": "b993d2517545a0d3f4fb6358f4942c7025fc2fdf",
+        "candidate": "529495d0655ed34ca025641d6553efd75db6c21a",
+        "pr": "https://github.com/ssheleg/web3d-dev/pull/8",
+        "eligibleRun": {
+          "conclusion": "success",
+          "databaseId": 38344018019,
+          "event": "pull_request",
+          "headSha": "529495d0655ed34ca025641d6553efd75db6c21a",
+          "status": "completed",
+          "url": "https://github.com/ssheleg/web3d-dev/actions/runs/38344018019"
+        },
+        "reviewedTreeEqualsMerged": true,
+        "publishedPayloadByteEqual": true,
+        "reason": "test comments and own evidence only; published version/tag unchanged"
+      }
     }
   ]
 }
