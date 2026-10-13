@@ -1,0 +1,21 @@
+{
+  "schema": "owner-pin-seam/1",
+  "status": "FAIL_REQUIRES_OWNER_CORRECTION",
+  "command": "python3 test/validate.py",
+  "exit_code": 1,
+  "log": "pin-seam-failure.log.gz",
+  "uncompressed_sha256": "042866c872501f22c5b4319c910f970cac61e2476efeb0eed1b0112c5e3f7091",
+  "cause": "Nine owner shared-mechanism headers put semantic extraction prose in the machine field diverges, which declares module-level constant differences only. Actual computed difference is none.",
+  "remedy": "Correct nine headers in five owner repositories, retaining semantic explanation as ordinary comments. Keep hub gate unchanged.",
+  "pending_owners": [
+    "agent-sync",
+    "make-skill",
+    "sheleg-design",
+    "sheleg-dev",
+    "super-ux"
+  ],
+  "limits": [
+    "Pins name accepted source merges; final hub gate not yet passing.",
+    "Task-pipeline and SEO release pins remain unchanged until accepted publication."
+  ]
+}

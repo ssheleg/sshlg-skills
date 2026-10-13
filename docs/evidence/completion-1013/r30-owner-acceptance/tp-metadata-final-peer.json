@@ -1,0 +1,24 @@
+{
+  "source_commit": "377f2b20a92b028bcf9baa8f8e43a15279d2f1b4",
+  "base_commit": "9fb9cfb34d83a1395d1d18dbe191d4135395b986",
+  "reviewer": "visibility_review",
+  "verdict": "PASS_BOUNDED_METADATA_COMPOSITION",
+  "changed_files": [
+    ".claude-plugin/marketplace.json",
+    "CHANGELOG.md",
+    "SKILL-CARD.md",
+    "docs/HANDOFF.md",
+    "docs/evidence/runs/2026-10-13-r30-owner-gates/README.md",
+    "docs/evidence/verification.md",
+    "package.json",
+    "plugins/task-pipeline/.claude-plugin/plugin.json"
+  ],
+  "checks": [
+    "Read all8 diffs; three JSON version surfaces differ only1.93.3\u21921.94.0",
+    "Five version homes consistent including card and changelog",
+    "Historical HANDOFF/verification bodies and changelog suffix byte-preserved",
+    "Only extra R30 receipt changes convert two post-squash nonancestor source references to immutable links; original failure remains failed",
+    "No test, runtime or workflow changes; final full feature gates and publication remain separate"
+  ],
+  "limits": "Read-only source composition review; no broad suite replay or release claim"
+}

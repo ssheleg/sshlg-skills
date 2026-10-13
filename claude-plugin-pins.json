@@ -4,7 +4,7 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "f0261f68c1a7222508bd984dc7bac63805dbb76b",
+      "commit": "5482c4762f648ab33f2f9c3a075f2c2866e4bc17",
       "version": "0.59.3",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
@@ -1628,7 +1628,7 @@
     {
       "name": "agent-sync",
       "repo": "ssheleg/agent-sync",
-      "commit": "3dbafd82eb635d8e79b65ddc0c3d1fd8205936db",
+      "commit": "7a1dbe7dcdaff1786fad38dbd2ee742266d1a39a",
       "version": "1.22.2",
       "pluginInstall": "agent-sync@agent-sync",
       "pluginPath": "plugins/agent-sync",
@@ -1778,7 +1778,7 @@
     {
       "name": "make-skill",
       "repo": "ssheleg/make-skill",
-      "commit": "78d67651611f50e2af531ab04916e680c2a2680d",
+      "commit": "3740043608a2d2969982ed304eebfd5313c06b19",
       "version": "0.31.2",
       "pluginInstall": "make-skill@make-skill",
       "pluginPath": "plugins/make-skill",
@@ -1948,7 +1948,7 @@
     {
       "name": "sheleg-design",
       "repo": "ssheleg/sheleg-design-skill",
-      "commit": "678fe483eea128be0125b033f442934f1ece7c32",
+      "commit": "b017f5143284538d2670d22aab1f1403da459d87",
       "version": "1.64.2",
       "pluginInstall": "sheleg-design@sheleg-design-skill",
       "pluginPath": "plugins/sheleg-design",
@@ -2724,7 +2724,7 @@
     {
       "name": "sheleg-dev",
       "repo": "ssheleg/sheleg-dev",
-      "commit": "8862fae9a826263f8109626ca257f81c7c43ac86",
+      "commit": "02655faeb525e5b65b628f65671a5b047eff5d0d",
       "version": "0.13.4",
       "pluginInstall": "sheleg-dev@sheleg-dev",
       "pluginPath": "plugins/sheleg-dev",
@@ -3075,8 +3075,8 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "cb8f6993a61473f3974bc3af67925439ed4abb75",
-      "version": "0.27.1",
+      "commit": "e2120c272c884ab4351c610148bbc0a4526c4067",
+      "version": "0.27.2",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",
       "entry": {
@@ -3084,7 +3084,7 @@
         "displayName": "Agent Stack",
         "source": "./plugins/agent-stack",
         "description": "Four skills: agent-orchestrator — tool-calling loops, pipelines with checkpoints, provider routing with fallback, memory architecture, plus the wallet side of reselling LLM access; agent-evals — run/trace/thread evals, LLM judges, and fixtures grown from production; agent-interop — MCP servers and clients, A2A agent cards, the MCP Registry, and gateways; agent-harness — system prompts, tool shaping, workflow-vs-agent, and auditing an agent system.",
-        "version": "0.27.1",
+        "version": "0.27.2",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3109,7 +3109,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "ea11b95f97cde7859eb4e25b7211ed84da0472425aa3df6eeed8552622284199",
+          "sha256": "8c0a4dbe7ec8e59b1d82c44612523a55a4b5ce13172614d0c5eecf4824f200f2",
           "bytes": 1081
         },
         {
@@ -3302,7 +3302,7 @@
     {
       "name": "telegram-dev",
       "repo": "ssheleg/telegram-dev",
-      "commit": "711576f89d06525ee94ad4aac0f779a5baeefdd5",
+      "commit": "4ffb10ce1b92a599c2214327ea4d878ab514ed6b",
       "version": "0.2.4",
       "pluginInstall": "telegram-dev@telegram-dev",
       "pluginPath": "plugins/telegram-dev",
@@ -3425,7 +3425,7 @@
     {
       "name": "xr-dev",
       "repo": "ssheleg/xr-dev",
-      "commit": "d36912f4a69be90b920ff7c15a890c805761b35c",
+      "commit": "6199f2af23d01d7ae3ce84ef9f3b3820f57356c0",
       "version": "0.3.4",
       "pluginInstall": "xr-dev@xr-dev",
       "pluginPath": "plugins/xr-dev",
@@ -3639,7 +3639,7 @@
     {
       "name": "web3d-dev",
       "repo": "ssheleg/web3d-dev",
-      "commit": "b993d2517545a0d3f4fb6358f4942c7025fc2fdf",
+      "commit": "ef6bc1acff0f1ee0258e66cc74828ebe14c170e2",
       "version": "0.1.4",
       "pluginInstall": "web3d-dev@web3d-dev",
       "pluginPath": "plugins/web3d-dev",

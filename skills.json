@@ -63,7 +63,7 @@
       "npm": "super-ux",
       "shape": "static",
       "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable.",
-      "commit": "f0261f68c1a7222508bd984dc7bac63805dbb76b"
+      "commit": "5482c4762f648ab33f2f9c3a075f2c2866e4bc17"
     },
     {
       "name": "task-pipeline",
@@ -101,7 +101,7 @@
       "npm": "@ssheleg/agent-sync",
       "shape": "static",
       "shapeWhy": "Leases, ids and the journal are a fixed protocol; what varies is who holds what, which is state rather than shape.",
-      "commit": "3dbafd82eb635d8e79b65ddc0c3d1fd8205936db"
+      "commit": "7a1dbe7dcdaff1786fad38dbd2ee742266d1a39a"
     },
     {
       "name": "make-skill",
@@ -120,7 +120,7 @@
       "npm": "@ssheleg/make-skill",
       "shape": "static",
       "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time.",
-      "commit": "78d67651611f50e2af531ab04916e680c2a2680d"
+      "commit": "3740043608a2d2969982ed304eebfd5313c06b19"
     },
     {
       "name": "sheleg-design",
@@ -149,7 +149,7 @@
           "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
       ],
-      "commit": "678fe483eea128be0125b033f442934f1ece7c32"
+      "commit": "b017f5143284538d2670d22aab1f1403da459d87"
     },
     {
       "name": "seo-aeo-audit",
@@ -191,7 +191,7 @@
       "npm": "@ssheleg/sheleg-dev",
       "shape": "static",
       "shapeWhy": "Each integration is a fixed sequence of seams; nothing decides its own next step.",
-      "commit": "8862fae9a826263f8109626ca257f81c7c43ac86"
+      "commit": "02655faeb525e5b65b628f65671a5b047eff5d0d"
     },
     {
       "name": "agent-stack",
@@ -206,13 +206,13 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.27.1",
+      "version": "0.27.2",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance.",
-      "commit": "cb8f6993a61473f3974bc3af67925439ed4abb75"
+      "commit": "e2120c272c884ab4351c610148bbc0a4526c4067"
     },
     {
       "name": "telegram-dev",
@@ -232,7 +232,7 @@
       "npm": "@ssheleg/telegram-dev",
       "shape": "static",
       "shapeWhy": "Three fixed surfaces with fixed seams; the only branch is which of the three a task is on, and the first table in each SKILL.md decides that before any code.",
-      "commit": "711576f89d06525ee94ad4aac0f779a5baeefdd5"
+      "commit": "4ffb10ce1b92a599c2214327ea4d878ab514ed6b"
     },
     {
       "name": "xr-dev",
@@ -263,7 +263,7 @@
           "note": "Stage map, engine paths and immersive design acceptance, with separate evidence for build, device, Store and operation."
         }
       ],
-      "commit": "d36912f4a69be90b920ff7c15a890c805761b35c"
+      "commit": "6199f2af23d01d7ae3ce84ef9f3b3820f57356c0"
     },
     {
       "name": "web3d-dev",
@@ -283,7 +283,7 @@
       "npm": "@ssheleg/web3d-dev",
       "shape": "static",
       "shapeWhy": "Three fixed questions with fixed seams — runtime, assets, motion — and one shared contract, the clip canon, duplicated into both skills that need it and checked identical.",
-      "commit": "b993d2517545a0d3f4fb6358f4942c7025fc2fdf"
+      "commit": "ef6bc1acff0f1ee0258e66cc74828ebe14c170e2"
     }
   ],
   "agents": [
