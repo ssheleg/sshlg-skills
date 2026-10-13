@@ -36,8 +36,9 @@ No source change or SEO board closure is made by this review.
 
 make-skill's current `test/validate.py` walks repository Python sources, has an
 any-receiver/from-alias detector and one exact attributed ledger exemption. The
-owner FW01 packet retains eight public-entry regression controls, seven independent
-boundary cases and its later full source gate. This closes the specific source-lint
+owner FW01 packet retains eight regression groups (seven small guard fixtures and
+one public-validator planted/removal pair), seven independent boundary cases and
+its later full source gate. This closes the specific source-lint
 referral, not every language, every syntactic encoding or runtime allocation.
 The [0.31.2 release receipt](releases/make-skill-0.31.2.json) establishes publication
 of its payload; the validator itself is repository-only source, not a shipped CLI.
