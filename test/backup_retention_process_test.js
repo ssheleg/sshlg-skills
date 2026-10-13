@@ -12,5 +12,5 @@ function spawn(code,args){const p=cp.spawn(process.execPath,['-e',code,...args],
  await pause(100);assert.equal(two.p.exitCode,null,'ordinary writer bypassed active directory lock');fs.writeFileSync(go,'go');
  const runs=await Promise.race([Promise.all([one.done,two.done]),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('process deadline')),8000);})]);
  for(const r of runs)assert.equal(r.status,0,r.err);const saved=JSON.parse(runs[0].out);assert.equal(fs.readFileSync(saved.path,'utf8'),'RECOVERY');assert.ok(fs.existsSync(saved.reference.file));
- console.log('OK (1 real-process reservation/pruning race)');
+ console.log('PASS: backup retention process — 1 case');
 }catch(e){console.error('FAIL '+e.stack);process.exitCode=1;}finally{clearTimeout(timer);for(const p of children)if(p.exitCode===null)p.kill('SIGKILL');await Promise.all(children.map(p=>p.exitCode!==null?Promise.resolve():new Promise(r=>p.once('close',r))));fs.rmSync(root,{recursive:true,force:true});}})();
