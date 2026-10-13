@@ -18,5 +18,8 @@ and a skill arriving before update. Three update passes keep one immutable recei
 identical final config bytes, an observable deferred status, and zero native
 mutating commands. All10 native fixture controls passed. [Baseline](red.log.gz) and
 [corrected](green.log.gz) logs are preserved. This is fixture acceptance; actual host
-update, watcher registration, final aggregate and independent peer remain pending.
+update, watcher registration, final aggregate remain pending. The [independent replay](independent.json) from an
+immutable detached Git checkout passed the same10 controls in21.86 seconds,
+with identical source and output hashes; its [log](independent.log.gz) and
+[runner](independent-runner.py) are retained.
 The earlier frozen source graph remains historical and needs a new final code cut.

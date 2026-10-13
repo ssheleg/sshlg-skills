@@ -1,0 +1,70 @@
+{
+  "schema": "codex-order-independent/1",
+  "source": "d75ab705ca5195f7f4f361245ec9dc077f233011",
+  "tree": "8183aa0c5febb45a0ce592e02af4f4f04b047637",
+  "command": [
+    "node",
+    "test/codex_native_e2e_test.js"
+  ],
+  "exit": 0,
+  "elapsed_seconds": 21.86121392250061,
+  "source_hashes": [
+    {
+      "path": "bin/sshlg-skills.js",
+      "sha256": "ef7765c7a5d9f616a5704bb603da27b78f33e42aec947731ead0ed3f83da9f7b",
+      "bytes": 197912
+    },
+    {
+      "path": "test/codex_native_e2e_test.js",
+      "sha256": "d29c4730d5e39ee464e9570d515c0bd1d61d3b59cb31a857e5e9825f4c4c4195",
+      "bytes": 13215
+    },
+    {
+      "path": "test/fixtures/fake-codex.js",
+      "sha256": "aad84b0c727275892c5888e55d518b3c09875ef68e192b0eb9ec3f8a09143ce6",
+      "bytes": 4858
+    },
+    {
+      "path": "test/fixtures/native-transaction-boundary.cjs",
+      "sha256": "b41f5fc5096b6c83ef8c51c1ffc577afd3ef81e61c9a4fcbd3509157b72c1fa2",
+      "bytes": 605
+    },
+    {
+      "path": "lib/codexplugins.js",
+      "sha256": "1b16779c753c083701762a1859111cb478e8b81e5356b98b58ee1b69114d9dd5",
+      "bytes": 12207
+    },
+    {
+      "path": "lib/codex-pending.js",
+      "sha256": "c3f000bb565952a457989e3f394628d231da647602fcc147a8f24c2d94563c8a",
+      "bytes": 6648
+    },
+    {
+      "path": "lib/hostvis.js",
+      "sha256": "fe92bbb6ac7f66af01d3821750a11df231e2cfcaa24bd6eeb9d0048ef6677355",
+      "bytes": 9727
+    },
+    {
+      "path": "lib/visibility-state.js",
+      "sha256": "3467138e86391ade3dc8fcb86d7513daf4db28e623f56b2e18452d0acd8489ad",
+      "bytes": 5596
+    },
+    {
+      "path": "skills.json",
+      "sha256": "f6126d8b07ce0bbf93b827299f771699a8f9bf0670d111a90c43761f76ed6806",
+      "bytes": 22983
+    },
+    {
+      "path": "claude-plugin-pins.json",
+      "sha256": "4e2325c1b0aed82020a8942405dc916dc6bdb13ece797cc35e6018baf234d003",
+      "bytes": 151999
+    }
+  ],
+  "log_sha256": "86bd604d399e2fdb840a69eb5786dc168fee6c47865ebe08f42243526407a6a6",
+  "log_gzip_sha256": "77d390ec6c6f5e4309218a72070aab3c07e946106ebc5d2f7540c9d397289f7e",
+  "observed_at": "2026-10-13T12:54:42.403279+00:00",
+  "scope": "Actual launcher process fixtures with owned temporary HOME/CODEX_HOME, fake Codex transport/installers. Immutable detached Git source with authentic gitlinks; no actual user profile/provider/full suite.",
+  "owned_worktree_removed": true,
+  "passed_cases": 10,
+  "source_review": "Read cmdUpdate reordering and new consented-visibility fixture; existing save-time comparison and drift refusal unchanged. Other observer owns independent whole-source review."
+}

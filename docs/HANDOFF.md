@@ -101,8 +101,8 @@ A fresh nonauthor observer is performing an interim source/evidence preflight fr
 [the frozen task packet](evidence/completion-1013/final-observer-task/README.md).
 Final verdict still requires actual release/install receipts. It reproduced a
 [Codex receipt/visibility ordering defect](evidence/completion-1013/codex-visibility-order/README.md);
-root corrected it and the10 actual CLI fixture controls passed. Independent peer
-and a refreshed graph are pending. Wiki PR23 normally merged2dd9e47 with
+root corrected it and the10 actual CLI fixture controls passed. An independent
+immutable-checkout replay also passed all10; a refreshed graph is in progress. Wiki PR23 normally merged2dd9e47 with
 181→182 IDs and zero loss; its source-header validator correction passed22
 independent controls. Next TP composition
 is a separate1.95.0 source candidate0cb1044; shared-lock SEOd6c87c3 and dev366a2d3
