@@ -34,3 +34,26 @@ Exact next task: coordinator integrates these receipts, moves family pins only t
 verified releases, then performs the separate global installation/readback pass.
 Skills: make-skill (release construction), task-pipeline (normal delivery),
 agent-sync (ownership), evidence-docs (exact artifact and scope receipts).
+
+
+## Repository-only shared-gate successors
+
+The hub's existing copied-mechanism guard found missing declarations on the
+identical `member_gates.py` and `member_gates_test.py` copies. Each owner added
+comment-only `shared-mechanism`/`diverges: none` headers and an evidence packet.
+Independent AST comparison confirmed unchanged Python behavior; every owner
+passed `npm test` and 42 process controls. The isolated real hub guard changed
+from six missing-header failures to zero and still rejected an undeclared
+constant plant. No guard exemption or threshold relaxation was introduced.
+
+| Member | Merged successor source | PR | Eligible successful candidate run |
+|---|---|---|---|
+| telegram-dev | `711576f89d06525ee94ad4aac0f779a5baeefdd5` | [PR14](https://github.com/ssheleg/telegram-dev/pull/14) | [38344014201](https://github.com/ssheleg/telegram-dev/actions/runs/38344014201) |
+| xr-dev | `d36912f4a69be90b920ff7c15a890c805761b35c` | [PR7](https://github.com/ssheleg/xr-dev/pull/7) | [38344016163](https://github.com/ssheleg/xr-dev/actions/runs/38344016163) |
+| web3d-dev | `b993d2517545a0d3f4fb6358f4942c7025fc2fdf` | [PR8](https://github.com/ssheleg/web3d-dev/pull/8) | [38344018019](https://github.com/ssheleg/web3d-dev/actions/runs/38344018019) |
+
+Each merged tree equals its reviewed candidate. All 81 published npm-file hashes
+were then rechecked against these exact merged commits and matched the release
+receipt above. Thus the coordinator can pin these source successors without a
+new package version or historical tag rewrite. The machine receipt separates
+the tagged release source from this later repository-only successor.
