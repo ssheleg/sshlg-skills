@@ -243,5 +243,25 @@
       "sha256": "5ff577b232bfd2d722ababd29c4125009a631bef34a26fec9f436dbf9a88d976",
       "bytes": 927
     }
+  ],
+  "release_workflow_conclusion": "success",
+  "release_workflow_url": "https://github.com/ssheleg/seo-aeo-audit/actions/runs/38342468745",
+  "release_jobs": [
+    {
+      "name": "validate / validate",
+      "conclusion": "success"
+    },
+    {
+      "name": "validate / House skill audit",
+      "conclusion": "success"
+    },
+    {
+      "name": "release",
+      "conclusion": "success"
+    },
+    {
+      "name": "publish",
+      "conclusion": "success"
+    }
   ]
 }

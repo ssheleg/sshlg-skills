@@ -1,3 +1,17 @@
+## v1.62.2 — pinned installs and source-preserving settings edits
+
+- Plain-host installation and updates now select the reviewed member commit from
+  the packaged inventory. Preview and execution use the same source; malformed
+  pins stop the operation before installation. Continue keeps physical copies.
+  Claude plugins retain their separate native update lifecycle.
+- Project plugin settings can be edited without reformatting unrelated JSON.
+  Escaped keys, original number spelling and line endings survive; duplicate
+  keys and ambiguous plugin maps are refused. Incomplete project scans still
+  retain global coverage.
+- Published member fixes are pinned with source and registry receipts. Installer
+  controls exercise the actual pinned skills CLI; domain controls cover repeated
+  application, exact undo and preservation of operator changes.
+
 ## v1.62.1 — readable project settings and immutable release tags
 
 - Valid project JSON is readable regardless of indentation. The existing lossless

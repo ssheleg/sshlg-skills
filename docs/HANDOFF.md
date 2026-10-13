@@ -7,13 +7,23 @@ Hub v1.62.1 is published from merge `ae1b415bc79a3d89ca97199299e0e00a2a5e7674`.
 [native visibility benchmark](reports/2026-10-13-native-visibility-rollout/README.md)
 separate published, installed, native-loaded and still-unmeasured quality.
 
-Exact next task: fix and independently verify [B-186 immutable installer sources](evidence/completion-1013/installer-pins.md), then perform the full plain-host
-update from its published release and compare installed bytes. Default installation
-currently uses floating member sources; the old isolated lock helper is not proof.
-Owner FW04/FW05 integrations and member patch releases proceed independently;
-[family packets](evidence/completion-1013/family-next-wave.md) retain every residual.
+Current candidate: branch `waves/2026-10-13-installed`, hub 1.62.2. The
+[B-186 installer fix](evidence/completion-1013/installer-pins.md) and
+[B185 lossless settings fix](evidence/completion-1013/domain-lossless.md) are
+implemented and independently checked; aggregate, release and installed readback
+remain pending. Eight published member updates have exact-source receipts;
+agent-sync release verification and task-pipeline iteration review continue.
+
+Exact next task: finish the candidate gate, integrate through genuine required
+checks, publish, then perform the full plain-host update and compare installed
+bytes. Reapply owned domain settings with readback; two incomplete foreign Git
+roots must still preserve global coverage. Continue the contextual
+[family packets](evidence/completion-1013/family-next-wave.md), including collector
+coverage, task-pipeline conservation fixes and controlled selection evaluations.
 No descriptions were shortened without a quality gate. Fabric com.* tools remain
-unavailable; own-Git pending asks are unsent, not delivered through another channel.
+unavailable; own-Git pending asks are unsent. The
+[independent draft review](evidence/completion-1013/independent-draft-reconciliation-review.md)
+certifies synthetic consumer and reconciliation checks only.
 
 Earlier status sections below are dated history, not current acceptance.
 

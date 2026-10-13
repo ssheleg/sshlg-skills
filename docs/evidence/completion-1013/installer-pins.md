@@ -48,11 +48,11 @@ repository declares no such ID register (`idRegisters` is empty). B-186 was allo
 under the parent's exclusive board ownership after checking absence; no fabricated
 reservation receipt is claimed.
 
-## Acceptance still open
+## Acceptance status
 
-Reproduction, implementation, independent review and real-host payload comparison
-are pending. A source-correct argument is necessary but does not alone prove that
-all loaders consume the intended payload.
+Reproduction, implementation and bounded independent review are complete below.
+Aggregate, publication and real-host payload comparison remain pending. A
+source-correct argument alone does not prove that all loaders consume the payload.
 
 ---
 **Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**
@@ -67,7 +67,8 @@ filter, `#` carries the ref; the synthetic Git default moved A→B while the pin
 sequence installed A→B→A→A→A with exact file equality and real Continue directories.
 The CLI bundle hash is72f1805ea4f6c62b0532cb77a9f021e7930bb7ca962f87a3fbf985d1ada5d56d.
 No real host skill or provider was used by that probe. The source is integrated in
-the parent branch; malformed repository-source follow-up, aggregate gate and actual
+the parent branch; malformed repository-source follow-up is also integrated and
+independently checked. The aggregate gate and actual
 published install/readback remain pending. Claude's working native lifecycle is
 retained and explicitly labelled version-following / immutable source NOT_VERIFIED;
 it is not destructively removed merely to assert a stronger contract.
