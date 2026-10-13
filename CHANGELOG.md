@@ -37,6 +37,8 @@
   refuse malformed ownership, changed consent and non-lossless UTF-8 input.
 - task-pipeline is pinned at 1.94.1 (`540679e`), the published release whose npm
   payload was read back equal to its source; the Claude plugin pins follow it.
+- seo-aeo-audit (`a6e471e`) and sheleg-dev (`7ced39b`) are pinned at their merged
+  family scratch-lock change; only tests and evidence changed, so 0.26.6 and 0.13.4 stay.
 - Release-iteration requests route to task-pipeline. Member validation and collector
   corrections carry source, publication and installed acceptance separately.
 - Native selection and artifact-quality experiments retain observed failures.

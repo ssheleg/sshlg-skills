@@ -2552,7 +2552,7 @@
     {
       "name": "seo-aeo-audit",
       "repo": "ssheleg/seo-aeo-audit",
-      "commit": "1e86edf178f0445ad2bace5fbbf79013de43f605",
+      "commit": "a6e471ef1236fd31359cba727fc948dbd760e372",
       "version": "0.26.6",
       "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
       "pluginPath": "plugins/seo-aeo-audit",
@@ -2769,7 +2769,7 @@
     {
       "name": "sheleg-dev",
       "repo": "ssheleg/sheleg-dev",
-      "commit": "21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369",
+      "commit": "7ced39b11ff562b9f7c75d01c4b472d7321b8dc7",
       "version": "0.13.4",
       "pluginInstall": "sheleg-dev@sheleg-dev",
       "pluginPath": "plugins/sheleg-dev",

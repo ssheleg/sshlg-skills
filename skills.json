@@ -167,7 +167,7 @@
       "npm": "@ssheleg/seo-aeo-audit",
       "shape": "static, with a bounded discovery",
       "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste.",
-      "commit": "1e86edf178f0445ad2bace5fbbf79013de43f605"
+      "commit": "a6e471ef1236fd31359cba727fc948dbd760e372"
     },
     {
       "name": "sheleg-dev",
@@ -191,7 +191,7 @@
       "npm": "@ssheleg/sheleg-dev",
       "shape": "static",
       "shapeWhy": "Each integration is a fixed sequence of seams; nothing decides its own next step.",
-      "commit": "21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369"
+      "commit": "7ced39b11ff562b9f7c75d01c4b472d7321b8dc7"
     },
     {
       "name": "agent-stack",
