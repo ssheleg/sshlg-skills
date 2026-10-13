@@ -49,6 +49,33 @@ identical inputs against it and the recovered module. Confirmed red/green: the o
 planned sheleg-dev off without installed metadata; it failed to restore xr-dev for an
 incomplete rescan. The new module retained/restored the global entries (two defects).
 
+## Independent review follow-up to `353033a`
+
+The independent reviewer reproduced three configuration defects in scratch repositories:
+revert erased ownership when local settings could not be read; a failed global write was
+mistaken for a later operator override; and automatic scoping overrode a shared project
+`false`. The reviewer also proved that `git grep -m 3` missed `navigator.xr` after three
+other-domain matches in the same file. These findings are covered by real CLI fixtures in
+`test/domains_e2e_test.js`.
+
+The follow-up writes ownership intent atomically before project/global settings, preserves
+`pendingUser` until global readback succeeds, retains unreadable/malformed project ownership,
+restores a pre-existing local `false` after manual enable/disable, and shares `update.lock`
+with other launcher writers. Fault injection covers EIO/ENOSPC when saving intent, process
+exit immediately after the global settings write, permission failure with successful retry,
+and lock contention. Shared and local project settings are layered without claiming existing
+entries; invalid settings block automatic additions and retain global coverage. Source grep
+no longer limits matches per file; overflow remains incomplete evidence. The hook records
+unloaded route hints as noted without arming an unavailable route.
+
+Focused follow-up results: `node test/domains_test.js` exit 0 (34 checks),
+`node test/domains_e2e_test.js` exit 0 (45 checks, including replay after interrupted
+write and reconciliation of already-landed intent), `node test/hooks_e2e_test.js` exit 0
+(70 checks), `node test/updatelock_test.js` exit 0 (30 checks), `git diff --check` exit 0.
+179 focused checks; domains e2e increases from 34 to 45. The bounded fallback walk remains
+conservative because both callers mark every domain partial when git cannot answer; its
+omissions cannot authorize a global disable.
+
 ## Remaining work and boundaries
 
 The full hub suite was NOT_RUN in this worktree; the coordinator runs it after integrating

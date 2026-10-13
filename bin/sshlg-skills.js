@@ -1968,11 +1968,12 @@ function domainsInputs(argv, home) {
   };
   const value = (name) => { const i = argv.indexOf(name); return i !== -1 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : null; };
   const recordPath = path.join(home, '.sshlg-skills', 'domains.json');
-  const recordText = read(recordPath);
+  const rr = readLocal(recordPath);
+  const recordText = rr.text;
   // A record that does not parse, or has another shape, is NOT "no record": members may be off
   // by this command's hand. It is named, and the writers refuse to act on it.
   let owned = null;
-  let recordError = null;
+  let recordError = rr.error ? `cannot be read (${rr.error})` : null;
   if (recordText !== null) {
     try { owned = JSON.parse(recordText); } catch (e) { recordError = `does not parse (${e.message})`; }
     if (!recordError) recordError = D.validRecord(owned);
@@ -2054,11 +2055,19 @@ function domainsInputs(argv, home) {
       const k = why.startsWith('used 60d') ? 'usage' : why.startsWith('manual:') ? 'manual' : (D.kindOf(why.split(': ')[0]) || 'other');
       kinds[k] = (kinds[k] || 0) + 1;
     }
-    const lr = Object.keys(evidence).length ? readLocal(localPath(dir)) : { text: null };
+    const lr = readLocal(localPath(dir));
+    const sr = readLocal(path.join(dir, '.claude', 'settings.json'));
+    const sharedOK = !sr.error && (sr.text === null || D.editEnabled(sr.text, { set: {} }).ok);
+    const localOK = !lr.error && (lr.text === null || D.editEnabled(lr.text, { set: {} }).ok);
+    const settingsOK = sharedOK && localOK;
     let verdict;
-    // One judgement of writability, used by the preview AND the writer, so they agree.
-    const writable = () => verdict || (verdict = domainsWritable(dir, lr, D));
-    return { dir, evidence, via: s.via, partial: s.partial || [], local: enabledOf(lr.text), ignored: writable };
+    // Shared project choices precede local ones; user scope must not masquerade as
+    // a project entry. Unknown shared settings cannot authorize a local override.
+    const writable = () => verdict || (verdict = sharedOK ? domainsWritable(dir, lr, D)
+      : { ok: false, why: 'cannot read valid .claude/settings.json' });
+    return { dir, evidence, via: s.via,
+      partial: settingsOK ? (s.partial || []) : D.DOMAIN_MEMBERS.slice(),
+      local: settingsOK ? Object.assign({}, enabledOf(sr.text), enabledOf(lr.text)) : {}, ignored: writable };
   });
   const settingsPath = path.join(home, '.claude', 'settings.json');
   const ur = readLocal(settingsPath);
@@ -2090,8 +2099,8 @@ function domainsWriteFile(apply, home, file, before, after, label) {
     const saved = apply.protect(file, { home });
     if (saved.action === 'backup-failed') { log(`  ${label}: NOT written — backup failed (${saved.error})`); return false; }
   }
-  fs.writeFileSync(file, after, { encoding: 'utf8', mode: 0o600 });
-  return true;
+  try { fs.writeFileSync(file, after, { encoding: 'utf8', mode: 0o600 }); return true; }
+  catch (e) { log(`  ${label}: NOT written — ${e.code || e.message}`); return false; }
 }
 
 /** The Fabric line, only where Fabric is installed — and with no board id. */
@@ -2103,6 +2112,22 @@ function domainsFabricLine(home, say) {
       say('  starts; until that ships, this command is the setting for every session on this machine.');
     }
   } catch (e) { /* no machine probe: no Fabric line */ }
+}
+
+function runDomainsLocked(argv) {
+  const writes = ['--apply', '--revert', '--enable', '--disable', '--update-step'].some((f) => argv.includes(f));
+  if (!writes) return cmdDomains(argv);
+  const lock = require('../lib/updatelock.js');
+  const home = process.env.HOME || os.homedir();
+  const got = lock.acquire(home);
+  if (!got.ok || got.degraded) {
+    log(`domains: refused — ${got.message || got.degraded}; configuration not written`);
+    return got.ok ? 1 : lock.BUSY_EXIT;
+  }
+  const free = () => lock.release(home, got.token);
+  process.on('exit', free);
+  try { return cmdDomains(argv); }
+  finally { free(); process.removeListener('exit', free); }
 }
 
 function cmdDomains(argv) {
@@ -2226,14 +2251,16 @@ function cmdDomains(argv) {
     const set = Object.fromEntries(off.map((k) => [k, false]).concat(on.map((k) => [k, true])));
     const r = D.editEnabled(userNow, { set });
     if (!r.ok) { log(`  ~/.claude/settings.json: NOT written — the file ${r.reason}`); failed = true; }
-    else if (r.text === userNow || domainsWriteFile(apply, home, I.settingsPath, userNow, r.text, '~/.claude/settings.json')) {
+    else if (!domainsRecordUserIntent(I, owned, off, apply, home)) {
+      log('  global settings NOT written — ownership intent could not be persisted'); failed = true;
+    } else if (r.text === userNow || domainsWriteFile(apply, home, I.settingsPath, userNow, r.text, '~/.claude/settings.json')) {
       const back = I.enabledOf(I.read(I.settingsPath) || '');
       for (const k of off) {
-        if (back[k] === false) { owned.user[k] = false; log(`  ~/.claude/settings.json: ${k} off at user scope (read back)`); }
+        if (back[k] === false) { owned.user[k] = false; delete owned.pendingUser[k]; log(`  ~/.claude/settings.json: ${k} off at user scope (read back)`); }
         else { log(`  ~/.claude/settings.json: ${k} did not read back false`); failed = true; }
       }
       for (const k of on) {
-        if (back[k] === true) { delete owned.user[k]; log(`  ~/.claude/settings.json: ${k} back on at user scope — preserve hooks or coverage for an unverified project (read back)`); }
+        if (back[k] === true) { delete owned.user[k]; delete owned.pendingUser[k]; log(`  ~/.claude/settings.json: ${k} back on at user scope — preserve hooks or coverage for an unverified project (read back)`); }
         else { log(`  ~/.claude/settings.json: ${k} did not read back true`); failed = true; }
       }
     } else failed = true;
@@ -2244,20 +2271,48 @@ function cmdDomains(argv) {
   return failed ? 1 : 0;
 }
 
+function domainsRecordUserIntent(I, owned, off, apply, home) {
+  const prior = Object.assign({}, owned.user);
+  const priorPending = Object.assign({}, owned.pendingUser);
+  for (const k of off) { owned.user[k] = false; owned.pendingUser[k] = true; }
+  if (writeRecord(I, owned, apply, home)) return true;
+  owned.user = prior;
+  owned.pendingUser = priorPending;
+  return false;
+}
+
 function domainsOwnedCopy(I) {
   const o = I.owned || {};
   return {
     roots: I.roots, applied: o.applied === true,
     user: Object.assign({}, o.user || {}),
+    // A previous process may have exited after writing false but before clearing intent.
+    pendingUser: Object.fromEntries(Object.entries(o.pendingUser || {}).filter(([k]) => I.user[k] !== false)),
     projects: JSON.parse(JSON.stringify(o.projects || {})),
     manual: JSON.parse(JSON.stringify(o.manual || {})),
   };
 }
 
+/** Read failure or malformed JSON cannot erase recovery ownership. */
+function domainsKnownPlugins(I, file) {
+  const lr = I.readLocal(file);
+  if (lr.error) return { known: false };
+  if (lr.text === null) return { known: true, plugins: {} };
+  try {
+    const parsed = JSON.parse(lr.text);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return { known: false };
+    const ep = parsed.enabledPlugins;
+    if (ep !== undefined && (!ep || typeof ep !== 'object' || Array.isArray(ep))) return { known: false };
+    return { known: true, plugins: ep || {} };
+  } catch (e) { return { known: false }; }
+}
+
 /** Ownership of project entries the operator has since removed or flipped is dropped. */
 function domainsDropStale(I, owned) {
   for (const dir of Object.keys(owned.projects)) {
-    const lv = I.enabledOf(I.read(I.localPath(dir)) || '');
+    const local = domainsKnownPlugins(I, I.localPath(dir));
+    if (!local.known) continue; // unknown is not proof that our entry disappeared
+    const lv = local.plugins;
     owned.projects[dir].plugins = owned.projects[dir].plugins.filter((k) => lv[k] === true);
     if (!owned.projects[dir].plugins.length) delete owned.projects[dir];
   }
@@ -2266,7 +2321,7 @@ function domainsDropStale(I, owned) {
 /**
  * Write `keys` true into one project's settings.local.json: writability judged first, backup
  * of an existing file, read back. One project's I/O error is that project's refusal, and
- * ownership is taken the moment bytes land, so a later failure still leaves --revert able
+ * ownership intent is persisted before bytes land, so a later failure leaves --revert able
  * to undo it. Returns {ok, keys}.
  */
 function domainsWriteProject(I, apply, home, owned, dir, keys) {
@@ -2285,13 +2340,26 @@ function domainsWriteProject(I, apply, home, owned, dir, keys) {
     try { had = before !== null && Object.prototype.hasOwnProperty.call(JSON.parse(before), 'enabledPlugins'); } catch (e) { had = false; }
     const prev = owned.projects[dir] || { created: before === null, createdDir: !fs.existsSync(path.dirname(file)), hadEnabledPlugins: had, plugins: [] };
     const mine = keys.filter((k) => r.changed.includes(k));
+    if (mine.length) {
+      // Durable intent BEFORE the configuration write: an interrupted or failed apply can
+      // still be reverted. Entries already true never become ours.
+      const saved = JSON.parse(JSON.stringify(owned.projects));
+      prev.priorValues = Object.assign({}, prev.priorValues || {});
+      const original = I.enabledOf(before || '');
+      for (const k of mine) {
+        if (original[k] === false) prev.priorValues[k] = false;
+        else delete prev.priorValues[k];
+      }
+      prev.plugins = [...new Set(prev.plugins.concat(mine))].sort();
+      owned.projects[dir] = prev;
+      if (!writeRecord(I, owned, apply, home)) {
+        owned.projects = saved;
+        return no('ownership intent could not be persisted');
+      }
+    }
     if (r.text !== before) {
       fs.mkdirSync(path.dirname(file), { recursive: true });
       if (!domainsWriteFile(apply, home, file, before, r.text, label)) return { ok: false, keys };
-    }
-    if (mine.length) {
-      prev.plugins = [...new Set(prev.plugins.concat(mine))].sort();
-      owned.projects[dir] = prev;
     }
     const back = I.enabledOf(I.read(file) || '');
     const bad = keys.filter((k) => back[k] !== true);
@@ -2351,7 +2419,13 @@ function domainsUnsetProject(I, apply, home, dir, rec, keys) {
   try {
     const lr = I.readLocal(file);
     if (lr.error) { log(`  ${label}: NOT written — cannot read it (${lr.error})`); return { ok: false }; }
-    const r = D.editEnabled(lr.text, { unset: Object.fromEntries(keys.map((k) => [k, true])), keepEmpty: !!rec.hadEnabledPlugins });
+    const current = I.enabledOf(lr.text || '');
+    const restore = keys.filter((k) => current[k] === true && (rec.priorValues || {})[k] === false);
+    const r = D.editEnabled(lr.text, {
+      set: Object.fromEntries(restore.map((k) => [k, false])),
+      unset: Object.fromEntries(keys.filter((k) => !restore.includes(k)).map((k) => [k, true])),
+      keepEmpty: !!rec.hadEnabledPlugins,
+    });
     if (!r.ok) { log(`  ${label}: NOT written — the file ${r.reason}`); return { ok: false }; }
     if (r.text === lr.text) return { ok: true };
     const saved = apply.protect(file, { home });
@@ -2375,17 +2449,34 @@ function writeRecord(I, owned, apply, home) {
   const empty = !Object.keys(owned.user).length && !Object.keys(owned.projects).length && !Object.keys(manual).length;
   const text = empty ? null : JSON.stringify({
     note: 'Written by `npx sshlg-skills domains`; --revert undoes exactly these values while they still hold.',
-    roots: owned.roots, applied: owned.applied === true, user: owned.user, projects: owned.projects, manual,
+    roots: owned.roots, applied: owned.applied === true, user: owned.user, pendingUser: owned.pendingUser || {}, projects: owned.projects, manual,
   }, null, 2) + '\n';
-  if (text === I.recordText) return true;
-  if (I.recordText !== null) {
-    const saved = apply.protect(I.recordPath, { home });
-    if (saved.action === 'backup-failed') { log(`  ownership record NOT updated — backup failed (${saved.error}); --revert would act on the old one`); return false; }
+  // Keep the old valid record if disk-full/permissions/interruption prevents a new one.
+  // Update the in-memory text after EACH intent, not only after the whole command.
+  let tmp;
+  try {
+    const current = I.readLocal(I.recordPath);
+    if (current.error) throw new Error(`cannot read ownership record (${current.error})`);
+    if (text === current.text) { I.recordText = text; return true; }
+    if (current.text !== null) {
+      const saved = apply.protect(I.recordPath, { home });
+      if (saved.action === 'backup-failed') throw new Error(`backup failed (${saved.error})`);
+    }
+    if (text === null) fs.rmSync(I.recordPath, { force: true });
+    else {
+      fs.mkdirSync(path.dirname(I.recordPath), { recursive: true });
+      tmp = `${I.recordPath}.${process.pid}.tmp`;
+      fs.writeFileSync(tmp, text, { encoding: 'utf8', mode: 0o600, flag: 'wx' });
+      fs.renameSync(tmp, I.recordPath);
+    }
+    I.recordText = text;
+    return true;
+  } catch (e) {
+    log(`  ownership record NOT updated — ${e.code || e.message}; existing recovery record kept`);
+    return false;
+  } finally {
+    if (tmp) { try { fs.rmSync(tmp, { force: true }); } catch (e) { /* retained for recovery */ } }
   }
-  if (text === null) { fs.rmSync(I.recordPath, { force: true }); return true; }
-  fs.mkdirSync(path.dirname(I.recordPath), { recursive: true });
-  fs.writeFileSync(I.recordPath, text, { encoding: 'utf8', mode: 0o600 });
-  return true;
 }
 
 function domainsRevert(I, apply, home) {
@@ -2399,19 +2490,29 @@ function domainsRevert(I, apply, home) {
     return 1;
   }
   const locals = {};
-  for (const dir of Object.keys(I.owned.projects || {})) locals[dir] = I.enabledOf(I.read(I.localPath(dir)) || '');
+  const unreadable = [];
+  for (const dir of Object.keys(I.owned.projects || {})) {
+    const local = domainsKnownPlugins(I, I.localPath(dir));
+    if (local.known) locals[dir] = local.plugins;
+    else unreadable.push(dir);
+  }
   const R = D.revertPlan({ owned: I.owned, user: I.user, locals });
-  let failed = false;
+  let failed = unreadable.length > 0;
   const owned = { roots: I.owned.roots, applied: false, user: {}, projects: {}, manual: {} };
+  for (const dir of unreadable) {
+    owned.projects[dir] = I.owned.projects[dir];
+    log(`  ${path.basename(dir)}/.claude/settings.local.json: cannot read valid settings — recovery ownership kept`);
+  }
   if (R.userOn.length) {
     const r = D.editEnabled(I.userText, { set: Object.fromEntries(R.userOn.map((k) => [k, true])) });
-    const saved = r.ok ? apply.protect(I.settingsPath, { home }) : null;
-    if (!r.ok || saved.action === 'backup-failed') {
-      log(`  ~/.claude/settings.json: NOT written — ${r.ok ? `backup failed (${saved.error})` : `the file ${r.reason}`}`);
+    if (!r.ok) {
+      log(`  ~/.claude/settings.json: NOT written — the file ${r.reason}`);
+      return 1;
+    }
+    if (!domainsWriteFile(apply, home, I.settingsPath, I.userText, r.text, '~/.claude/settings.json')) {
       log('  project entries kept: removing them now would leave those projects without their member');
       return 1;
     }
-    fs.writeFileSync(I.settingsPath, r.text, 'utf8');
     const back = I.enabledOf(I.read(I.settingsPath) || '');
     for (const k of R.userOn) {
       if (back[k] === true) log(`  ~/.claude/settings.json: ${k} back on at user scope`);
@@ -3112,7 +3213,7 @@ function main(argv) {
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
   if (cmd === 'toolkit') { return cmdToolkit(argv) || 0; }
   if (cmd === 'visibility') return cmdVisibility(argv);
-  if (cmd === 'domains') return cmdDomains(argv);
+  if (cmd === 'domains') return runDomainsLocked(argv);
   if (cmd === 'pack' || cmd === 'packs') { return cmdPack(argv); }
   if (cmd === 'materialised' || cmd === 'materialized') { return cmdMaterialised(argv); }
   if (cmd === 'signature') { return cmdSignature(argv); }

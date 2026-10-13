@@ -1002,6 +1002,8 @@ it('a route to a member not loaded in this project names `domains --enable`, and
   assert.ok(/domains --enable telegram-dev/.test(note), `no enable hint: ${note}`);
   const rec = JSON.parse(fs.readFileSync(turnsFile(session), 'utf8'));
   assert.ok(!(rec.routes || []).includes('telegram-dev'), 'a route that cannot be taken was armed for the gate');
+  const again = runHookText('user-prompt-submit.js', { session_id: session, prompt_id: 'p2', cwd: proj, prompt: 'сделай телеграм-бота для заказов' });
+  assert.strictEqual(again, '', 'the unloaded enable hint repeated in the same session');
   // Enabled in the project: the plain note, and the route is armed.
   write(path.join(proj, '.claude', 'settings.local.json'), JSON.stringify({ enabledPlugins: { 'telegram-dev@telegram-dev': true } }, null, 2) + '\n');
   const on = runHookText('user-prompt-submit.js', {

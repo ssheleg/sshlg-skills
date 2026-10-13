@@ -78,7 +78,8 @@ process.stdin.on('end', () => {
       unloaded = require(path.join(__dirname, '..', 'lib', 'enablement.js'))
         .unloaded(process.env.HOME || os.homedir(), data.cwd || null, domains.PLUGIN_SPECS);
     } catch (e) { unloaded = []; }
-    const routes = system ? [] : triggers.match(prompt, { external }).filter((r) => !unloaded.includes(r));
+    const matched = system ? [] : triggers.match(prompt, { external });
+    const routes = matched.filter((r) => !unloaded.includes(r));
     if (!system && sessionId) {
       try {
         turnstate.write(os.homedir(), sessionId, {
@@ -96,7 +97,7 @@ process.stdin.on('end', () => {
       if (sessionId) {
         try {
           turnstate.write(os.homedir(), sessionId,
-            { noted: Array.from(new Set(noted.concat(routes))) });
+            { noted: Array.from(new Set(noted.concat(matched))) });
         } catch (e) { /* unrecorded means shown again, the safe direction */ }
       }
     }

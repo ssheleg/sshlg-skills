@@ -444,6 +444,162 @@ it('install refreshes an installed domain plugin instead of re-enabling it', () 
   fs.rmSync(registry);
 });
 
+it('a failed ownership write prevents configuration mutation and leaves no unowned entry', () => {
+  const inject = w(path.join(home, 'fault-record.cjs'), `
+    const fs = require('fs'); const original = fs.writeFileSync;
+    fs.writeFileSync = function(file, ...rest) {
+      if (String(file).includes('domains.json')) throw Object.assign(new Error('injected record failure'), {code:'EIO'});
+      return original.call(this, file, ...rest);
+    };
+  `);
+  const before = snapshot();
+  const r = spawnSync(process.execPath, ['--require', inject, BIN, 'domains', '--apply'], { env, encoding:'utf8', cwd:home });
+  assert.strictEqual(r.status, 1, r.stdout + r.stderr);
+  assert.deepStrictEqual(snapshot(), before, r.stdout);
+  assert.ok(/ownership.*NOT updated/.test(r.stdout), r.stdout);
+});
+
+it('a failed global intent keeps project ownership durable and global values unchanged', () => {
+  const inject = w(path.join(home, 'fault-global-intent.cjs'), `
+    const fs = require('fs'); const original = fs.writeFileSync;
+    fs.writeFileSync = function(file, data, ...rest) {
+      if (String(file).includes('domains.json') && Object.keys(JSON.parse(data).user || {}).length)
+        throw Object.assign(new Error('injected global intent failure'), {code:'ENOSPC'});
+      return original.call(this, file, data, ...rest);
+    };
+  `);
+  const r = spawnSync(process.execPath, ['--require', inject, BIN, 'domains', '--apply'], { env, encoding:'utf8', cwd:home });
+  assert.strictEqual(r.status, 1, r.stdout + r.stderr);
+  assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER, r.stdout);
+  assert.ok(Object.keys(JSON.parse(fs.readFileSync(record, 'utf8')).projects).length > 0);
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+  assert.ok(!fs.existsSync(local(P.web3d)));
+});
+
+it('interruption after a global write leaves sufficient durable intent for revert', () => {
+  const inject = w(path.join(home, 'interrupt-after-write.cjs'), `
+    const fs = require('fs'); const original = fs.writeFileSync;
+    fs.writeFileSync = function(file, data, ...rest) {
+      const result = original.call(this, file, data, ...rest);
+      if (String(file) === ${JSON.stringify(settings)} && JSON.parse(data).enabledPlugins['xr-dev@xr-dev'] === false)
+        process.exit(86);
+      return result;
+    };
+  `);
+  const r = spawnSync(process.execPath, ['--require', inject, BIN, 'domains', '--apply'], { env, encoding:'utf8', cwd:home });
+  assert.strictEqual(r.status, 86, r.stdout + r.stderr);
+  assert.strictEqual(JSON.parse(fs.readFileSync(record, 'utf8')).user['xr-dev@xr-dev'], false);
+  assert.strictEqual(enabled(settings)['xr-dev@xr-dev'], false);
+  assert.strictEqual(run('domains', '--apply').status, 0);
+  assert.deepStrictEqual(JSON.parse(fs.readFileSync(record, 'utf8')).pendingUser, {}, 'landed intent was not reconciled on retry');
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+  assert.ok(!fs.existsSync(record));
+});
+
+it('manual enable restores a pre-existing false project choice on disable', () => {
+  const existing = S({ enabledPlugins: { 'xr-dev@xr-dev': false } });
+  w(local(P.xr), existing);
+  assert.strictEqual(run('domains', '--enable', 'xr-dev', '--project', P.xr).status, 0);
+  assert.strictEqual(enabled(local(P.xr))['xr-dev@xr-dev'], true);
+  assert.strictEqual(run('domains', '--disable', 'xr-dev', '--project', P.xr).status, 0);
+  assert.strictEqual(fs.readFileSync(local(P.xr), 'utf8'), existing);
+  fs.rmSync(path.dirname(local(P.xr)), {recursive:true, force:true});
+});
+
+it('unreadable or malformed project settings keep their recovery ownership', () => {
+  for (const fault of ['mode', 'json']) {
+    const fresh = project(`p-unreadable-${fault}`, {});
+    assert.strictEqual(run('domains', '--enable', 'web3d-dev', '--project', fresh).status, 0);
+    const original = fs.readFileSync(local(fresh), 'utf8');
+    if (fault === 'mode') fs.chmodSync(local(fresh), 0o000);
+    else fs.writeFileSync(local(fresh), '{ broken');
+    const r = run('domains', '--revert');
+    if (fault === 'mode') fs.chmodSync(local(fresh), 0o600);
+    assert.strictEqual(r.status, 1, r.stdout + r.stderr);
+    assert.ok(JSON.parse(fs.readFileSync(record, 'utf8')).projects[fresh], 'unknown local erased ownership');
+    fs.writeFileSync(local(fresh), original);
+    assert.strictEqual(run('domains', '--revert').status, 0);
+    assert.ok(!fs.existsSync(local(fresh)), 'retry did not restore the earlier owned entry');
+    fs.rmSync(fresh, { recursive:true, force:true });
+  }
+});
+
+it('domains mutators refuse the shared update lock while previews stay read-only', () => {
+  const locks = require('../lib/updatelock');
+  const got = locks.acquire(home);
+  assert.ok(got.ok && !got.degraded);
+  try {
+    const before = snapshot();
+    for (const args of [['--apply'], ['--revert'], ['--enable','xr-dev','--project',P.xr], ['--disable','xr-dev','--project',P.xr], ['--update-step']]) {
+      const r = run('domains', ...args);
+      assert.strictEqual(r.status, locks.BUSY_EXIT, args.join(' ') + r.stdout + r.stderr);
+      assert.deepStrictEqual(snapshot(), before);
+    }
+    assert.strictEqual(run('domains').status, 0);
+  } finally { locks.release(home, got.token); }
+});
+
+it('a failed global write remains pending and retries without pretending the operator changed it', () => {
+  fs.chmodSync(settings, 0o400);
+  const failed = run('domains', '--apply');
+  fs.chmodSync(settings, 0o600);
+  assert.strictEqual(failed.status, 1, failed.stdout + failed.stderr);
+  assert.strictEqual(enabled(settings)['xr-dev@xr-dev'], true);
+  assert.strictEqual(JSON.parse(fs.readFileSync(record, 'utf8')).pendingUser['xr-dev@xr-dev'], true);
+  const retried = run('domains', '--apply');
+  assert.strictEqual(retried.status, 0, retried.stdout + retried.stderr);
+  assert.strictEqual(enabled(settings)['xr-dev@xr-dev'], false, retried.stdout);
+  assert.deepStrictEqual(JSON.parse(fs.readFileSync(record, 'utf8')).pendingUser, {});
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+});
+
+it('source evidence beyond three other domain matches still enables its project', () => {
+  const dir = project('p-source-tail', { 'main.js': 'gtag("event", "a");\ngtag("event", "b");\ngtag("event", "c");\nnavigator.xr;\n' });
+  const applied = run('domains', '--apply');
+  assert.strictEqual(applied.status, 0, applied.stdout + applied.stderr);
+  assert.strictEqual(enabled(local(dir))['xr-dev@xr-dev'], true, applied.stdout);
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  fs.rmSync(dir, {recursive:true, force:true});
+});
+
+it('automatic scoping respects shared project choices and local precedence without claiming them', () => {
+  for (const [name, shared, override] of [['shared-off', false, undefined], ['shared-on', true, undefined], ['local-off', true, false]]) {
+    const dir = project(`p-${name}`, { 'package.json': S({dependencies:{three:'1'}}), '.claude/settings.json': S({enabledPlugins:{'web3d-dev@web3d-dev':shared}}) });
+    if (override !== undefined) w(local(dir), S({enabledPlugins:{'web3d-dev@web3d-dev':override}}));
+    const before = fs.existsSync(local(dir)) ? fs.readFileSync(local(dir), 'utf8') : null;
+    const applied = run('domains', '--apply');
+    assert.strictEqual(applied.status, 0, applied.stdout + applied.stderr);
+    assert.strictEqual(fs.existsSync(local(dir)) ? fs.readFileSync(local(dir), 'utf8') : null, before, name);
+    assert.ok(!JSON.parse(fs.readFileSync(record, 'utf8')).projects[dir], 'pre-existing project choice was claimed');
+    assert.strictEqual(run('domains', '--revert').status, 0);
+    assert.strictEqual(JSON.parse(fs.readFileSync(path.join(dir,'.claude/settings.json'),'utf8')).enabledPlugins['web3d-dev@web3d-dev'], shared);
+    fs.rmSync(dir, {recursive:true, force:true});
+  }
+});
+
+it('unknown shared project settings keep domain globally enabled and are not overridden', () => {
+  const dir = project('p-shared-invalid', { 'package.json': S({dependencies:{three:'1'}}), '.claude/settings.json': '{broken' });
+  const applied = run('domains', '--apply');
+  assert.strictEqual(applied.status, 0, applied.stdout + applied.stderr);
+  assert.strictEqual(enabled(settings)['web3d-dev@web3d-dev'], true);
+  assert.ok(!fs.existsSync(local(dir)));
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  fs.rmSync(dir, {recursive:true, force:true});
+});
+
+it('a valid shared enable cannot hide unknown local settings or disable global coverage', () => {
+  const dir = project('p-local-invalid', { 'package.json': S({dependencies:{three:'1'}}), '.claude/settings.json': S({enabledPlugins:{'web3d-dev@web3d-dev':true}}), '.claude/settings.local.json': '{broken' });
+  const applied = run('domains', '--apply');
+  assert.strictEqual(applied.status, 0, applied.stdout + applied.stderr);
+  assert.strictEqual(enabled(settings)['web3d-dev@web3d-dev'], true);
+  assert.strictEqual(fs.readFileSync(local(dir), 'utf8'), '{broken');
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  fs.rmSync(dir, {recursive:true, force:true});
+});
+
 it('--root points it at another projects directory', () => {
   const other = path.join(home, 'elsewhere');
   fs.mkdirSync(other);

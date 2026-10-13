@@ -328,10 +328,14 @@ npx sshlg-skills domains --root ~/code --no-usage   # another projects directory
   repositories. Optionally, the newest `~/.sshlg-skills/usage/skill-usage-60d-*.tsv`: a
   project with calls in that dated snapshot gets that member; a snapshot more than 60 days
   old is ignored (`--no-usage`
-  turns this off). The preview prints the evidence for every entry.
+  turns this off). The preview prints the evidence for every entry. Source scanning reads
+  all matching lines; only the displayed explanations are capped.
 - **The order is the safety.** `--apply` writes `enabledPlugins["<member>@<member>"]: true`
   into each matching project's `.claude/settings.local.json` and reads it back. Only then
-  does it set the member to `false` in `~/.claude/settings.json`. Every existing file is
+  does it set the member to `false` in `~/.claude/settings.json`. Existing choices in
+  `.claude/settings.json` and then `.claude/settings.local.json` take precedence over
+  automatic additions: a project `false` stays off, a project `true` is not claimed.
+  Every existing file is
   copied through `protect()` before it is written. It does not use `claude plugin enable
   --scope local`, which reports success and writes nothing (B-162).
 - **A project it will not write.** It only writes where git ignores
@@ -346,9 +350,13 @@ npx sshlg-skills domains --root ~/code --no-usage   # another projects directory
   set: a value you changed afterwards is yours. To keep a member off in one project, set
   it to `false` there. If you delete the entry instead, the next `--apply` or `update` adds
   it back, because the project's evidence is still there. A `domains.json` that does not
-  parse, or has the wrong shape, stops `--apply`, `--revert` and `update` with a reason;
+  parse, cannot be read, or has the wrong shape, stops `--apply`, `--revert` and `update` with a reason;
   the previous copy is in `~/.sshlg-skills/backups/`. Running `--apply` three times leaves
-  identical bytes.
+  identical bytes. Ownership intent is saved atomically before each settings change; a
+  failed global write stays pending for retry. Unreadable or malformed project settings
+  retain their recovery ownership. Explicit `--enable` followed by `--disable` restores a
+  pre-existing local `false`. Mutating `domains` commands share the update lock, so another
+  launcher writer makes them refuse with exit 75; previews remain available.
 - **`update` keeps it current.** On a machine where `--apply` has run, `update` gives a
   project that has since gained a domain dependency its member; it never newly disables a
   global member. Reinstalling an existing plugin refreshes it without enabling it.

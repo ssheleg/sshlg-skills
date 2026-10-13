@@ -18,7 +18,12 @@ The recovered second fix preserves hook-bearing plugins globally (sheleg-dev alw
 keeps installed disabled skills searchable, resolves project enablement for hook readers,
 and refreshes existing plugins without reinstalling them. Malformed/oversized manifests
 are incomplete evidence; a member already scoped goes back on when coverage is uncertain.
-The machine's configurations have not been applied by this development task.
+Independent review of `353033a` exposed interrupted-write, shared-settings and truncated
+source-search defects. The follow-up saves atomic recovery intent before settings writes,
+distinguishes pending global writes from later operator changes, retains unknown project
+ownership and serializes mutations with the update lock. Shared project settings now
+precede local settings; all matching source lines are scanned; unloaded route hints print
+once per session. The machine's configurations have not been applied by this development task.
 
 Implementation: `lib/domains.js`, `lib/domainscan.js`, `lib/enablement.js`, launcher and hooks.
 Focused checks and bounded scenarios are recorded in
