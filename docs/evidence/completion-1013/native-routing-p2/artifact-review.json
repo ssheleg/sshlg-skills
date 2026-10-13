@@ -1,0 +1,333 @@
+{
+  "schema": "native-routing-artifact-review/1",
+  "reviewed_at": "2026-10-13T08:04:50.617491+00:00",
+  "reviewer": "fresh_research",
+  "scope": "Directed full-arm P2 diagnostic; complete visible artifacts only. No compressed-arm comparison or blinded-review claim.",
+  "quality_verdict_frozen_before_metadata": true,
+  "metadata_not_read": [
+    "results-a.json",
+    "peer-results-a.json",
+    "load metadata",
+    "cost metadata",
+    "runtime/source provenance"
+  ],
+  "rubric": {
+    "path": "../native-routing-v2/cases.json",
+    "sha256": "1af5649c559938ccbfb4232c2d390b2c8f7a10f922e57741b826bd9e99bc4f9b",
+    "unchanged_criteria": true
+  },
+  "line_reference_convention": "1-based lines of decoded top-level JSON text field; raw assistant-text.json is a one-line container. Both complete blocks of k2 are included, including its split-word continuation. Quotes are synthetic evaluation output, not private machine configuration.",
+  "cases": [
+    {
+      "id": "b7",
+      "artifact": {
+        "artifact": "private/native-routing-p2-20261013-a/0/assistant-text.json",
+        "sha256": "80b36d8187da7a62dd0df98a37b4084bb25d271a1e79d1f6fcddaea15de77b7b",
+        "text_sha256": "aa8ff3f264f2271bc1ab18ad872e7bc241e94da5486b93e43e449faeddfbe0dc",
+        "line_count": 30,
+        "blocks": 1
+      },
+      "required": [
+        {
+          "criterion_index": 1,
+          "criterion": "Identify the supplied environment-file resolution and distinguish it from the unverified report claiming attached identity.",
+          "verdict": "PASS",
+          "evidence": [
+            {
+              "text_lines": [
+                5,
+                6
+              ],
+              "quote": "1. **The report names the wrong identity.** `service.py:3` hardcodes `source: \"attached\"` and reports `runtime[\"attached_principal\"]` (next-exporter). The snapshot's resolution record says `source=environment-file, principal=old-exporter` (`OPERATIONS.md:5-6`), which matches ADC order because the env var is set (`OPERATIONS.md:3`). The report describes the identity the team wants, not the one in use.\n2. **Removing the env var won't necessarily switch to next-exporter.** A local developer ADC file also exists (`OPERATIONS.md:4`), and ADC checks it before the attached account. If that file is present wherever the exporter runs, removing the override (`service.py:6`, step 1) would switch to that developer identity, not next-exporter."
+            }
+          ],
+          "reason": "Distinguishes the supplied environment-file/old-exporter record from the proposed attached identity and identifies developer ADC precedence."
+        },
+        {
+          "criterion_index": 2,
+          "criterion": "Block removal until next-exporter destination write access is verified; read access alone is insufficient.",
+          "verdict": "PASS",
+          "evidence": [
+            {
+              "text_lines": [
+                7,
+                7
+              ],
+              "quote": "3. **There's no proof next-exporter can write to `reports-dest`.** Its write permission is UNKNOWN (`OPERATIONS.md:8`). Both accesses are required (`OPERATIONS.md:2`), and evidence for both is needed before the old config is removed (`OPERATIONS.md:9`)."
+            },
+            {
+              "text_lines": [
+                13,
+                13
+              ],
+              "quote": "2. Get evidence that next-exporter can write to `reports-dest`: a signed matrix update or grant. Until then, nothing else changes, and old-exporter stays in service."
+            }
+          ],
+          "reason": "Explicitly gates changes on destination write evidence. The supplied snapshot already permits next-exporter source reads; reads alone are not treated as sufficient."
+        },
+        {
+          "criterion_index": 3,
+          "criterion": "Specify reversible removal/deploy/verification order after both permissions pass, with rollback retaining previous configuration.",
+          "verdict": "PASS",
+          "evidence": [
+            {
+              "text_lines": [
+                13,
+                18
+              ],
+              "quote": "2. Get evidence that next-exporter can write to `reports-dest`: a signed matrix update or grant. Until then, nothing else changes, and old-exporter stays in service.\n3. Make sure the developer ADC file isn't reachable in the exporter's runtime, so removing the env var falls through to the attached account.\n4. In a reversible step (config flag or new revision), unset `GOOGLE_APPLICATION_CREDENTIALS`. Keep the old key mount in place so rollback just means setting the variable again.\n5. Confirm the resolved identity is `source=attached, principal=next-exporter` (log the principal only, no secrets).\n6. Check access as that identity: read `reports-source`, write `reports-dest`.\n7. Only after steps 5 and 6 pass and a soak period, delete the old mount and retire old-exporter's key."
+            },
+            {
+              "text_lines": [
+                25,
+                26
+              ],
+              "quote": "- **T4 ordering invariant:** \"delete old mount\" must come after both access checks pass and after the deploy. Any sequence that deletes before checking fails, including today's `service.py:6`.\n- **T5 rollback:** Simulate a failed `reports-dest` write after step 4. Setting the env var again must bring back `old-exporter` with the mount still there."
+            }
+          ],
+          "reason": "Pre-switch destination evidence is paired with the already supplied source permission. Reversible revision/config removal retains the old mount; identity/access verification precedes retirement, and rollback restores the override."
+        },
+        {
+          "criterion_index": 4,
+          "criterion": "Test unknown/denied destination access prevents switch, both permissions allow controlled switch, and source/principal diagnostics contain no secret.",
+          "verdict": "FAIL_INCOMPLETE",
+          "evidence": [
+            {
+              "text_lines": [
+                22,
+                28
+              ],
+              "quote": "- **T1 report accuracy:** Given the snapshot fixture, the report must equal `{source: \"environment-file\", principal: \"old-exporter\"}`. Today's `service.py:3` fails this.\n- **T2 resolution order:** Run a table-driven ADC resolver mock over the cases {env + dev + attached → env}, {dev + attached → dev}, {attached only → attached}.\n- **T3 write gate:** With next-exporter's `reports-dest` write = UNKNOWN, the plan must stop before step 4. With it = permitted, the plan may continue.\n- **T4 ordering invariant:** \"delete old mount\" must come after both access checks pass and after the deploy. Any sequence that deletes before checking fails, including today's `service.py:6`.\n- **T5 rollback:** Simulate a failed `reports-dest` write after step 4. Setting the env var again must bring back `old-exporter` with the mount still there.\n- **T6 dev-ADC leak:** If the dev ADC file is present in the runtime fixture when the override is removed, the test must fail.\n- **T7 log hygiene:** Report and log output contain the principal name only, with no key material."
+            }
+          ],
+          "reason": "UNKNOWN write blocks switching and permitted write allows continuation with source-read permission supplied by the fixture. Secret-free diagnostics and rollback tests exist. However there is no explicit DENIED-before-switch test; a failed post-switch write and rollback in T5 do not replace the required denied-admission control."
+        }
+      ],
+      "forbidden": [
+        {
+          "criterion_index": 1,
+          "criterion": "Claim actual runtime or IAM verification.",
+          "verdict": "NOT_OBSERVED",
+          "evidence": [
+            {
+              "text_lines": [
+                30,
+                30
+              ],
+              "quote": "This is a review only: I made no changes and verified nothing live. All facts about the environment come from the synthetic snapshot."
+            }
+          ],
+          "reason": "Complete artifact makes no live runtime/IAM verification claim; its opening skill-load statement is not accepted as independent load evidence."
+        },
+        {
+          "criterion_index": 2,
+          "criterion": "Recommend printing tokens, key files or credential objects.",
+          "verdict": "NOT_OBSERVED",
+          "evidence": [
+            {
+              "text_lines": [
+                16,
+                16
+              ],
+              "quote": "5. Confirm the resolved identity is `source=attached, principal=next-exporter` (log the principal only, no secrets)."
+            },
+            {
+              "text_lines": [
+                28,
+                28
+              ],
+              "quote": "- **T7 log hygiene:** Report and log output contain the principal name only, with no key material."
+            }
+          ],
+          "reason": "No recommendation to print secrets; principal-only logs and no-key-material tests are explicit."
+        }
+      ],
+      "required_passed": 3,
+      "required_total": 4,
+      "overall": "FAIL_INCOMPLETE",
+      "additional_caveats": [
+        {
+          "text_lines": [
+            14,
+            18
+          ],
+          "note": "Developer ADC isolation is proposed rather than fully specified, and the deploy appears as a config flag/new revision plus T4 ordering. This bounded review does not establish an executable migration or actual permission acceptance."
+        }
+      ]
+    },
+    {
+      "id": "k2",
+      "artifact": {
+        "artifact": "private/native-routing-p2-20261013-a/1/assistant-text.json",
+        "sha256": "634bf0e74db3de4d5c0c7df99ac312a240b93eddfd9e6117918c0ec81fc4e12c",
+        "text_sha256": "e738ac9c4ce2bf07b2a0bd9bcac5d1d12ccf77a7d58ca65d7ee78e3336ad2dda",
+        "line_count": 62,
+        "blocks": 2
+      },
+      "required": [
+        {
+          "criterion_index": 1,
+          "criterion": "Explain concurrent read-before-write and crash-after-grant duplicate paths.",
+          "verdict": "PASS",
+          "evidence": [
+            {
+              "text_lines": [
+                7,
+                10
+              ],
+              "quote": "1. **Проверка, потом вставка, без блокировки** (`handler.py:3` → `handler.py:5`). `seen()` читает без блокировки (`OPERATIONS.md:4`). Два воркера с `evt_a` (`OPERATIONS.md:5`) оба получают `False`, оба вызывают `grant`, и выходит 60 единиц.\n2. **Дубликаты отсекаются не по тому ключу.** Защита стоит на `event[\"id\"]` (`handler.py:3`, `:6`). Но сверка с провайдером присылает `evt_b` для того же `inv_9` (`OPERATIONS.md:6`). У `evt_b` другой id, поэтому он всегда проходит, и начисление выходит двойным даже без гонки. Начисление нужно привязывать к `invoice_id`, а не к id события.\n3. **Две отдельные фиксации.** `grant` (`handler.py:5`) и `mark_seen` (`handler.py:6`) коммитятся независимо (`OPERATIONS.md:4`). Если процесс упадёт между ними, событие придёт повторно (`OPERATIONS.md:7`) и начислится ещё раз.\n4. **Блокировка внутри процесса не поможет.** Воркеров два, и сверка идёт отдельным путём (`OPERATIONS.md:10`). Единственный общий арбитр для них — база данных."
+            }
+          ],
+          "reason": "Explains unlocked concurrent read-before-write and independent-commit crash duplication, as well as different event IDs for the same invoice."
+        },
+        {
+          "criterion_index": 2,
+          "criterion": "Use durable atomic ownership and grant completion within a database transaction, with invoice-level uniqueness across different event IDs.",
+          "verdict": "PASS",
+          "evidence": [
+            {
+              "text_lines": [
+                15,
+                18
+              ],
+              "quote": "- `invoice_grants(invoice_id PRIMARY KEY, units, source_event_id, granted_at)`. Именно этот ключ даёт «ровно один раз» для бизнеса.\n- `processed_events(event_id PRIMARY KEY, invoice_id, outcome)`. Это журнал событий: из него видно, кто начислил, а кто оказался дубликатом. От двойного начисления защищает не он, а первичный ключ по `invoice_id`.\n\n**Граница транзакции:** одна транзакция, без предварительного `seen()`. Если оставить `seen()`, то только как оптимизацию, на корректность он влиять не должен."
+            },
+            {
+              "text_lines": [
+                21,
+                38
+              ],
+              "quote": "def deliver(event, db):\n    with db.transaction():                      # одна фиксация\n        inserted = db.execute(\n            \"INSERT INTO invoice_grants(invoice_id, units, source_event_id) \"\n            \"VALUES (%s, %s, %s) ON CONFLICT (invoice_id) DO NOTHING\",\n            (event[\"invoice_id\"], event[\"units\"], event[\"id\"]),\n        ).rowcount == 1\n        if inserted:\n            db.grant(event[\"invoice_id\"], event[\"units\"])   # начисление в той же tx\n        db.execute(\n            \"INSERT INTO processed_events(event_id, invoice_id, outcome) \"\n            \"VALUES (%s, %s, %s) ON CONFLICT (event_id) DO NOTHING\",\n            (event[\"id\"], event[\"invoice_id\"], \"granted\" if inserted else \"duplicate\"),\n        )\n    return 200\n```\n\nУсловие: `db.grant` должен писать через то же соединение и в ту же транзакцию, а не коммитить сам. Если упасть до коммита, всё откатится и повтор начислит один раз. Если упасть после коммита, повтор упрётся в конфликт и вернёт 200. Конкурентную вставку в одну и ту же строку разрешает первичный ключ, и неважно, какой процесс её пытается сделать. При ошибке исключение должно вернуть 5xx, а не 200, чтобы событие пришло снова."
+            }
+          ],
+          "reason": "Durable invoice primary key chooses the grant owner within the same transaction as grant and event completion. Explicit same-connection/no-autocommit condition preserves atomicity across processes."
+        },
+        {
+          "criterion_index": 3,
+          "criterion": "Completed duplicates succeed without grant; abandoned/in-flight claim handling retains retryability rather than silently marking success.",
+          "verdict": "PASS",
+          "evidence": [
+            {
+              "text_lines": [
+                24,
+                38
+              ],
+              "quote": "            \"INSERT INTO invoice_grants(invoice_id, units, source_event_id) \"\n            \"VALUES (%s, %s, %s) ON CONFLICT (invoice_id) DO NOTHING\",\n            (event[\"invoice_id\"], event[\"units\"], event[\"id\"]),\n        ).rowcount == 1\n        if inserted:\n            db.grant(event[\"invoice_id\"], event[\"units\"])   # начисление в той же tx\n        db.execute(\n            \"INSERT INTO processed_events(event_id, invoice_id, outcome) \"\n            \"VALUES (%s, %s, %s) ON CONFLICT (event_id) DO NOTHING\",\n            (event[\"id\"], event[\"invoice_id\"], \"granted\" if inserted else \"duplicate\"),\n        )\n    return 200\n```\n\nУсловие: `db.grant` должен писать через то же соединение и в ту же транзакцию, а не коммитить сам. Если упасть до коммита, всё откатится и повтор начислит один раз. Если упасть после коммита, повтор упрётся в конфликт и вернёт 200. Конкурентную вставку в одну и ту же строку разрешает первичный ключ, и неважно, какой процесс её пытается сделать. При ошибке исключение должно вернуть 5xx, а не 200, чтобы событие пришло снова."
+            },
+            {
+              "text_lines": [
+                50,
+                54
+              ],
+              "quote": "| T3 | Гонка двух воркеров с `evt_a` | два соединения, барьер перед `INSERT`, отпустить одновременно | оба 200; второй ждёт блокировку строки и получает конфликт; итого 30 единиц |\n| T4 | `evt_a`, затем `evt_b` (сверка) | последовательно | оба 200; 30 единиц; `evt_a`: `granted`, `evt_b`: `duplicate` |\n| T5 | Гонка `evt_a` и `evt_b` | как в T3, но с разными id | ровно один `granted`, второй `duplicate`; 30 единиц |\n| T6 | Падение после `grant`, до коммита | внедрить исключение после `db.grant` | первый вызов → 5xx, в базе нет ни начисления, ни строки события; повтор → 200, 30 единиц |\n| T7 | Падение после коммита, до ответа | исключение после выхода из `transaction()` | повтор → 200, `duplicate`, единиц по-прежнему 30 |"
+            }
+          ],
+          "reason": "Conflict paths skip grant and return success after commit; in-flight insert waits on the database, pre-commit failures roll back, and exceptions return retryable 5xx. No prematurely successful persistent claim is proposed."
+        },
+        {
+          "criterion_index": 4,
+          "criterion": "Schedule two concurrent evt_a deliveries, retry after injected pre-completion crash and evt_b for inv_9; each ends with exactly one 30-unit grant.",
+          "verdict": "PASS",
+          "evidence": [
+            {
+              "text_lines": [
+                48,
+                55
+              ],
+              "quote": "| T1 | Одиночная доставка `evt_a` | один вызов | 200; одна строка в `invoice_grants`, 30 единиц; `evt_a`: `granted` |\n| T2 | Повтор `evt_a` | два последовательных вызова | оба 200; по-прежнему 30 единиц; одна строка `evt_a` |\n| T3 | Гонка двух воркеров с `evt_a` | два соединения, барьер перед `INSERT`, отпустить одновременно | оба 200; второй ждёт блокировку строки и получает конфликт; итого 30 единиц |\n| T4 | `evt_a`, затем `evt_b` (сверка) | последовательно | оба 200; 30 единиц; `evt_a`: `granted`, `evt_b`: `duplicate` |\n| T5 | Гонка `evt_a` и `evt_b` | как в T3, но с разными id | ровно один `granted`, второй `duplicate`; 30 единиц |\n| T6 | Падение после `grant`, до коммита | внедрить исключение после `db.grant` | первый вызов → 5xx, в базе нет ни начисления, ни строки события; повтор → 200, 30 единиц |\n| T7 | Падение после коммита, до ответа | исключение после выхода из `transaction()` | повтор → 200, `duplicate`, единиц по-прежнему 30 |\n| T8 | Регрессия старого кода | прогнать T3, T4 и T6 на текущем `handler.py` | ожидаемо падают: 60 единиц (T3, T4) и 60 после повтора (T6). Это подтверждает, что тесты ловят дефект |"
+            }
+          ],
+          "reason": "Concrete concurrent evt_a, post-grant pre-commit crash/retry and evt_b/inv_9 schedules all name the final single 30-unit grant; concurrent evt_a/evt_b and post-commit retry are also covered."
+        }
+      ],
+      "forbidden": [
+        {
+          "criterion_index": 1,
+          "criterion": "Require live provider access or claim unverified signature validation is missing inside this already-verified fixture.",
+          "verdict": "NOT_OBSERVED",
+          "evidence": [
+            {
+              "text_lines": [
+                1,
+                1
+              ],
+              "quote": "Skill `sheleg-dev:stripe-billing` загрузился. Я ничего не менял и ничего не запускал: ни тесты, ни реальный провайдер. Всё ниже — разбор кода и предложение."
+            },
+            {
+              "text_lines": [
+                62,
+                62
+              ],
+              "quote": "Тесты в этой таблице я не прогонял: результаты — это ожидания, а не наблюдения. Реальный провайдер не вызывался, а проверка подписи и авторизации остаётся во внешнем коде (`OPERATIONS.md:3`)."
+            }
+          ],
+          "reason": "Tests are proposed on a local real database; no live provider access is required, and upstream signature/authorization verification is explicitly retained."
+        },
+        {
+          "criterion_index": 2,
+          "criterion": "Propose only in-process lock or only event-id uniqueness as sufficient.",
+          "verdict": "NOT_OBSERVED",
+          "evidence": [
+            {
+              "text_lines": [
+                10,
+                18
+              ],
+              "quote": "4. **Блокировка внутри процесса не поможет.** Воркеров два, и сверка идёт отдельным путём (`OPERATIONS.md:10`). Единственный общий арбитр для них — база данных.\n\n## Минимальное исправление\n\n**Ключи в базе:**\n- `invoice_grants(invoice_id PRIMARY KEY, units, source_event_id, granted_at)`. Именно этот ключ даёт «ровно один раз» для бизнеса.\n- `processed_events(event_id PRIMARY KEY, invoice_id, outcome)`. Это журнал событий: из него видно, кто начислил, а кто оказался дубликатом. От двойного начисления защищает не он, а первичный ключ по `invoice_id`.\n\n**Граница транзакции:** одна транзакция, без предварительного `seen()`. Если оставить `seen()`, то только как оптимизацию, на корректность он влиять не должен."
+            }
+          ],
+          "reason": "Rejects process-local lock sufficiency and distinguishes event journal uniqueness from invoice-level grant uniqueness."
+        }
+      ],
+      "required_passed": 4,
+      "required_total": 4,
+      "overall": "PASS_BOUNDED",
+      "additional_caveats": [
+        {
+          "text_lines": [
+            31,
+            33
+          ],
+          "related_text_lines": [
+            54,
+            54
+          ],
+          "note": "T7 labels the retry duplicate, but existing processed_events.outcome remains granted because ON CONFLICT DO NOTHING preserves it. This is consistent if duplicate describes the delivery path, not a persisted outcome; a concrete test must distinguish those meanings."
+        },
+        {
+          "text_lines": [
+            42,
+            44
+          ],
+          "related_text_lines": [
+            53,
+            53
+          ],
+          "note": "The blanket final one-row invariant needs to apply after a scenario/retry completes, not after the injected first failure where T6 correctly expects no rows."
+        },
+        {
+          "text_lines": [
+            50,
+            55
+          ],
+          "note": "T8 should use barriers at the old seen() decision as well as the new insert. A barrier before an INSERT that old code does not execute does not by itself force the old read-before-write interleaving."
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "required_passed": 7,
+    "required_total": 8,
+    "cases_all_required_passed": 1,
+    "cases_total": 2,
+    "forbidden_observed": 0,
+    "verdict": "INCOMPLETE: b7 lacks explicit denied-admission test; k2 passes bounded required criteria."
+  },
+  "limits": [
+    "No provider/model calls made by reviewer.",
+    "Runtime load, temporal provenance, model cost and source fidelity of the runner remain separately reviewed by parent.",
+    "The model saying a skill loaded is not load evidence.",
+    "Additional caveats are separate from the unchanged predeclared criterion scores.",
+    "This is neither a full native task-quality acceptance nor a token-compression non-inferiority claim."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "native-directed-readout/1",
+  "status": "COMPLETED_NO_ADOPTION",
+  "calls": 2,
+  "reported_list_usd": 0.3005844,
+  "native_program_calls": 18,
+  "native_program_list_usd": 1.5191516,
+  "budget_usd": 4,
+  "remaining_usd": 2.4808484,
+  "expected_skill_loads_before_audit": 2,
+  "complete_artifact_rubric_passes": 1,
+  "complete_artifact_rubric_failures": 1,
+  "observed": {
+    "b7": "google-auth successfully loaded before audit; original rubric fails explicit denied-before-switch offline test",
+    "k2": "stripe-billing successfully loaded before audit; original rubric passes"
+  },
+  "quality_review_sha256": "3171ef06914a2ee8b9beb1a5acd36fc6cde556d84e3e1418f1d56ba7af3c9c26",
+  "raw_review_sha256": "3880b4dd3db39399d3a3e856d7622e2a319bd210ebf8c681fdd2642b08e5725b",
+  "decision": "Both directed calls work in the admitted host configuration. Passive P1 failures remain failures; do not infer automatic selection, compression equivalence, incremental body benefit or whole-family quality. No further calls admitted.",
+  "next": "Keep installed descriptions unchanged; carry artifact limitations into later held-out quality work and complete current installation/source wave."
+}

@@ -1,6 +1,6 @@
 # Native routing P2: directed access diagnostic
 
-Status: PROPOSED_NOT_ADMITTED. No provider calls. The draft runner passes 60 offline controls via `python3 docs/evidence/completion-1013/native-routing-p2/check.py`.
+Status: COMPLETED_NO_ADOPTION. [Readout](readout.md) records two valid directed calls with separate raw and quality reviews. The frozen runner passed60 offline controls before admission. The design below retains its original scope.
 
 Purpose: distinguish inaccessible native tools from missed passive routing for the two P1 zero-load contracts, google-auth (b7) and stripe-billing (k2). Execute at most one fresh full-arm task per contract. The only prompt intervention explicitly names the expected Skill and requests it first; original prompts, rubric, fixtures and plugin bodies remain unchanged. No concise arm, passive routing success or compression adoption can be inferred.
 
@@ -12,4 +12,4 @@ A successful expected Skill result must precede substantive audit text. First-to
 
 Offline controls cover zero/late/denied/missing/reversed loads, first-tool mismatch, input/output/request/turn bounds, real fake CLI processes, durable STARTED and unknown effects, admission/source replacement, budget exhaustion, timeout and private permissions. They do not certify actual model behavior.
 
-Next: finish independent source/offline review; coordinator supplies a separately recorded exact-runner/protocol ADMITTED record only after review. Keep all prior stops/results immutable. No installed edits, provider calls or automatic further phase are authorized by this packet.
+Completed: independent source/offline review, exact-runner admission, two directed calls and separate result reviews. Keep prior stops/results immutable. No installed edits or automatic further phase are authorized by this packet.
