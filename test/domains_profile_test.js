@@ -144,6 +144,56 @@ test('post-tool shadow checks use the same active profile as its plugin registry
   assert.ok(result.stdout.includes(m.activeRoot), 'the warning names the wrong profile');
 });
 
+test('noncanonical shared settings preserve explicit project choices without local writes', (m) => {
+  const shared = m.write('DATA/project/.claude/settings.json', '{"enabledPlugins":{"web3d-dev@web3d-dev":true,"xr-dev@xr-dev":false}}\n');
+  const before = m.read(shared);
+  const result = m.run('--apply', '--no-usage'); ok(result);
+  assert.doesNotMatch(result.stdout, /not read in full/);
+  assert.strictEqual(JSON.parse(m.read(m.active)).enabledPlugins['web3d-dev@web3d-dev'], false);
+  assert.strictEqual(m.read(m.local), null);
+  assert.strictEqual(m.read(shared), before);
+});
+
+test('noncanonical local settings are readable but refused only when an edit is needed', (m) => {
+  const before = '{"permissions":{"allow":[]}}\n';
+  m.write('DATA/project/.claude/settings.local.json', before);
+  const result = m.run('--apply', '--no-usage'); ok(result);
+  assert.doesNotMatch(result.stdout, /not read in full/);
+  assert.match(result.stdout, /refusing to reformat/);
+  const user = JSON.parse(m.read(m.active)).enabledPlugins;
+  assert.strictEqual(user['web3d-dev@web3d-dev'], true, 'needed coverage must remain global');
+  assert.strictEqual(user['xr-dev@xr-dev'], false, 'irrelevant settings formatting cannot make source evidence incomplete');
+  assert.strictEqual(m.read(m.local), before);
+});
+
+test('noncanonical local false is respected and does not trigger a rewrite', (m) => {
+  const before = '{"enabledPlugins":{"web3d-dev@web3d-dev":false}}\n';
+  m.write('DATA/project/.claude/settings.local.json', before);
+  const result = m.run('--apply', '--no-usage'); ok(result);
+  assert.doesNotMatch(result.stdout, /not read in full/);
+  assert.strictEqual(JSON.parse(m.read(m.active)).enabledPlugins['web3d-dev@web3d-dev'], false);
+  assert.strictEqual(m.read(m.local), before);
+});
+
+test('unknown local choices refuse writes even when the file has editable formatting', (m) => {
+  m.json('DATA/project/.claude/settings.local.json', { enabledPlugins: { 'unrelated@unrelated': 'true' } });
+  const before = m.read(m.local);
+  const result = m.run('--apply', '--no-usage'); ok(result);
+  assert.match(result.stdout, /not read in full .*settings\.local\.json/);
+  assert.strictEqual(m.read(m.active), m.user);
+  assert.strictEqual(m.read(m.local), before);
+});
+
+test('invalid settings retain unknown coverage and identify the settings layer', (m) => {
+  m.write('DATA/project/package.json', '{}');
+  const before = '{"enabledPlugins":{"web3d-dev@web3d-dev":"false"}}';
+  m.write('DATA/project/.claude/settings.json', before);
+  const result = m.run('--apply', '--no-usage'); ok(result);
+  assert.match(result.stdout, /not read in full .*settings\.json/);
+  assert.strictEqual(m.read(m.active), m.user);
+  assert.strictEqual(m.read(m.local), null);
+});
+
 for (const failure of failures) console.log(`FAIL: ${failure}`);
 console.log(`${failures.length ? 'FAIL' : 'OK'} (${checks} checks)`);
 if (failures.length) process.exitCode = 1;

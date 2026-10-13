@@ -2471,17 +2471,23 @@ function domainsInputs(argv, home) {
     }
     const lr = readLocal(localPath(dir));
     const sr = readLocal(path.join(dir, '.claude', 'settings.json'));
-    const sharedOK = !sr.error && (sr.text === null || D.editEnabled(sr.text, { set: {} }).ok);
-    const localOK = !lr.error && (lr.text === null || D.editEnabled(lr.text, { set: {} }).ok);
+    // Read semantic choices independently of the narrower lossless-write format.
+    // A project settings file may be valid JSON without having been printed by us.
+    const shared = sr.error ? { ok: false, reason: 'unreadable file' } : D.readEnabled(sr.text);
+    const local = lr.error ? { ok: false, reason: 'unreadable file' } : D.readEnabled(lr.text);
+    const sharedOK = shared.ok;
+    const localOK = local.ok;
     const settingsOK = sharedOK && localOK;
     let verdict;
     // Shared project choices precede local ones; user scope must not masquerade as
     // a project entry. Unknown shared settings cannot authorize a local override.
-    const writable = () => verdict || (verdict = sharedOK ? domainsWritable(dir, lr, D)
-      : { ok: false, why: 'cannot read valid .claude/settings.json' });
-    return { dir, evidence, via: s.via,
+    const writable = () => verdict || (verdict = settingsOK ? domainsWritable(dir, lr, D)
+      : { ok: false, why: `cannot read valid .claude/${sharedOK ? 'settings.local.json' : 'settings.json'}` });
+    const settingsReasons = [[shared, '.claude/settings.json'], [local, '.claude/settings.local.json']]
+      .filter(([result]) => !result.ok).map(([result, file]) => `${file}: ${result.reason}`);
+    return { dir, evidence, via: [s.via, ...settingsReasons].join('; '),
       partial: settingsOK ? (s.partial || []) : D.DOMAIN_MEMBERS.slice(),
-      local: settingsOK ? Object.assign({}, enabledOf(sr.text), enabledOf(lr.text)) : {}, ignored: writable };
+      local: settingsOK ? Object.assign({}, shared.enabled, local.enabled) : {}, ignored: writable };
   });
   const ur = readLocal(settingsPath);
   return { D, read, readLocal, roots, rootErrors, rootRepos, dirs, projects, usageFile, kinds, plugins, owned, recordError,
