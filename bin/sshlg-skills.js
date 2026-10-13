@@ -3219,7 +3219,7 @@ function cmdHooks(argv) {
     let json = false, expected;
     // A usage error is exit 2, apart from a refusal (1); JSON only when asked for.
     const invalid = reason => {
-      if (args.includes('--json')) console.log(JSON.stringify({ ok: false, state: 'USAGE', reason }));
+      if (argv.includes('--json')) console.log(JSON.stringify({ ok: false, state: 'USAGE', reason }));
       else log(`hooks recovery: ${reason}`);
       return 2;
     };

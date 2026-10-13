@@ -257,5 +257,15 @@ it('CLI usage errors exit 2 and print JSON only when asked', base => {
   const json = run(['recover', '--json']); assert.equal(json.status, 2); assert.equal(JSON.parse(json.stdout).ok, false);
   const missing = run(['inspect', '--json']); assert.equal(missing.status, 1); assert.equal(JSON.parse(missing.stdout).state, 'NOT_INSTALLED');
 });
+it('unbound and dangling runtimes are not given advice that cannot work', base => {
+  const { rt } = crash(base), file = path.join(rt, '.sync.lock'), data = JSON.parse(fs.readFileSync(file)); delete data.identity;
+  fs.writeFileSync(file, JSON.stringify(data)); const legacy = R.inspect(rt);
+  assert.equal(legacy.state, 'UNKNOWN'); assert.match(legacy.reason, /never released/);
+  const dangling = path.join(base, 'dangling'); fs.symlinkSync(path.join(base, 'gone'), dangling);
+  const view = R.inspect(dangling); assert.equal(view.state, 'UNKNOWN'); assert.match(view.reason, /dangling symlink/); assert.doesNotMatch(view.reason, /hooks install/);
+  const bin = path.resolve(__dirname, '../bin/sshlg-skills.js');
+  const bare = spawnSync(process.execPath, [bin, 'hooks', 'recovery', '--json'], { env: { ...process.env, HOME: base }, encoding: 'utf8', timeout: 15000 });
+  assert.equal(bare.status, 2); assert.equal(JSON.parse(bare.stdout).state, 'USAGE');
+});
 if (failed.length) { console.error(failed.join('\n')); process.exitCode = 1; }
 else console.log(`PASS: runtime recovery — ${checks} checks`);
