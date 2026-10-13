@@ -90,3 +90,33 @@ The admission marker narrows ordinary interruption behavior but does not claim a
 power-loss durable journal, directory fsync, cross-file atomicity, or protection
 against a hostile concurrent writer after successful verification. Recovery pins,
 restore ownership and broader transaction recovery remain the separate MB02b task.
+
+## Independent bounded acceptance — 2026-10-13
+
+Reviewer: `fresh_research`, separate from implementation author. Reviewed source
+[`27e2ed015affd4a9774a7309d37abda9f13fdc58`](https://github.com/ssheleg/sshlg-skills/commit/27e2ed015affd4a9774a7309d37abda9f13fdc58).
+Verdict: **PASS for MB02a canonical identity and verified publication only**.
+
+The reviewer read the complete backup implementation and sole production
+`latest()` consumer in `hooks/post-tool-use.js`, reproduced cross-profile loss
+against the base, and supplied the watched retention, Infinity, dangling-parent,
+FIFO, failed-readback and case-alias counterexamples corrected above.
+Final replay: `node test/backup_identity_test.js` exited 0 with **17 checks**.
+The actual compatibility consumer `node test/claude_pin_transaction_test.js`
+exited 0 with **27 checks** after the retention/Infinity corrections; final marker
+and native-realpath changes additionally carry the author's final six-suite receipt.
+
+Seven independent final synthetic controls exited 0: for each of same-inode
+corruption and replacement-inode corruption after publication, lookup refuses,
+the actual PostToolUse process reports automatic restore NOT performed and preserves
+current config bytes, and twelve later successful saves retain failed evidence
+and its refusal. The seventh control exercises two case spellings of one actual
+macOS inode and retrieves the same canonical backup. All owned fixture trees were
+removed. No machine configuration, provider request or aggregate suite was used.
+
+`keep: Infinity` preserves copies from that save's own pruning only. Another
+ordinary writer in the same directory can still prune a recovery-referenced copy;
+this is **not a recovery pin**. MB02b must bind those references before claiming
+transaction recovery. Unresolved publication markers deliberately stop automatic
+restore; this cut provides no command that silently clears them or adopts legacy
+ownership. Parent integration and aggregate checks remain separate gates.
