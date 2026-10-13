@@ -41,7 +41,8 @@ python3 -B docs/evidence/completion-1013/claude-local-enable/probe.py --output /
 ```
 
 The probe refuses to overwrite a prior receipt. It needs installed `claude` and
-Git; neither installation nor a model request is performed by this packet.
+Git. It does not install either CLI or make a model request; the only plugin
+installations are the five synthetic fixtures described above.
 
 ---
 
