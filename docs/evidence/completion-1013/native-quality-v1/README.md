@@ -238,3 +238,27 @@ private and unscored here. This replay is not a completed paired task experiment
 Next task: independent review of the ID-based parser correction and raw-stream
 diagnosis; coordinator decides whether a newly budgeted protocol is warranted.
 The runner is not authorized for another call by this evidence entry.
+
+
+## Explicit three-cell continuation prepared
+
+The coordinator independently confirmed the corrected request counting and
+authorized preparation of a separate continuation, with independent runner
+review before execution. `continue.py` binds C's immutable receipt hash and both
+clean readiness calls, the exact source/materializer/tasks/rubric/catalogue hashes,
+unchanged settings and command template. It runs fresh OAuth/version preflight
+and rechecks exact native inventory, source parity and tool confinement on each
+new task. It never repeats readiness or full/a1, and never changes C's verdict.
+
+Only concise/a1, concise/a2, full/a2 remain, in that fixed original order and
+seed. Accounting includes all five A/B/C CLI invocations and USD0.1834924 known
+reported list cost. Maximum three new CLI invocations gives eight cumulative;
+18 new model turns maximum; the overall reported-list ceiling remains USD4 with
+USD0.50 reservation before each call. No transport/schema/unknown-cost retry.
+The continuation identity and prior hashes are persisted before any new call.
+
+Offline checks cover the three-cell plan and four fake-process modes, changed
+receipt/settings/source/task/rubric rejection, no readiness/task repetition,
+private retention and combined counters. No new provider call occurred while
+preparing this protocol. Next: independent review, then explicit execution only
+under the coordinator's approved bounded continuation.
