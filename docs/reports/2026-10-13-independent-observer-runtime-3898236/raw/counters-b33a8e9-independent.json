@@ -1,0 +1,506 @@
+{
+  "source": "b33a8e9d0f84ecfe1ed8561261d9764ccf477c24",
+  "scope": "Exact inverse29 audit source diffs; extracted actual callback/verdict controls58; actual queue8 and selected1 plus invalid selection; MCP summary two controls; no full audit rerun",
+  "initial_peer_attempt": "Harness assumed the last three main AST nodes were the verdict; fix-vd-07.01 has an intervening NOT_RUN loop. Initial harness aborted, temp removed; source was not changed. Corrected harness extracts from the existing failures branch.",
+  "audit_controls": [
+    {
+      "file": "test/audit_regressions/ctx-04.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.02.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.02.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.03.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.03.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.04.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.04.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.05.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.05.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.06.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.06.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-01.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-01.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-01.02.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-01.02.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-02.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-02.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-02.02.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-02.02.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-03.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-03.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-04.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-04.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-ub-01.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-ub-01.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-01.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-01.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-01.02.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-01.02.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-01.03.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-01.03.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-03.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-03.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-03.02.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-03.02.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-04.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-04.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-04.02.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-04.02.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-05.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-05.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-05.04.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-05.04.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-07.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-07.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-07.02.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-07.02.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-07.03.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-07.03.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-08.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-08.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-08.03.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-up-08.03.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-vd-03.03.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-vd-03.03.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-vd-07.01.py",
+      "inverse_exact": true,
+      "negative": false,
+      "executed_callbacks": 2,
+      "exit": 0,
+      "output": "  ok  one\n  ok  two\n\nOK (2 checks)\n"
+    },
+    {
+      "file": "test/audit_regressions/fix-vd-07.01.py",
+      "inverse_exact": true,
+      "negative": true,
+      "executed_callbacks": 2,
+      "exit": 1,
+      "output": "  ok  one\nFAIL  two: owned negative callback\n\n1 failure(s)\n"
+    }
+  ],
+  "queue": [
+    {
+      "args": [],
+      "exit": 0,
+      "output": "OK (8 checks)\n/private/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/observer-counters-peer-ud2x9c23/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmp2yukzrlr.md' mode='r' encoding='utf-8'>\n  for n, l in enumerate(open(path, encoding='utf-8').read().split('\\n'), 1):\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n./private/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/observer-counters-peer-ud2x9c23/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmp9k95m9nu.md' mode='r' encoding='utf-8'>\n  for n, l in enumerate(open(path, encoding='utf-8').read().split('\\n'), 1):\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n./private/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/observer-counters-peer-ud2x9c23/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmp6ew6hkff.md' mode='r' encoding='utf-8'>\n  for n, l in enumerate(open(path, encoding='utf-8').read().split('\\n'), 1):\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n../private/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/observer-counters-peer-ud2x9c23/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmpii7_yb9h.md' mode='r' encoding='utf-8'>\n  for n, l in enumerate(open(path, encoding='utf-8').read().split('\\n'), 1):\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n./private/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/observer-counters-peer-ud2x9c23/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmpa3oukfb4.md' mode='r' encoding='utf-8'>\n  for n, l in enumerate(open(path, encoding='utf-8').read().split('\\n'), 1):\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n./private/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/observer-counters-peer-ud2x9c23/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmp4t_pp3o1.md' mode='r' encoding='utf-8'>\n  for n, l in enumerate(open(path, encoding='utf-8').read().split('\\n'), 1):\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n./private/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/observer-counters-peer-ud2x9c23/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmpbflw0tw2.md' mode='r' encoding='utf-8'>\n  for n, l in enumerate(open(path, encoding='utf-8').read().split('\\n'), 1):\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 8 tests in 0.024s\n\nOK\n"
+    },
+    {
+      "args": [
+        "TestStatusComesFromTheColumn.test_a_body_that_says_closed_is_not_a_closed_row"
+      ],
+      "exit": 0,
+      "output": "OK (1 checks)\n/private/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/observer-counters-peer-ud2x9c23/scripts/queue.py:51: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tmphekn66rk.md' mode='r' encoding='utf-8'>\n  for n, l in enumerate(open(path, encoding='utf-8').read().split('\\n'), 1):\nResourceWarning: Enable tracemalloc to get the object allocation traceback\n.\n----------------------------------------------------------------------\nRan 1 test in 0.006s\n\nOK\n"
+    },
+    {
+      "args": [
+        "no_such_test"
+      ],
+      "exit": 1,
+      "output": "E\n======================================================================\nERROR: no_such_test (unittest.loader._FailedTest.no_such_test)\n----------------------------------------------------------------------\nAttributeError: module '__main__' has no attribute 'no_such_test'\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n"
+    }
+  ],
+  "mcp_summary": [
+    {
+      "negative": false,
+      "exit": 0,
+      "output": "PASS: mcpsecrets \u2014 3 checks\n"
+    },
+    {
+      "negative": true,
+      "exit": 1,
+      "output": "mcpsecrets: 1/3 failed\n  owned failure\n"
+    }
+  ],
+  "changed_files": 31,
+  "scope_limit": "fix-vd-07.01 retains preexisting NOT_RUN branch for missing cross-repository source. Counters count executed callbacks, not proof all external assertions ran."
+}
