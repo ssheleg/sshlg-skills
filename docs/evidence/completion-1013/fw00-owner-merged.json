@@ -1,0 +1,766 @@
+{
+  "schema": "fw00-owner-integration/1",
+  "scope": "docs-only bounded source/published dispositions",
+  "owners": [
+    {
+      "pr": {
+        "headRefOid": "3f7ea829f71b50a9bb2bd894bd03f71931dc5071",
+        "mergeCommit": {
+          "oid": "63e155d9c1ca9df789535926acc3546f33954e3b"
+        },
+        "state": "MERGED",
+        "url": "https://github.com/ssheleg/agent-stack/pull/53"
+      },
+      "run": {
+        "conclusion": "success",
+        "event": "pull_request",
+        "headSha": "3f7ea829f71b50a9bb2bd894bd03f71931dc5071",
+        "jobs": [
+          {
+            "completedAt": "2026-10-13T10:02:40Z",
+            "conclusion": "success",
+            "databaseId": 115239770999,
+            "name": "House skill audit",
+            "startedAt": "2026-10-13T10:02:27Z",
+            "status": "completed",
+            "steps": [
+              {
+                "completedAt": "2026-10-13T10:02:28Z",
+                "conclusion": "success",
+                "name": "Set up job",
+                "number": 1,
+                "startedAt": "2026-10-13T10:02:28Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:29Z",
+                "conclusion": "success",
+                "name": "Run actions/checkout@v4",
+                "number": 2,
+                "startedAt": "2026-10-13T10:02:28Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:30Z",
+                "conclusion": "success",
+                "name": "Checkout the pinned family auditor",
+                "number": 3,
+                "startedAt": "2026-10-13T10:02:29Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:34Z",
+                "conclusion": "success",
+                "name": "Install a real tokenizer (the budget is MEASURED, never estimated)",
+                "number": 4,
+                "startedAt": "2026-10-13T10:02:30Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:36Z",
+                "conclusion": "success",
+                "name": "Audit every shipped Agent Skill",
+                "number": 5,
+                "startedAt": "2026-10-13T10:02:34Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:36Z",
+                "conclusion": "success",
+                "name": "Validate behavioral eval data and watch the guard fail",
+                "number": 6,
+                "startedAt": "2026-10-13T10:02:36Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:36Z",
+                "conclusion": "success",
+                "name": "Validate the committed social preview and watch the ink guard fail",
+                "number": 7,
+                "startedAt": "2026-10-13T10:02:36Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:37Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a social card whose text left the box must fail)",
+                "number": 8,
+                "startedAt": "2026-10-13T10:02:36Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:37Z",
+                "conclusion": "success",
+                "name": "Post Checkout the pinned family auditor",
+                "number": 15,
+                "startedAt": "2026-10-13T10:02:37Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:37Z",
+                "conclusion": "success",
+                "name": "Post Run actions/checkout@v4",
+                "number": 16,
+                "startedAt": "2026-10-13T10:02:37Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:37Z",
+                "conclusion": "success",
+                "name": "Complete job",
+                "number": 17,
+                "startedAt": "2026-10-13T10:02:37Z",
+                "status": "completed"
+              }
+            ],
+            "url": "https://github.com/ssheleg/agent-stack/actions/runs/38380607773/job/115239770999"
+          },
+          {
+            "completedAt": "2026-10-13T10:03:03Z",
+            "conclusion": "success",
+            "databaseId": 115239771108,
+            "name": "validate",
+            "startedAt": "2026-10-13T10:02:26Z",
+            "status": "completed",
+            "steps": [
+              {
+                "completedAt": "2026-10-13T10:02:27Z",
+                "conclusion": "success",
+                "name": "Set up job",
+                "number": 1,
+                "startedAt": "2026-10-13T10:02:26Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:28Z",
+                "conclusion": "success",
+                "name": "Run actions/checkout@v4",
+                "number": 2,
+                "startedAt": "2026-10-13T10:02:27Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:30Z",
+                "conclusion": "success",
+                "name": "Install a real tokenizer (the budget is MEASURED, never estimated)",
+                "number": 3,
+                "startedAt": "2026-10-13T10:02:28Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:31Z",
+                "conclusion": "success",
+                "name": "Structural validator",
+                "number": 4,
+                "startedAt": "2026-10-13T10:02:30Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:36Z",
+                "conclusion": "success",
+                "name": "Owner board and release guard plants",
+                "number": 5,
+                "startedAt": "2026-10-13T10:02:31Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:38Z",
+                "conclusion": "success",
+                "name": "Audit regressions (sherlock plan, one file per closed finding)",
+                "number": 6,
+                "startedAt": "2026-10-13T10:02:36Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:38Z",
+                "conclusion": "success",
+                "name": "The plant guard itself (content AND mode, and the incident that named it)",
+                "number": 7,
+                "startedAt": "2026-10-13T10:02:38Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:38Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a plant that does nothing must be reported, not passed)",
+                "number": 8,
+                "startedAt": "2026-10-13T10:02:38Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:39Z",
+                "conclusion": "success",
+                "name": "Negative self-test (version drift must fail)",
+                "number": 9,
+                "startedAt": "2026-10-13T10:02:38Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:39Z",
+                "conclusion": "success",
+                "name": "Negative self-test (over-long description must fail)",
+                "number": 10,
+                "startedAt": "2026-10-13T10:02:39Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:40Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a description at 941 chars must fail; 940 passes)",
+                "number": 11,
+                "startedAt": "2026-10-13T10:02:39Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:40Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a removed estate-skill pointer in agent-interop must fail)",
+                "number": 12,
+                "startedAt": "2026-10-13T10:02:40Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:41Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a reference nobody links must fail)",
+                "number": 13,
+                "startedAt": "2026-10-13T10:02:40Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:41Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a dangling reference link must fail)",
+                "number": 14,
+                "startedAt": "2026-10-13T10:02:41Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:41Z",
+                "conclusion": "success",
+                "name": "Negative self-test (stray SKILL.md must fail)",
+                "number": 15,
+                "startedAt": "2026-10-13T10:02:41Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:42Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a protocol reference with no revision stamp must fail)",
+                "number": 16,
+                "startedAt": "2026-10-13T10:02:41Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:42Z",
+                "conclusion": "success",
+                "name": "Negative self-test (an unreal stamp date must fail)",
+                "number": 17,
+                "startedAt": "2026-10-13T10:02:42Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:43Z",
+                "conclusion": "success",
+                "name": "Negative self-test (dropping the validator from CI must fail)",
+                "number": 18,
+                "startedAt": "2026-10-13T10:02:42Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:45Z",
+                "conclusion": "success",
+                "name": "Negative self-test (the checker contract must not shrink)",
+                "number": 19,
+                "startedAt": "2026-10-13T10:02:43Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:45Z",
+                "conclusion": "success",
+                "name": "Negative self-test (the checker contract must keep its evidence item)",
+                "number": 20,
+                "startedAt": "2026-10-13T10:02:45Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:46Z",
+                "conclusion": "success",
+                "name": "Negative self-test (the two homes of the checker contract must agree)",
+                "number": 21,
+                "startedAt": "2026-10-13T10:02:45Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:47Z",
+                "conclusion": "success",
+                "name": "Negative self-test (the node contract must not shrink)",
+                "number": 22,
+                "startedAt": "2026-10-13T10:02:46Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:48Z",
+                "conclusion": "success",
+                "name": "Negative self-test (the node contract must keep its owner field)",
+                "number": 23,
+                "startedAt": "2026-10-13T10:02:47Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:49Z",
+                "conclusion": "success",
+                "name": "Negative self-test (the node contract's spelled count must track its declaration)",
+                "number": 24,
+                "startedAt": "2026-10-13T10:02:48Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:49Z",
+                "conclusion": "success",
+                "name": "Negative self-test (the eval-tier contract must not shrink)",
+                "number": 25,
+                "startedAt": "2026-10-13T10:02:49Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:50Z",
+                "conclusion": "success",
+                "name": "Negative self-test (the eval-tier spelled count must track its declaration)",
+                "number": 26,
+                "startedAt": "2026-10-13T10:02:49Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:50Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a timing rule stated without its sibling tier must fail)",
+                "number": 27,
+                "startedAt": "2026-10-13T10:02:50Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:51Z",
+                "conclusion": "success",
+                "name": "Negative self-test (the two hosts of the eval-timing line must agree)",
+                "number": 28,
+                "startedAt": "2026-10-13T10:02:50Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:51Z",
+                "conclusion": "success",
+                "name": "Negative self-test (the priority axes must stay the manifesto's four)",
+                "number": 29,
+                "startedAt": "2026-10-13T10:02:51Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:51Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a priority scalar must not come back)",
+                "number": 30,
+                "startedAt": "2026-10-13T10:02:51Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:52Z",
+                "conclusion": "success",
+                "name": "Negative self-test (the plan must not be ordered by a number)",
+                "number": 31,
+                "startedAt": "2026-10-13T10:02:51Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:52Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a temp tree must not bypass the residue ledger)",
+                "number": 32,
+                "startedAt": "2026-10-13T10:02:52Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:53Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a shipped script's temp tree must not escape the check)",
+                "number": 33,
+                "startedAt": "2026-10-13T10:02:52Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:53Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a description must stay inside the working limit)",
+                "number": 34,
+                "startedAt": "2026-10-13T10:02:53Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:53Z",
+                "conclusion": "success",
+                "name": "Negative self-test (a verified row must not stand over an unreleased artifact)",
+                "number": 35,
+                "startedAt": "2026-10-13T10:02:53Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:54Z",
+                "conclusion": "success",
+                "name": "Negative self-test (the ledger must not announce a release nobody cut)",
+                "number": 36,
+                "startedAt": "2026-10-13T10:02:53Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:54Z",
+                "conclusion": "success",
+                "name": "Agent audit scanner \u2014 every detector must fire, and a clean file must not",
+                "number": 37,
+                "startedAt": "2026-10-13T10:02:54Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:54Z",
+                "conclusion": "success",
+                "name": "Agent audit scanner \u2014 runs on a real tree and always discloses its blind spots",
+                "number": 38,
+                "startedAt": "2026-10-13T10:02:54Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:54Z",
+                "conclusion": "success",
+                "name": "install.sh syntax check",
+                "number": 39,
+                "startedAt": "2026-10-13T10:02:54Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:55Z",
+                "conclusion": "success",
+                "name": "npm installer functional test (fresh / rerun-skip / --force / plugin-present refusal)",
+                "number": 40,
+                "startedAt": "2026-10-13T10:02:54Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:56Z",
+                "conclusion": "success",
+                "name": "Workflow YAML parses",
+                "number": 41,
+                "startedAt": "2026-10-13T10:02:55Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:03:01Z",
+                "conclusion": "success",
+                "name": "Official Claude Code conformance (plugin + marketplace, strict)",
+                "number": 42,
+                "startedAt": "2026-10-13T10:02:56Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:03:02Z",
+                "conclusion": "success",
+                "name": "Post Run actions/checkout@v4",
+                "number": 84,
+                "startedAt": "2026-10-13T10:03:01Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:03:02Z",
+                "conclusion": "success",
+                "name": "Complete job",
+                "number": 85,
+                "startedAt": "2026-10-13T10:03:02Z",
+                "status": "completed"
+              }
+            ],
+            "url": "https://github.com/ssheleg/agent-stack/actions/runs/38380607773/job/115239771108"
+          }
+        ],
+        "status": "completed",
+        "url": "https://github.com/ssheleg/agent-stack/actions/runs/38380607773"
+      },
+      "required": [
+        {
+          "link": "https://github.com/ssheleg/agent-stack/actions/runs/38380607773/job/115239770999",
+          "name": "House skill audit",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "https://github.com/ssheleg/agent-stack/actions/runs/38380607773/job/115239771108",
+          "name": "validate",
+          "state": "SUCCESS"
+        }
+      ],
+      "owner": "agent-stack",
+      "merged_tree_equals_reviewed_head": true,
+      "remote_main_confirmed": "63e155d9c1ca9df789535926acc3546f33954e3b"
+    },
+    {
+      "pr": {
+        "headRefOid": "3ebecd785cacad496c5eb9727bd58bbcf22f7c54",
+        "mergeCommit": {
+          "oid": "f974e7f212ddf2482569ab8399091f5d8336c31c"
+        },
+        "state": "MERGED",
+        "url": "https://github.com/ssheleg/super-ux/pull/46"
+      },
+      "run": {
+        "conclusion": "success",
+        "event": "pull_request",
+        "headSha": "3ebecd785cacad496c5eb9727bd58bbcf22f7c54",
+        "jobs": [
+          {
+            "completedAt": "2026-10-13T10:02:46Z",
+            "conclusion": "success",
+            "databaseId": 115239784613,
+            "name": "validate",
+            "startedAt": "2026-10-13T10:02:28Z",
+            "status": "completed",
+            "steps": [
+              {
+                "completedAt": "2026-10-13T10:02:29Z",
+                "conclusion": "success",
+                "name": "Set up job",
+                "number": 1,
+                "startedAt": "2026-10-13T10:02:29Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:30Z",
+                "conclusion": "success",
+                "name": "Run actions/checkout@v4",
+                "number": 2,
+                "startedAt": "2026-10-13T10:02:29Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:31Z",
+                "conclusion": "success",
+                "name": "Run actions/setup-python@v5",
+                "number": 3,
+                "startedAt": "2026-10-13T10:02:30Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:32Z",
+                "conclusion": "success",
+                "name": "PyYAML for the front-matter guard",
+                "number": 4,
+                "startedAt": "2026-10-13T10:02:31Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:32Z",
+                "conclusion": "success",
+                "name": "Validate repo consistency",
+                "number": 5,
+                "startedAt": "2026-10-13T10:02:32Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:33Z",
+                "conclusion": "success",
+                "name": "Brand linter unit tests (fixture per check code)",
+                "number": 6,
+                "startedAt": "2026-10-13T10:02:32Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:33Z",
+                "conclusion": "success",
+                "name": "Display-copy semantic coverage regressions",
+                "number": 7,
+                "startedAt": "2026-10-13T10:02:33Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:33Z",
+                "conclusion": "success",
+                "name": "UX linter fixtures",
+                "number": 8,
+                "startedAt": "2026-10-13T10:02:33Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:40Z",
+                "conclusion": "success",
+                "name": "Audit regressions (sherlock plan, one file per closed finding)",
+                "number": 9,
+                "startedAt": "2026-10-13T10:02:33Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:40Z",
+                "conclusion": "success",
+                "name": "Dogfood the UX chain",
+                "number": 10,
+                "startedAt": "2026-10-13T10:02:40Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:40Z",
+                "conclusion": "success",
+                "name": "Dogfood the brand pack",
+                "number": 11,
+                "startedAt": "2026-10-13T10:02:40Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:41Z",
+                "conclusion": "success",
+                "name": "Installer functional tests (fake HOMEs, plugin-present refusal)",
+                "number": 12,
+                "startedAt": "2026-10-13T10:02:40Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:44Z",
+                "conclusion": "success",
+                "name": "Official Claude Code conformance (plugin + marketplace, strict)",
+                "number": 13,
+                "startedAt": "2026-10-13T10:02:41Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:44Z",
+                "conclusion": "success",
+                "name": "Post Run actions/setup-python@v5",
+                "number": 25,
+                "startedAt": "2026-10-13T10:02:44Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:44Z",
+                "conclusion": "success",
+                "name": "Post Run actions/checkout@v4",
+                "number": 26,
+                "startedAt": "2026-10-13T10:02:44Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:44Z",
+                "conclusion": "success",
+                "name": "Complete job",
+                "number": 27,
+                "startedAt": "2026-10-13T10:02:44Z",
+                "status": "completed"
+              }
+            ],
+            "url": "https://github.com/ssheleg/super-ux/actions/runs/38380612106/job/115239784613"
+          },
+          {
+            "completedAt": "2026-10-13T10:02:38Z",
+            "conclusion": "success",
+            "databaseId": 115239785003,
+            "name": "House skill audit",
+            "startedAt": "2026-10-13T10:02:28Z",
+            "status": "completed",
+            "steps": [
+              {
+                "completedAt": "2026-10-13T10:02:29Z",
+                "conclusion": "success",
+                "name": "Set up job",
+                "number": 1,
+                "startedAt": "2026-10-13T10:02:29Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:30Z",
+                "conclusion": "success",
+                "name": "Run actions/checkout@v4",
+                "number": 2,
+                "startedAt": "2026-10-13T10:02:29Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:30Z",
+                "conclusion": "success",
+                "name": "Checkout the pinned family auditor",
+                "number": 3,
+                "startedAt": "2026-10-13T10:02:30Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:33Z",
+                "conclusion": "success",
+                "name": "Install a real tokenizer (the budget is MEASURED, never estimated)",
+                "number": 4,
+                "startedAt": "2026-10-13T10:02:30Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:35Z",
+                "conclusion": "success",
+                "name": "Audit every shipped Agent Skill",
+                "number": 5,
+                "startedAt": "2026-10-13T10:02:33Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:36Z",
+                "conclusion": "success",
+                "name": "Validate behavioral eval data and watch the guard fail",
+                "number": 6,
+                "startedAt": "2026-10-13T10:02:35Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:36Z",
+                "conclusion": "success",
+                "name": "Validate the committed social preview",
+                "number": 7,
+                "startedAt": "2026-10-13T10:02:36Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:36Z",
+                "conclusion": "success",
+                "name": "Post Checkout the pinned family auditor",
+                "number": 13,
+                "startedAt": "2026-10-13T10:02:36Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:36Z",
+                "conclusion": "success",
+                "name": "Post Run actions/checkout@v4",
+                "number": 14,
+                "startedAt": "2026-10-13T10:02:36Z",
+                "status": "completed"
+              },
+              {
+                "completedAt": "2026-10-13T10:02:36Z",
+                "conclusion": "success",
+                "name": "Complete job",
+                "number": 15,
+                "startedAt": "2026-10-13T10:02:36Z",
+                "status": "completed"
+              }
+            ],
+            "url": "https://github.com/ssheleg/super-ux/actions/runs/38380612106/job/115239785003"
+          }
+        ],
+        "status": "completed",
+        "url": "https://github.com/ssheleg/super-ux/actions/runs/38380612106"
+      },
+      "required": [
+        {
+          "link": "https://github.com/ssheleg/super-ux/actions/runs/38380612106/job/115239784613",
+          "name": "validate",
+          "state": "SUCCESS"
+        },
+        {
+          "link": "https://github.com/ssheleg/super-ux/actions/runs/38380612106/job/115239785003",
+          "name": "House skill audit",
+          "state": "SUCCESS"
+        }
+      ],
+      "owner": "super-ux",
+      "merged_tree_equals_reviewed_head": true,
+      "remote_main_confirmed": "f974e7f212ddf2482569ab8399091f5d8336c31c"
+    }
+  ]
+}

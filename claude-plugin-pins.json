@@ -4,7 +4,7 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "a9a7a614f77a9788e154866396cb9b61215a28a3",
+      "commit": "f974e7f212ddf2482569ab8399091f5d8336c31c",
       "version": "0.59.3",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
@@ -3075,7 +3075,7 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "6b71918a4d9b23a1f10af54b7d574a48e401ef26",
+      "commit": "63e155d9c1ca9df789535926acc3546f33954e3b",
       "version": "0.28.2",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",
