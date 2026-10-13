@@ -1,0 +1,20 @@
+{
+  "schema": "graph-build-receipt/1",
+  "source_commit": "56ca9ea41e40efa0b2b6240411711c480f091e8e",
+  "command": [
+    "<graphifyy0.9.44-python>",
+    "docs/reports/2026-10-13-code-graph-finalization/build.py",
+    "--repo",
+    ".",
+    "--commit",
+    "56ca9ea41e40efa0b2b6240411711c480f091e8e",
+    "--output",
+    "docs/reports/2026-10-13-code-graph-runtime-recovery/raw/final-56ca9ea"
+  ],
+  "exit_code": 0,
+  "seconds": 8.293,
+  "builder_sha256": "3580a9b413a980535cae8acd1ab3765e6328c08eeaf48e49c207d775ce30303c",
+  "log_sha256": "638f17de6776e8154bf1df6915261c51ebc4ffdaa87401ffd00f40f7c63fd156",
+  "free_after_bytes": 889323520,
+  "mode": "code-only; provider-free builder path, no broad suite; not network telemetry"
+}
