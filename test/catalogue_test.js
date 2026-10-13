@@ -54,6 +54,8 @@ try {
     const parse=require('../lib/catalogue').metadata;
     assert.deepStrictEqual(parse('---\nname: x # note\ndescription: |\n  Telescope\n  focus\n---\n'),{name:'x',description:'Telescope focus'});
     assert.strictEqual(parse("---\nname: x\ndescription: 'It''s a telescope'\n---\n").description,"It's a telescope");
+    assert.strictEqual(parse('---\nname: x\ndescription: Hydrogen spectral\n  telescope analysis\n---\n').description,'Hydrogen spectral telescope analysis');
+    assert.strictEqual(parse('---\nname: x\ndescription: "Hydrogen spectral\n  telescope analysis"\n---\n').description,'Hydrogen spectral telescope analysis');
   });
   check('identical entries share one ranking slot but retain their paths',()=>{
     const rows=T.find([
@@ -65,5 +67,22 @@ try {
     assert.ok(!T.renderFind(rows,'telescope focus').includes('/host/b'));
     assert.ok(T.renderFind(rows,'telescope focus',2,{showCopies:true}).includes('/host/b'));
   });
+  const plain=skill('.claude/skills/line-endings', '---\r\nname: line-endings\r\ndescription: >-\r\n  Hydrogen spectral\r\n  analysis\r\n---\r\n');
+  check('Claude known rows retain CRLF descriptions before deduplication',()=>{
+    const known=T.readSkills(home), all=known.concat(T.readShared(home,known,{env:{}}));
+    assert.strictEqual(T.find(all,'hydrogen spectral').rows[0].path,plain);
+  });
+  const disabled=skill('custom-plugin/skills/disabled', '---\nname: disabled\ndescription: Dormant optical research\n---\n');
+  fs.mkdirSync(path.join(home,'.claude/plugins'),{recursive:true});
+  fs.writeFileSync(path.join(home,'.claude/settings.json'),JSON.stringify({enabledPlugins:{'foreign@vendor':false}}));
+  const registry=path.join(home,'.claude/plugins/installed_plugins.json');
+  fs.writeFileSync(registry,JSON.stringify({plugins:{'foreign@vendor':[{installPath:path.join(home,'custom-plugin')}]}}));
+  check('disabled foreign plugin at custom install path remains searchable',()=>{
+    const known=T.readSkills(home), rows=T.find(known.concat(T.readShared(home,known,{env:{}})),'dormant optical').rows;
+    assert.strictEqual(rows[0].path,disabled);
+    assert.ok(T.renderFind(rows,'dormant optical').includes('native availability unverified'));
+  });
+  fs.writeFileSync(registry,'{malformed');
+  check('malformed registry reports incomplete discovery',()=>assert.ok(T.readShared(home,[],{env:{}}).warnings.some(w=>w.includes('invalid JSON'))));
   console.log(`OK (${checks} checks)`);
 } finally {fs.rmSync(home,{recursive:true,force:true});}
