@@ -385,37 +385,47 @@ function planInstall(f) {
       'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
       { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
   }
-  if (f.claude || f.claudeOnly) {
-    const installed = require(path.join(ROOT, 'lib', 'enablement.js')).installed(process.env.HOME || os.homedir());
-    for (const s of SKILLS) {
-      steps.push(opres.step('subprocess', 'home', `claude plugin marketplace add (${s.name})`,
-        { cmd: 'claude', args: ['plugin', 'marketplace', 'add', s.pluginMarketplace] }));
-      // Reinstalling enables an existing plugin; updating preserves project scoping.
-      const action = installed[s.pluginInstall] ? 'update' : 'install';
-      steps.push(opres.step('subprocess', 'home', `claude plugin ${action} ${s.pluginInstall}`,
-        { cmd: 'claude', args: ['plugin', action, s.pluginInstall] }));
-    }
-  }
   if (!f.member) {
     steps.push(opres.step('router-block', 'home',
       'refresh the managed routing block (its own consent and dry-run rules apply)',
       { mode: 'install' }));
   }
-  return opres.buildPlan(steps);
+  return withClaudePlan(steps, f);
 }
 
-/** Plugin registries as sets, or null when unreadable — the input `plan.pluginUpdatePlan` needs. */
-function pluginRegistries() {
-  const read = (file) => {
-    try { return JSON.parse(fs.readFileSync(path.join(claudeRoot(), 'plugins', file), 'utf8')); }
-    catch (_) { return null; }
-  };
-  const known = read('known_marketplaces.json');
-  const installed = read('installed_plugins.json');
-  return {
-    known: known && typeof known === 'object' ? new Set(Object.keys(known)) : null,
-    installed: installed && installed.plugins ? new Set(Object.keys(installed.plugins)) : null,
-  };
+// Private snapshots contain settings values and never enter printable effects.
+const claudePlans = new WeakMap();
+const frozenOperations = new WeakMap();
+function withClaudePlan(steps, f) {
+  let native = null, inventory = null;
+  if (claudeScope(f).inScope) {
+    inventory = JSON.parse(fs.readFileSync(path.join(ROOT, 'claude-plugin-pins.json'), 'utf8'));
+    native = require('../lib/claude-pinned').prepare(SKILLS, inventory,
+      { home: os.homedir(), profileRoot: claudeRoot() });
+    steps.unshift(opres.step('claude-pins', 'home',
+      'native immutable source transaction; protected catalogs/settings, scoped repair, rollback on failure, payload readback',
+      { fingerprint: native.fingerprint, profile: native.profile,
+        members: native.jobs.map(j => `${j.pluginInstall}: ${j.action} @ ${j.row.commit}; ${j.row.files.length} files`),
+        journal: path.join(native.transactionRoot, 'latest.json') }));
+  }
+  const result = opres.buildPlan(steps);
+  if (native) claudePlans.set(result, { native, inventory });
+  return result;
+}
+function runClaudePlan(planned, f) {
+  const saved = claudePlans.get(planned);
+  if (!saved) {
+    log(`\n== Updating Claude Code plugins ==\n  skipped: ${claudeScope(f).skippedBy} (the Claude host is outside this run's scope)`);
+    return true;
+  }
+  // Admission, version check and all backups happen before any other channel.
+  let result;
+  try { result = require('../lib/claude-pin-transaction').execute(saved.native, SKILLS, saved.inventory); }
+  catch(e) { log(`  Claude native transaction refused before execution: ${e.message}`); return false; }
+  log(`  Claude native transaction: ${result.ok ? 'verified immutable payloads' : 'failed; inspect recovery receipt'} — ${result.receipt}`);
+  for (const r of result.results) log(`    ${r.member}: ${r.status}${r.rollback ? '; rollback: ' + r.rollback : ''}`);
+  if (result.error) log(`  ${result.error}`);
+  return result.ok;
 }
 
 /** The same contract for `update` — every subprocess, prune, router and runtime action. */
@@ -436,14 +446,6 @@ function planUpdate(f) {
     steps.push(opres.step('prune', 'home',
       'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
       { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
-  }
-  // The Claude plugin step follows the Claude host's scope (final polish 8): an `--agent`
-  // list never selects Claude, so it no longer runs `claude plugin update` either.
-  if (claudeScope(f).inScope) {
-    const reg = pluginRegistries();
-    for (const args of plan.pluginUpdatePlan(SKILLS, reg.known, reg.installed)) {
-      steps.push(opres.step('subprocess', 'home', `claude ${args.join(' ')}`, { cmd: 'claude', args }));
-    }
   }
   if (!f.member) {
     steps.push(opres.step('router-block', 'home',
@@ -469,14 +471,14 @@ function planUpdate(f) {
       : 'domain members — `domains --apply` never ran here: one line if a project calls for one, nothing written',
     { file: rec }));
   }
-  return opres.buildPlan(steps);
+  return withClaudePlan(steps, f);
 }
 
 /** Dry-run IS the render: the complete receipt, a typed result, zero mutations. */
 function sourceContract(planned) {
   const selected = cmd => planned.steps.some(s => s.kind === 'subprocess' && s.effect.cmd === cmd);
   log(`  Plain-skills source contract: ${selected('npx') ? 'immutable commit selection; this is not installed-byte or native-runtime acceptance' : 'not selected'}.`);
-  log(`  Claude native source contract: ${selected('claude') ? 'version-following; immutable source NOT_VERIFIED' : 'not selected'}.`);
+  log(`  Claude native source contract: ${planned.steps.some(s => s.kind === 'claude-pins') ? 'immutable commit plus payload readback required; runtime/model acceptance separate' : 'not selected'}.`);
 }
 
 function renderDryRun(planned, mode) {
@@ -499,8 +501,9 @@ function renderDryRun(planned, mode) {
 }
 
 function cmdInstall(f) {
-  const planned = planInstall(f);
+  const planned = frozenOperations.get(f) || planInstall(f);
   if (f.dryRun) return renderDryRun(planned, 'install');
+  if (!runClaudePlan(planned, f)) return false;
   let ok = true;
   if (!f.claudeOnly) {
     const agents = skillsCliAgents(f);
@@ -512,14 +515,6 @@ function cmdInstall(f) {
     // copy whether or not this run was asked to manage plugins, and the copy
     // decides nothing about the flag it was created under.
     pruneClaudeShadows();
-  }
-  if (f.claude || f.claudeOnly) {
-    log(`\n== Installing Claude Code plugins ==`);
-    log('  Claude native channel: version-following; immutable source NOT_VERIFIED.');
-    for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'claude')) {
-      ok = run('claude', step.effect.args) && ok;
-    }
-    log('\n(restart Claude Code to apply the plugins)');
   }
   ok = refreshBlock(f, 'install') && ok;
   printUpdateModel('install');
@@ -579,8 +574,9 @@ function scopedRoutingTargets(f) {
 }
 
 function cmdUpdate(f) {
-  const planned = planUpdate(f);
+  const planned = frozenOperations.get(f) || planUpdate(f);
   if (f.dryRun) return renderDryRun(planned, 'update');
+  if (!runClaudePlan(planned, f)) return false;
   let ok = true;
   // Count and execute the subprocess entries from the same frozen plan.
   progress.total =
@@ -612,20 +608,6 @@ function cmdUpdate(f) {
       ok = runPlanned(step.effect.args) && ok;
     }
     pruneClaudeShadows();
-  }
-  // Scoped like the routing block, the wiring and the runtime copy (final polish 8): an
-  // `--agent` list left the Claude host's files alone and still ran `claude plugin update`
-  // for every member. `claudeScope` is the one answer for all four.
-  const pluginScope = claudeScope(f);
-  if (!pluginScope.inScope) {
-    log(`\n== Updating Claude Code plugins ==\n  skipped: ${pluginScope.skippedBy} (the Claude host is outside this run's scope)`);
-  } else {
-    log(`\n== Updating Claude Code plugins ==`);
-    log('  Claude native channel: version-following; immutable source NOT_VERIFIED.');
-    for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'claude')) {
-      ok = run('claude', step.effect.args) && ok;
-    }
-    log('\n(restart Claude Code to apply)');
   }
   // `update`, never `install`: a machine that has no block has not consented
   // to one, and an update is not the moment to ask.
@@ -3670,7 +3652,11 @@ function main(argv) {
   const f = parseFlags(rest);
   if (['install', 'i', 'update', 'up'].includes(cmd)) {
     // Fail before building/executing any operation, including plugin-only runs.
-    try { skillsCliAgents(f); plainSkillsPlan(f, cmd === 'update' || cmd === 'up'); }
+    try {
+      skillsCliAgents(f); plainSkillsPlan(f, cmd === 'update' || cmd === 'up');
+      const planned = cmd === 'update' || cmd === 'up' ? planUpdate(f) : planInstall(f);
+      frozenOperations.set(f, planned);
+    }
     catch (e) { log(e.message); return 2; }
     if (f.all && !f.claudeOnly) {
       const excluded = require('../lib/host-targets.js').excludedGlobal();

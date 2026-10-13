@@ -45,6 +45,9 @@ jobs:
           SSHLG_RATCHETS_OUT: /tmp/ratchets.json
         run: npm test
 
+      - name: Native Claude payload inventory matches exact gitlink trees
+        run: node scripts/sync-claude-pins.js --check
+
       - name: Pin classifier (offline, deterministic)
         # The pure half of check_pins: which of ok/behind/missing a pin is, given
         # what the world publishes. No network, so it belongs in the blocking path

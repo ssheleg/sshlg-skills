@@ -365,37 +365,22 @@ it('`list` is a roster by default and the paragraphs are behind a flag', () => {
     '--verbose dropped the description instead of adding it');
 });
 
-// `update` IS 55 SERIAL CHILD PROCESSES AND SAID NOTHING ABOUT WHERE IT WAS.
-//
-// 37 skills-CLI steps + 18 plugin calls + one submodule sync, every skills step through
-// `npx --yes` at 22.7 / 25.0 / 34.1 s warm — roughly a quarter of an hour of inherited
-// output with no step count and no counter. Worse, no summary: `run()` returned a bare
-// boolean, `cmdUpdate` ANDed them and exited 1, so the ONLY signal that one of the 55
-// failed was the exit code, and finding it meant scrolling back through 55 spawns.
-//
-// The probe puts an empty directory on PATH so every child fails immediately: the point
-// is the REPORT, not the network. `--claude-only` keeps it to the plugin half so the run
-// is fast and the count is exactly `SKILLS.length * 2`.
-it('`update` PRINTS ITS STEP COUNT, A COUNTER, AND WHAT FAILED', () => {
-  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'skills.json'), 'utf8'));
+// The native transaction now admits source/CLI before executing any plugin or
+// later channel. A missing CLI is an explicit refusal, not 2*N blind failures.
+it('native update refuses an unavailable supported CLI before host writes', () => {
   const home = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-prog-'));
   const emptyBin = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-nobin-'));
-  const r = spawnSync(process.execPath, [BIN, 'update', '--claude-only'], {
-    encoding: 'utf8',
-    env: Object.assign({}, process.env, { HOME: home, PATH: emptyBin }),
-  });
-  const out = (r.stdout || '') + (r.stderr || '');
-  const expected = manifest.skills.length * 2;
-
-  assert.ok(out.includes(`== ${expected} steps ==`),
-    `no step count up front: ${out.slice(0, 300)}`);
-  assert.ok(new RegExp(`\\[1/${expected}\\]`).test(out), 'no per-step counter');
-  assert.ok(new RegExp(`\\[${expected}/${expected}\\]`).test(out),
-    'the counter did not reach the total');
-  assert.ok(/FAILED \d+ of \d+ steps/.test(out),
-    'no failure summary — the exit code was the only signal that a step broke');
-  assert.ok(/Re-run just these/.test(out),
-    'the summary lists failures without saying what to do with them');
+  try {
+    const r = spawnSync(process.execPath, [BIN, 'update', '--claude-only'], {
+      encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home, CLAUDE_CONFIG_DIR:path.join(home,'.claude'), PATH: emptyBin }),
+    });
+    const out=(r.stdout||'')+(r.stderr||'');
+    assert.strictEqual(r.status,1,out);
+    assert.match(out,/Claude native transaction refused before execution/);
+    assert.match(out,/2\.1\.296/);
+    assert.ok(!fs.existsSync(path.join(home,'.claude')));
+    assert.ok(!fs.existsSync(path.join(home,'.sshlg-skills','claude-pinned')));
+  } finally {fs.rmSync(home,{recursive:true,force:true});fs.rmSync(emptyBin,{recursive:true,force:true});}
 });
 
 if (failures.length) {

@@ -100,6 +100,8 @@ function runUpdate(sb, args, env) {
     cwd: ROOT, encoding: 'utf8', timeout: 180000, stdin: 'ignore',
     env: Object.assign({
       HOME: sb.home, CODEX_HOME: sb.codexHome, FAKE_CODEX_STATE: sb.statePath, NO_COLOR: '1',
+      // Claude's source transaction is a separate boundary, not an exit-0 shell stub.
+      NODE_OPTIONS: '--require=' + path.join(__dirname, 'fixtures', 'native-transaction-boundary.cjs'),
       PATH: [sb.shims, path.dirname(process.execPath), '/usr/bin', '/bin'].join(path.delimiter),
     }, env || {}),
   });

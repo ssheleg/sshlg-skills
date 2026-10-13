@@ -17,6 +17,7 @@
     "lib",
     "hooks",
     "skills.json",
+    "claude-plugin-pins.json",
     "pack-marks.example.json",
     "README.md",
     "LICENSE",
