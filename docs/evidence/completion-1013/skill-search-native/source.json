@@ -137,7 +137,7 @@
   ],
   "cases_sha256": "60bb503edc49063cfb897ff371f021ed017def5fb3be4c14c9b413545975d06a",
   "dependency_hashes": {
-    "native-quality-v1/run.py": "2b7a08f368071a5353f98f7f7d24749b5f5192a728277c05a472eec6c889b300",
+    "native-quality-v1/run.py": "5369a5e77ab11ed6fd8318a3004f479ce31e1404c916cd521621e37600091fe7",
     "native-quality-v1/materialize.py": "f52a4b1ec1988d084354707ff12a267410020ed9c966863038ebe6458683bbb3",
     "run-description-screening-v2.py": "e10dfc7df74924d834cfdaa5564df4be6df4881ac8a6eadccf9b7a3b2f72e5c7"
   }

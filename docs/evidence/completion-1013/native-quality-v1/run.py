@@ -69,7 +69,8 @@ def visible_text(events):
                 blocks.append({'message_id':message['id'],'text':value})
     return blocks
 
-def inspect(raw,exit_code,workspace,phase):
+def inspect(raw,exit_code,workspace,phase,expected_inventory=None):
+    inventory=SKILLS if expected_inventory is None else expected_inventory
     result={'evaluation_status':'TEST_ERROR','error_class':None,'cost_usd':None,'usage':None,'native':None,'artifact_sha256':None}
     try:
         events=[json.loads(line) for line in raw.splitlines() if line.strip()]
@@ -87,7 +88,7 @@ def inspect(raw,exit_code,workspace,phase):
     if init.get('model')!='claude-opus-5-5' or init.get('apiKeySource')!='none':result['error_class']='unexpected_auth_or_model';return result
     models=final.get('modelUsage')
     if not isinstance(models,dict) or set(models)!={'claude-opus-5-5'} or any(not isinstance(v,dict) or v.get('provider')!='firstParty' or v.get('costBasis')!='list' for v in models.values()):result['error_class']='unexpected_provider_or_cost';return result
-    if not isinstance(init.get('skills'),list) or not all(isinstance(x,str) for x in init['skills']) or set(init['skills'])!=SKILLS or len(init['skills'])!=len(SKILLS):result['error_class']='unexpected_skill_inventory';return result
+    if not isinstance(init.get('skills'),list) or not all(isinstance(x,str) for x in init['skills']) or set(init['skills'])!=inventory or len(init['skills'])!=len(inventory):result['error_class']='unexpected_skill_inventory';return result
     if not isinstance(init.get('tools'),list) or not all(isinstance(x,str) for x in init['tools']) or set(init['tools'])!=TOOLS or init.get('mcp_servers')!=[]:result['error_class']='unexpected_tools_or_mcp';return result
     turns=final.get('num_turns');max_turns=1 if phase=='readiness' else MAX_TURNS
     if not isinstance(turns,int) or isinstance(turns,bool) or not 1<=turns<=max_turns:result['error_class']='turn_bound';return result
@@ -145,7 +146,7 @@ def inspect(raw,exit_code,workspace,phase):
     artifact='\n\n'.join(block['text'] for block in blocks)
     if not artifact.strip() or (phase=='readiness' and (artifact.strip()!='READY' or final_artifact.strip()!='READY')):result['error_class']='invalid_final_artifact';return result
     result.update(final_result_sha256=base.digest(final_artifact),artifact_text_blocks=[{'index':i,'request_id_sha256':base.digest(block['message_id']),'text_sha256':base.digest(block['text']),'characters':len(block['text'])} for i,block in enumerate(blocks)],artifact_join='two newline characters between ordered assistant text blocks; thinking and tool outputs excluded')
-    result.update(evaluation_status='EXECUTED',native={'visible':sorted(SKILLS),'skill_loads':loads,'read_files':reads,'google_auth_loaded':'sheleg-dev:google-auth' in loads},artifact_sha256=base.digest(artifact),max_request_input=max(inputs),request_count=len(inputs),turns=turns)
+    result.update(evaluation_status='EXECUTED',native={'visible':sorted(inventory),'skill_loads':loads,'read_files':reads,'google_auth_loaded':'sheleg-dev:google-auth' in loads},artifact_sha256=base.digest(artifact),max_request_input=max(inputs),request_count=len(inputs),turns=turns)
     # Semantic scoring is deliberately absent. Native non-invocation remains observed.
     return result
 

@@ -16,13 +16,13 @@ def ok(value):
 items=a.plan();ok(len(items)==61);ok(items==a.plan());ok(len({(x['case_id'],x['repetition']) for x in items[1:]})==60)
 ok(all(x['case_id'] not in x['prompt'] for x in items[1:]))
 usage={'input_tokens':200,'cache_creation_input_tokens':100,'cache_read_input_tokens':0,'output_tokens':20}
-init={'type':'system','subtype':'init','model':'claude-opus-5-5','apiKeySource':'none','skills':sorted(a.r.SKILLS),'tools':['Skill'],'mcp_servers':[]}
+init={'type':'system','subtype':'init','model':'claude-opus-5-5','apiKeySource':'none','skills':sorted(a.INVENTORY),'tools':['Skill'],'mcp_servers':[]}
 assistant={'type':'assistant','message':{'id':'m1','usage':usage,'content':[{'type':'text','text':'READY'}]}}
 final={'type':'result','subtype':'success','is_error':False,'num_turns':1,'total_cost_usd':.001,'usage':usage,'modelUsage':{'claude-opus-5-5':{'provider':'firstParty','costBasis':'list'}},'result':'READY'}
 with tempfile.TemporaryDirectory(prefix='skill-search-offline-') as temp:
  root=Path(temp);workspace=root/'work';hashes=a.materialize(ROOT.parents[3]/'skills/make-skill',workspace);a.r.m.verify(workspace,hashes);ok(len(hashes)==len(a.source()['files']))
  def parse(events,phase='task'):
-  return a.r.inspect(('\n'.join(json.dumps(x) for x in events)+'\n').encode(),0,workspace,phase)
+  return a.r.inspect(('\n'.join(json.dumps(x) for x in events)+'\n').encode(),0,workspace,phase,expected_inventory=a.INVENTORY)
  ok(parse([init,assistant,final],'readiness')['evaluation_status']=='EXECUTED')
  ok(parse([init,assistant,final])['native']['skill_loads']==[])
  call=copy.deepcopy(assistant);call['message']['content']=[{'type':'tool_use','id':'t1','name':'Skill','input':{'skill':'make-skill:skill-search'}}]
@@ -31,6 +31,8 @@ with tempfile.TemporaryDirectory(prefix='skill-search-offline-') as temp:
  done=copy.deepcopy(final);done.update(num_turns=2,result='Tool loaded.')
  events=[init,call,reply,text,done]
  ok(parse(events)['native']['skill_loads']==['make-skill:skill-search'])
+ audit=copy.deepcopy(events);audit[1]['message']['content'][0]['input']['skill']='make-skill:skill-audit'
+ ok(parse(audit)['native']['skill_loads']==['make-skill:skill-audit'])
  denied=copy.deepcopy(reply);denied['message']['content'][0]['is_error']=True
  ok(parse([init,call,denied,text,done])['error_class']=='tool_denied_or_error')
  ok(parse([init,call,text,done])['error_class']=='unmatched_tool_result')

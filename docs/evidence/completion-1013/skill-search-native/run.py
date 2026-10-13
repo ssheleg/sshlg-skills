@@ -17,11 +17,12 @@ spec=importlib.util.spec_from_file_location('native_observer',ROOT.parent/'nativ
 r=importlib.util.module_from_spec(spec);spec.loader.exec_module(r)
 b=r.base
 r.SKILLS={'make-skill:make-skill','make-skill:skill-search','make-skill:skill-audit'}
+INVENTORY={'make-skill:make-skill','make-skill:skill-search'}
 r.TOOLS={'Skill'}
 r.MAX_TURNS=3
 r.RESERVE=0.20
 r.TASK_INPUT=24000
-BUDGET=4.0
+BUDGET=3.9825866
 MAX_CALLS=61
 SEED=101327
 
@@ -84,7 +85,7 @@ def execute(args):
     if not private.is_absolute() or private.is_symlink() or private.exists():raise ValueError('private_directory_must_be_absolute_and_new')
     if subprocess.run(['git','rev-parse','--show-toplevel'],cwd=private.parent,capture_output=True).returncode==0:raise ValueError('raw_inside_git')
     private.mkdir(mode=0o700)
-    receipt={'schema':'skill-search-native-run/1','status':'PREFLIGHT','calls':[],'reported_list_usd':0.0,'cost_incomplete':False,'max_calls':MAX_CALLS,'budget_usd':BUDGET,'seed':SEED,'source_commit':source()['commit'],'runner_sha256':b.digest(Path(__file__).read_bytes()),'source_manifest_sha256':b.digest((ROOT/'source.json').read_bytes()),'admission_sha256':admission_hash,'prior_known_pilots_list_usd':2.1959482,'scope':'Restricted native loading only; no executed catalogue search or artifact-quality claim; list estimate is not subscription billing.'}
+    receipt={'schema':'skill-search-native-run/1','status':'PREFLIGHT','calls':[],'reported_list_usd':0.0,'cost_incomplete':False,'max_calls':MAX_CALLS,'budget_usd':BUDGET,'seed':SEED,'source_commit':source()['commit'],'runner_sha256':b.digest(Path(__file__).read_bytes()),'source_manifest_sha256':b.digest((ROOT/'source.json').read_bytes()),'admission_sha256':admission_hash,'prior_known_pilots_list_usd':2.1959482,'prior_protocol_a_list_usd':0.0174134,'scope':'Restricted native loading only; no executed catalogue search or artifact-quality claim; list estimate is not subscription billing.'}
     b.save_receipt(args.output,receipt)
     try:r.preflight(private)
     except Exception as exc:
@@ -108,7 +109,7 @@ def execute(args):
                     try:code=proc.wait(timeout=r.TIMEOUT)
                     except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait();code='TIMEOUT'
                 assert binding()==frozen,'protocol_changed_during_request'
-                raw=(folder/'stdout.jsonl').read_bytes();result=r.inspect(raw,code,workspace,item['phase']);r.m.verify(workspace,hashes)
+                raw=(folder/'stdout.jsonl').read_bytes();result=r.inspect(raw,code,workspace,item['phase'],expected_inventory=INVENTORY);r.m.verify(workspace,hashes)
                 if isinstance(result.get('native'),dict):result['native'].pop('google_auth_loaded',None)
                 if result['evaluation_status']=='EXECUTED':
                     blocks=r.visible_text([json.loads(line) for line in raw.splitlines() if line.strip()]);b.private_write(folder/'assistant-text.json',b.encode({'blocks':blocks,'text':'\n\n'.join(x['text'] for x in blocks)}))

@@ -1,0 +1,181 @@
+{
+  "schema": "skill-search-native-run/1",
+  "status": "STOPPED_TEST_ERROR",
+  "calls": [
+    {
+      "phase": "readiness",
+      "index": 0,
+      "state": "FINISHED",
+      "prompt_sha256": "cda53799c658c0b2956e4c2c4c3e3e45c8f9c4da960ae5888ae210c64a208863",
+      "started_at_utc": "2026-10-13T05:54:09Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "TEST_ERROR",
+      "error_class": "unexpected_skill_inventory",
+      "cost_usd": 0.0174134,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 2129,
+        "cache_read_input_tokens": 1467,
+        "output_tokens": 4
+      },
+      "native": null,
+      "artifact_sha256": null,
+      "stdout_sha256": "ffc63b02cd5151025246d26961c09a206ff08b32c49d9842064dfdba748281b9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "reported_list_usd": 0.0174134,
+  "cost_incomplete": false,
+  "max_calls": 61,
+  "budget_usd": 4.0,
+  "seed": 101327,
+  "source_commit": "78d67651611f50e2af531ab04916e680c2a2680d",
+  "runner_sha256": "83a85644ad1ea7f2b3df9f81679c6f7dfdb933ee36f99c866176c629c2166033",
+  "source_manifest_sha256": "a8b2fafce8f70502c086893fcbfc692d0f9994da1b21e105b8d77133d24fb563",
+  "admission_sha256": "d3338699482354c36665c21c40e01de13a682a8a9f7775a03a2a4ac04e4bf041",
+  "prior_known_pilots_list_usd": 2.1959482,
+  "scope": "Restricted native loading only; no executed catalogue search or artifact-quality claim; list estimate is not subscription billing.",
+  "scores": [
+    {
+      "case_id": "s01",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s02",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s03",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s04",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s05",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s06",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s07",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s08",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s09",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s10",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s11",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s12",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s13",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s14",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s15",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s16",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s17",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s18",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s19",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s20",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    }
+  ],
+  "planned_not_started": 60
+}
