@@ -1,0 +1,22 @@
+{
+  "schema": "codex-pending-order/1",
+  "reported_by": "independent_observer (nonauthor)",
+  "baseline_source": "83f34a3",
+  "baseline_command": "node test/codex_native_e2e_test.js with added regression",
+  "baseline_exit": 1,
+  "baseline_failure": "deferred receipt predates own visibility write",
+  "baseline_other_cases_passed": 9,
+  "corrected_command": "node test/codex_native_e2e_test.js",
+  "corrected_exit": 0,
+  "corrected_cases": 10,
+  "new_control": "Real CLI applies visibility consent, adds an unused shared skill, then updates three times. Final config must match one immutable deferred receipt and be observable as deferred without native mutation.",
+  "source_hashes": {
+    "bin/sshlg-skills.js": "ef7765c7a5d9f616a5704bb603da27b78f33e42aec947731ead0ed3f83da9f7b",
+    "test/codex_native_e2e_test.js": "d29c4730d5e39ee464e9570d515c0bd1d61d3b59cb31a857e5e9825f4c4c4195"
+  },
+  "logs": {
+    "red": "41fcf98fbc34b8eac135d8313ab1190a7d64e1600a9946ae9ca8b07db13f3a0c",
+    "green": "86bd604d399e2fdb840a69eb5786dc168fee6c47865ebe08f42243526407a6a6"
+  },
+  "scope": "Actual launcher processes in owned temporary HOME/CODEX_HOME, fake Codex transport and fake installers. No real host update, model call or native-generation acceptance."
+}

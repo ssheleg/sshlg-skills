@@ -133,6 +133,54 @@ t('an old family plugin is deferred; exact config and old hook payload survive r
   assert.strictEqual(fs.statSync(path.join(dir, files[0])).mode & 0o777, 0o600);
 });
 
+t('deferred receipt binds the final config after consented visibility reapplication', () => {
+  const sb = sandbox();
+  const cfg = path.join(sb.codexHome, 'config.toml');
+  const addSkill = (name) => {
+    const file = path.join(sb.home, '.agents', 'skills', name, 'SKILL.md');
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, `---\nname: ${name}\ndescription: Fixture unused skill.\n---\n# Fixture\n`);
+  };
+  addSkill('unused-before');
+  const consent = spawnSync(process.execPath, [BIN, 'visibility', '--apply'], {
+    cwd: ROOT, encoding: 'utf8', timeout: 180000, stdin: 'ignore',
+    env: { HOME: sb.home, CODEX_HOME: sb.codexHome, NO_COLOR: '1',
+      SSHLG_SKILLS_NO_UPDATE_CHECK: '1',
+      PATH: [sb.shims, path.dirname(process.execPath), '/usr/bin', '/bin'].join(path.delimiter) },
+  });
+  assert.strictEqual(consent.status, 0, consent.stdout + consent.stderr);
+  const before = fs.readFileSync(cfg);
+  addSkill('unused-after');
+  const pending = require('../lib/codex-pending');
+  const sha = (bytes) => require('crypto').createHash('sha256').update(bytes).digest('hex');
+  let finalBytes;
+  for (let i = 0; i < 3; i++) {
+    const result = runUpdate(sb, ['--agent', 'codex']);
+    assert.strictEqual(result.status, 1, result.out.slice(-2000));
+    const after = fs.readFileSync(cfg);
+    assert.ok(!after.equals(before), 'fixture never changed visibility config');
+    assert.ok(after.toString().includes('unused-after'), 'new skill was not hidden');
+    const folder = path.join(sb.home, '.sshlg-skills', 'codex-deferred');
+    const names = fs.readdirSync(folder);
+    assert.strictEqual(names.length, 1, 'same final config produced distinct receipts');
+    const receipt = pending.read(path.join(folder, names[0]));
+    assert.strictEqual(receipt.configSha256, sha(after), 'deferred receipt predates own visibility write');
+    let calls = 0;
+    const observation = pending.observe(receipt, () => {
+      calls++;
+      return { status: 0, stdout: JSON.stringify({ installed: [
+        { pluginId: 'agent-sync@agent-sync', version: '1.21.7', installed: true, enabled: true },
+      ] }) };
+    });
+    assert.strictEqual(observation.status, 'deferred');
+    assert.strictEqual(observation.mutationAllowed, false);
+    assert.strictEqual(calls, 1, 'fresh receipt refused its own final profile');
+    assert.deepStrictEqual(mutating(sb), []);
+    if (finalBytes) assert.ok(after.equals(finalBytes), 'repeated update changed final config');
+    finalBytes = after;
+  }
+});
+
 t('already-current native catalog stays current without claiming a loaded-thread generation', () => {
   const sb = sandbox({ edit: (s) => { s.cache['agent-sync@agent-sync'] = PIN; } });
   const r = runUpdate(sb, ['--agent', 'codex']);

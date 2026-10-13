@@ -658,15 +658,15 @@ function cmdUpdate(f) {
   // A machine that has consented (one entry of ours in settings.json) is re-wired here;
   // one that has not is left alone — an update is not the moment to ask.
   ok = rewireConsentedHooks(f) && ok;
-  // Native Codex catalog inspection (B-166/B-188). Version replacement prunes
-  // paths that active threads can retain. Defer it before mutation until a
-  // supported retention/retirement adapter exists; listing is not thread reload.
-  ok = refreshCodexPlugins(f) && ok;
   // Skill visibility (B-143, wave L1). A machine whose record shows the operator ran
   // `visibility --apply` gets it again, with the same window and --keep, so skills the
   // refresh above just added are hidden by the same rule on every host. One with no
   // record has not consented — an update is not the moment to ask.
   ok = reapplyVisibility(f) && ok;
+  // Inspect native Codex AFTER our visibility writes so a deferred receipt binds
+  // the final profile bytes. Version replacement remains deferred: active threads
+  // may retain old payload paths; listing is not generation-retirement proof.
+  ok = refreshCodexPlugins(f) && ok;
   // Domain members per project (L5). Once `domains --apply` ran here, a project that gained a
   // domain dependency gets its member now; before that, one line says what `domains` would do.
   if (claudeScope(f).inScope) {
