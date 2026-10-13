@@ -1,0 +1,49 @@
+{
+  "observed_at": "2026-10-13T01:13:03.882631+00:00",
+  "source_sha256": {
+    "lib/secretreaders.js": "157c538862aed40d4e6fe971eb3e4fbc12988bce7481aa102e5a7dbb14acd05e",
+    "lib/secrets.js": "bfe7b9989ce915d5bb2fa5ef344f6a65ae9be69c556d368aa7cacaf91abba50d",
+    "lib/hooks.js": "40cc0fff73a0ad16e1884813484fafe6ee7b87d69097ea573940a0e199ff1745",
+    "hooks/pre-tool-use.js": "9d6a92e438ca34224cb8d431e8e85e2cf5251a1f519686dfb273a08a2010b0ed",
+    "test/secret_readers_test.js": "8f682dca257396add454f19248c9713773f5e534948eed8ac5e9fc208701d1c4"
+  },
+  "checks": [
+    {
+      "command": "node test/secret_readers_test.js",
+      "exit_code": 0,
+      "stdout": "OK (128 checks)\n",
+      "stderr": ""
+    },
+    {
+      "command": "node test/secrets_test.js",
+      "exit_code": 0,
+      "stdout": "OK (61 checks)\n",
+      "stderr": ""
+    },
+    {
+      "command": "node test/hooks_test.js",
+      "exit_code": 0,
+      "stdout": "OK (31 checks)\n",
+      "stderr": ""
+    },
+    {
+      "command": "node test/mcpsecrets_test.js",
+      "exit_code": 0,
+      "stdout": "mcpsecrets: 17 checks ok\n",
+      "stderr": ""
+    },
+    {
+      "command": "node test/runtime_test.js",
+      "exit_code": 0,
+      "stdout": "PASS: runtime \u2014 8 checks\n",
+      "stderr": ""
+    },
+    {
+      "command": "node test/hooks_e2e_test.js",
+      "exit_code": 0,
+      "stdout": "OK (69 checks)\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "focused local synthetic tests; not full CI or installed host proof"
+}
