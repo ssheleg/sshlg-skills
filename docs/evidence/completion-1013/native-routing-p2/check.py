@@ -28,9 +28,12 @@ for item in items:
     ok(item['prompt'].endswith(case['prompt']))
     ok(case['expected_skill'] in item['prompt'] and item['case_id'] not in item['prompt'])
     ok(all(rule not in item['prompt'] for rule in case['required']))
-try:a.check_admission()
-except AssertionError:ok(True)
-else:raise AssertionError('unreviewed protocol admitted')
+with tempfile.TemporaryDirectory(prefix='native-p2-unadmitted-') as tmp:
+    proposed=Path(tmp);(proposed/'admission.json').write_text(json.dumps({'status':'PROPOSED_NOT_ADMITTED'}))
+    with patch.object(a,'ROOT',proposed):
+        try:a.check_admission()
+        except AssertionError:ok(True)
+        else:raise AssertionError('unreviewed protocol admitted')
 usage={'input_tokens':200,'cache_creation_input_tokens':100,'cache_read_input_tokens':0,'output_tokens':20}
 init={'type':'system','subtype':'init','model':'claude-opus-5-5','apiKeySource':'none','skills':sorted(a.r.SKILLS),'tools':sorted(a.r.TOOLS),'mcp_servers':[]}
 call={'type':'assistant','message':{'id':'m1','usage':usage,'content':[{'type':'tool_use','id':'t1','name':'Skill','input':{'skill':'sheleg-dev:google-auth'}}]}}
