@@ -1,0 +1,14 @@
+{
+  "observed_at_utc": "2026-10-13T08:08:59.904Z",
+  "tool": "fabric_whoami",
+  "session_id": "7ba9f585-0a42-415a-a060-222069a4c969",
+  "project": null,
+  "repositories": [],
+  "task": null,
+  "context_pack": null,
+  "com_status_tool_available": false,
+  "com_list_tool_available": false,
+  "com_submit_tool_available": false,
+  "pending_asks_sent": false,
+  "next": "Keep source-owned pending asks; use Fabric project board only when proper project admission and com tools become available. No cross-project transport workaround."
+}

@@ -1,14 +1,40 @@
-## Current continuation — 2026-10-13 07:36 UTC
+## Current continuation — 2026-10-13 08:09 UTC
 
-Hub **1.62.2 is published**, source `a17f829e8d652ce7f68423b67e0de00fb89b3693`; [publication](evidence/completion-1013/release-1.62.2/publication.json) verifies all80 npm files. [Installed acceptance](evidence/completion-1013/installed-1.62.2/README.md) is partial:39 plain skills/550 files, nine Codex plugins/75 runtime files match; Claude source drift remains B-187 until a new published update and actual readback.
+Hub candidate **1.63.0** contains immutable native Claude sources, scoped default-off
+wait rules and release-iteration routing. Latest published hub remains1.62.2 at
+`a17f829e8d652ce7f68423b67e0de00fb89b3693`; [installed acceptance](evidence/completion-1013/installed-1.62.2/README.md)
+remains partial until the candidate is published and applied.
 
-B-187 immutable Claude installation is now integrated: [aggregate receipt](evidence/completion-1013/claude-pins/aggregate.json) preserves the initial fixture failures, corrected118-suite/1814-fixture result and count-only ratchet replay. Source acceptance is not installed acceptance. The separate [wait-rule packet](evidence/completion-1013/wait-rule-packet.md) remains active; the selected-host legacy-migration correction is integrated with seven process controls.
+B187 source/aggregate accepted; W175 source independently corrected for invalid
+UTF-8, current consent and receipt ownership. [Merged seam review](evidence/completion-1013/w175-merged-peer.md)
+checks install/update and both refusal boundaries. Root separately replayed8 CLI
+and27 native-transaction controls on the composition. No machine rule apply yet.
+[B179 peer](evidence/completion-1013/b179-peer.md) is conditional on the new TP pin.
 
-All assigned R30 owner source gates are accepted; [owner receipts](evidence/completion-1013/r30-owner-acceptance/README.md) include task-pipeline PR120 merge9fb9cfb to its feature branch. Exact next task: compose reviewed1.94.0 metadata, normal feature-to-main integration and release; finish SEO transport/bootstrap full gate and0.26.6 release; accept wait-rule implementation; refresh all accepted hub pins and both inventories, then final aggregate/release/installed verification. Agent-stack0.27.2 is published with its owner receipt.
+**Exact next sequence:** TP PR112 merged normally at
+`4d750573ce53ea4c7ffa2bde192ee35b59acefa7`; exact-source local full gate is running
+in owned tp-publish-1.94.0 before an annotated tag under its release policy.
+SEO PR36 merged524e355 after full genuine CI; reviewed0.26.6 packaging PR37 has
+its own exact-merge local full barrier. Serial broad queue: TP → SEO → hub.
+Five header-only R30 owner PRs are on guarded merge watchers after independent
+AST and whole npm-payload comparison; the [original hub seam failure](evidence/completion-1013/r30-owner-acceptance/pin-seam-failure.json)
+is retained. Refresh accepted member pins and both inventories, finish hub aggregate,
+normal integration/release, published-payload readback and actual host update.
 
-[Native routing P1](evidence/completion-1013/native-routing-v2/readout.md) is NO_ADOPTION:2/6 native loads,4/6 rubric passes; both identity-migration answers omit required test assertions. [Paired reader](evidence/completion-1013/paired-routing-1013/readout.md) is also NO_ADOPTION. [Skill-search native](evidence/completion-1013/skill-search-native/README.md) completed20/20 query majorities and59/60 individual matches; this establishes restricted loading only. B-144/B-147 close their bounded investigation scope, not whole-family quality. Installed descriptions are unchanged.
+[Native P2](evidence/completion-1013/native-routing-p2/readout.md) is complete:
+both directed loads precede audits, but only Stripe passes the whole rubric;
+Google Auth still omits an explicit denied-before-switch test. All native phases
+remain NO_ADOPTION; installed descriptions are unchanged. [Paired reader](evidence/completion-1013/paired-routing-1013/readout.md)
+and [skill-search loading](evidence/completion-1013/skill-search-native/README.md)
+have their own bounded outcomes and separate cost ledgers.
 
-[Graph baseline](reports/2026-10-13-code-graph-finalization/README.md) is independently checked; final-source refresh remains pending. [Run ledger](evidence/completion-1013/run.md) and [family packets](evidence/completion-1013/family-next-wave.md) retain requirements and original board IDs. Fabric latest observation06:53 UTC returned no project and no com.* tools; cross-project asks remain unsent. Complete final reconciliation, wiki index and independent goal review after published/installed readback.
+Graph refresh at86477b5 is built with no model calls and awaits independent
+provenance review. A new combined evaluation report, FW07 stage-loading feasibility
+and independent preliminary goal-observer audit are active. Regenerate all37
+requirement and177 original-board dispositions after final pins; refresh wiki
+from report headers and run final independent goal review after installed readback.
+[Fabric admission08:09](evidence/completion-1013/fabric-admission-20261013-0809.json)
+still has no project or com.* tools; cross-project asks remain unsent.
 
 The dated entries below retain previous states and are not current instructions.
 
