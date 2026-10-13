@@ -1,0 +1,2 @@
+FAIL: canonical identity follows actual filesystem case semantics: 'CLAUDE.md--v2-21ba5c89fead4aef9991c08aa2bf6386389bdcf1b31f124b6770395c561a344f' == 'claude.md--v2-e64ed21af00c291b6866aa35ad05ac676f4889c2ec7c438c1682c9f6079505c1'
+1 failures / 17

@@ -41,11 +41,46 @@ function target(home,rel,body){const f=path.join(home,rel);fs.mkdirSync(path.dir
   assert.equal(fs.readFileSync(B.latest({home,file:a}),'utf8'),'A');
   fs.unlinkSync(alias);fs.symlinkSync(path.dirname(b),alias);assert.equal(B.latest({home,file:path.join(alias,'CLAUDE.md')}),null);
  });
+ test('canonical identity follows actual filesystem case semantics',()=>{
+  const home=fixture('case'),upper=target(home,'CLAUDE.md','UPPER'),lower=path.join(home,'claude.md');
+  if(fs.existsSync(lower)){
+   assert.equal(fs.statSync(upper).ino,fs.statSync(lower).ino);const saved=B.save({home,file:upper});
+   assert.equal(B.keyFor(upper),B.keyFor(lower));assert.equal(B.latest({home,file:lower}),saved.path);
+  }else{
+   fs.writeFileSync(lower,'LOWER');assert.notEqual(B.keyFor(upper),B.keyFor(lower));
+   B.save({home,file:upper});B.save({home,file:lower});assert.equal(fs.readFileSync(B.latest({home,file:lower}),'utf8'),'LOWER');
+  }
+ });
  test('same-second copies are exclusive and latest orders the tenth suffix numerically',()=>{
   const home=fixture('serial'),f=target(home,'CLAUDE.md','initial'),paths=[];
   for(let i=0;i<12;i++){fs.writeFileSync(f,String(i));paths.push(B.save({home,file:f,stamp:'20261013T000000Z',keep:20}).path);}
   assert.equal(new Set(paths).size,12);for(let i=0;i<12;i++)assert.equal(fs.readFileSync(paths[i],'utf8'),String(i));
   assert.equal(fs.readFileSync(B.latest({home,file:f}),'utf8'),'11');
+ });
+ test('default retention never reuses a pruned same-second slot as newest',()=>{
+  const home=fixture('retention'),f=target(home,'CLAUDE.md','initial'),paths=[];
+  for(let i=0;i<24;i++){
+   fs.writeFileSync(f,String(i));paths.push(B.save({home,file:f,stamp:'20261013T000000Z'}).path);
+   assert.equal(fs.readFileSync(B.latest({home,file:f}),'utf8'),String(i));
+  }
+  assert.equal(new Set(paths).size,24);
+  assert.equal(fs.readdirSync(path.join(home,...B.DIR)).length,B.KEEP);
+ });
+ test('pinned recovery Infinity retention preserves every owned copy',()=>{
+  const home=fixture('infinite'),f=target(home,'settings.json','{}');
+  const A=require('../lib/apply.js'),paths=[];
+  for(let i=0;i<14;i++){const r=A.protect(f,{home,keep:Infinity});assert.equal(r.action,'saved');paths.push(r.path);}
+  for(const p of paths)assert.equal(fs.readFileSync(p,'utf8'),'{}');
+ });
+ test('dangling parent is unknown while an ordinary missing hierarchy is absent',()=>{
+  const home=fixture('dangling');fs.symlinkSync(path.join(home,'missing'),path.join(home,'alias'));
+  assert.equal(B.guard({home,file:path.join(home,'alias/config')}).action,'backup-failed');
+  assert.equal(B.guard({home,file:path.join(home,'ordinary/nested/config')}).action,'no-file');
+ });
+ test('FIFO target refuses promptly without attempting a blocking read',()=>{
+  const home=fixture('fifo'),f=path.join(home,'pipe');cp.execFileSync('mkfifo',[f]);
+  const r=cp.spawnSync(process.execPath,['-e',`const B=require(process.argv[1]);process.stdout.write(JSON.stringify(B.guard({home:process.argv[2],file:process.argv[3]})))`,require.resolve('../lib/backup.js'),home,f],{encoding:'utf8',timeout:1500});
+  assert.equal(r.status,0,'backup blocked on a non-regular source');assert.equal(JSON.parse(r.stdout).action,'backup-failed');
  });
  test('pre-existing same-second name cannot be overwritten even across a stale existence probe',()=>{
   const home=fixture('exclusive'),f=target(home,'CLAUDE.md','FIRST');
@@ -71,11 +106,19 @@ function target(home,rel,body){const f=path.join(home,rel);fs.mkdirSync(path.dir
   for(let i=0;i<12;i++)B.save({home,file:f,stamp:'20261013T0000'+String(i).padStart(2,'0')+'Z'});
   for(const n of names)assert.equal(fs.readFileSync(path.join(dir,n),'utf8'),'KEEP');assert.ok(fs.lstatSync(linked).isSymbolicLink());assert.equal(fs.readFileSync(foreign,'utf8'),'FOREIGN');
  });
+ for(const replace of [false,true])test('failed published readback refuses later restore and preserves '+(replace?'foreign inode':'failed bytes'),()=>{
+  const home=fixture('readback-'+replace),f=target(home,'CLAUDE.md','ORIGINAL'),link=fs.linkSync;let published;
+  fs.linkSync=(tmp,dest)=>{link(tmp,dest);published=dest;if(replace)fs.unlinkSync(dest);fs.writeFileSync(dest,'CORRUPT');};
+  let r;try{r=B.guard({home,file:f});}finally{fs.linkSync=link;}
+  assert.equal(r.action,'backup-failed');assert.equal(fs.readFileSync(f,'utf8'),'ORIGINAL');
+  assert.equal(fs.readFileSync(published,'utf8'),'CORRUPT');
+  assert.throws(()=>B.latest({home,file:f}),/unverified|unresolved/);
+ });
  test('failed exclusive publication cancels guard and cleans only its owned temporary copy',()=>{
   const home=fixture('linkfail'),f=target(home,'CLAUDE.md','TARGET'),link=fs.linkSync;
   fs.linkSync=()=>{const e=Error('synthetic unsupported link');e.code='EPERM';throw e;};let result;
   try{result=B.guard({home,file:f});}finally{fs.linkSync=link;}
-  assert.equal(result.action,'backup-failed');assert.equal(fs.readFileSync(f,'utf8'),'TARGET');assert.deepEqual(fs.readdirSync(path.join(home,...B.DIR)),[]);
+  assert.equal(result.action,'backup-failed');assert.equal(fs.readFileSync(f,'utf8'),'TARGET');assert.ok(fs.readdirSync(path.join(home,...B.DIR)).every(n=>n.startsWith('.unverified-')));assert.throws(()=>B.latest({home,file:f}),/unverified/);
  });
  count++;
  try{

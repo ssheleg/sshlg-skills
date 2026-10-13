@@ -1,0 +1,3 @@
+FAIL: failed published readback refuses later restore and preserves failed bytes: Missing expected exception.
+FAIL: failed published readback refuses later restore and preserves foreign inode: Missing expected exception.
+2 failures / 16
