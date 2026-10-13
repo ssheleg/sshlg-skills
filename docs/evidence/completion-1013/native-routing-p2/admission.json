@@ -1,4 +1,16 @@
 {
-  "status": "PROPOSED_NOT_ADMITTED",
-  "provider_calls": 0
+  "status": "ADMITTED",
+  "admitted_at_utc": "2026-10-13T07:55:44.926814+00:00",
+  "runner_sha256": "a0ee026e96cf75c2898246d802b8f54c1e1fec8b34d68f88dcbce496c058feaa",
+  "protocol_sha256": "a319e168724b65071b1ee9503d562abc9858ee31e6d21a8c49be2c33ef13b9ec",
+  "peer_sha256": "631bdb1b636652a560f315ce7b063af96b4b7ee9328ba5e079c680323696b676",
+  "max_calls": 2,
+  "budget_usd": 2.7814328,
+  "independent_review": "PASS",
+  "prior_native_cli": 16,
+  "max_cumulative_cli": 18,
+  "prior_native_list_usd": 1.2185672,
+  "combined_maximum_usd": 4,
+  "authority": "Operator autonomous completion and normal Claude subscription diagnostics under original native USD4 list-estimate envelope. P2 separately admitted after independent source/offline review.",
+  "scope": "Two directed full-arm access diagnostics only; no additional readiness, automatic retries, passive adoption, installation or further phase."
 }
