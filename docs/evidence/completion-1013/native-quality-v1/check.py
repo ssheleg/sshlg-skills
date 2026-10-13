@@ -44,6 +44,7 @@ with tempfile.TemporaryDirectory(prefix='native-check-') as temp:
  assert parse([init,assistant,final])['evaluation_status']=='EXECUTED'
  for change,error in [
   (lambda a,b,c:a['skills'].append('foreign:secret'),'unexpected_skill_inventory'),
+  (lambda a,b,c:a['skills'].append('doctor'),'unexpected_skill_inventory'),
   (lambda a,b,c:a['skills'].pop(),'unexpected_skill_inventory'),
   (lambda a,b,c:a.update(skills=[{}]),'unexpected_skill_inventory'),
   (lambda a,b,c:a['tools'].append('Bash'),'unexpected_tools_or_mcp'),
@@ -74,7 +75,9 @@ if sys.argv[1:]==['auth','status','--json']:
 args=sys.argv[1:];assert '--restricted' in args and '--bare' not in args and '--disable-slash-commands' not in args
 assert set(args[args.index('--tools')+1].split(','))=={'Read','Skill','Glob','Grep'}
 assert set(args[args.index('--allowedTools')+1].split(','))=={'Read','Skill','Glob','Grep'}
-assert json.loads(args[args.index('--settings')+1])['disableAllHooks'] is True
+settings=json.loads(args[args.index('--settings')+1]);assert settings['disableAllHooks'] is True
+assert settings['disableBundledSkills'] is True and settings['skillOverrides']=={'doctor':'off'}
+assert 'enabledPlugins' not in settings
 assert json.loads(args[args.index('--mcp-config')+1])=={'mcpServers':{}}
 assert not list(Path.cwd().rglob('rubric.json')) and not list(Path.cwd().rglob('tasks.json'))
 init=INIT
@@ -86,7 +89,7 @@ if phase=='task':
  final['result']='Audit artifact PRIVATE_NATIVE_SENTINEL';final['num_turns']=2
 if mode=='contamination':init['skills'].append('foreign:secret')
 if mode=='unknown-cost':final.pop('total_cost_usd')
-if mode=='budget':final['total_cost_usd']=0.8
+if mode=='budget':final['total_cost_usd']=0.75
 if mode=='overshoot':final['total_cost_usd']=4.1
 if mode=='timeout':time.sleep(3)
 print(json.dumps(init));print(json.dumps(assistant))
@@ -98,6 +101,8 @@ print(json.dumps(final));print('PRIVATE_NATIVE_SENTINEL',file=sys.stderr)
   args=SimpleNamespace(output=root/(mode+'.json'),private_dir=root/(mode+'-raw'),source_repo=REPO,seed=10132027)
   with patch.dict(os.environ,dict(env,NATIVE_FAKE_MODE=mode),clear=True),patch.object(r,'TIMEOUT',0.1 if mode=='timeout' else 10):
    code=r.execute(args);receipt=json.loads(args.output.read_text());assert receipt['status']==status,(mode,receipt);assert len(receipt['calls'])==n
+   assert receipt['prior_reported_list_usd']==r.PRIOR_COST
+   assert abs(receipt['combined_known_list_usd']-receipt['reported_list_usd']-r.PRIOR_COST)<1e-9
    assert code==(0 if mode=='ok' else 1)
    try:r.execute(args)
    except ValueError:pass
