@@ -68,6 +68,7 @@ def main():
     if not args.execute:
         configure(args.seed)
         print(json.dumps({'provider_calls':0,'plan':[{k:v for k,v in x.items() if k!='prompt'} for x in runner.plan(SEED)],'prior_cli_invocations':5,'max_new_cli_invocations':3,'max_cumulative_cli_invocations':8,'prior_reported_list_usd':runner.PRIOR_COST,'overall_reported_list_ceiling':4.0},indent=2));return 0
+    if (ROOT/'observed-d-20261013.json').exists():p.error('bounded continuation already recorded; this protocol admits no further calls')
     if any(x is None for x in (args.source_repo,args.private_dir,args.output)):p.error('execution requires source-repo, private-dir and output')
     return execute(args)
 
