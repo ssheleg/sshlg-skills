@@ -310,7 +310,7 @@ Usage:
   npx sshlg-skills visibility marks [--init --show <owner/repo,…> [--replace] [--apply]]
                                                       # this machine's pack marks
                                                       # (~/.sshlg-skills/pack-marks.json)
-  npx sshlg-skills rules [--apply] [--agent codex|gemini|pi|cursor] [--claude-only]\n                                                      # opt-in wait rule; preview unless --apply\n  npx sshlg-skills domains [--apply | --revert] [--root <dir>] [--no-usage]
+  npx sshlg-skills blocks [--agent claude|codex|gemini|pi|cursor] [--json]\n  npx sshlg-skills blocks diff OWNER:NAME --from <local-file> --agent <host>\n                                                      # read-only markers and selected local diff\n  npx sshlg-skills rules [--apply] [--agent codex|gemini|pi|cursor] [--claude-only]\n                                                      # opt-in wait rule; preview unless --apply\n  npx sshlg-skills domains [--apply | --revert] [--root <dir>] [--no-usage]
   npx sshlg-skills domains --enable|--disable <member> [--project <dir>]
                                                       # xr-dev, web3d-dev, telegram-dev; hook-bearing members stay global
                                                       # load only in projects that call for them
@@ -3716,6 +3716,10 @@ function main(argv) {
   // Before parseFlags: `config` takes positional arguments, and that parser
   // exits on any token it does not recognise as a flag.
   if (cmd === 'config') return cmdConfig(rest);
+  if (cmd === 'blocks') {
+    try { return require('../lib/blocks.js').cli(rest, {home:os.homedir(),env:process.env}, s=>process.stdout.write(s)); }
+    catch (e) { log(`blocks: ${e.message}`); return 2; }
+  }
   if (cmd === 'rules') {
     try { return cmdRules(parseRuleFlags(rest)) ? 0 : 1; }
     catch (e) { log(`rules: ${e.message}`); return 2; }
