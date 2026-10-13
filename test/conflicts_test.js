@@ -227,6 +227,24 @@ it('A DIRECTORY WITH NO SKILL.md IS NOT A SKILL', () => {
     'a reference directory was counted as a skill: ' + JSON.stringify(found));
 });
 
+it('readSkills defaults to the active Claude profile and preserves explicit root overrides', () => {
+  const fs = require('fs'), os = require('os'), path = require('path');
+  const home = fs.mkdtempSync(path.join(os.tmpdir(),'sshlg-conflicts-profile-'));
+  const prev = process.env.CLAUDE_CONFIG_DIR;
+  try {
+    for (const [root, name] of [['.claude','default-only'],['active','active-only']]) {
+      const dir = path.join(home,root,'skills',name); fs.mkdirSync(dir,{recursive:true});
+      fs.writeFileSync(path.join(dir,'SKILL.md'),`---\nname: ${name}\ndescription: Test\n---\n`);
+    }
+    process.env.CLAUDE_CONFIG_DIR = path.join(home,'active');
+    assert.deepStrictEqual(C.readSkills(home,{cwd:null}).map((s)=>s.id),['active-only']);
+    assert.deepStrictEqual(C.readSkills(home,{cwd:null,claudeRoot:path.join(home,'.claude')}).map((s)=>s.id),['default-only']);
+  } finally {
+    if (prev === undefined) delete process.env.CLAUDE_CONFIG_DIR; else process.env.CLAUDE_CONFIG_DIR = prev;
+    fs.rmSync(home,{recursive:true,force:true});
+  }
+});
+
 // The class, not the case. `lib/router-texts.js` sat in `lib/` with in-degree 0
 // — reachable from two test files and nothing else — while `package.json`'s
 // `files` ships all of `lib/` and `runtime.sync` copies it into every operator's
