@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import stat
+import sys
 import tempfile
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -127,4 +128,39 @@ print(json.dumps(final));print('PRIVATE_NATIVE_SENTINEL',file=sys.stderr)
   assert 'PRIVATE_NATIVE_SENTINEL' not in args.output.read_text()
   assert stat.S_IMODE(args.private_dir.stat().st_mode)==0o700
   assert all(stat.S_IMODE(p.stat().st_mode)==(0o700 if p.is_dir() else 0o600) for p in args.private_dir.rglob('*'))
-print('PASS: source/body parity; native readiness and tool controls; six fake-process modes; no retries; private/public boundary; no provider calls')
+ # Separate continuation reuses only immutable clean C readiness, then three tasks.
+ with patch.dict(sys.modules,{'run':r}):
+  cs=importlib.util.spec_from_file_location('native_continuation',ROOT/'continue.py');continuation=importlib.util.module_from_spec(cs);cs.loader.exec_module(continuation)
+ for seed in (0,1):
+  try:continuation.configure(seed)
+  except ValueError:pass
+  else:raise AssertionError('changed continuation seed accepted')
+ old_read=Path.read_bytes
+ with patch.object(Path,'read_bytes',lambda p:b'changed' if p==ROOT/'observed-c-20261013.json' else old_read(p)):
+  try:continuation.configure(continuation.SEED)
+  except ValueError:pass
+  else:raise AssertionError('changed C receipt accepted')
+ for field in ('disableBundledSkills','disableAllHooks'):
+  with patch.dict(r.SETTINGS,{field:False}):
+   try:continuation.configure(continuation.SEED)
+   except AssertionError:pass
+   else:raise AssertionError('changed settings accepted')
+ for filename in ('source.json','materialize.py','tasks.json','rubric.json'):
+  with patch.object(Path,'read_bytes',lambda p:b'changed' if p==ROOT/filename else old_read(p)):
+   try:continuation.configure(continuation.SEED)
+   except AssertionError:pass
+   else:raise AssertionError('changed bound file accepted: '+filename)
+ for mode,status,n in [('ok','COMPLETED',3),('contamination','STOPPED_TEST_ERROR',1),('unknown-cost','STOPPED_TEST_ERROR',1),('overshoot','STOPPED_BUDGET_OVERSHOOT',1)]:
+  args=SimpleNamespace(output=root/('continue-'+mode+'.json'),private_dir=root/('continue-'+mode+'-raw'),source_repo=REPO,seed=10132027)
+  with patch.dict(os.environ,dict(env,NATIVE_FAKE_MODE=mode),clear=True):
+   code=continuation.execute(args);receipt=json.loads(args.output.read_text())
+  assert receipt['status']==status and len(receipt['calls'])==n,(mode,receipt)
+  assert receipt['prior_cli_invocations']==5 and receipt['max_calls']==3 and receipt['max_cumulative_cli_invocations']==8
+  assert receipt['max_model_turns_this_attempt']==18 and len(receipt['prior_receipt_sha256'])==3
+  assert abs(receipt['prior_reported_list_usd']-0.1834924)<1e-9
+  assert receipt['continuation_of_sha256']==continuation.C_HASH
+  assert [(x['arm'],x['case_id']) for x in receipt['calls']]==[('concise','a1'),('concise','a2'),('full','a2')][:n]
+  assert all(x['phase']=='task' for x in receipt['calls'])
+  assert 'PRIVATE_NATIVE_SENTINEL' not in args.output.read_text()
+  assert all(stat.S_IMODE(p.stat().st_mode)==(0o700 if p.is_dir() else 0o600) for p in args.private_dir.rglob('*'))
+print('PASS: source/body parity; native readiness and tool controls; six fake-process modes plus bound three-case continuation; no retries; private/public boundary; no provider calls')
