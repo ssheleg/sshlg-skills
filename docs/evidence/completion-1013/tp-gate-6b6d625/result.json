@@ -1,0 +1,17 @@
+{
+  "source": "6b6d625ff6e96f2006a5ea0bbbe1cd64bcdfd1b7",
+  "tree": "8c4dd9aba53b122de51eaa8ca8b8ce5a55f64196",
+  "kind": "pre-integration complete owner gate on the composed 1.95.0 candidate, not the accepted-tag release gate",
+  "command": [
+    "npm",
+    "run",
+    "test:all"
+  ],
+  "started": "2026-10-13T15:31:59Z",
+  "duration_seconds": 1682,
+  "exit": 1,
+  "log_sha256": "7cf7238820986e7d64e64389bd019cc0c284f2e0abe339697d09102e09556863",
+  "log_bytes": 60218,
+  "source_after": "6b6d625ff6e96f2006a5ea0bbbe1cd64bcdfd1b7",
+  "status_after": ""
+}

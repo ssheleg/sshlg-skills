@@ -34,6 +34,24 @@
   Codex enrollment-запросов. Записано в Observatory `mem:348bac6b964e4ce5`; нужно
   отменить и перевыпустить эти два запроса (Fabric/оператор).
 
+### Остановка по лимиту использования (сессия 5f151e9c) — точный следующий шаг
+
+- **Полный TP gate на `6b6d625`: exit1 за 1682с** — [result](evidence/completion-1013/tp-gate-6b6d625/result.json),
+  [log](evidence/completion-1013/tp-gate-6b6d625/log.txt.gz). `0 guards did not fire,
+  0 broken, 7 property checks silent` (213, 215, 225, 229, 231 и ещё два: см. лог).
+  На 875c6e6 эти property проходили. Это новое: подозрение — ScratchProcesses/
+  `_group_exists` или прогон из standalone-клона (вывод property не дошёл).
+  **Первое действие:** запустить один из них отдельно (`python3 test/negatives.py
+  --list`, затем выборка по имени) в worktree `/_wt/tp-fw07-composed` и на 875c6e6,
+  найти причину, исправить, повторить полный gate. PR127 в ready не переводить до зелёного.
+- **SEO-порт закоммичен агентом** `087fa1a` на `fix/fw07-shared-scratch-lock`
+  (запушен), но агент оборвался по лимиту до обновления evidence — проверить, что
+  коммит полон, и дописать packet.
+- **sheleg-dev-порт НЕ закоммичен:** в `/_wt/sheleg-dev-fw07-scratch-lock` грязные
+  `test/negative_lock.py`, `test/negatives.py`, новый `test/audit_regressions/fw07_child_lifetime.py`.
+  Агент выяснял слабость red-доказательства timeout-контроля. Довести: focused
+  контроли, red-before, commit/push. Leases `FW07-CHILD-PORT-SEO/DEV` истекут по TTL.
+
 ## Первый шаг
 
 Прочитать этот файл, `CLAUDE.md`, актуальную политику Observatory и [план волн](evidence/plans/2026-10-13-completion.md). Проверить [снимок веток](evidence/completion-1013/claude-handoff/branches.json) против remote, затем [снимок активных процессов](evidence/completion-1013/claude-handoff/active-processes.json). Получить собственный agent-sync lease перед общими реестрами. Не забирать старую идентичность сессии.
