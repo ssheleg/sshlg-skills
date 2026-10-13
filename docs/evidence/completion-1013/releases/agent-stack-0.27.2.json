@@ -1,0 +1,260 @@
+{
+  "schema": "member-publication-readback/1",
+  "version": "0.27.2",
+  "source": "792e3f6cb2e46517f0187066db55edc63ae7d12c",
+  "run": {
+    "conclusion": "success",
+    "headSha": "792e3f6cb2e46517f0187066db55edc63ae7d12c",
+    "jobs": [
+      {
+        "name": "validate / validate",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "validate / House skill audit",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "release",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "publish",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/ssheleg/agent-stack/actions/runs/38349140429"
+  },
+  "registry_integrity": "sha512-XADaHVVjC0ONHKELqLGuXo6+jko6BoByyoJYJC5tbK3riZAJQakBw6ubsiFOZhHnaIi+RVKqw1jKNGruPQqtxA==",
+  "tarball_sha256": "faedf86cc0820d27eb81d0f9ed3375ddd90e8aad768243d984ecbbad9bde0f2f",
+  "file_count": 44,
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+      "bytes": 1064
+    },
+    {
+      "path": "bin/agent-stack.js",
+      "sha256": "5706481b1f1266174eeefebc1f2fc5ff6f30f77b395289490b182e95d5c97b00",
+      "bytes": 7391
+    },
+    {
+      "path": "package.json",
+      "sha256": "50f32aae58376c2f0db3c26fbe27460615235cf0c7cef12cf9ad412d4a7e9f36",
+      "bytes": 1323
+    },
+    {
+      "path": "plugins/agent-stack/.claude-plugin/plugin.json",
+      "sha256": "8c0a4dbe7ec8e59b1d82c44612523a55a4b5ce13172614d0c5eecf4824f200f2",
+      "bytes": 1081
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/references/a2a.md",
+      "sha256": "e39c4c6d1f19b39e09720c40a09a50e8f2a59824aeb83c5336443f8b709a6c34",
+      "bytes": 11113
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/audit.md",
+      "sha256": "b91b966250438edd91b87c392113404d830b06301518d9120246321c88d9a1aa",
+      "bytes": 11484
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "a8c3643c72789e2583c009a16f7b46bd11a672322b0e3dcff820b6849901f55c",
+      "bytes": 108921
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/context-engineering.md",
+      "sha256": "57811d800b75f25a5a242505e8e6be2b33775fb156893ebec51af5ea18fcfc1e",
+      "bytes": 11541
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/context-lifecycle.md",
+      "sha256": "f682b0d4894f7f58baf4f39e622ed1bf8bc773d3c76c552a09aecab4c1e23fef",
+      "bytes": 9055
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/references/gateway.md",
+      "sha256": "e74e8585eb6a1fba08af5b419a67c41f38689a29886a89dc149ef3465b9319a0",
+      "bytes": 22093
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/governance.md",
+      "sha256": "bb2e3389779a56d4ace610bb14b5df05ace7fa6efc1e5810b0ae929f7050e435",
+      "bytes": 9487
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md",
+      "sha256": "c594d1b0a4813f0d47e60a26e2b7905a964c3017556a400fcbd534f390811e70",
+      "bytes": 28552
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/instruction-budget.md",
+      "sha256": "3962dbe1643ca1f867575786597cfeea93a28b1d0cc940811020e2d4b49fc6a6",
+      "bytes": 7026
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/kv-cache.md",
+      "sha256": "b8ae7c5ba9531ebb02ded2e403a8fcb4ae2b944940076a4f15f966d05f6caeae",
+      "bytes": 9911
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/layers.md",
+      "sha256": "e2f4fd73424b0896c493616dbb98e7bd973eaad3b8365b3c1b31964fbac46d89",
+      "bytes": 6161
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/llm-proxy-billing.md",
+      "sha256": "84c2144d6a5a917c042c5e31ecfacfe6238c60870da567abc00bd770e3bccccd",
+      "bytes": 19674
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/references/mcp-scale.md",
+      "sha256": "c69b0bfd73e189776fcc6ecdd7d3e88964073ab19a66ffcf79aab579b341a892",
+      "bytes": 8841
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/references/mcp-ship.md",
+      "sha256": "2918ca0beed94ca7f7e34bb30e2609495c421121d3a94a0e43e743fc76b644a2",
+      "bytes": 7099
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/references/mcp.md",
+      "sha256": "9b427194659408ae7f521ea689b8b23cbfd216f918f313cc961dce360b7e80b4",
+      "bytes": 14716
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/memory-architecture.md",
+      "sha256": "860466e4e54d0116063146401c3df54a25bbf07cdfba18b63d0fb0e06a285f1a",
+      "bytes": 20225
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/memory-landscape.md",
+      "sha256": "b297b121ebb07c50579f929f0e5361598625b024dbf49653b82e12b1dc0b4f4d",
+      "bytes": 8296
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/memory-lifecycle.md",
+      "sha256": "6c7252553bc6308e6f5ec88bb802a62e4bacd98f7946ec5b2e82fef8c1aa0073",
+      "bytes": 11365
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-evals/references/multi-agent.md",
+      "sha256": "e0c3175aa8858de1ba8117c613d2e201e32ff581453078c927a3ebddcff6c0bb",
+      "bytes": 5473
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-evals/references/otel-genai.md",
+      "sha256": "d2cadad0a6a0632d234a51621b136f3001f5a7422e256f84d261d7c0ff1660d5",
+      "bytes": 13131
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+      "sha256": "a239bc4549339b049b54b154f88536bed68256ffffdcdc4a0f41cf7185eeb360",
+      "bytes": 25555
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/pi-sdk.md",
+      "sha256": "b7eb9375934887ed5f85e597e80c5f3d83c02c37cd585aff13960104a31ddcd5",
+      "bytes": 14100
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/pi.md",
+      "sha256": "684616062c9d109ff13eed83a5b9a10544040f1ee22790ee70e8d8156b286c08",
+      "bytes": 12889
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/pipeline.md",
+      "sha256": "89f160068715136c6f7793b305f78371831ebef9527cdb481e15b5af9a1af40b",
+      "bytes": 4549
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/provider-lifecycle.md",
+      "sha256": "d9b4462baf1c805daf05612d7ee8556ac5e666f72de62609666f1ee469294de3",
+      "bytes": 8966
+    },
+    {
+      "path": "README.md",
+      "sha256": "f401882dde79b2a8514c196e74e7f9e157d80e7c22ca605f007a30372261f05b",
+      "bytes": 14279
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/references/registry.md",
+      "sha256": "648e7649369b9aa5dac5f424c9a4373292e5d73c90d9466b58171934e5c7b51f",
+      "bytes": 8377
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/runtime.md",
+      "sha256": "7164776ed0c53dc7eaa3edf21e01620e0db1a2bdef4f573469039be9ac5ad435",
+      "bytes": 9053
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "87715bb85d820beb6179cf5294fc7ed461cb234657df810031c0eb527fb00b62",
+      "bytes": 3071
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-evals/SKILL.md",
+      "sha256": "8f533ce3e320e0416163a39a98207cd347a0d22332c4072afa1d628f77204b8b",
+      "bytes": 20773
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/SKILL.md",
+      "sha256": "003866190df99a02ea862860050c03c2ce8971479ced5ba75bfe42057a0ba4e0",
+      "bytes": 14571
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/SKILL.md",
+      "sha256": "3e70a38f204edc6822814335dc6dfc4e8c3b825117137239da46b96fdd60bfec",
+      "bytes": 15786
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+      "sha256": "8e2bd8a84fbbb4fa00cb384b1769ea41d51eecd2d7203213f2c859a19a5b6de0",
+      "bytes": 19867
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-evals/references/statistics.md",
+      "sha256": "77cd03cc4f258a097888f81b817e8c9487b4d777d9ac092f76fe48de8de692ca",
+      "bytes": 13853
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/system-prompt.md",
+      "sha256": "f8577ebfeb8ae7448b36b5cd7fcca1ef4ab7065d1aef9baf6f7946eb5ea2905a",
+      "bytes": 7712
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/techniques.md",
+      "sha256": "4198c8d2d8a0d6da2f8ba7f2370310578167819abbb9bd351a722491ee8f31e8",
+      "bytes": 7968
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/tools.md",
+      "sha256": "572822bc05a710019fc5454f2ddb3750537dbf3667fc73fad0c8bcdcd0f1346a",
+      "bytes": 10351
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/workbench-contracts.md",
+      "sha256": "a17af9cc84dcc8661085ebb606b09ac08ebe39f6c1fc436ab547ac21747bca80",
+      "bytes": 10349
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/scripts/audit_agent.py",
+      "sha256": "f0193565dd3851d3ea779a05f018099b9f2bca3eccacc370b9a43048baba656a",
+      "bytes": 19276
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/scripts/instruction_budget.py",
+      "sha256": "0f88ff1764cc5a87a2b523126c871e71af750bc29128e05b97f9e6955db999ab",
+      "bytes": 5863
+    }
+  ],
+  "all_packaged_bytes_equal": true,
+  "installed_readback": "PENDING"
+}
