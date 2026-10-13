@@ -103,3 +103,35 @@ regular lease-marker files from shipped plugin payload. Only that narrowly
 recognized directory shape is excluded; other unexpected files still fail.
 Execution, recovery, launcher integration and final independent review are not
 yet implemented by this checkpoint. No real-host installation has occurred.
+
+
+## Transaction review checkpoint (2026-10-13)
+
+The implementation now routes install/update through one private frozen native
+plan before other channel mutations. Public preview carries only member identities,
+actions, commit hashes, file counts, profile and journal path; settings snapshots
+remain private. Runtime is bounded to Claude 2.1.296+ in the 2.1.x series. Initial
+scope is one user installation per owned marketplace; configured same-version
+repair and project/local/multi-scope records refuse before mutation.
+
+`python3 -B test/claude_pin_native_probe.py` passed on actual CLI 2.1.296 in an
+isolated synthetic HOME and local Git transport: injected installation failure
+restored prior SHA/payload through native commands, retry repaired same-version
+bytes, verify-only replay passed, disabled=false, foreign settings and persistent
+data survived. The packaged launcher preview and execution also passed; preview
+used a child-spawn-refusing shim. Synthetic tree removed in `finally`.
+
+Focused checks at this checkpoint: transaction 12 cases, admission 12 cases,
+source admission/generation/readback 20 controls, installer pins 6 cases,
+operation-result 14 cases, runtime closure 6 cases. These are bounded component
+results, not an owner aggregate. The native probe is deliberately opt-in and is
+not a provider/model call. Exact shipped inventory re-generation is a blocking CI
+step against initialized gitlink trees; final member pin changes require another
+`node scripts/sync-claude-pins.js --write` and `--check`.
+
+Open before release: independent transaction review, additional failure/identity
+controls, legacy integration fixture adaptation to the stronger native contract,
+serialized owner aggregate, and operator installed readback after reviewed release.
+No actual operator profile has been changed by this packet. Interrupted journals
+or failed settings restoration refuse continuation with the local receipt path;
+there is no guessed recovery or direct installed-registry/cache rewrite.

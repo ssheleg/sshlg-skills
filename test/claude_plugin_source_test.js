@@ -10,7 +10,7 @@ for(const source of ['../outside','./../outside','./plugins/../other','./plugins
 assert.throws(()=>C.pluginPath(m,{...manifest,name:'foreign'}));
 assert.throws(()=>C.pluginPath(m,{...manifest,plugins:[]}));
 assert.throws(()=>C.pluginPath(m,{...manifest,plugins:[...manifest.plugins,...manifest.plugins]}));
-console.log('Claude immutable source admission: 9 controls PASS');
+console.log('PASS: Claude immutable source admission — 9 controls');
 const fs=require('fs'),os=require('os'),path=require('path'),{spawnSync}=require('child_process');
 const box=fs.mkdtempSync(path.join(os.tmpdir(),'claude-source-unit-'));
 try {
@@ -33,5 +33,5 @@ try {
  assert.throws(()=>C.validate({...inventory,members:[row,row]},[member]),/duplicate/);
  assert.throws(()=>C.generate([{...member,version:'2.0.0'}],box),/identity\/version/);
  const invalid=JSON.parse(JSON.stringify(inventory));invalid.members[0].files[0].path='../escape';assert.throws(()=>C.validate(invalid,[member]),/payload inventory/);
- console.log('Claude source generation/readback: 11 additional controls PASS');
+ console.log('PASS: Claude source generation/readback — 11 controls');
 } finally {fs.rmSync(box,{recursive:true,force:true});}

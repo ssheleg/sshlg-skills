@@ -25,5 +25,5 @@ try {
  test('fingerprint changes on foreign settings edit',()=>{reset();const first=prep().fingerprint;fs.writeFileSync(sf,'{}');assert.notEqual(prep().fingerprint,first);});
  test('lossless nested source edit preserves foreign raw numbers and whitespace',()=>{const before='{\r\n "huge": 100000000000000000000001, "extraKnownMarketplaces": { "fixture": {"autoUpdate":false,"source":{"source":"github","repo":"o/r"}}}}';const next=C.editAt(before,['extraKnownMarketplaces','fixture','source'],{source:'directory',path:'/owned'});assert(next.includes('100000000000000000000001'));assert(next.includes('"autoUpdate":false'));assert(next.startsWith('{\r\n '));assert.equal(JSON.parse(next).extraKnownMarketplaces.fixture.source.path,'/owned');});
  test('insertion supports missing nested maps but rejects nonobject',()=>{assert.equal(JSON.parse(C.editAt('{}',['extraKnownMarketplaces','fixture','source'],{source:'directory',path:'/owned'})).extraKnownMarketplaces.fixture.source.path,'/owned');assert.throws(()=>C.editAt('{"extraKnownMarketplaces":[]}', ['extraKnownMarketplaces','fixture'],{}),/not an object/);});
- console.log('Claude pinned admission: '+count+' cases PASS');
+ console.log('PASS: Claude pinned admission — '+count+' cases');
 } finally {fs.rmSync(box,{recursive:true,force:true});}
