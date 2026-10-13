@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "test/backup_retention_process_test.js"
+  ],
+  "exit": 0,
+  "output": "PASS: backup retention process \u2014 1 case\n",
+  "count": 1,
+  "scope": "Only successful summary line changed. The existing single actual-process case and its failure exit/cleanup remain unchanged. Runner unchanged.",
+  "owned_temporary_directory_removed": true
+}
