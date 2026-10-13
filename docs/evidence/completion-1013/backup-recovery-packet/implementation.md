@@ -167,6 +167,18 @@ untouched. Native Windows permission behavior was not tested; POSIX private-mode
 checks run in the measured synthetic macOS environment. No operator host files,
 provider calls, native install operations or foreign worktrees were changed.
 
+## Independent composed peer acceptance
+
+Parent reviewer independently accepted the bounded implementation at
+`ed02df77391309a34991bda7b1947cc4ea96c7af` on 2026-10-13 after rereading
+single-row reconstruction and state-sensitive terminal retirement. The reviewer
+replayed the final 30 recovery controls and seven SIGKILL controls, all passing,
+and both original portable probes: the ownership-map attack refused while
+retaining the sibling record; interrupted no-write retirement resumed successfully.
+This records the parent's source-bound judgment and stated replay results, not a
+second execution by this author. Acceptance is limited to MB02b; aggregate,
+publication, installation, public CLI and lock-resolution admission remain open.
+
 ## Exact continuation
 
 Parent independently reviews the composed source and boundary controls before any
