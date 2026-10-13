@@ -22,7 +22,7 @@ t('descriptive multiline opening and optout retain ranges',()=>{
  assert(!b.parse('<!-- SSHLG:ROUTERS:OPTOUT -->\n'+block('SSHLG:ROUTERS')).ok);
 });
 t('near markers and invalid UTF8 are uncertain, not repaired',()=>{
- for(const s of ['<!-- SSHLG:ROUTERS :BEGIN -->','<!-- SSHLG:ROUTERS:BEGIN','<!-- ВЛАДЕЛЕЦ:БЛОК:BEGIN -->'])assert(!b.parse(s).ok,s);
+ for(const s of ['<!-- SSHLG:ROUTERS :BEGIN -->','<!-- SSHLG:ROUTERS: BEGIN -->','<!-- SSHLG:ROUTERS : BEGIN -->','<!-- SSHLG:ROUTERS:begin -->','<!-- SSHLG:ROUTERS:BEGIN','<!-- ВЛАДЕЛЕЦ:БЛОК:BEGIN -->'])assert(!b.parse(s).ok,s);
  assert.throws(()=>b.decode(Buffer.from([0xff])),/UTF/);
 });
 const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'blocks-'));
@@ -52,6 +52,7 @@ try{
   const env={...process.env,HOME:home,CODEX_HOME:cd};const run=(a)=>spawnSync(process.execPath,[path.resolve('bin/sshlg-skills.js'),'blocks',...a],{env,encoding:'utf8'});
   let before=snapshot();let r=run(['--agent','codex','--json']);assert.strictEqual(r.status,0,r.stderr+r.stdout);assert.strictEqual(JSON.parse(r.stdout).targets.length,1);assert(!r.stdout.includes('private-body'));assert.deepStrictEqual(snapshot(),before);
   fs.writeFileSync(file,'<!-- SSHLG:ROUTERS:BEGIN -->');before=snapshot();r=run(['--agent','codex','--json']);assert.strictEqual(r.status,1);assert.strictEqual(JSON.parse(r.stdout).targets[0].readState,'READ');assert.deepStrictEqual(snapshot(),before);
+  for(const near of ['<!-- SSHLG:ROUTERS: BEGIN -->','<!-- SSHLG:ROUTERS : BEGIN -->']){fs.writeFileSync(file,near);r=run(['--agent','codex','--json']);assert.strictEqual(r.status,1);assert.strictEqual(JSON.parse(r.stdout).ok,false);}
   fs.writeFileSync(file,block('SSHLG:ROUTERS')+block('OTHER:NOTES'));
  });
  t('local selected diff never emits adjacent foreign bytes or writes',()=>{
