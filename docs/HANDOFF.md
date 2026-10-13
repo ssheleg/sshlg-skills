@@ -1,4 +1,4 @@
-## Current continuation — 2026-10-13 12:00 UTC
+## Current continuation — 2026-10-13 13:54 UTC
 
 Hub candidate **1.63.0**, branch `waves/2026-10-13-finalization`, composes immutable
 Claude source updates, scoped default-off wait rules, release-iteration routing,
@@ -7,6 +7,18 @@ backup-identity correction. Latest published hub remains 1.62.2. Candidate aggre
 publication and actual installed acceptance are pending. The normal delivery
 candidate is [draft PR219](https://github.com/ssheleg/sshlg-skills/pull/219); it has
 not been promoted for final candidate checks.
+
+**Current failed gate and next action:** the [first composed aggregate](evidence/completion-1013/hub-first-aggregate/README.md)
+ran132 suites and failed3: stale own-state expectations, staging pin receipt and
+old task-pipeline aliases. Narrow own-state corrections passed independent negative
+controls. [Summary-count correction](evidence/completion-1013/aggregate-counting/README.md)
+keeps actual cases visible without changing assertions. Runtime failure propagation
+and rollback are independently accepted; B190 supported crash-lock recovery remains
+in development under its [admission packet](reports/2026-10-13-runtime-recovery-admission/README.md).
+Next: finish that bounded source/review, pin the actually published TP1.94.1,
+regenerate the staging receipt, freeze source, refresh graph and rerun full hub gate.
+The [37-requirement cut](evidence/completion-1013/requirements-current-20261013-1354.json)
+retains original wording and current acceptance boundaries.
 
 **Hook recovery:** exact old payloads were restored after Codex native plugin
 updates pruned files still used by this session. [Native evidence](evidence/completion-1013/hook-recovery/README.md)
@@ -31,7 +43,7 @@ exit0 in5576.924seconds, unchanged source/tree/tag and clean state. The
 [admission](evidence/completion-1013/tp-current-gate/repair-exact-tagged-admission.md)
 records all disclosures, including the lessons redactor skip and synthetic
 Git-free fixtures. Two secondary test copies were proven owned and removed;
-their runner defect is being corrected in the future1.95 branch. R07 is still bounded.
+their runner defect is corrected and independently checked in future1.95 candidate875c6e6, whose complete pre-integration gate is running. R07 is still bounded.
 The verified annotation89e4782133bcba4f9ea6e5d9d584dfab004b0ded was pushed with
 explicit --no-follow-tags; normal [release38404300140](https://github.com/ssheleg/task-pipeline/actions/runs/38404300140)
 is running. A background60-second read-only watcher will read all jobs and verify
