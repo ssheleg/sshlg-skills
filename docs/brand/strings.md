@@ -31,3 +31,12 @@ current source occurrence. It is not a shipped shared label.
 | rules.preview | preview | bin/sshlg-skills.js | SCN-007 | proposed |
 | rules.apply | apply | bin/sshlg-skills.js | SCN-007 | proposed |
 | rules.refused | rules.wait: refused | bin/sshlg-skills.js | SCN-009 | proposed |
+
+## Wait recovery CLI
+
+| Key | Text (primary) | Location | Scenario | Status |
+|---|---|---|---|---|
+| rules.recovery.metadata | metadata only | lib/wait-recovery-cli.js | SCN-010 | proposed |
+| rules.recovery.finalize | Finalize metadata | lib/wait-recovery-cli.js | SCN-010 | proposed |
+| rules.recovery.preserve | Preserve the private wait-rule receipt and retained copies for audit. Locks are never cleared by this command. | lib/wait-recovery-cli.js | SCN-010 | proposed |
+| rules.recovery.boundary | Host instructions are not restored or rewritten by recovery. | lib/wait-recovery-cli.js | SCN-010 | proposed |
