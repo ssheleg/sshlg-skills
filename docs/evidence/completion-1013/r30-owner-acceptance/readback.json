@@ -271,5 +271,40 @@
         "state": "SUCCESS"
       }
     ]
+  },
+  {
+    "repo": "ssheleg/agent-sync",
+    "candidate": "259b5cfbadd7711e355eec5bd8811b14af595871",
+    "merge": "7a1dbe7dcdaff1786fad38dbd2ee742266d1a39a",
+    "tree": "221c2b2cd4f12b11e457da7e416a000e235d7e09",
+    "entire_tree_equal_to_reviewed_candidate": true,
+    "payload_files_equal": 30,
+    "pr": "https://github.com/ssheleg/agent-sync/pull/37",
+    "run_url": "https://github.com/ssheleg/agent-sync/actions/runs/38354919691",
+    "run_event": "pull_request",
+    "run_head": "259b5cfbadd7711e355eec5bd8811b14af595871",
+    "run_conclusion": "success",
+    "jobs": [
+      {
+        "name": "validate",
+        "conclusion": "success"
+      },
+      {
+        "name": "House skill audit",
+        "conclusion": "success"
+      }
+    ],
+    "required": [
+      {
+        "link": "https://github.com/ssheleg/agent-sync/actions/runs/38354919691/job/115155448051",
+        "name": "validate",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/ssheleg/agent-sync/actions/runs/38354919691/job/115155448345",
+        "name": "House skill audit",
+        "state": "SUCCESS"
+      }
+    ]
   }
 ]
