@@ -1,0 +1,424 @@
+{
+  "a": "4c67029448e276bf1e7ff110c608bcc44a38ec0a",
+  "b": "62c723a0d3aaf3cdf3fd12e796bc00eef7f73930",
+  "rows": [
+    {
+      "label": "add-local-sha-a",
+      "exit": 0,
+      "stdout": "Adding marketplace\u2026\u2714 Successfully added marketplace: owned-pin-probe (declared in user settings)\n",
+      "stderr": "",
+      "installed": null,
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "directory",
+            "path": "<sandbox>/catalog"
+          },
+          "installLocation": "<sandbox>/catalog",
+          "lastUpdated": "2026-10-13T05:24:30.367Z"
+        }
+      }
+    },
+    {
+      "label": "install-sha-a",
+      "exit": 0,
+      "stdout": "Installing plugin \"probe@owned-pin-probe\"...\u2714 Successfully installed plugin: probe@owned-pin-probe (scope: user)\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:30.622Z",
+              "lastUpdated": "2026-10-13T05:24:30.622Z",
+              "gitCommitSha": "4c67029448e276bf1e7ff110c608bcc44a38ec0a",
+              "observed_payload": "first"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "directory",
+            "path": "<sandbox>/catalog"
+          },
+          "installLocation": "<sandbox>/catalog",
+          "lastUpdated": "2026-10-13T05:24:30.367Z"
+        }
+      }
+    },
+    {
+      "label": "refresh-local-sha-b",
+      "exit": 0,
+      "stdout": "Updating marketplace: owned-pin-probe...Validating local marketplace\n\u2714 Successfully updated marketplace: owned-pin-probe\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:30.622Z",
+              "lastUpdated": "2026-10-13T05:24:30.622Z",
+              "gitCommitSha": "4c67029448e276bf1e7ff110c608bcc44a38ec0a",
+              "observed_payload": "first"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "directory",
+            "path": "<sandbox>/catalog"
+          },
+          "installLocation": "<sandbox>/catalog",
+          "lastUpdated": "2026-10-13T05:24:30.768Z"
+        }
+      }
+    },
+    {
+      "label": "update-same-version-sha-b",
+      "exit": 0,
+      "stdout": "Checking for updates for plugin \"probe@owned-pin-probe\"\u2026\n\u2714 probe is already at the latest version (1.0.0).\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:30.622Z",
+              "lastUpdated": "2026-10-13T05:24:30.622Z",
+              "gitCommitSha": "4c67029448e276bf1e7ff110c608bcc44a38ec0a",
+              "observed_payload": "first"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "directory",
+            "path": "<sandbox>/catalog"
+          },
+          "installLocation": "<sandbox>/catalog",
+          "lastUpdated": "2026-10-13T05:24:30.768Z"
+        }
+      }
+    },
+    {
+      "label": "options-before",
+      "exit": 0,
+      "stdout": "{\n  \"pluginId\": \"probe@owned-pin-probe\",\n  \"displayName\": \"probe\",\n  \"schema\": {\n    \"label\": {\n      \"type\": \"string\",\n      \"title\": \"Label\",\n      \"description\": \"Synthetic nonsecret option\"\n    }\n  },\n  \"inputs\": {\n    \"label\": \"fixture-value\"\n  },\n  \"choices\": {},\n  \"configured\": [\n    \"label\"\n  ],\n  \"unconfigured\": []\n}\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:30.622Z",
+              "lastUpdated": "2026-10-13T05:24:30.622Z",
+              "gitCommitSha": "4c67029448e276bf1e7ff110c608bcc44a38ec0a",
+              "observed_payload": "first"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "directory",
+            "path": "<sandbox>/catalog"
+          },
+          "installLocation": "<sandbox>/catalog",
+          "lastUpdated": "2026-10-13T05:24:30.768Z"
+        }
+      }
+    },
+    {
+      "label": "retention-anchor",
+      "exit": 0,
+      "stdout": "Installing plugin \"probe@owned-pin-probe\"...\u2714 Successfully installed plugin: probe@owned-pin-probe (scope: project)\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:30.622Z",
+              "lastUpdated": "2026-10-13T05:24:30.622Z",
+              "gitCommitSha": "4c67029448e276bf1e7ff110c608bcc44a38ec0a",
+              "observed_payload": "second"
+            },
+            {
+              "scope": "project",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:31.391Z",
+              "lastUpdated": "2026-10-13T05:24:31.391Z",
+              "gitCommitSha": "62c723a0d3aaf3cdf3fd12e796bc00eef7f73930",
+              "projectPath": "/private<sandbox>/cwd",
+              "observed_payload": "second"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "directory",
+            "path": "<sandbox>/catalog"
+          },
+          "installLocation": "<sandbox>/catalog",
+          "lastUpdated": "2026-10-13T05:24:30.768Z"
+        }
+      }
+    },
+    {
+      "label": "uninstall-keep-data",
+      "exit": 0,
+      "stdout": "{\"command\":\"uninstall\",\"outcome\":\"ok\",\"plugin\":\"probe@owned-pin-probe\",\"pluginId\":\"probe@owned-pin-probe\",\"scope\":\"user\",\"keptData\":true,\"message\":\"Successfully uninstalled plugin: probe (scope: user)\"}\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "project",
+              "projectPath": "/private<sandbox>/cwd",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:31.391Z",
+              "lastUpdated": "2026-10-13T05:24:31.391Z",
+              "gitCommitSha": "62c723a0d3aaf3cdf3fd12e796bc00eef7f73930",
+              "observed_payload": "second"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "directory",
+            "path": "<sandbox>/catalog"
+          },
+          "installLocation": "<sandbox>/catalog",
+          "lastUpdated": "2026-10-13T05:24:30.768Z"
+        }
+      }
+    },
+    {
+      "label": "reinstall-same-version-sha-b",
+      "exit": 0,
+      "stdout": "Installing plugin \"probe@owned-pin-probe\"...\u2714 Successfully installed plugin: probe@owned-pin-probe (scope: user)\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "project",
+              "projectPath": "/private<sandbox>/cwd",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:31.391Z",
+              "lastUpdated": "2026-10-13T05:24:31.391Z",
+              "gitCommitSha": "62c723a0d3aaf3cdf3fd12e796bc00eef7f73930",
+              "observed_payload": "second"
+            },
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:31.794Z",
+              "lastUpdated": "2026-10-13T05:24:31.794Z",
+              "gitCommitSha": "62c723a0d3aaf3cdf3fd12e796bc00eef7f73930",
+              "observed_payload": "second"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "directory",
+            "path": "<sandbox>/catalog"
+          },
+          "installLocation": "<sandbox>/catalog",
+          "lastUpdated": "2026-10-13T05:24:30.768Z"
+        }
+      }
+    },
+    {
+      "label": "drop-retention-anchor",
+      "exit": 0,
+      "stdout": "\u2714 Successfully uninstalled plugin: probe (scope: project)\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:31.794Z",
+              "lastUpdated": "2026-10-13T05:24:31.794Z",
+              "gitCommitSha": "62c723a0d3aaf3cdf3fd12e796bc00eef7f73930",
+              "observed_payload": "second"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "directory",
+            "path": "<sandbox>/catalog"
+          },
+          "installLocation": "<sandbox>/catalog",
+          "lastUpdated": "2026-10-13T05:24:30.768Z"
+        }
+      }
+    },
+    {
+      "label": "options-after",
+      "exit": 0,
+      "stdout": "{\n  \"pluginId\": \"probe@owned-pin-probe\",\n  \"displayName\": \"probe\",\n  \"schema\": {\n    \"label\": {\n      \"type\": \"string\",\n      \"title\": \"Label\",\n      \"description\": \"Synthetic nonsecret option\"\n    }\n  },\n  \"inputs\": {\n    \"label\": \"fixture-value\"\n  },\n  \"choices\": {},\n  \"configured\": [\n    \"label\"\n  ],\n  \"unconfigured\": []\n}\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:31.794Z",
+              "lastUpdated": "2026-10-13T05:24:31.794Z",
+              "gitCommitSha": "62c723a0d3aaf3cdf3fd12e796bc00eef7f73930",
+              "observed_payload": "second"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "directory",
+            "path": "<sandbox>/catalog"
+          },
+          "installLocation": "<sandbox>/catalog",
+          "lastUpdated": "2026-10-13T05:24:30.768Z"
+        }
+      }
+    },
+    {
+      "label": "preservation",
+      "settings": {
+        "env": {
+          "SYNTHETIC": "preserve"
+        },
+        "enabledPlugins": {
+          "foreign@foreign": false,
+          "probe@owned-pin-probe": true
+        },
+        "extraKnownMarketplaces": {
+          "owned-pin-probe": {
+            "source": {
+              "source": "directory",
+              "path": "<sandbox>/catalog"
+            }
+          }
+        },
+        "pluginConfigs": {
+          "probe@owned-pin-probe": {
+            "options": {
+              "label": "fixture-value"
+            }
+          }
+        }
+      },
+      "data_retained": true
+    },
+    {
+      "label": "refresh-local-sha-a",
+      "exit": 0,
+      "stdout": "Updating marketplace: owned-pin-probe...Validating local marketplace\n\u2714 Successfully updated marketplace: owned-pin-probe\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:31.794Z",
+              "lastUpdated": "2026-10-13T05:24:31.794Z",
+              "gitCommitSha": "62c723a0d3aaf3cdf3fd12e796bc00eef7f73930",
+              "observed_payload": "second"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "directory",
+            "path": "<sandbox>/catalog"
+          },
+          "installLocation": "<sandbox>/catalog",
+          "lastUpdated": "2026-10-13T05:24:32.316Z"
+        }
+      }
+    },
+    {
+      "label": "update-back-sha-a",
+      "exit": 0,
+      "stdout": "Checking for updates for plugin \"probe@owned-pin-probe\"\u2026\n\u2714 probe is already at the latest version (1.0.0).\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:24:31.794Z",
+              "lastUpdated": "2026-10-13T05:24:31.794Z",
+              "gitCommitSha": "62c723a0d3aaf3cdf3fd12e796bc00eef7f73930",
+              "observed_payload": "second"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "directory",
+            "path": "<sandbox>/catalog"
+          },
+          "installLocation": "<sandbox>/catalog",
+          "lastUpdated": "2026-10-13T05:24:32.316Z"
+        }
+      }
+    }
+  ]
+}
