@@ -1,0 +1,149 @@
+{
+  "schema": "fw00-owner-closure-review/1",
+  "status": "BOUNDED_RECONCILIATION_NOT_WHOLE_PROGRAM_CLOSURE",
+  "originalInventory": "board-current-20261013-0923.json",
+  "sourceCut": "a8c39a4",
+  "scope": [
+    "agent-stack:B-159",
+    "agent-stack:B-160",
+    "super-ux:B-025",
+    "super-ux:B-026"
+  ],
+  "owners": {
+    "agent-stack": {
+      "commit": "6b71918a4d9b23a1f10af54b7d574a48e401ef26",
+      "files": {
+        "docs/evidence/backlog.md": {
+          "sha256": "77e3725d987a9ac65252e431633641f71269ce6abcf8e8f3fcab06957f895a5a",
+          "bytes": 42970,
+          "url": "https://github.com/ssheleg/agent-stack/blob/6b71918a4d9b23a1f10af54b7d574a48e401ef26/docs/evidence/backlog.md"
+        }
+      }
+    },
+    "seo-aeo-audit": {
+      "commit": "5e9f6af67f9f01f70250465d63b0bb5f04983229",
+      "files": {
+        "test/validate.py": {
+          "sha256": "150674d6fca09e834ba22dc1cfdd36ae7c46e9e191ecfbb30c93a9dbd398aaf3",
+          "bytes": 126848,
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/5e9f6af67f9f01f70250465d63b0bb5f04983229/test/validate.py"
+        },
+        "test/negatives.py": {
+          "sha256": "ee2caa85e80d82874b94f581745f53c8bc20c00895341dd6965fb9fa3ade3dd3",
+          "bytes": 19435,
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/5e9f6af67f9f01f70250465d63b0bb5f04983229/test/negatives.py"
+        },
+        "docs/evidence/runs/2026-10-13-fw01-snapshot.md": {
+          "sha256": "16937143db4ac3242572ab4d787171bff16138cea88c66c7c3bbb39fedd7b5ec",
+          "bytes": 7454,
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/5e9f6af67f9f01f70250465d63b0bb5f04983229/docs/evidence/runs/2026-10-13-fw01-snapshot.md"
+        }
+      }
+    },
+    "make-skill": {
+      "commit": "c6b047057559f8dd2fe12dec59e4a4bee374fac2",
+      "files": {
+        "test/validate.py": {
+          "sha256": "6069ab3cdc11041ea961b6a2a1ebc8787d71b4132272fe79d8550ec7fdea2fb8",
+          "bytes": 73877,
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/test/validate.py"
+        },
+        "test/audit_regressions/fw01_temp_guard.py": {
+          "sha256": "b87e97d76840e8955b22efcef67640c42350534d8b794d85d7bd8b7f44365717",
+          "bytes": 4313,
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/test/audit_regressions/fw01_temp_guard.py"
+        },
+        "docs/evidence/runs/2026-10-13-fw01-temp-guard.md": {
+          "sha256": "66496ae2bd1805e728893bed53dbf588d53a16ac60b0a6e3ef44f46dd3a665e0",
+          "bytes": 8433,
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/docs/evidence/runs/2026-10-13-fw01-temp-guard.md"
+        }
+      }
+    },
+    "super-ux": {
+      "commit": "a9a7a614f77a9788e154866396cb9b61215a28a3",
+      "files": {
+        "docs/evidence/backlog.md": {
+          "sha256": "120a421210f8caf573a6b81b3f00672d15d2feaa18c191aeae5ee0013cd9495f",
+          "bytes": 33260,
+          "url": "https://github.com/ssheleg/super-ux/blob/a9a7a614f77a9788e154866396cb9b61215a28a3/docs/evidence/backlog.md"
+        },
+        "plugins/super-ux/skills/references/scenario-format.md": {
+          "sha256": "9531a6d37e5753f0b160e5ac863a0679478e9a93e4b9335ed3e8c469618e321e",
+          "bytes": 52384,
+          "url": "https://github.com/ssheleg/super-ux/blob/a9a7a614f77a9788e154866396cb9b61215a28a3/plugins/super-ux/skills/references/scenario-format.md"
+        },
+        "plugins/super-ux/skills/references/brand-contract.md": {
+          "sha256": "c4a97c87679ab6994e6863204105ba22ca2e85932ec961631d1cc899c8aae5d8",
+          "bytes": 25391,
+          "url": "https://github.com/ssheleg/super-ux/blob/a9a7a614f77a9788e154866396cb9b61215a28a3/plugins/super-ux/skills/references/brand-contract.md"
+        },
+        "plugins/super-ux/skills/references/marketing-copy.md": {
+          "sha256": "81ec6148a8aab8a3ff5b899d1af6b77ca847ff86f0b78aa04d1172284e33ddbf",
+          "bytes": 8274,
+          "url": "https://github.com/ssheleg/super-ux/blob/a9a7a614f77a9788e154866396cb9b61215a28a3/plugins/super-ux/skills/references/marketing-copy.md"
+        },
+        "plugins/super-ux/scripts/ux_lint.py": {
+          "sha256": "9811e086cb1fbd97e8e1187c0e2cfffa07fb356400b641a81060579a2d4490ea",
+          "bytes": 63996,
+          "url": "https://github.com/ssheleg/super-ux/blob/a9a7a614f77a9788e154866396cb9b61215a28a3/plugins/super-ux/scripts/ux_lint.py"
+        },
+        "plugins/super-ux/scripts/brand_lint.py": {
+          "sha256": "921f50f242290d3134dbab9bdc6770cb4a8efec8a8e3faa355305f90382437a8",
+          "bytes": 120759,
+          "url": "https://github.com/ssheleg/super-ux/blob/a9a7a614f77a9788e154866396cb9b61215a28a3/plugins/super-ux/scripts/brand_lint.py"
+        },
+        "templates/foundation.md": {
+          "sha256": "2b708ec9f9fe25a84ceb8ab8ef6a6523d7fe5a06cf63d2c910125005be8285cc",
+          "bytes": 3330,
+          "url": "https://github.com/ssheleg/super-ux/blob/a9a7a614f77a9788e154866396cb9b61215a28a3/templates/foundation.md"
+        },
+        "templates/brand/copy-brief.md": {
+          "sha256": "82f760a77ec2f458d3bcc3d45f712d9b140477985b96aa7c10af79be1cf6fda1",
+          "bytes": 187,
+          "url": "https://github.com/ssheleg/super-ux/blob/a9a7a614f77a9788e154866396cb9b61215a28a3/templates/brand/copy-brief.md"
+        },
+        "test/audit_regressions/fw05_journey_copy.py": {
+          "sha256": "0ca26cc86421adea7ccb33eacc74e4b90f84e60a4780e1c56aa6f611d9aef244",
+          "bytes": 2772,
+          "url": "https://github.com/ssheleg/super-ux/blob/a9a7a614f77a9788e154866396cb9b61215a28a3/test/audit_regressions/fw05_journey_copy.py"
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "owner": "agent-stack",
+      "id": "B-159",
+      "disposition": "PARTIAL_KEEP_OPEN",
+      "implemented": "SEO negative snapshot uses residue ledger; published source accepted",
+      "missing": "Whole-repository any-receiver maker guard with exact path/count/shape exemptions",
+      "actualCounterexample": "Healthy and outside-test alias maker both exit0 on current public structural validator",
+      "next": "Bounded SEO guard port plus outside-test/alias/exemption negative controls, source acceptance before closure"
+    },
+    {
+      "owner": "agent-stack",
+      "id": "B-160",
+      "disposition": "ELIGIBLE_FOR_DOCS_CLOSURE",
+      "proof": "Current make-skill guard walks repository Python sources, refuses aliased makers and enforces exact ledger path/count/shape; bounded independent7 controls, public regression8 and owner aggregate in source receipt",
+      "limit": "Lexical scanner excludes documented dirs/forms and non-Python code; not all runtime allocations",
+      "next": "Normal agent-stack docs-only PR with source-addressed owner proof; preserve historical referral text"
+    },
+    {
+      "owner": "super-ux",
+      "id": "B-025",
+      "disposition": "ELIGIBLE_FOR_DOCS_CLOSURE",
+      "proof": "Canonical Owner contract, template and U086 linter are present, independently checked and published0.59.3",
+      "limit": "Unknown remains unassigned; no claim of real journey owner assignment or model adherence",
+      "next": "Normal super-ux docs-only PR changes stale integration pending to bounded resolved; publication evidence copied"
+    },
+    {
+      "owner": "super-ux",
+      "id": "B-026",
+      "disposition": "ELIGIBLE_FOR_DOCS_CLOSURE",
+      "proof": "Eight-field lazy marketing brief, metric/constraints/voice pair, B074/B075 and correctly qualified historical NN/g reading estimate published0.59.3",
+      "limit": "Metric truth/approved targets/conversion/model outcomes not inferred",
+      "next": "Same super-ux docs-only PR, retaining original semantic requirement and old-id history"
+    }
+  ]
+}

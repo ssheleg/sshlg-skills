@@ -1,0 +1,21 @@
+{
+  "source": "5e9f6af67f9f01f70250465d63b0bb5f04983229",
+  "command": "python3 -B test/validate.py",
+  "plantedPath": "scripts/fw00_temp_probe.py",
+  "plantedSource": "import tempfile as tf\nd = tf.mkdtemp()\n",
+  "checks": [
+    {
+      "control": "healthy",
+      "exit": 0,
+      "seconds": 5.88,
+      "output": "  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nresidue: this run left nothing \u2014 0 temp tree(s) created, 0 removed\nPASS: seo-aeo-audit structure valid (1 cursor rule(s), 25 reference(s), SKILL.md body 4685/5000 tokens (tiktoken:cl100k_base) / 325/500 lines)\n"
+    },
+    {
+      "control": "outside-test-alias",
+      "exit": 0,
+      "seconds": 3.04,
+      "output": "  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nresidue: this run left nothing \u2014 0 temp tree(s) created, 0 removed\nPASS: seo-aeo-audit structure valid (1 cursor rule(s), 25 reference(s), SKILL.md body 4685/5000 tokens (tiktoken:cl100k_base) / 325/500 lines)\n"
+    }
+  ],
+  "cleanup": "owned archive and TMPDIR removed by context manager"
+}
