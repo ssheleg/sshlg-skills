@@ -6,6 +6,26 @@ Recover the operator's exports and prior work, close verified family defects, ma
 
 Model: inherited session model for all agents; no provider calls purchased. Loop runs in-session, not a scheduled autonomous timer. Fabric whoami returned `no-project`; cross-project submissions remain pending, not sent through another channel. Existing source authorities override stale handoff summaries. Starting main: f1901a3; original checkout remains on 5852c57. All work is isolated.
 
+## Current execution order — 2026-10-13T12:04:41+00:00
+
+This section supersedes earlier run-log next actions; those historical receipts stay intact.
+The [37-requirement cut](../completion-1013/requirements-current-20261013-1153.json)
+preserves original wording and separates accepted source, publication, installation and live evidence.
+
+| Order | Owner and concrete work | Current evidence | Exit condition |
+|---|---|---|---|
+| 1 | Root: finish TP1.94.1 on accepted540679 in standalone clone | Normal PR126 integration; exact local annotation89e478; complete suite running, initial tagged structural check passed | Actual full exit0, inspected disclosures, unchanged source/tree/tag, exact remote destination; then normal release and whole-package readback |
+| 2 | Root: finish hub1.63 aggregate and delivery | MB02 recovery/CLI composed;57 independent controls; native cache safety deferral; all eleven owner pins reconciled except pending TP release | Refresh static source map, run hub aggregate, normal candidate CI/integration, exact release, safe host update and readback |
+| 3 | Recovery developer plus fresh independent peer: next TP source wave | Stage extraction, prerequisite corrections and checkpoint fixes composed on1.94.1; release helper independently corrected actual manifest, destination and unsolicited-tag defects | Independent composed review, real moved plants, full suite, future version; fix cross-TMPDIR scratch locking without editing the active frozen release |
+| 4 | Visibility developer plus root peer: dry behavioral harness | Frozen8-case corpus/40fixtures;13 offline controls; no provider call admitted | Immutable input/source binding, fake-trace fault controls, independent runner review; bind final candidate sources before any separately admitted experiment |
+| 5 | New independent observer: compare original request to final system | Earlier observer remains PARTIAL_NOT_FINAL; later hooks recovered in bounded native windows | Source, docs, business logic, package/host and task-quality evidence reviewed separately; unresolved findings become next bounded packets |
+
+The candidate installer must defer an unsafe Codex generation transition; a catalog match
+or elapsed watcher timeout cannot retire an active thread. Fabric board tools remain
+unavailable, with the latest identity again returning no project; cross-project asks
+remain durable and unsent. A subscription list-price estimate is not an invoice or a
+new spending grant. No smaller skill description is adopted from synthetic routing alone.
+
 ## Requirements, packets and acceptance
 
 | ID | Wave / owner | Context and concrete task | Dependencies | Acceptance |
