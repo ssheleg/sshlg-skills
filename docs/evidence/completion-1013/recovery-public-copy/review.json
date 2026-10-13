@@ -1,0 +1,75 @@
+{
+  "schema": "recovery-copy-review/1",
+  "base": "75f5a7b8d1ad9196e19c221660957af30a992453",
+  "scope": "CHANGELOG and README only; no implementation or installed mutation",
+  "claims": {
+    "operation_referenced_retention": [
+      "lib/backup.js:198",
+      "lib/backup-retention.js:39",
+      "lib/backup-retention.js:62"
+    ],
+    "cli_grammar": [
+      "lib/wait-recovery-cli.js:8",
+      "bin/sshlg-skills.js:3714"
+    ],
+    "preview_apply_and_refusal": [
+      "lib/wait-recovery-cli.js:54",
+      "lib/wait-recovery-cli.js:20"
+    ],
+    "metadata_only_and_no_delete": [
+      "lib/wait-rules.js:150",
+      "lib/backup-retention.js:62"
+    ],
+    "complete_is_historical": [
+      "lib/wait-rules.js:143"
+    ]
+  },
+  "source_sha256": {
+    "lib/wait-recovery-cli.js": "620b003015fb8cc9890f47b3c1eb2a26d8f4af644f3446325100bcfb27f521f2",
+    "lib/wait-rules.js": "88b1a19e58a48a4790e17445d125c0bc7f73f71be68df087d2e98b966ec8d81c",
+    "lib/wait-recovery.js": "f3517e311eda4b5b73676ee1a76be858b841071389c1529ef6158eb3ec06832b",
+    "lib/backup-retention.js": "69d42dfeed4cbc2ab431ff5894ae10ad057e8e944c43eb3410e7753673498d9d",
+    "lib/backup.js": "91eacbee2d738a8c598bbb7ef7de484647844501303a72d6e45367148f1f2037",
+    "bin/sshlg-skills.js": "beeca4d2780ac6527a23d77dfa6850db1eed39a2e2c5e6a0fce0c30300891e95"
+  },
+  "checks": {
+    "parser_only": {
+      "exit": 0,
+      "controls": 4,
+      "cases": [
+        "inspect --json",
+        "finalize --operation validID --json defaults preview",
+        "same plus --apply",
+        "invalid operation ID refused"
+      ],
+      "home_access": false
+    },
+    "diff_check": 0,
+    "brand": {
+      "command": "python3 <installed-super-ux>/scripts/brand_lint.py docs/brand --fail-on B063 --brief",
+      "exit": 2,
+      "errors": 2,
+      "warnings": 718,
+      "errors_detail": [
+        "B009 generated _site/**/*.html absent in isolated checkout",
+        "B023 referenced skills/agent-stack/README.md absent because member checkout is not initialized"
+      ],
+      "status": "NOT_CLEAN; broader checkout prerequisites, no guard or source declarations changed"
+    },
+    "manual_copy": {
+      "surfaces": [
+        "Release note",
+        "Technical CLI settings and working rules"
+      ],
+      "brand_sources": [
+        "docs/brand/voice.md",
+        "docs/brand/terminology.md",
+        "docs/brand/facts.md",
+        "docs/brand/channels.md"
+      ],
+      "humanization": "on; own pass; no further changes to authored draft; 0% changed in final pass",
+      "claims_limit": "New capabilities grounded directly in immutable implementation; no new numerical fact, usage result or release claim added. Brand facts table has no dedicated recovery capability row; not silently extended."
+    }
+  },
+  "next": "Root independently reviews exact documentation diff, then integrates into candidate; aggregate and runtime acceptance remain separate."
+}

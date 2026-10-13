@@ -1,0 +1,51 @@
+{
+  "schema": "gemini-auth-interface-review/1",
+  "as_of": "2026-10-13",
+  "installed_package_version": "0.63.0",
+  "auth_status": "UNKNOWN",
+  "scope": "Read-only package metadata/source and official public documentation, no Gemini invocation",
+  "source_sha256": {
+    "package.json": "3dea1781827df5d62db33a7f970d595e09e27373e277abcd1ab8d1652fa05a8a",
+    "bundle/gemini.js": "5aee9ecb65b0b821e36a12f6e9e837301636de1a849a5a8bcc9c2b2620bbd72e",
+    "bundle/gemini-6YZTUGIX.js": "a64b06d8a06673cfae0134558e162e5b015d088a3751639c7d6dc4a88c67c1f8",
+    "bundle/chunk-WFNHZELD.js": "269c04bc5e14ba1dc245c99f08e88743770f02c6ac1c1e9a40a5168904728dfa"
+  },
+  "source_evidence": [
+    {
+      "file": "bundle/gemini-6YZTUGIX.js",
+      "lines": "8053-8067",
+      "finding": "Registered standalone commands mcp/extensions/skills/hooks/gemma; default positional query launches Gemini. No auth-status subcommand here."
+    },
+    {
+      "file": "bundle/chunk-WFNHZELD.js",
+      "lines": "77539-77578",
+      "finding": "Interactive auth has signin/login and signout/logout; default opens auth dialog. Neither is a read-only nonprompt status interface."
+    },
+    {
+      "file": "bundle/chunk-WFNHZELD.js",
+      "lines": "83306-83334",
+      "finding": "MCP auth is an external-server OAuth path, not Gemini model authentication status."
+    }
+  ],
+  "official_sources": [
+    {
+      "url": "https://geminicli.com/docs/get-started/authentication/",
+      "read_at": "2026-10-13",
+      "finding": "Documents authentication setup and cached credentials, not a standalone local status command."
+    },
+    {
+      "url": "https://geminicli.com/docs/reference/commands/",
+      "read_at": "2026-10-13",
+      "finding": "Documents /auth as an authentication-method dialog; MCP auth concerns MCP servers."
+    }
+  ],
+  "not_performed": [
+    "Gemini CLI startup/help/model prompt",
+    "provider or model request",
+    "sign-in/sign-out/consent",
+    "credential/config/keychain reads",
+    "environment secret inspection"
+  ],
+  "decision": "No documented nonprompt nonrequest authentication-status interface found in installed command source and reviewed official pages. Actual authentication remains unknown; do not infer unauthenticated from historical B146 or authenticated from installed package/listing.",
+  "next": "Keep UNKNOWN unless an explicitly authorized status-only interface or separately admitted runtime check becomes available."
+}

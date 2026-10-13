@@ -534,6 +534,26 @@ content is preserved; malformed, edited or retargeted state stops for recovery.
 The rule describes continuation and durable handoff. It creates no watcher or job,
 and sign-ins, consent, payment and action-specific authority keep their own gates.
 
+### Inspect an interrupted wait-rule change
+
+A backup referenced by an unfinished wait-rule operation stays protected from
+routine pruning. Inspect the local recovery record, then use the operation ID
+shown by the command to preview finalization:
+
+```bash
+npx sshlg-skills rules recovery inspect --json
+npx sshlg-skills rules recovery finalize --operation <id> --json
+```
+
+If the preview says `canFinalize: true`, add `--apply` to the second command to
+complete the eligible ownership record and release that operation's backup
+retention. The copy then becomes eligible for normal pruning; finalization does
+not delete it immediately. Unresolved evidence or a held lock stops finalization.
+
+Recovery changes metadata only. It never restores or rewrites host instructions,
+clears locks, or recovers other settings writers. A `complete` record describes
+that operation's recorded outcome; it does not certify the host's current settings.
+
 ### Routes you declare — skills outside the family
 
 The family cannot know what your machine uses for media, data or anything else it
