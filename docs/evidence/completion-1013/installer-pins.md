@@ -58,3 +58,16 @@ all loaders consume the intended payload.
 **Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**
 - task-pipeline — bounded implementation and release wave
 - evidence-docs — external-contract evidence and acceptance limits
+
+## Independent implementation review
+
+Coordinator read source9ef4238 and independently reran the six grouped process
+controls plus the actual installed skills@1.7.2 probe. All passed: `@` is a skill
+filter, `#` carries the ref; the synthetic Git default moved A→B while the pinned
+sequence installed A→B→A→A→A with exact file equality and real Continue directories.
+The CLI bundle hash is72f1805ea4f6c62b0532cb77a9f021e7930bb7ca962f87a3fbf985d1ada5d56d.
+No real host skill or provider was used by that probe. The source is integrated in
+the parent branch; malformed repository-source follow-up, aggregate gate and actual
+published install/readback remain pending. Claude's working native lifecycle is
+retained and explicitly labelled version-following / immutable source NOT_VERIFIED;
+it is not destructively removed merely to assert a stronger contract.

@@ -255,17 +255,26 @@ plugins you disabled or never installed, and family names pointing at another so
 all stay as they are. `--claude-only`, or an `--agent` list without `codex`, skips this
 step. Start a new Codex session afterwards.
 
-**`update` reconciles — it does not only refresh.** It updates every skill that
-is already there, then adds the ones that are not. That second half exists
-because `skills update <id>` is a no-op for a skill installed nowhere: it
-prints `✓ All global skills are up to date` about a skill that does not exist,
-so a member added to the family after your last `install` would never arrive,
-and nothing would say so. Reconciling uses the same agent set `install` does,
-which is why `update` takes `--agent` and `--all` too.
+**Plain skills are reconciled at the release's immutable commits.** Both `install`
+and `update` use the member `commit` fields shipped in `skills.json`, through
+`skills@1.7.2 add <repo>#<40-character-commit>`. The launcher validates the whole
+inventory before starting; missing or malformed pins refuse the run. A pinned add
+replaces existing bytes as well as installing missing skills, so no floating
+`skills update` runs first. Continue copies are restored as real directories with
+`--copy`, including previously installed copies outside the selected default set.
+The selected agent list and shared-store effects still apply.
+
+Claude's native plugin channel follows its marketplace/version lifecycle; immutable
+source selection is **NOT_VERIFIED** for that channel. The launcher states this
+separately from plain-skill commit selection. Neither an immutable argument nor a
+reported version proves installed bytes, native activation or task quality.
 
 Flags: `--no-claude`, `--claude-only`, `--agent a,b`, `--all`, and
 `--bump-pins` — off by default so a checkout stays reproducible; pass it when
 you deliberately want the submodules fast-forwarded to their upstream tips.
+That run still installs the published commit inventory. For the next release, stage
+the reviewed gitlinks and run `node scripts/sync-member-pins.js --write`; the gate
+checks those commit fields against the staged gitlinks.
 The scope flags scope the Claude host's files too: under `--no-claude`, or any
 `--agent` list, neither the routing block in `CLAUDE.md`, nor the hook wiring in
 `settings.json`, nor the runtime copy those hooks execute
@@ -844,13 +853,14 @@ get wrong: one channel per agent, exact agent ids, repeated `--agent` flags, ful
 
 ```
 skills.json                  registry — repos, plugin ids, skill names, pins
-skills/*                     the nine skill packs as pinned git submodules
+skills/*                     the eleven skill packs as pinned git submodules
 bin/sshlg-skills.js          the launcher (install / update / routers / config / hooks /
                              injectors / conflicts / list / agents)
 lib/routers-registry.js      the fifteen routers — text, table row and required members, in one entry
 lib/routers.js               block parsing and rendering; touches no file, by construction
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js
-lib/plan.js                  the argv handed to the skills CLI — one builder for install and update
+lib/plan.js                  shared skills-CLI argv and Continue copy grouping
+lib/installer-pins.js        production immutable member admission and pinned add plan
 lib/codexplugins.js          Codex's native plugins, moved through Codex's own CLI and read back
 lib/inventory.js             the family's map — entry points, not a catalogue
 lib/conflicts.js             installed skills on a router's ground — candidates, not offenders
