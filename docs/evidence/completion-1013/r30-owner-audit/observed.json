@@ -1,0 +1,248 @@
+{
+  "schema": "owner-board-replay/1",
+  "scope": "real structural validator, existing-row plants; no whole-suite acceptance",
+  "rows": [
+    {
+      "owner": "agent-sync",
+      "sha": "3dbafd82eb635d8e79b65ddc0c3d1fd8205936db",
+      "remote": "git@github.com:ssheleg/agent-sync.git",
+      "cases": [
+        {
+          "kind": "baseline",
+          "exit_code": 0,
+          "elapsed_seconds": 60.643,
+          "output": "note: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nPASS: agent-sync v1.22.2 \u2014 all checks green\n"
+        },
+        {
+          "kind": "duplicate",
+          "exit_code": 0,
+          "elapsed_seconds": 58.591,
+          "output": "note: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nPASS: agent-sync v1.22.2 \u2014 all checks green\n"
+        },
+        {
+          "kind": "width",
+          "exit_code": 0,
+          "elapsed_seconds": 61.402,
+          "board_sha256": "93b655f578fc12fe1a6f668bdeeb547475805bd1a2d94afc48d5963e4b9e87ac",
+          "other_tracked_changes": false,
+          "output": "note: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nPASS: agent-sync v1.22.2 \u2014 all checks green\n"
+        }
+      ],
+      "plant_line": 18,
+      "plant_id": "AS-24",
+      "board_sha256": "766889156431458484823da50ceb16bad43eee6a0ae413381eeeece65f33bdfa"
+    },
+    {
+      "owner": "make-skill",
+      "sha": "78d67651611f50e2af531ab04916e680c2a2680d",
+      "remote": "git@github.com:ssheleg/make-skill.git",
+      "cases": [
+        {
+          "kind": "baseline",
+          "exit_code": 0,
+          "elapsed_seconds": 0.141,
+          "board_sha256": "ddebf0da995b4be6a32d48f264778396f693d554c18c5164bdf579072facf51a",
+          "other_tracked_changes": false,
+          "output": "  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nPASS: make-skill structure valid (2 cursor rule(s))\nresidue: this run left nothing \u2014 0 temp tree(s) created, 0 removed\n"
+        },
+        {
+          "kind": "duplicate",
+          "exit_code": 0,
+          "elapsed_seconds": 0.118,
+          "board_sha256": "3c45c999732f451f22fc3d00103c11f21f0d23f905fb78e5ca9db223d1fa35d1",
+          "other_tracked_changes": false,
+          "output": "  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nPASS: make-skill structure valid (2 cursor rule(s))\nresidue: this run left nothing \u2014 0 temp tree(s) created, 0 removed\n"
+        },
+        {
+          "kind": "width",
+          "exit_code": 0,
+          "elapsed_seconds": 0.11,
+          "board_sha256": "1caf23577337e82b55e79cba8d56ad52c6065788012e352c29602d1ef9b99a29",
+          "other_tracked_changes": false,
+          "output": "  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nPASS: make-skill structure valid (2 cursor rule(s))\nresidue: this run left nothing \u2014 0 temp tree(s) created, 0 removed\n"
+        }
+      ],
+      "plant_line": 23,
+      "plant_id": "MS-01",
+      "board_sha256": "ddebf0da995b4be6a32d48f264778396f693d554c18c5164bdf579072facf51a"
+    },
+    {
+      "owner": "sheleg-design-skill",
+      "sha": "678fe483eea128be0125b033f442934f1ece7c32",
+      "remote": "git@github.com:ssheleg/sheleg-design-skill.git",
+      "cases": [
+        {
+          "kind": "baseline",
+          "exit_code": 0,
+          "elapsed_seconds": 1.09,
+          "board_sha256": "ebd8d2bef22758bfb1944bb50b334e6dcb45bc1ab59f9d8968d91dce9d907e22",
+          "other_tracked_changes": false,
+          "output": "  component classes: 2 unanswered across 33 packs (pinned at most 2)\n  token population: --accent in 35 of 39 layers (babylove, chorus, field-notes, orchard name it otherwise), 26 carry an @role non-text colour\n  token-layer bands: 17 declaration(s) name a banded element, all inside their band\n  confined tokens: 93 base-declaring table(s), 0 row measured against a surface it is confined away from\n  T1 carriers: 12 phrase(s) present, description 964/1024 chars\n  run stamps: 87 rows, 35 unrecorded (preamble says 35)\n  retirement window: CLOSED (1 of 5 unrecorded) \u2014 the 'has not fired in five run stamps' trigger is UNAVAILABLE\n    blind stamps: 2026-08-25\n  plant shape: 78 plant(s), every one names the check it exercises\n  gate hygiene: 5 module(s), no shadowed top-level name\n  reduce coverage: 39 layers, 172 duration(s) examined, 0 silent, 6 kept with a reason, 2 promise a component-layer stop\n  prescribed tokens: 39 packs, 0 dangling (1 declared exemption)\n  scrub exception: 4 of 5 pack(s) uncarved (pinned at most 4)\n  slop markers: 49 rows, 20 lint rules, 20 implemented\n  director record: 16 template fields, validator and doctrine agree\n  ADA rubric: 25 items, profiles product 15 / ad 8\n  figma contract: 10 scope rows, 2 tiers, 2 tier count(s) stated beside Figma outside the home\n  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\n  Contents lists: 53 bundle references over 100 lines, every list derived from its own headings\n  contract split: 6 core / 33 widened of 39 packs (core: awning, briefing-room, editorial-luxury, instrument-console, orchard, workbench)\n  release register: 101 versions, 105 tags, 3 declared untagged (1.5.0, 1.28.0, 1.30.0)\nOK (6654 checks)\n"
+        },
+        {
+          "kind": "duplicate",
+          "exit_code": 0,
+          "elapsed_seconds": 1.539,
+          "board_sha256": "4d9b0d33ecba9f9c39f57ccf42e49055b486a2b825417293b9fdc9455e19d212",
+          "other_tracked_changes": false,
+          "output": "  component classes: 2 unanswered across 33 packs (pinned at most 2)\n  token population: --accent in 35 of 39 layers (babylove, chorus, field-notes, orchard name it otherwise), 26 carry an @role non-text colour\n  token-layer bands: 17 declaration(s) name a banded element, all inside their band\n  confined tokens: 93 base-declaring table(s), 0 row measured against a surface it is confined away from\n  T1 carriers: 12 phrase(s) present, description 964/1024 chars\n  run stamps: 87 rows, 35 unrecorded (preamble says 35)\n  retirement window: CLOSED (1 of 5 unrecorded) \u2014 the 'has not fired in five run stamps' trigger is UNAVAILABLE\n    blind stamps: 2026-08-25\n  plant shape: 78 plant(s), every one names the check it exercises\n  gate hygiene: 5 module(s), no shadowed top-level name\n  reduce coverage: 39 layers, 172 duration(s) examined, 0 silent, 6 kept with a reason, 2 promise a component-layer stop\n  prescribed tokens: 39 packs, 0 dangling (1 declared exemption)\n  scrub exception: 4 of 5 pack(s) uncarved (pinned at most 4)\n  slop markers: 49 rows, 20 lint rules, 20 implemented\n  director record: 16 template fields, validator and doctrine agree\n  ADA rubric: 25 items, profiles product 15 / ad 8\n  figma contract: 10 scope rows, 2 tiers, 2 tier count(s) stated beside Figma outside the home\n  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\n  Contents lists: 53 bundle references over 100 lines, every list derived from its own headings\n  contract split: 6 core / 33 widened of 39 packs (core: awning, briefing-room, editorial-luxury, instrument-console, orchard, workbench)\n  release register: 101 versions, 105 tags, 3 declared untagged (1.5.0, 1.28.0, 1.30.0)\nOK (6655 checks)\n"
+        },
+        {
+          "kind": "width",
+          "exit_code": 1,
+          "elapsed_seconds": 1.25,
+          "board_sha256": "a0a660f1698ffb660f39af13c78dc289828df08d6320abc076838b19171ae1c1",
+          "other_tracked_changes": false,
+          "output": "  component classes: 2 unanswered across 33 packs (pinned at most 2)\n  token population: --accent in 35 of 39 layers (babylove, chorus, field-notes, orchard name it otherwise), 26 carry an @role non-text colour\n  token-layer bands: 17 declaration(s) name a banded element, all inside their band\n  confined tokens: 93 base-declaring table(s), 0 row measured against a surface it is confined away from\n  T1 carriers: 12 phrase(s) present, description 964/1024 chars\n  run stamps: 87 rows, 35 unrecorded (preamble says 35)\n  retirement window: CLOSED (1 of 5 unrecorded) \u2014 the 'has not fired in five run stamps' trigger is UNAVAILABLE\n    blind stamps: 2026-08-25\n  plant shape: 78 plant(s), every one names the check it exercises\n  gate hygiene: 5 module(s), no shadowed top-level name\n  reduce coverage: 39 layers, 172 duration(s) examined, 0 silent, 6 kept with a reason, 2 promise a component-layer stop\n  prescribed tokens: 39 packs, 0 dangling (1 declared exemption)\n  scrub exception: 4 of 5 pack(s) uncarved (pinned at most 4)\n  slop markers: 49 rows, 20 lint rules, 20 implemented\n  director record: 16 template fields, validator and doctrine agree\n  ADA rubric: 25 items, profiles product 15 / ad 8\n  figma contract: 10 scope rows, 2 tiers, 2 tier count(s) stated beside Figma outside the home\n  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nFAIL: docs/evidence/backlog.md:17: row B-001 has 6 cells and its header declares 5. An unescaped `|` inside the row shifts every cell after it, so the status and priority columns come back holding prose -- escape it as `\\|`\n"
+        }
+      ],
+      "plant_line": 17,
+      "plant_id": "B-001",
+      "board_sha256": "ebd8d2bef22758bfb1944bb50b334e6dcb45bc1ab59f9d8968d91dce9d907e22"
+    },
+    {
+      "owner": "sheleg-dev",
+      "sha": "8862fae9a826263f8109626ca257f81c7c43ac86",
+      "remote": "git@github.com:ssheleg/sheleg-dev.git",
+      "cases": [
+        {
+          "kind": "baseline",
+          "exit_code": 0,
+          "elapsed_seconds": 0.305,
+          "board_sha256": "d7520390891bc6206009b4fb022251eb455b69a26f5a5c6d14b82856fab832c8",
+          "other_tracked_changes": false,
+          "output": "  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nOK: sheleg-dev structurally valid (28 checks, 7 skill(s), v0.13.4)\n"
+        },
+        {
+          "kind": "duplicate",
+          "exit_code": 0,
+          "elapsed_seconds": 0.234,
+          "board_sha256": "50ca785f731d99b01e6e0769850b224e4910b5d05ab70ed8ae5a1d482a2256d1",
+          "other_tracked_changes": false,
+          "output": "  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nOK: sheleg-dev structurally valid (28 checks, 7 skill(s), v0.13.4)\n"
+        },
+        {
+          "kind": "width",
+          "exit_code": 0,
+          "elapsed_seconds": 0.243,
+          "board_sha256": "3c5bc30bff7dddc5b9f6f3b81bb062997d0b4dfe6d54f7a79e8164c244ebfb9e",
+          "other_tracked_changes": false,
+          "output": "  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nOK: sheleg-dev structurally valid (28 checks, 7 skill(s), v0.13.4)\n"
+        }
+      ],
+      "plant_line": 18,
+      "plant_id": "B-79",
+      "board_sha256": "d7520390891bc6206009b4fb022251eb455b69a26f5a5c6d14b82856fab832c8"
+    },
+    {
+      "owner": "super-ux",
+      "sha": "f0261f68c1a7222508bd984dc7bac63805dbb76b",
+      "remote": "git@github.com:ssheleg/super-ux.git",
+      "cases": [
+        {
+          "kind": "baseline",
+          "exit_code": 0,
+          "elapsed_seconds": 0.835,
+          "board_sha256": "120a421210f8caf573a6b81b3f00672d15d2feaa18c191aeae5ee0013cd9495f",
+          "other_tracked_changes": false,
+          "output": "  unlooked: docs/brand/facts.md `agents reachable via the skills CLI` \u2014 the vercel-labs/skills agent registry is an external list, and no command in this repository returns it\n  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nOK (5476 checks)\n"
+        },
+        {
+          "kind": "duplicate",
+          "exit_code": 1,
+          "elapsed_seconds": 0.877,
+          "board_sha256": "25890d33257930d29c39d19f6fd649ddff92638b1a522cd5c2587bc69becde45",
+          "other_tracked_changes": false,
+          "output": "  unlooked: docs/brand/facts.md `agents reachable via the skills CLI` \u2014 the vercel-labs/skills agent registry is an external list, and no command in this repository returns it\n  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nFAIL: docs/evidence/backlog.md: B-033 appears 2 times -- a register whose ids are not unique cannot be cited, because 'closed in B-033' resolves to more than one row\nFAIL: docs/brand/facts.md: `repo validator checks` records '5476' and its own Source command returns '' -- `python3 test/validate.py | sed -n 's/^OK (\\([0-9]*\\) checks)$/\\1/p'`\n2 failure(s) out of 5478 checks\n"
+        },
+        {
+          "kind": "width",
+          "exit_code": 1,
+          "elapsed_seconds": 0.991,
+          "board_sha256": "2f5ecf6ded91a537c603ab0475062d65f9e6aa2bd1d60e71e3d86d8f1f87dc51",
+          "other_tracked_changes": false,
+          "output": "  unlooked: docs/brand/facts.md `agents reachable via the skills CLI` \u2014 the vercel-labs/skills agent registry is an external list, and no command in this repository returns it\n  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nFAIL: docs/evidence/backlog.md:15: B-033 has 6 cells against the 5 its header declares -- an unescaped `|` inside a cell splits the row before the backticks are read, and every column after it shifts\nFAIL: docs/brand/facts.md: `repo validator checks` records '5476' and its own Source command returns '' -- `python3 test/validate.py | sed -n 's/^OK (\\([0-9]*\\) checks)$/\\1/p'`\n2 failure(s) out of 5476 checks\n"
+        }
+      ],
+      "plant_line": 15,
+      "plant_id": "B-033",
+      "board_sha256": "120a421210f8caf573a6b81b3f00672d15d2feaa18c191aeae5ee0013cd9495f"
+    },
+    {
+      "owner": "task-pipeline",
+      "sha": "52fa75dbe1a3d169c02c612516b30028929559f9",
+      "remote": "git@github.com:ssheleg/task-pipeline.git",
+      "cases": [
+        {
+          "kind": "baseline",
+          "exit_code": 0,
+          "elapsed_seconds": 16.314,
+          "board_sha256": "ad4f297f163b6036148751122b17086ab18c24defb346939dafa3a22234f0e30",
+          "other_tracked_changes": false,
+          "output": "PASS: task-pipeline structure valid\n  claim registry \u2014 negative self-tests: dormant (truth 438) \u00b7 anchor-census fixtures: agrees x1 (truth 48) \u00b7 anchor-census fixtures watched firing: agrees x1 (truth 27) \u00b7 rules in learned.md: dormant (truth 32) \u00b7 dated eval runs: agrees x1 (truth 4) \u00b7 standing instructions: dormant (truth 8) \u00b7 evidence canons: agrees x4 (truth 10) \u00b7 rotation axes: dormant (truth 6) \u00b7 gates.md's own axes: agrees x7 (truth 3) \u00b7 cold-trigger surfaces: dormant (truth 16) \u00b7 description budget: agrees x1 (truth 890) \u00b7 description headroom: agrees x1 (truth 134) \u00b7 registered claim classes: agrees x1 (truth 15) \u00b7 reference files: agrees x4 (truth 40) \u00b7 reference files (totalising): agrees x1 (truth 40)\n  learned.md \u2014 rules 32 \u00b7 rules with an incident 20 \u00b7 incident words 1962 \u00b7 binding rows 17  (disclosure \u2014 no floor, no target)\n  negative-test anchors: 438 plants \u00b7 838 needles read off disk \u00b7 1 pinned to a value a release can move \u00b7 1 declared undrivable \u00b7 4 can decline to run \u00b7 52 yield no text needle (23 shell only, no python body, 12 a python body that reads no file, 9 a whole-file byte comparison, 6 provenance stopped at a helper function, 2 a JSON or dict key, which raises when it goes stale)  (disclosure \u2014 no floor, no target)\n  verification: 149 shipped REQ \u00b7 149 never confirmed by a person  (disclosure \u2014 no floor, no target)\n  exposure: 149 unverified \u00b7 never checked \u00b7 20 releases carry one\n      REQ-001  references/adoption.md \u2014 doctrine + greenfield walkthrough   v1.9.0\n      REQ-002  The docgate floor comments state each floor's kind \u2014 PROPF   v1.9.0\n      REQ-003  Trigger vocabulary widened (RU+EN work verbs) and an expli   v1.9.0\n      REQ-004  Evals match the intended behaviour: exclusions kept, a new   v1.9.0\n      REQ-005  Global CLAUDE.md carries the routing rule with D2's bounda   v1.9.0\n      REQ-006  agent-sync binding patched: config example valid against p   v1.9.0\n      REQ-007  companion-skills.md states the agent-sync \u2265 1.3.0 floor fo   v1.9.0\n      REQ-008  This repo adopts its own doc track: docs/DOCMAP.md recordi   v1.9.0\n      \u2026 and 141 more \u2014 the full list is `/task-pipeline checkup`, which prints all of them\n  unlooked: 3\n    \u00b7 coordination: 15 guarded file pattern(s) in .claude/agent-sync.json, 4 version surface(s) discovered\n    \u00b7 backlog citations: 9 span(s) checked against a quoted needle, 6 single-line citation(s) unanchored \u2014 one line carries no phrase to compare\n    \u00b7 routed triggers \u2014 no sshlg-skills umbrella above this checkout\n"
+        },
+        {
+          "kind": "duplicate",
+          "exit_code": 1,
+          "elapsed_seconds": 15.352,
+          "board_sha256": "42f5ba0943deb07136d2a38b80e2b94e3c5d794730e17cf1c40d670463dd9ba5",
+          "other_tracked_changes": false,
+          "output": "FAIL: task-pipeline structure invalid\n - docs/evidence/backlog.md:30: id B-106 identifies a second row (the first is line 29). Every citation of B-106 \u2014 a run stamp, a CHANGELOG range, a sibling board \u2014 now names two different findings. Give the newer row the next free id.\n"
+        },
+        {
+          "kind": "width",
+          "exit_code": 1,
+          "elapsed_seconds": 15.372,
+          "board_sha256": "800435028e6226c800eb0fc3d4a073a30781d84eff46857d917d283cab4b2ec7",
+          "other_tracked_changes": false,
+          "output": "FAIL: task-pipeline structure invalid\n - docs/evidence/backlog.md: row B-106 has a non-numeric sev/blast/age/prio \u2014 the four are what make the ranking checkable, and prose in any of them makes it an opinion again\n"
+        },
+        {
+          "kind": "tail-width",
+          "exit_code": 0,
+          "elapsed_seconds": 12.05,
+          "board_sha256": "f6428709668894a2e746c91988c4396597c3d98d28e66a55abb5e6f90e510e52",
+          "other_tracked_changes": false,
+          "output": "PASS: task-pipeline structure valid\n  claim registry \u2014 negative self-tests: dormant (truth 438) \u00b7 anchor-census fixtures: agrees x1 (truth 48) \u00b7 anchor-census fixtures watched firing: agrees x1 (truth 27) \u00b7 rules in learned.md: dormant (truth 32) \u00b7 dated eval runs: agrees x1 (truth 4) \u00b7 standing instructions: dormant (truth 8) \u00b7 evidence canons: agrees x4 (truth 10) \u00b7 rotation axes: dormant (truth 6) \u00b7 gates.md's own axes: agrees x7 (truth 3) \u00b7 cold-trigger surfaces: dormant (truth 16) \u00b7 description budget: agrees x1 (truth 890) \u00b7 description headroom: agrees x1 (truth 134) \u00b7 registered claim classes: agrees x1 (truth 15) \u00b7 reference files: agrees x4 (truth 40) \u00b7 reference files (totalising): agrees x1 (truth 40)\n  learned.md \u2014 rules 32 \u00b7 rules with an incident 20 \u00b7 incident words 1962 \u00b7 binding rows 17  (disclosure \u2014 no floor, no target)\n  negative-test anchors: 438 plants \u00b7 838 needles read off disk \u00b7 1 pinned to a value a release can move \u00b7 1 declared undrivable \u00b7 4 can decline to run \u00b7 52 yield no text needle (23 shell only, no python body, 12 a python body that reads no file, 9 a whole-file byte comparison, 6 provenance stopped at a helper function, 2 a JSON or dict key, which raises when it goes stale)  (disclosure \u2014 no floor, no target)\n  verification: 149 shipped REQ \u00b7 149 never confirmed by a person  (disclosure \u2014 no floor, no target)\n  exposure: 149 unverified \u00b7 never checked \u00b7 20 releases carry one\n      REQ-001  references/adoption.md \u2014 doctrine + greenfield walkthrough   v1.9.0\n      REQ-002  The docgate floor comments state each floor's kind \u2014 PROPF   v1.9.0\n      REQ-003  Trigger vocabulary widened (RU+EN work verbs) and an expli   v1.9.0\n      REQ-004  Evals match the intended behaviour: exclusions kept, a new   v1.9.0\n      REQ-005  Global CLAUDE.md carries the routing rule with D2's bounda   v1.9.0\n      REQ-006  agent-sync binding patched: config example valid against p   v1.9.0\n      REQ-007  companion-skills.md states the agent-sync \u2265 1.3.0 floor fo   v1.9.0\n      REQ-008  This repo adopts its own doc track: docs/DOCMAP.md recordi   v1.9.0\n      \u2026 and 141 more \u2014 the full list is `/task-pipeline checkup`, which prints all of them\n  unlooked: 3\n    \u00b7 coordination: 15 guarded file pattern(s) in .claude/agent-sync.json, 4 version surface(s) discovered\n    \u00b7 backlog citations: 9 span(s) checked against a quoted needle, 6 single-line citation(s) unanchored \u2014 one line carries no phrase to compare\n    \u00b7 routed triggers \u2014 no sshlg-skills umbrella above this checkout\n"
+        }
+      ],
+      "plant_line": 29,
+      "plant_id": "B-106",
+      "board_sha256": "ad4f297f163b6036148751122b17086ab18c24defb346939dafa3a22234f0e30"
+    },
+    {
+      "owner": "seo-aeo-audit",
+      "sha": "dd5319a8935d60d0db7b3649b528d31d0b9ac45f",
+      "remote": "git@github.com:ssheleg/seo-aeo-audit.git",
+      "cases": [
+        {
+          "kind": "baseline",
+          "exit_code": 0,
+          "elapsed_seconds": 0.39,
+          "board_sha256": "efba184bcbfcec784b878f44d169adcb7ee9bb863b66bd3d2d40ec328b33d590",
+          "other_tracked_changes": false,
+          "output": "  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nresidue: this run left nothing \u2014 0 temp tree(s) created, 0 removed\nPASS: seo-aeo-audit structure valid (1 cursor rule(s), 25 reference(s), SKILL.md body 4685/5000 tokens (tiktoken:cl100k_base) / 325/500 lines)\n"
+        },
+        {
+          "kind": "duplicate",
+          "exit_code": 0,
+          "elapsed_seconds": 0.437,
+          "board_sha256": "e5c9cdc0bafda6e3abd4478b6cb7b5861fe3c0185709137729cce687564a95e1",
+          "other_tracked_changes": false,
+          "output": "  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nresidue: this run left nothing \u2014 0 temp tree(s) created, 0 removed\nPASS: seo-aeo-audit structure valid (1 cursor rule(s), 25 reference(s), SKILL.md body 4685/5000 tokens (tiktoken:cl100k_base) / 325/500 lines)\n"
+        },
+        {
+          "kind": "width",
+          "exit_code": 0,
+          "elapsed_seconds": 0.774,
+          "board_sha256": "b23a8d6bf163daf67f7fe1b4c87e60415009a19319a7d73f8540f5953837d5b7",
+          "other_tracked_changes": false,
+          "output": "  unlooked: routed triggers \u2014 no sshlg-skills umbrella above this checkout\nresidue: this run left nothing \u2014 0 temp tree(s) created, 0 removed\nPASS: seo-aeo-audit structure valid (1 cursor rule(s), 25 reference(s), SKILL.md body 4685/5000 tokens (tiktoken:cl100k_base) / 325/500 lines)\n"
+        }
+      ],
+      "plant_line": 24,
+      "plant_id": "B-35",
+      "board_sha256": "efba184bcbfcec784b878f44d169adcb7ee9bb863b66bd3d2d40ec328b33d590"
+    }
+  ]
+}
