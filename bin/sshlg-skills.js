@@ -310,7 +310,7 @@ Usage:
   npx sshlg-skills visibility marks [--init --show <owner/repo,…> [--replace] [--apply]]
                                                       # this machine's pack marks
                                                       # (~/.sshlg-skills/pack-marks.json)
-  npx sshlg-skills domains [--apply | --revert] [--root <dir>] [--no-usage]
+  npx sshlg-skills rules [--apply] [--agent codex|gemini|pi|cursor] [--claude-only]\n                                                      # opt-in wait rule; preview unless --apply\n  npx sshlg-skills domains [--apply | --revert] [--root <dir>] [--no-usage]
   npx sshlg-skills domains --enable|--disable <member> [--project <dir>]
                                                       # xr-dev, web3d-dev, telegram-dev; hook-bearing members stay global
                                                       # load only in projects that call for them
@@ -401,7 +401,7 @@ function planInstall(f) {
       'refresh the managed routing block (its own consent and dry-run rules apply)',
       { mode: 'install' }));
   }
-  return opres.buildPlan(steps);
+  return attachWaitPlan(steps, f);
 }
 
 /** Plugin registries as sets, or null when unreadable — the input `plan.pluginUpdatePlan` needs. */
@@ -469,7 +469,7 @@ function planUpdate(f) {
       : 'domain members — `domains --apply` never ran here: one line if a project calls for one, nothing written',
     { file: rec }));
   }
-  return opres.buildPlan(steps);
+  return attachWaitPlan(steps, f);
 }
 
 /** Dry-run IS the render: the complete receipt, a typed result, zero mutations. */
@@ -521,6 +521,7 @@ function cmdInstall(f) {
     }
     log('\n(restart Claude Code to apply the plugins)');
   }
+  ok = executeWaitPlan(planned) && ok;
   ok = refreshBlock(f, 'install') && ok;
   printUpdateModel('install');
   sourceContract(planned);
@@ -629,6 +630,7 @@ function cmdUpdate(f) {
   }
   // `update`, never `install`: a machine that has no block has not consented
   // to one, and an update is not the moment to ask.
+  ok = executeWaitPlan(planned) && ok;
   ok = refreshBlock(f, 'update') && ok;
 
   // The wired copy the hooks actually EXECUTE. Until v0.47.0 this was the one thing
@@ -1581,6 +1583,68 @@ function cmdRouters(f) {
  * Kept out of `parseFlags` on purpose: its arguments are positional, and that
  * parser exits on anything that is not a known flag.
  */
+const WAIT_PLANS = new WeakMap();
+function waitPlan(f, options = {}) {
+  const scoped = scopedRoutingTargets(f);
+  return require('../lib/wait-rules.js').plan(process.env.HOME || os.homedir(), {
+    hostTargets: scoped.hostTargets, cursor: scoped.includeCursor, ...options,
+  });
+}
+function attachWaitPlan(steps, f, options = {}) {
+  if (f.member) return opres.buildPlan(steps);
+  const pending = waitPlan(f, { automatic: true, ...options });
+  steps.push(opres.step('working-rule', 'home', 'refresh only previously applied wait-rule profiles', {
+    changes: pending.rows.map(r => `${r.agent}: ${r.action} (${r.file})`),
+  }));
+  const planned = opres.buildPlan(steps);
+  WAIT_PLANS.set(planned, pending);
+  return planned;
+}
+function executeWaitPlan(planned) {
+  const pending = WAIT_PLANS.get(planned);
+  if (!pending) return true;
+  const result = require('../lib/wait-rules.js').execute(pending);
+  for (const r of result.results) log(`rules.wait: ${r.agent} ${r.action}${r.error ? ': ' + r.error : ''}`);
+  return result.ok;
+}
+function parseRuleFlags(args) {
+  const f = { claude: true, agents: [] };
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    if (a === '--apply') f.apply = true;
+    else if (a === '--dry-run') f.dryRun = true;
+    else if (a === '--no-claude') f.claude = false;
+    else if (a === '--claude-only') f.claudeOnly = true;
+    else if (a === '--agent') {
+      const value = args[++i];
+      if (!value || value.startsWith('-')) throw Error('--agent needs codex, gemini, pi or cursor');
+      const names = value.split(',').map(s => s.trim());
+      if (names.some(n => !['codex', 'gemini', 'pi', 'cursor'].includes(n))) throw Error('unsupported wait-rule host; Claude Code uses --claude-only');
+      f.agents.push(...names);
+    } else throw Error(`unsupported rules argument: ${a}`);
+  }
+  if (f.claudeOnly && (!f.claude || f.agents.length)) throw Error('contradictory rules host scope');
+  return f;
+}
+function cmdRules(f) {
+  if (f.member) { log('rules: member-only scope cannot apply a family working rule'); return false; }
+  try {
+    const pending = waitPlan(f);
+    log(`rules.wait: ${pending.policy.enabled ? 'on' : 'off'}; ${f.apply && !f.dryRun ? 'apply' : 'preview'}`);
+    for (const r of pending.rows) {
+      log(`  ${r.agent}: ${r.action} — ${r.file}`);
+      if (['write', 'remove'].includes(r.action)) {
+        if (r.owned) log(r.owned.segment.split('\n').map(line => '- ' + line).join('\n'));
+        if (r.segment) log(r.segment.split('\n').map(line => '+ ' + line).join('\n'));
+      }
+    }
+    if (!f.apply || f.dryRun) return true;
+    const result = require('../lib/wait-rules.js').execute(pending);
+    for (const r of result.results) if (r.action === 'failed') log(`rules.wait: ${r.agent} refused: ${r.error}; inspect ${require('../lib/wait-rules.js').receiptPath(pending.home)}`);
+    return result.ok;
+  } catch (e) { log(`rules.wait: refused: ${e.message}`); return false; }
+}
+
 function cmdConfig(argv) {
   const registry = require('../lib/routers-registry.js');
   const configLib = require('../lib/config.js');
@@ -1594,6 +1658,8 @@ function cmdConfig(argv) {
       log(`  routers.${name.padEnd(16)} ${configLib.isEnabled(config, name) ? 'on' : 'off'}`);
     }
     log(`  update.auto${' '.repeat(11)} ${configLib.autoUpdateEnabled(config) ? 'on' : 'off'}`);
+    try { log(`  rules.wait             ${require('../lib/wait-rule-policy.js').read(home).enabled ? 'on' : 'off'}`); }
+    catch (e) { log(`  rules.wait             unknown — ${e.message}`); return 2; }
     const declared = configLib.externalGet(config);
     const names = Object.keys(declared).sort();
     log(names.length ? '\nОбъявленные маршруты (не участники семьи):' : '\nОбъявленных маршрутов нет.');
@@ -1609,6 +1675,7 @@ function cmdConfig(argv) {
     for (const p of packs.showPacks) log(`  visibility.pack.${p}  show`);
     log('\nПоменять:  npx sshlg-skills config set routers.<имя> on|off');
     log('           npx sshlg-skills config set update.auto on|off');
+    log('           npx sshlg-skills config set rules.wait on|off');
     log('           npx sshlg-skills config set routes.external.<имя>.triggers "слово, фраза, …"');
     log('           npx sshlg-skills config set routes.external.<имя>.skill <skill-id>');
     log('           npx sshlg-skills config set routes.external.<имя> off');
@@ -1619,6 +1686,19 @@ function cmdConfig(argv) {
   if (sub !== 'set') {
     log(`config: неизвестная подкоманда "${sub}" — есть list и set`);
     return 2;
+  }
+
+  if (key === 'rules.wait') {
+    if (argv.length !== 3 || !['on', 'off'].includes(value)) {
+      log('config set rules.wait: expected exactly on or off');
+      return 2;
+    }
+    try {
+      require('../lib/wait-rule-policy.js').set(home, value);
+      log(`rules.wait: ${value}; persistent instruction policy recorded.`);
+      log('Preview with `npx sshlg-skills rules`; apply with `rules --apply` and the desired host scope.');
+      return 0;
+    } catch (e) { log(`rules.wait: refused: ${e.message}`); return 2; }
   }
 
   if (key === 'update.auto') {
@@ -3373,7 +3453,7 @@ function planUninstall(f) {
   steps.push(opres.step('prune', 'home', 'remove the Cursor rules file (backup first)',
     { paths: [path.join(os.homedir(), '.cursor', 'rules', cursor.FILENAME)] }));
   steps.push(opres.step('runtime-sync', 'home', 'hooks remove (returns any displaced statusLine)', {}));
-  return opres.buildPlan(steps);
+  return attachWaitPlan(steps, f, { remove: true });
 }
 
 /**
@@ -3392,7 +3472,7 @@ function cmdUninstall(f) {
   const R = require('../lib/routers.js');
   const cursor = require('../lib/cursor.js');
   const home = os.homedir();
-  let ok = true;
+  let ok = executeWaitPlan(planned);
 
   const { removals, kept } = uninstallRemovals();
   log(`\n== Removing family skills from the agent channels ==`);
@@ -3654,6 +3734,10 @@ function main(argv) {
   // Before parseFlags: `config` takes positional arguments, and that parser
   // exits on any token it does not recognise as a flag.
   if (cmd === 'config') return cmdConfig(rest);
+  if (cmd === 'rules') {
+    try { return cmdRules(parseRuleFlags(rest)) ? 0 : 1; }
+    catch (e) { log(`rules: ${e.message}`); return 2; }
+  }
   // Also before parseFlags: `hooks` takes a positional subcommand.
   if (cmd === 'hooks') return cmdHooks(rest) ? 0 : 1;
   if (cmd === 'injectors') { cmdInjectors(); return 0; }

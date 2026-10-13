@@ -22,3 +22,12 @@ This registry holds only family-level labels repeated across repositories.
 
 Retired label: “Where it stops” was proposed for member READMEs but has no
 current source occurrence. It is not a shipped shared label.
+
+## Working-rule CLI strings
+
+| Key | Text (primary) | Location | Scenario | Status |
+|---|---|---|---|---|
+| rules.policy | persistent instruction policy recorded. | bin/sshlg-skills.js | SCN-007 | proposed |
+| rules.preview | preview | bin/sshlg-skills.js | SCN-007 | proposed |
+| rules.apply | apply | bin/sshlg-skills.js | SCN-007 | proposed |
+| rules.refused | rules.wait: refused | bin/sshlg-skills.js | SCN-009 | proposed |
