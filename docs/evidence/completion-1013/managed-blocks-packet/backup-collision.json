@@ -1,0 +1,21 @@
+{
+  "schema": "b174-backup-defect/1",
+  "verdict": "REPRODUCED",
+  "sourceCommit": "bca35fb74e05ca4fafba594ca317664285fe8636",
+  "sourceSha256": "eebd0f6317e338e55d926a0f7103ccc33e364261200240ac6cc5c800ba0d4012",
+  "defaultKeep": 10,
+  "targetAliases": [
+    "~/profiles/a/CLAUDE.md",
+    "~/profiles_a/CLAUDE.md"
+  ],
+  "keys": [
+    "profiles_a_CLAUDE.md",
+    "profiles_a_CLAUDE.md"
+  ],
+  "sameKey": true,
+  "firstBackupSurvives": false,
+  "secondTargetHistoryPrunedFirst": true,
+  "latestForFirstReturnsSecondBytes": true,
+  "targetBytesUnchanged": true,
+  "scope": "Synthetic profile roots; no real-home apply, restore or migration. Frozen old source only."
+}

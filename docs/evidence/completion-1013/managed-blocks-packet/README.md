@@ -140,8 +140,9 @@ separate: a successful read is never an authorization receipt.
 4. **Backup compatibility.** Keep `~/.sshlg-skills/backups/` and the existing flat
    files readable. Introduce a collision-resistant canonical target identity and
    exclusive backup creation before adopting a new layout; explicitly test paths
-   that sanitize to the same key and concurrent same-second copies. These are
-   prospective tests, not claims of reproduced current corruption. Never move,
+   that sanitize to the same key and concurrent same-second copies. The two-profile aliasing case
+   is reproduced in the follow-up below; concurrent creation remains a prospective
+   test, not a claim of reproduced corruption. Never move,
    delete or silently rename legacy machine backups. Readback must match before
    mutation. Private directory 0700, files 0600; failure means no target write.
    Pin every recovery-referenced backup before ordinary pruning can remove it;
@@ -208,3 +209,23 @@ review. Coordinator can adopt this packet without adopting its proposed write AP
 
 Skills used: task-pipeline for task context and delivery order; evidence-docs for
 source binding and explicit distinctions between proposal, observation and proof.
+
+## Read-only follow-up: backup identity collision reproduced
+
+The initial packet identified sanitized-path aliasing as a prospective test.
+The subsequent [frozen-source witness](backup-collision.js) now reproduces it with
+two valid profile roots: `~/profiles/a/CLAUDE.md` and
+`~/profiles_a/CLAUDE.md`. Both map to `profiles_a_CLAUDE.md` in keyFor().
+Using default KEEP=10, one first-profile save plus ten second-profile saves
+deletes the first profile's only backup; latest(first-profile) resolves to the
+second profile's bytes. Both target files remain unchanged by this experiment.
+[backup-collision.json](backup-collision.json) binds the exact source hash and
+observations; the test cleans only its owned synthetic directory.
+
+This is a backup isolation defect, not evidence that the real machine lost data
+or that a restore ran. MB-02 must give new backups an unambiguous canonical target
+identity and make latest/pruning honor it. Legacy ambiguous flat names must not
+be guessed into ownership, cross-pruned or silently restored; preserve them as
+unknown historical candidates. Test same basename in the two roots, default
+retention, concurrent creation and migration compatibility. This packet still
+contains no product fix and does not close B-174.
