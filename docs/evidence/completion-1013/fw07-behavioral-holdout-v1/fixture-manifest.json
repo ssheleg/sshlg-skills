@@ -1,160 +1,164 @@
 {
   "files": {
     "fixtures/q11/README.md": {
-      "sha256": "09cf6504e0210b91be9d206df5daf295f4be5b4133d9a08ffaf589727e8a3358",
-      "bytes": 143
+      "bytes": 143,
+      "sha256": "09cf6504e0210b91be9d206df5daf295f4be5b4133d9a08ffaf589727e8a3358"
     },
     "fixtures/q11/docs/DOCMAP.md": {
-      "sha256": "b6fb7d6dcc0f2507af41bdd0682951ae0b534ea25620f169f395559b0b6bc6f5",
-      "bytes": 96
+      "bytes": 96,
+      "sha256": "b6fb7d6dcc0f2507af41bdd0682951ae0b534ea25620f169f395559b0b6bc6f5"
     },
     "fixtures/q11/docs/brief.md": {
-      "sha256": "a93986b39b774c14658ca937e68fd7efd0145576ea59767efd386ca441b530f1",
-      "bytes": 198
+      "bytes": 198,
+      "sha256": "a93986b39b774c14658ca937e68fd7efd0145576ea59767efd386ca441b530f1"
     },
     "fixtures/q11/docs/decisions.md": {
-      "sha256": "c5ac068e0c2b75bd773b801aaae31fa7c5d9b5a398a84fe74d6d5c87c0b54d64",
-      "bytes": 170
+      "bytes": 170,
+      "sha256": "c5ac068e0c2b75bd773b801aaae31fa7c5d9b5a398a84fe74d6d5c87c0b54d64"
     },
     "fixtures/q11/docs/retro.md": {
-      "sha256": "cd562a26d87f16ba582a2338e778b5e085ef974e1b4b3ec9a989fe12f56374ff",
-      "bytes": 87
+      "bytes": 87,
+      "sha256": "cd562a26d87f16ba582a2338e778b5e085ef974e1b4b3ec9a989fe12f56374ff"
     },
     "fixtures/q24/.task-pipeline/run.md": {
-      "sha256": "c0e435fcdc0c59e3dd3d929012dd881418f3c38ba48bd23464da1b2fed1e48e3",
-      "bytes": 135
+      "bytes": 135,
+      "sha256": "c0e435fcdc0c59e3dd3d929012dd881418f3c38ba48bd23464da1b2fed1e48e3"
     },
     "fixtures/q24/docs/brief.md": {
-      "sha256": "30a598b1a9dee0cf6a20e5f468aeb938d17bde61f6e757dc3da92a18a04ccdd4",
-      "bytes": 219
+      "bytes": 219,
+      "sha256": "30a598b1a9dee0cf6a20e5f468aeb938d17bde61f6e757dc3da92a18a04ccdd4"
     },
     "fixtures/q24/docs/checks.md": {
-      "sha256": "4b9e7e34b8e1000c0ff26351148f86478d38861deee3cb82ae8b6ed5db8f6add",
-      "bytes": 158
+      "bytes": 158,
+      "sha256": "4b9e7e34b8e1000c0ff26351148f86478d38861deee3cb82ae8b6ed5db8f6add"
     },
     "fixtures/q24/docs/ux/context.md": {
-      "sha256": "47324e6ab7b5b8a043a254e53bc6cd55f0e6a82ec8538f8854fe89d5fa0e5b30",
-      "bytes": 221
+      "bytes": 221,
+      "sha256": "47324e6ab7b5b8a043a254e53bc6cd55f0e6a82ec8538f8854fe89d5fa0e5b30"
     },
     "fixtures/q24/docs/ux/scenarios.md": {
-      "sha256": "5f920b4e683e2f4b08d9ba0db93e5cf9ee05e7f09d9b2ad17d8e06cfd6ce94f3",
-      "bytes": 352
+      "bytes": 352,
+      "sha256": "5f920b4e683e2f4b08d9ba0db93e5cf9ee05e7f09d9b2ad17d8e06cfd6ce94f3"
     },
     "fixtures/q37/.task-pipeline/build/wave/task-a.md": {
-      "sha256": "f54d1d84823198243b2cdd2d5149f5bdc39b768e08b6ad9d8cdd389fb9e06894",
-      "bytes": 153
+      "bytes": 153,
+      "sha256": "f54d1d84823198243b2cdd2d5149f5bdc39b768e08b6ad9d8cdd389fb9e06894"
     },
     "fixtures/q37/.task-pipeline/build/wave/task-b.md": {
-      "sha256": "208cb196ef1bae923812fdce6b0eb0c9b7db33c5f71bc8eaf81b5ba48d8512c7",
-      "bytes": 121
+      "bytes": 121,
+      "sha256": "208cb196ef1bae923812fdce6b0eb0c9b7db33c5f71bc8eaf81b5ba48d8512c7"
     },
     "fixtures/q37/.task-pipeline/run.md": {
-      "sha256": "3db910cf8003bfc4b58f4fedf0f99e6c1fa20c0e5b843d69533508bfa4c553ed",
-      "bytes": 132
+      "bytes": 132,
+      "sha256": "3db910cf8003bfc4b58f4fedf0f99e6c1fa20c0e5b843d69533508bfa4c553ed"
     },
     "fixtures/q37/SUMMARY.md": {
-      "sha256": "de465bb1461201976a303a4cc7b4cdaee92dad492dfb4c15c1468e20e937be6b",
-      "bytes": 95
+      "bytes": 95,
+      "sha256": "de465bb1461201976a303a4cc7b4cdaee92dad492dfb4c15c1468e20e937be6b"
     },
     "fixtures/q37/docs/brief.md": {
-      "sha256": "70ba0b08f6a7ac4671f9a81f45827f01c7e2db6d7fe257c001ade3e90387bed2",
-      "bytes": 99
+      "bytes": 99,
+      "sha256": "70ba0b08f6a7ac4671f9a81f45827f01c7e2db6d7fe257c001ade3e90387bed2"
     },
     "fixtures/q37/docs/plan.md": {
-      "sha256": "cd264765f4f0b517399b8f4050e9735e7ee4d515a27e3c0b209133e727f7ca9f",
-      "bytes": 150
+      "bytes": 150,
+      "sha256": "cd264765f4f0b517399b8f4050e9735e7ee4d515a27e3c0b209133e727f7ca9f"
     },
     "fixtures/q42/.task-pipeline/run.md": {
-      "sha256": "d8819b251590cc8df4145b3afd52fda8a995415dda635e318f2fa414b4610583",
-      "bytes": 144
+      "bytes": 144,
+      "sha256": "d8819b251590cc8df4145b3afd52fda8a995415dda635e318f2fa414b4610583"
     },
     "fixtures/q42/docs/authority.md": {
-      "sha256": "3275673ab95b451ff2659897c22db480c31b14a4cf319fbacafb4654cdac84f0",
-      "bytes": 135
+      "bytes": 135,
+      "sha256": "3275673ab95b451ff2659897c22db480c31b14a4cf319fbacafb4654cdac84f0"
     },
     "fixtures/q42/docs/checks.md": {
-      "sha256": "f1c324faf32ec1a0c5dda72a105634b76d7ecc2fd9d95b75f78c2f3bf5775207",
-      "bytes": 214
+      "bytes": 214,
+      "sha256": "f1c324faf32ec1a0c5dda72a105634b76d7ecc2fd9d95b75f78c2f3bf5775207"
     },
     "fixtures/q42/docs/deploy.md": {
-      "sha256": "92f88878ab21ef223991bfe1b798f59a366dd4230278758eff8f306c37894619",
-      "bytes": 157
+      "bytes": 157,
+      "sha256": "92f88878ab21ef223991bfe1b798f59a366dd4230278758eff8f306c37894619"
     },
     "fixtures/q42/docs/requirements.md": {
-      "sha256": "ebbc1df812491dedf9ed31aaac46810272faafdc36812e18d6d269842ac5a609",
-      "bytes": 109
+      "bytes": 109,
+      "sha256": "ebbc1df812491dedf9ed31aaac46810272faafdc36812e18d6d269842ac5a609"
     },
     "fixtures/q58/.task-pipeline/run.md": {
-      "sha256": "da50465e059a6db1cd763de23d72a9a1e50e910917fd99ef9596ce27e347666c",
-      "bytes": 142
+      "bytes": 142,
+      "sha256": "da50465e059a6db1cd763de23d72a9a1e50e910917fd99ef9596ce27e347666c"
     },
     "fixtures/q58/docs/brief.md": {
-      "sha256": "d6e5d92670b767b7c795ad84c1aeb5701de5462a42591c4ed688a37513111ee2",
-      "bytes": 156
+      "bytes": 156,
+      "sha256": "d6e5d92670b767b7c795ad84c1aeb5701de5462a42591c4ed688a37513111ee2"
     },
     "fixtures/q58/docs/carry-over.md": {
-      "sha256": "9c2abfbb50050611eaa8eef5b76976fd18044b3af8bb27142f3446072bf402af",
-      "bytes": 69
+      "bytes": 69,
+      "sha256": "9c2abfbb50050611eaa8eef5b76976fd18044b3af8bb27142f3446072bf402af"
     },
     "fixtures/q58/docs/residue.md": {
-      "sha256": "a4c649d7bb9d9a362b10286a46ad000ece65e155d050fb0b449eacf9ab27b50a",
-      "bytes": 151
+      "bytes": 151,
+      "sha256": "a4c649d7bb9d9a362b10286a46ad000ece65e155d050fb0b449eacf9ab27b50a"
     },
     "fixtures/q58/docs/retro.md": {
-      "sha256": "b1001a217e2c7594328017ac23e2d84c5c1c681072782aa7f31891ac18a0bc47",
-      "bytes": 93
+      "bytes": 93,
+      "sha256": "b1001a217e2c7594328017ac23e2d84c5c1c681072782aa7f31891ac18a0bc47"
     },
     "fixtures/q58/docs/verification.md": {
-      "sha256": "9f01cad76647ed6e8c517247ee2d5b5f8792a9ff61f0cfb991446b4f092690a4",
-      "bytes": 154
+      "bytes": 154,
+      "sha256": "9f01cad76647ed6e8c517247ee2d5b5f8792a9ff61f0cfb991446b4f092690a4"
     },
     "fixtures/q63/.task-pipeline/run.md": {
-      "sha256": "90e12eb2610c1508ea7b34a522d43a58356e3826c53512d95c51fa99b8d5919c",
-      "bytes": 448
+      "bytes": 448,
+      "sha256": "90e12eb2610c1508ea7b34a522d43a58356e3826c53512d95c51fa99b8d5919c"
     },
     "fixtures/q63/docs/brief.md": {
-      "sha256": "19bacaca39621096ae2faf6537bc7e8f229b740a5ea0bfc6ee227ed16ca6fd15",
-      "bytes": 289
+      "bytes": 289,
+      "sha256": "19bacaca39621096ae2faf6537bc7e8f229b740a5ea0bfc6ee227ed16ca6fd15"
     },
     "fixtures/q63/docs/request.md": {
-      "sha256": "30755e092830d70fe8e32bbc68ffea7c5ac103ee97b821381fd757f540827a11",
-      "bytes": 83
+      "bytes": 83,
+      "sha256": "30755e092830d70fe8e32bbc68ffea7c5ac103ee97b821381fd757f540827a11"
     },
     "fixtures/q63/worker.py": {
-      "sha256": "090aece800978a8aac09f04998677adc88dd67a216270ce4a30186e57b455adc",
-      "bytes": 81
+      "bytes": 81,
+      "sha256": "090aece800978a8aac09f04998677adc88dd67a216270ce4a30186e57b455adc"
     },
     "fixtures/q79/.task-pipeline/run.md": {
-      "sha256": "5144d9fe025791af793500d7ed8acaa9ea36a03660f6baa8769bd78836bb743e",
-      "bytes": 235
+      "bytes": 235,
+      "sha256": "5144d9fe025791af793500d7ed8acaa9ea36a03660f6baa8769bd78836bb743e"
+    },
+    "fixtures/q79/CLAUDE.md": {
+      "bytes": 291,
+      "sha256": "6ae7f8cc05eefe18eb8823b53a6e9cebd2723c759c43f56bda16a0e4e74eedf1"
     },
     "fixtures/q79/data/schema.json": {
-      "sha256": "289150ec6cfea7e92f5283e5fd5d7779fc05ab037d4502f85194df0b8d8a9c85",
-      "bytes": 69
+      "bytes": 69,
+      "sha256": "289150ec6cfea7e92f5283e5fd5d7779fc05ab037d4502f85194df0b8d8a9c85"
     },
     "fixtures/q79/notes/findings.md": {
-      "sha256": "05ab49da1650373eade8ec923f08e6d72f92dc6c6c20499404f9d14c41219a59",
-      "bytes": 119
+      "bytes": 119,
+      "sha256": "05ab49da1650373eade8ec923f08e6d72f92dc6c6c20499404f9d14c41219a59"
     },
     "fixtures/q79/notes/local-review.md": {
-      "sha256": "b1584983438305b73abea09c860f9e21b2bd851e52296ec9438cae81b826b01e",
-      "bytes": 303
+      "bytes": 303,
+      "sha256": "b1584983438305b73abea09c860f9e21b2bd851e52296ec9438cae81b826b01e"
     },
     "fixtures/q79/pipeline.json": {
-      "sha256": "b5dda463f6a24c043d683111bb463b43c45dbc9289170664290e6742b62beb17",
-      "bytes": 896
+      "bytes": 896,
+      "sha256": "b5dda463f6a24c043d683111bb463b43c45dbc9289170664290e6742b62beb17"
     },
     "fixtures/q86/.task-pipeline/run.md": {
-      "sha256": "3db910cf8003bfc4b58f4fedf0f99e6c1fa20c0e5b843d69533508bfa4c553ed",
-      "bytes": 132
+      "bytes": 132,
+      "sha256": "3db910cf8003bfc4b58f4fedf0f99e6c1fa20c0e5b843d69533508bfa4c553ed"
     },
     "fixtures/q86/docs/brief.md": {
-      "sha256": "7867d1e74934c6633f7a0302d34062bcf238671e70408b265ff633bdb317f3f1",
-      "bytes": 116
+      "bytes": 116,
+      "sha256": "7867d1e74934c6633f7a0302d34062bcf238671e70408b265ff633bdb317f3f1"
     },
     "fixtures/q86/docs/task.md": {
-      "sha256": "984c88228fb379dca80863bd67fe579f859c236f5d5ab3d2544c77f77315a893",
-      "bytes": 190
+      "bytes": 190,
+      "sha256": "984c88228fb379dca80863bd67fe579f859c236f5d5ab3d2544c77f77315a893"
     }
   }
 }

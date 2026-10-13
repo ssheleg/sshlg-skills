@@ -210,6 +210,7 @@
       "prompt": "Resume this project from its own pipeline and prepare the next decision artifact. The current review is waiting for its named human ruling. Do not substitute another project’s stage meanings.",
       "files": [
         ".task-pipeline/run.md",
+        "CLAUDE.md",
         "data/schema.json",
         "notes/findings.md",
         "notes/local-review.md",

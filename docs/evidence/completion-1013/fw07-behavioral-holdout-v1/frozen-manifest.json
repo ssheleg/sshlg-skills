@@ -2,12 +2,12 @@
   "schema": "fw07-frozen-packet/1",
   "files": {
     "README.md": {
-      "bytes": 13578,
-      "sha256": "49047bf8ae12354b732864b3500d444631641c8175cec8dd7959ccc59a2ecd07"
+      "bytes": 13765,
+      "sha256": "2f2f42da570c1135d7fd89dc99c0ea525bbde3b8466901efd4f5c630e2a9f51b"
     },
     "cases.json": {
-      "bytes": 13244,
-      "sha256": "b0fdecd207ecf5cde96c1eae823ac594883d404ff5f07bf310abe4b896e964a4"
+      "bytes": 13265,
+      "sha256": "962638b04b6bfb53cf37d0d865e8e687cc40ffa94b381154df41b2e4a9df3639"
     },
     "check.py": {
       "bytes": 9254,
@@ -18,8 +18,8 @@
       "sha256": "6c97e2e56d1c6bd32632216c4c7fc851c9840dcc9dd3bbdef0695780b60542c6"
     },
     "fixture-manifest.json": {
-      "bytes": 5854,
-      "sha256": "97366943f01ae905b662f670af8ea266fb22850d084b8f52f15aaab8de68b915"
+      "bytes": 5996,
+      "sha256": "f3ebcaeaf9bec34acdc214ed2a8b674263e2d255aec866e5270480f024e1dcac"
     },
     "fixtures/q11/README.md": {
       "bytes": 143,
@@ -149,6 +149,10 @@
       "bytes": 235,
       "sha256": "5144d9fe025791af793500d7ed8acaa9ea36a03660f6baa8769bd78836bb743e"
     },
+    "fixtures/q79/CLAUDE.md": {
+      "bytes": 291,
+      "sha256": "6ae7f8cc05eefe18eb8823b53a6e9cebd2723c759c43f56bda16a0e4e74eedf1"
+    },
     "fixtures/q79/data/schema.json": {
       "bytes": 69,
       "sha256": "289150ec6cfea7e92f5283e5fd5d7779fc05ab037d4502f85194df0b8d8a9c85"
@@ -179,7 +183,7 @@
     },
     "offline-check.json": {
       "bytes": 618,
-      "sha256": "627303a8680a05ddaf21ad869f6d64947ccd49a844c56b5f301d6e41e8dd0e9b"
+      "sha256": "5dd1d791662d9b6b300e90963668c5eed652319a7883909a7a71a8abb14845c3"
     },
     "protocol.json": {
       "bytes": 7933,
