@@ -82,12 +82,16 @@ def inspect(raw,exit_code,workspace,phase):
     server=usage.get('server_tool_use',{})
     if not isinstance(server,dict) or any(server.get(k,0)!=0 for k in ('web_search_requests','web_fetch_requests')):result['error_class']='network_tool_use';return result
     assistants=[x for x in events if x.get('type')=='assistant']
-    inputs=[];requests={};responses={}
+    inputs=[];request_usage={};requests={};responses={}
     try:
         for event in assistants:
             message=event['message'];u=message['usage']
             if not all(number(u.get(k)) for k in keys[:3]):raise ValueError('unknown_request_usage')
-            inputs.append(sum(u[k] for k in keys[:3]))
+            message_id=message.get('id')
+            if not isinstance(message_id,str) or not message_id:raise ValueError('missing_request_id')
+            counts=tuple(u[k] for k in keys[:3])
+            if message_id in request_usage and request_usage[message_id]!=counts:raise ValueError('conflicting_request_usage')
+            request_usage[message_id]=counts
             for content in message['content']:
                 if content.get('type')=='tool_use':
                     key=content['id'];assert key not in requests;requests[key]=content
@@ -96,6 +100,7 @@ def inspect(raw,exit_code,workspace,phase):
                 for content in event.get('message',{}).get('content',[]):
                     if content.get('type')=='tool_result':
                         key=content['tool_use_id'];assert key not in responses;responses[key]=content
+        inputs=[sum(counts) for counts in request_usage.values()]
         if not inputs:raise ValueError('missing_request_usage')
         if max(inputs)>(READY_INPUT if phase=='readiness' else TASK_INPUT):raise ValueError('input_bound')
         if len(inputs)>max_turns or sum(result['usage'][k] for k in keys[:3])>max_turns*(READY_INPUT if phase=='readiness' else TASK_INPUT):raise ValueError('aggregate_input_bound')
@@ -119,11 +124,11 @@ def inspect(raw,exit_code,workspace,phase):
                     reads.append(str(resolved.relative_to(workspace.resolve())))
         if phase=='readiness' and requests:raise ValueError('readiness_tool_use')
     except (KeyError,TypeError,AttributeError,AssertionError,ValueError) as exc:
-        known={'unknown_request_usage','missing_request_usage','input_bound','aggregate_input_bound','unmatched_tool_result','unallowed_tool','tool_denied_or_error','unallowed_skill','invalid_read_path','outside_workspace_read','readiness_tool_use'}
+        known={'missing_request_id','conflicting_request_usage','unknown_request_usage','missing_request_usage','input_bound','aggregate_input_bound','unmatched_tool_result','unallowed_tool','tool_denied_or_error','unallowed_skill','invalid_read_path','outside_workspace_read','readiness_tool_use'}
         result['error_class']=str(exc) if str(exc) in known else 'invalid_tool_stream';return result
     artifact=final.get('result')
     if not isinstance(artifact,str) or not artifact.strip() or (phase=='readiness' and artifact.strip()!='READY'):result['error_class']='invalid_final_artifact';return result
-    result.update(evaluation_status='EXECUTED',native={'visible':sorted(SKILLS),'skill_loads':loads,'read_files':reads,'google_auth_loaded':'sheleg-dev:google-auth' in loads},artifact_sha256=base.digest(artifact),max_request_input=max(inputs),turns=turns)
+    result.update(evaluation_status='EXECUTED',native={'visible':sorted(SKILLS),'skill_loads':loads,'read_files':reads,'google_auth_loaded':'sheleg-dev:google-auth' in loads},artifact_sha256=base.digest(artifact),max_request_input=max(inputs),request_count=len(inputs),turns=turns)
     # Semantic scoring is deliberately absent. Native non-invocation remains observed.
     return result
 

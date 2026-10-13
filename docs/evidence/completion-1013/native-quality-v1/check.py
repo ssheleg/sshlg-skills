@@ -26,7 +26,7 @@ for item in r.plan(1):
  if item['phase']=='task':assert item['case_id'] not in item['prompt']
 init={'type':'system','subtype':'init','model':'claude-opus-5-5','apiKeySource':'none','skills':sorted(r.SKILLS),'tools':sorted(r.TOOLS),'mcp_servers':[]}
 usage={'input_tokens':200,'cache_creation_input_tokens':100,'cache_read_input_tokens':0,'output_tokens':20}
-assistant={'type':'assistant','message':{'usage':usage.copy(),'content':[{'type':'text','text':'READY'}]}}
+assistant={'type':'assistant','message':{'id':'msg-fixture-1','usage':usage.copy(),'content':[{'type':'text','text':'READY'}]}}
 final={'type':'result','subtype':'success','is_error':False,'num_turns':1,'total_cost_usd':0.1,'usage':usage.copy(),'modelUsage':{'claude-opus-5-5':{'provider':'firstParty','costBasis':'list'}},'result':'READY'}
 with tempfile.TemporaryDirectory(prefix='native-check-') as temp:
  root=Path(temp);full=root/'full';concise=root/'concise'
@@ -42,6 +42,19 @@ with tempfile.TemporaryDirectory(prefix='native-check-') as temp:
   else:assert a==b
  def parse(events,phase='readiness',code=0):return r.inspect(('\n'.join(json.dumps(x) for x in events)+'\n').encode(),code,full,phase)
  assert parse([init,assistant,final])['evaluation_status']=='EXECUTED'
+ # Several stream blocks may carry one API message ID and repeated input usage.
+ chunks=[copy.deepcopy(assistant) for _ in range(8)]
+ parsed=parse([init,*chunks,final]);assert parsed['evaluation_status']=='EXECUTED' and parsed['request_count']==1
+ bad=copy.deepcopy(chunks);bad[-1]['message']['usage']['input_tokens']+=1
+ assert parse([init,*bad,final])['error_class']=='conflicting_request_usage'
+ bad=copy.deepcopy(chunks);bad[-1]['message'].pop('id')
+ assert parse([init,*bad,final])['error_class']=='missing_request_id'
+ bad=copy.deepcopy(chunks)
+ for i,chunk in enumerate(bad):chunk['message']['id']='request-'+str(i)
+ assert parse([init,*bad,final],'task')['error_class']=='aggregate_input_bound'
+ bad=copy.deepcopy(final);bad['usage']['input_tokens']=r.MAX_TURNS*r.TASK_INPUT+1
+ assert parse([init,assistant,bad],'task')['error_class']=='aggregate_input_bound'
+
  for change,error in [
   (lambda a,b,c:a['skills'].append('foreign:secret'),'unexpected_skill_inventory'),
   (lambda a,b,c:a['skills'].append('doctor'),'unexpected_skill_inventory'),
