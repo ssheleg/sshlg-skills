@@ -1,0 +1,979 @@
+{
+  "schema": "plain-installed-readback/1",
+  "launcher": "1.62.2",
+  "source": "a17f829e8d652ce7f68423b67e0de00fb89b3693",
+  "source_skills": 39,
+  "source_files": 550,
+  "sources": [
+    {
+      "member": "super-ux",
+      "source": "f0261f68c1a7222508bd984dc7bac63805dbb76b",
+      "skill": "brand-voice",
+      "file_count": 22,
+      "file_hash_map_sha256": "07e5a0688d4ce60eac19023281c755717fd6de143810f4d9c628acc0ce5addd2"
+    },
+    {
+      "member": "super-ux",
+      "source": "f0261f68c1a7222508bd984dc7bac63805dbb76b",
+      "skill": "copywriting",
+      "file_count": 17,
+      "file_hash_map_sha256": "93478bf6b08c99d9b63b59e03f772448fbaa470028491cc630fb449e47330e6c"
+    },
+    {
+      "member": "super-ux",
+      "source": "f0261f68c1a7222508bd984dc7bac63805dbb76b",
+      "skill": "ux-audit",
+      "file_count": 25,
+      "file_hash_map_sha256": "5c49c7db6361226b6a4745bec68ced7b2afed1a2261a812a8917ddddfa946ad6"
+    },
+    {
+      "member": "super-ux",
+      "source": "f0261f68c1a7222508bd984dc7bac63805dbb76b",
+      "skill": "ux-flows",
+      "file_count": 19,
+      "file_hash_map_sha256": "4fe392000f4c003677bfa690a264a222459d5bac2677ccdcce20dca99ba46196"
+    },
+    {
+      "member": "super-ux",
+      "source": "f0261f68c1a7222508bd984dc7bac63805dbb76b",
+      "skill": "ux-foundation",
+      "file_count": 16,
+      "file_hash_map_sha256": "a71adb816027d8c4d1c47516b170055dcb9d85821d6b253d1523d132e2502206"
+    },
+    {
+      "member": "super-ux",
+      "source": "f0261f68c1a7222508bd984dc7bac63805dbb76b",
+      "skill": "ux-scenarios",
+      "file_count": 15,
+      "file_hash_map_sha256": "13934403db0a9244cb3daa5add18dfcc93fe6929967c3b10ecb5a074542abdef"
+    },
+    {
+      "member": "super-ux",
+      "source": "f0261f68c1a7222508bd984dc7bac63805dbb76b",
+      "skill": "vision",
+      "file_count": 12,
+      "file_hash_map_sha256": "80433432959c0b85980e27a1cafd63cc0217d23ac25ecefe3cfec6b6ec2e644a"
+    },
+    {
+      "member": "task-pipeline",
+      "source": "52fa75dbe1a3d169c02c612516b30028929559f9",
+      "skill": "evidence-docs",
+      "file_count": 10,
+      "file_hash_map_sha256": "eee305dd6e886963bd6c66fdeb8cd7f2c6c4531e7dfd670188698613115232c0"
+    },
+    {
+      "member": "task-pipeline",
+      "source": "52fa75dbe1a3d169c02c612516b30028929559f9",
+      "skill": "project-audit",
+      "file_count": 4,
+      "file_hash_map_sha256": "00e4c66d97247a8c550a867db87a677632018d022db172da5be176e40fa58e74"
+    },
+    {
+      "member": "task-pipeline",
+      "source": "52fa75dbe1a3d169c02c612516b30028929559f9",
+      "skill": "task-pipeline",
+      "file_count": 84,
+      "file_hash_map_sha256": "d69d94fd18f3fbd13b8fb029271fb061a9211f11e4430a52daf346b48f3962a2"
+    },
+    {
+      "member": "agent-sync",
+      "source": "3dbafd82eb635d8e79b65ddc0c3d1fd8205936db",
+      "skill": "agent-sync",
+      "file_count": 15,
+      "file_hash_map_sha256": "e1b2d920764ee376fbbda98fe24e11d7b1a716981de220c6ee9ae4a067c4cb11"
+    },
+    {
+      "member": "make-skill",
+      "source": "78d67651611f50e2af531ab04916e680c2a2680d",
+      "skill": "make-skill",
+      "file_count": 19,
+      "file_hash_map_sha256": "53d332c0098320c0e18facaa0a3699b2f108de732c899118b5317d491218082c"
+    },
+    {
+      "member": "make-skill",
+      "source": "78d67651611f50e2af531ab04916e680c2a2680d",
+      "skill": "skill-search",
+      "file_count": 1,
+      "file_hash_map_sha256": "32c7ff569729a43a4e9ae8733fda3aa1f0b47ea18638db8d71e5cc2aa8d7e6b3"
+    },
+    {
+      "member": "sheleg-design",
+      "source": "678fe483eea128be0125b033f442934f1ece7c32",
+      "skill": "sheleg-design",
+      "file_count": 102,
+      "file_hash_map_sha256": "59f5d7ae954df62b40345f3333826b755c51d4cb9df3b9db2c93650bda19e732"
+    },
+    {
+      "member": "seo-aeo-audit",
+      "source": "bccb630e79730e2a7058b74a2130ddfe4f4662aa",
+      "skill": "seo-aeo-audit",
+      "file_count": 34,
+      "file_hash_map_sha256": "a2ca1e9f85b4464a61256eb89c95e80e8d51c3d4c5edc9d485431f8d211c44b5"
+    },
+    {
+      "member": "sheleg-dev",
+      "source": "8862fae9a826263f8109626ca257f81c7c43ac86",
+      "skill": "ad-tracking",
+      "file_count": 13,
+      "file_hash_map_sha256": "e0a86867a6a77d02441414882f7249f7260d6095b362bc5eff76fd689d74e518"
+    },
+    {
+      "member": "sheleg-dev",
+      "source": "8862fae9a826263f8109626ca257f81c7c43ac86",
+      "skill": "crypto-payments",
+      "file_count": 4,
+      "file_hash_map_sha256": "d7e60bc33102bc027ade82b005c07e23fc82575cbe2f847c78320cf3eb3667a8"
+    },
+    {
+      "member": "sheleg-dev",
+      "source": "8862fae9a826263f8109626ca257f81c7c43ac86",
+      "skill": "error-tracking",
+      "file_count": 4,
+      "file_hash_map_sha256": "c0e74b6cfe9fea49f240ddf8398986aa25c876fbb7ae2e7dd1061f5e8c6a0ac2"
+    },
+    {
+      "member": "sheleg-dev",
+      "source": "8862fae9a826263f8109626ca257f81c7c43ac86",
+      "skill": "frontend-performance",
+      "file_count": 4,
+      "file_hash_map_sha256": "7f51ae448bc5d519b9ea7a4628359069c923686530ae2cdd4b89afbb4dbe5924"
+    },
+    {
+      "member": "sheleg-dev",
+      "source": "8862fae9a826263f8109626ca257f81c7c43ac86",
+      "skill": "google-auth",
+      "file_count": 5,
+      "file_hash_map_sha256": "64a98ab83eba24bfa67112e637dff4802a63c19c67b480a1b93fe07c3dbe7a1c"
+    },
+    {
+      "member": "sheleg-dev",
+      "source": "8862fae9a826263f8109626ca257f81c7c43ac86",
+      "skill": "google-signin",
+      "file_count": 2,
+      "file_hash_map_sha256": "e32ff97c3f7628dbb78c00bd88aeec50b8e8482155fd5f0abdffaa9f2a70b3b4"
+    },
+    {
+      "member": "sheleg-dev",
+      "source": "8862fae9a826263f8109626ca257f81c7c43ac86",
+      "skill": "stripe-billing",
+      "file_count": 26,
+      "file_hash_map_sha256": "77a2baa99388654c4a5dcb39985d0a16a21a11f79ea7bbe7ebbafe6dda4dd67a"
+    },
+    {
+      "member": "agent-stack",
+      "source": "cb8f6993a61473f3974bc3af67925439ed4abb75",
+      "skill": "agent-evals",
+      "file_count": 4,
+      "file_hash_map_sha256": "a393abc36cffe83a9437e026fe2b7a544831102c56c7b0f63d00e08dd2cafb19"
+    },
+    {
+      "member": "agent-stack",
+      "source": "cb8f6993a61473f3974bc3af67925439ed4abb75",
+      "skill": "agent-harness",
+      "file_count": 13,
+      "file_hash_map_sha256": "8150b190b9e94a9cd897cdca004dd513f74b21ec7627e2a28bc8281b3c92a5f0"
+    },
+    {
+      "member": "agent-stack",
+      "source": "cb8f6993a61473f3974bc3af67925439ed4abb75",
+      "skill": "agent-interop",
+      "file_count": 7,
+      "file_hash_map_sha256": "94693e75c679a1b6ca4b976cbc4a339aebaff3bc3d5e49b5d5d972cb55254b10"
+    },
+    {
+      "member": "agent-stack",
+      "source": "cb8f6993a61473f3974bc3af67925439ed4abb75",
+      "skill": "agent-orchestrator",
+      "file_count": 13,
+      "file_hash_map_sha256": "01b6eb12d75228e751c74a012114a01beb1f281b14688ef13423cc3089ac4a38"
+    },
+    {
+      "member": "telegram-dev",
+      "source": "711576f89d06525ee94ad4aac0f779a5baeefdd5",
+      "skill": "telegram-bots",
+      "file_count": 6,
+      "file_hash_map_sha256": "5930a403085823296c3da994a144472d2317d8f8c6a5c332734a6720d3aab197"
+    },
+    {
+      "member": "telegram-dev",
+      "source": "711576f89d06525ee94ad4aac0f779a5baeefdd5",
+      "skill": "telegram-miniapps",
+      "file_count": 5,
+      "file_hash_map_sha256": "cf9fedfd2ac8147ccfe39026e04cdee82ff2bbb3387c446d6dd502464ed20493"
+    },
+    {
+      "member": "telegram-dev",
+      "source": "711576f89d06525ee94ad4aac0f779a5baeefdd5",
+      "skill": "telegram-userbots",
+      "file_count": 4,
+      "file_hash_map_sha256": "75c9e498a506dcfa170cac2f71955698d39dd58764e628a2d633f0959cc7db7c"
+    },
+    {
+      "member": "xr-dev",
+      "source": "d36912f4a69be90b920ff7c15a890c805761b35c",
+      "skill": "quest-lifecycle",
+      "file_count": 4,
+      "file_hash_map_sha256": "a7972221d2754df6afcee152fc138cffd7de5c0bc79bea00c320073a2e06ef49"
+    },
+    {
+      "member": "xr-dev",
+      "source": "d36912f4a69be90b920ff7c15a890c805761b35c",
+      "skill": "quest-native",
+      "file_count": 6,
+      "file_hash_map_sha256": "235a62da1b271b473abffd76f25c014b31202141e8350787de330c9840bf5667"
+    },
+    {
+      "member": "xr-dev",
+      "source": "d36912f4a69be90b920ff7c15a890c805761b35c",
+      "skill": "quest-perf",
+      "file_count": 4,
+      "file_hash_map_sha256": "b005227a029ae4b3c41de76a10d4b119a689711d6dfcf16d8f071cbc09f110e6"
+    },
+    {
+      "member": "xr-dev",
+      "source": "d36912f4a69be90b920ff7c15a890c805761b35c",
+      "skill": "quest-spatial",
+      "file_count": 6,
+      "file_hash_map_sha256": "e4bbbe8fe2702fa06aa6121cd142909a8830e4e971143203f7544ab28a09fcff"
+    },
+    {
+      "member": "xr-dev",
+      "source": "d36912f4a69be90b920ff7c15a890c805761b35c",
+      "skill": "quest-store",
+      "file_count": 5,
+      "file_hash_map_sha256": "e67690cc3730339b784624ad621feb4163ca4932fcc84d05adc5ad33bc6946af"
+    },
+    {
+      "member": "xr-dev",
+      "source": "d36912f4a69be90b920ff7c15a890c805761b35c",
+      "skill": "quest-tooling",
+      "file_count": 4,
+      "file_hash_map_sha256": "923fb00e0084254cee3e9683a42185f2c6757585925230364c059fea94d9a002"
+    },
+    {
+      "member": "xr-dev",
+      "source": "d36912f4a69be90b920ff7c15a890c805761b35c",
+      "skill": "quest-webxr",
+      "file_count": 3,
+      "file_hash_map_sha256": "e4eb860893b93a0b111ac7d722732fff44d8f2b834e63ab2515d8959d37ccf78"
+    },
+    {
+      "member": "web3d-dev",
+      "source": "b993d2517545a0d3f4fb6358f4942c7025fc2fdf",
+      "skill": "web3d-animation",
+      "file_count": 4,
+      "file_hash_map_sha256": "a17c4a8194b5562336fdd4005ae2e95625f2dc030b4e189bfa104174f1969ff5"
+    },
+    {
+      "member": "web3d-dev",
+      "source": "b993d2517545a0d3f4fb6358f4942c7025fc2fdf",
+      "skill": "web3d-assets",
+      "file_count": 5,
+      "file_hash_map_sha256": "80aa3f1fe56c7289d37c02ac56e4c33d6a07eab6a967bb81a5e1eca829a0a640"
+    },
+    {
+      "member": "web3d-dev",
+      "source": "b993d2517545a0d3f4fb6358f4942c7025fc2fdf",
+      "skill": "web3d-runtime",
+      "file_count": 4,
+      "file_hash_map_sha256": "75eaea45ed966388156f267c20f36f2416487db2455e4c77ed715bbc0e538315"
+    }
+  ],
+  "destinations": {
+    "shared": {
+      "skills": 39,
+      "files": 550,
+      "directory_symlinks": 0,
+      "issues": []
+    },
+    "cursor": {
+      "skills": 39,
+      "files": 0,
+      "directory_symlinks": 0,
+      "issues": [
+        {
+          "skill": "brand-voice",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "copywriting",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-audit",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-flows",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-foundation",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-scenarios",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "vision",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "evidence-docs",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "project-audit",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "task-pipeline",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-sync",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "make-skill",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "skill-search",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "sheleg-design",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "seo-aeo-audit",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ad-tracking",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "crypto-payments",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "error-tracking",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "frontend-performance",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "google-auth",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "google-signin",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "stripe-billing",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-evals",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-harness",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-interop",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-orchestrator",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "telegram-bots",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "telegram-miniapps",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "telegram-userbots",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-lifecycle",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-native",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-perf",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-spatial",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-store",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-tooling",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-webxr",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "web3d-animation",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "web3d-assets",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "web3d-runtime",
+          "reason": "missing_directory"
+        }
+      ]
+    },
+    "opencode": {
+      "skills": 39,
+      "files": 0,
+      "directory_symlinks": 0,
+      "issues": [
+        {
+          "skill": "brand-voice",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "copywriting",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-audit",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-flows",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-foundation",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-scenarios",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "vision",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "evidence-docs",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "project-audit",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "task-pipeline",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-sync",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "make-skill",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "skill-search",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "sheleg-design",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "seo-aeo-audit",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ad-tracking",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "crypto-payments",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "error-tracking",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "frontend-performance",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "google-auth",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "google-signin",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "stripe-billing",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-evals",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-harness",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-interop",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-orchestrator",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "telegram-bots",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "telegram-miniapps",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "telegram-userbots",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-lifecycle",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-native",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-perf",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-spatial",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-store",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-tooling",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-webxr",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "web3d-animation",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "web3d-assets",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "web3d-runtime",
+          "reason": "missing_directory"
+        }
+      ]
+    },
+    "kilo": {
+      "skills": 39,
+      "files": 0,
+      "directory_symlinks": 0,
+      "issues": [
+        {
+          "skill": "brand-voice",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "copywriting",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-audit",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-flows",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-foundation",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-scenarios",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "vision",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "evidence-docs",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "project-audit",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "task-pipeline",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-sync",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "make-skill",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "skill-search",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "sheleg-design",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "seo-aeo-audit",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ad-tracking",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "crypto-payments",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "error-tracking",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "frontend-performance",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "google-auth",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "google-signin",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "stripe-billing",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-evals",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-harness",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-interop",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-orchestrator",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "telegram-bots",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "telegram-miniapps",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "telegram-userbots",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-lifecycle",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-native",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-perf",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-spatial",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-store",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-tooling",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-webxr",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "web3d-animation",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "web3d-assets",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "web3d-runtime",
+          "reason": "missing_directory"
+        }
+      ]
+    },
+    "hermes": {
+      "skills": 39,
+      "files": 550,
+      "directory_symlinks": 39,
+      "issues": []
+    },
+    "openclaw": {
+      "skills": 39,
+      "files": 550,
+      "directory_symlinks": 39,
+      "issues": []
+    },
+    "gemini": {
+      "skills": 39,
+      "files": 0,
+      "directory_symlinks": 0,
+      "issues": [
+        {
+          "skill": "brand-voice",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "copywriting",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-audit",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-flows",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-foundation",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ux-scenarios",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "vision",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "evidence-docs",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "project-audit",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "task-pipeline",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-sync",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "make-skill",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "skill-search",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "sheleg-design",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "seo-aeo-audit",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "ad-tracking",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "crypto-payments",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "error-tracking",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "frontend-performance",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "google-auth",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "google-signin",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "stripe-billing",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-evals",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-harness",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-interop",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "agent-orchestrator",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "telegram-bots",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "telegram-miniapps",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "telegram-userbots",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-lifecycle",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-native",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-perf",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-spatial",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-store",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-tooling",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "quest-webxr",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "web3d-animation",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "web3d-assets",
+          "reason": "missing_directory"
+        },
+        {
+          "skill": "web3d-runtime",
+          "reason": "missing_directory"
+        }
+      ]
+    },
+    "windsurf": {
+      "skills": 39,
+      "files": 550,
+      "directory_symlinks": 39,
+      "issues": []
+    },
+    "kiro": {
+      "skills": 39,
+      "files": 550,
+      "directory_symlinks": 39,
+      "issues": []
+    },
+    "goose": {
+      "skills": 39,
+      "files": 550,
+      "directory_symlinks": 39,
+      "issues": []
+    },
+    "continue": {
+      "skills": 39,
+      "files": 550,
+      "directory_symlinks": 0,
+      "issues": []
+    }
+  },
+  "boundary": "Every expected source file compared at measured destinations; extra consumer files and native model invocation are not certified. Shared destination also serves Codex, Kimi, Zed and Pi; host loader use is separate."
+}

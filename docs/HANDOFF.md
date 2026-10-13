@@ -1,19 +1,23 @@
-## Current continuation — 2026-10-13 05:05 UTC
+## Current continuation — 2026-10-13 05:25 UTC
 
-Hub **1.62.2 is published**, tag/source `a17f829e8d652ce7f68423b67e0de00fb89b3693`.
-Exact-source local115/1755/11, hosted Pages38348440718, release38348869829 and
-all80 npm payload files passed their separate checks. [Publication receipt](evidence/completion-1013/release-1.62.2/publication.json).
-The full published-package local update is now running; installation is not yet
-accepted. Runtime1.62.1 readbacks below are historical.
+Hub **1.62.2 is published**, source `a17f829e8d652ce7f68423b67e0de00fb89b3693`.
+[Publication](evidence/completion-1013/release-1.62.2/publication.json) verifies all80 npm files.
+[Installed acceptance is PARTIAL](evidence/completion-1013/installed-1.62.2/README.md):
+39 plain skills/550 expected files, nine Codex plugins and75 runtime files match.
+Claude drifted to newer SEO/agent-stack sources despite update exit0; B-187 now
+owns the repair. Domain35 project entries match; three real apply runs preserve hashes.
+Two invalid Git roots retain global coverage; sheleg-dev remains global.
 
-Next tasks: finish installed immutable plain-skill/Continue/runtime/settings
-readback; apply lossless domains and preserve unknown-root coverage; integrate
-TP114, TP2/R09 and remaining SEO coverage packets; consume agent-stack0.27.2
-publication into a later family pin cut. Native artifact review is NO_ADOPTION:
-all four artifacts missed a required migration check and none loaded Skill.
-[Independent review](evidence/completion-1013/native-quality-v1/artifact-independent-review.json).
-Original37 requirements and177 initial board IDs remain in the source-preserving
-reconciliation, not blanket completion. [Current run](evidence/completion-1013/run.md).
+Next: implement/review Claude immutable source updates; finish remaining owner
+R30 validators and SEO provider coverage; merge TP119 after genuine exact-head
+checks, then finalize TP source/release ledger. TP114 merged25dc4f8;
+agent-stack0.27.2 is published, its owner receipt merged e2120c2.
+[Remaining-seven R30 audit](evidence/completion-1013/r30-owner-audit/README.md)
+records actual escaped plants and bounded follow-ups. Original37 requirements
+and177 initial board IDs remain source-preserved, not blanket completion.
+Native artifact review is **NO_ADOPTION**, with [new routing research](reports/2026-10-13-native-skill-routing/README.md)
+clarifying registration versus invocation; no extra paid experiment was run.
+[Current run](evidence/completion-1013/run.md).
 
 The dated entries below retain previous states and are not current instructions.
 

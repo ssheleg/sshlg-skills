@@ -1,0 +1,17 @@
+{
+  "pr": 114,
+  "candidate": "6e0e57e607db0a61226b9b5427bf0d74ba93c66d",
+  "merge": "25dc4f898c143d410cb8cc0b8f17e4edd73da6eb",
+  "base": "feat/release-iteration",
+  "required_run": 38349439541,
+  "local_gate": {
+    "head": "6e0e57e607db0a61226b9b5427bf0d74ba93c66d",
+    "command": "npm test",
+    "exit_code": 0,
+    "independent_review": "PASS",
+    "validated_code_source": "31e0f5aeacb709639c37e621c9fe73dec0f11f2e",
+    "documentation_successor_structural_exit": 0,
+    "log_sha256": "5d680fb6eaa4f0c1eb9789102e2e9d8ed75932a37f7467c370c9ab152c988133"
+  },
+  "scope": "Accepted feature branch only; main release and native runtime separate."
+}

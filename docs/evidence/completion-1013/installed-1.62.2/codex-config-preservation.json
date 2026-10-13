@@ -1,0 +1,12 @@
+{
+  "changed_key_paths": [
+    ".marketplaces.agent-sync.ref",
+    ".marketplaces.make-skill.ref",
+    ".marketplaces.seo-aeo-audit.ref",
+    ".marketplaces.sheleg-design-skill.ref",
+    ".marketplaces.sheleg-dev.ref",
+    ".marketplaces.super-ux.ref",
+    ".marketplaces.web3d-dev.ref"
+  ],
+  "only_family_marketplace_refs": true
+}

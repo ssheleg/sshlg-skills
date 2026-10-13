@@ -256,5 +256,13 @@
     }
   ],
   "all_packaged_bytes_equal": true,
-  "installed_readback": "PENDING"
+  "installed_readback": "PENDING",
+  "owner_publication_followup": {
+    "pr": 49,
+    "candidate": "cff254fab558dce63cbc59888f980024888ad2dc",
+    "merge": "e2120c272c884ab4351c610148bbc0a4526c4067",
+    "hosted_run": 38350623132,
+    "all_jobs": "success",
+    "independent_review": "all five docs read; all44 published payload files compared against accepted792e3f6; no production bytes changed"
+  }
 }
