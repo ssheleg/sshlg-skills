@@ -159,3 +159,24 @@ Pre-call reservation and post-call overshoot compare that combined amount to USD
 The output includes separate prior/new totals and the prior receipt hash. Unknown
 cost still sets cost_incomplete; no amount is silently treated as an actual zero.
 A new output path and raw directory are required; attempt A cannot be resumed.
+
+
+## Second observed readiness: preserved stop
+
+After independent review of `78e2ce3bbb51b75bb7cd65223c743121d78f2b35`,
+[attempt B](observed-b-20261013.json) made one concise readiness call and stopped.
+The two extra names `design` and `plugin-authoring` remained alongside the seven
+expected skills. Doctor and the other previously observed extras disappeared.
+Tools remained exactly four and MCP zero; READY returned without tool calls.
+Input was 6,162 tokens, new reported list cost USD0.011772, cumulative A+B
+USD0.0491664. Two readiness calls have now been attempted across two distinct
+reviewed protocols; zero full-arm readiness calls or audit calls have executed.
+
+Init names four builtin-source plugins, including `cc-plugin-plugin-authoring`,
+but its skills array contains names only, without per-skill provenance. Thus the
+plugin-authoring source is a plausible inference, not a verified mapping, and the
+design source is unresolved. Official visibility documentation supports exact-name
+`skillOverrides` but explicitly excludes plugin skills. The next prepared change
+can try `design: off` and `plugin-authoring: off` as session-only overrides, retaining
+the exact-seven gate. If an unhideable builtin remains, a fixed, explicit builtin
+co-context needs a separately reviewed scope; no contaminated attempt becomes PASS.
