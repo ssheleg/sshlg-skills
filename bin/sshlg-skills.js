@@ -293,6 +293,8 @@ Usage:
                                                       # Pi, OpenCode, Hermes; not Claude/Codex)
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
   npx sshlg-skills hooks   install [--force] [--dry-run]
+  npx sshlg-skills hooks   recovery inspect [--json]
+  npx sshlg-skills hooks   recovery recover --expect <digest|absent> [--json]
   npx sshlg-skills hooks   remove
   npx sshlg-skills hosts                              # hosts detected here; Pi visibility; Codex config
                                                       # duplicates; local MCP servers that do not answer
@@ -3212,6 +3214,30 @@ function cmdHooks(argv) {
   const pkgRoot = pathMod.resolve(__dirname, '..');
   const file = pathMod.join(home, '.claude', 'settings.json');
 
+  if (sub === 'recovery') {
+    const args = argv.slice(1), action = args.shift();
+    let json = false, expected;
+    // A usage error is exit 2, apart from a refusal (1); JSON only when asked for.
+    const invalid = reason => {
+      if (argv.includes('--json')) console.log(JSON.stringify({ ok: false, state: 'USAGE', reason }));
+      else log(`hooks recovery: ${reason}`);
+      return 2;
+    };
+    for (let i = 0; i < args.length; i++) {
+      if (args[i] === '--json' && !json) json = true;
+      else if (args[i] === '--expect' && expected === undefined && args[i + 1] && /^(absent|[a-f0-9]{64})$/.test(args[i + 1])) expected = args[++i];
+      else return invalid('unsupported recovery argument; use inspect, then recover --expect <digest|absent>');
+    }
+    if (!['inspect', 'recover'].includes(action) || (action === 'inspect' && expected !== undefined) || (action === 'recover' && expected === undefined)) {
+      return invalid('use recovery inspect, then recovery recover --expect <digest|absent>');
+    }
+    const recovery = require('../lib/runtime-recovery');
+    const result = action === 'inspect' ? recovery.inspect(root) : recovery.recover(root, expected);
+    if (json) console.log(JSON.stringify(result));
+    else log(`runtime recovery: ${result.state}${result.expected ? '; expected=' + result.expected : ''}${result.reason ? '; ' + result.reason : ''}`);
+    return result.ok && (action !== 'inspect' || result.state === 'NO_LOCK');
+  }
+
   /**
    * Refresh the wired copy from this package. Idempotent; called on install.
    *
@@ -3719,7 +3745,7 @@ function main(argv) {
     catch (e) { log(`rules: ${e.message}`); return 2; }
   }
   // Also before parseFlags: `hooks` takes a positional subcommand.
-  if (cmd === 'hooks') return cmdHooks(rest) ? 0 : 1;
+  if (cmd === 'hooks') { const r = cmdHooks(rest); return typeof r === 'number' ? r : (r ? 0 : 1); }
   if (cmd === 'injectors') { cmdInjectors(); return 0; }
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
   if (cmd === 'toolkit') { return cmdToolkit(argv) || 0; }

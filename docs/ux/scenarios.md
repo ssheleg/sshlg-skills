@@ -18,6 +18,7 @@ Scope: the public Skills website, its separate Harness section and member relati
 | SCN-008 | Refresh or remove owned wait text | Working-rule CLI | maintainer | — | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
 | SCN-009 | Recover a refused instruction write | Working-rule CLI | maintainer | — | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
 | SCN-010 | Inspect and finalize recovery metadata | Working-rule CLI | maintainer | — | implemented | 2026-10-13: MB02c focused CLI; independent peer pending |
+| SCN-011 | Recover an interrupted hook-runtime write | Hooks recovery CLI | maintainer | — | implemented | 2026-10-13: B190 isolated implementation |
 
 ## Personas
 
@@ -25,6 +26,23 @@ Scope: the public Skills website, its separate Harness section and member relati
 - **maintainer:** manages several repositories and needs project observations without publishing project data or credentials.
 
 ## Public website
+
+### SCN-011: Recover an interrupted hook-runtime write
+- **Persona:** maintainer
+- **Feature:** Hooks recovery CLI
+- **Entry point:** `npx sshlg-skills hooks recovery inspect --json`
+- **Preconditions:** an existing runtime in the current home; no host settings edit requested.
+- **Steps:**
+  1. Inspect -> see only runtime identity, lock fingerprint and a NO_LOCK, PENDING_JOURNAL, BUSY (with the holder pid), DEAD, UNKNOWN or NOT_INSTALLED state with its reason; inspection writes nothing. A home reached through a symlink inspects the same runtime its writers bound.
+  2. Supply the observed fingerprint to `hooks recovery recover --expect <digest> --json` -> same-boot dead holder may be retired under kernel exclusion, then the existing runtime journal decides rollback.
+  3. Inspect again after refusal or interruption -> live/unknown/changed holders remain untouched; a dead recovery worker can be recovered by the same supported command.
+- **Expected result:** verified rollback or explicit unresolved state; no inference that a missing journal proves the interrupted transaction succeeded. Every recover result says whether the dead lock was retired (`retired`), `null` when an interrupted worker did not report it.
+- **UI elements:** JSON state, expected fingerprint, failure reason, process exit code
+- **States covered:** success, error, empty
+- **Errors & recovery:** each refusal names its next step — a live holder (wait for that pid), a stale fingerprint (inspect again), a root writable by others (`chmod go-w`), no runtime (`hooks install`), missing `/usr/bin/python3` or only the Command Line Tools stub (`xcode-select --install`). A worker refusal after it retired the dead lock keeps the worker's own reason. Refusals exit 1, usage errors exit 2 and print JSON only with `--json`; legacy locks remain UNKNOWN. The command never takes a user-supplied runtime path or rewires host settings.
+- **Status:** implemented
+- **Coverage:** test/runtime_recovery_test.js
+- **Product:** unobserved
 
 ### SCN-001: Find skills, then understand the harness
 - **Persona:** builder

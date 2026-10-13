@@ -1,0 +1,753 @@
+warn  B003 voice.md:1: voice.md is `draft` while strings.md already has 6 agreed string(s) -- they were agreed against a voice nobody approved
+ERROR B009 README.md:0: Sources marketing: `_site/**/*.html` matches no files; correct the path or remove the source declaration. No copy was scanned
+warn  B022 README.md:16: "npx --yes sshlg-skills@latest list" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:46: "/ux" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:48: "two sessions just committed over each other" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:79: "npm run test:plants" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:89: "s evidence notes (`E1`, `E4`) are incidents from this repository" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:96: "0bc5eb6" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:98: "8b7de18" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:131: "--agent a,b" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:137: "claude plugin marketplace add" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:138: "claude plugin install" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:138: "~/.claude/skills/" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:142: "~/.agents/skills" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:155: "<agentsHome>/skills" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:163: "@deepseek-ai/dsh-skill" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:164: "@deepseek-ai/dsh-skill-filesystem" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:165: "@deepseek-ai/dsh-tool-skill" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:179: "<projectRoot>/.dsh/skills" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:179: "<projectRoot>/.agents/skills" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:180: "Config.customSkillDirs" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:180: "<dshHome>/skills" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:247: "codex plugin list" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:256: "~/.sshlg-skills/codex-deferred/" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:267: "skills@1.7.2 add <repo>#<40-character-commit>" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:270: "skills update" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:288: "node scripts/sync-member-pins.js --write" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:289: "node scripts/sync-claude-pins.js --write" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:292: "CLAUDE.md" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:294: "~/.sshlg-skills/runtime" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:294: "claude plugin update" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:295: "skipped: <flag>" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:295: "--agent claude" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:296: "--agent claude-code" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:302: "npx sshlg-skills hooks install" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:303: "hooks install" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:308: "~/.sshlg-skills/update.lock" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:311: "npx skills update <id>" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:313: "~/.claude/skills/<id>" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:337: "-separated for several); " is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:12: "bash npx sshlg-skills install" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:16: "Verify the resolved family:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:18: "**[Detailed docs →](https: every routing rule verbatim, and [" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:19: "](https: for the machines. · **[Follow @sshlg93 on X](https:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:22: "Works with **Claude Code** (as plugins) and **DeepSeek Harness** (" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:24: "CLI supports. The pinned snapshot has 77 global targets; native extension support is checked separately in the [compatibility report](docs/reports/2026-10-09-coding-agent-compatibility/README.md)." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:30: "## Why" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:32: "A coding agent is good at writing code and bad at almost everything around it. It builds an interface with no idea who uses it. It calls a task done without checking what was actually asked for. It ships a page that looks generated, on a site no search engine or answer engine can read. It reaches for a payment webhook or an agent's tool-calling loop and writes the version that holds until it meets real traffic. And the moment you want it to remember how *you* work, you are writing a skill — and packaging one correctly is its own afternoon." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:40: "Each skill pack takes one of those gaps and gives the agent a contract it has to follow. They are documentation, validators and small standard-library scripts. No services, no telemetry, no API keys." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:44: "| Skill | Version | What it does | |---|---|---| | **[super-ux](https://github.com/ssheleg/super-ux)** | 0.59.3 | Scenario-driven UI development. A versioned design chain in" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:46: "entry point that reaches every skill, two doc-drift linters and a contract doctor. | | **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.93.3 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:47: "rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. | | **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.22.2 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". | | **[make-skill](https://github.com/ssheleg/make-skill)** | 0.31.2 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https: | **[sheleg-design](https: | **[seo-aeo-audit](https: | **[sheleg-dev](https: | **[agent-stack](https: | **[telegram-dev](https: | **[xr-dev](https: | **[web3d-dev](https:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:58: "They compose." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:58: "and takes its leases from" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:92: "](https: a judgment gate the schema distinguishes from a measurement, [" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:94: "](https: a" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:95: "edge that must resolve, [" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:96: "](https: expiring verification, and [" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:98: "](https: a node that states its own completion check. What is still owed is filed as open rows in the member's board ([" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:100: "](skills/task-pipeline/docs/evidence/backlog.md)) and in this repository's own ([" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:101: "](docs/evidence/backlog.md)), rather than described as shipped — which is the manifesto's rule applied to the manifesto." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:104: "That sentence was wrong for three days after the manifesto stopped saying it, and its own receipt pointed at a different row than the one it named." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:105: "now checks the claim from its end (" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:108: "If the ideas are useful to you, a ⭐ on this repository helps other people find them." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:110: "## Install" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:112: "**From npm** — nothing to clone:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:118: "**From GitHub** — always tracks" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:120: "bash npx github:ssheleg/sshlg-skills install" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:124: "**Clone with submodules** if you want the pinned snapshots and an offline copy:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:126: "bash git clone --recursive https://github.com/ssheleg/sshlg-skills cd sshlg-skills && ./install.sh" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:131: "Flags:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:131: "selects the pinned CLI’s 77 globally supported targets (76 while Claude uses plugins)," is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:133: "does nothing else." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:135: "### What" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:135: "actually does" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:137: "- **Claude Code** → each skill as a **plugin** (" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:138: "copy. - **Other installer targets** → the vercel [" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:140: "](https://github.com/vercel-labs/skills) CLI, using shared storage and each adapter’s global destination, with repeated" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:141: "flags. Hermes and Kiro use native roots; shared" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:142: "loading is host-specific. - **Unsupported global targets** → Eve and PromptScript are excluded from" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:144: "; explicit unknown or project-only names fail before installation. The [dated compatibility report](docs/reports/2026-10-09-coding-agent-compatibility/README.md) separates skill discovery from plugins, hooks, delegation and runtime evidence. - **Then it prunes** the plain Claude copies the skills CLI recreates on its own. That duplicate shadows your plugin and silently serves a stale skill — the one failure mode worth automating away." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:151: "### DeepSeek Harness" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:153: "Nothing to install beyond the ordinary" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:153: ", and **no plugin to write.**" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:154: "reads the Agent Skills standard directly: its local provider scans" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:155: "— the directory the skills CLI already installs into." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:158: "Verified two ways on 2026-08-25 rather than read off a page. The subsystem is in the **default** profile, not an optional add-on:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:161: "bash npx @deepseek-ai/dsh --profile web --dump-default-config | grep skill #   name: '@deepseek-ai/dsh-skill' #   name: '@deepseek-ai/dsh-skill-filesystem' #   name: '@deepseek-ai/dsh-tool-skill'" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:168: "and the files are where that provider looks:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:170: "bash ls ~/.agents/skills/telegram-bots/     # SKILL.md  references/  fixtures/" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:174: "Two things worth knowing, both read from the harness's own [skills subsystem doc](https: on 2026-08-25:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:178: "- **Discovery is layered and nearest-wins**, in this order —" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:181: "(500), bundled (600). A project-local copy therefore **overrides** the installed one, which is the same shadowing trap Claude Code has and the same remedy: keep one channel per skill. - **" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:184: "** are the two front-matter keys" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:185: ". This family ships neither, so every skill is model- and user-invocable there by default." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:188: "**A skill is not a" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:188: "plugin, and the distinction is worth keeping.** In that harness a *plugin* is a Cordis module exporting" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:189: "; skills are loaded *by* one —" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:191: "topic because that is the discovery channel the project asks for, and" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:192: ", which is what they actually are." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:194: "### Just one skill?" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:196: "Every skill installs standalone; see its own README. For example:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:198: "bash npx skills add ssheleg/seo-aeo-audit" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:202: "bash claude plugin marketplace add ssheleg/seo-aeo-audit && claude plugin install seo-aeo-audit@seo-aeo-audit" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:206: "## Update" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:208: "bash npx sshlg-skills install              # nothing installed yet — the whole family, any agent npx sshlg-skills update               # installed but behind — updates everything npx --yes sshlg-skills@latest list    # what the current release of each member is" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:214: "**Three commands carry the daily interface**:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:214: "when it is there and behind," is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:215: "to see what the current release of each member is. A member updated on its own leaves the bundle in a combination nobody tested, which is why" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:216: "takes no member argument." is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:218: "### The way back" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:220: "Install had no reverse until v1.47.0 — and clearing an agent's skill store had no recoverable path at all. Four commands close that:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:223: "bash npx sshlg-skills uninstall [--no-claude] [--dry-run]   # the reverse of install npx sshlg-skills backup                                # archive ALL skills of ALL agents npx sshlg-skills wipe [--dry-run]                      # backup + verify, THEN remove them all npx sshlg-skills restore [<archive>]                   # bring the newest (or named) backup back" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:327: "bash npx sshlg-skills domains            # preview: each project's members and WHY; nothing written npx sshlg-skills domains --apply    # project entries first, read back; then off at user scope npx sshlg-skills domains --revert   # undo exactly what --apply wrote, user scope first npx sshlg-skills domains --enable xr-dev    # start a new project before it has dependencies npx sshlg-skills domains --disable xr-dev   # undo that explicit project entry npx sshlg-skills domains --root ~/code --no-usage   # another projects directory; no usage table" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:336: "- **Which projects.** Every git repository directly under the projects root:" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:336: "by default, or" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:338: "records the root, so" is in the code with no registry row -- agree it or retire it
+warn  B022 README.md:338: "use it later. Symlinked repositories count once by realpath. A missing or empty root refuses application; an incomplete scan retains global coverage for members it could not rule out. - **What counts as evidence.** A project gets a member only from what the repository depends on or declares, never from its name or its prose." is in the code with no registry row -- agree it or retire it
+ERROR B023 skills/agent-stack/README.md:0: `family.verify` points at skills/agent-stack/README.md, which does not exist
+warn  B022 scripts/site.js:51: "Sergey Sheleg" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:63: "&amp;" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:63: "&lt;" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:63: "&gt;" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:64: "&quot;" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:83: "<meta description>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:103: "every distribution…" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:103: "with fallback and…" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:122: ""no scenarios" or «без сценариев»" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:127: "/routing/" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:136: " or " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:145: "Browse all 34 style packs" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:154: "Each name below is an entry point an agent can be routed to" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:157: "SKILL.md" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:177: "submodule is probably not checked out, and a page cannot link entry points it " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:178: "cannot find" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:186: "offer an address that resolves nowhere" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:209: "has no description to derive from" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:215: "page would render a heading with nothing under it" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:264: "cannot be published from a tree that cannot be counted" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:275: "38 suites, 667 fixtures" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:281: "DOCMAP.md" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:284: "docs/DOCMAP.md carries no `<!-- ratchets: ... -->` marker — the page " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:285: "cannot state the size of a gate it cannot read, and typing the figure in here is " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:286: "exactly how the last one went stale" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:316: "s gate. `fitScale` ignored `drawText`" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:319: "s card pixels are committed IN THE MEMBER" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:377: "Do these skills work in my agent?" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:378: "If it reads the <a href="https://agentskills.io/specification" rel="noopener" " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:379: "target="_blank">Agent Skills</a> standard, yes. Every pack is a " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:380: "<code>SKILL.md</code> with its references beside it, and the table above names " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:381: "the path each agent actually reads." is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:384: "Does DeepSeek Harness need a plugin for these?" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:385: "No. <code>dsh</code> reads the Agent Skills standard directly and its skills " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:386: "subsystem is in the default profile — a plugin there is a Cordis module, and " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:387: "skills are loaded <em>by</em> one rather than being one." is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:390: "Why did my skill not show up after installing?" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:391: "Almost always a path question rather than an install one. A project-local copy " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:392: "outranks the installed one in every host that scans more than one root, and a " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:393: "plain copy beside a Claude Code plugin shadows the plugin and serves its frozen " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:394: "version. Keep one channel per skill." is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:397: "Do I have to install all of them?" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:402: "No — every pack installs standalone, as in " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:403: "<code>npx skills add ssheleg/telegram-dev</code> for one of them. The launcher " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:404: "exists because a member updated on its own leaves the set in a combination " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:405: "nobody tested." is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:408: "Do they send anything anywhere?" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:409: "No. They are documentation, validators and small standard-library scripts — no " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:410: "services, no telemetry and no API keys, which is checkable in the repository " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:411: "rather than promised here." is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:432: "SF Pro" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:432: "Segoe UI" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:433: "SF Mono" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:661: "[data-copy]" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:666: "Copied" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:688: "[data-x-follow]" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:705: ",height=" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:705: ",left=" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:705: ",top=" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:706: ",resizable=yes,scrollbars=yes,status=yes,toolbar=no,menubar=no,location=no" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:721: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:725: "<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M0 3.5h16v9H8.5v-7H6v7H0z"/></svg>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:727: "btn btn--x" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:728: "noopener noreferrer" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:728: "_blank" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:759: "@context" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:760: "@id" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:761: "@type" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:761: "Person" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:782: "<meta name="robots" content="noindex">\n" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:782: "<meta name="robots" content="index,follow,max-image-preview:large">\n" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:801: "<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:802: "<rect width="24" height="24" rx="5" fill="#0f1218"/>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:803: "<path fill="none" stroke="#e8e9ec" stroke-width="1.7" stroke-linejoin="round"" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:804: " d="M12 3.6 20 7.9v8.2L12 20.4 4 16.1V7.9z"/></svg>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:809: "#main" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:852: " · a catalogue of its own" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:855: "<span>Read →</span>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:861: "npx sshlg-skills install" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:863: "wrap hero" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:872: "install the whole family" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:874: "btn btn--primary" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:874: "#skills" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:875: "btn btn--ghost" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:903: "stat is-ok" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:909: "wrap sec" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:922: "from npm — nothing to clone" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:923: "npx sshlg-skills update" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:923: "installed but behind" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:924: "npx --yes sshlg-skills@latest list" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:924: "what the current release of each member is" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:977: "margin:20px 0 0" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:992: "Read the manifesto" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1002: "ssheleg skills · skill packs for coding agents" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1004: "Find product, design, development and delivery skills, then explore the " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1005: "ssheleg harness and its companion projects." is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1009: "WebSite" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1016: "ItemList" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1017: "The ssheleg skill family" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1021: "ListItem" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1053: "wrap crumb" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1062: "Repository" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1063: "<span class="sub">GitHub installation available · npm publication pending</span>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1078: "chip chip--link" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1080: " rel=" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1080: " target=" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1103: "app ground" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1103: "cards, bars, dialogs" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1104: "inset, quiet stat tiles" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1104: "1px lines" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1105: "the one accent" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1105: "done, healthy" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1106: "needs a human" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1121: "do not ship the hero in dark" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1132: "any agent the skills CLI supports" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1133: "claude code, as a plugin" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1166: "SoftwareApplication" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1168: "DeveloperApplication" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1169: "macOS, Linux, Windows" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1176: "Offer" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1176: ", priceCurrency: " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1180: "BreadcrumbList" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1195: "/harness/" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1196: "How the ssheleg harness works" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1197: "The method around your coding agent: skill packs, routing, verified delivery, Project Observatory and Asset Foundry in development. Each component has its own role and availability." is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1198: "WebPage" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1203: "Harness" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1222: "#asset-foundry" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1270: "Read the harness engineering sources" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1271: "Read the architecture" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1288: "<li class="chip">a rule, not a skill — it holds whether or not anything is installed</li>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1321: "<span style="color:var(--muted)">a standing rule</span>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1342: "Routing — which agent skill answers what, and when · ssheleg skills" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1344: "writes into your agent\" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1345: "applies, the boundary in both directions, and the phrase that declines it." is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1352: "The routing block" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1361: "Routing" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1382: "Get it on GitHub" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1413: "and dsh already sees them" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1418: "npx @deepseek-ai/dsh --profile web --dump-default-config | grep skill" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1418: "dsh-skill · dsh-skill-filesystem · dsh-tool-skill" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1447: "npx skills add ssheleg/sshlg-skills" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1447: "any agent the skills CLI knows" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1470: "/agents/" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1474: "Agents — where these skills run · Claude Code, DeepSeek Harness, Cursor and more" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1476: "Claude Code as plugins, DeepSeek Harness reading the same hub directory, plus Cursor, " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1478: "skills CLI — with the path each one actually reads." is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1482: "FAQPage" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1487: "Question" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1490: "Answer" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1492: "&lt;name&gt;" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1508: "Agents" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1533: "/404.html" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1540: "Not found · ssheleg skills" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1541: "That page is not here — it may have moved with a release. " is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1543: "rule, are one click away." is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1555: "<changefreq>weekly</changefreq>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1581: "npx sshlg-skills install\" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1640: "404.html" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1651: "choose a skill pack for the work at hand" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1652: "routing, delivery checks and durable handoffs" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1657: "The method around your coding agent" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1658: "the harness" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1659: "route, build, verify, hand over, observe" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1665: "where they run" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1666: "claude code, deepseek harness, cursor, codex and more" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1667: "any agent that reads the agent skills standard" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1674: "which pack answers what, and when" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1690: "_site" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:82: "/** * The opening of a description — what a card and a" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:83: "want. * * Sentence-aware in both directions, and the FLOOR is the half that matters: one * member opens with a 53-character sentence, and a 53-character meta description * is the search result nobody clicks. Keep taking sentences until there is enough * to answer with, then stop at the first boundary past the cap. */ function firstSentence(text, cap = 185, floor = 95) { const flat = String(text).replace(/\s+/g, ' ').trim(); if (flat.length <= floor) return flat; const bound = /(?<![A-Z])\.\s(?=[A-Z*" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:149: "is worse than a build that stopped. */ /** * Where one entry point actually lives, RESOLVED in the checked-out tree. * * "Each name below is an entry point an agent can be routed to" was rendered as * twenty-eight pills — bordered, monospace, the shape the whole web uses for a tag you * can click — that did nothing. Every one of them has an address: a directory holding a *" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:157: "inside its member's repository. * * It is DISCOVERED rather than composed. Today all nine plugin directories happen to be * spelled like their member, so" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:160: "would produce the same * nine URLs and a fixture comparing the two cannot tell them apart — stated plainly * because a plant proving otherwise was written, run, and did not refuse. What the * discovery buys is not a spelling: it is that the path is READ from the tree, so the *" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:164: "beside it is what makes the link real, and a name with nothing behind it * fails the build instead of shipping as a pill that 404s. The two names are already * independent one level up —" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:166: "ships from the repository *" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:167: "— so composing from either is a guess that happens to be right. */ function entryPath(member, name) { const plugins = path.join(ROOT, member.dir, 'plugins'); let dirs = []; try { dirs = fs.readdirSync(plugins, { withFileTypes: true }) .filter((d) => d.isDirectory()).map((d) => d.name).sort(); } catch (e) { throw new Error(" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:177: "+ 'submodule is probably not checked out, and a page cannot link entry points it ' + 'cannot find'); } for (const plugin of dirs) { const rel = path.posix.join('plugins', plugin, 'skills', name); if (fs.existsSync(path.join(ROOT, member.dir, rel, 'SKILL.md'))) return rel; } throw new Error(" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:186: "+ 'offer an address that resolves nowhere'); }" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:203: "function skillBrief(member, name) { const file = path.join(ROOT, member.dir, entryPath(member, name), 'SKILL.md'); const text = fs.readFileSync(file, 'utf8'); const fm = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text); if (!fm) { throw new Error(" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:209: "+ 'has no description to derive from'); } const raw = readScalar(fm[1], 'description'); const brief = capabilityBrief(raw); if (!brief) { throw new Error(" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:215: "+ 'page would render a heading with nothing under it'); } return brief; }" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:226: "function readScalar(fm, key) { const lines = fm.split(/\r?\n/); const at = lines.findIndex((l) => new RegExp(" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:241: "function resolveCount(member, link) { if (!String(link.label).includes('{n}')) return link.label; if (!link.countGlob) { throw new Error(" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:253: "names files the glob catches and a reader would not count. The style // pack directory holds STYLE_PACK_TEMPLATE.md beside the packs, so counting every .md // advertised 35 packs where 34 exist — a derived number can still be derived from one // file too many, and only reading the two published pages against each other showed it. const skip = new Set(link.countExclude || []); let n = 0; try { n = fs.readdirSync(dir).filter((f) => f.endsWith(ext) && !skip.has(f)).length; } catch (e) { throw new Error(" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:264: "+ 'cannot be published from a tree that cannot be counted'); } if (!n) throw new Error(" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:270: "/** * How big the gate is, READ from the ratchet marker in" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:271: ". * * That marker is the single home:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:273: "re-derives all three figures from the * run it just did and fails when the stated one disagrees. This page restated them — * "38 suites, 667 fixtures" typed into the evidence panel against a marker that said * 671 — so the widest-read document this repository has was four fixtures behind its * own gate, in the one panel whose entire argument is that a claim carries its * receipt. A number is computed, not carried across. */ function gateRatchets() { const file = path.join(ROOT, 'docs', 'DOCMAP.md'); const m = /<!--\s*ratchets:\s*([^>]*?)-->/.exec(fs.readFileSync(file, 'utf8')); if (!m) { throw new Error('docs/DOCMAP.md carries no" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:284: "marker — the page ' + 'cannot state the size of a gate it cannot read, and typing the figure in here is ' + 'exactly how the last one went stale'); } const out = {}; for (const pair of m[1].trim().split(/\s+/)) { const [k, v] = pair.split('='); if (!/^\d+$/.test(v || '')) throw new Error(" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:301: "const members = data.skills.map((s) => ({ ...s, slug: s.name, routers: registry.order() .filter((r) => (registry.REGISTRY[r].requires || []).includes(s.name)) .map((r) => ({ name: r, ...registry.REGISTRY[r] })), extraLinks: (s.extraLinks || []).map((l) => ({ ...l, label: resolveCount(s, l) })), }));" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:310: "const standingRules = registry.order() .filter((r) => (registry.REGISTRY[r].requires || []).length === 0) .map((r) => ({ name: r, ...registry.REGISTRY[r] }));" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:314: "/** * Members whose committed social card still encodes the UNTRACKED fit metric — * B-105's gate." is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:316: "'s tracking from the day the card * shipped, so a long line could pick a scale that paints past the padding box * (the sheleg-dev eyebrow reached x=1199 of 1200). The metric is fixed, but a * member's card pixels are committed IN THE MEMBER'S OWN REPOSITORY and *" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:320: "byte-compares them, so the corrected metric applies only * where it changes nothing — measured: every member except these three — and * these three keep the legacy fit until their own release recommits the card * (board row B-118). Remove a name here in the same change that repins the * member whose regenerated card lands; a stale entry fails the exactness * fixture in" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:325: ", which asserts each listed member actually * still needs the gate. */ const LEGACY_FIT = new Set([]);" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:330: "/** * The" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:331: "options for one member's social card — the single home for * them." is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:332: "re-renders exactly these under both metrics to * prove every" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:333: "entry is still needed; a second copy of the strings * in the test would measure a different card the day one of them changes. */ function memberCardSpec(m) { return { eyebrow: m.role, title: m.name, lines: [" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:342: ", ], footer:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:344: ", fitTracking: !LEGACY_FIT.has(m.name), }; }" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:349: "const totalSkills = members.reduce((n, m) => n + (m.skillNames || []).length, 0);" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:364: "const agentCount = (data.agentsUpstream && data.agentsUpstream.count) || 0;" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:368: "const agents = data.agents || [];" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:375: "const AGENT_FAQ = [ { q: 'Do these skills work in my agent?', a: 'If it reads the <a href="https://agentskills.io/specification" rel="noopener" ' + 'target="_blank">Agent Skills</a> standard, yes. Every pack is a ' + '<code>SKILL.md</code> with its references beside it, and the table above names ' + 'the path each agent actually reads.', }, { q: 'Does DeepSeek Harness need a plugin for these?', a: 'No. <code>dsh</code> reads the Agent Skills standard directly and its skills ' + 'subsystem is in the default profile — a plugin there is a Cordis module, and ' + 'skills are loaded <em>by</em> one rather than being one.', }, { q: 'Why did my skill not show up after installing?', a: 'Almost always a path question rather than an install one. A project-local copy ' + 'outranks the installed one in every host that scans more than one root, and a ' + 'plain copy beside a Claude Code plugin shadows the plugin and serves its frozen ' + 'version. Keep one channel per skill.', }, { q: 'Do I have to install all of them?'," is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:402: "a: 'No — every pack installs standalone, as in ' + '<code>npx skills add ssheleg/telegram-dev</code> for one of them. The launcher ' + 'exists because a member updated on its own leaves the set in a combination ' + 'nobody tested.', }, { q: 'Do they send anything anywhere?', a: 'No. They are documentation, validators and small standard-library scripts — no ' + 'services, no telemetry and no API keys, which is checkable in the repository ' + 'rather than promised here.', }, ];" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:417: "const CSS =" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:655: "const JS =" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:685: "original_referer\` is added here because only the browser knows which page the reader clicked from. */ document.addEventListener("click", function(e){ var a = e.target.closest("[data-x-follow]"); if (!a) return; if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; if (window.innerWidth < 600) return;          /* phones: let it navigate */" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:693: "var w = 550, h = 620; var dx = (window.screenX || window.screenLeft || 0); var dy = (window.screenY || window.screenTop || 0); var vw = window.outerWidth || document.documentElement.clientWidth; var vh = window.outerHeight || document.documentElement.clientHeight; var left = Math.max(0, Math.round(dx + (vw - w) / 2)); var top  = Math.max(0, Math.round(dy + (vh - h) / 2));" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:701: "var url = a.href + (a.href.indexOf("?") === -1 ? "?" : "&") + "original_referer=" + encodeURIComponent(location.href);" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:704: "var win = window.open(url, "x-follow", "width=" + w + ",height=" + h + ",left=" + left + ",top=" + top + ",resizable=yes,scrollbars=yes,status=yes,toolbar=no,menubar=no,location=no");" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:708: "if (win) { e.preventDefault(); try { win.focus(); } catch (err) {} } }); })();" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:715: "<svg class="mark" viewBox="0 0 24 24" aria-hidden="true"> <path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 2.6 21 7.4v9.2L12 21.4 3 16.6V7.4z"/> <path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 8.1 16.6 10.6v5L12 18.1 7.4 15.6v-5z"/></svg>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:996: "; return layout({ rel, url: '/', card: 'index', cardAlt:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1001: ", title: 'ssheleg skills · skill packs for coding agents', description:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1004: "+ 'Find product, design, development and delivery skills, then explore the ' + 'ssheleg harness and its companion projects.', jsonld: [ { '@context': 'https: '@type': 'WebSite', name: 'ssheleg skills', url:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1011: ", author: { '@id': PERSON_ID }, }, { '@context': 'https://schema.org', '@type': 'ItemList', name: 'The ssheleg skill family', author: { '@id': PERSON_ID }, numberOfItems: members.length, itemListElement: members.map((m, i) => ({ '@type': 'ListItem', position: i + 1, name: m.name, url:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1024: ", })), }, ], body, }); }" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1034: "function memberPage(m) { const rel = '../../'; const subs = m.skillNames || []; const npmUrl =" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1037: "; const repoUrl =" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1040: "const routerBlocks = m.routers.map((r) => { const refusal = refusalOf(r.text); return" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1049: "; }).join('\n');" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1052: "const body =" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1094: "<hr class="rule">" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1155: "return layout({ rel, url:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1157: ", card:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1158: ", cardAlt:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1159: ", ogType: 'website', title:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1161: ", description: firstSentence(m.desc, 300), jsonld: [ { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: m.name, applicationCategory: 'DeveloperApplication', operatingSystem: 'macOS, Linux, Windows', softwareVersion: m.version, description: firstSentence(m.desc, 300), url:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1172: ", codeRepository: repoUrl, license: 'https://opensource.org/licenses/MIT', author: { '@id': PERSON_ID }, offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, }, { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [ { '@type': 'ListItem', position: 1, name: 'ssheleg skills', item:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1193: "function harnessPage() { return layout({ rel: '../', url: '/harness/', card: 'harness', title: 'How the ssheleg harness works', description: 'The method around your coding agent: skill packs, routing, verified delivery, Project Observatory and Asset Foundry in development. Each component has its own role and availability.', jsonld: [{ '@context': 'https://schema.org', '@type': 'WebPage', name: 'How the ssheleg harness works', url:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1199: ", author: { '@id': PERSON_ID } }, { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [ { '@type': 'ListItem', position: 1, name: 'ssheleg skills', item:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1278: "function routingPage() { const rel = '../'; const block = (r) => { const refusal = refusalOf(r.text); const m = members.find((x) => (r.requires || []).includes(x.name)); return" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1306: "https: </section>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1321: "; }).join('\n')}</tbody> </table></div> </section>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1382: ", 'Get it on GitHub')}</div> </section>" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1561: "User-agent: * Allow: /" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1572: "# ssheleg skills" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1589: "## Skills" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1615: "// ----------------------------------------------------------------------- write" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1617: "function build(outDir) { const out = path.resolve(outDir); fs.rmSync(out, { recursive: true, force: true }); const write = (rel, text) => { const p = path.join(out, rel); fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, text); return rel; };" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1627: "const write2 = (rel, buf) => { const p = path.join(out, rel); fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, buf); return rel; };" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1634: "const written = []; written.push(write('index.html', indexPage())); written.push(write('harness/index.html', harnessPage())); written.push(write('routing/index.html', routingPage())); written.push(write('agents/index.html', agentsPage())); for (const m of members) written.push(write(" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1639: ", memberPage(m))); written.push(write('404.html', notFoundPage()));" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1642: "// The social cards. One per page, generated from the same manifest the page is, // because a card is a claim about the page and a hand-made one goes stale first. // The umbrella's own three cards fit with the corrected, tracking-aware metric // (B-105); today that changes none of their bytes — every text picks the same // scale either way — and it means a future longer eyebrow shrinks instead of // painting into the frame. Member cards are gated through LEGACY_FIT below. written.push(write2('og/index.png', og.card({ eyebrow:" is in the code with no registry row -- agree it or retire it
+warn  B022 scripts/site.js:1649: ", title: 'ssheleg skills', lines: ['choose a skill pack for the work at hand', 'routing, delivery checks and durable handoffs'], footer: SITE.replace(/^https?:\/\//, ''), fitTracking: true, }))); written.push(write2('og/harness.png', og.card({ eyebrow: 'The method around your coding agent', title: 'the harness', lines: ['route, build, verify, hand over, observe'], footer:" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:87: " + args.join(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:110: "\nRe-run just these rather than the whole pass — each line above is the exact" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:111: "command, and a repeat of the full run costs about a quarter of an hour." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:135: "--adopt got an empty list" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:146: "--agent got an empty list" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:153: "--claude-only and --no-claude contradict each other" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:207: "SKILL.md" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:304: "<skill>[=what it did],…" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:306: "<task>" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:306: "<concept>, …" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:341: "hooks install\" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:375: "immutable source contract requires verified skills@1.7.2" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:387: "remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:392: "refresh the managed routing block (its own consent and dry-run rules apply)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:408: "native immutable source transaction; protected catalogs/settings, scoped repair, rollback on failure, payload readback" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:438: "bump submodule pins to upstream tips (--bump-pins)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:439: "materialize pinned submodules (pins unchanged)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:441: ", ROOT, " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:460: "refresh the wired hook runtime copy (create: false)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:472: "give projects that gained a domain dependency their member (project entries first, read back; through protect())" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:473: "domain members — `domains --apply` never ran here: one line if a project calls for one, nothing written" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:494: "; preview: \" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:542: "\n== Refreshing the routing block ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:597: "\n== Bumping submodule pins to upstream tips (--bump-pins) ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:599: "  ! checkout pins moved; this install still uses the published commit inventory. Stage the gitlinks, then run node scripts/sync-member-pins.js --write for the next release." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:601: "\n== Materializing pinned submodules (pins unchanged) ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:632: "the copy its hooks execute moves with their wiring)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:644: "\n== Wired hook runtime ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:649: "  already level with this package" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:694: ", opencode: " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:694: ", hermes: " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:694: ", cursor: " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:694: ", kimi: " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:721: " once to re-arm" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:725: "\n== Skill visibility ==\n  not re-applied: the record predates explicit consent — run `npx sshlg-skills visibility --apply [--keep …]` once to re-arm" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:732: "\n== Skill visibility (re-applied: this machine ran \" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:839: "Codex native mutation is deferred" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:847: "\n== Native host lifecycle: Codex plugins ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:875: "Codex" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:876: "this Codex has no \" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:877: "plugins through Codex\" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:895: "  Watcher command display is POSIX-only; no runnable Windows shell command is emitted." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:899: "  (start a new Codex session to load them)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:937: " adds it" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:939: "note: `hooks install` re-adds every removed family entry, not only the new ones — " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:940: "skip it if you removed these on purpose" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:967: "out of scope" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:970: "no settings" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:975: "no consent" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:990: "already matches this package" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:995: "re-wire the consented hook entries (copy before write, through protect())" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:996: "hook entries in settings.json — nothing to write" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1022: "\n== Hook wiring ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1031: "  settings.json already matches this package" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1041: "  restart Claude Code — hooks are read at session start" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1083: "usage: npx sshlg-skills signature --used "<skill>[=what it did],…" " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1084: "[--format md|html|text] [--part header|footer|both] [--no-star]" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1138: "ssheleg skill family:\n" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1147: "\n  --verbose adds each member\" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1148: "\nInstall:  npx sshlg-skills install       Update:  npx sshlg-skills update" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1163: "Agent hosts with an instruction file the routing block is written to (Cursor, a separate rules file, is not listed):\n" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1167: "(unsupported platform)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1180: "  Copy the file, then delete the later entry if both say the same; nothing here was changed." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1199: "  A session started while a server refused has none of its tools until `/mcp` → reconnect" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1200: "  (or a new session). Do not work around it by calling the service directly with its token." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1209: "\nPi (@earendil-works/pi-coding-agent):" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1210: "  pi      absent    no ~/.pi/agent and no `pi` on PATH" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1212: "  Pi does not load Claude Code plugins: the family reaches it as plain skill directories and through AGENTS.md." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1219: " [family]" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1232: "\nThese are installer destinations, not native runtime acceptance." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1233: "Project-only targets cannot be selected by this global-install wrapper." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1234: "Claude Code uses the plugin channel by default; --all excludes its plain skill target." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1235: "--all --no-claude includes the plain claude-code target and skips the plugin step." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1260: "--diff смотрит, --adopt меняет. Вместе они не идут: сначала посмотри, потом принимай." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1351: "+++ пакетный текст (lib/routers-registry.js)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1383: "routers: ни один установленный участник не даёт роутера — нечего писать" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1393: "--dry-run: показываю, что было бы записано. Ничего не изменено, " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1433: "~/.sshlg-skills/backups/ и повтори." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1531: " (--dry-run: ничего не записано)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1550: "  Посмотреть разницу:  npx sshlg-skills routers --diff <имя>" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1551: "  Принять пакетный:    npx sshlg-skills routers --update --adopt <имя>" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1572: "refresh only previously applied wait-rule profiles" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1598: "unsupported wait-rule host; Claude Code uses --claude-only" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1602: "contradictory rules host scope" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1606: "rules: member-only scope cannot apply a family working rule" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1613: " + line).join(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1652: "\nПоменять:  npx sshlg-skills config set routers.<имя> on|off" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1653: "           npx sshlg-skills config set update.auto on|off" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1654: "           npx sshlg-skills config set rules.wait on|off" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1655: "           npx sshlg-skills config set routes.external.<имя>.triggers "слово, фраза, …"" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1656: "           npx sshlg-skills config set routes.external.<имя>.skill <skill-id>" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1657: "           npx sshlg-skills config set routes.external.<имя> off" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1658: "           npx sshlg-skills config set visibility.pack.<owner/repo> hide|show|default" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1669: "config set rules.wait: expected exactly on or off" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1675: "Preview with `npx sshlg-skills rules`; apply with `rules --apply` and the desired host scope." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1693: "Набор больше не обновляется сам. Обновить вручную: npx sshlg-skills@latest update" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1709: "Действует на Gemini, Pi, OpenCode и Hermes. На Claude и Codex переопределение пака ничего не меняет:" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1710: "там скрыто всё вне ядра, а оставить скил в списке можно через `visibility --apply --keep <скил>`." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1711: "Применить: npx sshlg-skills visibility --apply (предпросмотр — без --apply)." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1716: "config set: ключ должен начинаться с "routers.", "routes.external." или "visibility.pack.", или быть "update.auto"" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1739: "Запусти `npx sshlg-skills routers --update`, чтобы применить." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1795: "  Хук промпта назовёт этот маршрут со следующего сообщения; `conflicts` и" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1796: "  `toolkit --for` читают его при каждом запуске." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1798: "  Маршрут ещё не действует: задай routes.external." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1924: "usage: npx sshlg-skills toolkit --find "<concept>, <concept>, …"" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1989: "visibility: --apply and --revert contradict each other" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2027: "cannot read" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2062: "invalid skillUsage" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2067: "CLAUDE.md" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2125: "pack marks: invalid pack-marks/1" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2131: "invalid visibility overrides" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2174: "Host-wide fallback for sessions Fabric does not start. Fabric\" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2178: "  pack marks: not needed for revert — undo uses the ownership record" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2180: "  pack marks: no pack marks on this machine (~/.sshlg-skills/pack-marks.json) — no pack is hidden by mark." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2181: "    Write them: `npx sshlg-skills visibility marks --init --show <owner/repo,…>` (preview), then add --apply." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2194: "    Budget: Claude Code logs it — `claude -p x --debug` then look for "Skill listing over budget"" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2195: "    (30000 characters measured on 2026-10-10). Over budget, descriptions drop least-used first." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2201: "  Claude and Codex hide everything outside the core (pack marks and overrides do not change them; --keep does)." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2252: "  A hidden skill stays installed: no file is deleted or moved, the SKILL.md is still readable," is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2253: "  and `npx sshlg-skills toolkit --find "<concepts>"` finds it by meaning." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2254: "\n  Nothing written. `--apply` hides, `--revert` undoes only what this command wrote." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2258: "Written by `npx sshlg-skills visibility`; --revert removes these entries. Pending holds a write-ahead receipt; applied is consent for update on hosts only." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2280: "write did not take effect" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2347: "  Restart the host session to load the new listing." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2373: "Write them: npx sshlg-skills visibility marks --init --show <owner/repo,…> [--apply]" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2374: "does not parse" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2384: "visibility marks: no installed packs (~/.agents/.skill-lock.json) — nothing to mark" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2400: "\n  Nothing written. Add --apply to write it (a backup is taken first)." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2438: "~/.claude/settings.json" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2526: "walk (stopped early)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2531: "manual: chosen with --enable" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2533: "used 60d" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2540: "unreadable file" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2572: ", dir, " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2572: ", DOMAINS_LOCAL], { encoding: " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2573: "git does not ignore .claude/settings.local.json (or it is tracked) — add it to .gitignore, then run again" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2594: "  Fabric is installed here. Fabric plans to choose skill layers per agent in the sessions it" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2595: "  starts; until that ships, this command is the setting for every session on this machine." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2625: "domains: pick one of --apply, --revert, --enable, --disable" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2632: "  Restore it from ~/.sshlg-skills/backups/ (newest sshlg-skills_domains.json.*) or move it aside, then run again." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2649: "`npx sshlg-skills domains` previews loading them per project, `--apply` does it." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2667: "\n== Domain members ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2669: " never turns a member off — run \" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2669: " to do it" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2671: "  nothing written; the projects above are refused" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2671: "  every project with evidence has its member; nothing written" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2675: "Domain members by project in Claude Code — core and hook-bearing members stay on everywhere; domain members load where a project calls for them" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2707: "  A member back in one project: `npx sshlg-skills domains --enable <member>` there, then restart" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2708: "  the session; `--disable` takes it out again; `--revert` undoes everything this command wrote." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2710: "\n  Nothing written. `--apply` writes the project entries first, reads them back, and only then" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2711: "  turns a member off at user scope; `--revert` undoes only what this command wrote." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2742: "  global settings NOT written — ownership intent could not be persisted" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2757: "  Restart Claude Code sessions to load the new plugin set." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2845: "ownership intent could not be persisted" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2884: "  Restart the Claude Code session in that project (or reconnect) to load it." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2939: "Written by `npx sshlg-skills domains`; --revert undoes exactly these values while they still hold." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2972: "domains --revert: no ~/.sshlg-skills/domains.json — nothing of ours to undo." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3002: "  project entries kept: removing them now would leave those projects without their member" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3012: "  project entries kept until user scope reads back on" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3023: "  Restart Claude Code sessions to load the restored plugin set." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3033: " previews):" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3034: " refuses until they can" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3035: " says how to recover it." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3126: "], { stdio: " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3128: "not a repository address — nothing to resolve" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3129: "no `gh` on PATH; the unauthenticated API rate-limits to 60/hour and answers 403, which reads as "gone"" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3131: "[.full_name, .archived, .pushed_at] | @tsv" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3180: "claim. Fix the JSON or delete the file; it is currently neither." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3228: "unsupported recovery argument; use inspect, then recover --expect <digest|absent>" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3276: "hooks: что ставит семья\n  " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3280: "обновить: npx sshlg-skills hooks install (или update)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3283: "\nhooks: не подключено здесь (снято вручную или ещё не ставилось) — " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3285: "добавить: npx sshlg-skills hooks install (update их не добавляет)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3287: "\nhooks: всё на месте и совпадает" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3302: "statusLine (returned to its previous owner)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3307: "hooks: ничего нашего не установлено" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3329: "hooks: ничего не записано. Заменить осознанно: npx sshlg-skills hooks install --force" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3349: "hooks: настройки уже на месте" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3371: "hooks remove\" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3374: "hooks: перезапусти Claude Code — хуки читаются на старте сессии" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3438: "drop the removed ids from ~/.agents/.skill-lock.json (protect() copy first)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3453: "remove the Cursor rules file (backup first)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3455: "hooks remove (returns any displaced statusLine)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3478: "\n== Removing family skills from the agent channels ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3506: "\n== Removing Claude Code plugins ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3514: "\n== Removing the managed routing block ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3536: "\n== Removing hooks ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3546: "\n== Skill visibility (left in place) ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3548: "  Undo it: npx sshlg-skills visibility --revert   (preview: npx sshlg-skills visibility)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3552: "\n(restart every agent — skills are read at session start)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3553: "To reinstall: npx sshlg-skills install" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3577: "backup: no agent skills directories found — nothing to archive" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3584: ", home, ...rel], { stdio: " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3585: "backup: tar failed — no archive written" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3588: "backup: the archive does not list back — treating as failed" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3612: "\n== --dry-run: wipe would back up, verify, then remove ==" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3630: "\nTo bring everything back: npx sshlg-skills restore" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3631: "(restart every agent — skills are read at session start)" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3649: ", home], { stdio: " is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3650: "restore: tar failed" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3653: "restore: extracted, but no manifest sits beside the archive — counts not verified" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3660: "restore: extracted, but the counts above disagree with the manifest" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3687: ", c.skillId].join(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3771: "  claude-code uses the plugin channel; no plain Claude target is added." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:341: "hooks install\` — update names each one not wired here. - --claude-only install/update only the Claude plugins. - --bump-pins  (update only) also fast-forward the pinned submodules to their upstream tips — off by default so pins stay reproducible. - --dry-run    (install/update) build the full operation plan — every subprocess, prune, router, runtime and settings.json hook-wiring action — render it, and execute NOTHING. The receipt is complete; the mutations are zero." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1199: "→ reconnect'); log('  (or a new session). Do not work around it by calling the service directly with its token.'); } } } }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1206: "try { domainsSummary(home); } catch (e) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1210: "on PATH'); return; } log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1214: "+ (r.family.missing.length ?" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1224: "function cmdAgents() { const targets = require('../lib/host-targets.js'); const snapshot = targets.validateSnapshot(targets.snapshot, cliSpec()); const rows = snapshot.agents; const globals = rows.filter(row => row.global).length; const width = Math.max(...rows.map(row => row.id.length)) + 2; log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1248: "function cmdRouters(f) { const registry = require('../lib/routers-registry.js'); const configLib = require('../lib/config.js'); const apply = require('../lib/apply.js'); const consent = require('../lib/consent.js'); const migrate = require('../lib/migrate.js'); const drift = require('../lib/drift.js'); const fs = require('fs'); const path = require('path'); const home = process.env.HOME || require('os').homedir();" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1259: "if (f.diff && f.adopt) { log('--diff смотрит, --adopt меняет. Вместе они не идут: сначала посмотри, потом принимай.'); process.exit(2); }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1268: "const adopted = []; if (f.adopt && f.adopt.length) { for (const name of f.adopt) { if (!Object.prototype.hasOwnProperty.call(registry.REGISTRY, name)) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1278: "if (configLib.authoredGet(configLib.readConfig(home), name) !== undefined) adopted.push(name); else log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1294: "const parked = configLib.stashGet(configLib.readConfig(home), drift.stashKey(name)); if (parked === undefined) configLib.stashSet(home, drift.stashKey(name), previous); adopted.push(name); } }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1303: "const config = configLib.readConfig(home); const isEnabled = (n) => configLib.isEnabled(config, n);" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1307: "const machine = require(path.join(ROOT, 'lib', 'machine.js')); const scopeOpts = f.member ? { member: f.member, isEnabled } : { installed: manifest.skills.map((s) => s.name), isEnabled, machine: machine.probe({ home }) };" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1312: "const packaged = registry.resolve(scopeOpts); const switchedOff = registry.disabled(scopeOpts);" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1316: "const offMachine = registry.offMachine(scopeOpts); const remove = switchedOff.concat(offMachine);" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1322: "const registryText = Object.assign({}, packaged);" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1327: "if (f.diff) { if (!Object.prototype.hasOwnProperty.call(registry.REGISTRY, f.diff)) {" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1366: "const restored = []; const preserve = []; for (const name of Object.keys(packaged)) { const authored = configLib.authoredGet(config, name); if (authored !== undefined) { packaged[name] = authored; preserve.push(name); continue; } const stashed = configLib.stashGet(config, name); if (stashed !== undefined) { packaged[name] = stashed; restored.push(name); } }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1382: "if (!Object.keys(packaged).length && !remove.length) { log('routers: ни один установленный участник не даёт роутера — нечего писать'); return true; }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1387: "const mode = f.mode || 'install'; let decision = 'yes'; if (f.dryRun) {" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1393: "log('--dry-run: показываю, что было бы записано. Ничего не изменено, ' + 'согласие не запрошено и не записано.'); } else if (mode === 'install') { decision = consent.askConsent({ home, persist: !f.dryRun, interactive: process.stdin.isTTY === true, prompt: (q) => { process.stdout.write(q); return readLineSync(); }, log, }); }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1407: "const superseded = {}; const sources = {};" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1411: "const scoped = scopedRoutingTargets(f); for (const t of scoped.hostTargets) { const file = path.join(apply.hostRoot(t, home), t.file); if (!fs.existsSync(file)) continue; const src = fs.readFileSync(file, 'utf8'); const moved = migrate.migrate(src, { fallbacks: packaged }); const wants = moved.text !== src && decision === 'yes' && !f.dryRun;" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1420: "let wrote = !wants; if (wants) {" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1429: "const saved = apply.protect(file, { home }); if (saved.action === 'backup-failed') { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1447: "sources[file] = decision === 'yes' && wrote ? moved.text : src; if (!wrote) continue; Object.assign(packaged, moved.routers); Object.assign(superseded, moved.superseded);" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1458: "for (const name of moved.migrated || []) { if (preserve.indexOf(name) === -1) preserve.push(name); if (!f.dryRun && decision === 'yes') configLib.authoredSet(home, name, moved.routers[name]); } }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1464: "const res = apply.apply({ home, mode, consent: decision, routers: packaged," is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1467: "hostTargets: scoped.hostTargets, includeCursor: scoped.includeCursor," is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1470: "consentRecorded: consent.readState(home).routers," is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1473: "members: f.member ? [] : SKILLS, remove, preserve, sources, dryRun: f.dryRun, log, });" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1480: "if (!f.dryRun && decision === 'yes') { for (const r of res.targets) { for (const [name, body] of Object.entries(r.removed || {})) {" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1487: "if (offMachine.includes(name) && registry.REGISTRY[name] && body.trim() === registry.REGISTRY[name].text.trim()) continue; configLib.stashSet(home, name, body); } } for (const [id, body] of Object.entries(superseded)) { configLib.stashSet(home, 'superseded:' + id, body); }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1497: "for (const name of restored) configLib.stashClear(home, name); }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1503: "const saved = res.targets.filter((t) => t.backup && t.backup.action === 'saved'); const blocked = res.targets.filter((t) => t.action === 'backup-failed');" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1506: "for (const r of res.targets) { if (r.action === 'agent-absent') continue; log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1530: "+ (f.dryRun ? ' (--dry-run: ничего не записано)' :" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1542: "const diverging = drift.diverged({ packaged: registryText, authored: (configLib.readConfig(home) || {}).authored || {}, }); if (diverging.length) { log(''); log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1624: "function cmdConfig(argv) { const registry = require('../lib/routers-registry.js'); const configLib = require('../lib/config.js'); const home = process.env.HOME || require('os').homedir(); const [sub, key, value] = argv;" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1630: "if (!sub || sub === 'list') { const config = configLib.readConfig(home); log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1662: "if (sub !== 'set') { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1667: "if (key === 'rules.wait') { if (argv.length !== 3 || !['on', 'off'].includes(value)) { log('config set rules.wait: expected exactly on or off'); return 2; } try { require('../lib/wait-rule-policy.js').set(home, value); log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1675: "and the desired host scope.'); return 0; } catch (e) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1680: "if (key === 'update.auto') { if (configLib.STATES.indexOf(value) === -1) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1698: "if (key && key.indexOf('routes.external.') === 0) return configExternal(home, key, argv.slice(2));" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1700: "if (key && key.indexOf('visibility.pack.') === 0) { const pack = key.slice('visibility.pack.'.length); const before = configLib.packOverridesGet(configLib.readConfig(home)); const was = before.showPacks.includes(pack) ? 'show' : before.hidePacks.includes(pack) ? 'hide' : 'default'; try { configLib.setPackOverride(home, pack, value); } catch (e) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1710: ".'); log('Применить: npx sshlg-skills visibility --apply (предпросмотр — без --apply).'); return 0; }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1715: "if (!key || key.indexOf('routers.') !== 0) { log('config set: ключ должен начинаться с "routers.", "routes.external." или "visibility.pack.", или быть "update.auto"'); return 2; }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1720: "const name = key.slice('routers.'.length); if (!Object.prototype.hasOwnProperty.call(registry.REGISTRY, name)) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1727: "if (configLib.STATES.indexOf(value) === -1) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1732: "const was = configLib.isEnabled(configLib.readConfig(home), name) ? 'on' : 'off'; if (was === value) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1739: ", чтобы применить.'); return 0; }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1743: "function triggersLib() { return require('../lib/triggers.js'); }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1754: "function configExternal(home, key, rest) { const configLib = require('../lib/config.js'); const T = triggersLib(); const m = /^routes\.external\.([^.]+)(?:\.(triggers|skill|line))?$/.exec(key); const value = rest.join(' ').trim(); if (!m) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1783: "const problems = T.routeProblems(name, next) .filter((p) => field === 'triggers' || !/^no triggers/.test(p)); if (problems.length) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1795: "и'); log('" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1796: "читают его при каждом запуске.'); } else { log('  Маршрут ещё не действует: задай routes.external.' + name + '.triggers'); } return 0; }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1803: "function readLineSync() { const fs = require('fs'); const buf = Buffer.alloc(1024); try { const n = fs.readSync(0, buf, 0, 1024, null); return buf.slice(0, n).toString('utf8').trim(); } catch (e) { return ''; } }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1831: "function cmdInjectors() { const inj = require(path.join(ROOT, 'lib', 'injectors.js'));" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1835: "const home = process.env.HOME || os.homedir(); let read; try { read = inj.readRegistry(home); } catch (e) {" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1848: "let mcp; try { mcp = inj.readMcp(home); } catch (e) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1869: "function cmdConflicts() { const conflicts = require(path.join(ROOT, 'lib', 'conflicts.js')); const registry = require(path.join(ROOT, 'lib', 'routers-registry.js')); const home = process.env.HOME || os.homedir(); let skills; try { skills = conflicts.readSkills(home); } catch (e) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1884: "let external = []; try { const triggers = require(path.join(ROOT, 'lib', 'triggers.js')); const configLib = require(path.join(ROOT, 'lib', 'config.js')); external = triggers.externalRoutes(configLib.externalGet(configLib.readConfig(home))); } catch (e) { external = []; } log(conflicts.report( conflicts.collisions(skills, { owned, routers, external }), { scanned: skills.length })); }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1907: "function cmdToolkit(argv) { const toolkit = require(path.join(ROOT, 'lib', 'toolkit.js')); const home = process.env.HOME || os.homedir(); let skills; try { skills = toolkit.readSkills(home); } catch (e) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1920: "const li0 = argv.indexOf('--limit'); const findAt = argv.indexOf('--find'); if (findAt !== -1) { const query = argv[findAt + 1] && !argv[findAt + 1].startsWith('--') ? argv[findAt + 1] : ''; if (!query) { log('usage: npx sshlg-skills toolkit --find "<concept>, <concept>, …"'); return 2; }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1927: "let overrides = {}; try { overrides = JSON.parse(fs.readFileSync(path.join(home, '.claude', 'settings.json'), 'utf8')).skillOverrides || {}; } catch (e) { overrides = {}; } const additional = toolkit.readShared(home, skills); const all = skills.concat(additional) .map((s) => Object.assign({}, s, { visibility: s.namespace === 'claude:plain' ? overrides[s.id] : undefined })); const { rows, total } = toolkit.find(all, query, li0 !== -1 ? Number(argv[li0 + 1]) || 12 : 12); log(toolkit.renderFind(rows, query, total, { showCopies: argv.includes('--copies') })); for (const warning of additional.warnings || []) log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1940: "const at = argv.indexOf('--for'); const forQuery = at !== -1 && argv[at + 1] && !argv[at + 1].startsWith('--') ? argv[at + 1] : ''; const expand = []; for (let i = 0; i < argv.length; i += 1) { if (argv[i] === '--expand' && argv[i + 1] && !argv[i + 1].startsWith('--')) expand.push(argv[i + 1]); } const li = argv.indexOf('--limit'); const limit = li !== -1 && argv[li + 1] ? Number(argv[li + 1]) || 12 : 12;" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1952: "const triggers = require(path.join(ROOT, 'lib', 'triggers.js')); let external = []; try { const configLib = require(path.join(ROOT, 'lib', 'config.js')); external = triggers.externalRoutes(configLib.externalGet(configLib.readConfig(home))); } catch (e) { external = []; } const seeds = forQuery ? toolkit.seedsFor(triggers, forQuery, external) : []; const protect = toolkit.advertisedWords(triggers.ROUTES);" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1961: "log(toolkit.report(skills, family, { for: forQuery, expand, limit, seeds, protect })); }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1969: "function continueHasFamilyCopies() { const dir = path.join(process.env.HOME || os.homedir(), '.continue', 'skills'); let names = []; try { names = fs.readdirSync(dir); } catch (e) { return false; } const ids = new Set(SKILLS.flatMap((s) => plan.skillIds(s))); return names.some((n) => ids.has(n)); }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:1984: "function cmdVisibility(argv) { const V = require(path.join(ROOT, 'lib', 'visibility.js')); const flag = (name) => argv.includes(name); const value = (name) => { const i = argv.indexOf(name); return i !== -1 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : null; }; if (argv[3] === 'marks') return cmdVisibilityMarks(argv); if (flag('--apply') && flag('--revert')) { log('visibility: --apply and --revert contradict each other'); return 2; } return runVisibility({ mode: flag('--revert') ? 'revert' : flag('--apply') ? 'apply' : 'preview', days: Number(value('--days')) || V.DEFAULT_DAYS, keep: (value('--keep') || '').split(',').map((s) => s.trim()).filter(Boolean), }); }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2002: "function runVisibility(opts) {" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2005: "if (opts.mode === 'preview' || opts.reapply) return runVisibilityUnlocked(opts); const lock = require('../lib/updatelock.js'); const home = process.env.HOME || os.homedir(); const got = lock.acquire(home); if (!got.ok || got.degraded) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2018: "function runVisibilityUnlocked(opts) { const V = require(path.join(ROOT, 'lib', 'visibility.js')); const HV = require(path.join(ROOT, 'lib', 'hostvis.js')); const toolkit = require(path.join(ROOT, 'lib', 'toolkit.js')); const apply = require(path.join(ROOT, 'lib', 'apply.js')); const configLib = require(path.join(ROOT, 'lib', 'config.js')); const home = process.env.HOME || os.homedir(); const S = require(path.join(ROOT, 'lib', 'visibility-state.js')); const readErrors = new Map(); const read = (p) => { try { return S.read(p); } catch (e) { readErrors.set(p, e.code || 'cannot read'); return null; } }; const claudeRoot = apply.hostRoot(HV.target('claude'), home, { env: process.env }); const codexRoot = apply.hostRoot(HV.target('codex'), home, { env: process.env }); const doApply = opts.mode === 'apply'; const doRevert = opts.mode === 'revert'; const days = opts.days || V.DEFAULT_DAYS; const keep = opts.keep || []; const inScope = (id) => !opts.only || opts.only.has(id);" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2036: "const recordPath = path.join(home, '.sshlg-skills', 'visibility.json'); let owned = { claude: [], codex: [], gemini: [], pi: [], opencode: [], hermes: [], piCreated: false, created: {}, hosts: [] }; try { const stored = S.validate(JSON.parse(S.read(recordPath) || '{}')); const recovered = S.recover(stored, process.env); if (stored.pending) log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2046: "const policyErrors = []; let skills = []; if (!doRevert) { try { skills = toolkit.readSkills(home, { claudeRoot, strict: true }).filter((s) => s.callable !== false); } catch (e) { policyErrors.push(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2075: "const settingsPath = path.join(claudeRoot, 'settings.json'); const settingsText = read(settingsPath); let settingsData = {}; try { settingsData = JSON.parse(settingsText || '{}'); } catch (e) { settingsData = {}; } const overrides = settingsData.skillOverrides || {}; const mine = new Set(owned.claude.filter((n) => overrides[n] === V.HIDE)); const foreign = {}; for (const [k, v] of Object.entries(overrides)) if (!mine.has(k)) foreign[k] = v; const plan = doRevert ? { hide: [], respected: [] } : V.claudePlan({ personal, core: coreSet, overrides: foreign, keep }); const claudeSet = plan.hide.filter((n) => !mine.has(n)); const claudeUnset = [...mine].filter((n) => !plan.hide.includes(n)); const stateOf = (s, ov) => { if (s.loaded === false) return 'hidden'; if (s.namespace !== 'claude:plain') return 'on'; const v = ov[s.id]; if (v === 'off' || v === V.HIDE) return 'hidden'; return v === 'name-only' ? 'name-only' : 'on'; }; const after = Object.assign({}, overrides); for (const n of claudeSet) after[n] = V.HIDE; for (const n of claudeUnset) delete after[n]; const charsBefore = V.listingChars(skills.map((s) => ({ name: s.plugin && s.namespace === 'claude:plugin' ?" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2100: "const codexPath = path.join(codexRoot, 'config.toml'); const codexText = read(codexPath); const sharedRoot = path.join(home, '.agents', 'skills'); let shared = []; if (!doRevert) { try { shared = HV.readRoot(sharedRoot, { strict: true }).map((s) => s.base); } catch (e) { policyErrors.push(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2114: "const marksPath = path.join(home, '.sshlg-skills', 'pack-marks.json'); const marksText = doRevert ? null : read(marksPath); if (readErrors.has(marksPath)) policyErrors.push(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2120: "]; } } const marks = V.marksIndex(marksData); let config = {}, lock = new Map(); if (!doRevert) { if (markProblems.length) policyErrors.push('pack marks: invalid pack-marks/1'); try { config = S.object(configLib.configPath(home)) || {}; const v = config.visibility; if (v !== undefined && (!v || typeof v !== 'object' || Array.isArray(v) || ['hidePacks', 'showPacks'].some((k) => v[k] !== undefined && (!Array.isArray(v[k]) || v[k].some((x) => typeof x !== 'string'))))) throw new Error('invalid visibility overrides'); } catch (e) { policyErrors.push(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2147: "for (const [id, file] of Object.entries(files)) { if (!inScope(id)) continue; const prior = (owned.files || {})[id] || (id === 'claude' ? S.profilePath(path.join(home, '.claude/settings.json')) : id === 'codex' ? S.profilePath(path.join(home, '.codex/config.toml')) : null); const carriesState = (owned[id] || []).length || createdOf(id).length || (opts.reapply && (owned.hosts || []).includes(id)); if (!prior && carriesState) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2168: "const coreAll = V.core({ personal: [...seen], family, usage, now, days, instructions }); for (const k of keep) coreAll.add(k); const installedPacks = new Set(lock.values()); const hiddenPacks = [...installedPacks].filter((p) => V.packHidden(p, '*', { marks, config })); const ov = config.visibility || {};" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2174: "log('Host-wide fallback for sessions Fabric does not start. Fabric\'s RM-23 (open) is to read ~/.sshlg-skills/pack-marks.json and own visibility in the sessions it starts.'); log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2181: "(preview), then add --apply.'); } else if (markProblems.length) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2194: "then look for "Skill listing over budget"'); log('    (30000 characters measured on 2026-10-10). Over budget, descriptions drop least-used first.'); } if (inScope('codex')) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2198: "+ (codexText === null ?" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2204: "const hostPlans = []; for (const h of hostList) { if (!inScope(h.id)) continue; if (!h.present) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2216: "if (!want.length && !ownedHere.length && !createdOf(h.id).length) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2236: "; hostPlans.push(p); continue; } const prunable = createdOf(h.id); const edit = h.kind === 'json-list' ? V.editJsonList(p.text, { keys: h.keys, add, remove: drop, create: h.create, newline: h.newline, prunable }) : V.editJsonMap(p.text, { keys: h.keys, set: add, value: h.value, unset: drop, prunable }); if (!edit.ok) p.reason =" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2242: "; else if (edit.skipped && want.length) p.reason =" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2243: "; else { p.edit = edit; p.added = edit.added; p.changed = edit.text !== p.text; } } log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2247: "+ (p.reason ?" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2253: "finds it by meaning.'); if (!doApply && !doRevert) { log('\n  Nothing written." is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2254: "undoes only what this command wrote.'); return 0; }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2256: "const degraded = []; let record = Object.assign({}, owned, { note: 'Written by" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2258: "; --revert removes these entries. Pending holds a write-ahead receipt; applied is consent for update on hosts only.', days, keep, marksRevision: marksData && !markProblems.length ? marksData.revision : null, updatedAt: new Date().toISOString(), created: Object.assign({}, owned.created || {}), files: Object.assign({}, owned.files || {}, Object.fromEntries(Object.entries(files).filter(([id]) => inScope(id)))), }); if (doApply && !opts.reapply) { record.applied = true; record.hosts = []; if (settingsText !== null) record.hosts.push('claude'); if (codexText !== null) record.hosts.push('codex'); for (const h of hostList) if (h.present && !h.cannot) record.hosts.push(h.id); if (opts.only) record.hosts = record.hosts.filter((x) => opts.only.has(x)).concat((owned.hosts || []).filter((x) => !opts.only.has(x))); } else if (doRevert) {" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2272: "record.applied = false; record.hosts = []; } const journal = S.journal(recordPath, home, record, process.env); const clone = () => JSON.parse(JSON.stringify(journal.current)); const degrade = (id, reason) => { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2284: "try { journal.save(record); const writeSimple = (id, file, before, edit, entries) => { if (!inScope(id)) return; if (readErrors.has(file)) { degrade(id, readErrors.get(file)); return; } if (before === null) return; const r = edit(before); if (!r.ok) { degrade(id, r.reason); return; } const next = clone(); next[id] = entries(r); if (id === 'claude') { if (claudeSet.length && !('skillOverrides' in settingsData)) next.created.claude = ['skillOverrides']; if (doRevert) delete next.created.claude; } if (r.text === before) { journal.save(next); log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2308: "for (const p of hostPlans) { const { h } = p; if (p.reason) { degrade(h.id, p.reason); continue; } const next = clone(); next[h.id] = [...new Set(p.ownedHere.filter((x) => p.want.includes(x)).concat(p.added))].sort(); if (!p.changed) { journal.save(next); log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2359: "function cmdVisibilityMarks(argv) { const V = require(path.join(ROOT, 'lib', 'visibility.js')); const HV = require(path.join(ROOT, 'lib', 'hostvis.js')); const apply = require(path.join(ROOT, 'lib', 'apply.js')); const home = process.env.HOME || os.homedir(); const file = path.join(home, '.sshlg-skills', 'pack-marks.json'); const flag = (name) => argv.includes(name); const value = (name) => { const i = argv.indexOf(name); return i !== -1 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : null; }; let text = null; try { text = require('../lib/visibility-state.js').read(file); } catch (e) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2392: "; const revision = cur && Number.isInteger(cur.revision) ? cur.revision + 1 : 1; const allPacks = packs.concat(show.filter((p) => !known.has(p.toLowerCase()))); const data = V.marksFromLock({ packs: allPacks, show, date, revision }); const hidden = data.packs.filter((m) => m.hidden); log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2423: "const DOMAINS_LOCAL = path.join('.claude', 'settings.local.json');" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2426: "function domainsProfilePath(file) { try { return fs.realpathSync(file); } catch (e) { try { return path.join(fs.realpathSync(path.dirname(file)), path.basename(file)); } catch (_) { return path.resolve(file); } } }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2433: "function domainsInputs(argv, home) { const D = require(path.join(ROOT, 'lib', 'domains.js')); const E = require(path.join(ROOT, 'lib', 'enablement.js')); const settingsPath = path.join(E.claudeRoot(home), 'settings.json'); const profile = domainsProfilePath(settingsPath); const settingsLabel = path.resolve(E.claudeRoot(home)) === path.join(home, '.claude') ? '~/.claude/settings.json' : settingsPath; const read = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch (e) { return null; } };" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2441: "const readLocal = (p) => { try { return { text: fs.readFileSync(p, 'utf8') }; } catch (e) { return e.code === 'ENOENT' ? { text: null } : { text: null, error: e.code || e.message }; } }; const value = (name) => { const i = argv.indexOf(name); return i !== -1 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : null; }; const recordPath = path.join(home, '.sshlg-skills', 'domains.json'); const rr = readLocal(recordPath); const recordText = rr.text;" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2450: "let owned = null; let recordError = rr.error ?" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2453: "; } if (!recordError) recordError = D.validRecord(owned); if (recordError) owned = null; } const ownedProfile = owned && domainsProfilePath(owned.profile || path.join(home, '.claude', 'settings.json')); const profileError = owned && ownedProfile !== profile ?" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2466: "const dirs = []; const rootErrors = []; const seen = new Set(); const addDir = (dir) => { let real; try { real = fs.realpathSync(dir); } catch (e) { return false; } if (seen.has(real)) return false; seen.add(real); dirs.push(dir); return true; }; for (const r of roots) { let entries; try { entries = fs.readdirSync(r, { withFileTypes: true }); } catch (e) { rootErrors.push(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2489: "for (const dir of Object.keys((owned && owned.manual) || {})) if (fs.existsSync(dir)) addDir(dir);" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2491: "let usage = new Map(); let usageFile = null; if (!argv.includes('--no-usage')) { const udir = path.join(home, '.sshlg-skills', 'usage'); let tables = [];" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2497: "try { tables = fs.readdirSync(udir).filter((n) => D.usageFresh(n)).sort(); } catch (e) { tables = []; } if (tables.length) { usageFile = path.join(udir, tables[tables.length - 1]); usage = D.parseUsage(read(usageFile) || '', SKILLS.filter((s) => D.DOMAIN_MEMBERS.includes(s.name))); } } const plugins = {}; for (const s of SKILLS) if (D.DOMAIN_MEMBERS.includes(s.name)) plugins[s.name] = s.pluginInstall;" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2507: "const installedAt = E.installed(home); const keepOn = { 'sheleg-dev': D.KEEP_ON_HOOKS }; for (const m of D.DOMAIN_MEMBERS) { const dirs = [installedAt[plugins[m]], path.join(ROOT, 'skills', m, 'plugins', m)].filter(Boolean); if (dirs.some((d) => fs.existsSync(path.join(d, 'hooks', 'hooks.json')))) keepOn[m] = D.KEEP_ON_HOOKS; } const localPath = (dir) => path.join(dir, DOMAINS_LOCAL); const enabledOf = (text) => { try { const d = JSON.parse(text); return (d && d.enabledPlugins) || {}; } catch (e) { return {}; } }; const kinds = {};" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2518: "let scanned = {}; const child = dirs.length ? spawnSync(process.execPath, [path.join(ROOT, 'lib', 'domainscan.js')], { input: JSON.stringify(dirs), encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 }) : { status: 0, stdout: '{}' }; try { scanned = child.status === 0 ? JSON.parse(child.stdout || '{}') : {}; } catch (e) { scanned = {}; } const projects = dirs.map((dir) => { let s = scanned[dir]; if (!s) { const w = D.scan(dir, fs, path); s = { evidence: w.evidence, via: w.truncated ? 'walk (stopped early)' : 'walk', partial: D.DOMAIN_MEMBERS.slice() }; } const evidence = s.evidence; const used = usage.get(D.encodeDir(dir)) || {}; for (const [member, calls] of Object.entries(used)) (evidence[member] || (evidence[member] = [])).push(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2540: "const shared = sr.error ? { ok: false, reason: 'unreadable file' } : D.readEnabled(sr.text); const local = lr.error ? { ok: false, reason: 'unreadable file' } : D.readEnabled(lr.text); const sharedOK = shared.ok; const localOK = local.ok; const settingsOK = sharedOK && localOK; let verdict;" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2548: "const writable = () => verdict || (verdict = settingsOK ? domainsWritable(dir, lr, D) : { ok: false, why:" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2562: "function domainsWritable(dir, lr, D) { if (lr.error) return { ok: false, why:" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2572: "const q = spawnSync('git', ['-C', dir, 'check-ignore', '-q', DOMAINS_LOCAL], { encoding: 'utf8' }); if (q.status === 1) return { ok: false, why: 'git does not ignore .claude/settings.local.json (or it is tracked) — add it to .gitignore, then run again' }; if (q.status !== 0) return { ok: false, why:" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2580: "function domainsWriteFile(apply, home, file, before, after, label) { if (before !== null) { const saved = apply.protect(file, { home }); if (saved.action === 'backup-failed') { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2590: "function domainsFabricLine(home, say) { try { const machine = require(path.join(ROOT, 'lib', 'machine.js')); if (machine.holds('fabric', machine.probe({ home }))) { say('  Fabric is installed here. Fabric plans to choose skill layers per agent in the sessions it'); say('  starts; until that ships, this command is the setting for every session on this machine.'); } } catch (e) {  } }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2600: "function runDomainsLocked(argv) { const writes = ['--apply', '--revert', '--enable', '--disable', '--update-step'].some((f) => argv.includes(f)); if (!writes) return cmdDomains(argv); const lock = require('../lib/updatelock.js'); const home = process.env.HOME || os.homedir(); const got = lock.acquire(home); if (!got.ok || got.degraded) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2616: "function cmdDomains(argv) { const apply = require(path.join(ROOT, 'lib', 'apply.js')); const home = process.env.HOME || os.homedir(); const doApply = argv.includes('--apply'); const doRevert = argv.includes('--revert'); const updateStep = argv.includes('--update-step'); const enableArg = argv.includes('--enable'); const disableArg = argv.includes('--disable'); if ([doApply, doRevert, updateStep, enableArg, disableArg].filter(Boolean).length > 1) { log('domains: pick one of --apply, --revert, --enable, --disable'); return 2; } const I = domainsInputs(argv, home); const { D } = I; const name = (dir) => path.basename(dir); if (I.recordError) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2642: "const applied = !!(I.owned && I.owned.applied === true);" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2644: "if (updateStep && !applied) { const P0 = D.plan({ projects: I.projects, user: I.user, owned: I.owned, plugins: I.plugins, keepOn: I.keepOn, onlyAdd: true }); const n = P0.adds.length + P0.refused.length; if (n) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2649: "does it.'); } return 0; }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:2655: "const rootProblem = I.rootErrors.length ?" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3129: "on PATH; the unauthenticated API rate-limits to 60/hour and answers 403, which reads as "gone"' }; const r = spawnSync('gh', ['api'," is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3130: ", '--jq', '[.full_name, .archived, .pushed_at] | @tsv'], { encoding: 'utf8' }); if (r.status !== 0) { const msg = String(r.stderr || '').split('\n')[0].slice(0, 60) || 'gh failed'; return { id: t.id, source: t.source, error: msg }; } const [full, archived, pushed] = String(r.stdout).trim().split('\t'); return { id: t.id, source: t.source, movedTo: full && full.toLowerCase() !== t.source.toLowerCase() ? full : null, archived: archived === 'true', pushedAt: (pushed || '').slice(0, 10), }; }); }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3164: "function cmdMaterialised(argv) { const M = require(path.join(ROOT, 'lib', 'materialised.js')); const rest = argv.slice(3); const at = rest.indexOf('--root'); const root = at !== -1 && rest[at + 1] ? path.resolve(rest[at + 1]) : process.cwd(); const file = path.join(root, M.DECL_PATH);" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3171: "if (!fs.existsSync(file)) { log(M.report([], { present: false })); return 0; }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3173: "let raw; try { raw = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) {" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3184: "const registry = require(path.join(ROOT, 'lib', 'routers-registry.js')); const known = Object.keys(registry.REGISTRY); const read = (rel) => {" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3189: "const target = path.resolve(root, rel); if (target !== root && !target.startsWith(root + path.sep)) return null; try { return fs.readFileSync(target, 'utf8'); } catch (e) { return null; } };" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3194: "const rows = M.check(raw, known, read); log(M.report(rows, { present: true })); return rows.some((r) => !r.satisfied) ? 2 : 0; }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3199: "function cmdHooks(argv) { const fs = require('fs'); const pathMod = require('path'); const hooksLib = require('../lib/hooks.js'); const apply = require('../lib/apply.js'); const configLib = require('../lib/config.js');" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3206: "const sub = (argv[0] && !argv[0].startsWith('-')) ? argv[0] : 'status'; const force = argv.includes('--force'); const dryRun = argv.includes('--dry-run'); const home = os.homedir();" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3213: "const root = hooksLib.runtimeDir(home); const pkgRoot = pathMod.resolve(__dirname, '..'); const file = pathMod.join(home, '.claude', 'settings.json');" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3217: "if (sub === 'recovery') { const args = argv.slice(1), action = args.shift(); let json = false, expected; const invalid = reason => { const result = { ok: false, state: 'UNKNOWN', reason }; console.log(JSON.stringify(result)); return false; }; for (let i = 0; i < args.length; i++) { if (args[i] === '--json' && !json) json = true; else if (args[i] === '--expect' && expected === undefined && args[i + 1] && /^(absent|[a-f0-9]{64})$/.test(args[i + 1])) expected = args[++i]; else return invalid('unsupported recovery argument; use inspect, then recover --expect <digest|absent>'); } if (!['inspect', 'recover'].includes(action) || (action === 'inspect' && expected !== undefined) || (action === 'recover' && expected === undefined)) { return invalid('use recovery inspect, then recovery recover --expect <digest|absent>'); } const recovery = require('../lib/runtime-recovery'); const result = action === 'inspect' ? recovery.inspect(root) : recovery.recover(root, expected); if (json) console.log(JSON.stringify(result)); else log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3248: "function syncRuntime() { const result = require('../lib/runtime.js').sync(pkgRoot, root, { create: true }); if (result.ok === false) throw new Error(result.reason); return root; }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3254: "let current = {}; if (fs.existsSync(file)) { try { current = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (e) {" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3267: "if (sub === 'status') {" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3273: "const { conflicts, reasons } = hooksLib.plan(current, root, {}); const stale = reasons.filter((r) => r.reason !== 'added'); const absent = reasons.filter((r) => r.reason === 'added'); log('hooks: что ставит семья\n  ' + hooksLib.describe(root).join('\n  ')); if (stale.length) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3284: "+ 'добавить: npx sshlg-skills hooks install (update их не добавляет)'); } if (!reasons.length) log('\nhooks: всё на месте и совпадает'); for (const c of conflicts) log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3292: "if (sub === 'remove') { const { settings, changed } = hooksLib.removal(current, root);" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3298: "const parked = configLib.stashGet(configLib.readConfig(home), DISPLACED_STATUSLINE); if (parked) { try { settings.statusLine = JSON.parse(parked); changed.push('statusLine (returned to its previous owner)'); } catch (e) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3321: "if (sub !== 'install') { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3323: "const { settings, changed, conflicts } = hooksLib.plan(current, root, { force }); const blocking = conflicts.filter(() => !force); if (blocking.length) { for (const c of blocking) { log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3342: "try { syncRuntime(); log(" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3360: "for (const c of conflicts) { if (c.key !== 'statusLine') continue; if (configLib.stashGet(configLib.readConfig(home), DISPLACED_STATUSLINE)) continue; configLib.stashSet(home, DISPLACED_STATUSLINE, JSON.stringify(current.statusLine)); }" is in the code with no registry row -- agree it or retire it
+warn  B022 bin/sshlg-skills.js:3366: "fs.writeFileSync(file, JSON.stringify(settings, null, 2) + '\n', 'utf8'); log(" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/wait-recovery-cli.js:73: "  Host instructions are not restored or rewritten by recovery.\n" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:13: "/proc/sys/kernel/random/boot_id" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:14: "boot identity unavailable" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:15: " + fs.readlinkSync(" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:18: "/usr/sbin/sysctl" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:22: "recovery requires supported POSIX process identity" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:27: "runtime root must be canonical, owned, and not writable by others" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:41: "unsafe recovery metadata" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:45: "recovery metadata changed" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:56: "invalid UTF-8" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:75: "unsafe runtime journal" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:88: "runtime root changed" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:90: "unsafe runtime root" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:96: "unsafe recovery coordinator" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:102: "recovery coordinator changed" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:106: "recovery admission refused: " is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:112: "runtime root changed after coordinator admission" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:115: "runtime root changed during recovery" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:126: "/usr/bin/python3" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:133: "coordinator exclusion not demonstrated" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:140: "runtime holder changed before retirement" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:149: "inspect first and supply the exact expected lock digest" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:151: "runtime holder or expected lock is not admitted" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:153: ", HELPER, view.root, process.execPath, __filename, expected], { encoding: " is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:157: "invalid result" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:159: "recovery result unreadable; inspect again" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:164: "internal worker requires coordinator admission" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:169: "runtime recovery refused: " is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:85: "import os, sys, stat, fcntl try: root, node, module, expected = sys.argv[1:] if os.path.realpath(root) != root: raise ValueError('runtime root changed') r = os.lstat(root) if not stat.S_ISDIR(r.st_mode) or r.st_uid != os.getuid() or r.st_mode & 0o022: raise ValueError('unsafe runtime root') p = os.path.join(root, '.recovery-coordinator') try: prior = os.lstat(p) except FileNotFoundError: prior = None if prior and (not stat.S_ISREG(prior.st_mode) or prior.st_nlink != 1 or prior.st_uid != os.getuid() or stat.S_IMODE(prior.st_mode) != 0o600): raise ValueError('unsafe recovery coordinator') fd = os.open(p, os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600) s = os.fstat(fd) if not stat.S_ISREG(s.st_mode) or s.st_nlink != 1 or s.st_uid != os.getuid() or stat.S_IMODE(s.st_mode) != 0o600: raise ValueError('unsafe recovery coordinator') fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB) t = os.lstat(p) if (s.st_dev, s.st_ino) != (t.st_dev, t.st_ino): raise ValueError('recovery coordinator changed') os.set_inheritable(fd, True) os.execv(node, [node, module, '--worker', root, expected, str(fd), str(r.st_dev), str(r.st_ino)]) except Exception as e: print('recovery admission refused: ' + type(e).__name__, file=sys.stderr) sys.exit(2)" is in the code with no registry row -- agree it or retire it
+warn  B022 lib/runtime-recovery.js:127: "import sys, fcntl try: fcntl.flock(3, fcntl.LOCK_EX | fcntl.LOCK_NB) except OSError: sys.exit(2)" is in the code with no registry row -- agree it or retire it
+warn  B074 copy-brief.md:0: marketing sources have no current copy brief; seed one before the next writing task, retaining unknown inputs
+
+2 error(s), 749 warning(s)
