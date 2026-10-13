@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "initial_source": "32e29af1f1f16576acd0bf0745d1a0386dac18fa",
+  "corrected_source": "b858882d3f31e39868128a105159b104f7f4ee37",
+  "initial": {
+    "passed_suites": 116,
+    "total_suites": 118,
+    "failures": [
+      "audit_regressions/fix-up-02.01.py",
+      "codex_native_e2e_test.js"
+    ]
+  },
+  "corrected": {
+    "all_suites_passed": true,
+    "counts": {
+      "suites": 118,
+      "fixtures": 1814,
+      "members": 11
+    },
+    "terminal_failure": "stale DOCMAP stated ratchets only"
+  },
+  "ratchet_replay": {
+    "command": "node test/run.js --ratchets-from /tmp/b187-full-corrected-ratchets.json",
+    "exit_code": 0,
+    "full_suite_rerun": false
+  },
+  "logs": [
+    {
+      "phase": "initial",
+      "log": "aggregate-initial.log.gz",
+      "uncompressed_sha256": "e53c61d93d48f983120251715202faada1f3ef243f72e0a018ab54312e6069cf",
+      "bytes": 35670,
+      "exit_code": 1
+    },
+    {
+      "phase": "corrected",
+      "log": "aggregate-corrected.log.gz",
+      "uncompressed_sha256": "2d4b75007bda9013b6bf5144d7f3da82bef38db260ccc7b5b3d8ad1dbdb70739",
+      "bytes": 35690,
+      "exit_code": 1
+    },
+    {
+      "phase": "ratchets",
+      "log": "aggregate-ratchets.log.gz",
+      "uncompressed_sha256": "95c8f7b2f70d7b8e455e1c9972f0216e1be29967115223ff86ab8a8a6a559f12",
+      "bytes": 89,
+      "exit_code": 0
+    }
+  ],
+  "limits": [
+    "No real-host native installation",
+    "No hosted candidate CI claimed",
+    "Refresh immutable plugin inventory after final member pin changes"
+  ]
+}

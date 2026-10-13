@@ -2,7 +2,7 @@
 
 # B-187: Claude native immutable source admission
 
-Status: bounded implementation and focused native evidence; peer review and aggregate pending, 2026-10-13.
+Status: bounded source independently reviewed and corrected owner aggregate passed; integration, candidate CI and real-host apply remain pending, 2026-10-13.
 Base6bb4a0ffd050f3f2cfed38ef29a1f415d6303e22; native CLI2.1.296.
 No operator configuration or cache was changed by these probes. Each process
 used synthetic HOME, CLAUDE_CONFIG_DIR, cwd, Git configuration and a local
@@ -243,6 +243,35 @@ Actual read-only `runtime()` returned `2.1.296 (Claude Code)` with these limits.
 No operator configuration writes or model calls occur in this version probe.
 The earlier full native lifecycle receipt remains bound to `a158570`; this delta
 changes only version-process admission and does not claim a repeated lifecycle run.
+
+## Owner aggregate and handoff
+
+[Aggregate receipt](aggregate.json) binds retained compressed logs and SHA-256
+hashes to both source snapshots. Initial `npm test` at `32e29af` passed116 of118
+suites and failed two legacy fixtures that supplied incomplete native metadata or
+an empty-success Claude stub. That failed run remains preserved. Fixture-only
+correction `b858882` supplies valid version/manifest/prior-SHA metadata and an
+explicit native transaction boundary mock; production admission is unchanged.
+The individual regressions then passed5/5 and11/11.
+
+Corrected `SSHLG_RATCHETS_OUT=/tmp/b187-full-corrected-ratchets.json npm test`
+at `b858882` passed all118 suites and measured1814 fixtures with11 pinned members.
+Its terminal exit1 was only the existing DOCMAP115/1755 count claim. After the
+authorized two-line DOCMAP update, `node test/run.js --ratchets-from` against that
+same measured receipt exited0. No second full execution is claimed for that
+count-only correction. This is a split aggregate verdict, preserving both exits.
+
+Root independently reviewed core safety and reran transaction27. A second reviewer
+bound numeric refusal and the bounded version child controls to their source
+snapshots, retaining the explicit native uncertainty and recovery limits above.
+No remaining bounded code finding was reported before this aggregate.
+
+Delivery is this pushed branch, not a competing main PR or release. Exact next
+integration tasks: merge the reviewed branch, regenerate `claude-plugin-pins.json`
+against the final eleven member gitlinks, run the combined candidate gate, obtain
+genuine candidate CI, then perform the separately authorized native update with
+installed payload readback. Do not reuse the old inventory after changing member
+pins. W175 wait-rule work lives on its own branch and is not part of this result.
 
 ---
 **Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**:
