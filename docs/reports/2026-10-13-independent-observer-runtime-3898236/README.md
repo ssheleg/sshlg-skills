@@ -80,6 +80,17 @@ The observer read exact design `6880776dab0efaeafd925ba404b31a387f26f770`, [B190
 
 The implementation owner received these acceptance cases before source freeze: two contenders for one dead reclaimer's immutable successor slot; reclaimer death before/after original-lock retirement and after recovery-lock acquisition; journal committed but terminal receipt absent; terminal receipt published but fence cleanup incomplete; and a writer admitted between its first fence check and recovery publication. Only the exact attributable predecessor lock may be retired. A historical completed operation must never unlink a later writer's lock. Prepared or partial publication must not create a second authoritative branch. Next task is independent review of the frozen implementation and its process/barrier evidence; no production code was authored by this observer.
 
+
+## Aggregate counter review, b33a8e9 and 23bb9c5
+
+**ACCEPT_SOURCE for the narrow summary/count changes.** Exact `23bb9c5be91cb48eadc35e87bf19766d15d1d6b5` changes only the successful summary of the existing single backup-retention process case and adds its author's receipt; its error and cleanup behavior are unchanged. This observer inspected the diff without independently rerunning that process case.
+
+Exact `b33a8e9d0f84ecfe1ed8561261d9764ccf477c24` changes **31** files: **29** audit scripts, queue and MCP-secret tests. [Independent receipt](raw/counters-b33a8e9-independent.json) records an exact inverse transform of all 29 audit edits back to byte-identical parent source, plus **58** positive/negative controls using their actual callback wrapper and verdict AST. A failed callback retains nonzero failure and cannot print the successful summary. The real queue test passed **8** checks; selecting one existing test passed **1**, and an invalid selection failed without an OK summary. Two extracted MCP summary controls preserve exit 0/1. The aggregate runner is unchanged. The observer did not repeat the coordinator's 31-suite run.
+
+The initial observer harness assumed each main function ended with exactly three verdict nodes. It stopped at `fix-vd-07.01`, which has an extra `NOT_RUN` loop; no owner source was changed. The corrected extraction includes that existing loop. **Count boundary:** this script retains a preexisting path that reports missing cross-repository source as NOT_RUN and returns from a callback. The new counter counts callbacks entered; it cannot prove that missing external assertions executed. Final aggregate evidence must retain such NOT_RUN output and populate or separately resolve that source dependency before claiming those checks passed.
+
+B190's implementation owner selected a kernel-held coordinator via an explicit optional POSIX/Python adapter, then an exec handoff to the Node recovery worker. This is still a design direction pending immutable source review. Required process controls include inherited-lock exclusion across exec, worker SIGKILL releasing the kernel lock, no leaked lock descriptor in subprocesses, and refusal to retire an unrelated writer winning the public-lock gap. No implementation acceptance is inferred from this discussion.
+
 ---
 
 **Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**
