@@ -1,0 +1,230 @@
+{
+  "schema": "native-artifact-second-review/1",
+  "reviewer": "visibility_review (runner author; second artifact reading, not blind to coordinator preliminary findings)",
+  "method": "Read all four full private visible-text artifacts and unchanged rubric. No prompt/rubric edits, model calls or regex-only grading. Findings bind exact artifact hashes; no private quotes copied.",
+  "rubric_sha256": "d5420c69b4d56c9e304ec960a604504dd1f8588143ac6420caa48a15148db660",
+  "manifest_sha256": "ad57c05ed1a8a8ac805576d6500a009bd5949399380c7b886959541860551693",
+  "coordinator_preliminary_received": {
+    "q3": "FAIL_ALL_FOUR",
+    "q4": "FAIL_EN_PAIR_PASS_RU_PAIR",
+    "skill_loads": "ZERO_ALL_FOUR",
+    "source_class_name_issue": "THREE_ARTIFACTS"
+  },
+  "second_review_agreement": "Agrees with preliminary dimension and native observations; coordinator final record remains separately owned.",
+  "cells": [
+    {
+      "case_id": "a1",
+      "arm": "full",
+      "artifact_sha256": "0b1a2f6c9750f101547234a364e26e14cd7c9577a1d0b28e51dc9db967dadd1b",
+      "execution_evidence_status": "OFFLINE_DIAGNOSTIC_OF_PRESERVED_TEST_ERROR",
+      "native": {
+        "visible": "OBSERVED_EXACT_SEVEN",
+        "fixture_read": "OBSERVED",
+        "google_auth_skill_loaded": "NOT_OBSERVED"
+      },
+      "dimensions": {
+        "q1": {
+          "verdict": "PASS",
+          "rationale": "Explains configured valid env-file precedence before local ADC and attached metadata; distinguishes static fixture inference from unverified live principal."
+        },
+        "q2": {
+          "verdict": "PASS",
+          "rationale": "Identifies raw bearer-token logging and removes it in favor of an event or allowlisted non-secret credential metadata."
+        },
+        "q3": {
+          "verdict": "FAIL",
+          "rationale": "Corrects unconditional identity/runbook claims and proposes removing override/mount, but never checks the target attached identity has required API/IAM access before that deployment change."
+        },
+        "q4": {
+          "verdict": "FAIL",
+          "rationale": "Offers static/configuration and post-deployment checks but no explicit unit/regression verification."
+        }
+      },
+      "negative_controls": [
+        {
+          "index": 0,
+          "verdict": "PASS"
+        },
+        {
+          "index": 1,
+          "verdict": "PASS"
+        },
+        {
+          "index": 2,
+          "verdict": "PASS"
+        },
+        {
+          "index": 3,
+          "verdict": "PASS"
+        }
+      ],
+      "additional_findings": [
+        {
+          "id": "source-class-name-insufficient",
+          "rationale": "Proposed type(credentials).__name__ does not yield a fully qualified module/class identity and cannot distinguish same-named Credentials classes by itself. The later expected qualified type therefore needs an actual module-qualified check."
+        }
+      ],
+      "artifact_acceptance": "FAIL_REQUIRED_DIMENSION"
+    },
+    {
+      "case_id": "a1",
+      "arm": "concise",
+      "artifact_sha256": "7da73ee69ddf7e6f9460daa7a4dbc3d97c08dd63802c2aa2aa17f0c443d3d92c",
+      "execution_evidence_status": "EXECUTED",
+      "native": {
+        "visible": "OBSERVED_EXACT_SEVEN",
+        "fixture_read": "OBSERVED",
+        "google_auth_skill_loaded": "NOT_OBSERVED"
+      },
+      "dimensions": {
+        "q1": {
+          "verdict": "PASS",
+          "rationale": "Explains configured valid env-file precedence before local ADC and attached metadata; distinguishes static fixture inference from unverified live principal."
+        },
+        "q2": {
+          "verdict": "PASS",
+          "rationale": "Identifies raw bearer-token logging and removes it in favor of an event or allowlisted non-secret credential metadata."
+        },
+        "q3": {
+          "verdict": "FAIL",
+          "rationale": "Corrects unconditional identity/runbook claims and proposes removing override/mount, but never checks the target attached identity has required API/IAM access before that deployment change."
+        },
+        "q4": {
+          "verdict": "FAIL",
+          "rationale": "Offers static/configuration and post-deployment checks but no explicit unit/regression verification."
+        }
+      },
+      "negative_controls": [
+        {
+          "index": 0,
+          "verdict": "PASS"
+        },
+        {
+          "index": 1,
+          "verdict": "PASS"
+        },
+        {
+          "index": 2,
+          "verdict": "PASS"
+        },
+        {
+          "index": 3,
+          "verdict": "PASS"
+        }
+      ],
+      "additional_findings": [],
+      "artifact_acceptance": "FAIL_REQUIRED_DIMENSION"
+    },
+    {
+      "case_id": "a2",
+      "arm": "concise",
+      "artifact_sha256": "d977ff7f939133ca3ae267089caeda3748152b2d50315c00ec5050690527b34d",
+      "execution_evidence_status": "EXECUTED",
+      "native": {
+        "visible": "OBSERVED_EXACT_SEVEN",
+        "fixture_read": "OBSERVED",
+        "google_auth_skill_loaded": "NOT_OBSERVED"
+      },
+      "dimensions": {
+        "q1": {
+          "verdict": "PASS",
+          "rationale": "Explains configured valid env-file precedence before local ADC and attached metadata; distinguishes static fixture inference from unverified live principal."
+        },
+        "q2": {
+          "verdict": "PASS",
+          "rationale": "Identifies raw bearer-token logging and removes it in favor of an event or allowlisted non-secret credential metadata."
+        },
+        "q3": {
+          "verdict": "FAIL",
+          "rationale": "Corrects unconditional identity/runbook claims and proposes removing override/mount, but never checks the target attached identity has required API/IAM access before that deployment change."
+        },
+        "q4": {
+          "verdict": "PASS",
+          "rationale": "Includes static configuration checks, mocked google.auth.default/caplog unit regression, and bounded post-deployment principal/log checks; does not claim those were executed."
+        }
+      },
+      "negative_controls": [
+        {
+          "index": 0,
+          "verdict": "PASS"
+        },
+        {
+          "index": 1,
+          "verdict": "PASS"
+        },
+        {
+          "index": 2,
+          "verdict": "PASS"
+        },
+        {
+          "index": 3,
+          "verdict": "PASS"
+        }
+      ],
+      "additional_findings": [
+        {
+          "id": "source-class-name-insufficient",
+          "rationale": "Proposed type(credentials).__name__ does not yield a fully qualified module/class identity and cannot distinguish same-named Credentials classes by itself. The later expected qualified type therefore needs an actual module-qualified check."
+        }
+      ],
+      "artifact_acceptance": "FAIL_REQUIRED_DIMENSION"
+    },
+    {
+      "case_id": "a2",
+      "arm": "full",
+      "artifact_sha256": "ac82405cfe75821b80d9391d3b3776c9fa39c113f0a6eb696633bc378dbbc5bb",
+      "execution_evidence_status": "EXECUTED",
+      "native": {
+        "visible": "OBSERVED_EXACT_SEVEN",
+        "fixture_read": "OBSERVED",
+        "google_auth_skill_loaded": "NOT_OBSERVED"
+      },
+      "dimensions": {
+        "q1": {
+          "verdict": "PASS",
+          "rationale": "Explains configured valid env-file precedence before local ADC and attached metadata; distinguishes static fixture inference from unverified live principal."
+        },
+        "q2": {
+          "verdict": "PASS",
+          "rationale": "Identifies raw bearer-token logging and removes it in favor of an event or allowlisted non-secret credential metadata."
+        },
+        "q3": {
+          "verdict": "FAIL",
+          "rationale": "Corrects unconditional identity/runbook claims and proposes removing override/mount, but never checks the target attached identity has required API/IAM access before that deployment change."
+        },
+        "q4": {
+          "verdict": "PASS",
+          "rationale": "Includes static configuration checks, mocked google.auth.default/caplog unit regression, and bounded post-deployment principal/log checks; does not claim those were executed."
+        }
+      },
+      "negative_controls": [
+        {
+          "index": 0,
+          "verdict": "PASS"
+        },
+        {
+          "index": 1,
+          "verdict": "PASS"
+        },
+        {
+          "index": 2,
+          "verdict": "PASS"
+        },
+        {
+          "index": 3,
+          "verdict": "PASS"
+        }
+      ],
+      "additional_findings": [
+        {
+          "id": "source-class-name-insufficient",
+          "rationale": "Proposed type(credentials).__name__ does not yield a fully qualified module/class identity and cannot distinguish same-named Credentials classes by itself. The later expected qualified type therefore needs an actual module-qualified check."
+        }
+      ],
+      "artifact_acceptance": "FAIL_REQUIRED_DIMENSION"
+    }
+  ],
+  "decision": "NO_ADOPTION_FROM_THIS_EVIDENCE",
+  "scope": "Exact-seven native visibility and complete delivered fixture artifacts are observed. No specialist Skill body loaded; all artifacts miss required safe-migration access check; tiny correlated translation sample. No native skill quality/compression equivalence claim. C original TEST_ERROR remains immutable.",
+  "next_research_task": "Source-only review of native invocation conditions and task/harness discovery contract; design a separately preregistered loaded-skill evaluation with quality checks before any additional model call. Keep spontaneous-selection and explicit-load quality interventions distinct; do not tune this frozen rubric or retroactively accept C."
+}
