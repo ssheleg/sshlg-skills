@@ -91,6 +91,17 @@ The initial observer harness assumed each main function ended with exactly three
 
 B190's implementation owner selected a kernel-held coordinator via an explicit optional POSIX/Python adapter, then an exec handoff to the Node recovery worker. This is still a design direction pending immutable source review. Required process controls include inherited-lock exclusion across exec, worker SIGKILL releasing the kernel lock, no leaked lock descriptor in subprocesses, and refusal to retire an unrelated writer winning the public-lock gap. No implementation acceptance is inferred from this discussion.
 
+
+## IO-09: shared scratch lock ends before orphan plant writers
+
+A new bounded source review covered SEO `d6c87c3109539ae81bf8f9a2879958eed0d5bd99` / docs `9519b3838aaa56afce8dbe553dda26d677a236b1` and dev `366a2d3b3d95657e0d3fa64fe1b63cabe4017e87` / docs `2aa47aa6d0f38d98753b4d7f47f62bb4afc3c7ab`. [Source hashes and lines](raw/shared-lock-source-review.json) confirm identical helper bytes and default subprocess calls in both adapters. The fixed physical `/tmp` lock ignores TMPDIR; no product environment/CLI override was found. The override belongs to the owned test fixture. Admission occurs before public scratch sweeps or plants, and normal main execution retains the parent descriptor.
+
+**New reproduced lifetime gap:** the helper's descriptor is noninheritable; both runners launch Bash plants with default subprocess descriptor closing. If the Python runner is killed, its lock is released while a previously launched plant can remain alive. A new runner can acquire the shared lock before the old child stops writing. The existing 30 controls terminate a bare lock holder without a writing child, so those successful controls do not establish descendant-lifetime exclusion.
+
+[Owned-namespace reproduction](raw/shared-lock-lifetime.json) used the exact helper and a synthetic writing child with the same default subprocess descriptor policy. The parent exited from SIGKILL (-9), the contender acquired with exit 0 while the child was alive, and that child subsequently wrote its sentinel. No public lock, fixed plant path, broad suite or real host state was touched. This proves the mechanism, not a measured collision in a full owner suite. The [portable probe](raw/shared-lock-lifetime-probe.py) accepts an owner repository and immutable source; it overrides only its own imported helper's lock path.
+
+**Next task:** bind shared exclusion to the complete lifetime of processes that may write fixed scratch paths, and add an actual-runner child/barrier regression that kills the parent while a child remains paused, requires contenders to stay excluded, then verifies release after all writers exit. Review descendant descriptor inheritance or a supervisor protocol, rather than treating parent exit alone as writer completion. Owner assignment belongs to the coordinator. Prior source/package/30-control results remain valid for their stated bounds; complete interruption-safe serialization and owner promotion remain unaccepted until this gap is resolved.
+
 ---
 
 **Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**
