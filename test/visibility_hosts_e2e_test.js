@@ -483,6 +483,116 @@ it('atomic host replacement preserves a config symlink, its target mode, and pri
   assert.ok(fs.lstatSync(file).isSymbolicLink());
 });
 
+
+it('visibility targets the active Claude and Codex profiles and their core inputs', () => {
+  const m = machine('active-profiles', { hermes: false });
+  const defaultClaude = m.w('.claude/settings.json', '{}\n');
+  const defaultCodex = m.w('.codex/config.toml', '# default\n');
+  m.w('.claude/skills/default-only/SKILL.md', '---\nname: default-only\n---\n');
+  m.w('.claude/CLAUDE.md', '`foreign`');
+  m.w('.claude.json', JSON.stringify({skillUsage:{foreign:{lastUsedAt:Date.now()}}}));
+  const activeClaude = m.w('active claude/settings.json', '{}\n');
+  const activeCodex = m.w('active codex/config.toml', '# active\n\n[skills]\nconfig = []\n');
+  for (const n of ['foreign', 'used', 'instructed']) {
+    m.skill(n); m.w(`active claude/skills/${n}/SKILL.md`, `---\nname: ${n}\n---\n`);
+  }
+  m.w('active claude/CLAUDE.md', '`instructed`');
+  m.w('active claude/.claude.json', JSON.stringify({skillUsage:{used:{lastUsedAt:Date.now()}}}));
+  const env = { CLAUDE_CONFIG_DIR: path.dirname(activeClaude), CODEX_HOME: path.dirname(activeCodex) };
+  const r = m.runWithEnv(env, 'visibility', '--apply');
+  assert.strictEqual(r.status, 0, r.out);
+  assert.strictEqual(fs.readFileSync(defaultClaude, 'utf8'), '{}\n');
+  assert.strictEqual(fs.readFileSync(defaultCodex, 'utf8'), '# default\n');
+  assert.deepStrictEqual(JSON.parse(fs.readFileSync(activeClaude, 'utf8')).skillOverrides, { foreign: 'user-invocable-only' });
+  const codex = fs.readFileSync(activeCodex, 'utf8');
+  assert.ok(codex.includes('/foreign/SKILL.md') && !codex.includes('/used/SKILL.md') && !codex.includes('/instructed/SKILL.md'), codex);
+  assert.strictEqual(m.runWithEnv(env, 'visibility', '--revert').status, 0);
+  assert.strictEqual(fs.readFileSync(activeClaude, 'utf8'), '{}\n');
+  assert.strictEqual(fs.readFileSync(activeCodex, 'utf8'), '# active\n\n[skills]\nconfig = []\n');
+});
+it('ownership from one profile cannot be replayed into another profile', () => {
+  const m = machine('profile-switch', { hermes: false }); m.skill('foreign');
+  const file = m.w('.codex/config.toml', '# default\n\n[skills]\nconfig = []\n');
+  const active = m.w('other-codex/config.toml', '# active\n');
+  assert.strictEqual(m.run('visibility', '--apply').status, 0);
+  const record = sha(path.join(m.home, '.sshlg-skills/visibility.json'));
+  const r = m.runWithEnv({CODEX_HOME:path.dirname(active)}, 'visibility', '--apply');
+  assert.strictEqual(r.status, 1, r.out);
+  assert.strictEqual(fs.readFileSync(active, 'utf8'), '# active\n');
+  assert.strictEqual(sha(path.join(m.home, '.sshlg-skills/visibility.json')), record);
+  const wrongUndo = m.runWithEnv({CODEX_HOME:path.dirname(active)}, 'visibility', '--revert');
+  assert.strictEqual(wrongUndo.status, 1, wrongUndo.out);
+  assert.strictEqual(sha(path.join(m.home, '.sshlg-skills/visibility.json')), record);
+  // A pre-binding receipt is attributable only to the old hard-coded default.
+  const legacy = m.rec(); delete legacy.files;
+  m.w('.sshlg-skills/visibility.json', JSON.stringify(legacy));
+  const legacyWrong = m.runWithEnv({CODEX_HOME:path.dirname(active)}, 'visibility', '--revert');
+  assert.strictEqual(legacyWrong.status, 1, legacyWrong.out);
+  assert.strictEqual(fs.readFileSync(active, 'utf8'), '# active\n');
+  assert.strictEqual(m.run('visibility', '--revert').status, 0);
+  assert.strictEqual(fs.readFileSync(file, 'utf8'), '# default\n\n[skills]\nconfig = []\n');
+});
+for (const policy of ['marks', 'lock', 'config']) for (const fault of ['unreadable', 'malformed']) {
+  it(`${fault} ${policy} preserves existing hidden entries and ownership`, () => {
+    const m = recoveryMachine(`policy-${policy}-${fault}`);
+    const file = policy === 'marks' ? path.join(m.home,'.sshlg-skills/pack-marks.json')
+      : policy === 'lock' ? path.join(m.home,'.agents/.skill-lock.json') : m.w('.sshlg-skills/config.json', '{}\n');
+    assert.strictEqual(m.run('visibility', '--apply').status, 0);
+    const before = fs.readFileSync(file, 'utf8');
+    const settings = path.join(m.home, '.gemini/settings.json');
+    const state = path.join(m.home, '.sshlg-skills/visibility.json');
+    const hashes = [sha(settings), sha(state)];
+    if (fault === 'unreadable') fs.chmodSync(file, 0); else fs.writeFileSync(file, '{broken');
+    try {
+      const r = m.run('visibility', '--apply');
+      assert.strictEqual(r.status, 1, r.out);
+      assert.deepStrictEqual([sha(settings), sha(state)], hashes);
+      // Explicit undo uses recorded ownership, not the now-unreadable policy.
+      const undo = m.run('visibility', '--revert');
+      assert.strictEqual(undo.status, 0, undo.out);
+      assert.deepStrictEqual(JSON.parse(fs.readFileSync(settings,'utf8')).skills, undefined);
+    } finally { fs.chmodSync(file, 0o600); fs.writeFileSync(file, before); }
+  });
+}
+it('marks init reports an unreadable existing file instead of treating it as missing', () => {
+  const m = recoveryMachine('marks-init-unreadable');
+  const file = path.join(m.home,'.sshlg-skills/pack-marks.json');
+  fs.chmodSync(file, 0);
+  try { const r = m.run('visibility','marks','--init'); assert.strictEqual(r.status,1,r.out); assert.ok(/cannot read|EACCES/.test(r.out),r.out); }
+  finally { fs.chmodSync(file, 0o600); }
+});
+
+
+it('update reapply preserves consent and hidden state when machine marks cannot be read', () => {
+  const m = recoveryMachine('update-policy');
+  assert.strictEqual(m.run('visibility','--apply').status, 0);
+  const marks = path.join(m.home,'.sshlg-skills/pack-marks.json');
+  const files = ['.gemini/settings.json','.sshlg-skills/visibility.json'].map((f) => path.join(m.home,f));
+  const before = files.map(sha);
+  fs.chmodSync(marks,0);
+  try {
+    const r = m.run('update','--agent','gemini-cli');
+    assert.ok(/policy not usable/.test(r.out),r.out);
+    assert.deepStrictEqual(files.map(sha),before);
+    assert.strictEqual(m.rec().applied,true);
+  } finally { fs.chmodSync(marks,0o600); }
+});
+it('unreadable host settings during revert keep that hosts recovery ownership', () => {
+  const m = recoveryMachine('unreadable-host');
+  assert.strictEqual(m.run('visibility','--apply').status,0);
+  const file = path.join(m.home,'.gemini/settings.json');
+  const before = m.rec().gemini;
+  fs.chmodSync(file,0);
+  try {
+    const r = m.run('visibility','--revert');
+    assert.strictEqual(r.status,0,r.out);
+    assert.ok(/gemini: DEGRADED/.test(r.out),r.out);
+    assert.deepStrictEqual(m.rec().gemini,before);
+  } finally { fs.chmodSync(file,0o600); }
+  assert.strictEqual(m.run('visibility','--revert').status,0);
+  assert.strictEqual(fs.readFileSync(file,'utf8'),'{}\n');
+});
+
 fs.rmSync(base, { recursive: true, force: true });
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));

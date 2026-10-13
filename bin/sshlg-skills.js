@@ -1958,7 +1958,11 @@ function runVisibilityUnlocked(opts) {
   const apply = require(path.join(ROOT, 'lib', 'apply.js'));
   const configLib = require(path.join(ROOT, 'lib', 'config.js'));
   const home = process.env.HOME || os.homedir();
-  const read = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch (e) { return null; } };
+  const S = require(path.join(ROOT, 'lib', 'visibility-state.js'));
+  const readErrors = new Map();
+  const read = (p) => { try { return S.read(p); } catch (e) { readErrors.set(p, e.code || 'cannot read'); return null; } };
+  const claudeRoot = apply.hostRoot(HV.target('claude'), home, { env: process.env });
+  const codexRoot = apply.hostRoot(HV.target('codex'), home, { env: process.env });
   const doApply = opts.mode === 'apply';
   const doRevert = opts.mode === 'revert';
   const days = opts.days || V.DEFAULT_DAYS;
@@ -1968,7 +1972,6 @@ function runVisibilityUnlocked(opts) {
   const recordPath = path.join(home, '.sshlg-skills', 'visibility.json');
   let owned = { claude: [], codex: [], gemini: [], pi: [], opencode: [], hermes: [], piCreated: false, created: {}, hosts: [] };
   try {
-    const S = require(path.join(ROOT, 'lib', 'visibility-state.js'));
     const stored = S.validate(JSON.parse(S.read(recordPath) || '{}'));
     const recovered = S.recover(stored, process.env);
     if (stored.pending) log(`  recovered pending ${stored.pending.host} write from its fingerprint${!doApply && !doRevert ? ' (preview only)' : ''}`);
@@ -1976,18 +1979,25 @@ function runVisibilityUnlocked(opts) {
   } catch (e) { log(`visibility: ownership record not usable — ${e.message}; nothing written`); return 1; }
   const createdOf = (id) => (owned.created && Array.isArray(owned.created[id]) ? owned.created[id] : []);
 
-  const skills = toolkit.readSkills(home).filter((s) => s.callable !== false);
+  const skills = toolkit.readSkills(home, { claudeRoot }).filter((s) => s.callable !== false);
   const personal = skills.filter((s) => s.namespace === 'claude:plain').map((s) => s.id);
   const family = manifest.skills.reduce((acc, m) => acc.concat(m.skillNames && m.skillNames.length ? m.skillNames : [m.name]), []);
   let usage = {};
-  try { usage = JSON.parse(read(path.join(home, '.claude.json')) || '{}').skillUsage || {}; } catch (e) { usage = {}; }
-  const instructions = read(path.join(home, '.claude', 'CLAUDE.md')) || '';
+  const policyErrors = [];
+  if (!doRevert) {
+    const usagePath = path.join(process.env.CLAUDE_CONFIG_DIR ? claudeRoot : home, '.claude.json');
+    try { usage = (S.object(usagePath) || {}).skillUsage || {}; }
+    catch (e) { policyErrors.push(`usage: ${e.code || e.message}`); }
+  }
+  const instructionsPath = path.join(claudeRoot, 'CLAUDE.md');
+  const instructions = doRevert ? '' : read(instructionsPath) || '';
+  if (readErrors.has(instructionsPath)) policyErrors.push(`instructions: ${readErrors.get(instructionsPath)}`);
   const now = Date.now();
   const coreSet = V.core({ personal, family, usage, now, days, instructions });
   for (const k of keep) coreSet.add(k);
 
   // ── Claude ──
-  const settingsPath = path.join(home, '.claude', 'settings.json');
+  const settingsPath = path.join(claudeRoot, 'settings.json');
   const settingsText = read(settingsPath);
   let settingsData = {};
   try { settingsData = JSON.parse(settingsText || '{}'); } catch (e) { settingsData = {}; }
@@ -2012,7 +2022,7 @@ function runVisibilityUnlocked(opts) {
   const charsAfter = V.listingChars(skills.map((s) => ({ name: s.plugin && s.namespace === 'claude:plugin' ? `${s.plugin.split('@')[0]}:${s.id}` : s.id, description: s.description, state: stateOf(s, after) })));
 
   // ── Codex ──
-  const codexPath = path.join(home, '.codex', 'config.toml');
+  const codexPath = path.join(codexRoot, 'config.toml');
   const codexText = read(codexPath);
   const sharedRoot = path.join(home, '.agents', 'skills');
   let shared = [];
@@ -2024,16 +2034,44 @@ function runVisibilityUnlocked(opts) {
 
   // ── The operator's pack marks: a machine file, never the package's (L1 fix round) ──
   const marksPath = path.join(home, '.sshlg-skills', 'pack-marks.json');
-  const marksText = read(marksPath);
+  const marksText = doRevert ? null : read(marksPath);
+  if (readErrors.has(marksPath)) policyErrors.push(`pack marks: ${readErrors.get(marksPath)}`);
   let marksData = null;
   let markProblems = [];
   if (marksText !== null) {
     try { marksData = JSON.parse(marksText); markProblems = V.marksProblems(marksData); } catch (e) { markProblems = [`does not parse (${e.message})`]; }
   }
   const marks = V.marksIndex(marksData);
-  const config = configLib.readConfig(home);
-  const lock = HV.readLock(home);
+  let config = {}, lock = new Map();
+  if (!doRevert) {
+    if (markProblems.length) policyErrors.push('pack marks: invalid pack-marks/1');
+    try {
+      config = S.object(configLib.configPath(home)) || {};
+      const v = config.visibility;
+      if (v !== undefined && (!v || typeof v !== 'object' || Array.isArray(v)
+        || ['hidePacks', 'showPacks'].some((k) => v[k] !== undefined && (!Array.isArray(v[k]) || v[k].some((x) => typeof x !== 'string')))))
+        throw new Error('invalid visibility overrides');
+    } catch (e) { policyErrors.push(`config: ${e.code || e.message}`); }
+    try { lock = HV.readLock(home, { strict: true }); } catch (e) { policyErrors.push(e.message); }
+  }
+  if (policyErrors.length) {
+    log(`visibility: policy not usable — ${policyErrors.join('; ')}; settings and ownership unchanged`); return 1;
+  }
   const hostList = HV.hosts(home, process.env);
+  const files = Object.fromEntries([['claude', settingsPath], ['codex', codexPath]]
+    .concat(hostList.filter((h) => h.file && !h.cannot).map((h) => [h.id, h.file]))
+    .map(([id, file]) => [id, path.resolve(file)]));
+  // Old Claude/Codex receipts could only target their hard-coded defaults. New ones
+  // bind every host, so consent and owned entries cannot migrate to another profile.
+  for (const [id, file] of Object.entries(files)) {
+    if (!inScope(id)) continue;
+    const prior = (owned.files || {})[id] || (id === 'claude' ? path.join(home, '.claude/settings.json')
+      : id === 'codex' ? path.join(home, '.codex/config.toml') : null);
+    const carriesState = (owned[id] || []).length || createdOf(id).length || (opts.reapply && (owned.hosts || []).includes(id));
+    if (prior && path.resolve(prior) !== file && carriesState) {
+      log(`visibility: ${id} profile differs from ownership at ${prior}; select that profile and revert first; nothing written`); return 1;
+    }
+  }
   const inv = {};
   const seen = new Set(personal);
   for (const h of hostList) if (h.present && !h.cannot) { inv[h.id] = HV.inventory(h, lock); inv[h.id].forEach((s) => seen.add(s.name)); }
@@ -2046,9 +2084,11 @@ function runVisibilityUnlocked(opts) {
   const ov = config.visibility || {};
 
   log('Host-wide fallback for sessions Fabric does not start. Fabric\'s RM-23 (open) is to read ~/.sshlg-skills/pack-marks.json and own visibility in the sessions it starts.');
-  log(`Skill visibility — core = family + used within ${days} days (by Claude Code usage) + named in ~/.claude/CLAUDE.md${keep.length ? ' + --keep' : ''}`);
+  log(`Skill visibility — core = family + used within ${days} days (by Claude Code usage) + named in ${instructionsPath}${keep.length ? ' + --keep' : ''}`);
   log(`  core: ${coreSet.size} skills (Claude, Codex); ${coreAll.size} across every host's roots`);
-  if (marksText === null) {
+  if (doRevert) {
+    log('  pack marks: not needed for revert — undo uses the ownership record');
+  } else if (marksText === null) {
     log('  pack marks: no pack marks on this machine (~/.sshlg-skills/pack-marks.json) — no pack is hidden by mark.');
     log('    Write them: `npx sshlg-skills visibility marks --init --show <owner/repo,…>` (preview), then add --apply.');
   } else if (markProblems.length) {
@@ -2068,7 +2108,7 @@ function runVisibilityUnlocked(opts) {
   }
   if (inScope('codex')) {
     log(`  Codex: ${shared.length} shared skills; disable up to ${codexAdd.length} more (entries already present are left as they are), re-enable ${codexDrop.length}` +
-        (codexText === null ? ' (no ~/.codex/config.toml — skipped)' : ''));
+        (codexText === null ? ` (${codexPath}: ${readErrors.get(codexPath) || 'absent'} — skipped)` : ''));
   }
   log('  Claude and Codex hide everything outside the core (pack marks and overrides do not change them; --keep does).');
 
@@ -2104,6 +2144,9 @@ function runVisibilityUnlocked(opts) {
       }
     } else {
       p.text = read(h.file);
+      if (readErrors.has(h.file)) {
+        p.reason = `${h.file}: ${readErrors.get(h.file)}`; hostPlans.push(p); continue;
+      }
       const prunable = createdOf(h.id);
       const edit = h.kind === 'json-list'
         ? V.editJsonList(p.text, { keys: h.keys, add, remove: drop, create: h.create, newline: h.newline, prunable })
@@ -2122,12 +2165,12 @@ function runVisibilityUnlocked(opts) {
   log('  and `npx sshlg-skills toolkit --find "<concepts>"` finds it by meaning.');
   if (!doApply && !doRevert) { log('\n  Nothing written. `--apply` hides, `--revert` undoes only what this command wrote.'); return 0; }
 
-  const S = require(path.join(ROOT, 'lib', 'visibility-state.js'));
   const degraded = [];
   let record = Object.assign({}, owned, {
     note: 'Written by `npx sshlg-skills visibility`; --revert removes these entries. Pending holds a write-ahead receipt; applied is consent for update on hosts only.',
     days, keep, marksRevision: marksData && !markProblems.length ? marksData.revision : null,
     updatedAt: new Date().toISOString(), created: Object.assign({}, owned.created || {}),
+    files: Object.assign({}, owned.files || {}, Object.fromEntries(Object.entries(files).filter(([id]) => inScope(id)))),
   });
   if (doApply && !opts.reapply) {
     record.applied = true;
@@ -2153,7 +2196,9 @@ function runVisibilityUnlocked(opts) {
   try {
     journal.save(record);
     const writeSimple = (id, file, before, edit, entries) => {
-      if (!inScope(id) || before === null) return;
+      if (!inScope(id)) return;
+      if (readErrors.has(file)) { degrade(id, readErrors.get(file)); return; }
+      if (before === null) return;
       const r = edit(before);
       if (!r.ok) { degrade(id, r.reason); return; }
       const next = clone();
@@ -2232,7 +2277,8 @@ function cmdVisibilityMarks(argv) {
   const flag = (name) => argv.includes(name);
   const value = (name) => { const i = argv.indexOf(name); return i !== -1 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : null; };
   let text = null;
-  try { text = fs.readFileSync(file, 'utf8'); } catch (e) { text = null; }
+  try { text = require('../lib/visibility-state.js').read(file); }
+  catch (e) { log(`visibility marks: cannot read ${file} (${e.code || 'read error'}); nothing written`); return 1; }
   let cur = null;
   try { cur = text === null ? null : JSON.parse(text); } catch (e) { cur = null; }
   if (!flag('--init')) {
@@ -2244,7 +2290,9 @@ function cmdVisibilityMarks(argv) {
     return 0;
   }
   const show = (value('--show') || '').split(',').map((x) => x.trim()).filter(Boolean);
-  const packs = [...new Set(HV.readLock(home).values())];
+  let packs;
+  try { packs = [...new Set(HV.readLock(home, { strict: true }).values())]; }
+  catch (e) { log(`visibility marks: ${e.message}; nothing written`); return 1; }
   if (!packs.length) { log('visibility marks: no installed packs (~/.agents/.skill-lock.json) — nothing to mark'); return 2; }
   const known = new Set(packs.map((p) => p.toLowerCase()));
   for (const p of show) if (!known.has(p.toLowerCase())) log(`  note: ${p} is not installed here; marked listed anyway`);
