@@ -181,6 +181,22 @@ those exact gitlinks. The inventory is shipped in the npm files allowlist. Runti
 uses that artifact without requiring a Git checkout. Byte readback does not prove
 executable-mode parity, native discovery, model invocation or task quality.
 
+
+## Expanded actual native lifecycle probe
+
+The opt-in actual CLI probe additionally passed fresh-profile installation,
+version1→2 upgrade and version2→1 downgrade, preserving disabled state on both
+version transitions. All sources were synthetic local Git objects; each installed
+record and payload was read back through the production transaction helper.
+[Source-hashed result](native-transaction.json) binds the core to `3bcafea` and
+records the expanded probe script digest. The packaged CLI arm remains included.
+Both synthetic homes and all owned fixture content were removed in `finally`.
+This expands local native installation evidence, not agent/model acceptance.
+
+Read-only final-pin planning against parent `dd745bc` found no member manifest
+commit changes from this packet's base and all current staged gitlinks matched.
+That observation does not waive re-generation after a later release pin change.
+
 ---
 **Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**:
 task-pipeline for delivery, evidence-docs for source-bound probes, make-skill for

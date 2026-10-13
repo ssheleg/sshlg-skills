@@ -20,6 +20,8 @@ try:
     payload = repo/'plugins/probe/value.txt'; payload.write_text('first')
     git('add','.'); git('commit','-qm','first'); a=git('rev-parse','HEAD'); git('tag','first')
     payload.write_text('second'); git('add','.'); git('commit','-qm','second'); b=git('rev-parse','HEAD')
+    (repo/'plugins/probe/.claude-plugin/plugin.json').write_text(json.dumps({'name':'probe','version':'2.0.0'}))
+    payload.write_text('third');git('add','.');git('commit','-qm','third');c=git('rev-parse','HEAD')
     run(['git','config','--global',f'url.file://{repo}.insteadOf','https://github.com/fixture-owner/probe.git'])
     run(['claude','plugin','marketplace','add','https://github.com/fixture-owner/probe.git#first'],box)
     run(['claude','plugin','install','probe@owned-pin-probe','--scope','user'],box)
@@ -29,7 +31,7 @@ try:
     script=box/'exercise.js'
     script.write_text(r'''
 const assert=require('assert'),fs=require('fs'),path=require('path'),{spawnSync}=require('child_process');
-const root=process.argv[2],box=process.argv[3],a=process.argv[4],b=process.argv[5];
+const root=process.argv[2],box=process.argv[3],a=process.argv[4],b=process.argv[5],c=process.argv[6];
 const S=require(root+'/lib/claude-plugin-source'),P=require(root+'/lib/claude-pinned'),T=require(root+'/lib/claude-pin-transaction');
 const home=box+'/home',profile=home+'/.claude',id='probe@owned-pin-probe';
 const m={name:'fixture',repo:'fixture-owner/probe',commit:b,version:'1.0.0',pluginInstall:id,dir:'source'};
@@ -57,9 +59,16 @@ const shim=box+'/no-child.cjs';fs.writeFileSync(shim,"require('child_process').s
 const argv=[pkg+'/bin/sshlg-skills.js','install','--claude-only','--member','fixture'];
 const preview=spawnSync(process.execPath,[...argv,'--dry-run'],{cwd:box,env:{...process.env,NODE_OPTIONS:'--require='+shim},encoding:'utf8'});assert.equal(preview.status,0,preview.stdout+preview.stderr);assert(preview.stdout.includes('verify @ '+b));assert(!preview.stdout.includes('SYNTHETIC'));
 const launched=spawnSync(process.execPath,argv,{cwd:box,env:process.env,encoding:'utf8',timeout:180000});assert.equal(launched.status,0,launched.stdout+launched.stderr);assert(launched.stdout.includes('verified immutable payloads'));
-console.log(JSON.stringify({native:spawnSync('claude',['--version'],{encoding:'utf8'}).stdout.trim(),rollback:failed.results[0].rollback,repaired:repaired.ok,verified:verified.ok,enabled:false,dataPreserved:true,files:repaired.results[0].files}));
+
+const home2=box+'/fresh-home',profile2=home2+'/.claude';fs.mkdirSync(home2);const opts2={home:home2,profileRoot:profile2};
+const fresh=T.execute(P.prepare([m],inventory,opts2),[m],inventory);assert(fresh.ok,JSON.stringify(fresh));assert.equal(fresh.results[0].action,'install');
+const newer={...m,version:'2.0.0',commit:c},newInventory=S.generate([newer],box);
+let settings2=JSON.parse(fs.readFileSync(profile2+'/settings.json'));settings2.enabledPlugins[id]=false;fs.writeFileSync(profile2+'/settings.json',JSON.stringify(settings2));
+const upgrade=T.execute(P.prepare([newer],newInventory,opts2),[newer],newInventory);assert(upgrade.ok,JSON.stringify(upgrade));assert.equal(upgrade.results[0].action,'update');
+const downgrade=T.execute(P.prepare([m],inventory,opts2),[m],inventory);assert(downgrade.ok,JSON.stringify(downgrade));assert.equal(downgrade.results[0].action,'update');assert.equal(JSON.parse(fs.readFileSync(profile2+'/settings.json')).enabledPlugins[id],false);
+console.log(JSON.stringify({native:spawnSync('claude',['--version'],{encoding:'utf8'}).stdout.trim(),fresh:fresh.ok,upgrade:upgrade.ok,downgrade:downgrade.ok,rollback:failed.results[0].rollback,repaired:repaired.ok,verified:verified.ok,enabled:false,dataPreserved:true,files:repaired.results[0].files}));
 ''')
-    print(run(['node',str(script),str(ROOT),str(box),a,b],box),flush=True)
+    print(run(['node',str(script),str(ROOT),str(box),a,b,c],box),flush=True)
 finally:
     shutil.rmtree(box)
     print('Owned synthetic transaction tree removed.',flush=True)
