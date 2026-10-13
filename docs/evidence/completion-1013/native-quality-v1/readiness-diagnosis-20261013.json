@@ -1,0 +1,64 @@
+{
+  "schema": "native-readiness-diagnosis/1",
+  "receipt": "observed-20261013.json",
+  "raw_stdout_sha256": "00703e4ad5facc19d2bc23ff00938f27b70aa6308b8b215a98167bd721672634",
+  "expected_skill_count": 7,
+  "observed_skill_count": 26,
+  "expected_skills_present": true,
+  "extra_bundled_names": [
+    "deep-research",
+    "design",
+    "design-sync",
+    "dataviz",
+    "update-config",
+    "verify",
+    "debug",
+    "code-review",
+    "simplify",
+    "batch",
+    "fewer-permission-prompts",
+    "doctor",
+    "loop",
+    "schedule",
+    "claude-api",
+    "workflow-authoring",
+    "run",
+    "run-skill-generator",
+    "plugin-authoring"
+  ],
+  "tools_exact": [
+    "Glob",
+    "Grep",
+    "Read",
+    "Skill"
+  ],
+  "mcp_count": 0,
+  "plugins": [
+    {
+      "name": "sheleg-dev",
+      "kind": "session"
+    },
+    {
+      "name": "cc-plugin-sec-default",
+      "kind": "builtin"
+    },
+    {
+      "name": "cc-plugin-agents-md",
+      "kind": "builtin"
+    },
+    {
+      "name": "cc-plugin-telemetry",
+      "kind": "builtin"
+    },
+    {
+      "name": "cc-plugin-plugin-authoring",
+      "kind": "builtin"
+    }
+  ],
+  "readiness_returned_ready": true,
+  "tool_calls": 0,
+  "input_tokens": 8304,
+  "reported_list_usd": 0.0373944,
+  "task_calls": 0,
+  "decision": "Keep TEST_ERROR; diagnose session-only disableBundledSkills and doctor override before a newly reviewed attempt."
+}

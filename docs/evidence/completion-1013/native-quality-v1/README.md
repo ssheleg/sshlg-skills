@@ -1,7 +1,8 @@
 # Native skill loading and audit quality: bounded preparation
 
-Status: PREPARATION ONLY. No readiness or task call has run. The coordinator must
-review the frozen executable runner before the first invocation.
+Status: first readiness STOPPED_TEST_ERROR; zero audit task calls. The first
+runner passed independent review before execution. A revised isolation attempt
+requires a new review and will not overwrite or reinterpret the first receipt.
 
 ## Objective and intervention
 
@@ -96,7 +97,7 @@ boundaries), task-pipeline (delivery), agent-sync (ownership), evidence-docs
 runner controls, followed by independent review; no provider calls yet.
 
 
-## Runner prepared, execution still NOT_RUN
+## Runner prepared: pre-execution checkpoint
 
 [Materializer](materialize.py) verifies all 62 source plugin files plus the three
 fixture files. Both arms contain 65 files; bodies/non-SKILL bytes match and only
@@ -121,3 +122,24 @@ tools, readiness tool use, and six process runs (completion, contamination,
 unknown cost, reservation stop, reported overshoot, timeout). Raw files stay 0600,
 private directories 0700; the sentinel auth/output string never reaches receipts.
 No model or provider was called. Await independent final runner review.
+
+
+## First observed readiness: preserved stop
+
+Runner `0a89d0d9eacbfb0f0262d5b06669ba6df1fee432` passed independent review
+and fake-process replay. [Attempt A](observed-20261013.json) made one concise-arm
+readiness call and stopped on `unexpected_skill_inventory`: all seven expected
+skills were visible, alongside 19 bundled skills. Tools were exactly Read, Skill,
+Glob, Grep; MCP count zero; the reply was READY with no tool call. Input was 8,304
+tokens; reported list metadata USD0.0373944. Full readiness and all audit tasks are
+NOT_RUN. No retry occurred, and the stop remains TEST_ERROR, not native acceptance.
+
+[Local diagnosis](readiness-diagnosis-20261013.json) binds the observed inventory
+to the private raw-stream hash. Four additional registered plugins were builtin
+sources. The extras were unqualified bundled command skills, not observed
+personal marketplace skills. The official [bundled-skills guidance](https://code.claude.com/docs/en/skills#bundled-skills)
+documents `disableBundledSkills`; doctor additionally needs a visibility override.
+The proposed correction is explicit per-invocation settings, with no installed
+profile mutation, OAuth copying, or removal of security plugins. Exact seven-skill
+admission remains mandatory. Any future reviewed attempt must account for this
+first call within the total diagnostic spending ceiling.
