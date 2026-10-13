@@ -8,6 +8,32 @@
 Ветка: `waves/2026-10-13-finalization`, репозиторий `ssheleg/sshlg-skills`.
 Исходная папка `/Users/sshlg/DATA/sshlg-skills` содержит чужие/предыдущие незавершённые изменения: **не reset, не stash, не переключать её принудительно**.
 
+## Продолжение Claude 2026-10-13 (сессия 5f151e9c) — текущий срез
+
+Оператор: «ничего не спрашивай, на всё апрув, иди до конца без пауз». Ниже — что
+уже сделано в продолжении; старые разделы ниже остаются историей передачи.
+
+- **TP875c6e6 gate завершился exit1** (не PASS): plants 388/429 устарели после
+  разделения stages.md; `test:all` цепочка `&&`, поэтому 9 последующих наборов
+  не запускались. Исправлено и записано в TP `a9e45af`; все 9 наборов отдельно
+  зелёные на a9e45af (`6e158a7`).
+- **Дефект опубликованного TP1.94.1:** заголовки `owner_board.py`/`owner_release.py`
+  писали прозу в `# diverges:`, hub-валидатор падает на пине 1.94.1. Исправлено в
+  кандидате 1.95.0 (`1daf19f`). Hub закоммитил пин 1.94.1 (`5a0f25f`, ctx-04.06 и
+  triggers зелёные), но релиз hub должен пиновать **1.95.0**. Ratchet
+  `description-total` (измерено 32498 при записанных 32501) обновить на финальном пине.
+- **B190 принят** после двух независимых review: [receipt](evidence/completion-1013/runtime-recovery/independent-review.md);
+  исправления `0ded7da`, `dc320c5`; merge в finalization `25194c4`, docs bridge `45ce934`.
+- **Child-lifetime (IO09) принят с исправлениями:** EPERM на macOS, настоящий
+  контроль смерти Bash, RuntimeError, утечка snapshot — TP `9c29ec3`, merge в
+  compose `941c7e8`, CHANGELOG `6b6d625`. Полный owner gate TP на `6b6d625`
+  запущен в фоне; порты в SEO и sheleg-dev выполняются отдельными агентами.
+- **Fabric:** board доступен (com.status ready, unread0). Три pending-запроса не
+  отправлены: Project id адресатов не видны через дверь этого проекта.
+- **Инцидент:** при поиске project id в выводе оказались два `pollSecret` ожидающих
+  Codex enrollment-запросов. Записано в Observatory `mem:348bac6b964e4ce5`; нужно
+  отменить и перевыпустить эти два запроса (Fabric/оператор).
+
 ## Первый шаг
 
 Прочитать этот файл, `CLAUDE.md`, актуальную политику Observatory и [план волн](evidence/plans/2026-10-13-completion.md). Проверить [снимок веток](evidence/completion-1013/claude-handoff/branches.json) против remote, затем [снимок активных процессов](evidence/completion-1013/claude-handoff/active-processes.json). Получить собственный agent-sync lease перед общими реестрами. Не забирать старую идентичность сессии.
