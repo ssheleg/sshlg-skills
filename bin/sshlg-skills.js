@@ -889,7 +889,9 @@ function refreshCodexPlugins(f) {
       const file = require('../lib/codex-pending').save({ home: os.homedir(), configPath: codexConfigPath(),
         configBytes, results: out.results, runtime: out.runtime });
       log(`  Deferred update receipt: ${file}`);
-      log(`  Read-only watcher: node ${path.join(ROOT, 'lib', 'codex-deferred-watch.js')} ${JSON.stringify(file)}`);
+      const watcher = require('../lib/codex-pending').watcherCommand(path.join(ROOT, 'lib', 'codex-deferred-watch.js'), file);
+      log(watcher ? `  Native-host-read-only watcher (POSIX shell): ${watcher}`
+        : '  Watcher command display is POSIX-only; no runnable Windows shell command is emitted.');
     } catch (e) { log(`  Pending receipt FAILED: ${e.message}`); return false; }
   }
   log(cp.summaryLine(out));
