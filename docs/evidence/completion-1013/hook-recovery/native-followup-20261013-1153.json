@@ -1,0 +1,67 @@
+{
+  "schema": "native-hook-followup/1",
+  "thread": "01a132b5-0516-7c41-891d-4ce561a1dcaf",
+  "window_seconds": 50,
+  "method": "Read-only app-server hook/completed subscription, real native events after exact old payload recovery.",
+  "events": [
+    {
+      "id": "pre-tool-use:0:/Users/sshlg/.codex/hooks.json:exec-61846321-7aa1-4e5e-aad7-278f34b5a3f6",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791892314,
+      "completedAt": 1791892315,
+      "durationMs": 247
+    },
+    {
+      "id": "pre-tool-use:10:/Users/sshlg/.codex/plugins/cache/agent-sync/agent-sync/1.22.1/hooks/hooks.json:exec-61846321-7aa1-4e5e-aad7-278f34b5a3f6",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791892314,
+      "completedAt": 1791892315,
+      "durationMs": 277
+    },
+    {
+      "id": "pre-tool-use:21:/Users/sshlg/.codex/plugins/cache/sheleg-dev/sheleg-dev/0.13.3/hooks/hooks.json:exec-61846321-7aa1-4e5e-aad7-278f34b5a3f6",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791892314,
+      "completedAt": 1791892315,
+      "durationMs": 354
+    },
+    {
+      "id": "pre-tool-use:23:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-61846321-7aa1-4e5e-aad7-278f34b5a3f6",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791892314,
+      "completedAt": 1791892315,
+      "durationMs": 289
+    },
+    {
+      "id": "post-tool-use:2:/Users/sshlg/.codex/hooks.json:exec-61846321-7aa1-4e5e-aad7-278f34b5a3f6",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791892315,
+      "completedAt": 1791892315,
+      "durationMs": 191
+    },
+    {
+      "id": "post-tool-use:25:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-61846321-7aa1-4e5e-aad7-278f34b5a3f6",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791892315,
+      "completedAt": 1791892315,
+      "durationMs": 220
+    },
+    {
+      "id": "post-tool-use:26:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-61846321-7aa1-4e5e-aad7-278f34b5a3f6",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791892315,
+      "completedAt": 1791892315,
+      "durationMs": 217
+    }
+  ],
+  "completed": 7,
+  "failed": 0,
+  "limits": "Only observed window/thread; durations include native event aggregation and shared machine load, not per-hook performance acceptance or all-session proof."
+}

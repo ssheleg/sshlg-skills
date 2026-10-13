@@ -1,0 +1,11 @@
+{
+  "as_of_utc": "2026-10-13T11:52:19.298Z",
+  "session_id": "7ba9f585-0a42-415a-a060-222069a4c969",
+  "project": null,
+  "task": null,
+  "repositories": [],
+  "context_pack": null,
+  "callable_board_tools": [],
+  "pending_asks_submitted": false,
+  "observation": "fabric_whoami now returns no project again; com.status/list/submit not exposed. No workaround or alternate send used."
+}

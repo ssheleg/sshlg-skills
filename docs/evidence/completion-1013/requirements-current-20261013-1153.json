@@ -1,0 +1,489 @@
+{
+  "schema": "requirement-disposition/1",
+  "as_of_utc": "2026-10-13T11:51:55.342226+00:00",
+  "source_commit": "8f9243b7c57fda8a03e0f22d1462350ecd0f9945",
+  "source": "../briefs/2026-10-11-integration-waves.md",
+  "scope": "Coordinator reconciliation, not independent recertification. Each original requirement is retained; status distinguishes source, release, installation and native acceptance.",
+  "requirements": [
+    {
+      "id": "R01",
+      "requirement": "The per-prompt routing note names each route at most once per session; `clear`/`compact` reset it",
+      "inventory": "INV-208",
+      "original_verification": "`test/triggers_test.js` + `test/hooks_e2e_test.js` new cases; chars/session measured before/after",
+      "disposition": "DELIVERED_BOUNDED",
+      "evidence": [
+        "../runs/2026-10-12-wave1.md",
+        "installed-runtime.json"
+      ],
+      "bounds_and_next": "Existing wave-1 evidence and installed runtime readback. No new latency measurement in this reconciliation."
+    },
+    {
+      "id": "R02",
+      "requirement": "SessionStart prints the injectors line only when the injector set changed; drift/update/handoff lines unchanged",
+      "inventory": "INV-209, INV-210, INV-233",
+      "original_verification": "`test/injectors_test.js` + hook e2e; measured startup chars",
+      "disposition": "DELIVERED_BOUNDED",
+      "evidence": [
+        "../runs/2026-10-12-wave1.md",
+        "installed-runtime.json"
+      ],
+      "bounds_and_next": "Existing wave-1 evidence and installed runtime readback. No new latency measurement in this reconciliation."
+    },
+    {
+      "id": "R03",
+      "requirement": "`update` re-applies the family's hook wiring on a consented machine through `protect()`; `hooks` names the differing field; this machine's PreToolUse repaired",
+      "inventory": "INV-232",
+      "original_verification": "e2e fixture (three runs, hashes equal); `npx sshlg-skills hooks` reads \"ok\"",
+      "disposition": "DELIVERED_BOUNDED",
+      "evidence": [
+        "../runs/2026-10-12-wave1.md",
+        "installed-runtime.json"
+      ],
+      "bounds_and_next": "Existing wave-1 evidence and installed runtime readback. No new latency measurement in this reconciliation."
+    },
+    {
+      "id": "R04",
+      "requirement": "Secret remedies resolve the Observatory engine at runtime with `--vault-only`; no checkout path",
+      "inventory": "INV-014, INV-207, INV-229",
+      "original_verification": "`test/secrets_test.js` refuses a checkout path. *Note (wave 1):* the `pipe` remedy has no `--vault-only` — `use_secret.py pipe` does not accept it (`run` does); B-158",
+      "disposition": "DELIVERED_BOUNDED",
+      "evidence": [
+        "../runs/2026-10-12-wave1.md",
+        "installed-runtime.json"
+      ],
+      "bounds_and_next": "Existing wave-1 evidence and installed runtime readback. No new latency measurement in this reconciliation."
+    },
+    {
+      "id": "R05",
+      "requirement": "`state.json` is a documented, versioned interface; `update` holds a single-instance lock",
+      "inventory": "INV-221",
+      "original_verification": "lock fixture (second run refused); doc page resolves in `doc_refs`",
+      "disposition": "DELIVERED_BOUNDED",
+      "evidence": [
+        "../runs/2026-10-12-wave1.md",
+        "installed-runtime.json"
+      ],
+      "bounds_and_next": "Existing wave-1 evidence and installed runtime readback. No new latency measurement in this reconciliation."
+    },
+    {
+      "id": "R06",
+      "requirement": "Hook latency is measured per event, and any hook over 150 ms on a common path is optimized",
+      "inventory": "INV-209",
+      "original_verification": "recorded timings in the wave-1 receipt",
+      "disposition": "DELIVERED_BOUNDED",
+      "evidence": [
+        "../runs/2026-10-12-wave1.md",
+        "installed-runtime.json"
+      ],
+      "bounds_and_next": "Existing wave-1 evidence and installed runtime readback. No new latency measurement in this reconciliation."
+    },
+    {
+      "id": "R07",
+      "requirement": "task-pipeline test temp trees go through the residue ledger; a guard refuses bare `mkdtemp`; the existing leak is reaped by owner",
+      "inventory": "INV-175–177",
+      "original_verification": "guard watched failing on a planted `mkdtemp`; `$TMPDIR` counts after a run",
+      "disposition": "ACCEPTED_SOURCE_RELEASE_GATE_ACTIVE",
+      "evidence": [
+        "tp112-state-review.md",
+        "r30-owner-acceptance/tp-feature-merge.json",
+        "../../HANDOFF.md",
+        "tp-current-gate/admission-correction.md",
+        "tp-current-gate/repair-normal-integration.json"
+      ],
+      "bounds_and_next": "Accepted TP1.94.1 main540679;1.94.0 publictag preserved failed with publish skipped. Complete exact-tag1.94.1 local suite is RUNNING in standaloneclone; source/tag/disclosures must be rechecked before push, registry and parent pin. "
+    },
+    {
+      "id": "R08",
+      "requirement": "task-pipeline `validate.yml` < 400 KB and the validate job ≤ 45 min",
+      "inventory": "INV-012, 134, 179, 182",
+      "original_verification": "`wc -c`; the PR run's duration read by run id",
+      "disposition": "ACCEPTED_SOURCE_RELEASE_GATE_ACTIVE",
+      "evidence": [
+        "tp112-state-review.md",
+        "r30-owner-acceptance/tp-feature-merge.json",
+        "../../HANDOFF.md",
+        "tp-current-gate/admission-correction.md",
+        "tp-current-gate/repair-normal-integration.json"
+      ],
+      "bounds_and_next": "Accepted TP1.94.1 main540679;1.94.0 publictag preserved failed with publish skipped. Complete exact-tag1.94.1 local suite is RUNNING in standaloneclone; source/tag/disclosures must be rechecked before push, registry and parent pin. "
+    },
+    {
+      "id": "R09",
+      "requirement": "task-pipeline description ≤ 900 chars; body ≥ 100 tokens under the limit; hub reserve ratchet back to 13",
+      "inventory": "INV-011, 172, 178",
+      "original_verification": "the member validator; hub `validate.py` ratchet",
+      "disposition": "ACCEPTED_SOURCE_RELEASE_GATE_ACTIVE",
+      "evidence": [
+        "tp112-state-review.md",
+        "r30-owner-acceptance/tp-feature-merge.json",
+        "../../HANDOFF.md",
+        "tp-current-gate/admission-correction.md",
+        "tp-current-gate/repair-normal-integration.json"
+      ],
+      "bounds_and_next": "Accepted TP1.94.1 main540679;1.94.0 publictag preserved failed with publish skipped. Complete exact-tag1.94.1 local suite is RUNNING in standaloneclone; source/tag/disclosures must be rechecked before push, registry and parent pin. "
+    },
+    {
+      "id": "R10",
+      "requirement": "task-pipeline ledgers and branches current (verification header, stale branches, HANDOFF)",
+      "inventory": "INV-180, 181",
+      "original_verification": "`gh api` branch list; file diff",
+      "disposition": "ACCEPTED_SOURCE_RELEASE_GATE_ACTIVE",
+      "evidence": [
+        "tp112-state-review.md",
+        "r30-owner-acceptance/tp-feature-merge.json",
+        "../../HANDOFF.md",
+        "tp-current-gate/admission-correction.md",
+        "tp-current-gate/repair-normal-integration.json"
+      ],
+      "bounds_and_next": "Accepted TP1.94.1 main540679;1.94.0 publictag preserved failed with publish skipped. Complete exact-tag1.94.1 local suite is RUNNING in standaloneclone; source/tag/disclosures must be rechecked before push, registry and parent pin. "
+    },
+    {
+      "id": "R11",
+      "requirement": "Every gate writes the Observatory checkpoint when connected, else ledger line `memory: unavailable`; planned executor change uses `handoff_create/accept`",
+      "inventory": "INV-198, 201, 202, 228",
+      "original_verification": "`stage_checkpoint_test.py` cases; one live run records a receipt",
+      "disposition": "ACCEPTED_SOURCE_LIVE_UNVERIFIED",
+      "evidence": [
+        "tp114-review.json",
+        "r30-owner-acceptance/tp-feature-merge.json",
+        "tp-current-gate/admission-correction.md",
+        "tp-current-gate/repair-normal-integration.json"
+      ],
+      "bounds_and_next": "Accepted TP1.94.1 main540679;1.94.0 publictag preserved failed with publish skipped. Complete exact-tag1.94.1 local suite is RUNNING in standaloneclone; source/tag/disclosures must be rechecked before push, registry and parent pin. Connected Observatory/Fabric outcome remains unverified; no board tools available."
+    },
+    {
+      "id": "R12",
+      "requirement": "One handoff-layering map, single home in the hub, cited by task-pipeline",
+      "inventory": "INV-203",
+      "original_verification": "`doc_refs` resolves; DOCMAP lists the home",
+      "disposition": "ACCEPTED_SOURCE_RELEASE_PENDING",
+      "evidence": [
+        "../specs/2026-10-13-pipeline-principles-gaps.md",
+        "r30-owner-acceptance/tp-feature-merge.json",
+        "tp-current-gate/admission-correction.md",
+        "tp-current-gate/repair-normal-integration.json"
+      ],
+      "bounds_and_next": "Accepted TP1.94.1 main540679;1.94.0 publictag preserved failed with publish skipped. Complete exact-tag1.94.1 local suite is RUNNING in standaloneclone; source/tag/disclosures must be rechecked before push, registry and parent pin. "
+    },
+    {
+      "id": "R13",
+      "requirement": "The waves intake reads `docs/backlog-sources.json` when present",
+      "inventory": "INV-216",
+      "original_verification": "fixture repo with the file",
+      "disposition": "ACCEPTED_SOURCE_RELEASE_PENDING",
+      "evidence": [
+        "../specs/2026-10-13-pipeline-principles-gaps.md",
+        "r30-owner-acceptance/tp-feature-merge.json",
+        "tp-current-gate/admission-correction.md",
+        "tp-current-gate/repair-normal-integration.json"
+      ],
+      "bounds_and_next": "Accepted TP1.94.1 main540679;1.94.0 publictag preserved failed with publish skipped. Complete exact-tag1.94.1 local suite is RUNNING in standaloneclone; source/tag/disclosures must be rechecked before push, registry and parent pin. "
+    },
+    {
+      "id": "R14",
+      "requirement": "Packet id `task-pipeline/execution-packet/1`; old id read for one release",
+      "inventory": "INV-218",
+      "original_verification": "schema test both ids",
+      "disposition": "ACCEPTED_SOURCE_RELEASE_PENDING",
+      "evidence": [
+        "../specs/2026-10-13-pipeline-principles-gaps.md",
+        "r30-owner-acceptance/tp-feature-merge.json",
+        "tp-current-gate/admission-correction.md",
+        "tp-current-gate/repair-normal-integration.json"
+      ],
+      "bounds_and_next": "Accepted TP1.94.1 main540679;1.94.0 publictag preserved failed with publish skipped. Complete exact-tag1.94.1 local suite is RUNNING in standaloneclone; source/tag/disclosures must be rechecked before push, registry and parent pin. "
+    },
+    {
+      "id": "R15",
+      "requirement": "Fabric pipeline-adapter contract fixture runs in task-pipeline CI",
+      "inventory": "INV-217",
+      "original_verification": "regression `fix-pf-06.01` reports PASS, not NOT_RUN",
+      "disposition": "ACCEPTED_SOURCE_RELEASE_PENDING",
+      "evidence": [
+        "../specs/2026-10-13-pipeline-principles-gaps.md",
+        "r30-owner-acceptance/tp-feature-merge.json",
+        "tp-current-gate/admission-correction.md",
+        "tp-current-gate/repair-normal-integration.json"
+      ],
+      "bounds_and_next": "Accepted TP1.94.1 main540679;1.94.0 publictag preserved failed with publish skipped. Complete exact-tag1.94.1 local suite is RUNNING in standaloneclone; source/tag/disclosures must be rechecked before push, registry and parent pin. "
+    },
+    {
+      "id": "R16",
+      "requirement": "The release stage reads the project's approval mode and reports the waiting-run link on `reviewers`",
+      "inventory": "INV-224",
+      "original_verification": "doctrine test + fixture products.json",
+      "disposition": "ACCEPTED_SOURCE_RELEASE_PENDING",
+      "evidence": [
+        "../specs/2026-10-13-pipeline-principles-gaps.md",
+        "r30-owner-acceptance/tp-feature-merge.json",
+        "tp-current-gate/admission-correction.md",
+        "tp-current-gate/repair-normal-integration.json"
+      ],
+      "bounds_and_next": "Accepted TP1.94.1 main540679;1.94.0 publictag preserved failed with publish skipped. Complete exact-tag1.94.1 local suite is RUNNING in standaloneclone; source/tag/disclosures must be rechecked before push, registry and parent pin. "
+    },
+    {
+      "id": "R17",
+      "requirement": "agent-sync run identity is hash-based and unique per key",
+      "inventory": "INV-191, 204",
+      "original_verification": "collision fixture watched failing on old code",
+      "disposition": "PUBLISHED_SOURCE_VERIFIED",
+      "evidence": [
+        "member-release-readback.md",
+        "member-release-readback.json"
+      ],
+      "bounds_and_next": "Agent-sync1.22.2 release/payload readback recorded; accepted pins include later repository-only guard corrections. Native generation update and every backend/runtime outcome remain separate."
+    },
+    {
+      "id": "R18",
+      "requirement": "Expired leases are counted and reaped only with owner proof",
+      "inventory": "INV-022, 192",
+      "original_verification": "reap fixture; live `status` counts",
+      "disposition": "PUBLISHED_SOURCE_VERIFIED",
+      "evidence": [
+        "member-release-readback.md",
+        "member-release-readback.json"
+      ],
+      "bounds_and_next": "Agent-sync1.22.2 release/payload readback recorded; accepted pins include later repository-only guard corrections. Native generation update and every backend/runtime outcome remain separate."
+    },
+    {
+      "id": "R19",
+      "requirement": "Long-held lease warning against the declared interval",
+      "inventory": "INV-206",
+      "original_verification": "fixture",
+      "disposition": "PUBLISHED_SOURCE_VERIFIED",
+      "evidence": [
+        "member-release-readback.md",
+        "member-release-readback.json"
+      ],
+      "bounds_and_next": "Agent-sync1.22.2 release/payload readback recorded; accepted pins include later repository-only guard corrections. Native generation update and every backend/runtime outcome remain separate."
+    },
+    {
+      "id": "R20",
+      "requirement": "Token resolution: vault first, then env, then file (degraded)",
+      "inventory": "INV-193, 205",
+      "original_verification": "fixture with a stub `use_secret.py`",
+      "disposition": "PUBLISHED_SOURCE_VERIFIED",
+      "evidence": [
+        "member-release-readback.md",
+        "member-release-readback.json"
+      ],
+      "bounds_and_next": "Agent-sync1.22.2 release/payload readback recorded; accepted pins include later repository-only guard corrections. Native generation update and every backend/runtime outcome remain separate."
+    },
+    {
+      "id": "R21",
+      "requirement": "Conformance map to Fabric `coordination.md` at a pinned commit",
+      "inventory": "INV-219",
+      "original_verification": "test maps every operation",
+      "disposition": "PUBLISHED_SOURCE_VERIFIED",
+      "evidence": [
+        "member-release-readback.md",
+        "member-release-readback.json"
+      ],
+      "bounds_and_next": "Agent-sync1.22.2 release/payload readback recorded; accepted pins include later repository-only guard corrections. Native generation update and every backend/runtime outcome remain separate."
+    },
+    {
+      "id": "R22",
+      "requirement": "AS-07, AS-08, AS-09, AS-10, AS-14 closed with fixtures",
+      "inventory": "INV-021, 023–026, 194",
+      "original_verification": "each fixture watched failing",
+      "disposition": "PUBLISHED_SOURCE_VERIFIED",
+      "evidence": [
+        "member-release-readback.md",
+        "member-release-readback.json"
+      ],
+      "bounds_and_next": "Agent-sync1.22.2 release/payload readback recorded; accepted pins include later repository-only guard corrections. Native generation update and every backend/runtime outcome remain separate."
+    },
+    {
+      "id": "R23",
+      "requirement": "`gateway.md` states trust tiers T0/T1/T2 cited to fabric-workspace `eb451cf`",
+      "inventory": "INV-197, 213, 214, 238",
+      "original_verification": "member validator; text check",
+      "disposition": "PUBLISHED_SOURCE_BOUNDED",
+      "evidence": [
+        "releases/agent-stack-0.28.2.json"
+      ],
+      "bounds_and_next": "Accepted and published agent-stack0.28.2 retains bounded doctrine/source guards. No new live Fabric authorization, provider outcome or model adherence follows."
+    },
+    {
+      "id": "R24",
+      "requirement": "agent-interop teaches fabric-interop jobs + the degraded envelope, pinned",
+      "inventory": "INV-215",
+      "original_verification": "member validator; pin resolves",
+      "disposition": "PUBLISHED_SOURCE_BOUNDED",
+      "evidence": [
+        "releases/agent-stack-0.28.2.json"
+      ],
+      "bounds_and_next": "Accepted and published agent-stack0.28.2 retains bounded doctrine/source guards. No new live Fabric authorization, provider outcome or model adherence follows."
+    },
+    {
+      "id": "R25",
+      "requirement": "agent-stack and make-skill link the Fabric adapter skills and `observatory-log:handling-secrets`",
+      "inventory": "INV-226",
+      "original_verification": "grep test in member gate",
+      "disposition": "PUBLISHED_SOURCE_BOUNDED",
+      "evidence": [
+        "releases/agent-stack-0.28.2.json"
+      ],
+      "bounds_and_next": "Accepted and published agent-stack0.28.2 retains bounded doctrine/source guards. No new live Fabric authorization, provider outcome or model adherence follows."
+    },
+    {
+      "id": "R26",
+      "requirement": "agent-stack descriptions ≥ 30 chars spare",
+      "inventory": "INV-195",
+      "original_verification": "member validator",
+      "disposition": "PUBLISHED_SOURCE_BOUNDED",
+      "evidence": [
+        "releases/agent-stack-0.28.2.json"
+      ],
+      "bounds_and_next": "Accepted and published agent-stack0.28.2 retains bounded doctrine/source guards. No new live Fabric authorization, provider outcome or model adherence follows."
+    },
+    {
+      "id": "R27",
+      "requirement": "`skill-search` trigger evals and the paired routing eval run; B-144 decided from it",
+      "inventory": "INV-006, 009, 183",
+      "original_verification": "eval report with run ids and costs",
+      "disposition": "BOUNDED_NATIVE_PROTOCOL_COMPLETED",
+      "evidence": [
+        "skill-search-native/readout-c.json",
+        "skill-search-native/peer-results-c.json",
+        "paired-routing-1013/readout.md"
+      ],
+      "bounds_and_next": "Search-first protocol20/20 majority decisions,59/60 individual cells; paired reader resolves B144 to UX under current operator doctrine. Separate compression/task-quality trials remain NO_ADOPTION, not generalized quality equivalence."
+    },
+    {
+      "id": "R28",
+      "requirement": "Residue checks in make-skill (MS-05) and agent-stack (AG-06a/b)",
+      "inventory": "INV-018, 019, 027, 190",
+      "original_verification": "guards watched failing",
+      "disposition": "ACCEPTED_SOURCE_GAPS_CLOSED",
+      "evidence": [
+        "fw00-owner-closure-review.md",
+        "fw00-owner-dispositions-peer.json",
+        "fw00-owner-merged.json",
+        "fw01-sibling-peer.json",
+        "as-referral-closure-integration.json"
+      ],
+      "bounds_and_next": "Make-skill df53aaa and agent-stack b332a92 refuse unreadable source discovery; SEO1e86edf owns whole-source guard and prior snapshot ledger. AS B159 source-only closure normallymerged fefece0;29rows31IDs44payloadfiles preserved. No arbitrary dynamic-code/race or installed quality guarantee."
+    },
+    {
+      "id": "R29",
+      "requirement": "make-skill HANDOFF current",
+      "inventory": "INV-184",
+      "original_verification": "file diff",
+      "disposition": "OWNER_HANDOFF_DELIVERED",
+      "evidence": [
+        "member-release-readback.md",
+        "r30-owner-acceptance/make-native-owner-merge.json"
+      ],
+      "bounds_and_next": "Owner source/release/native-evaluation records delivered. Package publication does not certify a new native cache generation."
+    },
+    {
+      "id": "R30",
+      "requirement": "The hub board guard reads every member board (B-108); released members' gates check tag reachability (B-109 part)",
+      "inventory": "INV-003, 004",
+      "original_verification": "planted pipe-shifted row in a member board fails the hub",
+      "disposition": "OWNER_SOURCE_RECONCILIATION_ACTIVE",
+      "evidence": [
+        "r30-owner-acceptance/README.md",
+        "member-pin-seam-20261013-0955.json",
+        "r30-ux-gfm-interpretation-correction.json",
+        "fw00-navigation-peer.json",
+        "as-referral-closure-integration.json"
+      ],
+      "bounds_and_next": "All eleven owners have retained requested board/release guard controls after UX PR47. GFM parity finding retracted from official scanner/render evidence. New Telegram/XR/Web3D navigation indexes passed source peer and local gates; final owner integrations pending. Final hub aggregate remains pending."
+    },
+    {
+      "id": "R31",
+      "requirement": "New compatibility report cut superseding 2026-10-09",
+      "inventory": "INV-010, 199, 235, 237",
+      "original_verification": "report with per-host readbacks; `superseded_by` set",
+      "disposition": "REPORT_DELIVERED",
+      "evidence": [
+        "../../reports/2026-10-13-coding-agent-compatibility/README.md",
+        "observer.md"
+      ],
+      "bounds_and_next": "Dated per-host compatibility cut delivered. Native listing/readability and model execution are distinct."
+    },
+    {
+      "id": "R32",
+      "requirement": "Family description total ratcheted (may fall, never rise)",
+      "inventory": "INV-002",
+      "original_verification": "`validate.py` ratchet line",
+      "disposition": "GUARD_PASSES_COMPOSED_SOURCE",
+      "evidence": [
+        "member-pin-seam-20261013-0955.json",
+        "route-current-20261013-1010.json"
+      ],
+      "bounds_and_next": "Current structural gate preserves32501total/13reserve ratchets; final aggregate pending. Fifteen curated route misses are all reserve-blocked. Compressed-description adoption remains rejected by current native quality evidence."
+    },
+    {
+      "id": "R33",
+      "requirement": "Graph refreshed; DOCMAP, HANDOFF, README current; pins; hub release; installed and read back",
+      "inventory": "INV-015, 200",
+      "original_verification": "`graphify` report; `npm view`; readback receipt",
+      "disposition": "CURRENT_CANDIDATE_PARTIAL",
+      "evidence": [
+        "installed-1.62.2/README.md",
+        "graph-current-peer.json",
+        "../../reports/2026-10-13-code-graph-finalization/README.md",
+        "../../HANDOFF.md",
+        "mb02-composed-acceptance.json",
+        "mb02-composition-peer.json",
+        "hook-recovery/native-followup-20261013-1048.json",
+        "hook-recovery/native-followup-20261013-1153.json"
+      ],
+      "bounds_and_next": "Hub1.63candidate composes recovery-retention/metadataCLI and active-generation deferral. Independent composed57controls passed, no hostrestore implied;35 later nativehooks completed after exactoldpayloadrecovery. TP gate, hubaggregate/publication, safeactualupdate and finalindependentobserver remain pending. Historical graph remains its frozen source cut. A later separate50secondnativewindowobserved7completed0failed; notall-sessionproof."
+    },
+    {
+      "id": "R34",
+      "requirement": "Cross-product asks delivered to their owners; wiki estate map updated",
+      "inventory": "INV-212, 220, 222, 223, 225, 227",
+      "original_verification": "message ids; wiki diff",
+      "disposition": "WIKI_DELIVERED_BOARD_UNAVAILABLE",
+      "evidence": [
+        "wiki-index-20261013-0928.json",
+        "fabric-board-20261013-1010.json",
+        "fabric-board-20261013-1152.json"
+      ],
+      "bounds_and_next": "Wiki PR22 merged with prior177 IDs retained and4 new. At11:52 Fabric identity again returns project null and no com.status/list/submit tool exists; cross-project asks remain unsent, pending real board admission. No direct-message workaround."
+    },
+    {
+      "id": "R35",
+      "requirement": "Plugins: 4 disabled globally, 4 enabled only in the projects that use them; listing chars measured before/after",
+      "inventory": "INV-007, 211, 230, 231",
+      "original_verification": "`claude plugin list`/settings diff through a backup; `npx sshlg-skills visibility` chars",
+      "disposition": "APPLIED_CONSERVATIVE_COVERAGE",
+      "evidence": [
+        "installed-1.62.2/README.md",
+        "installed-1.62.2/domains-idempotence.json"
+      ],
+      "bounds_and_next": "Published lossless apply readback confirms35owned project entries and37files unchanged across3real repeats. Two invalid Git roots conservatively retain global domain coverage; hook-bearing plugins remain global."
+    },
+    {
+      "id": "R36",
+      "requirement": "Gemini CLI from npm (dry-run first); after the operator's sign-in, family discovery read back",
+      "inventory": "INV-008, 234",
+      "original_verification": "`gemini --version`; readback in the compatibility cut",
+      "disposition": "INSTALLED_LISTED_MODEL_UNVERIFIED",
+      "evidence": [
+        "../../reports/2026-10-13-coding-agent-compatibility/README.md",
+        "observer.md"
+      ],
+      "bounds_and_next": "Gemini install/native list evidence exists; model authentication/runtime is not established by listing."
+    },
+    {
+      "id": "R37",
+      "requirement": "Pi supported: which directories Pi reads is measured from its docs/source; family skills discoverable once, no duplicate listing; Pi in the compatibility cut",
+      "inventory": "INV-236",
+      "original_verification": "readback with Pi installed (installed by the agent if absent)",
+      "disposition": "NATIVE_LIST_VERIFIED",
+      "evidence": [
+        "../../reports/2026-10-13-native-visibility-rollout/README.md",
+        "observer.md"
+      ],
+      "bounds_and_next": "Pi loader/formatter measured, all39 family skills retained. Task-artifact quality remains distinct from native listing."
+    }
+  ],
+  "supersedes_snapshot": "requirements-current-20261013-0415.json",
+  "supersedes": "requirements-current-20261013-1017.json"
+}
