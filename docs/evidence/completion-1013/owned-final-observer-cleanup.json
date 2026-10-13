@@ -1,0 +1,45 @@
+{
+  "schema": "owned-cleanup/1",
+  "authority": "Parent explicitly retired peer need for old prepared source bundle; task-owned only, branches preserved",
+  "records": [
+    {
+      "kind": "owned_worktree",
+      "name": "hub-recovery-copy",
+      "branch_preserved": "docs/recovery-copy-1013",
+      "head_remote_exact": "9d8c84de1dc5d01a47a9d69565d7dfeed18708ae",
+      "tracked_clean": true,
+      "open_handles": false,
+      "ignored_archive": "/Users/sshlg/.sshlg-skills/owned-worktree-archives/2026-10-13-observer-prep/hub-recovery-copy.tgz",
+      "archived_files": {
+        ".agent-sync/30-claims-r-visibi28ccb0.md": "aa00110a65200a73ae658de950b636ec0940e2a374f3b5754c95b84da99910d7",
+        ".agent-sync/renew/r-visibi28ccb0--RECOVERY-COPY-1013": "dc4952f23610540b3514d3b75feccaf4f7d93e1393bf82651a1d2fbdaa347851",
+        ".agent-sync/renew/r-visibi28ccb0--res--sshlg-skills--README-md": "e69a7c343f2984ae8a8890dd953cd1085d2ebe0d22384f8e5f66ff8495dd447b"
+      },
+      "logical_file_bytes": 49076348,
+      "action": "normal_git_worktree_remove"
+    },
+    {
+      "kind": "owned_prepared_bundle",
+      "path": "/private/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/fw07-source-bundle-zniiibkt",
+      "files": 253,
+      "manifest_sha256": "4e51b963667222786b4038e11510cbb9450e0c64b5759f337bc929361fb30563",
+      "verified": "Frozen constructor and check passed; no symlinks/extras; no open handles; parent confirmed peer complete",
+      "action": "removed_reproducible_bundle"
+    },
+    {
+      "kind": "owned_worktree",
+      "name": "hub-fw07-dry",
+      "branch_preserved": "eval/fw07-dry-1013",
+      "head_remote_exact": "4db944eec8bb9a156a4ac938cb34adc78436dd05",
+      "tracked_clean": true,
+      "open_handles": false,
+      "ignored_archive": "/Users/sshlg/.sshlg-skills/owned-worktree-archives/2026-10-13-observer-prep/hub-fw07-dry.tgz",
+      "archived_files": {
+        ".agent-sync/30-claims-r-visibi7041eb.md": "8339ae2bae57d472af4c87936caa5e02a121265714ec921143ed1c1e301e95e9",
+        ".agent-sync/renew/r-visibi7041eb--FW07-DRY-HARNESS": "592d0f93e0845a65ad7e6be7dfc2643c5de2ca91a844e945bf9b11c22aa7af6e"
+      },
+      "logical_file_bytes": 48642480,
+      "action": "normal_git_worktree_remove"
+    }
+  ]
+}
