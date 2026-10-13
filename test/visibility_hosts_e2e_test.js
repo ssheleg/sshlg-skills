@@ -60,11 +60,12 @@ process.exit(2);
     HOME: home, SSHLG_SKILLS_NO_UPDATE_CHECK: '1', NO_COLOR: '1',
     PATH: [shims, path.dirname(process.execPath), '/usr/bin', '/bin'].join(path.delimiter),
   });
-  const run = (...args) => {
-    const r = spawnSync(process.execPath, [BIN, ...args], { cwd: ROOT, env: env(), encoding: 'utf8', timeout: 180000, stdin: 'ignore' });
+  const runWithEnv = (extra, ...args) => {
+    const r = spawnSync(process.execPath, [BIN, ...args], { cwd: ROOT, env: Object.assign(env(), extra), encoding: 'utf8', timeout: 180000, stdin: 'ignore' });
     return { status: r.status, out: `${r.stdout || ''}${r.stderr || ''}` };
   };
-  return { home, shims, w, skill, hermesState, run, rec: () => JSON.parse(fs.readFileSync(path.join(home, '.sshlg-skills', 'visibility.json'), 'utf8')) };
+  const run = (...args) => runWithEnv({}, ...args);
+  return { home, shims, w, skill, hermesState, run, runWithEnv, rec: () => JSON.parse(fs.readFileSync(path.join(home, '.sshlg-skills', 'visibility.json'), 'utf8')) };
 }
 
 const sha = (p) => (fs.existsSync(p) ? crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex') : 'absent');
@@ -304,6 +305,182 @@ it('a degraded host does not fail update', () => {
 it('uninstall names what visibility still holds and how to undo it', () => {
   const r = B.run('uninstall', '--agent', 'gemini-cli');
   assert.ok(/visibility --revert/.test(r.out), r.out.slice(-1500));
+});
+
+// Permission and interruption failures must preserve ownership, not just config bytes.
+function recoveryMachine(name) {
+  const m = machine(name, { hermes: false });
+  m.skill('dcf');
+  m.w('.agents/.skill-lock.json', JSON.stringify({ skills: { dcf: { source: 'acme/finance' } } }));
+  m.w('.gemini/settings.json', '{}\n');
+  m.w('.pi/agent/settings.json', '{}');
+  assert.strictEqual(m.run('visibility', 'marks', '--init', '--apply').status, 0);
+  return m;
+}
+it('a real EACCES on Pi degrades, preserves Gemini ownership and leaves revert retryable', () => {
+  const m = recoveryMachine('permission');
+  const pi = path.join(m.home, '.pi/agent/settings.json');
+  fs.chmodSync(pi, 0o400);
+  try {
+    const r = m.run('visibility', '--apply');
+    assert.strictEqual(r.status, 0, r.out);
+    assert.ok(/pi: DEGRADED/.test(r.out), r.out);
+    assert.deepStrictEqual(m.rec().gemini, ['dcf']);
+    assert.deepStrictEqual(m.rec().pi, []);
+    assert.strictEqual(m.run('visibility', '--revert').status, 0);
+    assert.strictEqual(fs.readFileSync(path.join(m.home, '.gemini/settings.json'), 'utf8'), '{}\n');
+  } finally { fs.chmodSync(pi, 0o600); }
+});
+// A test-only preload stops the real process immediately after a host write/rename.
+const killHook = path.join(base, 'kill-after-host.cjs');
+fs.writeFileSync(killHook, `
+const fs = require('fs');
+for (const name of ['writeFileSync', 'renameSync', 'unlinkSync']) {
+  const original = fs[name];
+  fs[name] = function(...args) {
+    const result = original.apply(this, args);
+    const target = name === 'renameSync' ? args[1] : args[0];
+    let match = String(target) === process.env.KILL_AFTER_FILE;
+    try { match = match || fs.realpathSync(target) === fs.realpathSync(process.env.KILL_AFTER_FILE); } catch (_) {}
+    if (match) process.kill(process.pid, 'SIGKILL');
+    return result;
+  };
+}
+`);
+it('an interruption after a host mutation leaves a recoverable receipt; revert restores every byte', () => {
+  const m = recoveryMachine('interrupt');
+  const file = path.join(m.home, '.gemini/settings.json');
+  m.runWithEnv({ NODE_OPTIONS: `--require=${killHook}`, KILL_AFTER_FILE: file }, 'visibility', '--apply');
+  assert.deepStrictEqual(JSON.parse(fs.readFileSync(file, 'utf8')).skills.disabled, ['dcf']);
+  assert.ok(m.rec().pending, 'the process died without a write-ahead receipt');
+  const r = m.run('visibility', '--revert');
+  assert.strictEqual(r.status, 0, r.out);
+  assert.strictEqual(fs.readFileSync(file, 'utf8'), '{}\n');
+  assert.strictEqual(m.rec().applied, false);
+  assert.ok(!m.rec().pending);
+});
+it('an interrupted revert withdraws consent first, and a second revert completes it', () => {
+  const m = recoveryMachine('interrupt-revert');
+  assert.strictEqual(m.run('visibility', '--apply').status, 0);
+  const file = path.join(m.home, '.gemini/settings.json');
+  m.runWithEnv({ NODE_OPTIONS: `--require=${killHook}`, KILL_AFTER_FILE: file }, 'visibility', '--revert');
+  assert.strictEqual(m.rec().applied, false, 'an update could re-hide after interrupted revert');
+  assert.ok(m.rec().pending);
+  const r = m.run('visibility', '--revert');
+  assert.strictEqual(r.status, 0, r.out);
+  assert.strictEqual(fs.readFileSync(file, 'utf8'), '{}\n');
+  assert.strictEqual(fs.readFileSync(path.join(m.home, '.pi/agent/settings.json'), 'utf8'), '{}');
+});
+it('an unwritable ownership record prevents every host mutation', () => {
+  const m = recoveryMachine('receipt-permission');
+  const rec = m.w('.sshlg-skills/visibility.json', JSON.stringify({ applied: false, claude: [], codex: [] }));
+  fs.chmodSync(rec, 0o400);
+  try {
+    const r = m.run('visibility', '--apply');
+    assert.notStrictEqual(r.status, 0, r.out);
+    assert.strictEqual(fs.readFileSync(path.join(m.home, '.gemini/settings.json'), 'utf8'), '{}\n');
+    assert.strictEqual(fs.readFileSync(path.join(m.home, '.pi/agent/settings.json'), 'utf8'), '{}');
+  } finally { fs.chmodSync(rec, 0o600); }
+});
+
+it('pending intent interrupted before mutation recovers as not written, then apply can retry', () => {
+  const m = recoveryMachine('before-mutation');
+  const hook = path.join(base, 'kill-before-host.cjs');
+  fs.writeFileSync(hook, `
+const fs = require('fs'); const original = fs.renameSync;
+fs.renameSync = function(from, to) {
+  const result = original.apply(this, arguments);
+  if (String(to).endsWith('/visibility.json') && JSON.parse(fs.readFileSync(to, 'utf8')).pending) process.kill(process.pid, 'SIGKILL');
+  return result;
+};
+`);
+  m.runWithEnv({ NODE_OPTIONS: `--require=${hook}` }, 'visibility', '--apply');
+  assert.ok(m.rec().pending);
+  const file = path.join(m.home, '.gemini/settings.json');
+  assert.strictEqual(fs.readFileSync(file, 'utf8'), '{}\n');
+  const r = m.run('visibility', '--apply');
+  assert.strictEqual(r.status, 0, r.out);
+  assert.deepStrictEqual(JSON.parse(fs.readFileSync(file, 'utf8')).skills.disabled, ['dcf']);
+  assert.deepStrictEqual(m.rec().gemini, ['dcf']);
+  assert.strictEqual(m.run('visibility', '--revert').status, 0);
+  assert.strictEqual(fs.readFileSync(file, 'utf8'), '{}\n');
+});
+it('receipt checkpoint failure after a host write keeps pending and does not touch the next host', () => {
+  const m = recoveryMachine('checkpoint');
+  const hook = path.join(base, 'fail-checkpoint.cjs');
+  fs.writeFileSync(hook, `
+const fs = require('fs'); const path = require('path'); const original = fs.renameSync;
+fs.renameSync = function(from, to) {
+  if (String(to).endsWith('/visibility.json')) {
+    const next = JSON.parse(fs.readFileSync(from, 'utf8'));
+    const g = JSON.parse(fs.readFileSync(path.join(process.env.HOME, '.gemini/settings.json'), 'utf8'));
+    if (!next.pending && g.skills) throw Object.assign(new Error('injected checkpoint EACCES'), { code: 'EACCES' });
+  }
+  return original.apply(this, arguments);
+};
+`);
+  const r = m.runWithEnv({ NODE_OPTIONS: `--require=${hook}` }, 'visibility', '--apply');
+  assert.strictEqual(r.status, 1, r.out);
+  assert.ok(m.rec().pending);
+  assert.strictEqual(fs.readFileSync(path.join(m.home, '.pi/agent/settings.json'), 'utf8'), '{}');
+  assert.strictEqual(m.run('visibility', '--revert').status, 0);
+  assert.strictEqual(fs.readFileSync(path.join(m.home, '.gemini/settings.json'), 'utf8'), '{}\n');
+});
+it('pending write with a third fingerprint refuses without discarding recovery evidence', () => {
+  const m = recoveryMachine('ambiguous');
+  const file = path.join(m.home, '.gemini/settings.json');
+  m.runWithEnv({ NODE_OPTIONS: `--require=${killHook}`, KILL_AFTER_FILE: file }, 'visibility', '--apply');
+  const rec = sha(path.join(m.home, '.sshlg-skills/visibility.json'));
+  const changed = JSON.stringify({ skills: { disabled: ['dcf'] }, operator: 'changed after interruption' }, null, 2) + '\n';
+  fs.writeFileSync(file, changed);
+  const r = m.run('visibility', '--revert');
+  assert.strictEqual(r.status, 1, r.out);
+  assert.ok(/ambiguous/.test(r.out), r.out);
+  assert.strictEqual(fs.readFileSync(file, 'utf8'), changed);
+  assert.strictEqual(sha(path.join(m.home, '.sshlg-skills/visibility.json')), rec);
+});
+
+it('a failed revert withdraws consent, retains failed-host ownership, and can be retried', () => {
+  const m = recoveryMachine('revert-permission');
+  assert.strictEqual(m.run('visibility', '--apply').status, 0);
+  const pi = path.join(m.home, '.pi/agent/settings.json');
+  const ownedPi = m.rec().pi;
+  fs.chmodSync(pi, 0o400);
+  try {
+    const r = m.run('visibility', '--revert');
+    assert.strictEqual(r.status, 0, r.out);
+    assert.ok(/pi: DEGRADED/.test(r.out), r.out);
+    assert.strictEqual(m.rec().applied, false);
+    assert.deepStrictEqual(m.rec().pi, ownedPi);
+  } finally { fs.chmodSync(pi, 0o600); }
+  assert.strictEqual(m.run('visibility', '--revert').status, 0);
+  assert.deepStrictEqual(m.rec().pi, []);
+  assert.strictEqual(fs.readFileSync(pi, 'utf8'), '{}');
+});
+it('a live update lock excludes direct visibility mutation', () => {
+  const m = recoveryMachine('concurrent');
+  const lock = require('../lib/updatelock.js');
+  const held = lock.acquire(m.home);
+  assert.ok(held.ok);
+  try {
+    const r = m.run('visibility', '--apply');
+    assert.strictEqual(r.status, lock.BUSY_EXIT, r.out);
+    assert.strictEqual(fs.readFileSync(path.join(m.home, '.gemini/settings.json'), 'utf8'), '{}\n');
+  } finally { lock.release(m.home, held.token); }
+});
+it('atomic host replacement preserves a config symlink, its target mode, and private receipt', () => {
+  const m = recoveryMachine('symlink');
+  const file = path.join(m.home, '.gemini/settings.json');
+  const actual = m.w('operator-settings.json', '{}\n');
+  fs.chmodSync(actual, 0o640);
+  fs.unlinkSync(file); fs.symlinkSync(actual, file);
+  assert.strictEqual(m.run('visibility', '--apply').status, 0);
+  assert.ok(fs.lstatSync(file).isSymbolicLink());
+  assert.strictEqual(fs.statSync(actual).mode & 0o777, 0o640);
+  assert.strictEqual(fs.statSync(path.join(m.home, '.sshlg-skills/visibility.json')).mode & 0o777, 0o600);
+  assert.strictEqual(m.run('visibility', '--revert').status, 0);
+  assert.strictEqual(fs.readFileSync(actual, 'utf8'), '{}\n');
+  assert.ok(fs.lstatSync(file).isSymbolicLink());
 });
 
 fs.rmSync(base, { recursive: true, force: true });

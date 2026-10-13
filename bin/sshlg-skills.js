@@ -1911,6 +1911,22 @@ function cmdVisibility(argv) {
  * ids; a host outside it keeps its record untouched.
  */
 function runVisibility(opts) {
+  // Direct visibility and update share one machine mutation lock. Re-apply is already
+  // inside runUpdateLocked; read-only previews deliberately do not acquire it.
+  if (opts.mode === 'preview' || opts.reapply) return runVisibilityUnlocked(opts);
+  const lock = require('../lib/updatelock.js');
+  const home = process.env.HOME || os.homedir();
+  const got = lock.acquire(home);
+  if (!got.ok || got.degraded) {
+    log(`visibility: refused — ${got.message || got.degraded}`);
+    return got.ok ? 1 : lock.BUSY_EXIT;
+  }
+  if (got.tookOver) log(`visibility: took over update.lock — ${got.tookOver}`);
+  try { return runVisibilityUnlocked(opts); }
+  finally { lock.release(home, got.token); }
+}
+
+function runVisibilityUnlocked(opts) {
   const V = require(path.join(ROOT, 'lib', 'visibility.js'));
   const HV = require(path.join(ROOT, 'lib', 'hostvis.js'));
   const toolkit = require(path.join(ROOT, 'lib', 'toolkit.js'));
@@ -1926,7 +1942,13 @@ function runVisibility(opts) {
 
   const recordPath = path.join(home, '.sshlg-skills', 'visibility.json');
   let owned = { claude: [], codex: [], gemini: [], pi: [], opencode: [], hermes: [], piCreated: false, created: {}, hosts: [] };
-  try { owned = Object.assign(owned, JSON.parse(read(recordPath) || '{}')); } catch (e) { /* unreadable: owns nothing */ }
+  try {
+    const S = require(path.join(ROOT, 'lib', 'visibility-state.js'));
+    const stored = S.validate(JSON.parse(S.read(recordPath) || '{}'));
+    const recovered = S.recover(stored, process.env);
+    if (stored.pending) log(`  recovered pending ${stored.pending.host} write from its fingerprint${!doApply && !doRevert ? ' (preview only)' : ''}`);
+    owned = Object.assign(owned, recovered);
+  } catch (e) { log(`visibility: ownership record not usable — ${e.message}; nothing written`); return 1; }
   const createdOf = (id) => (owned.created && Array.isArray(owned.created[id]) ? owned.created[id] : []);
 
   const skills = toolkit.readSkills(home).filter((s) => s.callable !== false);
@@ -2074,107 +2096,13 @@ function runVisibility(opts) {
   log('  and `npx sshlg-skills toolkit --find "<concepts>"` finds it by meaning.');
   if (!doApply && !doRevert) { log('\n  Nothing written. `--apply` hides, `--revert` undoes only what this command wrote.'); return 0; }
 
-  let failed = false;
+  const S = require(path.join(ROOT, 'lib', 'visibility-state.js'));
   const degraded = [];
-  // 'skipped' (no such file) keeps the old ownership for that host: nothing was
-  // written, so nothing new is owned — and a revert must not claim a value the
-  // operator creates later.
-  const write = (file, before, edit, label) => {
-    if (before === null) return { status: 'skipped' };
-    const r = edit(before);
-    if (!r.ok) { log(`  ${label}: DEGRADED, not written — ${r.reason}`); degraded.push(label); return { status: 'refused' }; }
-    if (r.text === before) { log(`  ${label}: already as planned`); return { status: 'ok', added: r.added || [] }; }
-    const saved = apply.protect(file, { home });
-    if (saved.action === 'backup-failed') { log(`  ${label}: NOT written — backup failed (${saved.error})`); failed = true; return { status: 'refused' }; }
-    fs.writeFileSync(file, r.text, 'utf8');
-    log(`  ${label}: written (backup ${saved.path || 'taken'})`);
-    return { status: 'ok', added: r.added || [] };
-  };
-  const skip = { status: 'skipped' };
-  // Claude keeps an emptied skillOverrides map unless the launcher created it.
-  const claudeCreated = createdOf('claude').includes('skillOverrides') || !Object.prototype.hasOwnProperty.call(owned, 'applied');
-  const wc = inScope('claude') ? write(settingsPath, settingsText, (t) => V.editClaudeSettings(t, { set: claudeSet, unset: claudeUnset, prune: claudeCreated }), '~/.claude/settings.json') : skip;
-  const wx = inScope('codex') ? write(codexPath, codexText, (t) => V.editCodexConfig(t, { disable: codexAdd, enable: codexDrop }), '~/.codex/config.toml') : skip;
-  const created = Object.assign({}, owned.created || {});
-  if (wc.status === 'ok' && claudeSet.length && settingsText !== null && !('skillOverrides' in settingsData)) created.claude = ['skillOverrides'];
-  if (wc.status === 'ok' && !doApply) delete created.claude;
-  // Ownership is what this command actually wrote and still holds: for Claude the
-  // planned hides (the plan never includes an operator-set key), for Codex the
-  // previously owned paths still wanted plus the ones this run ADDED — never an entry
-  // the operator already had.
-  const record = Object.assign({}, owned, {
-    note: 'Written by `npx sshlg-skills visibility`; --revert removes exactly these entries. `applied` is the consent `update` re-applies under, on `hosts` only.',
-    days,
-    keep,
-    marksRevision: marksData && !markProblems.length ? marksData.revision : null,
-    updatedAt: new Date().toISOString(),
-    claude: wc.status === 'ok' ? plan.hide.slice().sort() : owned.claude,
-    codex: wx.status === 'ok'
-      ? [...new Set(owned.codex.filter((p) => codexWant.includes(p)).concat(wx.added))].sort()
-      : owned.codex,
+  let record = Object.assign({}, owned, {
+    note: 'Written by `npx sshlg-skills visibility`; --revert removes these entries. Pending holds a write-ahead receipt; applied is consent for update on hosts only.',
+    days, keep, marksRevision: marksData && !markProblems.length ? marksData.revision : null,
+    updatedAt: new Date().toISOString(), created: Object.assign({}, owned.created || {}),
   });
-
-  for (const p of hostPlans) {
-    const { h } = p;
-    const keepOwned = () => { record[h.id] = p.ownedHere; };
-    if (p.reason) { log(`  ${h.id}: DEGRADED, not written — ${p.reason}`); degraded.push(h.id); keepOwned(); continue; }
-    const nextOwned = [...new Set(p.ownedHere.filter((x) => p.want.includes(x)).concat(p.added))].sort();
-    if (!p.changed) {
-      log(`  ${h.id}: already as planned`);
-      record[h.id] = nextOwned;
-      continue;
-    }
-    // Every write below takes its copy first; a copy that cannot be taken cancels it.
-    const guard = () => (fs.existsSync(h.file) ? apply.protect(h.file, { home }) : { action: 'new-file' });
-    if (h.kind === 'hermes-cli') {
-      const saved = guard();
-      if (saved.action === 'backup-failed') { log(`  hermes: NOT written — backup failed (${saved.error})`); failed = true; keepOwned(); continue; }
-      const w = HV.hermesWrite(p.next, process.env);
-      const back = w.reason ? null : HV.hermesRead(process.env);
-      // Confirmed when what this run added is there and what it removed is gone. An entry
-      // owned earlier that the operator removed since is theirs to remove, not a failure.
-      const okBack = back && !back.reason && p.added.every((x) => back.list.includes(x)) && !p.drop.some((x) => back.list.includes(x));
-      // Ownership is what the readback shows: never claim an entry that is not there.
-      record.hermes = back && back.list ? nextOwned.filter((x) => back.list.includes(x)) : p.ownedHere;
-      if (w.reason || !okBack) {
-        log(`  hermes: DEGRADED, not confirmed — ${w.reason || (back && back.reason) || 'the readback does not hold the planned list'}`);
-        degraded.push('hermes');
-        continue;
-      }
-      log(`  hermes: written through \`hermes config ${p.next.length ? 'set' : 'unset'}\` and read back (${back.list.length} disabled; ` +
-          `${saved.path ? `backup ${saved.path}` : 'no config.yaml before'}). A config.yaml Hermes created itself keeps \`{}\` after an unset.`);
-      continue;
-    }
-    const text = p.edit.text;
-    const saved = guard();
-    if (saved.action === 'backup-failed') { log(`  ${h.id}: NOT written — backup failed (${saved.error})`); failed = true; keepOwned(); continue; }
-    // Pi's settings file did not exist before the launcher created it: a revert that
-    // leaves only `{}` removes the file again, so the machine returns to its first state.
-    if (h.id === 'pi' && owned.piCreated && text === '{}') {
-      fs.unlinkSync(h.file);
-      record.piCreated = false;
-      record.pi = [];
-      delete created.pi;
-      log(`  pi: ${h.file} removed — the launcher created it and nothing else is in it (backup ${saved.path || 'taken'})`);
-      continue;
-    }
-    fs.mkdirSync(path.dirname(h.file), { recursive: true });
-    fs.writeFileSync(h.file, text, 'utf8');
-    if (h.id === 'pi' && p.edit.created) record.piCreated = true;
-    // Ownership is what the file holds now (read back), and the containers this run
-    // created are recorded so the last removal prunes them — and nothing the operator had.
-    const now = V.jsonAt(read(h.file) || '', h.keys);
-    const holds = (x) => (h.kind === 'json-list' ? Array.isArray(now) && now.includes(x) : now && now[x] === h.value);
-    record[h.id] = nextOwned.filter(holds);
-    const cp = new Set(createdOf(h.id).concat(p.edit.createdPaths || []));
-    if (now === undefined) for (const k of [...cp]) cp.delete(k);
-    if (cp.size) created[h.id] = [...cp].sort(); else delete created[h.id];
-    log(`  ${h.id}: written ${h.label}${saved.path ? ` (backup ${saved.path})` : ' (new file)'}`);
-  }
-  record.created = created;
-
-  // Consent (L1 fix round). --apply run by a person records it with the hosts it covered;
-  // a re-apply from `update` keeps the hosts the record already lists; --revert withdraws it.
   if (doApply && !opts.reapply) {
     record.applied = true;
     record.hosts = [];
@@ -2183,22 +2111,82 @@ function runVisibility(opts) {
     for (const h of hostList) if (h.present && !h.cannot) record.hosts.push(h.id);
     if (opts.only) record.hosts = record.hosts.filter((x) => opts.only.has(x)).concat((owned.hosts || []).filter((x) => !opts.only.has(x)));
   } else if (doRevert) {
+    // Withdraw before the first undo, so an interruption cannot re-arm an update.
     record.applied = false;
     record.hosts = [];
   }
+  const journal = S.journal(recordPath, home, record, process.env);
+  const clone = () => JSON.parse(JSON.stringify(journal.current));
+  const degrade = (id, reason) => { log(`  ${id}: DEGRADED, not written — ${reason}`); degraded.push(id); };
+  const transact = (id, file, before, after, next, action, kind = 'file') => {
+    const result = journal.transact({ host: id, file, kind, before: S.hash(before), after: S.hash(after) }, next, action);
+    if (!result.landed) { degrade(id, result.error ? result.error.message : 'write did not take effect'); return; }
+    log(`  ${id}: written and read back${result.error ? ' (the write reported an error but its result was confirmed)' : ''}`);
+  };
+  // Receipt failure is fatal, unlike one unavailable host: no unjournalled host write is allowed.
+  try {
+    journal.save(record);
+    const writeSimple = (id, file, before, edit, entries) => {
+      if (!inScope(id) || before === null) return;
+      const r = edit(before);
+      if (!r.ok) { degrade(id, r.reason); return; }
+      const next = clone();
+      next[id] = entries(r);
+      if (id === 'claude') {
+        if (claudeSet.length && !('skillOverrides' in settingsData)) next.created.claude = ['skillOverrides'];
+        if (doRevert) delete next.created.claude;
+      }
+      if (r.text === before) { journal.save(next); log(`  ${id}: already as planned`); return; }
+      transact(id, file, before, r.text, next, () => S.write(file, r.text, home));
+    };
+    const claudeCreated = createdOf('claude').includes('skillOverrides') || !Object.prototype.hasOwnProperty.call(owned, 'applied');
+    writeSimple('claude', settingsPath, settingsText,
+      (t) => V.editClaudeSettings(t, { set: claudeSet, unset: claudeUnset, prune: claudeCreated }), () => plan.hide.slice().sort());
+    writeSimple('codex', codexPath, codexText,
+      (t) => V.editCodexConfig(t, { disable: codexAdd, enable: codexDrop }),
+      (r) => [...new Set(owned.codex.filter((p) => codexWant.includes(p)).concat(r.added || []))].sort());
 
-  fs.mkdirSync(path.dirname(recordPath), { recursive: true });
-  // The record is the pack's own state, but it decides what a later revert removes
-  // from the operator's files — so it takes the same backup as they do.
-  const savedRecord = apply.protect(recordPath, { home });
-  if (savedRecord.action === 'backup-failed') {
-    log(`  ownership record NOT updated — backup failed (${savedRecord.error}); --revert would act on the old one`);
+    for (const p of hostPlans) {
+      const { h } = p;
+      if (p.reason) { degrade(h.id, p.reason); continue; }
+      const next = clone();
+      next[h.id] = [...new Set(p.ownedHere.filter((x) => p.want.includes(x)).concat(p.added))].sort();
+      if (!p.changed) { journal.save(next); log(`  ${h.id}: already as planned`); continue; }
+      if (h.kind === 'hermes-cli') {
+        transact(h.id, h.file, JSON.stringify(p.current), JSON.stringify(p.next), next, () => {
+          const saved = apply.protect(h.file, { home });
+          if (saved.action === 'backup-failed') throw new Error(`backup failed: ${saved.error}`);
+          const w = HV.hermesWrite(p.next, process.env);
+          if (w.reason) throw new Error(w.reason);
+        }, 'hermes');
+        continue;
+      }
+      const text = p.edit.text;
+      const removePi = h.id === 'pi' && owned.piCreated && text === '{}';
+      if (removePi) {
+        next.piCreated = false; next.pi = []; delete next.created.pi;
+      } else {
+        if (h.id === 'pi' && p.edit.created) next.piCreated = true;
+        const at = V.jsonAt(text || '', h.keys);
+        const cp = new Set(createdOf(h.id).concat(p.edit.createdPaths || []));
+        if (at === undefined) cp.clear();
+        if (cp.size) next.created[h.id] = [...cp].sort(); else delete next.created[h.id];
+      }
+      transact(h.id, h.file, p.text, removePi ? null : text, next, () => {
+        if (removePi) {
+          const saved = apply.protect(h.file, { home });
+          if (saved.action === 'backup-failed') throw new Error(`backup failed: ${saved.error}`);
+          fs.unlinkSync(h.file);
+        } else S.write(h.file, text, home);
+      });
+    }
+  } catch (e) {
+    log(`  visibility stopped: ${e.message}. The ownership receipt is preserved; retry visibility --revert after resolving the error.`);
     return 1;
   }
-  fs.writeFileSync(recordPath, JSON.stringify(record, null, 2) + '\n', 'utf8');
   if (degraded.length) log(`  degraded (not written, the run continues): ${degraded.join(', ')}`);
   log('  Restart the host session to load the new listing.');
-  return failed ? 1 : 0;
+  return 0;
 }
 
 /**

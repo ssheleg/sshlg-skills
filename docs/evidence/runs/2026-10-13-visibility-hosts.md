@@ -122,3 +122,46 @@ The machine's `~/.sshlg-skills/visibility.json` is from the 1.55.0 apply and car
 consent. So **no `update` hides anything on Gemini, Pi, OpenCode or Hermes there** until
 someone runs `visibility --apply` with this release. The commands are in HANDOFF's next
 task. This branch wrote neither the machine marks nor any host setting there.
+
+
+## Independent review fix: interrupted and unavailable writes
+
+The independent review of `343b438` reproduced a real permission failure, rather than
+only malformed JSON: with readable Pi settings at mode 0400, `visibility --apply`
+wrote Gemini, then threw EACCES before saving `visibility.json`. The successful write
+was no longer known to `--revert`. This is the bounded recovery follow-up, under
+lease `VISIBILITY-RECOVERY-1013`; the parent completion wave owns integration.
+
+Scope and decision: `lib/visibility-state.js` journals one host at a time. Before a
+host changes, a protected, atomically replaced mode-0600 receipt records the before
+and expected-after SHA-256 and the next ownership state. Settings bytes are never
+copied into the receipt. Every host file replacement preserves its original mode
+and symlink target, checks that the target permits writing, and first calls
+`apply.protect()`. A host's permission or backup failure is degraded and leaves its
+previous ownership; successful earlier hosts remain recorded. A receipt failure
+stops before another host mutation. A later invocation resolves a pending write by
+its fingerprint; a third fingerprint is explicitly ambiguous, preserves evidence,
+and refuses to guess. Hermes is compared through its CLI's disabled list, including
+a readback after a write command reports failure.
+
+`--revert` persists withdrawn consent before its first undo. Direct apply/revert
+share `update.lock` with updates; a terminated process's lock is recovered by the
+existing dead-pid protocol. Preview only computes pending recovery and writes
+nothing. Machine marks, consent scope and the 1.55-record boundary remain as above.
+
+Checks in `test/visibility_hosts_e2e_test.js` grow from 27 to 37. Four new cases were
+watched failing on `343b438` before implementation: real EACCES, termination just
+after a host write, termination during revert, and an unwritable ownership record.
+The focused suite now also covers termination before a host mutation, checkpoint
+failure after a host mutation, and an externally changed file with a third
+fingerprint, retry after an unwritable revert, mutual exclusion with update, and
+symlink/mode preservation. The suite passes all 37 checks; the existing pack (22), pure visibility
+(21), original visibility e2e (11) and backup (21) suites pass too. These are scratch
+HOME checks, not a new live-host acceptance claim. Every test temporary directory
+owned by this run was removed. The full gate is deferred to the parent integration
+run; the fixture delta is +10 with no new suite.
+
+**Exact next task:** independently re-read the recovery code and run the final
+integration gate after applying that fixture delta to DOCMAP. Search over host-only
+skill roots and domain-disabled plugins is a separate completion-wave task; this
+recovery fix does not claim it is closed.
