@@ -1,0 +1,7 @@
+{
+  "status": "INTERRUPTED_LOCAL_FIXTURE_ONLY",
+  "owner": "agent-sync",
+  "phase": "width-before-result",
+  "reason": "Initial width attempt interrupted before result to correct plant attribution: use an extra description cell while preserving final status. Completed baseline and duplicate observations reused at identical SHA; no interrupted cell counted.",
+  "exit_code": 130
+}
