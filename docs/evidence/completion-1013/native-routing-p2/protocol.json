@@ -1,0 +1,34 @@
+{
+  "schema": "native-directed-protocol/1",
+  "member_commit": "8862fae9a826263f8109626ca257f81c7c43ac86",
+  "reviewed_passive_runner_commit": "91ae11176cbd8061783b61bfda353b7d9d365f31",
+  "passive_results_commit": "fba5554",
+  "artifact_hashes": {
+    "../native-routing-v2/run.py": "6728bb8151381b2dbe2f0fe9809aa86e9a60088aed71f5b42c46c1b572565635",
+    "../native-routing-v2/source.json": "c45f42de4f4c5c8f60ac7f11200e4d09bf62c27ccbe25ff6c262d2da519adcf1",
+    "../native-routing-v2/cases.json": "1af5649c559938ccbfb4232c2d390b2c8f7a10f922e57741b826bd9e99bc4f9b",
+    "../native-routing-v2/protocol.json": "ec7b003953f780a9dc9c1ae5f4ac4f0dc0b1028d3b42fc47a7919c1b3484fe42",
+    "../native-routing-v2/results-a.json": "bf9c66f008a7cb033c9410d5326f72a4d8a74f4e6786d8d9dc799ddb8bc77cb9",
+    "../native-routing-v2/admission.json": "547a30e7aebf6ce3efc320c63f20cf01f3e8c4296197a8eb2f127cd4b661840a",
+    "../native-routing-v2/peer-review.json": "10f8ffcaf1ff552810e1079560dfa7f0e4060aac3a0c854576f3a0fd54ed4b26"
+  },
+  "prior_list_usd": 1.2185672,
+  "new_budget_usd": 2.7814328,
+  "combined_maximum_usd": 4.0,
+  "prior_cli": 16,
+  "max_new_cli": 2,
+  "max_cumulative_cli": 18,
+  "per_call_reserve_usd": 0.5,
+  "request_ceiling": 6,
+  "reported_turn_ceiling": 11,
+  "input_per_request": 32000,
+  "output_per_request": 1600,
+  "timeout_seconds": 180,
+  "seed": 1013282,
+  "phase": "P2_DIRECTED_FULL_ONLY",
+  "cases": [
+    "b7",
+    "k2"
+  ],
+  "readiness": "P1 clean full-arm readiness retained by immutable prior receipt; fresh preflight plus exact inventory on each of two new tasks. No repeated readiness call."
+}
