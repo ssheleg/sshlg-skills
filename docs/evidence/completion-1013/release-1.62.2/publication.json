@@ -1,0 +1,445 @@
+{
+  "schema": "hub-publication-readback/1",
+  "version": "1.62.2",
+  "source": "a17f829e8d652ce7f68423b67e0de00fb89b3693",
+  "run": {
+    "conclusion": "success",
+    "headSha": "a17f829e8d652ce7f68423b67e0de00fb89b3693",
+    "jobs": [
+      {
+        "name": "validate / self-tests-a",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "validate / validate",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "validate / self-tests-b",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "release",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "name": "publish",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/ssheleg/sshlg-skills/actions/runs/38348869829"
+  },
+  "registry_integrity": "sha512-rR35caV4cRHGIch8xwVeEAZframthePiFOrM7jYiMzgM+fywi1hKavl5bl3Xm73SDQSX9WjKnkU9C0HzOkyvBQ==",
+  "tarball_sha256": "a01065310b5bbae08b060b52234b8b66489e8c41d2e5ceff4bb827b703dcf1a8",
+  "file_count": 80,
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+      "bytes": 1064
+    },
+    {
+      "path": "lib/apply.js",
+      "sha256": "dc72c32184657104e683901972d07fd3c56c22dfccc3e3d57037b1b62a2317c4",
+      "bytes": 18126
+    },
+    {
+      "path": "lib/backup.js",
+      "sha256": "eebd0f6317e338e55d926a0f7103ccc33e364261200240ac6cc5c800ba0d4012",
+      "bytes": 7468
+    },
+    {
+      "path": "lib/brief.js",
+      "sha256": "97d0bba3174c70833b8e0e242d062ffd68458973c89f2238629081730faf78c0",
+      "bytes": 6063
+    },
+    {
+      "path": "lib/catalogue.js",
+      "sha256": "5d6a700f2ac0dfba7c192a4e9e1a646dd43270215f88a4bc5d751c3c7acc80ee",
+      "bytes": 4139
+    },
+    {
+      "path": "lib/codexconfig.js",
+      "sha256": "526e3af23923900d5cb3c5fb579eb52bf0816ab8d8cf47bb09717fa97bc16713",
+      "bytes": 2070
+    },
+    {
+      "path": "lib/codexplugins.js",
+      "sha256": "50dec66681b4abeddd5202f8f056444e0d83e007c0ff730f1155a77bff0b5d8c",
+      "bytes": 16961
+    },
+    {
+      "path": "hooks/config-change.js",
+      "sha256": "55bb354ac95eb6d8be4f7f07b4a9e798996c89f697da6069e4dc314d3536bf6b",
+      "bytes": 2414
+    },
+    {
+      "path": "lib/config.js",
+      "sha256": "72a610117cada222a099543e6c0c0a4252d0d41665b061ac40d315a976f0c13c",
+      "bytes": 9070
+    },
+    {
+      "path": "lib/conflicts.js",
+      "sha256": "076134e758485ae5622ae0268d9e7378c683fba11ea9ac3dcb22fa93c5182a31",
+      "bytes": 15787
+    },
+    {
+      "path": "lib/consent.js",
+      "sha256": "f2a64dc258ce4546b9987e1c0acbcb9cde21617a63dc4ac9976b88c71ec043d1",
+      "bytes": 3342
+    },
+    {
+      "path": "lib/cursor.js",
+      "sha256": "39d2895a04918931d5dcbdb780ed6cd73d6c47c56eb07266f6bb995c9c21503d",
+      "bytes": 2808
+    },
+    {
+      "path": "lib/displace.js",
+      "sha256": "44a48eeb95bd1bb816d1096a8ab3c11cfad0f1c5457a9927dfa3dfd5fb0cef8e",
+      "bytes": 3584
+    },
+    {
+      "path": "lib/domains.js",
+      "sha256": "4e9d7817a8deffe0bbf426bceb1809ea6f1f5a53d718361de7f840e0c38aff54",
+      "bytes": 22912
+    },
+    {
+      "path": "lib/domainscan.js",
+      "sha256": "f9cffb0552390c67329c558a424b50a92f7a1d49c3944d020158df24cfe93dba",
+      "bytes": 4956
+    },
+    {
+      "path": "lib/drift.js",
+      "sha256": "927b1c7d09db121a0bcaacc504141420d64742ef914ddbdbc083ea83305aa018",
+      "bytes": 3344
+    },
+    {
+      "path": "lib/enablement.js",
+      "sha256": "3a03efc30262ebd7544184b561751f614987c0b41297bb2bef12c1fa8936f09e",
+      "bytes": 3408
+    },
+    {
+      "path": "hooks/file-changed.js",
+      "sha256": "758bf24003845f22c3f2684c40ef05c7cd9e813a37b08f07515227657830d179",
+      "bytes": 4033
+    },
+    {
+      "path": "lib/guard.js",
+      "sha256": "faffa131acff136d8835bdd08068ce8fc9cddbb22795f028b5da6a3c66ccffc4",
+      "bytes": 11016
+    },
+    {
+      "path": "lib/handoff.js",
+      "sha256": "87a35c08fa3e6cd7aec19cd7fad355ff14647be96c4e7fa89de14ffb707bec97",
+      "bytes": 7250
+    },
+    {
+      "path": "lib/handoffprobe.js",
+      "sha256": "f74bd418e8f805b9a169d90db8a1eaa376dfc2fb6f04c0d65db76499a4a3dcd1",
+      "bytes": 2516
+    },
+    {
+      "path": "lib/hooks.js",
+      "sha256": "40cc0fff73a0ad16e1884813484fafe6ee7b87d69097ea573940a0e199ff1745",
+      "bytes": 16968
+    },
+    {
+      "path": "lib/host-targets.js",
+      "sha256": "da0a40d14ab1f4649ad309e71e4a6df7edd78f6e80593be51357e87f9b2b5f4f",
+      "bytes": 3999
+    },
+    {
+      "path": "lib/host-targets.snapshot.js",
+      "sha256": "f799b78de3d5c76748df708418852fa20a0f699b3d800684f84a23b144390b98",
+      "bytes": 5127
+    },
+    {
+      "path": "lib/hostvis.js",
+      "sha256": "fe92bbb6ac7f66af01d3821750a11df231e2cfcaa24bd6eeb9d0048ef6677355",
+      "bytes": 9727
+    },
+    {
+      "path": "lib/humanizers.js",
+      "sha256": "202ac3d57d535dca90b8632a44d7daffa5a9569f9e96524b79552de68853aaf6",
+      "bytes": 5252
+    },
+    {
+      "path": "lib/hygiene.js",
+      "sha256": "c2607fd8c244b2dcf3b3575209cc827667ffe28c3676c47769722fd6caf289f3",
+      "bytes": 16044
+    },
+    {
+      "path": "lib/injectors.js",
+      "sha256": "489cbd19aa9a4c8b6fcbe6b5ea576db65360e079a145301cbdc49939fdda520e",
+      "bytes": 20854
+    },
+    {
+      "path": "lib/installer-pins.js",
+      "sha256": "3cbb8680a3d61d432e227bbe5b2d5a04aca9979bfee8aff2887924f8bf08fd87",
+      "bytes": 2328
+    },
+    {
+      "path": "lib/inventory.js",
+      "sha256": "d2ddb3019d523b637c2d398812ddcfd94301cbba53b4b774b3e19b82567f7cc6",
+      "bytes": 2963
+    },
+    {
+      "path": "lib/json-spans.js",
+      "sha256": "edd109b2a5a681acd639c2d50f67eda96cfe422f48c2f5a46be6192cde4659c4",
+      "bytes": 3567
+    },
+    {
+      "path": "lib/lifecycle.js",
+      "sha256": "b5de92fcecb0fbfb6907d3c5f88bb622ab420cd59b70901e340e6094a05cffbf",
+      "bytes": 4044
+    },
+    {
+      "path": "lib/machine.js",
+      "sha256": "77d16d067df04d06eb85a8795ae7bfaa8d92b987c683dfef5dbc792b03d8be46",
+      "bytes": 2373
+    },
+    {
+      "path": "lib/materialised.js",
+      "sha256": "347d7fb7f5a3cbc18c3c1c73006c13cad03d62980b4f4d1350a08696edafd9da",
+      "bytes": 7032
+    },
+    {
+      "path": "lib/mcpreach.js",
+      "sha256": "125d6983b4fdbcb46ed244d996f28521afea09a00c7e63cb259a5fee70834533",
+      "bytes": 2777
+    },
+    {
+      "path": "lib/mcpsecrets.js",
+      "sha256": "72bccc889af1facae4d5948600634ae48dac8c7a17406d6f979fd83c03e13bd1",
+      "bytes": 4472
+    },
+    {
+      "path": "lib/migrate.js",
+      "sha256": "360b74d737039b243b1bd8cef3f68703493a9f86777af671ca40a70cca568ea1",
+      "bytes": 8132
+    },
+    {
+      "path": "hooks/notification.js",
+      "sha256": "316d122920b917c8ce4f937caeeaadc2dd1c1760ec9ec3f4de6d391ae8d1e1fc",
+      "bytes": 2966
+    },
+    {
+      "path": "lib/notify.js",
+      "sha256": "75cf93e97bc7bdc2fbd7dfaefa02d731709f5b398f74e54606aa1afba629c0fb",
+      "bytes": 3357
+    },
+    {
+      "path": "lib/operation-result.js",
+      "sha256": "f1cf50c48e7ecf53b27f076f8f95eff1bc3eff046b062ac1ee54496d9f36fd96",
+      "bytes": 8084
+    },
+    {
+      "path": "lib/packs.js",
+      "sha256": "e20d50d662cb3366060a4bd7f4d97087245fcc31a903598b2a391305e9326070",
+      "bytes": 58029
+    },
+    {
+      "path": "lib/pi.js",
+      "sha256": "d0c94231193645e58fa52e6a605b77196eb919b44382b8add799f8b087326c53",
+      "bytes": 4966
+    },
+    {
+      "path": "lib/plan.js",
+      "sha256": "ad4f24e700e693b5e81be2fca7f05def88afcaa26d773539811f468a9a28bbc9",
+      "bytes": 15755
+    },
+    {
+      "path": "hooks/post-tool-use.js",
+      "sha256": "78bfff647f2c303e51ba555a9ba600fdae3c9fa017bed18323bb931ffd8873b5",
+      "bytes": 7960
+    },
+    {
+      "path": "hooks/pre-tool-use.js",
+      "sha256": "9d6a92e438ca34224cb8d431e8e85e2cf5251a1f519686dfb273a08a2010b0ed",
+      "bytes": 13520
+    },
+    {
+      "path": "lib/quarantine.js",
+      "sha256": "e682cbc0c8a86b633ce5a3ce0d5fffc814a525f0ed8ed993bd4bf621e6dab911",
+      "bytes": 5794
+    },
+    {
+      "path": "lib/releasewatch.js",
+      "sha256": "bc9ffb65089bc4743bda5f4a7540449b9ec3022d8cbb2bb2bd6af8991d4cbcec",
+      "bytes": 6844
+    },
+    {
+      "path": "hooks/repo-gate.js",
+      "sha256": "cd2f4abbe9243943ceb3afa37b3194f50a83822519689a698038541303d3fc50",
+      "bytes": 7451
+    },
+    {
+      "path": "lib/repogate.js",
+      "sha256": "85613b9a4cef762dd78cd6b42ec55bce241db5370007970d38fa9c90273c036e",
+      "bytes": 9133
+    },
+    {
+      "path": "lib/routegate.js",
+      "sha256": "9ee898e4683bcc2ef29f8789a610f8602dd80853f1fa9fe09c03afad31d80770",
+      "bytes": 8784
+    },
+    {
+      "path": "lib/routers-registry.js",
+      "sha256": "11607cc8076887acbe55af67081edc6887ddbeb94d41156d707a505274a28bb0",
+      "bytes": 21816
+    },
+    {
+      "path": "lib/routers.js",
+      "sha256": "7345c13f72d7da56e42c6d8244abd2f150d4c62225d7f86d0087cfb5c414793f",
+      "bytes": 22996
+    },
+    {
+      "path": "lib/runledger.js",
+      "sha256": "9370b94bbdfbb838ac035576e4bb1782da79b55b419c345d02afdb82f24bb401",
+      "bytes": 12457
+    },
+    {
+      "path": "lib/runtime.js",
+      "sha256": "3d3fb2dd10536ab5077bd7e20846794295f334e3eb0c777233ee52e33dfd12d5",
+      "bytes": 11444
+    },
+    {
+      "path": "lib/secretreaders.js",
+      "sha256": "157c538862aed40d4e6fe971eb3e4fbc12988bce7481aa102e5a7dbb14acd05e",
+      "bytes": 14171
+    },
+    {
+      "path": "lib/secrets.js",
+      "sha256": "bfe7b9989ce915d5bb2fa5ef344f6a65ae9be69c556d368aa7cacaf91abba50d",
+      "bytes": 11361
+    },
+    {
+      "path": "hooks/session-start.js",
+      "sha256": "e1e4aee8e925e11c39d573dc796835e5f619c1ee08779255480421b1ed7b1161",
+      "bytes": 10134
+    },
+    {
+      "path": "lib/shadow.js",
+      "sha256": "e49cba0b0e382f2ae002b046c789e2d5fc0697e0d66527bdae3775dfa264423d",
+      "bytes": 6189
+    },
+    {
+      "path": "lib/signature.js",
+      "sha256": "9f6a2b0d0210e18fdc477fd04a52df0c71de27c8734ccae408fc442392bb1449",
+      "bytes": 7682
+    },
+    {
+      "path": "lib/skillmeta.js",
+      "sha256": "15345393fe079515c44caf7176c3599fde2f15ff9947ce17ac83a46afc396ef3",
+      "bytes": 1115
+    },
+    {
+      "path": "lib/skillstore.js",
+      "sha256": "7fd48786fdc7c0dd6b45cddf2ef6eb0803d2f40c5e0efac737a56df38cbcfb60",
+      "bytes": 7770
+    },
+    {
+      "path": "bin/sshlg-skills.js",
+      "sha256": "3ad612101433345e68bd9125b42ba72e496ed74db94f43ede84aad7de1cd7f93",
+      "bytes": 193627
+    },
+    {
+      "path": "hooks/statusline.js",
+      "sha256": "e98b8176b497cb0acbc70f3084597a64251686b8840a195a640663169c19918f",
+      "bytes": 2519
+    },
+    {
+      "path": "lib/store.js",
+      "sha256": "c41ccc2e5a95390875c47138b662757aee82aaa8058e485efccd1b0c56ddebff",
+      "bytes": 6220
+    },
+    {
+      "path": "lib/toolkit.js",
+      "sha256": "bfe64b58b69855a3bdbabf985e525e9bc8330407269d6e4e454fee0e82f4c11d",
+      "bytes": 22973
+    },
+    {
+      "path": "lib/triggers.js",
+      "sha256": "f9f47a9277b908452edbdd75ac44ae334703620ad81beb3d75ca9c98f0c786de",
+      "bytes": 80937
+    },
+    {
+      "path": "lib/turnstate.js",
+      "sha256": "ce4180a4a16cd5681629e3f25764f34870753a1076259835e9752de69a1e65a1",
+      "bytes": 6896
+    },
+    {
+      "path": "lib/updatecheck.js",
+      "sha256": "2a6ce9794981110273bf8332afe80618ed4448a8448b90eccae384728a5d22c0",
+      "bytes": 12844
+    },
+    {
+      "path": "lib/updatelock.js",
+      "sha256": "15972ead3aa0a11bdb383c03a1d11353f2129b94ccd19992bda7e392d3fed6ad",
+      "bytes": 9266
+    },
+    {
+      "path": "lib/updatemodel.js",
+      "sha256": "5b2488c11921068bbc03017528c64eb84e40fb632657888bd5ce205141d61a7b",
+      "bytes": 10426
+    },
+    {
+      "path": "lib/updateprobe.js",
+      "sha256": "5b29b2963cc9452ba688c5fcf4064cde950da5f040a8106eb684638d03341240",
+      "bytes": 2347
+    },
+    {
+      "path": "lib/updaterun.js",
+      "sha256": "ff79927e964325ac825f6451dd64e758628419c46be60438fe75c32308f5491b",
+      "bytes": 5350
+    },
+    {
+      "path": "hooks/user-prompt-submit.js",
+      "sha256": "deaacd4a061b4b29bb1d7f4340e58b8b6b4d78246c37c9c90c2d435673cb45ef",
+      "bytes": 5521
+    },
+    {
+      "path": "lib/visibility-state.js",
+      "sha256": "3467138e86391ade3dc8fcb86d7513daf4db28e623f56b2e18452d0acd8489ad",
+      "bytes": 5596
+    },
+    {
+      "path": "lib/visibility.js",
+      "sha256": "57dd4156a2bf653d5b841a3e431c87fe553b926ac2cc784b95cd83fbbc85aeec",
+      "bytes": 23639
+    },
+    {
+      "path": "pack-marks.example.json",
+      "sha256": "51ffee0475d63e0801aa3f418262a6864052036c394aaf8c952f1e6b78ff26fd",
+      "bytes": 1472
+    },
+    {
+      "path": "package.json",
+      "sha256": "0fa230e8e27e57fbdc1d3e056443d5f0329ef1e6085e2e02139a641910376868",
+      "bytes": 1053
+    },
+    {
+      "path": "skills.json",
+      "sha256": "7f787109e5be6095cdee8eecfb62161edf33f5c2a5baf1d94a2f8578a0e99ee9",
+      "bytes": 22983
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "928213c3767179299e0068b715c9c2ca0e2171630614c345f27152df8e3e1502",
+      "bytes": 502185
+    },
+    {
+      "path": "README.md",
+      "sha256": "60b697da5aa2dba79e32bacbd2e5dcdbe1631b719a00b97008aa2197ecf88b0f",
+      "bytes": 70547
+    }
+  ],
+  "all_packaged_bytes_equal": true,
+  "installed_readback": "PENDING"
+}

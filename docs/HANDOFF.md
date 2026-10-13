@@ -1,3 +1,22 @@
+## Current continuation — 2026-10-13 05:05 UTC
+
+Hub **1.62.2 is published**, tag/source `a17f829e8d652ce7f68423b67e0de00fb89b3693`.
+Exact-source local115/1755/11, hosted Pages38348440718, release38348869829 and
+all80 npm payload files passed their separate checks. [Publication receipt](evidence/completion-1013/release-1.62.2/publication.json).
+The full published-package local update is now running; installation is not yet
+accepted. Runtime1.62.1 readbacks below are historical.
+
+Next tasks: finish installed immutable plain-skill/Continue/runtime/settings
+readback; apply lossless domains and preserve unknown-root coverage; integrate
+TP114, TP2/R09 and remaining SEO coverage packets; consume agent-stack0.27.2
+publication into a later family pin cut. Native artifact review is NO_ADOPTION:
+all four artifacts missed a required migration check and none loaded Skill.
+[Independent review](evidence/completion-1013/native-quality-v1/artifact-independent-review.json).
+Original37 requirements and177 initial board IDs remain in the source-preserving
+reconciliation, not blanket completion. [Current run](evidence/completion-1013/run.md).
+
+The dated entries below retain previous states and are not current instructions.
+
 ## Installed follow-up and next wave — 2026-10-13
 
 Hub v1.62.1 is published from merge `ae1b415bc79a3d89ca97199299e0e00a2a5e7674`.
