@@ -1,0 +1,14 @@
+{
+  "observed": "2026-10-13T14:19:34.391682+00:00",
+  "release_watcher_processes_numeric_and_executable_only": [
+    "7130 51783  7130 57:13 /opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python"
+  ],
+  "release_watcher_session": 28438,
+  "release_watcher_script_sha256": "adc24770cd3dba55e43499ba2d3aa308e44b0844a7ac28c9d3d79d9608d0505d",
+  "release_watcher_behavior": "Reads exact GitHub run every60seconds for up to3hours, then read-only registry verification on success. Does not retry publication, change settings, merge or pin.",
+  "release_watch_live": "/tmp/tp1941-release-watch.json",
+  "registry_live": "/tmp/tp1941-registry.json",
+  "tp195_live_prefix": "/tmp/tp-fw07-preintegration-875c6e6",
+  "tp195_session": 45625,
+  "continuation": "Inspect existing watchers and outputs before starting another process. Copy completed logs/results into owning Git repository; no passing conclusion from RUNNING snapshot."
+}
