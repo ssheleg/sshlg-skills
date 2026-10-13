@@ -1,0 +1,518 @@
+{
+  "schema": "member-release-readback/1",
+  "receipts": [
+    {
+      "repo": "telegram-dev",
+      "version": "0.2.4",
+      "tag": "v0.2.4",
+      "source": "35bb98527884df798c4120957452ba37bae01e90",
+      "tagReadback": "c8d7e57d6b1145634871a2716da5d1194135f4f5\trefs/tags/v0.2.4\n35bb98527884df798c4120957452ba37bae01e90\trefs/tags/v0.2.4^{}",
+      "run": {
+        "conclusion": "success",
+        "databaseId": 38340360324,
+        "event": "push",
+        "headBranch": "v0.2.4",
+        "headSha": "35bb98527884df798c4120957452ba37bae01e90",
+        "status": "completed",
+        "url": "https://github.com/ssheleg/telegram-dev/actions/runs/38340360324"
+      },
+      "githubRelease": {
+        "isDraft": false,
+        "isPrerelease": false,
+        "tagName": "v0.2.4",
+        "targetCommitish": "main",
+        "url": "https://github.com/ssheleg/telegram-dev/releases/tag/v0.2.4"
+      },
+      "registryVersion": "0.2.4",
+      "registryIntegrity": "sha512-N3TLgzxgnkPlypknqVcEaWgVUOu3eByZ3SBvi7yRKF01PaZZ1+A5qQTHRXPcyiE07mSFLHdcsi1/r6IJ6oIEHw==",
+      "tarballSha256": "1e1b0cf271aaf27b3ae6ccb4bd610871bbebb6fd55e5ed0e6a501debc49df954",
+      "allPackagedFilesByteEqual": true,
+      "fileCount": 22,
+      "files": [
+        {
+          "path": "CHANGELOG.md",
+          "sha256": "d471918f23e882259cc64560e5644f106cb47b956d1606e77c9250ebf39434ea",
+          "bytes": 21473
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+          "bytes": 1064
+        },
+        {
+          "path": "README.md",
+          "sha256": "cccb6014c00d582c51acdec6940eee20c3220a92f080f368ad8b8f1c933bbc36",
+          "bytes": 7383
+        },
+        {
+          "path": "SECURITY.md",
+          "sha256": "5c92a9addb33f9ed543e5d68efeedd78eaa850194fc97b21d428627ac91a51f0",
+          "bytes": 2426
+        },
+        {
+          "path": "bin/telegram-dev.js",
+          "sha256": "1b3145df9d49a478919c4743025a564609d95c97bbbee58ed6f6191619c0bc9b",
+          "bytes": 7078
+        },
+        {
+          "path": "package.json",
+          "sha256": "71a6d15754c8ca33f36f95876db68c9db9d42f89e4313f4ca692a4c3380e9fae",
+          "bytes": 1502
+        },
+        {
+          "path": "plugins/telegram-dev/.claude-plugin/plugin.json",
+          "sha256": "ee85c8604d73dbda3bd7ede7b17d4918176457d227b7dddc79892236e5e827ef",
+          "bytes": 1375
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-bots/SKILL.md",
+          "sha256": "c58b2efbeca6b4844a929028bc1b1f6f8351b14f45367be678e4f8ceaa454cc2",
+          "bytes": 11642
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-bots/fixtures/update_delivery.py",
+          "sha256": "3837eb0a9e13bf4920abdb7f2333699bf6768187544c457f780d108916153733",
+          "bytes": 19980
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-bots/references/frameworks.md",
+          "sha256": "d2c70658590eea1e4869b5628d9a105688a935dfd6f821bd6bcb3b255ae7dfaf",
+          "bytes": 2947
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-bots/references/limits-and-files.md",
+          "sha256": "736ddf059f83128b567668bd198014d4dffb0f36c6c6bb0db21a7d4d12d1303b",
+          "bytes": 2785
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-bots/references/payments-stars.md",
+          "sha256": "5dfc88e5d9803362680bb06a7c39828a3f4e8c50fed6fe991928085359b8605b",
+          "bytes": 3362
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-bots/references/updates-and-delivery.md",
+          "sha256": "96c458272c7e3a506f8131af1009a492d7b5ea77ef0decee93427faec6e534ad",
+          "bytes": 7214
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-miniapps/SKILL.md",
+          "sha256": "62fb97b5e2cb39f80ccf0d9794a68b36f9702594f7b1196412118dd41f0aff5a",
+          "bytes": 10157
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-miniapps/fixtures/verify_initdata.py",
+          "sha256": "b79a60d87883be9ab1bb2233b0ac35ed9589f0f42399ebd7c7225892cb033748",
+          "bytes": 13153
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-miniapps/references/app-to-bot.md",
+          "sha256": "e596fa35344f8321731d28530dce1372675362314b8267b017bcd7fa9ae9eac4",
+          "bytes": 3745
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-miniapps/references/initdata-verification.md",
+          "sha256": "14910465fb65e6a233eb66e7efcf38da0b69c91d0d9dd7e6edde9a57067c2287",
+          "bytes": 5677
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-miniapps/references/viewport-and-platform.md",
+          "sha256": "4955d62075e28780f32eebd17a2b2023346a53bd7f5a110846fd94dc524751bc",
+          "bytes": 3090
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-userbots/SKILL.md",
+          "sha256": "ab961479c3ee0a671ccccdb33cebb72009a5e13f0e3e89bbff1f0dd4df40e412",
+          "bytes": 8652
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-userbots/references/entities-and-history.md",
+          "sha256": "fe335934882830af02b0489f2f9d2a58d5cbb44d8abbce5fb8c41d263b683ece",
+          "bytes": 2668
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-userbots/references/rate-and-flood.md",
+          "sha256": "85758d9c15537d5234de5bb465e8f842e35c4d0d2160964c625dba6c1bb90f47",
+          "bytes": 5030
+        },
+        {
+          "path": "plugins/telegram-dev/skills/telegram-userbots/references/sessions-and-auth.md",
+          "sha256": "fa1949c0988cdb950decfe800540f3410a559e329fb5099982166dbbf2e3375e",
+          "bytes": 4304
+        }
+      ],
+      "nonRepoNpmHelp": {
+        "exit": 0,
+        "isolatedHome": true,
+        "installedSkills": false
+      },
+      "acceptance": "published payload equals tagged source; help works; not native installed-hook or model-quality acceptance"
+    },
+    {
+      "repo": "xr-dev",
+      "version": "0.3.4",
+      "tag": "v0.3.4",
+      "source": "4bd9e978ca6f73b73e91f26cd58b67323383c5f4",
+      "tagReadback": "61bebc0fb55610f2bb12b460229f7dcdadbed523\trefs/tags/v0.3.4\n4bd9e978ca6f73b73e91f26cd58b67323383c5f4\trefs/tags/v0.3.4^{}",
+      "run": {
+        "conclusion": "success",
+        "databaseId": 38340370423,
+        "event": "push",
+        "headBranch": "v0.3.4",
+        "headSha": "4bd9e978ca6f73b73e91f26cd58b67323383c5f4",
+        "status": "completed",
+        "url": "https://github.com/ssheleg/xr-dev/actions/runs/38340370423"
+      },
+      "githubRelease": {
+        "isDraft": false,
+        "isPrerelease": false,
+        "tagName": "v0.3.4",
+        "targetCommitish": "main",
+        "url": "https://github.com/ssheleg/xr-dev/releases/tag/v0.3.4"
+      },
+      "registryVersion": "0.3.4",
+      "registryIntegrity": "sha512-MPGXmJQWve0Qlq/P7Wc9w0b4BakhJJ8IK8n8cfb/dV71CwwbkZOJu2Yegfse/qYGz/CDis9sgxbK09+o+LBOTA==",
+      "tarballSha256": "6453ca7a51d1ded05fc6af5e503e1fda82d34216edbc405c71de18d608ab2d16",
+      "allPackagedFilesByteEqual": true,
+      "fileCount": 39,
+      "files": [
+        {
+          "path": "CHANGELOG.md",
+          "sha256": "ab8568e92602cb985761bc596962226de32ebdd5c7ccfaea9a6d193e706c44e3",
+          "bytes": 8462
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+          "bytes": 1064
+        },
+        {
+          "path": "README.md",
+          "sha256": "05d2533c809712f92013df7437d9609d1fd2ef5291bf36a2b2fa6019cffe7352",
+          "bytes": 4827
+        },
+        {
+          "path": "SECURITY.md",
+          "sha256": "bab080c9ba3eaa63a60cef27a9cd705fda70cd64c6fdfc8d94ea9b29ff83f663",
+          "bytes": 1737
+        },
+        {
+          "path": "bin/xr-dev.js",
+          "sha256": "de4885eca128479e015c0f1bbda04a937273a7101e411430504d514a99598f51",
+          "bytes": 6958
+        },
+        {
+          "path": "package.json",
+          "sha256": "3257b406e0774b5237edfdf726c73dcc660a06b3c2f7895f4f905925f1b176f1",
+          "bytes": 1517
+        },
+        {
+          "path": "plugins/xr-dev/.claude-plugin/plugin.json",
+          "sha256": "4a4185a94da48e594f85aa5a56f614252eeae6292cd58bbb07189064662ad710",
+          "bytes": 1200
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-lifecycle/SKILL.md",
+          "sha256": "9c301b9d92a28f5b69e7311374c5a0175c9267d22455d7e8bf630f5e2f5a4001",
+          "bytes": 6381
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-lifecycle/references/engine-paths.md",
+          "sha256": "c5e84f1e44c2e9bb10a9e1071febd397ddc15822d9c379e4205f4d0ee1ebf466",
+          "bytes": 4016
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-lifecycle/references/immersive-design.md",
+          "sha256": "4d316198b028a4d0ed935f91e88d7de7ad08c9dd3e4accbf56a5bd81be107536",
+          "bytes": 3801
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-lifecycle/references/stage-map.md",
+          "sha256": "2b4ad8ff2a7c694b91d6d0a8f4df483881e89973c2d8d9207de0eeb25a7047c7",
+          "bytes": 5360
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-native/SKILL.md",
+          "sha256": "fb389448b23327b9b2ce041bbdaf7e3b0820117e1b1eedc4069fac054c92c05d",
+          "bytes": 9885
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-native/references/doc-map.md",
+          "sha256": "4517f06dc473b6f09fe2e9d678cc08e1cd7969e92b4ac61da76103afc84af41e",
+          "bytes": 3778
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-native/references/frame-loop.md",
+          "sha256": "97650d19d7e3c8647ea03ed53f1721d6bca1771eb7e556a4a3a63825945955a6",
+          "bytes": 3942
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-native/references/manifest-and-gradle.md",
+          "sha256": "2fb6a25e519c1f0c455fcf14ea234919d8ab67a14b4bfdb7d44e9ad2c5849a83",
+          "bytes": 4967
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-native/references/mixed-reality.md",
+          "sha256": "5f1f26510b3465d1aa70f28343e4aa24f18a506285d2eb10066593d797cf46ed",
+          "bytes": 6684
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-native/references/project-playbook.md",
+          "sha256": "fc7cb8d200466b81fd628aa6ef7e5a1b73c6488fa0f9b11adeda2e51f59e6ffa",
+          "bytes": 6255
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-perf/SKILL.md",
+          "sha256": "4241b43a89fd211bcfceaf5d7fc9c33dd33175806b4c13da9650aa97cf94d228",
+          "bytes": 7268
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-perf/references/capture-playbook.md",
+          "sha256": "ff475d3f9531e72423f5d1add2ef745afba03e46034d08cef5da89dfe47781a7",
+          "bytes": 3939
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-perf/references/mobile-rendering.md",
+          "sha256": "c5658dd596c80cbdc6e0704acb2b91a0a57a193bb6daba1dc76a51025a3a13d9",
+          "bytes": 3617
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-perf/references/rendering-playbook.md",
+          "sha256": "a809e8e79db2b5ca5efbd0d8c2f3030014b532acc0ee94822f9a00aab203426c",
+          "bytes": 6217
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-spatial/SKILL.md",
+          "sha256": "8ccaa55bbf6a44b97eb3e9ddfe985386d8517bc1e9c4cbc6ee8a34acbd2a508f",
+          "bytes": 9051
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-spatial/references/budgets-and-traps.md",
+          "sha256": "663561f5e4d1439f367d65024f4022d5dc647de94ecafd37e54d3477b0c50a72",
+          "bytes": 3556
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-spatial/references/build-and-audit.md",
+          "sha256": "d3ff8afc1d538811d65d1a785d639c71a1e7e8049b697f1ba22e14fe2232fb06",
+          "bytes": 4424
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-spatial/references/docs-map.md",
+          "sha256": "f5afdec47acc1296c6ee0cd4c22fa88cd34da34dbadd409bcadaaf94dd979ab3",
+          "bytes": 3957
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-spatial/references/hybrid-activities.md",
+          "sha256": "2bf6b7fb2e25eae7ca3343396df8e5c1f0b1cfeee4508c66a1f22532c957a6a9",
+          "bytes": 2159
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-spatial/references/samples-map.md",
+          "sha256": "b05ecd465c9d6084be3c8aa69c467ca206404f428e327487adb8e132016d58cc",
+          "bytes": 3009
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-store/SKILL.md",
+          "sha256": "7b9bc1431494096eee4dc13375ab6a3169c6901aa251708ddf37ad13f5a096d2",
+          "bytes": 8514
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-store/references/launch-and-growth.md",
+          "sha256": "f4ebfc27503ab1e937c06b37f97447a3d23964803b62f9f96373fc0ebc9dc2de",
+          "bytes": 6156
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-store/references/production-readiness.md",
+          "sha256": "1870d3bda4e5d7b22d1b4e86a4b69b47fb2100f35434507266262391cb93fa78",
+          "bytes": 7728
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-store/references/store-asset-production.md",
+          "sha256": "c0fc0646eb193c155a2c01ce3aaf0954642fb10920d2457673cf1058b8c78227",
+          "bytes": 3225
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-store/references/vrc-checklist.md",
+          "sha256": "61e01edfaa27d640925dad900e657b9903d7e77a686b6e9245dd683cd3aea64a",
+          "bytes": 13196
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-tooling/SKILL.md",
+          "sha256": "df336da5fcaf44df6da95672608b484b28e4818660d15cdc564a3f29779fd48d",
+          "bytes": 8769
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-tooling/references/research-navigation.md",
+          "sha256": "36d911874b70f478ebae07845179494fc3cde46c1134630e89990b99ca515c59",
+          "bytes": 5556
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-tooling/references/source-research.md",
+          "sha256": "925c95f08ae4014f1909b05e7d15725b6a90d49f59f3f6f94ebb251c6ecec4ca",
+          "bytes": 3759
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-tooling/references/tool-matrix.md",
+          "sha256": "c43fa700e4d19ccade515f3fd5e734f6f00aeaa5853889672130e5ccbb6b8493",
+          "bytes": 2812
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-webxr/SKILL.md",
+          "sha256": "548528ce4cf3413a5f321027165213078ac5f84474e9e0bef10cd1aa8592c3d1",
+          "bytes": 6668
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-webxr/references/pwa-packaging.md",
+          "sha256": "2d032948002a96e131a6eb08a082eb90cd150d2262bb2aa7e9085b48b069a735",
+          "bytes": 3455
+        },
+        {
+          "path": "plugins/xr-dev/skills/quest-webxr/references/runtime-delivery.md",
+          "sha256": "a1bae86f238a0c03296db7a8dcbeca82450e16966615c03c3b96e4b00ec943e0",
+          "bytes": 3586
+        }
+      ],
+      "nonRepoNpmHelp": {
+        "exit": 0,
+        "isolatedHome": true,
+        "installedSkills": false
+      },
+      "acceptance": "published payload equals tagged source; help works; not native installed-hook or model-quality acceptance"
+    },
+    {
+      "repo": "web3d-dev",
+      "version": "0.1.4",
+      "tag": "v0.1.4",
+      "source": "b364213ad3705449b3ffcb6c8f65c090310ceca2",
+      "tagReadback": "c0b4470c64d9c3edb9d13808bad699e064533a17\trefs/tags/v0.1.4\nb364213ad3705449b3ffcb6c8f65c090310ceca2\trefs/tags/v0.1.4^{}",
+      "run": {
+        "conclusion": "success",
+        "databaseId": 38340380810,
+        "event": "push",
+        "headBranch": "v0.1.4",
+        "headSha": "b364213ad3705449b3ffcb6c8f65c090310ceca2",
+        "status": "completed",
+        "url": "https://github.com/ssheleg/web3d-dev/actions/runs/38340380810"
+      },
+      "githubRelease": {
+        "isDraft": false,
+        "isPrerelease": false,
+        "tagName": "v0.1.4",
+        "targetCommitish": "main",
+        "url": "https://github.com/ssheleg/web3d-dev/releases/tag/v0.1.4"
+      },
+      "registryVersion": "0.1.4",
+      "registryIntegrity": "sha512-DurtIGEGbWI3qLAmYUuDOjuNl4uY5Djq/R/Kd/mnuKXrvD6p4sn6wfxqj9f0DKXuyA4LFH1rZUT8TdJ45uDKxQ==",
+      "tarballSha256": "9307503073cbf6c23b90eb80adef9a5b7d645f15fe41eedbc4f4a2c3581ebe9d",
+      "allPackagedFilesByteEqual": true,
+      "fileCount": 20,
+      "files": [
+        {
+          "path": "CHANGELOG.md",
+          "sha256": "536f3b1c8d5379473274f09e9cfc40f7e5f3394307d4c74f275114e7ad442802",
+          "bytes": 3357
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+          "bytes": 1064
+        },
+        {
+          "path": "README.md",
+          "sha256": "0265f7c43e256e03924b3199a26949cf92123b6e278622284bde3a8ff713891a",
+          "bytes": 4150
+        },
+        {
+          "path": "SECURITY.md",
+          "sha256": "d8a01b772b9477fcc2ade2818469f115519ad0a5740b48d9bff131c61bde8aee",
+          "bytes": 1739
+        },
+        {
+          "path": "bin/web3d-dev.js",
+          "sha256": "459195e13e549d3e23649720ac095c0e1bca687e1b45860043205c84fbd61ad7",
+          "bytes": 7018
+        },
+        {
+          "path": "package.json",
+          "sha256": "a1595ec69eb7d5cc14eb515889a59c87aeebc8537e901b244fb37865ce6224f7",
+          "bytes": 1412
+        },
+        {
+          "path": "plugins/web3d-dev/.claude-plugin/plugin.json",
+          "sha256": "6c29c03c79abacd02fd6f39d55891c22242a6f90b06d4700398569d349111e99",
+          "bytes": 1092
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-animation/SKILL.md",
+          "sha256": "c14a785731809444c07391b748eb7223e5658068a35100bf8e758443e8f62642",
+          "bytes": 10499
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-animation/references/asset-animation.md",
+          "sha256": "9684e920d209f88dfe8d945cbe2279b130319c180b7b36a2699216af6f737b74",
+          "bytes": 6831
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-animation/references/clip-canon.md",
+          "sha256": "bab87ce1e29a40d6f58d1bd24b08539ae3e2e22009cd68d72ffd3a54ba3055d2",
+          "bytes": 5325
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-animation/references/runtime-patterns.md",
+          "sha256": "66af0915ff1d64ef8933d7bd99da3776891bfd46916f36fe60d3432cdd44b78c",
+          "bytes": 9496
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-assets/SKILL.md",
+          "sha256": "c889b6bfaf035611e5d855f9389123083c5eb4ea9722169890f054a8f7d942ef",
+          "bytes": 8866
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-assets/references/budgets-and-profiles.md",
+          "sha256": "621800467b98097c82ca105b306258514f3ecae6e9ae3c23a47f109fc5314244",
+          "bytes": 4866
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-assets/references/clip-canon.md",
+          "sha256": "bab87ce1e29a40d6f58d1bd24b08539ae3e2e22009cd68d72ffd3a54ba3055d2",
+          "bytes": 5325
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-assets/references/gltf-pipeline.md",
+          "sha256": "73f2118ad65cbf9ca3d587f66fb89f8d7b191c5f35b78de37fcdbe35dca489db",
+          "bytes": 7130
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-assets/references/sourcing-and-foundry.md",
+          "sha256": "c620750c40496ec05b6bed73d606325a55fc094c2064556e2867a3d3dfd963db",
+          "bytes": 6736
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-runtime/SKILL.md",
+          "sha256": "fac9e98efba23e7d50d96e696d4d77d4ccc514e207d993e5f2f631012399aff7",
+          "bytes": 7865
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-runtime/references/performance-and-r3f.md",
+          "sha256": "09f0bca29af88d2cc957ec44261cd09b52b3f54bdd025951a71bb36031648815",
+          "bytes": 5813
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-runtime/references/renderer-and-loop.md",
+          "sha256": "408f6cf0cc540601cd750c1f951649157d2b040259308985deab2a9b2481e6a9",
+          "bytes": 6754
+        },
+        {
+          "path": "plugins/web3d-dev/skills/web3d-runtime/references/tsl-and-compute.md",
+          "sha256": "781cead976f282b9a4009087d3e974d2040c7f7bc1907802a93075abc619fa01",
+          "bytes": 7033
+        }
+      ],
+      "nonRepoNpmHelp": {
+        "exit": 0,
+        "isolatedHome": true,
+        "installedSkills": false
+      },
+      "acceptance": "published payload equals tagged source; help works; not native installed-hook or model-quality acceptance"
+    }
+  ]
+}
