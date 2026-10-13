@@ -58,4 +58,30 @@ test('relocated reference outside owner backup namespace is not silently adopted
  ref.file=path.join(outside,path.basename(ref.file));fs.writeFileSync(file,JSON.stringify(data));const before=fs.readFileSync(file),names=fs.readdirSync(outside);
  assert.equal(W.inspectRecovery(h).state,'unresolved');assert.throws(()=>W.resolveRecovery(h));assert.ok(fs.readFileSync(file).equals(before));assert.deepEqual(fs.readdirSync(outside),names);
 });
+
+for(const plant of ['drop-sibling','add-sibling','edit-sibling','target-root','target-canonical-root','target-agent','target-prefix','target-previous','drop-target'])test('recovery refuses ownership delta '+plant,(h,f)=>{
+ const cf=path.join(h,'.claude','CLAUDE.md');fs.mkdirSync(path.dirname(cf));fs.writeFileSync(cf,'CLAUDE ORIGINAL');
+ const co={...opts,hostTargets:A.TARGETS.filter(x=>x.agent==='claude')};assert.equal(W.execute(W.plan(h,co)).ok,true);
+ fs.writeFileSync(f,'CODEX ORIGINAL');interrupt(h,f,true);const file=W.receiptPath(h),data=JSON.parse(fs.readFileSync(file)),next=data.pending.nextRecords;
+ const sibling=Object.keys(data.records)[0],target=Object.keys(next).find(k=>k!==sibling),digest=s=>require('crypto').createHash('sha256').update(s).digest('hex');
+ if(plant==='drop-sibling')delete next[sibling];
+ if(plant==='add-sibling'){const r={...next[sibling],file:path.join(h,'other','CLAUDE.md')};next[digest(r.file)]=r;}
+ if(plant==='edit-sibling')next[sibling]={...next[sibling],previousSegment:'invented'};
+ if(plant==='target-root')next[target].root=path.join(h,'different');
+ if(plant==='target-canonical-root')next[target].canonicalRoot=path.join(h,'different');
+ if(plant==='target-agent')next[target].agent='pi';
+ if(plant==='target-prefix'){next[target].segment=next[target].segment.slice(1);next[target].sourceHash=digest(next[target].segment);}
+ if(plant==='target-previous')next[target].previousSegment='invented';
+ if(plant==='drop-target')delete next[target];
+ fs.writeFileSync(file,JSON.stringify(data));const before=fs.readFileSync(file),cb=fs.readFileSync(cf),fb=fs.readFileSync(f);
+ assert.throws(()=>W.resolveRecovery(h),/ownership|transition/);assert.ok(fs.readFileSync(file).equals(before));assert.ok(fs.readFileSync(cf).equals(cb));assert.ok(fs.readFileSync(f).equals(fb));
+});
+test('post-write remove preserves sibling ownership and exact foreign text',(h,f)=>{
+ const cf=path.join(h,'.claude','CLAUDE.md');fs.mkdirSync(path.dirname(cf));fs.writeFileSync(cf,'CLAUDE ORIGINAL');assert.equal(W.execute(W.plan(h,{...opts,hostTargets:A.TARGETS.filter(x=>x.agent==='claude')})).ok,true);const siblings=W.receipt(h).data.records,cb=fs.readFileSync(cf);
+ fs.writeFileSync(f,'FOREIGN');assert.equal(W.execute(W.plan(h,opts)).ok,true);P.set(h,'off');interrupt(h,f,true);
+ assert.equal(W.resolveRecovery(h).state,'recovered-committed');assert.equal(fs.readFileSync(f,'utf8'),'FOREIGN');assert.deepEqual(W.receipt(h).data.records,siblings);assert.ok(fs.readFileSync(cf).equals(cb));
+});
+test('operation without prior ownership proof remains unresolved without migration',(h,f)=>{
+ fs.writeFileSync(f,'BEFORE');interrupt(h,f,true);const file=W.receiptPath(h),data=JSON.parse(fs.readFileSync(file));delete data.pending.priorRecords;fs.writeFileSync(file,JSON.stringify(data));const before=fs.readFileSync(file);assert.throws(()=>W.resolveRecovery(h),/ownership/);assert.ok(fs.readFileSync(file).equals(before));
+});
 console.log(`${n} passed; ${fail} failed`);if(fail)process.exitCode=1;
