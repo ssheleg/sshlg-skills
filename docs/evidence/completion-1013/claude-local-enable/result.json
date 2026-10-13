@@ -1,0 +1,70 @@
+{
+  "schema": "claude-local-enable-probe/1",
+  "provider_calls": 0,
+  "operator_profile_mutations": 0,
+  "cases": [
+    {
+      "global_enabled": true,
+      "local_shape": "absent",
+      "local_before": null,
+      "local_after": null,
+      "exit": 1,
+      "message_class": "already-enabled",
+      "stdout": "",
+      "stderr": "\u2718 Failed to enable plugin \"probe@owned-local-probe\": Plugin \"probe@owned-local-probe\" is already enabled at local scope\n",
+      "global_bytes_unchanged": true,
+      "local_enabled_after": null
+    },
+    {
+      "global_enabled": false,
+      "local_shape": "absent",
+      "local_before": null,
+      "local_after": "{\n  \"enabledPlugins\": {\n    \"probe@owned-local-probe\": true\n  }\n}\n",
+      "exit": 0,
+      "message_class": "enabled",
+      "stdout": "\u2714 Successfully enabled plugin: probe (scope: local)\n",
+      "stderr": "",
+      "global_bytes_unchanged": true,
+      "local_enabled_after": true
+    },
+    {
+      "global_enabled": true,
+      "local_shape": "foreign-only",
+      "local_before": "{\n   \"env\": {\n      \"SYNTHETIC_FOREIGN\": \"preserve\"\n   }\n}\n",
+      "local_after": "{\n   \"env\": {\n      \"SYNTHETIC_FOREIGN\": \"preserve\"\n   }\n}\n",
+      "exit": 1,
+      "message_class": "already-enabled",
+      "stdout": "",
+      "stderr": "\u2718 Failed to enable plugin \"probe@owned-local-probe\": Plugin \"probe@owned-local-probe\" is already enabled at local scope\n",
+      "global_bytes_unchanged": true,
+      "local_enabled_after": null
+    },
+    {
+      "global_enabled": false,
+      "local_shape": "foreign-only",
+      "local_before": "{\n   \"env\": {\n      \"SYNTHETIC_FOREIGN\": \"preserve\"\n   }\n}\n",
+      "local_after": "{\n  \"env\": {\n    \"SYNTHETIC_FOREIGN\": \"preserve\"\n  },\n  \"enabledPlugins\": {\n    \"probe@owned-local-probe\": true\n  }\n}\n",
+      "exit": 0,
+      "message_class": "enabled",
+      "stdout": "\u2714 Successfully enabled plugin: probe (scope: local)\n",
+      "stderr": "",
+      "global_bytes_unchanged": true,
+      "local_enabled_after": true
+    },
+    {
+      "global_enabled": true,
+      "local_shape": "explicit-false",
+      "local_before": "{\n   \"env\": {\n      \"SYNTHETIC_FOREIGN\": \"preserve\"\n   },\n   \"enabledPlugins\": {\n      \"probe@owned-local-probe\": false\n   }\n}\n",
+      "local_after": "{\n  \"env\": {\n    \"SYNTHETIC_FOREIGN\": \"preserve\"\n  },\n  \"enabledPlugins\": {\n    \"probe@owned-local-probe\": true\n  }\n}\n",
+      "exit": 0,
+      "message_class": "enabled",
+      "stdout": "\u2714 Successfully enabled plugin: probe (scope: local)\n",
+      "stderr": "",
+      "global_bytes_unchanged": true,
+      "local_enabled_after": true
+    }
+  ],
+  "native": "2.1.296 (Claude Code)",
+  "owned_fixture_removed": true,
+  "probe_sha256": "2cc62d2cfbb1b9ef28bc8fbf597554a86a93bbba9fc7a4201a92c9ad4dc639a3"
+}
