@@ -1,0 +1,32 @@
+{
+  "as_of": "2026-10-13T10:41:07.989250+00:00",
+  "verdict": "RETRACTED_FALSE_POSITIVE_INTERPRETATION",
+  "supersedes_interpretation_of": "r30-ux-pipe-parity-discovery.json",
+  "original_observation_preserved": "UX original validator exits0 for healthy and two-backslash input. Those recorded outputs are real; calling the latter a malformed GFM width was wrong.",
+  "cause": "Reviewer applied ordinary inline backslash parity to GFM table cell scanning before checking the target dialect. Regex unit equivalence did not validate semantic expectation.",
+  "sources": [
+    {
+      "url": "https://github.github.com/gfm/#tables-extension-",
+      "scope": "GFM table escaping and inline parsing order; ordinary example200 alone does not settle repeated backslashes."
+    },
+    {
+      "url": "https://github.com/github/cmark-gfm/blob/27d942c8b0a62d192f616e5bf3578f4b6a89e180/extensions/ext_scanners.re#L29-L32",
+      "scope": "table_cell includes escaped_char OR any nonpipe/nonnewline character; raw backslash alternative permits cell scanner to retain slash-prefixed pipes regardless of parity."
+    },
+    {
+      "url": "https://github.com/github/cmark-gfm/blob/27d942c8b0a62d192f616e5bf3578f4b6a89e180/extensions/table.c#L149-L153",
+      "scope": "unescape_pipes removes the backslash immediately before a pipe before inline parsing."
+    }
+  ],
+  "independent_render": {
+    "service": "https://api.github.com/markdown",
+    "mode": "gfm",
+    "input": "| N | Value | Tail |\n| --- | --- | --- |\n| 0 | b|c | tail |\n| 1 | b\\|c | tail |\n| 2 | b\\\\|c | tail |\n| 3 | b\\\\\\|c | tail |\n| 4 | b\\\\\\\\|c | tail |\n",
+    "html": "<markdown-accessiblity-table><table role=\"table\">\n<thead>\n<tr>\n<th>N</th>\n<th>Value</th>\n<th>Tail</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>0</td>\n<td>b</td>\n<td>c</td>\n</tr>\n<tr>\n<td>1</td>\n<td>b|c</td>\n<td>tail</td>\n</tr>\n<tr>\n<td>2</td>\n<td>b|c</td>\n<td>tail</td>\n</tr>\n<tr>\n<td>3</td>\n<td>b\\|c</td>\n<td>tail</td>\n</tr>\n<tr>\n<td>4</td>\n<td>b\\|c</td>\n<td>tail</td>\n</tr>\n</tbody>\n</table></markdown-accessiblity-table>"
+  },
+  "render_calls": 1,
+  "model_calls": 0,
+  "finding": "Actual GitHub GFM renderer puts rows1/2/3/4 in the same three cells with final tail preserved. Row0 splits and drops the excess tail. Thus original UX negative-lookbehind behavior is correct for this example.",
+  "disposition": "Do not ship the proposed parity-aware UX regex. Original six retained owner controls remain independently accepted at4aa28e1076b90c626e7339cb898706fc026c42c3. Keep bounded row/header claims; no universal Markdown parser acceptance.",
+  "further_scope": "Other owners use a deliberately bounded table helper; this correction does not certify their grammar against GFM. If GFM compatibility is required, compare the exact helper contract against rendered controls rather than copying an assumption."
+}

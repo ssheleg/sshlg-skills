@@ -45,5 +45,7 @@
   "independent_payload_files_compared": 34,
   "all_payload_bytes_equal": true,
   "production_validator_bytes_equal_base": true,
-  "next": "Coordinator adds even2/even4 refusal and odd1/odd3 positive controls, minimal delimiter parity correction, fresh independent review before admission."
+  "next": "Coordinator adds even2/even4 refusal and odd1/odd3 positive controls, minimal delimiter parity correction, fresh independent review before admission.",
+  "current_interpretation_status": "PARITY_FINDING_RETRACTED_FALSE_POSITIVE; SIX_RETENTION_CONTROLS_ACCEPTED",
+  "correction": "r30-ux-gfm-interpretation-correction.json"
 }
