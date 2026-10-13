@@ -865,17 +865,17 @@ function refreshCodexPlugins(f) {
   const cp = require('../lib/codexplugins.js');
   const lc = require('../lib/lifecycle.js');
   let out;
+  let configBytes;
   try {
+    configBytes = fs.existsSync(codexConfigPath()) ? fs.readFileSync(codexConfigPath()) : null;
     out = cp.refreshAll({
       skills: SKILLS,
       only: f.member || null,
       runner: codexRunner,
-      readConfig: readCodexConfig,
+      readConfig: () => configBytes === null ? null : configBytes.toString('utf8'),
       configPath: codexConfigPath(),
       pinRef: (s) => codexPinRef(s),
-      onItem: (it) => (progress.total && (progress.total += cp.refreshCommands(it).length), log(`\n- ${it.pluginId}: Codex reports ${it.from}, the pin is ${it.pin} `
-        + `— re-adding ${it.marketplace} at ${it.ref} (${it.refKind === 'commit' ? 'the pin\'s commit' : 'the release tag'}; `
-        + `previous ${it.prev.ref || 'default branch'} recorded for rollback)`)),
+      onItem: (it) => log(`\n- ${it.pluginId}: native catalog ${it.from}; requested pin ${it.pin}; checking generation safety`),
       onResult: (res) => { for (const l of cp.resultLines(res)) log(l); },
     });
   } catch (e) {
@@ -896,6 +896,14 @@ function refreshCodexPlugins(f) {
   }
   for (const it of out.items) {
     if (it.action === 'skip') log(`  ${it.pluginId}: left alone — ${it.why}`);
+  }
+  if (out.results.some((r) => r.status === 'deferred')) {
+    try {
+      const file = require('../lib/codex-pending').save({ home: os.homedir(), configPath: codexConfigPath(),
+        configBytes, results: out.results, runtime: out.runtime });
+      log(`  Deferred update receipt: ${file}`);
+      log(`  Read-only watcher: node ${path.join(ROOT, 'lib', 'codex-deferred-watch.js')} ${JSON.stringify(file)}`);
+    } catch (e) { log(`  Pending receipt FAILED: ${e.message}`); return false; }
   }
   log(cp.summaryLine(out));
   if (out.results.some((r) => r.status === 'current')) log('  (start a new Codex session to load them)');
@@ -921,13 +929,9 @@ function planCodexSteps(f) {
     if (!mk || mk.source_type !== 'git' || mk.other.length
       || cp.normalizeSource(mk.source) !== cp.normalizeSource(cp.familyUrl(s))) continue;
     const pin = codexPinRef(s, { noGit: true });
-    const item = { marketplace: ids.marketplace, url: cp.familyUrl(s), ref: pin.ref, pluginId: s.pluginInstall };
-    for (const c of cp.refreshCommands(item)) {
-      steps.push(opres.step('subprocess', 'home',
-        `Codex ${s.pluginInstall} — ${c.step}, only if \`codex plugin list\` reports a version other than `
-          + `${s.version} (a checkout re-adds at the pin's commit; previous ref ${mk.ref || 'default branch'} kept for rollback)`,
-        { cmd: 'codex', args: c.args }));
-    }
+    steps.push(opres.step('codex-deferred', 'home',
+      `Codex ${s.pluginInstall}: inspect native catalog; defer a version change until generation retention is supported`,
+      { pluginId: s.pluginInstall, desired: s.version, ref: pin.ref, reason: cp.DEFER_REASON }));
   }
   return steps;
 }

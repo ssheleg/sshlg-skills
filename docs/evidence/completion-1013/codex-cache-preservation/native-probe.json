@@ -1,0 +1,245 @@
+[
+  {
+    "args": [
+      "git",
+      "init",
+      "-q"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "git",
+      "config",
+      "user.email",
+      "fixture@example.invalid"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "git",
+      "config",
+      "user.name",
+      "Fixture"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "git",
+      "add",
+      "."
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "git",
+      "commit",
+      "-qm",
+      "1.0.0"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exit": 0,
+    "stdout": "8d36db5f26471a3e687df6e8c2f1626964326a6b\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "git",
+      "add",
+      "."
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "git",
+      "commit",
+      "-qm",
+      "1.1.0"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exit": 0,
+    "stdout": "ab1ab1febafc07a7e76cdaab6b15f94eca41a8ea\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "git",
+      "config",
+      "--file",
+      "/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/owned-codex-cache-probe-i3crwkf5/gitconfig",
+      "url.file:///var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/owned-codex-cache-probe-i3crwkf5/repo.insteadOf",
+      "https://github.com/fixture/cache-probe.git"
+    ],
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "codex",
+      "plugin",
+      "marketplace",
+      "add",
+      "https://github.com/fixture/cache-probe.git",
+      "--ref",
+      "8d36db5f26471a3e687df6e8c2f1626964326a6b",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"marketplaceName\": \"cache-probe\",\n  \"installedRoot\": \"/private<fixture>/home/.codex/.tmp/marketplaces/cache-probe\",\n  \"alreadyAdded\": false\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "codex",
+      "plugin",
+      "add",
+      "probe@cache-probe",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"pluginId\": \"probe@cache-probe\",\n  \"name\": \"probe\",\n  \"marketplaceName\": \"cache-probe\",\n  \"version\": \"1.0.0\",\n  \"installedPath\": \"/private<fixture>/home/.codex/plugins/cache/cache-probe/probe/1.0.0\",\n  \"authPolicy\": \"ON_INSTALL\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "sh",
+      "/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/owned-codex-cache-probe-i3crwkf5/home/.codex/plugins/cache/cache-probe/probe/1.0.0/scripts/probe.sh"
+    ],
+    "exit": 0,
+    "stdout": "version-1.0.0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "codex",
+      "plugin",
+      "marketplace",
+      "remove",
+      "cache-probe"
+    ],
+    "exit": 0,
+    "stdout": "Removed marketplace `cache-probe`.\nRemoved installed marketplace root: /private<fixture>/home/.codex/.tmp/marketplaces/cache-probe\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "codex",
+      "plugin",
+      "marketplace",
+      "add",
+      "https://github.com/fixture/cache-probe.git",
+      "--ref",
+      "ab1ab1febafc07a7e76cdaab6b15f94eca41a8ea",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"marketplaceName\": \"cache-probe\",\n  \"installedRoot\": \"/private<fixture>/home/.codex/.tmp/marketplaces/cache-probe\",\n  \"alreadyAdded\": false\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "codex",
+      "plugin",
+      "add",
+      "probe@cache-probe",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"pluginId\": \"probe@cache-probe\",\n  \"name\": \"probe\",\n  \"marketplaceName\": \"cache-probe\",\n  \"version\": \"1.1.0\",\n  \"installedPath\": \"/private<fixture>/home/.codex/plugins/cache/cache-probe/probe/1.1.0\",\n  \"authPolicy\": \"ON_INSTALL\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "sh",
+      "/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/owned-codex-cache-probe-i3crwkf5/home/.codex/plugins/cache/cache-probe/probe/1.0.0/scripts/probe.sh"
+    ],
+    "exit": 127,
+    "stdout": "",
+    "stderr": "sh: <fixture>/home/.codex/plugins/cache/cache-probe/probe/1.0.0/scripts/probe.sh: No such file or directory\n"
+  },
+  {
+    "args": [
+      "codex",
+      "plugin",
+      "marketplace",
+      "add",
+      "https://github.com/fixture/cache-probe.git",
+      "--ref",
+      "8d36db5f26471a3e687df6e8c2f1626964326a6b",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"marketplaceName\": \"cache-probe\",\n  \"installedRoot\": \"/private<fixture>/home/.codex-upgrade/.tmp/marketplaces/cache-probe\",\n  \"alreadyAdded\": false\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "codex",
+      "plugin",
+      "add",
+      "probe@cache-probe",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"pluginId\": \"probe@cache-probe\",\n  \"name\": \"probe\",\n  \"marketplaceName\": \"cache-probe\",\n  \"version\": \"1.0.0\",\n  \"installedPath\": \"/private<fixture>/home/.codex-upgrade/plugins/cache/cache-probe/probe/1.0.0\",\n  \"authPolicy\": \"ON_INSTALL\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "codex",
+      "-c",
+      "marketplaces.cache-probe.ref=\"ab1ab1febafc07a7e76cdaab6b15f94eca41a8ea\"",
+      "plugin",
+      "marketplace",
+      "upgrade",
+      "cache-probe",
+      "--json"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"selectedMarketplaces\": [\n    \"cache-probe\"\n  ],\n  \"upgradedRoots\": [\n    \"/private<fixture>/home/.codex-upgrade/.tmp/marketplaces/cache-probe\"\n  ],\n  \"errors\": []\n}\n",
+    "stderr": ""
+  },
+  {
+    "assertions": {
+      "old_payload_survives_marketplace_remove": true,
+      "old_payload_survives_marketplace_add": true,
+      "plugin_add_deletes_old_payload": true,
+      "old_hook_path_fails": true,
+      "upgrade_with_ephemeral_ref_also_prunes": true,
+      "upgrade_does_not_persist_override": true
+    }
+  }
+]
