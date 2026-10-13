@@ -82,6 +82,70 @@ function proseRatchets() {
   return { suites: Number(m[1]), fixtures: Number(m[2]), members: Number(m[3]) };
 }
 
+/** Refuses (exit 1) a DOCMAP marker or Ratchets sentence that `measured` does not reproduce. */
+function checkRatchets(measured) {
+  const stated = statedRatchets();
+  if (stated) {
+    const wrong = Object.keys(measured).filter((k) => stated[k] !== undefined && stated[k] !== measured[k]);
+    if (wrong.length) {
+      for (const k of wrong) {
+        const verb = stated[k] < measured[k] ? 'behind' : 'AHEAD OF';
+        process.stdout.write(
+          `FAIL: docs/DOCMAP.md states ${k}=${stated[k]}, this run counted ${measured[k]} — the stated figure is ${verb} the gate\n`);
+      }
+      process.stdout.write('  the marker is `<!-- ratchets: ... -->` beside the prose that quotes it\n');
+      process.exit(1);
+    }
+    // The prose quotes the marker, so it is a second statement of the same three figures
+    // and drifts on its own. Checked against the RUN rather than against the marker: a
+    // marker and a sentence that agree with each other and not with the gate is the same
+    // stale claim wearing two hats.
+    const prose = proseRatchets();
+    if (!prose) {
+      process.stdout.write(
+        'FAIL: docs/DOCMAP.md has no `**Ratchets.** N suites, M fixtures, K pinned members` '
+        + 'sentence — the marker is checked and its restatement is not\n');
+      process.exit(1);
+    }
+    const proseWrong = Object.keys(measured).filter((k) => prose[k] !== measured[k]);
+    if (proseWrong.length) {
+      for (const k of proseWrong) {
+        process.stdout.write(
+          `FAIL: docs/DOCMAP.md's Ratchets sentence says ${k}=${prose[k]}, this run counted `
+          + `${measured[k]} — the marker is right and the sentence quoting it is stale\n`);
+      }
+      process.exit(1);
+    }
+  } else {
+    process.stdout.write(
+      'FAIL: docs/DOCMAP.md carries no `<!-- ratchets: ... -->` marker, so its stated figures are unchecked\n');
+    process.exit(1);
+  }
+}
+
+// `--ratchets-from FILE` judges DOCMAP's stated figures against counts an earlier full run
+// wrote (`SSHLG_RATCHETS_OUT`), without running a suite. CI's plant of a stale Ratchets
+// sentence used to re-run the whole gate — a minute — to watch this one comparison refuse
+// (B-164); the comparison below is the same code either way, only the counts are reused.
+const fromIdx = process.argv.indexOf('--ratchets-from');
+if (fromIdx !== -1) {
+  const file = process.argv[fromIdx + 1];
+  let measured;
+  try {
+    measured = JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch (e) {
+    process.stdout.write(`FAIL: --ratchets-from could not read counts from ${file}: ${e.message}\n`);
+    process.exit(1);
+  }
+  if (!['suites', 'fixtures', 'members'].every((k) => Number.isInteger(measured[k]) && measured[k] > 0)) {
+    process.stdout.write(`FAIL: ${file} does not carry positive suites, fixtures and members counts\n`);
+    process.exit(1);
+  }
+  checkRatchets(measured);
+  process.stdout.write(`PASS: DOCMAP's stated figures match the counts in ${file}\n`);
+  process.exit(0);
+}
+
 const entries = fs.readdirSync(TEST_DIR).sort();
 const suites = entries.filter((f) => f.endsWith('_test.js'));
 // Python suites are DISCOVERED too, not listed. `plant_guard_test.py` was named here by
@@ -134,44 +198,11 @@ if (failed.length) {
 const suiteCount = suites.length + pySuites.length + auditSuites.length + 1;
 const members = fs.readdirSync(path.join(ROOT, 'skills'), { withFileTypes: true })
   .filter((d) => d.isDirectory()).length;
-const stated = statedRatchets();
+const measured = { suites: suiteCount, fixtures, members };
 process.stdout.write(
   `COUNTED: ${suiteCount} suites, ${fixtures} fixtures, ${members} pinned members\n`);
-if (stated) {
-  const measured = { suites: suiteCount, fixtures, members };
-  const wrong = Object.keys(measured).filter((k) => stated[k] !== undefined && stated[k] !== measured[k]);
-  if (wrong.length) {
-    for (const k of wrong) {
-      const verb = stated[k] < measured[k] ? 'behind' : 'AHEAD OF';
-      process.stdout.write(
-        `FAIL: docs/DOCMAP.md states ${k}=${stated[k]}, this run counted ${measured[k]} — the stated figure is ${verb} the gate\n`);
-    }
-    process.stdout.write('  the marker is `<!-- ratchets: ... -->` beside the prose that quotes it\n');
-    process.exit(1);
-  }
-  // The prose quotes the marker, so it is a second statement of the same three figures
-  // and drifts on its own. Checked against the RUN rather than against the marker: a
-  // marker and a sentence that agree with each other and not with the gate is the same
-  // stale claim wearing two hats.
-  const prose = proseRatchets();
-  if (!prose) {
-    process.stdout.write(
-      'FAIL: docs/DOCMAP.md has no `**Ratchets.** N suites, M fixtures, K pinned members` '
-      + 'sentence — the marker is checked and its restatement is not\n');
-    process.exit(1);
-  }
-  const proseWrong = Object.keys(measured).filter((k) => prose[k] !== measured[k]);
-  if (proseWrong.length) {
-    for (const k of proseWrong) {
-      process.stdout.write(
-        `FAIL: docs/DOCMAP.md's Ratchets sentence says ${k}=${prose[k]}, this run counted `
-        + `${measured[k]} — the marker is right and the sentence quoting it is stale\n`);
-    }
-    process.exit(1);
-  }
-} else {
-  process.stdout.write(
-    'FAIL: docs/DOCMAP.md carries no `<!-- ratchets: ... -->` marker, so its stated figures are unchecked\n');
-  process.exit(1);
+if (process.env.SSHLG_RATCHETS_OUT) {
+  fs.writeFileSync(process.env.SSHLG_RATCHETS_OUT, `${JSON.stringify(measured)}\n`);
 }
+checkRatchets(measured);
 process.stdout.write(`PASS: ${suiteCount} checks green (validate.py + ${pySuites.length} python + ${suites.length} node suites)\n`);
