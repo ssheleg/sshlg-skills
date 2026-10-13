@@ -358,3 +358,7 @@ The root coordinator is the independent artifact reviewer; this branch author
 is the explicitly nonblind second reviewer. Missing pre-switch access checks
 and class-name ambiguity are findings in these outputs only. Because Skill was
 never invoked, they do not establish defects in the specialist skill body.
+
+## 2026-10-13 readiness interpretation correction
+
+Fresh [official SDK skills documentation](https://code.claude.com/docs/en/agent-sdk/skills#confirm-skills-loaded) states that `init.skills` lists user-invocable skills with description metadata; model-only skills can be absent, and the list does not change with the invocation allowlist. Thus our exact-seven readiness result is the **observed user-invocable inventory**, not all model-visible content or permissions. The [skills contract](https://code.claude.com/docs/en/skills#skill-descriptions-are-cut-short) also permits names to remain while descriptions are omitted by budget. We did not measure exact rendered descriptions. This narrows the interpretation of registration; it does not change raw receipts, hashes, original TEST_ERROR stops, zero observed Skill calls, artifact scores or the no-adoption decision. See the [new research snapshot](../../../reports/2026-10-13-native-skill-routing/README.md).

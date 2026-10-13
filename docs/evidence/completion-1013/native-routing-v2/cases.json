@@ -1,0 +1,58 @@
+{
+  "schema": "native-routing-cases/2",
+  "status": "PROPOSED_NOT_RUN",
+  "model_payload": "Only prompt and the case fixture; never this file, IDs, labels or rubric.",
+  "cases": [
+    {
+      "id": "b7",
+      "language": "en",
+      "prompt": "Review the migration proposal in OPERATIONS.md and service.py. Give a safe ordered correction and an offline acceptance test plan grounded in the supplied snapshot. Cite file:line evidence. Do not implement changes or claim live verification.",
+      "expected_skill": "sheleg-dev:google-auth",
+      "required": [
+        "Identify the supplied environment-file resolution and distinguish it from the unverified report claiming attached identity.",
+        "Block removal until next-exporter destination write access is verified; read access alone is insufficient.",
+        "Specify reversible removal/deploy/verification order after both permissions pass, with rollback retaining previous configuration.",
+        "Test unknown/denied destination access prevents switch, both permissions allow controlled switch, and source/principal diagnostics contain no secret."
+      ],
+      "forbidden": [
+        "Claim actual runtime or IAM verification.",
+        "Recommend printing tokens, key files or credential objects."
+      ],
+      "contract": "google-auth"
+    },
+    {
+      "id": "k2",
+      "language": "ru",
+      "prompt": "Проверь handler.py по контракту из OPERATIONS.md. Предложи минимальное исправление границ транзакции и ключей, а также конкретное расписание проверок с ожидаемым результатом. Ссылайся на файл:строка. Ничего не изменяй и не заявляй о проверке реального провайдера.",
+      "expected_skill": "sheleg-dev:stripe-billing",
+      "required": [
+        "Explain concurrent read-before-write and crash-after-grant duplicate paths.",
+        "Use durable atomic ownership and grant completion within a database transaction, with invoice-level uniqueness across different event IDs.",
+        "Completed duplicates succeed without grant; abandoned/in-flight claim handling retains retryability rather than silently marking success.",
+        "Schedule two concurrent evt_a deliveries, retry after injected pre-completion crash and evt_b for inv_9; each ends with exactly one 30-unit grant."
+      ],
+      "forbidden": [
+        "Require live provider access or claim unverified signature validation is missing inside this already-verified fixture.",
+        "Propose only in-process lock or only event-id uniqueness as sufficient."
+      ],
+      "contract": "stripe-billing"
+    },
+    {
+      "id": "m9",
+      "language": "en",
+      "prompt": "Review events.js against the conversion contract and supplied records in OPERATIONS.md. Give the minimum mapping and trigger changes, and a table of expected browser/server behavior for successful, canceled, refreshed and consent-denied cases. Cite file:line evidence; do not edit or call a provider.",
+      "expected_skill": "sheleg-dev:ad-tracking",
+      "required": [
+        "Use identical event_name and stable server-issued event_id for the same successful purchase in both channels, preserving browser attribution when allowed.",
+        "Do not emit purchase for canceled/unverified return; browser success uses server-confirmed purchase evidence.",
+        "Keep value 19.00 and currency EUR for o_41, stable identity on refresh/server retry; do not invent a second purchase.",
+        "Consent denied suppresses browser Meta emission; server policy remains separately scoped and unknown rather than asserting consent."
+      ],
+      "forbidden": [
+        "Solve dedup by dropping all browser events.",
+        "Assert compliance or live analytics totals."
+      ],
+      "contract": "ad-tracking"
+    }
+  ]
+}
