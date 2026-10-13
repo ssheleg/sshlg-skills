@@ -1,0 +1,36 @@
+{
+  "schema": "mb02b-focused/1",
+  "sourceSha256": {
+    "lib/wait-recovery.js": "f3517e311eda4b5b73676ee1a76be858b841071389c1529ef6158eb3ec06832b"
+  },
+  "baseline": "3bb4f375 relocated valid reference was classified before rather than unresolved; 16 controls passed and the new namespace control failed",
+  "results": [
+    {
+      "command": [
+        "node",
+        "test/wait_recovery_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok before-write failure retains exact recovery bytes through 15 ordinary saves\nok post-write failure classifies committed without repeating a host write\nok absent original is distinct from an existing empty file\nok legacy pending remains unresolved and byte-identical\nok changed policy refuses metadata recovery and preserves pending\nok third-party content is never restored or adopted\nok receipt write boundary 1 fails without falsely completing\nok receipt write boundary 2 fails without falsely completing\nok receipt write boundary 3 fails without falsely completing\nok retirement link interruption retains and resumes exact reference\nok retirement unlink interruption retains and resumes exact reference\nok a committed target later reverted to original bytes is not classified as no-write\nok three repeated completed resolutions are byte-identical no-ops\nok actual case alias keeps canonical reference binding\nok malformed next ownership cannot be written during metadata resolution\nok foreign retirement destination is preserved and cannot free reference\nok relocated reference outside owner backup namespace is not silently adopted\n17 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/wait_recovery_crash_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok process crash prepared-before\nok process crash prepared-after\nok process crash intent-after\nok process crash host-before\nok process crash host-after\nok process crash terminal-after\nok process crash retired-link\n7 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/wait_rules_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok default-off and old consent do not add rules\nok five hosts carry the right variant; third application is byte-identical\nok Cursor off removes only its dedicated owned file and can be enabled again\nok selected host only; absent roots are not created\nok off removes owned segment and preserves appended foreign bytes\nok automatic update touches only previously applied profiles\nok custom root with spaces works without default profile writes\nok retargeted root alias refuses and preserves new target\nok unknown or malformed markers refuse before write\nok unknown or malformed markers refuse before write\nok unknown or malformed markers refuse before write\nok edited owned region refuses even off\nok foreign Cursor filename refuses\nok changed target between preview and execute refuses before target write\nok failed target backup leaves pending recovery and no target write\nok invalid UTF-8 instruction refuses with exact bytes and no new files\nok invalid UTF-8 receipt refuses with exact bytes and no new files\nok policy off after first target prevents the second target and retains first ownership\nok policy off during target backup refuses before writing that target\nok unknown source revision refuses despite a matching segment hash\nok receipt cannot extend its segment over foreign text even with a recomputed hash\nOK (21 checks; 0 failed)\n",
+      "stderr": ""
+    }
+  ]
+}

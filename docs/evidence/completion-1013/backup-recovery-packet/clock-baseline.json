@@ -1,0 +1,7 @@
+{
+  "scope": "in-memory prior wall-clock wait under frozen Date.now; synthetic only",
+  "status": null,
+  "signal": "SIGTERM",
+  "errorCode": "ETIMEDOUT",
+  "expected": "ETIMEDOUT, proving old wait has no elapsed bound under stalled wall clock"
+}

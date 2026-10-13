@@ -1,0 +1,17 @@
+{
+  "source": "5d19e74b02c507cf59606469b80c5c44b9bc178d",
+  "scope": "actual baseline wait module, synthetic absent/empty originals, interruption before target write",
+  "rows": [
+    {
+      "originalExists": false,
+      "beforeHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "hasExistenceField": false
+    },
+    {
+      "originalExists": true,
+      "beforeHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "hasExistenceField": false
+    }
+  ],
+  "conflated": true
+}
