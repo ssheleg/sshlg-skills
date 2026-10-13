@@ -1,0 +1,15 @@
+{
+  "commit": "56ca9ea41e40efa0b2b6240411711c480f091e8e",
+  "files": {
+    "lib/runtime.js": "65a5a524e048cda2d8b44740335a7172f2f1051f7239bc8904e5e8894bb66307",
+    "lib/updatelock.js": "15972ead3aa0a11bdb383c03a1d11353f2129b94ccd19992bda7e392d3fed6ad",
+    "lib/updaterun.js": "ff79927e964325ac825f6451dd64e758628419c46be60438fe75c32308f5491b",
+    "bin/sshlg-skills.js": "e19670450c7ee70d6745e439249ea196569aee7fda5feba8af30a3da61cea2d4",
+    "docs/working-rules/state-json.md": "e012ddc49ce66d0c9a7424562d98f597a3e6b0e051766db366b1c16fe3f5528d",
+    "package.json": "d9a1bb8df0d80e0761f2f2a108eebdb03730cbab3f1bc361c79a460f4a838376"
+  },
+  "probe_exit_code": 0,
+  "probe_source_sha256": "9cd48b7a1f93a8916502cc7674102f6497766a78e07dfe40fa5c6209427d3378",
+  "probe_result_sha256": "81a9493c20006596524ead46518128052fd91de20e3c53ba3b05e3f6014c74bd",
+  "scope": "research and owned synthetic prior-art probe only; no runtime implementation"
+}
