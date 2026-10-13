@@ -1,0 +1,19 @@
+{
+  "candidate": "12fdf8fbb1c006c7d2df41b19d13a3d96010be3d",
+  "accepted_main": "792e3f6cb2e46517f0187066db55edc63ae7d12c",
+  "merge_tree_equals_reviewed": true,
+  "pr": "https://github.com/ssheleg/agent-stack/pull/48",
+  "eligible_ci": "https://github.com/ssheleg/agent-stack/actions/runs/38348871336",
+  "local_command": "npm test",
+  "local_exit": 0,
+  "local_log_sha256": "dbd99066e3684dbe201ee9e9adcb048b1e23a4a4d1a97a0bc3ae52653c76351f",
+  "local_log": "agent-stack-0.27.2-candidate.log.gz",
+  "independent_metadata_review": "PASS; JSON objects differ only by version, card/changelog/ledger consistent; no skill or hook change",
+  "post_merge_structural_exit": 0,
+  "tag": "v0.27.2",
+  "tag_object": "f785dda1f702a2046f8c609ba8798073cbbd110f",
+  "release_run": "https://github.com/ssheleg/agent-stack/actions/runs/38349140429",
+  "publication": "PENDING",
+  "installed": "PENDING",
+  "bounds": "Local full suite binds candidate; identical merge tree verified, main structural rechecked; release workflow gates full exact tag before publication."
+}
