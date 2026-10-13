@@ -286,4 +286,3 @@ PY
 **Closed by the 2026-08-10 run:** C-06 — the umbrella now has `CLAUDE.md` house
 rules of its own, which is the thing every member already had. B-01, B-02 and
 B-03 closed the same day.
-
