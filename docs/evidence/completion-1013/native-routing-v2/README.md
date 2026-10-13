@@ -1,6 +1,6 @@
 # Native routing v2: proposed diagnostic packet
 
-Status: **PROPOSED_NOT_RUN**. No runner or provider execution is delivered by this packet. Research entry: [native routing report](../../../reports/2026-10-13-native-skill-routing/README.md).
+Status: **RUNNER_PROPOSED_NOT_ADMITTED**. A dry-run-first runner and offline controls are now delivered; no provider execution belongs to this packet yet. Research entry: [native routing report](../../../reports/2026-10-13-native-skill-routing/README.md).
 
 ## Frozen task inputs
 
@@ -44,3 +44,32 @@ Both arms passing three tasks is insufficient for adoption. Report paired cell o
 The current native `claude plugin eval` command is an alternative runner to assess offline: its default repetitions/baseline/judges and potential report publication do not match this packet's bounds automatically. Do not run `eval init` as reconnaissance: it makes model calls. Any use must explicitly set no-publish, exact runs/arms/tools and reviewed limits, and prove isolation rather than assume it from a feature name.
 
 Next task: independent packet review → implement a dry-run-first runner → freeze hashes and cost/call plan → independent offline runner review → explicit admission. Keep installed descriptions unchanged and all v1 stops immutable. No current board row is closed as native quality acceptance by this preparation.
+
+
+## P1 runner amendment, 2026-10-13
+
+`run.py` now implements P1 only; `check.py` passes99 offline controls, including
+real fake-CLI execution, exact materialization of both arms, preserved body bytes,
+missing/denied Skill results, source binding and corruption, output caps,
+timeout/unknown-cost stops and passive-zero-load classification. Shared v1 observer
+and materializer remain unchanged and are hash-bound in `protocol.json` alongside
+all four immutable v1 stops/results. Only new owned synthetic workspaces are written.
+Fixture IDs and rubric never enter prompts or workspaces; no directed follow-up exists.
+
+The proposed eight new calls use the remaining USD3.5463678 of the original native
+quality USD4 list-estimate envelope. V1 A–D recorded eight CLI calls/USD0.4536322;
+P1 would bring the maximum to16 CLI calls. R27's separate USD4 envelope and older
+selection pilots are independent costs, not erased or counted as this allowance.
+Per-call reserve is USD0.50; a late reported overshoot stops and stays recorded.
+This is a subscription diagnostic, not an invoice or a claim about internal retries.
+
+Readiness allows one distinct model request, tasks six; observed reported-turn
+ceiling11 for task tool interleaving is separate from the six-request guard.
+This ceiling is a conservative reviewed protocol limit, not a documented formula.
+Readiness input ceiling24000, task32000 per request; output ceiling1600 per
+request and six times that in a task aggregate. Timeout180seconds, model
+claude-opus-5-5/low, CLI2.1.296, restricted first-party subscription only, exact
+seven-skill/four-read-only-tool inventory. Requests, outputs, successful loads,
+workspace integrity and ordered visible artifacts are independently inspected.
+A fresh independent source/offline review plus exact runner/source admission is
+required before calls. Actual catalogue search and whole-family quality remain open.

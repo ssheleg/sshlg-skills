@@ -1,0 +1,29 @@
+{
+  "schema": "native-routing-protocol/2",
+  "member_commit": "8862fae9a826263f8109626ca257f81c7c43ac86",
+  "artifact_hashes": {
+    "cases.json": "1af5649c559938ccbfb4232c2d390b2c8f7a10f922e57741b826bd9e99bc4f9b",
+    "source.json": "c45f42de4f4c5c8f60ac7f11200e4d09bf62c27ccbe25ff6c262d2da519adcf1",
+    "../native-quality-v1/run.py": "cc30796cb866ef59d32a1261331245060e6ef02c370c5ddc71e8e2818209c745",
+    "../native-quality-v1/materialize.py": "f52a4b1ec1988d084354707ff12a267410020ed9c966863038ebe6458683bbb3",
+    "../native-quality-v1/source.json": "5f03cc629eacd73b6d6769f3b54b5e259e79dd02abf3c306e033ed40641f87b7",
+    "../description-screening-fixture-v2.json": "ebd26050e00ca074dd3d18d98c77c75784b7c984ccaa72e8741a08b96862e96a",
+    "../run-description-screening-v2.py": "e10dfc7df74924d834cfdaa5564df4be6df4881ac8a6eadccf9b7a3b2f72e5c7",
+    "../native-quality-v1/observed-20261013.json": "54ec6158806e726b09b0b866a9bdc62fe0d30cdacc4e27d08c3e94043cd2b6ea",
+    "../native-quality-v1/observed-b-20261013.json": "1c451a523fc102ec543d9da028daa796109dd7d755495d2e80f1380bb83ffcf4",
+    "../native-quality-v1/observed-c-20261013.json": "3be4c1c0ff3180e838585195c574cacd32b78a119e433b94eafa78ef67a156aa",
+    "../native-quality-v1/observed-d-20261013.json": "7e2ea568feee8962fe5e62260e611748961c5d68531d14b72fe4fba904915bfe",
+    "../native-quality-v1/fixture/deployment.env.example": "1e9772c1f913349da26f890adbe2a8da85ecbaa3ef356420fa51ec79ba0375e9",
+    "../native-quality-v1/fixture/OPERATIONS.md": "83c22d3887088209e2ab10e14bcc4deadd9dd9c3989c33501296f96c2369c1a9",
+    "../native-quality-v1/fixture/client.py": "7659aa374b085690a2ab52e655d418bb587e1fd92c350ef527aacd23bd66775a"
+  },
+  "prior_list_usd": 0.4536322,
+  "new_budget_usd": 3.5463678,
+  "combined_maximum_usd": 4.0,
+  "max_new_cli": 8,
+  "max_cumulative_cli": 16,
+  "request_ceiling": 6,
+  "reported_turn_ceiling": 11,
+  "seed": 1013281,
+  "phase": "P1_PASSIVE_ONLY"
+}
