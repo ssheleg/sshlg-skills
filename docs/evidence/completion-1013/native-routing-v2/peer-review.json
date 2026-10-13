@@ -1,0 +1,37 @@
+{
+  "schema": "independent-native-protocol-review/1",
+  "source_commit": "91ae11176cbd8061783b61bfda353b7d9d365f31",
+  "reviewer": "visibility_review",
+  "verdict": "PASS_BOUNDED",
+  "provider_calls_by_reviewer": 0,
+  "check": {
+    "command": "python3 docs/evidence/completion-1013/native-routing-v2/check.py",
+    "exit_code": 0,
+    "controls": 104
+  },
+  "independent_controls": [
+    "Late expected load after complete audit fails delivery relation",
+    "Acknowledgement after load stays pending independent audit text review; no automatic PASS",
+    "Result before expected call is TEST_ERROR"
+  ],
+  "source_review": [
+    "Frozen body cut and description-only paired intervention",
+    "Exact6 fixture population and neutral project root; old v1 inputs removed from fresh owned workspace",
+    "Both readiness precede six passive task cells; no directed follow-up",
+    "Prior native cost receipts and protocol dependencies hash bound before/after requests; no retry; source change preserves unknown effects",
+    "Strict subscription preflight, read-only tool bounds, private raw retention, max8 new calls with cumulative16 and USD4 native envelope"
+  ],
+  "hashes": {
+    "run.py": "6728bb8151381b2dbe2f0fe9809aa86e9a60088aed71f5b42c46c1b572565635",
+    "check.py": "4a5525f0e46a7de41463b649cf4b2de1eb2438076d37d43b10c8c9873f1b8f16",
+    "protocol.json": "ec7b003953f780a9dc9c1ae5f4ac4f0dc0b1028d3b42fc47a7919c1b3484fe42",
+    "source.json": "c45f42de4f4c5c8f60ac7f11200e4d09bf62c27ccbe25ff6c262d2da519adcf1",
+    "cases.json": "1af5649c559938ccbfb4232c2d390b2c8f7a10f922e57741b826bd9e99bc4f9b"
+  },
+  "limits": [
+    "Three exploratory synthetic tasks, not hidden holdout or whole-family coverage",
+    "Expected native load, delivery relation and artifact quality remain distinct fields; independent artifact review required",
+    "No adoption, installation, actual catalogue search or external runtime claim",
+    "Reported overshoot is only observable after request; unknown cost stops"
+  ]
+}
