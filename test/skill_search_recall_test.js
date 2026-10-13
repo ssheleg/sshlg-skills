@@ -54,6 +54,6 @@ test('whole-word phrase avoids substring boost', () => {
   ], 'skill audit').rows;
   assert.strictEqual(rows[0].id,'real');
 });
-console.log(`RETRIEVAL: ${found}/${relevant} expected skills within declared cutoff; MRR=${(rr/relevant).toFixed(3)}; synthetic corpus only`);
+console.log(`RETRIEVAL: ${found}/${relevant} expected skills within declared cutoff; mean_relevant_item_reciprocal_rank=${(rr/relevant).toFixed(3)}; synthetic corpus only`);
 if (failures.length) { failures.forEach(f => console.log(`FAIL: ${f}`)); process.exit(1); }
 console.log(`OK (${checks} checks)`);

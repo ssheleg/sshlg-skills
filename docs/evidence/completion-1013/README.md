@@ -23,3 +23,13 @@ Fabric admission returned `no-project`; none of these were submitted in this ses
 | sshlg-skills:L2:observatory-PB159:v1 | project-observatory | Read PB-159 status and agree read-only profile consumption contract before hub edits any MCP configuration. | pending-submission |
 
 The previous agent-sync filing is merged #34 at 2f149b1. A filed row is not implemented doctrine. The whole family goal remains open while these requirements lack evidence.
+
+## Review corrections
+
+An independent reader found that the existing validate workflow still ran on every push and PR. The completion branch replaces these triggers with 23:00 Europe/Warsaw scheduling; release workflow_call remains. This follows the current operator CI instruction. GitHub documents timezone-aware schedules in its [workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onschedule), fetched 2026-10-13. A schedule is not a completed CI receipt; no nightly run is claimed here.
+
+The retrieval metric is named mean relevant-item reciprocal rank (all expected items), not query-level MRR. The research source implementation is f1901a3 while its first command receipt correctly records the docs-only descendant 2367231.
+
+## Bounded native-host probe
+
+[Provider probe](provider-probe.json) records a one-turn Claude readiness request. It ended with error_max_budget_usd: the CLI's list-price estimate was $1.50376 despite a $0.10 argument, after 187709 cache-creation input tokens. The cap is checked after the first request and is not proof of a pre-request spending ceiling. This is list-price usage, not verified subscription billing. No routing/quality result was returned and no further provider batch was started. Model evaluation remains NOT_RUN.

@@ -47,7 +47,7 @@ This is a research snapshot and proposed strategy, not runtime acceptance. No pr
 
 Official pages were searched and opened on **2026-10-13**. The [source ledger](raw/sources.json) preserves URLs, read dates and claim scope without copying full pages. [Local receipts](raw/local-checks.json) preserve commands, exit codes and outputs with the local username path sanitized.
 
-Implementation references are pinned to [f1901a3](https://github.com/ssheleg/sshlg-skills/tree/f1901a3335ffd894957854eeaabb5c8222c97812). This worktree was at that commit when receipts were collected. The original session checkout differs from origin/main in its CLI, so the reproduction uses this worktree's `node bin/sshlg-skills.js`, not an unqualified `npx` resolution.
+Implementation references are pinned to [f1901a3](https://github.com/ssheleg/sshlg-skills/tree/f1901a3335ffd894957854eeaabb5c8222c97812). The first local receipt records worktree HEAD 2367231, a documentation-only descendant; the implementation files under review still match f1901a3. The original session checkout differs from origin/main in its CLI, so the reproduction uses this worktree's `node bin/sshlg-skills.js`, not an unqualified `npx` resolution.
 
 The preceding [RPT sshlg-skills/2026-10-12-coding-agent-compatibility §Слои](../2026-10-12-coding-agent-compatibility/README.md#слои-как-в-срезе-10-09) also separates file discovery from model behavior. Its host installation counts are historical evidence, not refreshed by this report. This report adds research and a search reproduction rather than superseding that installation audit.
 
