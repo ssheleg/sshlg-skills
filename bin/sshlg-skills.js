@@ -310,6 +310,10 @@ Usage:
   npx sshlg-skills visibility marks [--init --show <owner/repo,…> [--replace] [--apply]]
                                                       # this machine's pack marks
                                                       # (~/.sshlg-skills/pack-marks.json)
+  npx sshlg-skills domains [--apply | --revert] [--root <dir>] [--no-usage]
+  npx sshlg-skills domains --enable|--disable <member> [--project <dir>]
+                                                      # xr-dev, web3d-dev, telegram-dev; hook-bearing members stay global
+                                                      # load only in projects that call for them
   npx sshlg-skills pack [<name>] [--lane <id>] [--check]
   npx sshlg-skills materialised                       # routers this project says live in its tree
                                                       # curated recommendations, measured here
@@ -376,11 +380,14 @@ function planInstall(f) {
       { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
   }
   if (f.claude || f.claudeOnly) {
+    const installed = require(path.join(ROOT, 'lib', 'enablement.js')).installed(process.env.HOME || os.homedir());
     for (const s of SKILLS) {
       steps.push(opres.step('subprocess', 'home', `claude plugin marketplace add (${s.name})`,
         { cmd: 'claude', args: ['plugin', 'marketplace', 'add', s.pluginMarketplace] }));
-      steps.push(opres.step('subprocess', 'home', `claude plugin install ${s.pluginInstall}`,
-        { cmd: 'claude', args: ['plugin', 'install', s.pluginInstall] }));
+      // Reinstalling enables an existing plugin; updating preserves project scoping.
+      const action = installed[s.pluginInstall] ? 'update' : 'install';
+      steps.push(opres.step('subprocess', 'home', `claude plugin ${action} ${s.pluginInstall}`,
+        { cmd: 'claude', args: ['plugin', action, s.pluginInstall] }));
     }
   }
   if (!f.member) {
@@ -448,6 +455,14 @@ function planUpdate(f) {
   steps.push(rewireStep(f));
   // Codex's native plugins, through Codex's own CLI (B-166).
   steps.push(...planCodexSteps(f));
+  // Domain members per project (L5): additions only on a machine where `domains --apply` ran.
+  if (claudeScope(f).inScope) {
+    const rec = path.join(os.homedir(), '.sshlg-skills', 'domains.json');
+    steps.push(opres.step('domain-members', 'home', fs.existsSync(rec)
+      ? 'give projects that gained a domain dependency their member (project entries first, read back; through protect())'
+      : 'domain members — `domains --apply` never ran here: one line if a project calls for one, nothing written',
+    { file: rec }));
+  }
   return opres.buildPlan(steps);
 }
 
@@ -666,6 +681,12 @@ function cmdUpdate(f) {
   // refresh above just added are hidden by the same rule on every host. One with no
   // record has not consented — an update is not the moment to ask.
   ok = reapplyVisibility(f) && ok;
+  // Domain members per project (L5). Once `domains --apply` ran here, a project that gained a
+  // domain dependency gets its member now; before that, one line says what `domains` would do.
+  if (claudeScope(f).inScope) {
+    try { ok = cmdDomains(['', '', 'domains', '--update-step']) === 0 && ok; }
+    catch (e) { log(`\n== Domain members ==\n  not reconciled: ${e.message}`); ok = false; }
+  }
 
   printUpdateModel('update');
 
@@ -1197,6 +1218,8 @@ function cmdHosts() {
       }
     }
   }
+  // L5: which domain members load where. Counts only — a project's name stays in `domains`.
+  try { domainsSummary(home); } catch (e) { log(`\nDomain members per project: not read (${e.message})`); }
   const family = new Set(SKILLS.flatMap((s) => s.skillNames || []));
   const r = piLib.inspect({ home, env: process.env, cwd: process.cwd(), which: (b) => piLib.whichBin(b), family });
   log('\nPi (@earendil-works/pi-coding-agent):');
@@ -1976,6 +1999,7 @@ function runVisibilityUnlocked(opts) {
   const claudeSet = plan.hide.filter((n) => !mine.has(n));
   const claudeUnset = [...mine].filter((n) => !plan.hide.includes(n));
   const stateOf = (s, ov) => {
+    if (s.loaded === false) return 'hidden';  // installed, not loaded here (B-185): not in the listing
     if (s.namespace !== 'claude:plain') return 'on';
     const v = ov[s.id];
     if (v === 'off' || v === V.HIDE) return 'hidden';
@@ -2244,6 +2268,621 @@ function cmdVisibilityMarks(argv) {
   fs.writeFileSync(file, JSON.stringify(data, null, 2) + '\n', 'utf8');
   log(`  written${saved.path ? ` (backup ${saved.path})` : ''}. Preview the hosts: npx sshlg-skills visibility`);
   return 0;
+}
+
+/**
+ * `domains` — domain members load only in the projects that call for them (plan
+ * 2026-10-13 § L5). The decisions live in `lib/domains.js`; this reads the inputs, backs
+ * every existing file up through `protect()` before writing it, reads every write back,
+ * and records what it wrote in `~/.sshlg-skills/domains.json` so `--revert` removes
+ * exactly that. Without `--apply`, `--revert`, `--enable`, `--disable` or `--update-step`
+ * it writes nothing.
+ *
+ * Order is the point: every project entry is written AND read back before a member is
+ * turned off at user scope, so no project with evidence loses its member, even for one
+ * session. A project that cannot be written keeps its member on machine-wide; a project
+ * read only in part keeps on every member it could not rule out. Only an interactive
+ * `--apply` turns a member off: the unattended `update` step only adds.
+ */
+const DOMAINS_LOCAL = path.join('.claude', 'settings.local.json');
+
+function domainsInputs(argv, home) {
+  const D = require(path.join(ROOT, 'lib', 'domains.js'));
+  const read = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch (e) { return null; } };
+  // Only a missing file is "absent"; any other read error is reported, never taken for absence.
+  const readLocal = (p) => {
+    try { return { text: fs.readFileSync(p, 'utf8') }; } catch (e) { return e.code === 'ENOENT' ? { text: null } : { text: null, error: e.code || e.message }; }
+  };
+  const value = (name) => { const i = argv.indexOf(name); return i !== -1 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : null; };
+  const recordPath = path.join(home, '.sshlg-skills', 'domains.json');
+  const rr = readLocal(recordPath);
+  const recordText = rr.text;
+  // A record that does not parse, or has another shape, is NOT "no record": members may be off
+  // by this command's hand. It is named, and the writers refuse to act on it.
+  let owned = null;
+  let recordError = rr.error ? `cannot be read (${rr.error})` : null;
+  if (recordText !== null) {
+    try { owned = JSON.parse(recordText); } catch (e) { recordError = `does not parse (${e.message})`; }
+    if (!recordError) recordError = D.validRecord(owned);
+    if (recordError) owned = null;
+  }
+  const rootArg = value('--root') || process.env.SSHLG_PROJECTS_ROOT || null;
+  const roots = (rootArg ? rootArg.split(path.delimiter) : (owned && owned.roots && owned.roots.length ? owned.roots : null) || [path.join(home, 'DATA')])
+    .filter(Boolean).map((r) => path.resolve(r.replace(/^~(?=$|\/)/, home)));
+  // Every git repository directly under a root. A symlink to a directory is followed and
+  // keyed by the LINK path (the one Claude Code opens); two names for one repository are
+  // one project, the first by name.
+  const dirs = [];
+  const rootErrors = [];
+  const seen = new Set();
+  const addDir = (dir) => {
+    let real;
+    try { real = fs.realpathSync(dir); } catch (e) { return false; }
+    if (seen.has(real)) return false;
+    seen.add(real);
+    dirs.push(dir);
+    return true;
+  };
+  for (const r of roots) {
+    let entries;
+    try { entries = fs.readdirSync(r, { withFileTypes: true }); } catch (e) { rootErrors.push(`${r}: ${e.code || e.message}`); continue; }
+    const names = entries.filter((d) => !d.name.startsWith('.')).filter((d) => {
+      if (d.isDirectory()) return true;
+      if (!d.isSymbolicLink()) return false;
+      try { return fs.statSync(path.join(r, d.name)).isDirectory(); } catch (e) { return false; }
+    }).map((d) => d.name).sort();
+    for (const n of names) if (fs.existsSync(path.join(r, n, '.git'))) addDir(path.join(r, n));
+  }
+  const rootRepos = dirs.length;
+  // Projects the operator chose with --enable are projects wherever they live.
+  for (const dir of Object.keys((owned && owned.manual) || {})) if (fs.existsSync(dir)) addDir(dir);
+  // Usage: the newest 60-day table, unless --no-usage. Private (mode 600); only counts are read.
+  let usage = new Map();
+  let usageFile = null;
+  if (!argv.includes('--no-usage')) {
+    const udir = path.join(home, '.sshlg-skills', 'usage');
+    let tables = [];
+    // The operator's own measurement (no hub command produces it); one past its window is ignored.
+    try { tables = fs.readdirSync(udir).filter((n) => D.usageFresh(n)).sort(); } catch (e) { tables = []; }
+    if (tables.length) {
+      usageFile = path.join(udir, tables[tables.length - 1]);
+      usage = D.parseUsage(read(usageFile) || '', SKILLS.filter((s) => D.DOMAIN_MEMBERS.includes(s.name)));
+    }
+  }
+  const plugins = {};
+  for (const s of SKILLS) if (D.DOMAIN_MEMBERS.includes(s.name)) plugins[s.name] = s.pluginInstall;
+  // A member whose plugin ships hooks is never scoped (its gate must run in every session).
+  // Read from the installed plugin's own directory, or this checkout's pin when not installed.
+  const installedAt = require(path.join(ROOT, 'lib', 'enablement.js')).installed(home);
+  const keepOn = { 'sheleg-dev': D.KEEP_ON_HOOKS };
+  for (const m of D.DOMAIN_MEMBERS) {
+    const dirs = [installedAt[plugins[m]], path.join(ROOT, 'skills', m, 'plugins', m)].filter(Boolean);
+    if (dirs.some((d) => fs.existsSync(path.join(d, 'hooks', 'hooks.json')))) keepOn[m] = D.KEEP_ON_HOOKS;
+  }
+  const localPath = (dir) => path.join(dir, DOMAINS_LOCAL);
+  const enabledOf = (text) => { try { const d = JSON.parse(text); return (d && d.enabledPlugins) || {}; } catch (e) { return {}; } };
+  const kinds = {};
+  // Evidence from a child that asks git, several repositories at a time (lib/domainscan.js).
+  // A child that fails leaves every project to the in-process walk: slower, and partial.
+  let scanned = {};
+  const child = dirs.length ? spawnSync(process.execPath, [path.join(ROOT, 'lib', 'domainscan.js')],
+    { input: JSON.stringify(dirs), encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 }) : { status: 0, stdout: '{}' };
+  try { scanned = child.status === 0 ? JSON.parse(child.stdout || '{}') : {}; } catch (e) { scanned = {}; }
+  const projects = dirs.map((dir) => {
+    let s = scanned[dir];
+    if (!s) {
+      const w = D.scan(dir, fs, path);
+      s = { evidence: w.evidence, via: w.truncated ? 'walk (stopped early)' : 'walk', partial: D.DOMAIN_MEMBERS.slice() };
+    }
+    const evidence = s.evidence;
+    const used = usage.get(D.encodeDir(dir)) || {};
+    for (const [member, calls] of Object.entries(used)) (evidence[member] || (evidence[member] = [])).push(`used 60d: ${calls} call(s)`);
+    for (const member of ((owned && owned.manual) || {})[dir] || []) (evidence[member] || (evidence[member] = [])).push('manual: chosen with --enable');
+    for (const list of Object.values(evidence)) for (const why of list) {
+      const k = why.startsWith('used 60d') ? 'usage' : why.startsWith('manual:') ? 'manual' : (D.kindOf(why.split(': ')[0]) || 'other');
+      kinds[k] = (kinds[k] || 0) + 1;
+    }
+    const lr = readLocal(localPath(dir));
+    const sr = readLocal(path.join(dir, '.claude', 'settings.json'));
+    const sharedOK = !sr.error && (sr.text === null || D.editEnabled(sr.text, { set: {} }).ok);
+    const localOK = !lr.error && (lr.text === null || D.editEnabled(lr.text, { set: {} }).ok);
+    const settingsOK = sharedOK && localOK;
+    let verdict;
+    // Shared project choices precede local ones; user scope must not masquerade as
+    // a project entry. Unknown shared settings cannot authorize a local override.
+    const writable = () => verdict || (verdict = sharedOK ? domainsWritable(dir, lr, D)
+      : { ok: false, why: 'cannot read valid .claude/settings.json' });
+    return { dir, evidence, via: s.via,
+      partial: settingsOK ? (s.partial || []) : D.DOMAIN_MEMBERS.slice(),
+      local: settingsOK ? Object.assign({}, enabledOf(sr.text), enabledOf(lr.text)) : {}, ignored: writable };
+  });
+  const settingsPath = path.join(home, '.claude', 'settings.json');
+  const ur = readLocal(settingsPath);
+  return { D, read, readLocal, roots, rootErrors, rootRepos, dirs, projects, usageFile, kinds, plugins, owned, recordError,
+    recordPath, recordText, settingsPath, userText: ur.text, userError: ur.error, user: enabledOf(ur.text), localPath, enabledOf, value, keepOn };
+}
+
+/** May this project's settings.local.json be written? Readable, Claude Code's format, git-ignored. */
+function domainsWritable(dir, lr, D) {
+  if (lr.error) return { ok: false, why: `cannot read .claude/settings.local.json (${lr.error})` };
+  if (lr.text !== null) {
+    const probe = D.editEnabled(lr.text, { set: { 'probe@probe': true } });
+    if (!probe.ok) return { ok: false, why: `the file ${probe.reason}` };
+  }
+  // -q decides: with -v, git also exits 0 when the last matching rule is a negation
+  // (`!.claude/settings.local.json`), which leaves the file committable. Any ignore source
+  // counts (.gitignore, info/exclude, the global excludes file): it is git's own rule, and
+  // the file is never committed from this machine either way (operator decision 2026-10-13).
+  const q = spawnSync('git', ['-C', dir, 'check-ignore', '-q', DOMAINS_LOCAL], { encoding: 'utf8' });
+  if (q.status === 1) return { ok: false, why: 'git does not ignore .claude/settings.local.json (or it is tracked) — add it to .gitignore, then run again' };
+  if (q.status !== 0) return { ok: false, why: `git check-ignore failed: ${String(q.stderr || (q.error && q.error.message) || '').trim()}` };
+  const v = spawnSync('git', ['-C', dir, 'check-ignore', '-v', DOMAINS_LOCAL], { encoding: 'utf8' });
+  return { ok: true, why: `ignored by ${String(v.stdout).trim().split('\t')[0] || 'git'}` };
+}
+
+/** Back up (an existing file), write, and say so; false when the backup failed. */
+function domainsWriteFile(apply, home, file, before, after, label) {
+  if (before !== null) {
+    const saved = apply.protect(file, { home });
+    if (saved.action === 'backup-failed') { log(`  ${label}: NOT written — backup failed (${saved.error})`); return false; }
+  }
+  try { fs.writeFileSync(file, after, { encoding: 'utf8', mode: 0o600 }); return true; }
+  catch (e) { log(`  ${label}: NOT written — ${e.code || e.message}`); return false; }
+}
+
+/** The Fabric line, only where Fabric is installed — and with no board id. */
+function domainsFabricLine(home, say) {
+  try {
+    const machine = require(path.join(ROOT, 'lib', 'machine.js'));
+    if (machine.holds('fabric', machine.probe({ home }))) {
+      say('  Fabric is installed here. Fabric plans to choose skill layers per agent in the sessions it');
+      say('  starts; until that ships, this command is the setting for every session on this machine.');
+    }
+  } catch (e) { /* no machine probe: no Fabric line */ }
+}
+
+function runDomainsLocked(argv) {
+  const writes = ['--apply', '--revert', '--enable', '--disable', '--update-step'].some((f) => argv.includes(f));
+  if (!writes) return cmdDomains(argv);
+  const lock = require('../lib/updatelock.js');
+  const home = process.env.HOME || os.homedir();
+  const got = lock.acquire(home);
+  if (!got.ok || got.degraded) {
+    log(`domains: refused — ${got.message || got.degraded}; configuration not written`);
+    return got.ok ? 1 : lock.BUSY_EXIT;
+  }
+  const free = () => lock.release(home, got.token);
+  process.on('exit', free);
+  try { return cmdDomains(argv); }
+  finally { free(); process.removeListener('exit', free); }
+}
+
+function cmdDomains(argv) {
+  const apply = require(path.join(ROOT, 'lib', 'apply.js'));
+  const home = process.env.HOME || os.homedir();
+  const doApply = argv.includes('--apply');
+  const doRevert = argv.includes('--revert');
+  const updateStep = argv.includes('--update-step');
+  const enableArg = argv.includes('--enable');
+  const disableArg = argv.includes('--disable');
+  if ([doApply, doRevert, updateStep, enableArg, disableArg].filter(Boolean).length > 1) {
+    log('domains: pick one of --apply, --revert, --enable, --disable'); return 2;
+  }
+  const I = domainsInputs(argv, home);
+  const { D } = I;
+  const name = (dir) => path.basename(dir);
+  if (I.recordError) {
+    log(`domains: ~/.sshlg-skills/domains.json ${I.recordError} — it decides what --revert undoes, so nothing acts on it.`);
+    log('  Restore it from ~/.sshlg-skills/backups/ (newest sshlg-skills_domains.json.*) or move it aside, then run again.');
+    if (doApply || doRevert || updateStep || enableArg || disableArg) return 1;
+  }
+  if (enableArg || disableArg) return domainsManual(I, apply, home, enableArg ? 'enable' : 'disable');
+  if (doRevert) return domainsRevert(I, apply, home);
+
+  const applied = !!(I.owned && I.owned.applied === true);
+  // `update` on a machine where `domains --apply` never ran: one line, nothing written.
+  if (updateStep && !applied) {
+    const P0 = D.plan({ projects: I.projects, user: I.user, owned: I.owned, plugins: I.plugins, keepOn: I.keepOn, onlyAdd: true });
+    const n = P0.adds.length + P0.refused.length;
+    if (n) {
+      log(`\n== Domain members ==\n  ${n} project(s) call for a domain member that is on machine-wide here; `
+        + '`npx sshlg-skills domains` previews loading them per project, `--apply` does it.');
+    }
+    return 0;
+  }
+  // A root that cannot be read, or roots holding no repository, make "no evidence" mean
+  // "not looked": nothing may be turned off, or recorded, on that basis.
+  const rootProblem = I.rootErrors.length ? `cannot read ${I.rootErrors.join('; ')}`
+    : !I.rootRepos ? `no git repositories under ${I.roots.join(path.delimiter)}` : null;
+  if (rootProblem && (doApply || updateStep)) {
+    log(`domains: refused — ${rootProblem}. Point --root (or $SSHLG_PROJECTS_ROOT) at your projects directory.`);
+    return 1;
+  }
+  const P = D.plan({ projects: I.projects, user: I.user, owned: I.owned, plugins: I.plugins, keepOn: I.keepOn, onlyAdd: updateStep });
+  const withEvidence = I.projects.filter((p) => Object.keys(p.evidence).length);
+  const partial = I.projects.filter((p) => p.partial.length);
+  const quiet = updateStep;
+  const say = quiet ? () => {} : log;
+  if (quiet) {
+    log('\n== Domain members ==');
+    for (const r of P.refused) log(`  ! ${name(r.dir)}: ${r.keys.join(', ')} refused — ${r.why}`);
+    if (P.wouldOff.length) log(`  ${P.wouldOff.join(', ')} could go off at user scope; \`update\` never turns a member off — run \`npx sshlg-skills domains --apply\` to do it`);
+    if (!P.adds.length && !P.userOn.length) {
+      log(P.refused.length ? '  nothing written; the projects above are refused' : '  every project with evidence has its member; nothing written');
+      return 0;
+    }
+  }
+  say(`Domain members by project in Claude Code — core and hook-bearing members stay on everywhere; domain members load where a project calls for them`);
+  say(`  projects root: ${I.roots.join(path.delimiter)} (${I.rootRepos} git repositories${partial.length ? `; ${partial.length} not read in full` : ''})`);
+  if (rootProblem) say(`  ! ${rootProblem} — --apply refuses until the root is right`);
+  say(`  usage: ${I.usageFile ? `${path.basename(I.usageFile)} (a 60-day call counts as evidence)` : 'none read'}`);
+  say(`  ${withEvidence.length} project(s) with evidence`);
+  for (const p of partial) say(`  ? ${name(p.dir)}: not read in full (${p.via}) — ${p.partial.filter((m) => !p.evidence[m]).join(', ') || 'nothing'} not ruled out, so not turned off`);
+  const byDir = new Map(I.projects.map((p) => [p.dir, p]));
+  const evOf = (dir, member) => (byDir.get(dir).evidence[member] || []).join('; ');
+  for (const member of D.DOMAIN_MEMBERS) {
+    const key = I.plugins[member];
+    const skip = P.skipped.find((s) => s.member === member);
+    const projectsFor = withEvidence.filter((p) => p.evidence[member]);
+    say(`\n  ${member} (${key}) — evidence in ${projectsFor.length} project(s)${skip ? `; not managed: ${skip.why}` : ''}`);
+    if (skip) {
+      if (P.userOn.includes(key)) say(`    + ${key}: restore the safety hooks at user scope`);
+      continue;
+    }
+    const gi = (dir) => byDir.get(dir).ignored().why.replace(home, '~');
+    for (const a of P.adds) if (a.keys.includes(key)) say(`    + ${name(a.dir)}: enabledPlugins["${key}"] = true — ${evOf(a.dir, member)} [${gi(a.dir)}]`);
+    for (const x of P.present) if (x.key === key) say(`    = ${name(x.dir)}: already on in the project — ${evOf(x.dir, member)}`);
+    for (const x of P.respected) if (x.key === key) say(`    = ${name(x.dir)}: set false in the project by you; left alone`);
+    for (const r of P.refused) if (r.keys.includes(key)) say(`    ! ${name(r.dir)}: refused — ${r.why}`);
+    const b = P.blocked.find((x) => x.key === key);
+    const u = P.uncertain.find((x) => x.key === key);
+    if (P.userOff.includes(key)) say(`    - ~/.claude/settings.json enabledPlugins["${key}"]: true → false`);
+    else if (P.userOn.includes(key)) say(`    + ~/.claude/settings.json enabledPlugins["${key}"]: false → true — ${(b || u).dirs.length} project(s) could not be covered (${(b || u).dirs.map(name).join(', ')})`);
+    else if (P.managed[member] && P.managed[member].off) say(`    = ~/.claude/settings.json enabledPlugins["${key}"]: already false (by domains)`);
+    else if (b) say(`    = ${key} stays on at user scope: ${b.dirs.length} project(s) could not get their entry (${b.dirs.map(name).join(', ')})`);
+    else if (u) say(`    = ${key} stays on at user scope: ${u.dirs.length} project(s) not read in full (${u.dirs.map(name).join(', ')})`);
+  }
+  say(`\n  Evidence kinds: ${Object.entries(I.kinds).sort().map(([k, n]) => `${k} ${n}`).join(', ') || 'none'}`);
+  domainsFabricLine(home, say);
+  say('  A member back in one project: `npx sshlg-skills domains --enable <member>` there, then restart');
+  say('  the session; `--disable` takes it out again; `--revert` undoes everything this command wrote.');
+  if (!doApply && !updateStep) {
+    say('\n  Nothing written. `--apply` writes the project entries first, reads them back, and only then');
+    say('  turns a member off at user scope; `--revert` undoes only what this command wrote.');
+    return 0;
+  }
+
+  // ── projects first ──
+  let failed = false;
+  const owned = domainsOwnedCopy(I);
+  if (doApply) owned.applied = true;
+  const newlyBlocked = new Set();
+  for (const a of P.adds) {
+    const r = domainsWriteProject(I, apply, home, owned, a.dir, a.keys);
+    if (!r.ok) { failed = true; r.keys.forEach((k) => newlyBlocked.add(k)); }
+  }
+  // ── then user scope ──
+  // Off only for members whose every project write held; back on for a member already off by
+  // this command whose project could not get its entry — now or in a write above.
+  const off = P.userOff.filter((k) => !newlyBlocked.has(k));
+  const offByUs = new Set(Object.values(P.managed).filter((m) => m.off).map((m) => m.key));
+  const on = [...new Set(P.userOn.concat([...newlyBlocked].filter((k) => offByUs.has(k))))];
+  for (const k of newlyBlocked) if (P.userOff.includes(k)) log(`  ${k} stays on at user scope: a project write above failed`);
+  // Read again now, not at the start: the project writes took time, and the file may have moved.
+  const userNow = I.read(I.settingsPath);
+  if ((off.length || on.length) && userNow === null) {
+    log('  ~/.claude/settings.json: cannot read the current file — no global changes written');
+    failed = true;
+  }
+  if ((off.length || on.length) && userNow !== null) {
+    const set = Object.fromEntries(off.map((k) => [k, false]).concat(on.map((k) => [k, true])));
+    const r = D.editEnabled(userNow, { set });
+    if (!r.ok) { log(`  ~/.claude/settings.json: NOT written — the file ${r.reason}`); failed = true; }
+    else if (!domainsRecordUserIntent(I, owned, off, apply, home)) {
+      log('  global settings NOT written — ownership intent could not be persisted'); failed = true;
+    } else if (r.text === userNow || domainsWriteFile(apply, home, I.settingsPath, userNow, r.text, '~/.claude/settings.json')) {
+      const back = I.enabledOf(I.read(I.settingsPath) || '');
+      for (const k of off) {
+        if (back[k] === false) { owned.user[k] = false; delete owned.pendingUser[k]; log(`  ~/.claude/settings.json: ${k} off at user scope (read back)`); }
+        else { log(`  ~/.claude/settings.json: ${k} did not read back false`); failed = true; }
+      }
+      for (const k of on) {
+        if (back[k] === true) { delete owned.user[k]; delete owned.pendingUser[k]; log(`  ~/.claude/settings.json: ${k} back on at user scope — preserve hooks or coverage for an unverified project (read back)`); }
+        else { log(`  ~/.claude/settings.json: ${k} did not read back true`); failed = true; }
+      }
+    } else failed = true;
+  }
+  domainsDropStale(I, owned);
+  if (!writeRecord(I, owned, apply, home)) return 1;
+  if (!quiet) log('  Restart Claude Code sessions to load the new plugin set.');
+  return failed ? 1 : 0;
+}
+
+function domainsRecordUserIntent(I, owned, off, apply, home) {
+  const prior = Object.assign({}, owned.user);
+  const priorPending = Object.assign({}, owned.pendingUser);
+  for (const k of off) { owned.user[k] = false; owned.pendingUser[k] = true; }
+  if (writeRecord(I, owned, apply, home)) return true;
+  owned.user = prior;
+  owned.pendingUser = priorPending;
+  return false;
+}
+
+function domainsOwnedCopy(I) {
+  const o = I.owned || {};
+  return {
+    roots: I.roots, applied: o.applied === true,
+    user: Object.assign({}, o.user || {}),
+    // A previous process may have exited after writing false but before clearing intent.
+    pendingUser: Object.fromEntries(Object.entries(o.pendingUser || {}).filter(([k]) => I.user[k] !== false)),
+    projects: JSON.parse(JSON.stringify(o.projects || {})),
+    manual: JSON.parse(JSON.stringify(o.manual || {})),
+  };
+}
+
+/** Read failure or malformed JSON cannot erase recovery ownership. */
+function domainsKnownPlugins(I, file) {
+  const lr = I.readLocal(file);
+  if (lr.error) return { known: false };
+  if (lr.text === null) return { known: true, plugins: {} };
+  try {
+    const parsed = JSON.parse(lr.text);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return { known: false };
+    const ep = parsed.enabledPlugins;
+    if (ep !== undefined && (!ep || typeof ep !== 'object' || Array.isArray(ep)
+      || Object.values(ep).some((v) => typeof v !== 'boolean'))) return { known: false };
+    return { known: true, plugins: ep || {} };
+  } catch (e) { return { known: false }; }
+}
+
+/** Ownership of project entries the operator has since removed or flipped is dropped. */
+function domainsDropStale(I, owned) {
+  for (const dir of Object.keys(owned.projects)) {
+    const local = domainsKnownPlugins(I, I.localPath(dir));
+    if (!local.known) continue; // unknown is not proof that our entry disappeared
+    const lv = local.plugins;
+    owned.projects[dir].plugins = owned.projects[dir].plugins.filter((k) => lv[k] === true);
+    if (!owned.projects[dir].plugins.length) delete owned.projects[dir];
+  }
+}
+
+/**
+ * Write `keys` true into one project's settings.local.json: writability judged first, backup
+ * of an existing file, read back. One project's I/O error is that project's refusal, and
+ * ownership intent is persisted before bytes land, so a later failure leaves --revert able
+ * to undo it. Returns {ok, keys}.
+ */
+function domainsWriteProject(I, apply, home, owned, dir, keys) {
+  const { D } = I;
+  const file = I.localPath(dir);
+  const label = `${path.basename(dir)}/.claude/settings.local.json`;
+  const no = (why) => { log(`  ${label}: NOT written — ${why}`); return { ok: false, keys }; };
+  try {
+    const lr = I.readLocal(file);
+    const w = domainsWritable(dir, lr, D);
+    if (!w.ok) return no(w.why);
+    const before = lr.text;
+    const r = D.editEnabled(before, { set: Object.fromEntries(keys.map((k) => [k, true])) });
+    if (!r.ok) return no(`the file ${r.reason}`);
+    let had = false;
+    try { had = before !== null && Object.prototype.hasOwnProperty.call(JSON.parse(before), 'enabledPlugins'); } catch (e) { had = false; }
+    const prev = owned.projects[dir] || { created: before === null, createdDir: !fs.existsSync(path.dirname(file)), hadEnabledPlugins: had, plugins: [] };
+    const mine = keys.filter((k) => r.changed.includes(k));
+    if (mine.length) {
+      // Durable intent BEFORE the configuration write: an interrupted or failed apply can
+      // still be reverted. Entries already true never become ours.
+      const saved = JSON.parse(JSON.stringify(owned.projects));
+      prev.priorValues = Object.assign({}, prev.priorValues || {});
+      const original = I.enabledOf(before || '');
+      for (const k of mine) {
+        if (original[k] === false) prev.priorValues[k] = false;
+        else delete prev.priorValues[k];
+      }
+      prev.plugins = [...new Set(prev.plugins.concat(mine))].sort();
+      owned.projects[dir] = prev;
+      if (!writeRecord(I, owned, apply, home)) {
+        owned.projects = saved;
+        return no('ownership intent could not be persisted');
+      }
+    }
+    if (r.text !== before) {
+      fs.mkdirSync(path.dirname(file), { recursive: true });
+      if (!domainsWriteFile(apply, home, file, before, r.text, label)) return { ok: false, keys };
+    }
+    const back = I.enabledOf(I.read(file) || '');
+    const bad = keys.filter((k) => back[k] !== true);
+    if (bad.length) { log(`  ${label}: read back without ${bad.join(', ')} — not counted`); return { ok: false, keys: bad }; }
+    log(`  ${label}: ${keys.join(', ')} on (read back)`);
+    return { ok: true, keys };
+  } catch (e) { return no(e.code || e.message); }
+}
+
+/** `--enable <member>` / `--disable <member>` in one project: the bootstrap and its undo. */
+function domainsManual(I, apply, home, mode) {
+  const { D } = I;
+  const member = I.value(mode === 'enable' ? '--enable' : '--disable');
+  if (!member || !D.DOMAIN_MEMBERS.includes(member)) {
+    log(`domains --${mode} <member>: one of ${D.DOMAIN_MEMBERS.join(', ')}`); return 2;
+  }
+  let dir = I.value('--project');
+  if (dir) dir = path.resolve(dir.replace(/^~(?=$|\/)/, home));
+  else {
+    const g = spawnSync('git', ['rev-parse', '--show-toplevel'], { encoding: 'utf8' });
+    if (g.status !== 0) { log(`domains --${mode}: not inside a git repository — pass --project <dir>`); return 2; }
+    dir = String(g.stdout).trim();
+  }
+  if (!fs.existsSync(dir)) { log(`domains --${mode}: ${dir} does not exist`); return 2; }
+  const key = I.plugins[member];
+  const owned = domainsOwnedCopy(I);
+  const label = `${path.basename(dir)}/.claude/settings.local.json`;
+  if (mode === 'enable') {
+    const r = domainsWriteProject(I, apply, home, owned, dir, [key]);
+    if (!r.ok) { domainsDropStale(I, owned); writeRecord(I, owned, apply, home); return 1; }
+    owned.manual[dir] = [...new Set((owned.manual[dir] || []).concat(member))].sort();
+    if (!writeRecord(I, owned, apply, home)) return 1;
+    log(`  ${member} is on in ${path.basename(dir)}; later runs keep it (recorded as your choice).`);
+    log('  Restart the Claude Code session in that project (or reconnect) to load it.');
+    return 0;
+  }
+  // --disable: forget the choice; remove the entry only if this command wrote it.
+  owned.manual[dir] = (owned.manual[dir] || []).filter((m) => m !== member);
+  if (!owned.manual[dir].length) delete owned.manual[dir];
+  const rec = owned.projects[dir];
+  let failed = false;
+  if (rec && rec.plugins.includes(key)) {
+    const res = domainsUnsetProject(I, apply, home, dir, rec, [key]);
+    if (res.ok) { rec.plugins = rec.plugins.filter((k) => k !== key); if (!rec.plugins.length) delete owned.projects[dir]; }
+    else failed = true;
+  } else log(`  ${label}: no entry of ours for ${member}; nothing removed`);
+  if (!writeRecord(I, owned, apply, home)) return 1;
+  log(`  If ${path.basename(dir)} still has evidence for ${member}, the next --apply adds it back; set it to false there to keep it off.`);
+  return failed ? 1 : 0;
+}
+
+/** Remove `keys` from a project file this command wrote them into; created files go. */
+function domainsUnsetProject(I, apply, home, dir, rec, keys) {
+  const { D } = I;
+  const file = I.localPath(dir);
+  const label = `${path.basename(dir)}/.claude/settings.local.json`;
+  try {
+    const lr = I.readLocal(file);
+    if (lr.error) { log(`  ${label}: NOT written — cannot read it (${lr.error})`); return { ok: false }; }
+    const current = I.enabledOf(lr.text || '');
+    const restore = keys.filter((k) => current[k] === true && (rec.priorValues || {})[k] === false);
+    const r = D.editEnabled(lr.text, {
+      set: Object.fromEntries(restore.map((k) => [k, false])),
+      unset: Object.fromEntries(keys.filter((k) => !restore.includes(k)).map((k) => [k, true])),
+      keepEmpty: !!rec.hadEnabledPlugins,
+    });
+    if (!r.ok) { log(`  ${label}: NOT written — the file ${r.reason}`); return { ok: false }; }
+    if (r.text === lr.text) return { ok: true };
+    const saved = apply.protect(file, { home });
+    if (saved.action === 'backup-failed') { log(`  ${label}: NOT written — backup failed (${saved.error})`); return { ok: false }; }
+    // A file this command created and left holding nothing else goes, with its directory.
+    if (rec.created && JSON.stringify(JSON.parse(r.text)) === '{}') {
+      fs.rmSync(file);
+      if (rec.createdDir) { try { fs.rmdirSync(path.dirname(file)); } catch (e) { /* not empty: something else lives there */ } }
+      log(`  ${label}: removed (this command created it)`);
+    } else {
+      fs.writeFileSync(file, r.text, 'utf8');
+      log(`  ${label}: ${keys.join(', ')} removed`);
+    }
+    return { ok: true };
+  } catch (e) { log(`  ${label}: NOT written — ${e.code || e.message}`); return { ok: false }; }
+}
+
+/** The ownership record, written only when it changed — three runs leave the same bytes. */
+function writeRecord(I, owned, apply, home) {
+  const manual = owned.manual || {};
+  const empty = !Object.keys(owned.user).length && !Object.keys(owned.projects).length && !Object.keys(manual).length;
+  const text = empty ? null : JSON.stringify({
+    note: 'Written by `npx sshlg-skills domains`; --revert undoes exactly these values while they still hold.',
+    roots: owned.roots, applied: owned.applied === true, user: owned.user, pendingUser: owned.pendingUser || {}, projects: owned.projects, manual,
+  }, null, 2) + '\n';
+  // Keep the old valid record if disk-full/permissions/interruption prevents a new one.
+  // Update the in-memory text after EACH intent, not only after the whole command.
+  let tmp;
+  try {
+    const current = I.readLocal(I.recordPath);
+    if (current.error) throw new Error(`cannot read ownership record (${current.error})`);
+    if (text === current.text) { I.recordText = text; return true; }
+    if (current.text !== null) {
+      const saved = apply.protect(I.recordPath, { home });
+      if (saved.action === 'backup-failed') throw new Error(`backup failed (${saved.error})`);
+    }
+    if (text === null) fs.rmSync(I.recordPath, { force: true });
+    else {
+      fs.mkdirSync(path.dirname(I.recordPath), { recursive: true });
+      tmp = `${I.recordPath}.${process.pid}.tmp`;
+      fs.writeFileSync(tmp, text, { encoding: 'utf8', mode: 0o600, flag: 'wx' });
+      fs.renameSync(tmp, I.recordPath);
+    }
+    I.recordText = text;
+    return true;
+  } catch (e) {
+    log(`  ownership record NOT updated — ${e.code || e.message}; existing recovery record kept`);
+    return false;
+  } finally {
+    if (tmp) { try { fs.rmSync(tmp, { force: true }); } catch (e) { /* retained for recovery */ } }
+  }
+}
+
+function domainsRevert(I, apply, home) {
+  const { D } = I;
+  if (!I.owned) { log('domains --revert: no ~/.sshlg-skills/domains.json — nothing of ours to undo.'); return 0; }
+  const ownedUser = Object.keys(I.owned.user || {});
+  // User scope comes back on FIRST. If settings.json cannot be read, nothing is undone:
+  // removing project entries now would leave those projects without their member.
+  const userKnown = domainsKnownPlugins(I, I.settingsPath).known;
+  if (ownedUser.length && (I.userError || I.userText === null || !userKnown)) {
+    log(`  ~/.claude/settings.json: ${I.userError ? `cannot read it (${I.userError})` : I.userText === null ? 'missing' : 'not valid plugin settings'} — nothing undone; the record is kept`);
+    return 1;
+  }
+  const locals = {};
+  const unreadable = [];
+  for (const dir of Object.keys(I.owned.projects || {})) {
+    const local = domainsKnownPlugins(I, I.localPath(dir));
+    if (local.known) locals[dir] = local.plugins;
+    else unreadable.push(dir);
+  }
+  const R = D.revertPlan({ owned: I.owned, user: I.user, locals });
+  let failed = unreadable.length > 0;
+  const owned = { roots: I.owned.roots, applied: false, user: {}, projects: {}, manual: {} };
+  for (const dir of unreadable) {
+    owned.projects[dir] = I.owned.projects[dir];
+    log(`  ${path.basename(dir)}/.claude/settings.local.json: cannot read valid settings — recovery ownership kept`);
+  }
+  if (R.userOn.length) {
+    const r = D.editEnabled(I.userText, { set: Object.fromEntries(R.userOn.map((k) => [k, true])) });
+    if (!r.ok) {
+      log(`  ~/.claude/settings.json: NOT written — the file ${r.reason}`);
+      return 1;
+    }
+    if (!domainsWriteFile(apply, home, I.settingsPath, I.userText, r.text, '~/.claude/settings.json')) {
+      log('  project entries kept: removing them now would leave those projects without their member');
+      return 1;
+    }
+    const back = I.enabledOf(I.read(I.settingsPath) || '');
+    for (const k of R.userOn) {
+      if (back[k] === true) log(`  ~/.claude/settings.json: ${k} back on at user scope`);
+      else { owned.user[k] = false; failed = true; log(`  ~/.claude/settings.json: ${k} did not read back true`); }
+    }
+  }
+  if (failed) {
+    log('  project entries kept until user scope reads back on');
+    Object.assign(owned, { applied: I.owned.applied === true, projects: I.owned.projects, manual: I.owned.manual || {} });
+    writeRecord(I, owned, apply, home);
+    return 1;
+  }
+  for (const u of R.unset) {
+    const rec = I.owned.projects[u.dir];
+    const res = domainsUnsetProject(I, apply, home, u.dir, rec, u.keys);
+    if (!res.ok) { owned.projects[u.dir] = rec; failed = true; }
+  }
+  if (!writeRecord(I, owned, apply, home)) return 1;
+  log('  Restart Claude Code sessions to load the restored plugin set.');
+  return failed ? 1 : 0;
+}
+
+/** `hosts`: the per-project picture as counts — never a project's name. */
+function domainsSummary(home) {
+  const I = domainsInputs([], home);
+  const { D } = I;
+  const ownedUser = (I.owned && I.owned.user) || {};
+  log(`\nDomain members per project in Claude Code (${I.rootRepos} git repositories under ${I.roots.length} root(s); \`domains\` previews):`);
+  if (I.rootErrors.length) log(`  ! ${I.rootErrors.length} root(s) cannot be read; \`domains --apply\` refuses until they can`);
+  if (I.recordError) log(`  ~/.sshlg-skills/domains.json ${I.recordError}; \`domains\` says how to recover it.`);
+  for (const member of D.DOMAIN_MEMBERS) {
+    const key = I.plugins[member];
+    const v = I.user[key];
+    const state = v === true ? 'on' : v === false ? (ownedUser[key] === false ? 'off (by domains)' : 'off (by you)') : 'absent';
+    const withEv = I.projects.filter((p) => p.evidence[member]);
+    const on = withEv.filter((p) => p.local[key] === true).length;
+    log(`  ${member.padEnd(13)} user scope ${state}; evidence in ${withEv.length} project(s), enabled in ${on}`);
+  }
+  const partial = I.projects.filter((p) => p.partial.length).length;
+  if (partial) log(`  ${partial} project(s) not read in full keep the members they could not rule out on`);
+  domainsFabricLine(home, log);
 }
 
 /**
@@ -2916,6 +3555,7 @@ function main(argv) {
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
   if (cmd === 'toolkit') { return cmdToolkit(argv) || 0; }
   if (cmd === 'visibility') return cmdVisibility(argv);
+  if (cmd === 'domains') return runDomainsLocked(argv);
   if (cmd === 'pack' || cmd === 'packs') { return cmdPack(argv); }
   if (cmd === 'materialised' || cmd === 'materialized') { return cmdMaterialised(argv); }
   if (cmd === 'signature') { return cmdSignature(argv); }

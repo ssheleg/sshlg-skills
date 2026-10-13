@@ -37,6 +37,37 @@ was only previewed (read-only).
    `opencode debug config` (`permission.skill`), `hermes skills list` (`disabled`), and append
    the counts to the receipt; then L4 measures the listing sizes.
 
+## B-185 — domain members per project (2026-10-13, branch `feat/domain-members`, unreleased)
+
+Plan [L5](evidence/plans/2026-10-13-load-optimization.md); operator decision "Yes, by domain".
+The original head `e27a040` failed unit, seam and product certification. Its installation
+preview and old passing gate are historical, not acceptance of the fixed implementation.
+Preserved first fix `09d17a2` adds explicit `--enable`/`--disable`, symlinked repositories,
+missing-root refusals, partial-scan protection, and additions-only unattended updates.
+
+The recovered second fix preserves hook-bearing plugins globally (sheleg-dev always),
+keeps installed disabled skills searchable, resolves project enablement for hook readers,
+and refreshes existing plugins without reinstalling them. Malformed/oversized manifests
+are incomplete evidence; a member already scoped goes back on when coverage is uncertain.
+Independent review of `353033a` exposed interrupted-write, shared-settings and truncated
+source-search defects. The follow-up saves atomic recovery intent before settings writes,
+distinguishes pending global writes from later operator changes, retains unknown project
+ownership and serializes mutations with the update lock. Shared project settings now
+precede local settings; all matching source lines are scanned; unloaded route hints print
+once per session. A further independent replay of `3c0cb53` required valid global plugin
+settings before revert removes local entries; malformed global JSON/maps now retain all
+recovery state. The machine's configurations have not been applied by this development task.
+
+Implementation: `lib/domains.js`, `lib/domainscan.js`, `lib/enablement.js`, launcher and hooks.
+Focused checks and bounded scenarios are recorded in
+[evidence/runs/2026-10-13-domains-recovery.md](evidence/runs/2026-10-13-domains-recovery.md).
+
+**Exact next task:** independent unit/seam/product review of the final branch head, then
+integrate with L1, run the full hub gate, release, and refresh through the published launcher.
+After release, preview `npx sshlg-skills domains`, apply the authorized domain choice with
+`--apply`, and read back both a domain project and a fresh project outside the domains (L4).
+Do not restore the old design that disabled sheleg-dev's money gate.
+
 ## Closed — integration waves (2026-10-11/12, lease `WAVES-1011`)
 
 `/task-pipeline waves` over the whole board, with the operator's emphasis on optimisation

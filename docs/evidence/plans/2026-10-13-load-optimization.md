@@ -104,6 +104,14 @@ sessions RM-23 does the same from `pack-marks.json`. Needs: the operator's decis
 block keeps naming the domain routers (they say "if … is installed"); a `hosts`/`update` check
 that a project which uses a domain has its member enabled.
 
+**Decided 2026-10-13: "Yes, by domain".** Built as `npx sshlg-skills domains` (B-185, branch
+`feat/domain-members`). It detects a project's members from what the repository declares,
+plus 60-day usage. It writes the project entries before the user-scope removal and reads
+each back, and it refuses a project whose git does not ignore the file. `update` and `hosts`
+keep it current. The read-only preview on this machine found 62 of 188 repositories with
+evidence: 71 project entries, 0 refused, 4 user-scope removals. `--apply` on the operator's
+machine and the listing measurement (L4) are the remaining steps.
+
 ## Order
 
 L1 and L3 run now (independent). L5 waits on the operator's decision. L2's design goes out for review now; its build waits on the

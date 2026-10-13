@@ -299,6 +299,30 @@ it('find: concepts split on commas and semicolons, folded, ё to е', () => {
   assert.deepStrictEqual(T.concepts('PDF; Отчёт ,  excel ,,'), ['pdf', 'отчет', 'excel']);
 });
 
+// B-185 seam fix (S2): a family member off at user scope but on in a project is found there,
+// and elsewhere it is listed as installed-but-not-loaded with the way to enable it — never
+// dropped, so a search never answers NOTHING for a skill that is one command away.
+it('readSkills: effective enablement for the cwd; a disabled family member is marked, not dropped', () => {
+  const fs = require('fs'); const os = require('os'); const path = require('path');
+  const home = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-tk-')));
+  const put = (rel, text) => { const p = path.join(home, rel); fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, text); };
+  put('plugins/xr/skills/quest-store/SKILL.md', '---\nname: quest-store\ndescription: Submit a Quest app to the Horizon Store.\n---\n');
+  put('.claude/plugins/installed_plugins.json', JSON.stringify({ plugins: { 'xr-dev@xr-dev': [{ installPath: path.join(home, 'plugins', 'xr') }] } }));
+  put('.claude/settings.json', JSON.stringify({ enabledPlugins: { 'xr-dev@xr-dev': false } }, null, 2) + '\n');
+  put('game/.git/HEAD', 'ref: refs/heads/main\n');
+  put('game/.claude/settings.local.json', JSON.stringify({ enabledPlugins: { 'xr-dev@xr-dev': true } }, null, 2) + '\n');
+  fs.mkdirSync(path.join(home, 'elsewhere'));
+  const here = C.readSkills(home, { cwd: path.join(home, 'game') }).find((s) => s.id === 'quest-store');
+  assert.ok(here && here.loaded !== false, 'enabled in the project, yet not found there');
+  const away = C.readSkills(home, { cwd: path.join(home, 'elsewhere') }).find((s) => s.id === 'quest-store');
+  assert.ok(away, 'a disabled family member vanished from the roster');
+  assert.strictEqual(away.loaded, false);
+  const found = T.find([away], 'quest store', 5);
+  assert.strictEqual(found.rows.length, 1, 'search answered NOTHING for an installed member');
+  assert.ok(/not loaded here; enable with `npx sshlg-skills domains --enable xr-dev`/.test(T.renderFind(found.rows, 'quest store', found.total)));
+  fs.rmSync(home, { recursive: true, force: true });
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);

@@ -69,7 +69,17 @@ process.stdin.on('end', () => {
         if (Array.isArray(n)) noted = n;
       } catch (e) { noted = []; }
     }
-    const routes = system ? [] : triggers.match(prompt, { external });
+    // B-185: domain members installed here but not loaded for this cwd. Their routes are
+    // named with the way to enable them, and are NOT armed for the PreToolUse gate — it
+    // must not ask for a route that cannot be taken in this session.
+    let unloaded = [];
+    try {
+      const domains = require(path.join(__dirname, '..', 'lib', 'domains.js'));
+      unloaded = require(path.join(__dirname, '..', 'lib', 'enablement.js'))
+        .unloaded(process.env.HOME || os.homedir(), data.cwd || null, domains.PLUGIN_SPECS);
+    } catch (e) { unloaded = []; }
+    const matched = system ? [] : triggers.match(prompt, { external });
+    const routes = matched.filter((r) => !unloaded.includes(r));
     if (!system && sessionId) {
       try {
         turnstate.write(os.homedir(), sessionId, {
@@ -81,13 +91,13 @@ process.stdin.on('end', () => {
       } catch (e) { /* a hint that cannot be stored is a hint that does not happen */ }
     }
 
-    const out = triggers.render(prompt, { external, noted });
+    const out = triggers.render(prompt, { external, noted, unloaded });
     if (out) {
       process.stdout.write(out + '\n');
       if (sessionId) {
         try {
           turnstate.write(os.homedir(), sessionId,
-            { noted: Array.from(new Set(noted.concat(routes))) });
+            { noted: Array.from(new Set(noted.concat(matched))) });
         } catch (e) { /* unrecorded means shown again, the safe direction */ }
       }
     }
