@@ -12,7 +12,13 @@
   report malformed or unreadable input without granting write authority.
 - New backups bind to canonical target paths and publish without overwriting an
   existing copy. Ambiguous legacy and unverified copies are preserved and refused
-  for automatic restoration. The broader operation recovery journal is separate.
+  for automatic restoration. Backups referenced by an unfinished wait-rule operation
+  stay protected from routine pruning until its recorded outcome is verified.
+- `rules recovery inspect` shows the wait-rule recovery state. `rules recovery
+  finalize --operation <id>` previews whether the record can be completed; add
+  `--apply` to complete eligible metadata and release its backup retention. These
+  commands never restore host instructions or clear locks. An unresolved operation
+  remains open. This recovery path covers the wait rule, not every settings writer.
 - The optional wait rule has its own default-off setting, host scope and ownership
   record. Preview shows the proposed text; apply preserves surrounding content.
   Updates refresh only previously applied profiles. The rule creates no background
