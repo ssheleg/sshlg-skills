@@ -1,0 +1,202 @@
+{
+  "as_of": "2026-10-13T03:30:36.080252+00:00",
+  "package": "super-ux",
+  "version": "0.59.3",
+  "gitHead": "f0261f68c1a7222508bd984dc7bac63805dbb76b",
+  "registry": "https://registry.npmjs.org/super-ux/0.59.3",
+  "tarball": "https://registry.npmjs.org/super-ux/-/super-ux-0.59.3.tgz",
+  "integrity": "sha512-VtfSajj/lyPHi8pOFzsWUN+gzcaaXZcUxGYhLtfiMne4ja0AxStANJt/PRbF89TyxfqFlF6vEWCeEvw3vwVyOA==",
+  "tarball_sha256": "dccda73751760086bc113fea72f7ff78d1c751a3b9347d8d440429601d1590d3",
+  "all_published_files_equal_release_source": true,
+  "published_files": 33,
+  "canonical_manifest_sha256": "90aec45773e5f875950c919769a1979fa590cf9048cff129a55f7d6c5dd6a735",
+  "release_run": "38341429185",
+  "runtime_acceptance": "NOT_RUN",
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "b768366ba9fbf0a16127a69fa08e08581c27a3310675cceae0c725d3480afcda",
+      "bytes": 183031
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+      "bytes": 1064
+    },
+    {
+      "path": "README.md",
+      "sha256": "7e66316ebfb3219f437bd0b6ecd06c2f12ebccac2a96b25eb20f29489a9cc622",
+      "bytes": 23434
+    },
+    {
+      "path": "bin/super-ux.js",
+      "sha256": "61aff961bb1c081f24239f095d6c16f86f87ba99dba19d6a9a68edead284ebbe",
+      "bytes": 23802
+    },
+    {
+      "path": "cursor/rules/brand-voice.mdc",
+      "sha256": "5a88b9fac54777939001f969d1eb4e8105ed74720d35f0749074398f123af7bd",
+      "bytes": 1656
+    },
+    {
+      "path": "cursor/rules/copywriting.mdc",
+      "sha256": "ecfeeeb45a0d3dd25b5a27db1d65c9ba9cc1b4fcc7f78f9fdd00fc4485f071e7",
+      "bytes": 4646
+    },
+    {
+      "path": "cursor/rules/super-ux.mdc",
+      "sha256": "0e89477322f073ed9d390eade229a11e33f651323d680f801900c1a06af5518c",
+      "bytes": 3929
+    },
+    {
+      "path": "cursor/rules/ux-audit.mdc",
+      "sha256": "f077782089b200a18a3b327ab644edc5b3f5a8c3912cc1362acf7f3d54de56fb",
+      "bytes": 3578
+    },
+    {
+      "path": "cursor/rules/ux-flows.mdc",
+      "sha256": "d79a99d27c055c9b89ddab1800387ba3f7eabff667084668567ba79c32a67dfb",
+      "bytes": 4504
+    },
+    {
+      "path": "cursor/rules/ux-foundation.mdc",
+      "sha256": "449855bc3996301822562127abd3dbdc2c05804a46ee58332e9f25477c604f75",
+      "bytes": 2885
+    },
+    {
+      "path": "cursor/rules/ux-scenarios.mdc",
+      "sha256": "54a6146605d57d7359e3258267819ccfe2a6970fe938112b99d000bf2a5a7c9c",
+      "bytes": 3382
+    },
+    {
+      "path": "cursor/rules/vision.mdc",
+      "sha256": "135249f03e42d3ff61fccedd3b82f191f77ed4cbfc098efe3d9abb459a38ac39",
+      "bytes": 3210
+    },
+    {
+      "path": "package.json",
+      "sha256": "2ca885f411cdce6caa4cb396c235aedcdd161b1a35b017c5b4339d52482b9777",
+      "bytes": 1425
+    },
+    {
+      "path": "plugins/super-ux/scripts/brand_lint.py",
+      "sha256": "921f50f242290d3134dbab9bdc6770cb4a8efec8a8e3faa355305f90382437a8",
+      "bytes": 120759
+    },
+    {
+      "path": "plugins/super-ux/scripts/ux_doctor.py",
+      "sha256": "5d1d0ec5a3ca71d9420605d84dce506839da1621ffb5fe31c6566a7f920d00de",
+      "bytes": 10427
+    },
+    {
+      "path": "plugins/super-ux/scripts/ux_lint.py",
+      "sha256": "9811e086cb1fbd97e8e1187c0e2cfffa07fb356400b641a81060579a2d4490ea",
+      "bytes": 63996
+    },
+    {
+      "path": "templates/README.md",
+      "sha256": "3723a9f4bc67b0248966c4532c7e90bb66e2c52fbb4744f9e41f4291a612544b",
+      "bytes": 2950
+    },
+    {
+      "path": "templates/audit-report.md",
+      "sha256": "85c09349cd4f2bc0a5559a9cd27ff01508378c5aa259a4243b7e3921d5bfc705",
+      "bytes": 1676
+    },
+    {
+      "path": "templates/brand/README.md",
+      "sha256": "d7b23f3bcec38df7d29c1818b8b185ce665efb1b831d3dfc97dd3135afde4e56",
+      "bytes": 2386
+    },
+    {
+      "path": "templates/brand/channels.md",
+      "sha256": "ef19e792989cfdaf3ab83fd1008e9d6348d4bc0b6921768d5136e91eb81e2308",
+      "bytes": 4278
+    },
+    {
+      "path": "templates/brand/copy-brief.md",
+      "sha256": "82f760a77ec2f458d3bcc3d45f712d9b140477985b96aa7c10af79be1cf6fda1",
+      "bytes": 187
+    },
+    {
+      "path": "templates/brand/facts.md",
+      "sha256": "71220edd6537cc8af1a67dead931059a4f861570b1e4325f8fd84e402b6b1f36",
+      "bytes": 1324
+    },
+    {
+      "path": "templates/brand/locale.md",
+      "sha256": "3f941bdf1ba872883d0040c02d5c1a87606f306c3d91fda63b9189f177a3154b",
+      "bytes": 2211
+    },
+    {
+      "path": "templates/brand/strings.md",
+      "sha256": "13f3d6f2da96516f3742643170a4b09f511325a8f08323c2a86d4d1275d260ed",
+      "bytes": 1772
+    },
+    {
+      "path": "templates/brand/terminology.md",
+      "sha256": "a05df1ef326d22072a4db4b00297010930ced238aa0ce91f18cb2a5a3319ec23",
+      "bytes": 1201
+    },
+    {
+      "path": "templates/brand/voice.md",
+      "sha256": "4ae150fca4476bdecdeddb772686fe0fdc18114acf2ba8c8bb04f9af2ac08611",
+      "bytes": 2095
+    },
+    {
+      "path": "templates/claude-rule.md",
+      "sha256": "e7835bdaa86b8b4e8887ad1393592fb38486a5f11390d437954103c18b8751d0",
+      "bytes": 4054
+    },
+    {
+      "path": "templates/flows.md",
+      "sha256": "898573236bd5e834fffcffec12d671e52dcd21577eed494d0b44272309e43f6a",
+      "bytes": 1394
+    },
+    {
+      "path": "templates/foundation.md",
+      "sha256": "2b708ec9f9fe25a84ceb8ab8ef6a6523d7fe5a06cf63d2c910125005be8285cc",
+      "bytes": 3330
+    },
+    {
+      "path": "templates/scenarios.md",
+      "sha256": "2f214ed2f182ce8fd54820ac97235630c68aafa3070d88663384226fc3b3a224",
+      "bytes": 1504
+    },
+    {
+      "path": "templates/screens.md",
+      "sha256": "241a598e0a8bde653469e4dff8bc3264ca9d94c6da1b31949c531e7263ed73dd",
+      "bytes": 3855
+    },
+    {
+      "path": "templates/vision-rule.md",
+      "sha256": "b76ad91a18828b2bb084ae90a164f8fdca9695df807f2d33a695adf6483c8a55",
+      "bytes": 839
+    },
+    {
+      "path": "templates/vision.md",
+      "sha256": "17f23aa63b1d9a4b872369500e9e132d4b1529817aa6f11aadeab88b854226a7",
+      "bytes": 2423
+    }
+  ],
+  "release_workflow_conclusion": "success",
+  "release_workflow_url": "https://github.com/ssheleg/super-ux/actions/runs/38341429185",
+  "release_jobs": [
+    {
+      "name": "validate / validate",
+      "conclusion": "success"
+    },
+    {
+      "name": "validate / House skill audit",
+      "conclusion": "success"
+    },
+    {
+      "name": "release",
+      "conclusion": "success"
+    },
+    {
+      "name": "publish",
+      "conclusion": "success"
+    }
+  ]
+}
