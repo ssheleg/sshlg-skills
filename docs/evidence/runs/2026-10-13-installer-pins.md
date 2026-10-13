@@ -117,6 +117,14 @@ inspection showed the existing host-target admission correctly refused first.
 The assertion now accepts those two explicit admission diagnostics and still
 requires exit 2 and zero children. That fixture mismatch was not a bypass.
 
+Post-freeze self-review found a malformed-inventory boundary: the initial source
+pattern admitted `./r`, `../r` and `-o/r`. The upstream parser handles local
+paths before fragment refs, so those spellings cannot carry this guarantee.
+The new source controls first failed with a missing exception; requiring an
+alphanumeric GitHub owner prefix makes all five local/option/ref/filter plants
+refuse. The current family inventory was unaffected. The six grouped controls
+were rerun after this correction.
+
 Full aggregate gate and independent review are pending parent integration. This
 isolated worktree has no initialized member copies; no full suite, hosted CI,
 release or real-host update is claimed here.

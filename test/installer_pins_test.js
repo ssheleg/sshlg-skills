@@ -36,6 +36,9 @@ test('duplicate and missing members cannot form a partial production set', () =>
   assert.throws(()=>pins.build([m,m],['codex']), /duplicate/);
   assert.throws(()=>pins.build([m,{name:'bad',repo:'o/b'}],['codex']), /immutable commit/);
   assert.throws(()=>pins.build([],['codex']), /empty/);
+  for(const repo of ['./r','../r','-o/r','o/r#main','o/r@other']) {
+    assert.throws(()=>pins.build([{...m,repo}],['codex']),/repository source/);
+  }
 });
 test('shipped commit inventory equals gitlinks, with mismatch and missing controls', () => {
   const pins=require('../lib/installer-pins');
