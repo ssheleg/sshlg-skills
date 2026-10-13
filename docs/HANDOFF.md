@@ -1,3 +1,22 @@
+## Completion candidate — current at 2026-10-13
+
+The active branch is `waves/2026-10-13-completion`. Hub candidate 1.62.0 at
+`5427bbbd449cf6c26bc52e84f98bdb90707d5ec6` passed **113 suites / 1695 fixtures**,
+with an [independent merged-seam review](evidence/completion-1013/merged-seam-review.md).
+C04 visibility profiles `27c63c9` and C05 domains profiles `b50b7e9` are integrated.
+[Run ledger](evidence/completion-1013/run.md) separates the local gate from release,
+installation and whole-family acceptance. [Plan](evidence/plans/2026-10-13-completion.md)
+and [family packets](evidence/completion-1013/family-next-wave.md) are the execution entry.
+
+Exact next task: finish integration/release under the nightly hosted-check policy,
+then verify published artifacts and apply the operator-authorized visibility/domain
+settings with backups and readback. Continue FW01/FW02 independently while hosted
+checks wait. Model screening has provider TEST_ERROR, not a quality verdict; no
+installed skill descriptions were shortened. Fabric board admission/tool availability
+still prevents submitting the durable pending cross-project asks.
+
+Earlier current-status paragraphs below are dated recovery history, not current gates.
+
 # Start here — sshlg-skills
 
 Snapshot: 2026-10-13. This page selects evidence and the next bounded action;

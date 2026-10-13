@@ -1,0 +1,49 @@
+{
+  "schema": "completion-support-checks/1",
+  "source_commit": "5427bbbd449cf6c26bc52e84f98bdb90707d5ec6",
+  "pin_check": {
+    "command": "python3 test/check_pins.py",
+    "exit_code": 0,
+    "members": 11,
+    "published_hub_at_probe": "1.61.0"
+  },
+  "convergence": {
+    "command": "bash scripts/convergence.sh f1901a3335ffd894957854eeaabb5c8222c97812",
+    "exit_code": 0,
+    "components": 11,
+    "live_checks": 12,
+    "scope": "No parent submodule pointer changed"
+  },
+  "graph": {
+    "command": "graphify update .",
+    "exit_code": 0,
+    "built_at_commit": "5427bbbd449cf6c26bc52e84f98bdb90707d5ec6",
+    "nodes": 9455,
+    "edges": 11796,
+    "sha256": "820a71ec1bf072bfc585df4feb2ab4adaf2904180fb648f44c1464e05ef35645",
+    "zero_node_sources": 835,
+    "scope": "Local code graph only; zero-node sources remain absent, docs/papers/images not refreshed. Generated graph directory is ignored."
+  },
+  "docs_validator": {
+    "command": "python3 test/validate.py",
+    "exit_code": 0
+  },
+  "stage_coverage": {
+    "command": "bash scripts/stage-coverage.sh --ledger docs/evidence/completion-1013/run.md",
+    "exit_code": 1,
+    "accounted_stages": 11,
+    "declared_stages": 11,
+    "reason": "Release, installed and overall acceptance pending; docs/wiki partial at observation."
+  },
+  "wiki": {
+    "branch": "docs/sshlg-completion-1013",
+    "commit": "34e8a3c",
+    "remote": "https://github.com/ssheleg/obsidian-memory-vault",
+    "catalogue_before": 165,
+    "catalogue_after": 170,
+    "removed_ids": [],
+    "reported_source_problems": 25,
+    "qmd": "SKIPPED: collection unset",
+    "inventory_validator": "NOT_RUN: tools/validate_inventory.py absent; no inventory projection edited"
+  }
+}

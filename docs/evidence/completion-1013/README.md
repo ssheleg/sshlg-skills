@@ -50,3 +50,17 @@ A second [readiness probe](controlled-probe.json), using normal subscription aut
 The [frozen description fixture](description-screening-fixture.json) contains full and concise candidate descriptions for 39 family skills and 13 synthetic selection cases. No installed description was changed. [Attempt 1](description-screening-full.json) and one explicit [diagnostic retry](description-screening-full-attempt2.json) both returned exit 1, `is_error: true`, zero usage and no selections. They are **TEST_ERROR**, with null task verdicts, not 0/13 quality. The first sanitizer omitted error text; the retry retained a hash and could only classify it as `provider_error_unclassified`. Its cause is unresolved. No concise arm was called because a usable paired baseline was absent.
 
 [The replay script](run-description-screening.py) refuses existing receipts and automatic retries; its default is a no-call preview. Next evaluation task: obtain a diagnosable successful baseline, then the paired concise arm, preserving error evidence safely. Even a successful single batch would only screen synthetic explicit-catalogue selection; native triggering, task artifacts and repeated quality/cost acceptance remain open under B-144/B-147.
+
+
+## Aggregate candidate gate
+
+The combined implementation at `5427bbbd449cf6c26bc52e84f98bdb90707d5ec6`
+passed `npm test`: **113 suites, 1695 fixtures, 11 pinned members**.
+[Machine receipt](aggregate-final.json) and [complete compressed log](aggregate-final.log.gz)
+preserve the exact count and output hash. [Independent merged-seam review](merged-seam-review.md)
+checks the interaction of visibility, domains, search, profiles and credential guards.
+C04's final source is `27c63c96bc9e47758c9b4957042c78962983df3d`;
+C05 is `b50b7e9a2ba8df96626cf121682e94b10e6dce79`.
+The earlier [integration review](integration-review.md) remains the historical finding
+that led to these fixes. This local gate does not replace hosted release checks,
+installed readback or native task-quality evidence.

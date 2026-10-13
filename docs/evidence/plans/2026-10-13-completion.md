@@ -45,3 +45,14 @@ Independent review precedes integration. Tests establish both failure and benign
 - C06 integrated: 72e0138. New bounded reader corpus 128 passed (baseline failed 75); independent real-hook probes passed. Full interpreter/symlink/dynamic-program coverage is explicitly outside this recognizer.
 - C08 integrated: 7d49b3e. Phrase-ranking synthetic recall 11/11 within declared cutoffs; filesystem inventory and alternate copies covered by 15 checks. Independent review closed CRLF and disabled foreign-plugin omissions. This is retrieval evidence, not model task quality.
 - Full aggregate npm test started at ab37778793674efff60b92ed381284c7339420ea. Final counts and verdict are not yet claimed.
+
+
+### Aggregate candidate, after review corrections
+
+C04 `27c63c9` and C05 `b50b7e9` replace the earlier provisional profile findings.
+Merged source `5427bbbd449cf6c26bc52e84f98bdb90707d5ec6` passed 113 local suites /
+1695 fixtures; [receipt](../completion-1013/aggregate-final.json) and
+[independent review](../completion-1013/merged-seam-review.md).
+The 1.62.0 package version is a candidate; no tag, registry publication or machine
+application is certified by this line. FW01 and FW02 member implementations are
+running in isolated branches; their exact owner receipts will join the handoff.
