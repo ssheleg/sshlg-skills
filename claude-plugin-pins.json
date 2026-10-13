@@ -2507,8 +2507,8 @@
     {
       "name": "seo-aeo-audit",
       "repo": "ssheleg/seo-aeo-audit",
-      "commit": "bccb630e79730e2a7058b74a2130ddfe4f4662aa",
-      "version": "0.26.5",
+      "commit": "c5a32d23da41d7717942f33995228b36971d2657",
+      "version": "0.26.6",
       "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
       "pluginPath": "plugins/seo-aeo-audit",
       "entry": {
@@ -2516,7 +2516,7 @@
         "displayName": "SEO + AEO Audit",
         "source": "./plugins/seo-aeo-audit",
         "description": "Audits a website across ten evidence-based tracks (access & indexation, canonicalization, architecture & link equity, intent, content value, extractability/AEO, entity consensus, experience signals, risk, measurement) and outputs a findings report plus a prioritized change plan with verification steps. Includes a stdlib-only page auditor with answer-engine read-budget analysis.",
-        "version": "0.26.5",
+        "version": "0.26.6",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -2541,7 +2541,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "73967ce764e5f9b90985ce8460ad2562c51aadf8fdb854946deef388516b3c97",
+          "sha256": "7251d55442b610d50ad1c2b5761ea3ad16de59abe2f59755319cff1379d4428d",
           "bytes": 766
         },
         {
@@ -2661,8 +2661,8 @@
         },
         {
           "path": "skills/seo-aeo-audit/references/scripts.md",
-          "sha256": "22e929b391aa5345b21a6b27c97242cd0de2f6712c2706ad15a3324607343d6c",
-          "bytes": 12856
+          "sha256": "5adbba6808e51f109df76d394e20d56924d7059e6ef2b2f551e5e3d0b5deaa0f",
+          "bytes": 21990
         },
         {
           "path": "skills/seo-aeo-audit/references/technical-checks.md",
@@ -2681,38 +2681,38 @@
         },
         {
           "path": "skills/seo-aeo-audit/scripts/agent_surface.py",
-          "sha256": "a7cc62e2273780384941ca8ce23344633f1cbcde010a35701e68528b74f40c88",
-          "bytes": 82770
+          "sha256": "15bf95f5925faedcd5404cc0469bdc4642ca6f5c8ee034313eaf8d3285297466",
+          "bytes": 95441
         },
         {
           "path": "skills/seo-aeo-audit/scripts/gsc_pull.py",
-          "sha256": "09f339e4c208010b2acc0ee186242ea34f4f75b964df1fe7ceec364a7091c651",
-          "bytes": 34757
+          "sha256": "0aaf051d9779c63d37302100f1808487a7c6c8af84e8b01b623c280a03fbfd10",
+          "bytes": 55705
         },
         {
           "path": "skills/seo-aeo-audit/scripts/page_audit.py",
-          "sha256": "30b754343911f2644be8459db350ea68d3e4e2c283409c8323dd9eb8cdc88d76",
-          "bytes": 62445
+          "sha256": "871ed7f6d8de39f55e088201626cd4417f80bac3a9e0662af004cbe58a55202e",
+          "bytes": 71413
         },
         {
           "path": "skills/seo-aeo-audit/scripts/preflight.py",
-          "sha256": "eebd5f65920fd26110a54f71eba8178e4e9b823dd8ad77938f0914860d217ede",
-          "bytes": 44811
+          "sha256": "306e83ee2d1e817bc3e24a26a8f70c7625704d67a2755c62ede9321aba217579",
+          "bytes": 60911
         },
         {
           "path": "skills/seo-aeo-audit/scripts/psi_pull.py",
-          "sha256": "6c423d11681f634ab49f63ca9f0d04d0a7fa4c51447abffde982730d99b67727",
-          "bytes": 16061
+          "sha256": "2c3e41e423f811e5f6ca696ccfd025e6f71b2f2339d8eeebadd38067507a9aa6",
+          "bytes": 28524
         },
         {
           "path": "skills/seo-aeo-audit/scripts/sitemap_audit.py",
-          "sha256": "5b3ebf8f7df5488f73d24b7147f0566e38fdcfec1485aea8465e405bcd6fd898",
-          "bytes": 17194
+          "sha256": "19d82b381e1cf18c48fa39389757872382905a874ce21ef09502ade5e8254479",
+          "bytes": 28949
         },
         {
           "path": "skills/seo-aeo-audit/scripts/url_inspection.py",
-          "sha256": "76891f15717b1e3bd1546680888415e59939dc955d4865da3f965bd7c8644ef5",
-          "bytes": 20529
+          "sha256": "0406709c85948295bca98cf5ca82b0b2709690ee4c288216d910940940e446c6",
+          "bytes": 34555
         },
         {
           "path": "skills/seo-aeo-audit/SKILL.md",
@@ -3075,8 +3075,8 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "e2120c272c884ab4351c610148bbc0a4526c4067",
-      "version": "0.27.2",
+      "commit": "2b3d769775e368d0a1e6d0f20ea095ae24fbbd54",
+      "version": "0.28.2",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",
       "entry": {
@@ -3084,7 +3084,7 @@
         "displayName": "Agent Stack",
         "source": "./plugins/agent-stack",
         "description": "Four skills: agent-orchestrator — tool-calling loops, pipelines with checkpoints, provider routing with fallback, memory architecture, plus the wallet side of reselling LLM access; agent-evals — run/trace/thread evals, LLM judges, and fixtures grown from production; agent-interop — MCP servers and clients, A2A agent cards, the MCP Registry, and gateways; agent-harness — system prompts, tool shaping, workflow-vs-agent, and auditing an agent system.",
-        "version": "0.27.2",
+        "version": "0.28.2",
         "author": {
           "name": "ssheleg",
           "url": "https://x.com/sshlg93"
@@ -3109,7 +3109,7 @@
       "files": [
         {
           "path": ".claude-plugin/plugin.json",
-          "sha256": "8c0a4dbe7ec8e59b1d82c44612523a55a4b5ce13172614d0c5eecf4824f200f2",
+          "sha256": "678aa34cceef4ff51bedad7f718baa901af911fdf33afd9bf22b091ac1461a3f",
           "bytes": 1081
         },
         {
@@ -3289,13 +3289,13 @@
         },
         {
           "path": "skills/agent-orchestrator/references/runtime.md",
-          "sha256": "7164776ed0c53dc7eaa3edf21e01620e0db1a2bdef4f573469039be9ac5ad435",
-          "bytes": 9053
+          "sha256": "4c49fe64e16256fd78529e4a557782c5ccd9be8af8a5703bb92a773bdea12d70",
+          "bytes": 13205
         },
         {
           "path": "skills/agent-orchestrator/SKILL.md",
-          "sha256": "8e2bd8a84fbbb4fa00cb384b1769ea41d51eecd2d7203213f2c859a19a5b6de0",
-          "bytes": 19867
+          "sha256": "8a80583133707ea69c9e7c0963a68f74b138b74e5148e31ceeea12097af32aba",
+          "bytes": 20286
         }
       ]
     },

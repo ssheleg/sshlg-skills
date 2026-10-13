@@ -161,13 +161,13 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.26.5",
+      "version": "0.26.6",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
       "shape": "static, with a bounded discovery",
       "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste.",
-      "commit": "bccb630e79730e2a7058b74a2130ddfe4f4662aa"
+      "commit": "c5a32d23da41d7717942f33995228b36971d2657"
     },
     {
       "name": "sheleg-dev",
@@ -206,13 +206,13 @@
         "agent-interop",
         "agent-harness"
       ],
-      "version": "0.27.2",
+      "version": "0.28.2",
       "entry": null,
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance.",
-      "commit": "e2120c272c884ab4351c610148bbc0a4526c4067"
+      "commit": "2b3d769775e368d0a1e6d0f20ea095ae24fbbd54"
     },
     {
       "name": "telegram-dev",
