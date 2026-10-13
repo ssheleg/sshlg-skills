@@ -57,7 +57,7 @@ try {
     assert.throws(() => W.safeTag(repo, 'v1.62.1', head, true));
     assert.strictEqual(git(repo, ['cat-file', '-t', 'v1.62.1']), 'commit');
   });
-  test('remote conflicting tag is never overwritten', () => {
+  test('version mismatch refuses before considering an unrelated remote tag', () => {
     git(repo, ['tag', 'v1.62.2']); git(repo, ['push', 'origin', 'refs/tags/v1.62.2']);
     git(repo, ['tag', '-d', 'v1.62.2']);
     assert.throws(() => W.safeTag(repo, 'v1.62.2', head, true));
@@ -188,6 +188,52 @@ try {
     W.safeTag(repo, 'v1.65.0', recoveryHead, true);
     assert.strictEqual(git(repo, ['rev-parse', 'v1.65.0']), recoveryObject);
     assert.ok(git(repo, ['ls-remote', 'origin', 'refs/tags/v1.65.0']).startsWith(recoveryObject));
+  });
+  for (const kind of ['lightweight', 'other-target', 'other-object']) {
+    test(`exact-version remote ${kind} refuses without changing either ref`, () => {
+      const local = path.join(base, 'conflict-' + kind), upstream = local + '.git';
+      fs.mkdirSync(local); git(base, ['init', '--bare', upstream]); git(local, ['init']);
+      git(local, ['config', 'user.name', 'Fixture']); git(local, ['config', 'user.email', 'fixture@example.invalid']);
+      fs.writeFileSync(path.join(local, 'package.json'), '{"version":"1.62.0"}');
+      fs.writeFileSync(path.join(local, 'CHANGELOG.md'), '## v1.62.0\n\nFixture.\n');
+      git(local, ['add', '.']); git(local, ['commit', '-m', 'candidate']); git(local, ['remote', 'add', 'origin', upstream]);
+      git(local, kind === 'lightweight' ? ['tag', 'v1.62.0'] : ['tag', '-a', 'v1.62.0', '-m', 'remote']);
+      git(local, ['push', 'origin', 'refs/tags/v1.62.0']); git(local, ['tag', '-d', 'v1.62.0']);
+      if (kind === 'other-target') {
+        fs.writeFileSync(path.join(local, 'extra'), 'new'); git(local, ['add', '.']); git(local, ['commit', '-m', 'next']);
+      }
+      if (kind === 'other-object') git(local, ['tag', '-a', 'v1.62.0', '-m', 'local']);
+      const before = git(local, ['ls-remote', 'origin', 'refs/tags/*']), refs = git(local, ['for-each-ref', 'refs/tags']);
+      assert.throws(() => W.safeTag(local, 'v1.62.0', git(local, ['rev-parse', 'HEAD']), true), /existing remote tag|objects differ/);
+      assert.strictEqual(git(local, ['ls-remote', 'origin', 'refs/tags/*']), before);
+      assert.strictEqual(git(local, ['for-each-ref', 'refs/tags']), refs);
+    });
+  }
+  // A user/global ignore setting must not hide tracked member changes.
+  const leaf = path.join(base, 'leaf'); fs.mkdirSync(leaf); git(leaf, ['init']);
+  git(leaf, ['config', 'user.name', 'Fixture']); git(leaf, ['config', 'user.email', 'fixture@example.invalid']);
+  fs.writeFileSync(path.join(leaf, 'tracked'), 'clean'); git(leaf, ['add', '.']); git(leaf, ['commit', '-m', 'leaf']);
+  git(repo, ['-c', 'protocol.file.allow=always', 'submodule', 'add', leaf, 'member']);
+  git(repo, ['commit', '-am', 'member']);
+  git(repo, ['config', 'submodule.member.ignore', 'all']);
+  const memberHead = git(repo, ['rev-parse', 'HEAD']);
+  test('clean initialized member remains accepted despite ignore configuration', () => W.cleanHead(repo, memberHead));
+  test('ignore=all cannot hide a tracked dirty submodule', () => {
+    fs.writeFileSync(path.join(repo, 'member/tracked'), 'dirty');
+    assert.throws(() => W.cleanHead(repo, memberHead), /dirty/);
+    fs.writeFileSync(path.join(repo, 'member/tracked'), 'clean');
+  });
+  const member = path.join(repo, 'member');
+  git(member, ['config', 'user.name', 'Fixture']); git(member, ['config', 'user.email', 'fixture@example.invalid']);
+  git(member, ['-c', 'protocol.file.allow=always', 'submodule', 'add', leaf, 'nested']);
+  git(member, ['commit', '-am', 'nested']); git(repo, ['commit', '-am', 'nested pin']);
+  git(member, ['config', 'submodule.nested.ignore', 'all']);
+  const nestedHead = git(repo, ['rev-parse', 'HEAD']);
+  test('nested ignore settings cannot hide tracked changes', () => {
+    fs.writeFileSync(path.join(member, 'nested/tracked'), 'dirty');
+    assert.throws(() => W.cleanHead(repo, nestedHead), /dirty/);
+    fs.writeFileSync(path.join(member, 'nested/tracked'), 'clean');
+    W.cleanHead(repo, nestedHead);
   });
 } finally { fs.rmSync(base, { recursive: true, force: true }); }
 console.log(`OK (${checks} checks)`);

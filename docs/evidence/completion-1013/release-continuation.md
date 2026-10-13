@@ -90,6 +90,23 @@ It now delegates to the same non-rewriting helper and reads version/changelog fr
 the committed SHA. The helper alone does not establish CI acceptance; the watcher
 adds that contract.
 
+## Independent review correction
+
+The coordinator independently reran the original 35 controls and four additional
+exact-version ref-preservation cases: local lightweight, remote lightweight,
+remote annotated at another commit, and unequal annotated objects at the same
+commit all refused without rewriting refs. The old remote-conflict fixture had
+used a mismatched package version; it is now labelled for that earlier refusal,
+and three exact-version remote cases exercise the intended branch.
+
+A separate real Git/submodule reproduction found that `submodule.<name>.ignore=all`
+could hide tracked member changes from `cleanHead`. The new regression was observed
+red (missing expected exception). Both the root status command and recursive member
+status commands now explicitly use `--ignore-submodules=none`. Clean members pass;
+dirty direct and nested members with ignore settings refuse. These six additional
+controls bring the focused suite to 41. Temporary repositories were owned and removed.
+This review remains bounded; it does not claim GitHub runtime behavior from fixtures.
+
 ## Arming an exact post-merge candidate
 
 The coordinator prepares an owned checkout at M and an external evidence directory.
@@ -132,7 +149,7 @@ readback still require separate exact-tag receipts.
 
 ## Verification and handoff
 
-Focused `node test/release_watch_test.js`: **35 checks**, exit0. Initial tests failed
+Focused `node test/release_watch_test.js`: **41 checks**, exit0. Initial tests failed
 with the implementation absent; the first implemented run exposed and drove a
 changelog-section parser correction. Cases include wrong CI identity, old SHA even
 for docs-only changes, missing/skipped jobs, pending status, malformed plan, exact
@@ -144,7 +161,7 @@ were fixtures; no real tag or hosted workflow was created.
 
 `node --check lib/releasewatch.js`, `node --check scripts/release-watch.js`,
 `bash -n scripts/tag.sh` and `git diff --check`: exit0. Whole-repository/hosted gates
-were not duplicated here. This adds one discovered Node suite and 35 checks; the
+were not duplicated here. This adds one discovered Node suite and 41 checks; the
 coordinator owns aggregate ratchet regeneration. Next: independent review, then
 integration of the helper separately from the frozen completion candidate, and
 arming only when exact post-merge local/hosted evidence is available.
