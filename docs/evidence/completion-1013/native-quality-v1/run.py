@@ -24,12 +24,13 @@ SKILLS={'sheleg-dev:'+x for x in ('ad-tracking','crypto-payments','error-trackin
 MAX_CALLS=6
 BUDGET=4.0
 RESERVE=0.50
+PRIOR_COST=0.0373944  # Immutable attempt A, observed-20261013.json.
 TIMEOUT=180
 READY_INPUT=24000
 TASK_INPUT=32000
 MAX_TURNS=6
 READY_PROMPT='This is a startup readiness check. Do not invoke Skill, Read, Glob, Grep or any other tool. Reply with exactly READY and nothing else.'
-SETTINGS={'disableAllHooks':True,'autoMemoryEnabled':False,'claudeMdExcludes':['**'],'disableClaudeAiConnectors':True}
+SETTINGS={'disableBundledSkills':True,'skillOverrides':{'doctor':'off'},'disableAllHooks':True,'autoMemoryEnabled':False,'claudeMdExcludes':['**'],'disableClaudeAiConnectors':True}
 
 def plan(seed):
     rng=random.Random(seed);arms=['full','concise'];rng.shuffle(arms)
@@ -135,12 +136,15 @@ def preflight(private):
     assert version.returncode==0 and version.stdout.decode().strip()=='2.1.296 (Claude Code)'
 
 def execute(args):
+    prior=json.loads((ROOT/'observed-20261013.json').read_text())
+    assert prior['status']=='STOPPED_TEST_ERROR' and prior['cost_incomplete'] is False
+    assert prior['reported_list_usd']==PRIOR_COST and len(prior['calls'])==1 and prior['calls'][0]['cost_usd']==PRIOR_COST
     if args.output.exists() or args.output.with_name(args.output.name+'.pending').exists():raise ValueError('receipt_exists')
     private=args.private_dir
     if not private.is_absolute() or private.is_symlink() or private.exists():raise ValueError('private_directory_must_be_absolute_and_new')
     if subprocess.run(['git','rev-parse','--show-toplevel'],cwd=private.parent,capture_output=True).returncode==0:raise ValueError('raw_inside_git')
     private.mkdir(mode=0o700)
-    receipt={'schema':'native-quality-run/1','status':'PREFLIGHT','calls':[],'seed':args.seed,'reported_list_usd':0.0,'cost_incomplete':False,'source_sha':json.loads((ROOT/'source.json').read_text())['commit'],'runner_sha256':base.digest(Path(__file__).read_bytes()),'materializer_sha256':base.digest((ROOT/'materialize.py').read_bytes()),'source_manifest_sha256':base.digest((ROOT/'source.json').read_bytes()),'arms_fixture_sha256':base.digest((ROOT.parent/'description-screening-fixture-v2.json').read_bytes()),'tasks_sha256':base.digest((ROOT/'tasks.json').read_bytes()),'rubric_sha256':base.digest((ROOT/'rubric.json').read_bytes()),'budget':BUDGET,'max_calls':MAX_CALLS,'scope':'Restricted native fixture only; artifact quality requires independent review; list metadata is not subscription billing.'}
+    receipt={'schema':'native-quality-run/1','status':'PREFLIGHT','calls':[],'seed':args.seed,'reported_list_usd':0.0,'prior_reported_list_usd':PRIOR_COST,'combined_known_list_usd':PRIOR_COST,'prior_receipt_sha256':base.digest((ROOT/'observed-20261013.json').read_bytes()),'cost_incomplete':False,'source_sha':json.loads((ROOT/'source.json').read_text())['commit'],'runner_sha256':base.digest(Path(__file__).read_bytes()),'materializer_sha256':base.digest((ROOT/'materialize.py').read_bytes()),'source_manifest_sha256':base.digest((ROOT/'source.json').read_bytes()),'arms_fixture_sha256':base.digest((ROOT.parent/'description-screening-fixture-v2.json').read_bytes()),'tasks_sha256':base.digest((ROOT/'tasks.json').read_bytes()),'rubric_sha256':base.digest((ROOT/'rubric.json').read_bytes()),'budget':BUDGET,'max_calls':MAX_CALLS,'scope':'Restricted native fixture only; artifact quality requires independent review; list metadata is not subscription billing.'}
     base.save_receipt(args.output,receipt)
     try:preflight(private)
     except Exception as exc:
@@ -148,7 +152,7 @@ def execute(args):
     receipt.update(status='RUNNING',auth_route='claude.ai subscription / firstParty',cli_version='2.1.296')
     env=dict(os.environ,CLAUDE_CODE_DISABLE_AUTO_MEMORY='1',CLAUDE_CODE_MAX_OUTPUT_TOKENS='1600')
     for index,item in enumerate(plan(args.seed)):
-        if receipt['reported_list_usd']+RESERVE>BUDGET:receipt['status']='STOPPED_BUDGET';break
+        if PRIOR_COST+receipt['reported_list_usd']+RESERVE>BUDGET:receipt['status']='STOPPED_BUDGET';break
         record={k:v for k,v in item.items() if k!='prompt'};record.update(index=index,state='STARTED',prompt_sha256=base.digest(item['prompt']),started_at_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()))
         receipt['calls'].append(record);base.save_receipt(args.output,receipt)
         folder=private/str(index);folder.mkdir(mode=0o700);base.private_write(folder/'prompt.txt',item['prompt'])
@@ -167,15 +171,16 @@ def execute(args):
         record.update(result,state='FINISHED',stdout_sha256=base.digest(raw),stderr_sha256=base.digest((folder/'stderr.log').read_bytes()))
         if result['cost_usd'] is None:receipt['cost_incomplete']=True
         else:receipt['reported_list_usd']+=result['cost_usd']
+        receipt['combined_known_list_usd']=PRIOR_COST+receipt['reported_list_usd']
         base.save_receipt(args.output,receipt);print(base.encode({k:record.get(k) for k in ('index','phase','arm','case_id','evaluation_status','error_class','cost_usd')}),flush=True)
         if result['evaluation_status']=='TEST_ERROR':receipt['status']='STOPPED_TEST_ERROR';break
-        if receipt['reported_list_usd']>BUDGET:receipt['status']='STOPPED_BUDGET_OVERSHOOT';break
+        if PRIOR_COST+receipt['reported_list_usd']>BUDGET:receipt['status']='STOPPED_BUDGET_OVERSHOOT';break
     else:receipt['status']='COMPLETED'
     base.save_receipt(args.output,receipt);return 0 if receipt['status']=='COMPLETED' else 1
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--execute',action='store_true');parser.add_argument('--seed',type=int,default=10132027);parser.add_argument('--source-repo',type=Path);parser.add_argument('--private-dir',type=Path);parser.add_argument('--output',type=Path);args=parser.parse_args()
-    if not args.execute:print(json.dumps({'provider_calls':0,'plan':[{k:v for k,v in x.items() if k!='prompt'} for x in plan(args.seed)],'max_reported_list_usd':BUDGET},indent=2));return 0
+    if not args.execute:print(json.dumps({'provider_calls':0,'plan':[{k:v for k,v in x.items() if k!='prompt'} for x in plan(args.seed)],'max_reported_list_usd':BUDGET,'prior_reported_list_usd':PRIOR_COST},indent=2));return 0
     if any(x is None for x in (args.source_repo,args.private_dir,args.output)):parser.error('execution requires source-repo, private-dir and output')
     return execute(args)
 

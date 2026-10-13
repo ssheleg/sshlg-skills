@@ -143,3 +143,19 @@ The proposed correction is explicit per-invocation settings, with no installed
 profile mutation, OAuth copying, or removal of security plugins. Exact seven-skill
 admission remains mandatory. Any future reviewed attempt must account for this
 first call within the total diagnostic spending ceiling.
+
+
+## Session-only isolation revision prepared
+
+The revised `--settings` adds only `disableBundledSkills: true` and
+`skillOverrides: {"doctor":"off"}`. It does not disable any registered security,
+telemetry or other builtin plugin. The fake CLI now requires both settings and
+rejects an `enabledPlugins` mutation; a residual doctor entry still fails native
+inventory admission. Actual efficacy remains NOT_RUN until independently reviewed.
+
+The next attempt's budget includes the preserved first call: USD0.0373944 prior
+reported list cost, verified from its committed receipt, plus new known cost.
+Pre-call reservation and post-call overshoot compare that combined amount to USD4.
+The output includes separate prior/new totals and the prior receipt hash. Unknown
+cost still sets cost_incomplete; no amount is silently treated as an actual zero.
+A new output path and raw directory are required; attempt A cannot be resumed.
