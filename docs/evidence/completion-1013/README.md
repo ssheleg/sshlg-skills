@@ -64,3 +64,20 @@ C05 is `b50b7e9a2ba8df96626cf121682e94b10e6dce79`.
 The earlier [integration review](integration-review.md) remains the historical finding
 that led to these fixes. This local gate does not replace hosted release checks,
 installed readback or native task-quality evidence.
+
+
+## Explicit candidate CI
+
+The repository's GitHub rules require a genuine `validate` result before merging
+PR #216. A nightly job can only see the default branch, so nightly-only triggering
+would strand an unmerged candidate. The operator update policy explicitly permits
+manual hosted CI for an urgent or explicit candidate while forbidding per-push full
+runs. This accumulated 1.62.0 candidate uses that exception: `workflow_dispatch`
+requires a recorded reason, with nightly and release `workflow_call` retained.
+No push/PR trigger is restored. A run's `headSha` must match the frozen candidate;
+its result cannot certify a later squash commit or an installed release.
+
+GitHub's [workflow_dispatch documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_dispatch)
+allows an existing, previously run workflow to be dispatched against a branch by
+CLI/API. The workflow already exists on the default branch. Full execution and
+conclusion are separate receipts, not inferred from successful dispatch.

@@ -1,6 +1,14 @@
 name: validate
 
 on:
+  # Operator policy: full CI is nightly; an explicitly selected release/integration
+  # candidate may be run manually once after local validation, never per push.
+  workflow_dispatch:
+    inputs:
+      candidate_reason:
+        description: "Recorded reason for this urgent or explicit candidate"
+        required: true
+        type: string
   schedule:
     - cron: "0 23 * * *"
       timezone: "Europe/Warsaw"
