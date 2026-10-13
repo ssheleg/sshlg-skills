@@ -1,0 +1,170 @@
+{
+  "schema": "mb02-source-composition-review/1",
+  "reviewer": "visibility_review",
+  "base": "a155725e46a0f11ddc4073fb9e337916c0194181",
+  "accepted_branch_head": "e37df18d914a08a73f15df747021ce8dbd7e9245",
+  "common_ancestor": "5d19e74b02c507cf59606469b80c5c44b9bc178d",
+  "verdict": "BOUNDED_COMPOSITION_PASS",
+  "not_integrated_by_reviewer": true,
+  "commits": [
+    {
+      "sha": "36612ed026cae4097163c7892a82fa837630a1cb",
+      "subject": "docs: scope recovery references and existing journal adapters",
+      "action": "skip_already_identical_packet"
+    },
+    {
+      "sha": "47241e31f453f2b47f4be53dcecd7702ddb8e5c3",
+      "subject": "feat: retain operation-referenced backups during ordinary pruning",
+      "action": "cherry-pick_in_order"
+    },
+    {
+      "sha": "3bb4f375311fa73f1fc7d402823c3d9feb04f84a",
+      "subject": "feat: bind wait recovery to retained existence-aware snapshots",
+      "action": "cherry-pick_in_order"
+    },
+    {
+      "sha": "aa02a4d0f873d670cd8a2e164a8c60edb4cbd940",
+      "subject": "fix: bind recovery namespace and bound lock waits monotonically",
+      "action": "cherry-pick_in_order"
+    },
+    {
+      "sha": "5b5bfe94533027418d7ccd39160675622d67b2d1",
+      "subject": "docs: preserve recovery fault evidence and explicit lock boundary",
+      "action": "cherry-pick_in_order"
+    },
+    {
+      "sha": "b4acdcf898a3965056bf1feb46859892f2734415",
+      "subject": "fix: bind wait recovery to one verified ownership delta",
+      "action": "cherry-pick_in_order"
+    },
+    {
+      "sha": "ed02df77391309a34991bda7b1947cc4ea96c7af",
+      "subject": "fix: resume retention after a no-write recovery outcome",
+      "action": "cherry-pick_in_order"
+    },
+    {
+      "sha": "8bb7f643d3cab3a05c8d14d00e58c4b977521ce7",
+      "subject": "docs: preserve recovery ownership and retirement peer evidence",
+      "action": "cherry-pick_in_order"
+    },
+    {
+      "sha": "bca10159c5913daf5ee420128110c4127fe1d899",
+      "subject": "docs: record independent MB02b composed acceptance",
+      "action": "cherry-pick_in_order"
+    },
+    {
+      "sha": "b6d9dca09b89b360808b62e43b0db3e56bce5cee",
+      "subject": "docs: specify bounded wait recovery CLI and scenario",
+      "action": "cherry-pick_in_order"
+    },
+    {
+      "sha": "8d5b63ab07c8bb1e450915d1c0c5d4950c74dfa7",
+      "subject": "feat: expose scoped wait recovery inspection and metadata finalization",
+      "action": "cherry-pick_in_order"
+    },
+    {
+      "sha": "e37df18d914a08a73f15df747021ce8dbd7e9245",
+      "subject": "docs: bind recovery CLI delivery and scoped validation limits",
+      "action": "cherry-pick_in_order"
+    }
+  ],
+  "overlap": {
+    "files": [
+      "docs/evidence/completion-1013/backup-recovery-packet/README.md",
+      "docs/evidence/completion-1013/backup-recovery-packet/check.py",
+      "docs/evidence/completion-1013/backup-recovery-packet/reproduce-retention.js",
+      "docs/evidence/completion-1013/backup-recovery-packet/retention-observation.json",
+      "docs/evidence/completion-1013/backup-recovery-packet/sources.json"
+    ],
+    "all_byte_identical": true,
+    "implementation_conflicts": false
+  },
+  "merge_tree": {
+    "command": "git merge-tree --write-tree a155725e46a0f11ddc4073fb9e337916c0194181 e37df18d914a08a73f15df747021ce8dbd7e9245",
+    "exit": 0,
+    "tree": "0b488deceeee3533b8f5575631ede4a108b9c8e0",
+    "working_tree_or_branch_changed": false
+  },
+  "remote_heads": {
+    "feat/backup-recovery-1013": "bca10159c5913daf5ee420128110c4127fe1d899",
+    "feat/wait-recovery-cli-1013": "e37df18d914a08a73f15df747021ce8dbd7e9245"
+  },
+  "source_review": [
+    "lib/backup-retention.js",
+    "lib/wait-recovery.js",
+    "lib/wait-recovery-cli.js",
+    "lib/wait-rules.js",
+    "lib/backup.js delta",
+    "lib/apply.js delta",
+    "bin/sshlg-skills.js delta",
+    "test/run.js discovery",
+    "owner implementation and fault receipts"
+  ],
+  "execution": {
+    "broad_suites": 0,
+    "provider_calls": 0,
+    "native_installs": 0,
+    "synthetic_cli_controls": 1,
+    "owned_fixture_removed": true
+  },
+  "source_acceptance_reused_not_replayed": {
+    "MB02b": "parent independent recovery30 + SIGKILL7 at ed02df7; bca10159 preserves exact judgment",
+    "MB02c": "root wait-recovery-cli-peer.json at a155725: CLI33 + recovery30 + SIGKILL7, source8d5b63ab/docs e37df18"
+  },
+  "portability": {
+    "runtime_and_tests": "Runtime uses passed home/env; CLI bin and tests use __dirname-relative modules/own temporary homes. No dependency on retired hub-backup-recovery worktree found.",
+    "historical_probes": "Probe scripts accept explicit module/repository argument, or resolve repository relative to their own packet. check.py uses local immutable Git objects; a shallow checkout must fetch the named objects before historical evidence validation.",
+    "historical_receipts": "Absolute historical execution paths are provenance only, not present runtime admission. Keep them historical."
+  },
+  "gaps": [
+    {
+      "id": "MB02-COMP-1",
+      "class": "acceptance_prerequisite",
+      "finding": "Source peer and synthetic tests do not establish composed aggregate, release, packaged/installed availability or actual machine recovery.",
+      "next": "Compose exact list, run serialized aggregate with measured ratchets and packaged runtime closure; then ordinary release/install/readback gates."
+    },
+    {
+      "id": "MB02-COMP-2",
+      "class": "explicit_scope_open",
+      "finding": "Wait-rules is the sole retained-reference adapter. Visibility, Claude transaction and hooks are not migrated; keep:Infinity remains per-save behavior, not cross-writer retention.",
+      "next": "Separate MB03 adapter packets with existing ownership and uncertainty contracts; no bulk adoption."
+    },
+    {
+      "id": "MB02-COMP-3",
+      "class": "explicit_scope_open",
+      "finding": "Crashed owner/backup locks intentionally remain held. Public command never clears locks, restores host bytes, or resolves unknown legacy/orphan evidence.",
+      "next": "Define separate exclusive-owner retirement admission and restore-as-new-operation protocol; TTL/PID alone cannot authorize cleanup."
+    },
+    {
+      "id": "MB02-COMP-4",
+      "class": "documentation_clarification",
+      "finding": "implementation.md says changed policy/target all return nonzero without limiting to unresolved operations. Completed retired operation inspection is historical metadata completion, not current host/policy health.",
+      "source": [
+        "lib/wait-rules.js:144",
+        "lib/wait-recovery-cli.js:44",
+        "docs/evidence/completion-1013/wait-recovery-cli-packet/implementation.md:39"
+      ],
+      "actual_control": {
+        "exit": 0,
+        "state": "complete",
+        "snapshot": "none",
+        "canFinalize": false,
+        "later_operator_target_preserved": true,
+        "sequence": "normal wait apply; then change target and policy; actual rules recovery inspect --json"
+      },
+      "next": "Qualify refusal statement to pending/unfinished finalization; explicitly document complete as historical metadata. Preserve idempotent no-op semantics; no code weakening needed."
+    },
+    {
+      "id": "MB02-COMP-5",
+      "class": "documentation_currentness",
+      "finding": "MB02b/c headers and exact continuation still say independent peer pending, while accepted peer records exist. Those are historical source snapshots, not a current merged verdict.",
+      "next": "Append current composition acceptance link; retain old failure/raw cuts and do not rewrite historical receipt values."
+    }
+  ],
+  "limits": [
+    "Not exhaustive security or syscall/power-loss review",
+    "No directory-fsync/CAS/noncooperative-writer guarantee",
+    "No Windows native permission validation",
+    "Reference metadata compaction remains unimplemented"
+  ]
+}
