@@ -177,6 +177,23 @@ try {
     assert.strictEqual(exhausted.length, 1);
     assert.deepStrictEqual(JSON.parse(fs.readFileSync(path.join(path.dirname(file), exhausted[0]))), observation);
   });
+  t('printed POSIX watcher argv survives spaces and shell substitutions literally', () => {
+    const odd = "space $(exit 7) `exit 8` apostrophe' ";
+    const dir = path.join(root, odd); fs.mkdirSync(dir);
+    const executable = path.join(dir, 'node ' + odd); fs.symlinkSync(process.execPath, executable);
+    const script = path.join(dir, 'script ' + odd + '.js');
+    fs.writeFileSync(script, 'process.stdout.write(JSON.stringify(process.argv.slice(1)));\n');
+    const input = path.join(dir, 'receipt ' + odd + '.json');
+    const command = P.watcherCommand(script, input, { platform: 'darwin', executable });
+    const result = spawnSync('/bin/sh', ['-c', command], { encoding: 'utf8', timeout: 5000 });
+    assert.strictEqual(result.status, 0, result.stderr); assert.strictEqual(result.stderr, '');
+    assert.deepStrictEqual(JSON.parse(result.stdout), [script, input]);
+    assert.ok(!fs.existsSync(input), 'formatting or execution must not create the receipt');
+  });
+  t('Windows receives no falsely runnable POSIX command; NUL argv refuses', () => {
+    assert.strictEqual(P.watcherCommand('C:\\Program Files\\watch.js', 'C:\\data\\receipt.json', { platform: 'win32' }), null);
+    assert.throws(() => P.watcherCommand('watch.js', 'bad\0name', { platform: 'linux' }), /NUL/);
+  });
   t('unknown watcher arguments refuse before native calls', () => {
     const r = spawnSync(process.execPath, [path.resolve(__dirname, '../lib/codex-deferred-watch.js'), file, '--force'], { encoding: 'utf8' });
     assert.strictEqual(r.status, 1); assert.ok(r.stderr.includes('usage:'));

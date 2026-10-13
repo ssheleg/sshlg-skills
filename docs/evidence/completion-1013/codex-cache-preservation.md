@@ -38,7 +38,7 @@ Focused candidate checks:
 
 - `node test/codexplugins_test.js`: 16 cases pass, including direct-call and fake safety-assertion bypass refusal.
 - `node test/codex_native_e2e_test.js`: 9 process cases pass. Three repeated real launcher invocations preserve config bytes and an executable old hook path, retain one receipt and return nonzero; already-current, disabled, foreign, absent and dry-run controls remain distinct. Native host calls in these launcher tests are fixture-driven, not proof about the actual CLI.
-- `node test/codex_pending_test.js`: 26 cases pass, including partial-write and publish-failure cleanup, collision/symlink refusal, profile/config drift, malformed/error readback, no raw-config journalling, bounded real watcher process, injected-clock exhaustion with durable pending evidence and unknown-argument refusal.
+- `node test/codex_pending_test.js`: 28 cases pass, including partial-write and publish-failure cleanup, collision/symlink refusal, profile/config drift, malformed/error readback, no raw-config journalling, bounded real watcher process, injected-clock exhaustion with durable pending evidence and unknown-argument refusal.
 - `node test/operation-result_test.js`: 14 cases pass.
 - `node test/runtime_closure_test.js`: 6 checks pass; observer/helper are under the packaged `lib` closure.
 - Actual isolated native probe: both replacement and upgrade routes reproduce old-generation deletion. No broad suite or actual-profile adoption has run for this patch.
@@ -50,6 +50,10 @@ Next acceptance: independent source/process review; root-owned watcher registrat
 At `a882f0876eef0cd15afbaac157885c11297eece3`, synthetic existing directory mode `0777` and receipt mode `0644` were incorrectly accepted. Both remained unchanged during reproduction, but accepting them violated the private artifact contract. The first added directory control failed with `Missing expected exception` before this correction. Admission now checks ownership and group/other permission bits without chmod or repair; existing, read and concurrent `EEXIST` publication paths use the same file check. The private namespace requires owner-only access. An existing hub root may remain readable (`0755` control), but another-writable root refuses. Tests include injected foreign ownership and concurrent-publication controls; ownership injection tests the boundary, not an actual cross-user filesystem setup.
 
 Actual installed `codex-cli 0.162.1` was queried in a separate empty synthetic HOME/CODEX_HOME: `codex plugin list --json` returned exit 0 and `{"installed":[],"available":[]}`. Its help also advertises `--json`. No model/provider call or operator profile mutation was used. Table fallback for other host versions is outside this bounded observer contract.
+
+## Independent review correction: runnable watcher display
+
+The original displayed receipt argument used `JSON.stringify`, which produces double quotes, not POSIX-safe shell quoting. An owned baseline probe through `/bin/sh` showed `$(printf expanded)` and backticks being expanded instead of preserved. The formatter now single-quotes all three argv values, including the Node executable and the script path, and escapes embedded apostrophes. The actual shell round-trip fixture uses spaces, `$()`, backticks and apostrophes in the executable, script and receipt paths; it returns the literal script/receipt argv with no command-substitution effects or receipt creation. Windows returns no runnable command and names the POSIX-only display boundary. This only changes command presentation, not observer authority or native state.
 
 ---
 
