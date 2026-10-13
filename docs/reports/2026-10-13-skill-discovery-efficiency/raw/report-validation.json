@@ -1,0 +1,23 @@
+{
+  "observed_at": "2026-10-13T00:50:33.480511+00:00",
+  "checks": [
+    {
+      "command": "uv run --script ~/DATA/obsidian-memory-vault/sshlg-projects-vault/_meta/reports/reports.py check docs/reports/2026-10-13-skill-discovery-efficiency",
+      "exit_code": 0,
+      "stdout": "reports check: 1 отчёт(ов), с ошибками 0"
+    },
+    {
+      "command": "git diff --check -- docs/reports/2026-10-13-skill-discovery-efficiency",
+      "exit_code": 0
+    },
+    {
+      "check": "JSON parsing and report-relative Markdown file links resolve",
+      "result": "PASS"
+    }
+  ],
+  "not_run": [
+    "commit and push: parent integrator owns",
+    "wiki report index: parent integrator owns after push",
+    "native model evaluation and cost comparison"
+  ]
+}
