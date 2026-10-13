@@ -1,10 +1,41 @@
 # Start here — sshlg-skills
 
-Snapshot: 2026-10-12. This page selects evidence and the next bounded action;
+Snapshot: 2026-10-13. This page selects evidence and the next bounded action;
 [skills.json](../skills.json) owns the current member inventory and pins.
 Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 [standing retrospective instructions](evidence/retro.md) and the
 [repository handoff rule](working-rules/repository-handoff.md) before editing.
+
+## L1 — the marked packs hidden on every host (2026-10-13, unreleased, lease `WAVES-1011`)
+
+Plan: [load optimisation, wave L1](evidence/plans/2026-10-13-load-optimization.md).
+**Read first:** [receipt](evidence/runs/2026-10-13-visibility-hosts.md) ·
+[`pack-marks.example.json`](../pack-marks.example.json) · README § "Hiding the marked packs on every host".
+B-143 closed (marked; hidden, not deleted); B-148 untouched. PR #213 (branch
+`feat/visibility-hosts-main`); #212 closed.
+
+Done: `visibility` writes Gemini, Pi, Hermes and OpenCode through each host's own switch
+(Cursor and Kimi: "cannot hide"); the marks are machine-local
+(`~/.sshlg-skills/pack-marks.json`, `visibility marks --init`), the package ships only an
+example; per-machine `visibility.showPacks`/`hidePacks` overrides; explicit consent
+(`applied`, `hosts`) that `update` re-applies under; degraded hosts never fail a run;
+byte-exact revert. Fix round after the unit, seam and product readings failed: consent,
+scope, revert bytes, degraded hosts, RM-23 worded as planned, machine-local marks, backup
+modes, uninstall note. Sandbox readbacks with the real host CLIs; the operator's machine
+was only previewed (read-only).
+
+**Exact next task (after review and release, on the operator's machine):**
+
+1. Write the machine marks — preview, then apply (a backup is taken first):
+   `npx sshlg-skills visibility marks --init --show anthropics/skills,heygen-com/hyperframes,emilkowalski/skills,vercel-labs/agent-skills,meta-quest/agentic-tools,stablyai/orca,kepano/obsidian-skills,anthropics/claude-code,conorbronsdon/avoid-ai-writing`
+   then the same with `--apply`. It writes 54 rows (34 hidden) at revision 1.
+2. `npx sshlg-skills visibility` (preview), then `npx sshlg-skills visibility --apply`. This
+   records consent for the hosts it covers. The machine's current record is from 1.55.0 and
+   carries no consent, so **no `update` hides anything on Gemini, Pi, OpenCode or Hermes
+   before this step**. Afterwards `update` re-applies on the hosts the record lists.
+3. Read back per host: `gemini skills list` (`[Disabled]`), Pi's loader as in the receipt,
+   `opencode debug config` (`permission.skill`), `hermes skills list` (`disabled`), and append
+   the counts to the receipt; then L4 measures the listing sizes.
 
 ## Closed — integration waves (2026-10-11/12, lease `WAVES-1011`)
 
@@ -28,7 +59,7 @@ decide B-144 and B-147. Then the open rows by priority (B-171/B-172 guard covera
 
 **Waiting on the operator:** Gemini sign-in (B-146); AS-14 drop or keep; whether the
 R18 age sweep (`reap --long-expired`) is acceptable; the Notion tokens into the vault (R20);
-B-143 pack-triage marks; who owns the `SSHLG:REPOSITORY-HANDOFF` block (B-174).
+who owns the `SSHLG:REPOSITORY-HANDOFF` block (B-174).
 
 ## B-169 / B-170 — the fabric rule only where Fabric is; the block headed in English (2026-10-12, unreleased)
 
