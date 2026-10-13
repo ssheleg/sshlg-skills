@@ -9,8 +9,8 @@ report:
   status: draft
   valid_until: 2026-10-20
   summary: >-
-    Provider-free AST cuts retain the218-file baseline and235-file candidate
-    refresh after B187/W175 integration. Independent provenance checks pass;
+    Provider-free AST cuts retain the 218-file baseline, 235-file intermediate
+    and 241-file candidate after Codex and backup corrections. Provenance checks pass;
     dangling edges and relation collapse limit runtime and reach claims.
   sources:
     - name: "Frozen hub source"
@@ -26,6 +26,24 @@ report:
 <sub>ssheleg skills — graphify · evidence-docs · project-reports</sub>
 
 # Hub source graph and documented entry points
+
+## Current candidate — source 5d19e74
+
+The [current immutable cut](raw/final-5d19e74/manifest.json) contains 241 files,
+2876 nodes, 4341 exported edges and 216 communities. Source
+[5d19e74](https://github.com/ssheleg/sshlg-skills/commit/5d19e74b02c507cf59606469b80c5c44b9bc178d)
+includes the Codex active-generation deferral, read-only managed-block preview,
+and bounded backup-identity correction. The [independent peer](../../evidence/completion-1013/graph-current-peer.json)
+recomputed all Git blob identities, bytes, hashes, source bounds and graph counts.
+Its [separate verifier](../../evidence/completion-1013/graph-current-peer.py)
+preserves the earlier verifier and both historical cuts unchanged.
+
+The raw 5618 edges include 752 dangling endpoints and 541 collapsed directed
+pairs. The export adds 16 pairs and omits none of the valid non-self raw pairs.
+These diagnostics limit interpretation: a static graph neither proves runtime
+reachability nor validates semantic dependencies or module quality. Declared
+provider calls/tokens are zero; no semantic extractor was run. Subsequent
+implementation waves require their own source cut before final acceptance.
 
 ## Candidate refresh — source86477b5
 
