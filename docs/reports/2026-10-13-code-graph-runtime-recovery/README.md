@@ -112,3 +112,11 @@ remain separate. This report changes no runtime, native profile or settings.
 - `graphify` — provider-free static source graph — not a skill this family ships
 - [`evidence-docs`](https://github.com/ssheleg/task-pipeline) — Git and artifact reconciliation
 - `project-reports` — dated cut and supersession — not a skill this family ships
+
+## Independent reconstruction
+
+The coordinator independently replayed the previous peer verifier against both
+frozen Git corpora and raw/export artifacts. [Receipt](raw/root-peer.json) and
+[verifier](raw/root-peer.py) reproduce the table counts and exact endpoint
+reconciliation. PASS is bounded to this static source cut; later test-summary
+and recovery changes require a new cut before final-source claims.

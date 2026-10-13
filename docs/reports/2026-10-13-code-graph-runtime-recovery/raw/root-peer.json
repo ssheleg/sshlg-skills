@@ -1,0 +1,221 @@
+{
+  "schema": "graph-peer/1",
+  "reviewer": "root-independent-of-current-build",
+  "status": "PASS_BOUNDED",
+  "snapshots": [
+    {
+      "snapshot": "final-00a6b2c",
+      "source_commit": "00a6b2c6dcd84ecd62547157824d78a4e2500e87",
+      "checks": "PASS",
+      "counts": {
+        "files": 249,
+        "nodes": 2989,
+        "edges": 4522,
+        "communities": 225,
+        "raw_edges": 5856,
+        "dangling_edges": 786,
+        "valid_candidate_edges": 5070,
+        "unique_endpoint_pairs": 4506,
+        "collapsed_relations": 564,
+        "self_loop_edges": 1,
+        "export_added_pairs": 16,
+        "raw_pairs_missing_export": 0
+      },
+      "receipt_hashes": {
+        "extraction.json.gz": "49c2e80444a975f4b50c837ef5ac72c499f366eaded2d67160b6f9297ad2e8d1",
+        "diagnostics.json": "861a74b4a8c596904ee8aa734574855c4884cf316eb716c89924799d05c5250b",
+        "manifest.json": "e3f3cea664368e8862f57f6243c7ec3e88589e0c976329a7175808a3ed02dfba",
+        "graph.json.gz": "2dd0896133106b0a8a28ff795ebeb50a138587538b77c1d8c87bfd701c499c7e"
+      },
+      "decompressed_hashes": {
+        "graph": "4aa00fade094414571a8969cd66c9cd5bcaa8a417481e74010390a6b9d9d53fc",
+        "extraction": "44954754a88392b7179b946ddeb0f5d3f87d166af11f56e18623c9efd1a5d623"
+      },
+      "export_added_endpoint_pairs": [
+        [
+          "test_board_age_test",
+          "test_board_age"
+        ],
+        [
+          "test_doc_refs_test",
+          "test_doc_refs"
+        ],
+        [
+          "test_doc_refs_test",
+          "test_residue"
+        ],
+        [
+          "test_family_plants_test",
+          "test_residue"
+        ],
+        [
+          "test_graph_staleness_test",
+          "test_graph_staleness"
+        ],
+        [
+          "test_pin_source_test",
+          "test_pin_source"
+        ],
+        [
+          "test_pin_source_test",
+          "test_residue"
+        ],
+        [
+          "test_plant_guard_test",
+          "test_residue"
+        ],
+        [
+          "test_queue_test",
+          "scripts_queue"
+        ],
+        [
+          "test_release_lag_test",
+          "test_release_lag"
+        ],
+        [
+          "test_residue_test",
+          "test_residue"
+        ],
+        [
+          "test_validate",
+          "test_board_age"
+        ],
+        [
+          "test_validate",
+          "test_doc_refs"
+        ],
+        [
+          "test_validate",
+          "test_graph_staleness"
+        ],
+        [
+          "test_validate",
+          "test_pin_source"
+        ],
+        [
+          "test_validate",
+          "test_release_lag"
+        ]
+      ],
+      "raw_endpoint_pairs_missing_export": []
+    },
+    {
+      "snapshot": "final-56ca9ea",
+      "source_commit": "56ca9ea41e40efa0b2b6240411711c480f091e8e",
+      "checks": "PASS",
+      "counts": {
+        "files": 250,
+        "nodes": 3018,
+        "edges": 4589,
+        "communities": 229,
+        "raw_edges": 5930,
+        "dangling_edges": 793,
+        "valid_candidate_edges": 5137,
+        "unique_endpoint_pairs": 4573,
+        "collapsed_relations": 564,
+        "self_loop_edges": 1,
+        "export_added_pairs": 16,
+        "raw_pairs_missing_export": 0
+      },
+      "receipt_hashes": {
+        "extraction.json.gz": "61e6187447574e69adf4b6789053a8ad60c6a02f8b12e59b1e634ef3501ad868",
+        "diagnostics.json": "0754c0a2cebec0273c52c6379ae09ec69cee26715d0e000067e1681029d60f54",
+        "manifest.json": "b2255189cc1a9e813141a70dbf5623cdee5213530e64c71a934e4a8fdbd0cb54",
+        "graph.json.gz": "e32e950b10c0deee4fda0322b6343371ca58551bc63f7cfe8ba01ead2bd2f800"
+      },
+      "decompressed_hashes": {
+        "graph": "4e637396f03822c9bed3fecc3bd9f20947c4b9b1e9ad3ed4fc833f73bfac8de4",
+        "extraction": "c9a49672e366232b61951edcef9b7e94b340b8c8011663e7ea1596d6d8453432"
+      },
+      "export_added_endpoint_pairs": [
+        [
+          "test_board_age_test",
+          "test_board_age"
+        ],
+        [
+          "test_doc_refs_test",
+          "test_doc_refs"
+        ],
+        [
+          "test_doc_refs_test",
+          "test_residue"
+        ],
+        [
+          "test_family_plants_test",
+          "test_residue"
+        ],
+        [
+          "test_graph_staleness_test",
+          "test_graph_staleness"
+        ],
+        [
+          "test_pin_source_test",
+          "test_pin_source"
+        ],
+        [
+          "test_pin_source_test",
+          "test_residue"
+        ],
+        [
+          "test_plant_guard_test",
+          "test_residue"
+        ],
+        [
+          "test_queue_test",
+          "scripts_queue"
+        ],
+        [
+          "test_release_lag_test",
+          "test_release_lag"
+        ],
+        [
+          "test_residue_test",
+          "test_residue"
+        ],
+        [
+          "test_validate",
+          "test_board_age"
+        ],
+        [
+          "test_validate",
+          "test_doc_refs"
+        ],
+        [
+          "test_validate",
+          "test_graph_staleness"
+        ],
+        [
+          "test_validate",
+          "test_pin_source"
+        ],
+        [
+          "test_validate",
+          "test_release_lag"
+        ]
+      ],
+      "raw_endpoint_pairs_missing_export": []
+    }
+  ],
+  "delta": {
+    "files": 1,
+    "nodes": 29,
+    "edges": 67,
+    "communities": 4,
+    "raw_edges": 74,
+    "dangling_edges": 7,
+    "valid_candidate_edges": 67,
+    "unique_endpoint_pairs": 67,
+    "collapsed_relations": 0,
+    "self_loop_edges": 0,
+    "export_added_pairs": 0,
+    "raw_pairs_missing_export": 0
+  },
+  "verification": "Read immutable Git blobs for every manifest entry and independently derived corpus, byte hashes, sizes, node source/line bounds, graph/extraction hashes, endpoint diagnostics and exported community counts. Read build.py code-only extraction path. No extractor rerun or provider call.",
+  "limits": [
+    "Provider-free mode and zero token counters agree with reviewed builder; not independent network telemetry.",
+    "Static graph is not runtime reachability or task quality.",
+    "Dangling raw edges and endpoint relation collapse remain explicit; export-added pairs are independently counted per snapshot.",
+    "Member Git repositories, docs, Python dynamic imports, runtime dispatch and semantic contracts are outside this corpus or incompletely represented.",
+    "Community count growth is a structural observation, not evidence of improved modularity."
+  ]
+}
