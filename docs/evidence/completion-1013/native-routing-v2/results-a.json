@@ -1,0 +1,566 @@
+{
+  "schema": "native-routing-run/2",
+  "status": "COMPLETED",
+  "calls": [
+    {
+      "phase": "readiness",
+      "arm": "concise",
+      "index": 0,
+      "state": "FINISHED",
+      "prompt_sha256": "cda53799c658c0b2956e4c2c4c3e3e45c8f9c4da960ae5888ae210c64a208863",
+      "started_at_utc": "2026-10-13T07:20:27Z",
+      "workspace_manifest_sha256": "ff845b7a0136a33891a11b2847e19b440245e9c3541548fa22558fac3ed58450",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.019514399999999998,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 2335,
+        "cache_read_input_tokens": 3732,
+        "output_tokens": 4
+      },
+      "native": {
+        "visible": [
+          "sheleg-dev:ad-tracking",
+          "sheleg-dev:crypto-payments",
+          "sheleg-dev:error-tracking",
+          "sheleg-dev:frontend-performance",
+          "sheleg-dev:google-auth",
+          "sheleg-dev:google-signin",
+          "sheleg-dev:stripe-billing"
+        ],
+        "skill_loads": [],
+        "read_files": [],
+        "load_delivery": []
+      },
+      "artifact_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+      "final_result_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "581cd0cb833c364c947886243199b64289322a8565f7f093920f82585c3104e2",
+          "text_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+          "characters": 5
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 6069,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "da7812f1871801652afb6b4887e21352e4695d639cafe45430c9603e03b5c4ab",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "readiness",
+      "arm": "full",
+      "index": 1,
+      "state": "FINISHED",
+      "prompt_sha256": "cda53799c658c0b2956e4c2c4c3e3e45c8f9c4da960ae5888ae210c64a208863",
+      "started_at_utc": "2026-10-13T07:20:31Z",
+      "workspace_manifest_sha256": "807478d2975964ca10743406617760fc29fdfea11a1cf9048aa88d21e2d478a5",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0235882,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 2817,
+        "cache_read_input_tokens": 4821,
+        "output_tokens": 4
+      },
+      "native": {
+        "visible": [
+          "sheleg-dev:ad-tracking",
+          "sheleg-dev:crypto-payments",
+          "sheleg-dev:error-tracking",
+          "sheleg-dev:frontend-performance",
+          "sheleg-dev:google-auth",
+          "sheleg-dev:google-signin",
+          "sheleg-dev:stripe-billing"
+        ],
+        "skill_loads": [],
+        "read_files": [],
+        "load_delivery": []
+      },
+      "artifact_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+      "final_result_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "a57de15239e28f855ee54edb21eedcad41912fae8d01564ca2e18360a1d8c0f0",
+          "text_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+          "characters": 5
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 7640,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "e012c025607554aee77d637e2f780654f6b27a208f0d821486418472e55e510d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "k2",
+      "arm": "concise",
+      "index": 2,
+      "state": "FINISHED",
+      "prompt_sha256": "15555a14fdfe3044d5d8afe2e74882b8feb2d04d704eb2658214fc08e57391d2",
+      "started_at_utc": "2026-10-13T07:20:35Z",
+      "workspace_manifest_sha256": "c3da5b23c098d35b21777698c5b01955dcf7f7a01f561b6e1ffeb01f3cd00350",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.1001782,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 5787,
+        "cache_read_input_tokens": 27211,
+        "output_tokens": 2420
+      },
+      "native": {
+        "visible": [
+          "sheleg-dev:ad-tracking",
+          "sheleg-dev:crypto-payments",
+          "sheleg-dev:error-tracking",
+          "sheleg-dev:frontend-performance",
+          "sheleg-dev:google-auth",
+          "sheleg-dev:google-signin",
+          "sheleg-dev:stripe-billing"
+        ],
+        "skill_loads": [],
+        "read_files": [
+          "OPERATIONS.md",
+          "handler.py"
+        ],
+        "load_delivery": []
+      },
+      "artifact_sha256": "2b8733b5dcf0e41c5436f9a7a7fafe7a31b4b65d035a2089826472d781dba630",
+      "final_result_sha256": "52a66316ec009e3612bda196687c245a8a3bcabd4c5ab0dc6f3b1e7f86c409a9",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "0cdbef474de41b71efe66d91f3d9924316d3e5d862b71230f37a5d1d106195cc",
+          "text_sha256": "4dfcfab13ee793e25e81a39d7bec184961a390f30366ca1094d0c1e21895c2da",
+          "characters": 3228
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "d20485baa9d7979b82c7720d2e4b7fd2089379924509a11ed0c212f60c87e7e6",
+          "text_sha256": "52a66316ec009e3612bda196687c245a8a3bcabd4c5ab0dc6f3b1e7f86c409a9",
+          "characters": 1161
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 10316,
+      "request_count": 4,
+      "turns": 5,
+      "stdout_sha256": "9b041dbb5f2070f3e95f7bbda0f281d084e41b6c596f4fc0a024bbde1a38d520",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "k2",
+      "arm": "full",
+      "index": 3,
+      "state": "FINISHED",
+      "prompt_sha256": "15555a14fdfe3044d5d8afe2e74882b8feb2d04d704eb2658214fc08e57391d2",
+      "started_at_utc": "2026-10-13T07:21:05Z",
+      "workspace_manifest_sha256": "bd0680f1bf8ba62970872aaa62a22a369149e6c83457b7deef312cceea799cd2",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0929716,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 5215,
+        "cache_read_input_tokens": 20998,
+        "output_tokens": 2351
+      },
+      "native": {
+        "visible": [
+          "sheleg-dev:ad-tracking",
+          "sheleg-dev:crypto-payments",
+          "sheleg-dev:error-tracking",
+          "sheleg-dev:frontend-performance",
+          "sheleg-dev:google-auth",
+          "sheleg-dev:google-signin",
+          "sheleg-dev:stripe-billing"
+        ],
+        "skill_loads": [],
+        "read_files": [
+          "OPERATIONS.md",
+          "handler.py"
+        ],
+        "load_delivery": []
+      },
+      "artifact_sha256": "25aded1c514e1cf5f5612d98095510d7d45b2bb2da90990284c9e7b45221552a",
+      "final_result_sha256": "048b3bbea7e221dd27f04d06d751bbaae4814c98f592cc8469d238efb20d179a",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "d5a8fe7ac0c65cb38e97c7bfd11cdca6145bac49dedbdb38b7413e5319a73b6e",
+          "text_sha256": "3ed2d7b07f9e8a7b4f5da885eddf354734ab6a549344c5188d35e3f44e0a78ad",
+          "characters": 3190
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "645ee44683f0d60d85e7e7ad856cf84d208f72f7e005188035565a8fa8ae95c6",
+          "text_sha256": "048b3bbea7e221dd27f04d06d751bbaae4814c98f592cc8469d238efb20d179a",
+          "characters": 1116
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 10096,
+      "request_count": 3,
+      "turns": 4,
+      "stdout_sha256": "53f85a5959b92614b7b09dbe9ac0a6f107544e27b05d81d058c8b813e0b87691",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "b7",
+      "arm": "concise",
+      "index": 4,
+      "state": "FINISHED",
+      "prompt_sha256": "c2fcea26df7e87c94e17fe7dcfdc232f7890857d0a2c82ef533a00136ad125e7",
+      "started_at_utc": "2026-10-13T07:21:34Z",
+      "workspace_manifest_sha256": "0a9bdba979971e93d3430bdb73c1a86d9f3c64a0eda0d5f59a46cdfb999f3bd4",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0910484,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 5787,
+        "cache_read_input_tokens": 27162,
+        "output_tokens": 1964
+      },
+      "native": {
+        "visible": [
+          "sheleg-dev:ad-tracking",
+          "sheleg-dev:crypto-payments",
+          "sheleg-dev:error-tracking",
+          "sheleg-dev:frontend-performance",
+          "sheleg-dev:google-auth",
+          "sheleg-dev:google-signin",
+          "sheleg-dev:stripe-billing"
+        ],
+        "skill_loads": [],
+        "read_files": [
+          "OPERATIONS.md",
+          "service.py"
+        ],
+        "load_delivery": []
+      },
+      "artifact_sha256": "0019800186d60e74ab9c54b9cd71599bb65ca3557e2fb8eba256181e84d09ec1",
+      "final_result_sha256": "63174e2e56a9137f21a924d55fe46277450492fa8630d88d8226670d416a1ae8",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "4576640bbe24603405b07f7f58a51cf30416060fc3aed402c9ee3e929da35179",
+          "text_sha256": "21ab4f9f30bcca79b37482740ef51e1be6a35dcf73beff9600d365cd7f132954",
+          "characters": 4086
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "050fefe9d0903dc8c84463a929f2ca01670af2e70593abe96de6e14b02c2aabb",
+          "text_sha256": "63174e2e56a9137f21a924d55fe46277450492fa8630d88d8226670d416a1ae8",
+          "characters": 199
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 10316,
+      "request_count": 4,
+      "turns": 5,
+      "stdout_sha256": "d30bcb135c9e783971b2f313cdbb4bc7b2bf443bd4a7bfcece877ddee2c9a696",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "b7",
+      "arm": "full",
+      "index": 5,
+      "state": "FINISHED",
+      "prompt_sha256": "c2fcea26df7e87c94e17fe7dcfdc232f7890857d0a2c82ef533a00136ad125e7",
+      "started_at_utc": "2026-10-13T07:22:00Z",
+      "workspace_manifest_sha256": "3e74ff0c99204fe23ecd1885c394a8b21b88aaa465a4d1d2a0316045a6b4b349",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.10325600000000001,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 7020,
+        "cache_read_input_tokens": 32180,
+        "output_tokens": 2031
+      },
+      "native": {
+        "visible": [
+          "sheleg-dev:ad-tracking",
+          "sheleg-dev:crypto-payments",
+          "sheleg-dev:error-tracking",
+          "sheleg-dev:frontend-performance",
+          "sheleg-dev:google-auth",
+          "sheleg-dev:google-signin",
+          "sheleg-dev:stripe-billing"
+        ],
+        "skill_loads": [],
+        "read_files": [
+          "OPERATIONS.md",
+          "service.py"
+        ],
+        "load_delivery": []
+      },
+      "artifact_sha256": "26ab89d8e81e40b2ad2a556aff3ca6761157dc021895a246ca147543258b15b1",
+      "final_result_sha256": "f0e88b57747db70bfd5e73036d95ee2fad23b6663d57be9f5617bd7df42360f4",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "f00694cd228263baa292f17099bc5e3d9c8b157cfc847b25b507e0e098fe1536",
+          "text_sha256": "79ac1c8682f2f7dd61fbd38cd3c0a38f2764ebadf40e0ef6a481ad13a6a858e8",
+          "characters": 4167
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "b618f035acb81a90c3e19b5f44e5b29dd2dfd2798334dbe9daafa691db40e6d1",
+          "text_sha256": "f0e88b57747db70bfd5e73036d95ee2fad23b6663d57be9f5617bd7df42360f4",
+          "characters": 434
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 11875,
+      "request_count": 4,
+      "turns": 5,
+      "stdout_sha256": "ee5a5c81a34c67530d1a47f771d63bc76bd97d82e5f5f6a6c714ecf0346815e2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "m9",
+      "arm": "full",
+      "index": 6,
+      "state": "FINISHED",
+      "prompt_sha256": "aadefccce4f801cb87027821422c9c2485bf07014d8aec33e36e00080d04309d",
+      "started_at_utc": "2026-10-13T07:22:27Z",
+      "workspace_manifest_sha256": "75e4f70a762dc46a5bc1cec735418d6f4f9f34ab7baaecf7b39513018b830327",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.171468,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 14942,
+        "cache_read_input_tokens": 47060,
+        "output_tokens": 2124
+      },
+      "native": {
+        "visible": [
+          "sheleg-dev:ad-tracking",
+          "sheleg-dev:crypto-payments",
+          "sheleg-dev:error-tracking",
+          "sheleg-dev:frontend-performance",
+          "sheleg-dev:google-auth",
+          "sheleg-dev:google-signin",
+          "sheleg-dev:stripe-billing"
+        ],
+        "skill_loads": [
+          "sheleg-dev:ad-tracking"
+        ],
+        "read_files": [
+          "events.js",
+          "OPERATIONS.md"
+        ],
+        "load_delivery": [
+          {
+            "skill": "sheleg-dev:ad-tracking",
+            "call_event": 1,
+            "result_event": 2,
+            "later_text_blocks": [
+              {
+                "event": 15,
+                "text_sha256": "c3735a8d7621bdee144f412d2fae7a4862af5c1249ff25925abafbebe5aa6055"
+              },
+              {
+                "event": 17,
+                "text_sha256": "c73a11bf475413b36e326c7faf3b35ad2f44ef7c49e874dc7ab3fe39930901fc"
+              }
+            ]
+          }
+        ]
+      },
+      "artifact_sha256": "4a553dc8bfff9ccfdd4cce06171fe4786d7019342eb88129d173672a5c2bc69b",
+      "final_result_sha256": "c73a11bf475413b36e326c7faf3b35ad2f44ef7c49e874dc7ab3fe39930901fc",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "f2de4f9f8577e5a5eef268fe1f2719882a9eab08034ef982ee12faebe1ec326f",
+          "text_sha256": "c3735a8d7621bdee144f412d2fae7a4862af5c1249ff25925abafbebe5aa6055",
+          "characters": 3454
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "6917120f1fd68d3da1441682cce31213955582bb9cf35b5cbacc6435bcc68e81",
+          "text_sha256": "c73a11bf475413b36e326c7faf3b35ad2f44ef7c49e874dc7ab3fe39930901fc",
+          "characters": 542
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 19471,
+      "request_count": 4,
+      "turns": 7,
+      "stdout_sha256": "f1862af0389647ae40262f09b3bcb3fd58d0fb2d3ea0337272790a98b783ab08",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "m9",
+      "arm": "concise",
+      "index": 7,
+      "state": "FINISHED",
+      "prompt_sha256": "aadefccce4f801cb87027821422c9c2485bf07014d8aec33e36e00080d04309d",
+      "started_at_utc": "2026-10-13T07:22:54Z",
+      "workspace_manifest_sha256": "ad2f62e758028dbf3005be24905aa63024e541d584b1b7edc95495530981da95",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.1629102,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 14124,
+        "cache_read_input_tokens": 41391,
+        "output_tokens": 2080
+      },
+      "native": {
+        "visible": [
+          "sheleg-dev:ad-tracking",
+          "sheleg-dev:crypto-payments",
+          "sheleg-dev:error-tracking",
+          "sheleg-dev:frontend-performance",
+          "sheleg-dev:google-auth",
+          "sheleg-dev:google-signin",
+          "sheleg-dev:stripe-billing"
+        ],
+        "skill_loads": [
+          "sheleg-dev:ad-tracking"
+        ],
+        "read_files": [
+          "OPERATIONS.md",
+          "events.js"
+        ],
+        "load_delivery": [
+          {
+            "skill": "sheleg-dev:ad-tracking",
+            "call_event": 2,
+            "result_event": 4,
+            "later_text_blocks": [
+              {
+                "event": 16,
+                "text_sha256": "003f2de43c2e44dcdb8e29703d1ca926776a8aea54dcee2c4964c92798d4997e"
+              },
+              {
+                "event": 18,
+                "text_sha256": "b357127b2d8269eb7e5f4ec73228b6dabfa1ff2286bafb2ab6a5c8869fb0ed76"
+              }
+            ]
+          }
+        ]
+      },
+      "artifact_sha256": "7bbe83f7310e824f8994fe15efae519707cea030a118e2eba2f660426be82c7f",
+      "final_result_sha256": "b357127b2d8269eb7e5f4ec73228b6dabfa1ff2286bafb2ab6a5c8869fb0ed76",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "d9b9d3db7233b981d2014dd0725801650d767456585851e5f661cb760ea09c71",
+          "text_sha256": "003f2de43c2e44dcdb8e29703d1ca926776a8aea54dcee2c4964c92798d4997e",
+          "characters": 3258
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "870a7bf44959ae50a6ac05d12116db33ef02e42ca5cfde648c82366c14fdca5d",
+          "text_sha256": "b357127b2d8269eb7e5f4ec73228b6dabfa1ff2286bafb2ab6a5c8869fb0ed76",
+          "characters": 356
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 17860,
+      "request_count": 4,
+      "turns": 7,
+      "stdout_sha256": "aafe1f83ab0e200dd583ff8e11fdec5106f09319e326348ff00ae558e63702b4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "reported_list_usd": 0.7649349999999999,
+  "cost_incomplete": false,
+  "max_calls": 8,
+  "budget_usd": 3.5463678,
+  "seed": 1013281,
+  "source_commit": "8862fae9a826263f8109626ca257f81c7c43ac86",
+  "runner_sha256": "6728bb8151381b2dbe2f0fe9809aa86e9a60088aed71f5b42c46c1b572565635",
+  "source_manifest_sha256": "c45f42de4f4c5c8f60ac7f11200e4d09bf62c27ccbe25ff6c262d2da519adcf1",
+  "admission_sha256": "547a30e7aebf6ce3efc320c63f20cf01f3e8c4296197a8eb2f127cd4b661840a",
+  "prior_known_pilots_list_usd": 2.1959482,
+  "prior_native_a_b_c_d_list_usd": 0.4536322,
+  "prior_native_cli_invocations": 8,
+  "protocol": "PASSIVE_NATIVE_V2",
+  "max_cumulative_cli_invocations": 16,
+  "scope": "Six passive fixture audits; native loading and artifact quality scored separately. No automatic directed calls, adoption or installed changes. List metadata is not subscription billing.",
+  "scores": {
+    "cells": [
+      {
+        "index": 2,
+        "case_id": "k2",
+        "arm": "concise",
+        "native_selection": "FAIL_NATIVE_SELECTION",
+        "load_before_delivered_audit": "NOT_LOADED",
+        "skill_loads": [],
+        "artifact_quality": "PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "index": 3,
+        "case_id": "k2",
+        "arm": "full",
+        "native_selection": "FAIL_NATIVE_SELECTION",
+        "load_before_delivered_audit": "NOT_LOADED",
+        "skill_loads": [],
+        "artifact_quality": "PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "index": 4,
+        "case_id": "b7",
+        "arm": "concise",
+        "native_selection": "FAIL_NATIVE_SELECTION",
+        "load_before_delivered_audit": "NOT_LOADED",
+        "skill_loads": [],
+        "artifact_quality": "PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "index": 5,
+        "case_id": "b7",
+        "arm": "full",
+        "native_selection": "FAIL_NATIVE_SELECTION",
+        "load_before_delivered_audit": "NOT_LOADED",
+        "skill_loads": [],
+        "artifact_quality": "PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "index": 6,
+        "case_id": "m9",
+        "arm": "full",
+        "native_selection": "OBSERVED_EXPECTED_LOAD",
+        "load_before_delivered_audit": "PENDING_INDEPENDENT_AUDIT_TEXT_REVIEW",
+        "skill_loads": [
+          "sheleg-dev:ad-tracking"
+        ],
+        "artifact_quality": "PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "index": 7,
+        "case_id": "m9",
+        "arm": "concise",
+        "native_selection": "OBSERVED_EXPECTED_LOAD",
+        "load_before_delivered_audit": "PENDING_INDEPENDENT_AUDIT_TEXT_REVIEW",
+        "skill_loads": [
+          "sheleg-dev:ad-tracking"
+        ],
+        "artifact_quality": "PENDING_INDEPENDENT_REVIEW"
+      }
+    ],
+    "adoption": "NOT_ADOPTED",
+    "scope": "Passive six-cell diagnostic; no directed follow-up or full-family quality claim."
+  },
+  "planned_not_started": 0
+}
