@@ -4,7 +4,7 @@ report:
   title: Independent nonauthor observer, interim source cut f77a6c2
   kind: audit
   project: sshlg-skills
-  domains: []
+  domains: [ai-agent, automation]
   as_of: 2026-10-13
   status: active
   valid_until: 2026-10-14

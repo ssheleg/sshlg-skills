@@ -4,7 +4,7 @@ report:
   title: Independent observer followup, hook runtime failure and recovery
   kind: audit
   project: sshlg-skills
-  domains: []
+  domains: [ai-agent, automation]
   as_of: 2026-10-13
   status: active
   valid_until: 2026-10-14
