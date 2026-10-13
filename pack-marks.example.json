@@ -1,0 +1,34 @@
+{
+  "schema": "pack-marks/1",
+  "revision": 1,
+  "note": "An EXAMPLE of the pack-marks/1 shape; it marks no real pack. The marks are the operator's and live on the machine, in ~/.sshlg-skills/pack-marks.json, written by `npx sshlg-skills visibility marks --init --show <owner/repo,...> --apply` (preview without --apply). hidden=true hides a pack's skills from a host's model listing through that host's own switch; nothing is deleted. A skill used in the last 60 days (by Claude Code usage) stays listed, and a family pack (ssheleg/*) is never hidden. Fabric's RM-23 (open) is to read the machine file as well.",
+  "packs": [
+    {
+      "pack": "example-org/docs-skills",
+      "audience": "documents",
+      "host": ["*"],
+      "hidden": false,
+      "markedBy": "operator",
+      "markedAt": "2026-10-13",
+      "reason": "operator mark: kept listed"
+    },
+    {
+      "pack": "example-org/finance-skills",
+      "audience": "financial analysis",
+      "host": ["*"],
+      "hidden": true,
+      "markedBy": "operator",
+      "markedAt": "2026-10-13",
+      "reason": "operator mark: hidden from model listings, not deleted; a skill used in the last 60 days (by Claude Code usage) stays listed"
+    },
+    {
+      "pack": "example-org/gemini-only",
+      "audience": "an example of a host-limited mark",
+      "host": ["gemini"],
+      "hidden": true,
+      "markedBy": "operator",
+      "markedAt": "2026-10-13",
+      "reason": "hidden on Gemini only"
+    }
+  ]
+}

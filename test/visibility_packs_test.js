@@ -32,9 +32,28 @@ const MARKS = {
   ],
 };
 
-it('the shipped pack-marks.json is valid pack-marks/1', () => {
-  const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'pack-marks.json'), 'utf8'));
+it('the shipped example is valid pack-marks/1 and marks no real pack (the marks are machine-local)', () => {
+  const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'pack-marks.example.json'), 'utf8'));
   assert.deepStrictEqual(V.marksProblems(data), []);
+  assert.ok(data.packs.every((m) => /^example-org\//.test(m.pack)), 'the public package must ship no personal marks');
+  assert.ok(!fs.existsSync(path.join(__dirname, '..', 'pack-marks.json')), 'a pack-marks.json in the package would read as defaults');
+});
+
+it('pack names match case-insensitively: marks, overrides and the family rule', () => {
+  const marks = V.marksIndex({ schema: 'pack-marks/1', revision: 1, packs: [
+    { pack: 'Acme/Finance', audience: 'x', host: ['*'], hidden: true, markedBy: 'operator', markedAt: '2026-10-13', reason: 'r' }] });
+  assert.strictEqual(V.packHidden('acme/finance', 'pi', { marks }), true);
+  assert.strictEqual(V.packHidden('ACME/FINANCE', 'pi', { marks, config: { visibility: { showPacks: ['acme/Finance'] } } }), false);
+  assert.strictEqual(V.packHidden('SSHELEG/task-pipeline', 'pi', { marks, config: { visibility: { hidePacks: ['ssheleg/task-pipeline'] } } }), false);
+});
+
+it('marksFromLock: family and --show listed, every other installed pack hidden, by Claude Code usage', () => {
+  const data = V.marksFromLock({ packs: ['acme/finance', 'acme/docs', 'ssheleg/super-ux'], show: ['acme/docs'], date: '2026-10-13', revision: 3 });
+  assert.deepStrictEqual(V.marksProblems(data), []);
+  assert.strictEqual(data.revision, 3);
+  const by = Object.fromEntries(data.packs.map((m) => [m.pack, m.hidden]));
+  assert.deepStrictEqual(by, { 'acme/docs': false, 'acme/finance': true, 'ssheleg/super-ux': false });
+  assert.ok(/Claude Code usage/.test(data.packs.find((m) => m.hidden).reason));
 });
 
 it('marks: a missing revision, a duplicate pack and a non-boolean hidden are each named', () => {
@@ -117,7 +136,8 @@ it('json list: an absent path is created, and its revert removes the containers 
   const before = JSON.stringify({ mcpServers: {} }, null, 2) + '\n';
   const r = V.editJsonList(before, { keys: ['skills', 'disabled'], add: ['x'], remove: [] });
   assert.deepStrictEqual(JSON.parse(r.text).skills, { disabled: ['x'] });
-  const back = V.editJsonList(r.text, { keys: ['skills', 'disabled'], add: [], remove: ['x'] });
+  assert.deepStrictEqual(r.createdPaths, ['skills', 'skills.disabled']);
+  const back = V.editJsonList(r.text, { keys: ['skills', 'disabled'], add: [], remove: ['x'], prunable: r.createdPaths });
   assert.strictEqual(back.text, before);
 });
 
@@ -138,7 +158,7 @@ it('json list: Pi writes no trailing newline, and its file keeps that form', () 
   const pi = JSON.stringify({ theme: 'dark' }, null, 2);
   const r = V.editJsonList(pi, { keys: ['skills'], add: ['-/h/.agents/skills/x'], remove: [] });
   assert.ok(!r.text.endsWith('\n'));
-  assert.strictEqual(V.editJsonList(r.text, { keys: ['skills'], add: [], remove: ['-/h/.agents/skills/x'] }).text, pi);
+  assert.strictEqual(V.editJsonList(r.text, { keys: ['skills'], add: [], remove: ['-/h/.agents/skills/x'], prunable: r.createdPaths }).text, pi);
 });
 
 it('json list: a missing file is created only when asked, in the form asked', () => {
@@ -146,6 +166,36 @@ it('json list: a missing file is created only when asked, in the form asked', ()
   assert.strictEqual(none.skipped, true);
   const made = V.editJsonList(null, { keys: ['skills'], add: ['x'], remove: [], create: true, newline: false });
   assert.strictEqual(made.text, JSON.stringify({ skills: ['x'] }, null, 2));
+});
+
+it('json list: an empty list the operator already had survives apply + revert byte for byte', () => {
+  const mine = JSON.stringify({ skills: { disabled: [] } }, null, 2) + '\n';
+  const r = V.editJsonList(mine, { keys: ['skills', 'disabled'], add: ['x'], remove: [] });
+  assert.deepStrictEqual(r.createdPaths, [], 'nothing was created: both containers were the operator\'s');
+  const back = V.editJsonList(r.text, { keys: ['skills', 'disabled'], add: [], remove: ['x'], prunable: r.createdPaths });
+  assert.strictEqual(back.text, mine);
+});
+
+it('json list: the containers it created are named, and only those are pruned', () => {
+  const before = JSON.stringify({ skills: {} }, null, 2) + '\n';
+  const r = V.editJsonList(before, { keys: ['skills', 'disabled'], add: ['x'], remove: [] });
+  assert.deepStrictEqual(r.createdPaths, ['skills.disabled']);
+  const back = V.editJsonList(r.text, { keys: ['skills', 'disabled'], add: [], remove: ['x'], prunable: r.createdPaths });
+  assert.strictEqual(back.text, before, 'the operator\'s empty skills object must stay');
+});
+
+it('json map: an empty permission.skill map the operator had survives apply + revert byte for byte', () => {
+  const mine = JSON.stringify({ permission: { skill: {} } }, null, 2) + '\n';
+  const r = V.editJsonMap(mine, { keys: ['permission', 'skill'], set: ['a'], value: 'deny', unset: [] });
+  const back = V.editJsonMap(r.text, { keys: ['permission', 'skill'], set: [], value: 'deny', unset: ['a'], prunable: r.createdPaths });
+  assert.strictEqual(back.text, mine);
+});
+
+it('claude settings: an empty skillOverrides map is kept when prune is false', () => {
+  const mine = JSON.stringify({ skillOverrides: {} }, null, 2) + '\n';
+  const r = V.editClaudeSettings(mine, { set: ['a'], unset: [] });
+  const back = V.editClaudeSettings(r.text, { set: [], unset: ['a'], prune: false });
+  assert.strictEqual(back.text, mine);
 });
 
 const OPENCODE = JSON.stringify({ $schema: 'https://opencode.ai/config.json', permission: { skill: { mine: 'allow' } } }, null, 2) + '\n';

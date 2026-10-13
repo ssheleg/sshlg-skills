@@ -1,30 +1,42 @@
-## Unreleased — the marked packs are hidden on every host, nothing deleted
+## Unreleased — marked packs hidden on every host, by the machine's own marks, nothing deleted
 
-- **The operator's pack marks ship as data (B-143).** `pack-marks.json` (schema
-  `pack-marks/1`, revision 1, in the npm package) holds one row per installed pack:
-  34 hidden, 20 kept listed (the eleven family packs and nine the operator kept). Hidden
-  is never a deletion. `test/validate.py` checks the schema, the revision, one row per
-  pack, the fields, that no family pack is hidden, and that `package.json` ships it.
-  Fabric's RM-23 session bundle reads the same file; `visibility` is the host-wide
-  fallback for sessions Fabric does not start, and says so in its first line.
-- **Per-machine overrides.** `npx sshlg-skills config set visibility.pack.<owner/repo>
-  hide|show|default` writes `visibility.hidePacks` / `visibility.showPacks` in
-  `~/.sshlg-skills/config.json`. Precedence: family, then the usage core (used in 60 days,
-  named in `~/.claude/CLAUDE.md`, `--keep`), then `showPacks`, `hidePacks`, the mark.
+- **Pack marks are the operator's and live on the machine (B-143).**
+  `~/.sshlg-skills/pack-marks.json` (schema `pack-marks/1`) holds one row per pack; the
+  public package ships none, only `pack-marks.example.json` (`example-org/*` rows), because
+  one operator's marks shipped as defaults would hide them for everyone who applied. With
+  no machine file no pack is hidden by mark. `npx sshlg-skills visibility marks --init
+  --show <owner/repo,…>` previews one row per installed pack (family and `--show` listed,
+  the rest hidden) and writes it with `--apply`, after a backup. `test/validate.py`
+  checks the example's shape and refuses a `pack-marks.json` at the repo root.
+- **`visibility` is the host-wide fallback for sessions Fabric does not start**, and says
+  so first. Fabric's RM-23 (open) is to read the same machine file; nothing in Fabric
+  reads it yet.
 - **Each host's own switch, never a file deletion.** Gemini `skills.disabled` in
   settings.json (what `gemini skills disable --scope user` writes); Pi `-<path>` exact
   exclusions in `settings.json` `skills`; Hermes `skills.disabled` through
   `hermes config set` with a readback; OpenCode `permission.skill.<name> = "deny"`.
-  Cursor and Kimi are reported as "cannot hide": Cursor has no per-skill switch, Kimi's
-  permission rule refuses a call but keeps the skill listed. JSON settings are edited only
-  in the 2-space form their host writes, after a backup; the record in
-  `~/.sshlg-skills/visibility.json` names what the launcher added and `--revert` removes
-  exactly that, including the Pi settings file it created. `lib/hostvis.js`;
-  `test/visibility_packs_test.js`, `test/visibility_hosts_e2e_test.js` (a fake Hermes
-  CLI, three applies with identical bytes, revert to the original bytes).
-- **`update` re-applies `visibility`** on a machine whose record shows `--apply` ran, with
-  the same window and `--keep`, scoped like the run (`--claude-only`, `--agent <host>`);
-  `update --dry-run` says it will.
+  Cursor and Kimi are reported as "cannot hide". Claude and Codex keep hiding everything
+  outside the usage core; pack marks and `config set visibility.pack.<owner/repo>
+  hide|show|default` overrides act on the four other hosts only (`--keep` keeps a skill on
+  Claude and Codex). JSON settings are edited only in the form their host writes, after a
+  backup; the record names what the launcher added and the containers it created, and
+  `--revert` removes exactly that, so an empty list or map the operator had stays. A host
+  that cannot be written is reported as degraded and skipped; a host with nothing to hide
+  is not touched.
+- **Consent is explicit.** `--apply` records `applied: true` and the hosts it covered;
+  `--revert` withdraws it. `update` (also the unattended idle run) re-applies only with
+  that consent, only on the listed hosts, within its scope (`--claude-only`,
+  `--no-claude`, `--agent <skills-CLI id>`). **The first `update` after this release
+  re-applies only where `visibility --apply` was run with this release**: a 1.55.x record
+  carries no consent, so `update` writes nothing there and prints one line asking for one
+  `visibility --apply [--keep …]`. `uninstall` names what visibility still holds and the
+  `--revert` command.
+- **Backups are private.** `lib/backup.js` writes copies 0600 and tightens the backup
+  directory to 0700 (never loosens it): copies of host settings can hold keys.
+- Tests: `test/visibility_packs_test.js` (22), `test/visibility_hosts_e2e_test.js` (27: a
+  fake Hermes CLI, three identical applies, byte-exact revert including an operator's empty
+  map, consent and scope through real `update` runs, degraded hosts, uninstall), one new
+  check in `test/backup_test.js`.
 
 ## v1.61.0 — `hosts` says which local MCP servers are not answering
 

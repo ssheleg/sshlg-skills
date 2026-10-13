@@ -1,13 +1,16 @@
 # Receipt — wave L1: the marked packs hidden on every host (2026-10-13)
 
 Plan: [`docs/evidence/plans/2026-10-13-load-optimization.md`](../plans/2026-10-13-load-optimization.md), wave L1.
-Branch `feat/visibility-all-hosts` from `origin/plan/load-optimization`. Lease `WAVES-1011`.
+Branch `feat/visibility-hosts-main` (PR #213; the first cut, #212, is closed). Lease `WAVES-1011`.
 Board: B-143 closed. B-148 untouched.
 
-Operator decision (2026-10-13): hide the recommended packs, delete nothing. Design change from
-Fabric (RM-23 owner, same day): the marks are a machine-readable file in the hub,
-[`pack-marks.json`](../../../pack-marks.json); Fabric's session bundle reads it and owns
-visibility in the sessions it starts; `visibility` is the host-wide fallback for the rest.
+Operator decision (2026-10-13): hide the recommended packs, delete nothing. Two design
+changes the same day. From Fabric (RM-23 owner): marks are a machine-readable pack-marks/1
+file that RM-23 (open on the fabric-workspace roadmap) is to read. From the main session
+(public package vs one operator's machine): the marks are machine-local,
+`~/.sshlg-skills/pack-marks.json`, written by `visibility marks --init`. The package ships
+only [`pack-marks.example.json`](../../../pack-marks.example.json). `visibility` is the
+host-wide fallback for sessions Fabric does not start.
 
 ## Per host: the mechanism and where it was read
 
@@ -23,55 +26,99 @@ visibility in the sessions it starts; `visibility` is the host-wide fallback for
 
 ## Readback with the real host CLIs, in a sandbox HOME
 
-A scratch HOME with two shared skills, `dcf` (lock source `anthropics/financial-services`,
-marked hidden) and `docx` (`anthropics/skills`, kept); the real `gemini`, Pi's own loader
-(`DefaultPackageManager.resolve()` from the installed package), the real `opencode` and
-`hermes` binaries with `HOME`/`HERMES_HOME`/`XDG_CONFIG_HOME` pointed at the sandbox. Never
-the operator's HOME.
+The sandbox, never the operator's HOME:
+- A scratch HOME with two shared skills: `dcf` (lock source `anthropics/financial-services`)
+  and `docx` (`anthropics/skills`).
+- Machine marks written there by `visibility marks --init --show anthropics/skills --apply`.
+- The real `gemini`, Pi's own loader (`DefaultPackageManager.resolve()` from the installed
+  package), and the real `opencode` and `hermes` binaries, with `HOME`, `HERMES_HOME`,
+  `XDG_CONFIG_HOME` and `PI_CODING_AGENT_DIR` pointed at the sandbox.
+- Gemini, OpenCode and Hermes files already existed before the run. OpenCode's file held an
+  empty `permission.skill` map the operator wrote.
+
+Re-run on the fix-round code:
 
 | Host | Before `--apply` | After `--apply` | After `--revert` |
 |---|---|---|---|
-| Gemini (`gemini skills list`) | dcf [Enabled], docx [Enabled] | **dcf [Disabled]**, docx [Enabled] | dcf [Enabled], docx [Enabled]; settings.json byte-identical |
+| Gemini (`gemini skills list`) | dcf [Enabled], docx [Enabled] | **dcf [Disabled]**, docx [Enabled] | dcf [Enabled], docx [Enabled]; settings.json sha256 identical to before |
 | Pi (loader) | dcf enabled, docx enabled | **dcf DISABLED**, docx enabled | settings.json removed (the launcher created it) |
-| OpenCode (`opencode debug config`) | no `permission` | `{"skill": {"dcf": "deny"}}` | opencode.json byte-identical |
-| Hermes (`hermes skills list`, `config get --json`) | dcf enabled, docx enabled | **dcf disabled**, docx enabled; `["dcf"]` | `skills.disabled` unset (Hermes leaves `{}` in a config.yaml it created itself) |
+| OpenCode (`opencode debug config`) | `permission.skill` = `{}` | `{"skill": {"dcf": "deny"}}` | sha256 identical to before (`d9c8e88ec9ca…`); the operator's empty map kept |
+| Hermes (`hermes skills list`) | dcf enabled, docx enabled | **dcf disabled**, docx enabled | config.yaml sha256 identical to before (the file existed; if Hermes creates it during the write, it keeps `{}` after the unset) |
 
-Three `--apply` runs in that sandbox printed `written` once and `already as planned` twice;
-the sha1 of the four files was identical after each run.
+Three `--apply` runs printed `written` once and `already as planned` twice. The sha256 of
+all four files was identical after each run. The backups were 0600 in a 0700 directory.
 
 ## Tests (watched failing first)
 
-- `test/visibility_packs_test.js` (16 checks): marks validation, precedence, `hostHide`,
-  overrides, the JSON list/map editors' byte round-trips and refusals. On the base tree:
-  16 of 16 fail (`V.marksProblems is not a function` …).
-- `test/visibility_hosts_e2e_test.js` (15 checks): preview writes nothing and names every
-  host; three applies leave identical bytes; core and keep marks stay listed; an operator
-  entry survives `--revert`; `--revert` restores every byte; no SKILL.md changes; a
-  `showPacks` override un-hides; `update --agent pi` re-applies on Pi only, and only when
-  `--apply` ran before. A fake `hermes` on PATH keeps its state in JSON. On the base
-  launcher (`bin/`, `lib/visibility.js`, `lib/config.js` stashed): 8 of 15 fail.
-- `test/validate.py` `check_pack_marks`: refused a copy with the revision removed and one
-  pack duplicated (both named), then passed on the real file.
+First cut:
+- `test/visibility_packs_test.js`: 16 of 16 failed on the base tree.
+- `test/visibility_hosts_e2e_test.js`: 8 of 15 failed on the base launcher.
+- `test/validate.py` `check_pack_marks`: refused a broken copy (revision removed, a pack
+  duplicated), then passed.
+
+Fix round, after the unit, seam and product readings failed:
+- `test/visibility_packs_test.js`, now 22 checks. Before the fix, 8 of the 22 failed:
+  - the example file (no shipped marks);
+  - case-insensitive packs;
+  - `marksFromLock`;
+  - an operator's empty `skills.disabled` list, empty `skills` object and empty
+    `permission.skill` map surviving apply + revert;
+  - Claude's `prune: false`.
+- `test/visibility_hosts_e2e_test.js`, rewritten to 27 checks. Before the fix, 20 of the
+  27 failed. It covers:
+  - no machine marks means nothing is hidden, and Hermes is not even called;
+  - the first line words RM-23 as planned;
+  - `marks --init` previews, writes only with `--apply`, and replaces only with `--replace`;
+  - the record carries `applied: true` and the host list;
+  - backups are 0600 in a 0700 directory;
+  - the override reply names Claude/Codex and `--keep`;
+  - `update --agent pi` writes Pi only;
+  - `update --no-claude` and `update --agent claude-code` leave Claude alone;
+  - `--revert` restores the operator's empty map byte for byte and withdraws consent;
+  - after `--revert`, update re-applies nothing (this inverts the first cut's assertion);
+  - a 1.55-era record is not extended and update prints the re-arm line;
+  - with nothing to hide, unwritable hosts are skipped and the run exits 0;
+  - with marks, they are DEGRADED and the run exits 0;
+  - a degraded host does not fail update;
+  - uninstall names the leftovers and `--revert`.
+- `test/backup_test.js`: a new check that copies are 0600 and the directory is tightened
+  to 0700, never loosened. It failed with the old `lib/backup.js`.
+- `test/validate.py` `check_pack_marks` refused a root `pack-marks.json` and an example
+  that names a real pack, then passed.
 
 ## The operator's machine: read-only preview
 
-`node bin/sshlg-skills.js visibility` (no `--apply`) returns before any write — the write
-path sits after the `if (!doApply && !doRevert) return 0` line, and the only process it
-starts is `hermes config get --json skills.disabled`. Run 2026-10-13:
+`node bin/sshlg-skills.js visibility` (no `--apply`) returns before any write. The only
+process it starts is `hermes config get --json skills.disabled`, and only when Hermes has
+something planned.
+
+The machine has no `~/.sshlg-skills/pack-marks.json`, so a plain preview hides nothing by
+mark. To measure the operator's marks without writing to the real HOME:
+- A temporary HOME held symlinks to the real host directories. Only its own `.sshlg-skills`
+  was a real, writable directory.
+- `visibility marks --init --show <the nine kept packs> --apply` wrote the marks there:
+  54 packs, 34 hidden.
+- `visibility` previewed.
+- The real settings files' modification times were the same before and after, and neither
+  `~/.pi/agent/settings.json` nor `~/.sshlg-skills/pack-marks.json` appeared.
+
+Results, run 2026-10-13:
 
 | Host | Skills in its roots | In hidden packs | Kept by the core | To hide | New entries |
 |---|---|---|---|---|---|
 | Gemini | 499 | 326 | 5 | 321 | 321 |
-| Pi | 499 | 326 | 5 | 321 | 640 (one per root: `~/.agents/skills` and the legacy `~/.pi/agent/skills` links, B-148) |
+| Pi | 499 | 326 | 5 | 321 | 640 |
 | OpenCode | 501 | 326 | 5 | 321 | 321 |
 | Hermes | 471 | 326 | 5 | 321 | 321 |
 | Cursor | — | — | — | cannot hide | — |
 | Kimi | — | — | — | cannot hide | — |
 
-Pack marks: revision 1, 34 of the 54 installed packs hidden. Claude: hide 1 more; Codex:
-disable 2 more (both by the unchanged usage rule). The modification times of the Claude,
-Codex, Gemini, OpenCode and Hermes settings files were the same before and after the
-preview, and no Pi settings file appeared. `--apply` on that machine follows the merge; this
-branch did not run it there. That machine already holds a `~/.sshlg-skills/visibility.json`
-from the 1.55.0 apply, so the first `update` after this release re-applies `visibility` and
-hides the marked packs on Gemini, Pi, OpenCode and Hermes by itself.
+**Pi: 640 entries, not 642.** Pi gets one `-<path>` entry per folder that holds a hidden
+skill. Of Pi's 499 skills, 455 are in both `~/.agents/skills` and the legacy
+`~/.pi/agent/skills` links (B-148), and 44 are in `~/.agents/skills` only. Of the 321
+hidden skills, 319 have both folders and 2 have one: 319 × 2 + 2 = 640.
+
+The machine's `~/.sshlg-skills/visibility.json` is from the 1.55.0 apply and carries no
+consent. So **no `update` hides anything on Gemini, Pi, OpenCode or Hermes there** until
+someone runs `visibility --apply` with this release. The commands are in HANDOFF's next
+task. This branch wrote neither the machine marks nor any host setting there.
