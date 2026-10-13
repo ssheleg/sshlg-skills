@@ -34,6 +34,17 @@
   Codex enrollment-запросов. Записано в Observatory `mem:348bac6b964e4ce5`; нужно
   отменить и перевыпустить эти два запроса (Fabric/оператор).
 
+### Блокер: диск машины (2026-10-14 ~01:20 Europe/Warsaw)
+
+Тегированный gate TP v1.95.0 (попытка 1, объект `303c1ff`, клон переименован в
+`/Users/sshlg/DATA/_wt/tp-publish-1.95.0-attempt1-diskstop` — **этот тег не пушить**)
+остановлен helper'ом `disk-stopped` через 3598с: 439 guards + 15 properties уже PASS,
+остановка на старте certify. Причина — swap машины: 26.6GB и растёт ~4GB/час
+(десятки параллельных сессий Claude + OrbStack). Сессии не закрываются агентом.
+Фоновый watcher ждёт ≥5GB свободного места (до 8ч) и сам запускает новый
+standalone-клон + `prepare` + `check`. Receipts попытки 1 в scratch будут
+перенесены в TP evidence вместе с релизными.
+
 ### Текущее состояние (2026-10-14 ~00:50 Europe/Warsaw)
 
 - Прошлое «7 silent properties» — ENOSPC (swap машины 22–24GB съедает диск), не код.
