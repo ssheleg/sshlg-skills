@@ -10,9 +10,9 @@
 
 ## Первый шаг
 
-Прочитать этот файл, `CLAUDE.md`, актуальную политику Observatory и [план волн](evidence/plans/2026-10-13-completion.md). Проверить [снимок веток](evidence/completion-1013/claude-handoff/branches.json) против remote, затем [активные процессы](evidence/completion-1013/claude-handoff/active-processes.json). Получить собственный agent-sync lease перед общими реестрами. Не забирать старую идентичность сессии.
+Прочитать этот файл, `CLAUDE.md`, актуальную политику Observatory и [план волн](evidence/plans/2026-10-13-completion.md). Проверить [снимок веток](evidence/completion-1013/claude-handoff/branches.json) против remote, затем [снимок активных процессов](evidence/completion-1013/claude-handoff/active-processes.json). Получить собственный agent-sync lease перед общими реестрами. Не забирать старую идентичность сессии.
 
-**Первое действие по реализации:** закончить независимый review B190 на замороженном `3bd80503ee6e47ea829b54b822945234a9332f59`, исправить найденное, затем включить принятый код и обновить README/CHANGELOG/state-json. Не запускать ещё один полный suite, пока продолжается текущий TP875c6e6. Параллельно прочитать состояние уже запущенного релиза TP1.94.1.
+**Первое действие по реализации:** закончить независимый review B190 на замороженном `3bd80503ee6e47ea829b54b822945234a9332f59`, исправить найденное, затем включить принятый код и обновить README/CHANGELOG/state-json. Не запускать ещё один полный suite, пока продолжается текущий TP875c6e6. TP1.94.1 уже опубликован и проверен; следующим независимым действием можно выполнить его parent-pin обновление, сохранив неправильный локальный tag нетронутым.
 
 ## Цель и уже принятые решения
 
@@ -61,11 +61,11 @@
 
 Также найден неверный fixture override: шесть старых `runner_test.py` selectors подменяли TMPDIR, но новый lock helper его не использует. Они могли брать публичный lock, не запускали public plants. Логи сохранены; новая ветка меняет override на реальный helper path. Не повторять старый42-case runner test параллельно активному полному запуску.
 
-## Два оставленных наблюдения
+## Завершённый релиз и оставленный полный прогон
 
 **TP1.94.1 release.** Accepted main `540679ea7552f8a37e99560e287a69c23cbd3c4a`; standalone clone `/_wt/tp-publish-1.94.1-clean`. Полный suite на точном локальном annotated tag реально прошёл: exit0,5576.924секунд, source/tree/tag unchanged. [Admission](evidence/completion-1013/tp-current-gate/repair-exact-tagged-admission.md). Тег v1.94.1 опубликован: object `89e4782133bcba4f9ea6e5d9d584dfab004b0ded`, peel540679.
 
-[Release38404300140](https://github.com/ssheleg/task-pipeline/actions/runs/38404300140) при передаче ещё RUNNING. Watcher PID7130 читает каждые60секунд, ограничен3часами от старта; на success сам выполнит registry byte verification. Он не повторяет публикацию и не меняет pins. Live: `/tmp/tp1941-release-watch.json`; eventual `/tmp/tp1941-registry.json`. [Точный watcher и снимок](evidence/completion-1013/claude-handoff/active-processes.json). Если закончился срок/процесс — продолжить read-only наблюдение, не перезапускать релиз вслепую.
+[Release38404300140](https://github.com/ssheleg/task-pipeline/actions/runs/38404300140) завершился во время передачи: обе jobs `release` и `publish` SUCCESS. Watcher автоматически выполнил registry verification, exit0. [Terminal workflow receipt](evidence/completion-1013/tp-current-gate/repair-release-final.json) и [npm readback](evidence/completion-1013/tp-current-gate/repair-registry.json):1.94.1, gitHead540679, все144 опубликованных файла равны исходному коду. Это ещё не parent pin или installed acceptance. Watcher PID7130 завершил работу; его [снимок14:19](evidence/completion-1013/claude-handoff/active-processes.json) исторический. Повторять публикацию/наблюдателя не надо.
 
 **Опасный локальный tag:** общий TP Git-store содержит иной локальный v1.94.1 object1434a021, указывающий на4f323883. Никогда не пушить/force-fetch этот ref. Единственный опубликованный правильный object89e478 находится в standalone clone. Прежний v1.94.0 оставлен неизменным: его релиз FAILED, publish SKIPPED; ошибочное преждевременное admission сохранено, а не скрыто.
 
@@ -73,7 +73,7 @@
 
 ## Порядок завершения после передачи
 
-1. Снять реальные terminal состояния двух запусков выше и сохранить receipts в owning Git. При ещё активном TP suite заниматься независимыми задачами, не запускать public plants параллельно.
+1. Проверить оставшийся TP875 pre-integration запуск и сохранить его terminal receipts в owning Git. Релиз1.94.1 уже подтверждён receipts выше. При ещё активном TP suite заниматься независимыми задачами, не запускать public plants параллельно.
 2. Принять/исправить B190 после независимого review, compose код/UX/brand и актуальную документацию. Согласовать новый runtime closure, CLI отказ и собственные state writers, не расширяя generic exemption.
 3. Только после фактической публикации/registry verification TP1.94.1 переключить member gitlink на540679. **Сначала staged gitlink**, потом `node scripts/sync-member-pins.js --write` и `node scripts/sync-claude-pins.js --write`. Не перетирать конфликтующий локальный tag. Обновить version table штатным механизмом.
 4. `python3 test/audit_regressions/ctx-04.06.py --emit`, затем сам тест и `node test/triggers_test.js`. Receipt синтетический, не native installation. Это закрывает два известных остаточных suite failures первого hub aggregate.

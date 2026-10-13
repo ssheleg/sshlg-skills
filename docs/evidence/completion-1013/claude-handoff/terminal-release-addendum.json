@@ -1,0 +1,10 @@
+{
+  "observed": "2026-10-13T14:28:40.165073+00:00",
+  "supersedes_running_release_claim_only": "active-processes.json and stop-state.json snapshots",
+  "tp1941": "PUBLISHED_VERIFIED_144_FILES",
+  "release_watcher": "COMPLETED",
+  "remaining_background": "TP875 pre-integration full suite, final receipt absent at this check",
+  "parent_pin": "NOT_UPDATED",
+  "hub163": "NOT_PUBLISHED",
+  "leases": "Root release follows this final commit; author leases already released"
+}

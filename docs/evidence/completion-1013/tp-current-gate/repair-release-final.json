@@ -1,0 +1,253 @@
+{
+  "conclusion": "success",
+  "databaseId": 38404300140,
+  "headBranch": "v1.94.1",
+  "headSha": "540679ea7552f8a37e99560e287a69c23cbd3c4a",
+  "jobs": [
+    {
+      "completedAt": "2026-10-13T14:23:12Z",
+      "conclusion": "success",
+      "databaseId": 115319733294,
+      "name": "release",
+      "startedAt": "2026-10-13T13:21:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-13T13:21:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-13T13:21:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T13:21:34Z",
+          "conclusion": "success",
+          "name": "Resolve the tag to release",
+          "number": 2,
+          "startedAt": "2026-10-13T13:21:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T13:21:36Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 3,
+          "startedAt": "2026-10-13T13:21:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T13:21:36Z",
+          "conclusion": "success",
+          "name": "The tag must be annotated (a lightweight tag hides the release)",
+          "number": 4,
+          "startedAt": "2026-10-13T13:21:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T13:21:39Z",
+          "conclusion": "success",
+          "name": "The tag must be reachable from the default branch",
+          "number": 5,
+          "startedAt": "2026-10-13T13:21:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T13:21:43Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v4",
+          "number": 6,
+          "startedAt": "2026-10-13T13:21:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T13:21:46Z",
+          "conclusion": "success",
+          "name": "Dependencies the validator needs",
+          "number": 7,
+          "startedAt": "2026-10-13T13:21:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:02Z",
+          "conclusion": "success",
+          "name": "The suite this release claims",
+          "number": 8,
+          "startedAt": "2026-10-13T13:21:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:02Z",
+          "conclusion": "success",
+          "name": "Tag must match the manifests (version sync)",
+          "number": 9,
+          "startedAt": "2026-10-13T14:23:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:02Z",
+          "conclusion": "success",
+          "name": "Extract this version's CHANGELOG section",
+          "number": 10,
+          "startedAt": "2026-10-13T14:23:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:04Z",
+          "conclusion": "success",
+          "name": "Create or refresh the GitHub release",
+          "number": 11,
+          "startedAt": "2026-10-13T14:23:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:08Z",
+          "conclusion": "success",
+          "name": "Post-release smoke test (npx from a clean cwd \u2014 the verify gate)",
+          "number": 12,
+          "startedAt": "2026-10-13T14:23:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:08Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v4",
+          "number": 23,
+          "startedAt": "2026-10-13T14:23:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:09Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 24,
+          "startedAt": "2026-10-13T14:23:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:09Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-10-13T14:23:09Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38404300140/job/115319733294"
+    },
+    {
+      "completedAt": "2026-10-13T14:25:07Z",
+      "conclusion": "success",
+      "databaseId": 115349556036,
+      "name": "publish",
+      "startedAt": "2026-10-13T14:23:15Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-13T14:23:17Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-13T14:23:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:17Z",
+          "conclusion": "success",
+          "name": "Resolve the tag to publish",
+          "number": 2,
+          "startedAt": "2026-10-13T14:23:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:19Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 3,
+          "startedAt": "2026-10-13T14:23:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:19Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v4",
+          "number": 4,
+          "startedAt": "2026-10-13T14:23:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:24Z",
+          "conclusion": "success",
+          "name": "npm must be new enough for trusted publishing",
+          "number": 5,
+          "startedAt": "2026-10-13T14:23:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:24Z",
+          "conclusion": "success",
+          "name": "The tag must match what would be published",
+          "number": 6,
+          "startedAt": "2026-10-13T14:23:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:25Z",
+          "conclusion": "success",
+          "name": "Is this version already on the registry?",
+          "number": 7,
+          "startedAt": "2026-10-13T14:23:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:23:30Z",
+          "conclusion": "success",
+          "name": "npm publish",
+          "number": 8,
+          "startedAt": "2026-10-13T14:23:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:25:04Z",
+          "conclusion": "success",
+          "name": "The registry must actually serve it",
+          "number": 9,
+          "startedAt": "2026-10-13T14:23:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:25:05Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v4",
+          "number": 17,
+          "startedAt": "2026-10-13T14:25:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:25:05Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 18,
+          "startedAt": "2026-10-13T14:25:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T14:25:05Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 19,
+          "startedAt": "2026-10-13T14:25:05Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38404300140/job/115349556036"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38404300140",
+  "observed": "2026-10-13T14:25:58.068611+00:00",
+  "watcher": "read-only hosted run and immutable registry verifier; no retry of publication",
+  "registry_check_exit": 0,
+  "registry_receipt": "/tmp/tp1941-registry.json",
+  "verifier_sha256": "05dcdc494f01cfafacfe5e626ff9ea611a1935c2cb7e06c88f27d4756653665d"
+}
