@@ -1,3 +1,22 @@
+## Installed follow-up and next wave — 2026-10-13
+
+Hub v1.62.1 is published from merge `ae1b415bc79a3d89ca97199299e0e00a2a5e7674`.
+[Exact release receipts](evidence/completion-1013/release-1.62.1/hosted.json),
+[installed runtime](evidence/completion-1013/installed-runtime.json),
+[domain readback](evidence/completion-1013/installed-domains.json), and
+[native visibility benchmark](reports/2026-10-13-native-visibility-rollout/README.md)
+separate published, installed, native-loaded and still-unmeasured quality.
+
+Exact next task: fix and independently verify [B-186 immutable installer sources](evidence/completion-1013/installer-pins.md), then perform the full plain-host
+update from its published release and compare installed bytes. Default installation
+currently uses floating member sources; the old isolated lock helper is not proof.
+Owner FW04/FW05 integrations and member patch releases proceed independently;
+[family packets](evidence/completion-1013/family-next-wave.md) retain every residual.
+No descriptions were shortened without a quality gate. Fabric com.* tools remain
+unavailable; own-Git pending asks are unsent, not delivered through another channel.
+
+Earlier status sections below are dated history, not current acceptance.
+
 ## Active follow-up wave — 2026-10-13
 
 Hub 1.62.0 was merged in [PR216](https://github.com/ssheleg/sshlg-skills/pull/216)

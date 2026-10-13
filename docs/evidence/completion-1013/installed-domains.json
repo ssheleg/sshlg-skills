@@ -1,0 +1,16 @@
+{
+  "launcher": "1.62.1",
+  "domains_applied": true,
+  "owned_projects": 34,
+  "owned_plugin_entries": 34,
+  "readback_mismatches": [],
+  "user_off_owned": {},
+  "pending_user": {},
+  "global_domain_states": {
+    "sheleg-dev@sheleg-dev": true,
+    "telegram-dev@telegram-dev": true,
+    "xr-dev@xr-dev": true,
+    "web3d-dev@web3d-dev": true
+  },
+  "boundary": "Global domain disable not accepted: incomplete repository evidence and one unsupported settings write remain."
+}

@@ -1,0 +1,9 @@
+{
+  "commit": "ae1b415bc79a3d89ca97199299e0e00a2a5e7674",
+  "command": "npm test",
+  "exit_code": 0,
+  "suites": 114,
+  "fixtures": 1743,
+  "members": 11,
+  "log_sha256": "90a71cb1a0fcd7f25609e66b1300d667b44930bb6d7689e33ea918ab1ab68677"
+}

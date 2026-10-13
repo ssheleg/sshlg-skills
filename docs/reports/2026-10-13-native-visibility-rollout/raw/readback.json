@@ -1,0 +1,91 @@
+{
+  "as_of": "2026-10-13",
+  "launcher": "sshlg-skills@1.62.0",
+  "launcher_commit": "c035801021a046a1bc8fcae41ea8a6a4c060bd2d",
+  "marks_revision": 1,
+  "packs": {
+    "total": 54,
+    "hidden": 34,
+    "listed": 20
+  },
+  "applied_hosts": [
+    "claude",
+    "codex",
+    "gemini",
+    "pi",
+    "opencode",
+    "hermes"
+  ],
+  "gemini": {
+    "enabled": 179,
+    "disabled": 320,
+    "family_enabled": 39,
+    "requested_disabled_name_absent": "ui-toolkit/web"
+  },
+  "hermes": {
+    "enabled": 228,
+    "disabled": 321,
+    "hub": 0,
+    "builtin": 57,
+    "local": 492
+  },
+  "opencode": {
+    "version": "1.18.10",
+    "debug_skill_inventory": 536,
+    "permission_skill_deny": 321,
+    "family_denied": 0,
+    "native_prompt": "NOT_RUN"
+  },
+  "pi": {
+    "baseline_without_owned_exclusions": {
+      "skills": 499,
+      "diagnostics": 2,
+      "prompt_utf16_characters": 308638,
+      "family_loaded": 39
+    },
+    "applied": {
+      "skills": 178,
+      "diagnostics": 1,
+      "prompt_utf16_characters": 144221,
+      "family_loaded": 39
+    },
+    "method": "Same native DefaultResourceLoader, identical in-memory effective settings; baseline removes only visibility-owned exclusions. No file changes or model call.",
+    "character_reduction_fraction": 0.5327179414070853
+  },
+  "model_quality": "NOT_RUN",
+  "token_savings": "NOT_MEASURED",
+  "private_log_digests": [
+    {
+      "name": "hub-native-pi-comparison.json",
+      "sha256": "93a9c5bd4aedfcf44b57cf66aca75954df0fed8a456224096530a628dd872ca7"
+    },
+    {
+      "name": "hub-native-pi-after.json",
+      "sha256": "eef00ffbeae117fc7cb1404210b6d37f8a0ea0fa271df5c4ce0ea5b1b585f030"
+    },
+    {
+      "name": "hub-native-gemini-after.log",
+      "sha256": "56a3bad9d0f9759a6a45a1321bae4407ce2b9ead9e7368b753bf6007cba47c78"
+    },
+    {
+      "name": "hub-native-hermes-after.log",
+      "sha256": "bb9cf519cf6161cbbe01569fdcd6ea334198dcc5cae68736e1ebd3b993089ba6"
+    },
+    {
+      "name": "hub-native-opencode-after.json",
+      "sha256": "cb338b418b8ee9fa052372373a68ec732ac5fb5d9022796102fc0aea618a265e"
+    },
+    {
+      "name": "hub-native-opencode-config-after.json",
+      "sha256": "998f4f71a3523ec66ba2bc9f2454e01f7869ef471a92035dd47f7e1b25167573"
+    },
+    {
+      "name": "hub-release-162-visibility-apply.log",
+      "sha256": "d8ea75ff7296fb90eb565f321d422d53b2e60379b8c06ed66365243181e995d2"
+    },
+    {
+      "name": "hub-hidden-search-readback.log",
+      "sha256": "734f9d512050e5b451b813cca2ed7a4ad7bd2ec5af097cfbf2970fd46be05682"
+    }
+  ]
+}

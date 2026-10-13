@@ -1,0 +1,38 @@
+{
+  "conclusion": "success",
+  "headSha": "ae1b415bc79a3d89ca97199299e0e00a2a5e7674",
+  "jobs": [
+    {
+      "name": "validate / validate",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ssheleg/sshlg-skills/actions/runs/38338123714/job/115102770891"
+    },
+    {
+      "name": "validate / self-tests-a",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ssheleg/sshlg-skills/actions/runs/38338123714/job/115102770996"
+    },
+    {
+      "name": "validate / self-tests-b",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ssheleg/sshlg-skills/actions/runs/38338123714/job/115102771014"
+    },
+    {
+      "name": "release",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ssheleg/sshlg-skills/actions/runs/38338123714/job/115103536050"
+    },
+    {
+      "name": "publish",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ssheleg/sshlg-skills/actions/runs/38338123714/job/115103829409"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/ssheleg/sshlg-skills/actions/runs/38338123714"
+}

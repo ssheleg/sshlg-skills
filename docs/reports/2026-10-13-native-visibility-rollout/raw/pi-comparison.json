@@ -1,0 +1,16 @@
+{
+  "baseline_without_owned_exclusions": {
+    "skills": 499,
+    "diagnostics": 2,
+    "prompt_utf16_characters": 308638,
+    "family_loaded": 39
+  },
+  "applied": {
+    "skills": 178,
+    "diagnostics": 1,
+    "prompt_utf16_characters": 144221,
+    "family_loaded": 39
+  },
+  "method": "Same native DefaultResourceLoader, identical in-memory effective settings; baseline removes only visibility-owned exclusions. No file changes or model call.",
+  "character_reduction_fraction": 0.5327179414070853
+}

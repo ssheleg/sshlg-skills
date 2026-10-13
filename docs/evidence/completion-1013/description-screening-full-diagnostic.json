@@ -1,0 +1,208 @@
+{
+  "schema": "explicit-corpus-screening/1",
+  "arm": "full",
+  "attempt": "explicit-diagnostic-3",
+  "evaluation_status": "EXECUTED",
+  "previous_errors": "unclassified; not reproduced by this diagnostic, not erased",
+  "source_commit": "ab37778793674efff60b92ed381284c7339420ea",
+  "fixture_sha256": "c3caebb5f8d073343aa93112df76ed2013bcd48132ef2b70bed5568aafb7b91c",
+  "prompt_sha256": "7c7f2e9e9b465eb539197426990b6e9619b470da88ab2acddc10784039a48383",
+  "exit_code": 0,
+  "elapsed_seconds": 5.348,
+  "n": 13,
+  "k": 1,
+  "cases": [
+    {
+      "id": "construction",
+      "want": [
+        "make-skill"
+      ],
+      "got": [
+        "make-skill"
+      ],
+      "pass": true
+    },
+    {
+      "id": "evals",
+      "want": [
+        "agent-evals"
+      ],
+      "got": [
+        "agent-evals"
+      ],
+      "pass": true
+    },
+    {
+      "id": "interop",
+      "want": [
+        "agent-interop"
+      ],
+      "got": [
+        "agent-interop"
+      ],
+      "pass": true
+    },
+    {
+      "id": "coordination",
+      "want": [
+        "agent-sync"
+      ],
+      "got": [
+        "agent-sync"
+      ],
+      "pass": true
+    },
+    {
+      "id": "harness",
+      "want": [
+        "agent-harness"
+      ],
+      "got": [
+        "agent-harness"
+      ],
+      "pass": true
+    },
+    {
+      "id": "quest",
+      "want": [
+        "quest-perf"
+      ],
+      "got": [
+        "quest-perf"
+      ],
+      "pass": true
+    },
+    {
+      "id": "assets",
+      "want": [
+        "web3d-assets"
+      ],
+      "got": [
+        "web3d-assets"
+      ],
+      "pass": true
+    },
+    {
+      "id": "signin",
+      "want": [
+        "google-signin"
+      ],
+      "got": [
+        "google-signin"
+      ],
+      "pass": true
+    },
+    {
+      "id": "auth",
+      "want": [
+        "google-auth"
+      ],
+      "got": [
+        "google-auth"
+      ],
+      "pass": true
+    },
+    {
+      "id": "flowcopy",
+      "want": [
+        "ux-flows",
+        "copywriting"
+      ],
+      "got": [
+        "ux-flows",
+        "copywriting"
+      ],
+      "pass": true
+    },
+    {
+      "id": "stripe",
+      "want": [
+        "stripe-billing"
+      ],
+      "got": [
+        "stripe-billing"
+      ],
+      "pass": true
+    },
+    {
+      "id": "silence",
+      "want": [],
+      "got": [],
+      "pass": true
+    },
+    {
+      "id": "explain",
+      "want": [],
+      "got": [],
+      "pass": true
+    }
+  ],
+  "exact_set_passes": 13,
+  "valid_selection_json": true,
+  "init_counts": {
+    "tools": 0,
+    "mcp_servers": 0,
+    "plugins": 4,
+    "skills": 0,
+    "agents": 5
+  },
+  "result": {
+    "subtype": "success",
+    "is_error": false,
+    "num_turns": 1,
+    "total_cost_usd": 0.13913999999999999,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 16724,
+      "cache_read_input_tokens": 0,
+      "output_tokens": 267,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 16724,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 267,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 16724,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 16724
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard",
+      "fallback_credit": null
+    },
+    "modelUsage": {
+      "claude-opus-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 267,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 16724,
+        "webSearchRequests": 0,
+        "costUSD": 0.13913999999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 0,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "session_id": "bf87a489-853a-456d-965b-4674b8b04c81"
+  },
+  "raw_stdout_sha256": "977a43e7e715e1d33658cae22d00da9378300b7fdfb11daf580c7b4c3fb82c2d",
+  "scope": "One batch, explicit synthetic catalogue. No native triggering, task quality, independent repeated trials or subscription cost proof."
+}

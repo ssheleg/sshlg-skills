@@ -1,0 +1,212 @@
+{
+  "schema": "explicit-corpus-screening/1",
+  "arm": "concise",
+  "attempt": 1,
+  "evaluation_status": "EXECUTED",
+  "error_class": null,
+  "result_text_sha256": "d0412158ee6f9ce89f6cb414c54f80e7544a2d45234301ba5fa5f84fe5a7968b",
+  "executed_at_utc": "2026-10-13T02:56:45Z",
+  "source_commit": "ab37778793674efff60b92ed381284c7339420ea",
+  "n": 13,
+  "k": 1,
+  "fixture_sha256": "c3caebb5f8d073343aa93112df76ed2013bcd48132ef2b70bed5568aafb7b91c",
+  "prompt_sha256": "af03447ff810b64b67f75eaff8ee2766c93bfea971a4a1400c123f9dd22ca7e9",
+  "prompt_characters": 16862,
+  "exit_code": 0,
+  "elapsed_seconds": 4.864,
+  "init_counts": {
+    "tools": 0,
+    "mcp_servers": 0,
+    "plugins": 4,
+    "skills": 0,
+    "agents": 5
+  },
+  "result": {
+    "subtype": "success",
+    "is_error": false,
+    "num_turns": 1,
+    "total_cost_usd": 0.059196,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 6731,
+      "cache_read_input_tokens": 0,
+      "output_tokens": 267,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 6731,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 267,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 6731,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 6731
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard",
+      "fallback_credit": null
+    },
+    "modelUsage": {
+      "claude-opus-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 267,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 6731,
+        "webSearchRequests": 0,
+        "costUSD": 0.059196,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 0,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "session_id": "7d9f1d95-eb29-412f-add9-0c36f662dd28"
+  },
+  "valid_selection_json": true,
+  "cases": [
+    {
+      "id": "construction",
+      "want": [
+        "make-skill"
+      ],
+      "got": [
+        "make-skill"
+      ],
+      "pass": true
+    },
+    {
+      "id": "evals",
+      "want": [
+        "agent-evals"
+      ],
+      "got": [
+        "agent-evals"
+      ],
+      "pass": true
+    },
+    {
+      "id": "interop",
+      "want": [
+        "agent-interop"
+      ],
+      "got": [
+        "agent-interop"
+      ],
+      "pass": true
+    },
+    {
+      "id": "coordination",
+      "want": [
+        "agent-sync"
+      ],
+      "got": [
+        "agent-sync"
+      ],
+      "pass": true
+    },
+    {
+      "id": "harness",
+      "want": [
+        "agent-harness"
+      ],
+      "got": [
+        "agent-harness"
+      ],
+      "pass": true
+    },
+    {
+      "id": "quest",
+      "want": [
+        "quest-perf"
+      ],
+      "got": [
+        "quest-perf"
+      ],
+      "pass": true
+    },
+    {
+      "id": "assets",
+      "want": [
+        "web3d-assets"
+      ],
+      "got": [
+        "web3d-assets"
+      ],
+      "pass": true
+    },
+    {
+      "id": "signin",
+      "want": [
+        "google-signin"
+      ],
+      "got": [
+        "google-signin"
+      ],
+      "pass": true
+    },
+    {
+      "id": "auth",
+      "want": [
+        "google-auth"
+      ],
+      "got": [
+        "google-auth"
+      ],
+      "pass": true
+    },
+    {
+      "id": "flowcopy",
+      "want": [
+        "ux-flows",
+        "copywriting"
+      ],
+      "got": [
+        "ux-flows",
+        "copywriting"
+      ],
+      "pass": true
+    },
+    {
+      "id": "stripe",
+      "want": [
+        "stripe-billing"
+      ],
+      "got": [
+        "stripe-billing"
+      ],
+      "pass": true
+    },
+    {
+      "id": "silence",
+      "want": [],
+      "got": [],
+      "pass": true
+    },
+    {
+      "id": "explain",
+      "want": [],
+      "got": [],
+      "pass": true
+    }
+  ],
+  "exact_set_passes": 13,
+  "raw_stdout_sha256": "be35799082ede9d370a52e7a76c496cd56ff7ef6ef51850b6a13a49aaa9d13b4",
+  "stderr_bytes": 0,
+  "scope": "One batch completion per arm; cases share context, not independent trials. Synthetic explicit catalogue selection only. No native skill triggering, artifact correctness or billed cost acceptance."
+}
