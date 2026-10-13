@@ -2302,7 +2302,8 @@ function domainsKnownPlugins(I, file) {
     const parsed = JSON.parse(lr.text);
     if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return { known: false };
     const ep = parsed.enabledPlugins;
-    if (ep !== undefined && (!ep || typeof ep !== 'object' || Array.isArray(ep))) return { known: false };
+    if (ep !== undefined && (!ep || typeof ep !== 'object' || Array.isArray(ep)
+      || Object.values(ep).some((v) => typeof v !== 'boolean'))) return { known: false };
     return { known: true, plugins: ep || {} };
   } catch (e) { return { known: false }; }
 }
@@ -2485,8 +2486,9 @@ function domainsRevert(I, apply, home) {
   const ownedUser = Object.keys(I.owned.user || {});
   // User scope comes back on FIRST. If settings.json cannot be read, nothing is undone:
   // removing project entries now would leave those projects without their member.
-  if (ownedUser.length && (I.userError || I.userText === null)) {
-    log(`  ~/.claude/settings.json: ${I.userError ? `cannot read it (${I.userError})` : 'missing'} — nothing undone; the record is kept`);
+  const userKnown = domainsKnownPlugins(I, I.settingsPath).known;
+  if (ownedUser.length && (I.userError || I.userText === null || !userKnown)) {
+    log(`  ~/.claude/settings.json: ${I.userError ? `cannot read it (${I.userError})` : I.userText === null ? 'missing' : 'not valid plugin settings'} — nothing undone; the record is kept`);
     return 1;
   }
   const locals = {};

@@ -600,6 +600,23 @@ it('a valid shared enable cannot hide unknown local settings or disable global c
   fs.rmSync(dir, {recursive:true, force:true});
 });
 
+it('invalid global settings retain all ownership and project entries until repair', () => {
+  for (const broken of ['{broken', S({enabledPlugins:[]}), S({enabledPlugins:'bad'}), S({enabledPlugins:{'xr-dev@xr-dev':'false'}})]) {
+    assert.strictEqual(run('domains', '--apply').status, 0);
+    const valid = fs.readFileSync(settings, 'utf8');
+    const ownedBefore = fs.readFileSync(record, 'utf8');
+    const projectBefore = fs.readFileSync(local(P.xr), 'utf8');
+    fs.writeFileSync(settings, broken);
+    const r = run('domains', '--revert');
+    assert.strictEqual(r.status, 1, r.stdout + r.stderr);
+    assert.strictEqual(fs.readFileSync(record, 'utf8'), ownedBefore);
+    assert.strictEqual(fs.readFileSync(local(P.xr), 'utf8'), projectBefore);
+    fs.writeFileSync(settings, valid);
+    assert.strictEqual(run('domains', '--revert').status, 0);
+    assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+  }
+});
+
 it('--root points it at another projects directory', () => {
   const other = path.join(home, 'elsewhere');
   fs.mkdirSync(other);

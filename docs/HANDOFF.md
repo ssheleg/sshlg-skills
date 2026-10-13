@@ -23,7 +23,9 @@ source-search defects. The follow-up saves atomic recovery intent before setting
 distinguishes pending global writes from later operator changes, retains unknown project
 ownership and serializes mutations with the update lock. Shared project settings now
 precede local settings; all matching source lines are scanned; unloaded route hints print
-once per session. The machine's configurations have not been applied by this development task.
+once per session. A further independent replay of `3c0cb53` required valid global plugin
+settings before revert removes local entries; malformed global JSON/maps now retain all
+recovery state. The machine's configurations have not been applied by this development task.
 
 Implementation: `lib/domains.js`, `lib/domainscan.js`, `lib/enablement.js`, launcher and hooks.
 Focused checks and bounded scenarios are recorded in

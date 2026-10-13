@@ -76,6 +76,16 @@ write and reconciliation of already-landed intent), `node test/hooks_e2e_test.js
 conservative because both callers mark every domain partial when git cannot answer; its
 omissions cannot authorize a global disable.
 
+## Global-settings recovery guard after `3c0cb53`
+
+Independent replay found that malformed global settings were still treated as an empty
+plugin map during revert. Revert now requires readable, valid global plugin settings before
+removing project entries whenever it owns a global disable. Invalid JSON, array/string maps,
+and non-boolean plugin values leave the record and project entries intact until repaired.
+Test: `invalid global settings retain all ownership and project entries until repair` in
+`test/domains_e2e_test.js`. Final `node test/domains_e2e_test.js`: exit 0, 46 checks;
+`git diff --check`: exit 0.
+
 ## Remaining work and boundaries
 
 The full hub suite was NOT_RUN in this worktree; the coordinator runs it after integrating
