@@ -42,10 +42,11 @@ function say(text) {
 function providedSkills(home, cwd) {
   const map = new Map();
   try {
-    const eff = require(path.join(LIB, 'enablement.js')).effective(home, cwd || null);
+    const en = require(path.join(LIB, 'enablement.js'));
+    const eff = en.effective(home, cwd || null);
     const enabled = Object.entries(eff).filter(([, on]) => on).map(([spec]) => spec);
     const installed = JSON.parse(
-      fs.readFileSync(path.join(home, '.claude', 'plugins', 'installed_plugins.json'), 'utf8'));
+      fs.readFileSync(path.join(en.claudeRoot(home), 'plugins', 'installed_plugins.json'), 'utf8'));
     for (const spec of enabled) {
       const rows = (installed.plugins || {})[spec] || [];
       for (const row of rows) {

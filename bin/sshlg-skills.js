@@ -2286,8 +2286,20 @@ function cmdVisibilityMarks(argv) {
  */
 const DOMAINS_LOCAL = path.join('.claude', 'settings.local.json');
 
+/** A symlink alias is the same profile; changing its target is a different profile. */
+function domainsProfilePath(file) {
+  try { return fs.realpathSync(file); } catch (e) {
+    try { return path.join(fs.realpathSync(path.dirname(file)), path.basename(file)); }
+    catch (_) { return path.resolve(file); }
+  }
+}
+
 function domainsInputs(argv, home) {
   const D = require(path.join(ROOT, 'lib', 'domains.js'));
+  const E = require(path.join(ROOT, 'lib', 'enablement.js'));
+  const settingsPath = path.join(E.claudeRoot(home), 'settings.json');
+  const profile = domainsProfilePath(settingsPath);
+  const settingsLabel = path.resolve(E.claudeRoot(home)) === path.join(home, '.claude') ? '~/.claude/settings.json' : settingsPath;
   const read = (p) => { try { return fs.readFileSync(p, 'utf8'); } catch (e) { return null; } };
   // Only a missing file is "absent"; any other read error is reported, never taken for absence.
   const readLocal = (p) => {
@@ -2306,6 +2318,9 @@ function domainsInputs(argv, home) {
     if (!recordError) recordError = D.validRecord(owned);
     if (recordError) owned = null;
   }
+  const ownedProfile = owned && domainsProfilePath(owned.profile || path.join(home, '.claude', 'settings.json'));
+  const profileError = owned && ownedProfile !== profile
+    ? `ownership belongs to Claude profile ${ownedProfile}; selected profile is ${profile}. Restore CLAUDE_CONFIG_DIR to the owning profile before applying or reverting` : null;
   const rootArg = value('--root') || process.env.SSHLG_PROJECTS_ROOT || null;
   const roots = (rootArg ? rootArg.split(path.delimiter) : (owned && owned.roots && owned.roots.length ? owned.roots : null) || [path.join(home, 'DATA')])
     .filter(Boolean).map((r) => path.resolve(r.replace(/^~(?=$|\/)/, home)));
@@ -2353,7 +2368,7 @@ function domainsInputs(argv, home) {
   for (const s of SKILLS) if (D.DOMAIN_MEMBERS.includes(s.name)) plugins[s.name] = s.pluginInstall;
   // A member whose plugin ships hooks is never scoped (its gate must run in every session).
   // Read from the installed plugin's own directory, or this checkout's pin when not installed.
-  const installedAt = require(path.join(ROOT, 'lib', 'enablement.js')).installed(home);
+  const installedAt = E.installed(home);
   const keepOn = { 'sheleg-dev': D.KEEP_ON_HOOKS };
   for (const m of D.DOMAIN_MEMBERS) {
     const dirs = [installedAt[plugins[m]], path.join(ROOT, 'skills', m, 'plugins', m)].filter(Boolean);
@@ -2396,10 +2411,9 @@ function domainsInputs(argv, home) {
       partial: settingsOK ? (s.partial || []) : D.DOMAIN_MEMBERS.slice(),
       local: settingsOK ? Object.assign({}, enabledOf(sr.text), enabledOf(lr.text)) : {}, ignored: writable };
   });
-  const settingsPath = path.join(home, '.claude', 'settings.json');
   const ur = readLocal(settingsPath);
   return { D, read, readLocal, roots, rootErrors, rootRepos, dirs, projects, usageFile, kinds, plugins, owned, recordError,
-    recordPath, recordText, settingsPath, userText: ur.text, userError: ur.error, user: enabledOf(ur.text), localPath, enabledOf, value, keepOn };
+    recordPath, recordText, profile, profileError, settingsPath, settingsLabel, userText: ur.text, userError: ur.error, user: enabledOf(ur.text), localPath, enabledOf, value, keepOn };
 }
 
 /** May this project's settings.local.json be written? Readable, Claude Code's format, git-ignored. */
@@ -2476,6 +2490,10 @@ function cmdDomains(argv) {
     log('  Restore it from ~/.sshlg-skills/backups/ (newest sshlg-skills_domains.json.*) or move it aside, then run again.');
     if (doApply || doRevert || updateStep || enableArg || disableArg) return 1;
   }
+  if (I.profileError) {
+    log(`domains: refused — ${I.profileError}; nothing written`);
+    return doApply || doRevert || updateStep || enableArg || disableArg ? 1 : 0;
+  }
   if (enableArg || disableArg) return domainsManual(I, apply, home, enableArg ? 'enable' : 'disable');
   if (doRevert) return domainsRevert(I, apply, home);
 
@@ -2536,9 +2554,9 @@ function cmdDomains(argv) {
     for (const r of P.refused) if (r.keys.includes(key)) say(`    ! ${name(r.dir)}: refused — ${r.why}`);
     const b = P.blocked.find((x) => x.key === key);
     const u = P.uncertain.find((x) => x.key === key);
-    if (P.userOff.includes(key)) say(`    - ~/.claude/settings.json enabledPlugins["${key}"]: true → false`);
-    else if (P.userOn.includes(key)) say(`    + ~/.claude/settings.json enabledPlugins["${key}"]: false → true — ${(b || u).dirs.length} project(s) could not be covered (${(b || u).dirs.map(name).join(', ')})`);
-    else if (P.managed[member] && P.managed[member].off) say(`    = ~/.claude/settings.json enabledPlugins["${key}"]: already false (by domains)`);
+    if (P.userOff.includes(key)) say(`    - ${I.settingsLabel} enabledPlugins["${key}"]: true → false`);
+    else if (P.userOn.includes(key)) say(`    + ${I.settingsLabel} enabledPlugins["${key}"]: false → true — ${(b || u).dirs.length} project(s) could not be covered (${(b || u).dirs.map(name).join(', ')})`);
+    else if (P.managed[member] && P.managed[member].off) say(`    = ${I.settingsLabel} enabledPlugins["${key}"]: already false (by domains)`);
     else if (b) say(`    = ${key} stays on at user scope: ${b.dirs.length} project(s) could not get their entry (${b.dirs.map(name).join(', ')})`);
     else if (u) say(`    = ${key} stays on at user scope: ${u.dirs.length} project(s) not read in full (${u.dirs.map(name).join(', ')})`);
   }
@@ -2571,24 +2589,24 @@ function cmdDomains(argv) {
   // Read again now, not at the start: the project writes took time, and the file may have moved.
   const userNow = I.read(I.settingsPath);
   if ((off.length || on.length) && userNow === null) {
-    log('  ~/.claude/settings.json: cannot read the current file — no global changes written');
+    log(`  ${I.settingsLabel}: cannot read the current file — no global changes written`);
     failed = true;
   }
   if ((off.length || on.length) && userNow !== null) {
     const set = Object.fromEntries(off.map((k) => [k, false]).concat(on.map((k) => [k, true])));
     const r = D.editEnabled(userNow, { set });
-    if (!r.ok) { log(`  ~/.claude/settings.json: NOT written — the file ${r.reason}`); failed = true; }
+    if (!r.ok) { log(`  ${I.settingsLabel}: NOT written — the file ${r.reason}`); failed = true; }
     else if (!domainsRecordUserIntent(I, owned, off, apply, home)) {
       log('  global settings NOT written — ownership intent could not be persisted'); failed = true;
-    } else if (r.text === userNow || domainsWriteFile(apply, home, I.settingsPath, userNow, r.text, '~/.claude/settings.json')) {
+    } else if (r.text === userNow || domainsWriteFile(apply, home, I.settingsPath, userNow, r.text, I.settingsLabel)) {
       const back = I.enabledOf(I.read(I.settingsPath) || '');
       for (const k of off) {
-        if (back[k] === false) { owned.user[k] = false; delete owned.pendingUser[k]; log(`  ~/.claude/settings.json: ${k} off at user scope (read back)`); }
-        else { log(`  ~/.claude/settings.json: ${k} did not read back false`); failed = true; }
+        if (back[k] === false) { owned.user[k] = false; delete owned.pendingUser[k]; log(`  ${I.settingsLabel}: ${k} off at user scope (read back)`); }
+        else { log(`  ${I.settingsLabel}: ${k} did not read back false`); failed = true; }
       }
       for (const k of on) {
-        if (back[k] === true) { delete owned.user[k]; delete owned.pendingUser[k]; log(`  ~/.claude/settings.json: ${k} back on at user scope — preserve hooks or coverage for an unverified project (read back)`); }
-        else { log(`  ~/.claude/settings.json: ${k} did not read back true`); failed = true; }
+        if (back[k] === true) { delete owned.user[k]; delete owned.pendingUser[k]; log(`  ${I.settingsLabel}: ${k} back on at user scope — preserve hooks or coverage for an unverified project (read back)`); }
+        else { log(`  ${I.settingsLabel}: ${k} did not read back true`); failed = true; }
       }
     } else failed = true;
   }
@@ -2611,7 +2629,7 @@ function domainsRecordUserIntent(I, owned, off, apply, home) {
 function domainsOwnedCopy(I) {
   const o = I.owned || {};
   return {
-    roots: I.roots, applied: o.applied === true,
+    roots: I.roots, profile: I.profile, applied: o.applied === true,
     user: Object.assign({}, o.user || {}),
     // A previous process may have exited after writing false but before clearing intent.
     pendingUser: Object.fromEntries(Object.entries(o.pendingUser || {}).filter(([k]) => I.user[k] !== false)),
@@ -2777,7 +2795,7 @@ function writeRecord(I, owned, apply, home) {
   const empty = !Object.keys(owned.user).length && !Object.keys(owned.projects).length && !Object.keys(manual).length;
   const text = empty ? null : JSON.stringify({
     note: 'Written by `npx sshlg-skills domains`; --revert undoes exactly these values while they still hold.',
-    roots: owned.roots, applied: owned.applied === true, user: owned.user, pendingUser: owned.pendingUser || {}, projects: owned.projects, manual,
+    roots: owned.roots, profile: owned.profile || I.profile, applied: owned.applied === true, user: owned.user, pendingUser: owned.pendingUser || {}, projects: owned.projects, manual,
   }, null, 2) + '\n';
   // Keep the old valid record if disk-full/permissions/interruption prevents a new one.
   // Update the in-memory text after EACH intent, not only after the whole command.
@@ -2815,7 +2833,7 @@ function domainsRevert(I, apply, home) {
   // removing project entries now would leave those projects without their member.
   const userKnown = domainsKnownPlugins(I, I.settingsPath).known;
   if (ownedUser.length && (I.userError || I.userText === null || !userKnown)) {
-    log(`  ~/.claude/settings.json: ${I.userError ? `cannot read it (${I.userError})` : I.userText === null ? 'missing' : 'not valid plugin settings'} — nothing undone; the record is kept`);
+    log(`  ${I.settingsLabel}: ${I.userError ? `cannot read it (${I.userError})` : I.userText === null ? 'missing' : 'not valid plugin settings'} — nothing undone; the record is kept`);
     return 1;
   }
   const locals = {};
@@ -2827,7 +2845,7 @@ function domainsRevert(I, apply, home) {
   }
   const R = D.revertPlan({ owned: I.owned, user: I.user, locals });
   let failed = unreadable.length > 0;
-  const owned = { roots: I.owned.roots, applied: false, user: {}, projects: {}, manual: {} };
+  const owned = { roots: I.owned.roots, profile: I.profile, applied: false, user: {}, projects: {}, manual: {} };
   for (const dir of unreadable) {
     owned.projects[dir] = I.owned.projects[dir];
     log(`  ${path.basename(dir)}/.claude/settings.local.json: cannot read valid settings — recovery ownership kept`);
@@ -2835,17 +2853,17 @@ function domainsRevert(I, apply, home) {
   if (R.userOn.length) {
     const r = D.editEnabled(I.userText, { set: Object.fromEntries(R.userOn.map((k) => [k, true])) });
     if (!r.ok) {
-      log(`  ~/.claude/settings.json: NOT written — the file ${r.reason}`);
+      log(`  ${I.settingsLabel}: NOT written — the file ${r.reason}`);
       return 1;
     }
-    if (!domainsWriteFile(apply, home, I.settingsPath, I.userText, r.text, '~/.claude/settings.json')) {
+    if (!domainsWriteFile(apply, home, I.settingsPath, I.userText, r.text, I.settingsLabel)) {
       log('  project entries kept: removing them now would leave those projects without their member');
       return 1;
     }
     const back = I.enabledOf(I.read(I.settingsPath) || '');
     for (const k of R.userOn) {
-      if (back[k] === true) log(`  ~/.claude/settings.json: ${k} back on at user scope`);
-      else { owned.user[k] = false; failed = true; log(`  ~/.claude/settings.json: ${k} did not read back true`); }
+      if (back[k] === true) log(`  ${I.settingsLabel}: ${k} back on at user scope`);
+      else { owned.user[k] = false; failed = true; log(`  ${I.settingsLabel}: ${k} did not read back true`); }
     }
   }
   if (failed) {
@@ -2869,6 +2887,7 @@ function domainsSummary(home) {
   const I = domainsInputs([], home);
   const { D } = I;
   const ownedUser = (I.owned && I.owned.user) || {};
+  if (I.profileError) { log(`Domain members: ${I.profileError}`); return; }
   log(`\nDomain members per project in Claude Code (${I.rootRepos} git repositories under ${I.roots.length} root(s); \`domains\` previews):`);
   if (I.rootErrors.length) log(`  ! ${I.rootErrors.length} root(s) cannot be read; \`domains --apply\` refuses until they can`);
   if (I.recordError) log(`  ~/.sshlg-skills/domains.json ${I.recordError}; \`domains\` says how to recover it.`);
