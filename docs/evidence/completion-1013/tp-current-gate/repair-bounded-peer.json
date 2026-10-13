@@ -1,0 +1,56 @@
+{
+  "source": "4f323883391730a497333d7609b92e67ffdb1b54",
+  "documentation_successor": "192c49294ee90c576a8e7123fa2cb5edbe36e11c",
+  "verdict": "ACCEPTED_BOUNDED_SOURCE",
+  "review": "Version homes, truthful gap declarations, historical verification header preservation, executable/skill/workflow unchanged except plugin version metadata; final successor evidence-only. Root independently replayed actual eight-control guard script with real local Git tags.",
+  "focused": {
+    "validator_sha256": "da315ad1bbd86e12192b42761514c49f67d0eb6987940eefe762834e34d734bf",
+    "scope": "Extracted actual release-gap guard with actual Git tag/history reads; four in-memory retro variants. Not the entire validator or full release suite.",
+    "checks": [
+      {
+        "name": "both declarations accepted",
+        "passed": true,
+        "diagnostics": []
+      },
+      {
+        "name": "failed tag omitted",
+        "passed": true,
+        "diagnostics": [
+          "docs/evidence/retro.md: 1 release(s) after the newest run stamp are named nowhere in `## Releases that carry no stamp` \u2014 v1.94.0. Stamp the run at stage 10, or extend that section's range in the SAME commit as the release \u2014 inside a **bold** lead-in, because a version merely mentioned in that section's prose is a mention and no longer excuses a release. A release that neither ran the pipeline nor recorded that it did not is the shape this section exists to make impossible: the cold-retirement trigger reads the last five stamps and has nothing to read across a gap nobody declared. Note where this fires: `validate.yml` ignores tag pushes, so the branch run cannot see a tag that does not exist yet \u2014 `release.yml` runs the suite on the tag's own tree, where it does"
+        ]
+      },
+      {
+        "name": "candidate tag omitted",
+        "passed": true,
+        "diagnostics": [
+          "docs/evidence/retro.md: 1 release(s) after the newest run stamp are named nowhere in `## Releases that carry no stamp` \u2014 v1.94.1. Stamp the run at stage 10, or extend that section's range in the SAME commit as the release \u2014 inside a **bold** lead-in, because a version merely mentioned in that section's prose is a mention and no longer excuses a release. A release that neither ran the pipeline nor recorded that it did not is the shape this section exists to make impossible: the cold-retirement trigger reads the last five stamps and has nothing to read across a gap nobody declared. Note where this fires: `validate.yml` ignores tag pushes, so the branch run cannot see a tag that does not exist yet \u2014 `release.yml` runs the suite on the tag's own tree, where it does"
+        ]
+      },
+      {
+        "name": "plain mention is not a declaration",
+        "passed": true,
+        "diagnostics": [
+          "docs/evidence/retro.md: 2 release(s) after the newest run stamp are named nowhere in `## Releases that carry no stamp` \u2014 v1.94.0, v1.94.1. Stamp the run at stage 10, or extend that section's range in the SAME commit as the release \u2014 inside a **bold** lead-in, because a version merely mentioned in that section's prose is a mention and no longer excuses a release. A release that neither ran the pipeline nor recorded that it did not is the shape this section exists to make impossible: the cold-retirement trigger reads the last five stamps and has nothing to read across a gap nobody declared. Note where this fires: `validate.yml` ignores tag pushes, so the branch run cannot see a tag that does not exist yet \u2014 `release.yml` runs the suite on the tag's own tree, where it does"
+        ]
+      },
+      {
+        "name": "five version surfaces",
+        "passed": true
+      },
+      {
+        "name": "skill runtime and doctrine preserved; plugin version only",
+        "passed": true
+      },
+      {
+        "name": "no fabricated run-stamp row",
+        "passed": true
+      },
+      {
+        "name": "annotated candidate; failed tag target unchanged",
+        "passed": true
+      }
+    ]
+  },
+  "focused_raw_sha256": "98bf09ba430de6759ca30420a5b67b8484cba2f1d5ff782cc24fb96cfd02cb4c",
+  "limits": "No full test:all, publication, final merge or installed acceptance. Source-order contradiction separately owned. The local candidate tag must not be pushed at author commit."
+}
