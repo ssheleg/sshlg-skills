@@ -17,6 +17,7 @@ Scope: the public Skills website, its separate Harness section and member relati
 | SCN-007 | Opt into a scoped wait rule | Working-rule CLI | maintainer | — | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
 | SCN-008 | Refresh or remove owned wait text | Working-rule CLI | maintainer | — | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
 | SCN-009 | Recover a refused instruction write | Working-rule CLI | maintainer | — | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
+| SCN-010 | Inspect and finalize recovery metadata | Working-rule CLI | maintainer | — | draft | 2026-10-13: MB02c packet; implementation pending |
 
 ## Personas
 
@@ -216,4 +217,22 @@ watcher has been started. The existing maintainer persona applies to host settin
 - **Errors & recovery:** backup failure leaves the target untouched; an unfinished operation blocks blind replay; independently completed targets remain reported.
 - **Status:** validated
 - **Coverage:** test/wait_rules_test.js
+- **Product:** unobserved
+
+### SCN-010: Inspect and finalize recovery metadata
+- **Persona:** maintainer
+- **Feature:** Working-rule CLI
+- **Entry point:** `npx sshlg-skills rules recovery inspect --json`
+- **Preconditions:** none for inspection; an admitted wait-owner operation for finalization
+- **Steps:**
+  1. Inspect recovery -> see empty, pending, terminal or unresolved state without writes or private file contents.
+  2. Preview finalize with the reported operation identifier -> see whether metadata can be finalized under current evidence.
+  3. Add --apply -> finalize only ownership/retention metadata; host instructions remain unchanged.
+  4. Repeat the completed request -> report already finalized without changing any bytes.
+- **Expected result:** the maintainer can distinguish an observed file state from admitted metadata completion and avoid guessing recovery actions.
+- **UI elements:** inspect/finalize commands, operation identifier, JSON result, fixed reason and next-step messages
+- **States covered:** empty, success, error
+- **Errors & recovery:** stale identifier, legacy or malformed evidence, changed profile/policy, unknown target bytes or held locks refuse with nonzero status; preserve the receipt and retained copies for review. No command clears locks or restores host files.
+- **Status:** draft
+- **Coverage:** none yet
 - **Product:** unobserved
