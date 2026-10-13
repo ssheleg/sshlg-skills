@@ -1,0 +1,12 @@
+{
+  "source": "d6c87c3109539ae81bf8f9a2879958eed0d5bd99",
+  "helper_sha256": "8d847c6744490818da51b1e60d0b5c7bc9cacd093587de626282d2a13009d67f",
+  "scope": "Owned namespace only; exact helper; synthetic child follows actual runner default subprocess FD policy; no public lock or plant",
+  "holder_descriptor_inheritable": false,
+  "parent_exit": -9,
+  "contender_exit": 0,
+  "contender_stdout": "CONTENDER_ACQUIRED\n",
+  "original_child_alive_after_contender_admission": true,
+  "original_child_wrote_after_contender_admission": "original plant wrote after next runner admission",
+  "verdict": "REPRODUCED_LIFETIME_GAP"
+}
