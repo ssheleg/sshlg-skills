@@ -1,0 +1,17 @@
+{
+  "status": "MERGED",
+  "head": "aaa7b36911bf2bd0120a8cb598712fa25db441d5",
+  "pr": 115,
+  "run": {
+    "conclusion": "success",
+    "databaseId": 38341440533,
+    "event": "pull_request",
+    "headSha": "aaa7b36911bf2bd0120a8cb598712fa25db441d5",
+    "status": "completed",
+    "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38341440533"
+  },
+  "merge": {
+    "oid": "a77c990dc32b0505a49a51da1ef38112f24d7243"
+  },
+  "scope": "Stacked repair integrated into PR112 feature branch, not canonical main or a release"
+}

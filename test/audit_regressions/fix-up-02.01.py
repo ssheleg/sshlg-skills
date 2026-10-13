@@ -127,9 +127,10 @@ def t_dry_run_makes_zero_mutations():
     assert tree_hash(home) == before, "dry-run changed the HOME tree"
     out = r.stdout
     for needle in ("--dry-run: the update plan", "bump submodule pins",
-                   "skills update", "skills add", "prune", "router-block",
+                   "skills add", "prune", "router-block",
                    "runtime-sync", "0 executed", "result: dry-run"):
         assert needle in out, f"the receipt is missing {needle!r}"
+    assert "skills@1.7.2 update" not in out, "the immutable plan contains a floating refresh"
     assert out.count("[home] subprocess") >= 10, "the receipt does not name the subprocess fleet"
     assert "sk-PLANTED-SECRET-VALUE" not in out, "the receipt leaked an environment secret"
     shutil.rmtree(home); shutil.rmtree(shims)

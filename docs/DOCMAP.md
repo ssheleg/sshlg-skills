@@ -45,7 +45,7 @@ have. This repository grew its own on 2026-08-10, closing carry-over C-06.
 |---|---|---|
 | Whether an address this repository's own documents claim actually resolves | `test/doc_refs.py` (the extractor and resolver) + `LIVE_DOCS`/`LEDGER_DOCS`/`ELSEWHERE` in `test/validate.py` (the corpus and its boundary) | the split is the design: the five live documents are gated, the four dated records are counted and disclosed, because their rows cite member repositories and states that were true at a commit |
 | Active task entry versus frozen handoff history | `docs/HANDOFF.md`; archive source/hash in `docs/evidence/context-research/navigation.json` | `test/context_handoff_test.js` verifies required entry links, local targets and frozen bytes; semantic currentness remains a source/receipt review, not a prose matcher |
-| Which skills exist, their repos, plugin ids, pinned versions | `skills.json` | README table and `.gitmodules` are checked against it by `test/validate.py` |
+| Which skills exist, their repos, plugin ids, versions and immutable plain-skill commits | `skills.json` | README table and `.gitmodules` are checked by `test/validate.py`; `test/installer_pins_test.js` binds published commit fields to staged gitlinks. `scripts/sync-member-pins.js --write` refreshes those fields after reviewed gitlinks are staged. Native-plugin channels retain separate version/source guarantees. |
 | What the public site says about any member | `skills.json` and `lib/routers-registry.js`, rendered by `scripts/site.js` (pages) and `scripts/og-card.js` (the social card, one per page) | the site restates nothing: versions, descriptions, install identifiers and every routing rule are read at build time, and `test/site_test.js` fails when a page's version, address or launcher command disagrees with the source |
 | Whether a member has an npm installation link | `npmPublished: false` in `skills.json` for an unpublished member | the site and llms.txt mark pending publication and retain GitHub installation; verify the registry before removing the flag |
 | What each member publishes as on npm | `npm` in `skills.json`, cross-checked against the submodule's `package.json` name | declared, never derived: six members publish as `@ssheleg/<name>` and `task-pipeline` as `task-pipeline-skill`, while the bare `task-pipeline` on npm is someone else's |
@@ -170,8 +170,8 @@ plus the routing block, paid in every session of every project), bodies against
 the 5000-token cap, two skills competing for one trigger phrase, and the
 installed block against the registry.
 
-<!-- ratchets: suites=114 fixtures=1743 members=11 -->
-**Ratchets.** 114 suites, 1743 fixtures, 11 pinned members — and these three numbers are
+<!-- ratchets: suites=115 fixtures=1755 members=11 -->
+**Ratchets.** 115 suites, 1755 fixtures, 11 pinned members — and these three numbers are
 now **read out of the marker above by `test/run.js`, which re-derives all three from the
 run it just did and fails when a stated figure and the measured one disagree — and this
 sentence is checked against the same run, not against the marker.** It quoted the marker

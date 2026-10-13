@@ -1,3 +1,33 @@
+## Installed follow-up and next wave — 2026-10-13
+
+Hub v1.62.1 is published from merge `ae1b415bc79a3d89ca97199299e0e00a2a5e7674`.
+[Exact release receipts](evidence/completion-1013/release-1.62.1/hosted.json),
+[installed runtime](evidence/completion-1013/installed-runtime.json),
+[domain readback](evidence/completion-1013/installed-domains.json), and
+[native visibility benchmark](reports/2026-10-13-native-visibility-rollout/README.md)
+separate published, installed, native-loaded and still-unmeasured quality.
+
+Current candidate: branch `waves/2026-10-13-installed`, hub 1.62.2. The
+[B-186 installer fix](evidence/completion-1013/installer-pins.md) and
+[B185 lossless settings fix](evidence/completion-1013/domain-lossless.md) are
+implemented and independently checked; the local aggregate passes115 suites/1755 fixtures/11 members at9ad52cf;
+release and installed readback remain pending. Nine published member updates
+have exact-source receipts, including agent-sync1.22.2. Task-pipeline iteration
+and subsequent agent-stack/SEO owner packets continue separately.
+
+Exact next task: finish independent candidate review, integrate through genuine required
+checks, publish, then perform the full plain-host update and compare installed
+bytes. Reapply owned domain settings with readback; two incomplete foreign Git
+roots must still preserve global coverage. Continue the contextual
+[family packets](evidence/completion-1013/family-next-wave.md), including collector
+coverage, task-pipeline conservation fixes and controlled selection evaluations.
+No descriptions were shortened without a quality gate. Fabric com.* tools remain
+unavailable; own-Git pending asks are unsent. The
+[independent draft review](evidence/completion-1013/independent-draft-reconciliation-review.md)
+certifies synthetic consumer and reconciliation checks only.
+
+Earlier status sections below are dated history, not current acceptance.
+
 ## Active follow-up wave — 2026-10-13
 
 Hub 1.62.0 was merged in [PR216](https://github.com/ssheleg/sshlg-skills/pull/216)

@@ -1,0 +1,267 @@
+{
+  "as_of": "2026-10-13T03:42:51.100189+00:00",
+  "package": "@ssheleg/seo-aeo-audit",
+  "version": "0.26.5",
+  "gitHead": "bccb630e79730e2a7058b74a2130ddfe4f4662aa",
+  "registry": "https://registry.npmjs.org/%40ssheleg%2Fseo-aeo-audit/0.26.5",
+  "tarball": "https://registry.npmjs.org/@ssheleg/seo-aeo-audit/-/seo-aeo-audit-0.26.5.tgz",
+  "integrity": "sha512-A+JV1NJXoh3d3Tgp2AxL3L8JxybOk5kmftC9Rysnhfp+cS48u56aGwHfRk/M4f4d0ge2GIP7+0lAaTbeWoR4wA==",
+  "tarball_sha256": "7a3db0c6530711b81f5fece15f9771c91be921df7979ba998ff2e9f74492be65",
+  "all_published_files_equal_release_source": true,
+  "published_files": 46,
+  "canonical_manifest_sha256": "3a734d708a00b0fe679e8cb6c1d60b40b9ccd644a568f172a248f73f5334ed1f",
+  "release_run": "38342468745",
+  "runtime_acceptance": "NOT_RUN",
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "ffc175e1ad51e59b5a579584ac2896119bbb8c38e3ca2d4a4794f833eb1ca74a",
+      "bytes": 136198
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d",
+      "bytes": 1064
+    },
+    {
+      "path": "README.md",
+      "sha256": "8f3da54907b1e9f1ca06947c2da7c68fab3d020b2e9e95820bd2a5fa2b433d16",
+      "bytes": 26409
+    },
+    {
+      "path": "SECURITY.md",
+      "sha256": "212dfe699beabeb5c8b0a484d04caa3c3b54a420c2c2bafb1253d83f8b8e1721",
+      "bytes": 8220
+    },
+    {
+      "path": "bin/seo-aeo-audit.js",
+      "sha256": "a011a0f1b3c61a0d4941fddacca48cd4794a97c84d31464020c55b69691a8945",
+      "bytes": 7323
+    },
+    {
+      "path": "cursor/rules/seo-aeo-audit.mdc",
+      "sha256": "1b35d9cbc532d233dd2163909cd57d6b85c7ac9316be08b5aa0e1a84dc60adb2",
+      "bytes": 12723
+    },
+    {
+      "path": "package.json",
+      "sha256": "8e4e18bb305ab3e758c5bea108a07d3cb50475332f9b9010d2af7305bf394d9c",
+      "bytes": 1400
+    },
+    {
+      "path": "plugins/seo-aeo-audit/.claude-plugin/plugin.json",
+      "sha256": "73967ce764e5f9b90985ce8460ad2562c51aadf8fdb854946deef388516b3c97",
+      "bytes": 766
+    },
+    {
+      "path": "plugins/seo-aeo-audit/commands/seo-aeo-audit.md",
+      "sha256": "504084df9a35ded95191da2839ab9c23d850f936055e0d22bcc3b0964ad2ba9b",
+      "bytes": 3217
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/REFERENCE_INDEX.md",
+      "sha256": "367493754ea2dc44eaf1491286c04b963b44785eae4520d95eebf40272751126",
+      "bytes": 1790
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md",
+      "sha256": "f47141259d522c415531f0efef9a2635443da9fb824b3f0c555ae536a4641fbb",
+      "bytes": 21316
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/aeo-geo.md",
+      "sha256": "60961ddef16b44e58967af746db07acda1ea64f834e4b16c8136e8757160d389",
+      "bytes": 37372
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/agent-readiness.md",
+      "sha256": "7f1e5ea63d51bc4ad7a51adb4ccce87e1758902af9e6e96c93c3da09c6049e55",
+      "bytes": 38773
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/algorithm-updates.md",
+      "sha256": "8e877a49d41121902ae44bdf0e06f51416bfb87cf443e937a03e8c3d3e17f1d4",
+      "bytes": 17668
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/architecture-and-equity.md",
+      "sha256": "d63a9db573ff4acba8e4ef4c07a3facf58393e42f1049082ed8658fd170fc082",
+      "bytes": 20868
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/benchmarks.md",
+      "sha256": "cc265508e082b94fb554e7fa13ddd2e80bc69b30c6050b7f2db000fc5c538cf4",
+      "bytes": 30250
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/deliverable-templates.md",
+      "sha256": "2f4be100c39ddcd4b862f2b3b1f05c7cb6f331cf72e76bf6f8b752780d3d02df",
+      "bytes": 13079
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/demand-and-conversion.md",
+      "sha256": "d8d401734cf6bca344ce23cccb177b1a35ebef9573f3a2b832ea708224e677e1",
+      "bytes": 14926
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/discover.md",
+      "sha256": "ab690edceb734bae2cbb2ff8b6204766b0f94a986d8f92200a2a19e5bfd2abfe",
+      "bytes": 9765
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/entity-and-brand.md",
+      "sha256": "b00a154c866ceab70b122d903294b5703149d638509acc35aaf4cf652299120e",
+      "bytes": 30337
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/evidence-tiers.md",
+      "sha256": "e97af0272392bda69d8d0a8089a5967d1c71abd48844938fdbc71de3ccbecb60",
+      "bytes": 6388
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/experience-signals.md",
+      "sha256": "712eb2c417820fda81806fb7f5229e4cee15a97ffcaddc132442eb35ab282b42",
+      "bytes": 11675
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/experiments.md",
+      "sha256": "fa2258a71b2bdf5073c320ca98b4123f293def4de070af5aa8e393d416dddeff",
+      "bytes": 10251
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/growth-plays.md",
+      "sha256": "0fe4ed46eec616c0889a8c27104251b65cf1455f924925b3cc427556562ccf86",
+      "bytes": 28163
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/intent-and-content.md",
+      "sha256": "bb9c72c0e142c282c19b6ce78d30f98bcc8fc979688663920e61daa1aadbd46d",
+      "bytes": 24392
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/linkbuilding.md",
+      "sha256": "6caf8a1ccf5312bdb33201d227f4bdf033fdfed689d8543603e0dd1d9bc78b86",
+      "bytes": 10758
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/measurement.md",
+      "sha256": "087f42534002f1c3e6150e3cbcce49bba8859ed29a4ba732d1d0575b7c17dd95",
+      "bytes": 24976
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/myths.md",
+      "sha256": "8c29602bb1ce32303a5ea9c7718548480f364e511db7a5573857115915d58ad6",
+      "bytes": 20152
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/onpage-checks.md",
+      "sha256": "f3dc1ec6f9f2b5245c809a203b658d4ad730c390fc8ba988107f5540b91c8e52",
+      "bytes": 14766
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/preflight.md",
+      "sha256": "f4430fa918766af17dbcc53cc185c7d28370afc58e57841d000931aa71635376",
+      "bytes": 9875
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/prowl-mcp.md",
+      "sha256": "d4e7fc94fe9dea08cd8e48bde71c3dbe423af45ddba34bc1c3ceb70dd115a6ba",
+      "bytes": 11929
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/ranking-model.md",
+      "sha256": "70bda614739de40299d2d3ae2511fa4628ea781d5c7c67cbe74b947d71729315",
+      "bytes": 13675
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/scripts.md",
+      "sha256": "22e929b391aa5345b21a6b27c97242cd0de2f6712c2706ad15a3324607343d6c",
+      "bytes": 12856
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/technical-checks.md",
+      "sha256": "e61177f07305a5f336e2c0a7ba6d4e55fdaca3f5f9f535020308a243a8c17f1e",
+      "bytes": 45455
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/threats-and-defense.md",
+      "sha256": "08e98fc23f1c38f415e184edc55d3c2f691245711448c8ef14223d4993f73959",
+      "bytes": 29494
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/references/tooling.md",
+      "sha256": "f41e9b09fd905f2cc0656c1f83cb39077e16426dd3fc2fd034e1a198624172f6",
+      "bytes": 16890
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/agent_surface.py",
+      "sha256": "a7cc62e2273780384941ca8ce23344633f1cbcde010a35701e68528b74f40c88",
+      "bytes": 82770
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/gsc_pull.py",
+      "sha256": "09f339e4c208010b2acc0ee186242ea34f4f75b964df1fe7ceec364a7091c651",
+      "bytes": 34757
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/page_audit.py",
+      "sha256": "30b754343911f2644be8459db350ea68d3e4e2c283409c8323dd9eb8cdc88d76",
+      "bytes": 62445
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/preflight.py",
+      "sha256": "eebd5f65920fd26110a54f71eba8178e4e9b823dd8ad77938f0914860d217ede",
+      "bytes": 44811
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/psi_pull.py",
+      "sha256": "6c423d11681f634ab49f63ca9f0d04d0a7fa4c51447abffde982730d99b67727",
+      "bytes": 16061
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/sitemap_audit.py",
+      "sha256": "5b3ebf8f7df5488f73d24b7147f0566e38fdcfec1485aea8465e405bcd6fd898",
+      "bytes": 17194
+    },
+    {
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/scripts/url_inspection.py",
+      "sha256": "76891f15717b1e3bd1546680888415e59939dc955d4865da3f965bd7c8644ef5",
+      "bytes": 20529
+    },
+    {
+      "path": "templates/action-plan.template.md",
+      "sha256": "ba17ac29878512008244a363ac255e8f60b08f4c32fecb09740fb13e03b6a104",
+      "bytes": 1437
+    },
+    {
+      "path": "templates/audit-report.template.md",
+      "sha256": "5f08c0571539bb704d7d4f49cdcf84c1e85da4f60f3b1ed97ccb244c8aa001da",
+      "bytes": 5165
+    },
+    {
+      "path": "templates/experiments.template.md",
+      "sha256": "5ff577b232bfd2d722ababd29c4125009a631bef34a26fec9f436dbf9a88d976",
+      "bytes": 927
+    }
+  ],
+  "release_workflow_conclusion": "success",
+  "release_workflow_url": "https://github.com/ssheleg/seo-aeo-audit/actions/runs/38342468745",
+  "release_jobs": [
+    {
+      "name": "validate / validate",
+      "conclusion": "success"
+    },
+    {
+      "name": "validate / House skill audit",
+      "conclusion": "success"
+    },
+    {
+      "name": "release",
+      "conclusion": "success"
+    },
+    {
+      "name": "publish",
+      "conclusion": "success"
+    }
+  ]
+}

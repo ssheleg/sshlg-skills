@@ -57,12 +57,13 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows and the paid-acquisition funnel among them, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 41-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.59.2",
+      "version": "0.59.3",
       "entry": "/ux",
       "role": "what the interface must do",
       "npm": "super-ux",
       "shape": "static",
-      "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable."
+      "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable.",
+      "commit": "f0261f68c1a7222508bd984dc7bac63805dbb76b"
     },
     {
       "name": "task-pipeline",
@@ -81,7 +82,8 @@
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
       "shape": "static",
-      "shapeWhy": "The stage list is decided before the run and stays decided, because stage 10 has to account for what ran. THREE places discover structure, and they do not land the same way: the module map and the carry-over ledger are committed artifacts, and since v1.69.0 the work graph is a third — `.task-pipeline/graph.json`, mutated mid-run by `graph.py add` and deliberately NOT committed. Every mutation records why it happened, which is what keeps a run from explaining its completion by a plan that existed only at the end; that the graph itself does not survive the run is an open row rather than a settled decision."
+      "shapeWhy": "The stage list is decided before the run and stays decided, because stage 10 has to account for what ran. THREE places discover structure, and they do not land the same way: the module map and the carry-over ledger are committed artifacts, and since v1.69.0 the work graph is a third — `.task-pipeline/graph.json`, mutated mid-run by `graph.py add` and deliberately NOT committed. Every mutation records why it happened, which is what keeps a run from explaining its completion by a plan that existed only at the end; that the graph itself does not survive the run is an open row rather than a settled decision.",
+      "commit": "52fa75dbe1a3d169c02c612516b30028929559f9"
     },
     {
       "name": "agent-sync",
@@ -93,12 +95,13 @@
       "skillNames": [
         "agent-sync"
       ],
-      "version": "1.22.1",
+      "version": "1.22.2",
       "entry": "/agent-sync",
       "role": "who is holding this file right now",
       "npm": "@ssheleg/agent-sync",
       "shape": "static",
-      "shapeWhy": "Leases, ids and the journal are a fixed protocol; what varies is who holds what, which is state rather than shape."
+      "shapeWhy": "Leases, ids and the journal are a fixed protocol; what varies is who holds what, which is state rather than shape.",
+      "commit": "3dbafd82eb635d8e79b65ddc0c3d1fd8205936db"
     },
     {
       "name": "make-skill",
@@ -111,12 +114,13 @@
         "make-skill",
         "skill-search"
       ],
-      "version": "0.31.1",
+      "version": "0.31.2",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
       "shape": "static",
-      "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time."
+      "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time.",
+      "commit": "78d67651611f50e2af531ab04916e680c2a2680d"
     },
     {
       "name": "sheleg-design",
@@ -128,7 +132,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.64.1",
+      "version": "1.64.2",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -144,7 +148,8 @@
           ],
           "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
-      ]
+      ],
+      "commit": "678fe483eea128be0125b033f442934f1ece7c32"
     },
     {
       "name": "seo-aeo-audit",
@@ -156,12 +161,13 @@
       "skillNames": [
         "seo-aeo-audit"
       ],
-      "version": "0.26.4",
+      "version": "0.26.5",
       "entry": "/seo-aeo-audit",
       "role": "whether a machine will find it",
       "npm": "@ssheleg/seo-aeo-audit",
       "shape": "static, with a bounded discovery",
-      "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste."
+      "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste.",
+      "commit": "bccb630e79730e2a7058b74a2130ddfe4f4662aa"
     },
     {
       "name": "sheleg-dev",
@@ -179,12 +185,13 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.13.3",
+      "version": "0.13.4",
       "entry": null,
       "role": "integrations: money in, tracking, errors, sign-in, speed",
       "npm": "@ssheleg/sheleg-dev",
       "shape": "static",
-      "shapeWhy": "Each integration is a fixed sequence of seams; nothing decides its own next step."
+      "shapeWhy": "Each integration is a fixed sequence of seams; nothing decides its own next step.",
+      "commit": "8862fae9a826263f8109626ca257f81c7c43ac86"
     },
     {
       "name": "agent-stack",
@@ -204,7 +211,8 @@
       "role": "orchestration, prompts, evals, protocols, and the LLM wallet",
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
-      "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance."
+      "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance.",
+      "commit": "cb8f6993a61473f3974bc3af67925439ed4abb75"
     },
     {
       "name": "telegram-dev",
@@ -218,12 +226,13 @@
         "telegram-userbots",
         "telegram-miniapps"
       ],
-      "version": "0.2.3",
+      "version": "0.2.4",
       "entry": null,
       "role": "which Telegram API each surface speaks, and what each one costs",
       "npm": "@ssheleg/telegram-dev",
       "shape": "static",
-      "shapeWhy": "Three fixed surfaces with fixed seams; the only branch is which of the three a task is on, and the first table in each SKILL.md decides that before any code."
+      "shapeWhy": "Three fixed surfaces with fixed seams; the only branch is which of the three a task is on, and the first table in each SKILL.md decides that before any code.",
+      "commit": "711576f89d06525ee94ad4aac0f779a5baeefdd5"
     },
     {
       "name": "xr-dev",
@@ -241,7 +250,7 @@
         "quest-store",
         "quest-webxr"
       ],
-      "version": "0.3.3",
+      "version": "0.3.4",
       "entry": null,
       "role": "how a Quest product moves from platform choice to launch and operation",
       "npm": "@ssheleg/xr-dev",
@@ -253,7 +262,8 @@
           "url": "https://github.com/ssheleg/xr-dev/blob/main/plugins/xr-dev/skills/quest-lifecycle/SKILL.md",
           "note": "Stage map, engine paths and immersive design acceptance, with separate evidence for build, device, Store and operation."
         }
-      ]
+      ],
+      "commit": "d36912f4a69be90b920ff7c15a890c805761b35c"
     },
     {
       "name": "web3d-dev",
@@ -267,12 +277,13 @@
         "web3d-assets",
         "web3d-animation"
       ],
-      "version": "0.1.3",
+      "version": "0.1.4",
       "entry": null,
       "role": "how realtime 3D on the web runs, ships its assets and moves",
       "npm": "@ssheleg/web3d-dev",
       "shape": "static",
-      "shapeWhy": "Three fixed questions with fixed seams — runtime, assets, motion — and one shared contract, the clip canon, duplicated into both skills that need it and checked identical."
+      "shapeWhy": "Three fixed questions with fixed seams — runtime, assets, motion — and one shared contract, the clip canon, duplicated into both skills that need it and checked identical.",
+      "commit": "b993d2517545a0d3f4fb6358f4942c7025fc2fdf"
     }
   ],
   "agents": [

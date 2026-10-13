@@ -1,0 +1,16 @@
+{
+  "schema": "native-quality-tasks/1",
+  "tasks": [
+    {
+      "id": "a1",
+      "language": "en",
+      "prompt": "Audit the server authentication migration described in app/OPERATIONS.md using the code and deployment files in app/. Explain the actual credential-source precedence, identify material problems, and give minimal corrective actions plus checks that do not disclose credentials. Return a concise audit with file:line evidence. Do not implement changes or claim runtime verification."
+    },
+    {
+      "id": "a2",
+      "language": "ru",
+      "prompt": "Проверь миграцию серверной аутентификации из app/OPERATIONS.md по коду и настройкам в app/. Объясни реальный порядок выбора источника учётных данных, найди существенные проблемы и предложи минимальные исправления и проверки без раскрытия учётных данных. Верни краткий аудит со ссылками файл:строка. Не вноси изменения и не утверждай, что проверил работающий сервис."
+    }
+  ],
+  "relationship": "Translation pair, not independent intents. Each prompt runs once per full/concise arm."
+}

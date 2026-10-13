@@ -2,6 +2,16 @@
 
 [Plan](../plans/2026-10-13-completion.md) · [research](../../reports/2026-10-13-skill-discovery-efficiency/README.md)
 
+## Current entry — 2026-10-13 04:15 UTC
+
+Use [the live HANDOFF](../../HANDOFF.md), [run ledger](run.md) and
+[current board/requirement reconciliation](board-reconciliation.md#committed-cut-at-2026-10-13-0415-utc).
+The records below are dated evidence, not current next-task instructions. Hub1.62.1
+is published with runtime readback;1.62.2 remains a candidate. Native quality has
+no accepted result yet. Fabric project admission now succeeds, but this session
+still has no com.status/list/submit tools; the pending asks below remain unsent.
+
+
 ## Search ranking
 
 The initial multi-concept audit query ranked make-skill 19th on the installed catalogue; an exact multiword phrase bonus raises it to first. This is lexical ranking, not semantic retrieval. Existing single-word behavior remains covered by `node test/toolkit_test.js` (29 checks).
@@ -22,7 +32,7 @@ PR #215 integrated at 022356d3479d351ccdf39135a44914be6de73ad7 after its exact h
 
 ## Pending cross-project asks
 
-Fabric admission returned `no-project`; none of these were submitted in this session. Retry only through the authenticated Project board after admission. Existing issues are evidence, not substitute sends.
+Initial Fabric admission returned `no-project`; admission later succeeded at03:12UTC, but com.status/list/submit remain unavailable. None of these were submitted in this session. Retry only through the authenticated Project board when its tools are available. Existing issues are evidence, not substitute sends.
 
 | Idempotency key | Owner | Evidence and exact next task | Status |
 |---|---|---|---|
@@ -99,3 +109,14 @@ own draft PR to ready. The full genuine workflow runs on that one promotion.
 run the full suite. No synthetic passing statuses or protection bypass are used.
 A later candidate needs another deliberate promotion. Nightly default-branch runs
 and release workflow_call remain available. [Supported event activity types](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request).
+
+## Follow-up observations after publication
+
+v1.62.1 is published and its runtime bytes match the installed copy; see
+[release/installation handoff](../../HANDOFF.md). The [native visibility cut](../../reports/2026-10-13-native-visibility-rollout/README.md) records host readback,
+Pi text reduction and retained quality limits. The later [paired screening](description-screening-readout.md) obtained13/13 expected selections in both arms;
+earlier provider errors remain preserved and unexplained. This supersedes only the
+older statement that no concise arm had run, not its historical error evidence.
+
+B-186 corrects the production immutable plain-skills contract; native-plugin channels
+have separate source/version guarantees. A complete family acceptance is still open.

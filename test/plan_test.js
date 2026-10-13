@@ -137,7 +137,7 @@ it('Continue copy groups preserve target coverage and order for install, update 
     assert.strictEqual(locked.skipped.length,agents.length?1:0);
     for (const [plan,pinned] of [[install,false],[locked.plan,true]]) {
       for (const skill of skills) {
-        const calls = plan.filter(args=>args[3]===skill.repo+(pinned?'@abc123':''));
+        const calls = plan.filter(args=>args[3]===skill.repo+(pinned?'#abc123':''));
         assert.deepStrictEqual(calls.flatMap(selected),agents,'target order/coverage changed');
         for (const args of calls) {
           const ids = selected(args);

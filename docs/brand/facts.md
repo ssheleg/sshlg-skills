@@ -7,11 +7,11 @@ its source before extending its review date.
 
 | Fact | Value | Source | Checked | Review by | Public |
 |---|---|---|---|---|---|
-| installable skill packs | 10 | `skills.json` → `skills.length` | 2026-09-21 | 2026-12-20 | yes |
-| Agent Skills entry points | 35 | sum of `skills.json` → `skills[].skillNames.length` | 2026-09-21 | 2026-12-20 | yes |
-| umbrella repository plus member repositories | 11 repositories | `skills.json` plus this repository | 2026-09-21 | 2026-12-20 | yes |
-| repository test suites | 88 | `npm test`; `docs/DOCMAP.md` ratchet | 2026-09-21 | 2026-12-20 | yes |
-| repository test fixtures | 1031 | `npm test`; `docs/DOCMAP.md` ratchet | 2026-09-21 | 2026-12-20 | yes |
+| installable skill packs | 11 | `skills.json` → `skills.length` | 2026-10-13 | 2026-11-13 | yes |
+| Agent Skills entry points | 39 | sum of `skills.json` → `skills[].skillNames.length` | 2026-10-13 | 2026-11-13 | yes |
+| umbrella repository plus member repositories | 12 repositories | `skills.json` plus this repository | 2026-10-13 | 2026-11-13 | yes |
+| repository test suites | 115 | `npm test`; `docs/DOCMAP.md` ratchet | 2026-10-13 | 2026-11-13 | yes |
+| repository test fixtures | 1755 | `npm test`; `docs/DOCMAP.md` ratchet | 2026-10-13 | 2026-11-13 | yes |
 | social-preview dimensions | 1200×630 px | `scripts/og-card.js` constants | 2026-08-26 | 2026-11-24 | yes |
 
 ## Proof that is not a number

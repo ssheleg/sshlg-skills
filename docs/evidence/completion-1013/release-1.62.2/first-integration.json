@@ -1,0 +1,13 @@
+{
+  "source_commit": "2e718bd",
+  "command": "npm test",
+  "exit_code": 1,
+  "executed_suites": 115,
+  "printed_fixture_count": 1755,
+  "failed_suites": [
+    "validate.py",
+    "audit_regressions/ctx-04.06.py"
+  ],
+  "stdout_sha256": "8b3769863f72d6e6fd046a68f476f0ac1fc7b82d0b0fdfc0a5ba3e6ecc908a3e",
+  "meaning": "Counts are observed; integration is not accepted. Owner seam headers and design ledger need successor pins; simulated staging receipt needs source-aware regeneration."
+}

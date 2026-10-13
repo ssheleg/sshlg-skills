@@ -1,0 +1,514 @@
+{
+  "schema": "skill-body-source-map/1",
+  "hub_source_commit": "ab37778793674efff60b92ed381284c7339420ea",
+  "canonicalization": "Plugin SKILL.md is canonical; the duplicate .cursor sheleg-design mirror is excluded. Historical pinned contracts, not moving owner main.",
+  "skills": {
+    "ad-tracking": {
+      "member": "sheleg-dev",
+      "commit": "59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79",
+      "path": "plugins/sheleg-dev/skills/ad-tracking/SKILL.md",
+      "sha256": "b318f5fb61df5861a4f0dae7bca4a02c4014e602bdc17e58f25670913f1f2149",
+      "body_anchor": {
+        "start_line": 23,
+        "end_line": 31,
+        "excerpt": "## What this skill covers\n\nGA4, Google Ads, Meta Pixel and LinkedIn Insight Tag, all behind Consent Mode\nv2. The body carries the minimal setup and the traps; the tables, schemas and\nper-framework wiring live in `references/`, listed at the bottom.\n## Architecture Overview\n\nA modern advertising analytics stack consists of multiple pixels/tags that must all respect the same consent state. The architecture follows this pattern:\n"
+      },
+      "url": "https://github.com/ssheleg/sheleg-dev/blob/59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79/plugins/sheleg-dev/skills/ad-tracking/SKILL.md#L23",
+      "rationale": "Consent and advertising conversion wiring are the requested artifact."
+    },
+    "agent-evals": {
+      "member": "agent-stack",
+      "commit": "cb8f6993a61473f3974bc3af67925439ed4abb75",
+      "path": "plugins/agent-stack/skills/agent-evals/SKILL.md",
+      "sha256": "8f533ce3e320e0416163a39a98207cd347a0d22332c4072afa1d628f77204b8b",
+      "body_anchor": {
+        "start_line": 54,
+        "end_line": 62,
+        "excerpt": "## 2. Three granularities\n\nEach primitive gets its own kind of assertion.\n\n### Single-step — validates a run\n\nFixture is a serialized run: prompt, tool schemas, context. Assert the decision at that\npoint — tool name, argument shape.\n"
+      },
+      "url": "https://github.com/ssheleg/agent-stack/blob/cb8f6993a61473f3974bc3af67925439ed4abb75/plugins/agent-stack/skills/agent-evals/SKILL.md#L54",
+      "rationale": "Execution records and behavioral assertions belong to the eval owner."
+    },
+    "agent-harness": {
+      "member": "agent-stack",
+      "commit": "cb8f6993a61473f3974bc3af67925439ed4abb75",
+      "path": "plugins/agent-stack/skills/agent-harness/SKILL.md",
+      "sha256": "003866190df99a02ea862860050c03c2ce8971479ced5ba75bfe42057a0ba4e0",
+      "body_anchor": {
+        "start_line": 35,
+        "end_line": 43,
+        "excerpt": "## Rule zero — check the prompt first (a diagnostic heuristic, with exceptions)\n\nFor failures in tool selection or usage, inspect instructions and descriptions\nbefore adding architecture. [Anthropic's tool guidance](https://www.anthropic.com/engineering/writing-tools-for-agents)\n(read 2026-10-09) supports evaluating description changes; it is **not a measured\nshare of defects**. This orders the diagnosis, never the verdict. **The exceptions\nare findings a prompt cannot touch:** a deterministic race, a hardcoded secret,\na timeout wired to the wrong operation — source-level invariant violations are\ncode bugs, and no rewording treats them."
+      },
+      "url": "https://github.com/ssheleg/agent-stack/blob/cb8f6993a61473f3974bc3af67925439ed4abb75/plugins/agent-stack/skills/agent-harness/SKILL.md#L35",
+      "rationale": "This is the model-facing instruction layer, not protocol or loop plumbing."
+    },
+    "agent-interop": {
+      "member": "agent-stack",
+      "commit": "cb8f6993a61473f3974bc3af67925439ed4abb75",
+      "path": "plugins/agent-stack/skills/agent-interop/SKILL.md",
+      "sha256": "3e70a38f204edc6822814335dc6dfc4e8c3b825117137239da46b96fdd60bfec",
+      "body_anchor": {
+        "start_line": 54,
+        "end_line": 62,
+        "excerpt": "## Which protocol answers which question\n\n| The question you actually have | The answer | Where |\n|---|---|---|\n| I want to give a model a capability against a live system | **MCP server** | `references/mcp.md` |\n| My server is written and the client cannot connect to it | mounting and transports | `references/mcp-ship.md` |\n| I want my application to consume other people's tool servers | **MCP client** | `references/mcp.md`, then `references/mcp-scale.md` |\n| I have more servers than fit in a context window | client scaling patterns | `references/mcp-scale.md` |\n| I want another team's *autonomous agent* to accomplish an outcome for me | **A2A** | `references/a2a.md` |"
+      },
+      "url": "https://github.com/ssheleg/agent-stack/blob/cb8f6993a61473f3974bc3af67925439ed4abb75/plugins/agent-stack/skills/agent-interop/SKILL.md#L54",
+      "rationale": "External process contracts belong to interop."
+    },
+    "agent-orchestrator": {
+      "member": "agent-stack",
+      "commit": "cb8f6993a61473f3974bc3af67925439ed4abb75",
+      "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+      "sha256": "8e2bd8a84fbbb4fa00cb384b1769ea41d51eecd2d7203213f2c859a19a5b6de0",
+      "body_anchor": {
+        "start_line": 276,
+        "end_line": 284,
+        "excerpt": "## 13. The Work as a Graph\n\nBefore the loop, the pipeline or the sub-agents: **decide the shape.** A node is one unit\nof work; an edge is a dependency, and an edge carries data. The full model, the source it\ncomes from, and what this host actually executes are in\n[`references/graph-engineering.md`](references/graph-engineering.md).\n\nFour rules, and these are the ones that change code:\n"
+      },
+      "url": "https://github.com/ssheleg/agent-stack/blob/cb8f6993a61473f3974bc3af67925439ed4abb75/plugins/agent-stack/skills/agent-orchestrator/SKILL.md#L276",
+      "rationale": "Executable orchestration and checkpoints are loop plumbing."
+    },
+    "agent-sync": {
+      "member": "agent-sync",
+      "commit": "0e0143ae9f35c067424d22631ab5d3580a12d079",
+      "path": "plugins/agent-sync/skills/agent-sync/SKILL.md",
+      "sha256": "ea92d5426d7cbb66e694934234fcb3836cd7be4030c0374b3cade606e23eb89f",
+      "body_anchor": {
+        "start_line": 225,
+        "end_line": 233,
+        "excerpt": "## Guarded files\n\nThe config lists registry files several agents write. Before editing one:\n\n```bash\npython3 \"$SKILL_DIR/scripts/agent_sync.py\" guard docs/DECISIONS.md\n```\n\n**Exit 2 is about *this run*: it holds no lease** — not that somebody else holds that file."
+      },
+      "url": "https://github.com/ssheleg/agent-sync/blob/0e0143ae9f35c067424d22631ab5d3580a12d079/plugins/agent-sync/skills/agent-sync/SKILL.md#L225",
+      "rationale": "Repository coordination is distinct from building a multi-agent product."
+    },
+    "brand-voice": {
+      "member": "super-ux",
+      "commit": "c0996bc30392c81d3a341252e50069a3b2d83b34",
+      "path": "plugins/super-ux/skills/brand-voice/SKILL.md",
+      "sha256": "15e04f9a205affcb5eb379dc5ec5b5b360a35b425b5f65fad68702300d0ede9d",
+      "body_anchor": {
+        "start_line": 52,
+        "end_line": 60,
+        "excerpt": "## Choosing a workflow\n\n| Situation | Workflow |\n|---|---|\n| No `docs/brand/` | Init |\n| Pack chosen, product specifics missing | Calibrate |\n| Positioning, personas or facts changed | Update |\n| Consistency questioned, or before a launch | Validate |\n"
+      },
+      "url": "https://github.com/ssheleg/super-ux/blob/c0996bc30392c81d3a341252e50069a3b2d83b34/plugins/super-ux/skills/brand-voice/SKILL.md#L52",
+      "rationale": "The reusable verbal source of truth is brand-voice's artifact."
+    },
+    "copywriting": {
+      "member": "super-ux",
+      "commit": "c0996bc30392c81d3a341252e50069a3b2d83b34",
+      "path": "plugins/super-ux/skills/copywriting/SKILL.md",
+      "sha256": "a908a1a907c8664d3680d50031f991c0ad8f55fa033672cfa0dd2f28bc7ca6e8",
+      "body_anchor": {
+        "start_line": 54,
+        "end_line": 62,
+        "excerpt": "## Modes\n\n**The humanization pass runs by default, in every mode that produces text.**\nIt is not a mode you enter, it is the last step of Write, Edit and Adapt, under\nthe guards in [ai-tells.md](references/ai-tells.md) which are not optional. The\nreason it is a default rather than an option: a draft nobody swept carries the\nmarkers that file grades, and a reader registers them before they can name why.\n\n`voice.md` records the state in two fields that answer different questions."
+      },
+      "url": "https://github.com/ssheleg/super-ux/blob/c0996bc30392c81d3a341252e50069a3b2d83b34/plugins/super-ux/skills/copywriting/SKILL.md#L54",
+      "rationale": "The request changes product strings, not the brand pack's facts or policy."
+    },
+    "crypto-payments": {
+      "member": "sheleg-dev",
+      "commit": "59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79",
+      "path": "plugins/sheleg-dev/skills/crypto-payments/SKILL.md",
+      "sha256": "84be59b3eac2b23dc21d5c9eb66d7dcc7cfe82500c5e6aa9ebf7eef3731da41d",
+      "body_anchor": {
+        "start_line": 57,
+        "end_line": 65,
+        "excerpt": "## The lifecycle, and where money goes missing\n\n```\nyour app                gateway                 blockchain\n   │  create invoice ─────►│\n   │◄──── invoice id, address, amount, expiry\n   │                       │\n   │   (user pays) ────────┼──────────────────────►│\n   │                       │◄── confirmations ─────│"
+      },
+      "url": "https://github.com/ssheleg/sheleg-dev/blob/59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79/plugins/sheleg-dev/skills/crypto-payments/SKILL.md#L57",
+      "rationale": "Partial and late invoice settlement is the crypto integration seam."
+    },
+    "error-tracking": {
+      "member": "sheleg-dev",
+      "commit": "59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79",
+      "path": "plugins/sheleg-dev/skills/error-tracking/SKILL.md",
+      "sha256": "a490c6414c8b2c0dbf00961f6a7a00a771432788396dc074bb67cd54e9b6c219",
+      "body_anchor": {
+        "start_line": 191,
+        "end_line": 199,
+        "excerpt": "## Releases, or the stack trace names nothing\n\nA release in Sentry is only useful if its version string is **identical** to\nwhat the SDK reports as `release`. When they drift, issues attach to a release\nwith no commits and suspect-commit attribution silently does nothing — which\nreads as \"Sentry is not very good\" rather than as a wiring bug.\n\nPick one source for the version and use it on both sides. On Heroku that is the\nslug commit:"
+      },
+      "url": "https://github.com/ssheleg/sheleg-dev/blob/59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79/plugins/sheleg-dev/skills/error-tracking/SKILL.md#L191",
+      "rationale": "Error capture, sanitization and release attribution are the requested wiring."
+    },
+    "evidence-docs": {
+      "member": "task-pipeline",
+      "commit": "52fa75dbe1a3d169c02c612516b30028929559f9",
+      "path": "plugins/task-pipeline/skills/evidence-docs/SKILL.md",
+      "sha256": "f656ed03bc4dfec4e7a0809022838dc18e8a876905a26603ddb36b447fb83aee",
+      "body_anchor": {
+        "start_line": 18,
+        "end_line": 26,
+        "excerpt": "## The ten canons\n\n1. **A claim carries its address** — `file:line`, a command with its output, a test name; a lesson names its commit.\n   - **1a. A token that looks like evidence is not evidence until it has been resolved.** A sha, a line number, a path, a flag, a test name: every one can be plausible and absent, and each is trusted at exactly the moment nobody re-reads it. A commit reference is filled **after** the commit exists and checked with a command.\n2. **Numbers are computed, never restated.**\n   - **2a. A number out of the shell is not a measurement until you have looked at what matched.** Print the matched items classified beside the count whenever the token can occur inside something else, and never pipe a command whose exit status governs what happens next — the shell then answers about the pager. *Eighteen lines containing these three digits* and *eighteen throttle events* are different claims.\n3. **Every fact has exactly one home** — others link, never restate.\n4. **A reference resolves from where the document is read** — not from where it lives.\n5. **Green nobody watched turn red is not evidence.**"
+      },
+      "url": "https://github.com/ssheleg/task-pipeline/blob/52fa75dbe1a3d169c02c612516b30028929559f9/plugins/task-pipeline/skills/evidence-docs/SKILL.md#L18",
+      "rationale": "Claim provenance and honest scope are evidence-docs obligations."
+    },
+    "frontend-performance": {
+      "member": "sheleg-dev",
+      "commit": "59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79",
+      "path": "plugins/sheleg-dev/skills/frontend-performance/SKILL.md",
+      "sha256": "f4c3882395a2cdccf3ffb73338ece9e53bc388c2a0ef54556ba95869ee02d76b",
+      "body_anchor": {
+        "start_line": 21,
+        "end_line": 29,
+        "excerpt": "## Audit Workflow\n\n1. **Measure** -- Run PageSpeed Insights or Lighthouse. Record scores and failing audits.\n2. **Diagnose** -- Map each failing audit to a specific code-level cause (see checklist below).\n3. **Prioritize** -- Fix by impact: P0 blocks rendering, P1 hurts metrics, P2 is informational.\n4. **Implement** -- Apply fixes per the reference guides.\n5. **Validate** -- `next build` (or framework equivalent) + re-run Lighthouse. Verify no regressions.\n\n## Core Web Vitals, and the diagnostics beside them"
+      },
+      "url": "https://github.com/ssheleg/sheleg-dev/blob/59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79/plugins/sheleg-dev/skills/frontend-performance/SKILL.md#L21",
+      "rationale": "Measured web performance is separate from aesthetic design and journeys."
+    },
+    "google-auth": {
+      "member": "sheleg-dev",
+      "commit": "59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79",
+      "path": "plugins/sheleg-dev/skills/google-auth/SKILL.md",
+      "sha256": "c0b971cea4955e0c338a425f7d0eb2f78ffa07347e2660f8fb5aec4c2a4e8a74",
+      "body_anchor": {
+        "start_line": 48,
+        "end_line": 56,
+        "excerpt": "## Authentication Methods Overview\n\n| Method | Use Case | Node.js Key Class | Python Key Module / Class |\n|--------|----------|-------------------|---------------------------|\n| **ADC** | Same identity for all users, server-to-server | `GoogleAuth` | `google.auth.default()` |\n| **OAuth 2.0** | Actions on behalf of end users | `OAuth2Client` | `google_auth_oauthlib.flow.Flow` |\n| **Sign In with Google (GIS)** | User sign-in/sign-up on websites — the google-signin skill's ground | GIS JS SDK + `verifyIdToken()` | GIS JS SDK + `id_token.verify_oauth2_token()` |\n| **JWT / Service Account** | Server-to-server, single identity | `JWT` | `service_account.Credentials` |\n| **API Key** | Public data, no user context | `OAuth2Client({ apiKey })` | passed to `googleapiclient.discovery.build(developerKey=)` |"
+      },
+      "url": "https://github.com/ssheleg/sheleg-dev/blob/59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79/plugins/sheleg-dev/skills/google-auth/SKILL.md#L48",
+      "rationale": "Server/API credentials belong to google-auth rather than identity login."
+    },
+    "google-signin": {
+      "member": "sheleg-dev",
+      "commit": "59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79",
+      "path": "plugins/sheleg-dev/skills/google-signin/SKILL.md",
+      "sha256": "011127664892aeac2b560fefd9de9460961ed20befb7270bd150fda6c508c686",
+      "body_anchor": {
+        "start_line": 24,
+        "end_line": 32,
+        "excerpt": "## Pick the right flow first\n\n- Only need \"who is this user?\" → **GIS ID-token flow** (this skill): load\n  `https://accounts.google.com/gsi/client`, receive one Google-signed JWT,\n  verify server-side. No redirect URI, no client secret, no Google-token\n  storage.\n- Need to call Google APIs (Gmail/Drive/Calendar) on the user's behalf →\n  OAuth 2.0 **authorization-code** flow instead (redirect URI + client\n  secret + refresh tokens). Never use the code flow just for login."
+      },
+      "url": "https://github.com/ssheleg/sheleg-dev/blob/59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79/plugins/sheleg-dev/skills/google-signin/SKILL.md#L24",
+      "rationale": "ID-token login and account linking are google-signin's explicit flow."
+    },
+    "make-skill": {
+      "member": "make-skill",
+      "commit": "b4418bc48e4654bf983db69705e6789d314ec431",
+      "path": "plugins/make-skill/skills/make-skill/SKILL.md",
+      "sha256": "ca355c199bb8524291315dec29c6295431727c4968fce4ea6f932604e31b5847",
+      "body_anchor": {
+        "start_line": 199,
+        "end_line": 207,
+        "excerpt": "## Retrofit (bring an existing skill/repo up to standard)\n\n**Three modes, three effect contracts (MS-03): `audit` reads (evidence + plan\nonly); `retrofit` writes only what the request scoped; `release` publishes.**\nThe move between them is decided by INTENT and prior authorization, never by\nthe skill invoked — a compliance QUESTION stays an audit («аудит скилов» asks\nfor a verdict, not a diff). Verdict per item: PASS / GAP / NOT-RUN with\nevidence — a `file:line` or the command's actual output. \"Looks fine\" is not a\nverdict, nor is a PASS reasoned about instead of executed; a check whose tool"
+      },
+      "url": "https://github.com/ssheleg/make-skill/blob/b4418bc48e4654bf983db69705e6789d314ec431/plugins/make-skill/skills/make-skill/SKILL.md#L199",
+      "rationale": "Skill construction and distribution, not ordinary application delivery."
+    },
+    "project-audit": {
+      "member": "task-pipeline",
+      "commit": "52fa75dbe1a3d169c02c612516b30028929559f9",
+      "path": "plugins/task-pipeline/skills/project-audit/SKILL.md",
+      "sha256": "2578d22abc3fc6ffccfc55b9c63ed95edbb017b5cb61600a81553d910819fc5d",
+      "body_anchor": {
+        "start_line": 45,
+        "end_line": 53,
+        "excerpt": "## The six phases\n\nRun them in order. Each writes into the same payload the report is rendered\nfrom.\n\n### 1. Discover — what this project IS, before anything is measured\n\n`scripts/audit.py` answers this mechanically: languages, package managers,\nmonorepo shape, submodules, CI, deploy targets, declared telemetry, and the"
+      },
+      "url": "https://github.com/ssheleg/task-pipeline/blob/52fa75dbe1a3d169c02c612516b30028929559f9/plugins/task-pipeline/skills/project-audit/SKILL.md#L45",
+      "rationale": "Whole-project current truth, not a single diff or scenario check."
+    },
+    "quest-lifecycle": {
+      "member": "xr-dev",
+      "commit": "ff0d06b3da0dc0149b930e84710ba538d175b62f",
+      "path": "plugins/xr-dev/skills/quest-lifecycle/SKILL.md",
+      "sha256": "6f3c24dba6dce727c6890200fd1370884615e663a643da84d257c28784cd3d1e",
+      "body_anchor": {
+        "start_line": 27,
+        "end_line": 35,
+        "excerpt": "## One entry, inspect then advance\n\n1. Read repository evidence before asking: engine files, SDK locks, target devices,\n   graphics backend, app type, gameplay/UX scenarios, asset pipeline, CI, release\n   records and live service dependencies. A Quest headset does not identify the\n   engine. Classify standalone immersive VR/MR, Android 2D, Spatial/hybrid, browser\n   WebXR, packaged PWA, Link PC VR or Horizon Worlds. Do not share requirements\n   between those categories without checking applicability.\n2. Read `references/stage-map.md` for any lifecycle plan or readiness audit. Read"
+      },
+      "url": "https://github.com/ssheleg/xr-dev/blob/ff0d06b3da0dc0149b930e84710ba538d175b62f/plugins/xr-dev/skills/quest-lifecycle/SKILL.md#L27",
+      "rationale": "Whole-product stage readiness is the lifecycle owner's scope."
+    },
+    "quest-native": {
+      "member": "xr-dev",
+      "commit": "ff0d06b3da0dc0149b930e84710ba538d175b62f",
+      "path": "plugins/xr-dev/skills/quest-native/SKILL.md",
+      "sha256": "851141e15d995718b9c2e3dbf7888f35d62c62b72e813175f1b670e49a73b303",
+      "body_anchor": {
+        "start_line": 138,
+        "end_line": 146,
+        "excerpt": "## Step 5 — the frame loop that passes review\n\n- Drive the session off `xrPollEvent`; the state machine, not a boolean, decides\n  when to begin and end the session.\n- `xrWaitFrame` → `xrBeginFrame` → render → `xrEndFrame`, and pose everything at\n  the **predicted display time** the wait returned. Rendering to \"now\" is judder\n  with a clean profile.\n- **Focus-aware is a VRC, not a nicety** (`VRC.Quest.Input.4`): when the app\n  loses focus it keeps rendering, hides its hands and controllers, and ignores"
+      },
+      "url": "https://github.com/ssheleg/xr-dev/blob/ff0d06b3da0dc0149b930e84710ba538d175b62f/plugins/xr-dev/skills/quest-native/SKILL.md#L138",
+      "rationale": "The C/C++ OpenXR frame loop is native, not Kotlin or browser tooling."
+    },
+    "quest-perf": {
+      "member": "xr-dev",
+      "commit": "ff0d06b3da0dc0149b930e84710ba538d175b62f",
+      "path": "plugins/xr-dev/skills/quest-perf/SKILL.md",
+      "sha256": "3405d332dd70870eac57476b077d99e28330b0337e4f0afbf9de51621546fdec",
+      "body_anchor": {
+        "start_line": 85,
+        "end_line": 93,
+        "excerpt": "## Capture chain — what each tool answers\n\n| Question | Tool | How |\n|---|---|---|\n| Am I missing frames at all, and where | logcat VrApi stats (`FPS`, `Stale`, `App`, `GPU%`) | `metavr log` / `adb logcat` |\n| Live numbers inside the headset | OVR Metrics Tool (`ovrmetric` APK) | `metavr tools install ovrmetric`, then enable its overlay |\n| CPU vs GPU, thread timeline, stalls | Perfetto | `metavr` MCP `start_perfetto_capture` → `stop_perfetto_capture` → `analyze_trace`, or the CLI equivalents |\n| Which C/C++ functions burn the CPU | simpleperf | Android NDK's simpleperf against the running package |\n| Which draw call, shader or render stage burns the GPU | RenderDoc Meta fork | `metavr tools install renderdoc`; draw-call trace, render-stage trace, Vulkan shader stats |"
+      },
+      "url": "https://github.com/ssheleg/xr-dev/blob/ff0d06b3da0dc0149b930e84710ba538d175b62f/plugins/xr-dev/skills/quest-perf/SKILL.md#L85",
+      "rationale": "Device frame-budget diagnosis belongs to quest-perf."
+    },
+    "quest-spatial": {
+      "member": "xr-dev",
+      "commit": "ff0d06b3da0dc0149b930e84710ba538d175b62f",
+      "path": "plugins/xr-dev/skills/quest-spatial/SKILL.md",
+      "sha256": "2bf442ebadae710c10c92c87556940f863b5363c85e22fc8ce9d3b37a492e158",
+      "body_anchor": {
+        "start_line": 150,
+        "end_line": 158,
+        "excerpt": "## Hybrid apps, in one paragraph\n\nA hybrid app moves between 2D panel activities and immersive activities in one\npackage. Panel activities run in three contexts — **Home**, **Overlay** (the\nQuest-button menu) and **Embedded** inside an immersive activity. Two\ninteraction models: **exclusive** (one at a time; terminate the old activity\n*after* starting the new one) and **cooperative** (several concurrent).\n`HybridSample` is the reference implementation.\n"
+      },
+      "url": "https://github.com/ssheleg/xr-dev/blob/ff0d06b3da0dc0149b930e84710ba538d175b62f/plugins/xr-dev/skills/quest-spatial/SKILL.md#L150",
+      "rationale": "Kotlin panels and hybrid activities belong to the Spatial lane."
+    },
+    "quest-store": {
+      "member": "xr-dev",
+      "commit": "ff0d06b3da0dc0149b930e84710ba538d175b62f",
+      "path": "plugins/xr-dev/skills/quest-store/SKILL.md",
+      "sha256": "ee9e33abaeff165d4efc2fc5bcb0b0f3436fe585c28a351f0ad0c1242a5d5bb3",
+      "body_anchor": {
+        "start_line": 120,
+        "end_line": 128,
+        "excerpt": "## A checklist that fits the two gates\n\nBefore the first ALPHA upload: release manifest, v2 signing, 64-bit, size\nlimits, `versionCode` bumped, it launches on a real headset from a cold boot.\n\nBefore Production: everything above plus the VRC self-pass, DUC filed if\nplatform features are used, store assets to spec, screenshots captured **in the\nheadset**, trailer under two minutes, age rating questionnaire complete, and the\nprivacy policy URL live."
+      },
+      "url": "https://github.com/ssheleg/xr-dev/blob/ff0d06b3da0dc0149b930e84710ba538d175b62f/plugins/xr-dev/skills/quest-store/SKILL.md#L120",
+      "rationale": "Store packaging and submission readiness, not whole lifecycle planning."
+    },
+    "quest-tooling": {
+      "member": "xr-dev",
+      "commit": "ff0d06b3da0dc0149b930e84710ba538d175b62f",
+      "path": "plugins/xr-dev/skills/quest-tooling/SKILL.md",
+      "sha256": "1ff0ce132532d5d172026971855aedc66e1774e18cd2f4b75dfbc3bad47e57ca",
+      "body_anchor": {
+        "start_line": 38,
+        "end_line": 46,
+        "excerpt": "## Install it once, through one channel\n\n| Channel | Command | Updates |\n|---|---|---|\n| Native installer (preferred) | `curl -fsSL https://developers.meta.com/horizon/install-cli/ \\| sh` → `~/.metavr/bin` | `metavr update`, in place |\n| npx, no install | `npx -y metavr@latest <cmd>` | always current |\n| npm global | `npm install -g metavr` | **never on its own** — needs `npm update -g metavr` |\n\nTwo of these installed at once is a version split waiting to be read as a bug:"
+      },
+      "url": "https://github.com/ssheleg/xr-dev/blob/ff0d06b3da0dc0149b930e84710ba538d175b62f/plugins/xr-dev/skills/quest-tooling/SKILL.md#L38",
+      "rationale": "Tool discovery, registration and version split are tooling concerns."
+    },
+    "quest-webxr": {
+      "member": "xr-dev",
+      "commit": "ff0d06b3da0dc0149b930e84710ba538d175b62f",
+      "path": "plugins/xr-dev/skills/quest-webxr/SKILL.md",
+      "sha256": "62f4c1922be09ba3a9aba90add5ba93ea178e6d6115230671cdf33e2ddd13bbd",
+      "body_anchor": {
+        "start_line": 33,
+        "end_line": 41,
+        "excerpt": "## The order that avoids rework\n\n1. **Build the site and test it in the headset's Browser first.** A packaged PWA\n   uses the *same rendering engine*, so every compatibility and performance\n   problem is visible before packaging.\n2. **Debug it remotely** — Chrome DevTools from the machine against the device,\n   over the Android platform tools. The Browser specifications page carries the\n   user-agent string and the supported content sizes.\n3. **Package only when the page is right.**"
+      },
+      "url": "https://github.com/ssheleg/xr-dev/blob/ff0d06b3da0dc0149b930e84710ba538d175b62f/plugins/xr-dev/skills/quest-webxr/SKILL.md#L33",
+      "rationale": "Browser/session and PWA delivery on Horizon is quest-webxr's scope."
+    },
+    "seo-aeo-audit": {
+      "member": "seo-aeo-audit",
+      "commit": "d3a17d0e708d02684c80a2497f016cf40ca7c750",
+      "path": "plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md",
+      "sha256": "f47141259d522c415531f0efef9a2635443da9fb824b3f0c555ae536a4641fbb",
+      "body_anchor": {
+        "start_line": 135,
+        "end_line": 143,
+        "excerpt": "## Step 2 — The ten tracks\n\nRun every track in scope. Each has its own file with the concrete checks, the\n2026-current gotchas, and the evidence to capture.\n\n| # | Track | Answers | Reference |\n|---|---|---|---|\n| A | Access & indexation economics | Can bots fetch, render and afford this? Where is crawl budget burned? | [technical-checks.md](references/technical-checks.md) |\n| B | Canonicalization & duplication | Which URL is canonical, and does the engine agree — hreflang included? | [technical-checks.md](references/technical-checks.md) |"
+      },
+      "url": "https://github.com/ssheleg/seo-aeo-audit/blob/d3a17d0e708d02684c80a2497f016cf40ca7c750/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md#L135",
+      "rationale": "A read-only search diagnosis and executable recommendations are the audit's output."
+    },
+    "sheleg-design": {
+      "member": "sheleg-design",
+      "commit": "f5244f6422c8ed18f72f61eb7afaef44a42276c0",
+      "path": "plugins/sheleg-design/skills/sheleg-design/SKILL.md",
+      "sha256": "4fcb5b56f624ad0c3baa5fd047dfead0324bf73cfc42e85d1f7c11870cb7dc38",
+      "body_anchor": {
+        "start_line": 231,
+        "end_line": 239,
+        "excerpt": "## Setting a visual language — invariants locked, axes open\n\nWhen the visual language is being SET or revised under a preserved brand,\nrun the split in [`VISUAL_EXPLORATION.md`](./VISUAL_EXPLORATION.md) first:\nlocked invariants (brand colors, logo, accessibility) versus open axes\n(composition, type hierarchy, control anatomy, motion purpose), two to\nthree direction renders for an under-determined brief, exactly one for an\nexplicit decision — and exact-Figma reproduction generates none. An\nexisting token file closes nothing by itself."
+      },
+      "url": "https://github.com/ssheleg/sheleg-design/blob/f5244f6422c8ed18f72f61eb7afaef44a42276c0/plugins/sheleg-design/skills/sheleg-design/SKILL.md#L231",
+      "rationale": "Visual language and motion are design decisions, not behavior or copy."
+    },
+    "skill-search": {
+      "member": "make-skill",
+      "commit": "b4418bc48e4654bf983db69705e6789d314ec431",
+      "path": "plugins/make-skill/skills/skill-search/SKILL.md",
+      "sha256": "b509fe04bf915258d678e685848fb147782a6be88a197ff8ddcb8f0b092f4b9b",
+      "body_anchor": {
+        "start_line": 19,
+        "end_line": 27,
+        "excerpt": "## The step\n\n1. **Restate the request in one line** — what the operator wants done, in your\n   words. This line is the meaning you search for, not the literal phrasing.\n2. **Decide whether a skill could help.** None for a question, an explanation,\n   or a one-line edit — say so and proceed. Everything else continues.\n3. **Turn the meaning into concepts**: 3–8 short terms in English AND Russian,\n   plus synonyms and the artifact involved (`pdf, документ, extract text,\n   извлечь текст`). Name the domain, not the verb alone."
+      },
+      "url": "https://github.com/ssheleg/make-skill/blob/b4418bc48e4654bf983db69705e6789d314ec431/plugins/make-skill/skills/skill-search/SKILL.md#L19",
+      "rationale": "The request is explicitly catalogue discovery, not the downstream document task."
+    },
+    "stripe-billing": {
+      "member": "sheleg-dev",
+      "commit": "59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79",
+      "path": "plugins/sheleg-dev/skills/stripe-billing/SKILL.md",
+      "sha256": "130b485502588d50b6896d6dfec54ce71337dda7c2215b337fb04771423e708b",
+      "body_anchor": {
+        "start_line": 254,
+        "end_line": 262,
+        "excerpt": "## Renewal: billing_reason decides\n\n`invoice.paid` fires for several different things. Granting product on all of\nthem is the most expensive mistake in this document.\n\n| `billing_reason` | What it is | Grant? |\n|---|---|---|\n| `subscription_create` | first invoice | **no** — checkout did it |\n| `subscription_cycle` | the renewal | **yes** |"
+      },
+      "url": "https://github.com/ssheleg/sheleg-dev/blob/59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79/plugins/sheleg-dev/skills/stripe-billing/SKILL.md#L254",
+      "rationale": "Provider payment events versus local entitlement is the Stripe seam."
+    },
+    "task-pipeline": {
+      "member": "task-pipeline",
+      "commit": "52fa75dbe1a3d169c02c612516b30028929559f9",
+      "path": "plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+      "sha256": "1ad4bd11e31a8ef03964c8a3e34c0cb148017be35621a37458249c873807ab2b",
+      "body_anchor": {
+        "start_line": 194,
+        "end_line": 202,
+        "excerpt": "## Stages (detail in `references/stages.md`)\n\nAll stages run on the **one model confirmed at preflight** (default: the most\ncapable available — see `references/model-tiering.md`).\n\n| # | Stage | Gate | Type |\n|---|---|---|---|\n| 0 | Intake grill — **mandatory** | source ledger written with its `Contradictions:` line; `docs/DOCMAP.md` answered and intent reconciled against as-built; the retro read in full; autonomy sweep covered; UI: `surface_class` recorded; brief locked and confirmed | manual |\n| 1 | Docs study | contracts grounded on fetched docs | auto |"
+      },
+      "url": "https://github.com/ssheleg/task-pipeline/blob/52fa75dbe1a3d169c02c612516b30028929559f9/plugins/task-pipeline/skills/task-pipeline/SKILL.md#L194",
+      "rationale": "The deliverable is a governed repository change, not a product agent loop."
+    },
+    "telegram-bots": {
+      "member": "telegram-dev",
+      "commit": "3f9d1d1538090b7ac443b1c38faba946c3f4f7b9",
+      "path": "plugins/telegram-dev/skills/telegram-bots/SKILL.md",
+      "sha256": "c58b2efbeca6b4844a929028bc1b1f6f8351b14f45367be678e4f8ceaa454cc2",
+      "body_anchor": {
+        "start_line": 72,
+        "end_line": 80,
+        "excerpt": "## The update is the event, and it arrives at least once\n\n```python\n# aiogram 3.x — the shape, not the framework\nasync def webhook(update: Update, db) -> web.Response:\n    await db.inbox_put(update.update_id, raw_body)    # INSERT on a primary key,\n    return web.Response(status=200)                   # durable BEFORE the ack\n\n# off the request path: a worker takes a pending row, does the work, marks it"
+      },
+      "url": "https://github.com/ssheleg/telegram-dev/blob/3f9d1d1538090b7ac443b1c38faba946c3f4f7b9/plugins/telegram-dev/skills/telegram-bots/SKILL.md#L72",
+      "rationale": "Bot updates and successful-payment idempotency use the bot token lane."
+    },
+    "telegram-miniapps": {
+      "member": "telegram-dev",
+      "commit": "3f9d1d1538090b7ac443b1c38faba946c3f4f7b9",
+      "path": "plugins/telegram-dev/skills/telegram-miniapps/SKILL.md",
+      "sha256": "62fb97b5e2cb39f80ccf0d9794a68b36f9702594f7b1196412118dd41f0aff5a",
+      "body_anchor": {
+        "start_line": 62,
+        "end_line": 70,
+        "excerpt": "## Verifying it, exactly\n\n```python\nimport hashlib, hmac, time\nfrom urllib.parse import parse_qsl\n\nMAX_AGE = 300  # seconds; a decision, not a constant handed down\n\ndef verify(init_data: str, bot_token: str) -> dict:"
+      },
+      "url": "https://github.com/ssheleg/telegram-dev/blob/3f9d1d1538090b7ac443b1c38faba946c3f4f7b9/plugins/telegram-dev/skills/telegram-miniapps/SKILL.md#L62",
+      "rationale": "Mini App launch authentication belongs to the WebView integration owner."
+    },
+    "telegram-userbots": {
+      "member": "telegram-dev",
+      "commit": "3f9d1d1538090b7ac443b1c38faba946c3f4f7b9",
+      "path": "plugins/telegram-dev/skills/telegram-userbots/SKILL.md",
+      "sha256": "ab961479c3ee0a671ccccdb33cebb72009a5e13f0e3e89bbff1f0dd4df40e412",
+      "body_anchor": {
+        "start_line": 40,
+        "end_line": 48,
+        "excerpt": "## First: do you actually need one?\n\nAnswer this before writing a line, and write the answer down.\n\n| The job | Bot API can | Verdict |\n|---|---|---|\n| React to messages in chats the bot is in | yes | **use a bot** |\n| Send to users who started the bot | yes | **use a bot** |\n| Read a public channel it is admin of | yes | **use a bot** |"
+      },
+      "url": "https://github.com/ssheleg/telegram-dev/blob/3f9d1d1538090b7ac443b1c38faba946c3f4f7b9/plugins/telegram-dev/skills/telegram-userbots/SKILL.md#L40",
+      "rationale": "Personal-account history and session lifecycle require the MTProto lane."
+    },
+    "ux-audit": {
+      "member": "super-ux",
+      "commit": "c0996bc30392c81d3a341252e50069a3b2d83b34",
+      "path": "plugins/super-ux/skills/ux-audit/SKILL.md",
+      "sha256": "37e4b564036f9374a66cff700c35de95ac3b7f0800bbfa7f83fe8c1a1fab90c6",
+      "body_anchor": {
+        "start_line": 158,
+        "end_line": 166,
+        "excerpt": "## The loop\n\n1. **Scope.** Read the base (and foundation/flows, if present). Scope is\n   `$ARGUMENTS` if given (`all`, `feature:<name>`, `SCN-010..SCN-020`,\n   `coverage`, `practices`, `heuristics`, `copy`, `benchmark:<competitor>`),\n   default `all`; depth keyword\n   (`quick`/`deep`) selects the depth, default `standard`. Single-pass\n   scopes (`coverage`/`practices`/`heuristics`/`copy`/`benchmark:<competitor>`)\n   run just that pass. Note"
+      },
+      "url": "https://github.com/ssheleg/super-ux/blob/c0996bc30392c81d3a341252e50069a3b2d83b34/plugins/super-ux/skills/ux-audit/SKILL.md#L158",
+      "rationale": "This compares implementation with scenario behavior, not general project status."
+    },
+    "ux-flows": {
+      "member": "super-ux",
+      "commit": "c0996bc30392c81d3a341252e50069a3b2d83b34",
+      "path": "plugins/super-ux/skills/ux-flows/SKILL.md",
+      "sha256": "25c604b32082f36a8597a0daa1c8b389849facceb2c10001767ead2f7b91ca32",
+      "body_anchor": {
+        "start_line": 96,
+        "end_line": 104,
+        "excerpt": "## Design (forward)\n\nPer story (or tight cluster):\n\n0. **No foundation? Say so, then design anyway — in a declared shape.** The\n   steps below read \"per story\" and the practice pass builds its profile from\n   `foundation.md`, but the commonest real brief is *\"we know almost nothing\"*,\n   and until now nothing said what to do with it. Recommend `ux-foundation`\n   first (that stands), and if the work proceeds without it, carry three things"
+      },
+      "url": "https://github.com/ssheleg/super-ux/blob/c0996bc30392c81d3a341252e50069a3b2d83b34/plugins/super-ux/skills/ux-flows/SKILL.md#L96",
+      "rationale": "Flows and screens describe how users move; upstream stories already exist."
+    },
+    "ux-foundation": {
+      "member": "super-ux",
+      "commit": "c0996bc30392c81d3a341252e50069a3b2d83b34",
+      "path": "plugins/super-ux/skills/ux-foundation/SKILL.md",
+      "sha256": "31ad9d59f6515f22fb37ef6de6a8e31debf342929889fb209cd0f3eaf0e159b5",
+      "body_anchor": {
+        "start_line": 28,
+        "end_line": 36,
+        "excerpt": "## Quality bars (non-negotiable)\n\n- **Personas** are grounded in data or observation, recognizable by a real\n  user — not invented archetypes with stock-photo traits.\n- **JTBD** statements name a situation, motivation, and outcome — never a\n  feature (\"When I land a new client, I want to start a clean workspace, so\n  I can bill them separately\" — not \"I want a projects dropdown\"). Capture\n  the four forces: push, pull, anxiety, habit.\n- **Journeys** cover the end-to-end experience (before, during, after the"
+      },
+      "url": "https://github.com/ssheleg/super-ux/blob/c0996bc30392c81d3a341252e50069a3b2d83b34/plugins/super-ux/skills/ux-foundation/SKILL.md#L28",
+      "rationale": "The why/who foundation precedes flows and observable scenarios."
+    },
+    "ux-scenarios": {
+      "member": "super-ux",
+      "commit": "c0996bc30392c81d3a341252e50069a3b2d83b34",
+      "path": "plugins/super-ux/skills/ux-scenarios/SKILL.md",
+      "sha256": "e6614abe7dadb0b0107adc15dbcbae818a7ae09b06d4d18753bc2b738ecd61bf",
+      "body_anchor": {
+        "start_line": 42,
+        "end_line": 50,
+        "excerpt": "## The hard rule\n\n1. Scenarios come BEFORE interface. A new feature or project starts with\n   drafting scenarios and validating them against the existing base —\n   conflicts, overlaps, gaps — and getting them approved. Only then design\n   and build UI.\n2. Any change touching user-facing behavior updates `docs/ux/scenarios.md`\n   in the SAME change. New behavior with no scenario is a blocker, not a\n   warning."
+      },
+      "url": "https://github.com/ssheleg/super-ux/blob/c0996bc30392c81d3a341252e50069a3b2d83b34/plugins/super-ux/skills/ux-scenarios/SKILL.md#L42",
+      "rationale": "Observable step/state coverage belongs to scenarios rather than navigation design."
+    },
+    "vision": {
+      "member": "super-ux",
+      "commit": "c0996bc30392c81d3a341252e50069a3b2d83b34",
+      "path": "plugins/super-ux/skills/vision/SKILL.md",
+      "sha256": "87a89d672cdbc0b352f8cb1be8d128568ea272ec2e80b54bcc9c5d9639dde372",
+      "body_anchor": {
+        "start_line": 66,
+        "end_line": 74,
+        "excerpt": "## Step 2 — write `docs/ux/vision.md` in nine layers\n\nEvery layer is mandatory. Write in the project's documentation language — and\nthe vision's nine sections are identified by their NUMBER, not their English\ntitle: write `## 6. <title in your language>`, never translate the number\naway. The section contract is [scenario-format.md](references/scenario-format.md) →\n*docs/ux/vision.md* — read it before writing the vision, because the linter\nkeys on the number and a missing section (e.g. anti-vision) FAILs regardless of\nlanguage."
+      },
+      "url": "https://github.com/ssheleg/super-ux/blob/c0996bc30392c81d3a341252e50069a3b2d83b34/plugins/super-ux/skills/vision/SKILL.md#L66",
+      "rationale": "Product identity and anti-vision sit above personas and feature behavior."
+    },
+    "web3d-animation": {
+      "member": "web3d-dev",
+      "commit": "5f7c3273163cff05e73707159805fb3e6592def1",
+      "path": "plugins/web3d-dev/skills/web3d-animation/SKILL.md",
+      "sha256": "f1424f25bc5ccd52257923257f353d88000bca4a23ee4f9e57e48d7f363d8470",
+      "body_anchor": {
+        "start_line": 89,
+        "end_line": 97,
+        "excerpt": "## Step 3 — the runtime half\n\n1. **One clock.** `new Timer()` (core in r186; `Clock` is deprecated), `timer.connect(document)`\n   so a hidden tab does not return a giant delta, `timer.update()` once per frame, and a\n   clamped `dt` (a pattern — e.g. `Math.min(dt, 0.1)`) for the mixer. Physics runs on its own\n   fixed-step accumulator fed by the same clock.\n2. **Frame order:** `mixer.update(dt)` → compute passes → render. A compute skinning pass\n   reads bone matrices the mixer just wrote.\n3. **One mixer per character root.** Copies come from `SkeletonUtils.clone` — a plain"
+      },
+      "url": "https://github.com/ssheleg/web3d-dev/blob/5f7c3273163cff05e73707159805fb3e6592def1/plugins/web3d-dev/skills/web3d-animation/SKILL.md#L89",
+      "rationale": "The authored-clip/runtime playback seam is animation, not generic GPU setup."
+    },
+    "web3d-assets": {
+      "member": "web3d-dev",
+      "commit": "5f7c3273163cff05e73707159805fb3e6592def1",
+      "path": "plugins/web3d-dev/skills/web3d-assets/SKILL.md",
+      "sha256": "71ebc9bb186e5061794fe548c300a4c9466ed834bc9d09e0daa108b7d0375daa",
+      "body_anchor": {
+        "start_line": 46,
+        "end_line": 54,
+        "excerpt": "## The principles — the same with or without the service\n\nThese are what Asset Foundry enforces mechanically. By hand, you enforce them yourself.\n\n1. **Look before you make.** Search the project's own assets, then free CC0 libraries, then\n   buy or generate. A hit costs nothing and carries its provenance.\n2. **The target profile decides**, not the source. Every gate reads the profile.\n3. **Gate twice.** A cheap check right after sourcing (does it load, is it the right thing) and\n   a strict check before delivery (budgets, extensions, colour spaces, validator). A budget"
+      },
+      "url": "https://github.com/ssheleg/web3d-dev/blob/5f7c3273163cff05e73707159805fb3e6592def1/plugins/web3d-dev/skills/web3d-assets/SKILL.md#L46",
+      "rationale": "Asset provenance, budgets and loader-compatible processing belong to assets."
+    },
+    "web3d-runtime": {
+      "member": "web3d-dev",
+      "commit": "5f7c3273163cff05e73707159805fb3e6592def1",
+      "path": "plugins/web3d-dev/skills/web3d-runtime/SKILL.md",
+      "sha256": "997a01553d47b1d78e9175920219bb26ccb8b1d3f55c8140cbc07693907f04fb",
+      "body_anchor": {
+        "start_line": 46,
+        "end_line": 54,
+        "excerpt": "## The capability ladder\n\nChoose the rung per scene, top down; every rung must still be a working page.\n\n1. **WebGPU** — `new WebGPURenderer()` then `await renderer.init()`.\n2. **WebGL2 backend of the same renderer** — automatic when WebGPU is unavailable (it logs\n   `running under WebGL2 backend`); forced with `forceWebGL: true`. Compute-heavy features\n   need a lighter path here: detect with `renderer.backend.isWebGPUBackend` after `init()`.\n3. **Calm** — no WebGL at all, reduced motion, or a device loss that could not recover: a"
+      },
+      "url": "https://github.com/ssheleg/web3d-dev/blob/5f7c3273163cff05e73707159805fb3e6592def1/plugins/web3d-dev/skills/web3d-runtime/SKILL.md#L46",
+      "rationale": "Renderer capability and frame-loop ownership are runtime concerns."
+    }
+  }
+}

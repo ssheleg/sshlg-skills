@@ -56,3 +56,25 @@ Merged source `5427bbbd449cf6c26bc52e84f98bdb90707d5ec6` passed 113 local suites
 The 1.62.0 package version is a candidate; no tag, registry publication or machine
 application is certified by this line. FW01 and FW02 member implementations are
 running in isolated branches; their exact owner receipts will join the handoff.
+
+### Active cut at 2026-10-13 03:58 UTC
+
+Hub1.62.1 is published/installed within the limits in the live HANDOFF. Candidate
+1.62.2 contains reviewed B185/B186 corrections and released member pins; first
+aggregate executed115 suites/1755 counted fixtures and FAILED the member seam/
+ledger check plus stale simulated release-set receipt. Owner documentation-only
+successors and source-aware regeneration repair these; no guard floor is lowered.
+See [candidate evidence](../completion-1013/release-1.62.2/first-integration.json).
+
+The [paired pilot](../completion-1013/description-corpus-v2.md#executed-pilot-2026-10-13)
+executed ten complete pairs with matching correct selections, then stopped on an
+invalid response format. This is explicit-catalogue screening, not native skill
+loading or complete task-quality acceptance. Native restricted-session fixture
+preparation continues; installed descriptions remain unchanged.
+
+Fabric admission later succeeded at03:12UTC, but com.status/list/submit remain
+unavailable. The initial no-project observation above is historical. MCP consumer
+fixtures are draft-only; no competing profile writer or cross-project send exists.
+TP112 conservation fixes are in reviewed PR116; TP114 remains a separate reviewed
+branch awaiting integration. SEO coverage migration and negative-guard attribution
+continue as bounded owner packets. Original requirements and board IDs are retained.

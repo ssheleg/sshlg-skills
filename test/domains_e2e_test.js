@@ -196,14 +196,14 @@ it('--revert keeps a value the operator changed after --apply', () => {
   assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
 });
 
-it('a project file in another format is refused in the preview AND the apply, like an ignore refusal', () => {
-  fs.writeFileSync(local(P.money), '{"permissions":{}}\n'); // not the format Claude Code writes
+it('ambiguous duplicate settings are refused in the preview AND apply', () => {
+  fs.writeFileSync(local(P.money), '{"permissions":{},"permissions":{}}\n'); // ambiguous even though JSON.parse accepts it
   const pre = run('domains');
-  assert.ok(/p-money[^\n]*refused — the file is not in the 2-space/.test(pre.stdout), pre.stdout);
+  assert.ok(/p-money[^\n]*(?:refused|not read in full)/.test(pre.stdout), pre.stdout);
   const r = run('domains', '--apply');
   assert.strictEqual(r.status, 0, 'a planned refusal exits like an ignore refusal');
   assert.ok(/p-money[^\n]*refused/.test(r.stdout), r.stdout);
-  assert.strictEqual(fs.readFileSync(local(P.money), 'utf8'), '{"permissions":{}}\n');
+  assert.strictEqual(fs.readFileSync(local(P.money), 'utf8'), '{"permissions":{},"permissions":{}}\n');
   assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['sheleg-dev@sheleg-dev'], true, r.stdout);
   assert.strictEqual(run('domains', '--revert').status, 0);
   assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
@@ -353,7 +353,7 @@ it('a symlinked repository under the root is followed, keyed by the link, dedupl
 });
 
 it('the update step only adds: it never turns a member off at user scope', () => {
-  fs.writeFileSync(local(P.money), '{"permissions":{}}\n'); // web3d-dev blocked at the first apply
+  fs.writeFileSync(local(P.money), '{"permissions":{},"permissions":{}}\n'); // ambiguous settings block the first apply
   assert.strictEqual(run('domains', '--apply').status, 0);
   assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['web3d-dev@web3d-dev'], true);
   fs.writeFileSync(local(P.money), MONEY_LOCAL); // unblocked
