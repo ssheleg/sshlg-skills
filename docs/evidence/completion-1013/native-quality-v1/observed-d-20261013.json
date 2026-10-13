@@ -1,0 +1,212 @@
+{
+  "schema": "native-quality-run/1",
+  "status": "COMPLETED",
+  "calls": [
+    {
+      "phase": "task",
+      "arm": "concise",
+      "case_id": "a1",
+      "index": 0,
+      "state": "FINISHED",
+      "prompt_sha256": "689bf550a4cba7cbb064661b93281167e199a6e00b8cded8a52f16b0ed23033e",
+      "started_at_utc": "2026-10-13T04:45:59Z",
+      "workspace_manifest_sha256": "ec161088e23c41e4c81f1a8e79b741530f8d0a90728a13587b4ce8f5a2646368",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0784908,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3928,
+        "cache_read_input_tokens": 24434,
+        "output_tokens": 2107
+      },
+      "native": {
+        "visible": [
+          "sheleg-dev:ad-tracking",
+          "sheleg-dev:crypto-payments",
+          "sheleg-dev:error-tracking",
+          "sheleg-dev:frontend-performance",
+          "sheleg-dev:google-auth",
+          "sheleg-dev:google-signin",
+          "sheleg-dev:stripe-billing"
+        ],
+        "skill_loads": [],
+        "read_files": [
+          "app/OPERATIONS.md",
+          "app/client.py",
+          "app/deployment.env.example"
+        ],
+        "google_auth_loaded": false
+      },
+      "artifact_sha256": "7da73ee69ddf7e6f9460daa7a4dbc3d97c08dd63802c2aa2aa17f0c443d3d92c",
+      "final_result_sha256": "262719f760656bae05625b5af11d351a75495938127885a9afcec649d654711e",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "7de4f09e4aabb54f4407002bfbc38838145b40dd128df618ba018f8e16f3cf49",
+          "text_sha256": "4acdd53fc655bfd5556de4beb6df52f4509eb3edcb6d611971d2a426b0fc442c",
+          "characters": 3478
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "d91fedec5180859e7cf02dee57a9080706412938ae38c1e37916036fc0e5adaf",
+          "text_sha256": "262719f760656bae05625b5af11d351a75495938127885a9afcec649d654711e",
+          "characters": 772
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 8811,
+      "request_count": 4,
+      "turns": 6,
+      "stdout_sha256": "d97ee60ff983b79b102d5e28283218a0bcc47b2b79819b8d0c98f7d297e28fc6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "arm": "concise",
+      "case_id": "a2",
+      "index": 1,
+      "state": "FINISHED",
+      "prompt_sha256": "5f28f2775dc507b7560883dfe8ed155042f37603bd5e59ed7b7d09b0ef64077a",
+      "started_at_utc": "2026-10-13T04:46:26Z",
+      "workspace_manifest_sha256": "ec161088e23c41e4c81f1a8e79b741530f8d0a90728a13587b4ce8f5a2646368",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0923668,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 4487,
+        "cache_read_input_tokens": 24354,
+        "output_tokens": 2578
+      },
+      "native": {
+        "visible": [
+          "sheleg-dev:ad-tracking",
+          "sheleg-dev:crypto-payments",
+          "sheleg-dev:error-tracking",
+          "sheleg-dev:frontend-performance",
+          "sheleg-dev:google-auth",
+          "sheleg-dev:google-signin",
+          "sheleg-dev:stripe-billing"
+        ],
+        "skill_loads": [],
+        "read_files": [
+          "app/OPERATIONS.md",
+          "app/client.py",
+          "app/deployment.env.example"
+        ],
+        "google_auth_loaded": false
+      },
+      "artifact_sha256": "d977ff7f939133ca3ae267089caeda3748152b2d50315c00ec5050690527b34d",
+      "final_result_sha256": "d6c98a9a5cd2e6f5d6d4a5fc130a5c5937b006d5f2200f2786bd6589a23a4ce2",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "cc58d0eb56e24d0b6f10ce392c0e924c30861a3a5b3393eac23aaa3919ba7bc8",
+          "text_sha256": "5976d37b09586bec2b20505be82e31656ea04407262407a548cbd0429849669d",
+          "characters": 3129
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "1f8a96e778a28060736c1a27dda23ced5e0bb17daea0e833fd70280062e37cfd",
+          "text_sha256": "d6c98a9a5cd2e6f5d6d4a5fc130a5c5937b006d5f2200f2786bd6589a23a4ce2",
+          "characters": 1315
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 9016,
+      "request_count": 4,
+      "turns": 6,
+      "stdout_sha256": "7764a866898d2f74439d634a81882eb50f49f233d69c31c3fa774673d5a52011",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "arm": "full",
+      "case_id": "a2",
+      "index": 2,
+      "state": "FINISHED",
+      "prompt_sha256": "5f28f2775dc507b7560883dfe8ed155042f37603bd5e59ed7b7d09b0ef64077a",
+      "started_at_utc": "2026-10-13T04:47:00Z",
+      "workspace_manifest_sha256": "d2d1a3cc5cb687f43d372374f414ddab693c827b31a1b76cb6c8354c484cc81d",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0992822,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 5669,
+        "cache_read_input_tokens": 29451,
+        "output_tokens": 2400
+      },
+      "native": {
+        "visible": [
+          "sheleg-dev:ad-tracking",
+          "sheleg-dev:crypto-payments",
+          "sheleg-dev:error-tracking",
+          "sheleg-dev:frontend-performance",
+          "sheleg-dev:google-auth",
+          "sheleg-dev:google-signin",
+          "sheleg-dev:stripe-billing"
+        ],
+        "skill_loads": [],
+        "read_files": [
+          "app/OPERATIONS.md",
+          "app/client.py",
+          "app/deployment.env.example"
+        ],
+        "google_auth_loaded": false
+      },
+      "artifact_sha256": "ac82405cfe75821b80d9391d3b3776c9fa39c113f0a6eb696633bc378dbbc5bb",
+      "final_result_sha256": "732efe4ef96d9540a00726aa2cf2536a85c49dd5a040d11f5f3812f8ddc6085d",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "1d138cada9290780e33ec9e1e5ea8c9f7c956f926e2036947f1ba67632259580",
+          "text_sha256": "1b713aa8f9788c55450f5321f2bf83b9515c2c6880778e936abf116cf199359e",
+          "characters": 3063
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "729320bed9c89ae7ce3806e7f81826e66632a3e21ef89d153a153a1bcc203a22",
+          "text_sha256": "732efe4ef96d9540a00726aa2cf2536a85c49dd5a040d11f5f3812f8ddc6085d",
+          "characters": 939
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 10585,
+      "request_count": 4,
+      "turns": 6,
+      "stdout_sha256": "72067f1ee23c279a63bf2ff7bee58eda86b2181c9b1fb64c1d67295480cd76fe",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "seed": 10132027,
+  "reported_list_usd": 0.2701398,
+  "prior_reported_list_usd": 0.1834924,
+  "combined_known_list_usd": 0.4536322,
+  "prior_receipt_sha256": {
+    "observed-20261013.json": "54ec6158806e726b09b0b866a9bdc62fe0d30cdacc4e27d08c3e94043cd2b6ea",
+    "observed-b-20261013.json": "1c451a523fc102ec543d9da028daa796109dd7d755495d2e80f1380bb83ffcf4",
+    "observed-c-20261013.json": "3be4c1c0ff3180e838585195c574cacd32b78a119e433b94eafa78ef67a156aa"
+  },
+  "prior_cli_invocations": 5,
+  "max_cumulative_cli_invocations": 8,
+  "max_model_turns_this_attempt": 18,
+  "cost_incomplete": false,
+  "source_sha": "8862fae9a826263f8109626ca257f81c7c43ac86",
+  "runner_sha256": "2b7a08f368071a5353f98f7f7d24749b5f5192a728277c05a472eec6c889b300",
+  "materializer_sha256": "f52a4b1ec1988d084354707ff12a267410020ed9c966863038ebe6458683bbb3",
+  "source_manifest_sha256": "5f03cc629eacd73b6d6769f3b54b5e259e79dd02abf3c306e033ed40641f87b7",
+  "arms_fixture_sha256": "ebd26050e00ca074dd3d18d98c77c75784b7c984ccaa72e8741a08b96862e96a",
+  "tasks_sha256": "c2a47d103fcb039d7b7e4d63f620df087e751c3889adc4224d37e2484c10d90a",
+  "rubric_sha256": "d5420c69b4d56c9e304ec960a604504dd1f8588143ac6420caa48a15148db660",
+  "budget": 4.0,
+  "max_calls": 3,
+  "scope": "Restricted native fixture only; call counts mean CLI invocations, bounded model turns separately; CLI internal retries unmeasured. Artifact quality requires independent review; list metadata is not subscription billing.",
+  "protocol": "native-quality-explicit-three-cell-continuation/1",
+  "continuation_of_sha256": "3be4c1c0ff3180e838585195c574cacd32b78a119e433b94eafa78ef67a156aa",
+  "continuation_runner_sha256": "97e557e7e514f6446aa50f2328f09635647447f5d7b55e583a24b92e84ebc9f7",
+  "prior_readiness": "Both immutable C readiness calls EXECUTED; original C task remains TEST_ERROR; no call repeated.",
+  "auth_route": "claude.ai subscription / firstParty",
+  "cli_version": "2.1.296"
+}

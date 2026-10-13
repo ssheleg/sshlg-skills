@@ -286,3 +286,36 @@ requests, that the final-result hash still identifies the tail, and that thinkin
 is excluded. All original and continuation fake-process controls passed again.
 No prompt, rubric, model, source, limit or cost policy changed. The corrected
 continuation remains NOT_RUN pending independent final review.
+
+## Executed continuation and artifact handoff
+
+After independent review of `98a3df5cc4f6d8cfaac796e3497239ad0ceb214a`,
+[continuation D](observed-d-20261013.json) completed exactly the three remaining
+cells. No readiness or stopped task was repeated. All new task inits contained
+exactly the seven expected skills, four allowed tools and no MCP servers.
+The total is now **eight CLI invocations**, with **USD0.4536322** cumulative known
+reported list metadata; no unknown cost and no retry. This is not subscription
+billing. A/B/C immutable stops remain unchanged.
+
+| Artifact | Evidence status | Input across cache modes | Output tokens | Unique API message IDs | Reported list USD |
+|---|---|---|---|---|---|
+| English/full | C offline diagnostic, original TEST_ERROR | 34974 | 2292 | 4 | 0.099782 |
+| English/concise | D EXECUTED | 28372 | 2107 | 4 | 0.0784908 |
+| Russian/concise | D EXECUTED | 28851 | 2578 | 4 | 0.0923668 |
+| Russian/full | D EXECUTED | 35130 | 2400 | 4 | 0.0992822 |
+
+All four artifacts observed fixture Reads and **zero Skill invocations**. Thus
+this experiment has native catalogue visibility and delivered audit artifacts,
+but does not establish specialist-body use or unchanged quality after loading.
+English/Russian are correlated translations, not independent task categories.
+No installed configuration or skill was changed.
+
+The [review manifest](artifact-review-manifest.json) freezes complete visible-text
+hashes, ordered block/request-provenance hashes and separate final-tail hashes.
+Private text files were verified against those hashes; raw and artifact files
+remain 0600 in private 0700 directories outside Git. The coordinator received
+exact private paths for independent rubric scoring. Semantic quality is
+**NOT_SCORED** in this handoff; neither visibility nor successful execution is a
+quality verdict. Next: independent artifact scoring against unchanged rubric,
+then decide whether any broader adoption evidence is justified. No further
+provider/model call is authorized by this completed bounded protocol.
