@@ -4,5 +4,6 @@
   "durable_cost_unknown": false,
   "kind": "uncommitted source self-review; not a historical release incident",
   "harness_sha256": "5ca0b5dfbcc4fc01c870ab315cf94f2af0a10673e8891e62b6f5ec7b3d8122fe",
-  "source_receipt": "Stable65 controls passed on this source before these additional missing controls were added."
+  "source_receipt": "Stable65 controls passed on this source before these additional missing controls were added.",
+  "reconstructable_source": "Reverse started-baseline-to-final.patch against source f5c99e0 harness.py; reconstructed bytes independently matched the recorded SHA256."
 }
