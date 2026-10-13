@@ -46,15 +46,15 @@ def reconcile():
     dispositions = []
     for key, old in sorted(before.items()):
         now = current.get(key)
-        state = 'MISSING_REQUIRES_RECONCILIATION' if now is None else ('DOCUMENTED_OPEN' if now['open'] else 'DOCUMENTED_CLOSED_REQUIRES_ACCEPTANCE_LINK')
+        state = 'MISSING_REQUIRES_RECONCILIATION' if now is None else ('RECORDED_NONTERMINAL' if now['open'] else 'DOCUMENTED_CLOSED_REQUIRES_ACCEPTANCE_LINK')
         dispositions.append({'identity': key, 'original_commit': old['commit'], 'original_source': old['source'], 'disposition': state, 'current': now})
     new = [{'identity': key, 'current': row} for key, row in sorted(current.items()) if key not in before and row['open']]
     assert {x['identity'] for x in dispositions} == set(before)
     return {'schema': 'board-disposition/1', 'hub_commit': owners[0][2],
             'original_sha256': hashlib.sha256((HERE/'inventory.json').read_bytes()).hexdigest(),
             'scope': 'Committed board states only. Closed prose is not implementation, release, installation or runtime acceptance. Original inventory identities retained losslessly.',
-            'counts': {'original': len(before), 'preserved': len(dispositions), 'new_documented_open': len(new), 'dispositions': dict(collections.Counter(r['disposition'] for r in dispositions))},
-            'sources': sources, 'dispositions': dispositions, 'new_documented_open': new}
+            'counts': {'original': len(before), 'preserved': len(dispositions), 'new_recorded_nonterminal': len(new), 'dispositions': dict(collections.Counter(r['disposition'] for r in dispositions))},
+            'sources': sources, 'dispositions': dispositions, 'new_recorded_nonterminal': new}
 
 
 def main():
