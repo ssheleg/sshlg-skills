@@ -1,4 +1,4 @@
-## Current continuation — 2026-10-13 05:25 UTC
+## Current continuation — 2026-10-13 05:51 UTC
 
 Hub **1.62.2 is published**, source `a17f829e8d652ce7f68423b67e0de00fb89b3693`.
 [Publication](evidence/completion-1013/release-1.62.2/publication.json) verifies all80 npm files.
@@ -9,15 +9,16 @@ owns the repair. Domain35 project entries match; three real apply runs preserve 
 Two invalid Git roots retain global coverage; sheleg-dev remains global.
 
 Next: implement/review Claude immutable source updates; finish remaining owner
-R30 validators and SEO provider coverage; merge TP119 after genuine exact-head
-checks, then finalize TP source/release ledger. TP114 merged25dc4f8;
+R30 validators and SEO provider coverage; finalize TP source/release ledger.
+TP119 merged3596355 into the feature after genuine exact-head checks; TP114 merged25dc4f8;
 agent-stack0.27.2 is published, its owner receipt merged e2120c2.
 [Remaining-seven R30 audit](evidence/completion-1013/r30-owner-audit/README.md)
 records actual escaped plants and bounded follow-ups. Original37 requirements
 and177 initial board IDs remain source-preserved, not blanket completion.
 Native artifact review is **NO_ADOPTION**, with [new routing research](reports/2026-10-13-native-skill-routing/README.md)
 clarifying registration versus invocation; no extra paid experiment was run.
-[Current run](evidence/completion-1013/run.md).
+[Current run](evidence/completion-1013/run.md). Latest [Fabric admission](evidence/completion-1013/fabric-admission-20261013-0551.json) again returns no project; com.* tools remain absent. Pending asks are unsent.
+[Native skill-search protocol](evidence/completion-1013/skill-search-native/README.md) has41 offline controls and awaits final independent admission; no model calls yet.
 
 The dated entries below retain previous states and are not current instructions.
 

@@ -2,7 +2,7 @@
 
 [Plan](../plans/2026-10-13-completion.md) · [research](../../reports/2026-10-13-skill-discovery-efficiency/README.md)
 
-## Current entry — 2026-10-13 05:25 UTC
+## Current entry — 2026-10-13 05:51 UTC
 
 Use [the live HANDOFF](../../HANDOFF.md), [run ledger](run.md) and
 [current board/requirement reconciliation](board-reconciliation.md#committed-cut-at-2026-10-13-0415-utc).
@@ -11,8 +11,7 @@ The records below are dated evidence. Hub1.62.2 is published at accepted a17f829
 but exposes Claude source drift (B-187); acceptance remains PARTIAL.
 [Native artifact review](native-quality-v1/artifact-independent-review.json)
 concludes NO_ADOPTION: zero Skill loads and incomplete migration checks in all
-four artifacts. Fabric admission succeeds, but com.status/list/submit remain
-unavailable in this session; pending cross-project asks are still unsent.
+four artifacts. Latest [Fabric observation](fabric-admission-20261013-0551.json) returns no project; com.status/list/submit remain unavailable. Pending cross-project asks are still unsent.
 
 
 ## Search ranking
@@ -35,7 +34,7 @@ PR #215 integrated at 022356d3479d351ccdf39135a44914be6de73ad7 after its exact h
 
 ## Pending cross-project asks
 
-Initial Fabric admission returned `no-project`; admission later succeeded at03:12UTC, but com.status/list/submit remain unavailable. None of these were submitted in this session. Retry only through the authenticated Project board when its tools are available. Existing issues are evidence, not substitute sends.
+Initial Fabric admission returned `no-project`; admission later succeeded at03:12UTC, then returned no project again at05:51UTC; com.status/list/submit remain unavailable. None of these were submitted in this session. Retry only through the authenticated Project board when its tools are available. Existing issues are evidence, not substitute sends.
 
 | Idempotency key | Owner | Evidence and exact next task | Status |
 |---|---|---|---|

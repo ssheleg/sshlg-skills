@@ -1,0 +1,12 @@
+{
+  "schema": "fabric-admission-observation/1",
+  "observed_at_utc": "2026-10-13T05:51:56.101Z",
+  "session_id": "7ba9f585-0a42-415a-a060-222069a4c969",
+  "project": null,
+  "repositories": [],
+  "task": null,
+  "available_relevant_tools": [
+    "mcp__fabric__fabric_whoami"
+  ],
+  "scope": "Read-only observation. Prior 03:12 project admission does not attest this session now; no board submission attempted."
+}
