@@ -45,6 +45,8 @@ with tempfile.TemporaryDirectory(prefix='native-check-') as temp:
  for change,error in [
   (lambda a,b,c:a['skills'].append('foreign:secret'),'unexpected_skill_inventory'),
   (lambda a,b,c:a['skills'].append('doctor'),'unexpected_skill_inventory'),
+  (lambda a,b,c:a['skills'].append('design'),'unexpected_skill_inventory'),
+  (lambda a,b,c:a['skills'].append('plugin-authoring'),'unexpected_skill_inventory'),
   (lambda a,b,c:a['skills'].pop(),'unexpected_skill_inventory'),
   (lambda a,b,c:a.update(skills=[{}]),'unexpected_skill_inventory'),
   (lambda a,b,c:a['tools'].append('Bash'),'unexpected_tools_or_mcp'),
@@ -76,7 +78,7 @@ args=sys.argv[1:];assert '--restricted' in args and '--bare' not in args and '--
 assert set(args[args.index('--tools')+1].split(','))=={'Read','Skill','Glob','Grep'}
 assert set(args[args.index('--allowedTools')+1].split(','))=={'Read','Skill','Glob','Grep'}
 settings=json.loads(args[args.index('--settings')+1]);assert settings['disableAllHooks'] is True
-assert settings['disableBundledSkills'] is True and settings['skillOverrides']=={'doctor':'off'}
+assert settings['disableBundledSkills'] is True and settings['skillOverrides']=={'doctor':'off','design':'off','plugin-authoring':'off'}
 assert 'enabledPlugins' not in settings
 assert json.loads(args[args.index('--mcp-config')+1])=={'mcpServers':{}}
 assert not list(Path.cwd().rglob('rubric.json')) and not list(Path.cwd().rglob('tasks.json'))
@@ -102,6 +104,8 @@ print(json.dumps(final));print('PRIVATE_NATIVE_SENTINEL',file=sys.stderr)
   with patch.dict(os.environ,dict(env,NATIVE_FAKE_MODE=mode),clear=True),patch.object(r,'TIMEOUT',0.1 if mode=='timeout' else 10):
    code=r.execute(args);receipt=json.loads(args.output.read_text());assert receipt['status']==status,(mode,receipt);assert len(receipt['calls'])==n
    assert receipt['prior_reported_list_usd']==r.PRIOR_COST
+   assert receipt['prior_cli_invocations']==2 and receipt['max_cumulative_cli_invocations']==8
+   assert len(receipt['prior_receipt_sha256'])==2
    assert abs(receipt['combined_known_list_usd']-receipt['reported_list_usd']-r.PRIOR_COST)<1e-9
    assert code==(0 if mode=='ok' else 1)
    try:r.execute(args)
