@@ -2507,7 +2507,7 @@
     {
       "name": "seo-aeo-audit",
       "repo": "ssheleg/seo-aeo-audit",
-      "commit": "c5a32d23da41d7717942f33995228b36971d2657",
+      "commit": "00601e620f7d273893b6a97566a26abd9e9b520e",
       "version": "0.26.6",
       "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
       "pluginPath": "plugins/seo-aeo-audit",
