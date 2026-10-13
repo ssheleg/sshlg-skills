@@ -1,0 +1,9 @@
+{
+  "state": "REPRODUCED_FALSE_SUCCESS",
+  "module_sha256": "b8eb19e89d0576903891345a58d9387105595c75c2c57a54d40f8cd034f49df6",
+  "test_sha256": "a16cac3b99418f7696beb9e2bccfe170c0fb5cefed31140a1e81f0163b579010",
+  "command": "node test/runtime_recovery_test.js",
+  "exit_code": 1,
+  "observation": "Direct worker with a distinct unlocked descriptor entered while another open description held the named coordinator lock; returned RECOVERED. Named-path contention was not proof of inherited-descriptor ownership.",
+  "log_sha256": "ab3870a27a87ffde581baeb3db9e14df8739759ce15624776b787f9fd53c1969"
+}

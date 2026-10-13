@@ -1,0 +1,34 @@
+ok real killed writer is inspected without mutation then recovered
+ok live writer refuses with exact bytes preserved
+ok unknown lock refuses: legacy
+ok unknown lock refuses: other-boot
+ok unknown lock refuses: other-root
+ok unknown lock refuses: other-inode
+ok unknown lock refuses: missing-inode
+ok unknown lock refuses: unknown-key
+ok unknown lock refuses: duplicate-key
+ok unknown lock refuses: invalid-utf8
+ok unknown lock refuses: malformed
+ok unknown lock refuses: mode
+ok unknown lock refuses: symlink
+ok unknown lock refuses: hardlink
+ok copied dead lock in replacement root remains unknown
+ok unsafe coordinator refuses before lock retirement: mode
+ok unsafe coordinator refuses before lock retirement: symlink
+ok unsafe coordinator refuses before lock retirement: hardlink
+ok FIFO coordinator refuses promptly without opening a blocking reader
+ok exec-inherited flock excludes a second reclaimer and SIGKILL releases it
+ok reclaimer killed after retirement can resume from absent lock
+ok reclaimer killed holding its own writer lock is recoverable without stealing a live holder
+ok normal writer winning retirement gap is never removed by recovery
+ok two concurrent recovery requests cannot both retire the same lock
+ok crash after rollback commit never invents a historical recovered outcome
+ok free inherited descriptor acquires its own exclusion before recovery
+ok distinct unlocked descriptor cannot bypass another reclaimer kernel lock
+ok changed coordinator pathname refuses without retiring old lock
+ok capability failure remains unresolved: missing-python
+ok capability failure remains unresolved: timeout
+ok capability failure remains unresolved: signal
+ok capability failure remains unresolved: exit-with-success-output
+ok public CLI inspect/recover binds home and leaves settings bytes untouched
+PASS: runtime recovery — 33 checks

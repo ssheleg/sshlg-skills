@@ -42,3 +42,13 @@ current source occurrence. It is not a shipped shared label.
 | rules.recovery.boundary | Host instructions are not restored or rewritten by recovery. | lib/wait-recovery-cli.js | SCN-010 | proposed |
 | rules.recovery.evidence | source CLI; metadata only; no installed or native behavior claim | lib/wait-recovery-cli.js | SCN-010 | proposed |
 | rules.recovery.arguments | Use rules recovery inspect or finalize --operation <id> [--apply]. | lib/wait-recovery-cli.js | SCN-010 | proposed |
+
+## Runtime recovery CLI
+
+| Key | Text (primary) | Location | Scenario | Status |
+|---|---|---|---|---|
+| hooks.recovery.state | runtime recovery | bin/sshlg-skills.js | SCN-011 | proposed |
+| hooks.recovery.arguments | use recovery inspect, then recovery recover --expect <digest\|absent> | bin/sshlg-skills.js | SCN-011 | proposed |
+| hooks.recovery.changed | expected runtime lock changed; inspect again | lib/runtime-recovery.js | SCN-011 | proposed |
+| hooks.recovery.unknown | runtime holder is alive or unknown | lib/runtime-recovery.js | SCN-011 | proposed |
+| hooks.recovery.interrupted | recovery capability refused or interrupted; inspect again | lib/runtime-recovery.js | SCN-011 | proposed |

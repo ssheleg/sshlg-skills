@@ -1,0 +1,37 @@
+ok real killed writer is inspected without mutation then recovered
+ok live writer refuses with exact bytes preserved
+ok unknown lock refuses: legacy
+ok unknown lock refuses: other-boot
+ok unknown lock refuses: other-root
+ok unknown lock refuses: malformed
+ok unknown lock refuses: mode
+ok unknown lock refuses: symlink
+ok unknown lock refuses: hardlink
+ok unsafe coordinator refuses before lock retirement: mode
+ok unsafe coordinator refuses before lock retirement: symlink
+ok unsafe coordinator refuses before lock retirement: hardlink
+ok exec-inherited flock excludes a second reclaimer and SIGKILL releases it
+ok reclaimer killed after retirement can resume from absent lock
+ok reclaimer killed holding its own writer lock is recoverable without stealing a live holder
+ok normal writer winning retirement gap is never removed by recovery
+ok two concurrent recovery requests cannot both retire the same lock
+ok crash after rollback commit never invents a historical recovered outcome
+ok unlocked inherited descriptor cannot directly invoke worker
+ok changed coordinator pathname refuses without retiring old lock
+ok capability failure remains unresolved: missing-python
+ok capability failure remains unresolved: timeout
+ok capability failure remains unresolved: signal
+ok capability failure remains unresolved: exit-with-success-output
+ok public CLI inspect/recover binds home and leaves settings bytes untouched
+distinct unlocked descriptor cannot bypass another reclaimer kernel lock: AssertionError [ERR_ASSERTION]: {"ok":true,"recovered":true,"restored":["hooks/a.js","hooks/introduced.js","lib/b.js","package.json","skills.json"],"state":"RECOVERED","retired":true}
+
+    at /Users/sshlg/DATA/_wt/hub-graph-order/test/runtime_recovery_test.js:167:12
+    at it (/Users/sshlg/DATA/_wt/hub-graph-order/test/runtime_recovery_test.js:14:9)
+    at Object.<anonymous> (/Users/sshlg/DATA/_wt/hub-graph-order/test/runtime_recovery_test.js:162:1)
+    at Module._compile (node:internal/modules/cjs/loader:1956:14)
+    at Object..js (node:internal/modules/cjs/loader:2096:10)
+    at Module.load (node:internal/modules/cjs/loader:1678:32)
+    at Module._load (node:internal/modules/cjs/loader:1470:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+    at node:internal/main/run_main_module:33:47

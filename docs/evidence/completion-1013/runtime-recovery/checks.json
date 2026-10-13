@@ -1,0 +1,47 @@
+{
+  "base": "9e667eeaa93f54201c73aa78b542fc26ee297cc2",
+  "platform": "darwin",
+  "scope": "source fixtures only; no installed/provider/full-gate acceptance",
+  "source_sha256": {
+    "lib/runtime-recovery.js": "d2d64d948a2acfcea9fb13f6c49001414355b8aea434805227527a86a01ff942",
+    "lib/runtime.js": "42a7dad3875c6019c0e2381aa7e3164eee2bd7db16d9fec0d36a7f0a2a071324",
+    "bin/sshlg-skills.js": "06c65e36423b05542b46b9b35f0d70ab368d8984ddf9b38d66de1b0626b4fbcd",
+    "test/runtime_recovery_test.js": "731d8794a1c36b8c8c3d20227c18c49d8fd0256c409e36caba78c565e7533d9b",
+    "docs/ux/scenarios.md": "e8d92355450be833abddb8f44f1a078d9f6b196cca7156e06711c2a5e463b7c4",
+    "docs/brand/strings.md": "06e4aa25cd599aa17b47675510b690c1130eb59031b6f534fc32c7ebd666fd93"
+  },
+  "checks": [
+    {
+      "command": "node test/runtime_recovery_test.js",
+      "exit": 0,
+      "checks": 33,
+      "log": "focused.log"
+    },
+    {
+      "command": "node test/runtime_atomic_test.js",
+      "exit": 0,
+      "checks": 40,
+      "log": "runtime-atomic.log"
+    },
+    {
+      "command": "python3 /Users/sshlg/.codex/plugins/cache/super-ux/super-ux/0.59.3/scripts/ux_lint.py docs/ux",
+      "exit": 0,
+      "warnings": [
+        "U050"
+      ],
+      "log": "ux.log"
+    },
+    {
+      "command": "python3 /Users/sshlg/.codex/plugins/cache/super-ux/super-ux/0.59.3/scripts/brand_lint.py docs/brand",
+      "exit": 2,
+      "log": "brand.log"
+    }
+  ],
+  "logs_sha256": {
+    "ux.log": "fdb66688b903a38159a52d94fd4d4305eee59f92b4e6065cff96dfce680b2850",
+    "brand.log": "5ffd836d4f3f3dddb33014afbd0a13dc583e27c572c9335f42a881b3a9916797",
+    "runtime-atomic.log": "7ee1923dd9a8ba20fd95f85dfe102d71cab9a3c2373d9caa44b41e226342a1ea",
+    "ofd-before.log": "ab3870a27a87ffde581baeb3db9e14df8739759ce15624776b787f9fd53c1969",
+    "focused.log": "49c812e18a575ad2ba32848f0cc812b6a419940694c1309243f4821b45b77aac"
+  }
+}

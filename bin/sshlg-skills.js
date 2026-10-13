@@ -293,6 +293,8 @@ Usage:
                                                       # Pi, OpenCode, Hermes; not Claude/Codex)
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
   npx sshlg-skills hooks   install [--force] [--dry-run]
+  npx sshlg-skills hooks   recovery inspect [--json]
+  npx sshlg-skills hooks   recovery recover --expect <digest|absent> [--json]
   npx sshlg-skills hooks   remove
   npx sshlg-skills hosts                              # hosts detected here; Pi visibility; Codex config
                                                       # duplicates; local MCP servers that do not answer
@@ -3211,6 +3213,29 @@ function cmdHooks(argv) {
   const root = hooksLib.runtimeDir(home);
   const pkgRoot = pathMod.resolve(__dirname, '..');
   const file = pathMod.join(home, '.claude', 'settings.json');
+
+  if (sub === 'recovery') {
+    const args = argv.slice(1), action = args.shift();
+    let json = false, expected;
+    const invalid = reason => {
+      const result = { ok: false, state: 'UNKNOWN', reason };
+      console.log(JSON.stringify(result));
+      return false;
+    };
+    for (let i = 0; i < args.length; i++) {
+      if (args[i] === '--json' && !json) json = true;
+      else if (args[i] === '--expect' && expected === undefined && args[i + 1] && /^(absent|[a-f0-9]{64})$/.test(args[i + 1])) expected = args[++i];
+      else return invalid('unsupported recovery argument; use inspect, then recover --expect <digest|absent>');
+    }
+    if (!['inspect', 'recover'].includes(action) || (action === 'inspect' && expected !== undefined) || (action === 'recover' && expected === undefined)) {
+      return invalid('use recovery inspect, then recovery recover --expect <digest|absent>');
+    }
+    const recovery = require('../lib/runtime-recovery');
+    const result = action === 'inspect' ? recovery.inspect(root) : recovery.recover(root, expected);
+    if (json) console.log(JSON.stringify(result));
+    else log(`runtime recovery: ${result.state}${result.expected ? '; expected=' + result.expected : ''}${result.reason ? '; ' + result.reason : ''}`);
+    return result.ok && (action !== 'inspect' || result.state === 'NO_LOCK');
+  }
 
   /**
    * Refresh the wired copy from this package. Idempotent; called on install.
