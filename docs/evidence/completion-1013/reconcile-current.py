@@ -29,12 +29,16 @@ def reconcile():
     for owner, directory, sha, remote in owners:
         rel = 'docs/evidence/backlog.md'
         source = {'owner': owner, 'commit': sha, 'path': rel, 'url': f'https://github.com/{remote}/blob/{sha}/{rel}'}
-        exists = subprocess.run(['git', '-C', str(directory), 'cat-file', '-e', sha+':'+rel], capture_output=True).returncode == 0
-        if not exists:
+        if git(directory, 'cat-file', '-t', sha) != 'commit':
+            raise ValueError('source revision is not an available commit: '+owner)
+        entry = git(directory, 'ls-tree', sha, '--', rel)
+        if not entry:
             source['status'] = 'ABSENT_AT_PIN'; sources.append(source); continue
-        body = git(directory, 'show', sha+':'+rel)
+        # Preserve leading/trailing bytes for both source digest and line addresses.
+        raw = subprocess.check_output(['git', '-C', str(directory), 'show', sha+':'+rel])
+        body = raw.decode('utf-8')
         parsed = module.rows(body)
-        source.update(status='READ', sha256=hashlib.sha256(body.encode()).hexdigest(), rows=len(parsed))
+        source.update(status='READ', sha256=hashlib.sha256(raw).hexdigest(), rows=len(parsed))
         sources.append(source)
         for row in parsed:
             key = owner+':'+row['id']

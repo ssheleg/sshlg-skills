@@ -58,3 +58,11 @@ service is restarted. Pending submission stays pending until a board ID exists.
 
 Skills: agent-interop (ownership and capability boundary), task-pipeline (bounded
 continuation packet), evidence-docs (source and observation separation).
+
+## Independent review and correction
+
+The first fixture passed22 synthetic checks. Independent review then found it
+accepted whitespace/path-like IDs. The draft now permits only a deliberately
+restricted opaque identifier spelling and passes25 checks. This syntax is local
+to the synthetic fixture; the eventual adapter must use the owner's accepted
+schema, not silently impose it on production identities. No production call ran.

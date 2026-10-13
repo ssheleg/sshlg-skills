@@ -2,6 +2,7 @@
 """Draft-only semantic fixture. No files/config/network/process mutation."""
 import copy
 import json
+import re
 
 
 def unique_object(pairs):
@@ -13,6 +14,10 @@ def unique_object(pairs):
     return out
 
 
+def opaque(value):
+    return isinstance(value, str) and re.fullmatch(r"[a-z][a-z0-9_-]*(?::[a-z0-9][a-z0-9_-]*)?", value) is not None
+
+
 def classify(raw, project):
     data = json.loads(raw, object_pairs_hook=unique_object)
     if not isinstance(data, dict) or set(data) != {'owner', 'contract', 'revision', 'project', 'broker', 'servers'}:
@@ -21,7 +26,7 @@ def classify(raw, project):
         raise ValueError('unknown owner contract')
     if not isinstance(data['revision'], str) or not data['revision'].strip():
         raise ValueError('missing revision')
-    if data['project'] != project or not isinstance(project, str) or not project:
+    if data['project'] != project or not opaque(project):
         raise ValueError('wrong project')
     if type(data['broker']) is not bool or not isinstance(data['servers'], list):
         raise ValueError('unsupported capabilities')
@@ -30,7 +35,7 @@ def classify(raw, project):
         if not isinstance(row, dict) or set(row) != {'id', 'state', 'minimum', 'observed', 'reason'}:
             raise ValueError('unsupported server shape')
         sid = row['id']
-        if not isinstance(sid, str) or not sid or sid in seen:
+        if not opaque(sid) or sid in seen:
             raise ValueError('ambiguous server identity')
         seen.add(sid)
         if row['state'] not in ('on', 'off', 'on-demand') or type(row['minimum']) is not bool:
@@ -79,7 +84,10 @@ def main():
                    lambda d: d['servers'][0].update(observed='declared'),
                    lambda d: d['servers'][0].update(minimum=1),
                    lambda d: d['servers'][0].update(reason=''),
-                   lambda d: d.update(env={}), lambda d: d.update(broker='yes')]:
+                   lambda d: d.update(env={}), lambda d: d.update(broker='yes'),
+                   lambda d: d['servers'][0].update(id='   '),
+                   lambda d: d['servers'][0].update(id='/private/path\n'),
+                   lambda d: d.update(project='   ')]:
         bad = copy.deepcopy(base); mutate(bad)
         try: classify(json.dumps(bad), 'synthetic-project')
         except ValueError: checks += 1
