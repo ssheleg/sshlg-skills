@@ -32,6 +32,8 @@
   jobs and grants no additional action authority.
 - Scoped router migration now leaves unselected hosts alone. Working-rule writes
   refuse malformed ownership, changed consent and non-lossless UTF-8 input.
+- task-pipeline is pinned at 1.94.1 (`540679e`), the published release whose npm
+  payload was read back equal to its source; the Claude plugin pins follow it.
 - Release-iteration requests route to task-pipeline. Member validation and collector
   corrections carry source, publication and installed acceptance separately.
 - Native selection and artifact-quality experiments retain observed failures.
