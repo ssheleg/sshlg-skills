@@ -1,0 +1,129 @@
+{
+  "schema": "bounded-source-peer/1",
+  "reviewedAt": "2026-10-13T08:41:32.646949+00:00",
+  "reviewer": "Codex visibility_review; did not author this agent-stack correction",
+  "repo": "https://github.com/ssheleg/agent-stack",
+  "base": "cd6421b8ca7d9440bc87e366ebd8a96bb38b69b8",
+  "head": "ff797c6341fe6cdb4d9b0dd2e113f7ebb8f24f6f",
+  "verdict": "PASS_BOUNDED_SOURCE",
+  "scope": "All seven changed files, surrounding runtime reference, CONTRIBUTING and package test discovery. No owner edits, broad suite, provider/model calls or published/installed writes.",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "49953599fcd54dfcba0f1254636ddd46fca0e0ac6c141091bf72552c53131f3e"
+    },
+    {
+      "path": "docs/HANDOFF.md",
+      "sha256": "d50a8fb2b6b77b87503d3b39ca9652f55ed17be5fb7fbf20a226eaf7bc5be0d9"
+    },
+    {
+      "path": "docs/evidence/runs/2026-10-13-restart-boundaries.md",
+      "sha256": "af8d12894ceab6f0880e3898a3e9255144dcf4ae23d3852d193f13e7bdcd8c11"
+    },
+    {
+      "path": "docs/evidence/verification.md",
+      "sha256": "587e0850683200a11da654d950054eb4dd87e0eb115b4aef9bf246c8c7146558"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+      "sha256": "8a80583133707ea69c9e7c0963a68f74b138b74e5148e31ceeea12097af32aba"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/runtime.md",
+      "sha256": "4c49fe64e16256fd78529e4a557782c5ccd9be8af8a5703bb92a773bdea12d70"
+    },
+    {
+      "path": "test/audit_regressions/restart-boundaries.py",
+      "sha256": "19181f27c51074864d4f3e1990b23169089e3e14681fbe0a5c5bd1a82005e7de"
+    }
+  ],
+  "checks": [
+    {
+      "command": "python3 -B test/audit_regressions/restart-boundaries.py",
+      "exit": 0,
+      "observed": "candidate contract plus 11 text plants/controls"
+    },
+    {
+      "command": "git diff --check",
+      "exit": 0
+    },
+    {
+      "control": "import corrected errors() and read baseline Git objects",
+      "observed": "12 diagnostics, candidate zero"
+    },
+    {
+      "control": "delete checkpoint/effect distinction",
+      "observed": "rejected"
+    },
+    {
+      "control": "restore unconditional Changed arguments invalidate cache claim",
+      "observed": "rejected"
+    },
+    {
+      "control": "replace body bounded authorized resume with unconditional resume",
+      "observed": "rejected"
+    },
+    {
+      "control": "unrelated Log outcome wording edit",
+      "observed": "accepted"
+    },
+    {
+      "control": "frozen tracked bytes equal reviewed Git objects",
+      "observed": "all seven equal"
+    }
+  ],
+  "manualScenarios": [
+    {
+      "case": "One stopped lane while sibling is awaiting external response",
+      "decision": "Do not stop the workflow or sibling; owned lane only. Whole-workflow route needs all-sibling/effect reconciliation and authority.",
+      "source": "references/runtime.md:54-64"
+    },
+    {
+      "case": "Quiet stream but command/provider request remains active",
+      "decision": "Inspect liveness; silence is not failure and cannot admit a duplicate owner.",
+      "source": "references/runtime.md:54-58"
+    },
+    {
+      "case": "Provider accepted operation but response/checkpoint absent",
+      "decision": "Unknown remains unknown; receipt/idempotency reconciliation first, unresolved state gets watcher rather than replay.",
+      "source": "references/runtime.md:66-71"
+    },
+    {
+      "case": "Resume API/cache semantics absent",
+      "decision": "ID or unchanged arguments cannot manufacture host support or cached completion.",
+      "source": "references/runtime.md:63-69"
+    },
+    {
+      "case": "Repeated rate stop including host retries",
+      "decision": "Finite recorded cap and deadline include host attempts, existing spend/resource bound, partial result on exhaustion; no cap extension.",
+      "source": "references/runtime.md:73-81,97-100"
+    },
+    {
+      "case": "Provider Retry-After exceeds backoff; reset exceeds deadline",
+      "decision": "Later provider timing wins; earlier deadline ends series, not bypasses restriction.",
+      "source": "references/runtime.md:83-89"
+    },
+    {
+      "case": "Task cancelled or ownership changed between attempts",
+      "decision": "Per-attempt authority/ownership recheck stops stale continuation.",
+      "source": "references/runtime.md:77-81"
+    },
+    {
+      "case": "Billing, account, secret or consent gate",
+      "decision": "No timed billing loop, account/key/provider evasion or spending another agent key; human action retains its gate.",
+      "source": "references/runtime.md:48-52,91-95"
+    },
+    {
+      "case": "Eligible authorized transient recovery",
+      "decision": "Continue under existing act-specific authority without an invented approval; unrelated work continues between attempts.",
+      "source": "references/runtime.md:80-89"
+    }
+  ],
+  "findings": [],
+  "limitations": [
+    "Text guard recognizes bounded phrases, not arbitrary English semantics or model adherence. Manual scenarios are reasoning checks, not executed agent traces.",
+    "No full owner aggregate, hosted CI, new version, release, package readback or native execution certified by this review. Metadata remains published 0.28.1 until a separately reviewed successor patch.",
+    "Read-only review of corrected region does not certify every unchanged doctrine paragraph or whole agent-stack system."
+  ],
+  "nextTask": "Author synchronizes patch metadata and changelog, coordinates one serial owner aggregate, normal genuine exact-head PR admission and release/payload readback; preserve old tags."
+}
