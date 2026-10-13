@@ -311,9 +311,10 @@ permissions and presence. Unresolved journals are preserved for inspection.
 
 A hard stop can leave `~/.sshlg-skills/runtime/.sync.lock` and recovery records.
 The next attempt names the paths to inspect and refuses to replace that lock
-automatically. Do not delete it just because it is old: first establish who owns
-it and preserve the recovery records. See the [runtime recovery contract](docs/working-rules/state-json.md#the-runtime-lock-and-failed-refresh)
-for the remaining recovery boundary.
+automatically. Do not delete it by hand. `npx sshlg-skills hooks recovery inspect`
+shows whether its writer is provably dead; `hooks recovery recover --expect
+<digest>` then retires a dead writer's lock and rolls back through the journal.
+Live and unprovable holders are left alone. See the [runtime recovery contract](docs/working-rules/state-json.md#the-runtime-lock-and-failed-refresh).
 
 **Exit codes of `update`:** 0 done, 1 a step failed, **2 a usage error** (an unknown
 flag, a flag without its value, contradictory flags), **75 another `update` holds
@@ -685,6 +686,8 @@ npx sshlg-skills hooks                    # what would be wired, and what holds 
 npx sshlg-skills hooks install            # wire it (refuses to take someone else's status line)
 npx sshlg-skills hooks install --force    # take it anyway, parking what it displaced
 npx sshlg-skills hooks remove             # unwire, and give the displaced one back
+npx sshlg-skills hooks recovery inspect --json                 # after a hard stop: is the runtime writer provably dead?
+npx sshlg-skills hooks recovery recover --expect <digest> --json  # retire only that dead lock, then roll back
 # `npx sshlg-skills update` re-wires a machine that already has one of these entries (since v1.56.0), through the
 # same backup; with none it writes nothing. It refreshes only entries of ours that are present (one you removed stays
 # removed; a NEW event a later release adds arrives only through `hooks install`, and `update` names it), and leaves a

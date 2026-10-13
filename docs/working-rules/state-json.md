@@ -154,20 +154,49 @@ new sync, once writer admission is available. A hard stop can retain the runtime
 lock as well as the journal, so restart is not automatic recovery.
 
 For a retained lock, preserve the lock, journal and prior snapshot together.
-Establish the recorded holder's identity and confirm no writer can still run;
-a PID or the lock's age alone is insufficient. Do not remove an alive, unknown,
-changed or malformed lock. There is currently no supported command to retire
-an interrupted runtime writer's lock. The next recovery step requires an
-inspected, exclusive recovery procedure; retrying or borrowing the update
-lock's takeover rules does not provide one.
+A PID or the lock's age alone never proves the holder dead, and retrying or
+borrowing the update lock's takeover rules does not retire it. The supported
+procedure is two commands:
+
+1. `npx sshlg-skills hooks recovery inspect --json` writes nothing and reports
+   the resolved runtime root, the lock's SHA-256 (`expected`) and one state:
+   `NO_LOCK`, `PENDING_JOURNAL` (no lock, a journal remains), `BUSY` (the holder
+   pid is alive), `DEAD`, `UNKNOWN` or `NOT_INSTALLED`, each with its reason.
+2. `npx sshlg-skills hooks recovery recover --expect <digest|absent> --json`
+   admits only `DEAD`, `NO_LOCK` or `PENDING_JOURNAL` whose lock still has the
+   inspected digest. It retires the dead lock, then the existing journal
+   verifier decides rollback.
+
+A lock is `DEAD` only when its record binds this boot, this user and the same
+runtime root (path, device and inode) and signalling its pid returns `ESRCH`.
+Locks from an older launcher, another boot, a copied root, a root writable by
+others, or a malformed, linked or changed file stay `UNKNOWN` and are never
+retired. A running writer releases its own lock; one left by a crashed older or
+unbound writer is not cleared by any supported command. Recovery workers exclude each other with
+a POSIX `flock` held on the inherited descriptor of
+`runtime/.recovery-coordinator` until the worker exits, including by SIGKILL.
+That needs `/usr/bin/python3` (on macOS, the Command Line Tools); without it,
+recovery refuses and changes nothing. A normal writer that takes the lock after
+retirement is never removed.
+
+`recover` reports `RECOVERED` (rollback verified), `NO_PENDING_JOURNAL` or
+`UNRESOLVED`, with `retired` saying whether the dead lock was removed, `null`
+when an interrupted worker did not report it. `NO_PENDING_JOURNAL` does not say
+how the interrupted transaction ended. Refusals exit 1, usage errors exit 2.
+Inspection does not verify every backup byte; that remains the journal
+verifier's job during `recover`.
 
 This contract covers caught filesystem errors and explicit refusal after an
 interrupted process. Running hook readers can still observe the per-file switch;
 it does not promise an atomic whole-runtime view or power-loss durability.
-Source: [`lib/runtime.js`](../../lib/runtime.js), `sync`, `recover`, `withLock`;
+Linux boot identity, other PID namespaces and network filesystems are not
+established by these controls. Source: [`lib/runtime.js`](../../lib/runtime.js),
+`sync`, `recover`, `withLock`; [`lib/runtime-recovery.js`](../../lib/runtime-recovery.js),
+`inspect`, `recover`;
 CLI failure propagation: [`bin/sshlg-skills.js`](../../bin/sshlg-skills.js),
 `cmdUpdate` and `cmdHooks`. The actual CLI and recovery controls are in
-[`test/runtime_atomic_test.js`](../../test/runtime_atomic_test.js), with
+[`test/runtime_atomic_test.js`](../../test/runtime_atomic_test.js) and
+[`test/runtime_recovery_test.js`](../../test/runtime_recovery_test.js), with
 [source-bound results](../evidence/completion-1013/runtime-atomic/README.md).
 
 ## Proof

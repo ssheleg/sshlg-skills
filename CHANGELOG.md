@@ -11,7 +11,10 @@
   instead of reporting a skipped or synchronized runtime. Hook settings are not
   rewired after that failure. Caught switch errors restore and verify prior managed
   files when possible; unresolved journals are preserved for inspection. A runtime
-  lock left by a hard stop requires inspection and is never retired automatically.
+  lock left by a hard stop is never retired automatically: `hooks recovery inspect`
+  reports whether its writer is provably dead on this boot, and `hooks recovery
+  recover --expect <digest>` retires only that lock under kernel exclusion, then
+  rolls back through the journal. Live, legacy and unprovable holders are refused.
   The [runtime recovery contract](docs/working-rules/state-json.md#the-runtime-lock-and-failed-refresh)
   names the boundary and its executable evidence.
 - `blocks` lists managed instruction markers across supported host files;
