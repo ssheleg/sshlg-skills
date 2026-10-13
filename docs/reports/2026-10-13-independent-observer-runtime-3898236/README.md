@@ -67,6 +67,19 @@ IO-07 and the caught-failure/existence-aware portion of IO-08 are corrected and 
 
 **Exact next task:** the coordinator composes this correction, runs the final hub gate once on its immutable source, and supplies publication, installed readback and the complete requirement/board evidence graph for final observer acceptance. Keep the supported retained-lock recovery procedure open with its separate owner/task. This report remains interim for the original program and actual installed runtime.
 
+
+## Documentation and guard follow-up, b1da3db
+
+**ACCEPT for this documentation/test-only slice.** Exact source `b1da3db2aa912a7194b82f5aefdb67fcebe4b89d` documents runtime failure, retained-lock refusal and per-file visibility consistently with accepted `bb724e5`. Its production runtime bytes are unchanged. The own-state exemptions name three exact modules: backup-retention writes its sidecars, Codex pending writes its private receipts, and runtime writes its managed copy and transaction metadata. This is not a blanket exemption for other writers; future changes to those destinations need renewed review.
+
+[Independent fixture receipt](raw/guard-docs-b1da3db-independent.json) records `apply_test` passing 19 checks in a fresh immutable archive, an unrelated unprotected-writer plant rejected by **both** existing guards with exit 1, and 19 checks passing again after removing the owned plant. All eight summary changes preserve the fixture body and alter only its final output line. The observer exercised **16** positive/negative formatter controls, including runtime: counts and exit 0/1 remain explicit. The author's broader focused-suite and lint receipts were read as author evidence; this observer replay does not claim a clean whole-project lint or aggregate gate.
+
+## Recovery-admission design review, 6880776
+
+The observer read exact design `6880776dab0efaeafd925ba404b31a387f26f770`, [B190 packet](https://github.com/ssheleg/sshlg-skills/blob/6880776dab0efaeafd925ba404b31a387f26f770/docs/reports/2026-10-13-runtime-recovery-admission/README.md). No initial objection was found to the bounded protocol under cooperating local writers. This is **design review, not implementation acceptance**. A fixed replacement mutex that remains stuck after the reclaimer dies does not complete B190.
+
+The implementation owner received these acceptance cases before source freeze: two contenders for one dead reclaimer's immutable successor slot; reclaimer death before/after original-lock retirement and after recovery-lock acquisition; journal committed but terminal receipt absent; terminal receipt published but fence cleanup incomplete; and a writer admitted between its first fence check and recovery publication. Only the exact attributable predecessor lock may be retired. A historical completed operation must never unlink a later writer's lock. Prepared or partial publication must not create a second authoritative branch. Next task is independent review of the frozen implementation and its process/barrier evidence; no production code was authored by this observer.
+
 ---
 
 **Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**

@@ -1,0 +1,136 @@
+{
+  "source": "b1da3db2aa912a7194b82f5aefdb67fcebe4b89d",
+  "scope": "Immutable archive, owned negative source fixture, no actual host or broad suite",
+  "guard": [
+    {
+      "case": "healthy",
+      "exit": 0,
+      "output": "OK (19 checks)\n"
+    },
+    {
+      "case": "unrelated-write-plant",
+      "exit": 1,
+      "output": "FAIL: every write to a protected file goes through protect(): lib/__observer_unprotected_plant.js:1 writes without a protect() above it \u2014 fs.writeFileSync(target, \"owned negative plant\");\nFAIL: THE PROTECT EXEMPTIONS ARE EXACTLY THE MODULES THAT WRITE THE PACK'S OWN STATE: a module writes outside protect() and is not explicitly declared to write only the pack's own state \u2014 argue for it in the exemption list or route it through protect()\n+ actual - expected\n\n  [\n+   'lib/__observer_unprotected_plant.js',\n    'lib/backup-retention.js',\n    'lib/backup.js',\n    'lib/codex-pending.js',\n    'lib/quarantine.js',\n    'lib/runtime.js',\n\n2 failure(s) out of 19 checks\n"
+    },
+    {
+      "case": "restored",
+      "exit": 0,
+      "output": "OK (19 checks)\n"
+    }
+  ],
+  "summary_controls": [
+    {
+      "suite": "backup_retention",
+      "negative": false,
+      "fixture_body_identical": true,
+      "exit": 0,
+      "output": "PASS: backup_retention \u2014 5 cases"
+    },
+    {
+      "suite": "backup_retention",
+      "negative": true,
+      "fixture_body_identical": true,
+      "exit": 1,
+      "output": "FAIL: backup_retention \u2014 5 passed; 2 failed"
+    },
+    {
+      "suite": "wait_recovery",
+      "negative": false,
+      "fixture_body_identical": true,
+      "exit": 0,
+      "output": "PASS: wait_recovery \u2014 5 cases"
+    },
+    {
+      "suite": "wait_recovery",
+      "negative": true,
+      "fixture_body_identical": true,
+      "exit": 1,
+      "output": "FAIL: wait_recovery \u2014 5 passed; 2 failed"
+    },
+    {
+      "suite": "wait_recovery_cli",
+      "negative": false,
+      "fixture_body_identical": true,
+      "exit": 0,
+      "output": "PASS: wait_recovery_cli \u2014 5 cases"
+    },
+    {
+      "suite": "wait_recovery_cli",
+      "negative": true,
+      "fixture_body_identical": true,
+      "exit": 1,
+      "output": "FAIL: wait_recovery_cli \u2014 5 passed; 2 failed"
+    },
+    {
+      "suite": "wait_recovery_crash",
+      "negative": false,
+      "fixture_body_identical": true,
+      "exit": 0,
+      "output": "PASS: wait_recovery_crash \u2014 5 cases"
+    },
+    {
+      "suite": "wait_recovery_crash",
+      "negative": true,
+      "fixture_body_identical": true,
+      "exit": 1,
+      "output": "FAIL: wait_recovery_crash \u2014 5 passed; 2 failed"
+    },
+    {
+      "suite": "wait_rules_cli",
+      "negative": false,
+      "fixture_body_identical": true,
+      "exit": 0,
+      "output": "PASS: wait_rules_cli \u2014 5 cases"
+    },
+    {
+      "suite": "wait_rules_cli",
+      "negative": true,
+      "fixture_body_identical": true,
+      "exit": 1,
+      "output": "FAIL: wait_rules_cli \u2014 5 passed; 2 failed"
+    },
+    {
+      "suite": "wait_rules",
+      "negative": false,
+      "fixture_body_identical": true,
+      "exit": 0,
+      "output": "PASS: wait_rules \u2014 5 cases"
+    },
+    {
+      "suite": "wait_rules",
+      "negative": true,
+      "fixture_body_identical": true,
+      "exit": 1,
+      "output": "FAIL: wait_rules \u2014 5 passed; 2 failed"
+    },
+    {
+      "suite": "wait_rule_policy",
+      "negative": false,
+      "fixture_body_identical": true,
+      "exit": 0,
+      "output": "PASS: wait_rule_policy \u2014 5 cases"
+    },
+    {
+      "suite": "wait_rule_policy",
+      "negative": true,
+      "fixture_body_identical": true,
+      "exit": 1,
+      "output": "FAIL: wait_rule_policy \u2014 5 passed; 2 failed"
+    },
+    {
+      "suite": "runtime_atomic",
+      "negative": false,
+      "fixture_body_identical": true,
+      "exit": 0,
+      "output": "PASS: runtime atomic \u2014 5 cases"
+    },
+    {
+      "suite": "runtime_atomic",
+      "negative": true,
+      "fixture_body_identical": true,
+      "exit": 1,
+      "output": "FAIL: runtime atomic \u2014 3/5"
+    }
+  ],
+  "production_runtime_equal_to_bb724e5": true
+}
