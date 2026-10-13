@@ -26,13 +26,16 @@ The premature public tag is preserved. Release38386280311 failed its tagged
 run-stamp guard and skipped publication; npm remains1.93.3. The separate owner
 1.94.1 repair passed local npm test and all genuine candidate checks; PR126
 [merged normally](evidence/completion-1013/tp-current-gate/repair-normal-integration.json)
-at540679ea7552f8a37e99560e287a69c23cbd3c4a. The exact accepted commit is now undergoing complete npm run test:all in an
-independent standalone clone, with local annotated tag object89e4782133bcba4f9ea6e5d9d584dfab004b0ded
-visible throughout. Initial structural PASS looked at the release stamp guard;
-complete exit and later disclosures remain pending before any tag push.
-The shared-worktree author's local v1.94.1 tag is NOT the accepted merge and must
-not be pushed. Disk admission cleared at2.55GB; the owned suite stops below250MiB.
-The suite is RUNNING and is not treated as passed.
+at540679ea7552f8a37e99560e287a69c23cbd3c4a. The exact accepted commit completed the full local `npm run test:all` with actual
+exit0 in5576.924seconds, unchanged source/tree/tag and clean state. The
+[admission](evidence/completion-1013/tp-current-gate/repair-exact-tagged-admission.md)
+records all disclosures, including the lessons redactor skip and synthetic
+Git-free fixtures. Two secondary test copies were proven owned and removed;
+their runner defect is being corrected in the future1.95 branch. R07 is still bounded.
+The verified annotation89e4782133bcba4f9ea6e5d9d584dfab004b0ded was pushed with
+explicit --no-follow-tags; normal [release38404300140](https://github.com/ssheleg/task-pipeline/actions/runs/38404300140)
+is running. A background60-second read-only watcher will read all jobs and verify
+whole-package npm bytes on success. Publication and parent pin remain pending.
 Hub publication and actual installed acceptance remain pending.
 
 Accepted whole-source discovery corrections are now pinned: make-skill df53aaa,
