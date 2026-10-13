@@ -25,6 +25,7 @@ t('near markers and invalid UTF8 are uncertain, not repaired',()=>{
  for(const s of ['<!-- SSHLG:ROUTERS :BEGIN -->','<!-- SSHLG:ROUTERS: BEGIN -->','<!-- SSHLG:ROUTERS : BEGIN -->','<!-- SSHLG:ROUTERS:begin -->','<!-- SSHLG:ROUTERS:BEGIN','<!-- ВЛАДЕЛЕЦ:БЛОК:BEGIN -->'])assert(!b.parse(s).ok,s);
  assert.throws(()=>b.decode(Buffer.from([0xff])),/UTF/);
 });
+t('large valid inventory retains exact line ranges without prefix rescans',()=>{const r=b.parse(Array.from({length:10000},(_,i)=>block('A:B'+i,'')).join(''));assert(r.ok);assert.strictEqual(r.blocks.length,10000);assert.deepStrictEqual(r.blocks[9999].range,{startLine:29998,endLine:30000});});
 const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'blocks-'));
 try{
  const home=path.join(tmp,'home');fs.mkdirSync(home);const cd=path.join(home,'.codex');fs.mkdirSync(cd);const file=path.join(cd,'AGENTS.md');fs.writeFileSync(file,block('SSHLG:ROUTERS')+block('OTHER:NOTES'));fs.chmodSync(file,0o640);
