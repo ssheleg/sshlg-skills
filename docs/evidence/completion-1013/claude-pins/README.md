@@ -84,3 +84,22 @@ then protected native transaction. No broad suite while disk/serial gate is held
 **Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**:
 task-pipeline for delivery, evidence-docs for source-bound probes, make-skill for
 plugin distribution, skill-search for routing.
+
+## Inventory and admission implementation checkpoint
+
+The first bounded source module resolves plugin paths from each pinned Git
+marketplace, preserves the original plugin entry, and records662 regular files
+across11 members. `sync-claude-pins.js --check --source-root` against the accepted
+hub checkout passed. The source-root option is a generation/check input only;
+runtime installation uses the shipped inventory, not another worktree.
+`claude_plugin_source_test.js` passes20 controls, `claude_pinned_test.js` passes12
+admission cases, and runtime closure passes6. Tests use owned synthetic fixtures
+and remove them in finally. Initial source test refused with missing module
+before implementation; the production floating-source defect is demonstrated by
+the native probes above, not inferred from that missing-module failure.
+
+Installed read-only comparison also distinguished native `.in_use/<numeric id>`
+regular lease-marker files from shipped plugin payload. Only that narrowly
+recognized directory shape is excluded; other unexpected files still fail.
+Execution, recovery, launcher integration and final independent review are not
+yet implemented by this checkpoint. No real-host installation has occurred.
