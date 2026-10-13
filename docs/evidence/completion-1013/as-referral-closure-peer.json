@@ -1,0 +1,13 @@
+{
+  "source": "e0a38e59fdd4bb5ed1427586bfabd126485f0f97",
+  "reviewer": "fresh_research",
+  "verdict": "ACCEPTED_BOUNDED_SOURCE",
+  "primary_rows": 29,
+  "expanded_ids": 31,
+  "original_issue_cells_preserved": true,
+  "changed_status_only": "B-159",
+  "published_files_equal": 44,
+  "original_npm_test": "exit0 observed by root; peer verified log digest and all-green tail",
+  "correction": "Original receipt counted17subset; corrected to actual primary declaration grammar29rows31identities after peer finding.",
+  "limits": "No full runtime/installed proof; PR55/final frozen-head test and normal integration remain pending."
+}
