@@ -1,0 +1,86 @@
+{
+  "schema": "graph-peer/1",
+  "reviewer": "visibility_review",
+  "status": "PASS_BOUNDED",
+  "snapshots": [
+    {
+      "snapshot": "baseline-9f0c0dc",
+      "source_commit": "9f0c0dc6a2a0c3c97c569af58b19bdbd31c8a71f",
+      "checks": "PASS",
+      "counts": {
+        "files": 218,
+        "nodes": 2605,
+        "edges": 3949,
+        "communities": 193,
+        "raw_edges": 5086,
+        "dangling_edges": 664,
+        "valid_candidate_edges": 4422,
+        "unique_endpoint_pairs": 3933,
+        "collapsed_relations": 489,
+        "export_added_pairs": 16,
+        "raw_pairs_missing_export": 0
+      },
+      "receipt_hashes": {
+        "extraction.json.gz": "a3b30023c0b0489b4081a612ee1295bb3080816ee15ac9201b88e83c42043a4e",
+        "diagnostics.json": "e5f8d94b08ea0e3ffed8135cfd45367e4f92279427ae9f38a6211214038961ec",
+        "manifest.json": "4a2da99f03b35629f7ebfdd8ec9c7dcd6388467f04cd5e3188ded5a11131dcec",
+        "graph.json.gz": "e160bcf19243d27c705c4797899dbbb015f9c32a9bfef844db839ab7f66531db"
+      },
+      "decompressed_hashes": {
+        "graph": "544b3e5a78f35f60679471f8d242fae8e6c9a8717ccf1639cf8dec698801669b",
+        "extraction": "14553238b7b72897c4776781148e239234021ab824ce4e6a5bb30b013846e77a"
+      }
+    },
+    {
+      "snapshot": "final-5d19e74",
+      "source_commit": "5d19e74b02c507cf59606469b80c5c44b9bc178d",
+      "checks": "PASS",
+      "counts": {
+        "files": 241,
+        "nodes": 2876,
+        "edges": 4341,
+        "communities": 216,
+        "raw_edges": 5618,
+        "dangling_edges": 752,
+        "valid_candidate_edges": 4866,
+        "unique_endpoint_pairs": 4325,
+        "collapsed_relations": 541,
+        "export_added_pairs": 16,
+        "raw_pairs_missing_export": 0
+      },
+      "receipt_hashes": {
+        "extraction.json.gz": "101aea4a7800effa138c161c78ce8250af5264128c27b1ef3048f6b570bf4f13",
+        "diagnostics.json": "d600aeef4349cce693f1185cc7eee8a8b9d2967e8e82bb4fbcd68de466dd1b47",
+        "manifest.json": "5969c83ab301839c3bcc041fd23158a96d40a5b3d7239f1da31434f73c3d7315",
+        "graph.json.gz": "dbd84c78acb9cb02e352365915e04c0802b56b048a7e76e1753bf54dc74958ef"
+      },
+      "decompressed_hashes": {
+        "graph": "ac96afc205c063aa86b697bf60ee50d6ae24e6ef4fe1aa3a2ec38edfcc843b95",
+        "extraction": "b65976ff1d94f85ba52fe76eb847d4b236e861cd3ff66964c2ff7cd65a2a2460"
+      }
+    }
+  ],
+  "delta": {
+    "files": 23,
+    "nodes": 271,
+    "edges": 392,
+    "communities": 23,
+    "raw_edges": 532,
+    "dangling_edges": 88,
+    "valid_candidate_edges": 444,
+    "unique_endpoint_pairs": 392,
+    "collapsed_relations": 52,
+    "export_added_pairs": 0,
+    "raw_pairs_missing_export": 0
+  },
+  "verification": "Read immutable Git blobs for every manifest entry and independently derived corpus, byte hashes, sizes, node source/line bounds, graph/extraction hashes, endpoint diagnostics and exported community counts. Read build.py code-only extraction path. No extractor rerun or provider call.",
+  "limits": [
+    "Provider-free mode and zero token counters agree with reviewed builder; not independent network telemetry.",
+    "Static graph is not runtime reachability or task quality.",
+    "Dangling raw edges and endpoint relation collapse remain explicit; export-added pairs are independently counted per snapshot.",
+    "Member Git repositories, docs, Python dynamic imports, runtime dispatch and semantic contracts are outside this corpus or incompletely represented.",
+    "Community count growth is a structural observation, not evidence of improved modularity."
+  ],
+  "script_sha256": "572b21b93ee65da26c161318511f09c10ece36d589c1cf48ed2400782ee646b1",
+  "builder_sha256": "3580a9b413a980535cae8acd1ab3765e6328c08eeaf48e49c207d775ce30303c"
+}
