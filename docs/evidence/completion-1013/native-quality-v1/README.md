@@ -94,3 +94,30 @@ Skills used: agent-evals (frozen rubric and errors), agent-harness (native conte
 boundaries), task-pipeline (delivery), agent-sync (ownership), evidence-docs
 (source and acceptance distinctions). Exact next task: materializer and offline
 runner controls, followed by independent review; no provider calls yet.
+
+
+## Runner prepared, execution still NOT_RUN
+
+[Materializer](materialize.py) verifies all 62 source plugin files plus the three
+fixture files. Both arms contain 65 files; bodies/non-SKILL bytes match and only
+seven description fields differ. Hooks remain source-identical but are disabled
+through explicit CLI settings. The fixture has no symlinks or credential contents.
+
+[Runner](run.py) defaults to a no-call plan. `--execute` requires an explicit source
+repository, new private directory outside Git, and new sanitized output path.
+It checks the normal subscription route and exact local CLI version, runs two
+no-tool readiness calls first, and only then admits four task calls. Missing or
+unexpected native skill/tool inventories stop the run. Tool request/result IDs,
+read confinement and per-request/aggregate input bounds are checked separately.
+Every attempted call has a write-ahead record; unknown effect/cost stays unknown.
+Artifacts are hashed and privately retained; no automated semantic PASS is emitted.
+
+Offline command: `python3 docs/evidence/completion-1013/native-quality-v1/check.py`.
+Set `NATIVE_SOURCE_REPO` to a clone containing the frozen source commit if it is
+not at the local default. The checks use a fake `claude` process only. They cover
+source corruption, body parity, foreign-auth rejection before CLI launch, missing/
+foreign skills, unexpected tools, input/turn limits, outside-root reads, denied
+tools, readiness tool use, and six process runs (completion, contamination,
+unknown cost, reservation stop, reported overshoot, timeout). Raw files stay 0600,
+private directories 0700; the sentinel auth/output string never reaches receipts.
+No model or provider was called. Await independent final runner review.
