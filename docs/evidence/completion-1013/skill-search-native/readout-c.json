@@ -1,0 +1,58 @@
+{
+  "schema": "native-trigger-readout/1",
+  "source_commit": "78d67651611f50e2af531ab04916e680c2a2680d",
+  "results_sha256": "4390977ff6610d45b7c6d02f728448cef1335258db2483f47a1d0a45a14efe53",
+  "as_of": "2026-10-13T06:34:13.769037+00:00",
+  "protocol": "C",
+  "verdict": "PASS_BOUNDED_LOADING",
+  "valid_task_calls": 60,
+  "matching_task_calls": 59,
+  "query_majority_passes": 20,
+  "query_count": 20,
+  "split": {
+    "train": {
+      "queries": 12,
+      "valid_calls": 36,
+      "matching_calls": 35,
+      "majority_passes": 12
+    },
+    "validation": {
+      "queries": 8,
+      "valid_calls": 24,
+      "matching_calls": 24,
+      "majority_passes": 8
+    }
+  },
+  "mismatches": [
+    {
+      "case_id": "s09",
+      "repetition": 0,
+      "index": 24,
+      "loads": [],
+      "stdout_sha256": "cfb8e2e8ab17f0bccbce0e12c3d03e557e20d53436d4f243cc165149cf6b1bb3"
+    }
+  ],
+  "costs": {
+    "protocol_c_list_usd": "2.3410576",
+    "protocol_a_b_list_usd": "0.121004",
+    "combined_a_b_c_list_usd": "2.4620616",
+    "combined_cli_invocations": 64,
+    "original_budget_usd": "4.0000000",
+    "subscription_invoice": "NOT_MEASURED"
+  },
+  "limits": [
+    "Restricted Skill-only native invocation; no executed catalogue search.",
+    "No full task or artifact-quality inference.",
+    "No shortened-description or routing-block candidate adoption.",
+    "Original A/B stopped TEST_ERROR receipts remain unchanged.",
+    "No validation-set tuning or second C attempt."
+  ],
+  "positive": {
+    "calls": 30,
+    "matching_calls": 29
+  },
+  "negative": {
+    "calls": 30,
+    "matching_calls": 30
+  }
+}

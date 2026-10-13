@@ -18,7 +18,7 @@ and177 initial board IDs remain source-preserved, not blanket completion.
 Native artifact review is **NO_ADOPTION**, with [new routing research](reports/2026-10-13-native-skill-routing/README.md)
 clarifying registration versus invocation. The separate native trigger experiment has explicit stopped protocols and a new bounded proposal; see its receipt below.
 [Current run](evidence/completion-1013/run.md). Latest [Fabric admission](evidence/completion-1013/fabric-admission-20261013-0551.json) again returns no project; com.* tools remain absent. Pending asks are unsent.
-[Native skill-search protocol](evidence/completion-1013/skill-search-native/README.md): A stopped after1 CLI invocation on startup-inventory mismatch; B stopped after2 invocations on a reported-turn/request-counter mismatch. Original receipts remain TEST_ERROR, total USD0.121004 list estimate. Proposed C has47 offline controls and awaits fresh independent admission; C has made no model calls.
+[Native skill-search protocol](evidence/completion-1013/skill-search-native/README.md): A stopped after1 CLI invocation on startup-inventory mismatch; B stopped after2 invocations on a reported-turn/request-counter mismatch. Original receipts remain TEST_ERROR, total USD0.121004 list estimate. C completed61 invocations:20/20 query-majority passes,59/60 individual matches, with the s09 miss retained. Combined A+B+C list estimate USD2.4620616; independent result readback pending. This certifies restricted native loading only, not executed catalogue search or full task quality.
 
 The dated entries below retain previous states and are not current instructions.
 

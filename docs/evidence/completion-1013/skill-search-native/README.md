@@ -1,6 +1,6 @@
 # R27 native skill-search trigger run: admission packet
 
-Status: **A_AND_B_STOPPED_TEST_ERROR; C_ADMITTED_NOT_RUN**. This packet assigns no model calls before independent runner review. It measures the existing owner's frozen20 query corpus, three fresh sessions per query. It does not change a description or tune on validation results.
+Status: **A_AND_B_STOPPED_TEST_ERROR; C_COMPLETED_PASS_BOUNDED_LOADING**. This packet assigns no model calls before independent runner review. It measures the existing owner's frozen20 query corpus, three fresh sessions per query. It does not change a description or tune on validation results.
 
 ## Contract
 
@@ -78,3 +78,20 @@ No C model calls have run at this checkpoint.
 C exact-source independent review is [PASS_BOUNDED](peer-review-c.json);
 [admission](admission.json) freezes the runner, sources, corpus and remaining
 budget. This checkpoint precedes execution; results will be a separate receipt.
+
+## Protocol C observed result
+
+[Results C](results-c.json) completed61 invocations (one readiness,60 task calls)
+with no protocol errors or unstarted cells. [Computed readout](readout-c.json)
+records20/20 query-majority passes and59/60 individual matches: positive29/30,
+negative30/30. Train35/36 and validation24/24 individual matches; all12 train
+and8 validation queries pass the predeclared majority rule. The miss is
+s09/repetition0, a valid zero-Skill response; it remains a behavioral miss,
+not a parser error. No candidate was tuned or adopted.
+
+C reports USD2.3410576 list estimate; A+B+C together USD2.4620616 over64 CLI
+invocations, within the original USD4 envelope. The earlier pilots remain
+separate; this is not a subscription invoice or a full-project spend total.
+The loading experiment does not execute toolkit search, repository actions or
+artifact-quality checks. Independent result readback is the next gate; the
+paired routing-block experiment and B144 expectation decision remain separate.

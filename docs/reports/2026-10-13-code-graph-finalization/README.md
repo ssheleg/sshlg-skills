@@ -4,7 +4,7 @@ report:
   title: "Hub source graph and documented entry points"
   kind: audit
   project: sshlg-skills
-  domains: [engineering]
+  domains: [ai-agent, automation]
   as_of: 2026-10-13
   status: draft
   valid_until: 2026-10-20
@@ -32,7 +32,7 @@ report:
 The [baseline manifest](raw/baseline-9f0c0dc/manifest.json) binds218 hub code
 files to immutable Git blobs. Every admitted source file has at least one
 extracted node. The directed export contains2605 nodes and3949 edges, grouped
-into206 communities. This is static source navigation, not proof of runtime
+into193 communities. This is static source navigation, not proof of runtime
 reachability, behavioral quality or whole-family completion.
 
 The [diagnostics](raw/baseline-9f0c0dc/diagnostics.json) retain the limitations:
