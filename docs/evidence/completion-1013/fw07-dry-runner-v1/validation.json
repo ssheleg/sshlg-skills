@@ -41,5 +41,12 @@
       "additional_findings": "started-baseline.json"
     }
   },
-  "fixture_cleanup": "Each unittest removes its owned temporary roots in tearDown. Prepared immutable source bundle retained locally only while independent review is pending."
+  "fixture_cleanup": "Each unittest removes its owned temporary roots in tearDown. Prepared immutable source bundle retained locally only while independent review is pending.",
+  "documentation_followup": {
+    "scope": "README opening status corrected after code freeze; no executable, corpus or protocol changes",
+    "tested_readme_sha256": "87101eb03f409bbca819d93fef8500c6541e22b8c3289e9d1703c93576167e82",
+    "current_readme_sha256": "2b92ce57b370657b6ab0372da908d92a4b16e7e4d035622b424978004d6e9317",
+    "full_controls_repeated": false,
+    "reason": "Documentation status only; original68 result remains bound to its recorded source hashes"
+  }
 }
