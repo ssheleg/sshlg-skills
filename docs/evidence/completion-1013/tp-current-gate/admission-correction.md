@@ -20,3 +20,14 @@ the tag-visible guard locally, and pass the full suite before a new tag push.
 The existing tagged guard and release workflow remain unchanged. This incident
 is an execution/admission error by root, not a failure of the guard that blocked
 it. The earlier incomplete local gate remains incomplete.
+
+## Contributing instruction conflict
+
+Independent source review also found pipeline.json stage7 orders the full suite
+before creating a tag, while retro R-010 explicitly requires creating the local
+tag first so tag-visible checks actually run. This contradiction does not excuse
+the premature push; it also needs a source-owned correction. A separate mechanical
+pre-tag packet will distinguish a private candidate tag from a remote tag push,
+bind the complete result to exact commit/tag identity and preserve all published
+refs. The1.94.1 metadata repair exercises the stricter local-tag-aware sequence
+and does not silently change runtime gates.
