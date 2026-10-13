@@ -1,0 +1,31 @@
+{
+  "schema": "claude-native-probe/1",
+  "as_of": "2026-10-13",
+  "core_source_head": "a1585702b10c6fa8a836980d800881e0a088f409",
+  "source_sha256": {
+    "lib/claude-pinned.js": "182ec43bbcae18733b3c2b39af427ba9e2baa2ea500c7ce078b44c67dee7d76a",
+    "lib/claude-pin-transaction.js": "910b4a3699847f488772560d7253d6790127a9f785c8bdd412b8bf941d650fda",
+    "lib/claude-plugin-source.js": "8e827f544794a7f5e3294b9dbc3d1b4533ba9b6e91ef09014f61838190453269",
+    "bin/sshlg-skills.js": "45460e908ea90c9e7575fa3b8f77614c18ab2018c5bfdecf855e9beaffe71bf0",
+    "test/claude_pin_native_probe.py": "23c84e96207c4f3ad951da77d2fbbf17a8e4da6b31b48b561cea5835847b2ece"
+  },
+  "observed": {
+    "native": "2.1.296 (Claude Code)",
+    "fresh": true,
+    "upgrade": true,
+    "downgrade": true,
+    "rollback": "verified-prior-payload",
+    "repaired": true,
+    "verified": true,
+    "enabled": false,
+    "dataPreserved": true,
+    "files": 2
+  },
+  "owned_fixture_cleanup": "completed",
+  "bounds": [
+    "synthetic isolated profiles and local Git transport",
+    "no operator profile writes",
+    "no model/provider calls",
+    "no native discovery or task-quality acceptance"
+  ]
+}

@@ -197,6 +197,41 @@ Read-only final-pin planning against parent `dd745bc` found no member manifest
 commit changes from this packet's base and all current staged gitlinks matched.
 That observation does not waive re-generation after a later release pin change.
 
+
+## Final bounded numeric and uncertainty correction
+
+Core `a158570` closes two further review findings. A timeout/signal/unknown native
+outcome now performs no subsequent settings or catalog restoration, because the
+native subprocess may still be active. Only private recovery evidence is written;
+settingsRestored remains false and a further native attempt refuses. The focused
+partial-native-settings plant was red before this correction and passes after it.
+Destructive same-version repair also requires a prior immutable Git SHA before
+uninstall, so unsupported rollback identity cannot be discovered only after removal.
+
+Independent review reproduced two precision collisions at the preceding source:
+foreign registry9007199254740992→9007199254740993 could pass, and settings
+100000000000000000000000001→100000000000000000000000002 could be overwritten.
+Native metadata admission now compares exact decimal token values with their
+JSON.parse/JSON.stringify round trip, bounded to128-character numeric tokens.
+Values that would change, overflow/underflow or lose negative zero refuse before
+mutation. Current settings and registry reads use the same guard, so a concurrent
+ambiguous value refuses instead of comparing equal after rounding. Safe equivalent
+decimal/exponent spellings and escaped numeric strings remain accepted. This is a
+native CLI compatibility bound, not a restriction on the independent lossless
+JSON editor; that editor still retains arbitrary original numeric bytes.
+Earlier raw-number restoration alone was insufficient evidence of concurrent
+preservation and is superseded by this explicit admission boundary.
+
+Transaction25 focused cases pass; the independent observer replayed19 additional
+numeric controls, including both original counterexamples, against identical
+frozen source hashes. Existing admission12 also passes. Actual profile read-only
+admission still accepts all11 members, including this new numeric/SHA boundary.
+[Final source-hashed actual native result](native-transaction-numeric.json) records
+all expanded lifecycle arms passing at `a158570`; two owned synthetic homes were
+removed. Full owner aggregate, genuine candidate CI and real-host update remain
+separate pending gates. No blanket foreign-process transaction or model-quality
+claim is made.
+
 ---
 **Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**:
 task-pipeline for delivery, evidence-docs for source-bound probes, make-skill for
