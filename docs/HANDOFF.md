@@ -1,49 +1,56 @@
-## Current continuation — 2026-10-13 09:12 UTC
+## Current continuation — 2026-10-13 10:04 UTC
 
-Hub candidate **1.63.0**, branch `waves/2026-10-13-finalization`, contains immutable
-Claude source updates, scoped default-off wait rules, release-iteration routing
-and the independently reviewed [read-only blocks preview](evidence/completion-1013/blocks-preview/README.md).
-Latest published hub remains1.62.2; candidate aggregate, publication and installed
-acceptance are still pending. Earlier acceptance does not certify these changes.
+Hub candidate **1.63.0**, branch `waves/2026-10-13-finalization`, composes immutable
+Claude source updates, scoped default-off wait rules, release-iteration routing,
+read-only managed-block previews, the Codex active-generation deferral and bounded
+backup-identity correction. Latest published hub remains 1.62.2. Candidate aggregate,
+publication and actual installed acceptance are pending.
 
-**Urgent hook recovery:** native Codex updates deleted old payload paths still used
-by the running session, causing127 and1. Exact prior versions of agent-sync,
-sheleg-dev and make-skill were restored without changing config/trust/current
-payloads. The [before/after native receipt](evidence/completion-1013/hook-recovery/README.md)
-records nine subsequent completed events. A permanent updater admission correction
-is under independent review on `fix/codex-active-payloads`; do not perform another
-native Codex version transition until the correction is composed. Catalog readback
-does not prove active threads retired their old paths.
+**Hook recovery:** exact old payloads were restored after Codex native plugin
+updates pruned files still used by this session. [Native evidence](evidence/completion-1013/hook-recovery/README.md)
+records nine completed hooks after recovery and one later completed post-tool hook.
+The [permanent guard peer](evidence/completion-1013/codex-cache-peer.json) is accepted
+and composed: native version transitions defer before mutation because no supported
+active-thread retirement/old-generation retention proof exists. Catalog convergence
+alone cannot establish retirement. Actual deferred receipt/watcher registration
+follows publication; no native version transition is authorized by a timeout.
 
-**Exact next sequence:** TP PR122 merged normally at
-`78c42124db910c56e74c8fbd524bdc9a4f8fb6c9`. Its exact-source full gate is running
-in owned tp-publish-1.94.0, chained to source guard and tag. The previous full gate
-at4d75057 failed historical source links after squash; that failure is preserved
-in the owner's `docs/evidence/runs/2026-10-13-exact-main-release-gate/`.
-SEO0.26.6 is published atc5a32d23, all four release jobs pass and all46 npm files
-match; owner receipt branch `docs/fw06-release-0266-receipt` at4d90d35 awaits normal
-docs integration. Agent-stack0.28.2 accepted main2b3d769 passed its full local gate;
-publication/readback proceeds independently. Only TP owns the long broad-test slot.
-Five R30 header-only owner corrections are integrated and pinned with whole-payload
-identity evidence. Refresh remaining accepted pins and both generated inventories,
-then compose Codex safety and managed-block backup corrections before hub gates.
+**Exact next sequence:** TP PR122 merged at
+`78c42124db910c56e74c8fbd524bdc9a4f8fb6c9`; its clean exact-source full gate is still
+running in owned tp-publish-1.94.0, chained to source guard and tag. Preserve the
+previous failed full gate in the owner's exact-main-release-gate receipt. Only TP
+owns the long broad-test slot. Then verify release jobs and the complete registry
+payload, update its parent pin and both generated inventories, run final hub gates,
+and publish/install with separately recorded native acceptance.
+
+Agent-stack 0.28.2 and SEO 0.26.6 are published with complete readback; accepted
+owner receipt/header corrections are pinned at 6b71918 and 00601e6. The three prior
+hub structural errors are resolved by those owner fixes; [focused replay](evidence/completion-1013/member-pin-seam-20261013-0955.json)
+exited 0. This is not the final aggregate. Original failures remain preserved.
+FW00 docs-only owner branches reconcile AS B-160 and UX B-025/B-026; peer/admission
+are pending. AS B-159 remains partial: SEO snapshot ledger is fixed, but its missing
+whole-repository temporary-maker guard is a separate candidate in SEO PR40.
+
+**Next wave:** the [backup recovery packet](evidence/completion-1013/backup-recovery-packet/README.md)
+owns operation-referenced retention and the first wait-rule adapter, developed in
+an isolated branch after the accepted bounded identity fix. FW07's prerequisite
+contradiction is independently corrected on cfa5248; lossless stage extraction
+proceeds on its isolated stack, with current gates/authorization preserved.
+These changes do not borrow acceptance from the immutable TP release run.
 
 [Native P2](evidence/completion-1013/native-routing-p2/readout.md) remains
-**NO_ADOPTION**: only Stripe passes its whole rubric; Google Auth omits the explicit
-denied-before-switch test. Installed descriptions are unchanged. The
-[combined evaluation report](reports/2026-10-13-skill-discovery-quality-results/README.md)
-separates protocols, costs and quality limits. FW07 stage loading has a conservative
-source-conservation packet; source edits follow actual TP1.94 publication, beginning
-with the independently identified UX-prerequisite contradiction.
+**NO_ADOPTION**: Google Auth still omits denied-before-switch testing. No installed
+description compression is accepted. The [combined evaluation](reports/2026-10-13-skill-discovery-quality-results/README.md)
+keeps protocol, cost and quality limits separate. The [current static graph](reports/2026-10-13-code-graph-finalization/README.md)
+is independently checked at 5d19e74: 241 files, 2876 nodes, 4341 edges, 216 communities.
+It is source navigation, not runtime proof. Wiki PR22 merged at a646848, retaining
+all 177 previous report IDs and adding four; source-scanner limitations remain.
 
-The [graph cut](reports/2026-10-13-code-graph-finalization/README.md) at86477b5 is
-independently verified historical evidence; code added since needs a fresh cut.
-[Preliminary observer](evidence/completion-1013/observer-pre-release.md) remains
-PARTIAL_NOT_FINAL. Regenerate all37 requirements and177 original-board dispositions
-with separately identified new defects; source-aware wiki indexing must conserve
-old IDs. Fabric com.* remains unavailable, so cross-project requests are unsent.
-Final acceptance requires published payload, actual host readback and an independent
-comparison against the original goal.
+[Preliminary observer](evidence/completion-1013/observer-pre-release.md) is
+PARTIAL_NOT_FINAL. Reconcile all 37 requirements and 177 original board IDs after
+final pins, preserving new defects separately. Fabric com.* remains unavailable;
+cross-project requests are unsent. Final acceptance requires published payload,
+actual host readback and independent comparison against the original objective.
 
 The dated entries below retain previous states and are not current instructions.
 

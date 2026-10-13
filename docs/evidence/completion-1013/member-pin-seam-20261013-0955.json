@@ -1,0 +1,11 @@
+{
+  "schema": "composed-structural/1",
+  "as_of": "2026-10-13T09:55:39Z",
+  "source": "fb2bcd3",
+  "command": "python3 -B test/validate.py",
+  "exit_code": 0,
+  "log_sha256": "0c8ead38b60756d5caf81d793454e1fd6ed7cef763edb83651690a64e93552e7",
+  "previous_failure": "member-pin-seam-20261013-0925.json",
+  "corrected": "Accepted SEO00601e6 truthful shared headers and AS6b71918 published ledger; no ratchet exception",
+  "limits": "Structural source check only, not full aggregate, native behavior or publication."
+}
