@@ -88,3 +88,34 @@ kind before reading and reports unsupported files as differing; strict sync then
 refuses. Two real CLI controls require prompt failure and preserve the target FIFO and
 settings; a separate timed child control proves source FIFO discovery also returns
 without opening it. Earlier source acceptance does not cover this subsequent correction.
+
+
+## Product documentation and aggregate guard correction
+
+Runtime source remains `bb724e5bef2c8af5a5959c3ba6676e81b3835190`.
+README, the 1.63 changelog and the state/lock contract now describe nonzero failure,
+suppressed hook rewiring, verified caught-error rollback and retained unresolved
+recovery evidence. The runtime lock's lack of automatic retirement is distinct
+from `update.lock` takeover. [Source and copy review](product-docs-review.json)
+records resolved links and the brand linter's exit 2: configured generated website
+and submodule sources are absent in this checkout. This is not a clean lint result.
+
+The parent aggregate exposed an outdated own-state exception set in
+`test/apply_test.js`. The correction names only backup-retention sidecars,
+Codex deferred receipts and runtime-owned lock/journal/code copies. Their target
+paths were inspected; the discovery corpus, protect window and generic exemptions
+are unchanged. [Actual negative control](protect-negative.json) adds an unrelated
+unprotected writer, observes both guards reject it, removes the owned plant and
+observes all 19 checks pass again.
+
+Seven requested suite summaries and this packet's runtime summary now use the
+existing runner's measured `PASS: <suite> — N cases` format. All existing counters,
+fixture bodies and failure exits remain; `test/run.js` is unchanged.
+[Formatter controls](summary-contract.json) exercise success and failure for each
+of the seven requested suites (14 controls), while [focused suite output](product-docs-focused.json)
+records nine actual suites and 190 cases. No full suite was run for this delta.
+
+Next: independently review this frozen documentation/test delta, then let the
+parent compose it and rerun its aggregate. The earlier runtime observer acceptance
+remains bounded to its original source cut; supported hard-crash lock retirement
+is still open.

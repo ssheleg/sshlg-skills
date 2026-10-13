@@ -45,4 +45,4 @@ test('actual packaged uninstall removes only selected owned wait text',(h,run,en
  const f=host(h,'.codex','AGENTS.md'),c=host(h,'.claude','CLAUDE.md');ok(run(['config','set','rules.wait','on']));ok(run(['rules','--apply']));const before=fs.readFileSync(c,'utf8');
  const r=packaged(h,env)(['uninstall','--no-claude','--agent','codex']);ok(r);assert.equal(fs.readFileSync(f,'utf8'),'USER TEXT\n');assert.equal(fs.readFileSync(c,'utf8'),before);
 });
-console.log(`${failed?'FAIL':'OK'} (${n} checks; ${failed} failed)`);process.exitCode=failed?1:0;
+console.log(failed ? `FAIL: wait_rules_cli — ${n} passed; ${failed} failed` : `PASS: wait_rules_cli — ${n} cases`);process.exitCode=failed?1:0;

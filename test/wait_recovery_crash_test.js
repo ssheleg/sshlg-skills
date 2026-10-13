@@ -26,4 +26,4 @@ for(const [cut,expected] of [['prepared-before','none'],['prepared-after','unres
   passed++;console.log('ok process crash '+cut);
  }catch(e){failed++;console.error('FAIL '+cut+': '+e.stack);}finally{fs.rmSync(home,{recursive:true,force:true});}
 }
-console.log(`${passed} passed; ${failed} failed`);if(failed)process.exitCode=1;
+console.log(failed ? `FAIL: wait_recovery_crash — ${passed} passed; ${failed} failed` : `PASS: wait_recovery_crash — ${passed} cases`);process.exitCode=failed?1:0;

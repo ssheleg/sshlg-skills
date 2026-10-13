@@ -303,6 +303,18 @@ removed stays removed, and an event a later release introduces is wired only by
 not wired here, with that command. `hooks install` re-adds every removed family
 entry, not only the new ones, so skip it if you removed an entry on purpose.
 
+If the hook runtime cannot be refreshed, `update` exits with a failure and skips
+hook rewiring; other update steps may already have completed. `hooks install`
+also exits with a failure and leaves hook settings unchanged. A caught switch
+error rolls managed files back when possible and verifies their previous bytes,
+permissions and presence. Unresolved journals are preserved for inspection.
+
+A hard stop can leave `~/.sshlg-skills/runtime/.sync.lock` and recovery records.
+The next attempt names the paths to inspect and refuses to replace that lock
+automatically. Do not delete it just because it is old: first establish who owns
+it and preserve the recovery records. See the [runtime recovery contract](docs/working-rules/state-json.md#the-runtime-lock-and-failed-refresh)
+for the remaining recovery boundary.
+
 **Exit codes of `update`:** 0 done, 1 a step failed, **2 a usage error** (an unknown
 flag, a flag without its value, contradictory flags), **75 another `update` holds
 `~/.sshlg-skills/update.lock`** (EX_TEMPFAIL — retry later, nothing failed; every

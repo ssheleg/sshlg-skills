@@ -91,4 +91,4 @@ for(const phase of ['link','unlink'])test('no-write recovery retirement '+phase+
  assert(planted);const data=JSON.parse(fs.readFileSync(W.receiptPath(h)));assert.equal(data.lastOperation.state,'recovered-no-write');assert.deepEqual(data.records,{});assert.equal(fs.readFileSync(f,'utf8'),'BEFORE');assert(fs.existsSync(data.lastOperation.backup.reference.file));
  assert.equal(W.resolveRecovery(h).state,'recovered-no-write');assert.equal(fs.readFileSync(f,'utf8'),'BEFORE');assert.deepEqual(W.receipt(h).data.records,{});assert.equal(W.inspectRecovery(h).state,'none');
 });
-console.log(`${n} passed; ${fail} failed`);if(fail)process.exitCode=1;
+console.log(fail ? `FAIL: wait_recovery — ${n} passed; ${fail} failed` : `PASS: wait_recovery — ${n} cases`);process.exitCode=fail?1:0;
