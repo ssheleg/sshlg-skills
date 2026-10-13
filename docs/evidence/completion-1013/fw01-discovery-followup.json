@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "cases": [
+    {
+      "owner": "make-skill",
+      "source": "c6b047057559f8dd2fe12dec59e4a4bee374fac2",
+      "file": "test/validate.py",
+      "file_sha256": "6069ab3cdc11041ea961b6a2a1ebc8787d71b4132272fe79d8550ec7fdea2fb8",
+      "source_url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/test/validate.py",
+      "readable_python_files": 1,
+      "unreadable_python_files": 0,
+      "unreadable_raises": false,
+      "verdict": "REPRODUCED_SOURCE_DISCOVERY_FALSE_EMPTY",
+      "scope": "Actual extracted temp_scan_files and skip constants, owned fixture. Not a full public-validator process or broad suite."
+    },
+    {
+      "owner": "agent-stack",
+      "source": "63e155d9c1ca9df789535926acc3546f33954e3b",
+      "file": "test/validate.py",
+      "file_sha256": "33174da157b1d714187c795175b073cae9ed553c96e04d030b9950971f955f02",
+      "source_url": "https://github.com/ssheleg/agent-stack/blob/63e155d9c1ca9df789535926acc3546f33954e3b/test/validate.py",
+      "readable_python_files": 1,
+      "unreadable_python_files": 0,
+      "unreadable_raises": false,
+      "verdict": "REPRODUCED_SOURCE_DISCOVERY_FALSE_EMPTY",
+      "scope": "Actual extracted temp_scan_files and skip constants, owned fixture. Not a full public-validator process or broad suite."
+    }
+  ],
+  "next": "Port reviewed SEO fail-closed onerror + owned permission regression to these source scanner owners in isolated branches; preserve lexical scope and exemption shapes. No source implementation edited by this audit."
+}
