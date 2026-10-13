@@ -1,5 +1,7 @@
 # Claude: продолжить здесь
 
+<sub>ssheleg skills — task-pipeline · agent-sync · evidence-docs</sub>
+
 Оператор 2026-10-13 остановил эту сессию словами: «закончи и оставь план и контекст чтобы продолжил клод». Программа **не объявлена завершённой**. Новые волны остановлены для передачи; уже запущенные проверки продолжают собирать результаты. Не начинать исследование заново и не принимать промежуточный PASS за релиз или установленное состояние.
 
 Рабочая папка: `/Users/sshlg/DATA/_wt/hub-release-1.62.0`.
@@ -41,7 +43,7 @@
 | TP shared-lock child lifetime | `fix/fw07-scratch-child-lifetime`, код25fb09d1, handoff1be885ab, `/_wt/tp-fw07-child-lock` | Независимый review [пакета и точного handoff](https://github.com/ssheleg/task-pipeline/blob/1be885aba69eaad70f411df10b316d3a81ea38c3/docs/evidence/runs/2026-10-13-fw07-child-lock/README.md#claude-continuation-after-operator-stop), compose, новый полный gate |
 | SEO shared lock | `fix/fw07-shared-scratch-lock`,78f2dd44, `/_wt/seo-fw07-scratch-lock` | Перенести принятую lifecycle-коррекцию, owner full gate, обычный draft/CI/merge; до этого интеграция запрещена |
 | sheleg-dev shared lock | `fix/fw07-shared-scratch-lock`,4678ef44, `/_wt/sheleg-dev-fw07-scratch-lock` | То же; старые30 controls не покрывают смерть runner с живым ребёнком |
-| Наблюдатель | `audit/nonauthor-preflight-f77a6c2`, `/_wt/hub-observer-f77a6c2` | Сверить последний review с точным B190 SHA; отсутствие verdict не acceptance |
+| Наблюдатель | `audit/nonauthor-preflight-f77a6c2`, `/_wt/hub-observer-f77a6c2` | Последний законченный review868c9d7 касается IO09; независимый B190 review ещё НЕ начат, требуется новый проход |
 
 Полные SHA, remote и readback — в [branches.json](evidence/completion-1013/claude-handoff/branches.json). Старые TP PR123/124 не закрывать до принятого composed merge. `hub-blocks-preview` сохранять: его local/remote ранее различались.
 
@@ -111,3 +113,11 @@
 
 Эта передача сохраняет контекст, но не является release approval, final acceptance
 или утверждением, что система полностью завершена.
+
+---
+
+**Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**
+
+- [`task-pipeline`](https://github.com/ssheleg/task-pipeline) — план продолжения
+- [`agent-sync`](https://github.com/ssheleg/agent-sync) — владение ветками
+- [`evidence-docs`](https://github.com/ssheleg/task-pipeline) — проверенные результаты
