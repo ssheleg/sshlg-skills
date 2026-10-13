@@ -40,3 +40,5 @@ current source occurrence. It is not a shipped shared label.
 | rules.recovery.finalize | Finalize metadata | lib/wait-recovery-cli.js | SCN-010 | proposed |
 | rules.recovery.preserve | Preserve the private wait-rule receipt and retained copies for audit. Locks are never cleared by this command. | lib/wait-recovery-cli.js | SCN-010 | proposed |
 | rules.recovery.boundary | Host instructions are not restored or rewritten by recovery. | lib/wait-recovery-cli.js | SCN-010 | proposed |
+| rules.recovery.evidence | source CLI; metadata only; no installed or native behavior claim | lib/wait-recovery-cli.js | SCN-010 | proposed |
+| rules.recovery.arguments | Use rules recovery inspect or finalize --operation <id> [--apply]. | lib/wait-recovery-cli.js | SCN-010 | proposed |
