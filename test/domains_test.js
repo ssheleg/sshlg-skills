@@ -96,7 +96,7 @@ const S = (o) => JSON.stringify(o, null, 2) + '\n';
 it('readEnabled: valid settings formatting is independent of edit support', () => {
   for (const text of ['{"enabledPlugins":{"a@a":true,"b@b":false}}\n', '{\r\n\t"enabledPlugins": {"a@a": true,"b@b":false}\r\n}\r\n']) {
     assert.deepStrictEqual(D.readEnabled(text), { ok: true, enabled: { 'a@a': true, 'b@b': false } });
-    assert.strictEqual(D.editEnabled(text, { set: { 'c@c': true } }).ok, false);
+    assert.strictEqual(D.editEnabled(text, { set: { 'c@c': true } }).ok, true);
   }
   for (const text of [null, undefined, '{}', '{"permissions":{}}']) assert.deepStrictEqual(D.readEnabled(text), { ok: true, enabled: {} });
 });
@@ -126,10 +126,10 @@ it('editEnabled: a file without a trailing newline keeps that form', () => {
   assert.ok(r.ok && !r.text.endsWith('\n'), r.text);
 });
 
-it('editEnabled: refuses a file in another format rather than reformatting it', () => {
+it('editEnabled: compact valid JSON is edited without reformatting existing bytes', () => {
   const r = D.editEnabled('{"a":1}\n', { set: { 'k@k': true } });
-  assert.strictEqual(r.ok, false);
-  assert.ok(/format/.test(r.reason), r.reason);
+  assert.strictEqual(r.ok, true);
+  assert.ok(r.text.startsWith('{"a":1,'), r.text);
   assert.strictEqual(D.editEnabled('{ nope', { set: { 'k@k': true } }).ok, false);
 });
 
@@ -139,6 +139,54 @@ it('editEnabled: unset removes a key only while it holds the value the launcher 
   assert.deepStrictEqual(JSON.parse(r.text), { enabledPlugins: { 'b@b': false } });
   assert.deepStrictEqual(r.kept, ['b@b']);
   assert.strictEqual(D.editEnabled(S({ enabledPlugins: { 'a@a': true } }), { unset: { 'a@a': true } }).text, S({}));
+});
+
+it('editEnabled: noncanonical nested bytes and value spellings survive insertion and undo', () => {
+  const before = '{\n  "permissions": {\n    "allow": [\n       "Bash(example)"\n    ]\n  }, "numeric":1e+03,"escaped":"\\u0061"\n}\n';
+  const added = D.editEnabled(before, { set: { 'web3d-dev@web3d-dev': true } });
+  assert.ok(added.ok, added.reason);
+  assert.ok(added.text.includes('       "Bash(example)"'));
+  assert.ok(added.text.includes('"numeric":1e+03,"escaped":"\\u0061"'));
+  assert.strictEqual(JSON.parse(added.text).enabledPlugins['web3d-dev@web3d-dev'], true);
+  assert.strictEqual(D.editEnabled(added.text, { set: { 'web3d-dev@web3d-dev': true } }).text, added.text);
+  assert.strictEqual(D.editEnabled(added.text, { unset: { 'web3d-dev@web3d-dev': true } }).text, before);
+});
+
+it('editEnabled: ambiguous duplicate keys and unknown values refuse before editing', () => {
+  for (const before of ['{"enabledPlugins":{},"enabledPlugins":{}}', '{"enabledPlugins":{"x":true,"\\u0078":false}}', '{"enabledPlugins":{"x":null}}', '{"permissions":{"a":1,"a":2}}']) {
+    assert.strictEqual(D.editEnabled(before, { set: { 'a@a': true } }).ok, false, before);
+    assert.strictEqual(D.readEnabled(before).ok, false, before);
+  }
+});
+
+it('editEnabled: targeted values and first/middle/last removals retain neighboring source', () => {
+  const before = '{ "enabledPlugins" : { "a":true, "b": false, "c" :true }, "note":"\\\"},\\\"enabledPlugins\\\":{}" }\r\n';
+  for (const key of ['a','b','c']) {
+    const r = D.editEnabled(before, { unset: { [key]: key !== 'b' } });
+    assert.ok(r.ok, r.reason); const expected = JSON.parse(before); delete expected.enabledPlugins[key];
+    assert.deepStrictEqual(JSON.parse(r.text), expected);
+    assert.ok(r.text.endsWith(before.slice(before.indexOf(', "note"'))));
+  }
+  const r = D.editEnabled(before, { set: { b: true }, unset: { a: false } });
+  assert.deepStrictEqual(r.kept, ['a']);
+  assert.strictEqual(r.text, before.replace('"b": false', '"b": true'));
+});
+
+it('editEnabled: CRLF, escaped keys, decoy strings and depth refusal are source-bound', () => {
+  const before = '{\r\n\t"enabled\\u0050lugins": {"a":false},\r\n\t"unrelated": ["enabledPlugins", {"raw":1e999}]\r\n}\r\n';
+  const r = D.editEnabled(before, { set: { a: true } });
+  assert.ok(r.ok, r.reason);
+  assert.strictEqual(r.text, before.replace('"a":false', '"a":true'));
+  const deep = '{"other":' + '['.repeat(130) + '0' + ']'.repeat(130) + '}';
+  assert.strictEqual(D.editEnabled(deep, { set: { 'a@a': true } }).ok, false);
+  for (const text of ['{}\r\n', '{  }', '{"enabledPlugins": { }, "extra":[false,null,1.2e-3]}']) {
+    const out = D.editEnabled(text, { set: { 'a@a': true, 'b@b': false } });
+    assert.ok(out.ok, out.reason);
+    assert.deepStrictEqual(JSON.parse(out.text).enabledPlugins, { 'a@a': true, 'b@b': false });
+    assert.strictEqual(D.editEnabled(out.text, { set: { 'a@a': true, 'b@b': false } }).text, out.text);
+    const reverted = D.editEnabled(out.text, { unset: { 'a@a': true, 'b@b': false }, keepEmpty: text.includes('enabledPlugins') });
+    assert.strictEqual(reverted.text, text);
+  }
 });
 
 // ── the plan ──

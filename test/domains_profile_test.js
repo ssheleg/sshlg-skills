@@ -154,16 +154,43 @@ test('noncanonical shared settings preserve explicit project choices without loc
   assert.strictEqual(m.read(shared), before);
 });
 
-test('noncanonical local settings are readable but refused only when an edit is needed', (m) => {
-  const before = '{"permissions":{"allow":[]}}\n';
+test('noncanonical local settings preserve foreign bytes through three applies and revert', (m) => {
+  // Same layout defect as the private host file, with entirely synthetic values.
+  const before = '{\n  "permissions": {\n    "allow": [\n       "Bash(example)"\n    ]\n  }\n}\n';
+  m.write('DATA/project/.claude/settings.local.json', before);
+  let applied;
+  for (let i = 0; i < 3; i++) {
+    const result = m.run('--apply', '--no-usage'); ok(result);
+    assert.doesNotMatch(result.stdout, /not read in full|refusing to reformat/);
+    const current = m.read(m.local);
+    assert.strictEqual(JSON.parse(current).enabledPlugins['web3d-dev@web3d-dev'], true);
+    assert.ok(current.includes('       "Bash(example)"'));
+    if (i) assert.strictEqual(current, applied);
+    applied = current;
+    assert.strictEqual(JSON.parse(m.read(m.active)).enabledPlugins['web3d-dev@web3d-dev'], false);
+  }
+  ok(m.run('--revert'));
+  assert.strictEqual(m.read(m.local), before);
+  assert.strictEqual(m.read(m.active), m.user);
+});
+
+test('duplicate decoded settings keys retain unknown coverage without mutation', (m) => {
+  const before = '{"enabledPlugins":{"web3d-dev@web3d-dev":false},"enabledPlugins":{}}';
   m.write('DATA/project/.claude/settings.local.json', before);
   const result = m.run('--apply', '--no-usage'); ok(result);
-  assert.doesNotMatch(result.stdout, /not read in full/);
-  assert.match(result.stdout, /refusing to reformat/);
-  const user = JSON.parse(m.read(m.active)).enabledPlugins;
-  assert.strictEqual(user['web3d-dev@web3d-dev'], true, 'needed coverage must remain global');
-  assert.strictEqual(user['xr-dev@xr-dev'], false, 'irrelevant settings formatting cannot make source evidence incomplete');
+  assert.match(result.stdout, /not read in full/);
   assert.strictEqual(m.read(m.local), before);
+  assert.strictEqual(m.read(m.active), m.user);
+});
+
+test('a nonempty root with a dangling gitfile stays unknown and preserves globals', (m) => {
+  m.write('DATA/stale/.git', 'gitdir: /nonexistent/synthetic-worktree-metadata\n');
+  m.write('DATA/stale/retained.txt', 'synthetic work, not evidence of absence');
+  const result = m.run('--apply', '--no-usage'); ok(result);
+  assert.match(result.stdout, /not read in full/);
+  assert.strictEqual(JSON.parse(m.read(m.active)).enabledPlugins['web3d-dev@web3d-dev'], true);
+  assert.strictEqual(m.read(m.local) && JSON.parse(m.read(m.local)).enabledPlugins['web3d-dev@web3d-dev'], true);
+  assert.strictEqual(m.read(m.home + '/DATA/stale/retained.txt'), 'synthetic work, not evidence of absence');
 });
 
 test('noncanonical local false is respected and does not trigger a rewrite', (m) => {
