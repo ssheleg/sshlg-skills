@@ -81,3 +81,21 @@ GitHub's [workflow_dispatch documentation](https://docs.github.com/en/actions/re
 allows an existing, previously run workflow to be dispatched against a branch by
 CLI/API. The workflow already exists on the default branch. Full execution and
 conclusion are separate receipts, not inferred from successful dispatch.
+
+
+### Correction: dispatch success does not satisfy PR protection
+
+The explicit dispatch [38334548878](https://github.com/ssheleg/sshlg-skills/actions/runs/38334548878)
+passed all three jobs on `d8211583930d9f763da79bf3027be0503d7ade4f`, but GitHub
+refused merge and the PR's check rollup remained empty. Current [required-check
+troubleshooting](https://docs.github.com/en/pull-requests/how-tos/merge-and-close-pull-requests/troubleshooting-required-status-checks)
+explicitly excludes `workflow_dispatch` job checks from PR-required checks.
+The successful run remains real test evidence, not merge admission.
+
+The manual candidate path is therefore `pull_request: types: [ready_for_review]`:
+freeze and locally validate the accumulated candidate, then deliberately move its
+own draft PR to ready. The full genuine workflow runs on that one promotion.
+`opened`, `reopened`, `synchronize` and `push` remain absent; ordinary pushes do not
+run the full suite. No synthetic passing statuses or protection bypass are used.
+A later candidate needs another deliberate promotion. Nightly default-branch runs
+and release workflow_call remain available. [Supported event activity types](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request).

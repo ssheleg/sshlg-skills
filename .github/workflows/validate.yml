@@ -1,6 +1,10 @@
 name: validate
 
 on:
+  # Manually promote a frozen draft candidate; never opened/synchronize/push.
+  # workflow_dispatch results are not eligible for PR-required checks on GitHub.
+  pull_request:
+    types: [ready_for_review]
   # Operator policy: full CI is nightly; an explicitly selected release/integration
   # candidate may be run manually once after local validation, never per push.
   workflow_dispatch:
