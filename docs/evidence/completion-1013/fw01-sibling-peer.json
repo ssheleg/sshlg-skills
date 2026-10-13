@@ -1,0 +1,29 @@
+{
+  "verdict": "ACCEPTED_BOUNDED_SOURCE",
+  "owners": [
+    {
+      "owner": "make-skill",
+      "source": "75ab2d0ad03e231ce465fa5d3d95776e8be0c3f4",
+      "base": "c6b047057559f8dd2fe12dec59e4a4bee374fac2",
+      "actual_command": "python3 -B test/audit_regressions/fw01_discovery.py",
+      "exit_code": 0,
+      "controls": 9,
+      "log_sha256": "685958cdc2a4d2d29d1bf39a85cf70ee815e8b4e52c6d29ab840c48cb7897902",
+      "output": "residue: this run left nothing \u2014 2 temp tree(s) created, 2 removed\nPASS: FW01 discovery admission \u2014 9 controls\n",
+      "source_review": "Minimal os.walk onerror callback records failure through existing validator fail function; lexical matching/exemptions unchanged. Test source reviewed: five scanner and four real validator controls, effective permissions independently checked before claiming negative.",
+      "limits": "OS directory traversal errors; not exhaustive arbitrary filesystem race or symlink discovery proof."
+    },
+    {
+      "owner": "agent-stack",
+      "source": "bc0f66387850f30674ae14636f7e40d98e029d2b",
+      "base": "63e155d9c1ca9df789535926acc3546f33954e3b",
+      "actual_command": "python3 -B test/audit_regressions/fw01_discovery.py",
+      "exit_code": 0,
+      "controls": 9,
+      "log_sha256": "685958cdc2a4d2d29d1bf39a85cf70ee815e8b4e52c6d29ab840c48cb7897902",
+      "output": "residue: this run left nothing \u2014 2 temp tree(s) created, 2 removed\nPASS: FW01 discovery admission \u2014 9 controls\n",
+      "source_review": "Minimal os.walk onerror callback records failure through existing validator fail function; lexical matching/exemptions unchanged. Test source reviewed: five scanner and four real validator controls, effective permissions independently checked before claiming negative.",
+      "limits": "OS directory traversal errors; not exhaustive arbitrary filesystem race or symlink discovery proof."
+    }
+  ]
+}
