@@ -1,0 +1,47 @@
+{
+  "repo": "ssheleg/agent-stack",
+  "number": 54,
+  "head": "5b167788a64f4ed5885403ccc63737c0ababe2e0",
+  "observed": {
+    "headRefOid": "5b167788a64f4ed5885403ccc63737c0ababe2e0",
+    "mergeCommit": {
+      "oid": "b332a92e62417d615543c6398f7a01f6d85663bf"
+    },
+    "state": "MERGED",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-13T11:10:44Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/ssheleg/agent-stack/actions/runs/38388336640/job/115265568115",
+        "name": "validate",
+        "startedAt": "2026-10-13T11:10:03Z",
+        "status": "COMPLETED",
+        "workflowName": "validate"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-13T11:10:13Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/ssheleg/agent-stack/actions/runs/38388336640/job/115265567881",
+        "name": "House skill audit",
+        "startedAt": "2026-10-13T11:10:04Z",
+        "status": "COMPLETED",
+        "workflowName": "validate"
+      }
+    ],
+    "url": "https://github.com/ssheleg/agent-stack/pull/54"
+  },
+  "merge_attempt": {
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "done": true,
+  "outcome": "MERGED",
+  "candidate_tree": "8b7d95d4b2a9b8a27d498b4be0ae1e1a9564610f",
+  "accepted_merge_tree": "8b7d95d4b2a9b8a27d498b4be0ae1e1a9564610f",
+  "tree_equal": true,
+  "release_required": false,
+  "reason": "Only excluded owner test/docs source changed; payload parity retained."
+}

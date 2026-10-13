@@ -1778,7 +1778,7 @@
     {
       "name": "make-skill",
       "repo": "ssheleg/make-skill",
-      "commit": "c6b047057559f8dd2fe12dec59e4a4bee374fac2",
+      "commit": "df53aaa93def11d587943e119761605c64186e0c",
       "version": "0.31.2",
       "pluginInstall": "make-skill@make-skill",
       "pluginPath": "plugins/make-skill",
@@ -2507,7 +2507,7 @@
     {
       "name": "seo-aeo-audit",
       "repo": "ssheleg/seo-aeo-audit",
-      "commit": "00601e620f7d273893b6a97566a26abd9e9b520e",
+      "commit": "1e86edf178f0445ad2bace5fbbf79013de43f605",
       "version": "0.26.6",
       "pluginInstall": "seo-aeo-audit@seo-aeo-audit",
       "pluginPath": "plugins/seo-aeo-audit",
@@ -3075,7 +3075,7 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "63e155d9c1ca9df789535926acc3546f33954e3b",
+      "commit": "b332a92e62417d615543c6398f7a01f6d85663bf",
       "version": "0.28.2",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",

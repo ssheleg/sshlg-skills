@@ -1,0 +1,67 @@
+{
+  "repo": "ssheleg/make-skill",
+  "number": 40,
+  "head": "2fb6a48fdd8079f6061f93b7de234007048bdec3",
+  "observed": {
+    "headRefOid": "2fb6a48fdd8079f6061f93b7de234007048bdec3",
+    "mergeCommit": {
+      "oid": "df53aaa93def11d587943e119761605c64186e0c"
+    },
+    "state": "MERGED",
+    "statusCheckRollup": [
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-13T11:10:31Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/ssheleg/make-skill/actions/runs/38388317373/job/115265502581",
+        "name": "validate",
+        "startedAt": "2026-10-13T11:09:54Z",
+        "status": "COMPLETED",
+        "workflowName": "validate"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-13T11:10:06Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/ssheleg/make-skill/actions/runs/38388317373/job/115265502932",
+        "name": "claude-plugin-validate",
+        "startedAt": "2026-10-13T11:09:53Z",
+        "status": "COMPLETED",
+        "workflowName": "validate"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-13T11:10:02Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/ssheleg/make-skill/actions/runs/38388317373/job/115265502859",
+        "name": "skills-cli-discovery",
+        "startedAt": "2026-10-13T11:09:54Z",
+        "status": "COMPLETED",
+        "workflowName": "validate"
+      },
+      {
+        "__typename": "CheckRun",
+        "completedAt": "2026-10-13T11:10:06Z",
+        "conclusion": "SUCCESS",
+        "detailsUrl": "https://github.com/ssheleg/make-skill/actions/runs/38388317373/job/115265503057",
+        "name": "House skill audit",
+        "startedAt": "2026-10-13T11:09:53Z",
+        "status": "COMPLETED",
+        "workflowName": "validate"
+      }
+    ],
+    "url": "https://github.com/ssheleg/make-skill/pull/40"
+  },
+  "merge_attempt": {
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "done": true,
+  "outcome": "MERGED",
+  "candidate_tree": "01f1cdb243190350905d95b6a25062fd3eeb7d1b",
+  "accepted_merge_tree": "01f1cdb243190350905d95b6a25062fd3eeb7d1b",
+  "tree_equal": true,
+  "release_required": false,
+  "reason": "Only excluded owner test/docs source changed; payload parity retained."
+}

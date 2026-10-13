@@ -120,7 +120,7 @@
       "npm": "@ssheleg/make-skill",
       "shape": "static",
       "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time.",
-      "commit": "c6b047057559f8dd2fe12dec59e4a4bee374fac2"
+      "commit": "df53aaa93def11d587943e119761605c64186e0c"
     },
     {
       "name": "sheleg-design",
@@ -167,7 +167,7 @@
       "npm": "@ssheleg/seo-aeo-audit",
       "shape": "static, with a bounded discovery",
       "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste.",
-      "commit": "00601e620f7d273893b6a97566a26abd9e9b520e"
+      "commit": "1e86edf178f0445ad2bace5fbbf79013de43f605"
     },
     {
       "name": "sheleg-dev",
@@ -212,7 +212,7 @@
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance.",
-      "commit": "63e155d9c1ca9df789535926acc3546f33954e3b"
+      "commit": "b332a92e62417d615543c6398f7a01f6d85663bf"
     },
     {
       "name": "telegram-dev",
