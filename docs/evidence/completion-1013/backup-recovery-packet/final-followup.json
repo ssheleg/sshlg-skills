@@ -1,0 +1,58 @@
+{
+  "schema": "mb02b-focused/1",
+  "scope": "Namespace admission and monotonic lock budget; no aggregate",
+  "sourceSha256": {
+    "lib/backup.js": "91eacbee2d738a8c598bbb7ef7de484647844501303a72d6e45367148f1f2037",
+    "lib/backup-retention.js": "69d42dfeed4cbc2ab431ff5894ae10ad057e8e944c43eb3410e7753673498d9d",
+    "lib/apply.js": "3f4a2051df97a644e75510a47f5e80692e74bf84728536d05414e8dc56314db0",
+    "lib/wait-rules.js": "918a585755fd53a2412fa7a718b879bcf67c3bdc3e01dad89e59a3ca07080286",
+    "lib/wait-recovery.js": "f3517e311eda4b5b73676ee1a76be858b841071389c1529ef6158eb3ec06832b"
+  },
+  "results": [
+    {
+      "command": [
+        "node",
+        "test/backup_retention_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok a referenced copy survives ordinary history pruning\nok a provisional orphan reference is retained after publication failure\nok a malformed retention reference refuses pruning without deleting evidence\nok invalid owner metadata refuses before creating backup storage\nok existing permissive reference storage refuses without chmod\nok another process cannot prune a retained backup\nok held lock wait stays bounded when wall clock stops\n7 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/backup_retention_process_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "OK (1 real-process reservation/pruning race)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/wait_recovery_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok before-write failure retains exact recovery bytes through 15 ordinary saves\nok post-write failure classifies committed without repeating a host write\nok absent original is distinct from an existing empty file\nok legacy pending remains unresolved and byte-identical\nok changed policy refuses metadata recovery and preserves pending\nok third-party content is never restored or adopted\nok receipt write boundary 1 fails without falsely completing\nok receipt write boundary 2 fails without falsely completing\nok receipt write boundary 3 fails without falsely completing\nok retirement link interruption retains and resumes exact reference\nok retirement unlink interruption retains and resumes exact reference\nok a committed target later reverted to original bytes is not classified as no-write\nok three repeated completed resolutions are byte-identical no-ops\nok actual case alias keeps canonical reference binding\nok malformed next ownership cannot be written during metadata resolution\nok foreign retirement destination is preserved and cannot free reference\nok relocated reference outside owner backup namespace is not silently adopted\n17 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/wait_recovery_crash_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok process crash prepared-before\nok process crash prepared-after\nok process crash intent-after\nok process crash host-before\nok process crash host-after\nok process crash terminal-after\nok process crash retired-link\n7 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/wait_rules_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok default-off and old consent do not add rules\nok five hosts carry the right variant; third application is byte-identical\nok Cursor off removes only its dedicated owned file and can be enabled again\nok selected host only; absent roots are not created\nok off removes owned segment and preserves appended foreign bytes\nok automatic update touches only previously applied profiles\nok custom root with spaces works without default profile writes\nok retargeted root alias refuses and preserves new target\nok unknown or malformed markers refuse before write\nok unknown or malformed markers refuse before write\nok unknown or malformed markers refuse before write\nok edited owned region refuses even off\nok foreign Cursor filename refuses\nok changed target between preview and execute refuses before target write\nok failed target backup leaves pending recovery and no target write\nok invalid UTF-8 instruction refuses with exact bytes and no new files\nok invalid UTF-8 receipt refuses with exact bytes and no new files\nok policy off after first target prevents the second target and retains first ownership\nok policy off during target backup refuses before writing that target\nok unknown source revision refuses despite a matching segment hash\nok receipt cannot extend its segment over foreign text even with a recomputed hash\nOK (21 checks; 0 failed)\n",
+      "stderr": ""
+    }
+  ]
+}

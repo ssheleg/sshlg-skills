@@ -1,0 +1,11 @@
+{
+  "source": "5d19e74b02c507cf59606469b80c5c44b9bc178d",
+  "command": [
+    "node",
+    "test/backup_retention_test.js"
+  ],
+  "testCut": "initial six controls before implementation; later test file adds a seventh clock control",
+  "observedExitCode": 1,
+  "output": "FAIL a referenced copy survives ordinary history pruning: ENOENT: no such file or directory, open '<synthetic-fixture>'\nFAIL a provisional orphan reference is retained after publication failure: 0 == 1\nFAIL a malformed retention reference refuses pruning without deleting evidence: 'saved' == 'backup-failed'\nFAIL invalid owner metadata refuses before creating backup storage: 'saved' == 'backup-failed'\nFAIL existing permissive reference storage refuses without chmod: 'saved' == 'backup-failed'\nFAIL another process cannot prune a retained backup: ENOENT: no such file or directory, open '<synthetic-fixture>'\n0 passed; 6 failed\n",
+  "sanitization": "Synthetic absolute fixture paths replaced; assertion messages preserved"
+}
