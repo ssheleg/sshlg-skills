@@ -1,0 +1,459 @@
+{
+  "schema": "independent-observer-review/1",
+  "status": "INTERIM_NOT_FINAL",
+  "source": "f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6",
+  "independence": {
+    "reviewer": "/root/independent_observer",
+    "prior_authorship": "none in implementation, protocols, release decisions or coordinator completion claim",
+    "writes": "own isolated report packet only"
+  },
+  "bounded_release_acceptance": "partial; final delivery not supplied",
+  "original_program_objective": "partial",
+  "findings": [
+    {
+      "id": "IO-01",
+      "kind": "acceptance_evidence_gap",
+      "requirements": [
+        "R30",
+        "R33",
+        "R35"
+      ],
+      "board": [
+        "hub:B-187",
+        "hub:B-188"
+      ],
+      "severity": "high",
+      "state": "OPEN_EXPECTED_IN_FINAL_DELIVERY",
+      "finding": "The candidate is not delivered. Prior native synthetic and split aggregate receipts cannot admit this immutable candidate or prove installed preservation.",
+      "evidence": [
+        {
+          "path": "docs/HANDOFF.md",
+          "line": 1,
+          "sha256": "21bdfe26fd493025324a034e975d0d388a41efc76ce411121275035b881b007d",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/docs/HANDOFF.md#L1"
+        },
+        {
+          "path": "docs/evidence/completion-1013/claude-pins/aggregate.json",
+          "line": null,
+          "sha256": "7c3819f09a12ef667780f8ebcbbf8a83dba9c1120463011a5ab92c54b7e679d4",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/docs/evidence/completion-1013/claude-pins/aggregate.json"
+        }
+      ],
+      "next_task": "Deliver one exact-source hub aggregate and genuine candidate/release chain, then compare published and actual installed payloads plus foreign settings; register and observe the safely deferred Codex generation separately.",
+      "owner": "hub coordinator",
+      "prerequisite": "accepted TP release and final eleven-member pin cut"
+    },
+    {
+      "id": "IO-02",
+      "kind": "conditional_source_seam",
+      "requirements": [
+        "R33",
+        "R35"
+      ],
+      "board": [
+        "hub:B-188"
+      ],
+      "severity": "medium",
+      "state": "OWNER_REPRODUCTION_REQUESTED",
+      "finding": "cmdUpdate saves a deferred Codex config fingerprint before reapplyVisibility. When that later step changes config.toml, the newly printed observer rejects its own receipt as config-changed-rescan-required. Safety remains fail-closed; useful follow-up observation can be lost.",
+      "evidence": [
+        {
+          "path": "bin/sshlg-skills.js",
+          "line": 664,
+          "sha256": "beeca4d2780ac6527a23d77dfa6850db1eed39a2e2c5e6a0fce0c30300891e95",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/bin/sshlg-skills.js#L664"
+        },
+        {
+          "path": "lib/codex-pending.js",
+          "line": 63,
+          "sha256": "c3f000bb565952a457989e3f394628d231da647602fcc147a8f24c2d94563c8a",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/lib/codex-pending.js#L63"
+        },
+        {
+          "path": "lib/codex-pending.js",
+          "line": 97,
+          "sha256": "c3f000bb565952a457989e3f394628d231da647602fcc147a8f24c2d94563c8a",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/lib/codex-pending.js#L97"
+        }
+      ],
+      "next_task": "Exercise the existing fake-host update fixture with a consented visibility delta; if confirmed, bind the deferred receipt after the final owned config write and prove the watcher remains deferred without native mutation.",
+      "owner": "hub coordinator/developer",
+      "prerequisite": "bounded fixture slot; observer does not author the fix",
+      "mechanism": "conditional source order confirmed",
+      "reproduction": "not executed by this observer",
+      "incidence": "unknown"
+    },
+    {
+      "id": "IO-03",
+      "kind": "dated_navigation_gap",
+      "requirements": [
+        "R17",
+        "R22",
+        "R28",
+        "R29",
+        "R30",
+        "R32",
+        "R33"
+      ],
+      "board": [
+        "hub:B-108",
+        "hub:B-109"
+      ],
+      "severity": "medium",
+      "state": "PENDING_FINAL_CUT",
+      "finding": "The last official generated board map predates the accepted owner gitlinks. Independent immutable reconciliation preserves every original identity, but it is not the final delivered source map or refreshed graph.",
+      "evidence": [
+        {
+          "path": "docs/evidence/completion-1013/board-current-20261013-1017.json",
+          "line": null,
+          "sha256": "47af64c87883df2058eab4a98197a56f52eaae1168a6e4ac5e6f197451074e3a",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/docs/evidence/completion-1013/board-current-20261013-1017.json"
+        },
+        {
+          "path": "docs/evidence/completion-1013/requirements-current-20261013-1153.json",
+          "line": null,
+          "sha256": "a38df3a7eb7d546ebf3e89f73ef522508e4d8ae7a0ea6afc6489e4462b81e79a",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/docs/evidence/completion-1013/requirements-current-20261013-1153.json"
+        }
+      ],
+      "next_task": "Regenerate dated requirement and board maps from final gitlinks; preserve historical maps and provide graph/wiki source identities rather than making older snapshots current.",
+      "owner": "hub coordinator",
+      "prerequisite": "final source cut"
+    },
+    {
+      "id": "IO-04",
+      "kind": "observed_bounded_quality_failure",
+      "requirements": [
+        "R27",
+        "C09"
+      ],
+      "board": [
+        "hub:B-148"
+      ],
+      "severity": "medium",
+      "state": "NO_ADOPTION_CORRECTLY_RETAINED",
+      "finding": "Directed native access still leaves the Google Auth artifact missing the original denied-before-switch criterion. Trigger selection and directed invocation do not establish passive discovery or token savings without task-quality loss. The B148 residual now correctly points to FW08.",
+      "evidence": [
+        {
+          "path": "docs/evidence/completion-1013/native-routing-p2/readout.md",
+          "line": 1,
+          "sha256": "707b630b89c82732aa6c181ca5e816d228b4e686b0515170b2cbe8f53efb147c",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/docs/evidence/completion-1013/native-routing-p2/readout.md#L1"
+        },
+        {
+          "path": "docs/evidence/backlog.md",
+          "line": 210,
+          "sha256": "f2f99e596f87b162dc0c0bd16099880e32ab854457dcf008a8a5b746fe1ef12f",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/docs/evidence/backlog.md#L210"
+        }
+      ],
+      "next_task": "Bind the reviewed holdout to final accepted sources and retain the unchanged rubric before separately admitting any new model experiment.",
+      "owner": "FW08 evaluation owner",
+      "prerequisite": "final composed FW07 source/full gate and separately reviewed provider admission"
+    },
+    {
+      "id": "IO-05",
+      "kind": "external_capability_prerequisite",
+      "requirements": [
+        "R11",
+        "R15",
+        "R23",
+        "R24",
+        "R34"
+      ],
+      "board": [
+        "hub:B-184"
+      ],
+      "severity": "medium",
+      "state": "UNSENT_NOT_DELIVERED",
+      "finding": "The source contracts and local fixtures do not prove connected Observatory/Fabric operation. Current handoff retains unavailable com.* and unsent owner requests. This observer did not substitute another transport or probe private credentials.",
+      "evidence": [
+        {
+          "path": "docs/HANDOFF.md",
+          "line": 102,
+          "sha256": "21bdfe26fd493025324a034e975d0d388a41efc76ce411121275035b881b007d",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/docs/HANDOFF.md#L102"
+        },
+        {
+          "path": "docs/evidence/completion-1013/mcp-profile-consumer/README.md",
+          "line": null,
+          "sha256": "02de3e2256b31f57a305fd8d72a9be9088d0dddff281673e12ca5bec9e2b5b49",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/docs/evidence/completion-1013/mcp-profile-consumer/README.md"
+        }
+      ],
+      "next_task": "After authenticated project-board capability is available, submit each durable residual ask using its recorded idempotency key and retain owner acknowledgment/schema before runtime integration.",
+      "owner": "hub coordinator and receiving project owners",
+      "prerequisite": "authenticated Fabric project identity and com.* capability"
+    },
+    {
+      "id": "IO-06",
+      "kind": "scope_and_operator_decision",
+      "requirements": [
+        "C10",
+        "R33"
+      ],
+      "board": [
+        "hub:B-174",
+        "hub:B-180"
+      ],
+      "severity": "low",
+      "state": "BOUNDED_SOURCE_ONLY",
+      "finding": "Wait recovery is a metadata finalizer and retention classifier. Terminal history is deliberately not current host-health proof; the source does not clear held locks or restore host files. Managed-block ownership decisions and actual wait-rule adoption remain separate.",
+      "evidence": [
+        {
+          "path": "lib/wait-rules.js",
+          "line": 143,
+          "sha256": "88b1a19e58a48a4790e17445d125c0bc7f73f71be68df087d2e98b966ec8d81c",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/lib/wait-rules.js#L143"
+        },
+        {
+          "path": "lib/wait-recovery-cli.js",
+          "line": 6,
+          "sha256": "620b003015fb8cc9890f47b3c1eb2a26d8f4af644f3446325100bcfb27f521f2",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/lib/wait-recovery-cli.js#L6"
+        },
+        {
+          "path": "README.md",
+          "line": 537,
+          "sha256": "f387ace14eaa1cb0ebc72bc16a2dcc349c4f35986cf4f8a30c3901a505cc8cfe",
+          "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/README.md#L537"
+        }
+      ],
+      "next_task": "Include actual authorized wait-rule apply/readback if adoption is claimed; retain operator-only repository-handoff ownership and star-policy decisions without treating them as a blanket blocker to read-only inventory.",
+      "owner": "hub coordinator; operator for named ownership choices",
+      "prerequisite": "published final candidate for apply; specific decision for owned text changes"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "R01",
+      "requirement": "The per-prompt routing note names each route at most once per session; `clear`/`compact` reset it",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R02",
+      "requirement": "SessionStart prints the injectors line only when the injector set changed; drift/update/handoff lines unchanged",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R03",
+      "requirement": "`update` re-applies the family's hook wiring on a consented machine through `protect()`; `hooks` names the differing field; this machine's PreToolUse repaired",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R04",
+      "requirement": "Secret remedies resolve the Observatory engine at runtime with `--vault-only`; no checkout path",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R05",
+      "requirement": "`state.json` is a documented, versioned interface; `update` holds a single-instance lock",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R06",
+      "requirement": "Hook latency is measured per event, and any hook over 150 ms on a common path is optimized",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R07",
+      "requirement": "task-pipeline test temp trees go through the residue ledger; a guard refuses bare `mkdtemp`; the existing leak is reaped by owner",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R08",
+      "requirement": "task-pipeline `validate.yml` < 400 KB and the validate job ≤ 45 min",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R09",
+      "requirement": "task-pipeline description ≤ 900 chars; body ≥ 100 tokens under the limit; hub reserve ratchet back to 13",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R10",
+      "requirement": "task-pipeline ledgers and branches current (verification header, stale branches, HANDOFF)",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R11",
+      "requirement": "Every gate writes the Observatory checkpoint when connected, else ledger line `memory: unavailable`; planned executor change uses `handoff_create/accept`",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R12",
+      "requirement": "One handoff-layering map, single home in the hub, cited by task-pipeline",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R13",
+      "requirement": "The waves intake reads `docs/backlog-sources.json` when present",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R14",
+      "requirement": "Packet id `task-pipeline/execution-packet/1`; old id read for one release",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R15",
+      "requirement": "Fabric pipeline-adapter contract fixture runs in task-pipeline CI",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R16",
+      "requirement": "The release stage reads the project's approval mode and reports the waiting-run link on `reviewers`",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R17",
+      "requirement": "agent-sync run identity is hash-based and unique per key",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R18",
+      "requirement": "Expired leases are counted and reaped only with owner proof",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R19",
+      "requirement": "Long-held lease warning against the declared interval",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R20",
+      "requirement": "Token resolution: vault first, then env, then file (degraded)",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R21",
+      "requirement": "Conformance map to Fabric `coordination.md` at a pinned commit",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R22",
+      "requirement": "AS-07, AS-08, AS-09, AS-10, AS-14 closed with fixtures",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R23",
+      "requirement": "`gateway.md` states trust tiers T0/T1/T2 cited to fabric-workspace `eb451cf`",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R24",
+      "requirement": "agent-interop teaches fabric-interop jobs + the degraded envelope, pinned",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R25",
+      "requirement": "agent-stack and make-skill link the Fabric adapter skills and `observatory-log:handling-secrets`",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R26",
+      "requirement": "agent-stack descriptions ≥ 30 chars spare",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R27",
+      "requirement": "`skill-search` trigger evals and the paired routing eval run; B-144 decided from it",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R28",
+      "requirement": "Residue checks in make-skill (MS-05) and agent-stack (AG-06a/b)",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R29",
+      "requirement": "make-skill HANDOFF current",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R30",
+      "requirement": "The hub board guard reads every member board (B-108); released members' gates check tag reachability (B-109 part)",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R31",
+      "requirement": "New compatibility report cut superseding 2026-10-09",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R32",
+      "requirement": "Family description total ratcheted (may fall, never rise)",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R33",
+      "requirement": "Graph refreshed; DOCMAP, HANDOFF, README current; pins; hub release; installed and read back",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R34",
+      "requirement": "Cross-product asks delivered to their owners; wiki estate map updated",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R35",
+      "requirement": "Plugins: 4 disabled globally, 4 enabled only in the projects that use them; listing chars measured before/after",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R36",
+      "requirement": "Gemini CLI from npm (dry-run first); after the operator's sign-in, family discovery read back",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    },
+    {
+      "id": "R37",
+      "requirement": "Pi supported: which directories Pi reads is measured from its docs/source; family skills discoverable once, no duplicate listing; Pi in the compatibility cut",
+      "reviewed_scope": "exact wording conserved; final acceptance not independently recertified"
+    }
+  ],
+  "not_run": [
+    "broad suites",
+    "model/provider calls",
+    "host mutation",
+    "releases",
+    "connected Fabric/Observatory runtime",
+    "final candidate publication and installed comparisons",
+    "wiki index mutation outside observer remit"
+  ],
+  "collector_adjudication": {
+    "raw_pattern_hits": 5,
+    "classification": "Three tree and two history pattern hits correspond to UP02 planted redaction strings and the header-only private-key fixture. No credential validity calls were made. Raw findings retained; these are not five verified leaks.",
+    "evidence": [
+      {
+        "path": "test/audit_regressions/fix-up-02.01.py",
+        "line": 131,
+        "sha256": "e201d49241b9b661b4dc45b2d8b755dcb89138acdcd86eb52d0c9350ff2bf4fc",
+        "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/test/audit_regressions/fix-up-02.01.py#L131"
+      },
+      {
+        "path": "test/secrets_test.js",
+        "line": 35,
+        "sha256": "a8eea1d48db856190b60e5d6d398ec2358acaa90993e19f0645d109652a73406",
+        "url": "https://github.com/ssheleg/sshlg-skills/blob/f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6/test/secrets_test.js#L35"
+      }
+    ]
+  },
+  "next_task": "Root supplies final immutable source, pins, exact gates, publication and actual installed readbacks; observer issues a separate dated final verdict after reviewing the delta.",
+  "corrections": [
+    {
+      "finding": "IO-02",
+      "source": "d75ab705ca5195f7f4f361245ec9dc077f233011",
+      "status": "ACCEPTED_BOUNDED_SOURCE_AFTER_OWNER_REPRODUCTION",
+      "owner_evidence": "docs/evidence/completion-1013/codex-visibility-order/checks.json",
+      "red_exit": 1,
+      "green_exit": 0,
+      "green_cases": 10,
+      "independent_observer_checks": "Reviewed exact code and fixture, verified both source hashes and both decompressed log hashes; checked visibility precedes read-only receipt and later domain step is Claude scoped.",
+      "not_claimed": [
+        "new independent fixture execution",
+        "complete aggregate",
+        "published or installed acceptance"
+      ]
+    }
+  ]
+}

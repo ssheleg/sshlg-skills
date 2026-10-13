@@ -1,0 +1,16 @@
+{
+  "source": "f77a6c2edd4baaba3bf9f9bca263dcc2440b5ee6",
+  "source_evidence_links_and_hashes_verified": 14,
+  "relative_report_links": "PASS",
+  "report_header_check_exit": 0,
+  "report_header_warning": "no domains; project/id lookup remains available",
+  "broad_suites": 0,
+  "host_mutations": 0,
+  "model_calls": 0,
+  "IO02_correction": {
+    "source": "d75ab705ca5195f7f4f361245ec9dc077f233011",
+    "source_hashes_verified": 2,
+    "decompressed_log_hashes_verified": 2,
+    "source_order": "PASS"
+  }
+}
