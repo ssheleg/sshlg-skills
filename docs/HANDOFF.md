@@ -1,4 +1,4 @@
-## Current continuation — 2026-10-13 10:04 UTC
+## Current continuation — 2026-10-13 10:44 UTC
 
 Hub candidate **1.63.0**, branch `waves/2026-10-13-finalization`, composes immutable
 Claude source updates, scoped default-off wait rules, release-iteration routing,
@@ -24,18 +24,24 @@ payload, update its parent pin and both generated inventories, run final hub gat
 and publish/install with separately recorded native acceptance.
 
 Agent-stack 0.28.2 and SEO 0.26.6 are published with complete readback; accepted
-owner receipt/header corrections are pinned at 6b71918 and 00601e6. The three prior
+owner receipt/header corrections are pinned at 63e155d and 00601e6. The three prior
 hub structural errors are resolved by those owner fixes; [focused replay](evidence/completion-1013/member-pin-seam-20261013-0955.json)
 exited 0. This is not the final aggregate. Original failures remain preserved.
-FW00 docs-only owner branches reconcile AS B-160 and UX B-025/B-026; peer/admission
-are pending. AS B-159 remains partial: SEO snapshot ledger is fixed, but its missing
+FW00 owner corrections passed genuine checks and merged in AS PR53 (63e155d) and
+UX PR46 (f974e7f); both are pinned. [Receipts](evidence/completion-1013/fw00-owner-merged.json)
+bind every job and the independent board-ID comparison. AS B-159 remains partial: SEO snapshot ledger is fixed, but its missing
 whole-repository temporary-maker guard is a separate candidate in SEO PR40.
 
 **Next wave:** the [backup recovery packet](evidence/completion-1013/backup-recovery-packet/README.md)
 owns operation-referenced retention and the first wait-rule adapter, developed in
-an isolated branch after the accepted bounded identity fix. FW07's prerequisite
-contradiction is independently corrected on cfa5248; lossless stage extraction
-proceeds on its isolated stack, with current gates/authorization preserved.
+an isolated branch after the accepted bounded identity fix. Its MB02b source ed02df7
+and peer-doc successor 8bb7f64 passed 30 recovery plus seven real crash controls;
+two root findings were corrected before acceptance. The MB02c inspection/finalization
+CLI is separate work on `feat/wait-recovery-cli-1013`, not yet accepted.
+FW07 prerequisite corrections and lossless stage extraction are frozen in TP draft
+PR123 (771b7cd); moved public plants and the full gate await their slot. A separately
+reproduced custom-profile checkpoint bug is corrected in draft PR124 (db6b247);
+120 focused controls pass, independent review is pending.
 These changes do not borrow acceptance from the immutable TP release run.
 
 [Native P2](evidence/completion-1013/native-routing-p2/readout.md) remains
@@ -45,6 +51,12 @@ keeps protocol, cost and quality limits separate. The [current static graph](rep
 is independently checked at 5d19e74: 241 files, 2876 nodes, 4341 edges, 216 communities.
 It is source navigation, not runtime proof. Wiki PR22 merged at a646848, retaining
 all 177 previous report IDs and adding four; source-scanner limitations remain.
+
+UX PR47 retains the missing two real board mutations. Its proposed additional
+parity defect was [retracted](evidence/completion-1013/r30-ux-gfm-interpretation-correction.json)
+after official GFM scanner and GitHub-rendering evidence; production parsing remains
+unchanged. SEO source-discovery admission is frozen at e31abf5 in PR40; related
+make-skill/agent-stack unreadable-directory omissions have separate owner tasks.
 
 [Preliminary observer](evidence/completion-1013/observer-pre-release.md) is
 PARTIAL_NOT_FINAL. Reconcile all 37 requirements and 177 original board IDs after
