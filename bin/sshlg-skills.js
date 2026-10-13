@@ -1428,7 +1428,10 @@ function cmdRouters(f) {
   // its result is what gets written.
   const superseded = {};
   const sources = {};
-  for (const t of apply.TARGETS) {
+  // Migration reads and may rewrite instructions before the emitter runs.
+  // It must use the same selected hosts, not inspect every installed profile.
+  const scoped = scopedRoutingTargets(f);
+  for (const t of scoped.hostTargets) {
     const file = path.join(apply.hostRoot(t, home), t.file);   // honours CODEX_HOME & co. (B-165)
     if (!fs.existsSync(file)) continue;
     const src = fs.readFileSync(file, 'utf8');
@@ -1480,7 +1483,6 @@ function cmdRouters(f) {
     }
   }
 
-  const scoped = scopedRoutingTargets(f);
   const res = apply.apply({
     home, mode, consent: decision, routers: packaged,
     // Only the selected host files are written; the rest stay byte-identical.
