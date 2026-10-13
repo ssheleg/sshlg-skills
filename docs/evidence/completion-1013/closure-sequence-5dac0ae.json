@@ -1,0 +1,103 @@
+{
+  "schema": "closure-sequence-review/1",
+  "source": "5dac0aea2d4e9ee9000fabe671c13b4c0f1c656a",
+  "scope": "Independent read-only source/board reconciliation; not a new official generated current cut or runtime/full acceptance.",
+  "old_board_source": "55d50ddaac52e1d147e1f97a7878dabb8cd61868",
+  "requirements_source": "8f9243b7c57fda8a03e0f22d1462350ecd0f9945",
+  "original_ids": 177,
+  "preserved": 177,
+  "missing": [],
+  "requirements_unique": 37,
+  "current_recorded_states": {
+    "RECORDED_NONTERMINAL": 164,
+    "DOCUMENTED_CLOSED_REQUIRES_ACCEPTANCE_LINK": 13
+  },
+  "new_nonterminal": [
+    "hub:B-187",
+    "hub:B-188",
+    "agent-sync:AS-23",
+    "agent-sync:AS-24"
+  ],
+  "changed_original_statuses": [
+    {
+      "identity": "agent-stack:B-159",
+      "before": "partial, open — snapshot ledger fixed in SEO; whole-repository source guard still missing at reviewed cut. See [FW00 evidence](runs/2026-10-13-fw00-referrals.md).",
+      "now": "closed 2026-10-13, bounded source — both snapshot accounting and whole-repository source guard accepted in SEO main1e86edf after its complete gate and genuine PR checks. [Owner evidence and scope](runs/2026-10-13-fw01-referral-closure.md); dynamic/race completeness and installed behavior are not claimed.",
+      "state": "DOCUMENTED_CLOSED_REQUIRES_ACCEPTANCE_LINK"
+    }
+  ],
+  "sources": [
+    {
+      "owner": "hub",
+      "commit": "5dac0aea2d4e9ee9000fabe671c13b4c0f1c656a",
+      "sha256": "f2f99e596f87b162dc0c0bd16099880e32ab854457dcf008a8a5b746fe1ef12f",
+      "rows": 185
+    },
+    {
+      "owner": "super-ux",
+      "commit": "7267757e152ce3b434e283596f219dca335b4ed0",
+      "sha256": "0337673f5605d52f73e99a9d62bd96260cb1a33514aa18bc0013faa75a0f4567",
+      "rows": 36
+    },
+    {
+      "owner": "task-pipeline",
+      "commit": "52fa75dbe1a3d169c02c612516b30028929559f9",
+      "sha256": "ad4f297f163b6036148751122b17086ab18c24defb346939dafa3a22234f0e30",
+      "rows": 90
+    },
+    {
+      "owner": "agent-sync",
+      "commit": "5bd8becb6455f69fca9beb76e96f334bc28a2063",
+      "sha256": "766889156431458484823da50ceb16bad43eee6a0ae413381eeeece65f33bdfa",
+      "rows": 33
+    },
+    {
+      "owner": "make-skill",
+      "commit": "df53aaa93def11d587943e119761605c64186e0c",
+      "sha256": "ddebf0da995b4be6a32d48f264778396f693d554c18c5164bdf579072facf51a",
+      "rows": 9
+    },
+    {
+      "owner": "sheleg-design",
+      "commit": "d113f43df6e7dc7e5befef492ccc8964d49a7fa4",
+      "sha256": "ebd8d2bef22758bfb1944bb50b334e6dcb45bc1ab59f9d8968d91dce9d907e22",
+      "rows": 96
+    },
+    {
+      "owner": "seo-aeo-audit",
+      "commit": "1e86edf178f0445ad2bace5fbbf79013de43f605",
+      "sha256": "b1c486d0343957d0a3c8eaf36c528e051a02f6f5286f16f7116544971465c854",
+      "rows": 36
+    },
+    {
+      "owner": "sheleg-dev",
+      "commit": "21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369",
+      "sha256": "a58575fc5ca4ee26e56a261ee7a4ddd3462f0fd084f2e7d66900cdeee46c7b5b",
+      "rows": 28
+    },
+    {
+      "owner": "agent-stack",
+      "commit": "fefece0267272e28a391d8ef9615f059ff84aed4",
+      "sha256": "c2b35ccd97a843c866bc79d7adf310ef4a68479ef3df96d0facd79762265635e",
+      "rows": 25
+    },
+    {
+      "owner": "telegram-dev",
+      "commit": "8639e59a7b09df4e0a7a6bc101e7605032b153b3",
+      "sha256": "1addff0883d298a8076ab01e0f0bc2c54379d0ac8c9508abefc8d9c70a0ab53f",
+      "rows": 2
+    },
+    {
+      "owner": "xr-dev",
+      "commit": "b4181b996ef54d29032735be45d7597e7fb18e64",
+      "sha256": "598ae1e94ad19fe30b83b96d8747a0b0b33b0cbbb7b9bce6a8ad0d9831b7a322",
+      "rows": 2
+    },
+    {
+      "owner": "web3d-dev",
+      "commit": "c8478b4e7ea4f1642c463c0f361086aa67b1f803",
+      "sha256": "ed2b91004203d2668e3edd22752235a62bb0b223d7ab187a408e62deb31b4cf4",
+      "rows": 2
+    }
+  ]
+}
