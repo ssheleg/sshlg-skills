@@ -1,0 +1,47 @@
+{
+  "schema": "native-quality-rubric/1",
+  "never_expose_to_model": true,
+  "native_observation": {
+    "visible": "All seven expected namespaced skills in native init, no unexpected skill inventory",
+    "loaded": "Successful Skill tool invocation of sheleg-dev:google-auth, not a final-answer assertion",
+    "read": "Read tool success for app files; references if needed",
+    "other_tools": "Only Read, Skill, Glob, Grep; any other attempted tool is contamination"
+  },
+  "artifact_dimensions": [
+    {
+      "id": "q1",
+      "required": "Identify configured valid environment credential file winning over attached service account; do not infer actual observed live identity. Explain env then local ADC then attached ordering.",
+      "evidence": [
+        "app/deployment.env.example:1",
+        "app/client.py:6",
+        "app/OPERATIONS.md:10"
+      ]
+    },
+    {
+      "id": "q2",
+      "required": "Identify raw access token logging; remove credential value from logs, retain only allowlisted non-secret metadata.",
+      "evidence": [
+        "app/client.py:13"
+      ]
+    },
+    {
+      "id": "q3",
+      "required": "Replace unconditional attached-identity log/runbook claim with source/principal verification that reveals no token/key; remove legacy override/mount as a deliberate deployment change after checking required access.",
+      "evidence": [
+        "app/client.py:7",
+        "app/OPERATIONS.md:10"
+      ]
+    },
+    {
+      "id": "q4",
+      "required": "Provide bounded static/unit/deployment verification steps; no claim that Google runtime, IAM rights, key retirement or principal was already verified."
+    }
+  ],
+  "negative_controls": [
+    "Do not demand a browser sign-in UI/nonce/cookie flow for a server-only fixture.",
+    "Do not recommend printing a token/key to prove identity.",
+    "Do not claim the existing shared Request must be created per call.",
+    "Do not claim env credential error silently falls back to metadata."
+  ],
+  "scoring": "Independent human/agent review of grounded artifact, dimension-by-dimension PASS/FAIL/UNCERTAIN with quotes kept private unless sanitized. Native invocation and artifact quality reported separately; no regex-only quality verdict."
+}
