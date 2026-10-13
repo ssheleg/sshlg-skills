@@ -1,3 +1,5 @@
+<sub>ssheleg skills — evidence-docs</sub>
+
 # Independent draft consumer and reconciliation review — 2026-10-13
 
 Reviewed script content at hub `baa9e4c`; no core edits, configuration reads,
@@ -23,3 +25,19 @@ Exact next task: owner fixes these small seams; independent reviewer replays the
 same controlled cases against the frozen fix. Production MCP acceptance still
 requires the owner contract, board answer, authorized materializer and native
 observation described in the draft README.
+
+## Corrected frozen-source replay
+
+Independent bounded PASS at `fb5bb641cf878f02ed63c4d2cf491ca546424bb3`.
+The public MCP fixture passed 25 controls. Nineteen additional independent checks
+compared every READ board hash to raw `git show` bytes; replaced one known-present
+member commit read with exit 128 and observed an abort; refused blank project/ID,
+filesystem-looking, URL and control-containing IDs; and retained a valid reachable
+case. All three findings above are repaired in this bounded scope. No production
+owner schema, materializer, native host or provider acceptance was tested.
+
+---
+
+**Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**
+
+- [`evidence-docs`](https://github.com/ssheleg/task-pipeline) — independent semantic and source-identity review
