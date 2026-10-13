@@ -1,9 +1,15 @@
-## v1.63.0 — immutable Claude plugins and opt-in working rules
+## v1.63.0 — native update safety and managed instruction previews
 
 - Claude Code installation now uses exact member commits through its native plugin
   source mechanism. Successful updates require installed source and payload
   readback. Eligible same-version repairs preserve plugin data and disabled state;
   ambiguous execution stops with a recovery receipt.
+- Codex native version changes now defer before installation can remove files used
+  by open sessions. Pending updates carry a private profile-bound record and a
+  bounded observer. A matching catalogue does not claim running threads reloaded.
+- `blocks` lists managed instruction markers across supported host files;
+  `blocks diff` previews one selected local block. Both preserve the files and
+  report malformed or unreadable input without granting write authority.
 - The optional wait rule has its own default-off setting, host scope and ownership
   record. Preview shows the proposed text; apply preserves surrounding content.
   Updates refresh only previously applied profiles. The rule creates no background
