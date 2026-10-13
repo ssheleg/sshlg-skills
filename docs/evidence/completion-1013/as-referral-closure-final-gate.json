@@ -1,0 +1,23 @@
+{
+  "source": "e0a38e59fdd4bb5ed1427586bfabd126485f0f97",
+  "owner": "as-fw01-referral-closure",
+  "argv": [
+    "npm",
+    "test"
+  ],
+  "log": "/tmp/fw00-as-fw01-referral-closure-final.log",
+  "owned_scratch": "/tmp/fresh-fw00-final-0a1800d67a0a4544a98d8e96901acde7",
+  "started_utc": "2026-10-13T11:38:07.156524+00:00",
+  "admitted_free_bytes": 618426368,
+  "exit_code": 0,
+  "disk_or_time_stopped": false,
+  "minimum_free_bytes": 587042816,
+  "elapsed_seconds": 11.067,
+  "log_sha256": "3243548356c860724f2112363c751c74d5da4850a18f03c0499ce860d8cd6a53",
+  "source_unchanged": true,
+  "worktree_clean": true,
+  "scratch_entries": [
+    "data-gym-cache",
+    "node-compile-cache"
+  ]
+}

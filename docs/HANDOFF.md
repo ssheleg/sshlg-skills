@@ -24,20 +24,25 @@ The premature public tag is preserved. Release38386280311 failed its tagged
 run-stamp guard and skipped publication; npm remains1.93.3. The separate owner
 1.94.1 repair passed local npm test and all genuine candidate checks; PR126
 [merged normally](evidence/completion-1013/tp-current-gate/repair-normal-integration.json)
-at540679ea7552f8a37e99560e287a69c23cbd3c4a. The exact accepted commit still needs
-an independent standalone clone, local annotated tag visible during complete
-npm run test:all, inspected disclosures, and only then an exact verified tag push.
+at540679ea7552f8a37e99560e287a69c23cbd3c4a. The exact accepted commit is now undergoing complete npm run test:all in an
+independent standalone clone, with local annotated tag object89e4782133bcba4f9ea6e5d9d584dfab004b0ded
+visible throughout. Initial structural PASS looked at the release stamp guard;
+complete exit and later disclosures remain pending before any tag push.
 The shared-worktree author's local v1.94.1 tag is NOT the accepted merge and must
-not be pushed. A bounded disk-admission watcher owns clone creation; current
-free space is insufficient. No broad suite is running or treated as passed.
+not be pushed. Disk admission cleared at2.55GB; the owned suite stops below250MiB.
+The suite is RUNNING and is not treated as passed.
 Hub publication and actual installed acceptance remain pending.
 
 Accepted whole-source discovery corrections are now pinned: make-skill df53aaa,
 agent-stack b332a92 and SEO1e86edf, each normally merged after required checks.
 Their published payloads remain byte-equal. The [independent sibling controls](evidence/completion-1013/fw01-sibling-peer.json)
 and owner integration receipts retain the witnessed failures and corrections.
-AS B159's two named SEO source gaps are now fixed; a separate docs-only closure
-candidate c8f0f81 is under peer review, and no broader runtime claim is implied.
+AS B159's two named SEO source gaps are now fixed; its docs-only closure
+[PR55 merged](evidence/completion-1013/as-referral-closure-integration.json) atfefece0 after
+independent peer, final exact-head npm test and genuine checks. It is pinned;
+all29 primary rows,31 expanded IDs and44 packaged files are preserved.
+The original subset-count error and correction remain in history. No broader
+runtime claim is implied.
 UX PR47 at7267757 remains pinned. Three new owner verification indexes are
 [accepted as bounded source](evidence/completion-1013/fw00-navigation-peer.json):
 Telegram5d5ecbf, XR712a221, Web3Dc804790. All81 published files remain equal;
