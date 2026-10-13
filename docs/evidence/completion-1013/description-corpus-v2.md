@@ -109,6 +109,10 @@ neighbor, composition, ambiguity and negative strata), two arms each, at most
 24 sequential calls. Seed `10132026` randomizes case order, arm-first order and
 catalogue ID order; a pair shares its ID order. Each call gets a new CLI process
 and empty temporary working directory, preserving normal HOME/keychain OAuth.
+Catalogue items are allowlisted to `id` and `description`; the task contains only
+its prompt. Case IDs are retained only in receipts because primary-case IDs can
+reveal the expected label. Source paths, labels and rationale never enter the
+model payload. Offline controls check exact keys and absence of every corpus ID.
 
 The argv is derived from the recorded controlled probe and checked before use:
 normal subscription, one turn, no tools/skills/MCP, ordinary hooks/memory disabled,
@@ -116,7 +120,7 @@ no session persistence. Init must match the probe's observed counts (zero tools,
 MCP servers and skills; four registered plugins and five agents); matching counts
 are a contamination check, not proof of absent managed instructions. Unexpected
 auth/context environment, provider/model, turn count, tool use, missing usage,
-invalid selection JSON or total input above 16,000 tokens stops the experiment.
+invalid selection JSON or total input above 24,000 tokens stops the experiment.
 The input envelope includes the explicit catalogue; it is not a tokenizer estimate.
 
 The coordinator authorized a **USD 4 reported list-price ceiling** for this pilot,

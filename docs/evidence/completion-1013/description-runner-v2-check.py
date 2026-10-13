@@ -19,8 +19,10 @@ assert plan==r.make_plan(f,10132026) and plan!=r.make_plan(f,3)
 assert len(plan)==24 and len({x['case_id'] for x in plan})==12
 for x in plan:
  payload=json.loads(x['prompt']);assert set(payload)=={'instructions','data_boundary','catalogue','task'}
- assert set(payload['task'])=={'id','prompt'} and 'accepted_sets' not in x['prompt']
+ assert set(payload['task'])=={'prompt'} and 'accepted_sets' not in x['prompt']
  assert 'rationale' not in x['prompt'] and 'source_skills' not in x['prompt']
+ assert all(set(item)=={'id','description'} for item in payload['catalogue'])
+ assert all(case['id'] not in x['prompt'] for case in f['cases'])
 for i in range(0,24,2):
  assert plan[i]['case_id']==plan[i+1]['case_id'] and plan[i]['catalogue_order']==plan[i+1]['catalogue_order']
  assert {plan[i]['arm'],plan[i+1]['arm']}=={'full','concise'}
@@ -44,7 +46,7 @@ for mutate,error in [
  (lambda a,b:b.update(result='not json'),'invalid_selection_schema'),
  (lambda a,b:b.update(result='["unknown"]'),'invalid_selection_schema'),
  (lambda a,b:b.update(num_turns=2),'unexpected_turn_or_tool'),
- (lambda a,b:b['usage'].update(input_tokens=20000),'input_envelope_exceeded'),
+ (lambda a,b:b['usage'].update(input_tokens=r.MAX_INPUT_TOKENS+1),'input_envelope_exceeded'),
  (lambda a,b:b.update(is_error=True,result='usage limit reached'),'usage_limit'),
  (lambda a,b:b['modelUsage']['claude-opus-5-5'].update(provider='foreign'),'unexpected_provider_or_cost_basis'),
 ]:
@@ -60,8 +62,9 @@ if sys.argv[1:]==['--version']:
  print('2.1.296 (Claude Code)');raise SystemExit(0)
 if sys.argv[1:]==['auth','status','--json']:
  print(json.dumps({'loggedIn':True,'authMethod':'claude.ai','apiProvider':'firstParty','subscriptionType':'team','email':'PRIVATE_SENTINEL'}));raise SystemExit(0)
-payload=json.loads(sys.argv[-1]);assert set(payload['task'])=={'id','prompt'}
+payload=json.loads(sys.argv[-1]);assert set(payload['task'])=={'prompt'}
 assert len(payload['catalogue'])==39 and not list(Path.cwd().iterdir())
+assert all(set(item)=={'id','description'} for item in payload['catalogue'])
 assert 'accepted_sets' not in sys.argv[-1]
 init=INIT
 final=FINAL
