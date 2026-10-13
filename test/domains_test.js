@@ -93,6 +93,20 @@ it('usage: Claude-encoded directories map to members by prefix or by bare skill 
 
 // ── settings edits ──
 const S = (o) => JSON.stringify(o, null, 2) + '\n';
+it('readEnabled: valid settings formatting is independent of edit support', () => {
+  for (const text of ['{"enabledPlugins":{"a@a":true,"b@b":false}}\n', '{\r\n\t"enabledPlugins": {"a@a": true,"b@b":false}\r\n}\r\n']) {
+    assert.deepStrictEqual(D.readEnabled(text), { ok: true, enabled: { 'a@a': true, 'b@b': false } });
+    assert.strictEqual(D.editEnabled(text, { set: { 'c@c': true } }).ok, false);
+  }
+  for (const text of [null, undefined, '{}', '{"permissions":{}}']) assert.deepStrictEqual(D.readEnabled(text), { ok: true, enabled: {} });
+});
+
+it('readEnabled: malformed settings and unknown enablement shapes are not absence', () => {
+  for (const text of ['{', 'null', '[]', 'true', '{"enabledPlugins":null}', '{"enabledPlugins":[]}', '{"enabledPlugins":{"a@a":"true"}}', '{"enabledPlugins":{"a@a":0}}']) {
+    assert.strictEqual(D.readEnabled(text).ok, false, text);
+  }
+});
+
 it('editEnabled: sets a key and keeps every other byte', () => {
   const before = S({ permissions: { allow: ['Bash(ls)'] }, enabledPlugins: { 'figma@x': true } });
   const r = D.editEnabled(before, { set: { 'xr-dev@xr-dev': true } });

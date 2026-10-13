@@ -1,0 +1,27 @@
+{
+  "repo": "web3d-dev",
+  "pr": 6,
+  "expectedHead": "baea7e14966149ce405be90fd5a630cf15222b60",
+  "attempt": 0,
+  "prState": {
+    "headRefOid": "baea7e14966149ce405be90fd5a630cf15222b60",
+    "mergeCommit": {
+      "oid": "02181194157b91f5b79159936d35d1a26ae6b433"
+    },
+    "mergedAt": "2026-10-13T02:21:43Z",
+    "state": "MERGED",
+    "url": "https://github.com/ssheleg/web3d-dev/pull/6"
+  },
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 38336375517,
+      "event": "pull_request",
+      "headSha": "baea7e14966149ce405be90fd5a630cf15222b60",
+      "status": "completed",
+      "url": "https://github.com/ssheleg/web3d-dev/actions/runs/38336375517"
+    }
+  ],
+  "mergeOutput": "",
+  "outcome": "MERGED"
+}

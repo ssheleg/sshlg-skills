@@ -1,0 +1,10 @@
+{
+  "source_commit": "c79f5383d990d936b6ec1bb0b460111e09993e62",
+  "command": "npm test",
+  "exit_code": 0,
+  "stdout_artifact": "followup-test.log.gz",
+  "stdout_sha256": "5afe6d468339fe206914550eb8fae5db857ff94800facdef74c3c284279546a1",
+  "suites": 114,
+  "fixtures": 1743,
+  "members": 11
+}

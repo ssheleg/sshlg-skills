@@ -1,0 +1,10 @@
+{
+  "source_commit": "c035801021a046a1bc8fcae41ea8a6a4c060bd2d",
+  "command": "npm test",
+  "exit_code": 0,
+  "stdout_sha256": "0934383f0b08d8f9d0ccb4b4b26d43e13b61bbc66747d0e7e8256bc1edd77797",
+  "stdout_artifact": "npm-test.log.gz",
+  "suites": 113,
+  "fixtures": 1695,
+  "members": 11
+}
