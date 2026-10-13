@@ -9,6 +9,8 @@ publication and actual installed acceptance are pending.
 **Hook recovery:** exact old payloads were restored after Codex native plugin
 updates pruned files still used by this session. [Native evidence](evidence/completion-1013/hook-recovery/README.md)
 records nine completed hooks after recovery and one later completed post-tool hook.
+A [second native observation](evidence/completion-1013/hook-recovery/native-followup-20261013-1048.json)
+captured35 completed pre/post hooks with no failed status in its50-second window.
 The [permanent guard peer](evidence/completion-1013/codex-cache-peer.json) is accepted
 and composed: native version transitions defer before mutation because no supported
 active-thread retirement/old-generation retention proof exists. Catalog convergence
