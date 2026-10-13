@@ -1,0 +1,11 @@
+{
+  "source": "be33470",
+  "command": "python3 test/validate.py",
+  "verdict": "FAIL",
+  "log_sha256": "da13517b0b9cda73a97f19b92400a62e2fea4ad35ab91968d54d542b09a0102a",
+  "findings": [
+    "SEOowner_board.py andowner_release.py falsely declareconstantdivergence",
+    "Agent-stack currentledger predates0.28.2"
+  ],
+  "response": "Owner corrections requested; no ratchet increase; rerun after accepted source pins."
+}
