@@ -1,0 +1,20 @@
+{
+  "schema": "bounded-metadata-peer/1",
+  "reviewer": "visibility_review",
+  "source": "10c20beda40be169e6c25794286b54fef2de87b2",
+  "comparison_base": "c4e2310",
+  "verdict": "PASS_BOUNDED",
+  "checks": [
+    "read all seven changed files",
+    "three JSON metadata objects differ only version1.93.3 to1.94.0",
+    "skill card and changelog version match",
+    "historical HANDOFF/verification/changelog suffix bytes unchanged",
+    "no runtime, test or workflow change",
+    "candidate publication boundary explicit; existing published1.93.3 remains separately identified"
+  ],
+  "limits": [
+    "No release or installed readback performed by this review.",
+    "Final PR112 exact-head checks and normal source merge remain required.",
+    "No duplicate full owner test run for metadata review."
+  ]
+}
