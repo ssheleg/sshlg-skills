@@ -103,6 +103,21 @@ try {
     assert.strictEqual(fs.readFileSync(calls, 'utf8'), 'plugin list --json\n');
     assert.ok(fs.readdirSync(path.dirname(file)).some((x) => x.includes('.observation-')));
   });
+  t('wall-clock exhaustion preserves pending intent and writes an explicit durable observation', () => {
+    const preload = path.join(root, 'elapsed.cjs');
+    fs.writeFileSync(preload, 'let n=0;Date.now=()=>1700000000000+(n++ ? 7200001 : 0);\n');
+    const before = fs.readFileSync(file);
+    const r = spawnSync(process.execPath, ['--require', preload, path.resolve(__dirname, '../lib/codex-deferred-watch.js'), file], {
+      encoding: 'utf8', timeout: 5000, env: { ...process.env, PATH: '' },
+    });
+    assert.strictEqual(r.status, 3, r.stderr);
+    const observation = JSON.parse(r.stdout); assert.strictEqual(observation.status, 'watch-exhausted');
+    assert.strictEqual(observation.pending, true); assert.strictEqual(observation.mutationAllowed, false);
+    assert.ok(fs.readFileSync(file).equals(before));
+    const exhausted = fs.readdirSync(path.dirname(file)).filter((x) => x.includes('.exhausted-'));
+    assert.strictEqual(exhausted.length, 1);
+    assert.deepStrictEqual(JSON.parse(fs.readFileSync(path.join(path.dirname(file), exhausted[0]))), observation);
+  });
   t('unknown watcher arguments refuse before native calls', () => {
     const r = spawnSync(process.execPath, [path.resolve(__dirname, '../lib/codex-deferred-watch.js'), file, '--force'], { encoding: 'utf8' });
     assert.strictEqual(r.status, 1); assert.ok(r.stderr.includes('usage:'));

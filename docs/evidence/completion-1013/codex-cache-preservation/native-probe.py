@@ -8,7 +8,7 @@ try:
   results.append({'args':args,'exit':p.returncode,'stdout':p.stdout.replace(str(root),'<fixture>'),'stderr':p.stderr.replace(str(root),'<fixture>')})
   if expect is not None: assert p.returncode==expect,results[-1]
   return p
- run(['git','init','-q']);run(['git','config','user.email','fixture@example.invalid']);run(['git','config','user.name','Fixture'])
+ run(['codex','--version']);run(['git','init','-q']);run(['git','config','user.email','fixture@example.invalid']);run(['git','config','user.name','Fixture'])
  for d in ['.claude-plugin','plugins/probe/.claude-plugin','plugins/probe/scripts']: (repo/d).mkdir(parents=True,exist_ok=True)
  def version(v):
   (repo/'.claude-plugin/marketplace.json').write_text(json.dumps({'name':'cache-probe','owner':{'name':'fixture'},'plugins':[{'name':'probe','source':'./plugins/probe','version':v}]}))

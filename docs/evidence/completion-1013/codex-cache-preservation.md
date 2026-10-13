@@ -28,7 +28,7 @@ Dry-run uses a typed `codex-deferred` step and advertises no destructive command
 
 `lib/codex-deferred-watch.js` is included in the npm `lib` payload. It only reads native state and records immutable observations in that namespace. Default cadence is two minutes, capped at 60 observations; `--once` performs one. Unknown arguments refuse. Profile retarget or config drift stops with a rescan status, without host mutation. A matching catalog ends observation as `catalog-matches-thread-generation-unknown`; it **never** grants an install or proves existing threads reloaded. A two-hour deadline is an observation bound, never update authority.
 
-The updater prints the exact watcher invocation. Automatic background registration and independent review are pending at this snapshot; no real-machine pending receipt or watcher has been created by this task.
+The updater prints the exact watcher invocation. The parent integrates the observer into its existing background watcher when an actual pending receipt exists. This bugfix does not add a daemon or an automatic host mutation. No real-machine pending receipt or watcher has been created by this task. Exhaustion leaves the pending intent intact and writes an explicit exhausted observation.
 
 ## Validation and remaining work
 
@@ -36,13 +36,14 @@ The original focused admission counterexample returned `current` after three mut
 
 Focused candidate checks:
 
-- `node test/codexplugins_test.js`: 15 cases pass, including direct-call and fake safety-assertion bypass refusal.
+- `node test/codexplugins_test.js`: 16 cases pass, including direct-call and fake safety-assertion bypass refusal.
 - `node test/codex_native_e2e_test.js`: 9 process cases pass. Three repeated real launcher invocations preserve config bytes and an executable old hook path, retain one receipt and return nonzero; already-current, disabled, foreign, absent and dry-run controls remain distinct. Native host calls in these launcher tests are fixture-driven, not proof about the actual CLI.
-- `node test/codex_pending_test.js`: 17 cases pass, including partial-write and publish-failure cleanup, collision/symlink refusal, profile/config drift, malformed/error readback, no raw-config journalling, bounded real watcher process and unknown-argument refusal.
+- `node test/codex_pending_test.js`: 18 cases pass, including partial-write and publish-failure cleanup, collision/symlink refusal, profile/config drift, malformed/error readback, no raw-config journalling, bounded real watcher process, injected-clock exhaustion with durable pending evidence and unknown-argument refusal.
 - `node test/operation-result_test.js`: 14 cases pass.
+- `node test/runtime_closure_test.js`: 6 checks pass; observer/helper are under the packaged `lib` closure.
 - Actual isolated native probe: both replacement and upgrade routes reproduce old-generation deletion. No broad suite or actual-profile adoption has run for this patch.
 
-Next acceptance: independent source/process review; add a safe watcher registration seam; run the coordinated owner aggregate after composition; publish through normal exact-source gates. Native update remains intentionally deferred until a separately reviewed supported retention/retirement adapter exists. That future adapter must prove old paths remain usable without a deletion window, or prove every consumer retired and prevent a new consumer entering during mutation. Starting a new observer process or observing no processes is insufficient.
+Next acceptance: independent source/process review; root-owned watcher registration when an actual pending receipt exists; run the coordinated owner aggregate after composition; publish through normal exact-source gates. Native update remains intentionally deferred until a separately reviewed supported retention/retirement adapter exists. That future adapter must prove old paths remain usable without a deletion window, or prove every consumer retired and prevent a new consumer entering during mutation. Starting a new observer process or observing no processes is insufficient.
 
 ---
 

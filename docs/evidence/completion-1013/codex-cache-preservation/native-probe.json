@@ -1,6 +1,15 @@
 [
   {
     "args": [
+      "codex",
+      "--version"
+    ],
+    "exit": 0,
+    "stdout": "codex-cli 0.162.1\n",
+    "stderr": ""
+  },
+  {
+    "args": [
       "git",
       "init",
       "-q"
@@ -59,7 +68,7 @@
       "HEAD"
     ],
     "exit": 0,
-    "stdout": "8d36db5f26471a3e687df6e8c2f1626964326a6b\n",
+    "stdout": "84ff9fd15775ff9baf32aadcd8ca2dbe72a28231\n",
     "stderr": ""
   },
   {
@@ -90,7 +99,7 @@
       "HEAD"
     ],
     "exit": 0,
-    "stdout": "ab1ab1febafc07a7e76cdaab6b15f94eca41a8ea\n",
+    "stdout": "3ffae82d57fbb08da5f1f46b699c9405e4569590\n",
     "stderr": ""
   },
   {
@@ -98,8 +107,8 @@
       "git",
       "config",
       "--file",
-      "/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/owned-codex-cache-probe-i3crwkf5/gitconfig",
-      "url.file:///var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/owned-codex-cache-probe-i3crwkf5/repo.insteadOf",
+      "/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/owned-codex-cache-probe-mqxnny0o/gitconfig",
+      "url.file:///var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/owned-codex-cache-probe-mqxnny0o/repo.insteadOf",
       "https://github.com/fixture/cache-probe.git"
     ],
     "exit": 0,
@@ -114,7 +123,7 @@
       "add",
       "https://github.com/fixture/cache-probe.git",
       "--ref",
-      "8d36db5f26471a3e687df6e8c2f1626964326a6b",
+      "84ff9fd15775ff9baf32aadcd8ca2dbe72a28231",
       "--json"
     ],
     "exit": 0,
@@ -136,7 +145,7 @@
   {
     "args": [
       "sh",
-      "/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/owned-codex-cache-probe-i3crwkf5/home/.codex/plugins/cache/cache-probe/probe/1.0.0/scripts/probe.sh"
+      "/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/owned-codex-cache-probe-mqxnny0o/home/.codex/plugins/cache/cache-probe/probe/1.0.0/scripts/probe.sh"
     ],
     "exit": 0,
     "stdout": "version-1.0.0\n",
@@ -162,7 +171,7 @@
       "add",
       "https://github.com/fixture/cache-probe.git",
       "--ref",
-      "ab1ab1febafc07a7e76cdaab6b15f94eca41a8ea",
+      "3ffae82d57fbb08da5f1f46b699c9405e4569590",
       "--json"
     ],
     "exit": 0,
@@ -184,7 +193,7 @@
   {
     "args": [
       "sh",
-      "/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/owned-codex-cache-probe-i3crwkf5/home/.codex/plugins/cache/cache-probe/probe/1.0.0/scripts/probe.sh"
+      "/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/owned-codex-cache-probe-mqxnny0o/home/.codex/plugins/cache/cache-probe/probe/1.0.0/scripts/probe.sh"
     ],
     "exit": 127,
     "stdout": "",
@@ -198,7 +207,7 @@
       "add",
       "https://github.com/fixture/cache-probe.git",
       "--ref",
-      "8d36db5f26471a3e687df6e8c2f1626964326a6b",
+      "84ff9fd15775ff9baf32aadcd8ca2dbe72a28231",
       "--json"
     ],
     "exit": 0,
@@ -221,7 +230,7 @@
     "args": [
       "codex",
       "-c",
-      "marketplaces.cache-probe.ref=\"ab1ab1febafc07a7e76cdaab6b15f94eca41a8ea\"",
+      "marketplaces.cache-probe.ref=\"3ffae82d57fbb08da5f1f46b699c9405e4569590\"",
       "plugin",
       "marketplace",
       "upgrade",

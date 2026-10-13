@@ -834,24 +834,11 @@ function codexPinRef(s, opts) {
  * read (`--version`, `plugin list`) is captured and stays quiet.
  */
 function codexRunner(cmd, args, opts) {
-  const read = opts && opts.read;
-  if (!read && progress.total) {
-    // `onItem` added this item's three steps to the total; a rollback's steps are only
-    // known once it starts, so they extend the total as they run.
-    progress.done++;
-    if (progress.done > progress.total) progress.total = progress.done;
-  }
-  if (!read) {
-    const at = progress.total ? `[${progress.done}/${progress.total}] ` : '';
-    log('  » ' + at + cmd + ' ' + args.join(' '));
-  }
+  if (!opts || !opts.read || !(args.length === 1 && args[0] === '--version'
+    || args[0] === 'plugin' && args[1] === 'list' && (args.length === 2 || args.length === 3 && args[2] === '--json'))) throw new Error('Codex native mutation is deferred');
   const r = spawnSync(cmd, args, { encoding: 'utf8', shell: process.platform === 'win32',
-    stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 32 * 1024 * 1024 });
-  if (!read) {
-    for (const line of `${r.stdout || ''}${r.stderr || ''}`.split(/\r?\n/).filter(Boolean)) log(`      ${line}`);
-    if ((r.error || r.status !== 0) && progress.total) progress.failed.push(`${cmd} ${args.join(' ')}`);
-  }
-  return { status: r.status, stdout: r.stdout || '', stderr: r.stderr || '', error: r.error };
+    stdio: ['ignore', 'pipe', 'pipe'], timeout: 30000, maxBuffer: 32 * 1024 * 1024 });
+  return { status: r.status, signal: r.signal, stdout: r.stdout || '', stderr: r.stderr || '', error: r.error };
 }
 
 /** The Codex half of `update` (B-166): read, refresh what is behind, read back. */
