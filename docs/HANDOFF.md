@@ -1,4 +1,4 @@
-## Current continuation — 2026-10-13 05:51 UTC
+## Current continuation — 2026-10-13 06:24 UTC
 
 Hub **1.62.2 is published**, source `a17f829e8d652ce7f68423b67e0de00fb89b3693`.
 [Publication](evidence/completion-1013/release-1.62.2/publication.json) verifies all80 npm files.
@@ -16,9 +16,9 @@ agent-stack0.27.2 is published, its owner receipt merged e2120c2.
 records actual escaped plants and bounded follow-ups. Original37 requirements
 and177 initial board IDs remain source-preserved, not blanket completion.
 Native artifact review is **NO_ADOPTION**, with [new routing research](reports/2026-10-13-native-skill-routing/README.md)
-clarifying registration versus invocation; no extra paid experiment was run.
+clarifying registration versus invocation. The separate native trigger experiment has explicit stopped protocols and a new bounded proposal; see its receipt below.
 [Current run](evidence/completion-1013/run.md). Latest [Fabric admission](evidence/completion-1013/fabric-admission-20261013-0551.json) again returns no project; com.* tools remain absent. Pending asks are unsent.
-[Native skill-search protocol](evidence/completion-1013/skill-search-native/README.md) has41 offline controls and awaits final independent admission; no model calls yet.
+[Native skill-search protocol](evidence/completion-1013/skill-search-native/README.md): A stopped after1 CLI invocation on startup-inventory mismatch; B stopped after2 invocations on a reported-turn/request-counter mismatch. Original receipts remain TEST_ERROR, total USD0.121004 list estimate. Proposed C has47 offline controls and awaits fresh independent admission; C has made no model calls.
 
 The dated entries below retain previous states and are not current instructions.
 
