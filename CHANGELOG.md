@@ -1,4 +1,21 @@
-## Unreleased — marked packs hidden on every host, by the machine's own marks, nothing deleted
+## v1.62.0 — complete skill discovery, reversible visibility and project domains
+
+- **Search covers the local host catalogues.** `toolkit --find` reads shared skills,
+  host directories and native plugin caches, including hidden plugins. Exact multiword
+  phrases improve bilingual lexical ranking. Identical entry text shares a ranking slot;
+  `--copies` lists alternate paths. Partial inventories are reported, and cached files
+  are not claimed as active native skills. CRLF, quoted and block-scalar metadata are read.
+- **Profile-safe recovery.** Visibility and domains follow active host roots, bind
+  ownership to canonical settings files and refuse a changed profile target. Unreadable
+  policy and discovery inputs cannot silently unhide skills or discard recovery state.
+- **Credential guard coverage widened.** Credential-reader operands and client
+  configuration paths now use the same refusal boundary across shell forms; ordinary
+  commands remain covered by the existing controls. The new corpus has 128 cases,
+  including 75 defects reproduced against the previous implementation.
+- **Evidence distinguishes installation from behavior.** Dated host measurements,
+  current primary-source research, task packets and bounded model-error receipts are
+  preserved in `docs/evidence/completion-1013/`. No quality-preserving token savings
+  are claimed from character counts or a successful readiness prompt.
 
 - **Pack marks are the operator's and live on the machine (B-143).**
   `~/.sshlg-skills/pack-marks.json` (schema `pack-marks/1`) holds one row per pack; the
@@ -33,12 +50,10 @@
   `--revert` command.
 - **Backups are private.** `lib/backup.js` writes copies 0600 and tightens the backup
   directory to 0700 (never loosens it): copies of host settings can hold keys.
-- Tests: `test/visibility_packs_test.js` (22), `test/visibility_hosts_e2e_test.js` (27: a
-  fake Hermes CLI, three identical applies, byte-exact revert including an operator's empty
-  map, consent and scope through real `update` runs, degraded hosts, uninstall), one new
-  check in `test/backup_test.js`.
+- Tests: `test/visibility_packs_test.js`, `test/visibility_hosts_e2e_test.js` and
+  `test/backup_test.js` exercise real commands in isolated homes, repeated application,
+  ownership-preserving revert, consent scope, degraded hosts and private backups.
 
-## Unreleased
 
 - **L5 certification fixes:** hook-bearing plugins stay global, including sheleg-dev in
   packaged installs without member checkouts. Missing roots refuse application; partial

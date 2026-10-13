@@ -357,6 +357,10 @@ npx sshlg-skills domains --root ~/code --no-usage   # another projects directory
   retain their recovery ownership. Explicit `--enable` followed by `--disable` restores a
   pre-existing local `false`. Mutating `domains` commands share the update lock, so another
   launcher writer makes them refuse with exit 75; previews remain available.
+- **Claude profiles.** `CLAUDE_CONFIG_DIR` selects the active user settings and plugin
+  registry. Ownership records bind to the actual settings path; a different profile or
+  retargeted alias refuses mutation rather than reverting another profile. Legacy records
+  belong to the default Claude directory. Project `.claude` settings stay project-local.
 - **`update` keeps it current.** On a machine where `--apply` has run, `update` gives a
   project that has since gained a domain dependency its member; it never newly disables a
   global member. Reinstalling an existing plugin refreshes it without enabling it.
@@ -564,6 +568,15 @@ npx sshlg-skills visibility --revert   # remove exactly what --apply wrote; with
 | OpenCode 1.18.10 | `permission.skill.<name> = "deny"` in `~/.config/opencode/opencode.json`; a denied skill leaves the listing and its call is refused; read back with `opencode debug config`. An `opencode.jsonc` is refused | opencode.ai/docs/skills; `Skill.available` filters by the `skill` permission | be read as a plain file |
 | Cursor agent CLI 2026.09.02 | **cannot hide on cursor**: no setting switches a skill off. The only model-side filter is the skill's own `disable-model-invocation` front matter, and editing a third-party SKILL.md is ruled out | the bundled `index.js` (`filterModelDisabledSkills`, `disable-model-invocation`) | (not hidden) |
 | Kimi 2.1.1 | **cannot hide on kimi**: `[[permission.rules]] decision = "deny"`, `pattern = "Skill(<name>)"` in `~/.kimi-code/config.toml` refuses the call, but the listing keeps the skill, so it is not applied as hiding | the `kimi` 2.1.1 bundle (`features/skill/catalog` filters built-in skills only) | (not hidden) |
+
+Visibility follows the active host directories, including `CLAUDE_CONFIG_DIR` and
+`CODEX_HOME`. New ownership records bind to the canonical settings files; changing a
+profile or retargeting its symlink refuses apply/revert until the original target is
+restored. Malformed or unreadable policy and incomplete skill inventories refuse apply
+before writing an ownership journal. Revert can still restore owned settings without a
+working discovery inventory. Legacy records without file bindings are accepted only
+where the earlier writer's default Claude/Codex paths establish ownership; ambiguous
+non-Claude/Codex records are refused rather than applied to a guessed profile.
 
 Every write to an operator file goes through a backup first (`protect()`: 0600 copies in a
 0700 directory, because host settings can hold keys) or through the host's own CLI.
