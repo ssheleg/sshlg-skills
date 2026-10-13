@@ -1,0 +1,13 @@
+{
+  "baseline_module": "aa02a4d:lib/wait-rules.js",
+  "other_modules": "b4acdcf898a3965056bf1feb46859892f2734415",
+  "test_source": "b4acdcf898a3965056bf1feb46859892f2734415:test/wait_recovery_test.js",
+  "argv": [
+    "node",
+    "-e",
+    "const M=require('module'),cp=require('child_process'),path=require('path');const f=path.resolve('lib/wait-rules.js'),m=new M(f,module);m.filename=f;m.paths=M._nodeModulePaths(path.dirname(f));m._compile(cp.execFileSync('git',['show','aa02a4d:lib/wait-rules.js'],{encoding:'utf8'}),f);require.cache[f]=m;require('./test/wait_recovery_test');"
+  ],
+  "exit_code": 1,
+  "stdout": "ok before-write failure retains exact recovery bytes through 15 ordinary saves\nok post-write failure classifies committed without repeating a host write\nok absent original is distinct from an existing empty file\nok legacy pending remains unresolved and byte-identical\nok changed policy refuses metadata recovery and preserves pending\nok third-party content is never restored or adopted\nok receipt write boundary 1 fails without falsely completing\nok receipt write boundary 2 fails without falsely completing\nok receipt write boundary 3 fails without falsely completing\nok retirement link interruption retains and resumes exact reference\nok retirement unlink interruption retains and resumes exact reference\nok a committed target later reverted to original bytes is not classified as no-write\nok three repeated completed resolutions are byte-identical no-ops\nok actual case alias keeps canonical reference binding\nok malformed next ownership cannot be written during metadata resolution\nok foreign retirement destination is preserved and cannot free reference\nok relocated reference outside owner backup namespace is not silently adopted\nok post-write remove preserves sibling ownership and exact foreign text\n18 passed; 10 failed\n",
+  "stderr": "FAIL recovery refuses ownership delta drop-sibling: Missing expected exception.\nFAIL recovery refuses ownership delta add-sibling: Missing expected exception.\nFAIL recovery refuses ownership delta edit-sibling: Missing expected exception.\nFAIL recovery refuses ownership delta target-root: Missing expected exception.\nFAIL recovery refuses ownership delta target-canonical-root: Missing expected exception.\nFAIL recovery refuses ownership delta target-agent: Missing expected exception.\nFAIL recovery refuses ownership delta target-prefix: Missing expected exception.\nFAIL recovery refuses ownership delta target-previous: Missing expected exception.\nFAIL recovery refuses ownership delta drop-target: Missing expected exception.\nFAIL operation without prior ownership proof remains unresolved without migration: Missing expected exception.\n"
+}

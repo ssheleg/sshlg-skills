@@ -4,7 +4,7 @@
 
 **Implemented in an isolated next-wave branch; independent peer and aggregate are
 pending. No current release, installed configuration or model behavior is certified.**
-Implementation source: [`aa02a4d0f873d670cd8a2e164a8c60edb4cbd940`](https://github.com/ssheleg/sshlg-skills/commit/aa02a4d0f873d670cd8a2e164a8c60edb4cbd940).
+Implementation source: [`ed02df77391309a34991bda7b1947cc4ea96c7af`](https://github.com/ssheleg/sshlg-skills/commit/ed02df77391309a34991bda7b1947cc4ea96c7af).
 Parent source is `5d19e74b02c507cf59606469b80c5c44b9bc178d`; the accepted
 [context packet](README.md) remains the specification snapshot. This file records
 what this slice actually implements and what remains outside it.
@@ -78,7 +78,7 @@ replays the affected wait recovery, crash and emitter suites. A final bounded
 lock hardening uses monotonic time: the previous wall-clock variant timed out
 under a frozen Date.now ([clock-baseline.json](clock-baseline.json)); the corrected
 real-child control returns a refusal while preserving the lock.
-[final-followup.json](final-followup.json) binds the final source to five affected
+[final-followup.json](final-followup.json) binds historical `aa02a4d` to five affected
 suites: retention7, process race1, recovery17, crash7 and emitter21. The preceding 147
 receipt remains a historical cut, not silently relabeled as the final source.
 
@@ -88,6 +88,51 @@ while the backup lock correctly remained held. Core was not weakened. The correc
 fixture first proves the refusal and unchanged receipt, then explicitly reconciles
 its second owned lock and verifies resolution. [focused.json](focused.json) records
 that continuation before the final binding checks.
+
+## Independent ownership-delta finding and correction
+
+Parent reproduced a false metadata success on `aa02a4d`: after a Codex host write,
+replacing the valid-shaped `pending.nextRecords` with `{}` let resolution discard
+an unrelated Claude ownership record while leaving the Claude file untouched.
+The [original observation](ownership-delta-baseline.json) and
+[portable probe](ownership-delta-probe.js) preserve this defect. The probe accepts
+an optional repository argument; it creates and removes only its synthetic home.
+
+`recoveryRecords()` now reconstructs the one target delta from the verified original
+backup, prior ownership and the known renderer. It verifies the resulting exact
+existence/content/mode fingerprint, target agent/file/root/canonical root and
+previous segment, and requires exact equality with the proposed map. Every sibling
+record must survive unchanged. Pending recovery requires the current map to equal
+recorded prior ownership; terminal retirement requires it to equal the reconstructed
+result. The new `priorRecords` snapshot is evidence within the existing owner
+journal, not another authority or registry. Earlier operations missing that proof
+refuse resolution without migration. `inspectRecovery`'s `before`/`after` states
+classify file snapshots only; they do not grant ownership adoption.
+
+The [baseline replay](ownership-delta-negative-baseline.json) loads the actual old
+wait-rules module alongside the unchanged supporting modules and the final tests:
+18 passed, 10 failed, exit 1. Nine valid-shaped mutations cover deleted/added/edited
+siblings, target root/canonical root/agent/prefix/previous segment and missing target;
+the tenth verifies missing prior transition proof. No original host payload is
+changed to manufacture these negative cases. The normal removal control preserves
+an actual sibling record and foreign text. The
+[fixed probe](ownership-delta-probe-fixed.json) refuses the original attack while
+retaining ownership. [Ownership-delta focused receipt](ownership-delta-followup.json) binds
+`b4acdcf` to recovery28, process-crash7, retention7, process-race1 and emitter21:
+64 checks, all exit 0. Earlier 147/53 check receipts remain historical snapshots.
+This is still not an aggregate, release or machine recovery acceptance.
+
+A second independent [probe](no-write-retirement-baseline.json) found interrupted
+retirement after `recovered-no-write` could not resume: the transition verifier
+expected the after map even though retaining prior ownership was correct.
+The [portable probe](no-write-retirement-probe.js) now records a successful
+[metadata-only retry](no-write-retirement-fixed.json). Two retirement link/unlink
+controls watched 28 pass / 2 fail before correction, then passed with original
+bytes and the active reference preserved through interruption. Terminal
+`recovered-no-write` now requires the prior map; committed outcomes require the
+reconstructed after map. [Final affected checks](no-write-retirement-followup.json)
+bind `ed02df7` to recovery30 and crash7, both exit 0. The earlier 64-check receipt
+remains bound to its original source. No full aggregate has been run for this slice.
 
 ## Locks and durability limits
 
