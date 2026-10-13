@@ -99,3 +99,14 @@ own draft PR to ready. The full genuine workflow runs on that one promotion.
 run the full suite. No synthetic passing statuses or protection bypass are used.
 A later candidate needs another deliberate promotion. Nightly default-branch runs
 and release workflow_call remain available. [Supported event activity types](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request).
+
+## Follow-up observations after publication
+
+v1.62.1 is published and its runtime bytes match the installed copy; see
+[release/installation handoff](../../HANDOFF.md). The [native visibility cut](../../reports/2026-10-13-native-visibility-rollout/README.md) records host readback,
+Pi text reduction and retained quality limits. The later [paired screening](description-screening-readout.md) obtained13/13 expected selections in both arms;
+earlier provider errors remain preserved and unexplained. This supersedes only the
+older statement that no concise arm had run, not its historical error evidence.
+
+B-186 corrects the production immutable plain-skills contract; native-plugin channels
+have separate source/version guarantees. A complete family acceptance is still open.
