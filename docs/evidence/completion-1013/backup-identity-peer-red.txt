@@ -1,0 +1,5 @@
+FAIL: default retention never reuses a pruned same-second slot as newest: '10' == '11'
+FAIL: pinned recovery Infinity retention preserves every owned copy: 'backup-failed' == 'saved'
+FAIL: dangling parent is unknown while an ordinary missing hierarchy is absent: 'no-file' == 'backup-failed'
+FAIL: FIFO target refuses promptly without attempting a blocking read: backup blocked on a non-regular source
+4 failures / 14
