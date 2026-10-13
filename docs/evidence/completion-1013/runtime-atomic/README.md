@@ -50,7 +50,7 @@ Unknown user files stay outside the transaction.
 
 ## Focused evidence
 
-- [Focused output](focused.log): `node test/runtime_atomic_test.js`, 37/37, including
+- [Focused output](focused.txt): `node test/runtime_atomic_test.js`, 37/37, including
   actual CLI faults, caught switch positions, hard child exit, nested writer,
   introduced files, corrupt journal/backup, path kinds, missing source and retry.
 - [Existing tests](existing-focused.json): owner runtime/closure and FIX-UP-05.01 /

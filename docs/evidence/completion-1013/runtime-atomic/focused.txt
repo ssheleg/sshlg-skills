@@ -1,0 +1,38 @@
+ok switch fault 1 immediately restores old/existence set
+ok switch fault 2 immediately restores old/existence set
+ok switch fault 3 immediately restores old/existence set
+ok staging failure is failed rather than skipped and leaves old bytes
+ok recovery preserves original existence, switched=0
+ok recovery preserves original existence, switched=1
+ok recovery preserves original existence, switched=3
+ok unknown recovery preserved: malformed
+ok unknown recovery preserved: legacy
+ok unknown recovery preserved: missing-backup
+ok unknown recovery preserved: changed-backup
+ok unknown recovery preserved: foreign-current
+ok unknown recovery preserved: foreign-introduced
+ok unknown recovery preserved: invalid-path
+ok unknown recovery preserved: duplicate
+ok unknown recovery preserved: journal-symlink
+ok rollback failure retains journal and retry finishes
+ok lost journal during failed switch cannot claim rollback
+ok concurrent sync is refused before shared transaction files move
+ok hard crash retains lock and journal; no automatic lock steal
+ok absent refresh remains a benign skip without directory creation
+ok bounded failure at snapshot
+ok bounded failure at journal-write
+ok bounded failure at journal-truncated
+ok bounded failure at discovery
+ok bounded failure at managed-symlink
+ok bounded failure at managed-fifo
+ok three successful real syncs preserve exact bytes and modes
+ok missing required source refuses before mutation: hooks
+ok missing required source refuses before mutation: lib
+ok missing required source refuses before mutation: skills.json
+ok missing required source refuses before mutation: package.json
+ok journal parent symlink refuses without writing its target
+ok actual CLI hooks install propagates stage failure
+ok actual CLI hooks install propagates switch failure
+ok actual CLI update --claude-only propagates stage failure
+ok actual CLI update --claude-only propagates switch failure
+PASS runtime atomic: 37/37
