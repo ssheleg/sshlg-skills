@@ -1,0 +1,25 @@
+{
+  "head": "6875e04b1a5d4ec2c3ca599d8bbb61e480b401f3",
+  "review": "BOUNDED_PASS",
+  "checks": [
+    {
+      "component": "checkpoint",
+      "reported_cases": 72,
+      "stdout_sha256": "416eeff9b47ac8e4858b91c71015dbf85c85462866779fb3df82068911f98442",
+      "exit_code": 0
+    },
+    {
+      "component": "nudge",
+      "reported_cases": 40,
+      "stdout_sha256": "70d7726cb90a763b6815930d86f57bd50484cd9077bbade031bd56ba59cf0989",
+      "exit_code": 0
+    },
+    {
+      "component": "install",
+      "reported_cases": 48,
+      "stdout_sha256": "478ede419a3d0a35c94268524133b236917d2173e1ae67d43a877df04b4063d7",
+      "exit_code": 0
+    }
+  ],
+  "scope": "Full PR diff read; focused component checks independently replayed. No canonical main integration or release acceptance. Individual installer transactions are not a group-atomic three-skill transaction."
+}
