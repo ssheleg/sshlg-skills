@@ -49,7 +49,7 @@ const P = {
   tg: project('p-tg', { 'bot/requirements.txt': 'aiogram==3.4.1\n' }),
   xr: project('p-xr', { 'app/src/main/AndroidManifest.xml': '<manifest><category android:name="com.oculus.intent.category.VR"/></manifest>\n' }),
   money: project('p-money', {
-    'package.json': S({ dependencies: { '@stripe/stripe-js': '4', '@sentry/node': '8' } }),
+    'package.json': S({ dependencies: { '@stripe/stripe-js': '4', '@sentry/node': '8', three: '1' } }),
     '.claude/settings.local.json': S({ permissions: { allow: ['Bash(ls)'] } }),
     'web/index.html': '<script async src="https://www.googletagmanager.com/gtag/js?id=G-1"></script>\n',
   }),
@@ -64,7 +64,7 @@ const P = {
   used: project('p-used', { 'README.md': 'nothing declared\n' }),
   noignore: project('p-noignore', { 'package.json': S({ dependencies: { grammy: '1' } }) }, false),
 };
-w(path.join(home, '.sshlg-skills', 'usage', 'skill-usage-60d-2026-10-13.tsv'),
+w(path.join(home, '.sshlg-skills', 'usage', `skill-usage-60d-${new Date().toISOString().slice(0, 10)}.tsv`),
   `   2 ${P.used.replace(/[^A-Za-z0-9]/g, '-')}\tquest-store\n   5 ${P.none.replace(/[^A-Za-z0-9]/g, '-')}\tsuper-ux:copywriting\n`);
 const USER = S({
   model: 'opus',
@@ -96,7 +96,8 @@ it('the preview names each member with its evidence, the refusal, and the remova
   assert.ok(o.includes('package.json: three'), o);
   assert.ok(o.includes('bot/requirements.txt: aiogram'), o);
   assert.ok(o.includes('com.oculus.intent.category.VR'), o);
-  assert.ok(o.includes('web/index.html: googletagmanager.com/gtag/js'), 'source evidence through git grep is missing');
+  assert.ok(/Evidence kinds:.*source 1/.test(o), 'source evidence through git grep is missing');
+  assert.ok(/sheleg-dev.*kept on: ships hooks/.test(o), 'money gate is not retained');
   assert.ok(o.includes('used 60d: 2 call'), o);
   assert.ok(/p-noignore[^\n]*refused/.test(o), o);
   assert.ok(/- ~\/\.claude\/settings\.json[^\n]*xr-dev@xr-dev[^\n]*true → false/.test(o), o);
@@ -132,7 +133,7 @@ it('each domain project gets its member at project scope, read back from the fil
   assert.deepStrictEqual(enabled(local(P.xr)), { 'xr-dev@xr-dev': true });
   assert.deepStrictEqual(enabled(local(P.used)), { 'xr-dev@xr-dev': true });
   const money = JSON.parse(fs.readFileSync(local(P.money), 'utf8'));
-  assert.deepStrictEqual(money, { permissions: { allow: ['Bash(ls)'] }, enabledPlugins: { 'sheleg-dev@sheleg-dev': true } });
+  assert.deepStrictEqual(money, { permissions: { allow: ['Bash(ls)'] }, enabledPlugins: { 'web3d-dev@web3d-dev': true } });
 });
 it('the no-domain project and the refused project get no file', () => {
   assert.ok(!fs.existsSync(local(P.none)));
@@ -143,7 +144,7 @@ it('user scope: written members off; the refused one stays on; core and others u
   assert.strictEqual(u.model, 'opus');
   assert.deepStrictEqual(u.enabledPlugins, {
     'task-pipeline@task-pipeline': true, 'xr-dev@xr-dev': false, 'web3d-dev@web3d-dev': false,
-    'telegram-dev@telegram-dev': true, 'sheleg-dev@sheleg-dev': false, 'figma@claude-plugins-official': true,
+    'telegram-dev@telegram-dev': true, 'sheleg-dev@sheleg-dev': true, 'figma@claude-plugins-official': true,
   });
   assert.ok(/telegram-dev@telegram-dev[^\n]*stays on/.test(applies[0].stdout), applies[0].stdout);
 });
@@ -352,14 +353,14 @@ it('a symlinked repository under the root is followed, keyed by the link, dedupl
 });
 
 it('the update step only adds: it never turns a member off at user scope', () => {
-  fs.writeFileSync(local(P.money), '{"permissions":{}}\n'); // sheleg-dev blocked at the first apply
+  fs.writeFileSync(local(P.money), '{"permissions":{}}\n'); // web3d-dev blocked at the first apply
   assert.strictEqual(run('domains', '--apply').status, 0);
-  assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['sheleg-dev@sheleg-dev'], true);
+  assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['web3d-dev@web3d-dev'], true);
   fs.writeFileSync(local(P.money), MONEY_LOCAL); // unblocked
   const r = run('domains', '--update-step');
   assert.strictEqual(r.status, 0, r.stdout);
-  assert.deepStrictEqual(enabled(local(P.money)), { 'sheleg-dev@sheleg-dev': true });
-  assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['sheleg-dev@sheleg-dev'], true, r.stdout);
+  assert.deepStrictEqual(enabled(local(P.money)), { 'web3d-dev@web3d-dev': true });
+  assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['web3d-dev@web3d-dev'], true, r.stdout);
   assert.ok(/domains --apply/.test(r.stdout), 'the update step does not say how to turn it off');
   assert.strictEqual(run('domains', '--revert').status, 0);
   assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
@@ -404,6 +405,43 @@ it('the Fabric line prints only where Fabric is installed, and names no private 
   fs.rmSync(path.join(home, 'Library'), { recursive: true, force: true });
   if (process.platform === 'darwin') assert.ok(/Fabric/.test(r.stdout), r.stdout);
   assert.ok(!r.stdout.includes('RM-23'));
+});
+
+it('hook-bearing sheleg-dev remains global and a prior domains disable is repaired', () => {
+  const u = JSON.parse(USER);
+  u.enabledPlugins['sheleg-dev@sheleg-dev'] = false;
+  w(settings, S(u));
+  w(record, S({ roots: [root], applied: true, user: { 'sheleg-dev@sheleg-dev': false }, projects: {} }));
+  const r = run('domains', '--update-step');
+  assert.strictEqual(r.status, 0, r.stdout + r.stderr);
+  assert.strictEqual(enabled(settings)['sheleg-dev@sheleg-dev'], true);
+  assert.strictEqual(enabled(settings)['sheleg-dev@sheleg-dev'], true);
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  w(settings, USER);
+});
+
+it('invalid or oversized manifests cannot become proof that a member is unnecessary', () => {
+  const root4 = path.join(home, 'partial-root');
+  const broken = projectIn(root4, 'partial', { 'package.json': '{ broken' });
+  for (const content of ['{ broken', ' '.repeat(1024 * 1024 + 1)]) {
+    w(path.join(broken, 'package.json'), content);
+    const r = run('domains', '--apply', '--root', root4);
+    assert.strictEqual(r.status, 0, r.stdout + r.stderr);
+    assert.deepStrictEqual(enabled(settings), JSON.parse(USER).enabledPlugins, r.stdout);
+    assert.ok(/manifest read incomplete/.test(r.stdout), r.stdout);
+    assert.strictEqual(run('domains', '--revert').status, 0);
+  }
+  fs.rmSync(root4, { recursive: true, force: true });
+});
+
+it('install refreshes an installed domain plugin instead of re-enabling it', () => {
+  const registry = path.join(home, '.claude', 'plugins', 'installed_plugins.json');
+  w(registry, S({ plugins: { 'xr-dev@xr-dev': [{ installPath: path.join(home, 'cache', 'xr') }] } }));
+  const r = run('install', 'xr-dev', '--claude-only', '--dry-run');
+  assert.strictEqual(r.status, 0, r.stdout + r.stderr);
+  assert.ok(/plugin update xr-dev@xr-dev/.test(r.stdout), r.stdout);
+  assert.ok(!/plugin install xr-dev@xr-dev/.test(r.stdout), r.stdout);
+  fs.rmSync(registry);
 });
 
 it('--root points it at another projects directory', () => {

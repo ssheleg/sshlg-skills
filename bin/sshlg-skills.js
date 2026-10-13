@@ -373,11 +373,14 @@ function planInstall(f) {
       { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
   }
   if (f.claude || f.claudeOnly) {
+    const installed = require(path.join(ROOT, 'lib', 'enablement.js')).installed(process.env.HOME || os.homedir());
     for (const s of SKILLS) {
       steps.push(opres.step('subprocess', 'home', `claude plugin marketplace add (${s.name})`,
         { cmd: 'claude', args: ['plugin', 'marketplace', 'add', s.pluginMarketplace] }));
-      steps.push(opres.step('subprocess', 'home', `claude plugin install ${s.pluginInstall}`,
-        { cmd: 'claude', args: ['plugin', 'install', s.pluginInstall] }));
+      // Reinstalling enables an existing plugin; updating preserves project scoping.
+      const action = installed[s.pluginInstall] ? 'update' : 'install';
+      steps.push(opres.step('subprocess', 'home', `claude plugin ${action} ${s.pluginInstall}`,
+        { cmd: 'claude', args: ['plugin', action, s.pluginInstall] }));
     }
   }
   if (!f.member) {
@@ -1861,6 +1864,7 @@ function cmdVisibility(argv) {
   const claudeSet = plan.hide.filter((n) => !mine.has(n));
   const claudeUnset = [...mine].filter((n) => !plan.hide.includes(n));
   const stateOf = (s, ov) => {
+    if (s.loaded === false) return 'hidden';  // installed, not loaded here (B-185): not in the listing
     if (s.namespace !== 'claude:plain') return 'on';
     const v = ov[s.id];
     if (v === 'off' || v === V.HIDE) return 'hidden';
@@ -2010,7 +2014,8 @@ function domainsInputs(argv, home) {
   if (!argv.includes('--no-usage')) {
     const udir = path.join(home, '.sshlg-skills', 'usage');
     let tables = [];
-    try { tables = fs.readdirSync(udir).filter((n) => /^skill-usage-60d-.*\.tsv$/.test(n)).sort(); } catch (e) { tables = []; }
+    // The operator's own measurement (no hub command produces it); one past its window is ignored.
+    try { tables = fs.readdirSync(udir).filter((n) => D.usageFresh(n)).sort(); } catch (e) { tables = []; }
     if (tables.length) {
       usageFile = path.join(udir, tables[tables.length - 1]);
       usage = D.parseUsage(read(usageFile) || '', SKILLS.filter((s) => D.DOMAIN_MEMBERS.includes(s.name)));
@@ -2018,6 +2023,14 @@ function domainsInputs(argv, home) {
   }
   const plugins = {};
   for (const s of SKILLS) if (D.DOMAIN_MEMBERS.includes(s.name)) plugins[s.name] = s.pluginInstall;
+  // A member whose plugin ships hooks is never scoped (its gate must run in every session).
+  // Read from the installed plugin's own directory, or this checkout's pin when not installed.
+  const installedAt = require(path.join(ROOT, 'lib', 'enablement.js')).installed(home);
+  const keepOn = { 'sheleg-dev': D.KEEP_ON_HOOKS };
+  for (const m of D.DOMAIN_MEMBERS) {
+    const dirs = [installedAt[plugins[m]], path.join(ROOT, 'skills', m, 'plugins', m)].filter(Boolean);
+    if (dirs.some((d) => fs.existsSync(path.join(d, 'hooks', 'hooks.json')))) keepOn[m] = D.KEEP_ON_HOOKS;
+  }
   const localPath = (dir) => path.join(dir, DOMAINS_LOCAL);
   const enabledOf = (text) => { try { const d = JSON.parse(text); return (d && d.enabledPlugins) || {}; } catch (e) { return {}; } };
   const kinds = {};
@@ -2050,7 +2063,7 @@ function domainsInputs(argv, home) {
   const settingsPath = path.join(home, '.claude', 'settings.json');
   const ur = readLocal(settingsPath);
   return { D, read, readLocal, roots, rootErrors, rootRepos, dirs, projects, usageFile, kinds, plugins, owned, recordError,
-    recordPath, recordText, settingsPath, userText: ur.text, userError: ur.error, user: enabledOf(ur.text), localPath, enabledOf, value };
+    recordPath, recordText, settingsPath, userText: ur.text, userError: ur.error, user: enabledOf(ur.text), localPath, enabledOf, value, keepOn };
 }
 
 /** May this project's settings.local.json be written? Readable, Claude Code's format, git-ignored. */
@@ -2077,7 +2090,7 @@ function domainsWriteFile(apply, home, file, before, after, label) {
     const saved = apply.protect(file, { home });
     if (saved.action === 'backup-failed') { log(`  ${label}: NOT written — backup failed (${saved.error})`); return false; }
   }
-  fs.writeFileSync(file, after, 'utf8');
+  fs.writeFileSync(file, after, { encoding: 'utf8', mode: 0o600 });
   return true;
 }
 
@@ -2117,7 +2130,7 @@ function cmdDomains(argv) {
   const applied = !!(I.owned && I.owned.applied === true);
   // `update` on a machine where `domains --apply` never ran: one line, nothing written.
   if (updateStep && !applied) {
-    const P0 = D.plan({ projects: I.projects, user: I.user, owned: I.owned, plugins: I.plugins, onlyAdd: true });
+    const P0 = D.plan({ projects: I.projects, user: I.user, owned: I.owned, plugins: I.plugins, keepOn: I.keepOn, onlyAdd: true });
     const n = P0.adds.length + P0.refused.length;
     if (n) {
       log(`\n== Domain members ==\n  ${n} project(s) call for a domain member that is on machine-wide here; `
@@ -2133,7 +2146,7 @@ function cmdDomains(argv) {
     log(`domains: refused — ${rootProblem}. Point --root (or $SSHLG_PROJECTS_ROOT) at your projects directory.`);
     return 1;
   }
-  const P = D.plan({ projects: I.projects, user: I.user, owned: I.owned, plugins: I.plugins, onlyAdd: updateStep });
+  const P = D.plan({ projects: I.projects, user: I.user, owned: I.owned, plugins: I.plugins, keepOn: I.keepOn, onlyAdd: updateStep });
   const withEvidence = I.projects.filter((p) => Object.keys(p.evidence).length);
   const partial = I.projects.filter((p) => p.partial.length);
   const quiet = updateStep;
@@ -2147,7 +2160,7 @@ function cmdDomains(argv) {
       return 0;
     }
   }
-  say(`Domain members by project in Claude Code — core members stay on everywhere; ${D.DOMAIN_MEMBERS.join(', ')} load where a project calls for them`);
+  say(`Domain members by project in Claude Code — core and hook-bearing members stay on everywhere; domain members load where a project calls for them`);
   say(`  projects root: ${I.roots.join(path.delimiter)} (${I.rootRepos} git repositories${partial.length ? `; ${partial.length} not read in full` : ''})`);
   if (rootProblem) say(`  ! ${rootProblem} — --apply refuses until the root is right`);
   say(`  usage: ${I.usageFile ? `${path.basename(I.usageFile)} (a 60-day call counts as evidence)` : 'none read'}`);
@@ -2160,7 +2173,10 @@ function cmdDomains(argv) {
     const skip = P.skipped.find((s) => s.member === member);
     const projectsFor = withEvidence.filter((p) => p.evidence[member]);
     say(`\n  ${member} (${key}) — evidence in ${projectsFor.length} project(s)${skip ? `; not managed: ${skip.why}` : ''}`);
-    if (skip) continue;
+    if (skip) {
+      if (P.userOn.includes(key)) say(`    + ${key}: restore the safety hooks at user scope`);
+      continue;
+    }
     const gi = (dir) => byDir.get(dir).ignored().why.replace(home, '~');
     for (const a of P.adds) if (a.keys.includes(key)) say(`    + ${name(a.dir)}: enabledPlugins["${key}"] = true — ${evOf(a.dir, member)} [${gi(a.dir)}]`);
     for (const x of P.present) if (x.key === key) say(`    = ${name(x.dir)}: already on in the project — ${evOf(x.dir, member)}`);
@@ -2169,7 +2185,7 @@ function cmdDomains(argv) {
     const b = P.blocked.find((x) => x.key === key);
     const u = P.uncertain.find((x) => x.key === key);
     if (P.userOff.includes(key)) say(`    - ~/.claude/settings.json enabledPlugins["${key}"]: true → false`);
-    else if (P.userOn.includes(key)) say(`    + ~/.claude/settings.json enabledPlugins["${key}"]: false → true — ${b.dirs.length} project(s) could not get their entry (${b.dirs.map(name).join(', ')})`);
+    else if (P.userOn.includes(key)) say(`    + ~/.claude/settings.json enabledPlugins["${key}"]: false → true — ${(b || u).dirs.length} project(s) could not be covered (${(b || u).dirs.map(name).join(', ')})`);
     else if (P.managed[member] && P.managed[member].off) say(`    = ~/.claude/settings.json enabledPlugins["${key}"]: already false (by domains)`);
     else if (b) say(`    = ${key} stays on at user scope: ${b.dirs.length} project(s) could not get their entry (${b.dirs.map(name).join(', ')})`);
     else if (u) say(`    = ${key} stays on at user scope: ${u.dirs.length} project(s) not read in full (${u.dirs.map(name).join(', ')})`);
@@ -2202,6 +2218,10 @@ function cmdDomains(argv) {
   for (const k of newlyBlocked) if (P.userOff.includes(k)) log(`  ${k} stays on at user scope: a project write above failed`);
   // Read again now, not at the start: the project writes took time, and the file may have moved.
   const userNow = I.read(I.settingsPath);
+  if ((off.length || on.length) && userNow === null) {
+    log('  ~/.claude/settings.json: cannot read the current file — no global changes written');
+    failed = true;
+  }
   if ((off.length || on.length) && userNow !== null) {
     const set = Object.fromEntries(off.map((k) => [k, false]).concat(on.map((k) => [k, true])));
     const r = D.editEnabled(userNow, { set });
@@ -2213,7 +2233,7 @@ function cmdDomains(argv) {
         else { log(`  ~/.claude/settings.json: ${k} did not read back false`); failed = true; }
       }
       for (const k of on) {
-        if (back[k] === true) { delete owned.user[k]; log(`  ~/.claude/settings.json: ${k} back on at user scope — a project calling for it has no entry (read back)`); }
+        if (back[k] === true) { delete owned.user[k]; log(`  ~/.claude/settings.json: ${k} back on at user scope — preserve hooks or coverage for an unverified project (read back)`); }
         else { log(`  ~/.claude/settings.json: ${k} did not read back true`); failed = true; }
       }
     } else failed = true;
@@ -2364,7 +2384,7 @@ function writeRecord(I, owned, apply, home) {
   }
   if (text === null) { fs.rmSync(I.recordPath, { force: true }); return true; }
   fs.mkdirSync(path.dirname(I.recordPath), { recursive: true });
-  fs.writeFileSync(I.recordPath, text, 'utf8');
+  fs.writeFileSync(I.recordPath, text, { encoding: 'utf8', mode: 0o600 });
   return true;
 }
 

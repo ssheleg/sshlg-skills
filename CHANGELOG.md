@@ -1,5 +1,12 @@
 ## Unreleased
 
+- **L5 certification fixes:** hook-bearing plugins stay global, including sheleg-dev in
+  packaged installs without member checkouts. Missing roots refuse application; partial
+  scans retain or restore global coverage. New projects can explicitly `domains --enable`
+  before dependencies exist. Disabled domain skills remain searchable, project-local
+  enablement reaches hook readers, and reinstall refreshes existing plugins without
+  re-enabling them. Usage snapshots expire; future and invalid dates are ignored.
+
 - **Domain members load only in the projects that need them (B-185, plan L5).** Operator decision
   2026-10-13: "Yes, by domain". New command: `npx sshlg-skills domains`. Claude Code lists every
   enabled plugin's skills in every session. The family's plugins took ≈ 38k of a ≈ 61k-character
@@ -17,8 +24,8 @@
   project and is recorded. `--revert` undoes only the values recorded in
   `~/.sshlg-skills/domains.json` that still hold. `update` gives a project that has since gained
   a dependency its member. `hosts` prints how many projects have evidence for each member and
-  how many have it enabled. The core members stay on everywhere. In Fabric-started sessions
-  RM-23 decides. `lib/domains.js` holds the decisions; `lib/domainscan.js` asks git (`ls-files`,
+  how many have it enabled locally. Core and hook-bearing members stay on everywhere.
+  Fabric's per-session layers remain planned; the host command is the fallback. `lib/domains.js` holds the decisions; `lib/domainscan.js` asks git (`ls-files`,
   `grep`) for eight repositories at a time. `test/domains_test.js` covers evidence, edits and
   the plan. `test/domains_e2e_test.js` uses a sandbox HOME with one fixture project per domain,
   one with none, one called for only by usage, and one whose git does not ignore the file. Its

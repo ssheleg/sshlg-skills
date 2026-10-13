@@ -223,6 +223,39 @@ it('editEnabled: keepEmpty leaves an emptied enabledPlugins in place', () => {
   assert.strictEqual(D.editEnabled(before, { unset: { 'a@a': true }, keepEmpty: true }).text, S({ enabledPlugins: {} }));
 });
 
+it('plan: a member whose plugin ships hooks is never scoped (S1)', () => {
+  const keepOn = {}; // The safety invariant does not depend on installed files.
+  const U = Object.assign({}, USER, { 'sheleg-dev@sheleg-dev': true });
+  const p = D.plan({ projects: [proj('/p/shop', { 'sheleg-dev': ['package.json: stripe'] })], user: U, owned: null, plugins: PLUG, keepOn });
+  assert.ok(!p.userOff.includes('sheleg-dev@sheleg-dev'));
+  assert.deepStrictEqual(p.adds, []);
+  assert.ok(p.skipped.some((x) => x.member === 'sheleg-dev' && /ships hooks/.test(x.why)));
+  // Off by an older --apply: it goes back on.
+  const q = D.plan({ projects: [], user: Object.assign({}, U, { 'sheleg-dev@sheleg-dev': false }), owned: { user: { 'sheleg-dev@sheleg-dev': false } }, plugins: PLUG, keepOn });
+  assert.deepStrictEqual(q.userOn, ['sheleg-dev@sheleg-dev']);
+});
+
+it('a previously scoped member returns globally when a later scan is incomplete', () => {
+  const p = D.plan({ projects: [Object.assign(proj('/p/broken', {}), { partial: ['xr-dev'] })],
+    user: { 'xr-dev@xr-dev': false }, owned: { user: { 'xr-dev@xr-dev': false } }, plugins: PLUG });
+  assert.deepStrictEqual(p.userOn, ['xr-dev@xr-dev']);
+});
+
+it('PLUGIN_SPECS agree with skills.json', () => {
+  const fam = require('../skills.json').skills;
+  for (const m of D.DOMAIN_MEMBERS) assert.strictEqual(D.PLUGIN_SPECS[m], fam.find((s) => s.name === m).pluginInstall, m);
+});
+
+it('usageFresh: a table older than its 60-day window from its own date is ignored', () => {
+  const now = Date.UTC(2026, 9, 13);
+  assert.ok(!D.usageFresh('skill-usage-60d-2026-10-14.tsv', now));
+  assert.ok(!D.usageFresh('skill-usage-60d-2026-02-30.tsv', now));
+  assert.ok(D.usageFresh('skill-usage-60d-2026-10-13.tsv', now));
+  assert.ok(D.usageFresh('skill-usage-60d-2026-08-20.tsv', now));
+  assert.ok(!D.usageFresh('skill-usage-60d-2026-08-01.tsv', now));
+  assert.ok(!D.usageFresh('skill-usage-60d-garbage.tsv', now));
+});
+
 it('revertPlan: user scope back on first, then only project values still as set', () => {
   const owned = { user: { 'xr-dev@xr-dev': false, 'web3d-dev@web3d-dev': false }, projects: { '/p/a': { plugins: ['xr-dev@xr-dev'] }, '/p/b': { plugins: ['xr-dev@xr-dev'] } } };
   const r = D.revertPlan({ owned, user: { 'xr-dev@xr-dev': false, 'web3d-dev@web3d-dev': true }, locals: { '/p/a': { 'xr-dev@xr-dev': true }, '/p/b': { 'xr-dev@xr-dev': false } } });

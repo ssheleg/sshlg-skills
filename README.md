@@ -297,7 +297,8 @@ published launcher since 1.56.0). Details: `docs/working-rules/state-json.md`.
 
 Claude Code lists every enabled plugin's skills in every session. Four members serve one
 kind of project — `xr-dev`, `web3d-dev`, `telegram-dev` and `sheleg-dev` (money, tracking,
-errors, sign-in, speed) — and listing them everywhere costs every other project the room.
+errors, sign-in, speed). Only the first three are scoped: **sheleg-dev and any plugin
+shipping hooks stay enabled globally**, because disabling a plugin removes its gates too.
 The core members (`task-pipeline`, `agent-sync`, `make-skill`, `super-ux`, `sheleg-design`,
 `seo-aeo-audit`, `agent-stack`) stay on everywhere.
 
@@ -305,12 +306,16 @@ The core members (`task-pipeline`, `agent-sync`, `make-skill`, `super-ux`, `shel
 npx sshlg-skills domains            # preview: each project's members and WHY; nothing written
 npx sshlg-skills domains --apply    # project entries first, read back; then off at user scope
 npx sshlg-skills domains --revert   # undo exactly what --apply wrote, user scope first
+npx sshlg-skills domains --enable xr-dev    # start a new project before it has dependencies
+npx sshlg-skills domains --disable xr-dev   # undo that explicit project entry
 npx sshlg-skills domains --root ~/code --no-usage   # another projects directory; no usage table
 ```
 
 - **Which projects.** Every git repository directly under the projects root: `~/DATA` by
   default, or `--root` / `$SSHLG_PROJECTS_ROOT` (`:`-separated for several); `--apply`
-  records the root, so `update` and `hosts` use it later.
+  records the root, so `update` and `hosts` use it later. Symlinked repositories count once
+  by realpath. A missing or empty root refuses application; an incomplete scan retains
+  global coverage for members it could not rule out.
 - **What counts as evidence.** A project gets a member only from what the repository
   depends on or declares, never from its name or its prose. `web3d-dev`: `three` or
   `@react-three/*` in a `package.json`. `telegram-dev`: `grammy`, `telegraf`,
@@ -321,7 +326,8 @@ npx sshlg-skills domains --root ~/code --no-usage   # another projects directory
   GA4 `gtag`, Google sign-in libraries, crypto-payment SDKs. Vendored, built and fixture
   directories don't count (`node_modules`, `dist`, `fixtures` and the like); nor do nested
   repositories. Optionally, the newest `~/.sshlg-skills/usage/skill-usage-60d-*.tsv`: a
-  project that called a member's skill in the last 60 days gets that member (`--no-usage`
+  project with calls in that dated snapshot gets that member; a snapshot more than 60 days
+  old is ignored (`--no-usage`
   turns this off). The preview prints the evidence for every entry.
 - **The order is the safety.** `--apply` writes `enabledPlugins["<member>@<member>"]: true`
   into each matching project's `.claude/settings.local.json` and reads it back. Only then
@@ -344,20 +350,22 @@ npx sshlg-skills domains --root ~/code --no-usage   # another projects directory
   the previous copy is in `~/.sshlg-skills/backups/`. Running `--apply` three times leaves
   identical bytes.
 - **`update` keeps it current.** On a machine where `--apply` has run, `update` gives a
-  project that has since gained a domain dependency its member. On a machine where it has
+  project that has since gained a domain dependency its member; it never newly disables a
+  global member. Reinstalling an existing plugin refreshes it without enabling it.
+  On a machine where it has
   never run, `update` prints one line pointing to `domains`. `hosts` prints how many
   projects have evidence for each member and how many have it enabled; it prints no
   project names.
 
-**To get a member back in one project**, add it to that project's
-`.claude/settings.local.json` (git-ignored) and restart the session:
+**To start a new domain project**, run `npx sshlg-skills domains --enable xr-dev`
+inside its repository (or pass `--project <dir>`), then restart the Claude Code session.
+The explicit choice persists without dependency evidence. `--disable` removes only the
+entry this command owns. `toolkit --find` still finds installed but disabled domain
+skills, labels them “not loaded here”, and names the enable command. Project-local
+enablement takes precedence over the global value for search and hook readers.
 
-```json
-{ "enabledPlugins": { "xr-dev@xr-dev": true } }
-```
-
-**Inside Fabric**, the per-agent skill layers decide what loads in a session Fabric
-starts (RM-23). `domains` is the fallback for the whole host, as `visibility` is.
+**Inside Fabric**, per-agent skill layers are planned. Until that capability ships,
+`domains` is the host-wide fallback; this command does not implement Fabric's layers.
 
 ## Routing — making the family engage by default
 
@@ -520,7 +528,7 @@ npx sshlg-skills toolkit                  # every skill this machine can reach, 
 npx sshlg-skills toolkit --for "<task>"   # ...narrowed to one task, as a shortlist
 npx sshlg-skills toolkit --find "pdf, xlsx, отчёт"  # by the concepts YOU read from the task; hidden skills included, with SKILL.md paths
 npx sshlg-skills visibility               # which skills keep their place in Claude/Codex listings; --apply hides the rest, --revert undoes it
-npx sshlg-skills domains                  # xr-dev, web3d-dev, telegram-dev, sheleg-dev only in projects that call for them; --apply, --revert
+npx sshlg-skills domains                  # scope xr-dev, web3d-dev, telegram-dev; preserve hook-bearing members; --apply, --revert
 npx sshlg-skills pack design              # design/front-end/mobile: present, missing, and the install line
 npx sshlg-skills pack design --check      # do the declared addresses still resolve?
 npx sshlg-skills humanizers               # anti-AI-writing skills here, with the caveat that binds them

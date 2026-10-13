@@ -35,13 +35,15 @@ function say(text) {
   }) + '\n');
 }
 
-/** Skill id → the plugin spec that provides it, for every ENABLED plugin. */
-function providedSkills(home) {
+/**
+ * Skill id → the plugin spec that provides it, for every plugin ENABLED for `cwd` — user
+ * scope, then the project's settings files (B-185: a domain member is on per project).
+ */
+function providedSkills(home, cwd) {
   const map = new Map();
   try {
-    const settings = JSON.parse(fs.readFileSync(path.join(home, '.claude', 'settings.json'), 'utf8'));
-    const enabled = Object.entries(settings.enabledPlugins || {})
-      .filter(([, on]) => on).map(([spec]) => spec);
+    const eff = require(path.join(LIB, 'enablement.js')).effective(home, cwd || null);
+    const enabled = Object.entries(eff).filter(([, on]) => on).map(([spec]) => spec);
     const installed = JSON.parse(
       fs.readFileSync(path.join(home, '.claude', 'plugins', 'installed_plugins.json'), 'utf8'));
     for (const spec of enabled) {
@@ -111,7 +113,7 @@ process.stdin.on('end', () => {
           plain.push(...plainIn(path.join(project, '.claude', 'skills'), 'project',
             path.join(project, '.claude', 'skills')));
         }
-        const text = shadow.render(shadow.shadows(plain, providedSkills(home)));
+        const text = shadow.render(shadow.shadows(plain, providedSkills(home, project)));
         if (text) notes.push(text);
       }
     }

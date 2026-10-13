@@ -982,6 +982,37 @@ it('a system-generated turn produces no routing note, as a process', () => {
   assert.ok(routed.includes('[sshlg-routing]'), 'the control prompt stopped routing — the fixture proves nothing');
 });
 
+// B-185 seam fix (S3): a domain route whose member is installed but not loaded in this
+// project says how to enable it, and the PreToolUse gate does not ask for a route that
+// cannot be taken here.
+it('a route to a member not loaded in this project names `domains --enable`, and the gate stays quiet', () => {
+  const plug = path.join(HOME, 'tg-plugin');
+  write(path.join(plug, 'skills', 'telegram-bots', 'SKILL.md'), '---\nname: telegram-bots\ndescription: Telegram bots.\n---\n');
+  const reg = path.join(HOME, '.claude', 'plugins', 'installed_plugins.json');
+  const regBefore = fs.existsSync(reg) ? fs.readFileSync(reg, 'utf8') : null;
+  write(reg, JSON.stringify({ plugins: { 'telegram-dev@telegram-dev': [{ installPath: plug }] } }));
+  const before = fs.existsSync(SETTINGS) ? fs.readFileSync(SETTINGS, 'utf8') : null;
+  write(SETTINGS, JSON.stringify({ enabledPlugins: { 'telegram-dev@telegram-dev': false } }, null, 2) + '\n');
+  const proj = path.join(HOME, 'tg-proj');
+  fs.mkdirSync(path.join(proj, '.git'), { recursive: true });
+  const session = 'e2e-unloaded';
+  const note = runHookText('user-prompt-submit.js', {
+    session_id: session, prompt_id: 'p1', cwd: proj, prompt: 'сделай телеграм-бота для заказов',
+  });
+  assert.ok(/domains --enable telegram-dev/.test(note), `no enable hint: ${note}`);
+  const rec = JSON.parse(fs.readFileSync(turnsFile(session), 'utf8'));
+  assert.ok(!(rec.routes || []).includes('telegram-dev'), 'a route that cannot be taken was armed for the gate');
+  // Enabled in the project: the plain note, and the route is armed.
+  write(path.join(proj, '.claude', 'settings.local.json'), JSON.stringify({ enabledPlugins: { 'telegram-dev@telegram-dev': true } }, null, 2) + '\n');
+  const on = runHookText('user-prompt-submit.js', {
+    session_id: 'e2e-loaded', prompt_id: 'p1', cwd: proj, prompt: 'сделай телеграм-бота для заказов',
+  });
+  assert.ok(!/domains --enable/.test(on), on);
+  assert.ok(JSON.parse(fs.readFileSync(turnsFile('e2e-loaded'), 'utf8')).routes.includes('telegram-dev'));
+  if (before === null) fs.rmSync(SETTINGS, { force: true }); else fs.writeFileSync(SETTINGS, before);
+  if (regBefore === null) fs.rmSync(reg, { force: true }); else fs.writeFileSync(reg, regBefore);
+});
+
 function turnsFile(session) { return path.join(HOME, '.sshlg-skills', 'turns', `${session}.json`); }
 
 it('the same prompt twice in a session prints the routing note once (R01)', () => {

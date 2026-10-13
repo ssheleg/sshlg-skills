@@ -9,19 +9,26 @@ Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 ## B-185 — domain members per project (2026-10-13, branch `feat/domain-members`, unreleased)
 
 Plan [L5](evidence/plans/2026-10-13-load-optimization.md); operator decision "Yes, by domain".
-`npx sshlg-skills domains [--apply|--revert] [--root <dir>] [--no-usage]`. Decisions are in
-`lib/domains.js`, the git-backed scan is in `lib/domainscan.js`, and the command, `update` step
-and `hosts` summary are in `bin/sshlg-skills.js`. Tests: `test/domains_test.js` (pure) and
-`test/domains_e2e_test.js` (sandbox HOME with fixture projects, three-run idempotence, revert).
-**Checks run:** `npm test` green. On this machine the read-only preview found 188 repositories,
-62 with evidence, 71 project entries, 0 refused and 4 user-scope removals. Evidence kinds:
-npm 40, python 55, source 21, usage 12, cmake 3, gradle 3, android 2. Git ignores the file
-through the global excludes in 57 entries, `.gitignore` in 13 and `info/exclude` in 1.
-In a sandbox Claude Code 2.1.296 install, `claude plugin list` run inside a project showed
-`xr-dev` **enabled** with user scope `false` and project-local `true`. `claude plugin update`
-left a disabled plugin disabled. Not run: `--apply` against the real HOME (operator's step).
-**Exact next task:** after merge, run `npx sshlg-skills domains`, then `--apply`; measure the
-Claude listing in a project outside the four domains (L4); close B-185.
+The original head `e27a040` failed unit, seam and product certification. Its installation
+preview and old passing gate are historical, not acceptance of the fixed implementation.
+Preserved first fix `09d17a2` adds explicit `--enable`/`--disable`, symlinked repositories,
+missing-root refusals, partial-scan protection, and additions-only unattended updates.
+
+The recovered second fix preserves hook-bearing plugins globally (sheleg-dev always),
+keeps installed disabled skills searchable, resolves project enablement for hook readers,
+and refreshes existing plugins without reinstalling them. Malformed/oversized manifests
+are incomplete evidence; a member already scoped goes back on when coverage is uncertain.
+The machine's configurations have not been applied by this development task.
+
+Implementation: `lib/domains.js`, `lib/domainscan.js`, `lib/enablement.js`, launcher and hooks.
+Focused checks and bounded scenarios are recorded in
+[evidence/runs/2026-10-13-domains-recovery.md](evidence/runs/2026-10-13-domains-recovery.md).
+
+**Exact next task:** independent unit/seam/product review of the final branch head, then
+integrate with L1, run the full hub gate, release, and refresh through the published launcher.
+After release, preview `npx sshlg-skills domains`, apply the authorized domain choice with
+`--apply`, and read back both a domain project and a fresh project outside the domains (L4).
+Do not restore the old design that disabled sheleg-dev's money gate.
 
 ## Closed — integration waves (2026-10-11/12, lease `WAVES-1011`)
 
