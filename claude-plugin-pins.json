@@ -3075,7 +3075,7 @@
     {
       "name": "agent-stack",
       "repo": "ssheleg/agent-stack",
-      "commit": "2b3d769775e368d0a1e6d0f20ea095ae24fbbd54",
+      "commit": "6b71918a4d9b23a1f10af54b7d574a48e401ef26",
       "version": "0.28.2",
       "pluginInstall": "agent-stack@agent-stack",
       "pluginPath": "plugins/agent-stack",

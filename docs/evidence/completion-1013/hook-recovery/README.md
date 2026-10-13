@@ -36,3 +36,7 @@ connection, initialize and rejoin the existing running thread without settings
 overrides, then observe hook events. No model request or secret/token access.
 The first raw-stdio proxy attempt produced no events and is not evidence.
 Official reference: [Codex hooks](https://learn.chatgpt.com/docs/hooks).
+
+A later [50-second observation](followup-0934.json) of the same running thread
+recorded one completed PostToolUse event. It adds a bounded follow-up observation;
+it does not expand the earlier nine-event coverage to unobserved hook types.

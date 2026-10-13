@@ -10,6 +10,9 @@
 - `blocks` lists managed instruction markers across supported host files;
   `blocks diff` previews one selected local block. Both preserve the files and
   report malformed or unreadable input without granting write authority.
+- New backups bind to canonical target paths and publish without overwriting an
+  existing copy. Ambiguous legacy and unverified copies are preserved and refused
+  for automatic restoration. The broader operation recovery journal is separate.
 - The optional wait rule has its own default-off setting, host scope and ownership
   record. Preview shows the proposed text; apply preserves surrounding content.
   Updates refresh only previously applied profiles. The rule creates no background

@@ -212,7 +212,7 @@
       "npm": "@ssheleg/agent-stack",
       "shape": "static",
       "shapeWhy": "Reference material, not a run. What varies is which reference a task loads, which the SKILL.md table decides in advance.",
-      "commit": "2b3d769775e368d0a1e6d0f20ea095ae24fbbd54"
+      "commit": "6b71918a4d9b23a1f10af54b7d574a48e401ef26"
     },
     {
       "name": "telegram-dev",
