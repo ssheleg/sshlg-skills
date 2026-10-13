@@ -22,9 +22,9 @@ An earlier in-flight agent-sync width attempt was deliberately interrupted to im
 
 ## Source explanation, not substitute for reproduction
 
-- agent-sync: `test/validate.py:3783` main check sequence does not read this repository's backlog; the runtime coordination-board tests concern different data. Baseline and actual plants establish the omission.
+- agent-sync: `test/validate.py:3779` main check sequence does not read this repository's backlog; the runtime coordination-board tests concern different data. Baseline and actual plants establish the omission.
 - make-skill: `test/validate.py:520–583` reads backlog for stale release claims, not row identity/shape. No lossless table check intercepted either plant.
-- sheleg-dev: `test/validate.py:2198` runs registered checks; backlog references at 614 and 2015 concern other invariants. Both actual plants pass.
+- sheleg-dev: `test/validate.py:2204` runs registered checks; backlog references at 614 and 2015 concern other invariants. Both actual plants pass.
 - design: `test/validate.py:2976–3002` checks columns, matching its width failure; duplicate rows are accepted.
 - UX: `test/validate.py:1071` checks IDs and `1495` checks table shape. Both actual plants fail with the intended diagnostic; no repair is justified by this audit alone.
 - TP: `test/validate.py:1561–1572` detects duplicates; `1715` enforces only a minimum column count and later checks numeric priority. An extra cell after those fields passes. Recheck current PR114/119 composition before any owner implementation; this measurement is pinned to the earlier main cut.
