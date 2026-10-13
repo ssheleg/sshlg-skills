@@ -199,3 +199,42 @@ Each readiness has at most one model turn and each task at most six, for at most
 turn is not a promise about hidden transport retries; those remain unmeasured.
 Both prior receipt hashes and separate prior/new/combined cost appear in output.
 The strict seven-skill gate and stop-on-first-error policy remain unchanged.
+
+
+## Third attempt: clean readiness, preserved parser stop
+
+After independent review of `264ddf94dba67ba14dc237e991c1118f3621c845`,
+[attempt C](observed-c-20261013.json) executed both readiness checks with exactly
+the expected seven skills, four allowed tools and no MCP servers. Neither
+readiness invoked tools. Concise input was 6,063 and full input 7,636. This is
+native inventory evidence for this restricted fixture, not task-quality proof.
+
+The first task (full/a1) stopped `aggregate_input_bound`; the other three tasks
+are NOT_RUN. Original output remains immutable TEST_ERROR. Private stream
+inspection found eight assistant events sharing four message IDs, with repeated
+input usage per ID: 7,694 (twice), 7,861 (three times), 8,876 (twice), 10,543 (once).
+The unique-request sum 34,974 equals the final input usage (10 + 6,014 + 28,950).
+The parser had incorrectly compared stream-block count to the request limit.
+No actual input limit was exceeded; this diagnosis does not retroactively
+change the stored attempt verdict. No model retry occurred.
+
+C made three CLI invocations, five cumulative including A/B; C reported list
+cost was USD0.134326, cumulative USD0.1834924. All amounts were known.
+The correction groups input usage by nonempty message ID and rejects conflicting
+input counters for the same ID. It retains every tool block and all existing
+per-request, aggregate, final-turn, budget and confinement bounds. Offline
+controls cover repeated blocks, missing ID, conflicting counters, too many
+distinct requests and excessive aggregate input. Any replay is separately
+labelled diagnostic and makes no provider call; further execution needs review.
+
+The [separate offline replay](observed-c-offline-diagnostic.json) rematerialized
+the exact source and remapped only original workspace prefixes in tool path
+arguments. It passed the corrected structural parser with four unique requests;
+no provider call was made. It observed Glob plus three successful fixture Reads,
+**zero Skill invocations**, and `google_auth_loaded: false`. The native inventory
+was present but the specialist body was not loaded. The freeform artifact remains
+private and unscored here. This replay is not a completed paired task experiment.
+
+Next task: independent review of the ID-based parser correction and raw-stream
+diagnosis; coordinator decides whether a newly budgeted protocol is warranted.
+The runner is not authorized for another call by this evidence entry.

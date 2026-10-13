@@ -1,0 +1,51 @@
+{
+  "schema": "native-stream-offline-replay/1",
+  "scope": "OFFLINE_DIAGNOSTIC_ONLY; original C TEST_ERROR unchanged; no new CLI or provider call; no semantic quality verdict",
+  "original_stdout_sha256": "94ba6115fa39616dc7586960ee82f4142027a59e2deb8ea928f3883658434f02",
+  "original_receipt_sha256": "3be4c1c0ff3180e838585195c574cacd32b78a119e433b94eafa78ef67a156aa",
+  "corrected_runner_sha256": "333f8e1f96ec1e8dd3a4ec67dad0dc257338f49ec588a1a43a085aae6e5926ce",
+  "path_replay": "Only original init.cwd prefixes in tool path/file_path were remapped into independently rematerialized exact source workspace; original raw bytes remain private and unchanged.",
+  "remapped_paths": 3,
+  "assistant_events": 8,
+  "unique_message_ids": 4,
+  "unique_request_input": [
+    7694,
+    7861,
+    8876,
+    10543
+  ],
+  "unique_input_sum": 34974,
+  "result": {
+    "evaluation_status": "EXECUTED",
+    "error_class": null,
+    "cost_usd": 0.099782,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 6014,
+      "cache_read_input_tokens": 28950,
+      "output_tokens": 2292
+    },
+    "native": {
+      "visible": [
+        "sheleg-dev:ad-tracking",
+        "sheleg-dev:crypto-payments",
+        "sheleg-dev:error-tracking",
+        "sheleg-dev:frontend-performance",
+        "sheleg-dev:google-auth",
+        "sheleg-dev:google-signin",
+        "sheleg-dev:stripe-billing"
+      ],
+      "skill_loads": [],
+      "read_files": [
+        "app/OPERATIONS.md",
+        "app/client.py",
+        "app/deployment.env.example"
+      ],
+      "google_auth_loaded": false
+    },
+    "artifact_sha256": "aca3737529b93e8823e45418828096be4a5f4de27cbc6cf57f6b80b8e90a2591",
+    "max_request_input": 10543,
+    "request_count": 4,
+    "turns": 6
+  }
+}
