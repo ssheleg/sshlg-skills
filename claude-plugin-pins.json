@@ -4,7 +4,7 @@
     {
       "name": "super-ux",
       "repo": "ssheleg/super-ux",
-      "commit": "5482c4762f648ab33f2f9c3a075f2c2866e4bc17",
+      "commit": "a9a7a614f77a9788e154866396cb9b61215a28a3",
       "version": "0.59.3",
       "pluginInstall": "super-ux@super-ux",
       "pluginPath": "plugins/super-ux",
@@ -1628,7 +1628,7 @@
     {
       "name": "agent-sync",
       "repo": "ssheleg/agent-sync",
-      "commit": "7a1dbe7dcdaff1786fad38dbd2ee742266d1a39a",
+      "commit": "5bd8becb6455f69fca9beb76e96f334bc28a2063",
       "version": "1.22.2",
       "pluginInstall": "agent-sync@agent-sync",
       "pluginPath": "plugins/agent-sync",
@@ -1778,7 +1778,7 @@
     {
       "name": "make-skill",
       "repo": "ssheleg/make-skill",
-      "commit": "3740043608a2d2969982ed304eebfd5313c06b19",
+      "commit": "c6b047057559f8dd2fe12dec59e4a4bee374fac2",
       "version": "0.31.2",
       "pluginInstall": "make-skill@make-skill",
       "pluginPath": "plugins/make-skill",
@@ -1948,7 +1948,7 @@
     {
       "name": "sheleg-design",
       "repo": "ssheleg/sheleg-design-skill",
-      "commit": "b017f5143284538d2670d22aab1f1403da459d87",
+      "commit": "d113f43df6e7dc7e5befef492ccc8964d49a7fa4",
       "version": "1.64.2",
       "pluginInstall": "sheleg-design@sheleg-design-skill",
       "pluginPath": "plugins/sheleg-design",
@@ -2724,7 +2724,7 @@
     {
       "name": "sheleg-dev",
       "repo": "ssheleg/sheleg-dev",
-      "commit": "02655faeb525e5b65b628f65671a5b047eff5d0d",
+      "commit": "21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369",
       "version": "0.13.4",
       "pluginInstall": "sheleg-dev@sheleg-dev",
       "pluginPath": "plugins/sheleg-dev",

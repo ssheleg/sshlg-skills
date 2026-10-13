@@ -63,7 +63,7 @@
       "npm": "super-ux",
       "shape": "static",
       "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable.",
-      "commit": "5482c4762f648ab33f2f9c3a075f2c2866e4bc17"
+      "commit": "a9a7a614f77a9788e154866396cb9b61215a28a3"
     },
     {
       "name": "task-pipeline",
@@ -101,7 +101,7 @@
       "npm": "@ssheleg/agent-sync",
       "shape": "static",
       "shapeWhy": "Leases, ids and the journal are a fixed protocol; what varies is who holds what, which is state rather than shape.",
-      "commit": "7a1dbe7dcdaff1786fad38dbd2ee742266d1a39a"
+      "commit": "5bd8becb6455f69fca9beb76e96f334bc28a2063"
     },
     {
       "name": "make-skill",
@@ -120,7 +120,7 @@
       "npm": "@ssheleg/make-skill",
       "shape": "static",
       "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time.",
-      "commit": "3740043608a2d2969982ed304eebfd5313c06b19"
+      "commit": "c6b047057559f8dd2fe12dec59e4a4bee374fac2"
     },
     {
       "name": "sheleg-design",
@@ -149,7 +149,7 @@
           "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
       ],
-      "commit": "b017f5143284538d2670d22aab1f1403da459d87"
+      "commit": "d113f43df6e7dc7e5befef492ccc8964d49a7fa4"
     },
     {
       "name": "seo-aeo-audit",
@@ -191,7 +191,7 @@
       "npm": "@ssheleg/sheleg-dev",
       "shape": "static",
       "shapeWhy": "Each integration is a fixed sequence of seams; nothing decides its own next step.",
-      "commit": "02655faeb525e5b65b628f65671a5b047eff5d0d"
+      "commit": "21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369"
     },
     {
       "name": "agent-stack",
