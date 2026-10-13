@@ -1,0 +1,4 @@
+  AST extraction: 100/250 uncached files (40%)
+  AST extraction: 200/250 uncached files (80%)
+  AST extraction: 250/250 uncached files (100%)
+{"built_at_commit": "56ca9ea41e40efa0b2b6240411711c480f091e8e", "nodes": 3018, "edges": 4589, "communities": 229, "provider_calls": 0}

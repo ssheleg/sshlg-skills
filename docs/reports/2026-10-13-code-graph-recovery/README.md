@@ -6,7 +6,7 @@ report:
   project: sshlg-skills
   domains: [ai-agent, automation]
   as_of: 2026-10-13
-  status: active
+  status: superseded
   valid_until: 2026-10-20
   summary: >-
     The recovery candidate adds eight tracked code files to the previous graph cut.
@@ -20,6 +20,7 @@ report:
   produced_by:
     agent: "Codex root"
     task: "R33 source map after MB02 composition"
+  superseded_by: "sshlg-skills/2026-10-13-code-graph-runtime-recovery"
   supersedes: ["sshlg-skills/2026-10-13-code-graph-finalization"]
   consumers: ["sshlg-skills finalization"]
 ---
