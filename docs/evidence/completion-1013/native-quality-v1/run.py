@@ -57,6 +57,18 @@ def command(workspace,phase):
 def number(value):
     return isinstance(value,(int,float)) and not isinstance(value,bool) and math.isfinite(value) and value>=0
 
+def visible_text(events):
+    blocks=[]
+    for event in events:
+        if event.get('type')!='assistant':continue
+        message=event['message']
+        for content in message['content']:
+            if content.get('type')=='text':
+                value=content.get('text')
+                if not isinstance(value,str):raise ValueError('invalid_text_block')
+                blocks.append({'message_id':message['id'],'text':value})
+    return blocks
+
 def inspect(raw,exit_code,workspace,phase):
     result={'evaluation_status':'TEST_ERROR','error_class':None,'cost_usd':None,'usage':None,'native':None,'artifact_sha256':None}
     try:
@@ -126,8 +138,13 @@ def inspect(raw,exit_code,workspace,phase):
     except (KeyError,TypeError,AttributeError,AssertionError,ValueError) as exc:
         known={'missing_request_id','conflicting_request_usage','unknown_request_usage','missing_request_usage','input_bound','aggregate_input_bound','unmatched_tool_result','unallowed_tool','tool_denied_or_error','unallowed_skill','invalid_read_path','outside_workspace_read','readiness_tool_use'}
         result['error_class']=str(exc) if str(exc) in known else 'invalid_tool_stream';return result
-    artifact=final.get('result')
-    if not isinstance(artifact,str) or not artifact.strip() or (phase=='readiness' and artifact.strip()!='READY'):result['error_class']='invalid_final_artifact';return result
+    final_artifact=final.get('result')
+    if not isinstance(final_artifact,str) or not final_artifact.strip():result['error_class']='invalid_final_artifact';return result
+    try:blocks=visible_text(events)
+    except (KeyError,TypeError,ValueError):result['error_class']='invalid_final_artifact';return result
+    artifact='\n\n'.join(block['text'] for block in blocks)
+    if not artifact.strip() or (phase=='readiness' and (artifact.strip()!='READY' or final_artifact.strip()!='READY')):result['error_class']='invalid_final_artifact';return result
+    result.update(final_result_sha256=base.digest(final_artifact),artifact_text_blocks=[{'index':i,'request_id_sha256':base.digest(block['message_id']),'text_sha256':base.digest(block['text']),'characters':len(block['text'])} for i,block in enumerate(blocks)],artifact_join='two newline characters between ordered assistant text blocks; thinking and tool outputs excluded')
     result.update(evaluation_status='EXECUTED',native={'visible':sorted(SKILLS),'skill_loads':loads,'read_files':reads,'google_auth_loaded':'sheleg-dev:google-auth' in loads},artifact_sha256=base.digest(artifact),max_request_input=max(inputs),request_count=len(inputs),turns=turns)
     # Semantic scoring is deliberately absent. Native non-invocation remains observed.
     return result
@@ -180,6 +197,9 @@ def execute(args,metadata=None):
                     try:code=process.wait(timeout=TIMEOUT)
                     except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait();code='TIMEOUT'
                 raw=(folder/'stdout.jsonl').read_bytes();result=inspect(raw,code,workspace,item['phase']);m.verify(workspace,hashes)
+                if result['evaluation_status']=='EXECUTED':
+                    blocks=visible_text([json.loads(line) for line in raw.splitlines() if line.strip()])
+                    base.private_write(folder/'assistant-text.json',base.encode({'blocks':blocks,'text':'\n\n'.join(block['text'] for block in blocks)}))
                 record['workspace_manifest_sha256']=base.digest(base.encode(hashes))
         except Exception as exc:
             record.update(state='UNKNOWN_EFFECT',evaluation_status='TEST_ERROR',error_class='execution_or_workspace_integrity',exception_type=type(exc).__name__)
