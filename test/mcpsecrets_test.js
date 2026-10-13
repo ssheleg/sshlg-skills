@@ -84,4 +84,4 @@ if (failures.length) {
   process.stderr.write(`mcpsecrets: ${failures.length}/${checks} failed\n  ${failures.join('\n  ')}\n`);
   process.exit(1);
 }
-process.stdout.write(`mcpsecrets: ${checks} checks ok\n`);
+process.stdout.write(`PASS: mcpsecrets — ${checks} checks\n`);

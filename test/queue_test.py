@@ -77,4 +77,7 @@ class TestShape(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main(verbosity=1)
+    program = unittest.main(verbosity=1, exit=False)
+    if program.result.wasSuccessful():
+        print(f"OK ({program.result.testsRun} checks)")
+    sys.exit(0 if program.result.wasSuccessful() else 1)

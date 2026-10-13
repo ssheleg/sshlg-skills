@@ -36,10 +36,13 @@ CD = os.path.expanduser(
     "~/DATA/sheleg-design-skill/plugins/sheleg-design/skills/sheleg-design/CREATIVE_DIRECTOR.md")
 
 failures = []
+checks = 0
 not_run = []
 
 
 def case(name, fn):
+    global checks
+    checks += 1
     try:
         fn()
         print(f"  ok  {name}")
@@ -129,7 +132,7 @@ def main():
         return 1
     for n in not_run:
         print(f"  NOT_RUN  {n}")
-    print("\nall green")
+    print(f"\nOK ({checks} checks)")
     return 0
 
 

@@ -32,9 +32,12 @@ BIN = os.path.join(ROOT, "bin", "sshlg-skills.js")
 SKILLS = os.path.join(ROOT, "skills.json")
 
 failures = []
+checks = 0
 
 
 def case(name, fn):
+    global checks
+    checks += 1
     try:
         fn()
         print(f"  ok  {name}")
@@ -123,7 +126,7 @@ def main():
     if failures:
         print(f"\n{len(failures)} failure(s)")
         return 1
-    print("\nall green")
+    print(f"\nOK ({checks} checks)")
     return 0
 
 

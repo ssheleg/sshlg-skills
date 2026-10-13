@@ -27,9 +27,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 
 failures = []
+checks = 0
 
 
 def case(name, fn):
+    global checks
+    checks += 1
     try:
         fn()
         print(f"  ok  {name}")
@@ -113,7 +116,7 @@ def main():
     if failures:
         print(f"\n{len(failures)} failure(s)")
         return 1
-    print("\nall green")
+    print(f"\nOK ({checks} checks)")
     return 0
 
 
