@@ -209,10 +209,11 @@ jobs:
           node bin/sshlg-skills.js config >/dev/null
           echo "OK: launcher runs"
 
-  self-tests:
+  self-tests-a:
     # The plants, beside the gate rather than after it (B-164): each one copies the tree,
     # damages the copy and requires a refusal, and none reads what the gate step wrote —
     # except the Ratchets-sentence plant, which stays in `validate` with the counts it judges.
+    # Split in two by measured step time (run 38325855042); a plant may move between halves freely.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -287,67 +288,6 @@ jobs:
             exit 1
           fi
 
-      - name: Negative self-test (a new ledger section that cannot expire must fail)
-        run: |
-          set -eu
-          # UM-05 / M-43. 407 rows read `verified` with nothing that could un-read one.
-          rm -rf /tmp/expplant && cp -R . /tmp/expplant
-          cd /tmp/expplant
-          python3 - <<'PY'
-          import pathlib, re
-          p = pathlib.Path('docs/evidence/verification.md')
-          t = p.read_text(encoding='utf-8')
-          new = t.replace('| REQ | What shipped | How it was confirmed | Observed at | Invalidated by | Status |',
-                          '| REQ | What shipped | How it was confirmed | Status |', 1)
-          assert new != t, 'PLANT DID NOT LAND: the expiring header is not where the plant expects it'
-          p.write_text(new, encoding='utf-8')
-          PY
-          out=$(python3 test/validate.py || true)
-          if printf '%s' "$out" | grep -q 'no Observed at'; then
-            echo "the un-expirable section was refused:"
-            printf '%s\n' "$out" | grep 'Observed at'
-          else
-            echo "a section whose rows nothing can invalidate passed the gate"
-            printf '%s\n' "$out" | tail -20
-            exit 1
-          fi
-
-      - name: Negative self-test (a broken coordination config must fail the LOCAL gate)
-        run: |
-          set -eu
-          # 2026-09-03. This repository's coordination config broke and `npm test` stayed
-          # green, because the only thing checking it was the CI step below. That is the
-          # shape four task-pipeline tags burned on — a green local gate that does not
-          # cover what the release runs — so the check moved into validate.py and this
-          # plant proves the LOCAL gate refuses.
-          rm -rf /tmp/coordplant && cp -R . /tmp/coordplant
-          cd /tmp/coordplant
-          # The guard DISCLOSES where no agent_sync.py resolves, which is correct and is
-          # not what this plant is testing — and on a runner nothing resolves until the
-          # package is fetched. Fetch it here, and refuse to pass if it still cannot be
-          # found: a plant that silently exercises the disclosure path proves nothing.
-          npm i --no-save --silent @ssheleg/agent-sync >/dev/null 2>&1 || true
-          S="$PWD/node_modules/@ssheleg/agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py"
-          [ -f "$S" ] || { echo "PLANT CANNOT RUN: agent_sync.py did not resolve, so the guard would disclose rather than refuse"; exit 1; }
-          python3 - <<'PY'
-          import json
-          p = '.claude/agent-sync.json'
-          d = json.load(open(p))
-          assert 'backend' in d, 'PLANT DID NOT LAND: no backend key to remove'
-          d.pop('backend')
-          json.dump(d, open(p, 'w'), indent=2)
-          PY
-          grep -q '"backend"' .claude/agent-sync.json && { echo "PLANT DID NOT LAND"; exit 1; }
-          out=$(python3 test/validate.py 2>&1 || true)
-          if printf '%s' "$out" | grep -q 'coordination config is not healthy'; then
-            echo "the local gate refused it:"
-            printf '%s\n' "$out" | grep 'not healthy' | head -1
-          else
-            echo "a broken coordination config passed the local gate"
-            printf '%s\n' "$out" | tail -20
-            exit 1
-          fi
-
       - name: Negative self-test (two ledger rows sharing an id in one section must fail)
         run: |
           set -eu
@@ -415,34 +355,6 @@ jobs:
           fi
           echo "control: in-flight work the pin does not name is not a failure"
 
-      - name: Negative self-test (a stated count that has gone stale must fail)
-        run: |
-          set -eu
-          # Three of this repository's own numbers were false on 2026-08-20, each in a
-          # document about computing numbers rather than carrying them. The registry that
-          # closed them is only worth having if it has been watched refusing one.
-          rm -rf /tmp/countplant && cp -R . /tmp/countplant
-          cd /tmp/countplant
-          python3 - <<'PY'
-          import re, pathlib
-          p = pathlib.Path('README.md')
-          t = p.read_text(encoding='utf-8')
-          n = re.search(r'\*\*(\d+)\*\* negative self-tests', t)
-          assert n, 'PLANT DID NOT LAND: the README claim is not where the plant expects it'
-          p.write_text(t.replace(n.group(0), '**3** negative self-tests', 1), encoding='utf-8')
-          PY
-          grep -q '\*\*3\*\* negative self-tests' README.md \
-            || { echo "PLANT DID NOT LAND"; exit 1; }
-          out=$(python3 test/validate.py || true)
-          if printf '%s' "$out" | grep -q 'negative self-tests` states 3'; then
-            echo "the stale count was refused:"
-            printf '%s\n' "$out" | grep 'negative self-tests'
-          else
-            echo "a stated count three sevenths of the truth passed the gate"
-            printf '%s\n' "$out" | tail -20
-            exit 1
-          fi
-
       - name: Negative self-test (a conformance row citing an M-id with no line must fail)
         run: |
           set -eu
@@ -504,6 +416,351 @@ jobs:
             exit 1
           fi
 
+      - name: Negative self-test (reusing a retired instruction id must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/reuse && cp -R . /tmp/reuse
+          python3 - <<'PY'
+          # Slot 3 was left vacant on purpose in v0.46.0 so published citations stayed
+          # true. This plant fills it — the exact move an agent pruning the list will
+          # reach for, because a gap looks like a mistake.
+          import re
+          p = "/tmp/reuse/docs/evidence/retro.md"
+          s = open(p, encoding="utf-8").read()
+          m = re.search(r"^2\. \*\*", s, re.M)
+          assert m, "PLANT DID NOT LAND: instruction 2 is not where this expects it"
+          s2 = s[:m.start()] + "3. **(2026-01-01) a refilled slot.** x\n\n" + s[m.start():]
+          assert s2 != s, "PLANT DID NOT LAND"
+          open(p, "w", encoding="utf-8").write(s2)
+          PY
+          if python3 /tmp/reuse/test/validate.py; then
+            echo "ERROR: validator accepted a retired id being reused"
+            exit 1
+          else
+            echo "OK: validator refuses to let a published citation change meaning"
+          fi
+
+      - name: Negative self-test (a member that guards only its doc registers must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/nosync && cp -R . /tmp/nosync
+          python3 - <<'PY'
+          # The premise B-44 was filed on was wrong: the config existed. What it lacked was
+          # CHANGELOG.md and package.json, so two sessions wrote both at once under one
+          # version number and the guard said nothing. The plant reproduces that exact
+          # config — doc registers present, release surfaces absent.
+          import json, glob
+          hits = sorted(glob.glob("/tmp/nosync/skills/*/.claude/agent-sync.json"))
+          assert hits, "PLANT DID NOT LAND: no member carries an agent-sync config"
+          p = hits[0]
+          d = json.load(open(p, encoding="utf-8"))
+          before = list(d.get("guardedFiles") or [])
+          d["guardedFiles"] = [g for g in before if g.startswith("docs/")]
+          assert d["guardedFiles"] != before, \
+              "PLANT DID NOT LAND: this config already guarded nothing but docs"
+          json.dump(d, open(p, "w", encoding="utf-8"), indent=2)
+          PY
+          if python3 /tmp/nosync/test/validate.py; then
+            echo "ERROR: validator accepted a member that guards no release surface"
+            exit 1
+          else
+            echo "OK: validator refuses the config shape that let a collision through"
+          fi
+
+      - name: Negative self-test (a wrong or missing npm name must fail)
+        run: |
+          set -eu
+          # Two plants, because the guard has two halves and a run that only
+          # exercises one of them proves half a guard.
+          #
+          # Structural by construction: it edits a JSON field rather than
+          # searching for prose, and asserts it changed something first. A plant
+          # whose replace no-ops is indistinguishable from a pass, and this repo
+          # has watched that turn a working validator red (standing instruction #6).
+          for mode in drop wrong; do
+            rm -rf /tmp/npm-copy && cp -R . /tmp/npm-copy
+            python3 test/plant_guard.py snap /tmp/npm-copy
+            python3 - "$mode" <<'PY'
+          import json, sys
+          p = "/tmp/npm-copy/skills.json"
+          d = json.load(open(p, encoding="utf-8"))
+          e = next(x for x in d["skills"] if x.get("npm"))
+          before = e["npm"]
+          if sys.argv[1] == "drop":
+              del e["npm"]
+          else:
+              e["npm"] = "@someone-else/" + e["name"]
+          json.dump(d, open(p, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+          after = next(x for x in json.load(open(p, encoding="utf-8"))["skills"]
+                       if x["name"] == e["name"]).get("npm")
+          assert after != before, f"plant did not land: npm is still {before!r}"
+          print(f"planted {sys.argv[1]}: {e['name']} npm {before!r} -> {after!r}")
+          PY
+            python3 test/plant_guard.py verify /tmp/npm-copy "Negative self-test (a wrong or missing npm name must fail)"
+            if python3 /tmp/npm-copy/test/validate.py; then
+              echo "ERROR: validator accepted a $mode npm name — check_pins would query the wrong package and report the member unpublished"
+              exit 1
+            else
+              echo "OK: validator rejects a $mode npm name"
+            fi
+          done
+
+      - name: Negative self-test (a gate with no criterion must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/emptygate && cp -R . /tmp/emptygate
+          python3 test/plant_guard.py snap /tmp/emptygate
+          python3 - <<'PY'
+          # Until 2026-08-14 every one of this repository's eleven stages was
+          # {id, state, name, gate:{type}} — a gate with no criterion at all — and a run
+          # passed all eleven by supplying them from doctrine. A placeholder reads as a
+          # gate and checks nothing, so the guard measures the criterion, not its presence.
+          import json
+          p = "/tmp/emptygate/pipeline.json"
+          d = json.load(open(p, encoding="utf-8"))
+          old = d["stages"][6]["gate"]["check"]
+          assert len(old) > 40, "PLANT DID NOT LAND: stage 6 has no real criterion to spoil"
+          d["stages"][6]["gate"]["check"] = "tests pass"
+          json.dump(d, open(p, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+          PY
+          python3 test/plant_guard.py verify /tmp/emptygate "a stage criterion reduced to a placeholder"
+          if python3 /tmp/emptygate/test/validate.py; then
+            echo "ERROR: validator accepted a gate whose criterion says nothing"
+            exit 1
+          else
+            echo "OK: validator refuses a gate that would pass by being unreadable"
+          fi
+
+      - name: Negative self-test (an SSH submodule url must fail)
+        run: |
+          set -eu
+          cp -R . /tmp/ssh-copy
+          python3 test/plant_guard.py snap /tmp/ssh-copy
+          python3 - <<'PY'
+          p = "/tmp/ssh-copy/.gitmodules"
+          s = open(p, encoding="utf-8").read()
+          old = "url = https://github.com/ssheleg/agent-stack.git"
+          assert old in s, "PLANT DID NOT LAND: no HTTPS url for agent-stack in .gitmodules"
+          open(p, "w", encoding="utf-8").write(
+              s.replace(old, "url = git@github.com:ssheleg/agent-stack.git", 1))
+          PY
+          python3 test/plant_guard.py verify /tmp/ssh-copy "Negative self-test (an SSH submodule url must fail)"
+          if python3 /tmp/ssh-copy/test/validate.py; then
+            echo "ERROR: validator accepted an SSH submodule url — it fails every clone without a key, CI included"
+            exit 1
+          else
+            echo "OK: validator rejects a non-HTTPS submodule url"
+          fi
+
+      - name: Negative self-test (validator must be able to fail)
+        run: |
+          set -eu
+          cp -R . /tmp/corrupt
+          python3 test/plant_guard.py snap /tmp/corrupt
+          # break the .gitmodules <-> skills.json agreement
+          python3 - <<'PY'
+          import json
+          p="/tmp/corrupt/skills.json"
+          d=json.load(open(p))
+          d["skills"][0]["dir"]="skills/does-not-exist"
+          json.dump(d, open(p,"w"), indent=2)
+          PY
+          python3 test/plant_guard.py verify /tmp/corrupt "Negative self-test (validator must be able to fail)"
+          if python3 /tmp/corrupt/test/validate.py; then
+            echo "ERROR: validator passed on a corrupted copy"
+            exit 1
+          else
+            echo "OK: validator FAILs on submodule/manifest drift"
+          fi
+
+      - name: Negative self-test (a duplicate board id must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/dupid
+          cp -R . /tmp/dupid
+          python3 test/plant_guard.py snap /tmp/dupid
+          # Structural: copy the LAST board row and give it an id already in use.
+          # Anchored on the row shape `| B-nn |`, not on any row's wording.
+          python3 - <<'PY'
+          import pathlib, re
+          p = pathlib.Path("/tmp/dupid/docs/evidence/backlog.md")
+          lines = p.read_text().splitlines()
+          idx = [i for i, l in enumerate(lines) if re.match(r"^\|\s*B-\d+\s*\|", l)]
+          assert len(idx) >= 2, "fewer than two board rows — nothing to duplicate"
+          first = re.split(r"(?<!\\)\|", lines[idx[0]])[1].strip()
+          dup = re.sub(r"^\|\s*B-\d+\s*\|", f"| {first} |", lines[idx[-1]], count=1)
+          assert dup != lines[idx[-1]], "PLANT DID NOT LAND: id substitution no-oped"
+          lines.insert(idx[-1] + 1, dup)
+          p.write_text("\n".join(lines) + "\n")
+          PY
+          python3 test/plant_guard.py verify /tmp/dupid "Negative self-test (a duplicate board id must fail)"
+          if python3 /tmp/dupid/test/validate.py; then
+            echo "ERROR: validator accepted two board rows sharing one id"
+            exit 1
+          else
+            echo "OK: validator FAILs on a duplicate board id"
+          fi
+
+      - name: Negative self-test (a board row shifted by a bare pipe must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/shiftrow
+          cp -R . /tmp/shiftrow
+          python3 test/plant_guard.py snap /tmp/shiftrow
+          # The real defect this reproduces: a bare `|` inside a cell adds a column and
+          # every field after it shifts, so Status silently reads whatever landed there.
+          python3 - <<'PY'
+          import pathlib, re
+          p = pathlib.Path("/tmp/shiftrow/docs/evidence/backlog.md")
+          lines = p.read_text().splitlines()
+          i = next(i for i, l in enumerate(lines) if re.match(r"^\|\s*B-\d+\s*\|", l))
+          cells = re.split(r"(?<!\\)\|", lines[i])
+          assert len(cells) > 3, "board row has too few cells to damage"
+          cells[2] = cells[2] + " | injected"        # unescaped delimiter inside a cell
+          lines[i] = "|".join(cells)
+          p.write_text("\n".join(lines) + "\n")
+          PY
+          python3 test/plant_guard.py verify /tmp/shiftrow "Negative self-test (a board row shifted by a bare pipe must fail)"
+          if python3 /tmp/shiftrow/test/validate.py; then
+            echo "ERROR: validator accepted a board row with a shifted column count"
+            exit 1
+          else
+            echo "OK: validator FAILs when a row's cell count differs from the table's"
+          fi
+
+      - name: Negative self-test (update dropping the runtime refresh must fail)
+        run: |
+          set -eu
+          rm -rf /tmp/nortsync
+          cp -R . /tmp/nortsync
+          python3 test/plant_guard.py snap /tmp/nortsync
+          python3 - <<'PY'
+          # Anchored on the require, which is a structural line rather than prose, and
+          # it asserts it changed something: standing instruction #6 and its corollary.
+          # The fixtures in test/runtime_test.js prove lib/runtime.js copies correctly
+          # and cannot prove anybody calls it — delete the call and they all stay green,
+          # which is exactly how B-22 survived five releases.
+          p = "/tmp/nortsync/bin/sshlg-skills.js"
+          t = open(p, encoding="utf-8").read()
+          old = "const rt = require('../lib/runtime.js');"
+          assert old in t, "PLANT DID NOT LAND: the require is not where the guard reads it"
+          t = t.replace(old, "const rt = null; // planted", 1)
+          open(p, "w", encoding="utf-8").write(t)
+          assert "const rt = null; // planted" in open(p, encoding="utf-8").read(), "PLANT DID NOT LAND"
+          PY
+          python3 test/plant_guard.py verify /tmp/nortsync "Negative self-test (update dropping the runtime refresh must fail)"
+          if python3 /tmp/nortsync/test/validate.py; then
+            echo "ERROR: cmdUpdate stopped refreshing the wired runtime and the validator passed"
+            exit 1
+          else
+            echo "OK: validator FAILs when update no longer refreshes the code the hooks execute"
+          fi
+
+  self-tests-b:
+    # The plants, beside the gate rather than after it (B-164): each one copies the tree,
+    # damages the copy and requires a refusal, and none reads what the gate step wrote —
+    # except the Ratchets-sentence plant, which stays in `validate` with the counts it judges.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          # Full history: the run-stamp guard resolves every SHA in retro.md, and a
+          # shallow clone makes 31 real commits look fabricated. 224 commits, 37 MB.
+          fetch-depth: 0
+
+      - name: Install jsonschema (so the pipeline.json contract is CHECKED, not disclosed as skipped)
+        run: python3 -m pip install --quiet jsonschema
+
+      - name: Negative self-test (a new ledger section that cannot expire must fail)
+        run: |
+          set -eu
+          # UM-05 / M-43. 407 rows read `verified` with nothing that could un-read one.
+          rm -rf /tmp/expplant && cp -R . /tmp/expplant
+          cd /tmp/expplant
+          python3 - <<'PY'
+          import pathlib, re
+          p = pathlib.Path('docs/evidence/verification.md')
+          t = p.read_text(encoding='utf-8')
+          new = t.replace('| REQ | What shipped | How it was confirmed | Observed at | Invalidated by | Status |',
+                          '| REQ | What shipped | How it was confirmed | Status |', 1)
+          assert new != t, 'PLANT DID NOT LAND: the expiring header is not where the plant expects it'
+          p.write_text(new, encoding='utf-8')
+          PY
+          out=$(python3 test/validate.py || true)
+          if printf '%s' "$out" | grep -q 'no Observed at'; then
+            echo "the un-expirable section was refused:"
+            printf '%s\n' "$out" | grep 'Observed at'
+          else
+            echo "a section whose rows nothing can invalidate passed the gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
+      - name: Negative self-test (a broken coordination config must fail the LOCAL gate)
+        run: |
+          set -eu
+          # 2026-09-03. This repository's coordination config broke and `npm test` stayed
+          # green, because the only thing checking it was the CI step below. That is the
+          # shape four task-pipeline tags burned on — a green local gate that does not
+          # cover what the release runs — so the check moved into validate.py and this
+          # plant proves the LOCAL gate refuses.
+          rm -rf /tmp/coordplant && cp -R . /tmp/coordplant
+          cd /tmp/coordplant
+          # The guard DISCLOSES where no agent_sync.py resolves, which is correct and is
+          # not what this plant is testing — and on a runner nothing resolves until the
+          # package is fetched. Fetch it here, and refuse to pass if it still cannot be
+          # found: a plant that silently exercises the disclosure path proves nothing.
+          npm i --no-save --silent @ssheleg/agent-sync >/dev/null 2>&1 || true
+          S="$PWD/node_modules/@ssheleg/agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py"
+          [ -f "$S" ] || { echo "PLANT CANNOT RUN: agent_sync.py did not resolve, so the guard would disclose rather than refuse"; exit 1; }
+          python3 - <<'PY'
+          import json
+          p = '.claude/agent-sync.json'
+          d = json.load(open(p))
+          assert 'backend' in d, 'PLANT DID NOT LAND: no backend key to remove'
+          d.pop('backend')
+          json.dump(d, open(p, 'w'), indent=2)
+          PY
+          grep -q '"backend"' .claude/agent-sync.json && { echo "PLANT DID NOT LAND"; exit 1; }
+          out=$(python3 test/validate.py 2>&1 || true)
+          if printf '%s' "$out" | grep -q 'coordination config is not healthy'; then
+            echo "the local gate refused it:"
+            printf '%s\n' "$out" | grep 'not healthy' | head -1
+          else
+            echo "a broken coordination config passed the local gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
+      - name: Negative self-test (a stated count that has gone stale must fail)
+        run: |
+          set -eu
+          # Three of this repository's own numbers were false on 2026-08-20, each in a
+          # document about computing numbers rather than carrying them. The registry that
+          # closed them is only worth having if it has been watched refusing one.
+          rm -rf /tmp/countplant && cp -R . /tmp/countplant
+          cd /tmp/countplant
+          python3 - <<'PY'
+          import re, pathlib
+          p = pathlib.Path('README.md')
+          t = p.read_text(encoding='utf-8')
+          n = re.search(r'\*\*(\d+)\*\* negative self-tests', t)
+          assert n, 'PLANT DID NOT LAND: the README claim is not where the plant expects it'
+          p.write_text(t.replace(n.group(0), '**3** negative self-tests', 1), encoding='utf-8')
+          PY
+          grep -q '\*\*3\*\* negative self-tests' README.md \
+            || { echo "PLANT DID NOT LAND"; exit 1; }
+          out=$(python3 test/validate.py || true)
+          if printf '%s' "$out" | grep -q 'negative self-tests` states 3'; then
+            echo "the stale count was refused:"
+            printf '%s\n' "$out" | grep 'negative self-tests'
+          else
+            echo "a stated count three sevenths of the truth passed the gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
       - name: Negative self-test (a plugin member wiring settings.json too must fail)
         run: |
           set -eu
@@ -555,57 +812,6 @@ jobs:
             exit 1
           else
             echo "OK: validator refuses a member SessionEnd timeout above 3 s"
-          fi
-
-      - name: Negative self-test (reusing a retired instruction id must fail)
-        run: |
-          set -eu
-          rm -rf /tmp/reuse && cp -R . /tmp/reuse
-          python3 - <<'PY'
-          # Slot 3 was left vacant on purpose in v0.46.0 so published citations stayed
-          # true. This plant fills it — the exact move an agent pruning the list will
-          # reach for, because a gap looks like a mistake.
-          import re
-          p = "/tmp/reuse/docs/evidence/retro.md"
-          s = open(p, encoding="utf-8").read()
-          m = re.search(r"^2\. \*\*", s, re.M)
-          assert m, "PLANT DID NOT LAND: instruction 2 is not where this expects it"
-          s2 = s[:m.start()] + "3. **(2026-01-01) a refilled slot.** x\n\n" + s[m.start():]
-          assert s2 != s, "PLANT DID NOT LAND"
-          open(p, "w", encoding="utf-8").write(s2)
-          PY
-          if python3 /tmp/reuse/test/validate.py; then
-            echo "ERROR: validator accepted a retired id being reused"
-            exit 1
-          else
-            echo "OK: validator refuses to let a published citation change meaning"
-          fi
-
-      - name: Negative self-test (a member that guards only its doc registers must fail)
-        run: |
-          set -eu
-          rm -rf /tmp/nosync && cp -R . /tmp/nosync
-          python3 - <<'PY'
-          # The premise B-44 was filed on was wrong: the config existed. What it lacked was
-          # CHANGELOG.md and package.json, so two sessions wrote both at once under one
-          # version number and the guard said nothing. The plant reproduces that exact
-          # config — doc registers present, release surfaces absent.
-          import json, glob
-          hits = sorted(glob.glob("/tmp/nosync/skills/*/.claude/agent-sync.json"))
-          assert hits, "PLANT DID NOT LAND: no member carries an agent-sync config"
-          p = hits[0]
-          d = json.load(open(p, encoding="utf-8"))
-          before = list(d.get("guardedFiles") or [])
-          d["guardedFiles"] = [g for g in before if g.startswith("docs/")]
-          assert d["guardedFiles"] != before, \
-              "PLANT DID NOT LAND: this config already guarded nothing but docs"
-          json.dump(d, open(p, "w", encoding="utf-8"), indent=2)
-          PY
-          if python3 /tmp/nosync/test/validate.py; then
-            echo "ERROR: validator accepted a member that guards no release surface"
-            exit 1
-          else
-            echo "OK: validator refuses the config shape that let a collision through"
           fi
 
       - name: Negative self-test (a wrong pin must still fail)
@@ -678,70 +884,6 @@ jobs:
             echo "OK: validator refuses an acceptance gate that cannot see a skipped stage"
           fi
 
-      - name: Negative self-test (a wrong or missing npm name must fail)
-        run: |
-          set -eu
-          # Two plants, because the guard has two halves and a run that only
-          # exercises one of them proves half a guard.
-          #
-          # Structural by construction: it edits a JSON field rather than
-          # searching for prose, and asserts it changed something first. A plant
-          # whose replace no-ops is indistinguishable from a pass, and this repo
-          # has watched that turn a working validator red (standing instruction #6).
-          for mode in drop wrong; do
-            rm -rf /tmp/npm-copy && cp -R . /tmp/npm-copy
-            python3 test/plant_guard.py snap /tmp/npm-copy
-            python3 - "$mode" <<'PY'
-          import json, sys
-          p = "/tmp/npm-copy/skills.json"
-          d = json.load(open(p, encoding="utf-8"))
-          e = next(x for x in d["skills"] if x.get("npm"))
-          before = e["npm"]
-          if sys.argv[1] == "drop":
-              del e["npm"]
-          else:
-              e["npm"] = "@someone-else/" + e["name"]
-          json.dump(d, open(p, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-          after = next(x for x in json.load(open(p, encoding="utf-8"))["skills"]
-                       if x["name"] == e["name"]).get("npm")
-          assert after != before, f"plant did not land: npm is still {before!r}"
-          print(f"planted {sys.argv[1]}: {e['name']} npm {before!r} -> {after!r}")
-          PY
-            python3 test/plant_guard.py verify /tmp/npm-copy "Negative self-test (a wrong or missing npm name must fail)"
-            if python3 /tmp/npm-copy/test/validate.py; then
-              echo "ERROR: validator accepted a $mode npm name — check_pins would query the wrong package and report the member unpublished"
-              exit 1
-            else
-              echo "OK: validator rejects a $mode npm name"
-            fi
-          done
-
-      - name: Negative self-test (a gate with no criterion must fail)
-        run: |
-          set -eu
-          rm -rf /tmp/emptygate && cp -R . /tmp/emptygate
-          python3 test/plant_guard.py snap /tmp/emptygate
-          python3 - <<'PY'
-          # Until 2026-08-14 every one of this repository's eleven stages was
-          # {id, state, name, gate:{type}} — a gate with no criterion at all — and a run
-          # passed all eleven by supplying them from doctrine. A placeholder reads as a
-          # gate and checks nothing, so the guard measures the criterion, not its presence.
-          import json
-          p = "/tmp/emptygate/pipeline.json"
-          d = json.load(open(p, encoding="utf-8"))
-          old = d["stages"][6]["gate"]["check"]
-          assert len(old) > 40, "PLANT DID NOT LAND: stage 6 has no real criterion to spoil"
-          d["stages"][6]["gate"]["check"] = "tests pass"
-          json.dump(d, open(p, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
-          PY
-          python3 test/plant_guard.py verify /tmp/emptygate "a stage criterion reduced to a placeholder"
-          if python3 /tmp/emptygate/test/validate.py; then
-            echo "ERROR: validator accepted a gate whose criterion says nothing"
-            exit 1
-          else
-            echo "OK: validator refuses a gate that would pass by being unreadable"
-          fi
-
       - name: Negative self-test (a workflow GitHub cannot parse must fail)
         run: |
           set -eu
@@ -769,48 +911,6 @@ jobs:
             echo "OK: validator refuses a workflow that would run nothing"
           fi
 
-      - name: Negative self-test (an SSH submodule url must fail)
-        run: |
-          set -eu
-          cp -R . /tmp/ssh-copy
-          python3 test/plant_guard.py snap /tmp/ssh-copy
-          python3 - <<'PY'
-          p = "/tmp/ssh-copy/.gitmodules"
-          s = open(p, encoding="utf-8").read()
-          old = "url = https://github.com/ssheleg/agent-stack.git"
-          assert old in s, "PLANT DID NOT LAND: no HTTPS url for agent-stack in .gitmodules"
-          open(p, "w", encoding="utf-8").write(
-              s.replace(old, "url = git@github.com:ssheleg/agent-stack.git", 1))
-          PY
-          python3 test/plant_guard.py verify /tmp/ssh-copy "Negative self-test (an SSH submodule url must fail)"
-          if python3 /tmp/ssh-copy/test/validate.py; then
-            echo "ERROR: validator accepted an SSH submodule url — it fails every clone without a key, CI included"
-            exit 1
-          else
-            echo "OK: validator rejects a non-HTTPS submodule url"
-          fi
-
-      - name: Negative self-test (validator must be able to fail)
-        run: |
-          set -eu
-          cp -R . /tmp/corrupt
-          python3 test/plant_guard.py snap /tmp/corrupt
-          # break the .gitmodules <-> skills.json agreement
-          python3 - <<'PY'
-          import json
-          p="/tmp/corrupt/skills.json"
-          d=json.load(open(p))
-          d["skills"][0]["dir"]="skills/does-not-exist"
-          json.dump(d, open(p,"w"), indent=2)
-          PY
-          python3 test/plant_guard.py verify /tmp/corrupt "Negative self-test (validator must be able to fail)"
-          if python3 /tmp/corrupt/test/validate.py; then
-            echo "ERROR: validator passed on a corrupted copy"
-            exit 1
-          else
-            echo "OK: validator FAILs on submodule/manifest drift"
-          fi
-
       - name: Negative self-test (a pin that lies must fail)
         run: |
           set -eu
@@ -831,34 +931,6 @@ jobs:
             exit 1
           else
             echo "OK: validator FAILs when a pin does not match the submodule contents"
-          fi
-
-      - name: Negative self-test (a duplicate board id must fail)
-        run: |
-          set -eu
-          rm -rf /tmp/dupid
-          cp -R . /tmp/dupid
-          python3 test/plant_guard.py snap /tmp/dupid
-          # Structural: copy the LAST board row and give it an id already in use.
-          # Anchored on the row shape `| B-nn |`, not on any row's wording.
-          python3 - <<'PY'
-          import pathlib, re
-          p = pathlib.Path("/tmp/dupid/docs/evidence/backlog.md")
-          lines = p.read_text().splitlines()
-          idx = [i for i, l in enumerate(lines) if re.match(r"^\|\s*B-\d+\s*\|", l)]
-          assert len(idx) >= 2, "fewer than two board rows — nothing to duplicate"
-          first = re.split(r"(?<!\\)\|", lines[idx[0]])[1].strip()
-          dup = re.sub(r"^\|\s*B-\d+\s*\|", f"| {first} |", lines[idx[-1]], count=1)
-          assert dup != lines[idx[-1]], "PLANT DID NOT LAND: id substitution no-oped"
-          lines.insert(idx[-1] + 1, dup)
-          p.write_text("\n".join(lines) + "\n")
-          PY
-          python3 test/plant_guard.py verify /tmp/dupid "Negative self-test (a duplicate board id must fail)"
-          if python3 /tmp/dupid/test/validate.py; then
-            echo "ERROR: validator accepted two board rows sharing one id"
-            exit 1
-          else
-            echo "OK: validator FAILs on a duplicate board id"
           fi
 
       - name: Negative self-test (a manifesto citation that no longer resolves must fail)
@@ -976,33 +1048,6 @@ jobs:
             echo "OK: validator FAILs when one id carries two verdicts in one file"
           fi
 
-      - name: Negative self-test (a board row shifted by a bare pipe must fail)
-        run: |
-          set -eu
-          rm -rf /tmp/shiftrow
-          cp -R . /tmp/shiftrow
-          python3 test/plant_guard.py snap /tmp/shiftrow
-          # The real defect this reproduces: a bare `|` inside a cell adds a column and
-          # every field after it shifts, so Status silently reads whatever landed there.
-          python3 - <<'PY'
-          import pathlib, re
-          p = pathlib.Path("/tmp/shiftrow/docs/evidence/backlog.md")
-          lines = p.read_text().splitlines()
-          i = next(i for i, l in enumerate(lines) if re.match(r"^\|\s*B-\d+\s*\|", l))
-          cells = re.split(r"(?<!\\)\|", lines[i])
-          assert len(cells) > 3, "board row has too few cells to damage"
-          cells[2] = cells[2] + " | injected"        # unescaped delimiter inside a cell
-          lines[i] = "|".join(cells)
-          p.write_text("\n".join(lines) + "\n")
-          PY
-          python3 test/plant_guard.py verify /tmp/shiftrow "Negative self-test (a board row shifted by a bare pipe must fail)"
-          if python3 /tmp/shiftrow/test/validate.py; then
-            echo "ERROR: validator accepted a board row with a shifted column count"
-            exit 1
-          else
-            echo "OK: validator FAILs when a row's cell count differs from the table's"
-          fi
-
       - name: Negative self-test (a README row that lies must fail)
         run: |
           set -eu
@@ -1037,34 +1082,6 @@ jobs:
             exit 1
           else
             echo "OK: no suites FAILs instead of reporting green"
-          fi
-
-      - name: Negative self-test (update dropping the runtime refresh must fail)
-        run: |
-          set -eu
-          rm -rf /tmp/nortsync
-          cp -R . /tmp/nortsync
-          python3 test/plant_guard.py snap /tmp/nortsync
-          python3 - <<'PY'
-          # Anchored on the require, which is a structural line rather than prose, and
-          # it asserts it changed something: standing instruction #6 and its corollary.
-          # The fixtures in test/runtime_test.js prove lib/runtime.js copies correctly
-          # and cannot prove anybody calls it — delete the call and they all stay green,
-          # which is exactly how B-22 survived five releases.
-          p = "/tmp/nortsync/bin/sshlg-skills.js"
-          t = open(p, encoding="utf-8").read()
-          old = "const rt = require('../lib/runtime.js');"
-          assert old in t, "PLANT DID NOT LAND: the require is not where the guard reads it"
-          t = t.replace(old, "const rt = null; // planted", 1)
-          open(p, "w", encoding="utf-8").write(t)
-          assert "const rt = null; // planted" in open(p, encoding="utf-8").read(), "PLANT DID NOT LAND"
-          PY
-          python3 test/plant_guard.py verify /tmp/nortsync "Negative self-test (update dropping the runtime refresh must fail)"
-          if python3 /tmp/nortsync/test/validate.py; then
-            echo "ERROR: cmdUpdate stopped refreshing the wired runtime and the validator passed"
-            exit 1
-          else
-            echo "OK: validator FAILs when update no longer refreshes the code the hooks execute"
           fi
 
       - name: Negative self-test (a missing npm test entry point must fail)
