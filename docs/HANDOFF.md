@@ -18,12 +18,16 @@ alone cannot establish retirement. Actual deferred receipt/watcher registration
 follows publication; no native version transition is authorized by a timeout.
 
 **Exact next sequence:** TP PR122 merged at
-`78c42124db910c56e74c8fbd524bdc9a4f8fb6c9`; its clean exact-source full gate is still
-running in owned tp-publish-1.94.0, chained to source guard and tag. Preserve the
-previous failed full gate in the owner's exact-main-release-gate receipt. Only TP
-owns the long broad-test slot. Then verify release jobs and the complete registry
-payload, update its parent pin and both generated inventories, run final hub gates,
-and publish/install with separately recorded native acceptance.
+`78c42124db910c56e74c8fbd524bdc9a4f8fb6c9`. The second local full attempt stopped
+on the disk guard after5898.95 seconds, before tagging; it is INCOMPLETE.
+[Exact-tree admission](evidence/completion-1013/tp-current-gate/admission.md)
+binds the genuine12-job hosted result, identical source tree and documented
+pre-tag gate. The existing tag-triggered release runs `npm run test:all` on the
+exact tag before publication. Continue that gate, then verify all release jobs
+and registry bytes before updating its parent pin and generated inventories.
+The local broad queue remains held until owned scratch cleanup restores disk
+headroom. Preserve both prior failed/incomplete local receipts. Hub final gates,
+publication and actual installed acceptance still follow separately.
 
 Agent-stack 0.28.2 and SEO 0.26.6 are published with complete readback; accepted
 owner receipt/header corrections are pinned at 63e155d and 00601e6. The three prior
