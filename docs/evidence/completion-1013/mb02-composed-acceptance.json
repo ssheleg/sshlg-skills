@@ -1,0 +1,136 @@
+{
+  "schema": "mb02-composed-acceptance/1",
+  "source": "0539b009b50a351f23773b3ccd2e6eaa0aceb702",
+  "accepted_source": "e37df18d914a08a73f15df747021ce8dbd7e9245",
+  "reviewer": "visibility_review",
+  "verdict": "BOUNDED_COMPOSED_PASS",
+  "copied_source_and_tests": [
+    {
+      "path": "lib/backup-retention.js",
+      "sha256": "69d42dfeed4cbc2ab431ff5894ae10ad057e8e944c43eb3410e7753673498d9d",
+      "bytes": 5942,
+      "accepted_identical": true
+    },
+    {
+      "path": "lib/wait-recovery.js",
+      "sha256": "f3517e311eda4b5b73676ee1a76be858b841071389c1529ef6158eb3ec06832b",
+      "bytes": 5730,
+      "accepted_identical": true
+    },
+    {
+      "path": "lib/wait-recovery-cli.js",
+      "sha256": "620b003015fb8cc9890f47b3c1eb2a26d8f4af644f3446325100bcfb27f521f2",
+      "bytes": 5864,
+      "accepted_identical": true
+    },
+    {
+      "path": "lib/backup.js",
+      "sha256": "91eacbee2d738a8c598bbb7ef7de484647844501303a72d6e45367148f1f2037",
+      "bytes": 13650,
+      "accepted_identical": true
+    },
+    {
+      "path": "lib/apply.js",
+      "sha256": "3f4a2051df97a644e75510a47f5e80692e74bf84728536d05414e8dc56314db0",
+      "bytes": 18157,
+      "accepted_identical": true
+    },
+    {
+      "path": "lib/wait-rules.js",
+      "sha256": "88b1a19e58a48a4790e17445d125c0bc7f73f71be68df087d2e98b966ec8d81c",
+      "bytes": 12538,
+      "accepted_identical": true
+    },
+    {
+      "path": "bin/sshlg-skills.js",
+      "sha256": "beeca4d2780ac6527a23d77dfa6850db1eed39a2e2c5e6a0fce0c30300891e95",
+      "bytes": 197905,
+      "accepted_identical": true
+    },
+    {
+      "path": "test/backup_retention_test.js",
+      "sha256": "5bf0767aa1194c2ff3778759fb8f11d75d64d710099bd102040698b63b783cd3",
+      "bytes": 3489,
+      "accepted_identical": true
+    },
+    {
+      "path": "test/backup_retention_process_test.js",
+      "sha256": "98c3b0bebdfcd58d7c543cc06cc3549ee49ccc875e246ac5015578059d0e59ce",
+      "bytes": 2631,
+      "accepted_identical": true
+    },
+    {
+      "path": "test/wait_recovery_test.js",
+      "sha256": "0ad13e96e8fd6a771fb05b7a964d70b6d501088946d0cd694af1f53a47b93b93",
+      "bytes": 12315,
+      "accepted_identical": true
+    },
+    {
+      "path": "test/wait_recovery_crash_test.js",
+      "sha256": "ec90eebf9ee6be24c698a70251e3586091e8158c229bcfcb3e8de58b3e99007c",
+      "bytes": 3004,
+      "accepted_identical": true
+    },
+    {
+      "path": "test/wait_recovery_cli_test.js",
+      "sha256": "d0eaebe065cb01377506f000218440707173ad94f91248a551fc78669f3a20e8",
+      "bytes": 8990,
+      "accepted_identical": true
+    }
+  ],
+  "preexisting_guards": [
+    {
+      "path": "test/backup_identity_test.js",
+      "sha256": "aa559ba6da258fdba69d36d4ecf202586b22ebdbb8cb3b58792529afc914707b",
+      "unchanged": true
+    },
+    {
+      "path": "test/backup_test.js",
+      "sha256": "39a30222638df6e2fb6c9aea6b6bb37131a7990260928bf3b02ebaa1e9f02ac4",
+      "unchanged": true
+    },
+    {
+      "path": "test/runtime_closure_test.js",
+      "sha256": "47c09575dfe943a1f84c8441afffdeb97f7d46f35da12bbc63ec1b1d10ac39d3",
+      "unchanged": true
+    },
+    {
+      "path": "test/run.js",
+      "sha256": "49cd7d403e78b88c3303b68275e57611bb34317268d131a8412fc5971fc58e86",
+      "unchanged": true
+    }
+  ],
+  "focused": [
+    {
+      "file": "test/backup_identity_test.js",
+      "sha256": "aa559ba6da258fdba69d36d4ecf202586b22ebdbb8cb3b58792529afc914707b",
+      "unchanged": true,
+      "exit": 0,
+      "seconds": 0.905,
+      "stdout": "OK (17 checks)\n",
+      "stderr": ""
+    },
+    {
+      "file": "test/backup_retention_test.js",
+      "sha256": "5bf0767aa1194c2ff3778759fb8f11d75d64d710099bd102040698b63b783cd3",
+      "unchanged": true,
+      "exit": 0,
+      "seconds": 5.435,
+      "stdout": "ok a referenced copy survives ordinary history pruning\nok a provisional orphan reference is retained after publication failure\nok a malformed retention reference refuses pruning without deleting evidence\nok invalid owner metadata refuses before creating backup storage\nok existing permissive reference storage refuses without chmod\nok another process cannot prune a retained backup\nok held lock wait stays bounded when wall clock stops\n7 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "file": "test/wait_recovery_cli_test.js",
+      "sha256": "d0eaebe065cb01377506f000218440707173ad94f91248a551fc78669f3a20e8",
+      "unchanged": true,
+      "exit": 0,
+      "seconds": 3.915,
+      "stdout": "ok empty inspect is a read-only structured success\nok inspect and preview pending before preserve exact tree\nok inspect and preview pending after preserve exact tree\nok actual finalize no-write and triple repeat never write host\nok actual finalize committed and triple repeat never write host\nok strict arguments finalize --apply --json\nok strict arguments finalize --operation bad --json\nok strict arguments inspect --receipt /outside --json\nok strict arguments inspect --home /outside --json\nok strict arguments inspect --target /outside --json\nok strict arguments inspect --agent codex --json\nok strict arguments inspect unexpected --json\nok strict arguments inspect --json --json\nok stale valid operation ID refuses unchanged\nok legacy pending never exposes its arbitrary fields\nok permissive directory is refused without chmod\nok permissive receipt is refused without chmod\nok unresolved owner-lock preserves all evidence\nok unresolved backup-lock preserves all evidence\nok unresolved policy preserves all evidence\nok unresolved profile preserves all evidence\nok unresolved foreign-target preserves all evidence\nok unresolved ownership preserves all evidence\nok unresolved invalid-json preserves all evidence\nok unresolved invalid-utf8 preserves all evidence\nok unresolved symlink preserves all evidence\nok human inspection output omits private text and raw paths\nok prepared backup reports unresolved phase without exposing data\nok unknown prior transition remains unresolved\nok arbitrary reference namespace is refused without exposing or reading text\nok terminal retention fault is inspectable and explicitly finalized\nok retired proof cannot be reassigned to another operation\nok changed receipt between preview and owner lock refuses exact request\n33 passed; 0 failed\n",
+      "stderr": ""
+    }
+  ],
+  "owned_tmp_removed": true,
+  "scope": "Source composition plus57 checks (identity17, retention7, CLI33); not aggregate/release/install/machine recovery acceptance. No provider calls.",
+  "source_snapshot_readback": "All12 bound files still equal exact0539b009 Git blobs after focused runs.",
+  "prior_semantics": "Terminal historical-completion wording corrected in0539b009, preserving metadata-only/no-current-host-health boundary."
+}
