@@ -2,7 +2,8 @@
 
 # B-175 bounded implementation packet
 
-Status: proposed, read-only source review; no rule implementation or machine apply.
+Status: accepted by coordinator for bounded implementation; machine apply remains a separate post-release task.
+Original proposed packet: `fd4eb1e` on `plan/wait-rule-1013`; acceptance and scope prerequisite review are recorded in `wait-rule-scope.md`.
 Reviewed hub source `2c322e2` on 2026-10-13. B187 installer aggregate has priority.
 This packet does not change B-180, the star line, or any operator instruction.
 

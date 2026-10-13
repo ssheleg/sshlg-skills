@@ -88,3 +88,15 @@ CTA:        Browse the skills
 Proof:      skills.json; docs/ux/scenarios.md SCN-001
 Locales:    English primary
 ```
+
+## Technical CLI settings and working rules
+
+```
+Register:   confidence +0, density +0, humor -1
+Format:     state and scope first; exact next command; refusal with recovery context
+Limits:     name preview versus apply; no implied permissions or model-behavior claims
+Forbidden:  physics: no hidden writes in preview | brand: invented running watchers, blanket safety claims
+CTA:        one explicit command for the next action
+Proof:      source-bound CLI tests and ownership receipt
+Locales:    English primary for new working-rule messages; existing localized CLI text unchanged
+```
