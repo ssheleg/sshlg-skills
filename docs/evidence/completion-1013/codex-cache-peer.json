@@ -36,5 +36,12 @@
     "Full aggregate pending",
     "No actual pending watcher registration yet",
     "Supported safe native version transition remains unavailable; no zero-bug or whole-goal verdict"
-  ]
+  ],
+  "documentation_peer": {
+    "reviewer": "/root/fresh_research",
+    "source": "a8c39a4",
+    "verdict": "PASS_BOUNDED",
+    "scope": "README, state-json and lifecycle changed claims match inspected core; final prose cleanup removes old remove/re-add comment and missing space.",
+    "limits": "No repeated full gate or installed acceptance inferred."
+  }
 }

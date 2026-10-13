@@ -658,12 +658,9 @@ function cmdUpdate(f) {
   // A machine that has consented (one entry of ours in settings.json) is re-wired here;
   // one that has not is left alone — an update is not the moment to ask.
   ok = rewireConsentedHooks(f) && ok;
-  // Native host lifecycle (FIX-UP-07.02, B-166). Codex loads the family's plugins
-  // from its OWN marketplace cache, not from the skills-CLI copies (those are
-  // excluded in its skills.config), so a re-pin reaches Codex only through Codex's
-  // own CLI: remove the marketplace, re-add it at the pin, add the plugin, and read
-  // the loaded version back. Only that readback says `current`. A Codex whose
-  // plugin CLI cannot be driven is still UNSUPPORTED_UPDATE, and nothing is touched.
+  // Native Codex catalog inspection (B-166/B-188). Version replacement prunes
+  // paths that active threads can retain. Defer it before mutation until a
+  // supported retention/retirement adapter exists; listing is not thread reload.
   ok = refreshCodexPlugins(f) && ok;
   // Skill visibility (B-143, wave L1). A machine whose record shows the operator ran
   // `visibility --apply` gets it again, with the same window and --keep, so skills the

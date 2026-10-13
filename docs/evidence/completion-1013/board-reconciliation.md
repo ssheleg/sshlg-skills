@@ -47,3 +47,13 @@ Six new GATE rows still say release pending in their owner boards, while
 a stale owner-board state requiring owner reconciliation, not a fresh defect or
 a reason to relabel publication as unverified. B186 remains correctly nonterminal
 while the hub candidate has not been published and applied.
+
+## Interim committed cut at 2026-10-13 09:23 UTC
+
+[Machine cut](board-current-20261013-0923.json) binds committed source a8c39a4 and
+all eleven member pins. All177 original identities survive:9 are documented closed
+and168 remain recorded nonterminal;4 newly recorded nonterminal identities are
+separate. This is a board-state count, not an implementation or quality verdict.
+Some nonterminal rows already say implemented but retain stale integration-pending
+text. Reconcile those with exact owner publication receipts before closing them;
+never turn the parser's status into acceptance. TP1.94 is not yet pinned in this cut.
