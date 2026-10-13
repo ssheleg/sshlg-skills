@@ -9,9 +9,9 @@ report:
   status: draft
   valid_until: 2026-10-20
   summary: >-
-    Provider-free AST snapshot of 218 tracked hub code files. The static graph
-    identifies connected entry points; dangling edges and relation collapse
-    limit reach claims. Final candidate refresh remains pending B187 integration.
+    Provider-free AST cuts retain the218-file baseline and235-file candidate
+    refresh after B187/W175 integration. Independent provenance checks pass;
+    dangling edges and relation collapse limit runtime and reach claims.
   sources:
     - name: "Frozen hub source"
       url: "https://github.com/ssheleg/sshlg-skills/commit/9f0c0dc6a2a0c3c97c569af58b19bdbd31c8a71f"
@@ -27,7 +27,32 @@ report:
 
 # Hub source graph and documented entry points
 
-## Finding
+## Candidate refresh — source86477b5
+
+The [new immutable cut](raw/final-86477b5/manifest.json) contains235 files,
+2799 nodes,4238 exported edges and209 communities: +17 files,+194 nodes,
++289 edges and+16 communities from the baseline retained below. Source commit
+[86477b5](https://github.com/ssheleg/sshlg-skills/commit/86477b5e5a8138742fa12dc56e8a9add80f54654)
+includes native Claude source transactions and the scoped wait-rule writer.
+The [independent peer](../../evidence/completion-1013/graph-final-peer.json)
+rederived every Git blob, byte count, hash, node location and graph/export count;
+its [verifier](../../evidence/completion-1013/graph-final-peer.py) is preserved.
+No model/provider call was made.
+
+[Diagnostics](raw/final-86477b5/diagnostics.json) still expose limitations:
+5474 raw edges include726 dangling endpoints and1 self-loop;526 valid edges
+share directed endpoint pairs. This is navigational evidence, not a completeness
+or runtime acceptance certificate. Later documentation/gitlink-only changes do
+not alter the frozen code corpus; the pending Codex updater correction will
+require another cut before final acceptance.
+
+The README now documents immutable native Claude refresh and `rules` preview/
+apply; the implementation adds separate native-transaction and wait-policy
+modules. Their shared plan composition is tested by the
+[W175/B187 seam review](../../evidence/completion-1013/w175-merged-peer.md).
+The graph does not replace that behavioral evidence.
+
+## Baseline finding — source9f0c0dc
 
 The [baseline manifest](raw/baseline-9f0c0dc/manifest.json) binds218 hub code
 files to immutable Git blobs. Every admitted source file has at least one
@@ -75,11 +100,10 @@ prompt-routing mechanism documented in [DOCMAP](../../DOCMAP.md), while
 `log`, `fail` and `main` are internal control/diagnostic entry points. A large
 degree alone is not a defect or evidence of an undocumented public feature.
 
-B187 is still being integrated; its native source transaction adds a real seam
-that this baseline does not cover. Refresh the graph after accepting that code
-and its final immutable member inventory, then review those added symbols and
-README/DOCMAP entries before declaring R33 current. No previous ignored
-`graphify-out` directory was replaced or used as current evidence.
+At the baseline cut, B187 was still being integrated. The separate candidate
+refresh above covers its added source seam and W175. The original baseline and
+its limitations remain unchanged. No previous ignored `graphify-out` directory
+was replaced or used as current evidence.
 
 ---
 
