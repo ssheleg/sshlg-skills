@@ -57,3 +57,15 @@ separate. This is a board-state count, not an implementation or quality verdict.
 Some nonterminal rows already say implemented but retain stale integration-pending
 text. Reconcile those with exact owner publication receipts before closing them;
 never turn the parser's status into acceptance. TP1.94 is not yet pinned in this cut.
+
+## Interim cut at 2026-10-13 10:17 UTC
+
+[Committed board cut](board-current-20261013-1017.json) preserves all 177 original
+identities: 12 documented closed and 165 recorded nonterminal, plus four separately
+recorded new nonterminal rows. The three new closures have [owner integration and
+checks](fw00-owner-merged.json) and [independent disposition review](fw00-owner-dispositions-peer.json).
+No remaining-row count is called a reproduced-defect count.
+
+[Updated original requirements](requirements-current-20261013-1017.json) preserve
+all R01–R37 verbatim while separating accepted source, publication, installed state
+and native outcomes. This is coordinator reconciliation before the final observer.
