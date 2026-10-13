@@ -49,7 +49,7 @@ an isolated branch after the accepted bounded identity fix. Its MB02b source ed0
 and peer-doc successor 8bb7f64 passed 30 recovery plus seven real crash controls;
 two root findings were corrected before acceptance. The MB02c inspection/finalization
 CLI e37df18 is [accepted as bounded source](evidence/completion-1013/wait-recovery-cli-peer.json)
-on `feat/wait-recovery-cli-1013`; composition and aggregate acceptance remain pending.
+on `feat/wait-recovery-cli-1013`; composition is now at0c4c215; aggregate and installed acceptance remain pending.
 FW07 prerequisite corrections and lossless stage extraction are frozen in TP draft
 PR123 (3a8e4ac), including independently checked stage-3 prerequisite corrections;
 rebase on1.94.1, moved public plants and the full gate await their slot. A separately

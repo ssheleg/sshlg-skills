@@ -36,8 +36,12 @@ removes a held lock. If metadata finalization itself fails after a write, output
 remains unknown and retained evidence is inspected on the next invocation.
 
 Legacy pending, missing prior proof, malformed state, permissive/symlink storage,
-changed profile/policy/target, forged transitions, outside reference namespace,
-reassigned retired proof and held locks all return nonzero. Existing helpers retain
+forged transitions, outside reference namespace, reassigned retired proof and held
+locks return nonzero. Current profile, policy and target admission protects unfinished
+operation finalization. A previously terminal operation can still inspect as complete
+after the operator changes policy or target bytes: that state describes historical
+metadata completion, not current host health. The [independent terminal-state probe](../mb02-composition-peer.json)
+records this boundary without modifying the target. Existing helpers retain
 their internal API compatibility. Other owners, automatic lock retirement, host
 restore, native installation, active session retirement and model behavior remain
 outside this slice.
