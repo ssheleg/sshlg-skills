@@ -1,0 +1,31 @@
+{
+  "as_of": "2026-10-13",
+  "method": "Official pages opened and relevant sections read; no copied full pages, third-party claims or model answers used as primary evidence.",
+  "sources": [
+    {
+      "url": "https://code.claude.com/docs/en/skills",
+      "read_at": "2026-10-13",
+      "scope": "Default automatic versus direct invocation, invocation restrictions, body lifecycle, listing truncation, malformed frontmatter. Documented host contract only."
+    },
+    {
+      "url": "https://code.claude.com/docs/en/agent-sdk/skills#confirm-skills-loaded",
+      "read_at": "2026-10-13",
+      "scope": "init.skills user-invocable coverage and independence from invocation allowlist; SDK contract does not establish exact rendered native prompt."
+    },
+    {
+      "url": "https://code.claude.com/docs/en/cli-reference",
+      "read_at": "2026-10-13",
+      "scope": "Restricted CLI, session plugin path and bounded command options; no per-run isolation attestation."
+    },
+    {
+      "url": "https://code.claude.com/docs/en/headless",
+      "read_at": "2026-10-13",
+      "scope": "Print-mode execution and bare-mode distinction; no inference that SDK defaults replace native CLI defaults."
+    },
+    {
+      "url": "https://code.claude.com/docs/en/plugin-evals",
+      "read_at": "2026-10-13",
+      "scope": "Alternative evaluator, firing versus outcomes, repeated/baseline/judge calls and report publication. No evaluator run was started."
+    }
+  ]
+}
