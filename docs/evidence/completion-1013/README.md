@@ -8,6 +8,14 @@ The initial multi-concept audit query ranked make-skill 19th on the installed ca
 
 The frozen bilingual synthetic corpus in `test/skill_search_recall_test.js` covers multi-skill queries, hidden skills, uncallable entries, negative queries and phrase boundaries. [Before/after receipt](search-recall.json) executes the same corpus against f1901a3 and the candidate. The test was observed failing before the edit. These checks do not establish model selection quality, runtime invocation, actual cost savings or universal non-regression.
 
+## Filesystem discovery
+
+`lib/catalogue.js` extends `toolkit --find` beyond Claude and the shared root to the roots already described by `apply.TARGETS` and `hostvis.hosts`, plus Cursor, Continue, Kimi and Codex's native plugin cache. Documented environment roots are respected. Traversal follows directory aliases, stops cycles and stops at each SKILL.md; it is bounded to four directory levels and excludes assets, scripts, references and dependency trees. Missing roots are absent, other read failures and depth limits are printed as incomplete coverage. Remote-only skills with no local SKILL.md are outside this filesystem index.
+
+Host-specific files and cached plugin versions are labelled as filesystem discoveries with native availability unverified. Cache presence does not establish activation, current version, tool permission or session refresh. CRLF, quoted and block scalar metadata are supported by a bounded parser, not a general YAML evaluator. Byte-identical id+digest entries take one ranking slot, with all alternate locations available through `--copies`; different bodies under the same name remain separate. Relative reference files may differ even when entry text matches.
+
+Validation: `node test/catalogue_test.js` 12 checks; `node test/toolkit_test.js` 29; `node test/skill_search_recall_test.js` 12. The host-only Gemini fixture failed before the implementation with no search result. Failure injection covers unreadable SKILL.md, plus symlink cycles, same-name divergence, aliases, relocated roots, Codex system skills/cache and retained alternate paths. No native invocation success is inferred.
+
 ## Integration
 
 PR #215 integrated at 022356d3479d351ccdf39135a44914be6de73ad7 after its exact head 8b57e9c66026fe5a3aad70a42562391af9c48953 showed six successful hosted checks and local `node test/ratchets_from_test.js` passed seven checks. No hosted suite was manually dispatched.

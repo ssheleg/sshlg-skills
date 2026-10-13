@@ -1841,10 +1841,12 @@ function cmdToolkit(argv) {
     try {
       overrides = JSON.parse(fs.readFileSync(path.join(home, '.claude', 'settings.json'), 'utf8')).skillOverrides || {};
     } catch (e) { overrides = {}; }
-    const all = skills.concat(toolkit.readShared(home, skills))
+    const additional = toolkit.readShared(home, skills);
+    const all = skills.concat(additional)
       .map((s) => Object.assign({}, s, { visibility: s.namespace === 'claude:plain' ? overrides[s.id] : undefined }));
     const { rows, total } = toolkit.find(all, query, li0 !== -1 ? Number(argv[li0 + 1]) || 12 : 12);
-    log(toolkit.renderFind(rows, query, total));
+    log(toolkit.renderFind(rows, query, total, { showCopies: argv.includes('--copies') }));
+    for (const warning of additional.warnings || []) log(`  catalogue incomplete: ${warning}`);
     return 0;
   }
 

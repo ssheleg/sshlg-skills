@@ -531,6 +531,7 @@ npx sshlg-skills conflicts                # installed skills that land on a rout
 npx sshlg-skills toolkit                  # every skill this machine can reach, as an index
 npx sshlg-skills toolkit --for "<task>"   # ...narrowed to one task, as a shortlist
 npx sshlg-skills toolkit --find "pdf, xlsx, отчёт"  # by the concepts YOU read from the task; hidden skills included, with SKILL.md paths
+npx sshlg-skills toolkit --find "skill audit" --copies # include alternate paths with identical entry text
 npx sshlg-skills visibility               # Claude/Codex: hide all outside the core; Gemini/Pi/OpenCode/Hermes: hide marked packs; Cursor/Kimi: cannot hide
 npx sshlg-skills pack design              # design/front-end/mobile: present, missing, and the install line
 npx sshlg-skills pack design --check      # do the declared addresses still resolve?
