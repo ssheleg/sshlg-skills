@@ -45,8 +45,10 @@ two root findings were corrected before acceptance. The MB02c inspection/finaliz
 CLI is separate work on `feat/wait-recovery-cli-1013`, not yet accepted.
 FW07 prerequisite corrections and lossless stage extraction are frozen in TP draft
 PR123 (771b7cd); moved public plants and the full gate await their slot. A separately
-reproduced custom-profile checkpoint bug is corrected in draft PR124 (db6b247);
-120 focused controls pass, independent review is pending.
+reproduced custom-profile checkpoint bug is corrected in draft PR124 (b4fed300);
+162 controls and seven independent seam checks pass after three peer findings
+were corrected. [Bounded peer](evidence/completion-1013/fw07-checkpoint-peer-final.json)
+is not a full gate or installed claim.
 These changes do not borrow acceptance from the immutable TP release run.
 
 [Native P2](evidence/completion-1013/native-routing-p2/readout.md) remains
@@ -57,11 +59,14 @@ is independently checked at 5d19e74: 241 files, 2876 nodes, 4341 edges, 216 comm
 It is source navigation, not runtime proof. Wiki PR22 merged at a646848, retaining
 all 177 previous report IDs and adding four; source-scanner limitations remain.
 
-UX PR47 retains the missing two real board mutations. Its proposed additional
+UX PR47 merged at7267757 after every genuine check passed and is pinned; it
+retains the missing two real board mutations. Its proposed additional
 parity defect was [retracted](evidence/completion-1013/r30-ux-gfm-interpretation-correction.json)
 after official GFM scanner and GitHub-rendering evidence; production parsing remains
 unchanged. SEO source-discovery admission is frozen at e31abf5 in PR40; related
-make-skill/agent-stack unreadable-directory omissions have separate owner tasks.
+make-skill/agent-stack unreadable-directory corrections are frozen at75ab2d0 and
+bc0f663 respectively. [Independent nine-control replay per owner](evidence/completion-1013/fw01-sibling-peer.json)
+passed; owner integration still needs its gates.
 
 [Preliminary observer](evidence/completion-1013/observer-pre-release.md) is
 PARTIAL_NOT_FINAL. Reconcile all 37 requirements and 177 original board IDs after
