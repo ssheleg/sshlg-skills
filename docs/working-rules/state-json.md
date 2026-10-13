@@ -65,6 +65,23 @@ consented Claude hooks in `~/.claude/settings.json` (one entry of ours present),
 That consumer is why the file carries `schemaVersion`. A key may be added without a bump; a
 key renamed, removed or re-typed bumps it, and this page changes in the same commit.
 
+## Deferred native Codex updates
+
+The hub's own `codex-deferred/` directory is separate from `state.json` and from
+other members' files. `lib/codex-pending.js` writes immutable JSON intent with schema
+`sshlg.codex-deferred/v1`: canonical/requested profile, config SHA256, sanitized CLI
+version, requested refs and observed catalog versions. Raw config and file bodies
+are excluded. The content hash names the file. The task directory is owner-only;
+existing unsafe permissions or ownership refuse without chmod or replacement.
+
+`lib/codex-deferred-watch.js` accepts that private, identity-bound receipt, reads
+only the native catalog and writes immutable observations beside it. Profile or
+config drift stops observation. Exhaustion preserves intent and records an explicit
+pending result. `catalog-matches-thread-generation-unknown` never grants mutation
+or proves thread retirement. The launcher exits partial/nonzero on deferred work;
+no reader may reinterpret the pending record as an install approval. Source and
+real isolated CLI evidence: [Codex cache correction](../evidence/completion-1013/codex-cache-preservation.md).
+
 ## Other members' files under `~/.sshlg-skills/`
 
 The directory is the family's; a member may keep its own data here when the family is

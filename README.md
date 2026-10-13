@@ -241,19 +241,26 @@ Updates every skills-CLI install and every Claude Code plugin, and materializes
 the pinned submodules in a checkout **without moving the pins**. Restart Claude
 Code afterwards.
 
-**Codex's native plugins move through Codex's own CLI.** Codex loads the family from
-its own marketplace cache, not from the skills-CLI copies, so for every family plugin
-that is installed and enabled in Codex, has the family repository as its marketplace
-source in `config.toml`, and reports a version other than the pin in `codex plugin list`,
-`update` runs `codex plugin marketplace remove <m>` → `codex plugin marketplace add
-https://github.com/<repo>.git --ref <pin>` → `codex plugin add <plugin>@<m>`, then reads
-the version back. Only that readback counts as current. The pin is the submodule commit
-when run from a checkout, or the release tag `v<version>` from npm. A failure after the
-removal re-adds the previous ref, which is read from `config.toml` first. The hub reads
-that file and never writes it. Nothing else in Codex is touched: other marketplaces,
-plugins you disabled or never installed, and family names pointing at another source
-all stay as they are. `--claude-only`, or an `--agent` list without `codex`, skips this
-step. Start a new Codex session afterwards.
+**Codex native version changes are deferred to preserve running sessions.**
+Codex0.162.1 plugin replacement deletes older cache generations that an open thread
+may still use for hooks. `update` inspects installed, enabled family plugins through
+`codex plugin list`; a version different from the requested pin returns
+`DEFERRED_ACTIVE_GENERATION_SAFETY` before any native removal or installation.
+The overall update is partial and exits nonzero while such transitions remain.
+A matching catalog version is a catalog observation; the generations loaded by
+running threads remain unknown. There is no verified safe retention/retirement
+adapter yet. A timer, process count or starting another session does not authorize
+this launcher to replace native payloads.
+
+The hub records immutable private pending intent under
+`~/.sshlg-skills/codex-deferred/`, bound to the canonical profile, config fingerprint
+and desired source. It prints a safely quoted POSIX watcher command. The observer
+reads native state and records private observations, with a two-minute cadence,
+60-observation limit and two-hour deadline; it never installs or stops Codex.
+Catalog agreement ends observation without claiming old threads reloaded. Other
+marketplaces, disabled/absent plugins and foreign family-named sources stay outside
+the native update scope. `--claude-only`, or an `--agent` list without `codex`, skips
+this inspection. See [the native reproduction and acceptance boundaries](docs/evidence/completion-1013/codex-cache-preservation.md).
 
 **Plain skills are reconciled at the release's immutable commits.** Both `install`
 and `update` use the member `commit` fields shipped in `skills.json`, through
@@ -886,7 +893,7 @@ lib/routers.js               block parsing and rendering; touches no file, by co
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js
 lib/plan.js                  shared skills-CLI argv and Continue copy grouping
 lib/installer-pins.js        production immutable member admission and pinned add plan
-lib/codexplugins.js          Codex's native plugins, moved through Codex's own CLI and read back
+lib/codexplugins.js          native Codex catalog inspection and unsafe transition deferral
 lib/inventory.js             the family's map — entry points, not a catalogue
 lib/conflicts.js             installed skills on a router's ground — candidates, not offenders
 lib/packs.js                 curated recommendations by lane — what is missing, and the exact command
