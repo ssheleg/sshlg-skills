@@ -1,0 +1,27 @@
+{
+  "repo": "telegram-dev",
+  "pr": 12,
+  "expectedHead": "822f12320ce542962a4dd27a565f1bc68b09ec6d",
+  "attempt": 0,
+  "prState": {
+    "headRefOid": "822f12320ce542962a4dd27a565f1bc68b09ec6d",
+    "mergeCommit": {
+      "oid": "85a5a5f13e2c7b24fddda5c53bb05f1634d969ed"
+    },
+    "mergedAt": "2026-10-13T02:21:31Z",
+    "state": "MERGED",
+    "url": "https://github.com/ssheleg/telegram-dev/pull/12"
+  },
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 38336371814,
+      "event": "pull_request",
+      "headSha": "822f12320ce542962a4dd27a565f1bc68b09ec6d",
+      "status": "completed",
+      "url": "https://github.com/ssheleg/telegram-dev/actions/runs/38336371814"
+    }
+  ],
+  "mergeOutput": "",
+  "outcome": "MERGED"
+}

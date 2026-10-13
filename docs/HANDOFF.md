@@ -1,3 +1,28 @@
+## Active follow-up wave — 2026-10-13
+
+Hub 1.62.0 was merged in [PR216](https://github.com/ssheleg/sshlg-skills/pull/216)
+at `c035801021a046a1bc8fcae41ea8a6a4c060bd2d`. Exact-commit local npm test passed
+113 suites / 1695 fixtures / 11 members; the exact-commit Pages workflow also passed
+all three validation jobs and deployed. The immutable annotated tag was pushed;
+publication and installed acceptance are tracked in the
+[follow-up receipt](evidence/completion-1013/followup.md), not inferred from the tag.
+
+The current branch `waves/2026-10-13-followup` adds the independently reviewed release
+watcher and C05 settings-reading correction. Its aggregate gate and 1.62.1 release
+are separate from 1.62.0 evidence. Member FW01, the three FW02 missing-owner gates,
+and FW03 have merged; their versions, release receipts and hub pins still need
+alignment. FW04 lease activity, FW05 design/UX claims and FW06 collector provenance
+are active isolated owner work.
+
+Exact next task: complete the follow-up aggregate gate, publish/verify each accepted
+candidate, apply the authorized machine visibility choices through the launcher,
+and continue owner packets. Keep global hook-bearing plugins, unknown domain roots
+and independent behavioral-quality gates explicit. Fabric now admits this project,
+but this session still lacks com.status/list/submit tools; pending cross-project
+asks remain unsent in Git. Do not use another transport to bypass the board.
+
+Earlier status sections below are dated history, not current acceptance.
+
 ## Completion candidate — current at 2026-10-13
 
 The active branch is `waves/2026-10-13-completion`. Hub candidate 1.62.0 at

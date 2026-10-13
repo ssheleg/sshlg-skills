@@ -1,0 +1,27 @@
+{
+  "repo": "xr-dev",
+  "pr": 5,
+  "expectedHead": "43561ac81e0a4897c667fe07044b6e3f54db1198",
+  "attempt": 0,
+  "prState": {
+    "headRefOid": "43561ac81e0a4897c667fe07044b6e3f54db1198",
+    "mergeCommit": {
+      "oid": "3605d10998241235778262b34d5b59188bb29248"
+    },
+    "mergedAt": "2026-10-13T02:21:36Z",
+    "state": "MERGED",
+    "url": "https://github.com/ssheleg/xr-dev/pull/5"
+  },
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 38336373890,
+      "event": "pull_request",
+      "headSha": "43561ac81e0a4897c667fe07044b6e3f54db1198",
+      "status": "completed",
+      "url": "https://github.com/ssheleg/xr-dev/actions/runs/38336373890"
+    }
+  ],
+  "mergeOutput": "",
+  "outcome": "MERGED"
+}

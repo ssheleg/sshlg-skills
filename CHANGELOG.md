@@ -1,3 +1,12 @@
+## v1.62.1 — readable project settings and immutable release tags
+
+- Valid project JSON is readable regardless of indentation. The existing lossless
+  editor still refuses unsupported formatting when a write is actually required;
+  explicit choices and incomplete-source protection remain intact.
+- Release continuation binds the candidate to exact local and hosted evidence,
+  checks member pins and creates annotated tags without rewriting existing refs.
+  Tracked member changes cannot hide behind Git submodule ignore settings.
+
 ## v1.62.0 — complete skill discovery, reversible visibility and project domains
 
 - **Search covers the local host catalogues.** `toolkit --find` reads shared skills,
