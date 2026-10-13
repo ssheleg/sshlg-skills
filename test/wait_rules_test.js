@@ -22,4 +22,25 @@ test('edited owned region refuses even off',h=>{const f=host(h,'codex');P.set(h,
 test('foreign Cursor filename refuses',h=>{const d=path.join(h,'.cursor','rules');fs.mkdirSync(d,{recursive:true});fs.writeFileSync(path.join(d,'sshlg-wait.mdc'),'foreign');P.set(h,'on');assert.throws(()=>W.plan(h,{...opts,cursor:true}),/foreign Cursor/);});
 test('changed target between preview and execute refuses before target write',h=>{const f=host(h,'codex');P.set(h,'on');const p=W.plan(h,opts);fs.writeFileSync(f,'CONCURRENT');const r=W.execute(p);assert.equal(r.ok,false);assert.equal(fs.readFileSync(f,'utf8'),'CONCURRENT');});
 test('failed target backup leaves pending recovery and no target write',h=>{const f=host(h,'codex');P.set(h,'on');const p=W.plan(h,opts);const protect=A.protect;A.protect=(file,o)=>file===f?{action:'backup-failed',error:'injected'}:protect(file,o);try{const r=W.execute(p);assert.equal(r.ok,false);assert.equal(fs.readFileSync(f,'utf8'),'FOREIGN\n');assert.throws(()=>W.plan(h,opts),/unfinished/);}finally{A.protect=protect;}});
+for(const target of ['instruction','receipt'])test('invalid UTF-8 '+target+' refuses with exact bytes and no new files',h=>{
+ const f=host(h,'codex');P.set(h,'on');const invalid=target==='instruction'?Buffer.from([255,254,0]):Buffer.concat([Buffer.from('{"schema":1,"records":{},"foreign":"'),Buffer.from([255]),Buffer.from('"}')]);const file=target==='instruction'?f:W.receiptPath(h);fs.writeFileSync(file,invalid);const names=fs.readdirSync(path.join(h,'.sshlg-skills')).sort();assert.throws(()=>W.plan(h,opts),/UTF-8/);assert(fs.readFileSync(file).equals(invalid));assert.deepEqual(fs.readdirSync(path.join(h,'.sshlg-skills')).sort(),names);
+});
+test('policy off after first target prevents the second target and retains first ownership',h=>{
+ const first=host(h,'claude'),second=host(h,'codex');P.set(h,'on');const p=W.plan(h,opts),rename=fs.renameSync;let once=false;
+ fs.renameSync=(from,to)=>{const result=rename(from,to);if(to===first&&!once){once=true;P.set(h,'off');}return result;};
+ let result;try{result=W.execute(p);}finally{fs.renameSync=rename;}
+ assert.equal(result.ok,false);assert(fs.readFileSync(first,'utf8').includes(T.BEGIN));assert.equal(fs.readFileSync(second,'utf8'),'FOREIGN\n');assert.equal(Object.keys(W.receipt(h).data.records).length,1);
+});
+test('policy off during target backup refuses before writing that target',h=>{
+ const f=host(h,'codex');P.set(h,'on');const p=W.plan(h,opts),protect=A.protect;let once=false;
+ A.protect=(file,o)=>{const saved=protect(file,o);if(file===f&&!once){once=true;P.set(h,'off');}return saved;};
+ let result;try{result=W.execute(p);}finally{A.protect=protect;}
+ assert.equal(result.ok,false);assert.equal(fs.readFileSync(f,'utf8'),'FOREIGN\n');
+});
+test('unknown source revision refuses despite a matching segment hash',h=>{
+ const f=host(h,'codex');P.set(h,'on');apply(h);const rec=W.receipt(h);Object.values(rec.data.records)[0].sourceRevision='unknown-v99';fs.writeFileSync(rec.file,JSON.stringify(rec.data));const before=fs.readFileSync(f);assert.throws(()=>W.plan(h,opts),/revision|ownership/);assert(fs.readFileSync(f).equals(before));
+});
+test('receipt cannot extend its segment over foreign text even with a recomputed hash',h=>{
+ const f=host(h,'codex');P.set(h,'on');apply(h);const rec=W.receipt(h),r=Object.values(rec.data.records)[0];r.segment='FOREIGN\n'+r.segment;r.sourceHash=require('crypto').createHash('sha256').update(r.segment).digest('hex');fs.writeFileSync(rec.file,JSON.stringify(rec.data));P.set(h,'off');const before=fs.readFileSync(f);assert.throws(()=>W.plan(h,opts),/revision|ownership/);assert(fs.readFileSync(f).equals(before));
+});
 console.log(`${failed?'FAIL':'OK'} (${n} checks; ${failed} failed)`);process.exitCode=failed?1:0;

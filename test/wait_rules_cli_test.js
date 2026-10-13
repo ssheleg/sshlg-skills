@@ -19,4 +19,30 @@ test('--apply --dry-run changes neither host bytes nor ownership receipt',(h,run
 test('member-only rule request is refused without host mutation',(h,run)=>{const f=host(h,'.codex','AGENTS.md');ok(run(['config','set','rules.wait','on']));const r=run(['rules','--apply','--member','task-pipeline']);assert.notEqual(r.status,0);assert.equal(fs.readFileSync(f,'utf8'),'USER TEXT\n');});
 test('update plan lists only previously applied targets and dry-run mutates nothing',(h,run)=>{const f=host(h,'.codex','AGENTS.md');ok(run(['config','set','rules.wait','on']));ok(run(['rules','--apply','--agent','codex']));const before=fs.readFileSync(f,'utf8');host(h,'.gemini','GEMINI.md');const r=run(['update','--dry-run','--agent','codex']);ok(r);assert(r.stdout.includes('working-rule'));assert(r.stdout.includes('codex: unchanged'));assert(!r.stdout.includes('gemini: write'));assert.equal(fs.readFileSync(f,'utf8'),before);});
 test('corrupt wait ownership fails update planning before any child',(h,run,env)=>{host(h,'.codex','AGENTS.md');ok(run(['config','set','rules.wait','on']));fs.writeFileSync(path.join(h,'.sshlg-skills','wait-rules.json'),'{oops');const dir=path.join(h,'bin');fs.mkdirSync(dir);const marker=path.join(h,'child');fs.writeFileSync(path.join(dir,'npx'),'#!/bin/sh\ntouch "'+marker+'"\n',{mode:0o755});env.PATH=dir+':'+process.env.PATH;const r=run(['update','--agent','codex']);assert.notEqual(r.status,0);assert(!fs.existsSync(marker));});
+function packaged(h,env){
+ const root=path.join(h,'package'),source=path.resolve(__dirname,'..');fs.mkdirSync(root);
+ for(const name of ['bin','lib','hooks'])fs.cpSync(path.join(source,name),path.join(root,name),{recursive:true});
+ for(const name of fs.readdirSync(source).filter(n=>n.endsWith('.json')))fs.copyFileSync(path.join(source,name),path.join(root,name));
+ const stubs=path.join(h,'stubs');fs.mkdirSync(stubs);const calls=path.join(h,'stub-calls');
+ for(const name of ['npx','claude','codex','git'])fs.writeFileSync(path.join(stubs,name),`#!/bin/sh
+printf '${name}\\n' >> '${calls}'
+printf '{"installed":[]}\\n'
+exit 0
+`,{mode:0o755});
+ env.PATH=stubs+':'+env.PATH;
+ return args=>cp.spawnSync(process.execPath,[path.join(root,'bin','sshlg-skills.js'),...args],{env,cwd:root,encoding:'utf8',timeout:30000});
+}
+test('actual packaged update removes off-owned text and never adds a new host',(h,run,env)=>{
+ const f=host(h,'.codex','AGENTS.md');ok(run(['config','set','rules.wait','on']));ok(run(['rules','--apply','--agent','codex']));
+ const g=host(h,'.gemini','GEMINI.md');ok(run(['config','set','rules.wait','off']));const r=packaged(h,env)(['update','--agent','codex']);ok(r);
+ assert.equal(fs.readFileSync(f,'utf8'),'USER TEXT\n');assert.equal(fs.readFileSync(g,'utf8'),'USER TEXT\n');assert(r.stdout.includes('rules.wait: codex remove'));
+});
+test('member-only actual update leaves even malformed family rule state unread',(h,run,env)=>{
+ const f=host(h,'.codex','AGENTS.md');ok(run(['config','set','rules.wait','on']));ok(run(['rules','--apply','--agent','codex']));const before=fs.readFileSync(f,'utf8');
+ fs.writeFileSync(path.join(h,'.sshlg-skills','wait-rules.json'),'{unknown');const r=packaged(h,env)(['update','--agent','codex','--member','task-pipeline']);ok(r);assert.equal(fs.readFileSync(f,'utf8'),before);assert(!r.stdout.includes('rules.wait:'));
+});
+test('actual packaged uninstall removes only selected owned wait text',(h,run,env)=>{
+ const f=host(h,'.codex','AGENTS.md'),c=host(h,'.claude','CLAUDE.md');ok(run(['config','set','rules.wait','on']));ok(run(['rules','--apply']));const before=fs.readFileSync(c,'utf8');
+ const r=packaged(h,env)(['uninstall','--no-claude','--agent','codex']);ok(r);assert.equal(fs.readFileSync(f,'utf8'),'USER TEXT\n');assert.equal(fs.readFileSync(c,'utf8'),before);
+});
 console.log(`${failed?'FAIL':'OK'} (${n} checks; ${failed} failed)`);process.exitCode=failed?1:0;
