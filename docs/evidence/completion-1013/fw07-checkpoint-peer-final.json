@@ -1,0 +1,63 @@
+{
+  "source": "b4fed30006d285d17c857d4699bd43cb5a4ef604",
+  "script_sha256": "5515ea6640751c4856f56e8416eb3020df6cf5a33831aef07e4a601d72547adc",
+  "controls": [
+    {
+      "case": "state-symlink-False",
+      "exit": 1,
+      "preserved": true
+    },
+    {
+      "case": "state-symlink-True",
+      "exit": 1,
+      "preserved": true
+    },
+    {
+      "case": "ledger-leaf-link",
+      "emit_record_refuse": true
+    },
+    {
+      "case": "directory-alias-continuation",
+      "passed": true
+    },
+    {
+      "case": "fifo-profile",
+      "exit": 1,
+      "preserved": true
+    },
+    {
+      "case": "fifo-ledger",
+      "exit": 1,
+      "preserved": true
+    },
+    {
+      "case": "fifo-state",
+      "exit": 1,
+      "preserved": true
+    }
+  ],
+  "owned_fixtures_removed": true,
+  "reviewer": "visibility_review",
+  "verdict": "BOUNDED_PASS",
+  "as_of": "2026-10-13",
+  "owner": "ssheleg/task-pipeline",
+  "reviewed_delta_base": "db6b24797c5dcbddc7189ef373a619e6a3e7c0d9",
+  "owner_tree_observed_clean": true,
+  "retained_discovery": "fw07-checkpoint-peer-discovery.json",
+  "independent_owner_focused_replay": {
+    "command": "python3 -B test/audit_regressions/fw07_checkpoint_profile.py",
+    "exit": 0,
+    "controls": 162
+  },
+  "review_scope": [
+    "Entire correction implementation diff and associated documentation/test delta",
+    "All three previously reproduced failure classes",
+    "Regular directory-alias continuation positive control"
+  ],
+  "limitations": [
+    "No full owner suite, hosted CI, release, install or provider calls",
+    "Source admission does not prove adversarial filesystem-race resistance or transactional state persistence",
+    "Prior failing source observations remain unchanged; this successor only accepts the corrected bounded contract"
+  ],
+  "next": "Coordinator serial aggregate and ordinary exact-candidate admission; retain source-qualified receipts."
+}
