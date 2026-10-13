@@ -1,0 +1,11 @@
+{
+  "schema": "update-lock-prior-art-probe/1",
+  "mechanism": "existing beforeTakeover/linkSync seams; not actual concurrent processes",
+  "attempt_ok": false,
+  "current_pid": 303,
+  "successor202_still_has_path": false,
+  "third303_retained": true,
+  "remaining_takeovers": [],
+  "conclusion": "The restore-EEXIST branch can discard a successor lock while a third token occupies the public name. Do not reuse as B190 exclusion proof.",
+  "owned_fixture_removed": true
+}

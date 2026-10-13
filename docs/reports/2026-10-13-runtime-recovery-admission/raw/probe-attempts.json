@@ -1,0 +1,9 @@
+{
+  "first_attempt": {
+    "exit_code": 1,
+    "reason": "MODULE_NOT_FOUND: probe repository-relative root traversed one level too far",
+    "fixture_created": false,
+    "verdict": "TEST_ERROR"
+  },
+  "correction": "Resolve four parent levels from report raw directory; no production code edit."
+}
