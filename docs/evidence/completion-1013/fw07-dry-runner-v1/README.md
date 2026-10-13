@@ -1,6 +1,6 @@
 # FW07 dry-only harness acceptance packet
 
-Status: specification before implementation. No live transport is implemented or authorized. The immutable [held-out proposal](../fw07-behavioral-holdout-v1/README.md) remains unchanged. Its candidate rebase onto accepted 1.94.1, owner full gate, installer coverage, and separate spending admission remain prerequisites.
+Status: implemented dry-only; 68 offline controls passed on the source recorded in [validation.json](validation.json). Independent source peer is pending. The acceptance specification below was committed before implementation. No live transport is implemented or authorized. The immutable [held-out proposal](../fw07-behavioral-holdout-v1/README.md) remains unchanged. Its candidate rebase onto accepted 1.94.1, owner full gate, installer coverage, and separate spending admission remain prerequisites.
 
 This slice builds only an in-process fake adapter and actual owned filesystem materialization. It never invokes Claude, an OS subprocess, a network provider, a shell, or a file tool. It must not promote synthetic tool-result events into observed native behavior. No test uses an LLM judge.
 
