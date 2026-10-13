@@ -1,0 +1,10 @@
+{
+  "reviewer": "root independent coordinator",
+  "scope": "Read all three diffs and replayed all81 published payload file hashes; owner receipt objects equal aggregate d798f38; source/publication closure only, global/native separate.",
+  "verdict": "BOUNDED_PASS",
+  "heads": {
+    "telegram-dev": "3e72620486282b5e4df632a394bd93a72c7fa954",
+    "xr-dev": "7f133decfded28ef980d9f7e8ec343859d0c35e3",
+    "web3d-dev": "c67e78ab874cf9a75c3a752ae6aa3deb1a4a5f0f"
+  }
+}

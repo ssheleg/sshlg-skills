@@ -161,6 +161,22 @@
         "reviewedTreeEqualsMerged": true,
         "publishedPayloadByteEqual": true,
         "reason": "test comments and own evidence only; published version/tag unchanged"
+      },
+      "boardDocumentationSuccessor": {
+        "source": "4ffb10ce1b92a599c2214327ea4d878ab514ed6b",
+        "candidate": "3e72620486282b5e4df632a394bd93a72c7fa954",
+        "pr": "https://github.com/ssheleg/telegram-dev/pull/15",
+        "eligibleRun": {
+          "conclusion": "success",
+          "databaseId": 38348119950,
+          "event": "pull_request",
+          "headSha": "3e72620486282b5e4df632a394bd93a72c7fa954",
+          "status": "completed",
+          "url": "https://github.com/ssheleg/telegram-dev/actions/runs/38348119950"
+        },
+        "reviewedTreeEqualsMerged": true,
+        "publishedPayloadByteEqual": true,
+        "scope": "GATE-01/GATE-02 source/publication rows closed; global installation and native acceptance remain separate; package version unchanged"
       }
     },
     {
@@ -408,6 +424,22 @@
         "reviewedTreeEqualsMerged": true,
         "publishedPayloadByteEqual": true,
         "reason": "test comments and own evidence only; published version/tag unchanged"
+      },
+      "boardDocumentationSuccessor": {
+        "source": "6199f2af23d01d7ae3ce84ef9f3b3820f57356c0",
+        "candidate": "7f133decfded28ef980d9f7e8ec343859d0c35e3",
+        "pr": "https://github.com/ssheleg/xr-dev/pull/8",
+        "eligibleRun": {
+          "conclusion": "success",
+          "databaseId": 38348121937,
+          "event": "pull_request",
+          "headSha": "7f133decfded28ef980d9f7e8ec343859d0c35e3",
+          "status": "completed",
+          "url": "https://github.com/ssheleg/xr-dev/actions/runs/38348121937"
+        },
+        "reviewedTreeEqualsMerged": true,
+        "publishedPayloadByteEqual": true,
+        "scope": "GATE-01/GATE-02 source/publication rows closed; global installation and native acceptance remain separate; package version unchanged"
       }
     },
     {
@@ -560,6 +592,22 @@
         "reviewedTreeEqualsMerged": true,
         "publishedPayloadByteEqual": true,
         "reason": "test comments and own evidence only; published version/tag unchanged"
+      },
+      "boardDocumentationSuccessor": {
+        "source": "ef6bc1acff0f1ee0258e66cc74828ebe14c170e2",
+        "candidate": "c67e78ab874cf9a75c3a752ae6aa3deb1a4a5f0f",
+        "pr": "https://github.com/ssheleg/web3d-dev/pull/9",
+        "eligibleRun": {
+          "conclusion": "success",
+          "databaseId": 38348123227,
+          "event": "pull_request",
+          "headSha": "c67e78ab874cf9a75c3a752ae6aa3deb1a4a5f0f",
+          "status": "completed",
+          "url": "https://github.com/ssheleg/web3d-dev/actions/runs/38348123227"
+        },
+        "reviewedTreeEqualsMerged": true,
+        "publishedPayloadByteEqual": true,
+        "scope": "GATE-01/GATE-02 source/publication rows closed; global installation and native acceptance remain separate; package version unchanged"
       }
     },
     {
