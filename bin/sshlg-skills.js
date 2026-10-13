@@ -1979,14 +1979,25 @@ function runVisibilityUnlocked(opts) {
   } catch (e) { log(`visibility: ownership record not usable — ${e.message}; nothing written`); return 1; }
   const createdOf = (id) => (owned.created && Array.isArray(owned.created[id]) ? owned.created[id] : []);
 
-  const skills = toolkit.readSkills(home, { claudeRoot }).filter((s) => s.callable !== false);
+  const policyErrors = [];
+  let skills = [];
+  if (!doRevert) {
+    try { skills = toolkit.readSkills(home, { claudeRoot, strict: true }).filter((s) => s.callable !== false); }
+    catch (e) { policyErrors.push(`Claude inventory: ${e.code || 'invalid registry/skill'}`); }
+  }
   const personal = skills.filter((s) => s.namespace === 'claude:plain').map((s) => s.id);
   const family = manifest.skills.reduce((acc, m) => acc.concat(m.skillNames && m.skillNames.length ? m.skillNames : [m.name]), []);
   let usage = {};
-  const policyErrors = [];
   if (!doRevert) {
     const usagePath = path.join(process.env.CLAUDE_CONFIG_DIR ? claudeRoot : home, '.claude.json');
-    try { usage = (S.object(usagePath) || {}).skillUsage || {}; }
+    try {
+      const u = (S.object(usagePath) || {}).skillUsage;
+      if (u !== undefined && (!u || typeof u !== 'object' || Array.isArray(u)
+        || Object.values(u).some((v) => !v || typeof v !== 'object' || Array.isArray(v)
+          || (v.lastUsedAt !== undefined && (typeof v.lastUsedAt !== 'number' || !Number.isFinite(v.lastUsedAt))))))
+        throw new Error('invalid skillUsage');
+      usage = u || {};
+    }
     catch (e) { policyErrors.push(`usage: ${e.code || e.message}`); }
   }
   const instructionsPath = path.join(claudeRoot, 'CLAUDE.md');
@@ -2026,7 +2037,10 @@ function runVisibilityUnlocked(opts) {
   const codexText = read(codexPath);
   const sharedRoot = path.join(home, '.agents', 'skills');
   let shared = [];
-  try { shared = fs.readdirSync(sharedRoot).filter((n) => !n.startsWith('.') && fs.existsSync(path.join(sharedRoot, n, 'SKILL.md'))); } catch (e) { shared = []; }
+  if (!doRevert) {
+    try { shared = HV.readRoot(sharedRoot, { strict: true }).map((s) => s.base); }
+    catch (e) { policyErrors.push(`shared inventory: ${e.code || 'cannot read'}`); }
+  }
   const familySet = new Set(family);
   const codexWant = doRevert ? [] : shared.filter((n) => !familySet.has(n) && !coreSet.has(n)).map((n) => path.join(sharedRoot, n, 'SKILL.md'));
   const codexAdd = codexWant.filter((p) => !owned.codex.includes(p));
@@ -2058,15 +2072,18 @@ function runVisibilityUnlocked(opts) {
     log(`visibility: policy not usable — ${policyErrors.join('; ')}; settings and ownership unchanged`); return 1;
   }
   const hostList = HV.hosts(home, process.env);
-  const files = Object.fromEntries([['claude', settingsPath], ['codex', codexPath]]
-    .concat(hostList.filter((h) => h.file && !h.cannot).map((h) => [h.id, h.file]))
-    .map(([id, file]) => [id, path.resolve(file)]));
+  let files;
+  try {
+    files = Object.fromEntries([['claude', settingsPath], ['codex', codexPath]]
+      .concat(hostList.filter((h) => h.file && !h.cannot).map((h) => [h.id, h.file]))
+      .map(([id, file]) => [id, S.profilePath(file)]));
+  } catch (e) { log(`visibility: profile identity not usable (${e.code || e.message}); nothing written`); return 1; }
   // Old Claude/Codex receipts could only target their hard-coded defaults. New ones
   // bind every host, so consent and owned entries cannot migrate to another profile.
   for (const [id, file] of Object.entries(files)) {
     if (!inScope(id)) continue;
-    const prior = (owned.files || {})[id] || (id === 'claude' ? path.join(home, '.claude/settings.json')
-      : id === 'codex' ? path.join(home, '.codex/config.toml') : null);
+    const prior = (owned.files || {})[id] || (id === 'claude' ? S.profilePath(path.join(home, '.claude/settings.json'))
+      : id === 'codex' ? S.profilePath(path.join(home, '.codex/config.toml')) : null);
     const carriesState = (owned[id] || []).length || createdOf(id).length || (opts.reapply && (owned.hosts || []).includes(id));
     if (!prior && carriesState) {
       log(`visibility: legacy ${id} ownership is not bound to a profile; preserve ${recordPath} and backups, restore a verified files.${id} binding from the original apply before retrying; nothing written`); return 1;
@@ -2077,7 +2094,11 @@ function runVisibilityUnlocked(opts) {
   }
   const inv = {};
   const seen = new Set(personal);
-  for (const h of hostList) if (h.present && !h.cannot) { inv[h.id] = HV.inventory(h, lock); inv[h.id].forEach((s) => seen.add(s.name)); }
+  for (const h of hostList) if (h.present && !h.cannot) {
+    try { inv[h.id] = doRevert ? [] : HV.inventory(h, lock, { strict: true }); }
+    catch (e) { log(`visibility: ${h.id} inventory not usable (${e.code || 'cannot read'}); settings and ownership unchanged`); return 1; }
+    inv[h.id].forEach((s) => seen.add(s.name));
+  }
   // The core over every name a host reads, not only Claude's personal skills: a skill
   // used in the window (by Claude Code usage) stays listed on every host, whatever its mark.
   const coreAll = V.core({ personal: [...seen], family, usage, now, days, instructions });
@@ -2191,7 +2212,7 @@ function runVisibilityUnlocked(opts) {
   const clone = () => JSON.parse(JSON.stringify(journal.current));
   const degrade = (id, reason) => { log(`  ${id}: DEGRADED, not written — ${reason}`); degraded.push(id); };
   const transact = (id, file, before, after, next, action, kind = 'file') => {
-    const result = journal.transact({ host: id, file, kind, before: S.hash(before), after: S.hash(after) }, next, action);
+    const result = journal.transact({ host: id, file: files[id] || file, kind, before: S.hash(before), after: S.hash(after) }, next, action);
     if (!result.landed) { degrade(id, result.error ? result.error.message : 'write did not take effect'); return; }
     log(`  ${id}: written and read back${result.error ? ' (the write reported an error but its result was confirmed)' : ''}`);
   };

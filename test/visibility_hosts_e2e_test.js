@@ -627,6 +627,93 @@ it('malformed skill-lock entries cannot silently unhide their previously owned s
   }
 });
 
+
+it('unreadable inventory roots and skill files cannot silently discard visibility ownership', () => {
+  const inputs = ['.agents/skills', '.agents/skills/dcf/SKILL.md', '.claude/skills',
+    '.claude/skills/dcf/SKILL.md', '.gemini/skills', '.gemini/skills/dcf/SKILL.md',
+    '.claude/plugins/installed_plugins.json'];
+  for (const [i, target] of inputs.entries()) {
+    const m = recoveryMachine(`inventory-unreadable-${i}`);
+    m.w('.claude/skills/dcf/SKILL.md', '---\nname: dcf\ndescription: Test skill\n---\n');
+    m.w('.gemini/skills/dcf/SKILL.md', '---\nname: dcf\ndescription: Test skill\n---\n');
+    m.w('.claude/settings.json', '{}\n');
+    m.w('.claude/plugins/installed_plugins.json', '{"version":2,"plugins":{}}\n');
+    assert.strictEqual(m.run('visibility','--apply').status,0);
+    const input = path.join(m.home,target);
+    const files = ['.claude/settings.json','.gemini/settings.json','.sshlg-skills/visibility.json'].map((f) => path.join(m.home,f));
+    const before = files.map(sha);
+    fs.chmodSync(input,0);
+    try {
+      const r = m.run('visibility','--apply');
+      assert.strictEqual(r.status,1,r.out);
+      assert.deepStrictEqual(files.map(sha),before);
+      assert.strictEqual(m.run('visibility','--revert').status,0);
+    } finally { fs.chmodSync(input,fs.statSync(input).isFile()?0o600:0o700); }
+  }
+});
+
+it('malformed registry and usage input refuse apply but do not block explicit recovery', () => {
+  const bad = [
+    ['.claude/plugins/installed_plugins.json', '{'],
+    ['.claude/plugins/installed_plugins.json', '{"plugins":[]}'],
+    ['.claude.json', '{"skillUsage":[]}'],
+    ['.claude.json', '{"skillUsage":{"dcf":{"lastUsedAt":"today"}}}'],
+  ];
+  for (const [i, [file, content]] of bad.entries()) {
+    const m = recoveryMachine(`bad-discovery-${i}`);
+    assert.strictEqual(m.run('visibility','--apply').status,0);
+    const files = ['.gemini/settings.json','.sshlg-skills/visibility.json'].map((f) => path.join(m.home,f));
+    const before = files.map(sha);
+    m.w(file,content);
+    const r = m.run('visibility','--apply');
+    assert.strictEqual(r.status,1,r.out);
+    assert.deepStrictEqual(files.map(sha),before);
+    assert.strictEqual(m.run('visibility','--revert').status,0);
+  }
+});
+
+it('profile ownership follows the original file and refuses a retargeted config symlink', () => {
+  const m = recoveryMachine('retarget-profile');
+  const original = m.w('profiles/first/settings.json','{}\n');
+  const other = m.w('profiles/second/settings.json',JSON.stringify({skills:{disabled:['dcf','operator']}},null,2)+'\n');
+  const active = path.join(m.home,'.gemini/settings.json');
+  fs.unlinkSync(active); fs.symlinkSync(original,active);
+  assert.strictEqual(m.run('visibility','--apply').status,0);
+  const files = [original,other,path.join(m.home,'.sshlg-skills/visibility.json')];
+  const before = files.map(sha);
+  fs.unlinkSync(active); fs.symlinkSync(other,active);
+  for (const mode of ['--apply','--revert']) {
+    const r = m.run('visibility',mode);
+    assert.strictEqual(r.status,1,r.out);
+    assert.deepStrictEqual(files.map(sha),before);
+  }
+  fs.unlinkSync(active); fs.symlinkSync(original,active);
+  assert.strictEqual(m.run('visibility','--revert').status,0);
+  assert.strictEqual(sha(other),before[1]);
+});
+
+it('Codex directory aliases share a profile but retargeting an alias cannot transfer ownership', () => {
+  const m = machine('codex-directory-alias', {hermes:false}); m.skill('foreign');
+  const original = m.w('profile-a/config.toml','[skills]\nconfig = []\n');
+  const other = m.w('profile-b/config.toml','[skills]\nconfig = []\n');
+  const alias = path.join(m.home,'codex-alias'), same = path.join(m.home,'same-profile');
+  fs.symlinkSync(path.dirname(original),alias); fs.symlinkSync(path.dirname(original),same);
+  assert.strictEqual(m.runWithEnv({CODEX_HOME:alias},'visibility','--apply').status,0);
+  fs.copyFileSync(original,other);
+  const files = [original,other,path.join(m.home,'.sshlg-skills/visibility.json')];
+  const before = files.map(sha);
+  fs.unlinkSync(alias); fs.symlinkSync(path.dirname(other),alias);
+  for (const mode of ['--apply','--revert']) {
+    const r = m.runWithEnv({CODEX_HOME:alias},'visibility',mode);
+    assert.strictEqual(r.status,1,r.out);
+    assert.deepStrictEqual(files.map(sha),before);
+  }
+  const undo = m.runWithEnv({CODEX_HOME:same},'visibility','--revert');
+  assert.strictEqual(undo.status,0,undo.out);
+  assert.strictEqual(sha(other),before[1]);
+  assert.strictEqual(fs.readFileSync(original,'utf8'),'[skills]\nconfig = []\n');
+});
+
 fs.rmSync(base, { recursive: true, force: true });
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));

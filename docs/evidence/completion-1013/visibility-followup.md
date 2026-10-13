@@ -21,7 +21,7 @@ bounded follow-up branch; it is not an installed/native acceptance claim.
   roots and effective enablement share it. `lib/enablement.js` retains the test
   filesystem third parameter and accepts the explicit root as a fourth parameter.
   The concurrent C05 follow-up is coordinated to preserve this interface.
-- `visibility.json.files` records absolute settings paths with ownership.
+- `visibility.json.files` records canonical absolute settings paths with ownership.
   Switching profiles while entries/created containers are owned refuses both
   apply and revert before changing settings or the receipt. Reapply also binds
   consent to the recorded profile, even if its entry list is empty. Legacy
@@ -121,3 +121,52 @@ After the review corrections, `node test/visibility_hosts_e2e_test.js` returned
 `OK (2 checks)`, exit 0. This supersedes the earlier 48-check result for the final
 source. The original 37 checks still run; the total delta is 13 checks, no new
 suite. `git diff --check` also returned exit 0 after the corrections.
+
+## Final discovery and profile-identity correction
+
+The follow-up self-review on `8d35b1d` reproduced another unknown-to-empty
+conversion: after applying hidden marks, an unreadable `.agents/skills` root
+made a subsequent apply remove Gemini's owned disabled entry. The selected
+`unreadable inventory roots and skill files cannot silently discard visibility
+ownership` regression failed **1 of 1**, exit 1, before the correction.
+
+`lib/hostvis.js` now accepts strict inventory reads; `lib/conflicts.js` accepts a
+strict discovery option and also defaults to the active Claude profile for
+ordinary toolkit/conflicts readers. `runVisibilityUnlocked` enables strict
+discovery, rejects malformed registry/usage data, and skips discovery entirely
+for explicit undo. Missing paths remain distinct from permission/read errors.
+The expanded process test covers seven inaccessible inputs: shared, Claude and
+Gemini roots and their individual SKILL.md files, plus Claude's plugin registry.
+Four malformed registry/usage controls also refuse apply and preserve bytes,
+while explicit undo succeeds despite each discovery fault.
+
+A second regression demonstrated that a lexical settings path did not survive
+symlink retargeting: the same Gemini settings symlink could point at a different
+profile and apply would silently adopt it. The selected test failed **1 of 1**,
+exit 1, before the identity fix. `lib/visibility-state.js:24` (`profilePath`)
+binds settings to the real file, resolving the nearest existing parent for a
+missing settings file and refusing dangling symlinks. Pending write fingerprints
+use this canonical path too. File and directory retargeting now refuse apply
+and revert without changing settings or ownership. An alternate directory alias
+to the original file remains usable. Intermediate unshipped receipts carrying a
+noncanonical alias may refuse conservatively; restore the verified original
+canonical binding rather than infer which target an old alias named.
+
+Final frozen-source focused results supersede the earlier result counts:
+
+| Command | Observed result |
+|---|---|
+| `node test/visibility_hosts_e2e_test.js` | `OK (54 checks)`, exit 0; original 37 plus 17 new checks |
+| `node test/conflicts_test.js` | `OK (21 checks)`, exit 0; includes active-profile and explicit-root control |
+| `node test/visibility_e2e_test.js` | `OK (11 checks)`, exit 0 |
+| `node test/toolkit_test.js` | `OK (30 checks)`, exit 0 |
+| `node test/visibility_test.js` | `OK (21 checks)`, exit 0 |
+| `node test/visibility_packs_test.js` | `OK (22 checks)`, exit 0 |
+| `node --check bin/sshlg-skills.js` | exit 0 |
+| `git diff --check` | exit 0 |
+
+The independent reviewer replayed five inaccessible-input cases and Codex
+directory retarget/alternate-alias controls on this frozen implementation and
+reported bounded PASS. Exact-commit certification follows the final push. The
+parent owns the aggregate suite and retains C05's `enablement.js` superset when
+integrating; this follow-up does not duplicate that helper's implementation.
