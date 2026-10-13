@@ -43,6 +43,7 @@ function seedPackage(root) {
   fs.writeFileSync(path.join(root, 'lib', 'guard.js'), '// v2\n');
   fs.writeFileSync(path.join(root, 'lib', 'injectors.js'), '// NEW in this release\n');
   fs.writeFileSync(path.join(root, 'skills.json'), '{"skills":[]}\n');
+  fs.writeFileSync(path.join(root, 'package.json'), '{"version":"2.0.0"}\n');
   // Not a .js file and not the manifest: must NOT travel.
   fs.writeFileSync(path.join(root, 'lib', 'README.md'), 'notes\n');
   return root;

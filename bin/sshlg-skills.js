@@ -623,6 +623,7 @@ function cmdUpdate(f) {
   // point (`B-22`). Refresh only: `create` stays false, because a machine with no
   // runtime has not consented to hooks and an update is not the moment to ask. Scoped like
   // the wiring below (fix round 2, L): a run that leaves the Claude host alone leaves both.
+  let runtimeReady = true;
   const rtScope = claudeScope(f);
   if (!rtScope.inScope) {
     log(`\n== Wired hook runtime ==\n  skipped: ${rtScope.skippedBy} (the Claude host is outside this run's scope; `
@@ -633,6 +634,7 @@ function cmdUpdate(f) {
       const root = require('../lib/hooks.js').runtimeDir(os.homedir());
       const before = rt.stale(ROOT, root);
       const r = rt.sync(ROOT, root, { create: false });
+      if (r.ok === false) throw new Error(r.reason);
       if (r.reason) {
         log(`\n== Wired hook runtime ==\n  skipped: ${r.reason}`);
       } else {
@@ -646,8 +648,8 @@ function cmdUpdate(f) {
         for (const m of before.missing) log(`    + ${m}`);
       }
     } catch (e) {
-      // A runtime that cannot be refreshed must not fail the whole update — but it must
-      // say so, because silence here is what made B-22 invisible for five releases.
+      // Other update steps may finish, but failed runtime refresh makes the aggregate red.
+      runtimeReady = false;
       log(`\n== Wired hook runtime ==\n  NOT refreshed: ${e.message}`);
       ok = false;
     }
@@ -657,7 +659,7 @@ function cmdUpdate(f) {
   // PreToolUse matcher never reached a machine that had run `hooks install` before it.
   // A machine that has consented (one entry of ours in settings.json) is re-wired here;
   // one that has not is left alone — an update is not the moment to ask.
-  ok = rewireConsentedHooks(f) && ok;
+  if (runtimeReady) ok = rewireConsentedHooks(f) && ok;
   // Skill visibility (B-143, wave L1). A machine whose record shows the operator ran
   // `visibility --apply` gets it again, with the same window and --keep, so skills the
   // refresh above just added are hidden by the same rule on every host. One with no
@@ -3219,7 +3221,8 @@ function cmdHooks(argv) {
    * ran `hooks install` — `B-22`, found at stage 8 rather than by a gate.
    */
   function syncRuntime() {
-    require('../lib/runtime.js').sync(pkgRoot, root, { create: true });
+    const result = require('../lib/runtime.js').sync(pkgRoot, root, { create: true });
+    if (result.ok === false) throw new Error(result.reason);
     return root;
   }
 
@@ -3315,7 +3318,7 @@ function cmdHooks(argv) {
     syncRuntime();
     log(`hooks: скрипты синхронизированы в ${root}`);
   } catch (e) {
-    log(`hooks: не удалось скопировать скрипты в ${root} (${e.message}) — ничего не записано`);
+    log(`hooks: не удалось скопировать скрипты в ${root} (${e.message}) — настройки не изменены`);
     return false;
   }
   if (!changed.length) { log('hooks: настройки уже на месте'); return true; }

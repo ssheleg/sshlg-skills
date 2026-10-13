@@ -1,0 +1,31 @@
+{
+  "source": "3898236",
+  "rows": [
+    {
+      "case": "second switch failure",
+      "result": {
+        "created": false,
+        "copied": [],
+        "reason": "install aborted, old runtime intact: fixture second switch"
+      },
+      "liveA": "new",
+      "liveB": "old",
+      "journal": true
+    },
+    {
+      "case": "malformed journal",
+      "result": {
+        "recovered": false,
+        "restored": []
+      }
+    },
+    {
+      "case": "introduced file recovery",
+      "result": {
+        "recovered": true,
+        "restored": []
+      },
+      "introducedRemains": true
+    }
+  ]
+}

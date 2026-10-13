@@ -475,3 +475,10 @@ historical evidence, not operational instructions. It is a verbatim copy of
 Its old status claims and exact-next headings describe their own dates. The same
 directory depth preserves relative links; [archive metadata](evidence/context-research/navigation.json)
 records its source and hash. Earlier release and workstream links remain there.
+
+## Runtime transaction follow-up — 2026-10-13
+
+Bounded correction and next task: [runtime atomicity packet](evidence/completion-1013/runtime-atomic/README.md).
+Failure propagation, existence-aware rollback and admission are source-implemented;
+independent immutable review and full owner gate remain pending. A retained crash
+lock is explicit unresolved recovery, not an automatic recovery claim.

@@ -57,6 +57,8 @@ def make_pkg():
             fh.write(f"// new {n}\n")
     with open(os.path.join(pkg, "skills.json"), "w") as fh:
         fh.write('{"v": 2}\n')
+    with open(os.path.join(pkg, "package.json"), "w") as fh:
+        fh.write('{"version":"2.0.0"}\n')
     return pkg
 
 
@@ -93,7 +95,7 @@ def t_copy_fault_leaves_old_install_complete():
     r = subprocess.run(["node", "-e", script, RT], capture_output=True, text=True, timeout=60)
     assert r.returncode == 0, r.stderr[:400]
     res = json.loads(r.stdout.strip())
-    assert res["reason"] and "old runtime intact" in res["reason"], \
+    assert res["ok"] is False and res["recovery"] == "not-needed" and "before switch" in res["reason"], \
         f"a copy fault did not abort cleanly: {res}"
     # every OLD file is still exactly as it was — no half install
     for d, n in (("hooks", "pre-tool-use.js"), ("hooks", "post-tool-use.js"),
