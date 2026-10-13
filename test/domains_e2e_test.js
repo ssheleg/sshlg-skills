@@ -79,6 +79,7 @@ const record = path.join(home, '.sshlg-skills', 'domains.json');
 const MONEY_LOCAL = fs.readFileSync(local(P.money), 'utf8');
 
 const run = (...args) => spawnSync(process.execPath, [BIN, ...args], { env, encoding: 'utf8', cwd: home });
+const runIn = (cwd, ...args) => spawnSync(process.execPath, [BIN, ...args], { env, encoding: 'utf8', cwd });
 const sha = (p) => (fs.existsSync(p) ? crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex') : 'absent');
 const watched = () => [settings, record, ...Object.values(P).map(local)];
 const snapshot = () => watched().map(sha);
@@ -99,7 +100,8 @@ it('the preview names each member with its evidence, the refusal, and the remova
   assert.ok(o.includes('used 60d: 2 call'), o);
   assert.ok(/p-noignore[^\n]*refused/.test(o), o);
   assert.ok(/- ~\/\.claude\/settings\.json[^\n]*xr-dev@xr-dev[^\n]*true → false/.test(o), o);
-  assert.ok(o.includes('RM-23'), 'the Fabric note is missing');
+  assert.ok(!o.includes('RM-23'), 'a private board id reached public output');
+  assert.ok(!/Fabric/.test(o), 'a Fabric line on a machine without Fabric');
   assert.ok(!o.includes('three-telegram-stripe-quest'), 'a project with no evidence was listed');
 });
 
@@ -193,10 +195,13 @@ it('--revert keeps a value the operator changed after --apply', () => {
   assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
 });
 
-it('a project file that cannot be written blocks its member at user scope (add before remove)', () => {
+it('a project file in another format is refused in the preview AND the apply, like an ignore refusal', () => {
   fs.writeFileSync(local(P.money), '{"permissions":{}}\n'); // not the format Claude Code writes
+  const pre = run('domains');
+  assert.ok(/p-money[^\n]*refused — the file is not in the 2-space/.test(pre.stdout), pre.stdout);
   const r = run('domains', '--apply');
-  assert.strictEqual(r.status, 1, 'a refused write must not exit 0');
+  assert.strictEqual(r.status, 0, 'a planned refusal exits like an ignore refusal');
+  assert.ok(/p-money[^\n]*refused/.test(r.stdout), r.stdout);
   assert.strictEqual(fs.readFileSync(local(P.money), 'utf8'), '{"permissions":{}}\n');
   assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['sheleg-dev@sheleg-dev'], true, r.stdout);
   assert.strictEqual(run('domains', '--revert').status, 0);
@@ -261,6 +266,144 @@ it('a malformed ownership record stops --apply and --revert with a reason', () =
   }
   fs.rmSync(record);
   assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+});
+
+// ── fix round 1 (readings of e27a040) ──
+const other = path.join(home, 'roots');
+function projectIn(rootDir, name, files, ignore) {
+  const dir = path.join(rootDir, name);
+  fs.mkdirSync(dir, { recursive: true });
+  spawnSync('git', ['init', '-q', dir], { env });
+  if (ignore !== false) w(path.join(dir, '.gitignore'), IGNORE);
+  for (const [rel, text] of Object.entries(files)) w(path.join(dir, rel), text);
+  return dir;
+}
+
+it('bootstrap: --enable writes a manual entry in the cwd git root, later runs keep it, --disable removes it', () => {
+  const fresh = project('p-fresh', { 'README.md': 'a Quest app, no code yet\n' });
+  fs.mkdirSync(path.join(fresh, 'src'));
+  const e = runIn(path.join(fresh, 'src'), 'domains', '--enable', 'xr-dev');
+  assert.strictEqual(e.status, 0, e.stdout + e.stderr);
+  assert.deepStrictEqual(enabled(local(fresh)), { 'xr-dev@xr-dev': true });
+  const rec = JSON.parse(fs.readFileSync(record, 'utf8'));
+  assert.deepStrictEqual(rec.manual[fresh], ['xr-dev']);
+  const pre = run('domains');
+  assert.ok(/p-fresh[^\n]*manual/.test(pre.stdout), pre.stdout);
+  assert.strictEqual(run('domains', '--apply').status, 0);
+  assert.deepStrictEqual(enabled(local(fresh)), { 'xr-dev@xr-dev': true });
+  const d = run('domains', '--disable', 'xr-dev', '--project', fresh);
+  assert.strictEqual(d.status, 0, d.stdout + d.stderr);
+  assert.ok(!fs.existsSync(local(fresh)), 'the entry --enable created is still there');
+  assert.ok(!(JSON.parse(fs.readFileSync(record, 'utf8')).manual || {})[fresh]);
+  assert.strictEqual(run('domains', '--enable', 'nope-dev', '--project', fresh).status, 2);
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  fs.rmSync(fresh, { recursive: true, force: true });
+  assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+  assert.ok(!fs.existsSync(record));
+});
+
+it('a missing root, or a root with no git repositories, refuses --apply and --update-step', () => {
+  fs.mkdirSync(other, { recursive: true });
+  for (const root of [path.join(home, 'no-such-root'), other]) {
+    const r = run('domains', '--apply', '--root', root);
+    assert.strictEqual(r.status, 1, `--apply ${root}: ${r.stdout}`);
+    assert.deepStrictEqual(fs.readFileSync(settings, 'utf8'), USER);
+    assert.ok(!fs.existsSync(record), 'a refused root was recorded');
+    // The update step on a machine where --apply ran, with its recorded root now gone.
+    const rec = S({ roots: [root], applied: true, user: {}, projects: {}, manual: {} });
+    w(record, rec);
+    const u = run('domains', '--update-step');
+    assert.strictEqual(u.status, 1, `--update-step ${root}: ${u.stdout}`);
+    assert.strictEqual(fs.readFileSync(record, 'utf8'), rec, 'the update step rewrote the record');
+    fs.rmSync(record);
+  }
+  // Where --apply never ran, a machine without ~/DATA must not turn `update` red.
+  const none = run('domains', '--update-step', '--root', path.join(home, 'no-such-root'));
+  assert.strictEqual(none.status, 0, none.stdout);
+});
+
+it('a project read only partly (broken git) blocks turning off every member it could not rule out', () => {
+  const root2 = path.join(home, 'root2');
+  projectIn(root2, 'good', { 'package.json': S({ dependencies: { three: '1' } }) });
+  const broken = path.join(root2, 'broken');
+  w(path.join(broken, '.git'), 'gitdir: /nowhere/at/all\n');
+  w(path.join(broken, 'package.json'), S({ dependencies: { grammy: '1' } }));
+  const r = run('domains', '--apply', '--root', root2);
+  assert.strictEqual(r.status, 0, r.stdout + r.stderr);
+  const u = JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins;
+  for (const k of ['xr-dev@xr-dev', 'web3d-dev@web3d-dev', 'sheleg-dev@sheleg-dev']) assert.strictEqual(u[k], true, `${k} off despite a partial scan\n${r.stdout}`);
+  assert.ok(/broken[^\n]*not read in full/.test(r.stdout), r.stdout);
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  fs.rmSync(root2, { recursive: true, force: true });
+  assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+});
+
+it('a symlinked repository under the root is followed, keyed by the link, deduplicated by realpath', () => {
+  const root3 = path.join(home, 'root3');
+  fs.mkdirSync(root3, { recursive: true });
+  const outside = projectIn(path.join(home, 'outside'), 'real', { 'package.json': S({ dependencies: { three: '1' } }) });
+  fs.symlinkSync(outside, path.join(root3, 'a-link'));
+  fs.symlinkSync(outside, path.join(root3, 'b-link'));
+  const r = run('domains', '--root', root3);
+  assert.ok(/1 git repositor/.test(r.stdout), r.stdout);
+  assert.ok(/\+ a-link: /.test(r.stdout) && !/b-link/.test(r.stdout), r.stdout);
+  fs.rmSync(root3, { recursive: true, force: true });
+  fs.rmSync(path.join(home, 'outside'), { recursive: true, force: true });
+});
+
+it('the update step only adds: it never turns a member off at user scope', () => {
+  fs.writeFileSync(local(P.money), '{"permissions":{}}\n'); // sheleg-dev blocked at the first apply
+  assert.strictEqual(run('domains', '--apply').status, 0);
+  assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['sheleg-dev@sheleg-dev'], true);
+  fs.writeFileSync(local(P.money), MONEY_LOCAL); // unblocked
+  const r = run('domains', '--update-step');
+  assert.strictEqual(r.status, 0, r.stdout);
+  assert.deepStrictEqual(enabled(local(P.money)), { 'sheleg-dev@sheleg-dev': true });
+  assert.strictEqual(JSON.parse(fs.readFileSync(settings, 'utf8')).enabledPlugins['sheleg-dev@sheleg-dev'], true, r.stdout);
+  assert.ok(/domains --apply/.test(r.stdout), 'the update step does not say how to turn it off');
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+  assert.strictEqual(fs.readFileSync(local(P.money), 'utf8'), MONEY_LOCAL);
+});
+
+it('an empty "enabledPlugins": {} the operator had survives --revert byte for byte', () => {
+  const had = S({ enabledPlugins: {} });
+  w(local(P.web3d), had);
+  assert.strictEqual(run('domains', '--apply').status, 0);
+  assert.deepStrictEqual(enabled(local(P.web3d)), { 'web3d-dev@web3d-dev': true });
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  assert.strictEqual(fs.readFileSync(local(P.web3d), 'utf8'), had);
+  fs.rmSync(path.join(P.web3d, '.claude'), { recursive: true, force: true });
+});
+
+it('--revert with an unreadable user settings.json keeps the entries and the record and exits 1', () => {
+  assert.strictEqual(run('domains', '--apply').status, 0);
+  fs.chmodSync(settings, 0o000);
+  const r = run('domains', '--revert');
+  fs.chmodSync(settings, 0o644);
+  assert.strictEqual(r.status, 1, r.stdout);
+  assert.ok(fs.existsSync(record));
+  assert.deepStrictEqual(enabled(local(P.web3d)), { 'web3d-dev@web3d-dev': true });
+  assert.strictEqual(run('domains', '--revert').status, 0);
+  assert.strictEqual(fs.readFileSync(settings, 'utf8'), USER);
+});
+
+it('a hand-made {} domains.json is not "apply ran": the update step only prints its line', () => {
+  w(record, '{}\n');
+  const r = run('domains', '--update-step');
+  assert.strictEqual(r.status, 0, r.stdout);
+  assert.ok(/`npx sshlg-skills domains` previews/.test(r.stdout), r.stdout);
+  assert.ok(!fs.existsSync(local(P.web3d)));
+  fs.rmSync(record);
+});
+
+it('the Fabric line prints only where Fabric is installed, and names no private id', () => {
+  const svc = path.join(home, 'Library', 'Application Support', 'ai.passioncode.fabric', 'services');
+  fs.mkdirSync(svc, { recursive: true });
+  const r = run('domains');
+  fs.rmSync(path.join(home, 'Library'), { recursive: true, force: true });
+  if (process.platform === 'darwin') assert.ok(/Fabric/.test(r.stdout), r.stdout);
+  assert.ok(!r.stdout.includes('RM-23'));
 });
 
 it('--root points it at another projects directory', () => {

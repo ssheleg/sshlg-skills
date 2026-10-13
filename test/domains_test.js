@@ -201,6 +201,28 @@ it('evidenceIn on a whole source line keeps the word boundary: navigator.xrFoo i
   assert.deepStrictEqual(D.evidenceIn('a.js', 'const x = window.mynavigator.xrFoo;'), []);
 });
 
+it('plan: a partly read project blocks turning off every member it could not rule out', () => {
+  const p = D.plan({ projects: [
+    proj('/p/game', { 'xr-dev': ['x'] }),
+    Object.assign(proj('/p/odd', { 'xr-dev': ['x'] }), { partial: ['xr-dev', 'web3d-dev', 'telegram-dev', 'sheleg-dev'] }),
+  ], user: USER, owned: null, plugins: PLUG });
+  assert.ok(p.userOff.includes('xr-dev@xr-dev'), 'evidence was found there, so xr-dev is ruled IN, not unknown');
+  assert.ok(!p.userOff.includes('web3d-dev@web3d-dev') && !p.userOff.includes('telegram-dev@telegram-dev'));
+  assert.deepStrictEqual(p.uncertain.map((u) => u.key).sort(), ['telegram-dev@telegram-dev', 'web3d-dev@web3d-dev']);
+});
+
+it('plan: onlyAdd (the update step) never turns a member off at user scope', () => {
+  const p = D.plan({ projects: [proj('/p/a', { 'xr-dev': ['x'] })], user: USER, owned: null, plugins: PLUG, onlyAdd: true });
+  assert.deepStrictEqual(p.adds, [{ dir: '/p/a', keys: ['xr-dev@xr-dev'] }]);
+  assert.deepStrictEqual(p.userOff, []);
+  assert.ok(p.wouldOff.includes('xr-dev@xr-dev'));
+});
+
+it('editEnabled: keepEmpty leaves an emptied enabledPlugins in place', () => {
+  const before = S({ enabledPlugins: { 'a@a': true } });
+  assert.strictEqual(D.editEnabled(before, { unset: { 'a@a': true }, keepEmpty: true }).text, S({ enabledPlugins: {} }));
+});
+
 it('revertPlan: user scope back on first, then only project values still as set', () => {
   const owned = { user: { 'xr-dev@xr-dev': false, 'web3d-dev@web3d-dev': false }, projects: { '/p/a': { plugins: ['xr-dev@xr-dev'] }, '/p/b': { plugins: ['xr-dev@xr-dev'] } } };
   const r = D.revertPlan({ owned, user: { 'xr-dev@xr-dev': false, 'web3d-dev@web3d-dev': true }, locals: { '/p/a': { 'xr-dev@xr-dev': true }, '/p/b': { 'xr-dev@xr-dev': false } } });
