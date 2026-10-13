@@ -346,3 +346,8 @@ the discovery contract, followed by a separately preregistered loaded-skill
 quality protocol if justified. Keep spontaneous selection and explicit loading
 as different experiments. No more model/provider calls belong to this protocol;
 no rubric/prompt change, original-stop relabelling or installed change was made.
+
+The root coordinator is the independent artifact reviewer; this branch author
+is the explicitly nonblind second reviewer. Missing pre-switch access checks
+and class-name ambiguity are findings in these outputs only. Because Skill was
+never invoked, they do not establish defects in the specialist skill body.
