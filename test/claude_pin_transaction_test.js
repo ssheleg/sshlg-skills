@@ -12,7 +12,7 @@ function fixture(box) {
  const inventory={schema:'claude-plugin-pins/1',members:[row]},opts={home,profileRoot:profile};
  fs.mkdirSync(payload+'/.claude-plugin',{recursive:true});fs.writeFileSync(payload+'/.claude-plugin/plugin.json',raw);fs.writeFileSync(payload+'/value.txt','first');
  const rec={scope:'user',version:'1.0.0',gitCommitSha:a,installPath:payload};fs.writeFileSync(rf,JSON.stringify({version:2,plugins:{[id]:[rec]}}));
- fs.writeFileSync(sf,'{\r\n "huge":100000000000000000000000001, "enabledPlugins":{"probe@fixture":false,"foreign@foreign":false}, "env":{"KEEP":"same"}\r\n}\r\n');
+ fs.writeFileSync(sf,'{\r\n "huge":1000001.2500, "enabledPlugins":{"probe@fixture":false,"foreign@foreign":false}, "env":{"KEEP":"same"}\r\n}\r\n');
  const calls=[];let hook=null;
  const plan=()=>P.prepare([m],inventory,opts);
  function runner(cmd,args) {
@@ -31,7 +31,7 @@ function fixture(box) {
  function planCatalog(){return home+'/.sshlg-skills/claude-pinned/'+S.sha256(require('../lib/visibility-state').profilePath(profile)).slice(0,16)+'/fixture/.claude-plugin/marketplace.json';}
  return {box,home,profile,id,a,b,payload,sf,rf,m,row,inventory,opts,calls,plan,runner,setHook:f=>hook=f,execute:()=>T.execute(plan(),[m],inventory,{runner})};
 }
-test('same-version repair verifies exact payload and restores raw foreign settings + disabled state',f=>{const r=f.execute();assert(r.ok,JSON.stringify(r));const s=fs.readFileSync(f.sf,'utf8');assert(s.includes('100000000000000000000000001'));assert(s.includes('\r\n'));assert.equal(JSON.parse(s).enabledPlugins[f.id],false);assert.equal(f.plan().jobs[0].action,'verify');assert.equal(r.results[0].files,2);});
+test('same-version repair verifies exact payload and restores raw round-trip-safe numbers + disabled state',f=>{const r=f.execute();assert(r.ok,JSON.stringify(r));const s=fs.readFileSync(f.sf,'utf8');assert(s.includes('1000001.2500'));assert(s.includes('\r\n'));assert.equal(JSON.parse(s).enabledPlugins[f.id],false);assert.equal(f.plan().jobs[0].action,'verify');assert.equal(r.results[0].files,2);});
 test('failure after uninstall rolls back through native CLI and permits safe retry',f=>{let fail=true;f.setHook(a=>{if(fail&&a[1]==='install'){fail=false;return {status:1};}});const r=f.execute();assert.equal(r.ok,false);assert.equal(r.results[0].rollback,'verified-prior-payload');assert.equal(fs.readFileSync(f.payload+'/value.txt','utf8'),'first');assert(f.execute().ok);});
 test('catalog failure before payload changes does not uninstall or pretend rollback',f=>{f.setHook(a=>a[1]==='marketplace'?{status:1}:null);const r=f.execute();assert(!r.ok);assert.equal(r.results[0].rollback,'not-attempted');assert(!f.calls.some(a=>a[1]==='uninstall'));assert.equal(fs.readFileSync(f.payload+'/value.txt','utf8'),'first');});
 test('changed frozen settings refuse before even checking runtime',f=>{const p=f.plan();fs.appendFileSync(f.sf,' ');assert.throws(()=>T.execute(p,[f.m],f.inventory,{runner:f.runner}),/plan changed/);assert.equal(f.calls.length,0);});
@@ -73,5 +73,36 @@ test('timeout uncertainty never starts rollback and blocks another native attemp
  assert.equal(f.calls.filter(a=>a[1]==='uninstall').length,1);assert.equal(f.calls.filter(a=>a[1]==='install').length,1);
  assert.throws(f.plan,/incomplete Claude transaction/);const receipt=JSON.parse(fs.readFileSync(r.receipt));assert.equal(receipt.uncertain,true);
  const recovery=JSON.parse(fs.readFileSync(receipt.recoveryPlan));assert.equal(recovery.jobs[0].previous.commit,f.a);assert.equal(recovery.jobs[0].desired.commit,f.b);
+});
+
+test('unknown native outcome leaves partially written settings untouched until recovery',f=>{
+ let nativeBytes=null;
+ f.setHook(args=>{if(args[1]==='install'){const setting=JSON.parse(fs.readFileSync(f.sf));setting.enabledPlugins[f.id]=true;nativeBytes=JSON.stringify(setting);fs.writeFileSync(f.sf,nativeBytes);return {status:null,signal:'SIGTERM'};}});
+ const r=f.execute();assert(!r.ok);assert.equal(fs.readFileSync(f.sf,'utf8'),nativeBytes);
+ const receipt=JSON.parse(fs.readFileSync(r.receipt));assert.equal(receipt.settingsRestored,false);assert.equal(receipt.uncertain,true);assert.throws(f.plan,/incomplete/);
+});
+test('destructive repair requires a prior immutable rollback identity',f=>{
+ const before=fs.readFileSync(f.sf);
+ for(const sha of [undefined,'main','A'.repeat(40)]){const registry=JSON.parse(fs.readFileSync(f.rf));registry.plugins[f.id][0].gitCommitSha=sha;fs.writeFileSync(f.rf,JSON.stringify(registry));assert.throws(f.plan,/prior immutable Git identity/);}
+ assert.equal(f.calls.length,0);assert.deepEqual(fs.readFileSync(f.sf),before);
+});
+
+test('ambiguous numeric metadata refuses before any native command or write',f=>{
+ const before=fs.readFileSync(f.sf);
+ for(const raw of ['9007199254740993','100000000000000000000000001','0.10000000000000001','1e309','-0']) {
+   const candidate='{"foreign":'+raw+'}';fs.writeFileSync(f.sf,candidate);assert.throws(f.plan,/metadata/);assert.equal(fs.readFileSync(f.sf,'utf8'),candidate);
+ }
+ assert.equal(f.calls.length,0);fs.writeFileSync(f.sf,before);
+});
+test('precise foreign numeric changes cannot collide in settings restore or registry checks',f=>{
+ const plan=f.plan(),target=T.targetSettings(plan),backup=f.box+'/backups';
+ for(const raw of ['100000000000000000000000002','9007199254740993']) {
+   fs.writeFileSync(f.sf,'{"foreign":'+raw+'}');const exact=fs.readFileSync(f.sf);assert.throws(()=>T.restoreSettings(plan,target,backup),/number/);assert.deepEqual(fs.readFileSync(f.sf),exact);
+ }
+ fs.writeFileSync(f.rf,'{"version":2,"plugins":{"foreign@elsewhere":[{"value":9007199254740993}]}}');assert.throws(()=>T.verifyForeign(plan),/number/);
+});
+test('safe decimal and exponent spellings retain exact mathematical values',f=>{
+ for(const raw of ['1','1.0','0.1','-12.50','1e3','9007199254740992','1e300','0e-1000']) assert.equal(typeof P.parseMetadata('{"n":'+raw+'}').data.n,'number');
+ assert.equal(P.parseMetadata('{"s":"9007199254740993","escaped":"\\\"0.10000000000000001"}').data.s,'9007199254740993');
 });
 console.log(`PASS: Claude native transaction — ${count} cases`);
