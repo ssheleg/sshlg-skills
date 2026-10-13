@@ -13,3 +13,7 @@ Agent-sync, make-skill, sheleg-dev and design adopt the reviewed board/release c
 ## Handoff
 
 Only entries present with completed merge evidence are accepted here. Other owner candidates remain pending their own local/peer/hosted gates. Next: the hub coordinator reconciles these source successors into the later approved pin wave and regenerates its source inventory; do not retag an existing release or claim global installation from source acceptance. Native discovery, model invocation and task-quality evidence remain separate.
+
+## Make-skill native evidence owner delivery
+
+The separate docs-only PR 38 merged as `3740043608a2d2969982ed304eebfd5313c06b19` after genuine candidate run 38359650872 passed all jobs and required contexts. [Merge and byte readback](make-native-owner-merge.json) verifies the entire merged tree equals reviewed candidate 4e56448 and all 34 npm payload files equal the recorded source base. This delivers the bounded native-loading observations to the owner without a version, package payload or installed change.
