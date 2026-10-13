@@ -593,6 +593,40 @@ it('unreadable host settings during revert keep that hosts recovery ownership', 
   assert.strictEqual(fs.readFileSync(file,'utf8'),'{}\n');
 });
 
+
+it('legacy non-Claude ownership without a provable profile refuses rather than guessing', () => {
+  const m = recoveryMachine('unbound-gemini');
+  assert.strictEqual(m.run('visibility','--apply').status,0);
+  const bound = m.rec(), legacy = m.rec(); delete legacy.files.gemini;
+  m.w('.sshlg-skills/visibility.json', JSON.stringify(legacy));
+  const other = m.w('other-gemini/settings.json',JSON.stringify({skills:{disabled:['dcf','operator']}},null,2)+'\n');
+  const files = [other,path.join(m.home,'.gemini/settings.json'),path.join(m.home,'.sshlg-skills/visibility.json')];
+  const before = files.map(sha);
+  for (const env of [{GEMINI_CONFIG_DIR:path.dirname(other)},{}]) {
+    const r = m.runWithEnv(env,'visibility','--revert');
+    assert.strictEqual(r.status,1,r.out);
+    assert.ok(/not bound|profile.*unknown/.test(r.out),r.out);
+    assert.deepStrictEqual(files.map(sha),before);
+  }
+  // Restoring a verified original binding permits undo in that original profile.
+  m.w('.sshlg-skills/visibility.json',JSON.stringify(bound));
+  assert.strictEqual(m.run('visibility','--revert').status,0);
+  assert.strictEqual(sha(other),before[0]);
+});
+it('malformed skill-lock entries cannot silently unhide their previously owned skills', () => {
+  for (const entry of [null, {}, {source:42}]) {
+    const m = recoveryMachine(`bad-lock-entry-${String(entry && entry.source)}`);
+    assert.strictEqual(m.run('visibility','--apply').status,0);
+    const files = ['.gemini/settings.json','.sshlg-skills/visibility.json'].map((f) => path.join(m.home,f));
+    const before = files.map(sha);
+    m.w('.agents/.skill-lock.json',JSON.stringify({version:3,skills:{dcf:entry}}));
+    const r = m.run('visibility','--apply');
+    assert.strictEqual(r.status,1,r.out);
+    assert.deepStrictEqual(files.map(sha),before);
+    assert.strictEqual(m.run('visibility','--revert').status,0);
+  }
+});
+
 fs.rmSync(base, { recursive: true, force: true });
 if (failures.length) {
   failures.forEach((f) => console.log(`FAIL: ${f}`));

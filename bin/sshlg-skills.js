@@ -2068,6 +2068,9 @@ function runVisibilityUnlocked(opts) {
     const prior = (owned.files || {})[id] || (id === 'claude' ? path.join(home, '.claude/settings.json')
       : id === 'codex' ? path.join(home, '.codex/config.toml') : null);
     const carriesState = (owned[id] || []).length || createdOf(id).length || (opts.reapply && (owned.hosts || []).includes(id));
+    if (!prior && carriesState) {
+      log(`visibility: legacy ${id} ownership is not bound to a profile; preserve ${recordPath} and backups, restore a verified files.${id} binding from the original apply before retrying; nothing written`); return 1;
+    }
     if (prior && path.resolve(prior) !== file && carriesState) {
       log(`visibility: ${id} profile differs from ownership at ${prior}; select that profile and revert first; nothing written`); return 1;
     }

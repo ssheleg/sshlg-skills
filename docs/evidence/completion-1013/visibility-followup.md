@@ -27,8 +27,9 @@ bounded follow-up branch; it is not an installed/native acceptance claim.
   consent to the recorded profile, even if its entry list is empty. Legacy
   Claude/Codex receipts can only belong to the former hard-coded default roots;
   select those roots and revert before changing profiles. Legacy receipts for
-  other hosts lacked path binding and retain their previous migration behavior;
-  newly written receipts bind those hosts too.
+  other hosts lacked provable path binding and now refuse to mutate until a
+  verified original `files.<host>` path is restored from prior apply evidence.
+  Newly written receipts bind those hosts too; a default path is not guessed.
 - Missing policy is distinct from unreadable, malformed or wrong-shaped policy.
   Apply/preview/reapply refuse unknown marks, skill-lock or visibility overrides
   before writing configuration or ownership. Usage/instruction read failure also
@@ -41,9 +42,12 @@ bounded follow-up branch; it is not an installed/native acceptance claim.
 The implementation does not change the existing Codex editor's empty-table
 normalization. Profile round-trip fixtures use an existing empty `[skills]` table
 so their byte-for-byte assertion checks preservation rather than a new TOML
-formatting policy. An unbound legacy custom non-Claude/Codex profile remains an
-explicit historical limitation; this change cannot reconstruct a path an old
-receipt never recorded.
+formatting policy. An unbound legacy non-Claude/Codex receipt needs recovery evidence before any
+mutation; this change cannot reconstruct a path an old receipt never recorded.
+Preserve the receipt and protected backups. Identify the original settings path
+from the original apply trace/backups, restore only that verified `files.<host>`
+binding in the receipt, then select that profile and retry undo. Without such
+evidence the command refuses, retaining the state for investigation.
 
 ## Red/green evidence
 
@@ -94,3 +98,26 @@ An attempted `node test/enablement_test.js` did not run because that file does n
 exist (MODULE_NOT_FOUND). No pass is claimed for it; enablement's explicit-root
 seam is exercised by the active-profile visibility process test and existing
 conflicts/toolkit suites.
+
+## Independent review correction
+
+`fresh_research` found two counterexamples on `4538bb7`: an unbound legacy Gemini
+receipt removed a same-name operator entry from a relocated profile, and a lock
+with `skills.foreign = null` was accepted as an empty pack mapping. The two added
+real-process fixtures were run against that unchanged commit's implementation:
+**2 failures out of 2 checks**, exit 1. The runner selected those test names in
+`visibility_hosts_e2e_test.js` through a Node module wrapper; it did not substitute
+the CLI or persistence implementation.
+
+Correction: unbound legacy non-Claude/Codex ownership now refuses rather than
+guessing an original profile. Strict lock reads validate each source entry; null,
+missing and non-string sources are unknown policy, not removals. Explicit empty
+`skills: {}` remains a known empty mapping. Revert remains independent of lock
+policy. The profile fixture verifies both relocated and default unbound refusals,
+then successful undo after restoring a verified original binding.
+
+After the review corrections, `node test/visibility_hosts_e2e_test.js` returned
+`OK (50 checks)`, exit 0. The separately selected two new fixtures returned
+`OK (2 checks)`, exit 0. This supersedes the earlier 48-check result for the final
+source. The original 37 checks still run; the total delta is 13 checks, no new
+suite. `git diff --check` also returned exit 0 after the corrections.
