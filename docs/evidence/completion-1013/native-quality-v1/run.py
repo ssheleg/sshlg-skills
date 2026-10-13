@@ -24,13 +24,16 @@ SKILLS={'sheleg-dev:'+x for x in ('ad-tracking','crypto-payments','error-trackin
 MAX_CALLS=6
 BUDGET=4.0
 RESERVE=0.50
-PRIOR_COST=0.0373944  # Immutable attempt A, observed-20261013.json.
+PRIOR_RECORDS=(('observed-20261013.json',0.0373944),('observed-b-20261013.json',0.011772000000000001))
+PRIOR_COST=sum(cost for _,cost in PRIOR_RECORDS)
+PRIOR_CALLS=2
+MAX_CUMULATIVE_CALLS=8
 TIMEOUT=180
 READY_INPUT=24000
 TASK_INPUT=32000
 MAX_TURNS=6
 READY_PROMPT='This is a startup readiness check. Do not invoke Skill, Read, Glob, Grep or any other tool. Reply with exactly READY and nothing else.'
-SETTINGS={'disableBundledSkills':True,'skillOverrides':{'doctor':'off'},'disableAllHooks':True,'autoMemoryEnabled':False,'claudeMdExcludes':['**'],'disableClaudeAiConnectors':True}
+SETTINGS={'disableBundledSkills':True,'skillOverrides':{'doctor':'off','design':'off','plugin-authoring':'off'},'disableAllHooks':True,'autoMemoryEnabled':False,'claudeMdExcludes':['**'],'disableClaudeAiConnectors':True}
 
 def plan(seed):
     rng=random.Random(seed);arms=['full','concise'];rng.shuffle(arms)
@@ -136,15 +139,19 @@ def preflight(private):
     assert version.returncode==0 and version.stdout.decode().strip()=='2.1.296 (Claude Code)'
 
 def execute(args):
-    prior=json.loads((ROOT/'observed-20261013.json').read_text())
-    assert prior['status']=='STOPPED_TEST_ERROR' and prior['cost_incomplete'] is False
-    assert prior['reported_list_usd']==PRIOR_COST and len(prior['calls'])==1 and prior['calls'][0]['cost_usd']==PRIOR_COST
+    prior_hashes={}
+    for name,cost in PRIOR_RECORDS:
+        data=(ROOT/name).read_bytes();prior=json.loads(data)
+        assert prior['status']=='STOPPED_TEST_ERROR' and prior['cost_incomplete'] is False
+        assert prior['reported_list_usd']==cost and len(prior['calls'])==1 and prior['calls'][0]['cost_usd']==cost
+        prior_hashes[name]=base.digest(data)
+    assert len(PRIOR_RECORDS)==PRIOR_CALLS and PRIOR_CALLS+MAX_CALLS==MAX_CUMULATIVE_CALLS
     if args.output.exists() or args.output.with_name(args.output.name+'.pending').exists():raise ValueError('receipt_exists')
     private=args.private_dir
     if not private.is_absolute() or private.is_symlink() or private.exists():raise ValueError('private_directory_must_be_absolute_and_new')
     if subprocess.run(['git','rev-parse','--show-toplevel'],cwd=private.parent,capture_output=True).returncode==0:raise ValueError('raw_inside_git')
     private.mkdir(mode=0o700)
-    receipt={'schema':'native-quality-run/1','status':'PREFLIGHT','calls':[],'seed':args.seed,'reported_list_usd':0.0,'prior_reported_list_usd':PRIOR_COST,'combined_known_list_usd':PRIOR_COST,'prior_receipt_sha256':base.digest((ROOT/'observed-20261013.json').read_bytes()),'cost_incomplete':False,'source_sha':json.loads((ROOT/'source.json').read_text())['commit'],'runner_sha256':base.digest(Path(__file__).read_bytes()),'materializer_sha256':base.digest((ROOT/'materialize.py').read_bytes()),'source_manifest_sha256':base.digest((ROOT/'source.json').read_bytes()),'arms_fixture_sha256':base.digest((ROOT.parent/'description-screening-fixture-v2.json').read_bytes()),'tasks_sha256':base.digest((ROOT/'tasks.json').read_bytes()),'rubric_sha256':base.digest((ROOT/'rubric.json').read_bytes()),'budget':BUDGET,'max_calls':MAX_CALLS,'scope':'Restricted native fixture only; artifact quality requires independent review; list metadata is not subscription billing.'}
+    receipt={'schema':'native-quality-run/1','status':'PREFLIGHT','calls':[],'seed':args.seed,'reported_list_usd':0.0,'prior_reported_list_usd':PRIOR_COST,'combined_known_list_usd':PRIOR_COST,'prior_receipt_sha256':prior_hashes,'prior_cli_invocations':PRIOR_CALLS,'max_cumulative_cli_invocations':MAX_CUMULATIVE_CALLS,'max_model_turns_this_attempt':2+4*MAX_TURNS,'cost_incomplete':False,'source_sha':json.loads((ROOT/'source.json').read_text())['commit'],'runner_sha256':base.digest(Path(__file__).read_bytes()),'materializer_sha256':base.digest((ROOT/'materialize.py').read_bytes()),'source_manifest_sha256':base.digest((ROOT/'source.json').read_bytes()),'arms_fixture_sha256':base.digest((ROOT.parent/'description-screening-fixture-v2.json').read_bytes()),'tasks_sha256':base.digest((ROOT/'tasks.json').read_bytes()),'rubric_sha256':base.digest((ROOT/'rubric.json').read_bytes()),'budget':BUDGET,'max_calls':MAX_CALLS,'scope':'Restricted native fixture only; call counts mean CLI invocations, bounded model turns separately; CLI internal retries unmeasured. Artifact quality requires independent review; list metadata is not subscription billing.'}
     base.save_receipt(args.output,receipt)
     try:preflight(private)
     except Exception as exc:
@@ -152,6 +159,7 @@ def execute(args):
     receipt.update(status='RUNNING',auth_route='claude.ai subscription / firstParty',cli_version='2.1.296')
     env=dict(os.environ,CLAUDE_CODE_DISABLE_AUTO_MEMORY='1',CLAUDE_CODE_MAX_OUTPUT_TOKENS='1600')
     for index,item in enumerate(plan(args.seed)):
+        if len(receipt['calls'])+PRIOR_CALLS>=MAX_CUMULATIVE_CALLS:receipt['status']='STOPPED_CALL_BOUND';break
         if PRIOR_COST+receipt['reported_list_usd']+RESERVE>BUDGET:receipt['status']='STOPPED_BUDGET';break
         record={k:v for k,v in item.items() if k!='prompt'};record.update(index=index,state='STARTED',prompt_sha256=base.digest(item['prompt']),started_at_utc=time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()))
         receipt['calls'].append(record);base.save_receipt(args.output,receipt)

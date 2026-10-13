@@ -180,3 +180,22 @@ design source is unresolved. Official visibility documentation supports exact-na
 can try `design: off` and `plugin-authoring: off` as session-only overrides, retaining
 the exact-seven gate. If an unhideable builtin remains, a fixed, explicit builtin
 co-context needs a separately reviewed scope; no contaminated attempt becomes PASS.
+
+
+## Exact-name override revision prepared, not executed
+
+Keep `disableBundledSkills: true`; expand only the CLI `skillOverrides` map to
+`doctor`, `design`, `plugin-authoring`, each `off`. No installed setting or plugin
+enablement changes. The fake CLI requires exactly this map, and each residual
+name still has its own failing admission control. Whether these two native
+entries obey the documented override is unknown until a reviewed readiness.
+
+Accounting now explicitly includes both stopped attempts: **two prior CLI
+invocations / USD0.0491664 known reported list cost**. A newly reviewed attempt
+may make **at most six further CLI invocations**, giving **eight cumulative**,
+not six across the whole program. The overall reported-list ceiling remains USD4.
+Each readiness has at most one model turn and each task at most six, for at most
+26 model turns in a six-invocation attempt (28 including prior readiness). A model
+turn is not a promise about hidden transport retries; those remain unmeasured.
+Both prior receipt hashes and separate prior/new/combined cost appear in output.
+The strict seven-skill gate and stop-on-first-error policy remain unchanged.
