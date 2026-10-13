@@ -262,3 +262,27 @@ receipt/settings/source/task/rubric rejection, no readiness/task repetition,
 private retention and combined counters. No new provider call occurred while
 preparing this protocol. Next: independent review, then explicit execution only
 under the coordinator's approved bounded continuation.
+
+## Delivered-artifact correction before continuation
+
+Independent review found the full/a1 answer was delivered in two visible text
+blocks: 3,506 characters followed by 892 characters after an output-limit
+continuation. `result.result` held only that last tail. The earlier diagnostic's
+artifact hash therefore identified a tail, not the entire delivered audit.
+Its historical record stays unchanged; the [v2 offline diagnostic](observed-c-offline-diagnostic-v2.json)
+supersedes that artifact interpretation and still does not alter C's TEST_ERROR.
+
+The parser now preserves every assistant text block in stream order with request
+provenance, excludes thinking and tool-result content, and hashes the joined text
+separately from `final.result`. Public receipts contain only block hashes,
+character counts and hashed request IDs. Successful calls also save the ordered
+text and exact message IDs privately in `assistant-text.json` (0600), alongside
+raw streams. For C, private `assistant-text-offline-v2.json` contains the complete
+replayed artifact; no new model call was needed. Two newline characters delimit
+blocks in the joined view; original block boundaries remain available.
+
+The offline split-final control proves that the full artifact includes both
+requests, that the final-result hash still identifies the tail, and that thinking
+is excluded. All original and continuation fake-process controls passed again.
+No prompt, rubric, model, source, limit or cost policy changed. The corrected
+continuation remains NOT_RUN pending independent final review.

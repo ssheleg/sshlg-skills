@@ -45,6 +45,7 @@ with tempfile.TemporaryDirectory(prefix='native-check-') as temp:
  assert parse([init,assistant,final])['evaluation_status']=='EXECUTED'
  # Several stream blocks may carry one API message ID and repeated input usage.
  chunks=[copy.deepcopy(assistant) for _ in range(8)]
+ for chunk in chunks[:-1]:chunk['message']['content']=[{'type':'thinking','thinking':'excluded'}]
  parsed=parse([init,*chunks,final]);assert parsed['evaluation_status']=='EXECUTED' and parsed['request_count']==1
  bad=copy.deepcopy(chunks);bad[-1]['message']['usage']['input_tokens']+=1
  assert parse([init,*bad,final])['error_class']=='conflicting_request_usage'
@@ -75,7 +76,15 @@ with tempfile.TemporaryDirectory(prefix='native-check-') as temp:
  response={'type':'user','message':{'content':[{'type':'tool_result','tool_use_id':'t1','content':'fixture source','is_error':False}]}}
  a=copy.deepcopy(assistant);a['message']['content']=[call]
  c=copy.deepcopy(final);c['result']='Audit findings with evidence.'
+ a['message']['content'].append({'type':'text','text':'Audit findings with evidence.'})
  assert parse([init,a,response,c],'task')['native']['read_files']==['app/client.py']
+ first=copy.deepcopy(assistant);first['message']['content']=[{'type':'thinking','thinking':'PRIVATE_THINKING'},{'type':'text','text':'First half.'}]
+ last=copy.deepcopy(assistant);last['message']['id']='second-request';last['message']['content']=[{'type':'text','text':'Second half.'}]
+ tail=copy.deepcopy(c);tail['result']='Second half.';tail['num_turns']=2
+ split=parse([init,first,last,tail],'task')
+ assert split['evaluation_status']=='EXECUTED' and split['artifact_sha256']==r.base.digest('First half.\n\nSecond half.')
+ assert split['final_result_sha256']==r.base.digest('Second half.') and len(split['artifact_text_blocks'])==2
+ assert split['artifact_text_blocks'][0]['request_id_sha256']!=split['artifact_text_blocks'][1]['request_id_sha256']
  for mode,error in [('outside','outside_workspace_read'),('bash','unallowed_tool'),('denied','tool_denied_or_error')]:
   b=copy.deepcopy(a);res=copy.deepcopy(response)
   if mode=='outside':b['message']['content'][0]['input']['file_path']=str(root/'not-workspace')
@@ -103,6 +112,7 @@ mode=os.environ.get('NATIVE_FAKE_MODE','ok');phase='readiness' if args[args.inde
 if phase=='task':
  assistant['message']['content']=[{'type':'tool_use','id':'s1','name':'Skill','input':{'skill':'sheleg-dev:google-auth'}},{'type':'tool_use','id':'r1','name':'Read','input':{'file_path':str(Path.cwd()/'app/client.py')}}]
  final['result']='Audit artifact PRIVATE_NATIVE_SENTINEL';final['num_turns']=2
+ assistant['message']['content'].append({'type':'text','text':final['result']})
 if mode=='contamination':init['skills'].append('foreign:secret')
 if mode=='unknown-cost':final.pop('total_cost_usd')
 if mode=='budget':final['total_cost_usd']=0.75
