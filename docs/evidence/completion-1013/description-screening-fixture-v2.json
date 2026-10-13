@@ -1,0 +1,2337 @@
+{
+  "schema": "explicit-corpus-screening/2",
+  "source_commit": "ab37778793674efff60b92ed381284c7339420ea",
+  "previous_fixture": "description-screening-fixture.json",
+  "provenance": "Human-readable synthetic cases authored by a separate implementation agent from pinned SKILL body contracts; label review pending. Translation pairs are correlated. No provider/model/native run performed.",
+  "selection_contract": {
+    "purpose": "Choose the specialist skill(s) directly responsible for the requested artifact from these 39 catalogue IDs. This is not an instruction to execute the task.",
+    "scope": "Do not add mandatory search, coordination, evidence or delivery wrappers unless those are themselves explicitly requested artifacts. Generic router names are not catalogue IDs.",
+    "output": "JSON array of unique IDs; unordered; [] if no listed specialist directly owns the task.",
+    "max_selections": 3,
+    "ambiguity": "Any one listed accepted set is valid, including documented single-owner alternatives. Extra unrelated skills fail exact-set acceptance.",
+    "limits": "Selection screening only; does not prove native discovery, hidden catalogue reachability, loaded content, task quality or token savings."
+  },
+  "n": 116,
+  "arms": {
+    "full": [
+      {
+        "id": "ad-tracking",
+        "description": "Use when setting up or modifying ad pixel integration, conversion tracking, consent management, purchase event tracking, retargeting audiences, or auditing an existing advertising analytics stack. Covers Google Analytics 4, Google Ads, Meta (Facebook) Pixel and LinkedIn Insight Tag in web applications: Consent Mode v2, standard events, e-commerce tracking, advanced matching, Enhanced Conversions, CSP configuration, user identification, cross-device tracking, and GDPR/DMA compliance. Triggers - \"ad tracking\", \"conversion tracking\", \"meta pixel\", \"fbq\", \"google ads\", \"GA4\", \"gtag\", \"consent mode\", \"cookie consent\", \"enhanced conversions\", \"retargeting\", \"purchase event\", \"CAPI\", \"gclid\", \"UTM\", \"attribution\", \"отслеживание конверсий\", \"пиксель Meta\", \"согласие на куки\", \"ретаргетинг\", \"аналитика рекламы\". Not for running the ad campaigns themselves.",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/SKILL.md"
+      },
+      {
+        "id": "agent-evals",
+        "description": "Use when measuring whether an agent actually works — building an eval suite, judging a trajectory rather than a final answer, turning production traces into regression fixtures, calibrating an LLM judge against human labels, or gating a release on offline evals. Covers observability — run, trace and thread — crossed with single-step, full-turn and multi-turn evals, the offline/online/ad-hoc timing axis, pass-fail rubrics over scalar scores, cheap code checks before model judges, the checker node as an evaluator inside the graph, simulated users with adversarial personas, annotation queues, and what to instrument for any of it. Triggers - \"agent eval\", \"eval suite\", \"LLM judge\", \"regression fixture\", \"trajectory eval\", \"checker node\", \"is the agent getting better\", \"эвалы агента\", \"оценка агента\", \"LLM-судья\", \"регрессионный набор\", \"как проверить агента\". Not for unit tests of ordinary code, or benchmarking a model.",
+        "source": "skills/agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md"
+      },
+      {
+        "id": "agent-harness",
+        "description": "Use when the question is what the agent is TOLD rather than how its loop is wired — writing or fixing a system prompt, shaping tools so the model picks the right one, whether a job wants a workflow or an agent, or choosing between ReAct, reflection and voting. Also auditing someone else's agent system: tracks, evidence tiers, a prioritized plan instead of a score, a scanner. Carries Pi as a worked kernel implementation — SDK, RPC and extension seams — for embedding or extending a harness. Triggers - \"system prompt\", \"tool description\", \"agent picks the wrong tool\", \"agent loops forever\", \"prompt engineering\", \"harness engineering\", \"ReAct loop\", \"react pattern\", \"workflow or agent\", \"static or dynamic\", \"audit this agent\", \"embed an agent\", \"agent SDK\", \"Pi harness\", \"системный промпт\", \"агент не вызывает тул\", \"аудит агента\", \"встроить агента\". Not for the loop's plumbing, its evals, or its protocols — those are siblings.",
+        "source": "skills/agent-stack/plugins/agent-stack/skills/agent-harness/SKILL.md"
+      },
+      {
+        "id": "agent-interop",
+        "description": "Use when an agent talks to anything outside its process — building or consuming an MCP server, exposing or calling an agent over A2A, publishing to the MCP Registry, or fronting agent traffic with a gateway. Carries the MCP 2026-07-28 wire surface and what it deprecated (server/discover, stateless _meta, form/URL elicitation, subscriptions/listen; sampling, roots, logging and dynamic client registration going), A2A 1.0 agent cards, task states, three bindings, registry namespaces, what a gateway adds over an API gateway, and calls on behalf of a person. Triggers - \"MCP server\", \"MCP client\", \"A2A\", \"agent card\", \"agent interoperability\", \"MCP registry\", \"server.json\", \"agentgateway\", \"tool federation\", \"MCP-сервер\", \"карточка агента\", \"интероперабельность агентов\", \"реестр MCP\", \"шлюз для агентов\", \"delegation token\", \"on behalf of\", \"токен делегирования\". Not for one server's tool design, nor skill construction (make-skill).",
+        "source": "skills/agent-stack/plugins/agent-stack/skills/agent-interop/SKILL.md"
+      },
+      {
+        "id": "agent-orchestrator",
+        "description": "Use when building an agent system — an orchestrator, an LLM tool, a tool-using chatbot, an AI pipeline — or metering and billing the LLM access it burns. Covers tool-calling loops, human-checkpoint pipelines, provider routing, fallback/retry, memory architecture, retrieval and decay, context budgets, sub-agent coordination, error hierarchies; the work as a graph — parallel layers, fake edges, a checker before convergence; for resale: tiered wallets, one markup boundary, the saga across database and provider API, spend-delta polling, budget and loop guards, per-tenant keys. Triggers - \"agent system\", \"orchestrator\", \"tool calling\", \"sub-agent\", \"LLM router\", \"fallback chain\", \"human in the loop\", \"memory layer\", \"LLM billing\", \"token wallet\", \"агентная система\", \"оркестратор\", \"суб-агент\", \"роутер моделей\", \"человек в цикле\", \"слой памяти\", \"биллинг LLM\", \"граф задач\". Not for a single LLM call in a script, or prompt wording.",
+        "source": "skills/agent-stack/plugins/agent-stack/skills/agent-orchestrator/SKILL.md"
+      },
+      {
+        "id": "agent-sync",
+        "description": "Use when several coding agents work one repository at once and must not collide - claiming a task, reserving the next decision/question/ticket id, journaling a run, moving a cross-repo dependency, regenerating the board, or finishing work across a parent repo and its submodules - clean, pushed, and pointed at. Triggers - 'claim this task' / 'возьми задачу', 'who is working on' / 'кто сейчас делает', 'reserve an id' / 'зарезервируй id', 'sync the board' / 'обнови доску', 'set up agent coordination' / 'настрой координацию агентов', 'the submodule is pushed, the parent points at the old commit' / 'сабмодуль запушен, родитель на старом коммите', /agent-sync. Use it BEFORE editing any shared registry file (decisions, open questions, roadmap, workstreams, dependencies) in a project with .claude/agent-sync.json, even when the user never mentions coordination - an unclaimed edit to those files lets two agents overwrite each other.",
+        "source": "skills/agent-sync/plugins/agent-sync/skills/agent-sync/SKILL.md"
+      },
+      {
+        "id": "brand-voice",
+        "description": "Use when defining, calibrating or checking how a product speaks — tone of voice, brand voice, verbal identity, the words the product owns and the words it bans, canonical facts, per-surface register, locales. Triggers - \"tone of voice\" / \"тон оф войс\", \"brand voice\" / \"голос бренда\", \"brandbook\" / \"брендбук\", \"our terminology\" / \"наша терминология\", \"how should this sound\" / \"как это должно звучать\", \"the copy is inconsistent\" / \"текстовка разная везде\", starting any marketing surface, onboarding a product into docs/brand/. For writing the actual text, see copywriting.",
+        "source": "skills/super-ux/plugins/super-ux/skills/brand-voice/SKILL.md"
+      },
+      {
+        "id": "copywriting",
+        "description": "Use when writing, rewriting or editing any text a user will read — interface strings, buttons, errors, empty states, landing and pricing pages, app store listings, blog posts, changelogs, social posts and captions, short-video scripts and their hooks, ads, lifecycle email. Triggers - \"write copy\" / \"напиши текст\", \"App Store description\" / \"описание для App Store\", \"store listing\" / \"описание в сторе\", \"rewrite this\" / \"перепиши\", \"headline\" / \"заголовок\", \"CTA\" / \"кнопка\", \"microcopy\" / \"микрокопия\", \"error text\" / \"текст ошибки\", \"this sounds like AI\" / \"звучит как нейросеть\", \"post for X\" / \"пост в твиттер\", \"reel script\" / \"сценарий рилса\", \"video hook\" / \"хук ролика\", \"build a landing page\" / \"сделай лендинг\" (the copy for it; the visual layer is sheleg-design's). For defining the voice itself, see brand-voice.",
+        "source": "skills/super-ux/plugins/super-ux/skills/copywriting/SKILL.md"
+      },
+      {
+        "id": "crypto-payments",
+        "description": "Use when adding or auditing crypto checkout, crypto top-up, or payment webhooks — where a payer sends the wrong amount, a webhook arrives more than once, and the rate moves between quote and transfer. Covers invoice lifecycle and status mapping, webhook signature verification and the JSON-escaping trap, idempotent processing, IP allowlisting behind a proxy, CSRF exemption for callback routes, the conversion buffer, reconciliation fields, credit waterfalls, refund and AML-hold states, local development with a tunnel and signed mock callbacks, a test matrix and a security checklist. Triggers - \"crypto payment\", \"crypto checkout\", \"pay with crypto\", \"USDT payment\", \"TRC20\", \"payment webhook\", \"IPN\", \"webhook signature\", \"underpayment\", \"Heleket\", \"NOWPayments\", \"приём криптоплатежей\", \"оплата криптой\", \"вебхук платежа\", \"недоплата\". Not for card billing — use stripe-billing.",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md"
+      },
+      {
+        "id": "error-tracking",
+        "description": "Use when wiring error tracking into a product — adding Sentry to a service, deciding what a DSN is and where it may live, keeping secrets out of events before they reach a third party, tying releases to commits so a stack trace names the change that caused it, or judging whether a green health check means anything. Covers the Sentry SDK options that matter for a backend, the two different tools both called sentry, the auth-token taxonomy and which kind can create a project, and the MCP server with the config channel it belongs in. Triggers - \"add Sentry\", \"set up error tracking\", \"SENTRY_DSN\", \"sentry-cli\", \"sentry mcp\", \"scrub secrets from errors\", \"release tracking\", \"suspect commits\", \"why is Sentry empty\", \"подключить Sentry\", \"трекинг ошибок\", \"секреты в Sentry\", \"релизы в Sentry\", \"наблюдаемость\". NOT for judging an agent's trajectory (agent-evals), triaging tickets in a tracker (your tracker's own triage skill), or choosing an uptime vendor.",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/error-tracking/SKILL.md"
+      },
+      {
+        "id": "evidence-docs",
+        "description": "Use when writing or reviewing anything that will be read as true — a decision record, a README, an acceptance report, a runbook, a changelog entry, an audit finding, or any claim that something was verified. Applies the ten canons of evidence-backed documentation — what makes a claim documentation rather than an assertion — and routes to the doctrine that enforces each one. Also use when a project needs a documentation gate, a decision register, a propagation matrix, or a retrospective that outlives its author. Triggers - 'documentation gate', 'decision record', 'ADR', 'acceptance report', 'runbook', 'is this verified', 'доказательная документация', 'записать решение', 'запиши решение', 'отчёт о приёмке', 'раннбук', 'чем это подтверждено', 'доки в синхроне'. Not for: drafts, chat answers, commit messages or code comments — say 'без доков' to opt out.",
+        "source": "skills/task-pipeline/plugins/task-pipeline/skills/evidence-docs/SKILL.md"
+      },
+      {
+        "id": "frontend-performance",
+        "description": "Use when building or auditing web pages for performance — running PageSpeed Insights, optimizing Lighthouse scores, fixing render-blocking resources, reducing bundle size, improving load times, or diagnosing slow page rendering. Covers Core Web Vitals (LCP, INP, CLS) and the Lighthouse diagnostics beside them (FCP, TBT, Speed Index), font loading strategies, CSS animation compositing, JavaScript bundle optimization, cache headers, code splitting, Content Security Policy, image optimization, and the contrast and heading issues that move a Lighthouse score. Triggers - \"performance audit\", \"PageSpeed\", \"Lighthouse\", \"Core Web Vitals\", \"LCP\", \"CLS\", \"INP\", \"render-blocking\", \"bundle size\", \"code splitting\", \"lazy loading\", \"cache headers\", \"performance budget\", \"ускорить сайт\", \"медленно грузится\", \"оптимизация скорости\", \"вес бандла\". Not for visual design or conversion work.",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/SKILL.md"
+      },
+      {
+        "id": "google-auth",
+        "description": "Use when a server authenticates to Google in a Node.js or Python application — OAuth 2.0 flows, verifying Google ID tokens server-side, service account authentication and keys, Application Default Credentials, Workload Identity Federation, API keys, or working with google-auth-library (Node.js) or google-auth (Python). Covers server-side ID token verification and security best practices. Triggers - \"google auth\", \"OAuth 2.0 Google\", \"google-auth-library\", \"ADC\", \"Application Default Credentials\", \"service account\", \"Workload Identity Federation\", \"Google ID token\", \"verifyIdToken\", \"GOOGLE_APPLICATION_CREDENTIALS\", \"Google SSO\", \"авторизация Google\", \"сервисный аккаунт\", \"ключи сервисного аккаунта\", \"проверить ID-токен\". For end-user web sign-in only, use the google-signin skill instead.",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/google-auth/SKILL.md"
+      },
+      {
+        "id": "google-signin",
+        "description": "Use when implementing, reviewing or debugging Google login / sign-in / sign-up on a website — wiring the GIS button or One Tap, verifying Google ID tokens on the server, linking Google to existing password accounts, or fixing \"origin is not allowed for the given client ID\". Covers GCP OAuth client setup, backend ID-token verification, three-way account linking with the pre- hijacking guard, login-CSRF defense, nonce/replay protection and a mandatory security checklist. Triggers - \"sign in with google\", \"google login\", \"google sign-in button\", \"GIS\", \"google.accounts.id\", \"gsi/client\", \"verify google token\", \"one tap\", \"account linking\", \"login csrf\", \"g_csrf_token\", \"вход через Google\", \"кнопка входа Google\", \"связать аккаунты\", \"проверить токен Google\". For the broader library surface use google-auth instead.",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/google-signin/SKILL.md"
+      },
+      {
+        "id": "make-skill",
+        "description": "Use when creating, upgrading, auditing, or publishing agent skills and Claude Code plugins - \"make a skill\" / \"сделай скилл\", \"skill audit\" / «аудит скилов», \"wrap it in a plugin\" / \"заверни в плагин\", \"publish a skill\" / \"опубликуй скилл\", \"retrofit a skill to the standard\" / \"приведи скилл к стандарту\", \"does this skill match the spec\" / \"соответствует ли скилл стандарту\", \"claude plugin validate fails\" / \"проверь плагин по документации Anthropic\", \"is this skill safe to install\" / \"безопасно ли ставить этот скилл\" - or when a skill must reach an MCP server or another agent over A2A. NOT for a version bump or release in a repo that ships anything but a skill or plugin. Encodes the Agent Skills standard, Anthropic's platform rules (limits, budgets, Skills API, evals), the plugin reference (manifests, layout, validate --strict), plus the ssheleg pipeline - marketplace layout, version sync, validator+CI, distribution, npm gotchas.",
+        "source": "skills/make-skill/plugins/make-skill/skills/make-skill/SKILL.md"
+      },
+      {
+        "id": "project-audit",
+        "description": "Use when someone asks what is actually true of a whole project right now — what is finished, what is half-built, what is broken, and what nobody has looked at. Walks a cold start: discover what the project is, run a registry of probes chosen from that, read production evidence (published artefact against source, CI history, telemetry present or absent), then leave a JSON sidecar so the next audit can say what moved, and a self-contained HTML report on request. Read-only: it proposes board rows and commits nothing. Triggers - 'project audit', 'audit the project', 'codebase audit', 'state of the project', 'what is unfinished', 'project health check', 'аудит проекта', 'проаудируй проект', 'состояние проекта', 'что не доделано', 'аудит кодовой базы'. Not for: auditing one deliverable inside a run (that is the pipeline's own ladder), reviewing a diff, or checking a skill's construction — say 'без диагностики' to opt out.",
+        "source": "skills/task-pipeline/plugins/task-pipeline/skills/project-audit/SKILL.md"
+      },
+      {
+        "id": "quest-lifecycle",
+        "description": "Use when planning, starting or auditing the full product lifecycle of a Meta Quest or Horizon OS game or app, including platform selection, immersive design, development milestones, publishing prerequisites, monetization, launch marketing and post-launch operation. Triggers - \"Quest roadmap\" / \"план для Quest\", \"VR product lifecycle\" / \"полный цикл VR\", \"launch our Quest game\" / \"запустить игру для Quest\", \"what are we missing before launch\" / \"что нужно до релиза\", \"Oculus app from idea to store\" / \"приложение Oculus от идеи до стора\". Produces a stage/evidence/owner map and one next action. NOT for a single engine bug, capture analysis (quest-perf), upload (quest-store), or generic project delivery (task-pipeline).",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-lifecycle/SKILL.md"
+      },
+      {
+        "id": "quest-native",
+        "description": "Use when building or reviewing a NATIVE Meta Quest / Horizon OS app in C or C++ against OpenXR — the Android manifest and Gradle contract, the Khronos OpenXR loader, session and frame loop, swapchains, Vulkan, passthrough, scene, hand tracking, and the SDK levels the Store now demands. Triggers - \"OpenXR app\" / \"приложение на OpenXR\", \"native Quest app\" / \"нативное приложение для Quest\", \"Quest C++\" / \"Quest на плюсах\", \"AndroidManifest for VR\" / \"манифест для VR\", \"openxr_loader_for_android\", \"xrCreateInstance\", \"xrWaitFrame\", \"targetSdk for Quest\" / \"какой targetSdk для Quest\", \"IMMERSIVE_HMD\", \"hello_xr\", \"passthrough in native\" / \"passthrough нативно\". NOT for Unity or Unreal engine implementation, not for a Kotlin Spatial SDK app, not for WebXR or a PWA (quest-webxr), not for profiling (quest-perf), not for Store submission (quest-store).",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-native/SKILL.md"
+      },
+      {
+        "id": "quest-perf",
+        "description": "Use when a Meta Quest / Horizon OS app misses frames, judders, overheats or must be profiled — the frame budget per refresh rate, logcat stats, the GPU% number that lies during frame drops, Dynamic Resolution, foveation, Application SpaceWarp, and capturing with OVR Metrics, Perfetto, simpleperf or RenderDoc. Engine-independent. Triggers - \"dropped frames\" / \"просадка кадров\", \"judder\" / \"джаддер\", \"Quest performance\" / \"производительность на Quest\", \"GPU bound\" / \"упёрлись в GPU\", \"profile the headset\" / \"профилировать шлем\", \"perfetto trace\" / \"трейс perfetto\", \"simpleperf\", \"RenderDoc\", \"OVR Metrics\", \"stale frames\", \"SpaceWarp\", \"foveated rendering\" / \"фовеальный рендеринг\", \"72 vs 90 Hz\", \"app is hot\" / \"шлем греется\". NOT for wiring the render loop itself (quest-native), not for Store performance VRCs as a submission gate (quest-store), and not for desktop or mobile-phone profiling.",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-perf/SKILL.md"
+      },
+      {
+        "id": "quest-spatial",
+        "description": "Use when a Meta Quest app is built with Meta Spatial SDK — Kotlin and Android rather than Unity or raw OpenXR: whether that lane is right, the toolchain it demands, the ECS model, panels as real Android views, hybrid apps, the runtime budgets that decide a design, the known issues that waste a day, and which sample or documentation page answers a given question. Triggers - \"Spatial SDK\" / \"Спатиал SDK\", \"Meta Spatial SDK\", \"Kotlin app for Quest\" / \"приложение на Kotlin для Quest\", \"spatial panels\" / \"панели в VR\", \"Spatial Editor\", \"hybrid app\" / \"гибридное приложение\", \"glXF\", \"MRUK\", \"com.meta.spatial\", \"how many panels can I open\" / \"сколько панелей выдержит\", \"Spatial SDK samples\" / \"примеры Spatial SDK\". NOT for native C++ OpenXR (quest-native), Unity (Meta's hz-unity-* skills), WebXR (quest-webxr), profiling a build (quest-perf), or Store submission (quest-store).",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-spatial/SKILL.md"
+      },
+      {
+        "id": "quest-store",
+        "description": "Use when preparing Meta Quest testing, Meta Horizon Store submission, monetization, launch assets or post-launch commercial operation. Covers release channels, applicable VRCs, signing/manifest, account and data tasks, purchases/subscriptions, pre-launch listings, capture provenance and analytics. Triggers - \"publish to the store\" / \"выложить в стор\", \"Horizon Store\", \"App Lab\", \"release channel\" / \"релизный канал\", \"VRC\", \"app review\" / \"ревью приложения\", \"Data Use Checkup\", \"DUC\", \"store assets\" / \"ассеты для стора\", \"test user\" / \"тестовый аккаунт\", \"Quest monetization\" / \"монетизация Quest\", \"pre-order\" / \"предзаказ\". NOT for a whole-product roadmap (quest-lifecycle), app implementation, profiling (quest-perf), machine setup (quest-tooling), or PWA packaging (quest-webxr).",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-store/SKILL.md"
+      },
+      {
+        "id": "quest-tooling",
+        "description": "Use when setting up or driving the Meta Quest toolchain on a development machine - the metavr CLI and its MCP server, Meta's agentic skills, connecting a headset, installing the managed tools (Perfetto, RenderDoc, OVR Metrics, platform-utils, XR Simulator), and working with no headset at all. Also the hygiene - one install channel per agent, and no skill copies in a repository. Triggers - \"metavr\", \"metavr init\", \"Meta VR CLI\", \"Quest MCP\" / \"MCP для Quest\", \"connect the headset\" / \"подключить шлем\", \"adb to Quest\" / \"adb к шлему\", \"install the APK\" / \"поставить apk на шлем\", \"developer mode\" / \"режим разработчика\", \"XR Simulator\" / \"симулятор\", \"no headset\" / \"нет шлема\", \"which Quest tools are installed\" / \"что установлено для Quest\", \"hz- skills\" / \"скилы Meta\". NOT for writing app code (quest-native), reading a capture (quest-perf), or submitting a build (quest-store).",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-tooling/SKILL.md"
+      },
+      {
+        "id": "quest-webxr",
+        "description": "Use when the XR experience runs in the browser rather than as a native binary - WebXR in the Meta Quest Browser, IWSDK or three.js or A-Frame, packaging the site as a PWA with the Meta Quest Bubblewrap CLI, in-app purchases through Horizon Billing, remote debugging with Chrome DevTools, and getting a PWA onto the Store. Triggers - \"WebXR\", \"immersive-vr session\" / \"иммерсивная сессия\", \"three.js on Quest\" / \"three.js на Quest\", \"A-Frame\", \"IWSDK\", \"PWA for Quest\" / \"PWA для Quest\", \"bubblewrap\", \"web app manifest for the headset\", \"browser on Quest\" / \"браузер в шлеме\", \"remote debug the headset browser\" / \"отладить браузер шлема\", \"web IAP\" / \"покупки в вебе\". NOT for native OpenXR apps (quest-native), native profiling (quest-perf), an APK submission (quest-store), or three.js scene, asset and animation depth off the headset (web3d-dev).",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-webxr/SKILL.md"
+      },
+      {
+        "id": "seo-aeo-audit",
+        "description": "Use when auditing a website for search and answer-engine visibility, diagnosing traffic or ranking loss, planning what to change, or extracting link-building targets and keywords - \"SEO audit\" / \"сделай SEO-аудит\", \"technical SEO audit\" / \"технический аудит сайта\", \"AEO audit\" / \"аудит по SEO и AEO\", \"AI visibility audit\", \"why did my traffic drop\" / \"почему упал трафик\", \"why am I not ranking\" / \"почему нет позиций\", \"why doesn't ChatGPT cite us\" / \"почему нас не цитирует ChatGPT\", \"indexing issues\" / \"проверь индексацию\", \"SEO change plan\" / \"план правок по SEO\", \"google core update\" / \"апдейт гугла\", \"keywords for linkbuilding\" / \"ключи для линкбилдинга\", \"link building brief\" / \"бриф для линкбилдера\". Runs ten evidence-based tracks (access, canonicalization, architecture, intent, content value, extractability/AEO, entity consensus, experience, risk, measurement) and outputs findings, a change plan, and a link-building brief with keyword CSV.",
+        "source": "skills/seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md"
+      },
+      {
+        "id": "sheleg-design",
+        "description": "Use when deciding how something LOOKS or MOVES — landing/hero pages, dashboards, admin/internal tools, mobile screens, web decks, chat/agent UIs; particle/WebGL, scrubbed motion, drift; tokens, themes, palettes, typography, Figma mockups. Triggers - \"design a landing\" / \"дизайн лендинга\", \"build a landing page\" / \"сделай лендинг\", \"dashboard style\" / \"стиль дашборда, сделай дашборд, админка\", \"scroll animation\" / \"скролл-анимация, анимации\", \"design tokens, style pack\" / \"дизайн-токены\", \"light/dark theme\" / \"светлая/тёмная тема\", \"figma variables\" / \"переменные фигмы, фигма в код, макеты\", \"mobile screen\" / \"мобильный экран\", \"palette, colors\" / \"палитра, цвета\", \"typography, font\" / \"типографика, шрифт\", \"how it looks, make it prettier\" / \"выглядит, красиво, красивее\", \"visual reference\" / \"визуальные референсы\", \"investor deck as a web page\" / \"веб-презентация\", \"redesign\" / \"редизайн, свёрстай, вёрстка\". Not for structure, copy, backend or .pptx.",
+        "source": "skills/sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md"
+      },
+      {
+        "id": "skill-search",
+        "description": "Use when starting any task, as its first step before acting, to decide whether an installed skill should drive it, or when asked \"which skill\", \"find a skill\", \"is there a skill for\", «какой скилл», «есть ли скилл», «найди скилл», «первый шаг». Restates the request in one line, turns its meaning into concepts in English and Russian with synonyms, searches the whole installed catalogue - including skills the host hides from its listing - then opens the matching SKILL.md and follows it. NOT for building or auditing a skill (make-skill).",
+        "source": "skills/make-skill/plugins/make-skill/skills/skill-search/SKILL.md"
+      },
+      {
+        "id": "stripe-billing",
+        "description": "Use when connecting a product to Stripe, fixing a payment bug (\"баг в оплате\", \"оплата\"), or auditing a live integration: checkout, renewals, seats, proration, refunds, cancellation and the cancel-step coupon, the portal, and the webhook that turns a payment into an entitlement. Covers Stripe's agent toolchain, the pinned API version, SDK retries, price resolution, claim-first webhook idempotency, what billing_reason decides, cumulative refunds, the cancellation field flexible billing_mode moved, retention eligibility Stripe cannot express, and write ordering with compensating reverts. Triggers - \"add Stripe\", \"Stripe checkout\", \"subscription billing\", \"webhook signature\", \"invoice.paid\", \"proration\", \"refund\", \"cancel subscription\", \"retention coupon\", \"подключить Stripe\", \"оплата подпиской\", \"вебхук Stripe\", \"скидка при отмене\", \"биллинг подписок\". Not for choosing between Stripe products (stripe-best-practices) or reading Stripe docs (stripe-docs).",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/SKILL.md"
+      },
+      {
+        "id": "task-pipeline",
+        "description": "Use when work changes the repository — feature, fix, bug, refactor, migration, integration, rewrite, adoption or hardening; фича, фикс, баг, рефактор, миграция, интеграция, доработать, починить, внедрить, перевести — or a finding that lands in it: audit/аудит, bug hunt/проверь ошибки, production check/проверь прод, PR review/ревью PR — or on 'run this through the pipeline' / 'прогони по конвейеру', 'the full cycle' / 'полный цикл', /task-pipeline. Runs a substantial task through gated stages: intake grill, docs, brainstorm, spec, plan, build, tests, deploy, post-deploy, docs/wiki, acceptance. 'waves' / 'волнами' closes the whole board; 'checkup' / 'чекап' lists unconfirmed releases; 'setup' audits docs. Not for: answering a question, explaining code, a typo, a one-line edit, a mechanical rename, reconnaissance that lands nothing — say 'no pipeline' / 'без пайплайна' to opt out.",
+        "source": "skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md"
+      },
+      {
+        "id": "telegram-bots",
+        "description": "Use when building, adding or auditing a Telegram bot (Telegram-бот, Telegram-бота, телеграм-бота) on the official HTTP Bot API: receiving updates by polling or webhook, deduplicating them, keyboards and inline mode, Telegram Stars payments, files, rate limits, and the seam where an update becomes a row in your own database. Covers the pinned API version, update_id as the only idempotency key, the allowed_updates default that drops three update types in silence, the webhook secret header, the ten-second pre-checkout window, XTR and refunds, the 20MB download ceiling, and what a bot cannot do at all. Triggers - \"telegram bot\", \"bot api\", \"aiogram\", \"grammy\", \"telegraf\", \"python-telegram-bot\", \"setWebhook\", \"getUpdates\", \"telegram stars\", \"pre_checkout_query\", \"телеграм бот\", \"бот апи\", \"вебхук телеграм\", \"звёзды телеграм\". Not for user accounts or reading history a bot cannot see (telegram-userbots), and not for the web layer (telegram-miniapps).",
+        "source": "skills/telegram-dev/plugins/telegram-dev/skills/telegram-bots/SKILL.md"
+      },
+      {
+        "id": "telegram-miniapps",
+        "description": "Use when building or auditing a Telegram Mini App — a web page opened inside Telegram — where the whole security model is one signed blob. Covers verifying initData on the server with HMAC-SHA256 and the \"WebAppData\" key derivation, why initDataUnsafe is named that, the auth_date freshness window, the Ed25519 signature path for a third party with no bot token, session exchange, sending results back to the bot with sendData and answerWebAppQuery, Stars payments inside the app, the viewport and safe-area fields a real device needs, and the SDK package whose name moved. Triggers - \"mini app\", \"miniapp\", \"telegram web app\", \"initData\", \"initDataUnsafe\", \"WebAppData\", \"tma.js\", \"@telegram-apps/sdk\", \"мини-апп\", \"телеграм веб-апп\", \"валидация initData\". Not for the bot behind it (telegram-bots) or user accounts (telegram-userbots).",
+        "source": "skills/telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/SKILL.md"
+      },
+      {
+        "id": "telegram-userbots",
+        "description": "Use when a Telegram job needs a user account rather than a bot token — reading history a bot cannot see, acting as a person, exporting at scale, or downloading past the Bot API ceiling — with Telethon or another MTProto client. Covers the decision of whether a user account is needed at all, the session file as a credential equal to the password, api_id and api_hash, FloodWaitError as the API working rather than failing, entity resolution and its cache, pinning across minor releases that move session and cache behaviour, two-factor login, takeout for bulk export, and the account-ban risk a bot token does not carry. Triggers - \"telethon\", \"pyrogram\", \"mtproto\", \"userbot\", \"user account\", \"read channel history\", \"FloodWaitError\", \"api_hash\", \"юзербот\", \"телетон\", \"мтпрото\", \"сессия телеграм\". Not for ordinary bots (telegram-bots) or the web layer (telegram-miniapps).",
+        "source": "skills/telegram-dev/plugins/telegram-dev/skills/telegram-userbots/SKILL.md"
+      },
+      {
+        "id": "ux-audit",
+        "description": "Use when verifying the codebase against the UX scenario base - runs a batched, evidence-backed scenario audit and writes a versioned report to docs/ux/audits/. Triggers - \"ux audit\" / \"UX-аудит\", \"run the scenarios\" / \"прогони по сценариям\", \"check all buttons/states/errors\", pre-release UX verification, scenario compliance check.",
+        "source": "skills/super-ux/plugins/super-ux/skills/ux-audit/SKILL.md"
+      },
+      {
+        "id": "ux-flows",
+        "description": "Use when designing or improving HOW users move through the product - user flows, a screen and its states, wireframes, Figma mockups, task analysis, heuristic UX evaluation and redesign proposals. Triggers - \"user flow\" / \"юзер флоу\", \"add a screen\" / \"добавь экран\", \"mockups\" / \"макеты\", \"mockup\" / \"мокап\", \"design a screen\" / \"нарисуй дизайн\", \"wireframe\" / \"вайрфрейм\", \"screen flow\" / \"флоу экранов\", \"user path\" / \"поток пользователя\", \"improve UX\" / \"улучши UX\", \"fix UX\" / \"почини UX\", \"onboarding\" / \"онбординг\", \"paywall\" / \"пейволл\", \"funnel\" / \"воронка\", \"activation funnel\" / \"активация\", \"reference screens\" / \"референсы\", \"task analysis\", \"redesign flow\". A paid-acquisition funnel is one of these flows - its step chain, branches and paywall step, read against reference screens from the same category. Maintains docs/ux/flows.md between foundation (stories) and scenarios. Visual system and Figma variables belong to sheleg-design.",
+        "source": "skills/super-ux/plugins/super-ux/skills/ux-flows/SKILL.md"
+      },
+      {
+        "id": "ux-foundation",
+        "description": "Use when defining or revising WHO the users are and WHY they use the product - personas, Jobs to Be Done, customer journey maps, user stories with acceptance criteria. A journey covers the end-to-end experience including what happens after the first session - where a user comes back, where user retention is won, and where churn actually starts. Maintains docs/ux/foundation.md, the WHY layer that UX scenarios trace to. Triggers - \"jtbd\" / \"джобы\", \"customer journey\" / \"карта пути\", \"user story\" / \"юзер стори\", \"personas\" / \"персоны\", \"who is this for\", \"user retention\" / \"ретеншн\", \"churn\" / \"отток\", new product discovery.",
+        "source": "skills/super-ux/plugins/super-ux/skills/ux-foundation/SKILL.md"
+      },
+      {
+        "id": "ux-scenarios",
+        "description": "Use when creating or updating UX scenarios, starting ANY new feature or project (an empty project starts a layer up, with vision and ux-foundation), making ANY change to user-facing behavior, or onboarding an existing codebase into scenario-driven development. Maintains docs/ux/scenarios.md as the source of truth for all user-facing behavior. Triggers - \"ux scenarios\" / \"сценарии использования\", \"use cases\", \"new feature\" / \"новая фича\", new feature or project planning, UI changes.",
+        "source": "skills/super-ux/plugins/super-ux/skills/ux-scenarios/SKILL.md"
+      },
+      {
+        "id": "vision",
+        "description": "Use when a project needs the layer ABOVE personas and jobs - what the product IS, why it exists, and what it refuses to become. Writes docs/ux/vision.md in nine layers (essence, core idea, system behaviour, user role, principles, anti-vision, horizon, the one sentence, and the alignment test) and installs a vision-alignment rule into the project's own instruction file so later features get checked against it. Triggers - \"vision\" / \"видение\", \"product vision\" / \"продуктовое видение\", \"what is this product about\", \"define product direction\", \"write a vision\", new project with no direction, a feature that feels off-strategy.",
+        "source": "skills/super-ux/plugins/super-ux/skills/vision/SKILL.md"
+      },
+      {
+        "id": "web3d-animation",
+        "description": "Use when something must move in a realtime 3D web scene with three.js or React Three Fiber — character rigs and clips, blending and state transitions, retargeting, root motion and foot sliding, morph targets, crowds and instanced animation, vertex-animation textures, procedural or GPU-driven motion. Carries a two-sided animation protocol: the asset half (rig, clip canon, export, budgets) and the runtime half (clock, mixer, blending, GPU paths, pause, reduced motion). Triggers - \"animate the character\" / \"анимируй персонажа\", \"blend idle walk run\" / \"переход между анимациями\", \"retarget Mixamo\" / \"ретаргетинг\", \"foot sliding\" / \"ноги скользят\", \"crowd of characters\" / \"толпа персонажей\", \"AnimationMixer\", \"morph targets\" / \"морф-таргеты\". NOT for scroll or UI motion on a page (sheleg-design), rendered video (hyperframes, remotion), or Unity and Unreal animators.",
+        "source": "skills/web3d-dev/plugins/web3d-dev/skills/web3d-animation/SKILL.md"
+      },
+      {
+        "id": "web3d-assets",
+        "description": "Use when a 3D asset must get from a source to a realtime web scene within budget — sourcing, generating or buying models, textures and characters; the glTF pipeline (validate, clean, simplify, KTX2 textures, meshopt or Draco); target budgets; loaders and colour spaces; licences and provenance; and ordering through Asset Foundry when its tools are present, or working by its principles when they are not. Triggers - \"compress this GLB\" / \"сожми модель\", \"KTX2\", \"meshopt\", \"Draco\", \"the model is too heavy\" / \"модель слишком тяжёлая\", \"budget for a character\" / \"бюджет на персонажа\", \"where do we get a 3D model\" / \"где взять 3D-модель\", \"Asset Foundry\", \"gltf-transform\", \"gltfpack\". NOT for scene code or shaders (web3d-runtime), making things move (web3d-animation), operating a Foundry order in flight (asset-foundry), or Quest store assets (xr-dev).",
+        "source": "skills/web3d-dev/plugins/web3d-dev/skills/web3d-assets/SKILL.md"
+      },
+      {
+        "id": "web3d-runtime",
+        "description": "Use when building or fixing a realtime 3D scene on the web with three.js or React Three Fiber — WebGPURenderer and its WebGL2 fallback, TSL node materials and shaders, GPU compute and particles, post-processing, device loss, the frame loop, profiling and frame-time budgets, and degrading to a calm static state. Leads with the silent failures of r186 before the API. Triggers - \"three.js WebGPU\", \"TSL\", \"WGSL\", \"compute shader\" / \"компьют-шейдер\", \"particles collapsed\" / \"частицы схлопнулись\", \"device lost\" / \"потеря устройства\", \"the 3D scene is slow\" / \"3D-сцена тормозит\", \"React Three Fiber\", \"R3F\", \"post-processing\" / \"постобработка\", \"WebGL fallback\". NOT for landing-page heroes and scroll motion (sheleg-design), asset files and budgets (web3d-assets), character animation (web3d-animation), or a Quest headset session (xr-dev).",
+        "source": "skills/web3d-dev/plugins/web3d-dev/skills/web3d-runtime/SKILL.md"
+      }
+    ],
+    "concise": [
+      {
+        "id": "ad-tracking",
+        "description": "Use when setting up or modifying ad pixel integration, conversion tracking, consent management, purchase event tracking, retargeting audiences, or auditing an existing advertising analytics stack Not for running the ad campaigns themselves.",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/ad-tracking/SKILL.md"
+      },
+      {
+        "id": "agent-evals",
+        "description": "Use when measuring whether an agent actually works — building an eval suite, judging a trajectory rather than a final answer, turning production traces into regression fixtures, calibrating an LLM judge against human labels, or gating a release on offline evals Not for unit tests of ordinary code, or benchmarking a model.",
+        "source": "skills/agent-stack/plugins/agent-stack/skills/agent-evals/SKILL.md"
+      },
+      {
+        "id": "agent-harness",
+        "description": "Use when the question is what the agent is TOLD rather than how its loop is wired — writing or fixing a system prompt, shaping tools so the model picks the right one, whether a job wants a workflow or an agent, or choosing between ReAct, reflection and voting Not for the loop's plumbing, its evals, or its protocols — those are siblings.",
+        "source": "skills/agent-stack/plugins/agent-stack/skills/agent-harness/SKILL.md"
+      },
+      {
+        "id": "agent-interop",
+        "description": "Use when an agent talks to anything outside its process — building or consuming an MCP server, exposing or calling an agent over A2A, publishing to the MCP Registry, or fronting agent traffic with a gateway Not for one server's tool design, nor skill construction (make-skill).",
+        "source": "skills/agent-stack/plugins/agent-stack/skills/agent-interop/SKILL.md"
+      },
+      {
+        "id": "agent-orchestrator",
+        "description": "Use when building an agent system — an orchestrator, an LLM tool, a tool-using chatbot, an AI pipeline — or metering and billing the LLM access it burns Not for a single LLM call in a script, or prompt wording.",
+        "source": "skills/agent-stack/plugins/agent-stack/skills/agent-orchestrator/SKILL.md"
+      },
+      {
+        "id": "agent-sync",
+        "description": "Use when several coding agents work one repository at once and must not collide - claiming a task, reserving the next decision/question/ticket id, journaling a run, moving a cross-repo dependency, regenerating the board, or finishing work across a parent repo and its submodules - clean, pushed, and pointed at",
+        "source": "skills/agent-sync/plugins/agent-sync/skills/agent-sync/SKILL.md"
+      },
+      {
+        "id": "brand-voice",
+        "description": "Use when defining, calibrating or checking how a product speaks — tone of voice, brand voice, verbal identity, the words the product owns and the words it bans, canonical facts, per-surface register, locales",
+        "source": "skills/super-ux/plugins/super-ux/skills/brand-voice/SKILL.md"
+      },
+      {
+        "id": "copywriting",
+        "description": "Use when writing, rewriting or editing any text a user will read — interface strings, buttons, errors, empty states, landing and pricing pages, app store listings, blog posts, changelogs, social posts and captions, short-video scripts and their hooks, ads, lifecycle email",
+        "source": "skills/super-ux/plugins/super-ux/skills/copywriting/SKILL.md"
+      },
+      {
+        "id": "crypto-payments",
+        "description": "Use when adding or auditing crypto checkout, crypto top-up, or payment webhooks — where a payer sends the wrong amount, a webhook arrives more than once, and the rate moves between quote and transfer Not for card billing — use stripe-billing.",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/crypto-payments/SKILL.md"
+      },
+      {
+        "id": "error-tracking",
+        "description": "Use when wiring error tracking into a product — adding Sentry to a service, deciding what a DSN is and where it may live, keeping secrets out of events before they reach a third party, tying releases to commits so a stack trace names the change that caused it, or judging whether a green health check means anything NOT for judging an agent's trajectory (agent-evals), triaging tickets in a tracker (your tracker's own triage skill), or choosing an uptime vendor.",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/error-tracking/SKILL.md"
+      },
+      {
+        "id": "evidence-docs",
+        "description": "Use when writing or reviewing anything that will be read as true — a decision record, a README, an acceptance report, a runbook, a changelog entry, an audit finding, or any claim that something was verified Not for: drafts, chat answers, commit messages or code comments — say 'без доков' to opt out.",
+        "source": "skills/task-pipeline/plugins/task-pipeline/skills/evidence-docs/SKILL.md"
+      },
+      {
+        "id": "frontend-performance",
+        "description": "Use when building or auditing web pages for performance — running PageSpeed Insights, optimizing Lighthouse scores, fixing render-blocking resources, reducing bundle size, improving load times, or diagnosing slow page rendering Not for visual design or conversion work.",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/frontend-performance/SKILL.md"
+      },
+      {
+        "id": "google-auth",
+        "description": "Use when a server authenticates to Google in a Node.js or Python application — OAuth 2.0 flows, verifying Google ID tokens server-side, service account authentication and keys, Application Default Credentials, Workload Identity Federation, API keys, or working with google-auth-library (Node.js) or google-auth (Python)",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/google-auth/SKILL.md"
+      },
+      {
+        "id": "google-signin",
+        "description": "Use when implementing, reviewing or debugging Google login / sign-in / sign-up on a website — wiring the GIS button or One Tap, verifying Google ID tokens on the server, linking Google to existing password accounts, or fixing \"origin is not allowed for the given client ID\"",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/google-signin/SKILL.md"
+      },
+      {
+        "id": "make-skill",
+        "description": "Use when creating, upgrading, auditing, or publishing agent skills and Claude Code plugins - \"make a skill\" / \"сделай скилл\", \"skill audit\" / «аудит скилов», \"wrap it in a plugin\" / \"заверни в плагин\", \"publish a skill\" / \"опубликуй скилл\", \"retrofit a skill to the standard\" / \"приведи скилл к стандарту\", \"does this NOT for a version bump or release in a repo that ships anything but a skill or plugin. Encodes the Agent Skills standard, Anthropic's platform rules (limits, budgets, Skills API, evals), the plugin reference (manifests, layout, validate --strict), plus the ssheleg pipeline - marketplace layout, version sync, validator+CI, distribution, npm gotchas.",
+        "source": "skills/make-skill/plugins/make-skill/skills/make-skill/SKILL.md"
+      },
+      {
+        "id": "project-audit",
+        "description": "Use when someone asks what is actually true of a whole project right now — what is finished, what is half-built, what is broken, and what nobody has looked at Not for: auditing one deliverable inside a run (that is the pipeline's own ladder), reviewing a diff, or checking a skill's construction — say 'без диагностики' to opt out.",
+        "source": "skills/task-pipeline/plugins/task-pipeline/skills/project-audit/SKILL.md"
+      },
+      {
+        "id": "quest-lifecycle",
+        "description": "Use when planning, starting or auditing the full product lifecycle of a Meta Quest or Horizon OS game or app, including platform selection, immersive design, development milestones, publishing prerequisites, monetization, launch marketing and post-launch operation NOT for a single engine bug, capture analysis (quest-perf), upload (quest-store), or generic project delivery (task-pipeline).",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-lifecycle/SKILL.md"
+      },
+      {
+        "id": "quest-native",
+        "description": "Use when building or reviewing a NATIVE Meta Quest / Horizon OS app in C or C++ against OpenXR — the Android manifest and Gradle contract, the Khronos OpenXR loader, session and frame loop, swapchains, Vulkan, passthrough, scene, hand tracking, and the SDK levels the Store now demands NOT for Unity or Unreal engine implementation, not for a Kotlin Spatial SDK app, not for WebXR or a PWA (quest-webxr), not for profiling (quest-perf), not for Store submission (quest-store).",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-native/SKILL.md"
+      },
+      {
+        "id": "quest-perf",
+        "description": "Use when a Meta Quest / Horizon OS app misses frames, judders, overheats or must be profiled — the frame budget per refresh rate, logcat stats, the GPU% number that lies during frame drops, Dynamic Resolution, foveation, Application SpaceWarp, and capturing with OVR Metrics, Perfetto, simpleperf or RenderDoc NOT for wiring the render loop itself (quest-native), not for Store performance VRCs as a submission gate (quest-store), and not for desktop or mobile-phone profiling.",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-perf/SKILL.md"
+      },
+      {
+        "id": "quest-spatial",
+        "description": "Use when a Meta Quest app is built with Meta Spatial SDK — Kotlin and Android rather than Unity or raw OpenXR: whether that lane is right, the toolchain it demands, the ECS model, panels as real Android views, hybrid apps, the runtime budgets that decide a design, the known issues that waste a day, and which sample or NOT for native C++ OpenXR (quest-native), Unity (Meta's hz-unity-* skills), WebXR (quest-webxr), profiling a build (quest-perf), or Store submission (quest-store).",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-spatial/SKILL.md"
+      },
+      {
+        "id": "quest-store",
+        "description": "Use when preparing Meta Quest testing, Meta Horizon Store submission, monetization, launch assets or post-launch commercial operation NOT for a whole-product roadmap (quest-lifecycle), app implementation, profiling (quest-perf), machine setup (quest-tooling), or PWA packaging (quest-webxr).",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-store/SKILL.md"
+      },
+      {
+        "id": "quest-tooling",
+        "description": "Use when setting up or driving the Meta Quest toolchain on a development machine - the metavr CLI and its MCP server, Meta's agentic skills, connecting a headset, installing the managed tools (Perfetto, RenderDoc, OVR Metrics, platform-utils, XR Simulator), and working with no headset at all NOT for writing app code (quest-native), reading a capture (quest-perf), or submitting a build (quest-store).",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-tooling/SKILL.md"
+      },
+      {
+        "id": "quest-webxr",
+        "description": "Use when the XR experience runs in the browser rather than as a native binary - WebXR in the Meta Quest Browser, IWSDK or three.js or A-Frame, packaging the site as a PWA with the Meta Quest Bubblewrap CLI, in-app purchases through Horizon Billing, remote debugging with Chrome DevTools, and getting a PWA onto the Store NOT for native OpenXR apps (quest-native), native profiling (quest-perf), an APK submission (quest-store), or three.js scene, asset and animation depth off the headset (web3d-dev).",
+        "source": "skills/xr-dev/plugins/xr-dev/skills/quest-webxr/SKILL.md"
+      },
+      {
+        "id": "seo-aeo-audit",
+        "description": "Use when auditing a website for search and answer-engine visibility, diagnosing traffic or ranking loss, planning what to change, or extracting link-building targets and keywords - \"SEO audit\" / \"сделай SEO-аудит\", \"technical SEO audit\" / \"технический аудит сайта\", \"AEO audit\" / \"аудит по SEO и AEO\", \"AI visibility",
+        "source": "skills/seo-aeo-audit/plugins/seo-aeo-audit/skills/seo-aeo-audit/SKILL.md"
+      },
+      {
+        "id": "sheleg-design",
+        "description": "Use when deciding how something LOOKS or MOVES — landing/hero pages, dashboards, admin/internal tools, mobile screens, web decks, chat/agent UIs; particle/WebGL, scrubbed motion, drift; tokens, themes, palettes, typography, Figma mockups Not for structure, copy, backend or .pptx.",
+        "source": "skills/sheleg-design/plugins/sheleg-design/skills/sheleg-design/SKILL.md"
+      },
+      {
+        "id": "skill-search",
+        "description": "Use when starting any task, as its first step before acting, to decide whether an installed skill should drive it, or when asked \"which skill\", \"find a skill\", \"is there a skill for\", «какой скилл», «есть ли скилл», «найди скилл», «первый шаг» NOT for building or auditing a skill (make-skill).",
+        "source": "skills/make-skill/plugins/make-skill/skills/skill-search/SKILL.md"
+      },
+      {
+        "id": "stripe-billing",
+        "description": "Use when connecting a product to Stripe, fixing a payment bug (\"баг в оплате\", \"оплата\"), or auditing a live integration: checkout, renewals, seats, proration, refunds, cancellation and the cancel-step coupon, the portal, and the webhook that turns a payment into an entitlement Not for choosing between Stripe products (stripe-best-practices) or reading Stripe docs (stripe-docs).",
+        "source": "skills/sheleg-dev/plugins/sheleg-dev/skills/stripe-billing/SKILL.md"
+      },
+      {
+        "id": "task-pipeline",
+        "description": "Use when work changes the repository — feature, fix, bug, refactor, migration, integration, rewrite, adoption or hardening; фича, фикс, баг, рефактор, миграция, интеграция, доработать, починить, внедрить, перевести — or a finding that lands in it: audit/аудит, bug hunt/проверь ошибки, production check/проверь прод, PR Not for: answering a question, explaining code, a typo, a one-line edit, a mechanical rename, reconnaissance that lands nothing — say 'no pipeline' / 'без пайплайна' to opt out.",
+        "source": "skills/task-pipeline/plugins/task-pipeline/skills/task-pipeline/SKILL.md"
+      },
+      {
+        "id": "telegram-bots",
+        "description": "Use when building, adding or auditing a Telegram bot (Telegram-бот, Telegram-бота, телеграм-бота) on the official HTTP Bot API: receiving updates by polling or webhook, deduplicating them, keyboards and inline mode, Telegram Stars payments, files, rate limits, and the seam where an update becomes a row in your own Not for user accounts or reading history a bot cannot see (telegram-userbots), and not for the web layer (telegram-miniapps).",
+        "source": "skills/telegram-dev/plugins/telegram-dev/skills/telegram-bots/SKILL.md"
+      },
+      {
+        "id": "telegram-miniapps",
+        "description": "Use when building or auditing a Telegram Mini App — a web page opened inside Telegram — where the whole security model is one signed blob Not for the bot behind it (telegram-bots) or user accounts (telegram-userbots).",
+        "source": "skills/telegram-dev/plugins/telegram-dev/skills/telegram-miniapps/SKILL.md"
+      },
+      {
+        "id": "telegram-userbots",
+        "description": "Use when a Telegram job needs a user account rather than a bot token — reading history a bot cannot see, acting as a person, exporting at scale, or downloading past the Bot API ceiling — with Telethon or another MTProto client Not for ordinary bots (telegram-bots) or the web layer (telegram-miniapps).",
+        "source": "skills/telegram-dev/plugins/telegram-dev/skills/telegram-userbots/SKILL.md"
+      },
+      {
+        "id": "ux-audit",
+        "description": "Use when verifying the codebase against the UX scenario base - runs a batched, evidence-backed scenario audit and writes a versioned report to docs/ux/audits/",
+        "source": "skills/super-ux/plugins/super-ux/skills/ux-audit/SKILL.md"
+      },
+      {
+        "id": "ux-flows",
+        "description": "Use when designing or improving HOW users move through the product - user flows, a screen and its states, wireframes, Figma mockups, task analysis, heuristic UX evaluation and redesign proposals",
+        "source": "skills/super-ux/plugins/super-ux/skills/ux-flows/SKILL.md"
+      },
+      {
+        "id": "ux-foundation",
+        "description": "Use when defining or revising WHO the users are and WHY they use the product - personas, Jobs to Be Done, customer journey maps, user stories with acceptance criteria",
+        "source": "skills/super-ux/plugins/super-ux/skills/ux-foundation/SKILL.md"
+      },
+      {
+        "id": "ux-scenarios",
+        "description": "Use when creating or updating UX scenarios, starting ANY new feature or project (an empty project starts a layer up, with vision and ux-foundation), making ANY change to user-facing behavior, or onboarding an existing codebase into scenario-driven development",
+        "source": "skills/super-ux/plugins/super-ux/skills/ux-scenarios/SKILL.md"
+      },
+      {
+        "id": "vision",
+        "description": "Use when a project needs the layer ABOVE personas and jobs - what the product IS, why it exists, and what it refuses to become",
+        "source": "skills/super-ux/plugins/super-ux/skills/vision/SKILL.md"
+      },
+      {
+        "id": "web3d-animation",
+        "description": "Use when something must move in a realtime 3D web scene with three.js or React Three Fiber — character rigs and clips, blending and state transitions, retargeting, root motion and foot sliding, morph targets, crowds and instanced animation, vertex-animation textures, procedural or GPU-driven motion NOT for scroll or UI motion on a page (sheleg-design), rendered video (hyperframes, remotion), or Unity and Unreal animators.",
+        "source": "skills/web3d-dev/plugins/web3d-dev/skills/web3d-animation/SKILL.md"
+      },
+      {
+        "id": "web3d-assets",
+        "description": "Use when a 3D asset must get from a source to a realtime web scene within budget — sourcing, generating or buying models, textures and characters; the glTF pipeline (validate, clean, simplify, KTX2 textures, meshopt or Draco); target budgets; loaders and colour spaces; licences and provenance; and ordering through NOT for scene code or shaders (web3d-runtime), making things move (web3d-animation), operating a Foundry order in flight (asset-foundry), or Quest store assets (xr-dev).",
+        "source": "skills/web3d-dev/plugins/web3d-dev/skills/web3d-assets/SKILL.md"
+      },
+      {
+        "id": "web3d-runtime",
+        "description": "Use when building or fixing a realtime 3D scene on the web with three.js or React Three Fiber — WebGPURenderer and its WebGL2 fallback, TSL node materials and shaders, GPU compute and particles, post-processing, device loss, the frame loop, profiling and frame-time budgets, and degrading to a calm static state NOT for landing-page heroes and scroll motion (sheleg-design), asset files and budgets (web3d-assets), character animation (web3d-animation), or a Quest headset session (xr-dev).",
+        "source": "skills/web3d-dev/plugins/web3d-dev/skills/web3d-runtime/SKILL.md"
+      }
+    ]
+  },
+  "candidate_rule": "first sentence capped to 320 characters at a word boundary; preserve trailing Not for boundary; experiment only, no skill file changed",
+  "cases": [
+    {
+      "id": "primary-ad-tracking-en",
+      "group": "primary-ad-tracking",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Wire browser and server purchase events with one event identifier and a shared consent state across advertising tags.",
+      "accepted_sets": [
+        [
+          "ad-tracking"
+        ]
+      ],
+      "source_skills": [
+        "ad-tracking"
+      ],
+      "rationale": "Consent and advertising conversion wiring are the requested artifact."
+    },
+    {
+      "id": "primary-ad-tracking-ru",
+      "group": "primary-ad-tracking",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Настрой дедупликацию покупки между пикселем браузера и серверным событием; согласие должно одинаково управлять всеми рекламными тегами.",
+      "accepted_sets": [
+        [
+          "ad-tracking"
+        ]
+      ],
+      "source_skills": [
+        "ad-tracking"
+      ],
+      "rationale": "Consent and advertising conversion wiring are the requested artifact."
+    },
+    {
+      "id": "primary-agent-evals-en",
+      "group": "primary-agent-evals",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Turn recorded agent executions into regression cases that check required calls, final answers and actual saved artifacts.",
+      "accepted_sets": [
+        [
+          "agent-evals"
+        ]
+      ],
+      "source_skills": [
+        "agent-evals"
+      ],
+      "rationale": "Execution records and behavioral assertions belong to the eval owner."
+    },
+    {
+      "id": "primary-agent-evals-ru",
+      "group": "primary-agent-evals",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Из трасс запусков агента собери регрессионные примеры: проверяем вызовы инструментов, итог и реально сохранённые файлы.",
+      "accepted_sets": [
+        [
+          "agent-evals"
+        ]
+      ],
+      "source_skills": [
+        "agent-evals"
+      ],
+      "rationale": "Execution records and behavioral assertions belong to the eval owner."
+    },
+    {
+      "id": "primary-agent-harness-en",
+      "group": "primary-agent-harness",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "The agent chooses the wrong tool although the implementation works. Review its system instructions and tool wording.",
+      "accepted_sets": [
+        [
+          "agent-harness"
+        ]
+      ],
+      "source_skills": [
+        "agent-harness"
+      ],
+      "rationale": "This is the model-facing instruction layer, not protocol or loop plumbing."
+    },
+    {
+      "id": "primary-agent-harness-ru",
+      "group": "primary-agent-harness",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Инструмент работает, но агент выбирает соседний. Проверь формулировки инструкций и описаний инструментов.",
+      "accepted_sets": [
+        [
+          "agent-harness"
+        ]
+      ],
+      "source_skills": [
+        "agent-harness"
+      ],
+      "rationale": "This is the model-facing instruction layer, not protocol or loop plumbing."
+    },
+    {
+      "id": "primary-agent-interop-en",
+      "group": "primary-agent-interop",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Specify how a tool server and a peer agent expose capabilities, negotiate a protocol and return errors across process boundaries.",
+      "accepted_sets": [
+        [
+          "agent-interop"
+        ]
+      ],
+      "source_skills": [
+        "agent-interop"
+      ],
+      "rationale": "External process contracts belong to interop."
+    },
+    {
+      "id": "primary-agent-interop-ru",
+      "group": "primary-agent-interop",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Опиши контракт обмена между процессами: сервер инструментов и соседний агент, обнаружение возможностей и ответы с ошибками.",
+      "accepted_sets": [
+        [
+          "agent-interop"
+        ]
+      ],
+      "source_skills": [
+        "agent-interop"
+      ],
+      "rationale": "External process contracts belong to interop."
+    },
+    {
+      "id": "primary-agent-orchestrator-en",
+      "group": "primary-agent-orchestrator",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Implement a resumable agent work graph with bounded retries, budget limits and checkpoints after dependency layers.",
+      "accepted_sets": [
+        [
+          "agent-orchestrator"
+        ]
+      ],
+      "source_skills": [
+        "agent-orchestrator"
+      ],
+      "rationale": "Executable orchestration and checkpoints are loop plumbing."
+    },
+    {
+      "id": "primary-agent-orchestrator-ru",
+      "group": "primary-agent-orchestrator",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Реализуй исполняемый граф работы агента: зависимости, чекпоинты, лимит бюджета и ограниченные повторы после сбоя.",
+      "accepted_sets": [
+        [
+          "agent-orchestrator"
+        ]
+      ],
+      "source_skills": [
+        "agent-orchestrator"
+      ],
+      "rationale": "Executable orchestration and checkpoints are loop plumbing."
+    },
+    {
+      "id": "primary-agent-sync-en",
+      "group": "primary-agent-sync",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Two coding sessions edit one repository. Add exclusive task claims, file ownership and race-free identifier reservation.",
+      "accepted_sets": [
+        [
+          "agent-sync"
+        ]
+      ],
+      "source_skills": [
+        "agent-sync"
+      ],
+      "rationale": "Repository coordination is distinct from building a multi-agent product."
+    },
+    {
+      "id": "primary-agent-sync-ru",
+      "group": "primary-agent-sync",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Две сессии правят один репозиторий: нужны исключающие claims задач, владение файлами и безопасное выделение номеров.",
+      "accepted_sets": [
+        [
+          "agent-sync"
+        ]
+      ],
+      "source_skills": [
+        "agent-sync"
+      ],
+      "rationale": "Repository coordination is distinct from building a multi-agent product."
+    },
+    {
+      "id": "primary-brand-voice-en",
+      "group": "primary-brand-voice",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Define the product's verbal identity, approved terms and sourced claims as a reusable brand pack before writing screens.",
+      "accepted_sets": [
+        [
+          "brand-voice"
+        ]
+      ],
+      "source_skills": [
+        "brand-voice"
+      ],
+      "rationale": "The reusable verbal source of truth is brand-voice's artifact."
+    },
+    {
+      "id": "primary-brand-voice-ru",
+      "group": "primary-brand-voice",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Сначала создай общий пакет голоса бренда: тон, терминология и подтверждённые факты для будущих текстов продукта.",
+      "accepted_sets": [
+        [
+          "brand-voice"
+        ]
+      ],
+      "source_skills": [
+        "brand-voice"
+      ],
+      "rationale": "The reusable verbal source of truth is brand-voice's artifact."
+    },
+    {
+      "id": "primary-copywriting-en",
+      "group": "primary-copywriting",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Using the existing approved brand pack, rewrite the payment error and empty-state messages for the app.",
+      "accepted_sets": [
+        [
+          "copywriting"
+        ]
+      ],
+      "source_skills": [
+        "copywriting"
+      ],
+      "rationale": "The request changes product strings, not the brand pack's facts or policy."
+    },
+    {
+      "id": "primary-copywriting-ru",
+      "group": "primary-copywriting",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "По существующему утверждённому brand pack перепиши сообщения об ошибке оплаты и пустом состоянии приложения.",
+      "accepted_sets": [
+        [
+          "copywriting"
+        ]
+      ],
+      "source_skills": [
+        "copywriting"
+      ],
+      "rationale": "The request changes product strings, not the brand pack's facts or policy."
+    },
+    {
+      "id": "primary-crypto-payments-en",
+      "group": "primary-crypto-payments",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Implement invoice reconciliation when cryptocurrency arrives partly, late or in excess, with authenticated idempotent callbacks.",
+      "accepted_sets": [
+        [
+          "crypto-payments"
+        ]
+      ],
+      "source_skills": [
+        "crypto-payments"
+      ],
+      "rationale": "Partial and late invoice settlement is the crypto integration seam."
+    },
+    {
+      "id": "primary-crypto-payments-ru",
+      "group": "primary-crypto-payments",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Реализуй сверку криптосчёта при частичной, поздней и избыточной оплате; callback проверяем и обрабатываем идемпотентно.",
+      "accepted_sets": [
+        [
+          "crypto-payments"
+        ]
+      ],
+      "source_skills": [
+        "crypto-payments"
+      ],
+      "rationale": "Partial and late invoice settlement is the crypto integration seam."
+    },
+    {
+      "id": "primary-error-tracking-en",
+      "group": "primary-error-tracking",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Connect crash reporting so an issue names its exact release commit and credentials embedded in exception URLs are scrubbed.",
+      "accepted_sets": [
+        [
+          "error-tracking"
+        ]
+      ],
+      "source_skills": [
+        "error-tracking"
+      ],
+      "rationale": "Error capture, sanitization and release attribution are the requested wiring."
+    },
+    {
+      "id": "primary-error-tracking-ru",
+      "group": "primary-error-tracking",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Подключи сбор ошибок: issue должен указывать commit релиза, а секреты внутри URL исключений нужно вычищать.",
+      "accepted_sets": [
+        [
+          "error-tracking"
+        ]
+      ],
+      "source_skills": [
+        "error-tracking"
+      ],
+      "rationale": "Error capture, sanitization and release attribution are the requested wiring."
+    },
+    {
+      "id": "primary-evidence-docs-en",
+      "group": "primary-evidence-docs",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Audit a technical report so every factual claim has a resolving source, measured counts and explicitly named unchecked scope.",
+      "accepted_sets": [
+        [
+          "evidence-docs"
+        ]
+      ],
+      "source_skills": [
+        "evidence-docs"
+      ],
+      "rationale": "Claim provenance and honest scope are evidence-docs obligations."
+    },
+    {
+      "id": "primary-evidence-docs-ru",
+      "group": "primary-evidence-docs",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Проверь технический отчёт: для каждого факта нужен разрешимый источник, для чисел измерение, а непроверенное должно быть явно названо.",
+      "accepted_sets": [
+        [
+          "evidence-docs"
+        ]
+      ],
+      "source_skills": [
+        "evidence-docs"
+      ],
+      "rationale": "Claim provenance and honest scope are evidence-docs obligations."
+    },
+    {
+      "id": "primary-frontend-performance-en",
+      "group": "primary-frontend-performance",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Measure a slow page's LCP, INP and layout shifts, locate the code bottlenecks and verify the fixes with another capture.",
+      "accepted_sets": [
+        [
+          "frontend-performance"
+        ]
+      ],
+      "source_skills": [
+        "frontend-performance"
+      ],
+      "rationale": "Measured web performance is separate from aesthetic design and journeys."
+    },
+    {
+      "id": "primary-frontend-performance-ru",
+      "group": "primary-frontend-performance",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Замерь LCP, INP и сдвиги вёрстки медленной страницы; найди причину в коде и повтори измерение после исправления.",
+      "accepted_sets": [
+        [
+          "frontend-performance"
+        ]
+      ],
+      "source_skills": [
+        "frontend-performance"
+      ],
+      "rationale": "Measured web performance is separate from aesthetic design and journeys."
+    },
+    {
+      "id": "primary-google-auth-en",
+      "group": "primary-google-auth",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Give a server service account access to a Google API using application default credentials; no end-user login is involved.",
+      "accepted_sets": [
+        [
+          "google-auth"
+        ]
+      ],
+      "source_skills": [
+        "google-auth"
+      ],
+      "rationale": "Server/API credentials belong to google-auth rather than identity login."
+    },
+    {
+      "id": "primary-google-auth-ru",
+      "group": "primary-google-auth",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Настрой доступ серверного service account к Google API через application default credentials; вход пользователя не нужен.",
+      "accepted_sets": [
+        [
+          "google-auth"
+        ]
+      ],
+      "source_skills": [
+        "google-auth"
+      ],
+      "rationale": "Server/API credentials belong to google-auth rather than identity login."
+    },
+    {
+      "id": "primary-google-signin-en",
+      "group": "primary-google-signin",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Implement the website's Google login with server-verified ID tokens, nonce protection and safe account linking.",
+      "accepted_sets": [
+        [
+          "google-signin"
+        ]
+      ],
+      "source_skills": [
+        "google-signin"
+      ],
+      "rationale": "ID-token login and account linking are google-signin's explicit flow."
+    },
+    {
+      "id": "primary-google-signin-ru",
+      "group": "primary-google-signin",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Сделай вход на сайт через Google: серверная проверка ID token, nonce и безопасная привязка аккаунтов.",
+      "accepted_sets": [
+        [
+          "google-signin"
+        ]
+      ],
+      "source_skills": [
+        "google-signin"
+      ],
+      "rationale": "ID-token login and account linking are google-signin's explicit flow."
+    },
+    {
+      "id": "primary-make-skill-en",
+      "group": "primary-make-skill",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Package an existing reusable instruction as a Claude plugin, synchronize versions and validate its front matter and distributed files.",
+      "accepted_sets": [
+        [
+          "make-skill"
+        ]
+      ],
+      "source_skills": [
+        "make-skill"
+      ],
+      "rationale": "Skill construction and distribution, not ordinary application delivery."
+    },
+    {
+      "id": "primary-make-skill-ru",
+      "group": "primary-make-skill",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Упакуй готовую инструкцию в плагин Claude: согласуй версии, проверь front matter и состав поставляемых файлов.",
+      "accepted_sets": [
+        [
+          "make-skill"
+        ]
+      ],
+      "source_skills": [
+        "make-skill"
+      ],
+      "rationale": "Skill construction and distribution, not ordinary application delivery."
+    },
+    {
+      "id": "primary-project-audit-en",
+      "group": "primary-project-audit",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Starting from an unfamiliar repository, determine which capabilities really work, which are partial and what was never observed; leave a read-only evidence map.",
+      "accepted_sets": [
+        [
+          "project-audit"
+        ]
+      ],
+      "source_skills": [
+        "project-audit"
+      ],
+      "rationale": "Whole-project current truth, not a single diff or scenario check."
+    },
+    {
+      "id": "primary-project-audit-ru",
+      "group": "primary-project-audit",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "В незнакомом проекте выясни, какие возможности работают, какие частичны, а что не проверяли; нужен read-only срез с доказательствами.",
+      "accepted_sets": [
+        [
+          "project-audit"
+        ]
+      ],
+      "source_skills": [
+        "project-audit"
+      ],
+      "rationale": "Whole-project current truth, not a single diff or scenario check."
+    },
+    {
+      "id": "primary-quest-lifecycle-en",
+      "group": "primary-quest-lifecycle",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Map a Quest product from platform choice through prototype, device acceptance, store launch and operation, with owners and missing evidence.",
+      "accepted_sets": [
+        [
+          "quest-lifecycle"
+        ]
+      ],
+      "source_skills": [
+        "quest-lifecycle"
+      ],
+      "rationale": "Whole-product stage readiness is the lifecycle owner's scope."
+    },
+    {
+      "id": "primary-quest-lifecycle-ru",
+      "group": "primary-quest-lifecycle",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Собери путь Quest-продукта от выбора платформы до запуска и эксплуатации: владельцы стадий, доказательства и недостающие зависимости.",
+      "accepted_sets": [
+        [
+          "quest-lifecycle"
+        ]
+      ],
+      "source_skills": [
+        "quest-lifecycle"
+      ],
+      "rationale": "Whole-product stage readiness is the lifecycle owner's scope."
+    },
+    {
+      "id": "primary-quest-native-en",
+      "group": "primary-quest-native",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Fix a C++ OpenXR app's session lifecycle so it stops submitting frames correctly when headset focus changes.",
+      "accepted_sets": [
+        [
+          "quest-native"
+        ]
+      ],
+      "source_skills": [
+        "quest-native"
+      ],
+      "rationale": "The C/C++ OpenXR frame loop is native, not Kotlin or browser tooling."
+    },
+    {
+      "id": "primary-quest-native-ru",
+      "group": "primary-quest-native",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Исправь жизненный цикл сессии в C++ OpenXR: корректная отправка кадров при смене фокуса шлема.",
+      "accepted_sets": [
+        [
+          "quest-native"
+        ]
+      ],
+      "source_skills": [
+        "quest-native"
+      ],
+      "rationale": "The C/C++ OpenXR frame loop is native, not Kotlin or browser tooling."
+    },
+    {
+      "id": "primary-quest-perf-en",
+      "group": "primary-quest-perf",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Capture a Quest app dropping frames and separate CPU, GPU and compositor bottlenecks against the selected refresh deadline.",
+      "accepted_sets": [
+        [
+          "quest-perf"
+        ]
+      ],
+      "source_skills": [
+        "quest-perf"
+      ],
+      "rationale": "Device frame-budget diagnosis belongs to quest-perf."
+    },
+    {
+      "id": "primary-quest-perf-ru",
+      "group": "primary-quest-perf",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Сними профиль Quest-приложения с пропусками кадров: отдельно разбери CPU, GPU и compositor относительно частоты обновления.",
+      "accepted_sets": [
+        [
+          "quest-perf"
+        ]
+      ],
+      "source_skills": [
+        "quest-perf"
+      ],
+      "rationale": "Device frame-budget diagnosis belongs to quest-perf."
+    },
+    {
+      "id": "primary-quest-spatial-en",
+      "group": "primary-quest-spatial",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Implement a Kotlin Spatial SDK app that switches between Compose panels and immersive activities while preserving shared state.",
+      "accepted_sets": [
+        [
+          "quest-spatial"
+        ]
+      ],
+      "source_skills": [
+        "quest-spatial"
+      ],
+      "rationale": "Kotlin panels and hybrid activities belong to the Spatial lane."
+    },
+    {
+      "id": "primary-quest-spatial-ru",
+      "group": "primary-quest-spatial",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "В Kotlin Spatial SDK сделай переходы между Compose-панелями и immersive activity с сохранением общего состояния.",
+      "accepted_sets": [
+        [
+          "quest-spatial"
+        ]
+      ],
+      "source_skills": [
+        "quest-spatial"
+      ],
+      "rationale": "Kotlin panels and hybrid activities belong to the Spatial lane."
+    },
+    {
+      "id": "primary-quest-store-en",
+      "group": "primary-quest-store",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Audit a ready Quest build's release packaging, store-channel eligibility and review evidence before any submission.",
+      "accepted_sets": [
+        [
+          "quest-store"
+        ]
+      ],
+      "source_skills": [
+        "quest-store"
+      ],
+      "rationale": "Store packaging and submission readiness, not whole lifecycle planning."
+    },
+    {
+      "id": "primary-quest-store-ru",
+      "group": "primary-quest-store",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Проверь упаковку готового Quest-билда, требования канала Store и доказательства для review до отправки.",
+      "accepted_sets": [
+        [
+          "quest-store"
+        ]
+      ],
+      "source_skills": [
+        "quest-store"
+      ],
+      "rationale": "Store packaging and submission readiness, not whole lifecycle planning."
+    },
+    {
+      "id": "primary-quest-tooling-en",
+      "group": "primary-quest-tooling",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Reconcile duplicate headset development CLIs, inspect the installed command help and choose one tool registration for device capture.",
+      "accepted_sets": [
+        [
+          "quest-tooling"
+        ]
+      ],
+      "source_skills": [
+        "quest-tooling"
+      ],
+      "rationale": "Tool discovery, registration and version split are tooling concerns."
+    },
+    {
+      "id": "primary-quest-tooling-ru",
+      "group": "primary-quest-tooling",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Разбери два установленных CLI для разработки под Quest, сверь help и оставь один канал инструментов для захвата с устройства.",
+      "accepted_sets": [
+        [
+          "quest-tooling"
+        ]
+      ],
+      "source_skills": [
+        "quest-tooling"
+      ],
+      "rationale": "Tool discovery, registration and version split are tooling concerns."
+    },
+    {
+      "id": "primary-quest-webxr-en",
+      "group": "primary-quest-webxr",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Make a headset browser app negotiate immersive sessions with a working ordinary-screen fallback, then assess PWA packaging.",
+      "accepted_sets": [
+        [
+          "quest-webxr"
+        ]
+      ],
+      "source_skills": [
+        "quest-webxr"
+      ],
+      "rationale": "Browser/session and PWA delivery on Horizon is quest-webxr's scope."
+    },
+    {
+      "id": "primary-quest-webxr-ru",
+      "group": "primary-quest-webxr",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Сделай согласование immersive-сессии в браузерном приложении для шлема, fallback на обычный экран и проверь упаковку PWA.",
+      "accepted_sets": [
+        [
+          "quest-webxr"
+        ]
+      ],
+      "source_skills": [
+        "quest-webxr"
+      ],
+      "rationale": "Browser/session and PWA delivery on Horizon is quest-webxr's scope."
+    },
+    {
+      "id": "primary-seo-aeo-audit-en",
+      "group": "primary-seo-aeo-audit",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Audit a public site's crawlability, rendered answers and search/answer-engine visibility; return sourced findings and a prioritized plan.",
+      "accepted_sets": [
+        [
+          "seo-aeo-audit"
+        ]
+      ],
+      "source_skills": [
+        "seo-aeo-audit"
+      ],
+      "rationale": "A read-only search diagnosis and executable recommendations are the audit's output."
+    },
+    {
+      "id": "primary-seo-aeo-audit-ru",
+      "group": "primary-seo-aeo-audit",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Проведи аудит публичного сайта: обход, извлекаемые ответы и видимость в поиске и ответных системах; выдай доказательства и приоритетный план.",
+      "accepted_sets": [
+        [
+          "seo-aeo-audit"
+        ]
+      ],
+      "source_skills": [
+        "seo-aeo-audit"
+      ],
+      "rationale": "A read-only search diagnosis and executable recommendations are the audit's output."
+    },
+    {
+      "id": "primary-sheleg-design-en",
+      "group": "primary-sheleg-design",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "The behavior and copy are approved. Define visual tokens, typography, spacing and restrained motion for the interface.",
+      "accepted_sets": [
+        [
+          "sheleg-design"
+        ]
+      ],
+      "source_skills": [
+        "sheleg-design"
+      ],
+      "rationale": "Visual language and motion are design decisions, not behavior or copy."
+    },
+    {
+      "id": "primary-sheleg-design-ru",
+      "group": "primary-sheleg-design",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Поведение и тексты уже утверждены. Продумай визуальные токены, типографику, отступы и спокойную анимацию интерфейса.",
+      "accepted_sets": [
+        [
+          "sheleg-design"
+        ]
+      ],
+      "source_skills": [
+        "sheleg-design"
+      ],
+      "rationale": "Visual language and motion are design decisions, not behavior or copy."
+    },
+    {
+      "id": "primary-skill-search-en",
+      "group": "primary-skill-search",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "The visible skill list may be incomplete. Find installed help for document extraction by searching the whole catalogue with bilingual concepts.",
+      "accepted_sets": [
+        [
+          "skill-search"
+        ]
+      ],
+      "source_skills": [
+        "skill-search"
+      ],
+      "rationale": "The request is explicitly catalogue discovery, not the downstream document task."
+    },
+    {
+      "id": "primary-skill-search-ru",
+      "group": "primary-skill-search",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Видимый список навыков неполон. Найди установленные навыки для извлечения текста из документов через поиск по всему каталогу и синонимам на двух языках.",
+      "accepted_sets": [
+        [
+          "skill-search"
+        ]
+      ],
+      "source_skills": [
+        "skill-search"
+      ],
+      "rationale": "The request is explicitly catalogue discovery, not the downstream document task."
+    },
+    {
+      "id": "primary-stripe-billing-en",
+      "group": "primary-stripe-billing",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Fix subscription renewal entitlements so duplicate webhooks and proration invoices do not grant the wrong access period.",
+      "accepted_sets": [
+        [
+          "stripe-billing"
+        ]
+      ],
+      "source_skills": [
+        "stripe-billing"
+      ],
+      "rationale": "Provider payment events versus local entitlement is the Stripe seam."
+    },
+    {
+      "id": "primary-stripe-billing-ru",
+      "group": "primary-stripe-billing",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Исправь продление подписки: повторы webhook и счета prorations не должны выдавать неверный срок доступа.",
+      "accepted_sets": [
+        [
+          "stripe-billing"
+        ]
+      ],
+      "source_skills": [
+        "stripe-billing"
+      ],
+      "rationale": "Provider payment events versus local entitlement is the Stripe seam."
+    },
+    {
+      "id": "primary-task-pipeline-en",
+      "group": "primary-task-pipeline",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Take an authorized repository refactor through a contextual brief, decomposition, implementation, tests and reviewable delivery.",
+      "accepted_sets": [
+        [
+          "task-pipeline"
+        ]
+      ],
+      "source_skills": [
+        "task-pipeline"
+      ],
+      "rationale": "The deliverable is a governed repository change, not a product agent loop."
+    },
+    {
+      "id": "primary-task-pipeline-ru",
+      "group": "primary-task-pipeline",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Проведи согласованный рефакторинг репозитория через контекстный brief, декомпозицию, реализацию, проверки и сдачу на review.",
+      "accepted_sets": [
+        [
+          "task-pipeline"
+        ]
+      ],
+      "source_skills": [
+        "task-pipeline"
+      ],
+      "rationale": "The deliverable is a governed repository change, not a product agent loop."
+    },
+    {
+      "id": "primary-telegram-bots-en",
+      "group": "primary-telegram-bots",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Fix a Telegram Bot API webhook so a redelivered update cannot grant a purchase twice after a worker crash.",
+      "accepted_sets": [
+        [
+          "telegram-bots"
+        ]
+      ],
+      "source_skills": [
+        "telegram-bots"
+      ],
+      "rationale": "Bot updates and successful-payment idempotency use the bot token lane."
+    },
+    {
+      "id": "primary-telegram-bots-ru",
+      "group": "primary-telegram-bots",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Исправь webhook Telegram Bot API: повторно доставленный update после падения воркера не должен дважды выдавать покупку.",
+      "accepted_sets": [
+        [
+          "telegram-bots"
+        ]
+      ],
+      "source_skills": [
+        "telegram-bots"
+      ],
+      "rationale": "Bot updates and successful-payment idempotency use the bot token lane."
+    },
+    {
+      "id": "primary-telegram-miniapps-en",
+      "group": "primary-telegram-miniapps",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Review a Telegram WebView's raw signed launch data on the backend, including stale timestamps and tampered user fields.",
+      "accepted_sets": [
+        [
+          "telegram-miniapps"
+        ]
+      ],
+      "source_skills": [
+        "telegram-miniapps"
+      ],
+      "rationale": "Mini App launch authentication belongs to the WebView integration owner."
+    },
+    {
+      "id": "primary-telegram-miniapps-ru",
+      "group": "primary-telegram-miniapps",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Проверь на backend сырые подписанные launch data Telegram WebView: просроченное время и подменённые поля пользователя.",
+      "accepted_sets": [
+        [
+          "telegram-miniapps"
+        ]
+      ],
+      "source_skills": [
+        "telegram-miniapps"
+      ],
+      "rationale": "Mini App launch authentication belongs to the WebView integration owner."
+    },
+    {
+      "id": "primary-telegram-userbots-en",
+      "group": "primary-telegram-userbots",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Export history from an account's existing Telegram chats using a resumable client, bounded flood waits and protected session storage.",
+      "accepted_sets": [
+        [
+          "telegram-userbots"
+        ]
+      ],
+      "source_skills": [
+        "telegram-userbots"
+      ],
+      "rationale": "Personal-account history and session lifecycle require the MTProto lane."
+    },
+    {
+      "id": "primary-telegram-userbots-ru",
+      "group": "primary-telegram-userbots",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Выгрузи историю доступных аккаунту Telegram-чатов с возобновлением, ограниченным ожиданием FloodWait и защитой сессии.",
+      "accepted_sets": [
+        [
+          "telegram-userbots"
+        ]
+      ],
+      "source_skills": [
+        "telegram-userbots"
+      ],
+      "rationale": "Personal-account history and session lifecycle require the MTProto lane."
+    },
+    {
+      "id": "primary-ux-audit-en",
+      "group": "primary-ux-audit",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Trace the implemented UI against the existing scenario base and report unreachable steps, missing states and dishonest errors.",
+      "accepted_sets": [
+        [
+          "ux-audit"
+        ]
+      ],
+      "source_skills": [
+        "ux-audit"
+      ],
+      "rationale": "This compares implementation with scenario behavior, not general project status."
+    },
+    {
+      "id": "primary-ux-audit-ru",
+      "group": "primary-ux-audit",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Сверь реализованный интерфейс с существующей базой сценариев: недостижимые шаги, отсутствующие состояния и неверные ошибки.",
+      "accepted_sets": [
+        [
+          "ux-audit"
+        ]
+      ],
+      "source_skills": [
+        "ux-audit"
+      ],
+      "rationale": "This compares implementation with scenario behavior, not general project status."
+    },
+    {
+      "id": "primary-ux-flows-en",
+      "group": "primary-ux-flows",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Turn approved stories into navigation flows and a canonical screen/state registry with traceable screen identifiers.",
+      "accepted_sets": [
+        [
+          "ux-flows"
+        ]
+      ],
+      "source_skills": [
+        "ux-flows"
+      ],
+      "rationale": "Flows and screens describe how users move; upstream stories already exist."
+    },
+    {
+      "id": "primary-ux-flows-ru",
+      "group": "primary-ux-flows",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "По утверждённым user stories спроектируй переходы и единый реестр экранов и состояний с идентификаторами.",
+      "accepted_sets": [
+        [
+          "ux-flows"
+        ]
+      ],
+      "source_skills": [
+        "ux-flows"
+      ],
+      "rationale": "Flows and screens describe how users move; upstream stories already exist."
+    },
+    {
+      "id": "primary-ux-foundation-en",
+      "group": "primary-ux-foundation",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Use customer evidence to define personas, jobs, journeys and user stories before designing screens.",
+      "accepted_sets": [
+        [
+          "ux-foundation"
+        ]
+      ],
+      "source_skills": [
+        "ux-foundation"
+      ],
+      "rationale": "The why/who foundation precedes flows and observable scenarios."
+    },
+    {
+      "id": "primary-ux-foundation-ru",
+      "group": "primary-ux-foundation",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "По данным о клиентах опиши персоны, задачи, пути и user stories до проектирования экранов.",
+      "accepted_sets": [
+        [
+          "ux-foundation"
+        ]
+      ],
+      "source_skills": [
+        "ux-foundation"
+      ],
+      "rationale": "The why/who foundation precedes flows and observable scenarios."
+    },
+    {
+      "id": "primary-ux-scenarios-en",
+      "group": "primary-ux-scenarios",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "From the approved flows, write user-action and observable-response scenarios covering success, errors and alternative branches.",
+      "accepted_sets": [
+        [
+          "ux-scenarios"
+        ]
+      ],
+      "source_skills": [
+        "ux-scenarios"
+      ],
+      "rationale": "Observable step/state coverage belongs to scenarios rather than navigation design."
+    },
+    {
+      "id": "primary-ux-scenarios-ru",
+      "group": "primary-ux-scenarios",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Из утверждённых flows составь сценарии: действие пользователя, наблюдаемая реакция, успех, ошибки и альтернативные ветки.",
+      "accepted_sets": [
+        [
+          "ux-scenarios"
+        ]
+      ],
+      "source_skills": [
+        "ux-scenarios"
+      ],
+      "rationale": "Observable step/state coverage belongs to scenarios rather than navigation design."
+    },
+    {
+      "id": "primary-vision-en",
+      "group": "primary-vision",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Define what this product is, what it refuses to become and how future feature proposals must be checked against that boundary.",
+      "accepted_sets": [
+        [
+          "vision"
+        ]
+      ],
+      "source_skills": [
+        "vision"
+      ],
+      "rationale": "Product identity and anti-vision sit above personas and feature behavior."
+    },
+    {
+      "id": "primary-vision-ru",
+      "group": "primary-vision",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Зафиксируй, что это за продукт и чем он не должен стать; добавь правило проверки будущих фич на соответствие вижену.",
+      "accepted_sets": [
+        [
+          "vision"
+        ]
+      ],
+      "source_skills": [
+        "vision"
+      ],
+      "rationale": "Product identity and anti-vision sit above personas and feature behavior."
+    },
+    {
+      "id": "primary-web3d-animation-en",
+      "group": "primary-web3d-animation",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "A GLB character slides between walk and idle and snaps after a one-shot clip. Align clip names, root motion and runtime blending.",
+      "accepted_sets": [
+        [
+          "web3d-animation"
+        ]
+      ],
+      "source_skills": [
+        "web3d-animation"
+      ],
+      "rationale": "The authored-clip/runtime playback seam is animation, not generic GPU setup."
+    },
+    {
+      "id": "primary-web3d-animation-ru",
+      "group": "primary-web3d-animation",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Персонаж GLB скользит между walk и idle и сбрасывает позу после одноразового клипа. Согласуй имена клипов, root motion и смешивание.",
+      "accepted_sets": [
+        [
+          "web3d-animation"
+        ]
+      ],
+      "source_skills": [
+        "web3d-animation"
+      ],
+      "rationale": "The authored-clip/runtime playback seam is animation, not generic GPU setup."
+    },
+    {
+      "id": "primary-web3d-assets-en",
+      "group": "primary-web3d-assets",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Prepare licensed glTF models and textures within explicit download and GPU-memory budgets, checking compression support in the actual loader.",
+      "accepted_sets": [
+        [
+          "web3d-assets"
+        ]
+      ],
+      "source_skills": [
+        "web3d-assets"
+      ],
+      "rationale": "Asset provenance, budgets and loader-compatible processing belong to assets."
+    },
+    {
+      "id": "primary-web3d-assets-ru",
+      "group": "primary-web3d-assets",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Подготовь лицензированные glTF и текстуры под бюджет загрузки и GPU-памяти; проверь поддержку сжатия реальным loader.",
+      "accepted_sets": [
+        [
+          "web3d-assets"
+        ]
+      ],
+      "source_skills": [
+        "web3d-assets"
+      ],
+      "rationale": "Asset provenance, budgets and loader-compatible processing belong to assets."
+    },
+    {
+      "id": "primary-web3d-runtime-en",
+      "group": "primary-web3d-runtime",
+      "language": "en",
+      "kind": "primary",
+      "prompt": "Repair a three.js scene's renderer initialization, WebGPU fallback and single frame-loop ownership across supported browsers.",
+      "accepted_sets": [
+        [
+          "web3d-runtime"
+        ]
+      ],
+      "source_skills": [
+        "web3d-runtime"
+      ],
+      "rationale": "Renderer capability and frame-loop ownership are runtime concerns."
+    },
+    {
+      "id": "primary-web3d-runtime-ru",
+      "group": "primary-web3d-runtime",
+      "language": "ru",
+      "kind": "primary",
+      "prompt": "Исправь запуск renderer в three.js, fallback WebGPU и единый цикл кадра в поддерживаемых браузерах.",
+      "accepted_sets": [
+        [
+          "web3d-runtime"
+        ]
+      ],
+      "source_skills": [
+        "web3d-runtime"
+      ],
+      "rationale": "Renderer capability and frame-loop ownership are runtime concerns."
+    },
+    {
+      "id": "neighbor-login-vs-api",
+      "group": "neighbor-login-vs-api",
+      "language": "ru",
+      "kind": "neighbor",
+      "prompt": "Нужно только узнать, кто вошёл через кнопку Google. Доступ к Gmail и сохранение refresh token не нужны.",
+      "accepted_sets": [
+        [
+          "google-signin"
+        ]
+      ],
+      "source_skills": [
+        "google-signin",
+        "google-auth"
+      ],
+      "rationale": "Identity-only login is the explicit ID-token flow; API delegation is excluded."
+    },
+    {
+      "id": "neighbor-api-vs-login",
+      "group": "neighbor-api-vs-login",
+      "language": "en",
+      "kind": "neighbor",
+      "prompt": "A background worker must refresh delegated Calendar access after the user is offline. This is not the website login button.",
+      "accepted_sets": [
+        [
+          "google-auth"
+        ]
+      ],
+      "source_skills": [
+        "google-auth",
+        "google-signin"
+      ],
+      "rationale": "Delegated Google API credentials require the authorization-code/API owner."
+    },
+    {
+      "id": "neighbor-eval-vs-prompt",
+      "group": "neighbor-eval-vs-prompt",
+      "language": "ru",
+      "kind": "neighbor",
+      "prompt": "Не переписывай системный промпт: сравни реальные трассы двух вариантов и проверь, какие обязательные действия потерялись.",
+      "accepted_sets": [
+        [
+          "agent-evals"
+        ]
+      ],
+      "source_skills": [
+        "agent-evals",
+        "agent-harness"
+      ],
+      "rationale": "The requested result is observed behavior comparison, not prompt wording."
+    },
+    {
+      "id": "neighbor-prompt-vs-wire",
+      "group": "neighbor-prompt-vs-wire",
+      "language": "en",
+      "kind": "neighbor",
+      "prompt": "The MCP transport already works. Rewrite the tool descriptions so the model stops confusing read with delete.",
+      "accepted_sets": [
+        [
+          "agent-harness"
+        ]
+      ],
+      "source_skills": [
+        "agent-harness",
+        "agent-interop"
+      ],
+      "rationale": "Working transport is stipulated; the model-facing tool contract wording is the fault."
+    },
+    {
+      "id": "neighbor-sync-vs-orchestration",
+      "group": "neighbor-sync-vs-orchestration",
+      "language": "ru",
+      "kind": "neighbor",
+      "prompt": "Не строим новый агентный сервис. Три кодера уже работают над одними файлами: нужно не дать им перезаписать чужую правку.",
+      "accepted_sets": [
+        [
+          "agent-sync"
+        ]
+      ],
+      "source_skills": [
+        "agent-sync",
+        "agent-orchestrator"
+      ],
+      "rationale": "Coordinating editors in this repo is not orchestrating an agent product."
+    },
+    {
+      "id": "neighbor-brand-vs-strings",
+      "group": "neighbor-brand-vs-strings",
+      "language": "en",
+      "kind": "neighbor",
+      "prompt": "Our approved voice and facts are stable. Write the empty-cart message without changing terminology or policy.",
+      "accepted_sets": [
+        [
+          "copywriting"
+        ]
+      ],
+      "source_skills": [
+        "copywriting",
+        "brand-voice"
+      ],
+      "rationale": "Product string writing consumes the pack, whereas brand-voice owns its sources."
+    },
+    {
+      "id": "neighbor-scenario-vs-flow",
+      "group": "neighbor-scenario-vs-flow",
+      "language": "ru",
+      "kind": "neighbor",
+      "prompt": "Навигация и список экранов уже готовы. Опиши проверяемую реакцию интерфейса на каждую ошибку оплаты.",
+      "accepted_sets": [
+        [
+          "ux-scenarios"
+        ]
+      ],
+      "source_skills": [
+        "ux-scenarios",
+        "ux-flows"
+      ],
+      "rationale": "The missing layer is observable scenario behavior after navigation is settled."
+    },
+    {
+      "id": "neighbor-audit-vs-ux",
+      "group": "neighbor-audit-vs-ux",
+      "language": "en",
+      "kind": "neighbor",
+      "prompt": "Only check the existing checkout scenarios against implementation; do not diagnose the whole repository or its operations.",
+      "accepted_sets": [
+        [
+          "ux-audit"
+        ]
+      ],
+      "source_skills": [
+        "ux-audit",
+        "project-audit"
+      ],
+      "rationale": "The scope is code versus scenarios, not cold-start whole-project truth."
+    },
+    {
+      "id": "neighbor-crypto-vs-card",
+      "group": "neighbor-crypto-vs-card",
+      "language": "ru",
+      "kind": "neighbor",
+      "prompt": "Платёжный callback валиден, но по криптосчёту пришла только часть суммы. Разбери credited amount и поздний остаток.",
+      "accepted_sets": [
+        [
+          "crypto-payments"
+        ]
+      ],
+      "source_skills": [
+        "crypto-payments",
+        "stripe-billing"
+      ],
+      "rationale": "Partial invoice settlement identifies the crypto seam."
+    },
+    {
+      "id": "neighbor-bot-vs-account",
+      "group": "neighbor-bot-vs-account",
+      "language": "en",
+      "kind": "neighbor",
+      "prompt": "A bot already receives updates in its own group. Make its retry handling safe; there is no need to read personal-account history.",
+      "accepted_sets": [
+        [
+          "telegram-bots"
+        ]
+      ],
+      "source_skills": [
+        "telegram-bots",
+        "telegram-userbots"
+      ],
+      "rationale": "Bot-visible updates do not require a user-account session."
+    },
+    {
+      "id": "neighbor-kotlin-vs-native",
+      "group": "neighbor-kotlin-vs-native",
+      "language": "ru",
+      "kind": "neighbor",
+      "prompt": "Это Kotlin и Compose-панели в Spatial SDK, а не C++ движок. Исправь переход из panel activity в immersive activity.",
+      "accepted_sets": [
+        [
+          "quest-spatial"
+        ]
+      ],
+      "source_skills": [
+        "quest-spatial",
+        "quest-native"
+      ],
+      "rationale": "The implementation lane is explicitly Kotlin/Spatial."
+    },
+    {
+      "id": "neighbor-assets-vs-runtime",
+      "group": "neighbor-assets-vs-runtime",
+      "language": "en",
+      "kind": "neighbor",
+      "prompt": "The renderer loop is correct; the 120 MB model violates the written download budget. Inspect and compress its textures and geometry.",
+      "accepted_sets": [
+        [
+          "web3d-assets"
+        ]
+      ],
+      "source_skills": [
+        "web3d-assets",
+        "web3d-runtime"
+      ],
+      "rationale": "The measured fault is the asset payload, not renderer scheduling."
+    },
+    {
+      "id": "compose-login-and-ads",
+      "group": "compose-login-and-ads",
+      "language": "en",
+      "kind": "composition",
+      "prompt": "Implement verified Google user login, then wire consent-aware ad purchase events after checkout.",
+      "accepted_sets": [
+        [
+          "google-signin",
+          "ad-tracking"
+        ]
+      ],
+      "source_skills": [
+        "google-signin",
+        "ad-tracking"
+      ],
+      "rationale": "Two separately requested integrations; neither specialist covers both."
+    },
+    {
+      "id": "compose-bot-and-miniapp",
+      "group": "compose-bot-and-miniapp",
+      "language": "ru",
+      "kind": "composition",
+      "prompt": "Проверь серверную подпись запуска Mini App и отдельно идемпотентность webhook, который выдаёт покупку бота.",
+      "accepted_sets": [
+        [
+          "telegram-miniapps",
+          "telegram-bots"
+        ]
+      ],
+      "source_skills": [
+        "telegram-miniapps",
+        "telegram-bots"
+      ],
+      "rationale": "Launch authentication and bot-payment delivery are two API surfaces."
+    },
+    {
+      "id": "compose-webxr-and-three",
+      "group": "compose-webxr-and-three",
+      "language": "en",
+      "kind": "composition",
+      "prompt": "In a Quest Browser three.js app, fix immersive-session negotiation and separately repair renderer fallback and frame-loop ownership.",
+      "accepted_sets": [
+        [
+          "quest-webxr",
+          "web3d-runtime"
+        ]
+      ],
+      "source_skills": [
+        "quest-webxr",
+        "web3d-runtime"
+      ],
+      "rationale": "Headset session delivery and the embedded renderer have distinct owners."
+    },
+    {
+      "id": "compose-assets-and-animation",
+      "group": "compose-assets-and-animation",
+      "language": "ru",
+      "kind": "composition",
+      "prompt": "Уменьши GLB до бюджета загрузки и отдельно согласуй root motion и названия клипов с кодом проигрывания.",
+      "accepted_sets": [
+        [
+          "web3d-assets",
+          "web3d-animation"
+        ]
+      ],
+      "source_skills": [
+        "web3d-assets",
+        "web3d-animation"
+      ],
+      "rationale": "Asset transport budget and clip/runtime semantic contract both need work."
+    },
+    {
+      "id": "compose-orchestrator-and-evals",
+      "group": "compose-orchestrator-and-evals",
+      "language": "en",
+      "kind": "composition",
+      "prompt": "Build a resumable agent execution graph and a trace-based regression suite that proves each required side effect happened.",
+      "accepted_sets": [
+        [
+          "agent-orchestrator",
+          "agent-evals"
+        ]
+      ],
+      "source_skills": [
+        "agent-orchestrator",
+        "agent-evals"
+      ],
+      "rationale": "Graph implementation and behavioral evidence are separate deliverables."
+    },
+    {
+      "id": "compose-voice-and-copy",
+      "group": "compose-voice-and-copy",
+      "language": "ru",
+      "kind": "composition",
+      "prompt": "Обнови общую терминологию бренда и затем перепиши сообщения интерфейса по новому утверждённому словарю.",
+      "accepted_sets": [
+        [
+          "brand-voice",
+          "copywriting"
+        ]
+      ],
+      "source_skills": [
+        "brand-voice",
+        "copywriting"
+      ],
+      "rationale": "Changing pack sources and consuming them for strings crosses the file ownership boundary."
+    },
+    {
+      "id": "compose-scenarios-and-look",
+      "group": "compose-scenarios-and-look",
+      "language": "en",
+      "kind": "composition",
+      "prompt": "Specify the checkout success and error scenarios, then define its typography and visual motion from those approved behaviors.",
+      "accepted_sets": [
+        [
+          "ux-scenarios",
+          "sheleg-design"
+        ]
+      ],
+      "source_skills": [
+        "ux-scenarios",
+        "sheleg-design"
+      ],
+      "rationale": "Observable behavior and visual execution are both explicitly requested."
+    },
+    {
+      "id": "compose-store-and-performance",
+      "group": "compose-store-and-performance",
+      "language": "ru",
+      "kind": "composition",
+      "prompt": "Проверь readiness упаковки для Horizon Store и отдельно измерь стабильность времени кадра на целевом шлеме.",
+      "accepted_sets": [
+        [
+          "quest-store",
+          "quest-perf"
+        ]
+      ],
+      "source_skills": [
+        "quest-store",
+        "quest-perf"
+      ],
+      "rationale": "Store readiness does not establish measured device frame performance."
+    },
+    {
+      "id": "compose-billing-and-errors",
+      "group": "compose-billing-and-errors",
+      "language": "en",
+      "kind": "composition",
+      "prompt": "Make subscription webhook entitlement updates idempotent and wire sanitized error reports with release attribution.",
+      "accepted_sets": [
+        [
+          "stripe-billing",
+          "error-tracking"
+        ]
+      ],
+      "source_skills": [
+        "stripe-billing",
+        "error-tracking"
+      ],
+      "rationale": "Payment state and error telemetry are different integration contracts."
+    },
+    {
+      "id": "compose-seo-and-copy",
+      "group": "compose-seo-and-copy",
+      "language": "ru",
+      "kind": "composition",
+      "prompt": "Сначала проведи доказательный аудит видимости сайта в поиске, затем перепиши найденные проблемные тексты по готовому brand pack.",
+      "accepted_sets": [
+        [
+          "seo-aeo-audit",
+          "copywriting"
+        ]
+      ],
+      "source_skills": [
+        "seo-aeo-audit",
+        "copywriting"
+      ],
+      "rationale": "SEO diagnosis ends at recommendations; writing the resulting product copy is a second task."
+    },
+    {
+      "id": "ambiguous-agent-context",
+      "group": "ambiguous-agent-context",
+      "language": "en",
+      "kind": "ambiguous",
+      "prompt": "The agent loses important context on long tasks. Investigate instruction assembly and context-window trimming.",
+      "accepted_sets": [
+        [
+          "agent-harness"
+        ],
+        [
+          "agent-orchestrator"
+        ],
+        [
+          "agent-harness",
+          "agent-orchestrator"
+        ]
+      ],
+      "source_skills": [
+        "agent-harness",
+        "agent-orchestrator"
+      ],
+      "rationale": "The prompt mixes filling context with runtime compaction; either owner can lead or both can investigate."
+    },
+    {
+      "id": "ambiguous-quest-choice",
+      "group": "ambiguous-quest-choice",
+      "language": "ru",
+      "kind": "ambiguous",
+      "prompt": "Android-команда хочет приложение для Quest с панелями и возможным immersive-режимом. Помоги выбрать путь и первый этап.",
+      "accepted_sets": [
+        [
+          "quest-lifecycle"
+        ],
+        [
+          "quest-spatial"
+        ],
+        [
+          "quest-lifecycle",
+          "quest-spatial"
+        ]
+      ],
+      "source_skills": [
+        "quest-lifecycle",
+        "quest-spatial"
+      ],
+      "rationale": "Platform lifecycle choice and the likely Kotlin lane overlap before requirements are settled."
+    },
+    {
+      "id": "ambiguous-ux-redesign",
+      "group": "ambiguous-ux-redesign",
+      "language": "en",
+      "kind": "ambiguous",
+      "prompt": "Review the existing signup journey and propose improvements, using the scenario base where useful.",
+      "accepted_sets": [
+        [
+          "ux-flows"
+        ],
+        [
+          "ux-audit"
+        ],
+        [
+          "ux-flows",
+          "ux-audit"
+        ]
+      ],
+      "source_skills": [
+        "ux-flows",
+        "ux-audit"
+      ],
+      "rationale": "Heuristic flow improvement and scenario audit are both defensible leading modes."
+    },
+    {
+      "id": "ambiguous-skill-agent-eval",
+      "group": "ambiguous-skill-agent-eval",
+      "language": "ru",
+      "kind": "ambiguous",
+      "prompt": "Нужно доказать, что новый навык меняет поведение агента и качество артефакта на фиксированных задачах.",
+      "accepted_sets": [
+        [
+          "make-skill"
+        ],
+        [
+          "agent-evals"
+        ],
+        [
+          "make-skill",
+          "agent-evals"
+        ]
+      ],
+      "source_skills": [
+        "make-skill",
+        "agent-evals"
+      ],
+      "rationale": "Skill outcome evaluation and general execution-record evaluation are both explicitly documented."
+    },
+    {
+      "id": "ambiguous-context-research",
+      "group": "ambiguous-context-research",
+      "language": "en",
+      "kind": "ambiguous",
+      "prompt": "Audit the agent harness, including tool instructions, capability assembly and whether its execution graph is unnecessarily complex.",
+      "accepted_sets": [
+        [
+          "agent-harness"
+        ],
+        [
+          "agent-harness",
+          "agent-orchestrator"
+        ]
+      ],
+      "source_skills": [
+        "agent-harness",
+        "agent-orchestrator"
+      ],
+      "rationale": "Harness audit can lead; executable graph/capability plumbing may legitimately need its sibling."
+    },
+    {
+      "id": "ambiguous-project-quest-readiness",
+      "group": "ambiguous-project-quest-readiness",
+      "language": "ru",
+      "kind": "ambiguous",
+      "prompt": "Нужен read-only срез готовности всего Quest-проекта: что реализовано и что доказано до запуска.",
+      "accepted_sets": [
+        [
+          "quest-lifecycle"
+        ],
+        [
+          "project-audit"
+        ],
+        [
+          "quest-lifecycle",
+          "project-audit"
+        ]
+      ],
+      "source_skills": [
+        "quest-lifecycle",
+        "project-audit"
+      ],
+      "rationale": "Domain lifecycle readiness and whole-project evidence diagnosis overlap at this granularity."
+    },
+    {
+      "id": "negative-simple-translation",
+      "group": "negative-simple-translation",
+      "language": "ru",
+      "kind": "negative",
+      "prompt": "Переведи одну фразу на английский: «Встреча перенесена на завтра».",
+      "accepted_sets": [
+        []
+      ],
+      "source_skills": [
+        "skill-search"
+      ],
+      "rationale": "A one-line translation needs no specialist from this catalogue."
+    },
+    {
+      "id": "negative-arithmetic",
+      "group": "negative-arithmetic",
+      "language": "en",
+      "kind": "negative",
+      "prompt": "What is 18 multiplied by 7? Just give the number.",
+      "accepted_sets": [
+        []
+      ],
+      "source_skills": [
+        "skill-search"
+      ],
+      "rationale": "A simple calculation is outside the skill-search substantial-task branch."
+    },
+    {
+      "id": "negative-react-homograph",
+      "group": "negative-react-homograph",
+      "language": "en",
+      "kind": "negative",
+      "prompt": "Explain the difference between React state and props in two sentences. No agent architecture is involved.",
+      "accepted_sets": [
+        []
+      ],
+      "source_skills": [
+        "agent-harness",
+        "skill-search"
+      ],
+      "rationale": "React UI terminology is not the ReAct agent technique; this is a short explanation."
+    },
+    {
+      "id": "negative-scroll-not-rig",
+      "group": "negative-scroll-not-rig",
+      "language": "ru",
+      "kind": "negative",
+      "prompt": "Что означает CSS opacity? Дай определение без изменения страницы.",
+      "accepted_sets": [
+        []
+      ],
+      "source_skills": [
+        "sheleg-design",
+        "web3d-animation",
+        "skill-search"
+      ],
+      "rationale": "A short CSS definition is neither visual design work nor 3D animation."
+    },
+    {
+      "id": "negative-accounting",
+      "group": "negative-accounting",
+      "language": "en",
+      "kind": "negative",
+      "prompt": "Translate this already supplied receipt total into a spreadsheet cell; no payment integration or analysis is requested.",
+      "accepted_sets": [
+        []
+      ],
+      "source_skills": [
+        "stripe-billing",
+        "crypto-payments",
+        "skill-search"
+      ],
+      "rationale": "A cell transcription is not payment-system implementation."
+    },
+    {
+      "id": "negative-one-line-typo",
+      "group": "negative-one-line-typo",
+      "language": "ru",
+      "kind": "negative",
+      "prompt": "Исправь одну опечатку в комментарии: recieve на receive. Больше ничего не меняй.",
+      "accepted_sets": [
+        []
+      ],
+      "source_skills": [
+        "task-pipeline",
+        "skill-search"
+      ],
+      "rationale": "A one-line typo is explicitly below the substantial-change route."
+    },
+    {
+      "id": "negative-offline-video",
+      "group": "negative-offline-video",
+      "language": "en",
+      "kind": "negative",
+      "prompt": "Render an offline video of an orbiting cube; there is no interactive browser scene or headset app.",
+      "accepted_sets": [
+        []
+      ],
+      "source_skills": [
+        "web3d-runtime",
+        "quest-webxr"
+      ],
+      "rationale": "Offline video production has no specialist in this 39-skill catalogue."
+    },
+    {
+      "id": "negative-accessibility-only",
+      "group": "negative-accessibility-only",
+      "language": "ru",
+      "kind": "negative",
+      "prompt": "Проведи только проверку WCAG клавиатурной доступности; не меняй сценарии, визуальный стиль и не делай общий UX-аудит.",
+      "accepted_sets": [
+        []
+      ],
+      "source_skills": [
+        "ux-audit",
+        "sheleg-design"
+      ],
+      "rationale": "A dedicated accessibility audit is outside the listed catalogue; no family owner should be fabricated."
+    },
+    {
+      "id": "negative-pdf-extraction",
+      "group": "negative-pdf-extraction",
+      "language": "en",
+      "kind": "negative",
+      "prompt": "Extract the plain text from this supplied PDF. Do not search for or construct skills.",
+      "accepted_sets": [
+        []
+      ],
+      "source_skills": [
+        "skill-search",
+        "make-skill"
+      ],
+      "rationale": "Document extraction is not skill discovery or construction; its specialist is absent from this catalogue."
+    },
+    {
+      "id": "negative-bot-one-alert",
+      "group": "negative-bot-one-alert",
+      "language": "ru",
+      "kind": "negative",
+      "prompt": "Добавь единственный вызов готового webhook, чтобы прислать мне уведомление о завершении скрипта; платформу бота не проектируем.",
+      "accepted_sets": [
+        []
+      ],
+      "source_skills": [
+        "telegram-bots",
+        "agent-orchestrator"
+      ],
+      "rationale": "A one-call self alert is below Telegram platform construction and agent-system scope."
+    }
+  ]
+}
