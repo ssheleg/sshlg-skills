@@ -1,6 +1,6 @@
 # R27 native skill-search trigger run: admission packet
 
-Status: **A_AND_B_STOPPED_TEST_ERROR; C_PROPOSED_NOT_RUN**. This packet assigns no model calls before independent runner review. It measures the existing owner's frozen20 query corpus, three fresh sessions per query. It does not change a description or tune on validation results.
+Status: **A_AND_B_STOPPED_TEST_ERROR; C_ADMITTED_NOT_RUN**. This packet assigns no model calls before independent runner review. It measures the existing owner's frozen20 query corpus, three fresh sessions per query. It does not change a description or tune on validation results.
 
 ## Contract
 
@@ -74,3 +74,7 @@ USD3.878996 budget preserves the original USD4 envelope across A+B+C; prior
 pilots are separately recorded. This is an explicit protocol revision requiring
 new independent exact-source review and admission, never an automatic retry.
 No C model calls have run at this checkpoint.
+
+C exact-source independent review is [PASS_BOUNDED](peer-review-c.json);
+[admission](admission.json) freezes the runner, sources, corpus and remaining
+budget. This checkpoint precedes execution; results will be a separate receipt.

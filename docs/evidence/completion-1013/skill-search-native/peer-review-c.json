@@ -1,0 +1,66 @@
+{
+  "schema": "independent-protocol-review/1",
+  "reviewer": "visibility_review",
+  "reviewed_commit": "8bb0b83547fe4c64342bd750e65fc1c59ec50d16",
+  "verdict": "PASS_BOUNDED",
+  "scope": "Protocol C source, budget, legacy defaults and offline raw stream interpretation; no provider calls by reviewer",
+  "runner_sha256": "41cf841c5af1607769886a8f73837b11649e1a09cead8a9cbebd465241917b5e",
+  "checks": [
+    {
+      "command": "python3 -B docs/evidence/completion-1013/skill-search-native/check.py",
+      "returncode": 0,
+      "controls": 47
+    },
+    {
+      "command": "python3 -B docs/evidence/completion-1013/native-quality-v1/check.py",
+      "returncode": 0
+    },
+    {
+      "independent_raw_derived_controls": [
+        "four requests with reported five refuse",
+        "three requests with reported six refuse",
+        "readiness reported five refuses",
+        "request input above24000 refuses"
+      ],
+      "count": 4,
+      "passed": true
+    }
+  ],
+  "historical_b_offline_diagnostic": {
+    "stdout_sha256": "0c4e902a66b9c2788002c979ec0f799c80d6a5325a70ca85d602d85ed947fce4",
+    "new_parser": "EXECUTED",
+    "requests": 3,
+    "reported_turns": 5,
+    "max_request_input": 11478,
+    "cost_usd": 0.0947338,
+    "observed_skill_loads": [
+      "make-skill:make-skill",
+      "make-skill:skill-audit"
+    ],
+    "original_b_status": "STOPPED_TEST_ERROR",
+    "original_b_unchanged": true,
+    "legacy_default_rejects": "turn_bound"
+  },
+  "bounds": {
+    "new_calls": 61,
+    "cumulative_calls": 64,
+    "request_cap": 3,
+    "reported_cap": 5,
+    "readiness_cap": 1,
+    "prior_a_b_usd": 0.121004,
+    "remaining_usd": 3.878996,
+    "original_total_usd": 4,
+    "retries": 0
+  },
+  "source_read": {
+    "url": "https://code.claude.com/docs/en/cli-reference#cli-flags",
+    "date": "2026-10-13",
+    "scope": "Docs define agentic-turn limit but not equality with result.num_turns; no universal conversion formula inferred."
+  },
+  "limitations": [
+    "Native load observation only, not executed catalogue search, task quality or family coexistence acceptance.",
+    "Historical B diagnostic does not retroactively score original B.",
+    "Optional observer argument preserves legacy default behavior.",
+    "The per-call reserve and receipt cost checks do not enforce a synchronous provider billing ceiling."
+  ]
+}
