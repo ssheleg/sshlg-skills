@@ -1,0 +1,49 @@
+{
+  "reviewed_source": "4aa28e1076b90c626e7339cb898706fc026c42c3",
+  "base": "f974e7f212ddf2482569ab8399091f5d8336c31c",
+  "verdict": "BOUNDED_RETENTION_PASS; final admission held for separately reproduced parity defect",
+  "scope": "Existing two ordinary board plants and release cases only; no broad suite or parser correction by reviewer",
+  "cases": [
+    {
+      "case": "healthy",
+      "returncode": 0,
+      "expected_diagnostic": null,
+      "accepted": true
+    },
+    {
+      "case": "duplicate board id",
+      "returncode": 1,
+      "expected_diagnostic": "docs/evidence/backlog.md: B-033 appears 2 times",
+      "accepted": true
+    },
+    {
+      "case": "extra board cell",
+      "returncode": 1,
+      "expected_diagnostic": "its header declares -- an unescaped",
+      "accepted": true
+    },
+    {
+      "case": "ancestry removed",
+      "returncode": 1,
+      "expected_diagnostic": "release ancestry guard",
+      "accepted": true
+    },
+    {
+      "case": "shallow",
+      "returncode": 1,
+      "expected_diagnostic": "release full-history checkout",
+      "accepted": true
+    },
+    {
+      "case": "quoted full depth",
+      "returncode": 0,
+      "expected_diagnostic": null,
+      "accepted": true
+    }
+  ],
+  "process_output_sha256": "6f9c0f19fab174f9cea0486b9572c54079835601011f97ebfdc77147a542e2b9",
+  "independent_payload_files_compared": 34,
+  "all_payload_bytes_equal": true,
+  "production_validator_bytes_equal_base": true,
+  "next": "Coordinator adds even2/even4 refusal and odd1/odd3 positive controls, minimal delimiter parity correction, fresh independent review before admission."
+}
