@@ -201,7 +201,7 @@ it('the wiki-config restore restores the keys, through a copy of its own (UM-06)
   assert.ok(after.includes('CLAUDE_HISTORY_PATH=/h'), 'the dropped key did not come back');
   assert.ok(after.includes('OBSIDIAN_VAULT_PATH=/new'), "setup's own value was reverted");
   const dir = path.join(HOME, '.sshlg-skills', 'backups');
-  const copies = fs.readdirSync(dir).filter((n) => n.startsWith('obsidian-wiki_config.')).sort();
+  const copies = fs.readdirSync(dir).filter((n) => n.startsWith(require('../lib/backup.js').keyFor(cfg,HOME)+'.')).sort();
   assert.strictEqual(copies.length, 2,
     `expected the pre-run snapshot plus the pre-write copy, got: ${copies.join(', ')}`);
   assert.strictEqual(fs.readFileSync(path.join(dir, copies[1]), 'utf8'), truncated,

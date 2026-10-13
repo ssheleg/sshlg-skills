@@ -126,7 +126,9 @@ process.stdin.on('end', () => {
       const backup = require(path.join(LIB, 'backup.js'));
       const cfg = path.join(home, '.obsidian-wiki', 'config');
       const real = fs.existsSync(cfg) ? fs.realpathSync(cfg) : cfg;
-      const snap = backup.latest({ file: real, home });
+      let snap;
+      try { snap = backup.latest({ file: real, home }); }
+      catch (e) { notes.push('[sshlg-skills] Automatic instruction-config restore was NOT performed: ' + e.message); }
       if (snap && fs.existsSync(real)) {
         const { text, restored } = hygiene.reapply(
           fs.readFileSync(snap, 'utf8'), fs.readFileSync(real, 'utf8'));

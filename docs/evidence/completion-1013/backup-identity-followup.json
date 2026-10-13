@@ -1,0 +1,90 @@
+{
+  "status": "FOCUSED_PASS_PENDING_INDEPENDENT_REVIEW",
+  "base": "c69cfa4291175622ff6afb84c38159c36994cf98",
+  "scope": "MB02 canonical backup identity, not whole B174 or installed acceptance",
+  "sourceSha256": {
+    "lib/backup.js": "749b77b9bd6297f02a552d96525c71578f842d9f7323a4ca1095f9b17cf4c5c1",
+    "hooks/post-tool-use.js": "a37fe9cb8d35a641de7ad671826178d9e642e2167a44942739b5418cb1101e81",
+    "test/backup_identity_test.js": "c59af5153f2ca8bd73b682008d8b997110e07bfb7ab51fba4bffdffaff3a405a",
+    "test/backup_test.js": "39a30222638df6e2fb6c9aea6b6bb37131a7990260928bf3b02ebaa1e9f02ac4",
+    "test/hooks_e2e_test.js": "05989067d4208966e29b649a526fad828359a1b08f9260f43bbc8052a006be91",
+    "test/wait_rule_policy_test.js": "47b4ce59d18d3eaf4b6993a2e5e45947a4d3ed2a3b8354b3c3dce13aa9b2cc19"
+  },
+  "checks": [
+    {
+      "test": "backup_identity_test.js",
+      "exit": 0,
+      "seconds": 2.98,
+      "output": "OK (10 checks)\n"
+    },
+    {
+      "test": "backup_test.js",
+      "exit": 0,
+      "seconds": 0.98,
+      "output": "OK (21 checks)\n"
+    },
+    {
+      "test": "hooks_e2e_test.js",
+      "exit": 0,
+      "seconds": 110.94,
+      "output": "OK (70 checks)\n"
+    },
+    {
+      "test": "apply_test.js",
+      "exit": 0,
+      "seconds": 4.3,
+      "output": "OK (19 checks)\n"
+    },
+    {
+      "test": "wait_rule_policy_test.js",
+      "exit": 0,
+      "seconds": 2.65,
+      "output": "ok absent policy is off without creating files\nok router consent does not enable wait\nok explicit on persists and explicit off remains explicit\nok foreign lexemes and whitespace survive both state edits\nok same setting is a byte-identical no-op\nok unknown/corrupt policy refuses reads and writes: {oops\nok unknown/corrupt policy refuses reads and writes: []\nok unknown/corrupt policy refuses reads and writes: null\nok unknown/corrupt policy refuses reads and writes: {\"rules\":[]}\nok unknown/corrupt policy refuses reads and writes: {\"rules\":{\"wait\":true}}\nok unknown/corrupt policy refuses reads and writes: {\"rules\":{\"wait\":\"ON\"}}\nok unknown/corrupt policy refuses reads and writes: {\"rules\":{},\"ru\\u006ces\":{}}\nok invalid UTF-8 policy refuses before lock, backup or replacement\nok leaf symlink policy is refused without touching its target\nok held policy lock refuses rather than overwrites\nok backup failure prevents policy mutation\nok successful change preserves mode and makes exact backup\nok short temporary write refuses without replacing current policy\nok rename failure refuses and cleans only its temporary file and lock\nok foreign edit after backup is preserved instead of overwritten\nok canonical CLI records opt-in without applying host text\nok malformed CLI refuses without writes: rules.wait on\nok malformed CLI refuses without writes: set rules.wait\nok malformed CLI refuses without writes: set rules.wait yes\nok malformed CLI refuses without writes: set rules.wait on extra\nOK (25 checks; 0 failed)\n"
+    },
+    {
+      "test": "wait_rules_test.js",
+      "exit": 0,
+      "seconds": 3.6,
+      "output": "ok default-off and old consent do not add rules\nok five hosts carry the right variant; third application is byte-identical\nok Cursor off removes only its dedicated owned file and can be enabled again\nok selected host only; absent roots are not created\nok off removes owned segment and preserves appended foreign bytes\nok automatic update touches only previously applied profiles\nok custom root with spaces works without default profile writes\nok retargeted root alias refuses and preserves new target\nok unknown or malformed markers refuse before write\nok unknown or malformed markers refuse before write\nok unknown or malformed markers refuse before write\nok edited owned region refuses even off\nok foreign Cursor filename refuses\nok changed target between preview and execute refuses before target write\nok failed target backup leaves pending recovery and no target write\nok invalid UTF-8 instruction refuses with exact bytes and no new files\nok invalid UTF-8 receipt refuses with exact bytes and no new files\nok policy off after first target prevents the second target and retains first ownership\nok policy off during target backup refuses before writing that target\nok unknown source revision refuses despite a matching segment hash\nok receipt cannot extend its segment over foreign text even with a recomputed hash\nOK (21 checks; 0 failed)\n"
+    },
+    {
+      "test": "wait_rules_cli_test.js",
+      "exit": 0,
+      "seconds": 19.43,
+      "output": "ok config \u2192 preview \u2192 scoped apply \u2192 three repeated applies \u2192 off is exact\nok --apply --dry-run changes neither host bytes nor ownership receipt\nok member-only rule request is refused without host mutation\nok update plan lists only previously applied targets and dry-run mutates nothing\nok corrupt wait ownership fails update planning before any child\nok actual packaged update removes off-owned text and never adds a new host\nok member-only actual update leaves even malformed family rule state unread\nok actual packaged uninstall removes only selected owned wait text\nOK (8 checks; 0 failed)\n"
+    },
+    {
+      "test": "visibility_e2e_test.js",
+      "exit": 0,
+      "seconds": 8.18,
+      "output": "OK (11 checks)\n"
+    },
+    {
+      "test": "domains_e2e_test.js",
+      "exit": 0,
+      "seconds": 148.31,
+      "output": "OK (46 checks)\n"
+    },
+    {
+      "test": "skillstore_test.js",
+      "exit": 0,
+      "seconds": 2.89,
+      "output": "OK (9 checks)\n"
+    }
+  ],
+  "checkCount": 240,
+  "suiteCount": 10,
+  "baseline": {
+    "source": "c69cfa4291175622ff6afb84c38159c36994cf98",
+    "test": "test/backup_identity_test.js",
+    "exit": 1,
+    "failed": 10,
+    "total": 10,
+    "log": "backup-identity-baseline.log"
+  },
+  "ratchetDelta": {
+    "suites": 1,
+    "fixtures": 10
+  },
+  "note": "Final selected suites completed before a documentation-only backup.js comment correction; no executable delta."
+}

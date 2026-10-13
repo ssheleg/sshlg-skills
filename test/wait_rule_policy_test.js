@@ -63,9 +63,13 @@ check('successful change preserves mode and makes exact backup', home => {
   const dir=path.join(home,'.sshlg-skills','backups');assert.ok(fs.readdirSync(dir).some(n=>fs.readFileSync(path.join(dir,n),'utf8')==='{ "foreign": true }'));
 });
 check('short temporary write refuses without replacing current policy', home => {
-  const f=file(home,'{ "foreign": 9007199254740993 }');const write=fs.writeFileSync;
-  fs.writeFileSync=function(target,data,...args){return write.call(this,target,typeof target==='number'?String(data).slice(0,2):data,...args);};
-  try{assert.throws(()=>W.set(home,'on'),/incomplete/);}finally{fs.writeFileSync=write;}
+  const f=file(home,'{ "foreign": 9007199254740993 }');const write=fs.writeFileSync,open=fs.openSync;
+  const policyFds=new Set();let planted=false;
+  // Backup creation also uses a verified fd. Plant only the policy temporary
+  // write this test owns, so an earlier backup refusal cannot mask the target.
+  fs.openSync=function(target,...args){const fd=open.call(this,target,...args);if(typeof target==='string'&&path.basename(target).startsWith('.wait-rule-'))policyFds.add(fd);return fd;};
+  fs.writeFileSync=function(target,data,...args){if(policyFds.has(target)){planted=true;data=String(data).slice(0,2);}return write.call(this,target,data,...args);};
+  try{assert.throws(()=>W.set(home,'on'),/incomplete/);assert(planted,'policy short-write plant did not land');}finally{fs.writeFileSync=write;fs.openSync=open;}
   assert.equal(fs.readFileSync(f,'utf8'),'{ "foreign": 9007199254740993 }');
 });
 check('rename failure refuses and cleans only its temporary file and lock', home => {
