@@ -412,11 +412,16 @@ function withClaudePlan(steps, f) {
   if (native) claudePlans.set(result, { native, inventory });
   return result;
 }
-function runClaudePlan(planned) {
+function runClaudePlan(planned, f) {
   const saved = claudePlans.get(planned);
-  if (!saved) return true;
+  if (!saved) {
+    log(`\n== Updating Claude Code plugins ==\n  skipped: ${claudeScope(f).skippedBy} (the Claude host is outside this run's scope)`);
+    return true;
+  }
   // Admission, version check and all backups happen before any other channel.
-  const result = require('../lib/claude-pin-transaction').execute(saved.native, SKILLS, saved.inventory);
+  let result;
+  try { result = require('../lib/claude-pin-transaction').execute(saved.native, SKILLS, saved.inventory); }
+  catch(e) { log(`  Claude native transaction refused before execution: ${e.message}`); return false; }
   log(`  Claude native transaction: ${result.ok ? 'verified immutable payloads' : 'failed; inspect recovery receipt'} — ${result.receipt}`);
   for (const r of result.results) log(`    ${r.member}: ${r.status}${r.rollback ? '; rollback: ' + r.rollback : ''}`);
   if (result.error) log(`  ${result.error}`);
@@ -498,7 +503,7 @@ function renderDryRun(planned, mode) {
 function cmdInstall(f) {
   const planned = frozenOperations.get(f) || planInstall(f);
   if (f.dryRun) return renderDryRun(planned, 'install');
-  if (!runClaudePlan(planned)) return false;
+  if (!runClaudePlan(planned, f)) return false;
   let ok = true;
   if (!f.claudeOnly) {
     const agents = skillsCliAgents(f);
@@ -571,7 +576,7 @@ function scopedRoutingTargets(f) {
 function cmdUpdate(f) {
   const planned = frozenOperations.get(f) || planUpdate(f);
   if (f.dryRun) return renderDryRun(planned, 'update');
-  if (!runClaudePlan(planned)) return false;
+  if (!runClaudePlan(planned, f)) return false;
   let ok = true;
   // Count and execute the subprocess entries from the same frozen plan.
   progress.total =
@@ -3649,7 +3654,6 @@ function main(argv) {
       skillsCliAgents(f); plainSkillsPlan(f, cmd === 'update' || cmd === 'up');
       const planned = cmd === 'update' || cmd === 'up' ? planUpdate(f) : planInstall(f);
       frozenOperations.set(f, planned);
-      if (!f.dryRun && claudePlans.has(planned)) require('../lib/claude-pin-transaction').runtime();
     }
     catch (e) { log(e.message); return 2; }
     if (f.all && !f.claudeOnly) {

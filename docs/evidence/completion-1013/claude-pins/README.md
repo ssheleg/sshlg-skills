@@ -2,7 +2,7 @@
 
 # B-187: Claude native immutable source admission
 
-Status: measured defect and approved bounded implementation plan, 2026-10-13.
+Status: bounded implementation and focused native evidence; peer review and aggregate pending, 2026-10-13.
 Base6bb4a0ffd050f3f2cfed38ef29a1f415d6303e22; native CLI2.1.296.
 No operator configuration or cache was changed by these probes. Each process
 used synthetic HOME, CLAUDE_CONFIG_DIR, cwd, Git configuration and a local
@@ -80,10 +80,6 @@ CLAUDE-PINS-1013. Coordinator owns B-187 board row, versions and production pins
 Next task: implement source inventory generation and failing admission fixtures,
 then protected native transaction. No broad suite while disk/serial gate is held.
 
----
-**Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**:
-task-pipeline for delivery, evidence-docs for source-bound probes, make-skill for
-plugin distribution, skill-search for routing.
 
 ## Inventory and admission implementation checkpoint
 
@@ -135,3 +131,57 @@ serialized owner aggregate, and operator installed readback after reviewed relea
 No actual operator profile has been changed by this packet. Interrupted journals
 or failed settings restoration refuse continuation with the local receipt path;
 there is no guessed recovery or direct installed-registry/cache rewrite.
+
+
+## Independent review corrections and current bound
+
+Root independently reproduced false success at `32defee`: changing a foreign
+installed plugin row during a native marketplace command still returned complete.
+The correction compares foreign installed-plugin and known-marketplace entries
+after each native command and at final readback. Changes are preserved and reported
+as failure, never restored over the concurrent writer. Focused controls cover both
+registry types. Original lexical profile/home selections are retained; retargeting
+a profile alias between planning and execution refuses before commands or writes.
+Metadata leaf symlinks/non-regular files refuse during read-only admission.
+
+Protected writes now use exclusive same-directory temporary files, fsync, readback,
+compare-before-replace and rename, retaining regular-file permissions. Journal
+short-write and rename-failure controls prove that no native command starts and
+original settings remain intact. The initial short-write plant first failed:
+recovery wrote target settings despite no prior settings mutation. Tracking actual
+settings mutation fixed that counterexample. This is atomic replacement evidence,
+not an all-files transaction or a power-loss durability claim.
+
+A private operation plan persists desired/prior commit, version and file hash
+inventories, catalog paths and repair eligibility; the receipt adds PID/start time
+and backup locations. It contains no settings values. Completed prior members may
+remain updated after a later member fails: the result is failure with per-member
+receipts, not a batch atomicity claim. A completed exit1 may use verified native
+rollback. Timeout, signal or spawn uncertainty does not start a competing rollback;
+it records uncertainty and blocks another native attempt. Interrupted or unresolved
+settings recovery also remains blocked. The next recovery task reads the receipt,
+plan and private backups, establishes whether the native operation ended, and
+constructs a source-bound supported recovery; deleting the marker is not recovery.
+No code writes Claude's installed registry or payload cache directly.
+
+Current focused checks: transaction20, admission12, source20, installer6,
+operation-result14, runtime closure6; domain process46, host-target14,
+CLI-config24, update-lock30, hook process70. Legacy routing/lock/host-target tests
+now explicitly mock the separately tested native transaction boundary rather than
+pretend an exit0 shell stub proved installation. The real CLI probe still exercises
+the actual native transaction and packaged launcher, including rollback/retry,
+preview no-child admission, disabled state and foreign settings/data preservation.
+No owner aggregate or real-host apply is claimed at this checkpoint.
+
+Read-only actual-profile admission at this source accepted all11 family members:
+6 verify, 4 same-version source repairs, 1 native version update. This is a proposed
+plan against the current published pins, not an execution receipt. Final release
+pins may change these actions; regenerate and check `claude-plugin-pins.json` from
+those exact gitlinks. The inventory is shipped in the npm files allowlist. Runtime
+uses that artifact without requiring a Git checkout. Byte readback does not prove
+executable-mode parity, native discovery, model invocation or task quality.
+
+---
+**Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**:
+task-pipeline for delivery, evidence-docs for source-bound probes, make-skill for
+plugin distribution, skill-search for routing.

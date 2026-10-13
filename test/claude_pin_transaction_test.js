@@ -43,4 +43,35 @@ test('pending transaction and existing lock refuse before mutation',f=>{const p=
 test('failed rollback stays explicit and never writes cache directly',f=>{f.setHook(a=>a[1]==='install'?{status:1}:null);const r=f.execute();assert(!r.ok);assert.match(r.results[0].rollback,/failed/);assert.equal(JSON.parse(fs.readFileSync(f.rf)).plugins[f.id],undefined);assert.equal(fs.readFileSync(f.payload+'/value.txt','utf8'),'first');});
 test('configured target entry and nested manifest surfaces are detected',f=>{for(const value of [{channels:{x:{userConfig:{}}}},{mcpServers:'./bridge.mcpb'},{user_config:{}}])assert(S.configSurface(value));assert(!S.configSurface({name:'plain'}));});
 test('verify-only action performs no uninstall/install/update of plugin',f=>{assert(f.execute().ok);f.calls.length=0;assert(f.execute().ok);assert(!f.calls.some(a=>['uninstall','install','update'].includes(a[1])));});
+
+for(const kind of ['installed','marketplaces']) test('foreign '+kind+' mutation is never a successful native transaction',f=>{
+ const file=kind==='installed'?f.rf:f.profile+'/plugins/known_marketplaces.json';
+ const before=kind==='installed'?JSON.parse(fs.readFileSync(file)):{};
+ if(kind==='installed')before.plugins['foreign@elsewhere']=[{version:'old'}];else before.elsewhere={source:{source:'github',repo:'other/repo'},lastUpdated:'old'};
+ fs.writeFileSync(file,JSON.stringify(before));
+ f.setHook(args=>{if(args[1]==='marketplace'){const changed=JSON.parse(fs.readFileSync(file));if(kind==='installed')changed.plugins['foreign@elsewhere'][0].version='CHANGED';else changed.elsewhere.lastUpdated='CHANGED';fs.writeFileSync(file,JSON.stringify(changed));}});
+ const r=f.execute();assert(!r.ok);assert.match(r.error,/foreign Claude registry/);assert(fs.readFileSync(file,'utf8').includes('CHANGED'));assert(!f.calls.some(a=>a[1]==='uninstall'));
+});
+test('requested profile alias retarget refuses instead of writing either profile',f=>{
+ const alias=f.box+'/profile-alias';fs.symlinkSync(f.profile,alias);const p=P.prepare([f.m],f.inventory,{home:f.home,profileRoot:alias});
+ const other=f.box+'/other';fs.mkdirSync(other);fs.unlinkSync(alias);fs.symlinkSync(other,alias);
+ const before=fs.readFileSync(f.sf);assert.throws(()=>T.execute(p,[f.m],f.inventory,{runner:f.runner}),/plan changed/);assert.deepEqual(fs.readFileSync(f.sf),before);assert.deepEqual(fs.readdirSync(other),[]);assert.equal(f.calls.length,0);
+});
+test('settings leaf symlink is refused before native mutation',f=>{const actual=f.box+'/original-settings';fs.renameSync(f.sf,actual);fs.symlinkSync(actual,f.sf);assert.throws(f.plan,/metadata/);assert.equal(f.calls.length,0);});
+for(const failKind of ['short-write','rename']) test('atomic journal '+failKind+' failure leaves settings intact and prevents native actions',f=>{
+ const before=fs.readFileSync(f.sf),write=fs.writeFileSync,rename=fs.renameSync,open=fs.openSync;let injected=false,journalFd=null;
+ fs.openSync=function(file,...args){const fd=open.call(fs,file,...args);if(String(file).includes('.receipt.json.')&&String(file).endsWith('.tmp'))journalFd=fd;return fd;};
+ fs.writeFileSync=function(file,body,...rest){if(failKind==='short-write'&&!injected&&typeof file==='number'&&file===journalFd){injected=true;return write.call(fs,file,String(body).slice(0,3),...rest);}return write.call(fs,file,body,...rest);};
+ fs.renameSync=function(from,to){if(failKind==='rename'&&!injected&&String(to).endsWith('latest.json')){injected=true;throw Object.assign(Error('fixture rename failure'),{code:'EIO'});}return rename.call(fs,from,to);};
+ try{const r=f.execute();assert(injected);assert(!r.ok);assert.deepEqual(fs.readFileSync(f.sf),before);assert.equal(f.calls.filter(a=>a[0]!=='--version').length,0);}finally{fs.writeFileSync=write;fs.renameSync=rename;fs.openSync=open;}
+});
+test('atomic settings replacement preserves regular-file permissions',f=>{fs.chmodSync(f.sf,0o640);assert(f.execute().ok);assert.equal(fs.statSync(f.sf).mode&0o777,0o640);});
+
+test('timeout uncertainty never starts rollback and blocks another native attempt',f=>{
+ f.setHook(args=>args[1]==='install'?{status:null,signal:'SIGTERM',error:{code:'ETIMEDOUT'}}:null);
+ const r=f.execute();assert(!r.ok);assert.match(r.error,/uncertain/);assert.equal(r.results[0].rollback,'not-attempted');
+ assert.equal(f.calls.filter(a=>a[1]==='uninstall').length,1);assert.equal(f.calls.filter(a=>a[1]==='install').length,1);
+ assert.throws(f.plan,/incomplete Claude transaction/);const receipt=JSON.parse(fs.readFileSync(r.receipt));assert.equal(receipt.uncertain,true);
+ const recovery=JSON.parse(fs.readFileSync(receipt.recoveryPlan));assert.equal(recovery.jobs[0].previous.commit,f.a);assert.equal(recovery.jobs[0].desired.commit,f.b);
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);

@@ -62,7 +62,7 @@ function cli(args) {
   const taskHome = path.join(tmp, 'home'); fs.mkdirSync(taskHome);
   const calls = path.join(tmp, 'calls.jsonl');
   const preload = path.join(tmp, 'preload.cjs');
-  fs.writeFileSync(preload, `const fs=require('fs');require('child_process').spawnSync=(cmd,args)=>{fs.appendFileSync(${JSON.stringify(calls)},JSON.stringify({cmd,args})+'\\n');return {status:0,stdout:'',stderr:''};};`);
+  fs.writeFileSync(preload, `require(${JSON.stringify(path.join(ROOT,'test/fixtures/native-transaction-boundary.cjs'))});const fs=require('fs');require('child_process').spawnSync=(cmd,args)=>{fs.appendFileSync(${JSON.stringify(calls)},JSON.stringify({cmd,args})+'\\n');return {status:0,stdout:'',stderr:''};};`);
   try {
     const result = spawnSync(process.execPath, ['--require',preload,path.join(ROOT,'bin/sshlg-skills.js'),...args], {
       cwd:tmp, encoding:'utf8', timeout:10000,

@@ -214,7 +214,7 @@ function stubEnv(home, extra) {
     fs.writeFileSync(path.join(stubs, name), body, { mode: 0o755 });
   }
   return Object.assign({}, process.env, {
-    HOME: home, USERPROFILE: home, SSHLG_SKILLS_NO_PROBE: '1', PATH: `${stubs}:${process.env.PATH}`,
+    HOME: home, USERPROFILE: home, NODE_OPTIONS:'--require='+JSON.stringify(path.join(ROOT,'test/fixtures/native-transaction-boundary.cjs')), SSHLG_SKILLS_NO_PROBE: '1', PATH: `${stubs}:${process.env.PATH}`,
   });
 }
 function update(env, args) {
