@@ -1,0 +1,82 @@
+{
+  "schema": "b174-source-cut/1",
+  "sources": [
+    {
+      "repo": "ssheleg/sshlg-skills",
+      "commit": "bca35fb74e05ca4fafba594ca317664285fe8636",
+      "path": "lib/routers.js",
+      "sha256": "7345c13f72d7da56e42c6d8244abd2f150d4c62225d7f86d0087cfb5c414793f"
+    },
+    {
+      "repo": "ssheleg/sshlg-skills",
+      "commit": "bca35fb74e05ca4fafba594ca317664285fe8636",
+      "path": "lib/apply.js",
+      "sha256": "dc72c32184657104e683901972d07fd3c56c22dfccc3e3d57037b1b62a2317c4"
+    },
+    {
+      "repo": "ssheleg/sshlg-skills",
+      "commit": "bca35fb74e05ca4fafba594ca317664285fe8636",
+      "path": "lib/backup.js",
+      "sha256": "eebd0f6317e338e55d926a0f7103ccc33e364261200240ac6cc5c800ba0d4012"
+    },
+    {
+      "repo": "ssheleg/sshlg-skills",
+      "commit": "bca35fb74e05ca4fafba594ca317664285fe8636",
+      "path": "lib/wait-rules.js",
+      "sha256": "a758eec926e542d595d6bebabf36a8f6be2d8f708b3b2b14415ab17da805ab79"
+    },
+    {
+      "repo": "ssheleg/sshlg-skills",
+      "commit": "bca35fb74e05ca4fafba594ca317664285fe8636",
+      "path": "lib/wait-rule-policy.js",
+      "sha256": "d213b44b018a0d5b1f7c9896ae4931fde26c1bf37ebc99ef2f24af5f885235eb"
+    },
+    {
+      "repo": "ssheleg/sshlg-skills",
+      "commit": "bca35fb74e05ca4fafba594ca317664285fe8636",
+      "path": "lib/wait-rule-text.js",
+      "sha256": "f777b7af98df5df01e3ba6ab2437d7fa90999e7c5353a8fcd3457a91208f5891"
+    },
+    {
+      "repo": "ssheleg/sshlg-skills",
+      "commit": "bca35fb74e05ca4fafba594ca317664285fe8636",
+      "path": "lib/migrate.js",
+      "sha256": "360b74d737039b243b1bd8cef3f68703493a9f86777af671ca40a70cca568ea1"
+    },
+    {
+      "repo": "ssheleg/sshlg-skills",
+      "commit": "bca35fb74e05ca4fafba594ca317664285fe8636",
+      "path": "hooks/post-tool-use.js",
+      "sha256": "78bfff647f2c303e51ba555a9ba600fdae3c9fa017bed18323bb931ffd8873b5"
+    },
+    {
+      "repo": "ssheleg/sshlg-skills",
+      "commit": "bca35fb74e05ca4fafba594ca317664285fe8636",
+      "path": "docs/evidence/backlog.md",
+      "sha256": "3532ae6ca3096d630973c5c6ad53bb8cbbc6067bd84706671d55d540c400cbc0"
+    },
+    {
+      "repo": "ssheleg/project-observatory",
+      "commit": "288486b3b19e2c0d6fac623237d512ed36a0a3e5",
+      "path": "docs/runs/2026-10-12-release-iteration-1/dossiers/MN-method-family-public.md",
+      "sha256": "33788b1d872ae3dbe44435d5452c0196efeb5926a0542ca9d0b1c3866aa913ee"
+    },
+    {
+      "repo": "ssheleg/project-observatory",
+      "commit": "71fae892ebb339526cef6b4aa915126bb113c483",
+      "path": "tools/ops/agent_updates.py",
+      "sha256": "5e1022c335f323ae973c34abebcdd0f676d7ef5062cb395a5794f5609ec4fc8b"
+    },
+    {
+      "repo": "ssheleg/project-observatory",
+      "commit": "71fae892ebb339526cef6b4aa915126bb113c483",
+      "path": "tools/ops/agent-updates-instructions.md",
+      "sha256": "f4a6225ed7af8af5eee75e47a7f2041a2de1209833abda3820f58224e8b1fe4a"
+    }
+  ],
+  "installedAdapter": {
+    "pathAlias": "~/.local/share/observatory-agent-updates/agent_updates.py",
+    "sha256": "5e1022c335f323ae973c34abebcdd0f676d7ef5062cb395a5794f5609ec4fc8b",
+    "matchesFrozenOwnerSource": true
+  }
+}
