@@ -1,0 +1,119 @@
+{
+  "schema": "independent-observer-followup/1",
+  "status": "INTERIM_SOURCE_FINDINGS_NOT_FINAL",
+  "source": "38982366a67ee619a1183139107a7642d375b134",
+  "reviewer": "/root/independent_observer",
+  "nonauthor": true,
+  "findings": [
+    {
+      "id": "IO-07",
+      "kind": "source_confirmed_failure_propagation_defect",
+      "requirements": [
+        "R03",
+        "R33",
+        "C10"
+      ],
+      "prior_ids": [
+        "FIX-UP-05.01",
+        "B-22"
+      ],
+      "severity": "high",
+      "mechanism": "runtime.sync catches stage or switch errors and returns a reason; update logs every reason as skipped without setting failure, while hooks install discards the sync result and continues wiring.",
+      "reproduction": "Not executed by observer; owner focused reproduction assigned.",
+      "incidence": "unknown",
+      "impact": "A runtime write failure can leave old/missing or partly replaced hooks while caller reports success; fresh hook installation can still write settings.",
+      "evidence": [
+        {
+          "path": "lib/runtime.js",
+          "line": 233
+        },
+        {
+          "path": "bin/sshlg-skills.js",
+          "line": 635
+        },
+        {
+          "path": "bin/sshlg-skills.js",
+          "line": 3221
+        },
+        {
+          "path": "bin/sshlg-skills.js",
+          "line": 3314
+        }
+      ],
+      "next_task": "Make failed runtime synchronization distinct from deliberate absent-runtime skip; prove actual update and hooks-install nonzero exits, no false synchronized/intact statement, and no new settings wiring after failure.",
+      "owner": "recovery_audit",
+      "prerequisite": "isolated focused fake-host fixture; no actual host mutation"
+    },
+    {
+      "id": "IO-08",
+      "kind": "source_confirmed_recovery_completeness_defect",
+      "requirements": [
+        "R03",
+        "R33",
+        "C10"
+      ],
+      "prior_ids": [
+        "FIX-UP-05.04"
+      ],
+      "severity": "high",
+      "mechanism": "A switch can fail after earlier renames. Recovery restores only files whose previous copies exist, retains introduced files, then deletes recovery evidence. Journal contains names only; malformed journal reads are treated as absent.",
+      "reproduction": "Not executed by observer; owner focused reproduction assigned.",
+      "incidence": "unknown",
+      "impact": "Coherent-old claim is unproven for introduced files or lost/corrupt recovery evidence; immediate failed switch can remain mixed while claiming old runtime intact.",
+      "evidence": [
+        {
+          "path": "lib/runtime.js",
+          "line": 115
+        },
+        {
+          "path": "lib/runtime.js",
+          "line": 218
+        },
+        {
+          "path": "test/audit_regressions/fix-up-05.04.py",
+          "line": 50
+        }
+      ],
+      "next_task": "Use existence-aware, source-bound recovery admission. Test second-rename interruption, introduced file, malformed journal, missing old backup and concurrent target change; either verified rollback or explicit unresolved state retaining evidence. Never infer permission to delete from an absent backup.",
+      "owner": "recovery_audit",
+      "prerequisite": "same isolated focused recovery packet"
+    }
+  ],
+  "source_hashes": [
+    {
+      "path": "lib/runtime.js",
+      "sha256": "3d3fb2dd10536ab5077bd7e20846794295f334e3eb0c777233ee52e33dfd12d5"
+    },
+    {
+      "path": "bin/sshlg-skills.js",
+      "sha256": "ef7765c7a5d9f616a5704bb603da27b78f33e42aec947731ead0ed3f83da9f7b"
+    },
+    {
+      "path": "test/audit_regressions/fix-up-05.01.py",
+      "sha256": "60e1089da38b24a1f9c6050eccbf70bfa941576b1ded157d23d4969537e23c24"
+    },
+    {
+      "path": "test/audit_regressions/fix-up-05.04.py",
+      "sha256": "4224d8e2259ab5c84d902db80366c8beab77b43afa481df3effc89f08591fcf0"
+    },
+    {
+      "path": "test/runtime_test.js",
+      "sha256": "78afb1e9b94355b94d306f65e25c162ef25d2534a79a1bed129ef1131efc6986"
+    },
+    {
+      "path": "hooks/session-start.js",
+      "sha256": "e1e4aee8e925e11c39d573dc796835e5f619c1ee08779255480421b1ed7b1161"
+    },
+    {
+      "path": "hooks/user-prompt-submit.js",
+      "sha256": "deaacd4a061b4b29bb1d7f4340e58b8b6b4d78246c37c9c90c2d435673cb45ef"
+    },
+    {
+      "path": "lib/turnstate.js",
+      "sha256": "ce4180a4a16cd5681629e3f25764f34870753a1076259835e9752de69a1e65a1"
+    }
+  ],
+  "read_only_scope": "No target writes, broad collector rerun, test suites, providers, releases or host mutations. Own report only.",
+  "other_inspected_scope": "R01/R02 reset and session state paths; corrected Codex observer order; no additional proven finding.",
+  "design_check_not_counted_as_finding": "All runtime writers must be admitted: hooks install calls sync outside the update lock, so a correction cannot assume update.lock owns every recovery artifact. Owner notified for bounded design review."
+}
