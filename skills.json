@@ -167,7 +167,7 @@
       "npm": "@ssheleg/seo-aeo-audit",
       "shape": "static, with a bounded discovery",
       "shapeWhy": "The ten tracks are fixed; **which** are in scope is decided per site at step 0 and written into the report, so the executed set is recoverable. An eleventh pass (Discover) is added by a stated condition, never by taste.",
-      "commit": "d3a17d0e708d02684c80a2497f016cf40ca7c750"
+      "commit": "bccb630e79730e2a7058b74a2130ddfe4f4662aa"
     },
     {
       "name": "sheleg-dev",
