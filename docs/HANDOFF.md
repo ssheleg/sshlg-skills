@@ -1,4 +1,4 @@
-## Current continuation — 2026-10-13 10:44 UTC
+## Current continuation — 2026-10-13 11:29 UTC
 
 Hub candidate **1.63.0**, branch `waves/2026-10-13-finalization`, composes immutable
 Claude source updates, scoped default-off wait rules, release-iteration routing,
@@ -21,30 +21,38 @@ follows publication; no native version transition is authorized by a timeout.
 attempt stopped on disk guard; root's subsequent exact-tree admission was
 [incorrect](evidence/completion-1013/tp-current-gate/admission-correction.md).
 The premature public tag is preserved. Release38386280311 failed its tagged
-run-stamp guard and skipped publication; npm remains1.93.3. A separate owner
-1.94.1 correction must record the truthful ledger disposition, exercise the
-tag-visible guard and pass the complete local suite before any new tag push.
-SEO PR40 now owns the broad slot only when free space is at least1GiB, with an
-owned-process400MiB stop guard. TP repair and checkpoint continue independently.
+run-stamp guard and skipped publication; npm remains1.93.3. The separate owner
+1.94.1 repair passed local npm test and all genuine candidate checks; PR126
+[merged normally](evidence/completion-1013/tp-current-gate/repair-normal-integration.json)
+at540679ea7552f8a37e99560e287a69c23cbd3c4a. The exact accepted commit still needs
+an independent standalone clone, local annotated tag visible during complete
+npm run test:all, inspected disclosures, and only then an exact verified tag push.
+The shared-worktree author's local v1.94.1 tag is NOT the accepted merge and must
+not be pushed. A bounded disk-admission watcher owns clone creation; current
+free space is insufficient. No broad suite is running or treated as passed.
 Hub publication and actual installed acceptance remain pending.
 
-Agent-stack 0.28.2 and SEO 0.26.6 are published with complete readback; accepted
-owner receipt/header corrections are pinned at 63e155d and 00601e6. The three prior
-hub structural errors are resolved by those owner fixes; [focused replay](evidence/completion-1013/member-pin-seam-20261013-0955.json)
-exited 0. This is not the final aggregate. Original failures remain preserved.
-FW00 owner corrections passed genuine checks and merged in AS PR53 (63e155d) and
-UX PR46 (f974e7f); both are pinned. [Receipts](evidence/completion-1013/fw00-owner-merged.json)
-bind every job and the independent board-ID comparison. AS B-159 remains partial: SEO snapshot ledger is fixed, but its missing
-whole-repository temporary-maker guard is a separate candidate in SEO PR40.
+Accepted whole-source discovery corrections are now pinned: make-skill df53aaa,
+agent-stack b332a92 and SEO1e86edf, each normally merged after required checks.
+Their published payloads remain byte-equal. The [independent sibling controls](evidence/completion-1013/fw01-sibling-peer.json)
+and owner integration receipts retain the witnessed failures and corrections.
+AS B159's two named SEO source gaps are now fixed; a separate docs-only closure
+candidate c8f0f81 is under peer review, and no broader runtime claim is implied.
+UX PR47 at7267757 remains pinned. Three new owner verification indexes are
+[accepted as bounded source](evidence/completion-1013/fw00-navigation-peer.json):
+Telegram5d5ecbf, XR712a221, Web3Dc804790. All81 published files remain equal;
+required owner integration gates remain queued, and no version/publication changes.
 
 **Next wave:** the [backup recovery packet](evidence/completion-1013/backup-recovery-packet/README.md)
 owns operation-referenced retention and the first wait-rule adapter, developed in
 an isolated branch after the accepted bounded identity fix. Its MB02b source ed02df7
 and peer-doc successor 8bb7f64 passed 30 recovery plus seven real crash controls;
 two root findings were corrected before acceptance. The MB02c inspection/finalization
-CLI is separate work on `feat/wait-recovery-cli-1013`, not yet accepted.
+CLI e37df18 is [accepted as bounded source](evidence/completion-1013/wait-recovery-cli-peer.json)
+on `feat/wait-recovery-cli-1013`; composition and aggregate acceptance remain pending.
 FW07 prerequisite corrections and lossless stage extraction are frozen in TP draft
-PR123 (771b7cd); moved public plants and the full gate await their slot. A separately
+PR123 (3a8e4ac), including independently checked stage-3 prerequisite corrections;
+rebase on1.94.1, moved public plants and the full gate await their slot. A separately
 reproduced custom-profile checkpoint bug is corrected in draft PR124 (b4fed300);
 162 controls and seven independent seam checks pass after three peer findings
 were corrected. [Bounded peer](evidence/completion-1013/fw07-checkpoint-peer-final.json)
@@ -63,10 +71,10 @@ UX PR47 merged at7267757 after every genuine check passed and is pinned; it
 retains the missing two real board mutations. Its proposed additional
 parity defect was [retracted](evidence/completion-1013/r30-ux-gfm-interpretation-correction.json)
 after official GFM scanner and GitHub-rendering evidence; production parsing remains
-unchanged. SEO source-discovery admission is frozen at e31abf5 in PR40; related
-make-skill/agent-stack unreadable-directory corrections are frozen at75ab2d0 and
-bc0f663 respectively. [Independent nine-control replay per owner](evidence/completion-1013/fw01-sibling-peer.json)
-passed; owner integration still needs its gates.
+unchanged. The three source-discovery guards above are accepted and pinned. The proposed owner-only
+pretag helper at5d9adf2 is under independent review: a wrong actual package name
+was found despite passing fixtures. Its author is correcting this and binding the
+controls to the real owner shape. No helper publication or release authority is claimed.
 
 [Preliminary observer](evidence/completion-1013/observer-pre-release.md) is
 PARTIAL_NOT_FINAL. Reconcile all 37 requirements and 177 original board IDs after
