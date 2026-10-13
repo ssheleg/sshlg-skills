@@ -1,0 +1,46 @@
+{
+  "schema": "native-quality-run/1",
+  "status": "STOPPED_TEST_ERROR",
+  "calls": [
+    {
+      "phase": "readiness",
+      "arm": "concise",
+      "index": 0,
+      "state": "FINISHED",
+      "prompt_sha256": "cda53799c658c0b2956e4c2c4c3e3e45c8f9c4da960ae5888ae210c64a208863",
+      "started_at_utc": "2026-10-13T04:20:59Z",
+      "workspace_manifest_sha256": "ec161088e23c41e4c81f1a8e79b741530f8d0a90728a13587b4ce8f5a2646368",
+      "evaluation_status": "TEST_ERROR",
+      "error_class": "unexpected_skill_inventory",
+      "cost_usd": 0.011772000000000001,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1340,
+        "cache_read_input_tokens": 4820,
+        "output_tokens": 4
+      },
+      "native": null,
+      "artifact_sha256": null,
+      "stdout_sha256": "7fd53aa2fc92c5e1ff01d12b6dfe5de7a165c856dea20d11102cebca7c612481",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "seed": 10132027,
+  "reported_list_usd": 0.011772000000000001,
+  "prior_reported_list_usd": 0.0373944,
+  "combined_known_list_usd": 0.0491664,
+  "prior_receipt_sha256": "54ec6158806e726b09b0b866a9bdc62fe0d30cdacc4e27d08c3e94043cd2b6ea",
+  "cost_incomplete": false,
+  "source_sha": "8862fae9a826263f8109626ca257f81c7c43ac86",
+  "runner_sha256": "71283ebb4c58f96465a2f6cdb722524029f444f369823395a1777da21acf678e",
+  "materializer_sha256": "f52a4b1ec1988d084354707ff12a267410020ed9c966863038ebe6458683bbb3",
+  "source_manifest_sha256": "5f03cc629eacd73b6d6769f3b54b5e259e79dd02abf3c306e033ed40641f87b7",
+  "arms_fixture_sha256": "ebd26050e00ca074dd3d18d98c77c75784b7c984ccaa72e8741a08b96862e96a",
+  "tasks_sha256": "c2a47d103fcb039d7b7e4d63f620df087e751c3889adc4224d37e2484c10d90a",
+  "rubric_sha256": "d5420c69b4d56c9e304ec960a604504dd1f8588143ac6420caa48a15148db660",
+  "budget": 4.0,
+  "max_calls": 6,
+  "scope": "Restricted native fixture only; artifact quality requires independent review; list metadata is not subscription billing.",
+  "auth_route": "claude.ai subscription / firstParty",
+  "cli_version": "2.1.296"
+}
