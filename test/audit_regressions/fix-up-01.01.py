@@ -105,7 +105,7 @@ def t_install_pins_the_sha_and_refuses_unpinnable():
              "console.log(JSON.stringify(r));")
     assert v["plan"], "no install argv was produced for a pinnable member"
     argv = v["plan"][0]
-    assert "ssheleg/super-ux@abc123" in argv, \
+    assert "ssheleg/super-ux#abc123" in argv, \
         f"the install did not pin the SHA: {argv}"
     assert [s for s in v["skipped"] if s["name"] == "agent-stack"], \
         "an UNSUPPORTED_PIN member was installed at a moving ref instead of skipped"

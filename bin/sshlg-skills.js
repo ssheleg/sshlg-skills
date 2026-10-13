@@ -365,14 +365,20 @@ function runPlanned(argv) {
  *
  * Finding UP-02: `--dry-run` was accepted for every command and `install`/
  * `update` executed their subprocesses and deletions anyway. The plan is built
- * from the SAME arrays the execution loops walk (`plan.installPlan`,
- * `plan.updatePlan`, `shadowCandidates`), so the receipt a dry run renders and
- * the actions a real run takes cannot drift apart.
+ * from one pinned plain-skills plan. Execution consumes its frozen argv; the
+ * shadow candidates are re-read after installation before any pruning.
  */
+function plainSkillsPlan(f, update = false) {
+  if (f.claudeOnly) return [];
+  if (cliSpec() !== 'skills@1.7.2') throw new Error('immutable source contract requires verified skills@1.7.2');
+  return require('../lib/installer-pins').build(SKILLS, skillsCliAgents(f),
+    { continueCopies: update && continueHasFamilyCopies() });
+}
+
 function planInstall(f) {
   const steps = [];
   if (!f.claudeOnly) {
-    for (const argv of plan.installPlan(SKILLS, skillsCliAgents(f))) {
+    for (const argv of plainSkillsPlan(f)) {
       steps.push(opres.step('subprocess', 'home', `skills add ${argv[3]}`, { cmd: 'npx', args: pinnedArgv(argv) }));
     }
     steps.push(opres.step('prune', 'home',
@@ -424,7 +430,7 @@ function planUpdate(f) {
         : ['-C', ROOT, 'submodule', 'update', '--init', '--recursive'] }));
   }
   if (!f.claudeOnly) {
-    for (const argv of plan.updatePlan(SKILLS, skillsCliAgents(f), { continueCopies: continueHasFamilyCopies() })) {
+    for (const argv of plainSkillsPlan(f, true)) {
       steps.push(opres.step('subprocess', 'home', `skills ${argv[2]} ${argv[3]}`, { cmd: 'npx', args: pinnedArgv(argv) }));
     }
     steps.push(opres.step('prune', 'home',
@@ -467,8 +473,15 @@ function planUpdate(f) {
 }
 
 /** Dry-run IS the render: the complete receipt, a typed result, zero mutations. */
+function sourceContract(planned) {
+  const selected = cmd => planned.steps.some(s => s.kind === 'subprocess' && s.effect.cmd === cmd);
+  log(`  Plain-skills source contract: ${selected('npx') ? 'immutable commit selection; this is not installed-byte or native-runtime acceptance' : 'not selected'}.`);
+  log(`  Claude native source contract: ${selected('claude') ? 'version-following; immutable source NOT_VERIFIED' : 'not selected'}.`);
+}
+
 function renderDryRun(planned, mode) {
   log(`\n== --dry-run: the ${mode} plan, rendered — nothing executed ==`);
+  sourceContract(planned);
   for (const line of opres.render(planned)) log(line);
   if (mode === 'update') {
     let rec = null;
@@ -492,7 +505,9 @@ function cmdInstall(f) {
   if (!f.claudeOnly) {
     const agents = skillsCliAgents(f);
     log(`\n== Installing to agents via skills CLI: ${agents.join(', ')} ==`);
-    for (const argv of plan.installPlan(SKILLS, agents)) ok = runPlanned(argv) && ok;
+    for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'npx')) {
+      ok = runPlanned(step.effect.args) && ok;
+    }
     // Unconditional: the skills CLI auto-detects Claude Code and drops a plain
     // copy whether or not this run was asked to manage plugins, and the copy
     // decides nothing about the flag it was created under.
@@ -500,15 +515,15 @@ function cmdInstall(f) {
   }
   if (f.claude || f.claudeOnly) {
     log(`\n== Installing Claude Code plugins ==`);
-    for (const s of SKILLS) {
-      log(`\n- ${s.name}`);
-      ok = run('claude', ['plugin', 'marketplace', 'add', s.pluginMarketplace]) && ok;
-      ok = run('claude', ['plugin', 'install', s.pluginInstall]) && ok;
+    log('  Claude native channel: version-following; immutable source NOT_VERIFIED.');
+    for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'claude')) {
+      ok = run('claude', step.effect.args) && ok;
     }
     log('\n(restart Claude Code to apply the plugins)');
   }
   ok = refreshBlock(f, 'install') && ok;
   printUpdateModel('install');
+  sourceContract(planned);
   return ok;
 }
 
@@ -567,13 +582,11 @@ function cmdUpdate(f) {
   const planned = planUpdate(f);
   if (f.dryRun) return renderDryRun(planned, 'update');
   let ok = true;
-  // The plan is COUNTED, not estimated — the same arrays the loops below walk, so a
-  // member added to the family changes the denominator without anyone remembering to.
-  const agentsForCount = f.claudeOnly ? [] : skillsCliAgents(f);
+  // Count and execute the subprocess entries from the same frozen plan.
   progress.total =
     (!f.claudeOnly && fs.existsSync(path.join(ROOT, '.gitmodules')) ? 1 : 0)
-    + (!f.claudeOnly ? plan.updatePlan(SKILLS, agentsForCount, { continueCopies: continueHasFamilyCopies() }).length : 0)
-    + (claudeScope(f).inScope ? SKILLS.length * 2 : 0);
+    + planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'npx').length
+    + planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'claude').length;
   progress.done = 0;
   progress.failed = [];
   if (progress.total) log(`\n== ${progress.total} steps ==`);
@@ -584,25 +597,20 @@ function cmdUpdate(f) {
     if (f.bumpPins) {
       log('\n== Bumping submodule pins to upstream tips (--bump-pins) ==');
       ok = run('git', ['-C', ROOT, 'submodule', 'update', '--init', '--remote', '--merge']) && ok;
-      log('  ! pins moved — commit the gitlinks to make this reproducible');
+      log('  ! checkout pins moved; this install still uses the published commit inventory. Stage the gitlinks, then run node scripts/sync-member-pins.js --write for the next release.');
     } else {
       log('\n== Materializing pinned submodules (pins unchanged) ==');
       ok = run('git', ['-C', ROOT, 'submodule', 'update', '--init', '--recursive']) && ok;
     }
   }
   if (!f.claudeOnly) {
-    // `update` RECONCILES: refresh every declared skill, then add whatever is
-    // missing. `skills update <name>` is a no-op for a skill installed
-    // nowhere, so refreshing alone can never deliver a member added to the
-    // family after a channel was last fed — which is how seven of nineteen
-    // skills were found absent from the hub on 2026-08-10, after an `update`
-    // that had named all nineteen out loud.
+    // Re-add each repository at the published commit. The upstream add command
+    // overwrites existing payloads, so no unpinned `skills update` precedes it.
     const agents = skillsCliAgents(f);
-    const names = SKILLS.flatMap(s => plan.skillIds(s));
-    log(`\n== Updating skills-CLI installs (global): ${names.join(', ')} ==`);
-    log(`   then reconciling against: ${agents.join(', ') || '(no agents resolved — add step skipped)'}`);
-    // One invocation per skill: a single bad id must not fail the whole batch.
-    for (const argv of plan.updatePlan(SKILLS, agents, { continueCopies: continueHasFamilyCopies() })) ok = runPlanned(argv) && ok;
+    log(`\n== Reconciling plain-skills at immutable commits: ${agents.join(', ')} ==`);
+    for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'npx')) {
+      ok = runPlanned(step.effect.args) && ok;
+    }
     pruneClaudeShadows();
   }
   // Scoped like the routing block, the wiring and the runtime copy (final polish 8): an
@@ -613,12 +621,9 @@ function cmdUpdate(f) {
     log(`\n== Updating Claude Code plugins ==\n  skipped: ${pluginScope.skippedBy} (the Claude host is outside this run's scope)`);
   } else {
     log(`\n== Updating Claude Code plugins ==`);
-    // Reconciles like the skills-CLI half: a member this machine has never seen is added
-    // and installed rather than refreshed (plan.pluginUpdatePlan). The plan and this loop
-    // read the same function, so the dry-run receipt and the real run cannot drift.
-    const reg = pluginRegistries();
-    for (const args of plan.pluginUpdatePlan(SKILLS, reg.known, reg.installed)) {
-      ok = run('claude', args) && ok;
+    log('  Claude native channel: version-following; immutable source NOT_VERIFIED.');
+    for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'claude')) {
+      ok = run('claude', step.effect.args) && ok;
     }
     log('\n(restart Claude Code to apply)');
   }
@@ -691,6 +696,7 @@ function cmdUpdate(f) {
   printUpdateModel('update');
 
   reportProgress();
+  sourceContract(planned);
   return ok;
 }
 
@@ -3662,7 +3668,7 @@ function main(argv) {
   const f = parseFlags(rest);
   if (['install', 'i', 'update', 'up'].includes(cmd)) {
     // Fail before building/executing any operation, including plugin-only runs.
-    try { skillsCliAgents(f); }
+    try { skillsCliAgents(f); plainSkillsPlan(f, cmd === 'update' || cmd === 'up'); }
     catch (e) { log(e.message); return 2; }
     if (f.all && !f.claudeOnly) {
       const excluded = require('../lib/host-targets.js').excludedGlobal();
