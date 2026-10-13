@@ -84,4 +84,11 @@ test('post-write remove preserves sibling ownership and exact foreign text',(h,f
 test('operation without prior ownership proof remains unresolved without migration',(h,f)=>{
  fs.writeFileSync(f,'BEFORE');interrupt(h,f,true);const file=W.receiptPath(h),data=JSON.parse(fs.readFileSync(file));delete data.pending.priorRecords;fs.writeFileSync(file,JSON.stringify(data));const before=fs.readFileSync(file);assert.throws(()=>W.resolveRecovery(h),/ownership/);assert.ok(fs.readFileSync(file).equals(before));
 });
+for(const phase of ['link','unlink'])test('no-write recovery retirement '+phase+' interruption resumes without ownership adoption',(h,f)=>{
+ fs.writeFileSync(f,'BEFORE');interrupt(h,f);const prop=phase==='link'?'linkSync':'unlinkSync',original=fs[prop];let planted=false;
+ fs[prop]=(...args)=>{if(!planted&&(phase==='link'?String(args[1]).includes('.released-'):String(args[0]).includes('.retain-'))){planted=true;throw Error('no-write retirement boundary');}return original(...args);};
+ try{assert.throws(()=>W.resolveRecovery(h),/boundary/);}finally{fs[prop]=original;}
+ assert(planted);const data=JSON.parse(fs.readFileSync(W.receiptPath(h)));assert.equal(data.lastOperation.state,'recovered-no-write');assert.deepEqual(data.records,{});assert.equal(fs.readFileSync(f,'utf8'),'BEFORE');assert(fs.existsSync(data.lastOperation.backup.reference.file));
+ assert.equal(W.resolveRecovery(h).state,'recovered-no-write');assert.equal(fs.readFileSync(f,'utf8'),'BEFORE');assert.deepEqual(W.receipt(h).data.records,{});assert.equal(W.inspectRecovery(h).state,'none');
+});
 console.log(`${n} passed; ${fail} failed`);if(fail)process.exitCode=1;
