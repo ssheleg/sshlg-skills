@@ -212,6 +212,14 @@ t('refreshAll: a Codex that cannot load its config is unread; one without the CL
   assert.strictEqual(old.status, 'unsupported');
 });
 
+t('refreshAll: a signalled version read is not accepted from spoofed stdout', () => {
+  const calls = [];
+  const out = cp.refreshAll({ skills: SKILLS, readConfig: () => CONFIG, pinRef,
+    runner: (c, a) => { calls.push(a); return { status: 0, signal: 'SIGTERM', stdout: 'codex-cli 0.162.1' }; } });
+  assert.strictEqual(out.status, 'skipped');
+  assert.deepStrictEqual(calls, [['--version']]);
+});
+
 t('refreshAll: the table form is read when --json is refused', () => {
   const s = scripted('1.22.0');
   const runner = (c, a) => {
