@@ -21,3 +21,7 @@ The separate docs-only PR 38 merged as `3740043608a2d2969982ed304eebfd5313c06b19
 ## Super-ux source acceptance
 
 [PR 44 merge and byte readback](ux-merge.json) records normal merge `5482c4762f648ab33f2f9c3a075f2c2866e4bc17` after genuine candidate run 38360566043 passed every job and required context. The merged tree equals reviewed candidate 580e76e; all 34 npm payload files match the pre-change source. Full local implementation gate at 66abd28 passed; successors record evidence and update the measured current validator count after adding links. No package or installed update is claimed.
+
+## Task-pipeline accepted feature delivery
+
+[PR 120 merge and byte readback](tp-feature-merge.json) binds reviewed candidate eb85233 to normal squash merge `9fb9cfb34d83a1395d1d18dbe191d4135395b986` on `feat/release-iteration`. Genuine candidate run 38362221139 passed every job, including all eight negative-test shards and their aggregate. The feature base had no required branch contexts; the watcher explicitly required all genuine jobs rather than inventing required checks. The complete merged tree equals the candidate and all 144 npm payload files match the reviewed ledger cut. Local validation remains explicitly split; the original failed full run was not relabeled. Parent owns subsequent version metadata, main integration and publication.
