@@ -99,3 +99,44 @@ corruption controls and reviewed the label sets. One ambiguity was narrowed:
 `ambiguous-ux-redesign` now explicitly fixes personas/stories and asks about
 navigation/screen states, so a foundation rewrite is outside that prompt.
 The accepted flow/audit alternatives are retained. No comparison has run yet.
+
+## Paired pilot runner: review before execution
+
+[Runner](run-description-screening-v2.py) and its [offline checks](description-runner-v2-check.py)
+implement a fixed first diagnostic: 12 cases (six English/six Russian; primary,
+neighbor, composition, ambiguity and negative strata), two arms each, at most
+24 sequential calls. Seed `10132026` randomizes case order, arm-first order and
+catalogue ID order; a pair shares its ID order. Each call gets a new CLI process
+and empty temporary working directory, preserving normal HOME/keychain OAuth.
+
+The argv is derived from the recorded controlled probe and checked before use:
+normal subscription, one turn, no tools/skills/MCP, ordinary hooks/memory disabled,
+no session persistence. Init must match the probe's observed counts (zero tools,
+MCP servers and skills; four registered plugins and five agents); matching counts
+are a contamination check, not proof of absent managed instructions. Unexpected
+auth/context environment, provider/model, turn count, tool use, missing usage,
+invalid selection JSON or total input above 16,000 tokens stops the experiment.
+The input envelope includes the explicit catalogue; it is not a tokenizer estimate.
+
+The coordinator authorized a **USD 4 reported list-price ceiling** for this pilot,
+reserving the nominal **USD 0.25 per request** before admission. Actual reported
+overshoot stops later requests; the CLI flag cannot prove a hard first-call billing
+ceiling. List-price metadata is not subscription billing. There is no runner retry,
+resume or receipt overwrite; CLI-internal transport retries remain unmeasured.
+A STARTED receipt is persisted before each external call so interruption is not
+silently interpreted as an unattempted call. Unknown cost stays unknown.
+
+Raw prompt/stdout/stderr/auth/version records stay in a newly created 0700 directory
+outside Git, files 0600. Committed receipts contain only allowlisted selection IDs,
+counts, numeric usage/list cost, enum error classes and hashes. Unexpected text and
+auth identity fields stay private. A six-run fake-CLI process matrix proved 24-call
+completion, budget stop at 16 calls with USD0.25 fixtures, immediate provider/schema/
+unknown-cost/timeout stops, no implicit retry, raw permissions and public redaction.
+No real model was called by those tests.
+
+Dry plan: `python3 docs/evidence/completion-1013/run-description-screening-v2.py`.
+Offline checks: `python3 docs/evidence/completion-1013/description-runner-v2-check.py`.
+Execution requires explicit `--execute --private-dir <new-absolute-outside-git-dir>
+--output <new-sanitized-receipt.json>`. The reviewer must approve the frozen runner
+before the pilot; then report the 24-call diagnostic and measured usage before
+considering the remaining corpus. A whole 116×2 run is not enabled by this runner.
