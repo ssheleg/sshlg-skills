@@ -1,0 +1,29 @@
+{
+  "source": "ed02df77391309a34991bda7b1947cc4ea96c7af",
+  "source_sha256": {
+    "lib/wait-rules.js": "ec52f302a3f3f759d7df5085eeb01a36ab7ee038df601783ddb632f47c440325",
+    "test/wait_recovery_test.js": "0ad13e96e8fd6a771fb05b7a964d70b6d501088946d0cd694af1f53a47b93b93",
+    "lib/wait-recovery.js": "f3517e311eda4b5b73676ee1a76be858b841071389c1529ef6158eb3ec06832b",
+    "lib/backup-retention.js": "69d42dfeed4cbc2ab431ff5894ae10ad057e8e944c43eb3410e7753673498d9d"
+  },
+  "checks": [
+    {
+      "argv": [
+        "node",
+        "test/wait_recovery_test.js"
+      ],
+      "exit_code": 0,
+      "stdout": "ok before-write failure retains exact recovery bytes through 15 ordinary saves\nok post-write failure classifies committed without repeating a host write\nok absent original is distinct from an existing empty file\nok legacy pending remains unresolved and byte-identical\nok changed policy refuses metadata recovery and preserves pending\nok third-party content is never restored or adopted\nok receipt write boundary 1 fails without falsely completing\nok receipt write boundary 2 fails without falsely completing\nok receipt write boundary 3 fails without falsely completing\nok retirement link interruption retains and resumes exact reference\nok retirement unlink interruption retains and resumes exact reference\nok a committed target later reverted to original bytes is not classified as no-write\nok three repeated completed resolutions are byte-identical no-ops\nok actual case alias keeps canonical reference binding\nok malformed next ownership cannot be written during metadata resolution\nok foreign retirement destination is preserved and cannot free reference\nok relocated reference outside owner backup namespace is not silently adopted\nok recovery refuses ownership delta drop-sibling\nok recovery refuses ownership delta add-sibling\nok recovery refuses ownership delta edit-sibling\nok recovery refuses ownership delta target-root\nok recovery refuses ownership delta target-canonical-root\nok recovery refuses ownership delta target-agent\nok recovery refuses ownership delta target-prefix\nok recovery refuses ownership delta target-previous\nok recovery refuses ownership delta drop-target\nok post-write remove preserves sibling ownership and exact foreign text\nok operation without prior ownership proof remains unresolved without migration\nok no-write recovery retirement link interruption resumes without ownership adoption\nok no-write recovery retirement unlink interruption resumes without ownership adoption\n30 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "node",
+        "test/wait_recovery_crash_test.js"
+      ],
+      "exit_code": 0,
+      "stdout": "ok process crash prepared-before\nok process crash prepared-after\nok process crash intent-after\nok process crash host-before\nok process crash host-after\nok process crash terminal-after\nok process crash retired-link\n7 passed; 0 failed\n",
+      "stderr": ""
+    }
+  ]
+}
