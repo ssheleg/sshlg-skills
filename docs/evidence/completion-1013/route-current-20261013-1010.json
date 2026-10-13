@@ -1,0 +1,13 @@
+{
+  "source": "457bc03",
+  "command": "node test/route_coverage.js",
+  "exit_code": 0,
+  "expected_route": 118,
+  "misses": 15,
+  "false_positive": 0,
+  "prompts": 133,
+  "reserve_blocked_misses": 15,
+  "unblocked_misses": 0,
+  "log_sha256": "99769df2e753eab7e2c0ef6a8f5ac6f648db900890a53b74827c32c38560067a",
+  "limit": "Curated deterministic trigger probe, not skill-search/model task-quality acceptance; zero exit permits reported misses."
+}
