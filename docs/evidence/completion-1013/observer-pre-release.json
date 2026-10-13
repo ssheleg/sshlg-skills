@@ -1,0 +1,421 @@
+{
+  "schema": "pre-release-goal-observer/1",
+  "verdict": "PARTIAL_NOT_FINAL",
+  "source_commit": "86477b5e5a8138742fa12dc56e8a9add80f54654",
+  "observed_at_utc": "2026-10-13T08:13:55.952265+00:00",
+  "scope": "read-only preliminary original-goal review; no broad tests/provider calls/owner-board mutations",
+  "independence": "Reviewer did not author coordinator completion claim; did author several delivered components and P2 runner. Independent source reviews by other agents remain required evidence; this is not untouched-author certification of all code.",
+  "counts": {
+    "original_ids": 177,
+    "retained_ids": 177,
+    "identity_sets_equal": true,
+    "requirements": 37,
+    "unique_requirements": 37
+  },
+  "semantic_rederivation": {
+    "p1_calls": 8,
+    "p1_native_loads": 2,
+    "p1_task_cells": 6,
+    "search_query_majorities_passed": 20,
+    "search_matching_repetitions": 59
+  },
+  "requirements": [
+    {
+      "id": "R01",
+      "requirement": "The per-prompt routing note names each route at most once per session; `clear`/`compact` reset it",
+      "observer_disposition": "PRIOR_BOUNDED_EVIDENCE_FINAL_SOURCE_RECHECK"
+    },
+    {
+      "id": "R02",
+      "requirement": "SessionStart prints the injectors line only when the injector set changed; drift/update/handoff lines unchanged",
+      "observer_disposition": "PRIOR_BOUNDED_EVIDENCE_FINAL_SOURCE_RECHECK"
+    },
+    {
+      "id": "R03",
+      "requirement": "`update` re-applies the family's hook wiring on a consented machine through `protect()`; `hooks` names the differing field; this machine's PreToolUse repaired",
+      "observer_disposition": "PRIOR_BOUNDED_EVIDENCE_FINAL_SOURCE_RECHECK"
+    },
+    {
+      "id": "R04",
+      "requirement": "Secret remedies resolve the Observatory engine at runtime with `--vault-only`; no checkout path",
+      "observer_disposition": "PRIOR_BOUNDED_EVIDENCE_FINAL_SOURCE_RECHECK"
+    },
+    {
+      "id": "R05",
+      "requirement": "`state.json` is a documented, versioned interface; `update` holds a single-instance lock",
+      "observer_disposition": "PRIOR_BOUNDED_EVIDENCE_FINAL_SOURCE_RECHECK"
+    },
+    {
+      "id": "R06",
+      "requirement": "Hook latency is measured per event, and any hook over 150 ms on a common path is optimized",
+      "observer_disposition": "PRIOR_BOUNDED_EVIDENCE_FINAL_SOURCE_RECHECK"
+    },
+    {
+      "id": "R07",
+      "requirement": "task-pipeline test temp trees go through the residue ledger; a guard refuses bare `mkdtemp`; the existing leak is reaped by owner",
+      "observer_disposition": "TP_RELEASE_AND_CONNECTED_PROOF_RECONCILIATION"
+    },
+    {
+      "id": "R08",
+      "requirement": "task-pipeline `validate.yml` < 400 KB and the validate job ≤ 45 min",
+      "observer_disposition": "TP_RELEASE_AND_CONNECTED_PROOF_RECONCILIATION"
+    },
+    {
+      "id": "R09",
+      "requirement": "task-pipeline description ≤ 900 chars; body ≥ 100 tokens under the limit; hub reserve ratchet back to 13",
+      "observer_disposition": "TP_RELEASE_AND_CONNECTED_PROOF_RECONCILIATION"
+    },
+    {
+      "id": "R10",
+      "requirement": "task-pipeline ledgers and branches current (verification header, stale branches, HANDOFF)",
+      "observer_disposition": "TP_RELEASE_AND_CONNECTED_PROOF_RECONCILIATION"
+    },
+    {
+      "id": "R11",
+      "requirement": "Every gate writes the Observatory checkpoint when connected, else ledger line `memory: unavailable`; planned executor change uses `handoff_create/accept`",
+      "observer_disposition": "TP_RELEASE_AND_CONNECTED_PROOF_RECONCILIATION"
+    },
+    {
+      "id": "R12",
+      "requirement": "One handoff-layering map, single home in the hub, cited by task-pipeline",
+      "observer_disposition": "TP_RELEASE_AND_CONNECTED_PROOF_RECONCILIATION"
+    },
+    {
+      "id": "R13",
+      "requirement": "The waves intake reads `docs/backlog-sources.json` when present",
+      "observer_disposition": "TP_RELEASE_AND_CONNECTED_PROOF_RECONCILIATION"
+    },
+    {
+      "id": "R14",
+      "requirement": "Packet id `task-pipeline/execution-packet/1`; old id read for one release",
+      "observer_disposition": "TP_RELEASE_AND_CONNECTED_PROOF_RECONCILIATION"
+    },
+    {
+      "id": "R15",
+      "requirement": "Fabric pipeline-adapter contract fixture runs in task-pipeline CI",
+      "observer_disposition": "TP_RELEASE_AND_CONNECTED_PROOF_RECONCILIATION"
+    },
+    {
+      "id": "R16",
+      "requirement": "The release stage reads the project's approval mode and reports the waiting-run link on `reviewers`",
+      "observer_disposition": "TP_RELEASE_AND_CONNECTED_PROOF_RECONCILIATION"
+    },
+    {
+      "id": "R17",
+      "requirement": "agent-sync run identity is hash-based and unique per key",
+      "observer_disposition": "OWNER_RELEASED_FINAL_PIN_INSTALL_RECHECK"
+    },
+    {
+      "id": "R18",
+      "requirement": "Expired leases are counted and reaped only with owner proof",
+      "observer_disposition": "OWNER_RELEASED_FINAL_PIN_INSTALL_RECHECK"
+    },
+    {
+      "id": "R19",
+      "requirement": "Long-held lease warning against the declared interval",
+      "observer_disposition": "OWNER_RELEASED_FINAL_PIN_INSTALL_RECHECK"
+    },
+    {
+      "id": "R20",
+      "requirement": "Token resolution: vault first, then env, then file (degraded)",
+      "observer_disposition": "OWNER_RELEASED_FINAL_PIN_INSTALL_RECHECK"
+    },
+    {
+      "id": "R21",
+      "requirement": "Conformance map to Fabric `coordination.md` at a pinned commit",
+      "observer_disposition": "OWNER_RELEASED_FINAL_PIN_INSTALL_RECHECK"
+    },
+    {
+      "id": "R22",
+      "requirement": "AS-07, AS-08, AS-09, AS-10, AS-14 closed with fixtures",
+      "observer_disposition": "OWNER_RELEASED_FINAL_PIN_INSTALL_RECHECK"
+    },
+    {
+      "id": "R23",
+      "requirement": "`gateway.md` states trust tiers T0/T1/T2 cited to fabric-workspace `eb451cf`",
+      "observer_disposition": "SOURCE_CONTRACT_EVIDENCE_NOT_ESTATE_RUNTIME"
+    },
+    {
+      "id": "R24",
+      "requirement": "agent-interop teaches fabric-interop jobs + the degraded envelope, pinned",
+      "observer_disposition": "SOURCE_CONTRACT_EVIDENCE_NOT_ESTATE_RUNTIME"
+    },
+    {
+      "id": "R25",
+      "requirement": "agent-stack and make-skill link the Fabric adapter skills and `observatory-log:handling-secrets`",
+      "observer_disposition": "SOURCE_CONTRACT_EVIDENCE_NOT_ESTATE_RUNTIME"
+    },
+    {
+      "id": "R26",
+      "requirement": "agent-stack descriptions ≥ 30 chars spare",
+      "observer_disposition": "SOURCE_CONTRACT_EVIDENCE_NOT_ESTATE_RUNTIME"
+    },
+    {
+      "id": "R27",
+      "requirement": "`skill-search` trigger evals and the paired routing eval run; B-144 decided from it",
+      "observer_disposition": "BOUNDED_NATIVE_AND_PAIRED_RUNS_COMPLETE_NO_ADOPTION"
+    },
+    {
+      "id": "R28",
+      "requirement": "Residue checks in make-skill (MS-05) and agent-stack (AG-06a/b)",
+      "observer_disposition": "OWNER_SOURCE_DELIVERED_AGGREGATE_READBACK_PENDING"
+    },
+    {
+      "id": "R29",
+      "requirement": "make-skill HANDOFF current",
+      "observer_disposition": "OWNER_SOURCE_DELIVERED_AGGREGATE_READBACK_PENDING"
+    },
+    {
+      "id": "R30",
+      "requirement": "The hub board guard reads every member board (B-108); released members' gates check tag reachability (B-109 part)",
+      "observer_disposition": "OWNER_SOURCE_DELIVERED_AGGREGATE_READBACK_PENDING"
+    },
+    {
+      "id": "R31",
+      "requirement": "New compatibility report cut superseding 2026-10-09",
+      "observer_disposition": "DATED_COMPATIBILITY_CUT_NOT_EVERY_HOST_QUALITY"
+    },
+    {
+      "id": "R32",
+      "requirement": "Family description total ratcheted (may fall, never rise)",
+      "observer_disposition": "FINAL_PIN_DESCRIPTION_RATCHET_PENDING"
+    },
+    {
+      "id": "R33",
+      "requirement": "Graph refreshed; DOCMAP, HANDOFF, README current; pins; hub release; installed and read back",
+      "observer_disposition": "FINAL_SOURCE_PUBLICATION_INSTALL_GRAPH_PENDING"
+    },
+    {
+      "id": "R34",
+      "requirement": "Cross-product asks delivered to their owners; wiki estate map updated",
+      "observer_disposition": "AUTHENTICATED_BOARD_PENDING_WIKI_REFRESH_PENDING"
+    },
+    {
+      "id": "R35",
+      "requirement": "Plugins: 4 disabled globally, 4 enabled only in the projects that use them; listing chars measured before/after",
+      "observer_disposition": "REVERSIBLE_APPLY_PRIOR_CUT_FINAL_PRESERVATION_PENDING"
+    },
+    {
+      "id": "R36",
+      "requirement": "Gemini CLI from npm (dry-run first); after the operator's sign-in, family discovery read back",
+      "observer_disposition": "INSTALLED_LISTED_AUTH_AND_MODEL_UNKNOWN"
+    },
+    {
+      "id": "R37",
+      "requirement": "Pi supported: which directories Pi reads is measured from its docs/source; family skills discoverable once, no duplicate listing; Pi in the compatibility cut",
+      "observer_disposition": "PI_LOADER_VERIFIED_TASK_QUALITY_DISTINCT"
+    }
+  ],
+  "findings": [
+    {
+      "id": "OBS-01",
+      "kind": "acceptance_pending",
+      "requirement": [
+        "R30",
+        "R33",
+        "R35"
+      ],
+      "priority": "before final installed acceptance",
+      "evidence": [
+        "docs/HANDOFF.md:3",
+        "docs/evidence/completion-1013/installed-1.62.2/README.md:3",
+        "docs/evidence/completion-1013/claude-pins/aggregate.json"
+      ],
+      "finding": "Source acceptance is ahead of publication and installed native proof; current1.62.2 acceptance is explicitly partial. Header owner successors, SEO and TP releases must enter one frozen candidate.",
+      "next": "Freeze exact member source/release inventory; run aggregate and genuine candidate/release gates; compare every expected plain/native/runtime byte, foreign settings and domain/rule ownership after authorized update. Preserve unknown effects and never blind-retry native mutations.",
+      "mechanism": "documented partial delivery",
+      "reproduction": "installed1.62.2 source drift receipt and candidate pending tag",
+      "incidence": "one documented installed cut; later production unknown"
+    },
+    {
+      "id": "OBS-02",
+      "kind": "finding",
+      "requirement": [
+        "R27",
+        "C09"
+      ],
+      "priority": "before claiming optimization complete",
+      "evidence": [
+        "docs/evidence/backlog.md:210",
+        "docs/evidence/completion-1013/native-routing-v2/readout.md:3",
+        "docs/evidence/completion-1013/skill-search-native/README.md:17"
+      ],
+      "finding": "B148 points model acceptance at B144/B147, which now close narrower investigations. Passive native loading is2/6; task quality passes4/6 on three exploratory intents; no compression adoption. The residual needs an active named task, not two closed row pointers.",
+      "next": "Replace the stale residual pointer with active FW08/native-quality scope and named owner; retain passive misses, exact quality failures, Codex/native-host blind spots and a separately admitted next corpus. Do not retune original rubric or relabel directed P2 as passive success.",
+      "mechanism": "closed-row residual pointer plus observed bounded failures",
+      "reproduction": "read current B148/B144/B147 and frozen P1 score/artifact files",
+      "incidence": "six P1 task cells only; estate rate unknown"
+    },
+    {
+      "id": "OBS-03",
+      "kind": "acceptance_pending",
+      "requirement": [
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R17",
+        "R22",
+        "R28",
+        "R29",
+        "R30",
+        "R32",
+        "R33"
+      ],
+      "priority": "before final goal verdict",
+      "evidence": [
+        "docs/evidence/completion-1013/board-reconciliation.md:18",
+        "docs/evidence/completion-1013/run.md:11",
+        "docs/evidence/completion-1013/requirements-current-20261013-0415.json"
+      ],
+      "finding": "37 requirement dispositions and177 original board identities are conserved, but the latest committed map still describes04:15 source. The stage ledger mixes the earlier1.62.2 delivery with the later program and cannot certify1.63.0.",
+      "next": "Generate a new immutable reconciliation from frozen gitlinks, retain all177 identities and every new owner ID, attach accepted/released/installed evidence separately, update one current entry and final graph/wiki cut. Do not overwrite historical failures or count recorded nonterminal rows as reproduced defects.",
+      "mechanism": "dated reconciliation predates current accepted work",
+      "reproduction": "independent unique-ID set equality and current source metadata comparison",
+      "incidence": "one current navigation cut"
+    },
+    {
+      "id": "OBS-04",
+      "kind": "external_prerequisite",
+      "requirement": [
+        "R11",
+        "R12",
+        "R15",
+        "R23",
+        "R24",
+        "R34"
+      ],
+      "priority": "preserve explicit pending owner work",
+      "evidence": [
+        "docs/evidence/completion-1013/README.md:40",
+        "docs/evidence/completion-1013/mcp-profile-consumer/README.md:50",
+        "docs/evidence/specs/2026-10-13-pipeline-principles-gaps.md:58"
+      ],
+      "finding": "Fabric/Observatory connected delivery and MCP on-demand switching remain unproven. PB159 fixture is a draft semantic consumer, not an implemented host writer or delivered owner ask.",
+      "next": "Reconcile TP1.94 released contracts against the original gaps locally; retain only genuine owner residual asks. When authenticated com.* is callable, submit the recorded idempotency keys and obtain accepted owner schema before adapter/runtime apply/undo tests. No alternate direct-token transport.",
+      "mechanism": "missing authenticated board/capability receipt",
+      "reproduction": "pending-submission table and draft consumer contract",
+      "incidence": "latest recorded board observation only; current service availability not re-probed"
+    },
+    {
+      "id": "OBS-05",
+      "kind": "actionable_scope_split",
+      "requirement": [
+        "C10",
+        "R33"
+      ],
+      "priority": "next autonomous packet, not a silent release blocker",
+      "evidence": [
+        "docs/evidence/backlog.md:236",
+        "docs/evidence/completion-1013/wait-rule-packet.md:111"
+      ],
+      "finding": "Managed-block convention B174 contains a real operator decision about REPOSITORY-HANDOFF ownership, but that decision need not block read-only inventory/schema/preview work for already owned hub blocks. Wait-rule machine adoption is also separate from source implementation.",
+      "next": "Prepare read-only managed-block inventory and shared backup/journal/preview contract with unknown ownership explicit. Keep REPOSITORY-HANDOFF mutation and star policy B180 out until their specific decisions. Complete approved wait-rule post-release apply/readback independently.",
+      "mechanism": "mixed autonomous preparation and operator-owned mutation scopes",
+      "reproduction": "B174/B180 wording and wait-rule packet boundaries",
+      "incidence": "planning-level scope only; no new production defect asserted"
+    },
+    {
+      "id": "OBS-06",
+      "kind": "explicit_deferral",
+      "requirement": [
+        "R09",
+        "R26",
+        "R32",
+        "C09"
+      ],
+      "priority": "named revisit trigger, not forced cleanup",
+      "evidence": [
+        "docs/evidence/completion-1013/family-next-wave.md:102"
+      ],
+      "finding": "FW07 next-body-edit optimization is deliberately conditional. Agent-stack B135 is not missed implementation merely because its bodies remain near capacity; task-pipeline B043 stage-spine feasibility is an autonomous measured packet.",
+      "next": "Keep B129/B135 and dev body-split triggers on their owner rows; for B043 measure consumers, mandatory reading floor, token count, package links and cold-context outcome acceptance before any split. Never buy spare tokens by dropping obligations or adopt descriptions from these small diagnostics.",
+      "mechanism": "documented trade-off with explicit revisit trigger",
+      "reproduction": "FW07 contract and agent-stack B135 current owner row",
+      "incidence": "not a defect incidence claim"
+    }
+  ],
+  "source_hashes": [
+    {
+      "path": "docs/HANDOFF.md",
+      "sha256": "61db1178fb05d09f6e3cee2f32275a58187b3f5173c19294060658388681a536"
+    },
+    {
+      "path": "docs/evidence/briefs/2026-10-11-integration-waves.md",
+      "sha256": "06ec7400501a9a685fb356c59b5193f20e467a4a98d183ae3707f44497e4f05a"
+    },
+    {
+      "path": "docs/evidence/plans/2026-10-13-completion.md",
+      "sha256": "0497b672622cb132728b187f3fa8c1eaf52caee523bdf4df5549fa9aa1d81b9b"
+    },
+    {
+      "path": "docs/evidence/backlog.md",
+      "sha256": "7c59b9dfe3cb9e8d12180af872c5f43f4919107b6e698f5c0fc86a4dda7838cc"
+    },
+    {
+      "path": "docs/evidence/completion-1013/README.md",
+      "sha256": "70718311c25a3590c0933571bfd453396d9d52d70c57e4208af7ff68b6c37471"
+    },
+    {
+      "path": "docs/evidence/completion-1013/run.md",
+      "sha256": "d357159f4d5403c46ed1d492eda38a351af42a8bbb895642fab5f7e2bfedbd26"
+    },
+    {
+      "path": "docs/evidence/completion-1013/inventory.json",
+      "sha256": "7724bb92c6b8b8cf7a252eb59567b040262f71d6395808f3d5e8538bf7ce68ec"
+    },
+    {
+      "path": "docs/evidence/completion-1013/board-current-20261013-0415.json",
+      "sha256": "19974b5380661df51c1f7d79ba7a1af3e0d0ec5adbdfd5867b33a1d760d696d7"
+    },
+    {
+      "path": "docs/evidence/completion-1013/requirements-current-20261013-0415.json",
+      "sha256": "180af84aca76504accdde9e64ef71239456b92babc2da2e1a84d10f08bbafe25"
+    },
+    {
+      "path": "docs/evidence/completion-1013/family-next-wave.md",
+      "sha256": "d11eb2aaf6fac6ca0a9a1a81df2dd385be6555eb694f418565e804be5203d7f5"
+    },
+    {
+      "path": "docs/evidence/completion-1013/native-routing-v2/results-a.json",
+      "sha256": "bf9c66f008a7cb033c9410d5326f72a4d8a74f4e6786d8d9dc799ddb8bc77cb9"
+    },
+    {
+      "path": "docs/evidence/completion-1013/native-routing-v2/artifact-review.json",
+      "sha256": "e5f3401524d251af81bcee801372ae2cca563b9bea7cf3a4b36f3783df876090"
+    },
+    {
+      "path": "docs/evidence/completion-1013/skill-search-native/results-c.json",
+      "sha256": "4390977ff6610d45b7c6d02f728448cef1335258db2483f47a1d0a45a14efe53"
+    },
+    {
+      "path": "docs/evidence/completion-1013/paired-routing-1013/readout.md",
+      "sha256": "b841a6b1ae13b373a6d7229f4c4fe0d31778bcdf3fa0d174df3635238845b096"
+    },
+    {
+      "path": "docs/evidence/completion-1013/mcp-profile-consumer/README.md",
+      "sha256": "02de3e2256b31f57a305fd8d72a9be9088d0dddff281673e12ca5bec9e2b5b49"
+    },
+    {
+      "path": "docs/evidence/completion-1013/installed-1.62.2/README.md",
+      "sha256": "52a0841c96db654c6e2897a109979cc7fd1a83f8afc7ab936f58dc02cd6b1920"
+    }
+  ],
+  "mechanical_adjudication": {
+    "raw_findings": 5,
+    "verified_live_secret_leaks": 0,
+    "unknown_actual_credential_validity": "No external validation attempted. Do not interpret0 as proof of full secret absence.",
+    "classification": "Three tree pattern hits plus two historical hits originate in UP02 planted environment/redaction assertions and a header-only private-key refusal fixture. No key material in the header plant. Raw detector findings preserved.",
+    "offline_blind": [
+      "registry version",
+      "candidate channel comparison; no1.63.0 tag at collector time"
+    ]
+  },
+  "concurrent_owner_observation": {
+    "owner": "agent-stack",
+    "observed_origin_main": "cd6421b8ca7d9440bc87e366ebd8a96bb38b69b8",
+    "version": "0.28.1",
+    "frozen_hub_gitlink": "e2120c272c884ab4351c610148bbc0a4526c4067",
+    "disposition": "COORDINATOR_REVIEW_PENDING_NOT_AUTOPINNED"
+  }
+}

@@ -1,0 +1,294 @@
+{
+ "capabilities": [
+  "cargo",
+  "docker",
+  "gh",
+  "git",
+  "node",
+  "npm",
+  "python3"
+ ],
+ "counts": {
+  "findings": 5,
+  "probes_blind": 2,
+  "probes_run": 7
+ },
+ "findings": [
+  {
+   "blast": 3,
+   "detail": "",
+   "effort": 1,
+   "evidence": "",
+   "first_seen": "2026-10-13",
+   "id": "f-e39432095540",
+   "incidence": "unknown",
+   "mechanism": "confirmed",
+   "observed_at": "2026-10-13T08:04:35Z",
+   "observed_scope": "local checkout",
+   "p": 3.0,
+   "probe": "secrets-tree",
+   "remedy": "rotate the credential at its issuer, then remove it from the tree; if it is in history, rotation is the fix and rewriting history is not",
+   "runs_open": 0,
+   "severity": "critical",
+   "title": "A openai-style key is committed in the tree",
+   "where": "test/audit_regressions/fix-up-02.01.py:131"
+  },
+  {
+   "blast": 3,
+   "detail": "",
+   "effort": 1,
+   "evidence": "",
+   "first_seen": "2026-10-13",
+   "id": "f-5732e4a5bad7",
+   "incidence": "unknown",
+   "mechanism": "confirmed",
+   "observed_at": "2026-10-13T08:04:35Z",
+   "observed_scope": "local checkout",
+   "p": 3.0,
+   "probe": "secrets-tree",
+   "remedy": "rotate the credential at its issuer, then remove it from the tree; if it is in history, rotation is the fix and rewriting history is not",
+   "runs_open": 0,
+   "severity": "critical",
+   "title": "A openai-style key is committed in the tree",
+   "where": "test/audit_regressions/fix-up-02.01.py:142"
+  },
+  {
+   "blast": 3,
+   "detail": "",
+   "effort": 1,
+   "evidence": "",
+   "first_seen": "2026-10-13",
+   "id": "f-7366369a59c0",
+   "incidence": "unknown",
+   "mechanism": "confirmed",
+   "observed_at": "2026-10-13T08:04:35Z",
+   "observed_scope": "local checkout",
+   "p": 3.0,
+   "probe": "secrets-tree",
+   "remedy": "rotate the credential at its issuer, then remove it from the tree; if it is in history, rotation is the fix and rewriting history is not",
+   "runs_open": 0,
+   "severity": "critical",
+   "title": "A private key block is committed in the tree",
+   "where": "test/secrets_test.js:35"
+  },
+  {
+   "blast": 3,
+   "detail": "",
+   "effort": 2,
+   "evidence": "",
+   "first_seen": "2026-10-13",
+   "id": "f-ef4f1db74181",
+   "incidence": "unknown",
+   "mechanism": "confirmed",
+   "observed_at": "2026-10-13T08:04:43Z",
+   "observed_scope": "local checkout",
+   "p": 1.5,
+   "probe": "secrets-history",
+   "remedy": "rotate the credential at its issuer",
+   "runs_open": 0,
+   "severity": "critical",
+   "title": "A openai-style key appears in git history",
+   "where": "commit 4f8e96f5563e"
+  },
+  {
+   "blast": 3,
+   "detail": "",
+   "effort": 2,
+   "evidence": "",
+   "first_seen": "2026-10-13",
+   "id": "f-a3bef7c670a8",
+   "incidence": "unknown",
+   "mechanism": "confirmed",
+   "observed_at": "2026-10-13T08:04:43Z",
+   "observed_scope": "local checkout",
+   "p": 1.5,
+   "probe": "secrets-history",
+   "remedy": "rotate the credential at its issuer",
+   "runs_open": 0,
+   "severity": "critical",
+   "title": "A private key block appears in git history",
+   "where": "commit d5ede4b0cd41"
+  }
+ ],
+ "generated_at": "2026-10-13T08:04:43Z",
+ "probes": [
+  {
+   "id": "secrets-tree",
+   "needs": [
+    "git"
+   ],
+   "phase": "probe",
+   "reason": "3 credential pattern(s)",
+   "verdict": "finding"
+  },
+  {
+   "id": "secrets-history",
+   "needs": [
+    "git"
+   ],
+   "phase": "probe",
+   "reason": "2 in history",
+   "verdict": "finding"
+  },
+  {
+   "id": "worktree",
+   "needs": [
+    "git"
+   ],
+   "phase": "probe",
+   "reason": "4 uncommitted path(s) — disclosed, not a finding: an audit reports the committed project",
+   "verdict": "clean"
+  },
+  {
+   "id": "telemetry",
+   "needs": [],
+   "phase": "prod",
+   "reason": "no deploy target declared — a library or tool, for which absent telemetry is a design, not a gap",
+   "verdict": "clean"
+  },
+  {
+   "id": "ci-present",
+   "needs": [],
+   "phase": "prod",
+   "reason": "CI configured: github-actions",
+   "verdict": "clean"
+  },
+  {
+   "id": "docs-present",
+   "needs": [],
+   "phase": "seams",
+   "reason": "7 documentation marker(s): README.md, docs, CLAUDE.md, AGENTS.md, CONTRIBUTING.md, CHANGELOG.md, docs/evidence",
+   "verdict": "clean"
+  },
+  {
+   "id": "gitignore-secrets",
+   "needs": [
+    "git"
+   ],
+   "phase": "probe",
+   "reason": "no credential-shaped file is tracked",
+   "verdict": "clean"
+  },
+  {
+   "id": "channel-divergence",
+   "needs": [
+    "git"
+   ],
+   "phase": "prod",
+   "reason": "HEAD says 1.63.0 and no tag v1.63.0 exists — the channels make no common claim yet",
+   "verdict": "blind"
+  },
+  {
+   "id": "published-version",
+   "needs": [
+    "npm",
+    "network"
+   ],
+   "phase": "prod",
+   "reason": "needs network, not available here",
+   "verdict": "blind"
+  }
+ ],
+ "profile": {
+  "ci": [
+   "github-actions"
+  ],
+  "deploy": [],
+  "docs": [
+   "README.md",
+   "docs",
+   "CLAUDE.md",
+   "AGENTS.md",
+   "CONTRIBUTING.md",
+   "CHANGELOG.md",
+   "docs/evidence"
+  ],
+  "languages": [
+   "javascript"
+  ],
+  "managers": [
+   "npm"
+  ],
+  "monorepo": true,
+  "name": "sshlg-skills",
+  "root": "/Users/sshlg/DATA/_wt/hub-release-1.62.0",
+  "submodules": [
+   {
+    "describe": "v0.28.0-3-ge2120c2",
+    "path": "skills/agent-stack",
+    "sha": "e2120c272c884ab4351c610148bbc0a4526c4067"
+   },
+   {
+    "describe": "v1.22.1-4-g7a1dbe7",
+    "path": "skills/agent-sync",
+    "sha": "7a1dbe7dcdaff1786fad38dbd2ee742266d1a39a"
+   },
+   {
+    "describe": "v0.31.1-4-g3740043",
+    "path": "skills/make-skill",
+    "sha": "3740043608a2d2969982ed304eebfd5313c06b19"
+   },
+   {
+    "describe": "v0.26.4-3-gbccb630",
+    "path": "skills/seo-aeo-audit",
+    "sha": "bccb630e79730e2a7058b74a2130ddfe4f4662aa"
+   },
+   {
+    "describe": "v1.64.1-4-gb017f51",
+    "path": "skills/sheleg-design",
+    "sha": "b017f5143284538d2670d22aab1f1403da459d87"
+   },
+   {
+    "describe": "v0.13.3-4-g02655fa",
+    "path": "skills/sheleg-dev",
+    "sha": "02655faeb525e5b65b628f65671a5b047eff5d0d"
+   },
+   {
+    "describe": "v0.59.2-4-g5482c47",
+    "path": "skills/super-ux",
+    "sha": "5482c4762f648ab33f2f9c3a075f2c2866e4bc17"
+   },
+   {
+    "describe": "v1.93.3",
+    "path": "skills/task-pipeline",
+    "sha": "52fa75dbe1a3d169c02c612516b30028929559f9"
+   },
+   {
+    "describe": "v0.2.3-4-g4ffb10c",
+    "path": "skills/telegram-dev",
+    "sha": "4ffb10ce1b92a599c2214327ea4d878ab514ed6b"
+   },
+   {
+    "describe": "v0.1.3-5-gef6bc1a",
+    "path": "skills/web3d-dev",
+    "sha": "ef6bc1acff0f1ee0258e66cc74828ebe14c170e2"
+   },
+   {
+    "describe": "v0.3.3-4-g6199f2a",
+    "path": "skills/xr-dev",
+    "sha": "6199f2af23d01d7ae3ce84ef9f3b3820f57356c0"
+   }
+  ],
+  "telemetry": [],
+  "tracked_files": 2037,
+  "vcs": "git",
+  "version": "1.63.0",
+  "workspaces": false
+ },
+ "ratchet": {
+  "carried": [],
+  "closed": [],
+  "first_run": true,
+  "new": [],
+  "unranked": [
+   "f-5732e4a5bad7",
+   "f-7366369a59c0",
+   "f-a3bef7c670a8",
+   "f-e39432095540",
+   "f-ef4f1db74181"
+  ]
+ },
+ "root": "/Users/sshlg/DATA/_wt/hub-release-1.62.0",
+ "schema": "project-audit/1",
+ "sidecar": "/Users/sshlg/DATA/_wt/hub-r30-acceptance/docs/evidence/completion-1013/observer-pre-release-mechanical/2026-10-13-audit.json"
+}
