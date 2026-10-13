@@ -3302,7 +3302,7 @@
     {
       "name": "telegram-dev",
       "repo": "ssheleg/telegram-dev",
-      "commit": "4ffb10ce1b92a599c2214327ea4d878ab514ed6b",
+      "commit": "8639e59a7b09df4e0a7a6bc101e7605032b153b3",
       "version": "0.2.4",
       "pluginInstall": "telegram-dev@telegram-dev",
       "pluginPath": "plugins/telegram-dev",
@@ -3425,7 +3425,7 @@
     {
       "name": "xr-dev",
       "repo": "ssheleg/xr-dev",
-      "commit": "6199f2af23d01d7ae3ce84ef9f3b3820f57356c0",
+      "commit": "b4181b996ef54d29032735be45d7597e7fb18e64",
       "version": "0.3.4",
       "pluginInstall": "xr-dev@xr-dev",
       "pluginPath": "plugins/xr-dev",
@@ -3639,7 +3639,7 @@
     {
       "name": "web3d-dev",
       "repo": "ssheleg/web3d-dev",
-      "commit": "ef6bc1acff0f1ee0258e66cc74828ebe14c170e2",
+      "commit": "c8478b4e7ea4f1642c463c0f361086aa67b1f803",
       "version": "0.1.4",
       "pluginInstall": "web3d-dev@web3d-dev",
       "pluginPath": "plugins/web3d-dev",

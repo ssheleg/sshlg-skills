@@ -1,4 +1,4 @@
-## Current continuation — 2026-10-13 11:29 UTC
+## Current continuation — 2026-10-13 12:00 UTC
 
 Hub candidate **1.63.0**, branch `waves/2026-10-13-finalization`, composes immutable
 Claude source updates, scoped default-off wait rules, release-iteration routing,
@@ -43,10 +43,11 @@ independent peer, final exact-head npm test and genuine checks. It is pinned;
 all29 primary rows,31 expanded IDs and44 packaged files are preserved.
 The original subset-count error and correction remain in history. No broader
 runtime claim is implied.
-UX PR47 at7267757 remains pinned. Three new owner verification indexes are
-[accepted as bounded source](evidence/completion-1013/fw00-navigation-peer.json):
-Telegram5d5ecbf, XR712a221, Web3Dc804790. All81 published files remain equal;
-required owner integration gates remain queued, and no version/publication changes.
+UX PR47 at7267757 remains pinned. Three new owner verification indexes passed all local and genuine hosted gates,
+then normally merged and were pinned: Telegram8639e59, XRb4181b9, Web3Dc8478b4.
+The [bounded source peer](evidence/completion-1013/fw00-navigation-peer.json) and
+per-owner navigation-integration receipts preserve policy, exact heads and checks.
+All81 published files remain equal; no version/publication changes.
 
 **Next wave:** the [backup recovery packet](evidence/completion-1013/backup-recovery-packet/README.md)
 owns operation-referenced retention and the first wait-rule adapter, developed in
