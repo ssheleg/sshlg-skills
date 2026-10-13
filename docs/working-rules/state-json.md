@@ -128,6 +128,48 @@ runtime copy and this file.
 - `update --dry-run` writes nothing and takes no lock.
 - If the lock file cannot be created at all (read-only home), `update` runs without it and says so.
 
+## The runtime lock and failed refresh
+
+`~/.sshlg-skills/runtime/.sync.lock` protects the runtime file writer used by both
+`update` and `hooks install`. It is separate from `~/.sshlg-skills/update.lock`,
+which covers the wider update command. The runtime lock records its holder PID
+and a unique token. Every existing runtime lock is refused, including a stale or
+unreadable one; the update lock's takeover rules above do not apply to it.
+A runtime refusal fails the command; it is not the update lock's retry-later
+exit status.
+
+A runtime sync failure makes `update` skip hook rewiring and finish unsuccessfully;
+other update steps can still complete. `hooks install` refuses to write hook
+settings after the failure. If a caught error interrupts the file switch, the
+writer attempts immediate rollback and verifies the managed files' previous
+bytes, permissions and presence. Files introduced by that attempt are removed
+only when they still match its recorded content and permissions. Managed files
+changed outside the recorded transaction and malformed recovery records are left
+for inspection; unknown user files are preserved.
+
+The recovery journal is `runtime/.switch-journal.json`; prior managed files are
+kept in `runtime/.prev-generation`. These paths are relative to
+`~/.sshlg-skills/`. A journal that can be safely recovered is handled before a
+new sync, once writer admission is available. A hard stop can retain the runtime
+lock as well as the journal, so restart is not automatic recovery.
+
+For a retained lock, preserve the lock, journal and prior snapshot together.
+Establish the recorded holder's identity and confirm no writer can still run;
+a PID or the lock's age alone is insufficient. Do not remove an alive, unknown,
+changed or malformed lock. There is currently no supported command to retire
+an interrupted runtime writer's lock. The next recovery step requires an
+inspected, exclusive recovery procedure; retrying or borrowing the update
+lock's takeover rules does not provide one.
+
+This contract covers caught filesystem errors and explicit refusal after an
+interrupted process. Running hook readers can still observe the per-file switch;
+it does not promise an atomic whole-runtime view or power-loss durability.
+Source: [`lib/runtime.js`](../../lib/runtime.js), `sync`, `recover`, `withLock`;
+CLI failure propagation: [`bin/sshlg-skills.js`](../../bin/sshlg-skills.js),
+`cmdUpdate` and `cmdHooks`. The actual CLI and recovery controls are in
+[`test/runtime_atomic_test.js`](../../test/runtime_atomic_test.js), with
+[source-bound results](../evidence/completion-1013/runtime-atomic/README.md).
+
 ## Proof
 
 `test/updatelock_test.js`: `decide()` unit cases (same host live refused at any age; foreign

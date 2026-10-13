@@ -43,4 +43,4 @@ test('unknown source revision refuses despite a matching segment hash',h=>{
 test('receipt cannot extend its segment over foreign text even with a recomputed hash',h=>{
  const f=host(h,'codex');P.set(h,'on');apply(h);const rec=W.receipt(h),r=Object.values(rec.data.records)[0];r.segment='FOREIGN\n'+r.segment;r.sourceHash=require('crypto').createHash('sha256').update(r.segment).digest('hex');fs.writeFileSync(rec.file,JSON.stringify(rec.data));P.set(h,'off');const before=fs.readFileSync(f);assert.throws(()=>W.plan(h,opts),/revision|ownership/);assert(fs.readFileSync(f).equals(before));
 });
-console.log(`${failed?'FAIL':'OK'} (${n} checks; ${failed} failed)`);process.exitCode=failed?1:0;
+console.log(failed ? `FAIL: wait_rules — ${n} passed; ${failed} failed` : `PASS: wait_rules — ${n} cases`);process.exitCode=failed?1:0;

@@ -168,4 +168,4 @@ for (const command of [['hooks', 'install'], ['update', '--claude-only']]) for (
   else assert.equal(fs.readFileSync(path.join(rt, 'hooks/notification.js'), 'utf8'), 'old');
 });
 if (failed.length) { console.error(failed.join('\n')); process.exitCode = 1; }
-console.log(`${failed.length ? 'FAIL' : 'PASS'} runtime atomic: ${checks - failed.length}/${checks}`);
+console.log(failed.length ? `FAIL: runtime atomic — ${checks - failed.length}/${checks}` : `PASS: runtime atomic — ${checks} cases`);

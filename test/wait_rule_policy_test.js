@@ -89,4 +89,4 @@ check('canonical CLI records opt-in without applying host text', home => {
 for (const args of [['rules.wait','on'],['set','rules.wait'],['set','rules.wait','yes'],['set','rules.wait','on','extra']]) {
   check('malformed CLI refuses without writes: '+args.join(' '), home => {const r=cli(home,args);assert.equal(r.status,2);assert.deepEqual(fs.readdirSync(home),[]);});
 }
-console.log(`${failed?'FAIL':'OK'} (${checks} checks; ${failed} failed)`);process.exitCode=failed?1:0;
+console.log(failed ? `FAIL: wait_rule_policy — ${checks} passed; ${failed} failed` : `PASS: wait_rule_policy — ${checks} cases`);process.exitCode=failed?1:0;

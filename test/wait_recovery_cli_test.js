@@ -29,4 +29,4 @@ test('changed receipt between preview and owner lock refuses exact request',(h,r
  try{const r=require('../lib/wait-recovery-cli').execute(['finalize','--operation',q.id,'--apply','--json'],{home:h,env});assert.equal(r.code,1);assert.equal(r.value.reasonCode,'finalization_unresolved');}finally{P.locked=lock;}
  assert.ok(fs.readFileSync(file).equals(changed));assert.ok(fs.readFileSync(q.file).equals(host));assert(fs.existsSync(q.data.pending.backup.reference.file));
 });
-console.log(`${passed} passed; ${failed} failed`);if(failed)process.exitCode=1;
+console.log(failed ? `FAIL: wait_recovery_cli — ${passed} passed; ${failed} failed` : `PASS: wait_recovery_cli — ${passed} cases`);process.exitCode=failed?1:0;

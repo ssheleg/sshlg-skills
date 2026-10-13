@@ -1,0 +1,114 @@
+[
+  {
+    "suite": "backup_retention",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 0,
+    "output": "PASS: backup_retention — 5 cases",
+    "exit": 0
+  },
+  {
+    "suite": "backup_retention",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 2,
+    "output": "FAIL: backup_retention — 5 passed; 2 failed",
+    "exit": 1
+  },
+  {
+    "suite": "wait_recovery",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 0,
+    "output": "PASS: wait_recovery — 5 cases",
+    "exit": 0
+  },
+  {
+    "suite": "wait_recovery",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 2,
+    "output": "FAIL: wait_recovery — 5 passed; 2 failed",
+    "exit": 1
+  },
+  {
+    "suite": "wait_recovery_cli",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 0,
+    "output": "PASS: wait_recovery_cli — 5 cases",
+    "exit": 0
+  },
+  {
+    "suite": "wait_recovery_cli",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 2,
+    "output": "FAIL: wait_recovery_cli — 5 passed; 2 failed",
+    "exit": 1
+  },
+  {
+    "suite": "wait_recovery_crash",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 0,
+    "output": "PASS: wait_recovery_crash — 5 cases",
+    "exit": 0
+  },
+  {
+    "suite": "wait_recovery_crash",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 2,
+    "output": "FAIL: wait_recovery_crash — 5 passed; 2 failed",
+    "exit": 1
+  },
+  {
+    "suite": "wait_rules_cli",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 0,
+    "output": "PASS: wait_rules_cli — 5 cases",
+    "exit": 0
+  },
+  {
+    "suite": "wait_rules_cli",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 2,
+    "output": "FAIL: wait_rules_cli — 5 passed; 2 failed",
+    "exit": 1
+  },
+  {
+    "suite": "wait_rules",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 0,
+    "output": "PASS: wait_rules — 5 cases",
+    "exit": 0
+  },
+  {
+    "suite": "wait_rules",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 2,
+    "output": "FAIL: wait_rules — 5 passed; 2 failed",
+    "exit": 1
+  },
+  {
+    "suite": "wait_rule_policy",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 0,
+    "output": "PASS: wait_rule_policy — 5 cases",
+    "exit": 0
+  },
+  {
+    "suite": "wait_rule_policy",
+    "fixtureBodyIdentical": true,
+    "counter": 5,
+    "failures": 2,
+    "output": "FAIL: wait_rule_policy — 5 passed; 2 failed",
+    "exit": 1
+  }
+]

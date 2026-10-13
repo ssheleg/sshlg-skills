@@ -7,6 +7,13 @@
 - Codex native version changes now defer before installation can remove files used
   by open sessions. Pending updates carry a private profile-bound record and a
   bounded observer. A matching catalogue does not claim running threads reloaded.
+- Hook runtime failures now make `update` and `hooks install` exit unsuccessfully
+  instead of reporting a skipped or synchronized runtime. Hook settings are not
+  rewired after that failure. Caught switch errors restore and verify prior managed
+  files when possible; unresolved journals are preserved for inspection. A runtime
+  lock left by a hard stop requires inspection and is never retired automatically.
+  The [runtime recovery contract](docs/working-rules/state-json.md#the-runtime-lock-and-failed-refresh)
+  names the boundary and its executable evidence.
 - `blocks` lists managed instruction markers across supported host files;
   `blocks diff` previews one selected local block. Both preserve the files and
   report malformed or unreadable input without granting write authority.
