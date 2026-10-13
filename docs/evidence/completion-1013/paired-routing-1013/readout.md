@@ -21,5 +21,6 @@ entire program's cost. Earlier pilots and native artifact diagnostics remain sep
 Decision: **NO_ADOPTION**. Three correlated prompts cannot establish unchanged
 family quality or justify deleting neighbour paragraphs. B144's expectation is
 resolved from current source doctrine, with measured UX recall in all6 cells.
-Independent raw-result replay remains separate from this coordinator readout.
+The [independent raw-result replay](peer-results-b.json) verified all21 raw streams,
+prompts, usage, route sets and source bindings; it agrees with this bounded readout.
 `readout.json` binds both receipts and retains every valid cell's protocol identity.
