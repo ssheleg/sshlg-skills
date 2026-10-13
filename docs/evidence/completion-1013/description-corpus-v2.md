@@ -73,7 +73,7 @@ trigger, installed description edit or downstream task-quality test ran.
 
 Independently review the label sets and especially the six ambiguity cases before
 running a comparison. Send the model only the selection contract, one catalogue
-arm and prompt/ID, never `accepted_sets`, rationale or source labels. Keep each
+arm and prompt only, never case IDs, `accepted_sets`, rationale or source labels. Keep each
 case in an isolated context; randomize arm order and catalogue order with a
 recorded seed. Preserve the returned IDs, raw response, model/version, prompt
 hash, latency, usage and transport/parse error separately from FAIL.
@@ -81,7 +81,9 @@ hash, latency, usage and transport/parse error separately from FAIL.
 Report paired full-versus-concise differences by language, kind, skill and intent
 group. Translation pairs and the ten composite tasks are correlated, not 116
 independent trials. The old 13-case batch is prior screening, not an independent
-holdout for the same descriptions. This new corpus is likewise diagnostic;
+holdout for the same descriptions. Its semantic case IDs gave answer hints, so
+its reported 13/13 outcomes are diagnostic only and cannot establish unbiased
+selection quality. The v2 model payload omits those IDs. This new corpus is likewise diagnostic;
 if it informs further tuning, reserve new unseen tasks for the final comparison.
 The current concise arm must not be adopted from a selection score alone:
 separate native discovery/read/load observations and downstream artifact-quality
@@ -144,3 +146,49 @@ Execution requires explicit `--execute --private-dir <new-absolute-outside-git-d
 --output <new-sanitized-receipt.json>`. The reviewer must approve the frozen runner
 before the pilot; then report the 24-call diagnostic and measured usage before
 considering the remaining corpus. A whole 116×2 run is not enabled by this runner.
+
+
+## Executed pilot, 2026-10-13
+
+Frozen runner `e457590b8b9c88ab1273b0e14fa26ad47aff3ff9` passed the
+coordinator's independent read and six fake-process checks before execution.
+[Sanitized receipt](description-pilot-v2-20261013.json) records Claude Code 2.1.296,
+normal claude.ai subscription/firstParty, seed 10132026, model/controlled-probe
+contract, usage, prompt/source hashes and each attempted call.
+
+The pilot **stopped after 21 of 24 planned calls**, preserving the stop-on-first-error
+rule. Ten complete pairs scored PASS in both arms. The 21st call, concise
+`ambiguous-agent-context`, returned a Markdown-fenced JSON array, so the strict
+parser recorded `TEST_ERROR: invalid_selection_schema` and a null score. A local
+diagnostic confirmed its interior was a known-ID array matching a permitted set;
+that does **not** replace the recorded error with PASS. No retry or normalization
+was performed. The full arm for that case and both `neighbor-sync-vs-orchestration`
+arms were NOT_RUN.
+
+| Stratum | Completed pairs | Full PASS | Concise PASS |
+|---|---:|---:|---:|
+| primary | 4 | 4 | 4 |
+| neighbor | 1 | 1 | 1 |
+| composition | 2 | 2 | 2 |
+| ambiguous | 1 | 1 | 1 |
+| negative | 2 | 2 | 2 |
+
+For the **same ten completed pairs**, provider-reported total input (fresh plus
+cache creation/read) was **148,895 full / 61,918 concise**, a **58.41% reduction**.
+Output was **115 full / 137 concise**. Reported list-price metadata was
+**USD 1.193380 full / 0.498004 concise**, a **58.27% reduction**. Including the
+21st error call, the experiment reported **USD 1.742316**; cost/usage are known.
+List prices are not subscription billing. The USD4 admission ceiling was not hit.
+
+Raw records remain outside Git, directory permissions 0700 and every raw file
+0600, verified after the run. The committed receipt includes only sanitized IDs,
+counts, hashes, numeric usage/cost and bounded errors; auth identities stay private.
+This is a small explicit-catalogue diagnostic with one schema error, one seed and
+no repeated trials. It does not demonstrate native discovery/loading, execution
+quality, noninferiority or safe adoption. The original 13-case screen also used
+semantic answer-hint IDs and is not unbiased supporting evidence.
+
+Exact next task: coordinator reviews the schema stop and these measured results
+before deciding whether to revise the output contract/parser under a new reviewed
+attempt, extend coverage, or proceed to separate native discovery/quality probes.
+No further provider call or full 116×2 comparison is authorized by this receipt.
