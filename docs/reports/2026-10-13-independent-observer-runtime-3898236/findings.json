@@ -115,5 +115,18 @@
   ],
   "read_only_scope": "No target writes, broad collector rerun, test suites, providers, releases or host mutations. Own report only.",
   "other_inspected_scope": "R01/R02 reset and session state paths; corrected Codex observer order; no additional proven finding.",
-  "design_check_not_counted_as_finding": "All runtime writers must be admitted: hooks install calls sync outside the update lock, so a correction cannot assume update.lock owns every recovery artifact. Owner notified for bounded design review."
+  "design_check_not_counted_as_finding": "All runtime writers must be admitted: hooks install calls sync outside the update lock, so a correction cannot assume update.lock owns every recovery artifact. Owner notified for bounded design review.",
+  "correction_review": {
+    "source": "bb724e5bef2c8af5a5959c3ba6676e81b3835190",
+    "verdict": "ACCEPT_BOUNDED_SOURCE",
+    "independent_replay": "raw/runtime-bb724e5-independent.json",
+    "checks": 40,
+    "exit": 0,
+    "original_findings": [
+      "IO-07",
+      "IO-08"
+    ],
+    "open_limit": "Retained crash lock has no supported holder-proof retirement procedure; no complete automatic recovery claim.",
+    "program_verdict": "INTERIM_NOT_FINAL"
+  }
 }
