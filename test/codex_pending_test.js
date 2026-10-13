@@ -93,6 +93,18 @@ try {
     assert.throws(() => P.read(f), /UTF-8/); assert.ok(fs.readFileSync(f).equals(bad));
     const link = path.join(root, 'link.json'); fs.symlinkSync(file, link); assert.throws(() => P.read(link), /plain file/);
   });
+  t('copied receipt outside its namespace is refused before adjacent writes', () => {
+    const copied = path.join(root, path.basename(file)); fs.copyFileSync(file, copied);
+    assert.throws(() => P.read(copied), /outside.*namespace/);
+    const r = spawnSync(process.execPath, [path.resolve(__dirname, '../lib/codex-deferred-watch.js'), copied, '--once'], { encoding: 'utf8' });
+    assert.strictEqual(r.status, 1); assert.ok(r.stderr.includes('outside'));
+    assert.ok(!fs.readdirSync(root).some((x) => x.includes('.observation-')));
+  });
+  t('valid-shape tampering refuses the immutable receipt identity', () => {
+    const before = fs.readFileSync(file); const changed = JSON.parse(before); changed.items[0].desired = '999';
+    try { fs.writeFileSync(file, JSON.stringify(changed)); assert.throws(() => P.read(file), /immutable identity/); }
+    finally { fs.writeFileSync(file, before); }
+  });
   t('real watcher process once is bounded, writes its observation and runs only list', () => {
     const shims = path.join(root, 'shims'); fs.mkdirSync(shims); const calls = path.join(root, 'calls');
     fs.writeFileSync(path.join(shims, 'codex'), `#!/bin/sh\nprintf '%s\\n' "$*" >> '${calls}'\nprintf '%s\\n' '{"installed":[{"pluginId":"probe@probe","version":"1"}]}'\n`, { mode: 0o755 });
