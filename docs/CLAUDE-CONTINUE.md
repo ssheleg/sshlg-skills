@@ -34,6 +34,24 @@
   Codex enrollment-запросов. Записано в Observatory `mem:348bac6b964e4ce5`; нужно
   отменить и перевыпустить эти два запроса (Fabric/оператор).
 
+### Текущее состояние (2026-10-14 ~00:50 Europe/Warsaw)
+
+- Прошлое «7 silent properties» — ENOSPC (swap машины 22–24GB съедает диск), не код.
+  Повтор на 6b6d625: 439 guards + 15 properties PASS; упал `test:runner` (3/42) из-за
+  сигнального RuntimeError в тесте после review-исправления — исправлено `b2dcdc1`.
+- **TP PR127 слит** squash'ем (merge commits запрещены ruleset): main `4fa7ec6`, дерево
+  = проверенному `b2dcdc1`; 12/12 hosted jobs зелёные; ветка compose сохранена.
+- **Тегированный gate TP v1.95.0 идёт**: standalone `/Users/sshlg/DATA/_wt/tp-publish-1.95.0`,
+  `release_candidate.py prepare` → PREPARED, `check` запущен 22:10 UTC. Receipts в
+  `.git/sshlg-release-candidates/v1.95.0/`. После CHECK_PASSED: `publish` откажет (нет
+  привязанного run-context; ledger не подделывать) → push тега вручную
+  `git push --no-follow-tags origin <object>:refs/tags/v1.95.0`, наблюдать release.yml,
+  npm readback, записать receipts в TP (новый PR) и hub.
+- **SEO#41 → `a6e471e`, sheleg-dev#29 → `7ced39b`** слиты (CI зелёный, owner gates
+  зелёные: SEO 281s, dev 40s), hub перепинен `71bfea5`, версии не менялись.
+- Диск: освобождены устаревшие temp/кэши (не данные приложений). Перед любым
+  тяжёлым прогоном проверять `df`; helper TP останавливается при <400MB.
+
 ### Остановка по лимиту использования (сессия 5f151e9c) — точный следующий шаг
 
 - **Полный TP gate на `6b6d625`: exit1 за 1682с** — [result](evidence/completion-1013/tp-gate-6b6d625/result.json),
