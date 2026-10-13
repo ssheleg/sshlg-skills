@@ -1,0 +1,22 @@
+{
+  "source": "9e667eeaa93f54201c73aa78b542fc26ee297cc2",
+  "tree": "bd14be9a7cf37230f528317008ad53b9eb0debe8",
+  "command": [
+    "npm",
+    "test"
+  ],
+  "state": "FAILED",
+  "initial_free_bytes": 988188672,
+  "scratch": "/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/hub163-first-owned-6bzm0aww",
+  "scope": "First composed runtime candidate aggregate. TP pin, graph/docs and measured ratchet update may follow; not final source acceptance.",
+  "exit": 1,
+  "reason": null,
+  "seconds": 258.579,
+  "minimum_free_bytes": 884989952,
+  "source_unchanged": true,
+  "tree_unchanged": true,
+  "tracked_clean": true,
+  "log_sha256": "abcb6026c8f93dd431dec6d1d81bbd2da1fcb461bc0d4da4b0289ed9dccf53b3",
+  "counts": null,
+  "scratch_removed": false
+}
