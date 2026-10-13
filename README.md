@@ -970,3 +970,19 @@ Built by ssheleg — [sshlg.me](https://sshlg.me)
 ## License
 
 MIT © 2026 ssheleg.
+
+### Inspect instruction blocks
+
+`npx sshlg-skills blocks --agent codex --json` reads marker metadata from the
+selected global instruction file. Supported hosts are `claude`, `codex`, `gemini`,
+`pi` and `cursor`; without a host it inspects six named files. Existing profile
+overrides are honored. Missing files remain absent. Unreadable, malformed, oversized
+or concurrently changed files make the result partial and exit1. No file, backup,
+policy or journal is written, and a marker never grants write permission.
+
+For an explicit local comparison, run
+`npx sshlg-skills blocks diff SSHLG:ROUTERS --from ./proposed-block.md --agent codex`.
+The source must contain one complete matching outer block. Output contains only
+the selected block's before/after text, so treat that output as local material.
+The command does not apply the diff. Unknown/foreign blocks remain inspectable;
+REPOSITORY-HANDOFF ownership is still a separate operator decision.
