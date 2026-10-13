@@ -17,3 +17,7 @@ Only entries present with completed merge evidence are accepted here. Other owne
 ## Make-skill native evidence owner delivery
 
 The separate docs-only PR 38 merged as `3740043608a2d2969982ed304eebfd5313c06b19` after genuine candidate run 38359650872 passed all jobs and required contexts. [Merge and byte readback](make-native-owner-merge.json) verifies the entire merged tree equals reviewed candidate 4e56448 and all 34 npm payload files equal the recorded source base. This delivers the bounded native-loading observations to the owner without a version, package payload or installed change.
+
+## Super-ux source acceptance
+
+[PR 44 merge and byte readback](ux-merge.json) records normal merge `5482c4762f648ab33f2f9c3a075f2c2866e4bc17` after genuine candidate run 38360566043 passed every job and required context. The merged tree equals reviewed candidate 580e76e; all 34 npm payload files match the pre-change source. Full local implementation gate at 66abd28 passed; successors record evidence and update the measured current validator count after adding links. No package or installed update is claimed.

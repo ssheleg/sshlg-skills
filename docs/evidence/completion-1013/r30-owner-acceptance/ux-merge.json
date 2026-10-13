@@ -1,0 +1,404 @@
+{
+  "status": "MERGED",
+  "repo": "ssheleg/super-ux",
+  "number": "44",
+  "head": "580e76e5449f17f9c96edd1674dfe4d348e2f91a",
+  "base": "f0261f68c1a7222508bd984dc7bac63805dbb76b",
+  "cwd": "/Users/sshlg/DATA/_wt/ux-r30",
+  "merge": {
+    "oid": "5482c4762f648ab33f2f9c3a075f2c2866e4bc17"
+  },
+  "run": {
+    "conclusion": "success",
+    "event": "pull_request",
+    "headSha": "580e76e5449f17f9c96edd1674dfe4d348e2f91a",
+    "jobs": [
+      {
+        "completedAt": "2026-10-13T07:06:15Z",
+        "conclusion": "success",
+        "databaseId": 115173503807,
+        "name": "House skill audit",
+        "startedAt": "2026-10-13T07:06:04Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T07:06:05Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T07:06:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:07Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T07:06:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:08Z",
+            "conclusion": "success",
+            "name": "Checkout the pinned family auditor",
+            "number": 3,
+            "startedAt": "2026-10-13T07:06:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:11Z",
+            "conclusion": "success",
+            "name": "Install a real tokenizer (the budget is MEASURED, never estimated)",
+            "number": 4,
+            "startedAt": "2026-10-13T07:06:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:13Z",
+            "conclusion": "success",
+            "name": "Audit every shipped Agent Skill",
+            "number": 5,
+            "startedAt": "2026-10-13T07:06:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:13Z",
+            "conclusion": "success",
+            "name": "Validate behavioral eval data and watch the guard fail",
+            "number": 6,
+            "startedAt": "2026-10-13T07:06:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:13Z",
+            "conclusion": "success",
+            "name": "Validate the committed social preview",
+            "number": 7,
+            "startedAt": "2026-10-13T07:06:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:13Z",
+            "conclusion": "success",
+            "name": "Post Checkout the pinned family auditor",
+            "number": 13,
+            "startedAt": "2026-10-13T07:06:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:13Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-10-13T07:06:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:13Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-10-13T07:06:13Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/super-ux/actions/runs/38360566043/job/115173503807"
+      },
+      {
+        "completedAt": "2026-10-13T07:06:26Z",
+        "conclusion": "success",
+        "databaseId": 115173504138,
+        "name": "validate",
+        "startedAt": "2026-10-13T07:06:05Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T07:06:06Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T07:06:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:07Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T07:06:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:07Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-10-13T07:06:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:11Z",
+            "conclusion": "success",
+            "name": "PyYAML for the front-matter guard",
+            "number": 4,
+            "startedAt": "2026-10-13T07:06:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:12Z",
+            "conclusion": "success",
+            "name": "Validate repo consistency",
+            "number": 5,
+            "startedAt": "2026-10-13T07:06:11Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:12Z",
+            "conclusion": "success",
+            "name": "Brand linter unit tests (fixture per check code)",
+            "number": 6,
+            "startedAt": "2026-10-13T07:06:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:13Z",
+            "conclusion": "success",
+            "name": "Display-copy semantic coverage regressions",
+            "number": 7,
+            "startedAt": "2026-10-13T07:06:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:13Z",
+            "conclusion": "success",
+            "name": "UX linter fixtures",
+            "number": 8,
+            "startedAt": "2026-10-13T07:06:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:20Z",
+            "conclusion": "success",
+            "name": "Audit regressions (sherlock plan, one file per closed finding)",
+            "number": 9,
+            "startedAt": "2026-10-13T07:06:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:20Z",
+            "conclusion": "success",
+            "name": "Dogfood the UX chain",
+            "number": 10,
+            "startedAt": "2026-10-13T07:06:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:20Z",
+            "conclusion": "success",
+            "name": "Dogfood the brand pack",
+            "number": 11,
+            "startedAt": "2026-10-13T07:06:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:20Z",
+            "conclusion": "success",
+            "name": "Installer functional tests (fake HOMEs, plugin-present refusal)",
+            "number": 12,
+            "startedAt": "2026-10-13T07:06:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:24Z",
+            "conclusion": "success",
+            "name": "Official Claude Code conformance (plugin + marketplace, strict)",
+            "number": 13,
+            "startedAt": "2026-10-13T07:06:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:24Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 25,
+            "startedAt": "2026-10-13T07:06:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:24Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 26,
+            "startedAt": "2026-10-13T07:06:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T07:06:24Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 27,
+            "startedAt": "2026-10-13T07:06:24Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/super-ux/actions/runs/38360566043/job/115173504138"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/ssheleg/super-ux/actions/runs/38360566043"
+  },
+  "required": [
+    {
+      "link": "https://github.com/ssheleg/super-ux/actions/runs/38360566043/job/115173504138",
+      "name": "validate",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/ssheleg/super-ux/actions/runs/38360566043/job/115173503807",
+      "name": "House skill audit",
+      "state": "SUCCESS"
+    }
+  ],
+  "payload_file_count": 34,
+  "payload_files": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "b768366ba9fbf0a16127a69fa08e08581c27a3310675cceae0c725d3480afcda"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d"
+    },
+    {
+      "path": "README.md",
+      "sha256": "7e66316ebfb3219f437bd0b6ecd06c2f12ebccac2a96b25eb20f29489a9cc622"
+    },
+    {
+      "path": "bin/super-ux.js",
+      "sha256": "61aff961bb1c081f24239f095d6c16f86f87ba99dba19d6a9a68edead284ebbe"
+    },
+    {
+      "path": "cursor/rules/brand-voice.mdc",
+      "sha256": "5a88b9fac54777939001f969d1eb4e8105ed74720d35f0749074398f123af7bd"
+    },
+    {
+      "path": "cursor/rules/copywriting.mdc",
+      "sha256": "ecfeeeb45a0d3dd25b5a27db1d65c9ba9cc1b4fcc7f78f9fdd00fc4485f071e7"
+    },
+    {
+      "path": "cursor/rules/super-ux.mdc",
+      "sha256": "0e89477322f073ed9d390eade229a11e33f651323d680f801900c1a06af5518c"
+    },
+    {
+      "path": "cursor/rules/ux-audit.mdc",
+      "sha256": "f077782089b200a18a3b327ab644edc5b3f5a8c3912cc1362acf7f3d54de56fb"
+    },
+    {
+      "path": "cursor/rules/ux-flows.mdc",
+      "sha256": "d79a99d27c055c9b89ddab1800387ba3f7eabff667084668567ba79c32a67dfb"
+    },
+    {
+      "path": "cursor/rules/ux-foundation.mdc",
+      "sha256": "449855bc3996301822562127abd3dbdc2c05804a46ee58332e9f25477c604f75"
+    },
+    {
+      "path": "cursor/rules/ux-scenarios.mdc",
+      "sha256": "54a6146605d57d7359e3258267819ccfe2a6970fe938112b99d000bf2a5a7c9c"
+    },
+    {
+      "path": "cursor/rules/vision.mdc",
+      "sha256": "135249f03e42d3ff61fccedd3b82f191f77ed4cbfc098efe3d9abb459a38ac39"
+    },
+    {
+      "path": "package.json",
+      "sha256": "2ca885f411cdce6caa4cb396c235aedcdd161b1a35b017c5b4339d52482b9777"
+    },
+    {
+      "path": "plugins/super-ux/scripts/brand_lint.py",
+      "sha256": "921f50f242290d3134dbab9bdc6770cb4a8efec8a8e3faa355305f90382437a8"
+    },
+    {
+      "path": "plugins/super-ux/scripts/ux_doctor.py",
+      "sha256": "5d1d0ec5a3ca71d9420605d84dce506839da1621ffb5fe31c6566a7f920d00de"
+    },
+    {
+      "path": "plugins/super-ux/scripts/ux_lint.py",
+      "sha256": "9811e086cb1fbd97e8e1187c0e2cfffa07fb356400b641a81060579a2d4490ea"
+    },
+    {
+      "path": "plugins/super-ux/templates/README.md",
+      "sha256": "3723a9f4bc67b0248966c4532c7e90bb66e2c52fbb4744f9e41f4291a612544b"
+    },
+    {
+      "path": "templates/README.md",
+      "sha256": "3723a9f4bc67b0248966c4532c7e90bb66e2c52fbb4744f9e41f4291a612544b"
+    },
+    {
+      "path": "templates/audit-report.md",
+      "sha256": "85c09349cd4f2bc0a5559a9cd27ff01508378c5aa259a4243b7e3921d5bfc705"
+    },
+    {
+      "path": "templates/brand/README.md",
+      "sha256": "d7b23f3bcec38df7d29c1818b8b185ce665efb1b831d3dfc97dd3135afde4e56"
+    },
+    {
+      "path": "templates/brand/channels.md",
+      "sha256": "ef19e792989cfdaf3ab83fd1008e9d6348d4bc0b6921768d5136e91eb81e2308"
+    },
+    {
+      "path": "templates/brand/copy-brief.md",
+      "sha256": "82f760a77ec2f458d3bcc3d45f712d9b140477985b96aa7c10af79be1cf6fda1"
+    },
+    {
+      "path": "templates/brand/facts.md",
+      "sha256": "71220edd6537cc8af1a67dead931059a4f861570b1e4325f8fd84e402b6b1f36"
+    },
+    {
+      "path": "templates/brand/locale.md",
+      "sha256": "3f941bdf1ba872883d0040c02d5c1a87606f306c3d91fda63b9189f177a3154b"
+    },
+    {
+      "path": "templates/brand/strings.md",
+      "sha256": "13f3d6f2da96516f3742643170a4b09f511325a8f08323c2a86d4d1275d260ed"
+    },
+    {
+      "path": "templates/brand/terminology.md",
+      "sha256": "a05df1ef326d22072a4db4b00297010930ced238aa0ce91f18cb2a5a3319ec23"
+    },
+    {
+      "path": "templates/brand/voice.md",
+      "sha256": "4ae150fca4476bdecdeddb772686fe0fdc18114acf2ba8c8bb04f9af2ac08611"
+    },
+    {
+      "path": "templates/claude-rule.md",
+      "sha256": "e7835bdaa86b8b4e8887ad1393592fb38486a5f11390d437954103c18b8751d0"
+    },
+    {
+      "path": "templates/flows.md",
+      "sha256": "898573236bd5e834fffcffec12d671e52dcd21577eed494d0b44272309e43f6a"
+    },
+    {
+      "path": "templates/foundation.md",
+      "sha256": "2b708ec9f9fe25a84ceb8ab8ef6a6523d7fe5a06cf63d2c910125005be8285cc"
+    },
+    {
+      "path": "templates/scenarios.md",
+      "sha256": "2f214ed2f182ce8fd54820ac97235630c68aafa3070d88663384226fc3b3a224"
+    },
+    {
+      "path": "templates/screens.md",
+      "sha256": "241a598e0a8bde653469e4dff8bc3264ca9d94c6da1b31949c531e7263ed73dd"
+    },
+    {
+      "path": "templates/vision-rule.md",
+      "sha256": "b76ad91a18828b2bb084ae90a164f8fdca9695df807f2d33a695adf6483c8a55"
+    },
+    {
+      "path": "templates/vision.md",
+      "sha256": "17f23aa63b1d9a4b872369500e9e132d4b1529817aa6f11aadeab88b854226a7"
+    }
+  ],
+  "payload_byte_parity": true,
+  "whole_tree_equal_to_reviewed_candidate": true,
+  "scope": "Source release guard acceptance only; no publication, installed update, or universal R30 closure"
+}
