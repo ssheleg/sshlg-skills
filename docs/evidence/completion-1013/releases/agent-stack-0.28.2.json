@@ -1,0 +1,371 @@
+{
+  "status": "PUBLISHED_PAYLOAD_VERIFIED",
+  "source": "2b3d769775e368d0a1e6d0f20ea095ae24fbbd54",
+  "tag": "v0.28.2",
+  "tags": {
+    "refs/tags/v0.28.0": "c900c0807a8902b44f5ee8967c2a93a8d4a56961",
+    "refs/tags/v0.28.0^{}": "cb8f6993a61473f3974bc3af67925439ed4abb75",
+    "refs/tags/v0.28.1": "004e0cbae65704c84e5b1cea5eac66bcb331c63a",
+    "refs/tags/v0.28.1^{}": "cd6421b8ca7d9440bc87e366ebd8a96bb38b69b8",
+    "refs/tags/v0.28.2": "9e5e0ec80ab5940b703a53f9d86069d504bf8376",
+    "refs/tags/v0.28.2^{}": "2b3d769775e368d0a1e6d0f20ea095ae24fbbd54"
+  },
+  "run": {
+    "headSha": "2b3d769775e368d0a1e6d0f20ea095ae24fbbd54",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/ssheleg/agent-stack/actions/runs/38374231314"
+  },
+  "jobs": [
+    {
+      "name": "validate / validate",
+      "conclusion": "success",
+      "url": "https://github.com/ssheleg/agent-stack/actions/runs/38374231314/job/115218463166"
+    },
+    {
+      "name": "validate / House skill audit",
+      "conclusion": "success",
+      "url": "https://github.com/ssheleg/agent-stack/actions/runs/38374231314/job/115218463583"
+    },
+    {
+      "name": "release",
+      "conclusion": "success",
+      "url": "https://github.com/ssheleg/agent-stack/actions/runs/38374231314/job/115218706425"
+    },
+    {
+      "name": "publish",
+      "conclusion": "success",
+      "url": "https://github.com/ssheleg/agent-stack/actions/runs/38374231314/job/115218821348"
+    }
+  ],
+  "dist": {
+    "shasum": "5842a8da28b7d95725d10e20acf89e83c55e5d34",
+    "tarball": "https://registry.npmjs.org/@ssheleg/agent-stack/-/agent-stack-0.28.2.tgz",
+    "fileCount": 44,
+    "integrity": "sha512-1rpdHj0+IPPYhzzK7yy4bfe4VFR+Ja0gJOEVKAChPLrtKBTMNZiy2n3Aoz58XSYr43sB1qQOYOka7PjSAZownQ==",
+    "signatures": [
+      {
+        "sig": "MEUCIQC5xdPXdou5o0ULrqJghFtyzXXJvmzEnzRo5wsr/gYswAIgBS3dvNo+papGCVp8z0O+Ga/96SSgfATe/JjpDXsbDhg=",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      },
+      {
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+        "sig": "MEUCIQC7fzaXR4eDFsvcxW5HEtlHEq3OgCbEh0DLSAP5T6gFQgIgcfWJEEl8xkrgSbmqIJDEyakbQNoMAGRRb25QchUS9zk="
+      }
+    ],
+    "attestations": {
+      "url": "https://registry.npmjs.org/-/npm/v1/attestations/@ssheleg%2fagent-stack@0.28.2",
+      "provenance": {
+        "predicateType": "https://slsa.dev/provenance/v1"
+      }
+    },
+    "unpackedSize": 609718
+  },
+  "integrityVerified": true,
+  "payloadCount": 44,
+  "payload": [
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 111515,
+      "sha256": "0fce6df83bb875438bbcd2dd1609665ae19348284405c1b2c7b075514a375e7e"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1064,
+      "sha256": "826df230e15df9b208c1e08c42ef3b764b21c4abec5a91a38976748e92a82e9d"
+    },
+    {
+      "path": "README.md",
+      "bytes": 14601,
+      "sha256": "49953599fcd54dfcba0f1254636ddd46fca0e0ac6c141091bf72552c53131f3e"
+    },
+    {
+      "path": "SECURITY.md",
+      "bytes": 3071,
+      "sha256": "87715bb85d820beb6179cf5294fc7ed461cb234657df810031c0eb527fb00b62"
+    },
+    {
+      "path": "bin/agent-stack.js",
+      "bytes": 7391,
+      "sha256": "5706481b1f1266174eeefebc1f2fc5ff6f30f77b395289490b182e95d5c97b00"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1323,
+      "sha256": "42cbab0ed2a00d1bc950ada5688221b8d291bf82f1a681df6e3994935066ceed"
+    },
+    {
+      "path": "plugins/agent-stack/.claude-plugin/plugin.json",
+      "bytes": 1081,
+      "sha256": "678aa34cceef4ff51bedad7f718baa901af911fdf33afd9bf22b091ac1461a3f"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-evals/SKILL.md",
+      "bytes": 20773,
+      "sha256": "8f533ce3e320e0416163a39a98207cd347a0d22332c4072afa1d628f77204b8b"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-evals/references/multi-agent.md",
+      "bytes": 5473,
+      "sha256": "e0c3175aa8858de1ba8117c613d2e201e32ff581453078c927a3ebddcff6c0bb"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-evals/references/otel-genai.md",
+      "bytes": 13131,
+      "sha256": "d2cadad0a6a0632d234a51621b136f3001f5a7422e256f84d261d7c0ff1660d5"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-evals/references/statistics.md",
+      "bytes": 13853,
+      "sha256": "77cd03cc4f258a097888f81b817e8c9487b4d777d9ac092f76fe48de8de692ca"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/SKILL.md",
+      "bytes": 14571,
+      "sha256": "003866190df99a02ea862860050c03c2ce8971479ced5ba75bfe42057a0ba4e0"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/audit.md",
+      "bytes": 11484,
+      "sha256": "b91b966250438edd91b87c392113404d830b06301518d9120246321c88d9a1aa"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/context-lifecycle.md",
+      "bytes": 9055,
+      "sha256": "f682b0d4894f7f58baf4f39e622ed1bf8bc773d3c76c552a09aecab4c1e23fef"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/instruction-budget.md",
+      "bytes": 7026,
+      "sha256": "3962dbe1643ca1f867575786597cfeea93a28b1d0cc940811020e2d4b49fc6a6"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/layers.md",
+      "bytes": 6161,
+      "sha256": "e2f4fd73424b0896c493616dbb98e7bd973eaad3b8365b3c1b31964fbac46d89"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/pi-sdk.md",
+      "bytes": 14100,
+      "sha256": "b7eb9375934887ed5f85e597e80c5f3d83c02c37cd585aff13960104a31ddcd5"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/pi.md",
+      "bytes": 12889,
+      "sha256": "684616062c9d109ff13eed83a5b9a10544040f1ee22790ee70e8d8156b286c08"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/system-prompt.md",
+      "bytes": 7712,
+      "sha256": "f8577ebfeb8ae7448b36b5cd7fcca1ef4ab7065d1aef9baf6f7946eb5ea2905a"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/techniques.md",
+      "bytes": 7968,
+      "sha256": "4198c8d2d8a0d6da2f8ba7f2370310578167819abbb9bd351a722491ee8f31e8"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/tools.md",
+      "bytes": 10351,
+      "sha256": "572822bc05a710019fc5454f2ddb3750537dbf3667fc73fad0c8bcdcd0f1346a"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/references/workbench-contracts.md",
+      "bytes": 10349,
+      "sha256": "a17af9cc84dcc8661085ebb606b09ac08ebe39f6c1fc436ab547ac21747bca80"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/scripts/audit_agent.py",
+      "bytes": 19276,
+      "sha256": "f0193565dd3851d3ea779a05f018099b9f2bca3eccacc370b9a43048baba656a"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-harness/scripts/instruction_budget.py",
+      "bytes": 5863,
+      "sha256": "0f88ff1764cc5a87a2b523126c871e71af750bc29128e05b97f9e6955db999ab"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/SKILL.md",
+      "bytes": 15786,
+      "sha256": "3e70a38f204edc6822814335dc6dfc4e8c3b825117137239da46b96fdd60bfec"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/references/a2a.md",
+      "bytes": 11113,
+      "sha256": "e39c4c6d1f19b39e09720c40a09a50e8f2a59824aeb83c5336443f8b709a6c34"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/references/gateway.md",
+      "bytes": 22093,
+      "sha256": "e74e8585eb6a1fba08af5b419a67c41f38689a29886a89dc149ef3465b9319a0"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/references/mcp-scale.md",
+      "bytes": 8841,
+      "sha256": "c69b0bfd73e189776fcc6ecdd7d3e88964073ab19a66ffcf79aab579b341a892"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/references/mcp-ship.md",
+      "bytes": 7099,
+      "sha256": "2918ca0beed94ca7f7e34bb30e2609495c421121d3a94a0e43e743fc76b644a2"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/references/mcp.md",
+      "bytes": 14716,
+      "sha256": "9b427194659408ae7f521ea689b8b23cbfd216f918f313cc961dce360b7e80b4"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-interop/references/registry.md",
+      "bytes": 8377,
+      "sha256": "648e7649369b9aa5dac5f424c9a4373292e5d73c90d9466b58171934e5c7b51f"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/SKILL.md",
+      "bytes": 20286,
+      "sha256": "8a80583133707ea69c9e7c0963a68f74b138b74e5148e31ceeea12097af32aba"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/context-engineering.md",
+      "bytes": 11541,
+      "sha256": "57811d800b75f25a5a242505e8e6be2b33775fb156893ebec51af5ea18fcfc1e"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/governance.md",
+      "bytes": 9487,
+      "sha256": "bb2e3389779a56d4ace610bb14b5df05ace7fa6efc1e5810b0ae929f7050e435"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/graph-engineering.md",
+      "bytes": 28552,
+      "sha256": "c594d1b0a4813f0d47e60a26e2b7905a964c3017556a400fcbd534f390811e70"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/kv-cache.md",
+      "bytes": 9911,
+      "sha256": "b8ae7c5ba9531ebb02ded2e403a8fcb4ae2b944940076a4f15f966d05f6caeae"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/llm-proxy-billing.md",
+      "bytes": 19674,
+      "sha256": "84c2144d6a5a917c042c5e31ecfacfe6238c60870da567abc00bd770e3bccccd"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/memory-architecture.md",
+      "bytes": 20225,
+      "sha256": "860466e4e54d0116063146401c3df54a25bbf07cdfba18b63d0fb0e06a285f1a"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/memory-landscape.md",
+      "bytes": 8296,
+      "sha256": "b297b121ebb07c50579f929f0e5361598625b024dbf49653b82e12b1dc0b4f4d"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/memory-lifecycle.md",
+      "bytes": 11365,
+      "sha256": "6c7252553bc6308e6f5ec88bb802a62e4bacd98f7946ec5b2e82fef8c1aa0073"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/patterns.md",
+      "bytes": 25555,
+      "sha256": "a239bc4549339b049b54b154f88536bed68256ffffdcdc4a0f41cf7185eeb360"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/pipeline.md",
+      "bytes": 4549,
+      "sha256": "89f160068715136c6f7793b305f78371831ebef9527cdb481e15b5af9a1af40b"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/provider-lifecycle.md",
+      "bytes": 8966,
+      "sha256": "d9b4462baf1c805daf05612d7ee8556ac5e666f72de62609666f1ee469294de3"
+    },
+    {
+      "path": "plugins/agent-stack/skills/agent-orchestrator/references/runtime.md",
+      "bytes": 13205,
+      "sha256": "4c49fe64e16256fd78529e4a557782c5ccd9be8af8a5703bb92a773bdea12d70"
+    }
+  ],
+  "candidateFull": {
+    "status": "PASS",
+    "head": "5e762cfdb9c0d780f9abb2114807d33a1e0fdc0f",
+    "exit": 0,
+    "stopped": false,
+    "sourceChanged": false,
+    "seconds": 20.04,
+    "log": "/tmp/as0282-candidate-full.log",
+    "logSha256": "73f9be3b7a5d03bd04d8fd81d0e29a9f50c699c975a8dcd6bba7512ba41fb325"
+  },
+  "mainFull": {
+    "source": "2b3d769775e368d0a1e6d0f20ea095ae24fbbd54",
+    "exit": 0,
+    "seconds": 29.78,
+    "logSha256": "4023d85fad0748c201a69f42daf9eacb74e24e92257be3080f5db00f68d2351c",
+    "cleanAfter": true
+  },
+  "installedApply": "NOT_RUN by this task; parent owns pin/install",
+  "publicationDocsSuccessor": {
+    "status": "MERGED",
+    "head": "e4a857da57790b1913f63a7a475096c1974e2d33",
+    "base": "2b3d769775e368d0a1e6d0f20ea095ae24fbbd54",
+    "merge": "6b71918a4d9b23a1f10af54b7d574a48e401ef26",
+    "tree": "02f30606af236743399e5dce9209e77e3b378a27",
+    "treeEqual": true,
+    "url": "https://github.com/ssheleg/agent-stack/pull/52",
+    "run": {
+      "headSha": "e4a857da57790b1913f63a7a475096c1974e2d33",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/ssheleg/agent-stack/actions/runs/38377002906"
+    },
+    "jobs": [
+      {
+        "name": "House skill audit",
+        "conclusion": "success",
+        "url": "https://github.com/ssheleg/agent-stack/actions/runs/38377002906/job/115227787189"
+      },
+      {
+        "name": "validate",
+        "conclusion": "success",
+        "url": "https://github.com/ssheleg/agent-stack/actions/runs/38377002906/job/115227787404"
+      }
+    ],
+    "required": [
+      {
+        "link": "https://github.com/ssheleg/agent-stack/actions/runs/38377002906/job/115227787189",
+        "name": "House skill audit",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/ssheleg/agent-stack/actions/runs/38377002906/job/115227787404",
+        "name": "validate",
+        "state": "SUCCESS"
+      }
+    ],
+    "localBroad": "NOT_REPEATED_DOCS_ONLY",
+    "newTag": "NOT_NEEDED_PAYLOAD_UNCHANGED",
+    "payloadCount": 44,
+    "allPublishedPayloadBytesEqual": true,
+    "publishedSource": "2b3d769775e368d0a1e6d0f20ea095ae24fbbd54",
+    "publishedVersion": "0.28.2"
+  },
+  "candidateLocalFull": {
+    "status": "PASS",
+    "head": "5e762cfdb9c0d780f9abb2114807d33a1e0fdc0f",
+    "exit": 0,
+    "stopped": false,
+    "sourceChanged": false,
+    "seconds": 20.04,
+    "log": "/tmp/as0282-candidate-full.log",
+    "logSha256": "73f9be3b7a5d03bd04d8fd81d0e29a9f50c699c975a8dcd6bba7512ba41fb325"
+  },
+  "acceptedMainLocalFull": {
+    "source": "2b3d769775e368d0a1e6d0f20ea095ae24fbbd54",
+    "exit": 0,
+    "seconds": 29.78,
+    "logSha256": "4023d85fad0748c201a69f42daf9eacb74e24e92257be3080f5db00f68d2351c",
+    "cleanAfter": true
+  },
+  "ownerReceipt": "https://github.com/ssheleg/agent-stack/blob/6b71918a4d9b23a1f10af54b7d574a48e401ef26/docs/evidence/runs/2026-10-13-release-0.28.2-published.json"
+}
