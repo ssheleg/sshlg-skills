@@ -92,10 +92,11 @@ Skills used: agent-evals (corpus/rubric separation), agent-harness (selection sc
 make-skill (skill contract boundaries), task-pipeline (delivery), agent-sync (task
 lease), evidence-docs (commit-addressed source map).
 
-## Coordinator source and label review
+## Independent label review
 
-Root read all116 prompts and accepted sets, the scorer and its mutation controls;
-replayed committed source hashes/anchors for39 skills, exit0. One pre-execution
-clarification remains: `ambiguous-ux-redesign` should name navigation/screen behavior
-or explicitly account for the foundation skill's journey ownership. Author owns
-that correction before provider execution. No selection result is implied.
+Root read all116 prompts and accepted sets, the scorer and mutation controls;
+replayed committed source hashes/anchors for39 skills, exit0. One ambiguity was
+narrowed: `ambiguous-ux-redesign` explicitly fixes personas/stories and asks about
+navigation/screen states. Foundation rewriting is outside that prompt; flow/audit
+alternatives remain. The corrected prompt was inspected before provider execution.
+No comparison or native-quality result is implied.

@@ -2095,7 +2095,7 @@
       "group": "ambiguous-ux-redesign",
       "language": "en",
       "kind": "ambiguous",
-      "prompt": "Review the existing signup journey and propose improvements, using the scenario base where useful.",
+      "prompt": "Personas and user stories are approved and unchanged. Review the existing signup navigation and screen states, proposing improvements from the scenario base where useful.",
       "accepted_sets": [
         [
           "ux-flows"
@@ -2112,7 +2112,7 @@
         "ux-flows",
         "ux-audit"
       ],
-      "rationale": "Heuristic flow improvement and scenario audit are both defensible leading modes."
+      "rationale": "Navigation/screen improvement and scenario audit are both defensible leading modes; personas and stories are explicitly settled, excluding a foundation revision."
     },
     {
       "id": "ambiguous-skill-agent-eval",
