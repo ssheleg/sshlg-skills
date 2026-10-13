@@ -21,6 +21,15 @@ mode0700 owned directory; it made exactly one explicit call with the same prompt
 It did not reproduce the earlier error, so no root cause is inferred. The first
 concise-arm call then succeeded. Neither old receipt was overwritten.
 
+## Later independent limitation: answer-bearing case IDs
+
+The original prompt included semantic case IDs such as `auth`, `signin`,
+`construction` and `evals`. Those labels can hint at the expected specialist,
+so the13/13 result is diagnostic and is not clean evidence of unaided selection
+quality. Receipts remain intact. The [v2 paired pilot](description-corpus-v2.md#executed-pilot-2026-10-13)
+removed all case IDs, labels and source paths from model payloads; its own strict
+schema stop is retained rather than repaired into a pass.
+
 ## Cost boundary
 
 The full call reports 2 input +16724 cache-creation input tokens and 267 output tokens,
@@ -32,8 +41,8 @@ artifact quality, repeated-run variance and end-to-end task cost were not tested
 
 ## Next acceptance work
 
-The screen is useful positive evidence that this particular concise candidate did
-not lose the 13 expected routes. It does not cover every one of the 39 skills or
+This answer-hinted screen records that both catalogues produced the expected
+13 outputs; it cannot isolate the descriptions as the cause. It does not cover every one of the 39 skills or
 adversarial neighboring intents, and it is not sufficient to shorten all installed
 skill descriptions. Expand the bilingual corpus, independently review the intended
 routes and negative cases, then evaluate actual cold native sessions and resulting
