@@ -57,13 +57,13 @@
       "pluginMarketplace": "ssheleg/super-ux",
       "pluginInstall": "super-ux@super-ux",
       "desc": "Scenario-driven UI development: a versioned design chain in docs/ux/ — the product vision, personas and jobs, user flows and the paid-acquisition funnel among them, a screens-and-states map with Figma frames, traced scenarios, evidence-backed audits, fix plans — plus docs/brand/, the verbal identity: one voice, per-surface registers, a string registry and a 41-check copy linter. /ux and /brand entry points, two doc-drift linters and a contract doctor.",
-      "version": "0.59.2",
+      "version": "0.59.3",
       "entry": "/ux",
       "role": "what the interface must do",
       "npm": "super-ux",
       "shape": "static",
       "shapeWhy": "The chain is fixed — foundation, flows, screens, scenarios — and every layer is a committed file. `/ux-audit` batches on the fly, and the batch list is printed before the run so what executed is recoverable.",
-      "commit": "c0996bc30392c81d3a341252e50069a3b2d83b34"
+      "commit": "f0261f68c1a7222508bd984dc7bac63805dbb76b"
     },
     {
       "name": "task-pipeline",
@@ -114,13 +114,13 @@
         "make-skill",
         "skill-search"
       ],
-      "version": "0.31.1",
+      "version": "0.31.2",
       "entry": "/skill-audit",
       "role": "how the skill or plugin itself is built",
       "npm": "@ssheleg/make-skill",
       "shape": "static",
       "shapeWhy": "The standard is a checklist and the audit walks it in order; a skill that passes is auditable against the same list next time.",
-      "commit": "b4418bc48e4654bf983db69705e6789d314ec431"
+      "commit": "78d67651611f50e2af531ab04916e680c2a2680d"
     },
     {
       "name": "sheleg-design",
@@ -132,7 +132,7 @@
       "skillNames": [
         "sheleg-design"
       ],
-      "version": "1.64.1",
+      "version": "1.64.2",
       "entry": "/sheleg-design",
       "role": "how it looks and moves",
       "npm": "sheleg-design-skill",
@@ -149,7 +149,7 @@
           "note": "the catalogue, rendered from each pack's own token layer — a data surface too large for this page, kept where it is built"
         }
       ],
-      "commit": "f5244f6422c8ed18f72f61eb7afaef44a42276c0"
+      "commit": "9caedc1c46d78d2a37f60f92c697beb8bb3dfcf9"
     },
     {
       "name": "seo-aeo-audit",
@@ -185,13 +185,13 @@
         "google-auth",
         "frontend-performance"
       ],
-      "version": "0.13.3",
+      "version": "0.13.4",
       "entry": null,
       "role": "integrations: money in, tracking, errors, sign-in, speed",
       "npm": "@ssheleg/sheleg-dev",
       "shape": "static",
       "shapeWhy": "Each integration is a fixed sequence of seams; nothing decides its own next step.",
-      "commit": "59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79"
+      "commit": "8862fae9a826263f8109626ca257f81c7c43ac86"
     },
     {
       "name": "agent-stack",
@@ -226,13 +226,13 @@
         "telegram-userbots",
         "telegram-miniapps"
       ],
-      "version": "0.2.3",
+      "version": "0.2.4",
       "entry": null,
       "role": "which Telegram API each surface speaks, and what each one costs",
       "npm": "@ssheleg/telegram-dev",
       "shape": "static",
       "shapeWhy": "Three fixed surfaces with fixed seams; the only branch is which of the three a task is on, and the first table in each SKILL.md decides that before any code.",
-      "commit": "3f9d1d1538090b7ac443b1c38faba946c3f4f7b9"
+      "commit": "35bb98527884df798c4120957452ba37bae01e90"
     },
     {
       "name": "xr-dev",
@@ -250,7 +250,7 @@
         "quest-store",
         "quest-webxr"
       ],
-      "version": "0.3.3",
+      "version": "0.3.4",
       "entry": null,
       "role": "how a Quest product moves from platform choice to launch and operation",
       "npm": "@ssheleg/xr-dev",
@@ -263,7 +263,7 @@
           "note": "Stage map, engine paths and immersive design acceptance, with separate evidence for build, device, Store and operation."
         }
       ],
-      "commit": "ff0d06b3da0dc0149b930e84710ba538d175b62f"
+      "commit": "4bd9e978ca6f73b73e91f26cd58b67323383c5f4"
     },
     {
       "name": "web3d-dev",
@@ -277,13 +277,13 @@
         "web3d-assets",
         "web3d-animation"
       ],
-      "version": "0.1.3",
+      "version": "0.1.4",
       "entry": null,
       "role": "how realtime 3D on the web runs, ships its assets and moves",
       "npm": "@ssheleg/web3d-dev",
       "shape": "static",
       "shapeWhy": "Three fixed questions with fixed seams — runtime, assets, motion — and one shared contract, the clip canon, duplicated into both skills that need it and checked identical.",
-      "commit": "5f7c3273163cff05e73707159805fb3e6592def1"
+      "commit": "b364213ad3705449b3ffcb6c8f65c090310ceca2"
     }
   ],
   "agents": [
