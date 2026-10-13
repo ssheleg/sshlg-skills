@@ -1,0 +1,116 @@
+{
+  "as_of": "2026-10-13T13:09:00Z",
+  "scope": "Fetched ordinary origin refs/tags for ten member checkouts without force. TP standalone exact-tag run and shared TP annotation untouched. No source changes or checkout reset.",
+  "results": [
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "make-skill",
+        "chunk_id": "cbf002",
+        "wall_time_seconds": 1.023663583,
+        "exit_code": 0,
+        "original_token_count": 129,
+        "output": "From https://github.com/ssheleg/make-skill\n * [new branch]      docs/native-search-evidence-1013 -> origin/docs/native-search-evidence-1013\n * [new branch]      fix/fw01-scan-completeness -> origin/fix/fw01-scan-completeness\n * [new branch]      fix/r30-owner-board-1013 -> origin/fix/r30-owner-board-1013\n * [new branch]      fix/r30-shared-headers-1013 -> origin/fix/r30-shared-headers-1013\n * [new branch]      release/fw01-0.31.2 -> origin/release/fw01-0.31.2\n * [new tag]         v0.31.2             -> v0.31.2\n"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "super-ux",
+        "chunk_id": "40450a",
+        "wall_time_seconds": 1.042799416,
+        "exit_code": 0,
+        "original_token_count": 108,
+        "output": "From https://github.com/ssheleg/super-ux\n * [new branch]      fix/fw05-journey-copy-contracts -> origin/fix/fw05-journey-copy-contracts\n * [new branch]      fix/r30-release-guard-1013 -> origin/fix/r30-release-guard-1013\n * [new branch]      fix/r30-shared-headers-1013 -> origin/fix/r30-shared-headers-1013\n * [new branch]      release/fw05-0.59.3 -> origin/release/fw05-0.59.3\n * [new tag]         v0.59.3             -> v0.59.3\n"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "agent-sync",
+        "chunk_id": "34887b",
+        "wall_time_seconds": 1.3983179159999999,
+        "exit_code": 0,
+        "original_token_count": 108,
+        "output": "From https://github.com/ssheleg/agent-sync\n * [new branch]      fix/lease-activity-1013 -> origin/fix/lease-activity-1013\n * [new branch]      fix/r30-owner-board-1013 -> origin/fix/r30-owner-board-1013\n * [new branch]      fix/r30-shared-headers-1013 -> origin/fix/r30-shared-headers-1013\n * [new branch]      release/agent-sync-1.22.2 -> origin/release/agent-sync-1.22.2\n * [new tag]         v1.22.2                 -> v1.22.2\n"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "sheleg-design",
+        "chunk_id": "1f37b8",
+        "wall_time_seconds": 1.068544708,
+        "exit_code": 0,
+        "original_token_count": 131,
+        "output": "From https://github.com/ssheleg/sheleg-design-skill\n * [new branch]      fix/fw05-derived-design-facts -> origin/fix/fw05-derived-design-facts\n * [new branch]      fix/fw05-ledger-heading -> origin/fix/fw05-ledger-heading\n * [new branch]      fix/r30-owner-board-1013 -> origin/fix/r30-owner-board-1013\n * [new branch]      fix/r30-shared-headers-1013 -> origin/fix/r30-shared-headers-1013\n * [new branch]      release/fw05-1.64.2     -> origin/release/fw05-1.64.2\n * [new tag]         v1.64.2                 -> v1.64.2\n"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "sheleg-dev",
+        "chunk_id": "e99be1",
+        "wall_time_seconds": 1.497678709,
+        "exit_code": 0,
+        "original_token_count": 129,
+        "output": "From https://github.com/ssheleg/sheleg-dev\n * [new branch]      fix/fw03-credential-boundaries -> origin/fix/fw03-credential-boundaries\n * [new branch]      fix/fw07-shared-scratch-lock -> origin/fix/fw07-shared-scratch-lock\n * [new branch]      fix/r30-owner-board-1013 -> origin/fix/r30-owner-board-1013\n * [new branch]      fix/r30-shared-headers-1013 -> origin/fix/r30-shared-headers-1013\n * [new branch]      release/fw03-0.13.4 -> origin/release/fw03-0.13.4\n * [new tag]         v0.13.4             -> v0.13.4\n"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "telegram-dev",
+        "chunk_id": "6fdb68",
+        "wall_time_seconds": 0.918810541,
+        "exit_code": 0,
+        "original_token_count": 134,
+        "output": "From https://github.com/ssheleg/telegram-dev\n * [new branch]      docs/fw00-verification-index -> origin/docs/fw00-verification-index\n * [new branch]      docs/member-gates-published-1013 -> origin/docs/member-gates-published-1013\n   23f7384..822f123  fix/member-gates-1013 -> origin/fix/member-gates-1013\n * [new branch]      fix/member-gates-headers-1013 -> origin/fix/member-gates-headers-1013\n * [new branch]      release/member-patch-1013 -> origin/release/member-patch-1013\n * [new tag]         v0.2.4                -> v0.2.4\n"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "xr-dev",
+        "chunk_id": "570a27",
+        "wall_time_seconds": 0.854681417,
+        "exit_code": 0,
+        "original_token_count": 132,
+        "output": "From https://github.com/ssheleg/xr-dev\n * [new branch]      docs/fw00-verification-index -> origin/docs/fw00-verification-index\n * [new branch]      docs/member-gates-published-1013 -> origin/docs/member-gates-published-1013\n   dc1ddc7..43561ac  fix/member-gates-1013 -> origin/fix/member-gates-1013\n * [new branch]      fix/member-gates-headers-1013 -> origin/fix/member-gates-headers-1013\n * [new branch]      release/member-patch-1013 -> origin/release/member-patch-1013\n * [new tag]         v0.3.4                -> v0.3.4\n"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "web3d-dev",
+        "chunk_id": "91c8c3",
+        "wall_time_seconds": 1.5111447089999999,
+        "exit_code": 0,
+        "original_token_count": 133,
+        "output": "From https://github.com/ssheleg/web3d-dev\n * [new branch]      docs/fw00-verification-index -> origin/docs/fw00-verification-index\n * [new branch]      docs/member-gates-published-1013 -> origin/docs/member-gates-published-1013\n   1a3c0f0..baea7e1  fix/member-gates-1013 -> origin/fix/member-gates-1013\n * [new branch]      fix/member-gates-headers-1013 -> origin/fix/member-gates-headers-1013\n * [new branch]      release/member-patch-1013 -> origin/release/member-patch-1013\n * [new tag]         v0.1.4                -> v0.1.4\n"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "agent-stack",
+        "chunk_id": "c7aa10",
+        "wall_time_seconds": 0.668065041,
+        "exit_code": 0,
+        "original_token_count": 33,
+        "output": "From https://github.com/ssheleg/agent-stack\n * [new branch]      fix/fw01-scan-completeness -> origin/fix/fw01-scan-completeness\n"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "seo-aeo-audit",
+        "chunk_id": "91a4c2",
+        "wall_time_seconds": 1.4653403329999999,
+        "exit_code": 0,
+        "original_token_count": 330,
+        "output": "From https://github.com/ssheleg/seo-aeo-audit\n * [new branch]      fix/fw-r30-board       -> origin/fix/fw-r30-board\n * [new branch]      fix/fw01-source-guard-1013 -> origin/fix/fw01-source-guard-1013\n * [new branch]      fix/fw06-collector-coverage -> origin/fix/fw06-collector-coverage\n * [new branch]      fix/fw06-collector-provenance -> origin/fix/fw06-collector-provenance\n * [new branch]      fix/fw06-shared-header-truth -> origin/fix/fw06-shared-header-truth\n * [new branch]      fix/fw07-shared-scratch-lock -> origin/fix/fw07-shared-scratch-lock\n * [new branch]      plan/fw06-agent-surface-coverage -> origin/plan/fw06-agent-surface-coverage\n * [new branch]      plan/fw06-bootstrap-transport -> origin/plan/fw06-bootstrap-transport\n * [new branch]      plan/fw06-guard-attribution -> origin/plan/fw06-guard-attribution\n * [new branch]      plan/fw06-preflight-coverage -> origin/plan/fw06-preflight-coverage\n * [new branch]      plan/fw06-provider-coverage -> origin/plan/fw06-provider-coverage\n * [new branch]      plan/fw06-psi-coverage -> origin/plan/fw06-psi-coverage\n * [new branch]      plan/fw06-sitemap-coverage -> origin/plan/fw06-sitemap-coverage\n * [new branch]      release/fw06-0.26.5    -> origin/release/fw06-0.26.5\n * [new branch]      release/fw06-0.26.6    -> origin/release/fw06-0.26.6\n"
+      }
+    }
+  ]
+}

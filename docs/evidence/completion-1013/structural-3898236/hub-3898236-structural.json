@@ -1,0 +1,11 @@
+{
+  "source": "38982366a67ee619a1183139107a7642d375b134",
+  "command": [
+    "python3",
+    "test/validate.py"
+  ],
+  "exit": 1,
+  "elapsed_seconds": 14.924,
+  "log_sha256": "690201f82def9c64d79bcf6095d68de69576355b1f104929518c7f8caeeca879",
+  "source_unchanged": true
+}

@@ -25,6 +25,14 @@ aggregate. A new nonauthor observer is running an interim preflight against the
 explicit final-observer packet. TP1.95.0 is a separate frozen source candidate,
 not a replacement for the ongoing accepted1.94.1 release gate.
 
+The new nonauthor observer found two source-confirmed runtime defects at3898236:
+[IO07/IO08](../../reports/2026-10-13-independent-observer-runtime-3898236/README.md)
+cover ignored synchronization failures and incomplete rollback of introduced files.
+Recovery development is active in an isolated branch; immediate failure classification,
+existence-aware journal recovery, real CLI failure and interrupted-write controls
+must pass independent review before the hub aggregate. Final graph/index generation
+waits for this accepted source. Earlier working native hooks are preserved.
+
 The candidate installer must defer an unsafe Codex generation transition; a catalog match
 or elapsed watcher timeout cannot retire an active thread. Fabric board tools remain
 unavailable, with the latest identity again returning no project; cross-project asks

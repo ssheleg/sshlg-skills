@@ -109,6 +109,15 @@ is a separate1.95.0 source candidate0cb1044; shared-lock SEOd6c87c3 and dev366a2
 ports have independent30-control replay each, with aggregate/integration pending.
 No next-wave gate substitutes for the active1.94.1 exact-tag run.
 
+A second [independent source review](reports/2026-10-13-independent-observer-runtime-3898236/README.md)
+found ignored runtime-copy failures in update/hooks-install and incomplete recovery
+after a partial switch, including newly introduced files. An isolated correction
+and focused failure controls are in progress; final graph and hub aggregate wait
+for its independent acceptance. No actual host failure is inferred from this
+source finding. Structural3898236 passed after refreshing two stale local remote
+refs; the initial failure and corrected read are retained in
+[evidence](evidence/completion-1013/structural-3898236/hub-3898236-structural-refreshed.json).
+
 The dated entries below retain previous states and are not current instructions.
 
 ## Installed follow-up and next wave — 2026-10-13
