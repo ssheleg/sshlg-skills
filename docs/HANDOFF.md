@@ -1,4 +1,4 @@
-## Current continuation — 2026-10-13 06:18 UTC
+## Current continuation — 2026-10-13 06:55 UTC
 
 Hub **1.62.2 is published**, source `a17f829e8d652ce7f68423b67e0de00fb89b3693`.
 [Publication](evidence/completion-1013/release-1.62.2/publication.json) verifies all80 npm files.
@@ -18,7 +18,17 @@ and177 initial board IDs remain source-preserved, not blanket completion.
 Native artifact review is **NO_ADOPTION**, with [new routing research](reports/2026-10-13-native-skill-routing/README.md)
 clarifying registration versus invocation. The separate native trigger experiment has explicit stopped protocols and a new bounded proposal; see its receipt below.
 [Current run](evidence/completion-1013/run.md). Latest [Fabric admission](evidence/completion-1013/fabric-admission-20261013-0551.json) again returns no project; com.* tools remain absent. Pending asks are unsent.
-[Native skill-search protocol](evidence/completion-1013/skill-search-native/README.md): A stopped after1 CLI invocation on startup-inventory mismatch; B stopped after2 invocations on a reported-turn/request-counter mismatch. Original receipts remain TEST_ERROR, total USD0.121004 list estimate. C completed61 invocations:20/20 query-majority passes,59/60 individual matches, with the s09 miss retained. Combined A+B+C list estimate USD2.4620616; independent result readback pending. This certifies restricted native loading only, not executed catalogue search or full task quality.
+[Native skill-search protocol](evidence/completion-1013/skill-search-native/README.md): A stopped after1 CLI invocation on startup-inventory mismatch; B stopped after2 invocations on a reported-turn/request-counter mismatch. Original receipts remain TEST_ERROR, total USD0.121004 list estimate. C completed61 invocations:20/20 query-majority passes,59/60 individual matches, with the s09 miss retained. Combined A+B+C list estimate USD2.4620616; [independent result readback](evidence/completion-1013/skill-search-native/peer-results-c.json) passed all61 raw-stream bindings and reproduced scoring. This certifies restricted native loading only, not executed catalogue search or full task quality.
+
+The [paired router reader](evidence/completion-1013/paired-routing-1013/README.md)
+is frozen at6c1a53a with43 offline controls; no new model calls are admitted yet.
+Four R30 owner follow-ups are normally merged; task-pipeline and super-ux full
+checks remain active. Make-skill PR38 carries the owner native-evidence receipt.
+Claude installer32e29af has source/independent focused acceptance and awaits its
+serial aggregate. SEO transport/bootstrap76818f2 is source-reviewed for implementation,
+stacked on accepted preflight9d9b166; its actual12 baseline failures stay recorded.
+[Graph baseline](reports/2026-10-13-code-graph-finalization/README.md) covers218 files
+at9f0c0dc with independent provenance review; final-code refresh remains pending.
 
 The dated entries below retain previous states and are not current instructions.
 
