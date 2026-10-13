@@ -26,7 +26,10 @@ jobs:
         # `npm test` runs the structural validator and DISCOVERS every
         # test/*_test.js. A hand-kept list here would drift from package.json
         # the first time a suite was added on one side only; validate.py fails
-        # if this step stops calling it.
+        # if this step stops calling it. The counts it measured are kept for the
+        # Ratchets-sentence plant below, which judges them without a second full run.
+        env:
+          SSHLG_RATCHETS_OUT: /tmp/ratchets.json
         run: npm test
 
       - name: Pin classifier (offline, deterministic)
@@ -126,6 +129,102 @@ jobs:
 
       # Not in `npm test`: it runs seven member validators and would put ~21 s on this
       # repository's per-commit gate, whose honesty rests on costing three.
+      - name: Negative self-test (the sentence quoting the ratchet marker must be checked too)
+        run: |
+          set -eu
+          # The marker was checked and the prose beside it was not, so the prose drifted —
+          # 780 against a measured 799, inside its own claim that the figures are derived.
+          # A restatement nothing reproduces is the class this repository has paid for
+          # four times, so the guard that closes it is watched refusing one.
+          rm -rf /tmp/proseplant && cp -R . /tmp/proseplant
+          cd /tmp/proseplant
+          # Unplanted first: a counts file that refuses everything must not pass for a refusal.
+          node test/run.js --ratchets-from /tmp/ratchets.json
+          python3 - <<'PY'
+          import re, pathlib
+          p = pathlib.Path('docs/DOCMAP.md')
+          t = p.read_text(encoding='utf-8')
+          m = re.search(r'\*\*Ratchets\.\*\* (\d+) suites, (\d+) fixtures', t)
+          assert m, 'PLANT DID NOT LAND: the Ratchets sentence is not where the plant expects it'
+          p.write_text(t.replace(m.group(0), f'**Ratchets.** {m.group(1)} suites, 1 fixtures', 1),
+                       encoding='utf-8')
+          PY
+          grep -q '\*\*Ratchets\.\*\* [0-9]* suites, 1 fixtures' docs/DOCMAP.md \
+            || { echo "PLANT DID NOT LAND"; exit 1; }
+          # The counts the Tests step measured, judged by the same comparison `npm test`
+          # ends with — a full second run cost a minute here (B-164).
+          out=$(node test/run.js --ratchets-from /tmp/ratchets.json 2>&1 || true)
+          if printf '%s' "$out" | grep -q "Ratchets sentence says fixtures=1"; then
+            echo "the stale restatement was refused:"
+            printf '%s\n' "$out" | grep 'Ratchets sentence'
+          else
+            echo "a restatement the run does not reproduce passed the gate"
+            printf '%s\n' "$out" | tail -20
+            exit 1
+          fi
+
+      - name: Coordination configs are checked, in every repository that declares one
+        run: |
+          set -eu
+          # B-46: forty-one coordination problems accumulated across nine repositories
+          # because every repository's own validator was green and none of them asks
+          # whether the coordination config describes files that exist. The check is a
+          # script with an exit code; nothing was running it.
+          #
+          # The script ships inside the published package rather than as its bin — the bin
+          # is the installer — so the package is fetched and the script called directly.
+          npm i --no-save --silent @ssheleg/agent-sync >/dev/null 2>&1
+          S="$PWD/node_modules/@ssheleg/agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py"
+          if [ ! -f "$S" ]; then
+            echo "ERROR: agent_sync.py not found in the published package at the expected path"
+            echo "       (the package layout changed; this check must be repointed, not deleted)"
+            exit 1
+          fi
+          rc=0; seen=0
+          for d in . skills/*/; do
+            [ -f "$d/.claude/agent-sync.json" ] || continue
+            seen=$((seen+1))
+            echo "--- $d"
+            ( cd "$d" && python3 "$S" check ) || rc=1
+          done
+          # A loop that matched nothing prints a clean bill of health for work it never
+          # did. Nine repositories declare coordination; fewer than two means the glob
+          # broke, not that the problem is solved.
+          if [ "$seen" -lt 2 ]; then
+            echo "ERROR: only $seen coordination config(s) found — the glob is wrong, and a"
+            echo "       loop over nothing reports success for every repository it skipped"
+            exit 1
+          fi
+          echo "checked $seen coordination config(s)"
+          exit $rc
+
+      - name: Launcher runs (no side effects)
+        # Running the command, not `node --check`: the checker proves syntax
+        # and not scope, and it once passed a `rest[++i]` against a variable
+        # absent from that function, which would have thrown on first use.
+        run: |
+          set -eu
+          node bin/sshlg-skills.js --help >/dev/null
+          node bin/sshlg-skills.js agents >/dev/null
+          node bin/sshlg-skills.js config >/dev/null
+          echo "OK: launcher runs"
+
+  self-tests:
+    # The plants, beside the gate rather than after it (B-164): each one copies the tree,
+    # damages the copy and requires a refusal, and none reads what the gate step wrote —
+    # except the Ratchets-sentence plant, which stays in `validate` with the counts it judges.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          # Full history: the run-stamp guard resolves every SHA in retro.md, and a
+          # shallow clone makes 31 real commits look fabricated. 224 commits, 37 MB.
+          fetch-depth: 0
+
+      - name: Install jsonschema (so the pipeline.json contract is CHECKED, not disclosed as skipped)
+        run: python3 -m pip install --quiet jsonschema
+
       - name: Advertised plants (each member's own gate must refuse a dropped trigger)
         run: npm run test:plants
 
@@ -315,36 +414,6 @@ jobs:
             exit 1
           fi
           echo "control: in-flight work the pin does not name is not a failure"
-
-      - name: Negative self-test (the sentence quoting the ratchet marker must be checked too)
-        run: |
-          set -eu
-          # The marker was checked and the prose beside it was not, so the prose drifted —
-          # 780 against a measured 799, inside its own claim that the figures are derived.
-          # A restatement nothing reproduces is the class this repository has paid for
-          # four times, so the guard that closes it is watched refusing one.
-          rm -rf /tmp/proseplant && cp -R . /tmp/proseplant
-          cd /tmp/proseplant
-          python3 - <<'PY'
-          import re, pathlib
-          p = pathlib.Path('docs/DOCMAP.md')
-          t = p.read_text(encoding='utf-8')
-          m = re.search(r'\*\*Ratchets\.\*\* (\d+) suites, (\d+) fixtures', t)
-          assert m, 'PLANT DID NOT LAND: the Ratchets sentence is not where the plant expects it'
-          p.write_text(t.replace(m.group(0), f'**Ratchets.** {m.group(1)} suites, 1 fixtures', 1),
-                       encoding='utf-8')
-          PY
-          grep -q '\*\*Ratchets\.\*\* [0-9]* suites, 1 fixtures' docs/DOCMAP.md \
-            || { echo "PLANT DID NOT LAND"; exit 1; }
-          out=$(npm test 2>&1 || true)
-          if printf '%s' "$out" | grep -q "Ratchets sentence says fixtures=1"; then
-            echo "the stale restatement was refused:"
-            printf '%s\n' "$out" | grep 'Ratchets sentence'
-          else
-            echo "a restatement the run does not reproduce passed the gate"
-            printf '%s\n' "$out" | tail -20
-            exit 1
-          fi
 
       - name: Negative self-test (a stated count that has gone stale must fail)
         run: |
@@ -583,41 +652,6 @@ jobs:
           else
             echo "OK: a side at zero is reported as a broken glob"
           fi
-
-      - name: Coordination configs are checked, in every repository that declares one
-        run: |
-          set -eu
-          # B-46: forty-one coordination problems accumulated across nine repositories
-          # because every repository's own validator was green and none of them asks
-          # whether the coordination config describes files that exist. The check is a
-          # script with an exit code; nothing was running it.
-          #
-          # The script ships inside the published package rather than as its bin — the bin
-          # is the installer — so the package is fetched and the script called directly.
-          npm i --no-save --silent @ssheleg/agent-sync >/dev/null 2>&1
-          S="$PWD/node_modules/@ssheleg/agent-sync/plugins/agent-sync/skills/agent-sync/scripts/agent_sync.py"
-          if [ ! -f "$S" ]; then
-            echo "ERROR: agent_sync.py not found in the published package at the expected path"
-            echo "       (the package layout changed; this check must be repointed, not deleted)"
-            exit 1
-          fi
-          rc=0; seen=0
-          for d in . skills/*/; do
-            [ -f "$d/.claude/agent-sync.json" ] || continue
-            seen=$((seen+1))
-            echo "--- $d"
-            ( cd "$d" && python3 "$S" check ) || rc=1
-          done
-          # A loop that matched nothing prints a clean bill of health for work it never
-          # did. Nine repositories declare coordination; fewer than two means the glob
-          # broke, not that the problem is solved.
-          if [ "$seen" -lt 2 ]; then
-            echo "ERROR: only $seen coordination config(s) found — the glob is wrong, and a"
-            echo "       loop over nothing reports success for every repository it skipped"
-            exit 1
-          fi
-          echo "checked $seen coordination config(s)"
-          exit $rc
 
       - name: Negative self-test (stage 10 must name the coverage check)
         run: |
@@ -1135,14 +1169,3 @@ jobs:
           else
             echo "OK: validator FAILs when the address corpus matches nothing"
           fi
-
-      - name: Launcher runs (no side effects)
-        # Running the command, not `node --check`: the checker proves syntax
-        # and not scope, and it once passed a `rest[++i]` against a variable
-        # absent from that function, which would have thrown on first use.
-        run: |
-          set -eu
-          node bin/sshlg-skills.js --help >/dev/null
-          node bin/sshlg-skills.js agents >/dev/null
-          node bin/sshlg-skills.js config >/dev/null
-          echo "OK: launcher runs"
