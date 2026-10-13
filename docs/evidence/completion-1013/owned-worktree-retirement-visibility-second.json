@@ -1,0 +1,103 @@
+{
+  "scope": "Completed visibility_review-owned worktrees only; no foreign/active cleanup",
+  "rows": [
+    {
+      "worktree": "seo-fw01-source-guard",
+      "branch": "fix/fw01-source-guard-1013",
+      "head": "65bee7bd1d97c4f635082793dd27285e16a068b0",
+      "remote_exact": true,
+      "tracked_and_untracked_clean": true,
+      "active_handles_or_path_processes": false,
+      "ignored_files_preserved": 4,
+      "private_archive": "/Users/sshlg/.sshlg-skills/owned-worktree-archives/2026-10-13-visibility-second/seo-fw01-source-guard.tar.gz",
+      "archive_sha256": "8d35a530ce71d5ccc2f2d57ce2d49bf44d87cb6ab06889dccfd080c57445beba",
+      "removed": true,
+      "branch_deleted": false,
+      "estimated_kib": 2988
+    },
+    {
+      "worktree": "telegram-gates",
+      "branch": "fix/member-gates-1013",
+      "head": "822f12320ce542962a4dd27a565f1bc68b09ec6d",
+      "remote_exact": true,
+      "tracked_and_untracked_clean": true,
+      "active_handles_or_path_processes": false,
+      "ignored_files_preserved": 9,
+      "private_archive": "/Users/sshlg/.sshlg-skills/owned-worktree-archives/2026-10-13-visibility-second/telegram-gates.tar.gz",
+      "archive_sha256": "e84237ea4ed217b2df2aeb6d4759c289722320e454b6f5332f5ddaf49169fde6",
+      "removed": true,
+      "branch_deleted": false,
+      "estimated_kib": 592
+    },
+    {
+      "worktree": "telegram-release",
+      "branch": "release/member-patch-1013",
+      "head": "e1dd73a79d9b0f9f69d4e59153abef4cf9e26ef7",
+      "remote_exact": true,
+      "tracked_and_untracked_clean": true,
+      "active_handles_or_path_processes": false,
+      "ignored_files_preserved": 9,
+      "private_archive": "/Users/sshlg/.sshlg-skills/owned-worktree-archives/2026-10-13-visibility-second/telegram-release.tar.gz",
+      "archive_sha256": "560ccd76168d3fd0642015718873830f3f4ee675aef54ff8daf7fc1088b6d6a4",
+      "removed": true,
+      "branch_deleted": false,
+      "estimated_kib": 560
+    }
+  ],
+  "free_bytes_before": 2639818752,
+  "free_bytes_after": 2620141568,
+  "skipped": [
+    {
+      "worktree": "xr-gates",
+      "reason": "remote not exact; preserve"
+    },
+    {
+      "worktree": "xr-release",
+      "reason": "remote not exact; preserve"
+    },
+    {
+      "worktree": "web3d-gates",
+      "reason": "remote not exact; preserve"
+    },
+    {
+      "worktree": "web3d-release",
+      "reason": "remote not exact; preserve"
+    },
+    {
+      "worktree": "telegram-dev-headers",
+      "reason": "remote not exact; preserve"
+    },
+    {
+      "worktree": "telegram-dev-board-published",
+      "reason": "remote not exact; preserve"
+    },
+    {
+      "worktree": "xr-dev-headers",
+      "reason": "remote not exact; preserve"
+    },
+    {
+      "worktree": "xr-dev-board-published",
+      "reason": "remote not exact; preserve"
+    },
+    {
+      "worktree": "web3d-dev-headers",
+      "reason": "remote not exact; preserve"
+    },
+    {
+      "worktree": "web3d-dev-board-published",
+      "reason": "remote not exact; preserve"
+    }
+  ],
+  "preserved_refusals": [
+    {
+      "worktree": "hub-vis",
+      "reason": "git worktree remove refused: working trees containing submodules cannot be moved or removed",
+      "action": "preserved worktree; did not force removal or deinitialize nested repositories",
+      "root_tracked_clean": true,
+      "root_remote_exact": true,
+      "no_active_handles_or_path_processes": true,
+      "private_ignored_archive": "/Users/sshlg/.sshlg-skills/owned-worktree-archives/2026-10-13-visibility-second/hub-vis.tar.gz",
+      "archive_sha256": "9a39ed96870cd35f1b366f1ec5f83480d1df1952f055ce89fa210559f696904b"
+    }
+  ]
+}
