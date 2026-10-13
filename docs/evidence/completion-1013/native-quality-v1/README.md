@@ -319,3 +319,30 @@ exact private paths for independent rubric scoring. Semantic quality is
 quality verdict. Next: independent artifact scoring against unchanged rubric,
 then decide whether any broader adoption evidence is justified. No further
 provider/model call is authorized by this completed bounded protocol.
+
+## Second artifact review: no adoption
+
+The runner author separately read all four complete private artifacts against
+the unchanged rubric after receiving the coordinator's preliminary findings.
+This is a second grounded review, **not blind independent replication**. The
+[dimension record](artifact-second-review.json) binds rubric/manifest/artifact
+hashes and preserves the preliminary coordinator result separately from this
+reviewer's judgments; the coordinator owns its final scoring packet.
+
+Both reviews agree so far: q1 (ADC precedence) and q2 (token-log removal) pass
+all four artifacts. **q3 fails all four**: removing the legacy override/mount is
+recommended without first checking required API/IAM access for the intended
+attached identity. q4 fails the English pair because no explicit unit/regression
+check is supplied; the Russian pair includes mocked ADC/caplog tests and passes
+that dimension. All four negative controls pass. Three outputs also propose
+`type(credentials).__name__` where a module-qualified source classification is
+needed; the English concise artifact supplies both module and name.
+
+No artifact satisfies every required dimension. Skill loading was observed in
+none, so these results cannot establish native specialist use or quality after
+body loading. **Do not adopt concise descriptions from this experiment.** The
+next research task is source-only analysis of native invocation conditions and
+the discovery contract, followed by a separately preregistered loaded-skill
+quality protocol if justified. Keep spontaneous selection and explicit loading
+as different experiments. No more model/provider calls belong to this protocol;
+no rubric/prompt change, original-stop relabelling or installed change was made.
