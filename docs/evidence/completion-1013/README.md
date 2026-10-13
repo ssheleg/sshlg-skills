@@ -2,14 +2,16 @@
 
 [Plan](../plans/2026-10-13-completion.md) · [research](../../reports/2026-10-13-skill-discovery-efficiency/README.md)
 
-## Current entry — 2026-10-13 04:15 UTC
+## Current entry — 2026-10-13 05:00 UTC
 
 Use [the live HANDOFF](../../HANDOFF.md), [run ledger](run.md) and
 [current board/requirement reconciliation](board-reconciliation.md#committed-cut-at-2026-10-13-0415-utc).
-The records below are dated evidence, not current next-task instructions. Hub1.62.1
-is published with runtime readback;1.62.2 remains a candidate. Native quality has
-no accepted result yet. Fabric project admission now succeeds, but this session
-still has no com.status/list/submit tools; the pending asks below remain unsent.
+The records below are dated evidence. Hub1.62.2 is tagged at accepted a17f829 after
+exact local/hosted gates; publication and installed readback are in progress.
+[Native artifact review](native-quality-v1/artifact-independent-review.json)
+concludes NO_ADOPTION: zero Skill loads and incomplete migration checks in all
+four artifacts. Fabric admission succeeds, but com.status/list/submit remain
+unavailable in this session; pending cross-project asks are still unsent.
 
 
 ## Search ranking

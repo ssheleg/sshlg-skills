@@ -1,8 +1,15 @@
 # Native skill loading and audit quality: bounded preparation
 
-Status: first readiness STOPPED_TEST_ERROR; zero audit task calls. The first
-runner passed independent review before execution. A revised isolation attempt
-requires a new review and will not overwrite or reinterpret the first receipt.
+Current result: **NO_ADOPTION**. Eight CLI invocations are complete; four audit
+artifacts were read against the frozen rubric. All four omitted required
+pre-switch access checks and none invoked Skill. The
+[independent review](artifact-independent-review.json) and explicitly nonblind
+[second review](artifact-second-review.json) agree on the bounded failures.
+Reported list usage totals USD0.4536322; subscription billing is not measured.
+Original A/B/C stops are immutable. The protocol is closed to further calls.
+
+The sections below retain the preparation and successive dated observations;
+use the final executed-continuation and review sections for current acceptance.
 
 ## Objective and intervention
 
