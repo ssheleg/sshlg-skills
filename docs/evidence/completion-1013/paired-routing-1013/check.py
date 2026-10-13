@@ -41,8 +41,14 @@ with tempfile.TemporaryDirectory(prefix='paired-routing-offline-') as temp:
     root=Path(temp);workspace=root/'work';hashes=a.materialize(None,workspace);a.r.m.verify(workspace,hashes)
     ok(set(hashes)=={'plugin/.claude-plugin/plugin.json'})
     def inspect(events,phase='task'):
-        return a.r.inspect(('\n'.join(json.dumps(x) for x in events)+'\n').encode(),0,workspace,phase,expected_inventory=set(),reported_turn_limit=1)
+        return a.inspect(('\n'.join(json.dumps(x) for x in events)+'\n').encode(),0,workspace,phase)
     ok(inspect([init,assistant,final],'readiness')['evaluation_status']=='EXECUTED')
+    bad=copy.deepcopy(final);bad['usage']['output_tokens']=601
+    ok(inspect([init,assistant,bad])['error_class']=='output_bound')
+    bad=copy.deepcopy(assistant);bad['message']['usage']['output_tokens']=601
+    ok(inspect([init,bad,final])['error_class']=='output_bound')
+    bad=copy.deepcopy(assistant);bad['message']['usage']['output_tokens']=None
+    ok(inspect([init,bad,final])['error_class']=='output_bound')
     second=copy.deepcopy(assistant);second['message']['id']='m2'
     ok(inspect([init,assistant,second,final])['error_class']=='aggregate_input_bound')
     bad=copy.deepcopy(final);bad['num_turns']=2

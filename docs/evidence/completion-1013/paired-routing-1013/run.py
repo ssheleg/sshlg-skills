@@ -53,6 +53,16 @@ def materialize(repo,workspace):
     body=b'{"name":"local-pack","version":"1.0.0"}\n';path.write_bytes(body);path.chmod(0o600)
     return {'plugin/.claude-plugin/plugin.json':b.digest(body)}
 
+def inspect(raw,code,workspace,phase):
+    result=r.inspect(raw,code,workspace,phase,expected_inventory=INVENTORY,reported_turn_limit=REPORTED_TURN_LIMIT)
+    if result['evaluation_status']=='EXECUTED':
+        events=[json.loads(line) for line in raw.splitlines() if line.strip()]
+        outputs=[event['message']['usage'].get('output_tokens') for event in events if event.get('type')=='assistant']
+        outputs.append(result['usage']['output_tokens'])
+        if not all(r.number(value) and value<=600 for value in outputs):
+            result.update(evaluation_status='TEST_ERROR',error_class='output_bound')
+    return result
+
 def parse_routes(text):
     match=re.fullmatch(r'ROUTE: ([^\n]+)\nWHY: ([^\n]+)',text.strip())
     if not match:raise ValueError('route_output_format')
@@ -112,7 +122,7 @@ def execute(args):
                     try:code=proc.wait(timeout=r.TIMEOUT)
                     except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait();code='TIMEOUT'
                 assert binding()==frozen,'protocol_changed_during_request'
-                raw=(folder/'stdout.jsonl').read_bytes();result=r.inspect(raw,code,workspace,item['phase'],expected_inventory=INVENTORY,reported_turn_limit=REPORTED_TURN_LIMIT);r.m.verify(workspace,hashes)
+                raw=(folder/'stdout.jsonl').read_bytes();result=inspect(raw,code,workspace,item['phase']);r.m.verify(workspace,hashes)
                 if isinstance(result.get('native'),dict):result['native'].pop('google_auth_loaded',None)
                 if result['evaluation_status']=='EXECUTED':
                     blocks=r.visible_text([json.loads(line) for line in raw.splitlines() if line.strip()]);visible='\n\n'.join(x['text'] for x in blocks);b.private_write(folder/'assistant-text.json',b.encode({'blocks':blocks,'text':visible}))
