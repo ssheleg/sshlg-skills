@@ -1,0 +1,204 @@
+{
+  "node_count": 2989,
+  "unverified_node_count": 0,
+  "raw_edge_count": 5856,
+  "non_object_edges": 0,
+  "missing_endpoint_edges": 0,
+  "dangling_endpoint_edges": 786,
+  "self_loop_edges": 1,
+  "valid_candidate_edges": 5070,
+  "exact_duplicate_edges": 0,
+  "directed_unique_endpoint_pairs": 4506,
+  "directed_same_endpoint_collapsed_edges": 564,
+  "undirected_unique_endpoint_pairs": 4506,
+  "undirected_same_endpoint_collapsed_edges": 564,
+  "same_endpoint_group_count": 559,
+  "relation_variant_groups": 547,
+  "source_file_variant_groups": 0,
+  "source_location_variant_groups": 12,
+  "context_variant_groups": 0,
+  "post_build_graph_type": "DiGraph",
+  "post_build_node_count": 2989,
+  "post_build_edge_count": 4522,
+  "post_build_error": "",
+  "producer_suppression": {
+    "path": "graphifyy0.9.44/graphify/extract.py",
+    "total_sites": 12,
+    "sites": [
+      {
+        "line": 1153,
+        "name": "seen_ids",
+        "tuple_arity": 0,
+        "sample": "seen_ids = {n[\"id\"] for n in nodes}"
+      },
+      {
+        "line": 1419,
+        "name": "seen_ids",
+        "tuple_arity": 0,
+        "sample": "seen_ids = {n[\"id\"] for n in nodes}"
+      },
+      {
+        "line": 1421,
+        "name": "seen_doc_refs",
+        "tuple_arity": 0,
+        "sample": "seen_doc_refs: set[str] = set()"
+      },
+      {
+        "line": 1781,
+        "name": "seen_ids",
+        "tuple_arity": 0,
+        "sample": "seen_ids: set[str] = {n[\"id\"] for n in nodes}"
+      },
+      {
+        "line": 1928,
+        "name": "seen_ids",
+        "tuple_arity": 0,
+        "sample": "seen_ids = {n.get(\"id\") for n in nodes}"
+      },
+      {
+        "line": 2361,
+        "name": "seen_keys",
+        "tuple_arity": 0,
+        "sample": "seen_keys: set[tuple] = set()"
+      },
+      {
+        "line": 2530,
+        "name": "seen_keys",
+        "tuple_arity": 0,
+        "sample": "seen_keys: set[tuple] = set()"
+      },
+      {
+        "line": 3936,
+        "name": "seen_ids",
+        "tuple_arity": 0,
+        "sample": "seen_ids: set[str] = set()"
+      },
+      {
+        "line": 4044,
+        "name": "seen_ids",
+        "tuple_arity": 0,
+        "sample": "seen_ids: set[str] = set()"
+      },
+      {
+        "line": 4123,
+        "name": "seen_ids",
+        "tuple_arity": 0,
+        "sample": "seen_ids: set[str] = set()"
+      },
+      {
+        "line": 4638,
+        "name": "seen_ids",
+        "tuple_arity": 0,
+        "sample": "seen_ids: set[str] = set()"
+      },
+      {
+        "line": 4639,
+        "name": "seen_edges",
+        "tuple_arity": 4,
+        "sample": "seen_edges: set[tuple[str, str, str, str | None]] = set()"
+      }
+    ],
+    "error": ""
+  },
+  "examples": [
+    {
+      "source": "test_installer_pins_test",
+      "target": "lib_installer_pins",
+      "edge_count": 4,
+      "relations": [
+        "imports_from"
+      ],
+      "source_files": [
+        "test/installer_pins_test.js"
+      ],
+      "source_locations": [
+        "L16",
+        "L22",
+        "L34",
+        "L44"
+      ],
+      "contexts": [
+        "import"
+      ]
+    },
+    {
+      "source": "test_updatelock_test",
+      "target": "lib_updatecheck",
+      "edge_count": 4,
+      "relations": [
+        "imports_from"
+      ],
+      "source_files": [
+        "test/updatelock_test.js"
+      ],
+      "source_locations": [
+        "L381",
+        "L441",
+        "L486",
+        "L576"
+      ],
+      "contexts": [
+        "import"
+      ]
+    },
+    {
+      "source": "test_hooks_e2e_test",
+      "target": "lib_backup",
+      "edge_count": 3,
+      "relations": [
+        "imports_from"
+      ],
+      "source_files": [
+        "test/hooks_e2e_test.js"
+      ],
+      "source_locations": [
+        "L147",
+        "L187",
+        "L212"
+      ],
+      "contexts": [
+        "import"
+      ]
+    },
+    {
+      "source": "bin_sshlg_skills",
+      "target": "bin_sshlg_skills_clispec",
+      "edge_count": 2,
+      "relations": [
+        "contains",
+        "indirect_call"
+      ],
+      "source_files": [
+        "bin/sshlg-skills.js"
+      ],
+      "source_locations": [
+        "L3759",
+        "L40"
+      ],
+      "contexts": [
+        "",
+        "collection"
+      ]
+    },
+    {
+      "source": "bin_sshlg_skills",
+      "target": "bin_sshlg_skills_pinnedargv",
+      "edge_count": 2,
+      "relations": [
+        "contains",
+        "indirect_call"
+      ],
+      "source_files": [
+        "bin/sshlg-skills.js"
+      ],
+      "source_locations": [
+        "L3759",
+        "L49"
+      ],
+      "contexts": [
+        "",
+        "collection"
+      ]
+    }
+  ]
+}
