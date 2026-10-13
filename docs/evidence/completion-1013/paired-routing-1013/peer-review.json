@@ -1,0 +1,33 @@
+{
+  "schema": "independent-protocol-review/1",
+  "reviewer": "visibility_review",
+  "source_commit": "08076bafa6cd66c653b0261203d263d164ef00ed",
+  "verdict": "PASS_BOUNDED",
+  "provider_calls_by_reviewer": 0,
+  "checks": [
+    {
+      "command": "python3 docs/evidence/completion-1013/paired-routing-1013/check.py",
+      "exit_code": 0,
+      "controls": 46
+    },
+    "Independently regenerated both arms from frozen45ad Git objects: byte equal",
+    "Original output601 counterexample was accepted before correction; local observer now refuses final or assistant output601 and missing output usage",
+    "Reviewed source/admission/dependency binding before and after requests, strict auth and empty tools/inventory, private retention, durable STARTED and unknown costs, no retry",
+    "Reviewed label-free 18-cell shuffled task plan plus two readiness calls; p01 interpretation grounded in supplied super-ux doctrine, p02 exploratory, p07 recall only"
+  ],
+  "file_sha256": {
+    "run.py": "066fae7ccf74fec2e26d9ac3c28e29ec9594fc6bb1b52fff63bd4f366f0649d7",
+    "check.py": "dd76159dde551566d3f6da60b293690309af4b835a8e523c309d25538bc0b96f",
+    "source.json": "b37074ceb9202cf6f7c00fa60becb9676104c9969a37403aad2d40a1ef29555f",
+    "README.md": "0d7eb1276702e6941aeaf5b289737af6c0cd2c2fead88dcbe1e76fd70c0ffe6c",
+    "cases.json": "3b4a85368500e1cb049561c71f168536c93d8b9f7a0b0bb5735a7f6270771145",
+    "arms.json": "d83ac4fc8be2fd1a1cf8981864521a95266579b9acb224ce3e80a216563d141a",
+    "admission.json": "013df52c7384a3d0f2e0912e9effee7e40d30a4173f8cb8a05ee086cd41dc12d"
+  },
+  "limits": [
+    "Only paired reading of router paragraphs; no native loading, task completion, family coexistence or compression adoption",
+    "Three correlated prompts with repetitions; no population accuracy claim",
+    "Observed output/input/cost bounds can stop after a request; total20 is maximum not guaranteed completion",
+    "Requires distinct ADMITTED record and existing operator budget; reviewer executed no model calls"
+  ]
+}

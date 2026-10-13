@@ -1,1 +1,13 @@
-{"status":"PROPOSED_NOT_ADMITTED"}
+{
+  "status": "ADMITTED",
+  "admitted_at_utc": "2026-10-13T07:05:53.854329+00:00",
+  "runner_sha256": "066fae7ccf74fec2e26d9ac3c28e29ec9594fc6bb1b52fff63bd4f366f0649d7",
+  "source_sha256": "b37074ceb9202cf6f7c00fa60becb9676104c9969a37403aad2d40a1ef29555f",
+  "peer_sha256": "e62ec8a9a462e586a693fc3e2f2b8481d7d4cb8e2ae48603b74ecdde20451df9",
+  "max_calls": 20,
+  "budget_usd": 1.5379384,
+  "independent_review": "PASS",
+  "authority": "Operator autonomous completion and normal Claude subscription diagnostics; existing R27 USD4 list-estimate envelope, native A+B+C observed USD2.4620616 retained.",
+  "protocol_commit": "08076bafa6cd66c653b0261203d263d164ef00ed",
+  "scope": "Paired reader only; no automatic retries, directed follow-up, publication or description adoption."
+}
