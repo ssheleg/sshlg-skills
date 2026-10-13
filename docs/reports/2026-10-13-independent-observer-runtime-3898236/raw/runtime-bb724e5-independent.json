@@ -1,0 +1,17 @@
+{
+  "schema": "runtime-independent-peer/1",
+  "source": "bb724e5bef2c8af5a5959c3ba6676e81b3835190",
+  "command": [
+    "node",
+    "test/runtime_atomic_test.js"
+  ],
+  "exit": 0,
+  "elapsed_seconds": 2.5625180000206456,
+  "log_sha256": "7ee1923dd9a8ba20fd95f85dfe102d71cab9a3c2373d9caa44b41e226342a1ea",
+  "scope": "Owned immutable Git archive and fixture homes; no actual host/provider/full suite.",
+  "source_hashes": {
+    "lib/runtime.js": "65a5a524e048cda2d8b44740335a7172f2f1051f7239bc8904e5e8894bb66307",
+    "bin/sshlg-skills.js": "e19670450c7ee70d6745e439249ea196569aee7fda5feba8af30a3da61cea2d4",
+    "test/runtime_atomic_test.js": "b8f57425970e71b09769b193426586fbbb490977bd366623de73fb7236a106ba"
+  }
+}

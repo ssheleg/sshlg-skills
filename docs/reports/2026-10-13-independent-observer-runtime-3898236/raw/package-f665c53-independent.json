@@ -1,0 +1,32 @@
+{
+  "source": "f665c532104a9ecfd1cb2a3e5831e98c3414a093",
+  "scope": "Immutable archive; offline pack with owned cache; existing hooks e2e fake hosts/native shim; no provider or broad suite",
+  "results": [
+    {
+      "command": [
+        "npm",
+        "pack",
+        "--json",
+        "--offline",
+        "--ignore-scripts"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.4349724589847028,
+      "stderr": "",
+      "managed_count": 87,
+      "missing": [],
+      "package_file_count": 93,
+      "integrity": "sha512-aS+cg9L/3+2as0sYKIAyEiHV7+xfUxyf4HV2fAuN+AQ6NXh1/RPDTPSyXfHIADg773cW1XIvP8G7KTBU/YR4BQ=="
+    },
+    {
+      "command": [
+        "node",
+        "test/hooks_e2e_test.js"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 20.744788917014375,
+      "log_sha256": "8bb233a9799e5fba08bfa5ae9f7bff0d0af4b184e148fd3e8d22c93e30980ee4",
+      "tail": "OK (70 checks)\n"
+    }
+  ]
+}
