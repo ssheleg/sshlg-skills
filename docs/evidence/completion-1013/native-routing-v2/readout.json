@@ -1,0 +1,90 @@
+{
+  "schema": "native-routing-readout/2",
+  "status": "NO_ADOPTION",
+  "phase": "P1",
+  "evidence_source": "fba5554e1263a12418ed902acd27485dc4c91d02",
+  "cli_calls": 8,
+  "list_estimate_usd": 0.764935,
+  "cumulative_native_program": {
+    "cli_calls": 16,
+    "list_estimate_usd": 1.2185672,
+    "budget_usd": 4,
+    "remaining_usd": 2.7814328
+  },
+  "task_cells": [
+    {
+      "index": 2,
+      "case_id": "k2",
+      "arm": "concise",
+      "artifact": "artifact-5.md",
+      "artifact_quality": "PASS_FROZEN_CASE_RUBRIC",
+      "skill_loads": [],
+      "load_before_delivered_audit": "NOT_LOADED"
+    },
+    {
+      "index": 3,
+      "case_id": "k2",
+      "arm": "full",
+      "artifact": "artifact-4.md",
+      "artifact_quality": "PASS_FROZEN_CASE_RUBRIC",
+      "skill_loads": [],
+      "load_before_delivered_audit": "NOT_LOADED"
+    },
+    {
+      "index": 4,
+      "case_id": "b7",
+      "arm": "concise",
+      "artifact": "artifact-3.md",
+      "artifact_quality": "FAIL_FROZEN_CASE_RUBRIC",
+      "skill_loads": [],
+      "load_before_delivered_audit": "NOT_LOADED"
+    },
+    {
+      "index": 5,
+      "case_id": "b7",
+      "arm": "full",
+      "artifact": "artifact-6.md",
+      "artifact_quality": "FAIL_FROZEN_CASE_RUBRIC",
+      "skill_loads": [],
+      "load_before_delivered_audit": "NOT_LOADED"
+    },
+    {
+      "index": 6,
+      "case_id": "m9",
+      "arm": "full",
+      "artifact": "artifact-1.md",
+      "artifact_quality": "PASS_FROZEN_CASE_RUBRIC",
+      "skill_loads": [
+        "sheleg-dev:ad-tracking"
+      ],
+      "load_before_delivered_audit": "PASS_LOAD_BEFORE_DELIVERED_AUDIT"
+    },
+    {
+      "index": 7,
+      "case_id": "m9",
+      "arm": "concise",
+      "artifact": "artifact-2.md",
+      "artifact_quality": "PASS_FROZEN_CASE_RUBRIC",
+      "skill_loads": [
+        "sheleg-dev:ad-tracking"
+      ],
+      "load_before_delivered_audit": "PASS_LOAD_BEFORE_DELIVERED_AUDIT"
+    }
+  ],
+  "independent_review": "peer-results-a.json",
+  "artifact_review": "artifact-review.json",
+  "summary": {
+    "native_selection_pass": 2,
+    "native_selection_fail": 4,
+    "artifact_quality_pass": 4,
+    "artifact_quality_fail": 2
+  },
+  "decision": "Keep installed descriptions unchanged. Directed P2 may diagnose access under a separately frozen and reviewed admission; it cannot establish passive selection or description compression quality.",
+  "limits": [
+    "Three exploratory intents, two description arms, one observation per cell; no population inference.",
+    "Quality and Skill loading are separate outcomes.",
+    "Both b7 failures omit the explicit denied-access test and secret-free diagnostic assertion.",
+    "List estimates are subscription diagnostic accounting, not an invoice.",
+    "Withheld-label reviewer knew protocol seed and aggregate load count; not formally blind."
+  ]
+}

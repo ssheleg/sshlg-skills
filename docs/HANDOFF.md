@@ -1,34 +1,14 @@
-## Current continuation — 2026-10-13 06:55 UTC
+## Current continuation — 2026-10-13 07:36 UTC
 
-Hub **1.62.2 is published**, source `a17f829e8d652ce7f68423b67e0de00fb89b3693`.
-[Publication](evidence/completion-1013/release-1.62.2/publication.json) verifies all80 npm files.
-[Installed acceptance is PARTIAL](evidence/completion-1013/installed-1.62.2/README.md):
-39 plain skills/550 expected files, nine Codex plugins and75 runtime files match.
-Claude drifted to newer SEO/agent-stack sources despite update exit0; B-187 now
-owns the repair. Domain35 project entries match; three real apply runs preserve hashes.
-Two invalid Git roots retain global coverage; sheleg-dev remains global.
+Hub **1.62.2 is published**, source `a17f829e8d652ce7f68423b67e0de00fb89b3693`; [publication](evidence/completion-1013/release-1.62.2/publication.json) verifies all80 npm files. [Installed acceptance](evidence/completion-1013/installed-1.62.2/README.md) is partial:39 plain skills/550 files, nine Codex plugins/75 runtime files match; Claude source drift remains B-187 until a new published update and actual readback.
 
-Next: implement/review Claude immutable source updates; finish remaining owner
-R30 validators and SEO provider coverage; finalize TP source/release ledger.
-TP119 merged3596355 into the feature after genuine exact-head checks; TP114 merged25dc4f8;
-agent-stack0.27.2 is published, its owner receipt merged e2120c2.
-[Remaining-seven R30 audit](evidence/completion-1013/r30-owner-audit/README.md)
-records actual escaped plants and bounded follow-ups. Original37 requirements
-and177 initial board IDs remain source-preserved, not blanket completion.
-Native artifact review is **NO_ADOPTION**, with [new routing research](reports/2026-10-13-native-skill-routing/README.md)
-clarifying registration versus invocation. The separate native trigger experiment has explicit stopped protocols and a new bounded proposal; see its receipt below.
-[Current run](evidence/completion-1013/run.md). Latest [Fabric admission](evidence/completion-1013/fabric-admission-20261013-0551.json) again returns no project; com.* tools remain absent. Pending asks are unsent.
-[Native skill-search protocol](evidence/completion-1013/skill-search-native/README.md): A stopped after1 CLI invocation on startup-inventory mismatch; B stopped after2 invocations on a reported-turn/request-counter mismatch. Original receipts remain TEST_ERROR, total USD0.121004 list estimate. C completed61 invocations:20/20 query-majority passes,59/60 individual matches, with the s09 miss retained. Combined A+B+C list estimate USD2.4620616; [independent result readback](evidence/completion-1013/skill-search-native/peer-results-c.json) passed all61 raw-stream bindings and reproduced scoring. This certifies restricted native loading only, not executed catalogue search or full task quality.
+B-187 immutable Claude installation is now integrated: [aggregate receipt](evidence/completion-1013/claude-pins/aggregate.json) preserves the initial fixture failures, corrected118-suite/1814-fixture result and count-only ratchet replay. Source acceptance is not installed acceptance. The separate [wait-rule packet](evidence/completion-1013/wait-rule-packet.md) remains active; the selected-host legacy-migration correction is integrated with seven process controls.
 
-The [paired router reader](evidence/completion-1013/paired-routing-1013/README.md)
-is frozen at6c1a53a with43 offline controls; no new model calls are admitted yet.
-Four R30 owner follow-ups are normally merged; task-pipeline and super-ux full
-checks remain active. Make-skill PR38 carries the owner native-evidence receipt.
-Claude installer32e29af has source/independent focused acceptance and awaits its
-serial aggregate. SEO transport/bootstrap76818f2 is source-reviewed for implementation,
-stacked on accepted preflight9d9b166; its actual12 baseline failures stay recorded.
-[Graph baseline](reports/2026-10-13-code-graph-finalization/README.md) covers218 files
-at9f0c0dc with independent provenance review; final-code refresh remains pending.
+All assigned R30 owner source gates are accepted; [owner receipts](evidence/completion-1013/r30-owner-acceptance/README.md) include task-pipeline PR120 merge9fb9cfb to its feature branch. Exact next task: compose reviewed1.94.0 metadata, normal feature-to-main integration and release; finish SEO transport/bootstrap full gate and0.26.6 release; accept wait-rule implementation; refresh all accepted hub pins and both inventories, then final aggregate/release/installed verification. Agent-stack0.27.2 is published with its owner receipt.
+
+[Native routing P1](evidence/completion-1013/native-routing-v2/readout.md) is NO_ADOPTION:2/6 native loads,4/6 rubric passes; both identity-migration answers omit required test assertions. [Paired reader](evidence/completion-1013/paired-routing-1013/readout.md) is also NO_ADOPTION. [Skill-search native](evidence/completion-1013/skill-search-native/README.md) completed20/20 query majorities and59/60 individual matches; this establishes restricted loading only. B-144/B-147 close their bounded investigation scope, not whole-family quality. Installed descriptions are unchanged.
+
+[Graph baseline](reports/2026-10-13-code-graph-finalization/README.md) is independently checked; final-source refresh remains pending. [Run ledger](evidence/completion-1013/run.md) and [family packets](evidence/completion-1013/family-next-wave.md) retain requirements and original board IDs. Fabric latest observation06:53 UTC returned no project and no com.* tools; cross-project asks remain unsent. Complete final reconciliation, wiki index and independent goal review after published/installed readback.
 
 The dated entries below retain previous states and are not current instructions.
 

@@ -1,0 +1,354 @@
+{
+  "schema": "independent-artifact-review/1",
+  "reviewer": "visibility_review",
+  "written_before_arm_unmask": true,
+  "blinding_limit": "Arm/index mapping and raw result trace not read before these judgments. Protocol seed was already known and coordinator disclosed aggregate load counts; this is withheld-label review, not a formally blinded experiment. Skill use ignored for quality scoring.",
+  "cases_sha256": "1af5649c559938ccbfb4232c2d390b2c8f7a10f922e57741b826bd9e99bc4f9b",
+  "review_manifest_sha256": "5610f5be7d50c78363f91437dc0da89d4218c868e303b9ea4280a83a8f3b0348",
+  "model_judge_calls": 0,
+  "artifacts": [
+    {
+      "artifact": "artifact-1.md",
+      "case_id": "m9",
+      "sha256": "4a553dc8bfff9ccfdd4cce06171fe4786d7019342eb88129d173672a5c2bc69b",
+      "required": [
+        {
+          "criterion": "Use identical event_name and stable server-issued event_id for the same successful purchase in both channels, preserving browser attribution when allowed.",
+          "verdict": "PASS",
+          "artifact_lines": "20-27",
+          "short_quote": "Use the charge ID as the shared `event_id`",
+          "reason": "Identical Purchase/ch_9 mappings, server-confirmed source and preserved browser attribution."
+        },
+        {
+          "criterion": "Do not emit purchase for canceled/unverified return; browser success uses server-confirmed purchase evidence.",
+          "verdict": "PASS",
+          "artifact_lines": "24-27,50,57",
+          "short_quote": "confirmed successful charge from your backend",
+          "reason": "Canceled or unconfirmed return must not emit Purchase. Snippet relies on the stated confirmed-order premise."
+        },
+        {
+          "criterion": "Keep value 19.00 and currency EUR for o_41, stable identity on refresh/server retry; do not invent a second purchase.",
+          "verdict": "PASS",
+          "artifact_lines": "47-50",
+          "short_quote": "19.00 EUR",
+          "reason": "Expected table keeps ch_9 on refresh/retry with one deduplicated conversion."
+        },
+        {
+          "criterion": "Consent denied suppresses browser Meta emission; server policy remains separately scoped and unknown rather than asserting consent.",
+          "verdict": "PASS",
+          "artifact_lines": "41,51",
+          "short_quote": "server side unknown",
+          "reason": "Browser denied consent suppresses emission; external server policy remains unknown."
+        }
+      ],
+      "forbidden": [
+        {
+          "criterion": "Solve dedup by dropping all browser events.",
+          "verdict": "PASS_ABSENT",
+          "evidence": "Full visible artifact reviewed; no forbidden recommendation or claim found.",
+          "artifact_lines": "27",
+          "short_quote_or_absence": "Don't remove the browser event"
+        },
+        {
+          "criterion": "Assert compliance or live analytics totals.",
+          "verdict": "PASS_ABSENT",
+          "evidence": "Full visible artifact reviewed; no forbidden recommendation or claim found.",
+          "artifact_lines": "51,53-55",
+          "short_quote_or_absence": "server side unknown"
+        }
+      ],
+      "artifact_quality": "PASS_FROZEN_CASE_RUBRIC",
+      "additional_findings": [
+        {
+          "artifact_lines": "31-39",
+          "finding": "Illustrative browser code checks charge_id presence only; it depends on the prose prerequisite that order data is already backend-confirmed. A real implementation needs that prerequisite enforced, not mere ID presence."
+        },
+        {
+          "artifact_lines": "43-55",
+          "finding": "The expected behavior table provides offline test oracles; no tests were run. This is an audit recommendation, not implementation acceptance."
+        }
+      ]
+    },
+    {
+      "artifact": "artifact-2.md",
+      "case_id": "m9",
+      "sha256": "7bbe83f7310e824f8994fe15efae519707cea030a118e2eba2f660426be82c7f",
+      "required": [
+        {
+          "criterion": "Use identical event_name and stable server-issued event_id for the same successful purchase in both channels, preserving browser attribution when allowed.",
+          "verdict": "PASS",
+          "artifact_lines": "17-33",
+          "short_quote": "The browser event stays.",
+          "reason": "Same Purchase/charge ID on both sides, with alternative shared order ID described as a contract change and attribution preserved."
+        },
+        {
+          "criterion": "Do not emit purchase for canceled/unverified return; browser success uses server-confirmed purchase evidence.",
+          "verdict": "PASS",
+          "artifact_lines": "19,29,42",
+          "short_quote": "order.status !== \"paid\"",
+          "reason": "Paid state plus charge ID gate; no event for canceled order."
+        },
+        {
+          "criterion": "Keep value 19.00 and currency EUR for o_41, stable identity on refresh/server retry; do not invent a second purchase.",
+          "verdict": "PASS",
+          "artifact_lines": "39-42",
+          "short_quote": "19.00 EUR",
+          "reason": "Refresh and server retries retain shared identity and one expected conversion."
+        },
+        {
+          "criterion": "Consent denied suppresses browser Meta emission; server policy remains separately scoped and unknown rather than asserting consent.",
+          "verdict": "PASS",
+          "artifact_lines": "18,33,43-45",
+          "short_quote": "whose status I don't know",
+          "reason": "Denied browser event suppressed; server policy explicitly unknown."
+        }
+      ],
+      "forbidden": [
+        {
+          "criterion": "Solve dedup by dropping all browser events.",
+          "verdict": "PASS_ABSENT",
+          "evidence": "Full visible artifact reviewed; no forbidden recommendation or claim found.",
+          "artifact_lines": "31-32",
+          "short_quote_or_absence": "The browser event stays."
+        },
+        {
+          "criterion": "Assert compliance or live analytics totals.",
+          "verdict": "PASS_ABSENT",
+          "evidence": "Full visible artifact reviewed; no forbidden recommendation or claim found.",
+          "artifact_lines": "1,33,43-45",
+          "short_quote_or_absence": "I didn't edit anything or run anything"
+        }
+      ],
+      "artifact_quality": "PASS_FROZEN_CASE_RUBRIC",
+      "additional_findings": [
+        {
+          "artifact_lines": "35-45",
+          "finding": "The expected behavior table provides offline test oracles; no tests were run. This is an audit recommendation, not implementation acceptance."
+        }
+      ]
+    },
+    {
+      "artifact": "artifact-3.md",
+      "case_id": "b7",
+      "sha256": "0019800186d60e74ab9c54b9cd71599bb65ca3557e2fb8eba256181e84d09ec1",
+      "required": [
+        {
+          "criterion": "Identify the supplied environment-file resolution and distinguish it from the unverified report claiming attached identity.",
+          "verdict": "PASS",
+          "artifact_lines": "3-4,14,26-28",
+          "short_quote": "environment-file / old-exporter",
+          "reason": "Correct supplied resolution distinguished from hard-coded attached identity; ADC precedence addressed."
+        },
+        {
+          "criterion": "Block removal until next-exporter destination write access is verified; read access alone is insufficient.",
+          "verdict": "PASS",
+          "artifact_lines": "9,15,29-30",
+          "short_quote": "Don't change config until both accesses",
+          "reason": "Unknown destination write blocks removal until both accesses are documented allowed."
+        },
+        {
+          "criterion": "Specify reversible removal/deploy/verification order after both permissions pass, with rollback retaining previous configuration.",
+          "verdict": "PASS",
+          "artifact_lines": "16-20,31",
+          "short_quote": "keep the old key mount",
+          "reason": "Exclude developer ADC fallback, reversible switch, postdeploy identity/access verification, restore env on failure, delayed cleanup."
+        },
+        {
+          "criterion": "Test unknown/denied destination access prevents switch, both permissions allow controlled switch, and source/principal diagnostics contain no secret.",
+          "verdict": "FAIL",
+          "artifact_lines": "24-32",
+          "short_quote": "Sequence stops before any removal step.",
+          "reason": "Unknown denial and allowed-path fixtures plus rollback are present, but no explicit denied-access fixture and no assertion that source/principal diagnostics contain no secret. Required conjunction is incomplete."
+        }
+      ],
+      "forbidden": [
+        {
+          "criterion": "Claim actual runtime or IAM verification.",
+          "verdict": "PASS_ABSENT",
+          "evidence": "Full visible artifact reviewed; no forbidden recommendation or claim found.",
+          "artifact_lines": "34-36",
+          "short_quote_or_absence": "nothing here was checked"
+        },
+        {
+          "criterion": "Recommend printing tokens, key files or credential objects.",
+          "verdict": "PASS_ABSENT",
+          "evidence": "Full visible artifact reviewed; no forbidden recommendation or claim found.",
+          "artifact_lines": "1-36",
+          "short_quote_or_absence": "No recommendation to print secrets appears in the complete artifact."
+        }
+      ],
+      "artifact_quality": "FAIL_FROZEN_CASE_RUBRIC",
+      "additional_findings": []
+    },
+    {
+      "artifact": "artifact-4.md",
+      "case_id": "k2",
+      "sha256": "25aded1c514e1cf5f5612d98095510d7d45b2bb2da90990284c9e7b45221552a",
+      "required": [
+        {
+          "criterion": "Explain concurrent read-before-write and crash-after-grant duplicate paths.",
+          "verdict": "PASS",
+          "artifact_lines": "7-9",
+          "short_quote": "Нет общей транзакции.",
+          "reason": "Explicit concurrent unlocked-read and crash-between-commits duplicate paths."
+        },
+        {
+          "criterion": "Use durable atomic ownership and grant completion within a database transaction, with invoice-level uniqueness across different event IDs.",
+          "verdict": "PASS",
+          "artifact_lines": "15-29,33",
+          "short_quote": "в одной транзакции и одном коммите",
+          "reason": "Invoice primary key, durable insert claim, grant and event mark share database transaction."
+        },
+        {
+          "criterion": "Completed duplicates succeed without grant; abandoned/in-flight claim handling retains retryability rather than silently marking success.",
+          "verdict": "PASS",
+          "artifact_lines": "29,43,48-50",
+          "short_quote": "W2 получает claim после отката W1",
+          "reason": "Completed duplicates return200; uncommitted claim waits and rollback preserves retry admission."
+        },
+        {
+          "criterion": "Schedule two concurrent evt_a deliveries, retry after injected pre-completion crash and evt_b for inv_9; each ends with exactly one 30-unit grant.",
+          "verdict": "PASS",
+          "artifact_lines": "38-51",
+          "short_quote": "Итог 30, не 0 и не 60",
+          "reason": "Concrete barriers for concurrent evt_a, crash/retry and evt_b same inv_9; one30-unit grant required."
+        }
+      ],
+      "forbidden": [
+        {
+          "criterion": "Require live provider access or claim unverified signature validation is missing inside this already-verified fixture.",
+          "verdict": "PASS_ABSENT",
+          "evidence": "Full visible artifact reviewed; no forbidden recommendation or claim found.",
+          "artifact_lines": "1,54",
+          "short_quote_or_absence": "Реальный провайдер тоже не проверялся."
+        },
+        {
+          "criterion": "Propose only in-process lock or only event-id uniqueness as sufficient.",
+          "verdict": "PASS_ABSENT",
+          "evidence": "Full visible artifact reviewed; no forbidden recommendation or claim found.",
+          "artifact_lines": "11,15-19",
+          "short_quote_or_absence": "Блокировка внутри одного процесса здесь не поможет"
+        }
+      ],
+      "artifact_quality": "PASS_FROZEN_CASE_RUBRIC",
+      "additional_findings": []
+    },
+    {
+      "artifact": "artifact-5.md",
+      "case_id": "k2",
+      "sha256": "2b8733b5dcf0e41c5436f9a7a7fafe7a31b4b65d035a2089826472d781dba630",
+      "required": [
+        {
+          "criterion": "Explain concurrent read-before-write and crash-after-grant duplicate paths.",
+          "verdict": "PASS",
+          "artifact_lines": "3-5",
+          "short_quote": "две отдельные фиксации",
+          "reason": "Concurrency and post-grant/pre-mark crash duplicates identified."
+        },
+        {
+          "criterion": "Use durable atomic ownership and grant completion within a database transaction, with invoice-level uniqueness across different event IDs.",
+          "verdict": "PASS",
+          "artifact_lines": "13-34",
+          "short_quote": "то же соединение, тот же tx",
+          "reason": "Invoice unique key owns durable claim, credit and completion committed together."
+        },
+        {
+          "criterion": "Completed duplicates succeed without grant; abandoned/in-flight claim handling retains retryability rather than silently marking success.",
+          "verdict": "PASS",
+          "artifact_lines": "33-35,46,51-52",
+          "short_quote": "всё откатится и повтор выполнит работу заново",
+          "reason": "Concurrent conflict waits; rollback allows retry; completed duplicates return200 without credit."
+        },
+        {
+          "criterion": "Schedule two concurrent evt_a deliveries, retry after injected pre-completion crash and evt_b for inv_9; each ends with exactly one 30-unit grant.",
+          "verdict": "PASS",
+          "artifact_lines": "44-54",
+          "short_quote": "После повтора: 1 строка, 30 единиц",
+          "reason": "Explicit duplicate deliveries, injected precommit failure, evt_b same invoice and concurrency schedules with30-unit expectation."
+        }
+      ],
+      "forbidden": [
+        {
+          "criterion": "Require live provider access or claim unverified signature validation is missing inside this already-verified fixture.",
+          "verdict": "PASS_ABSENT",
+          "evidence": "Full visible artifact reviewed; no forbidden recommendation or claim found.",
+          "artifact_lines": "40,60",
+          "short_quote_or_absence": "реального провайдера я не проверял"
+        },
+        {
+          "criterion": "Propose only in-process lock or only event-id uniqueness as sufficient.",
+          "verdict": "PASS_ABSENT",
+          "evidence": "Full visible artifact reviewed; no forbidden recommendation or claim found.",
+          "artifact_lines": "5,7,13-34",
+          "short_quote_or_absence": "Гарантию должна давать база данных."
+        }
+      ],
+      "artifact_quality": "PASS_FROZEN_CASE_RUBRIC",
+      "additional_findings": [
+        {
+          "artifact_lines": "56",
+          "finding": "Final SQL invariant inspects grants ledger only. Tests must also inspect actual credited units to prove the business effect; surrounding expected outcomes state30 but this query alone cannot detect a duplicate credit with one ledger row."
+        }
+      ]
+    },
+    {
+      "artifact": "artifact-6.md",
+      "case_id": "b7",
+      "sha256": "26ab89d8e81e40b2ad2a556aff3ca6761157dc021895a246ca147543258b15b1",
+      "required": [
+        {
+          "criterion": "Identify the supplied environment-file resolution and distinguish it from the unverified report claiming attached identity.",
+          "verdict": "PASS",
+          "artifact_lines": "5-13,26,35-39",
+          "short_quote": "source=environment-file, principal=old-exporter",
+          "reason": "Supplied resolution distinguished from hardcoded attached report and developer ADC fallback identified."
+        },
+        {
+          "criterion": "Block removal until next-exporter destination write access is verified; read access alone is insufficient.",
+          "verdict": "PASS",
+          "artifact_lines": "20-27,40-41",
+          "short_quote": "stop here and keep old-exporter running",
+          "reason": "Unknown write access blocks switch; both access checks must precede removals."
+        },
+        {
+          "criterion": "Specify reversible removal/deploy/verification order after both permissions pass, with rollback retaining previous configuration.",
+          "verdict": "PASS",
+          "artifact_lines": "28-32,41-45",
+          "short_quote": "keep the old key mount in place",
+          "reason": "Reversible canary switch, identity/access verification, rollback retaining mount, cleanup after soak."
+        },
+        {
+          "criterion": "Test unknown/denied destination access prevents switch, both permissions allow controlled switch, and source/principal diagnostics contain no secret.",
+          "verdict": "FAIL",
+          "artifact_lines": "34-46",
+          "short_quote": "permission gate",
+          "reason": "Unknown write and happy-path fixtures plus rollback present; denied-access case and secret-free diagnostic assertion absent. No-live-claims test is not a no-secret-output test."
+        }
+      ],
+      "forbidden": [
+        {
+          "criterion": "Claim actual runtime or IAM verification.",
+          "verdict": "PASS_ABSENT",
+          "evidence": "Full visible artifact reviewed; no forbidden recommendation or claim found.",
+          "artifact_lines": "1,46,48",
+          "short_quote_or_absence": "I did not check anything live"
+        },
+        {
+          "criterion": "Recommend printing tokens, key files or credential objects.",
+          "verdict": "PASS_ABSENT",
+          "evidence": "Full visible artifact reviewed; no forbidden recommendation or claim found.",
+          "artifact_lines": "1-48",
+          "short_quote_or_absence": "No recommendation to print secrets appears in the complete artifact."
+        }
+      ],
+      "artifact_quality": "FAIL_FROZEN_CASE_RUBRIC",
+      "additional_findings": []
+    }
+  ],
+  "summary": {
+    "pass": 4,
+    "fail": 2,
+    "failure": "Both b7 answers omit required secret-free diagnostic check and explicit denied-access test; pre-switch access and reversible migration improved relative to v1 but complete frozen fourth criterion is not met."
+  },
+  "limits": "Exploratory synthetic artifact review only. No live/provider/runtime claims and no description adoption. Extra implementation caveats are kept separate from fixed rubric dimensions."
+}

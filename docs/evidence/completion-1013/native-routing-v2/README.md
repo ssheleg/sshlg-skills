@@ -1,6 +1,6 @@
-# Native routing v2: proposed diagnostic packet
+# Native routing v2: diagnostic packet
 
-Status: **RUNNER_PROPOSED_NOT_ADMITTED**. A dry-run-first runner and offline controls are now delivered; no provider execution belongs to this packet yet. Research entry: [native routing report](../../../reports/2026-10-13-native-skill-routing/README.md).
+Status: **P1_COMPLETED_NO_ADOPTION**. [P1 readout](readout.md) records eight valid calls and independent artifact/raw-stream review. The proposed-phase text below is retained as the pre-execution design; actual execution is bound by admission.json and results-a.json. Research entry: [native routing report](../../../reports/2026-10-13-native-skill-routing/README.md).
 
 ## Frozen task inputs
 
