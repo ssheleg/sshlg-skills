@@ -1,40 +1,49 @@
-## Current continuation — 2026-10-13 08:09 UTC
+## Current continuation — 2026-10-13 09:12 UTC
 
-Hub candidate **1.63.0** contains immutable native Claude sources, scoped default-off
-wait rules and release-iteration routing. Latest published hub remains1.62.2 at
-`a17f829e8d652ce7f68423b67e0de00fb89b3693`; [installed acceptance](evidence/completion-1013/installed-1.62.2/README.md)
-remains partial until the candidate is published and applied.
+Hub candidate **1.63.0**, branch `waves/2026-10-13-finalization`, contains immutable
+Claude source updates, scoped default-off wait rules, release-iteration routing
+and the independently reviewed [read-only blocks preview](evidence/completion-1013/blocks-preview/README.md).
+Latest published hub remains1.62.2; candidate aggregate, publication and installed
+acceptance are still pending. Earlier acceptance does not certify these changes.
 
-B187 source/aggregate accepted; W175 source independently corrected for invalid
-UTF-8, current consent and receipt ownership. [Merged seam review](evidence/completion-1013/w175-merged-peer.md)
-checks install/update and both refusal boundaries. Root separately replayed8 CLI
-and27 native-transaction controls on the composition. No machine rule apply yet.
-[B179 peer](evidence/completion-1013/b179-peer.md) is conditional on the new TP pin.
+**Urgent hook recovery:** native Codex updates deleted old payload paths still used
+by the running session, causing127 and1. Exact prior versions of agent-sync,
+sheleg-dev and make-skill were restored without changing config/trust/current
+payloads. The [before/after native receipt](evidence/completion-1013/hook-recovery/README.md)
+records nine subsequent completed events. A permanent updater admission correction
+is under independent review on `fix/codex-active-payloads`; do not perform another
+native Codex version transition until the correction is composed. Catalog readback
+does not prove active threads retired their old paths.
 
-**Exact next sequence:** TP PR112 merged normally at
-`4d750573ce53ea4c7ffa2bde192ee35b59acefa7`; exact-source local full gate is running
-in owned tp-publish-1.94.0 before an annotated tag under its release policy.
-SEO PR36 merged524e355 after full genuine CI; reviewed0.26.6 packaging PR37 has
-its own exact-merge local full barrier. Serial broad queue: TP → SEO → hub.
-Five header-only R30 owner PRs are on guarded merge watchers after independent
-AST and whole npm-payload comparison; the [original hub seam failure](evidence/completion-1013/r30-owner-acceptance/pin-seam-failure.json)
-is retained. Refresh accepted member pins and both inventories, finish hub aggregate,
-normal integration/release, published-payload readback and actual host update.
+**Exact next sequence:** TP PR122 merged normally at
+`78c42124db910c56e74c8fbd524bdc9a4f8fb6c9`. Its exact-source full gate is running
+in owned tp-publish-1.94.0, chained to source guard and tag. The previous full gate
+at4d75057 failed historical source links after squash; that failure is preserved
+in the owner's `docs/evidence/runs/2026-10-13-exact-main-release-gate/`.
+SEO0.26.6 is published atc5a32d23, all four release jobs pass and all46 npm files
+match; owner receipt branch `docs/fw06-release-0266-receipt` at4d90d35 awaits normal
+docs integration. Agent-stack0.28.2 accepted main2b3d769 passed its full local gate;
+publication/readback proceeds independently. Only TP owns the long broad-test slot.
+Five R30 header-only owner corrections are integrated and pinned with whole-payload
+identity evidence. Refresh remaining accepted pins and both generated inventories,
+then compose Codex safety and managed-block backup corrections before hub gates.
 
-[Native P2](evidence/completion-1013/native-routing-p2/readout.md) is complete:
-both directed loads precede audits, but only Stripe passes the whole rubric;
-Google Auth still omits an explicit denied-before-switch test. All native phases
-remain NO_ADOPTION; installed descriptions are unchanged. [Paired reader](evidence/completion-1013/paired-routing-1013/readout.md)
-and [skill-search loading](evidence/completion-1013/skill-search-native/README.md)
-have their own bounded outcomes and separate cost ledgers.
+[Native P2](evidence/completion-1013/native-routing-p2/readout.md) remains
+**NO_ADOPTION**: only Stripe passes its whole rubric; Google Auth omits the explicit
+denied-before-switch test. Installed descriptions are unchanged. The
+[combined evaluation report](reports/2026-10-13-skill-discovery-quality-results/README.md)
+separates protocols, costs and quality limits. FW07 stage loading has a conservative
+source-conservation packet; source edits follow actual TP1.94 publication, beginning
+with the independently identified UX-prerequisite contradiction.
 
-Graph refresh at86477b5 is built with no model calls and awaits independent
-provenance review. A new combined evaluation report, FW07 stage-loading feasibility
-and independent preliminary goal-observer audit are active. Regenerate all37
-requirement and177 original-board dispositions after final pins; refresh wiki
-from report headers and run final independent goal review after installed readback.
-[Fabric admission08:09](evidence/completion-1013/fabric-admission-20261013-0809.json)
-still has no project or com.* tools; cross-project asks remain unsent.
+The [graph cut](reports/2026-10-13-code-graph-finalization/README.md) at86477b5 is
+independently verified historical evidence; code added since needs a fresh cut.
+[Preliminary observer](evidence/completion-1013/observer-pre-release.md) remains
+PARTIAL_NOT_FINAL. Regenerate all37 requirements and177 original-board dispositions
+with separately identified new defects; source-aware wiki indexing must conserve
+old IDs. Fabric com.* remains unavailable, so cross-project requests are unsent.
+Final acceptance requires published payload, actual host readback and an independent
+comparison against the original goal.
 
 The dated entries below retain previous states and are not current instructions.
 
