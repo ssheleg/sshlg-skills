@@ -1,0 +1,18 @@
+{
+  "source_commit": "ab37778793674efff60b92ed381284c7339420ea",
+  "command": "npm test",
+  "exit_code": 1,
+  "suites_run": 112,
+  "passing_suites": 111,
+  "failed": [
+    "validate.py: backlog tally IDs same set but not numeric order"
+  ],
+  "fixtures_counted_from_suite_output": 1668,
+  "count_method": "same two count regexes as test/run.js applied to complete stdout",
+  "corrective_check": {
+    "command": "python3 test/validate.py",
+    "exit_code": 0,
+    "status": "PASS structure valid after tally ordering correction"
+  },
+  "acceptance": "NOT FINAL; two profile followups pending, full exact-head rerun required"
+}

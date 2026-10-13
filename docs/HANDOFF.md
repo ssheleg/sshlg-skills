@@ -6,6 +6,31 @@ Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 [standing retrospective instructions](evidence/retro.md) and the
 [repository handoff rule](working-rules/repository-handoff.md) before editing.
 
+## Current execution — completion waves, 2026-10-13
+
+This section owns the next action. The sections below are historical component
+handoffs; their old next-task and lease statements do not supersede this execution.
+Entry: [completion plan and packets](evidence/plans/2026-10-13-completion.md),
+[receipts](evidence/completion-1013/README.md),
+[stage ledger](evidence/completion-1013/run.md),
+[dated research](reports/2026-10-13-skill-discovery-efficiency/README.md).
+
+Branch `waves/2026-10-13-completion` integrates visibility `18a2a77`, domains
+`ff33a3b`, guards `72e0138`, discovery `7d49b3e` and main's CI optimization
+`022356d`. Component reviews closed reproduced defects; aggregate gate/review is
+running. The original checkout and its local exports remain untouched.
+
+**Exact next action:** finish the full gate on the integration head, reconcile its
+measured test counts and independent review findings, then update the release and
+installed-readback receipts. Do not claim a published/installed update from this
+branch. After the release gates, use the documented visibility and domains previews,
+apply the already-authorized choices and verify each host. Keep sheleg-dev global.
+
+Fabric admission returned `no-project`; pending owner requests are recorded in the
+completion receipts. No alternate channel was used. Human-only sign-ins/consents
+remain human. The complete family objective remains open: native task-quality evals
+and the remaining owner-board rows are tracked separately from local test success.
+
 ## L1 — the marked packs hidden on every host (2026-10-13, unreleased, lease `WAVES-1011`)
 
 Plan: [load optimisation, wave L1](evidence/plans/2026-10-13-load-optimization.md).

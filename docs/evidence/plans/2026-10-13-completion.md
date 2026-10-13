@@ -39,3 +39,9 @@ Independent review precedes integration. Tests establish both failure and benign
 
 - C07 implemented: B-182 board channel and B-183 release policy; handoff tests 13/13. `test/validate.py` executed; output retained locally for integrated gate review.
 - C03: #215 exact head had six successful hosted checks, local ratchet tests 7/7; squash integration requested after merge-commit method was refused by GitHub.
+- C03 integrated: main 022356d; current operator nightly policy applied in completion branch, release reusable workflow retained.
+- C04 integrated: 18a2a77, including per-host write-ahead recovery. Parent independently reran 37 visibility host e2e checks; aggregate independent review pending.
+- C05 integrated: ff33a3b. Independent replay found and drove fixes for interrupted writes, unreadable/malformed settings, incomplete scans, explicit project choices and repeated hints. Final bounded independent review passed; installed apply remains pending.
+- C06 integrated: 72e0138. New bounded reader corpus 128 passed (baseline failed 75); independent real-hook probes passed. Full interpreter/symlink/dynamic-program coverage is explicitly outside this recognizer.
+- C08 integrated: 7d49b3e. Phrase-ranking synthetic recall 11/11 within declared cutoffs; filesystem inventory and alternate copies covered by 15 checks. Independent review closed CRLF and disabled foreign-plugin omissions. This is retrieval evidence, not model task quality.
+- Full aggregate npm test started at ab37778793674efff60b92ed381284c7339420ea. Final counts and verdict are not yet claimed.

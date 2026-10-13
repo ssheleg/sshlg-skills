@@ -40,4 +40,13 @@ The retrieval metric is named mean relevant-item reciprocal rank (all expected i
 
 ## Bounded native-host probe
 
-[Provider probe](provider-probe.json) records a one-turn Claude readiness request. It ended with error_max_budget_usd: the CLI's list-price estimate was $1.50376 despite a $0.10 argument, after 187709 cache-creation input tokens. The cap is checked after the first request and is not proof of a pre-request spending ceiling. This is list-price usage, not verified subscription billing. No routing/quality result was returned and no further provider batch was started. Model evaluation remains NOT_RUN.
+[Provider probe](provider-probe.json) records a one-turn Claude readiness request. It ended with error_max_budget_usd: the CLI's list-price estimate was $1.50376 despite a $0.10 argument, after 187709 cache-creation input tokens. The cap is checked after the first request and is not proof of a pre-request spending ceiling. This is list-price usage, not verified subscription billing. No routing/quality result was returned from this first probe.
+
+
+## Controlled context and description screening
+
+A second [readiness probe](controlled-probe.json), using normal subscription authentication with an explicit empty MCP/tool/skill context and a synthetic system prompt, returned the requested JSON. It reported 2237 input tokens including cache creation, 9 output tokens and USD0.018068 list-price usage. Four registered plugins and five agents still appeared in initialization metadata; registration does not prove execution. This isolated context is an experiment, not a replacement for the operator's normal safety hooks and workflow.
+
+The [frozen description fixture](description-screening-fixture.json) contains full and concise candidate descriptions for 39 family skills and 13 synthetic selection cases. No installed description was changed. [Attempt 1](description-screening-full.json) and one explicit [diagnostic retry](description-screening-full-attempt2.json) both returned exit 1, `is_error: true`, zero usage and no selections. They are **TEST_ERROR**, with null task verdicts, not 0/13 quality. The first sanitizer omitted error text; the retry retained a hash and could only classify it as `provider_error_unclassified`. Its cause is unresolved. No concise arm was called because a usable paired baseline was absent.
+
+[The replay script](run-description-screening.py) refuses existing receipts and automatic retries; its default is a no-call preview. Next evaluation task: obtain a diagnosable successful baseline, then the paired concise arm, preserving error evidence safely. Even a successful single batch would only screen synthetic explicit-catalogue selection; native triggering, task artifacts and repeated quality/cost acceptance remain open under B-144/B-147.

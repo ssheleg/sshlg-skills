@@ -1,0 +1,1507 @@
+{
+  "schema": "host-measurements/1",
+  "observed_at": "2026-10-13T01:15:11.477366+00:00",
+  "source_sha": "ab37778793674efff60b92ed381284c7339420ea",
+  "family_expected": [
+    "ad-tracking",
+    "agent-evals",
+    "agent-harness",
+    "agent-interop",
+    "agent-orchestrator",
+    "agent-sync",
+    "brand-voice",
+    "copywriting",
+    "crypto-payments",
+    "error-tracking",
+    "evidence-docs",
+    "frontend-performance",
+    "google-auth",
+    "google-signin",
+    "make-skill",
+    "project-audit",
+    "quest-lifecycle",
+    "quest-native",
+    "quest-perf",
+    "quest-spatial",
+    "quest-store",
+    "quest-tooling",
+    "quest-webxr",
+    "seo-aeo-audit",
+    "sheleg-design",
+    "skill-search",
+    "stripe-billing",
+    "task-pipeline",
+    "telegram-bots",
+    "telegram-miniapps",
+    "telegram-userbots",
+    "ux-audit",
+    "ux-flows",
+    "ux-foundation",
+    "ux-scenarios",
+    "vision",
+    "web3d-animation",
+    "web3d-assets",
+    "web3d-runtime"
+  ],
+  "commands": {
+    "claude": {
+      "command": "claude --version",
+      "exit_code": 0,
+      "stdout_chars": 22,
+      "stdout_sha256": "ced06c95bb4c0780504b700880ceea37cd764283d2be9d3ea2555683183207ea",
+      "stderr_chars": 0,
+      "family_name_mentions": [],
+      "layer": "version",
+      "version_output": "2.1.296 (Claude Code)"
+    },
+    "codex": {
+      "command": "codex --version",
+      "exit_code": 0,
+      "stdout_chars": 18,
+      "stdout_sha256": "1df57fdc934f35bbd09e26308fbbd895698596f3be833ace1027c6bcfd2f81e2",
+      "stderr_chars": 0,
+      "family_name_mentions": [],
+      "layer": "version",
+      "version_output": "codex-cli 0.162.1"
+    },
+    "gemini": {
+      "command": "gemini --version",
+      "exit_code": 0,
+      "stdout_chars": 7,
+      "stdout_sha256": "9a108132abcbb17753ee4b8233d534e0958f6bfbea06cb41bde50a0aa9ac0cf9",
+      "stderr_chars": 0,
+      "family_name_mentions": [],
+      "layer": "version",
+      "version_output": "0.63.0"
+    },
+    "opencode": {
+      "command": "opencode --version",
+      "exit_code": 0,
+      "stdout_chars": 8,
+      "stdout_sha256": "d00649299515d072d15926d7f6616d0e2e71ed1f6940efb99e1c093374cfd199",
+      "stderr_chars": 0,
+      "family_name_mentions": [],
+      "layer": "version",
+      "version_output": "1.18.10"
+    },
+    "hermes": {
+      "command": "hermes --version",
+      "exit_code": 0,
+      "stdout_chars": 253,
+      "stdout_sha256": "49c145c25f3a7484b4cb208eec1e9927d64cf7641783bb337774e895b31a7393",
+      "stderr_chars": 0,
+      "family_name_mentions": [],
+      "layer": "version",
+      "version_output": "Hermes Agent v0.21.4 (2026.9.21) · upstream a928a959"
+    },
+    "pi": {
+      "command": "pi --version",
+      "exit_code": 0,
+      "stdout_chars": 6,
+      "stdout_sha256": "1575e1af4a95f12f70b4ee6a6adce8160953d93ea17dc2611b90883ccc3ad3b8",
+      "stderr_chars": 0,
+      "family_name_mentions": [],
+      "layer": "version",
+      "version_output": "1.1.0"
+    },
+    "kimi": {
+      "command": "kimi --version",
+      "exit_code": 0,
+      "stdout_chars": 6,
+      "stdout_sha256": "7b3ff271f1373cfb97e9e53349794e1450f3794e4c0788c54a2060c7596da821",
+      "stderr_chars": 0,
+      "family_name_mentions": [],
+      "layer": "version",
+      "version_output": "2.1.1"
+    },
+    "cursor-agent": {
+      "command": "cursor-agent --version",
+      "exit_code": 0,
+      "stdout_chars": 19,
+      "stdout_sha256": "ab79c93eda18b210f69bd39da83523c87d6bc0ba076d0186f27a45cc6e39c980",
+      "stderr_chars": 0,
+      "family_name_mentions": [],
+      "layer": "version",
+      "version_output": "2026.09.02-c22c1a3"
+    },
+    "claude_plugins": {
+      "command": "claude plugin list --json",
+      "exit_code": 0,
+      "capture": "regular temporary file, removed; avoids CLI buffered-pipe truncation",
+      "stdout_chars": 26572,
+      "stdout_sha256": "bb60642e4ed1eba74895c7d6b99d4184af6bb022a34116021f46b357144c76f1",
+      "stderr_chars": 0,
+      "layer": "native_list_command",
+      "observed_at": "2026-10-13T01:17:07.545794+00:00",
+      "registered_plugins": 49,
+      "family_plugins": [
+        {
+          "id": "agent-stack@agent-stack",
+          "version": "0.27.1",
+          "enabled": true,
+          "scope": "user"
+        },
+        {
+          "id": "agent-sync@agent-sync",
+          "version": "1.22.1",
+          "enabled": true,
+          "scope": "user"
+        },
+        {
+          "id": "make-skill@make-skill",
+          "version": "0.31.1",
+          "enabled": true,
+          "scope": "user"
+        },
+        {
+          "id": "seo-aeo-audit@seo-aeo-audit",
+          "version": "0.26.4",
+          "enabled": true,
+          "scope": "user"
+        },
+        {
+          "id": "sheleg-design@sheleg-design-skill",
+          "version": "1.64.1",
+          "enabled": true,
+          "scope": "user"
+        },
+        {
+          "id": "sheleg-dev@sheleg-dev",
+          "version": "0.13.3",
+          "enabled": true,
+          "scope": "user"
+        },
+        {
+          "id": "super-ux@super-ux",
+          "version": "0.59.2",
+          "enabled": true,
+          "scope": "user"
+        },
+        {
+          "id": "task-pipeline@task-pipeline",
+          "version": "1.93.3",
+          "enabled": true,
+          "scope": "user"
+        },
+        {
+          "id": "telegram-dev@telegram-dev",
+          "version": "0.2.3",
+          "enabled": true,
+          "scope": "user"
+        },
+        {
+          "id": "web3d-dev@web3d-dev",
+          "version": "0.1.3",
+          "enabled": true,
+          "scope": "user"
+        },
+        {
+          "id": "xr-dev@xr-dev",
+          "version": "0.3.3",
+          "enabled": true,
+          "scope": "user"
+        }
+      ],
+      "family_versions_match_pins": true
+    },
+    "codex_plugins": {
+      "command": "codex plugin list",
+      "exit_code": 0,
+      "stdout_chars": 1108729,
+      "stdout_sha256": "76c8a460a4158acb056a74a774a19b098802d1c9c0dd829c5e9a108f1f276e53",
+      "stderr_chars": 0,
+      "layer": "native_list_command",
+      "family_rows": [
+        "Marketplace `agent-stack`",
+        "~/.codex/.tmp/marketplaces/agent-stack/.claude-plugin/marketplace.json",
+        "agent-stack@agent-stack  installed, enabled  0.27.1   ~/.codex/.tmp/marketplaces/agent-stack/plugins/agent-stack",
+        "Marketplace `agent-sync`",
+        "~/.codex/.tmp/marketplaces/agent-sync/.claude-plugin/marketplace.json",
+        "agent-sync@agent-sync  installed, enabled  1.22.1   ~/.codex/.tmp/marketplaces/agent-sync/plugins/agent-sync",
+        "Marketplace `make-skill`",
+        "~/.codex/.tmp/marketplaces/make-skill/.claude-plugin/marketplace.json",
+        "make-skill@make-skill  installed, enabled  0.31.1   ~/.codex/.tmp/marketplaces/make-skill/plugins/make-skill",
+        "Marketplace `seo-aeo-audit`",
+        "~/.codex/.tmp/marketplaces/seo-aeo-audit/.claude-plugin/marketplace.json",
+        "seo-aeo-audit@seo-aeo-audit  installed, enabled  0.26.4   ~/.codex/.tmp/marketplaces/seo-aeo-audit/plugins/seo-aeo-audit",
+        "Marketplace `sheleg-design-skill`",
+        "~/.codex/.tmp/marketplaces/sheleg-design-skill/.claude-plugin/marketplace.json",
+        "sheleg-design@sheleg-design-skill  installed, enabled  1.64.1   ~/.codex/.tmp/marketplaces/sheleg-design-skill/plugins/sheleg-design",
+        "Marketplace `sheleg-dev`",
+        "~/.codex/.tmp/marketplaces/sheleg-dev/.claude-plugin/marketplace.json",
+        "sheleg-dev@sheleg-dev  installed, enabled  0.13.3   ~/.codex/.tmp/marketplaces/sheleg-dev/plugins/sheleg-dev",
+        "Marketplace `super-ux`",
+        "~/.codex/.tmp/marketplaces/super-ux/.claude-plugin/marketplace.json",
+        "super-ux@super-ux  installed, enabled  0.59.2   ~/.codex/.tmp/marketplaces/super-ux/plugins/super-ux",
+        "Marketplace `task-pipeline`",
+        "~/.codex/.tmp/marketplaces/task-pipeline/.claude-plugin/marketplace.json",
+        "task-pipeline@task-pipeline  installed, enabled  1.93.3   ~/.codex/.tmp/marketplaces/task-pipeline/plugins/task-pipeline",
+        "Marketplace `web3d-dev`",
+        "~/.codex/.tmp/marketplaces/web3d-dev/.claude-plugin/marketplace.json",
+        "web3d-dev@web3d-dev  installed, enabled  0.1.3    ~/.codex/.tmp/marketplaces/web3d-dev/plugins/web3d-dev"
+      ],
+      "family_plugins": [
+        {
+          "id": "agent-stack@agent-stack",
+          "status": "installed, enabled",
+          "version": "0.27.1"
+        },
+        {
+          "id": "agent-sync@agent-sync",
+          "status": "installed, enabled",
+          "version": "1.22.1"
+        },
+        {
+          "id": "make-skill@make-skill",
+          "status": "installed, enabled",
+          "version": "0.31.1"
+        },
+        {
+          "id": "seo-aeo-audit@seo-aeo-audit",
+          "status": "installed, enabled",
+          "version": "0.26.4"
+        },
+        {
+          "id": "sheleg-design@sheleg-design-skill",
+          "status": "installed, enabled",
+          "version": "1.64.1"
+        },
+        {
+          "id": "sheleg-dev@sheleg-dev",
+          "status": "installed, enabled",
+          "version": "0.13.3"
+        },
+        {
+          "id": "super-ux@super-ux",
+          "status": "installed, enabled",
+          "version": "0.59.2"
+        },
+        {
+          "id": "task-pipeline@task-pipeline",
+          "status": "installed, enabled",
+          "version": "1.93.3"
+        },
+        {
+          "id": "web3d-dev@web3d-dev",
+          "status": "installed, enabled",
+          "version": "0.1.3"
+        }
+      ],
+      "family_versions_match_pins": true
+    },
+    "gemini_skills": {
+      "command": "gemini skills list",
+      "exit_code": 0,
+      "capture": "regular temporary file, removed; avoids CLI buffered-pipe truncation",
+      "stdout_chars": 264275,
+      "stdout_sha256": "1ffac49326e60aac5194f3b85b8558650227b8efbcef69731a6d686567f90d7d",
+      "stderr_chars": 14217,
+      "layer": "native_list_command",
+      "observed_at": "2026-10-13T01:17:10.065208+00:00",
+      "listed_total": 499,
+      "enabled": 499,
+      "disabled": 0,
+      "family_listed": [
+        {
+          "name": "ad-tracking",
+          "status": "Enabled"
+        },
+        {
+          "name": "agent-evals",
+          "status": "Enabled"
+        },
+        {
+          "name": "agent-harness",
+          "status": "Enabled"
+        },
+        {
+          "name": "agent-interop",
+          "status": "Enabled"
+        },
+        {
+          "name": "agent-orchestrator",
+          "status": "Enabled"
+        },
+        {
+          "name": "agent-sync",
+          "status": "Enabled"
+        },
+        {
+          "name": "brand-voice",
+          "status": "Enabled"
+        },
+        {
+          "name": "copywriting",
+          "status": "Enabled"
+        },
+        {
+          "name": "crypto-payments",
+          "status": "Enabled"
+        },
+        {
+          "name": "error-tracking",
+          "status": "Enabled"
+        },
+        {
+          "name": "evidence-docs",
+          "status": "Enabled"
+        },
+        {
+          "name": "frontend-performance",
+          "status": "Enabled"
+        },
+        {
+          "name": "google-auth",
+          "status": "Enabled"
+        },
+        {
+          "name": "google-signin",
+          "status": "Enabled"
+        },
+        {
+          "name": "make-skill",
+          "status": "Enabled"
+        },
+        {
+          "name": "project-audit",
+          "status": "Enabled"
+        },
+        {
+          "name": "quest-lifecycle",
+          "status": "Enabled"
+        },
+        {
+          "name": "quest-native",
+          "status": "Enabled"
+        },
+        {
+          "name": "quest-perf",
+          "status": "Enabled"
+        },
+        {
+          "name": "quest-spatial",
+          "status": "Enabled"
+        },
+        {
+          "name": "quest-store",
+          "status": "Enabled"
+        },
+        {
+          "name": "quest-tooling",
+          "status": "Enabled"
+        },
+        {
+          "name": "quest-webxr",
+          "status": "Enabled"
+        },
+        {
+          "name": "seo-aeo-audit",
+          "status": "Enabled"
+        },
+        {
+          "name": "sheleg-design",
+          "status": "Enabled"
+        },
+        {
+          "name": "skill-search",
+          "status": "Enabled"
+        },
+        {
+          "name": "stripe-billing",
+          "status": "Enabled"
+        },
+        {
+          "name": "task-pipeline",
+          "status": "Enabled"
+        },
+        {
+          "name": "telegram-bots",
+          "status": "Enabled"
+        },
+        {
+          "name": "telegram-miniapps",
+          "status": "Enabled"
+        },
+        {
+          "name": "telegram-userbots",
+          "status": "Enabled"
+        },
+        {
+          "name": "ux-audit",
+          "status": "Enabled"
+        },
+        {
+          "name": "ux-flows",
+          "status": "Enabled"
+        },
+        {
+          "name": "ux-foundation",
+          "status": "Enabled"
+        },
+        {
+          "name": "ux-scenarios",
+          "status": "Enabled"
+        },
+        {
+          "name": "vision",
+          "status": "Enabled"
+        },
+        {
+          "name": "web3d-animation",
+          "status": "Enabled"
+        },
+        {
+          "name": "web3d-assets",
+          "status": "Enabled"
+        },
+        {
+          "name": "web3d-runtime",
+          "status": "Enabled"
+        }
+      ],
+      "stderr_warning_lines": 0
+    },
+    "opencode_skills": {
+      "command": "opencode debug skill",
+      "exit_code": 0,
+      "capture": "regular temporary file, removed; avoids CLI buffered-pipe truncation",
+      "stdout_chars": 5631149,
+      "stdout_sha256": "b21551bbb8e9ce98b1fe4445c2733b30a63b698570920aa52e1abfe5dd2604c8",
+      "stderr_chars": 0,
+      "layer": "native_list_command",
+      "observed_at": "2026-10-13T01:17:12.108973+00:00",
+      "listed_total": 536,
+      "family_listed": [
+        "ad-tracking",
+        "agent-evals",
+        "agent-harness",
+        "agent-interop",
+        "agent-orchestrator",
+        "agent-sync",
+        "brand-voice",
+        "copywriting",
+        "crypto-payments",
+        "error-tracking",
+        "evidence-docs",
+        "frontend-performance",
+        "google-auth",
+        "google-signin",
+        "make-skill",
+        "project-audit",
+        "quest-lifecycle",
+        "quest-native",
+        "quest-perf",
+        "quest-spatial",
+        "quest-store",
+        "quest-tooling",
+        "quest-webxr",
+        "seo-aeo-audit",
+        "sheleg-design",
+        "skill-search",
+        "stripe-billing",
+        "task-pipeline",
+        "telegram-bots",
+        "telegram-miniapps",
+        "telegram-userbots",
+        "ux-audit",
+        "ux-flows",
+        "ux-foundation",
+        "ux-scenarios",
+        "vision",
+        "web3d-animation",
+        "web3d-assets",
+        "web3d-runtime"
+      ],
+      "name_chars": 8031,
+      "description_chars": 221298,
+      "full_content_chars_in_debug_output": 5191344,
+      "json_valid": true
+    },
+    "hermes_skills": {
+      "command": "hermes skills list",
+      "exit_code": 0,
+      "capture": "regular temporary file; COLUMNS=240 to preserve complete names",
+      "stdout_chars": 96042,
+      "stdout_sha256": "299608928c6d6166fd80f789a80b6d0c50fbb6d340cdbca22592c79926087055",
+      "stderr_chars": 0,
+      "layer": "native_list_command",
+      "observed_at": "2026-10-13T01:17:08.890521+00:00",
+      "family_rows": [
+        {
+          "name": "ad-tracking",
+          "status": "enabled"
+        },
+        {
+          "name": "agent-evals",
+          "status": "enabled"
+        },
+        {
+          "name": "agent-harness",
+          "status": "enabled"
+        },
+        {
+          "name": "agent-interop",
+          "status": "enabled"
+        },
+        {
+          "name": "agent-orchestrator",
+          "status": "enabled"
+        },
+        {
+          "name": "agent-sync",
+          "status": "enabled"
+        },
+        {
+          "name": "brand-voice",
+          "status": "enabled"
+        },
+        {
+          "name": "copywriting",
+          "status": "enabled"
+        },
+        {
+          "name": "crypto-payments",
+          "status": "enabled"
+        },
+        {
+          "name": "error-tracking",
+          "status": "enabled"
+        },
+        {
+          "name": "evidence-docs",
+          "status": "enabled"
+        },
+        {
+          "name": "frontend-performance",
+          "status": "enabled"
+        },
+        {
+          "name": "google-auth",
+          "status": "enabled"
+        },
+        {
+          "name": "google-signin",
+          "status": "enabled"
+        },
+        {
+          "name": "make-skill",
+          "status": "enabled"
+        },
+        {
+          "name": "project-audit",
+          "status": "enabled"
+        },
+        {
+          "name": "quest-lifecycle",
+          "status": "enabled"
+        },
+        {
+          "name": "quest-native",
+          "status": "enabled"
+        },
+        {
+          "name": "quest-perf",
+          "status": "enabled"
+        },
+        {
+          "name": "quest-spatial",
+          "status": "enabled"
+        },
+        {
+          "name": "quest-store",
+          "status": "enabled"
+        },
+        {
+          "name": "quest-tooling",
+          "status": "enabled"
+        },
+        {
+          "name": "quest-webxr",
+          "status": "enabled"
+        },
+        {
+          "name": "seo-aeo-audit",
+          "status": "enabled"
+        },
+        {
+          "name": "sheleg-design",
+          "status": "enabled"
+        },
+        {
+          "name": "skill-search",
+          "status": "enabled"
+        },
+        {
+          "name": "stripe-billing",
+          "status": "enabled"
+        },
+        {
+          "name": "task-pipeline",
+          "status": "enabled"
+        },
+        {
+          "name": "telegram-bots",
+          "status": "enabled"
+        },
+        {
+          "name": "telegram-miniapps",
+          "status": "enabled"
+        },
+        {
+          "name": "telegram-userbots",
+          "status": "enabled"
+        },
+        {
+          "name": "ux-audit",
+          "status": "enabled"
+        },
+        {
+          "name": "ux-flows",
+          "status": "enabled"
+        },
+        {
+          "name": "ux-foundation",
+          "status": "enabled"
+        },
+        {
+          "name": "ux-scenarios",
+          "status": "enabled"
+        },
+        {
+          "name": "vision",
+          "status": "enabled"
+        },
+        {
+          "name": "web3d-animation",
+          "status": "enabled"
+        },
+        {
+          "name": "web3d-assets",
+          "status": "enabled"
+        },
+        {
+          "name": "web3d-runtime",
+          "status": "enabled"
+        }
+      ],
+      "summary": "0 hub-installed, 57 builtin, 492 local — 549 enabled, 0 disabled"
+    }
+  },
+  "native_quality": {
+    "status": "NOT_RUN",
+    "reason": "This measurement subtask made no provider/model calls; the overall run has existing subscription-eval authority, but the default probe cost and context were not controlled."
+  },
+  "cost_savings": null,
+  "instructions": [
+    {
+      "path": "~/.claude/CLAUDE.md",
+      "exists": true,
+      "chars": 39725,
+      "utf8_bytes": 40191,
+      "sha256": "6ef428896b5ed22a211c95375386d04218c880ed059111f954f5c1d009f79b42",
+      "router_block": {
+        "chars": 17477,
+        "sha256": "77995372713816f476c8a5589657dd56348643d72f9f2455932f73358b55abbd"
+      }
+    },
+    {
+      "path": "~/.codex/AGENTS.md",
+      "exists": true,
+      "chars": 31672,
+      "utf8_bytes": 33537,
+      "sha256": "bca80bfbbe3224c1c15f4451f0733f5f750d1a7922f71dc563a45d3803a2338f",
+      "router_block": {
+        "chars": 17477,
+        "sha256": "77995372713816f476c8a5589657dd56348643d72f9f2455932f73358b55abbd"
+      }
+    },
+    {
+      "path": "~/.gemini/GEMINI.md",
+      "exists": true,
+      "chars": 26460,
+      "utf8_bytes": 26891,
+      "sha256": "3e9bb9a21c379d9d0c9f23e4dc4193366d1dfe03001b9697f4e3310f04e1a903",
+      "router_block": {
+        "chars": 17477,
+        "sha256": "77995372713816f476c8a5589657dd56348643d72f9f2455932f73358b55abbd"
+      }
+    },
+    {
+      "path": "~/.pi/agent/AGENTS.md",
+      "exists": true,
+      "chars": 17478,
+      "utf8_bytes": 17820,
+      "sha256": "389e9b9d938862071f01cab52495ffbce3520f3e2cc95fd17208c9a0b221f57b",
+      "router_block": {
+        "chars": 17477,
+        "sha256": "77995372713816f476c8a5589657dd56348643d72f9f2455932f73358b55abbd"
+      }
+    },
+    {
+      "path": "~/.cursor/rules/sshlg-routing.mdc",
+      "exists": true,
+      "chars": 17657,
+      "utf8_bytes": 18001,
+      "sha256": "4310e0228bdb9e6427c357c0d694fc3d9b23ddba67052afbcefdf900c3633d78",
+      "router_block": {
+        "chars": 17477,
+        "sha256": "77995372713816f476c8a5589657dd56348643d72f9f2455932f73358b55abbd"
+      }
+    },
+    {
+      "path": "~/.kimi-code/AGENTS.md",
+      "exists": true,
+      "chars": 1482,
+      "utf8_bytes": 1490,
+      "sha256": "351f8257b977bf3b3c62c8f4330ad239c78fe0a33982ef0bbb90fb2849d2fcc3",
+      "router_block": null
+    },
+    {
+      "path": "CLAUDE.md",
+      "exists": true,
+      "chars": 4831,
+      "utf8_bytes": 4835,
+      "sha256": "664ebd52fa1d5083cc32ca2d127cec7f99efb925cb5c70888aef9b736313d562",
+      "router_block": null
+    },
+    {
+      "path": "AGENTS.md",
+      "exists": true,
+      "chars": 258,
+      "utf8_bytes": 258,
+      "sha256": "c4951bf304cd5cc60a6e898d67c7f66ecaec6ce685a6fff5d7c8719faebc7d0d",
+      "router_block": null
+    },
+    {
+      "path": "~/DATA/sshlg-skills/CLAUDE.md",
+      "exists": true,
+      "chars": 4531,
+      "utf8_bytes": 4535,
+      "sha256": "0039f8f6a40e93f7d7a3e14f515c956b54b95f94c1d32111c286d075d52fb074",
+      "router_block": null
+    },
+    {
+      "path": "~/DATA/sshlg-skills/AGENTS.md",
+      "exists": true,
+      "chars": 258,
+      "utf8_bytes": 258,
+      "sha256": "c4951bf304cd5cc60a6e898d67c7f66ecaec6ce685a6fff5d7c8719faebc7d0d",
+      "router_block": null
+    }
+  ],
+  "instruction_duplicates": [
+    {
+      "paths": [
+        "~/.claude/CLAUDE.md",
+        "~/.codex/AGENTS.md"
+      ],
+      "identical_router_chars": 17477,
+      "loaded_together": "NOT_OBSERVED"
+    },
+    {
+      "paths": [
+        "~/.claude/CLAUDE.md",
+        "~/.gemini/GEMINI.md"
+      ],
+      "identical_router_chars": 17477,
+      "loaded_together": "NOT_OBSERVED"
+    },
+    {
+      "paths": [
+        "~/.claude/CLAUDE.md",
+        "~/.pi/agent/AGENTS.md"
+      ],
+      "identical_router_chars": 17477,
+      "loaded_together": "NOT_OBSERVED"
+    },
+    {
+      "paths": [
+        "~/.claude/CLAUDE.md",
+        "~/.cursor/rules/sshlg-routing.mdc"
+      ],
+      "identical_router_chars": 17477,
+      "loaded_together": "NOT_OBSERVED"
+    },
+    {
+      "paths": [
+        "~/.codex/AGENTS.md",
+        "~/.gemini/GEMINI.md"
+      ],
+      "identical_router_chars": 17477,
+      "loaded_together": "NOT_OBSERVED"
+    },
+    {
+      "paths": [
+        "~/.codex/AGENTS.md",
+        "~/.pi/agent/AGENTS.md"
+      ],
+      "identical_router_chars": 17477,
+      "loaded_together": "NOT_OBSERVED"
+    },
+    {
+      "paths": [
+        "~/.codex/AGENTS.md",
+        "~/.cursor/rules/sshlg-routing.mdc"
+      ],
+      "identical_router_chars": 17477,
+      "loaded_together": "NOT_OBSERVED"
+    },
+    {
+      "paths": [
+        "~/.gemini/GEMINI.md",
+        "~/.pi/agent/AGENTS.md"
+      ],
+      "identical_router_chars": 17477,
+      "loaded_together": "NOT_OBSERVED"
+    },
+    {
+      "paths": [
+        "~/.gemini/GEMINI.md",
+        "~/.cursor/rules/sshlg-routing.mdc"
+      ],
+      "identical_router_chars": 17477,
+      "loaded_together": "NOT_OBSERVED"
+    },
+    {
+      "paths": [
+        "~/.pi/agent/AGENTS.md",
+        "~/.cursor/rules/sshlg-routing.mdc"
+      ],
+      "identical_router_chars": 17477,
+      "loaded_together": "NOT_OBSERVED"
+    }
+  ],
+  "catalogue": {
+    "command": "require(\"./lib/catalogue\").read(os.homedir(), [])",
+    "source_file_sha256": "5d6a700f2ac0dfba7c192a4e9e1a646dd43270215f88a4bc5d751c3c7acc80ee",
+    "unique_realpath_files": 1108,
+    "groups": {
+      "shared": {
+        "files": 499,
+        "name_chars": 7332,
+        "description_chars": 209083,
+        "family_files": 39,
+        "family_ids": [
+          "ad-tracking",
+          "agent-evals",
+          "agent-harness",
+          "agent-interop",
+          "agent-orchestrator",
+          "agent-sync",
+          "brand-voice",
+          "copywriting",
+          "crypto-payments",
+          "error-tracking",
+          "evidence-docs",
+          "frontend-performance",
+          "google-auth",
+          "google-signin",
+          "make-skill",
+          "project-audit",
+          "quest-lifecycle",
+          "quest-native",
+          "quest-perf",
+          "quest-spatial",
+          "quest-store",
+          "quest-tooling",
+          "quest-webxr",
+          "seo-aeo-audit",
+          "sheleg-design",
+          "skill-search",
+          "stripe-billing",
+          "task-pipeline",
+          "telegram-bots",
+          "telegram-miniapps",
+          "telegram-userbots",
+          "ux-audit",
+          "ux-flows",
+          "ux-foundation",
+          "ux-scenarios",
+          "vision",
+          "web3d-animation",
+          "web3d-assets",
+          "web3d-runtime"
+        ],
+        "family_unique": 39
+      },
+      "filesystem:claude": {
+        "files": 211,
+        "name_chars": 1822,
+        "description_chars": 138568,
+        "family_files": 0,
+        "family_ids": [],
+        "family_unique": 0
+      },
+      "filesystem:codex": {
+        "files": 5,
+        "name_chars": 59,
+        "description_chars": 1589,
+        "family_files": 0,
+        "family_ids": [],
+        "family_unique": 0
+      },
+      "filesystem:hermes": {
+        "files": 61,
+        "name_chars": 815,
+        "description_chars": 4123,
+        "family_files": 0,
+        "family_ids": [],
+        "family_unique": 0
+      },
+      "filesystem:continue": {
+        "files": 39,
+        "name_chars": 491,
+        "description_chars": 32493,
+        "family_files": 39,
+        "family_ids": [
+          "ad-tracking",
+          "agent-evals",
+          "agent-harness",
+          "agent-interop",
+          "agent-orchestrator",
+          "agent-sync",
+          "brand-voice",
+          "copywriting",
+          "crypto-payments",
+          "error-tracking",
+          "evidence-docs",
+          "frontend-performance",
+          "google-auth",
+          "google-signin",
+          "make-skill",
+          "project-audit",
+          "quest-lifecycle",
+          "quest-native",
+          "quest-perf",
+          "quest-spatial",
+          "quest-store",
+          "quest-tooling",
+          "quest-webxr",
+          "seo-aeo-audit",
+          "sheleg-design",
+          "skill-search",
+          "stripe-billing",
+          "task-pipeline",
+          "telegram-bots",
+          "telegram-miniapps",
+          "telegram-userbots",
+          "ux-audit",
+          "ux-flows",
+          "ux-foundation",
+          "ux-scenarios",
+          "vision",
+          "web3d-animation",
+          "web3d-assets",
+          "web3d-runtime"
+        ],
+        "family_unique": 39
+      },
+      "filesystem:claude-installed": {
+        "files": 192,
+        "name_chars": 3415,
+        "description_chars": 97830,
+        "family_files": 39,
+        "family_ids": [
+          "ad-tracking",
+          "agent-evals",
+          "agent-harness",
+          "agent-interop",
+          "agent-orchestrator",
+          "agent-sync",
+          "brand-voice",
+          "copywriting",
+          "crypto-payments",
+          "error-tracking",
+          "evidence-docs",
+          "frontend-performance",
+          "google-auth",
+          "google-signin",
+          "make-skill",
+          "project-audit",
+          "quest-lifecycle",
+          "quest-native",
+          "quest-perf",
+          "quest-spatial",
+          "quest-store",
+          "quest-tooling",
+          "quest-webxr",
+          "seo-aeo-audit",
+          "sheleg-design",
+          "skill-search",
+          "stripe-billing",
+          "task-pipeline",
+          "telegram-bots",
+          "telegram-miniapps",
+          "telegram-userbots",
+          "ux-audit",
+          "ux-flows",
+          "ux-foundation",
+          "ux-scenarios",
+          "vision",
+          "web3d-animation",
+          "web3d-assets",
+          "web3d-runtime"
+        ],
+        "family_unique": 39
+      },
+      "filesystem:codex-cache": {
+        "files": 101,
+        "name_chars": 1963,
+        "description_chars": 44362,
+        "family_files": 29,
+        "family_ids": [
+          "ad-tracking",
+          "agent-evals",
+          "agent-harness",
+          "agent-interop",
+          "agent-orchestrator",
+          "agent-sync",
+          "brand-voice",
+          "copywriting",
+          "crypto-payments",
+          "error-tracking",
+          "evidence-docs",
+          "frontend-performance",
+          "google-auth",
+          "google-signin",
+          "make-skill",
+          "project-audit",
+          "seo-aeo-audit",
+          "sheleg-design",
+          "skill-search",
+          "stripe-billing",
+          "task-pipeline",
+          "ux-audit",
+          "ux-flows",
+          "ux-foundation",
+          "ux-scenarios",
+          "vision",
+          "web3d-animation",
+          "web3d-assets",
+          "web3d-runtime"
+        ],
+        "family_unique": 29
+      }
+    },
+    "warning_count": 0,
+    "metric": "JavaScript string.length UTF-16 code units; inventory metadata, not a rendered native prompt or tokens"
+  },
+  "file_roots": {
+    "~/.agents/skills": {
+      "direct_entries": 499,
+      "family_readable": 39,
+      "family_missing": [],
+      "layer": "filesystem only"
+    },
+    "~/.pi/agent/skills": {
+      "direct_entries": 455,
+      "family_readable": 38,
+      "family_missing": [
+        "skill-search"
+      ],
+      "layer": "filesystem only"
+    },
+    "~/.hermes/skills": {
+      "direct_entries": 490,
+      "family_readable": 39,
+      "family_missing": [],
+      "layer": "filesystem only"
+    },
+    "~/.claude/skills": {
+      "direct_entries": 451,
+      "family_readable": 0,
+      "family_missing": [
+        "ad-tracking",
+        "agent-evals",
+        "agent-harness",
+        "agent-interop",
+        "agent-orchestrator",
+        "agent-sync",
+        "brand-voice",
+        "copywriting",
+        "crypto-payments",
+        "error-tracking",
+        "evidence-docs",
+        "frontend-performance",
+        "google-auth",
+        "google-signin",
+        "make-skill",
+        "project-audit",
+        "quest-lifecycle",
+        "quest-native",
+        "quest-perf",
+        "quest-spatial",
+        "quest-store",
+        "quest-tooling",
+        "quest-webxr",
+        "seo-aeo-audit",
+        "sheleg-design",
+        "skill-search",
+        "stripe-billing",
+        "task-pipeline",
+        "telegram-bots",
+        "telegram-miniapps",
+        "telegram-userbots",
+        "ux-audit",
+        "ux-flows",
+        "ux-foundation",
+        "ux-scenarios",
+        "vision",
+        "web3d-animation",
+        "web3d-assets",
+        "web3d-runtime"
+      ],
+      "layer": "filesystem only"
+    },
+    "~/.codex/skills": {
+      "direct_entries": 60,
+      "family_readable": 0,
+      "family_missing": [
+        "ad-tracking",
+        "agent-evals",
+        "agent-harness",
+        "agent-interop",
+        "agent-orchestrator",
+        "agent-sync",
+        "brand-voice",
+        "copywriting",
+        "crypto-payments",
+        "error-tracking",
+        "evidence-docs",
+        "frontend-performance",
+        "google-auth",
+        "google-signin",
+        "make-skill",
+        "project-audit",
+        "quest-lifecycle",
+        "quest-native",
+        "quest-perf",
+        "quest-spatial",
+        "quest-store",
+        "quest-tooling",
+        "quest-webxr",
+        "seo-aeo-audit",
+        "sheleg-design",
+        "skill-search",
+        "stripe-billing",
+        "task-pipeline",
+        "telegram-bots",
+        "telegram-miniapps",
+        "telegram-userbots",
+        "ux-audit",
+        "ux-flows",
+        "ux-foundation",
+        "ux-scenarios",
+        "vision",
+        "web3d-animation",
+        "web3d-assets",
+        "web3d-runtime"
+      ],
+      "layer": "filesystem only"
+    },
+    "~/.cursor/skills": {
+      "direct_entries": 45,
+      "family_readable": 0,
+      "family_missing": [
+        "ad-tracking",
+        "agent-evals",
+        "agent-harness",
+        "agent-interop",
+        "agent-orchestrator",
+        "agent-sync",
+        "brand-voice",
+        "copywriting",
+        "crypto-payments",
+        "error-tracking",
+        "evidence-docs",
+        "frontend-performance",
+        "google-auth",
+        "google-signin",
+        "make-skill",
+        "project-audit",
+        "quest-lifecycle",
+        "quest-native",
+        "quest-perf",
+        "quest-spatial",
+        "quest-store",
+        "quest-tooling",
+        "quest-webxr",
+        "seo-aeo-audit",
+        "sheleg-design",
+        "skill-search",
+        "stripe-billing",
+        "task-pipeline",
+        "telegram-bots",
+        "telegram-miniapps",
+        "telegram-userbots",
+        "ux-audit",
+        "ux-flows",
+        "ux-foundation",
+        "ux-scenarios",
+        "vision",
+        "web3d-animation",
+        "web3d-assets",
+        "web3d-runtime"
+      ],
+      "layer": "filesystem only"
+    },
+    "~/.continue/skills": {
+      "direct_entries": 418,
+      "family_readable": 39,
+      "family_missing": [],
+      "layer": "filesystem only"
+    }
+  },
+  "pi_helper": {
+    "method": "Installed Pi loadSkills({cwd: worktree, agentDir: ~/.pi/agent, skillPaths: [~/.agents/skills], includeDefaults: true}) + formatSkillsForPrompt(result.skills)",
+    "layer": "controlled native reader/formatter only; NOT DefaultResourceLoader/session or configured package/extension resolution",
+    "native_module_sha256": "0e20ec500ed9783d5b01b5399e6600134fc3fdd10e6dc46c9113bc01565c9aa5",
+    "skills_total": 499,
+    "family_loaded": [
+      "ad-tracking",
+      "agent-evals",
+      "agent-harness",
+      "agent-interop",
+      "agent-orchestrator",
+      "agent-sync",
+      "brand-voice",
+      "copywriting",
+      "crypto-payments",
+      "error-tracking",
+      "evidence-docs",
+      "frontend-performance",
+      "google-auth",
+      "google-signin",
+      "make-skill",
+      "project-audit",
+      "quest-lifecycle",
+      "quest-native",
+      "quest-perf",
+      "quest-spatial",
+      "quest-store",
+      "quest-tooling",
+      "quest-webxr",
+      "seo-aeo-audit",
+      "sheleg-design",
+      "skill-search",
+      "stripe-billing",
+      "task-pipeline",
+      "telegram-bots",
+      "telegram-miniapps",
+      "telegram-userbots",
+      "ux-audit",
+      "ux-flows",
+      "ux-foundation",
+      "ux-scenarios",
+      "vision",
+      "web3d-animation",
+      "web3d-assets",
+      "web3d-runtime"
+    ],
+    "diagnostics_total": 4,
+    "diagnostics_types": {
+      "warning": 4
+    },
+    "prompt_chars": 308638,
+    "prompt_utf8_bytes": 313751,
+    "prompt_sha256": "b76d5a7cb62033e20c1928e914bdec43aafd60f3fd179863c02a80f16ca3b54a",
+    "name_chars": 7332,
+    "description_chars": 209166,
+    "disabled_model_invocation": 4
+  },
+  "allowlisted_visibility_controls": {
+    "claude": {
+      "source": "~/.claude/settings.json",
+      "skillOverrides_total": 417,
+      "skillOverride_states": {
+        "user-invocable-only": 417
+      },
+      "listing_controls": {},
+      "explicit_env_controls": {},
+      "omitted_means": "not configured in this file, not a runtime effective default"
+    },
+    "codex": {
+      "source": "~/.codex/config.toml",
+      "parse": "OK",
+      "skills_config_entries": 459,
+      "disabled_entries": 459,
+      "disabled_family_shared_paths": [
+        "ad-tracking",
+        "agent-evals",
+        "agent-harness",
+        "agent-interop",
+        "agent-orchestrator",
+        "agent-sync",
+        "brand-voice",
+        "copywriting",
+        "crypto-payments",
+        "error-tracking",
+        "evidence-docs",
+        "frontend-performance",
+        "google-auth",
+        "google-signin",
+        "make-skill",
+        "project-audit",
+        "seo-aeo-audit",
+        "sheleg-design",
+        "skill-search",
+        "stripe-billing",
+        "task-pipeline",
+        "ux-audit",
+        "ux-flows",
+        "ux-foundation",
+        "ux-scenarios",
+        "vision",
+        "web3d-animation",
+        "web3d-assets",
+        "web3d-runtime"
+      ],
+      "skills_max_context_tokens": null,
+      "tool_output_token_limit": null,
+      "omitted_means": "not configured in this file, not runtime effective default"
+    }
+  },
+  "capture_correction": {
+    "opencode_pipe": {
+      "exit_code": 0,
+      "stdout_chars": 64738,
+      "json_valid": false
+    },
+    "gemini_pipe": {
+      "exit_code": 0,
+      "stdout_chars": 108645,
+      "family_name_mentions": 17
+    },
+    "corrected_method": "Redirect child stdout to a regular owned temporary file, parse fully, persist only metadata. A zero exit alone did not prove complete list output. Temporary files removed."
+  },
+  "instruction_metric": "JavaScript string.length (UTF-16 code units), plus UTF-8 bytes; SHA-256 of full original bytes; only counts/hashes stored, no private instruction contents.",
+  "provider_probe_reference": {
+    "path": "provider-probe.json",
+    "executed_by_this_packet": false,
+    "status": "existing separate parent probe; not a C09 quality evaluation",
+    "cache_creation_input_tokens": 187709,
+    "cost_usd": 1.50376,
+    "requested_max_budget_usd": 0.1,
+    "result": "error_max_budget_usd",
+    "causal_attribution": "NOT_OBSERVED; no prompt-section/provider trace. Do not attribute token total to skills or duplicate routing."
+  },
+  "observed_finished_at": "2026-10-13T01:18:44.598913+00:00",
+  "bounded_eval_cli_help": {
+    "command": "claude --help",
+    "exit_code": 0,
+    "matched_controls": [
+      "--bare                                Minimal mode: skip hooks (those defined",
+      "apiKeyHelper via --settings (OAuth and",
+      "(CLAUDE.md dirs), --mcp-config,",
+      "--settings, --agents, --plugin-dir.",
+      "--disable-slash-commands              Disable all skills",
+      "--effort <level>                      Effort level for the current session",
+      "--max-budget-usd <amount>             Maximum dollar amount to spend on API",
+      "--mcp-config <configs...>             Load MCP servers from JSON files or",
+      "--model <model>                       Model for the current session. Provide",
+      "--no-session-persistence              Disable session persistence - sessions",
+      "--permission-mode <mode>              Permission mode to use for the session",
+      "--tools names them, and ignores user,",
+      "(managed settings and --settings still",
+      "apply; add --strict-mcp-config to skip",
+      "--setting-sources <sources>           Comma-separated list of setting sources",
+      "--settings <file-or-json>             Path to a settings JSON file or a JSON",
+      "--strict-mcp-config                   Only use MCP servers from --mcp-config,",
+      "--tools <tools...>                    Specify the list of available tools from"
+    ],
+    "executed_eval": false
+  },
+  "source_package_version": "1.61.0",
+  "family_pins": {
+    "super-ux": "0.59.2",
+    "task-pipeline": "1.93.3",
+    "agent-sync": "1.22.1",
+    "make-skill": "0.31.1",
+    "sheleg-design": "1.64.1",
+    "seo-aeo-audit": "0.26.4",
+    "sheleg-dev": "0.13.3",
+    "agent-stack": "0.27.1",
+    "telegram-dev": "0.2.3",
+    "xr-dev": "0.3.3",
+    "web3d-dev": "0.1.3"
+  },
+  "subscription_eval_research": {
+    "as_of": "2026-10-13",
+    "status": "PROPOSED_NOT_EXECUTED",
+    "authority": "Existing overall bounded subscription-eval authority; no new permission gate",
+    "auth_status": {
+      "command": "claude auth status",
+      "exit_code": 0,
+      "loggedIn": true,
+      "authMethod": "claude.ai",
+      "subscriptionType": "team",
+      "apiProvider": "firstParty"
+    },
+    "override_env_presence": {
+      "CLAUDE_CODE_SIMPLE": false,
+      "ANTHROPIC_API_KEY": false,
+      "ANTHROPIC_AUTH_TOKEN": false,
+      "ANTHROPIC_BASE_URL": false,
+      "CLAUDE_CODE_USE_BEDROCK": false,
+      "CLAUDE_CODE_USE_VERTEX": false,
+      "CLAUDE_CODE_USE_FOUNDRY": false
+    },
+    "primary_sources": [
+      {
+        "url": "https://code.claude.com/docs/en/cli-reference",
+        "read_at": "2026-10-13"
+      },
+      {
+        "url": "https://code.claude.com/docs/en/env-vars",
+        "read_at": "2026-10-13"
+      },
+      {
+        "url": "https://code.claude.com/docs/en/settings",
+        "read_at": "2026-10-13"
+      },
+      {
+        "url": "https://code.claude.com/docs/en/memory",
+        "read_at": "2026-10-13"
+      },
+      {
+        "url": "https://code.claude.com/docs/en/hooks",
+        "read_at": "2026-10-13"
+      },
+      {
+        "url": "https://code.claude.com/docs/en/mcp",
+        "read_at": "2026-10-13"
+      },
+      {
+        "url": "https://code.claude.com/docs/en/authentication",
+        "read_at": "2026-10-13"
+      },
+      {
+        "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "read_at": "2026-10-13"
+      }
+    ],
+    "calls_planned_max": 3,
+    "first_request_stop_input_tokens": 10000,
+    "planned_model": "claude-opus-5-5",
+    "output_cap_requested": 1024,
+    "cost_scenarios": [
+      {
+        "input_tokens": 5000,
+        "output_tokens": 1024,
+        "all_input_at_1h_cache_write_usd_per_mtok": 8,
+        "output_usd_per_mtok": 20,
+        "per_request_list_usd": 0.06048,
+        "three_requests_list_usd": 0.18144
+      },
+      {
+        "input_tokens": 10000,
+        "output_tokens": 1024,
+        "all_input_at_1h_cache_write_usd_per_mtok": 8,
+        "output_usd_per_mtok": 20,
+        "per_request_list_usd": 0.10048,
+        "three_requests_list_usd": 0.30144
+      }
+    ],
+    "limits": "Combination runtime unverified; preserves normal auth path instead of bare/SIMPLE; settings flags do not override managed policy; no token-savings or quality guarantee."
+  }
+}
