@@ -232,6 +232,18 @@ removed. Full owner aggregate, genuine candidate CI and real-host update remain
 separate pending gates. No blanket foreign-process transaction or model-quality
 claim is made.
 
+
+## Bounded native version admission
+
+The preliminary `claude --version` child now has a 10-second timeout and 64-KiB
+output cap, and refuses any error, signal or nonzero/null status even when stdout
+contains a compatible version. The two new controls first exposed an absent
+runtime timeout, then passed with the correction: transaction27 cases exit0.
+Actual read-only `runtime()` returned `2.1.296 (Claude Code)` with these limits.
+No operator configuration writes or model calls occur in this version probe.
+The earlier full native lifecycle receipt remains bound to `a158570`; this delta
+changes only version-process admission and does not claim a repeated lifecycle run.
+
 ---
 **Made with [ssheleg skills](https://github.com/ssheleg/sshlg-skills)**:
 task-pipeline for delivery, evidence-docs for source-bound probes, make-skill for

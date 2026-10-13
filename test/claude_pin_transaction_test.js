@@ -105,4 +105,17 @@ test('safe decimal and exponent spellings retain exact mathematical values',f=>{
  for(const raw of ['1','1.0','0.1','-12.50','1e3','9007199254740992','1e300','0e-1000']) assert.equal(typeof P.parseMetadata('{"n":'+raw+'}').data.n,'number');
  assert.equal(P.parseMetadata('{"s":"9007199254740993","escaped":"\\\"0.10000000000000001"}').data.s,'9007199254740993');
 });
+test('runtime version child has bounded timeout and output before any mutation',f=>{
+ const before=fs.readFileSync(f.sf);let seen=false;
+ assert.throws(()=>T.execute(f.plan(),[f.m],f.inventory,{runner:(cmd,args,opts)=>{seen=true;assert.equal(cmd,'claude');assert.deepEqual(args,['--version']);assert.equal(opts.timeout,10000);assert.equal(opts.maxBuffer,65536);return {status:1,stdout:'2.1.296 (Claude Code)'};}}),/2.1.296/);
+ assert(seen);assert.deepEqual(fs.readFileSync(f.sf),before);assert(!fs.existsSync(f.home+'/.sshlg-skills'));
+});
+test('runtime refuses error signal and unsuccessful status despite compatible stdout',f=>{
+ const before=fs.readFileSync(f.sf);
+ for(const result of [{status:1},{status:null,signal:'SIGTERM'},{status:0,error:Error('timeout')},{status:0,signal:'SIGTERM'}]) {
+  assert.throws(()=>T.execute(f.plan(),[f.m],f.inventory,{runner:()=>({...result,stdout:'2.1.296 (Claude Code)'})}),/2.1.296/);
+  assert.deepEqual(fs.readFileSync(f.sf),before);assert(!fs.existsSync(f.home+'/.sshlg-skills'));
+ }
+ assert.equal(T.runtime(()=>({status:0,stdout:'2.1.296 (Claude Code)'})),'2.1.296 (Claude Code)');
+});
 console.log(`PASS: Claude native transaction — ${count} cases`);
