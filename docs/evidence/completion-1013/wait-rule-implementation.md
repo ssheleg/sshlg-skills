@@ -79,11 +79,43 @@ materialized agent-stack README; broad existing-code advisories are retained.
 No clean brand-lint claim is made. New registered static labels resolve in source;
 the initial parameterized registry placeholders were corrected rather than hidden.
 
+## Peer correction and actual operation controls
+
+At initial review source `2b8c573`, the independent reviewer reproduced invalid
+UTF-8 replacement in a synthetic foreign JSON string. Shared snapshot admission
+now reads bytes and requires an exact UTF-8 round trip before any lock, backup or
+write. Policy25 controls pass; additional target and valid-JSON receipt byte
+controls pass and preserve the original bytes. A non-UTF-8 raw receipt that was
+already syntactically invalid had refused parsing before this fix; its diagnostic
+alone is not counted as a historical data-loss reproduction.
+
+Current consent is checked before each changed target and immediately before its
+replacement, including after backup and temporary-file work. Actual injected
+off changes after the first target and during target backup were red, then green.
+The first completed target remains owned and reported; later targets stay intact.
+This observes changes at defined boundaries, not atomic coordination with all
+other writers or a claim that permission cannot change after the last check.
+
+Receipt self-review added two further red controls: an unknown source revision
+and a self-consistent segment/hash extended over foreign surrounding text.
+Admission now accepts only the known revision and exact shipped host segment,
+with the bounded insertion separator. Both controls now refuse. Future doctrine
+updates must retain an explicitly supported prior revision/renderer to migrate it;
+an arbitrary historical receipt does not authorize arbitrary removal.
+
+Focused final correction checks: policy25, emitter21, actual CLI8, existing
+protect19 all exit0. The actual CLI corpus now includes a packaged update that
+removes the off-owned block, member-only update with deliberately corrupt family
+rule state (unread and preserved), and selected-host uninstall preserving the
+other host. These use local synthetic native/skills/git stubs, no provider or
+operator profile. An initial quoting typo in the newly added stub fixture failed
+syntax admission before execution; it was corrected before these observations.
+
 ## Exact next tasks
 
-Independently review policy/ownership and CLI integration seams. Complete focused
-actual update/uninstall and member-only operation controls, then the serialized
-owner aggregate on frozen source. After genuine integration/release, W175-4 may
+Independently review policy/ownership and CLI integration seams. Review the corrected policy/ownership boundaries and completed actual
+update/uninstall/member-only controls, then run the serialized owner aggregate
+on frozen source. After genuine integration/release, W175-4 may
 apply the existing operator-authorized machine policy, with exact per-host text
 readback and separate review before deduplicating handwritten machine copies.
 Agent/model behavior remains unaccepted; installed text alone cannot close it.

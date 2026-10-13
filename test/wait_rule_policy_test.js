@@ -44,6 +44,10 @@ for (const raw of ['{oops','[]','null','{"rules":[]}','{"rules":{"wait":true}}',
     const f=file(home,raw); assert.throws(()=>W.read(home)); assert.throws(()=>W.set(home,'on')); assert.equal(fs.readFileSync(f,'utf8'),raw);
   });
 }
+check('invalid UTF-8 policy refuses before lock, backup or replacement', home => {
+ const f=file(home,'{}'),bytes=Buffer.concat([Buffer.from('{"foreign":"'),Buffer.from([255]),Buffer.from('"}')]);fs.writeFileSync(f,bytes);
+ assert.throws(()=>W.set(home,'on'),/UTF-8/);assert(fs.readFileSync(f).equals(bytes));assert.deepEqual(fs.readdirSync(path.dirname(f)),['config.json']);
+});
 check('leaf symlink policy is refused without touching its target', home => {
   const target=path.join(home,'foreign'); fs.writeFileSync(target,'{}'); const f=file(home,'{}'); fs.unlinkSync(f);fs.symlinkSync(target,f);
   assert.throws(()=>W.set(home,'on'));assert.equal(fs.readFileSync(target,'utf8'),'{}');assert.ok(fs.lstatSync(f).isSymbolicLink());
