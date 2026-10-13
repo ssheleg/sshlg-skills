@@ -101,6 +101,13 @@ it('task-pipeline puts planning inside the pipeline, not beside it', () => {
   );
 });
 
+it('task-pipeline names iteration and its bilingual discovery phrases', () => {
+  const text = flat(T.TASK_PIPELINE);
+  for (const phrase of ['/task-pipeline iteration', 'release iteration', 'итерация релиза']) {
+    assert.ok(text.includes(phrase), phrase);
+  }
+});
+
 it('sheleg-design draws its seam against super-ux by fidelity, not by surface', () => {
   assert.ok(flat(T.SHELEG_DESIGN).includes('wireframe'));
   assert.ok(/HOW it looks/.test(flat(T.SHELEG_DESIGN)));
