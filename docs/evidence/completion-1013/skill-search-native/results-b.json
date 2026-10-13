@@ -1,0 +1,225 @@
+{
+  "schema": "skill-search-native-run/1",
+  "status": "STOPPED_TEST_ERROR",
+  "calls": [
+    {
+      "phase": "readiness",
+      "index": 0,
+      "state": "FINISHED",
+      "prompt_sha256": "cda53799c658c0b2956e4c2c4c3e3e45c8f9c4da960ae5888ae210c64a208863",
+      "started_at_utc": "2026-10-13T06:04:54Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0088568,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1032,
+        "cache_read_input_tokens": 2564,
+        "output_tokens": 4
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+      "final_result_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "11d9c8e5e9746383541a4af73c1ef4a0205dfa68f68bdd0524b5b55df1b56124",
+          "text_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+          "characters": 5
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3598,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "b01857d65b5cbb7358cc9d3f7fa7c8ba252c5dbcaf7c90fdf044a06e5dad33fc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s14",
+      "repetition": 2,
+      "index": 1,
+      "state": "FINISHED",
+      "prompt_sha256": "6163834a16a631e19e793420dccd88e3778ee927e092db37488eac65f1f5a00e",
+      "started_at_utc": "2026-10-13T06:04:58Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "TEST_ERROR",
+      "error_class": "turn_bound",
+      "cost_usd": 0.09473379999999999,
+      "usage": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 9216,
+        "cache_read_input_tokens": 16609,
+        "output_tokens": 883
+      },
+      "native": null,
+      "artifact_sha256": null,
+      "stdout_sha256": "0c4e902a66b9c2788002c979ec0f799c80d6a5325a70ca85d602d85ed947fce4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "reported_list_usd": 0.10359059999999999,
+  "cost_incomplete": false,
+  "max_calls": 61,
+  "budget_usd": 3.9825866,
+  "seed": 101327,
+  "source_commit": "78d67651611f50e2af531ab04916e680c2a2680d",
+  "runner_sha256": "b10a3c95d0d4e7016cffd23a2560018f8eefe8a0ceeb58be6c7c7fa52ebbe0ca",
+  "source_manifest_sha256": "4a6b1d2c49ce52d3e7517ec4f9599a346e65731e0c0cc1dc9656a345ad1f270f",
+  "admission_sha256": "d276afdd53fa5014bda9945b9d7cfab5734b36ba7fa56f566a11d23d4882b856",
+  "prior_known_pilots_list_usd": 2.1959482,
+  "prior_protocol_a_list_usd": 0.0174134,
+  "scope": "Restricted native loading only; no executed catalogue search or artifact-quality claim; list estimate is not subscription billing.",
+  "scores": [
+    {
+      "case_id": "s01",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s02",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s03",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s04",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s05",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s06",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s07",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s08",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s09",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s10",
+      "expected": true,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s11",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s12",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s13",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s14",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s15",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s16",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s17",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s18",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s19",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    },
+    {
+      "case_id": "s20",
+      "expected": false,
+      "valid_repetitions": 0,
+      "matching_repetitions": 0,
+      "verdict": "NOT_SCORED"
+    }
+  ],
+  "planned_not_started": 59
+}

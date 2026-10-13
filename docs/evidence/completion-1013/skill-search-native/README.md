@@ -1,6 +1,6 @@
 # R27 native skill-search trigger run: admission packet
 
-Status: **A_STOPPED_TEST_ERROR; B_PROPOSED_NOT_RUN**. This packet assigns no model calls before independent runner review. It measures the existing owner's frozen20 query corpus, three fresh sessions per query. It does not change a description or tune on validation results.
+Status: **A_AND_B_STOPPED_TEST_ERROR; C_PROPOSED_NOT_RUN**. This packet assigns no model calls before independent runner review. It measures the existing owner's frozen20 query corpus, three fresh sessions per query. It does not change a description or tune on validation results.
 
 ## Contract
 
@@ -10,7 +10,7 @@ The original query is the entire task prompt. Query IDs, labels, rubric, split a
 
 ## Bounds
 
-Proposed maximum61 CLI invocations, at most3 model turns per task,1 readiness turn,180seconds per invocation; list-estimate admission budgetUSD3.9825866, per-invocation reserveUSD0.20. Normal subscription usage is not a metered invoice. Known preceding experimental costs remain separate: explicit-catalogue pilotUSD1.742316 and native quality pilotUSD0.4536322; they are not reset or hidden by this packet. No retries, no automatic continuation, no judge model. A trace/auth/context/usage error stops the run; completed observations persist before stopping. Unexpected tools, denied/missing Skill results and unknown cost are TEST_ERROR. A valid zero-Skill result remains a behavioral observation and does not stop later planned cells.
+Proposed maximum61 CLI invocations, at most3 distinct model requests per task (CLI --max-turns3); reported result counter capped separately at5,1 readiness turn,180seconds per invocation; list-estimate admission budgetUSD3.878996, per-invocation reserveUSD0.20. Normal subscription usage is not a metered invoice. Known preceding experimental costs remain separate: explicit-catalogue pilotUSD1.742316 and native quality pilotUSD0.4536322; they are not reset or hidden by this packet. No retries, no automatic continuation, no judge model. A trace/auth/context/usage error stops the run; completed observations persist before stopping. Unexpected tools, denied/missing Skill results and unknown cost are TEST_ERROR. A valid zero-Skill result remains a behavioral observation and does not stop later planned cells.
 
 All raw prompts, streams and full visible artifacts remain in a new private0700 directory outside Git, files0600. The tracked receipt contains hashes, cost/usage, observations and exact planned/completed counts, no user configurations. Source/materializer invariants are checked before and after every request; existing output/private directories refuse overwrite. Budget overshoot may be observed only after a request; its result is recorded and further calls stop. The CLI's internal retry behavior is unmeasured.
 
@@ -18,7 +18,7 @@ All raw prompts, streams and full visible artifacts remain in a new private0700 
 
 Offline fake-process controls and independent exact-SHA review precede execution. A positive-control Skill result and absent/denied/foreign/unmatched results must be distinguished. Full ordered visible text is retained; no final-tail-only substitution. No installed setting or body changes accompany this test. Results apply only to this CLI/model/restricted tool inventory and corpus; native family coexistence and artifact quality remain unmeasured. R27's paired routing-block experiment and B-144 doctrine expectation decision are separate, not certified by trigger loading.
 
-Runner and fake-process lifecycle are implemented. `python3 -B docs/evidence/completion-1013/skill-search-native/check.py` exits0 with42 offline controls, including native trace distinctions, source/workspace corruption, unknown cost, overshoot and process timeout. No provider call was made. Next: independent exact-source review, then write an explicit bounded admission in this repository under the standing autonomous evaluation authority. Until that exists the executable default is dry-run only.
+Runner and fake-process lifecycle are implemented. `python3 -B docs/evidence/completion-1013/skill-search-native/check.py` exits0 with47 offline controls, including native trace distinctions, source/workspace corruption, unknown cost, overshoot and process timeout. No provider call was made. Next: independent exact-source review, then write an explicit bounded admission in this repository under the standing autonomous evaluation authority. Until that exists the executable default is dry-run only.
 
 Independent protocol review found and corrected three pre-run gaps: coordinated
 manifest/corpus changes could regrade a run; the legacy `skill-audit` command
@@ -48,3 +48,29 @@ USD3.9825866, preserving the original USD4 A+B envelope. All earlier pilot
 costs remain separate. Protocol A's manually entered admission timestamp was
 52seconds ahead of the actual start-clock readback05:54:08UTC; stream/receipt
 timestamps are the observation source, not that clerical field.
+
+## Protocol B observed stop and proposed C
+
+B made one successful readiness invocation (USD0.0088568), then stopped on the
+first task s14/repetition2 (USD0.0947338): result.num_turns was5 although the
+stream contains exactly3 distinct assistant request IDs. The five assistant
+stream events include split blocks sharing request IDs. The original result
+remains STOPPED_TEST_ERROR with59 task cells NOT_RUN; it is not retroactively
+scored. Raw SHA256 is
+`0c4e902a66b9c2788002c979ec0f799c80d6a5325a70ca85d602d85ed947fce4`.
+
+[Official CLI flags](https://code.claude.com/docs/en/cli-reference#cli-flags)
+describe an agentic-turn limit without defining equality with result.num_turns.
+The observed counters are separate; no universal conversion formula is claimed.
+Proposed C accepts reported counts up to5 while preserving the independent
+3-request cap, per-request/aggregate input bounds and CLI --max-turns3. Readiness
+remains limited to1. The shared observer's omitted-argument default is unchanged.
+Offline controls reject4 requests even with reported5, and reported6 even with
+3 requests.
+
+A+B cost USD0.121004 over3 CLI invocations. C proposes a new, unmixed readiness
+plus60-cell plan, at most61 additional invocations, cumulative maximum64. Its
+USD3.878996 budget preserves the original USD4 envelope across A+B+C; prior
+pilots are separately recorded. This is an explicit protocol revision requiring
+new independent exact-source review and admission, never an automatic retry.
+No C model calls have run at this checkpoint.

@@ -69,7 +69,7 @@ def visible_text(events):
                 blocks.append({'message_id':message['id'],'text':value})
     return blocks
 
-def inspect(raw,exit_code,workspace,phase,expected_inventory=None):
+def inspect(raw,exit_code,workspace,phase,expected_inventory=None,reported_turn_limit=None):
     inventory=SKILLS if expected_inventory is None else expected_inventory
     result={'evaluation_status':'TEST_ERROR','error_class':None,'cost_usd':None,'usage':None,'native':None,'artifact_sha256':None}
     try:
@@ -91,7 +91,8 @@ def inspect(raw,exit_code,workspace,phase,expected_inventory=None):
     if not isinstance(init.get('skills'),list) or not all(isinstance(x,str) for x in init['skills']) or set(init['skills'])!=inventory or len(init['skills'])!=len(inventory):result['error_class']='unexpected_skill_inventory';return result
     if not isinstance(init.get('tools'),list) or not all(isinstance(x,str) for x in init['tools']) or set(init['tools'])!=TOOLS or init.get('mcp_servers')!=[]:result['error_class']='unexpected_tools_or_mcp';return result
     turns=final.get('num_turns');max_turns=1 if phase=='readiness' else MAX_TURNS
-    if not isinstance(turns,int) or isinstance(turns,bool) or not 1<=turns<=max_turns:result['error_class']='turn_bound';return result
+    reported_limit=max_turns if reported_turn_limit is None or phase=='readiness' else reported_turn_limit
+    if not isinstance(turns,int) or isinstance(turns,bool) or not 1<=turns<=reported_limit:result['error_class']='turn_bound';return result
     server=usage.get('server_tool_use',{})
     if not isinstance(server,dict) or any(server.get(k,0)!=0 for k in ('web_search_requests','web_fetch_requests')):result['error_class']='network_tool_use';return result
     assistants=[x for x in events if x.get('type')=='assistant']

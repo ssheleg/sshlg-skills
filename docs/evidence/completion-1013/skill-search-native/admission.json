@@ -1,19 +1,8 @@
 {
-  "schema": "native-probe-admission/1",
-  "status": "ADMITTED",
-  "runner_sha256": "b10a3c95d0d4e7016cffd23a2560018f8eefe8a0ceeb58be6c7c7fa52ebbe0ca",
-  "source_sha256": "4a6b1d2c49ce52d3e7517ec4f9599a346e65731e0c0cc1dc9656a345ad1f270f",
-  "cases_sha256": "60bb503edc49063cfb897ff371f021ed017def5fb3be4c14c9b413545975d06a",
-  "peer_review_sha256": "be7f0780c9f44914f0b25f500a12a914ae2ffaccb09f721ef1d257d7fd8a0c94",
-  "independent_review": "PASS",
-  "reviewed_commit": "f261a233fcbf3de1879f9c31072d14d2bf37064b",
+  "status": "PROPOSED_NOT_ADMITTED",
+  "protocol": "C",
   "max_calls": 61,
-  "budget_usd": 3.9825866,
-  "authority": "Standing operator autonomous evaluation on Claude Code subscription; docs/evidence/briefs/2026-10-11-integration-waves.md, Decisions resolved from sources, Spend on eval round; current operator continue to end without questions.",
-  "scope": "One frozen native-loading-only round; no retries, description adoption, provider-key use, external effects or invoice claim.",
-  "created_at_utc": "2026-10-13T06:04:46.738253+00:00",
-  "protocol": "B",
-  "prior_protocol": "A preserved STOPPED_TEST_ERROR; one CLI invocation USD0.0174134",
-  "cumulative_max_calls": 62,
-  "cumulative_a_b_budget_usd": 4.0
+  "budget_usd": 3.878996,
+  "cumulative_max_calls": 64,
+  "cumulative_a_b_c_budget_usd": 4
 }

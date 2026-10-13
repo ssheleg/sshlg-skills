@@ -22,7 +22,7 @@ final={'type':'result','subtype':'success','is_error':False,'num_turns':1,'total
 with tempfile.TemporaryDirectory(prefix='skill-search-offline-') as temp:
  root=Path(temp);workspace=root/'work';hashes=a.materialize(ROOT.parents[3]/'skills/make-skill',workspace);a.r.m.verify(workspace,hashes);ok(len(hashes)==len(a.source()['files']))
  def parse(events,phase='task'):
-  return a.r.inspect(('\n'.join(json.dumps(x) for x in events)+'\n').encode(),0,workspace,phase,expected_inventory=a.INVENTORY)
+  return a.r.inspect(('\n'.join(json.dumps(x) for x in events)+'\n').encode(),0,workspace,phase,expected_inventory=a.INVENTORY,reported_turn_limit=a.REPORTED_TURN_LIMIT)
  ok(parse([init,assistant,final],'readiness')['evaluation_status']=='EXECUTED')
  ok(parse([init,assistant,final])['native']['skill_loads']==[])
  call=copy.deepcopy(assistant);call['message']['content']=[{'type':'tool_use','id':'t1','name':'Skill','input':{'skill':'make-skill:skill-search'}}]
@@ -33,6 +33,17 @@ with tempfile.TemporaryDirectory(prefix='skill-search-offline-') as temp:
  ok(parse(events)['native']['skill_loads']==['make-skill:skill-search'])
  audit=copy.deepcopy(events);audit[1]['message']['content'][0]['input']['skill']='make-skill:skill-audit'
  ok(parse(audit)['native']['skill_loads']==['make-skill:skill-audit'])
+ # Native streams expose two different counters; never expand model-request caps.
+ third=copy.deepcopy(text);third['message']['id']='m3'
+ fourth=copy.deepcopy(text);fourth['message']['id']='m4'
+ five=copy.deepcopy(done);five['num_turns']=5
+ six=copy.deepcopy(done);six['num_turns']=6
+ ok(parse([init,call,reply,text,third,five])['request_count']==3)
+ ok(parse([init,call,reply,text,third,fourth,five])['error_class']=='aggregate_input_bound')
+ ok(parse([init,call,reply,text,third,six])['error_class']=='turn_bound')
+ legacy=a.r.inspect(('\n'.join(json.dumps(x) for x in [init,call,reply,text,third,five])+'\n').encode(),0,workspace,'task',expected_inventory=a.INVENTORY)
+ ok(legacy['error_class']=='turn_bound')
+ ok(parse([init,assistant,five],'readiness')['error_class']=='turn_bound')
  denied=copy.deepcopy(reply);denied['message']['content'][0]['is_error']=True
  ok(parse([init,call,denied,text,done])['error_class']=='tool_denied_or_error')
  ok(parse([init,call,text,done])['error_class']=='unmatched_tool_result')
