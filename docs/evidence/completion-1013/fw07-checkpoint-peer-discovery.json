@@ -53,7 +53,22 @@
       "location": "emit ledger.resolve versus record/_state_path lexical ledger",
       "problem": "Same ledger file used through symlink resolves to two state locations across emit/record; successful record is absent from next emit, which emits projectId instead of saved workflow/lease.",
       "expected": "One coherent state identity or explicit safe refusal for ambiguous aliases; preserve existing legacy/foreign receipts rather than silently migrate."
+    },
+    {
+      "id": "CP-PEER-03",
+      "location": "_profile selected path read_text without source-kind admission",
+      "problem": "Existing selected pipeline.json FIFO without writer does not return before2s owned CLI timeout.",
+      "expected": "Refuse unsupported nonregular profile input before a potentially blocking read; preserve state and emit no payload.",
+      "bound": "One deterministic source-kind control; no claim about arbitrary filesystem races."
     }
   ],
-  "next": "Author adds red CLI controls and bounded fixes, then exact-source independent replay. No broad duplication."
+  "next": "Author adds red CLI controls and bounded fixes, then exact-source independent replay. No broad duplication.",
+  "supplemental_source_kind_control": {
+    "timed_out": true,
+    "timeout_seconds": 2,
+    "owned_process_killed_by_subprocess_run": true,
+    "source": "db6b24797c5dcbddc7189ef373a619e6a3e7c0d9",
+    "case": "selected pipeline.json FIFO without writer",
+    "memory_created": false
+  }
 }
