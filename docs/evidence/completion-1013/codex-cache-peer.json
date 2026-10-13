@@ -1,0 +1,40 @@
+{
+  "schema": "bounded-independent-review/1",
+  "reviewer": "/root",
+  "source": "25186031cd32fb0131d1e95db40d5fe8e81719b5",
+  "composed_source": "923c2f9",
+  "verdict": "PASS_BOUNDED_AFTER_CORRECTIONS",
+  "findings": [
+    "Existing0777 pending directory and0644 receipt admitted;9ceef3b now refuses without chmod or overwrites, including EEXIST competing publish.",
+    "Printed watcher command had unsafe argv quoting;2518603 uses POSIX literal quoting and explicit Windows display limit."
+  ],
+  "reviewed": [
+    "No native mutating command admitted by update or direct refreshOne",
+    "Finite native reads and watcher budgets; version/ref/catalog does not establish thread retirement",
+    "Immutable intent identity, canonical profile/config binding, no raw config, private owner checks",
+    "Host-read-only watcher records private observations and never grants mutation",
+    "Actual isolated native probe covers add and upgrade pruning; no production-profile mutation by tests"
+  ],
+  "replayed": [
+    {
+      "command_log": "codex-merged-pending-peer.log",
+      "cases": 28,
+      "sha256": "beda89d9834ed02ccc19fa384b67333d14232525c0e4c279fc63f8706b1775b4"
+    },
+    {
+      "command_log": "codex-merged-cli-peer.log",
+      "cases": 9,
+      "sha256": "0033eb891b0b3c002ed3857352a3755d7321ac3637d078db92ecc059e7c976ca"
+    },
+    {
+      "command_log": "blocks-merged-codex-peer.log",
+      "cases": 14,
+      "sha256": "8b8831e0c42bcc3698a1ba30d5b1d54bfe4738437d3008bd1fa0b31391c27603"
+    }
+  ],
+  "limits": [
+    "Full aggregate pending",
+    "No actual pending watcher registration yet",
+    "Supported safe native version transition remains unavailable; no zero-bug or whole-goal verdict"
+  ]
+}
