@@ -1,0 +1,41 @@
+{
+  "schema": "bounded-code-peer/1",
+  "reviewer": "visibility_review",
+  "source": "a1585702b10c6fa8a836980d800881e0a088f409",
+  "prior_review_scope": "32defee..3bcafea; numeric/uncertainty correction through a158570",
+  "verdict": "PASS_BOUNDED",
+  "files_sha256": {
+    "lib/claude-pinned.js": "182ec43bbcae18733b3c2b39af427ba9e2baa2ea500c7ce078b44c67dee7d76a",
+    "lib/claude-pin-transaction.js": "910b4a3699847f488772560d7253d6790127a9f785c8bdd412b8bf941d650fda"
+  },
+  "checks": [
+    {
+      "command": "node test/claude_pin_transaction_test.js",
+      "returncode": 0,
+      "cases": 25,
+      "log_sha256": "25fdbc2ce35fe13e52f99d96ed0c18ab877732cc8b20117bea2e75a365768ab9"
+    },
+    {
+      "independent_controls": 19,
+      "passed": true,
+      "scope": [
+        "initial unsupported numeric tokens refuse before mutation",
+        "foreign registry precision collision refuses",
+        "settings restore precision collision preserves changed bytes",
+        "safe decimal/exponent spelling and escaped numeric strings accepted",
+        "negative zero, precision loss, overflow and underflow refuse"
+      ]
+    }
+  ],
+  "original_counterexamples": {
+    "foreign_registry": "9007199254740992 to9007199254740993 compared equal through JSON Number",
+    "settings_restore": "100000000000000000000000001 to100000000000000000000000002 was overwritten by prior restore",
+    "corrected_contract": "Native metadata admission/current reads reject non-round-trip numeric tokens; pure lossless editing remains unrestricted."
+  },
+  "limitations": [
+    "No owner aggregate or native CLI probe independently executed by this reviewer.",
+    "No real operator profile changed; no model/provider calls.",
+    "Prior20 controls plus catalog-signal and foreign-array-order peer controls passed on3bcafea.",
+    "Atomic file replacement does not prove all-files transaction or power-loss durability."
+  ]
+}
