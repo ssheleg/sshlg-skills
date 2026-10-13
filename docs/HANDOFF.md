@@ -17,17 +17,16 @@ active-thread retirement/old-generation retention proof exists. Catalog converge
 alone cannot establish retirement. Actual deferred receipt/watcher registration
 follows publication; no native version transition is authorized by a timeout.
 
-**Exact next sequence:** TP PR122 merged at
-`78c42124db910c56e74c8fbd524bdc9a4f8fb6c9`. The second local full attempt stopped
-on the disk guard after5898.95 seconds, before tagging; it is INCOMPLETE.
-[Exact-tree admission](evidence/completion-1013/tp-current-gate/admission.md)
-binds the genuine12-job hosted result, identical source tree and documented
-pre-tag gate. The existing tag-triggered release runs `npm run test:all` on the
-exact tag before publication. Continue that gate, then verify all release jobs
-and registry bytes before updating its parent pin and generated inventories.
-The local broad queue remains held until owned scratch cleanup restores disk
-headroom. Preserve both prior failed/incomplete local receipts. Hub final gates,
-publication and actual installed acceptance still follow separately.
+**Exact next sequence:** TP1.94.0 at78c42124 is NOT published. Its local full
+attempt stopped on disk guard; root's subsequent exact-tree admission was
+[incorrect](evidence/completion-1013/tp-current-gate/admission-correction.md).
+The premature public tag is preserved. Release38386280311 failed its tagged
+run-stamp guard and skipped publication; npm remains1.93.3. A separate owner
+1.94.1 correction must record the truthful ledger disposition, exercise the
+tag-visible guard and pass the complete local suite before any new tag push.
+SEO PR40 now owns the broad slot only when free space is at least1GiB, with an
+owned-process400MiB stop guard. TP repair and checkpoint continue independently.
+Hub publication and actual installed acceptance remain pending.
 
 Agent-stack 0.28.2 and SEO 0.26.6 are published with complete readback; accepted
 owner receipt/header corrections are pinned at 63e155d and 00601e6. The three prior

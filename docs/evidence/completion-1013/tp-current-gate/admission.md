@@ -1,3 +1,5 @@
+> SUPERSEDED: the admission below was incorrect. See [correction](admission-correction.md). It did not satisfy all active owner rules.
+
 # Exact-tree release admission after a resource stop
 
 The second local `npm run test:all` attempt at accepted main78c42124 stopped

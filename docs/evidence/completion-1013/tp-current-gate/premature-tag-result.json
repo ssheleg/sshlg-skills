@@ -1,0 +1,153 @@
+{
+  "conclusion": "failure",
+  "jobs": [
+    {
+      "completedAt": "2026-10-13T10:52:33Z",
+      "conclusion": "failure",
+      "databaseId": 115258760627,
+      "name": "release",
+      "startedAt": "2026-10-13T10:52:05Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-13T10:52:06Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-13T10:52:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:06Z",
+          "conclusion": "success",
+          "name": "Resolve the tag to release",
+          "number": 2,
+          "startedAt": "2026-10-13T10:52:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:08Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 3,
+          "startedAt": "2026-10-13T10:52:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:08Z",
+          "conclusion": "success",
+          "name": "The tag must be annotated (a lightweight tag hides the release)",
+          "number": 4,
+          "startedAt": "2026-10-13T10:52:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:09Z",
+          "conclusion": "success",
+          "name": "The tag must be reachable from the default branch",
+          "number": 5,
+          "startedAt": "2026-10-13T10:52:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:13Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v4",
+          "number": 6,
+          "startedAt": "2026-10-13T10:52:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:14Z",
+          "conclusion": "success",
+          "name": "Dependencies the validator needs",
+          "number": 7,
+          "startedAt": "2026-10-13T10:52:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:31Z",
+          "conclusion": "failure",
+          "name": "The suite this release claims",
+          "number": 8,
+          "startedAt": "2026-10-13T10:52:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:31Z",
+          "conclusion": "skipped",
+          "name": "Tag must match the manifests (version sync)",
+          "number": 9,
+          "startedAt": "2026-10-13T10:52:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:31Z",
+          "conclusion": "skipped",
+          "name": "Extract this version's CHANGELOG section",
+          "number": 10,
+          "startedAt": "2026-10-13T10:52:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:31Z",
+          "conclusion": "skipped",
+          "name": "Create or refresh the GitHub release",
+          "number": 11,
+          "startedAt": "2026-10-13T10:52:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:31Z",
+          "conclusion": "skipped",
+          "name": "Post-release smoke test (npx from a clean cwd \u2014 the verify gate)",
+          "number": 12,
+          "startedAt": "2026-10-13T10:52:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:31Z",
+          "conclusion": "skipped",
+          "name": "Post Run actions/setup-node@v4",
+          "number": 23,
+          "startedAt": "2026-10-13T10:52:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:32Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 24,
+          "startedAt": "2026-10-13T10:52:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T10:52:32Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-10-13T10:52:32Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38386280311/job/115258760627"
+    },
+    {
+      "completedAt": "2026-10-13T10:52:33Z",
+      "conclusion": "skipped",
+      "databaseId": 115258949814,
+      "name": "publish",
+      "startedAt": "2026-10-13T10:52:34Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38386280311/job/115258949814"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38386280311",
+  "registry_readback": "task-pipeline-skill latest1.93.3",
+  "cancel_attempt": "run already completed; cancel refused",
+  "tag": "v1.94.0",
+  "tag_object": "9def0fa8fe361b9abc71e2ecefd09b14f83c9421",
+  "source": "78c42124db910c56e74c8fbd524bdc9a4f8fb6c9"
+}
