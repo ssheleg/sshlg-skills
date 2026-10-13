@@ -6,12 +6,12 @@ report:
   project: sshlg-skills
   domains: [ai-agent, automation]
   as_of: 2026-10-13
-  status: draft
+  status: active
   valid_until: 2026-10-20
   summary: >-
     The recovery candidate adds eight tracked code files to the previous graph cut.
     The new static graph contains 249 files, 2989 nodes and 4522 edges.
-    Source hashes and extraction diagnostics are retained; independent review is pending.
+    Source hashes, extraction diagnostics and independent source/endpoint review are retained.
     These are navigation data, not runtime or quality acceptance.
   sources:
     - name: "Frozen recovery candidate"
@@ -43,8 +43,11 @@ it does not overwrite their observations.
 
 These counts come from the two manifests. Larger counts do not establish better
 modularity or quality. The new [diagnostics](raw/final-00a6b2c/diagnostics.json)
-record5856 raw edges,786 dangling endpoints,1 self-loop and564 collapsed relations
-sharing directed endpoints. Independent endpoint comparison is still pending.
+record 5856 raw edges, 786 dangling endpoints, 1 self-loop and 564 collapsed relations
+sharing directed endpoints. The [independent peer](raw/graph-recovery-peer.json)
+verified all 249 Git blob bindings, source ranges, hashes and graph counts. It found
+16 export-added endpoint pairs and no missing valid raw pairs:
+`5856 - 786 - 564 + 16 = 4522`. Raw and exported graphs are therefore not identical.
 The compressed [raw extraction](raw/final-00a6b2c/extraction.json.gz) and
 [export](raw/final-00a6b2c/graph.json.gz) are retained for that check.
 
@@ -69,8 +72,8 @@ source filenames. Package publication, host installation, real hooks and model t
 quality each need their own evidence. Later docs-only or gitlink changes do not
 change this code corpus; a later implementation does require another cut.
 
-Next: independent Git/blob, line-range and graph/endpoint verification; then
-complete the final hub aggregate and update the generated wiki report index.
+The [read-only verifier](raw/graph-recovery-peer.py) preserves both source cuts.
+Next: complete the final hub aggregate and update the generated wiki report index.
 No graph result substitutes for those gates.
 
 ---

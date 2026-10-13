@@ -6,7 +6,7 @@ report:
   project: sshlg-skills
   domains: [ai-agent, automation]
   as_of: 2026-10-13
-  status: draft
+  status: superseded
   valid_until: 2026-10-20
   summary: >-
     Provider-free AST cuts retain the 218-file baseline, 235-file intermediate
@@ -20,6 +20,7 @@ report:
     agent: "Codex root"
     task: "R33 final source graph and document reconciliation"
   supersedes: []
+  superseded_by: ["sshlg-skills/2026-10-13-code-graph-recovery"]
   consumers: ["sshlg-skills finalization"]
 ---
 
