@@ -1,0 +1,22 @@
+{
+  "schema": "paired-reader-amendment/1",
+  "reason": "A preserved as TEST_ERROR because response inserted a blank separator. B admits blank separators only, preserves all raw text and starts fresh preflight.",
+  "previous_artifact_hashes": {
+    "results-a.json": "c32648b924ae5d7b98a44906803458eb5c888ada26bd102759a913ca263ec960",
+    "run.py": "066fae7ccf74fec2e26d9ac3c28e29ec9594fc6bb1b52fff63bd4f366f0649d7",
+    "admission.json": "fff658371e0e99f71efa4f2821b0fdfeb5c94f3a85d25a2c6194003e44650796",
+    "peer-review.json": "e62ec8a9a462e586a693fc3e2f2b8481d7d4cb8e2ae48603b74ecdde20451df9",
+    "arms.json": "d83ac4fc8be2fd1a1cf8981864521a95266579b9acb224ce3e80a216563d141a",
+    "cases.json": "3b4a85368500e1cb049561c71f168536c93d8b9f7a0b0bb5735a7f6270771145",
+    "source.json": "b37074ceb9202cf6f7c00fa60becb9676104c9969a37403aad2d40a1ef29555f"
+  },
+  "max_calls": 17,
+  "budget_usd": 1.4344608,
+  "new_plan": "Original task order excluding first valid task; one explicitly repeated failed task plus16 never-started tasks. No repeat of readiness cells.",
+  "max_cumulative_cli": 85,
+  "previous_paired_a_cost_usd": 0.1034776,
+  "previous_native_cost_usd": 2.4620616,
+  "combined_envelope_usd": 4,
+  "command_change": "none",
+  "acceptance_change": "Only blank separator lines between ROUTE and WHY; extra nonempty text remains invalid."
+}
