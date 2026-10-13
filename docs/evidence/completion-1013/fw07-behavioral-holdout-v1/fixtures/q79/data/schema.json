@@ -1,0 +1,6 @@
+{
+  "table": "customers",
+  "fields": [
+    "customer_segment"
+  ]
+}

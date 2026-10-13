@@ -1,0 +1,138 @@
+{
+  "schema": "fw07-behavioral-protocol/1",
+  "status": "PROPOSED_NOT_AUTHORIZED_NOT_RUN",
+  "authorized_provider_calls": 0,
+  "purpose": "Paired held-out stage/gate decision and captured artifact quality screen for the extraction; not whole-workflow execution, repository writes or passive skill discovery.",
+  "host": {
+    "binary": "claude",
+    "version": "2.1.296",
+    "model": "claude-opus-5-5",
+    "effort": "low",
+    "auth": "Normal claude.ai firstParty subscription only; recheck before every fresh CLI cell; reject foreign API-key/proxy/provider environment.",
+    "version_drift": "STOP before any model request; amend and independently review before changing config.",
+    "flags": [
+      "--restricted",
+      "--plugin-dir <fresh-root>/plugin",
+      "--no-session-persistence",
+      "--strict-mcp-config",
+      "--mcp-config {\"mcpServers\":{}}",
+      "--output-format stream-json",
+      "--verbose"
+    ],
+    "tools": [
+      "Glob",
+      "Grep",
+      "Read",
+      "Skill"
+    ],
+    "allowed_write_paths": [],
+    "settings": {
+      "disableBundledSkills": true,
+      "skillOverrides": {
+        "doctor": "off",
+        "design": "off",
+        "plugin-authoring": "off"
+      },
+      "disableAllHooks": true,
+      "autoMemoryEnabled": false,
+      "claudeMdExcludes": [
+        "**"
+      ],
+      "disableClaudeAiConnectors": true
+    },
+    "source_expected_inventory": [
+      "task-pipeline:evidence-docs",
+      "task-pipeline:project-audit",
+      "task-pipeline:task-pipeline"
+    ],
+    "inventory_semantics": "User-invocable init inventory anomaly guard, not all model-visible context or tool permissions. No silent relaxation if actual differs.",
+    "skill_load_required": "task-pipeline:task-pipeline successful Skill result before the decision artifact; direct source reads alone cannot prove native invocation."
+  },
+  "design": {
+    "arms": [
+      "control",
+      "candidate"
+    ],
+    "n_unique_tasks": 8,
+    "repetitions_per_arm": 1,
+    "task_cells": 16,
+    "readiness_cells": 2,
+    "max_cli_invocations": 18,
+    "seed": 10134317,
+    "sequence": "Seeded shuffled case order and paired arm order; seed controls ordering only, not inaccessible model randomness. Two fresh readiness cells first.",
+    "holdout": "Fixed synthetic cases authored before outputs; spent once on the preselected candidate. Not hidden from source authors or representative production. No tuning to these outputs; fixes need new held-out corpus.",
+    "resume_scope": "Fresh process with supplied durable records after simulated context loss; does not exercise actual compaction/session resume.",
+    "fault_case": "q86 is prespecified required-route deletion, scored for refusal; excluded from token-savings reducer."
+  },
+  "budget_proposal": {
+    "currency": "USD",
+    "reported_list_ceiling": 24.0,
+    "task_cell_reserve": 1.4,
+    "readiness_reserve": 0.2,
+    "maximum_planned_reservation": 22.8,
+    "old_program_budget_reuse": false,
+    "old_program_status": "Prior GoogleAuth/native quality work remains NO_ADOPTION; unused envelope is not execution authority.",
+    "admission": "Separate explicit admission after source/runner reviews. Before a pair reserve both cells; no call if the remaining envelope is insufficient. CLI max-budget mirrors per-cell reserve, but actual metadata is observable after request and can overshoot.",
+    "unknown_cost": "Persist COST_UNKNOWN on interruption/missing usage; halt, do not retry or treat as zero.",
+    "retries": 0,
+    "judge_model_calls": 0
+  },
+  "limits": {
+    "task_unique_model_requests": 8,
+    "task_reported_turns": 15,
+    "readiness_unique_model_requests": 1,
+    "readiness_reported_turns": 1,
+    "max_input_tokens_per_unique_request": 64000,
+    "max_output_tokens_per_unique_request": 1800,
+    "max_cell_output_tokens": 14400,
+    "cell_wall_seconds": 240,
+    "artifact_max_bytes": 24000,
+    "file_tools_root": "Read/Glob/Grep only in fresh owned project/plugin roots, canonical paths and no symlinks. No file mutation tools exposed; pre/post fixture/plugin hash set must match.",
+    "hard_effect_boundary": "No Write/Edit/Bash/web/network/MCP/Task/subagent/install/publish/deploy tools. --restricted confines file tools; prove host confinement with offline controls before admission. No installed state changed."
+  },
+  "readiness_prompt": "Reply READY only. Do not call Skill, read project files, write files or perform the task.",
+  "task_envelope": "Use the task-pipeline:task-pipeline Skill for this isolated exercise. Work only inside the supplied project. Review the supplied records and return a decision artifact as your answer with the current stage, evidence-backed gate verdict, missing prerequisites and next executor handoff. This is a decision artifact only: do not execute repository changes, tests, provider requests, approvals or deployments, and do not claim any such action happened. Treat synthetic records as supplied evidence, with their stated limits.\n\n",
+  "payload_whitelist": [
+    "task_envelope",
+    "prompt",
+    "fixture_files"
+  ],
+  "private_only": [
+    "case_id",
+    "cluster",
+    "arm",
+    "rubric",
+    "required",
+    "forbidden",
+    "source hashes",
+    "prior outcomes",
+    "costs",
+    "review mapping"
+  ],
+  "scoring": {
+    "primary": "Every required dimension PASS and every forbidden claim absent, per cell; otherwise FAIL with evidence quotation/file:line. UNKNOWN remains unknown.",
+    "axes": [
+      "native load",
+      "source retrieval and temporal order",
+      "artifact quality",
+      "unchanged fixture state",
+      "usage/trace validity"
+    ],
+    "temporal": "Successful required stage Read/Skill result before stage-specific decision; missing-route case must receive its declared error before safe-stop artifact. No total ordering of independent reads.",
+    "all_visible_output": "Retain all ordered user-visible assistant text blocks as the complete artifact, plus final.result separately. Evaluator saves the artifact; this is not evidence that the model wrote any repository file.",
+    "blind_review": "Two independent source-competent reviewers receive shuffled opaque artifacts, project fixtures and rubric, with arm/source/usage/raw trace labels withheld. Record judgments and disagreements before unmasking. Trace review separately then determines retrieval validity. No model-judge calls.",
+    "rubric_change": "No amendment after first call; schema/transport/auth/tool-boundary errors STOP program as TEST_ERROR, retain prior cells; behavioral failures recorded without retries. Declared q86 missing-read error is expected, not a harness error.",
+    "reducer": "Paired case win/loss/tie; all-eight critical requirements; usage median paired delta across7 nonfault tasks, with per-case totals. k=1 screen only; neither statistical noninferiority nor global zero-quality-loss.",
+    "positive_screen_threshold": "No candidate-only required-gate failure, no forbidden effect/false claim, required native+read provenance observed in both arms, and median total input-token reduction >=10% over eligible paired cases. This permits only proposing a larger independently budgeted validation, never deployment/adoption."
+  },
+  "prerequisites": [
+    "Corrected matched arms in source.json independently reviewed",
+    "PR123 rebased onto accepted1.94.1 with new frozen manifests and unchanged heldout prompts/rubric",
+    "Candidate full owner suite plus actual relocated negative plants accepted",
+    "Installer test route all eleven stage details exact on both supported installers at final source",
+    "CLI-tool confinement/readiness/stream observer validated with fake process adversarial controls",
+    "Complete runner/materializer/payload-blindness independent review",
+    "Separate explicit spend/call authorization record"
+  ],
+  "runner_status": "NOT_IMPLEMENTED; this packet offers offline corpus/source validation only."
+}

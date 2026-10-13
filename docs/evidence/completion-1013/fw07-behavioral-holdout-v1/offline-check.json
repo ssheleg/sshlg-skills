@@ -1,0 +1,24 @@
+{
+  "status": "OFFLINE_PACKET_PASS",
+  "cases": 8,
+  "controls": 13,
+  "fixture_files": 39,
+  "provider_calls": 0,
+  "runner_execution": "NOT_IMPLEMENTED_NOT_AUTHORIZED",
+  "sources": {
+    "candidate_files": 132,
+    "common_corrections": 2,
+    "control_files": 121,
+    "default_ledger_rows": 10
+  },
+  "command": "python3 -B docs/evidence/completion-1013/fw07-behavioral-holdout-v1/check.py --self-test --source-repo <local-task-pipeline>",
+  "exit": 0,
+  "not_proven": [
+    "native behavior",
+    "token saving",
+    "model quality",
+    "owner aggregate acceptance",
+    "publication",
+    "installation"
+  ]
+}

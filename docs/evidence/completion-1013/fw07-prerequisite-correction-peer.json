@@ -1,0 +1,31 @@
+{
+  "source": "3a8e4ac178bf921a3703c59dee4e832f73de84db",
+  "base": "771b7cd6b364837422adf6f6cd23f4420a393b6b",
+  "reviewer": "visibility_review",
+  "verdict": "BOUNDED_SOURCE_PASS",
+  "read": [
+    "two shipped reference diffs",
+    "contract/actual mutation test deltas",
+    "artifact-provider contract"
+  ],
+  "replayed": [
+    {
+      "command": "python3 -B test/audit_regressions/fix-tp-02.01.py",
+      "controls": 10,
+      "exit": 0
+    },
+    {
+      "command": "python3 -B test/audit_regressions/fw07_prerequisites.py",
+      "controls": 30,
+      "exit": 0,
+      "owned_fixture_removed": true
+    }
+  ],
+  "boundaries": [
+    "Equivalent and inline providers allowed without package installation stop",
+    "Missing/invalid artifact still refuses regardless provider",
+    "Unavailable checks explicitly NOT_RUN",
+    "No full suite, native behavior, model quality, release or installation acceptance"
+  ],
+  "next": "Composed1.94.1 rebase/full/installer gate; proposed behavioral protocol separately reviewed and admitted."
+}

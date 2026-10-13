@@ -1,0 +1,49 @@
+{
+  "stages": [
+    {
+      "id": 0,
+      "state": "collect",
+      "name": "Collect facts",
+      "skills": [
+        "host:local-review"
+      ],
+      "gate": {
+        "type": "auto",
+        "check": "required facts present"
+      }
+    },
+    {
+      "id": 7,
+      "state": "inspect",
+      "name": "Inspect result",
+      "skills": [
+        "host:local-review"
+      ],
+      "gate": {
+        "type": "manual",
+        "check": "reviewer confirms the evidence"
+      }
+    },
+    {
+      "id": 10,
+      "state": "handover",
+      "name": "Hand over",
+      "skills": [
+        "host:local-review"
+      ],
+      "gate": {
+        "type": "auto",
+        "check": "evidence and resume record retained"
+      }
+    }
+  ],
+  "paths": {
+    "artifacts": "notes"
+  },
+  "kernel": {
+    "scope": "declared",
+    "evidence": "required",
+    "deps": "explicit",
+    "resume": "durable"
+  }
+}
