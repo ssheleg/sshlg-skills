@@ -1,3 +1,21 @@
+## v1.63.0 — immutable Claude plugins and opt-in working rules
+
+- Claude Code installation now uses exact member commits through its native plugin
+  source mechanism. Successful updates require installed source and payload
+  readback. Eligible same-version repairs preserve plugin data and disabled state;
+  ambiguous execution stops with a recovery receipt.
+- The optional wait rule has its own default-off setting, host scope and ownership
+  record. Preview shows the proposed text; apply preserves surrounding content.
+  Updates refresh only previously applied profiles. The rule creates no background
+  jobs and grants no additional action authority.
+- Scoped router migration now leaves unselected hosts alone. Working-rule writes
+  refuse malformed ownership, changed consent and non-lossless UTF-8 input.
+- Release-iteration requests route to task-pipeline. Member validation and collector
+  corrections carry source, publication and installed acceptance separately.
+- Native selection and artifact-quality experiments retain observed failures.
+  Installed skill descriptions are unchanged; no quality-preserving compression
+  claim follows from these diagnostics.
+
 ## v1.62.2 — pinned installs and source-preserving settings edits
 
 - Plain-host installation and updates now select the reviewed member commit from

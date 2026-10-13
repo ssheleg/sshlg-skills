@@ -264,17 +264,23 @@ replaces existing bytes as well as installing missing skills, so no floating
 `--copy`, including previously installed copies outside the selected default set.
 The selected agent list and shared-store effects still apply.
 
-Claude's native plugin channel follows its marketplace/version lifecycle; immutable
-source selection is **NOT_VERIFIED** for that channel. The launcher states this
-separately from plain-skill commit selection. Neither an immutable argument nor a
-reported version proves installed bytes, native activation or task quality.
+**Claude Code plugins use exact member sources through the native CLI.** The shipped
+`claude-plugin-pins.json` records each plugin's commit, relative source and file
+hashes. The launcher prepares the full plan, uses owned catalogues with native
+`git-subdir.sha` sources, then checks installed scope, source and every payload file.
+Same-version repair is limited to supported user-scope, unconfigured plugins with
+a verified prior source; it keeps plugin data and restores disabled state. Other
+repair shapes are refused. Interrupted or uncertain execution leaves a recovery
+receipt and blocks blind retry. Native activation and task quality require their
+own observations even after installed bytes match.
 
 Flags: `--no-claude`, `--claude-only`, `--agent a,b`, `--all`, and
 `--bump-pins` — off by default so a checkout stays reproducible; pass it when
 you deliberately want the submodules fast-forwarded to their upstream tips.
 That run still installs the published commit inventory. For the next release, stage
-the reviewed gitlinks and run `node scripts/sync-member-pins.js --write`; the gate
-checks those commit fields against the staged gitlinks.
+the reviewed gitlinks, run `node scripts/sync-member-pins.js --write`, then
+`node scripts/sync-claude-pins.js --write`. The gates compare both inventories with
+the staged member sources.
 The scope flags scope the Claude host's files too: under `--no-claude`, or any
 `--agent` list, neither the routing block in `CLAUDE.md`, nor the hook wiring in
 `settings.json`, nor the runtime copy those hooks execute
@@ -501,6 +507,25 @@ Switching it back on restores the exact bytes that were there — including
 wording of yours that migration had moved in. Settings live in
 `~/.sshlg-skills/config.json` (mode 0600) and store deviations only, so a
 router added in a later release arrives switched on rather than silently off.
+
+### Continue work while dependencies wait
+
+The wait rule is separate from routers and is off by default. Record the choice,
+preview the selected host, then apply it:
+
+```bash
+npx sshlg-skills config set rules.wait on
+npx sshlg-skills rules --agent codex
+npx sshlg-skills rules --apply --agent codex
+```
+
+Supported destinations are existing Claude Code, Codex, Gemini, Pi and Cursor
+instruction roots. Use `--claude-only` for Claude Code; `--agent` selects other
+hosts. A later `update` refreshes only profiles with a prior ownership receipt.
+Set `rules.wait off` and apply the same scope to remove its owned text. Surrounding
+content is preserved; malformed, edited or retargeted state stops for recovery.
+The rule describes continuation and durable handoff. It creates no watcher or job,
+and sign-ins, consent, payment and action-specific authority keep their own gates.
 
 ### Routes you declare — skills outside the family
 
