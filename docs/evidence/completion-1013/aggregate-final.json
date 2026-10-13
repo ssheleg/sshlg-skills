@@ -1,0 +1,15 @@
+{
+  "schema": "completion-aggregate/1",
+  "source_commit": "5427bbbd449cf6c26bc52e84f98bdb90707d5ec6",
+  "command": "npm test",
+  "exit_code": 0,
+  "measured": {
+    "suites": 113,
+    "fixtures": 1695,
+    "members": 11
+  },
+  "stdout_sha256": "b759b17f92e20421f97d7d5e338b51cbd61c54f44ccb8a240f56666e23f87d26",
+  "stdout_artifact": "aggregate-final.log.gz",
+  "independent_review": "merged-seam-review.md",
+  "scope": "Local tests of the candidate; not hosted CI, release, installation or native model-quality acceptance."
+}

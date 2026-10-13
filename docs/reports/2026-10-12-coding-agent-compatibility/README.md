@@ -6,7 +6,8 @@ report:
   project: sshlg-skills
   domains: [ai-agent, automation]
   as_of: 2026-10-12
-  status: active
+  status: superseded
+  superseded_by: sshlg-skills/2026-10-13-coding-agent-compatibility
   valid_until: 2026-11-12
   summary: >-
     Срез сверки установленной семьи (hub 1.57.0, 11 пакетов, 39 скиллов) с

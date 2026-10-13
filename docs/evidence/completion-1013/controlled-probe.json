@@ -1,0 +1,121 @@
+{
+  "schema": "bounded-native-probe/1",
+  "executed_at_utc": "2026-10-13T01:29:58Z",
+  "host": "Claude Code 2.1.296",
+  "source_commit": "ab37778793674efff60b92ed381284c7339420ea",
+  "purpose": "controlled readiness; no native skill/quality acceptance",
+  "argv": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-5-5",
+    "--effort",
+    "low",
+    "--setting-sources",
+    "project,local",
+    "--settings",
+    "{\"disableAllHooks\": true, \"autoMemoryEnabled\": false, \"claudeMdExcludes\": [\"**\"], \"disableClaudeAiConnectors\": true}",
+    "--strict-mcp-config",
+    "--mcp-config",
+    "{\"mcpServers\":{}}",
+    "--tools",
+    "",
+    "--disable-slash-commands",
+    "--no-session-persistence",
+    "--max-turns",
+    "1",
+    "--max-budget-usd",
+    "0.25",
+    "--system-prompt",
+    "Evaluate only the supplied synthetic fixture. Return the requested JSON. No tools, external facts or side effects.",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "Return {\"ready\":true}."
+  ],
+  "env_overrides": {
+    "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1",
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "1024"
+  },
+  "exit_code": 0,
+  "elapsed_seconds": 4.039,
+  "init": {
+    "model": "claude-opus-5-5",
+    "permissionMode": "default",
+    "apiKeySource": "none",
+    "session_id": "db335f8a-89e3-4b13-a712-b371b84c5a50"
+  },
+  "init_counts": {
+    "tools": 0,
+    "mcp_servers": 0,
+    "plugins": 4,
+    "skills": 0,
+    "agents": 5
+  },
+  "result": {
+    "subtype": "success",
+    "is_error": false,
+    "num_turns": 1,
+    "duration_ms": 1382,
+    "duration_api_ms": 1211,
+    "total_cost_usd": 0.018068,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 2235,
+      "cache_read_input_tokens": 0,
+      "output_tokens": 9,
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 2235,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "not_available",
+      "iterations": [
+        {
+          "input_tokens": 2,
+          "output_tokens": 9,
+          "cache_read_input_tokens": 0,
+          "cache_creation_input_tokens": 2235,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2235
+          },
+          "type": "message"
+        }
+      ],
+      "speed": "standard",
+      "fallback_credit": null
+    },
+    "modelUsage": {
+      "claude-opus-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 9,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 2235,
+        "webSearchRequests": 0,
+        "costUSD": 0.018068,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 0,
+        "canonicalModel": "claude-opus-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "session_id": "db335f8a-89e3-4b13-a712-b371b84c5a50",
+    "costBasis": null
+  },
+  "ready_exact": true,
+  "result_sha256": "b342fc286d0216cc212e0d7ba234894e2e7283ddf14f959adf0fe7fd5924308a",
+  "stderr_bytes": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "raw_stdout_sha256": "1f370a6b14d691aca528d0ee3097a68435376ae62ac9aaa268b22fcd9167d0aa",
+  "billing": "CLI list-price estimate; subscription billing not measured"
+}

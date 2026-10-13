@@ -1,0 +1,70 @@
+{
+  "fetched_on": "2026-10-13",
+  "method": "web search followed by actual page open/find; primary official sources only",
+  "copyright": "Paraphrased claim ledger; no full page copies.",
+  "sources": [
+    {
+      "id": "claude-skills",
+      "url": "https://code.claude.com/docs/en/skills",
+      "read_at": "2026-10-13",
+      "supports": "Host visibility controls, listing budget, plugin exception, skill evaluation and bounded carry-over after compaction.",
+      "evidence_kind": "documented upstream contract, not observed local runtime"
+    },
+    {
+      "id": "codex-skills",
+      "url": "https://learn.chatgpt.com/docs/build-skills",
+      "read_at": "2026-10-13",
+      "supports": "Metadata-first loading, initial catalog budget, explicit-only policy versus disabling, local discovery.",
+      "evidence_kind": "documented upstream contract, not observed local runtime"
+    },
+    {
+      "id": "codex-config",
+      "url": "https://learn.chatgpt.com/docs/config-file/config-reference",
+      "read_at": "2026-10-13",
+      "supports": "skills.max_context_tokens, skills.config enabled and tool_output_token_limit.",
+      "evidence_kind": "documented upstream contract, not observed local runtime"
+    },
+    {
+      "id": "claude-mcp",
+      "url": "https://code.claude.com/docs/en/mcp",
+      "read_at": "2026-10-13",
+      "supports": "Default MCP deferral, auto threshold mode and proxy compatibility caveats.",
+      "evidence_kind": "documented upstream contract, not observed local runtime"
+    },
+    {
+      "id": "claude-costs",
+      "url": "https://code.claude.com/docs/en/costs",
+      "read_at": "2026-10-13",
+      "supports": "Subagent usage is additional; bounded delegation and specific verification targets.",
+      "evidence_kind": "documented upstream contract, not observed local runtime"
+    },
+    {
+      "id": "openai-cache",
+      "url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+      "read_at": "2026-10-13",
+      "supports": "Rendered-prefix cache reuse; separate cached reads, writes, uncached inputs and actual cost.",
+      "evidence_kind": "documented upstream contract, not observed local runtime"
+    },
+    {
+      "id": "anthropic-authoring",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices",
+      "read_at": "2026-10-13",
+      "supports": "Concise non-obvious guidance, degrees of freedom and target-model evaluation.",
+      "evidence_kind": "documented upstream contract, not observed local runtime"
+    },
+    {
+      "id": "skills-spec",
+      "url": "https://agentskills.io/specification",
+      "read_at": "2026-10-13",
+      "supports": "Progressive disclosure and recommended body/reference structure.",
+      "evidence_kind": "documented upstream contract, not observed local runtime"
+    },
+    {
+      "id": "skills-evaluation",
+      "url": "https://agentskills.io/skill-creation/evaluating-skills",
+      "read_at": "2026-10-13",
+      "supports": "Fresh-context baseline comparisons, output assertions, token and timing evidence.",
+      "evidence_kind": "documented upstream contract, not observed local runtime"
+    }
+  ]
+}

@@ -145,11 +145,19 @@ process.stdin.on('end', () => {
     //    if anyone notices. On 2026-09-05 nobody did, twice, in one session.
     if (command) {
       const secrets = require(path.join(LIB, 'secrets.js'));
-      const leak = secrets.inspect(command);
+      const leak = secrets.inspect(command, { cwd: data.cwd || process.cwd(), home });
       if (leak) {
         say('deny', leak.why);
         return;
       }
+    }
+
+    // Content reads are checked by the same pure path contract as shell readers.
+    if (require(path.join(LIB, 'secretreaders.js')).inspectTool(data.tool_name, data.tool_input,
+      { cwd: data.cwd || process.cwd(), home })) {
+      say('deny', 'This content read targets a credential-bearing file. Use a presence, size or mode probe, '
+        + 'or process it locally and emit only an explicit value-free summary. A search pattern is not a file path.');
+      return;
     }
 
     // 0b. The MCP tool whose RESULT carries a credential (lib/mcpsecrets.js). Same

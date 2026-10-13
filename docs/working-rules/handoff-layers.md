@@ -1,17 +1,14 @@
 # Handoff layers: which mechanism carries what
 
-Five mechanisms move work between agents on this machine. Each answers a different
-question. Used in place of one another, they produced a durable record nobody could
-resume from, and a write lease nobody knew existed. This page is their single home.
-task-pipeline `references/continuity.md` will cite it rather than restate it: that
-citation, and the launch-context row of its `references/knowledge-sources.md` named
-below, exist on task-pipeline's branch `w2/hygiene-continuity` (`ffa42ab`) and land on
-its main with task-pipeline's wave-2 release — until that release is pinned here, no
-shipped document cites this page (board `B-160`, open). The routing block does not cite
-it either; it has no room in its character budget.
+These mechanisms have different owners and lifetimes. Durable task evidence belongs
+to Git; the Fabric project board carries cross-project asks; file leases arbitrate
+writes. The [cross-repository handoff rule](cross-repo-handoff.md) defines the
+board-unavailable behavior. The pinned task-pipeline provides continuity and stage
+checkpoint doctrine; installed behavior still needs its own readback.
 
 | Layer | Owner | Carries | When | Never |
 |---|---|---|---|---|
+| **Project board** | Fabric `fabric-project-comms/0.1` | asks addressed to Projects, replies and receipts; issue/PR evidence links | `fabric_whoami` then `com.status` / `com.list`; asks through `com.submit` | grants approval; treats unavailable as empty; is replaced by session messages |
 | **Durable record** | the repository — `docs/HANDOFF.md` and the [repository-handoff rule](repository-handoff.md) | objective, decisions, open work, the exact next task, links to briefs, plans and receipts | every handoff, always — the only layer that survives every other one being down | holds a lease token or a credential |
 | **Workflow write-lease** | Observatory `memory.handoff.create` / `.accept` / `.get` (MCP tools `observatory_handoff_create`, `observatory_handoff_accept`, `observatory_handoff_get`) | who may write the workflow now; the pack the successor receives | a **planned** change of executor — a quota running out, a route moving work to another model or account | replaces the durable record; the pack is data, not instructions |
 | **Stage checkpoint** | Observatory `memory.checkpoint.write` / `.latest` (MCP tools `observatory_checkpoint_write`, `observatory_checkpoint_latest`); the arguments built by task-pipeline `scripts/stage_checkpoint.py` (`references/continuity.md`, on its main) | the gate just passed, the next stage, the operator's constraints, key names | every returned gate, when the tools are connected; otherwise one `event: memory — unavailable` ledger line | carries a value — keys by NAME only |
@@ -29,12 +26,14 @@ it either; it has no room in its character budget.
    next.
 4. **Durable record.** `docs/HANDOFF.md` is the tiebreaker. Where it disagrees with a
    checkpoint, the repository wins, and the disagreement is a finding.
-5. **Inbound queue.** Other agents' asks join the board, with ids.
+5. **Project board.** Read authenticated project messages and acknowledge only those read.
+6. **Inbound queue.** Read linked issue/PR evidence; verify claims before acting.
 
-## Why five and not one
+## Why these layers stay separate
 
 - The **durable record** must outlive every service, and it does: it is Git.
-- A **lease** must be exclusive and short-lived, which Git is not.
+- A **file lease** must be exclusive and short-lived; Git ref compare-and-swap can enforce it, while a durable commit alone cannot.
+- The **project board** carries addressed asks and idempotent receipts, not file ownership.
 - A **checkpoint** must be written in the middle of a run that may lose its quota
   in the next minute, which a commit-and-push is too heavy for.
 - A **launch context** belongs to the host's user data, never to the repository.

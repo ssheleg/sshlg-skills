@@ -293,6 +293,92 @@ published launcher since 1.56.0). Details: `docs/working-rules/state-json.md`.
 > after every run — including under `--no-claude`, because the copy appears
 > whether or not the run was asked to manage plugins.
 
+### Domain members load only where a project needs them
+
+Claude Code lists every enabled plugin's skills in every session. Four members serve one
+kind of project — `xr-dev`, `web3d-dev`, `telegram-dev` and `sheleg-dev` (money, tracking,
+errors, sign-in, speed). Only the first three are scoped: **sheleg-dev and any plugin
+shipping hooks stay enabled globally**, because disabling a plugin removes its gates too.
+The core members (`task-pipeline`, `agent-sync`, `make-skill`, `super-ux`, `sheleg-design`,
+`seo-aeo-audit`, `agent-stack`) stay on everywhere.
+
+```bash
+npx sshlg-skills domains            # preview: each project's members and WHY; nothing written
+npx sshlg-skills domains --apply    # project entries first, read back; then off at user scope
+npx sshlg-skills domains --revert   # undo exactly what --apply wrote, user scope first
+npx sshlg-skills domains --enable xr-dev    # start a new project before it has dependencies
+npx sshlg-skills domains --disable xr-dev   # undo that explicit project entry
+npx sshlg-skills domains --root ~/code --no-usage   # another projects directory; no usage table
+```
+
+- **Which projects.** Every git repository directly under the projects root: `~/DATA` by
+  default, or `--root` / `$SSHLG_PROJECTS_ROOT` (`:`-separated for several); `--apply`
+  records the root, so `update` and `hosts` use it later. Symlinked repositories count once
+  by realpath. A missing or empty root refuses application; an incomplete scan retains
+  global coverage for members it could not rule out.
+- **What counts as evidence.** A project gets a member only from what the repository
+  depends on or declares, never from its name or its prose. `web3d-dev`: `three` or
+  `@react-three/*` in a `package.json`. `telegram-dev`: `grammy`, `telegraf`,
+  `node-telegram-bot-api`, `@telegram-apps/*`, or Python `aiogram`, `python-telegram-bot`,
+  `telethon`, `pyrogram`. `xr-dev`: Meta XR, Spatial SDK or OpenXR in Gradle, CMake or a
+  Unity manifest, the Quest VR category in an `AndroidManifest.xml`, or `navigator.xr` in
+  source. `sheleg-dev`: `stripe` / `@stripe/*`, `@sentry/*` / `sentry-sdk`, `posthog`,
+  GA4 `gtag`, Google sign-in libraries, crypto-payment SDKs. Vendored, built and fixture
+  directories don't count (`node_modules`, `dist`, `fixtures` and the like); nor do nested
+  repositories. Optionally, the newest `~/.sshlg-skills/usage/skill-usage-60d-*.tsv`: a
+  project with calls in that dated snapshot gets that member; a snapshot more than 60 days
+  old is ignored (`--no-usage`
+  turns this off). The preview prints the evidence for every entry. Source scanning reads
+  all matching lines; only the displayed explanations are capped.
+- **The order is the safety.** `--apply` writes `enabledPlugins["<member>@<member>"]: true`
+  into each matching project's `.claude/settings.local.json` and reads it back. Only then
+  does it set the member to `false` in `~/.claude/settings.json`. Existing choices in
+  `.claude/settings.json` and then `.claude/settings.local.json` take precedence over
+  automatic additions: a project `false` stays off, a project `true` is not claimed.
+  Every existing file is
+  copied through `protect()` before it is written. It does not use `claude plugin enable
+  --scope local`, which reports success and writes nothing (B-162).
+- **A project it will not write.** It only writes where git ignores
+  `.claude/settings.local.json` (`git check-ignore`: the repository's `.gitignore`, its
+  `info/exclude` or your global excludes file). If git does not ignore it, or the file is in
+  a format other than Claude Code's own, that project is refused and named, and **its
+  member stays on at user scope**. A negated rule (`!.claude/settings.local.json`) does not
+  count as ignored. If the member was already turned off by an earlier `--apply`, it goes back
+  on at user scope, so the refused project still has it.
+- **Ownership.** `~/.sshlg-skills/domains.json` records each value `--apply` wrote.
+  `--revert` changes only those values, and only while they still hold what `--apply`
+  set: a value you changed afterwards is yours. To keep a member off in one project, set
+  it to `false` there. If you delete the entry instead, the next `--apply` or `update` adds
+  it back, because the project's evidence is still there. A `domains.json` that does not
+  parse, cannot be read, or has the wrong shape, stops `--apply`, `--revert` and `update` with a reason;
+  the previous copy is in `~/.sshlg-skills/backups/`. Running `--apply` three times leaves
+  identical bytes. Ownership intent is saved atomically before each settings change; a
+  failed global write stays pending for retry. Unreadable or malformed project settings
+  retain their recovery ownership. Explicit `--enable` followed by `--disable` restores a
+  pre-existing local `false`. Mutating `domains` commands share the update lock, so another
+  launcher writer makes them refuse with exit 75; previews remain available.
+- **Claude profiles.** `CLAUDE_CONFIG_DIR` selects the active user settings and plugin
+  registry. Ownership records bind to the actual settings path; a different profile or
+  retargeted alias refuses mutation rather than reverting another profile. Legacy records
+  belong to the default Claude directory. Project `.claude` settings stay project-local.
+- **`update` keeps it current.** On a machine where `--apply` has run, `update` gives a
+  project that has since gained a domain dependency its member; it never newly disables a
+  global member. Reinstalling an existing plugin refreshes it without enabling it.
+  On a machine where it has
+  never run, `update` prints one line pointing to `domains`. `hosts` prints how many
+  projects have evidence for each member and how many have it enabled; it prints no
+  project names.
+
+**To start a new domain project**, run `npx sshlg-skills domains --enable xr-dev`
+inside its repository (or pass `--project <dir>`), then restart the Claude Code session.
+The explicit choice persists without dependency evidence. `--disable` removes only the
+entry this command owns. `toolkit --find` still finds installed but disabled domain
+skills, labels them “not loaded here”, and names the enable command. Project-local
+enablement takes precedence over the global value for search and hook readers.
+
+**Inside Fabric**, per-agent skill layers are planned. Until that capability ships,
+`domains` is the host-wide fallback; this command does not implement Fabric's layers.
+
 ## Routing — making the family engage by default
 
 A skill's `description` influences whether a model reaches for it. It does not
@@ -428,6 +514,93 @@ never work — a family router's name, a trigger inside a refusal phrase, a ques
 phrase — is refused with the reason, and nothing is written; the hook itself drops
 an unusable entry silently, because it must never cost you a turn.
 
+### Hiding the marked packs on every host — `visibility`
+
+**This is the host-wide fallback for sessions Fabric does not start.** Fabric's RM-23 is
+open on the fabric-workspace roadmap; it is to read the same machine file and own
+visibility in the sessions it starts, writing nothing to host settings. Until it ships,
+nothing in Fabric reads the marks; `visibility` writes each host's own setting.
+
+**The marks are the operator's and live on the machine**, in
+`~/.sshlg-skills/pack-marks.json` (schema `pack-marks/1`: one row per pack with `hidden`,
+`host`, `audience`, `markedBy`, `markedAt` and `reason`). This public package ships no
+marks, only [`pack-marks.example.json`](pack-marks.example.json): shipping one operator's
+marks as defaults would hide them for everyone who ran `--apply`. With no machine file,
+no pack is hidden by mark. Write it from the installed packs (preview first, backup
+before the write):
+
+```bash
+npx sshlg-skills visibility marks --init --show anthropics/skills,vercel-labs/agent-skills   # preview
+npx sshlg-skills visibility marks --init --show anthropics/skills,vercel-labs/agent-skills --apply
+npx sshlg-skills visibility marks              # what this machine's file says
+```
+
+`--init` lists the family packs (`ssheleg/*`, never hidden) and the `--show` packs and
+hides every other installed pack; an existing file is replaced only with `--replace`.
+
+**Which switch each host gets, and what decides it:**
+
+- **Claude Code and Codex** hide every skill outside the usage core, as since v1.55.0.
+  The pack marks and the overrides below do not change them; `--keep <skill>` keeps a
+  skill listed there.
+- **Gemini, Pi, OpenCode and Hermes** hide the skills of marked packs, except the usage
+  core. Strongest first: a family pack is never hidden; the usage core is never hidden
+  (family skills, skills used in the last 60 days by Claude Code usage, skills
+  `~/.claude/CLAUDE.md` names in backticks, `--keep`); `visibility.showPacks` in
+  `~/.sshlg-skills/config.json`; `visibility.hidePacks`; the machine mark; an unmarked
+  pack stays listed.
+- **Cursor and Kimi** cannot hide, and `visibility` says so.
+
+```bash
+npx sshlg-skills config set visibility.pack.anthropics/financial-services show   # or hide, or default
+npx sshlg-skills visibility            # preview: per-host counts, nothing written
+npx sshlg-skills visibility --apply    # write each host's own switch, backups first; records consent
+npx sshlg-skills visibility --revert   # remove exactly what --apply wrote; withdraws consent
+```
+
+| Host | The switch `visibility` writes | Source | A hidden skill can still |
+|---|---|---|---|
+| Claude Code | `skillOverrides: "user-invocable-only"` in `~/.claude/settings.json` | since v1.55.0 | be run from the `/` menu by a person |
+| Codex | `enabled = false` entries in `~/.codex/config.toml` `[skills] config` | since v1.55.0 | be read from its SKILL.md path when asked |
+| Gemini CLI 0.63.0 | `skills.disabled` in `~/.gemini/settings.json`, the list `gemini skills disable <name> --scope user` writes; read back with `gemini skills list` (`[Disabled]`) | `packages/cli/src/utils/skillSettings.ts`; `SkillManager.getSkills()` drops disabled skills | come back with `gemini skills enable <name>` |
+| Pi 1.1.0 | `-<path>` exact exclusions in the `skills` array of `~/.pi/agent/settings.json`, one per folder holding the skill (`~/.agents/skills`, `~/.pi/agent/skills`); the file is created if absent and removed again by `--revert` | Pi's own docs, settings → Resources; `isEnabledByOverrides` in its `dist/core/package-manager.js` | be loaded for one session with `pi --skill <path>` |
+| Hermes 0.21.4 | `skills.disabled` in its config.yaml, written by its own CLI (`hermes config set skills.disabled '<json list>'`, read back with `hermes config get --json`); `hermes skills list` shows `disabled`. A config.yaml Hermes created during the write keeps `{}` after `--revert` unsets the key | `hermes_cli/skills_config.py`; `tools/skills_tool.py` `_find_all_skills` | come back through `hermes skills config` |
+| OpenCode 1.18.10 | `permission.skill.<name> = "deny"` in `~/.config/opencode/opencode.json`; a denied skill leaves the listing and its call is refused; read back with `opencode debug config`. An `opencode.jsonc` is refused | opencode.ai/docs/skills; `Skill.available` filters by the `skill` permission | be read as a plain file |
+| Cursor agent CLI 2026.09.02 | **cannot hide on cursor**: no setting switches a skill off. The only model-side filter is the skill's own `disable-model-invocation` front matter, and editing a third-party SKILL.md is ruled out | the bundled `index.js` (`filterModelDisabledSkills`, `disable-model-invocation`) | (not hidden) |
+| Kimi 2.1.1 | **cannot hide on kimi**: `[[permission.rules]] decision = "deny"`, `pattern = "Skill(<name>)"` in `~/.kimi-code/config.toml` refuses the call, but the listing keeps the skill, so it is not applied as hiding | the `kimi` 2.1.1 bundle (`features/skill/catalog` filters built-in skills only) | (not hidden) |
+
+Visibility follows the active host directories, including `CLAUDE_CONFIG_DIR` and
+`CODEX_HOME`. New ownership records bind to the canonical settings files; changing a
+profile or retargeting its symlink refuses apply/revert until the original target is
+restored. Malformed or unreadable policy and incomplete skill inventories refuse apply
+before writing an ownership journal. Revert can still restore owned settings without a
+working discovery inventory. Legacy records without file bindings are accepted only
+where the earlier writer's default Claude/Codex paths establish ownership; ambiguous
+non-Claude/Codex records are refused rather than applied to a guessed profile.
+
+Every write to an operator file goes through a backup first (`protect()`: 0600 copies in a
+0700 directory, because host settings can hold keys) or through the host's own CLI.
+Nothing deletes, moves or edits a skill file. The launcher records in
+`~/.sshlg-skills/visibility.json` what it added, never an entry the operator already had,
+and the containers it created. `--revert` removes only that, so an empty list or map the
+operator already had stays. A settings file in a form the host does not write (comments,
+another indentation), a missing host CLI or an `opencode.jsonc` makes that host
+**degraded**: it is named and skipped, and the run still succeeds. A host with nothing to
+hide is not touched at all. Three `--apply` runs leave identical bytes
+(`test/visibility_hosts_e2e_test.js`). On Pi, one hidden skill can take two entries (its
+`~/.agents/skills` folder and a legacy `~/.pi/agent/skills` link, B-148), so the entry
+count can exceed the skill count.
+
+**`update` re-applies only with consent.** `--apply` records `applied: true` and the hosts
+it covered; `update`, including the unattended idle run, re-applies only then, only on
+those hosts and only within its own scope (`--claude-only`, `--no-claude`, and
+`--agent <id>` with the skills-CLI ids `gemini-cli`, `pi`, `opencode`, `hermes-agent`).
+`--revert` withdraws consent. A record from before consent was recorded (1.55.x) is
+never extended: `update` prints one line asking for one `visibility --apply [--keep …]`.
+`uninstall` leaves visibility in place, names what it still holds and gives the
+`--revert` command.
+
+
 ### Making it engage by itself — hooks
 
 The routing block loads in every session and is still routed around, because
@@ -453,7 +626,9 @@ npx sshlg-skills conflicts                # installed skills that land on a rout
 npx sshlg-skills toolkit                  # every skill this machine can reach, as an index
 npx sshlg-skills toolkit --for "<task>"   # ...narrowed to one task, as a shortlist
 npx sshlg-skills toolkit --find "pdf, xlsx, отчёт"  # by the concepts YOU read from the task; hidden skills included, with SKILL.md paths
-npx sshlg-skills visibility               # which skills keep their place in Claude/Codex listings; --apply hides the rest, --revert undoes it
+npx sshlg-skills toolkit --find "skill audit" --copies # include alternate paths with identical entry text
+npx sshlg-skills visibility               # Claude/Codex: hide all outside the core; Gemini/Pi/OpenCode/Hermes: hide marked packs; Cursor/Kimi: cannot hide
+npx sshlg-skills domains                  # scope xr-dev, web3d-dev, telegram-dev; preserve hook-bearing members; --apply, --revert
 npx sshlg-skills pack design              # design/front-end/mobile: present, missing, and the install line
 npx sshlg-skills pack design --check      # do the declared addresses still resolve?
 npx sshlg-skills humanizers               # anti-AI-writing skills here, with the caveat that binds them

@@ -132,3 +132,24 @@ as a website and points the author entity to the public personal profile.
 SCN-003: the Harness observation section links directly to the Observatory origin
 story; that link is labelled with its subject rather than a generic “read more”.
 The existing no-JS, standalone installation and private-data boundaries hold.
+
+
+## Domain scoping recovery (2026-10-13)
+
+### SCN-006: Start a domain project before dependencies exist
+- **Persona:** builder and coding agent
+- **Feature:** domains CLI and skill search
+- **Entry point:** `toolkit --find` or `domains --enable xr-dev` in a new git repository
+- **Preconditions:** domain plugin installed; project settings are git-ignored
+- **Steps:**
+  1. Search for a domain skill while its global plugin is disabled -> see its path and enable command.
+  2. Enable the member in the project -> read back its local entry and restart the session.
+  3. Run update -> keep the explicit choice without manufacturing dependency evidence.
+  4. Disable the explicit choice or revert -> remove only entries the command owns.
+- **Expected result:** the first platform decision can use its skill before any SDK is installed.
+- **UI elements:** search result, enable hint, refusal and readback lines
+- **States covered:** success, empty, error
+- **Errors & recovery:** missing root or unignored settings refuse writes; incomplete evidence keeps global coverage; hook-bearing plugins stay global.
+- **Status:** implemented
+- **Coverage:** test/domains_e2e_test.js; test/domains_test.js; test/toolkit_test.js; test/hooks_e2e_test.js
+- **Product:** unobserved

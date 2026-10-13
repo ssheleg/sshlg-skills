@@ -35,15 +35,18 @@ function say(text) {
   }) + '\n');
 }
 
-/** Skill id → the plugin spec that provides it, for every ENABLED plugin. */
-function providedSkills(home) {
+/**
+ * Skill id → the plugin spec that provides it, for every plugin ENABLED for `cwd` — user
+ * scope, then the project's settings files (B-185: a domain member is on per project).
+ */
+function providedSkills(home, cwd) {
   const map = new Map();
   try {
-    const settings = JSON.parse(fs.readFileSync(path.join(home, '.claude', 'settings.json'), 'utf8'));
-    const enabled = Object.entries(settings.enabledPlugins || {})
-      .filter(([, on]) => on).map(([spec]) => spec);
+    const en = require(path.join(LIB, 'enablement.js'));
+    const eff = en.effective(home, cwd || null);
+    const enabled = Object.entries(eff).filter(([, on]) => on).map(([spec]) => spec);
     const installed = JSON.parse(
-      fs.readFileSync(path.join(home, '.claude', 'plugins', 'installed_plugins.json'), 'utf8'));
+      fs.readFileSync(path.join(en.claudeRoot(home), 'plugins', 'installed_plugins.json'), 'utf8'));
     for (const spec of enabled) {
       const rows = (installed.plugins || {})[spec] || [];
       for (const row of rows) {
@@ -99,7 +102,8 @@ process.stdin.on('end', () => {
               .map((e) => ({ name: e.name, scope, at }));
           } catch (e) { return []; }
         };
-        const plain = plainIn(path.join(home, '.claude', 'skills'), 'home');
+        const profileRoot = require(path.join(LIB, 'enablement.js')).claudeRoot(home);
+        const plain = plainIn(path.join(profileRoot, 'skills'), 'home');
         // The project's own `.claude/skills` is a second shadow location and the one
         // with a consequence the home copy does not have: it sits inside a git tree.
         // The hook is told where it is running; `process.cwd()` is where the hook
@@ -111,7 +115,9 @@ process.stdin.on('end', () => {
           plain.push(...plainIn(path.join(project, '.claude', 'skills'), 'project',
             path.join(project, '.claude', 'skills')));
         }
-        const text = shadow.render(shadow.shadows(plain, providedSkills(home)));
+        let text = shadow.render(shadow.shadows(plain, providedSkills(home, project)));
+        if (profileRoot !== path.join(home, '.claude'))
+          text = text.replace('in ~/.claude/skills/', `in ${path.join(profileRoot, 'skills')}/`);
         if (text) notes.push(text);
       }
     }

@@ -1,8 +1,21 @@
 name: validate
 
 on:
-  push:
+  # Manually promote a frozen draft candidate; never opened/synchronize/push.
+  # workflow_dispatch results are not eligible for PR-required checks on GitHub.
   pull_request:
+    types: [ready_for_review]
+  # Operator policy: full CI is nightly; an explicitly selected release/integration
+  # candidate may be run manually once after local validation, never per push.
+  workflow_dispatch:
+    inputs:
+      candidate_reason:
+        description: "Recorded reason for this urgent or explicit candidate"
+        required: true
+        type: string
+  schedule:
+    - cron: "0 23 * * *"
+      timezone: "Europe/Warsaw"
   # Callable, so `release.yml` gates a publish on THIS suite instead of a
   # copy of it. The negative self-tests live here as steps; running them
   # from the release workflow any other way means a second home per plant.

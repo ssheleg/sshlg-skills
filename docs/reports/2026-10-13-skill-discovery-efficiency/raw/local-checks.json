@@ -1,0 +1,89 @@
+{
+  "observed_at": "2026-10-13T00:50:09.203482+00:00",
+  "scope": "read-only commands; no model evals or configuration changes",
+  "receipts": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "stdout": "236723152817817af01a74469f0a20792861f05d\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "claude",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "2.1.296 (Claude Code)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "codex",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "codex-cli 0.162.1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/toolkit_test.js"
+      ],
+      "exit_code": 0,
+      "stdout": "OK (29 checks)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/visibility_test.js"
+      ],
+      "exit_code": 0,
+      "stdout": "OK (21 checks)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "bin/sshlg-skills.js",
+        "toolkit",
+        "--find",
+        "skill discovery, поиск скиллов, token budget, экономия токенов, waves, skill audit"
+      ],
+      "exit_code": 0,
+      "stdout": "  skills for: skill discovery · поиск скиллов · token budget · экономия токенов · waves · skill audit\n    discover-brand                2  [skill discovery, skill audit] hidden — read its SKILL.md\n      This skill orchestrates autonomous discovery of brand materials across enterprise platforms (Not…\n      ~/.claude/skills/discover-brand/SKILL.md\n    project-audit                 2  [skill discovery, skill audit] listed\n      \"Use when someone asks what is actually true of a whole project right now — what is finished, wh…\n      ~/.claude/plugins/cache/task-pipeline/task-pipeline/1.93.3/skills/project-audit/SKILL.md\n    zoom-rtms                     1  [skill audit]              hidden — read its SKILL.md\n      Reference skill for Zoom RTMS. Use after routing to a live-media workflow when processing real-t…\n      ~/.claude/skills/zoom-rtms/SKILL.md\n    probe-sdk                     1  [skill audit]              hidden — read its SKILL.md\n      \"Reference skill for Zoom Probe SDK. Use after routing to a preflight workflow when testing brow…\n      ~/.claude/skills/probe-sdk/SKILL.md\n    avoid-ai-writing              1  [skill audit]              listed\n      Audit and rewrite content to remove AI writing patterns (\"AI-isms\"). Use this skill when asked t…\n      ~/.claude/skills/avoid-ai-writing/SKILL.md\n    plugin-structure              1  [skill discovery]          hidden — read its SKILL.md\n      This skill should be used when the user asks to \"create a plugin\", \"scaffold a plugin\", \"underst…\n      ~/.claude/skills/plugin-structure/SKILL.md\n    tag-taxonomy                  1  [skill audit]              hidden — read its SKILL.md\n      Enforce consistent tagging across the Obsidian wiki using a controlled vocabulary. Use this skil…\n      ~/.claude/skills/tag-taxonomy/SKILL.md\n    claude-history-ingest         1  [skill audit]              hidden — read its SKILL.md\n      Ingest Claude Code conversation history into the Obsidian wiki. Use this skill when the user wan…\n      ~/.claude/skills/claude-history-ingest/SKILL.md\n    skill-search                  1  [skill audit]              listed\n      Use when starting any task, as its first step before acting, to decide whether an installed skil…\n      ~/.claude/plugins/cache/make-skill/make-skill/0.31.1/skills/skill-search/SKILL.md\n    guideline-generation          1  [skill discovery]          hidden — read its SKILL.md\n      This skill generates, creates, or builds brand voice guidelines from source materials. It should…\n      ~/.claude/skills/guideline-generation/SKILL.md\n    cross-linker                  1  [skill discovery]          hidden — read its SKILL.md\n      Scan the Obsidian wiki and automatically discover missing cross-references between pages. Use th…\n      ~/.claude/skills/cross-linker/SKILL.md\n    wiki-lint                     1  [skill audit]              hidden — read its SKILL.md\n      Audit and maintain the health of the Obsidian wiki. Use this skill when the user wants to check…\n      ~/.claude/skills/wiki-lint/SKILL.md\n    7 more matched; raise --limit to see them.\n    Name match = 3, description match = 1 per concept. A shortlist, not a decision:\n    open the SKILL.md of the one that fits — a hidden skill is used by reading that file.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "bin/sshlg-skills.js",
+        "toolkit",
+        "--find",
+        "skill discovery, поиск скиллов, token budget, экономия токенов, waves, skill audit",
+        "--limit",
+        "40"
+      ],
+      "exit_code": 0,
+      "stdout": "  skills for: skill discovery · поиск скиллов · token budget · экономия токенов · waves · skill audit\n    discover-brand                2  [skill discovery, skill audit] hidden — read its SKILL.md\n      This skill orchestrates autonomous discovery of brand materials across enterprise platforms (Not…\n      ~/.claude/skills/discover-brand/SKILL.md\n    project-audit                 2  [skill discovery, skill audit] listed\n      \"Use when someone asks what is actually true of a whole project right now — what is finished, wh…\n      ~/.claude/plugins/cache/task-pipeline/task-pipeline/1.93.3/skills/project-audit/SKILL.md\n    zoom-rtms                     1  [skill audit]              hidden — read its SKILL.md\n      Reference skill for Zoom RTMS. Use after routing to a live-media workflow when processing real-t…\n      ~/.claude/skills/zoom-rtms/SKILL.md\n    probe-sdk                     1  [skill audit]              hidden — read its SKILL.md\n      \"Reference skill for Zoom Probe SDK. Use after routing to a preflight workflow when testing brow…\n      ~/.claude/skills/probe-sdk/SKILL.md\n    avoid-ai-writing              1  [skill audit]              listed\n      Audit and rewrite content to remove AI writing patterns (\"AI-isms\"). Use this skill when asked t…\n      ~/.claude/skills/avoid-ai-writing/SKILL.md\n    plugin-structure              1  [skill discovery]          hidden — read its SKILL.md\n      This skill should be used when the user asks to \"create a plugin\", \"scaffold a plugin\", \"underst…\n      ~/.claude/skills/plugin-structure/SKILL.md\n    tag-taxonomy                  1  [skill audit]              hidden — read its SKILL.md\n      Enforce consistent tagging across the Obsidian wiki using a controlled vocabulary. Use this skil…\n      ~/.claude/skills/tag-taxonomy/SKILL.md\n    claude-history-ingest         1  [skill audit]              hidden — read its SKILL.md\n      Ingest Claude Code conversation history into the Obsidian wiki. Use this skill when the user wan…\n      ~/.claude/skills/claude-history-ingest/SKILL.md\n    skill-search                  1  [skill audit]              listed\n      Use when starting any task, as its first step before acting, to decide whether an installed skil…\n      ~/.claude/plugins/cache/make-skill/make-skill/0.31.1/skills/skill-search/SKILL.md\n    guideline-generation          1  [skill discovery]          hidden — read its SKILL.md\n      This skill generates, creates, or builds brand voice guidelines from source materials. It should…\n      ~/.claude/skills/guideline-generation/SKILL.md\n    cross-linker                  1  [skill discovery]          hidden — read its SKILL.md\n      Scan the Obsidian wiki and automatically discover missing cross-references between pages. Use th…\n      ~/.claude/skills/cross-linker/SKILL.md\n    wiki-lint                     1  [skill audit]              hidden — read its SKILL.md\n      Audit and maintain the health of the Obsidian wiki. Use this skill when the user wants to check…\n      ~/.claude/skills/wiki-lint/SKILL.md\n    tear-sheet                    1  [skill audit]              hidden — read its SKILL.md\n      \"Generate professional company tear sheets using S&P Capital IQ data via the Kensho LLM-ready AP…\n      ~/.claude/skills/tear-sheet/SKILL.md\n    data-context-extractor        1  [skill discovery]          hidden — read its SKILL.md\n      Generate or improve a company-specific data analysis skill by extracting tribal knowledge from a…\n      ~/.claude/skills/data-context-extractor/SKILL.md\n    task-pipeline                 1  [waves]                    listed\n      \"Use when work changes the repository — feature, fix, bug, refactor, migration, integration, rew…\n      ~/.claude/plugins/cache/task-pipeline/task-pipeline/1.93.3/skills/task-pipeline/SKILL.md\n    voice-changer                 1  [skill audit]              hidden — read its SKILL.md\n      Transform the voice in an audio recording into a different target voice while preserving emotion…\n      ~/.claude/skills/voice-changer/SKILL.md\n    agent-orchestrator            1  [token budget]             listed\n      Use when building an agent system — an orchestrator, an LLM tool, a tool-using chatbot, an AI pi…\n      ~/.claude/plugins/cache/agent-stack/agent-stack/0.27.1/skills/agent-orchestrator/SKILL.md\n    agent-interop                 1  [skill discovery]          listed\n      Use when an agent talks to anything outside its process — building or consuming an MCP server, e…\n      ~/.claude/plugins/cache/agent-stack/agent-stack/0.27.1/skills/agent-interop/SKILL.md\n    make-skill                    1  [skill audit]              listed\n      Use when creating, upgrading, auditing, or publishing agent skills and Claude Code plugins - \"ma…\n      ~/.claude/plugins/cache/make-skill/make-skill/0.31.1/skills/make-skill/SKILL.md\n    Name match = 3, description match = 1 per concept. A shortlist, not a decision:\n    open the SKILL.md of the one that fits — a hidden skill is used by reading that file.\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "claude",
+        "plugin",
+        "eval",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout": "Usage: claude plugin eval [options] [command] [target]\n\nRun eval cases (<eval dir>/**/case.yaml or prompt.md + graders/*.md; the eval\ndir is evals/ unless --eval-dir or the manifest says otherwise) against a plugin\nand report scored results. Target is a path, a plugin name, or a\n`plugin@marketplace` id — installed and skills-dir plugins both resolve (and add\na no-plugin baseline arm). It loads the plugin and runs its eval suite (prompts,\ngraders; scaffold scripts and real MCP servers only when you opt in) on your\nmachine, as you: only evaluate plugins you trust — the run's sandboxing limits\nwhat a malicious plugin can reach but is not a guarantee, and a bundled suite\npassing is not a security vetting. The first run in an untrusted plugin\ndirectory asks you to confirm (--trust-plugin answers for CI)\n\nOptions:\n  --ablation <mode>         Run a no-plugin baseline arm and report the score\n                            delta (none | with-without; default: with-without\n                            whenever a plugin resolves — by name, or from the\n                            target path — and none when nothing does; under\n                            with-without, graders marked with-only, incl.\n                            `tool_used: Skill`, are a plugin-fired indicator\n                            rather than part of the score)\n  --allow-real-servers      With --mocks record: also start the plugin's REAL\n                            MCP server processes for servers that have no mock\n                            (they run as you, outside the OS sandbox that\n                            confines shell tools; use only on plugins you trust)\n  --allow-tools <tools...>  Operator grant for gated tools (Bash, Write, Edit,\n                            WebFetch, mcp__*). Supports Tool(pattern:*) syntax\n  --case <glob>             Filter cases by name glob\n  -j, --concurrency <n>     Run up to <n> agent runs at once (1-8; default 1).\n                            Each run is a full claude child on your own\n                            credential, so they share one rate limit; results\n                            and the report keep case order\n  --eval-dir <dir>          Directory name (below the plugin) that holds the\n                            eval cases; results go to <plugin>/<dir>/results/ —\n                            for an installed-plugin target, ./<dir>/results/\n                            with this flag, else ./evals/results/ (default dir:\n                            the manifest's experimental.evals value, else\n                            evals/)\n  -h, --help                Display help for command\n  --json [path]             Print the full run result (prompts, graders, per-run\n                            scores) as JSON to stdout, or write it to this .json\n                            file\n  --judge-model <model>     Override LLM-grader model (default: haiku)\n  --keep-temp               Preserve scaffold dirs for debugging\n  --max-cost-usd <usd>      Optional hard cost ceiling; abort and report partial\n                            results if hit (exit 2). The ceiling is checked\n                            before each run launches, so overrun is bounded to\n                            the runs in flight (one, or up to --concurrency) —\n                            when a run breaches, paid graders (llm/baseline) are\n                            skipped while free graders still score it. Runs are\n                            already bounded by max_turns and timeout_seconds —\n                            only set this when you need a strict budget\n  --mocks <mode>            Mock stand-ins for MCP servers, from <eval\n                            dir>/mocks/ (record | off; default: record). record:\n                            a plugin server with no mock is NOT started (see\n                            --allow-real-servers); off: no stand-ins, every real\n                            server starts (as you, outside the OS sandbox), its\n                            tools gated by --allow-tools\n  --model <model>           Override model for all cases\n  --no-publish              Keep the HTML report local only; skip publishing it\n                            to claude.ai\n  --no-scaffold             Explicitly skip scaffold_script\n  --output-dir <dir>        Directory for aggregate-result.json (default:\n                            ./<eval dir>/results/<timestamp>/)\n  --publish-report          Also require publishing the report to claude.ai\n                            (already the default when your account supports it);\n                            explains why if unavailable\n  --report <path>           Write the self-contained HTML report (scores,\n                            prompts, grader verdicts) to <path> instead of the\n                            results dir\n  --runs <n>                Override per-case runs (default: case.runs ?? 3)\n  --scaffold                Run each case's scaffold_script (runs\n                            author-supplied bash as you; off by default — only\n                            use on case files you authored)\n  --tag <tag...>            Filter cases by tag (repeatable)\n  --threshold <0..1>        Exit 1 if any case score is below this threshold\n                            (default: 1.0)\n  --trust-plugin            Assert that you trust this plugin's code and eval\n                            suite, and skip the first-run trust prompt (for CI;\n                            like --dangerously-skip-permissions, only pass it\n                            for plugins you would run yourself). Does not imply\n                            --scaffold, --allow-tools or --mocks off\n  --verbose                 Log per-message trace events to the debug log (use\n                            --debug-file to read them)\n\nCommands:\n  init [options] [name]     Author an eval suite under the eval dir (evals/\n                            unless --eval-dir or the manifest says otherwise)\n                            via an interview that sources inputs and designs\n                            graders. Use --bare <name> for a blank single-case\n                            template.\n",
+      "stderr": ""
+    }
+  ]
+}

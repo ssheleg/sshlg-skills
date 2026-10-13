@@ -1,3 +1,92 @@
+## v1.62.0 — complete skill discovery, reversible visibility and project domains
+
+- **Search covers the local host catalogues.** `toolkit --find` reads shared skills,
+  host directories and native plugin caches, including hidden plugins. Exact multiword
+  phrases improve bilingual lexical ranking. Identical entry text shares a ranking slot;
+  `--copies` lists alternate paths. Partial inventories are reported, and cached files
+  are not claimed as active native skills. CRLF, quoted and block-scalar metadata are read.
+- **Profile-safe recovery.** Visibility and domains follow active host roots, bind
+  ownership to canonical settings files and refuse a changed profile target. Unreadable
+  policy and discovery inputs cannot silently unhide skills or discard recovery state.
+- **Credential guard coverage widened.** Credential-reader operands and client
+  configuration paths now use the same refusal boundary across shell forms; ordinary
+  commands remain covered by the existing controls. The new corpus has 128 cases,
+  including 75 defects reproduced against the previous implementation.
+- **Evidence distinguishes installation from behavior.** Dated host measurements,
+  current primary-source research, task packets and bounded model-error receipts are
+  preserved in `docs/evidence/completion-1013/`. No quality-preserving token savings
+  are claimed from character counts or a successful readiness prompt.
+
+- **Pack marks are the operator's and live on the machine (B-143).**
+  `~/.sshlg-skills/pack-marks.json` (schema `pack-marks/1`) holds one row per pack; the
+  public package ships none, only `pack-marks.example.json` (`example-org/*` rows), because
+  one operator's marks shipped as defaults would hide them for everyone who applied. With
+  no machine file no pack is hidden by mark. `npx sshlg-skills visibility marks --init
+  --show <owner/repo,…>` previews one row per installed pack (family and `--show` listed,
+  the rest hidden) and writes it with `--apply`, after a backup. `test/validate.py`
+  checks the example's shape and refuses a `pack-marks.json` at the repo root.
+- **`visibility` is the host-wide fallback for sessions Fabric does not start**, and says
+  so first. Fabric's RM-23 (open) is to read the same machine file; nothing in Fabric
+  reads it yet.
+- **Each host's own switch, never a file deletion.** Gemini `skills.disabled` in
+  settings.json (what `gemini skills disable --scope user` writes); Pi `-<path>` exact
+  exclusions in `settings.json` `skills`; Hermes `skills.disabled` through
+  `hermes config set` with a readback; OpenCode `permission.skill.<name> = "deny"`.
+  Cursor and Kimi are reported as "cannot hide". Claude and Codex keep hiding everything
+  outside the usage core; pack marks and `config set visibility.pack.<owner/repo>
+  hide|show|default` overrides act on the four other hosts only (`--keep` keeps a skill on
+  Claude and Codex). JSON settings are edited only in the form their host writes, after a
+  backup; the record names what the launcher added and the containers it created, and
+  `--revert` removes exactly that, so an empty list or map the operator had stays. A host
+  that cannot be written is reported as degraded and skipped; a host with nothing to hide
+  is not touched.
+- **Consent is explicit.** `--apply` records `applied: true` and the hosts it covered;
+  `--revert` withdraws it. `update` (also the unattended idle run) re-applies only with
+  that consent, only on the listed hosts, within its scope (`--claude-only`,
+  `--no-claude`, `--agent <skills-CLI id>`). **The first `update` after this release
+  re-applies only where `visibility --apply` was run with this release**: a 1.55.x record
+  carries no consent, so `update` writes nothing there and prints one line asking for one
+  `visibility --apply [--keep …]`. `uninstall` names what visibility still holds and the
+  `--revert` command.
+- **Backups are private.** `lib/backup.js` writes copies 0600 and tightens the backup
+  directory to 0700 (never loosens it): copies of host settings can hold keys.
+- Tests: `test/visibility_packs_test.js`, `test/visibility_hosts_e2e_test.js` and
+  `test/backup_test.js` exercise real commands in isolated homes, repeated application,
+  ownership-preserving revert, consent scope, degraded hosts and private backups.
+
+
+- **L5 certification fixes:** hook-bearing plugins stay global, including sheleg-dev in
+  packaged installs without member checkouts. Missing roots refuse application; partial
+  scans retain or restore global coverage. New projects can explicitly `domains --enable`
+  before dependencies exist. Disabled domain skills remain searchable, project-local
+  enablement reaches hook readers, and reinstall refreshes existing plugins without
+  re-enabling them. Usage snapshots expire; future and invalid dates are ignored.
+
+- **Domain members load only in the projects that need them (B-185, plan L5).** Operator decision
+  2026-10-13: "Yes, by domain". New command: `npx sshlg-skills domains`. Claude Code lists every
+  enabled plugin's skills in every session. The family's plugins took ≈ 38k of a ≈ 61k-character
+  listing, and four members serve one kind of project: `xr-dev`, `web3d-dev`, `telegram-dev`
+  and `sheleg-dev`. Without flags, `domains` previews: it reads each git repository under the
+  projects root (`~/DATA`, `--root`, `$SSHLG_PROJECTS_ROOT`) and prints which of the four the
+  project calls for and the evidence for each. Evidence is what the repository depends on or
+  declares: manifest dependencies, Gradle/CMake/Unity/AndroidManifest XR markers, `navigator.xr`
+  and GA4 `gtag` in source. A project's name or prose never counts. Optionally the 60-day usage
+  table counts too. `--apply` first writes `enabledPlugins` into each matching project's
+  `.claude/settings.local.json` and reads it back. Only after that does it turn the member off at
+  user scope. Both writes go through `protect()`. A project whose git does not ignore that file
+  is refused, and its member stays on machine-wide (or goes back on, if an earlier run turned
+  it off). A negated ignore rule does not count as ignored. A failed write refuses only that
+  project and is recorded. `--revert` undoes only the values recorded in
+  `~/.sshlg-skills/domains.json` that still hold. `update` gives a project that has since gained
+  a dependency its member. `hosts` prints how many projects have evidence for each member and
+  how many have it enabled locally. Core and hook-bearing members stay on everywhere.
+  Fabric's per-session layers remain planned; the host command is the fallback. `lib/domains.js` holds the decisions; `lib/domainscan.js` asks git (`ls-files`,
+  `grep`) for eight repositories at a time. `test/domains_test.js` covers evidence, edits and
+  the plan. `test/domains_e2e_test.js` uses a sandbox HOME with one fixture project per domain,
+  one with none, one called for only by usage, and one whose git does not ignore the file. Its
+  checks: three `--apply` runs leave identical bytes; `--revert` restores the original bytes;
+  a project whose write is refused blocks the user-scope removal.
+
 ## v1.61.0 — `hosts` says which local MCP servers are not answering
 
 - **A refused MCP server is named, with what to do (B-177).** Claude Code connects to each

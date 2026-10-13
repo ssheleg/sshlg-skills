@@ -1,10 +1,116 @@
+## Completion candidate — current at 2026-10-13
+
+The active branch is `waves/2026-10-13-completion`. Hub candidate 1.62.0 at
+`5427bbbd449cf6c26bc52e84f98bdb90707d5ec6` passed **113 suites / 1695 fixtures**,
+with an [independent merged-seam review](evidence/completion-1013/merged-seam-review.md).
+C04 visibility profiles `27c63c9` and C05 domains profiles `b50b7e9` are integrated.
+[Run ledger](evidence/completion-1013/run.md) separates the local gate from release,
+installation and whole-family acceptance. [Plan](evidence/plans/2026-10-13-completion.md)
+and [family packets](evidence/completion-1013/family-next-wave.md) are the execution entry.
+
+Exact next task: finish integration/release under the nightly hosted-check policy,
+then verify published artifacts and apply the operator-authorized visibility/domain
+settings with backups and readback. Continue FW01/FW02 independently while hosted
+checks wait. Model screening has provider TEST_ERROR, not a quality verdict; no
+installed skill descriptions were shortened. Fabric board admission/tool availability
+still prevents submitting the durable pending cross-project asks.
+
+Earlier current-status paragraphs below are dated recovery history, not current gates.
+
 # Start here — sshlg-skills
 
-Snapshot: 2026-10-12. This page selects evidence and the next bounded action;
+Snapshot: 2026-10-13. This page selects evidence and the next bounded action;
 [skills.json](../skills.json) owns the current member inventory and pins.
 Read [CLAUDE.md](../CLAUDE.md), [coordination](AGENT_SYNC.md), the
 [standing retrospective instructions](evidence/retro.md) and the
 [repository handoff rule](working-rules/repository-handoff.md) before editing.
+
+## Current execution — completion waves, 2026-10-13
+
+This section owns the next action. The sections below are historical component
+handoffs; their old next-task and lease statements do not supersede this execution.
+Entry: [completion plan and packets](evidence/plans/2026-10-13-completion.md),
+[receipts](evidence/completion-1013/README.md),
+[stage ledger](evidence/completion-1013/run.md),
+[dated research](reports/2026-10-13-skill-discovery-efficiency/README.md).
+
+Branch `waves/2026-10-13-completion` integrates visibility `18a2a77`, domains
+`ff33a3b`, guards `72e0138`, discovery `7d49b3e` and main's CI optimization
+`022356d`. Component reviews closed reproduced defects; aggregate gate/review is
+running. The original checkout and its local exports remain untouched.
+
+**Exact next action:** finish the full gate on the integration head, reconcile its
+measured test counts and independent review findings, then update the release and
+installed-readback receipts. Do not claim a published/installed update from this
+branch. After the release gates, use the documented visibility and domains previews,
+apply the already-authorized choices and verify each host. Keep sheleg-dev global.
+
+Fabric admission returned `no-project`; pending owner requests are recorded in the
+completion receipts. No alternate channel was used. Human-only sign-ins/consents
+remain human. The complete family objective remains open: native task-quality evals
+and the remaining owner-board rows are tracked separately from local test success.
+
+## L1 — the marked packs hidden on every host (2026-10-13, unreleased, lease `WAVES-1011`)
+
+Plan: [load optimisation, wave L1](evidence/plans/2026-10-13-load-optimization.md).
+**Read first:** [receipt](evidence/runs/2026-10-13-visibility-hosts.md) ·
+[`pack-marks.example.json`](../pack-marks.example.json) · README § "Hiding the marked packs on every host".
+B-143 closed (marked; hidden, not deleted); B-148 untouched. PR #213 (branch
+`feat/visibility-hosts-main`); #212 closed.
+
+Done: `visibility` writes Gemini, Pi, Hermes and OpenCode through each host's own switch
+(Cursor and Kimi: "cannot hide"); the marks are machine-local
+(`~/.sshlg-skills/pack-marks.json`, `visibility marks --init`), the package ships only an
+example; per-machine `visibility.showPacks`/`hidePacks` overrides; explicit consent
+(`applied`, `hosts`) that `update` re-applies under; degraded hosts never fail a run;
+byte-exact revert. Fix round after the unit, seam and product readings failed: consent,
+scope, revert bytes, degraded hosts, RM-23 worded as planned, machine-local marks, backup
+modes, uninstall note. Sandbox readbacks with the real host CLIs; the operator's machine
+was only previewed (read-only).
+
+**Exact next task (after review and release, on the operator's machine):**
+
+1. Write the machine marks — preview, then apply (a backup is taken first):
+   `npx sshlg-skills visibility marks --init --show anthropics/skills,heygen-com/hyperframes,emilkowalski/skills,vercel-labs/agent-skills,meta-quest/agentic-tools,stablyai/orca,kepano/obsidian-skills,anthropics/claude-code,conorbronsdon/avoid-ai-writing`
+   then the same with `--apply`. It writes 54 rows (34 hidden) at revision 1.
+2. `npx sshlg-skills visibility` (preview), then `npx sshlg-skills visibility --apply`. This
+   records consent for the hosts it covers. The machine's current record is from 1.55.0 and
+   carries no consent, so **no `update` hides anything on Gemini, Pi, OpenCode or Hermes
+   before this step**. Afterwards `update` re-applies on the hosts the record lists.
+3. Read back per host: `gemini skills list` (`[Disabled]`), Pi's loader as in the receipt,
+   `opencode debug config` (`permission.skill`), `hermes skills list` (`disabled`), and append
+   the counts to the receipt; then L4 measures the listing sizes.
+
+## B-185 — domain members per project (2026-10-13, branch `feat/domain-members`, unreleased)
+
+Plan [L5](evidence/plans/2026-10-13-load-optimization.md); operator decision "Yes, by domain".
+The original head `e27a040` failed unit, seam and product certification. Its installation
+preview and old passing gate are historical, not acceptance of the fixed implementation.
+Preserved first fix `09d17a2` adds explicit `--enable`/`--disable`, symlinked repositories,
+missing-root refusals, partial-scan protection, and additions-only unattended updates.
+
+The recovered second fix preserves hook-bearing plugins globally (sheleg-dev always),
+keeps installed disabled skills searchable, resolves project enablement for hook readers,
+and refreshes existing plugins without reinstalling them. Malformed/oversized manifests
+are incomplete evidence; a member already scoped goes back on when coverage is uncertain.
+Independent review of `353033a` exposed interrupted-write, shared-settings and truncated
+source-search defects. The follow-up saves atomic recovery intent before settings writes,
+distinguishes pending global writes from later operator changes, retains unknown project
+ownership and serializes mutations with the update lock. Shared project settings now
+precede local settings; all matching source lines are scanned; unloaded route hints print
+once per session. A further independent replay of `3c0cb53` required valid global plugin
+settings before revert removes local entries; malformed global JSON/maps now retain all
+recovery state. The machine's configurations have not been applied by this development task.
+
+Implementation: `lib/domains.js`, `lib/domainscan.js`, `lib/enablement.js`, launcher and hooks.
+Focused checks and bounded scenarios are recorded in
+[evidence/runs/2026-10-13-domains-recovery.md](evidence/runs/2026-10-13-domains-recovery.md).
+
+**Exact next task:** independent unit/seam/product review of the final branch head, then
+integrate with L1, run the full hub gate, release, and refresh through the published launcher.
+After release, preview `npx sshlg-skills domains`, apply the authorized domain choice with
+`--apply`, and read back both a domain project and a fresh project outside the domains (L4).
+Do not restore the old design that disabled sheleg-dev's money gate.
 
 ## Closed — integration waves (2026-10-11/12, lease `WAVES-1011`)
 
@@ -28,7 +134,7 @@ decide B-144 and B-147. Then the open rows by priority (B-171/B-172 guard covera
 
 **Waiting on the operator:** Gemini sign-in (B-146); AS-14 drop or keep; whether the
 R18 age sweep (`reap --long-expired`) is acceptable; the Notion tokens into the vault (R20);
-B-143 pack-triage marks; who owns the `SSHLG:REPOSITORY-HANDOFF` block (B-174).
+who owns the `SSHLG:REPOSITORY-HANDOFF` block (B-174).
 
 ## B-169 / B-170 — the fabric rule only where Fabric is; the block headed in English (2026-10-12, unreleased)
 

@@ -47,7 +47,12 @@ Twelve packs hold ~400 of the 531 skills and none of the 46 invoked ones except 
 
 ### L1 — hide the marked packs on every host (hub; `visibility`)
 
-1. **Marks as data.** Write the operator's 2026-10-13 marks into `docs/audit/2026-09-06-pack-triage.md`
+1. **Superseded (2026-10-13, L1 fix round):** the marks are machine-local, in
+   `~/.sshlg-skills/pack-marks.json` (pack-marks/1, written by `visibility marks --init`);
+   the public package ships only `pack-marks.example.json`, because one operator's marks
+   shipped as defaults would hide them for everyone who applied. Fabric's RM-23 (open) is
+   to read the machine file. The original item, kept for the record: **Marks as data.**
+   Write the operator's 2026-10-13 marks into `docs/audit/2026-09-06-pack-triage.md`
    (a "Marks — 2026-10-13: hide" column) and into the launcher as a pack list, so `visibility`
    hides by pack as well as by usage. Family skills, `anthropics/skills` (documents),
    `heygen-com/hyperframes`, `emilkowalski/skills`, `vercel-labs/agent-skills`,
@@ -59,7 +64,8 @@ Twelve packs hold ~400 of the 531 skills and none of the 46 invoked ones except 
    none exists, report "cannot hide on <host>" rather than move files. Every write through
    `protect()` or the host's CLI, recorded in `visibility.json`, revertible (`--revert`).
 3. **Readback per host:** listing size before/after (`gemini skills list`, Pi's loader,
-   `codex` debug), recorded in a dated receipt. Re-applied by every `update`.
+   `codex` debug), recorded in a dated receipt. Re-applied by `update` where `--apply` ran
+   (explicit consent in `visibility.json`, on the hosts it lists, within the run's scope).
 
 ### L2 — the MCP switch: design, then build with the owners
 
@@ -97,6 +103,14 @@ Estimated listing ≈ 61k → ≈ 43k in a project outside those domains. In Fab
 sessions RM-23 does the same from `pack-marks.json`. Needs: the operator's decision; the routing
 block keeps naming the domain routers (they say "if … is installed"); a `hosts`/`update` check
 that a project which uses a domain has its member enabled.
+
+**Decided 2026-10-13: "Yes, by domain".** Built as `npx sshlg-skills domains` (B-185, branch
+`feat/domain-members`). It detects a project's members from what the repository declares,
+plus 60-day usage. It writes the project entries before the user-scope removal and reads
+each back, and it refuses a project whose git does not ignore the file. `update` and `hosts`
+keep it current. The read-only preview on this machine found 62 of 188 repositories with
+evidence: 71 project entries, 0 refused, 4 user-scope removals. `--apply` on the operator's
+machine and the listing measurement (L4) are the remaining steps.
 
 ## Order
 

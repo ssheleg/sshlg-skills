@@ -1,0 +1,161 @@
+{
+  "schema": "explicit-corpus-screening/1",
+  "arm": "full",
+  "executed_at_utc": "2026-10-13T01:33:53Z",
+  "source_commit": "ab37778793674efff60b92ed381284c7339420ea",
+  "n": 13,
+  "k": 1,
+  "fixture_sha256": "c3caebb5f8d073343aa93112df76ed2013bcd48132ef2b70bed5568aafb7b91c",
+  "prompt_sha256": "7c7f2e9e9b465eb539197426990b6e9619b470da88ab2acddc10784039a48383",
+  "prompt_characters": 37321,
+  "exit_code": 1,
+  "elapsed_seconds": 6.266,
+  "init_counts": {
+    "tools": 0,
+    "mcp_servers": 0,
+    "plugins": 4,
+    "skills": 0,
+    "agents": 5
+  },
+  "result": {
+    "subtype": "success",
+    "is_error": true,
+    "num_turns": 1,
+    "total_cost_usd": 0,
+    "usage": {
+      "output_tokens_details": {
+        "thinking_tokens": 0
+      },
+      "input_tokens": 0,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "output_tokens": 0,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard",
+      "fallback_credit": null
+    },
+    "modelUsage": {},
+    "session_id": "294e77e7-b7c9-48b7-b3ac-bfbbcb5b980e"
+  },
+  "valid_selection_json": false,
+  "cases": [
+    {
+      "id": "construction",
+      "want": [
+        "make-skill"
+      ],
+      "got": null,
+      "pass": null
+    },
+    {
+      "id": "evals",
+      "want": [
+        "agent-evals"
+      ],
+      "got": null,
+      "pass": null
+    },
+    {
+      "id": "interop",
+      "want": [
+        "agent-interop"
+      ],
+      "got": null,
+      "pass": null
+    },
+    {
+      "id": "coordination",
+      "want": [
+        "agent-sync"
+      ],
+      "got": null,
+      "pass": null
+    },
+    {
+      "id": "harness",
+      "want": [
+        "agent-harness"
+      ],
+      "got": null,
+      "pass": null
+    },
+    {
+      "id": "quest",
+      "want": [
+        "quest-perf"
+      ],
+      "got": null,
+      "pass": null
+    },
+    {
+      "id": "assets",
+      "want": [
+        "web3d-assets"
+      ],
+      "got": null,
+      "pass": null
+    },
+    {
+      "id": "signin",
+      "want": [
+        "google-signin"
+      ],
+      "got": null,
+      "pass": null
+    },
+    {
+      "id": "auth",
+      "want": [
+        "google-auth"
+      ],
+      "got": null,
+      "pass": null
+    },
+    {
+      "id": "flowcopy",
+      "want": [
+        "ux-flows",
+        "copywriting"
+      ],
+      "got": null,
+      "pass": null
+    },
+    {
+      "id": "stripe",
+      "want": [
+        "stripe-billing"
+      ],
+      "got": null,
+      "pass": null
+    },
+    {
+      "id": "silence",
+      "want": [],
+      "got": null,
+      "pass": null
+    },
+    {
+      "id": "explain",
+      "want": [],
+      "got": null,
+      "pass": null
+    }
+  ],
+  "exact_set_passes": null,
+  "raw_stdout_sha256": "a66e569a34ffb3e157cd317116a56ae0fed8862148b85c41be96a94df47c66be",
+  "stderr_bytes": 0,
+  "scope": "One batch completion per arm; cases share context, not independent trials. Synthetic explicit catalogue selection only. No native skill triggering, artifact correctness or billed cost acceptance.",
+  "evaluation_status": "TEST_ERROR",
+  "error_class": "provider_error_reason_not_retained_by_first_runner",
+  "correction": "Nonzero process exit and is_error=true are infrastructure/provider failure, not thirteen behavior failures. No valid model selection was produced."
+}
