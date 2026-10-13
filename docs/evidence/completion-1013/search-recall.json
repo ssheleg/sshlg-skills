@@ -1,0 +1,23 @@
+{
+  "scope": "Frozen synthetic retrieval corpus, not model task quality or token cost",
+  "records": [
+    {
+      "label": "baseline-f1901a3",
+      "exit_code": 1,
+      "output": [
+        "RETRIEVAL: 9/11 expected skills within declared cutoff; MRR=0.737; synthetic corpus only",
+        "FAIL: skill discovery, поиск скиллов, token budget, экономия токенов, waves, skill audit: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'make-skill rank 20, required top 5'\n+ ]\n- []\n",
+        "FAIL: skill audit: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'make-skill rank 18, required top 1'\n+ ]\n- []\n",
+        "FAIL: whole-word phrase avoids substring boost: Expected values to be strictly equal:\n\n'wrong' !== 'real'\n"
+      ]
+    },
+    {
+      "label": "candidate-ae89f86",
+      "exit_code": 0,
+      "output": [
+        "RETRIEVAL: 11/11 expected skills within declared cutoff; MRR=0.909; synthetic corpus only",
+        "OK (12 checks)"
+      ]
+    }
+  ]
+}
