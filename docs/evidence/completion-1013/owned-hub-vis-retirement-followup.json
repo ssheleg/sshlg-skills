@@ -1,0 +1,130 @@
+{
+  "scope": "Completed own hub-vis only; initialized submodules independently verified before Git-required forced worktree removal",
+  "root_head": "18a2a7703b7926cdafd62dd6dd8a2d0067820503",
+  "root_remote_exact": true,
+  "clean": true,
+  "active_handles_or_foreign_process_paths": false,
+  "process_guard": "Exclude only own supervisor process and ancestor chain; earlier strict check safely refused because it saw its own command argv",
+  "nested": [
+    {
+      "path": "skills/agent-stack",
+      "head": "cb8f6993a61473f3974bc3af67925439ed4abb75",
+      "tag": "v0.27.1",
+      "remote_exact": true,
+      "status": "",
+      "ignored": [
+        ".agent-sync/run-id"
+      ]
+    },
+    {
+      "path": "skills/agent-sync",
+      "head": "0e0143ae9f35c067424d22631ab5d3580a12d079",
+      "tag": "v1.22.1",
+      "remote_exact": true,
+      "status": "",
+      "ignored": [
+        ".agent-sync/run-id"
+      ]
+    },
+    {
+      "path": "skills/make-skill",
+      "head": "b4418bc48e4654bf983db69705e6789d314ec431",
+      "tag": "v0.31.1",
+      "remote_exact": true,
+      "status": "",
+      "ignored": [
+        ".agent-sync/run-id"
+      ]
+    },
+    {
+      "path": "skills/seo-aeo-audit",
+      "head": "d3a17d0e708d02684c80a2497f016cf40ca7c750",
+      "tag": "v0.26.4",
+      "remote_exact": true,
+      "status": "",
+      "ignored": [
+        ".agent-sync/run-id"
+      ]
+    },
+    {
+      "path": "skills/sheleg-design",
+      "head": "f5244f6422c8ed18f72f61eb7afaef44a42276c0",
+      "tag": "v1.64.1",
+      "remote_exact": true,
+      "status": "",
+      "ignored": [
+        ".agent-sync/run-id"
+      ]
+    },
+    {
+      "path": "skills/sheleg-dev",
+      "head": "59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79",
+      "tag": "v0.13.3",
+      "remote_exact": true,
+      "status": "",
+      "ignored": [
+        ".agent-sync/run-id"
+      ]
+    },
+    {
+      "path": "skills/super-ux",
+      "head": "c0996bc30392c81d3a341252e50069a3b2d83b34",
+      "tag": "v0.59.2",
+      "remote_exact": true,
+      "status": "",
+      "ignored": [
+        ".agent-sync/run-id"
+      ]
+    },
+    {
+      "path": "skills/task-pipeline",
+      "head": "52fa75dbe1a3d169c02c612516b30028929559f9",
+      "tag": "v1.93.3",
+      "remote_exact": true,
+      "status": "",
+      "ignored": [
+        ".agent-sync/run-id"
+      ]
+    },
+    {
+      "path": "skills/telegram-dev",
+      "head": "3f9d1d1538090b7ac443b1c38faba946c3f4f7b9",
+      "tag": "v0.2.3",
+      "remote_exact": true,
+      "status": "",
+      "ignored": [
+        ".agent-sync/run-id"
+      ]
+    },
+    {
+      "path": "skills/web3d-dev",
+      "head": "5f7c3273163cff05e73707159805fb3e6592def1",
+      "tag": "v0.1.3",
+      "remote_exact": true,
+      "status": "",
+      "ignored": [
+        ".agent-sync/run-id"
+      ]
+    },
+    {
+      "path": "skills/xr-dev",
+      "head": "ff0d06b3da0dc0149b930e84710ba538d175b62f",
+      "tag": "v0.3.3",
+      "remote_exact": true,
+      "status": "",
+      "ignored": [
+        ".agent-sync/run-id"
+      ]
+    }
+  ],
+  "private_nested_archive": "/Users/sshlg/.sshlg-skills/owned-worktree-archives/2026-10-13-visibility-second/hub-vis-nested.tar.gz",
+  "archive_sha256": "40afc8080a933dbc5c922dfba2450325bdcd180a38dddf97eb5922170b095a35",
+  "root_ignored_archive": "~/.sshlg-skills/owned-worktree-archives/2026-10-13-visibility-second/hub-vis.tar.gz",
+  "removed": true,
+  "branches_tags_preserved": true,
+  "initial_refusal": "Retained in owned-worktree-retirement-visibility-second.json; this followup adds missing11 nested cleanliness/remote proofs",
+  "free_bytes_before": 2056114176,
+  "free_bytes_after": 2094882816,
+  "pre_removal_du_kib": 80684,
+  "space_measurement_limit": "Free-space snapshots include concurrent estate activity; do not attribute their difference solely to this removal."
+}
