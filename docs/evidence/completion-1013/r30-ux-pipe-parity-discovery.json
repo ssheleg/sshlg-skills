@@ -19,5 +19,7 @@
   "method": "Two actual python3 -B test/validate.py subprocesses in an owned git archive; only board bytes changed; archive removed in finally. No owner source mutation or broad suite.",
   "applies_to_retention_candidate": "4aa28e1076b90c626e7339cb898706fc026c42c3",
   "binding": "test/validate.py bytes at accepted base and retention candidate compared equal",
-  "raw_output_redaction": "No secret or home-path text in outputs; original board row retained as source proof."
+  "raw_output_redaction": "No secret or home-path text in outputs; original board row retained as source proof.",
+  "current_interpretation_status": "PARITY_FINDING_RETRACTED_FALSE_POSITIVE; SIX_RETENTION_CONTROLS_ACCEPTED",
+  "correction": "r30-ux-gfm-interpretation-correction.json"
 }

@@ -32,3 +32,17 @@ The exact source hashes, 94 inspected file fingerprints, immutable links, proces
 The review independently re-read the public callers and source controls, recomputed helper AST equality to retained full-run sources where those receipts identify them, and verified five retained compressed full-log hashes. UX's older full JSON points to a temporary log, so that local raw log is not upgraded into durable output here; its recorded returncode and later genuine CI readbacks remain different evidence. No new full-suite verdict is invented for later docs/header successors. Existing [normal merge and whole-tree/payload readbacks](r30-owner-acceptance/README.md) carry their own exact heads and eligible checks.
 
 Skills used in this bounded continuation: task-pipeline for source acceptance boundaries, evidence-docs for immutable proof and failed-run preservation, agent-sync for existing file ownership. No shared registry, owner board, installed setting or provider state changed. Next agent starts with action1 above or the coordinator's pending aggregate; it need not reconstruct this map from chat.
+
+
+## Correction: GFM table escaping interpretation
+
+The later independent two-backslash experiment was initially labelled a width defect.
+That interpretation is **withdrawn**. The official GFM scanner and an independent
+actual GitHub Markdown API render show that pipes preceded by one through four
+backslashes remain inside a cell. Applying ordinary inline odd/even escaping to
+table delimiters was an unsupported assumption. The source exit0 observation
+remains unchanged; the expected failure was wrong. See the [explicit correction
+and rendered evidence](r30-ux-gfm-interpretation-correction.json), including immutable
+primary source links. Do not implement the proposed parity-aware UX regex on that
+basis. The original owner-retention gap and its independently accepted six-process
+correction remain valid; no complete GFM grammar claim follows.
