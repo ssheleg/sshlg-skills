@@ -36,3 +36,6 @@ Independent review precedes integration. Tests establish both failure and benign
 - Wave 0 active: recovery, fresh research, visibility re-certification running in parallel. Shared registry lease acquired as COMPLETION-1013 (tool resolved run r-r01a135f0d73).
 - Fabric board unavailable: `fabric_whoami` returned `no-project`. No cross-project sends made.
 - Registry backlog manifest absent on starting main; source discovery is explicit rather than claiming manifest coverage.
+
+- C07 implemented: B-182 board channel and B-183 release policy; handoff tests 13/13. `test/validate.py` executed; output retained locally for integrated gate review.
+- C03: #215 exact head had six successful hosted checks, local ratchet tests 7/7; squash integration requested after merge-commit method was refused by GitHub.
