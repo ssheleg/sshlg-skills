@@ -51,4 +51,11 @@ test('foreign retirement destination is preserved and cannot free reference',(h,
  try{assert.equal(W.execute(W.plan(h,opts)).ok,false);}finally{fs.linkSync=link;}
  assert.equal(fs.readFileSync(dest,'utf8'),'FOREIGN');const data=JSON.parse(fs.readFileSync(W.receiptPath(h)));assert(fs.existsSync(data.lastOperation.backup.reference.file));assert.throws(()=>W.resolveRecovery(h),/foreign/);assert.equal(fs.readFileSync(dest,'utf8'),'FOREIGN');
 });
+
+test('relocated reference outside owner backup namespace is not silently adopted',(h,f)=>{
+ fs.writeFileSync(f,'BEFORE');interrupt(h,f);const file=W.receiptPath(h),data=JSON.parse(fs.readFileSync(file)),ref=data.pending.backup.reference;
+ const outside=path.join(h,'unrelated');fs.mkdirSync(outside,{mode:0o700});for(const name of [path.basename(ref.file),ref.backup])fs.copyFileSync(path.join(path.dirname(ref.file),name),path.join(outside,name));
+ ref.file=path.join(outside,path.basename(ref.file));fs.writeFileSync(file,JSON.stringify(data));const before=fs.readFileSync(file),names=fs.readdirSync(outside);
+ assert.equal(W.inspectRecovery(h).state,'unresolved');assert.throws(()=>W.resolveRecovery(h));assert.ok(fs.readFileSync(file).equals(before));assert.deepEqual(fs.readdirSync(outside),names);
+});
 console.log(`${n} passed; ${fail} failed`);if(fail)process.exitCode=1;
