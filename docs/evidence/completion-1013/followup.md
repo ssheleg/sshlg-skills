@@ -19,7 +19,11 @@ Fresh strict pin measurement returned0. The independently reviewed watcher creat
 and pushed annotated v1.62.0 without rewriting any ref; its
 [tag readback](release-1.62.0/tag-readback.json) records object and peeled commit.
 [Release run38336582938](https://github.com/ssheleg/sshlg-skills/actions/runs/38336582938)
-is watched independently. Publication and machine readback remain pending at this cut.
+completed successfully, including npm publication and registry readback. The coordinator
+independently observed `npm view sshlg-skills@1.62.0 version` return1.62.0.
+[Hosted receipt](release-1.62.0/hosted.json) records all five passing jobs.
+An initial local npx lookup still returned ETARGET before the replica/cache refreshed;
+the later explicit-version preview succeeded. Machine update is in progress.
 
 ## Independently reviewed follow-up
 
@@ -35,7 +39,9 @@ read-only coverage changed from6 to2 incomplete repositories; no foreign config 
 rewritten. These roots remain unknown, so global domain disabling is not accepted.
 
 The follow-up adds one suite and48 fixtures to the previous gate. The aggregate
-run must reproduce the DOCMAP numbers; component passes alone do not certify it.
+run at `c79f5383d990d936b6ec1bb0b460111e09993e62` passed114 suites /1743 fixtures /11 members.
+[Receipt](followup-test.json) binds the [log](followup-test.log.gz); this is local
+evidence, separate from the next PR and exact-merge release gates.
 
 ## Owner integrations; releases still pending
 
