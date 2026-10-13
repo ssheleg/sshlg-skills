@@ -49,6 +49,18 @@ with tempfile.TemporaryDirectory(prefix='native-v2-offline-') as temp:
     tail=copy.deepcopy(final);tail['result']='Audit.';tail['num_turns']=3
     observed=inspect([init,answer,response,tail])
     ok(observed['evaluation_status']=='EXECUTED' and observed['native']['skill_loads']==['sheleg-dev:google-auth'])
+    cases=json.loads((ROOT/'cases.json').read_text())['cases']
+    def score_trace(value):return a.score([dict(value,index=0,phase='task',case_id='b7',arm='full')],cases)['cells'][0]
+    ok(score_trace(observed)['load_before_delivered_audit']=='FAIL_NO_AUDIT_AFTER_LOAD')
+    later=copy.deepcopy(assistant);later['message']['id']='m2';later['message']['content']=[{'type':'text','text':'Actual audit after loading.'}]
+    valid=inspect([init,answer,response,later,tail])
+    ok(score_trace(valid)['load_before_delivered_audit']=='PENDING_INDEPENDENT_AUDIT_TEXT_REVIEW')
+    ok(valid['native']['load_delivery'][0]['later_text_blocks'][0]['event']==3)
+    ok(inspect([init,response,answer,tail])['error_class']=='invalid_tool_order')
+    pre=copy.deepcopy(assistant);pre['message']['content']=[{'type':'text','text':'Complete audit before loading.'}]
+    callonly=copy.deepcopy(answer);callonly['message']['id']='m2';callonly['message']['content']=[call]
+    late=inspect([init,pre,callonly,response,tail])
+    ok(score_trace(late)['load_before_delivered_audit']=='FAIL_NO_AUDIT_AFTER_LOAD')
     ok(inspect([init,answer,tail])['error_class']=='unmatched_tool_result')
     denied=copy.deepcopy(response);denied['message']['content'][0]['is_error']=True
     ok(inspect([init,answer,denied,tail])['error_class']=='tool_denied_or_error')

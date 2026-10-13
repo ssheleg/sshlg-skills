@@ -48,7 +48,7 @@ Next task: independent packet review → implement a dry-run-first runner → fr
 
 ## P1 runner amendment, 2026-10-13
 
-`run.py` now implements P1 only; `check.py` passes99 offline controls, including
+`run.py` now implements P1 only; `check.py` passes104 offline controls, including
 real fake-CLI execution, exact materialization of both arms, preserved body bytes,
 missing/denied Skill results, source binding and corruption, output caps,
 timeout/unknown-cost stops and passive-zero-load classification. Shared v1 observer
@@ -73,3 +73,15 @@ seven-skill/four-read-only-tool inventory. Requests, outputs, successful loads,
 workspace integrity and ordered visible artifacts are independently inspected.
 A fresh independent source/offline review plus exact runner/source admission is
 required before calls. Actual catalogue search and whole-family quality remain open.
+
+
+Independent runner review found a late-load counterexample before calls: a complete
+audit could precede the Skill result while the original scorer counted selection.
+The revised observer records call/result event order and hashes of later visible text.
+A missing post-load artifact is `FAIL_NO_AUDIT_AFTER_LOAD`; later text requires
+independent review that it actually contains the delivered audit. An acknowledgement
+alone cannot become a temporal PASS. `OBSERVED_EXPECTED_LOAD` records invocation
+only, with artifact quality and the mandatory delivery relation separately pending.
+No semantic PASS is awarded by this runner. The original positive same-message
+fixture is retained as a negative temporal control, alongside valid later-audit,
+pre-load-complete-audit and result-before-call controls. Historical v1 stays unchanged.

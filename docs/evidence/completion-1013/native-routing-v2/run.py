@@ -74,6 +74,27 @@ def inspect(raw,code,workspace,phase):
     result=r.inspect(raw,code,workspace,phase,expected_inventory=INVENTORY,reported_turn_limit=REPORTED_TURN_LIMIT)
     if result['evaluation_status']=='EXECUTED':
         events=[json.loads(line) for line in raw.splitlines() if line.strip()]
+        pending={};loads=[];texts=[]
+        try:
+            for index,event in enumerate(events):
+                if event.get('type')=='assistant':
+                    for block in event['message']['content']:
+                        if block.get('type')=='tool_use' and block.get('name')=='Skill':
+                            pending[block['id']]={'skill':block['input']['skill'],'call_event':index}
+                        elif block.get('type')=='text' and block['text'].strip():
+                            texts.append({'event':index,'text_sha256':b.digest(block['text'])})
+                elif event.get('type')=='user':
+                    for block in event.get('message',{}).get('content',[]):
+                        if block.get('type')=='tool_result':
+                            key=block['tool_use_id']
+                            matching=[row for row in events if row.get('type')=='assistant' for call in row['message']['content'] if call.get('type')=='tool_use' and call.get('id')==key and call.get('name')=='Skill']
+                            if matching:
+                                if key not in pending or index<=pending[key]['call_event']:raise ValueError('invalid_tool_order')
+                                loads.append(dict(pending[key],result_event=index))
+            for load in loads:load['later_text_blocks']=[text for text in texts if text['event']>load['result_event']]
+            result['native']['load_delivery']=loads
+        except (KeyError,TypeError,ValueError):
+            result.update(evaluation_status='TEST_ERROR',error_class='invalid_tool_order');return result
         outputs=[event['message']['usage'].get('output_tokens') for event in events if event.get('type')=='assistant']
         if not all(r.number(value) and value<=1600 for value in outputs) or result['usage']['output_tokens']>(1 if phase=='readiness' else r.MAX_TURNS)*1600:
             result.update(evaluation_status='TEST_ERROR',error_class='output_bound')
@@ -86,8 +107,12 @@ def score(calls,cases):
         if call.get('phase')!='task':continue
         valid=call.get('evaluation_status')=='EXECUTED'
         loads=(call.get('native') or {}).get('skill_loads',[])
+        observed=expected[call['case_id']] in loads
+        delivery=[row for row in (call.get('native') or {}).get('load_delivery',[]) if row['skill']==expected[call['case_id']]]
+        relation=('PENDING_INDEPENDENT_AUDIT_TEXT_REVIEW' if any(row['later_text_blocks'] for row in delivery) else 'FAIL_NO_AUDIT_AFTER_LOAD') if observed else 'NOT_LOADED'
         cells.append({'index':call['index'],'case_id':call['case_id'],'arm':call['arm'],
-                      'native_selection':('PASS_NATIVE_SELECTION' if expected[call['case_id']] in loads else 'FAIL_NATIVE_SELECTION') if valid else 'TEST_ERROR',
+                      'native_selection':('OBSERVED_EXPECTED_LOAD' if observed else 'FAIL_NATIVE_SELECTION') if valid else 'TEST_ERROR',
+                      'load_before_delivered_audit':relation if valid else 'NOT_SCORED',
                       'skill_loads':loads,'artifact_quality':'PENDING_INDEPENDENT_REVIEW' if valid else 'NOT_SCORED'})
     return {'cells':cells,'adoption':'NOT_ADOPTED','scope':'Passive six-cell diagnostic; no directed follow-up or full-family quality claim.'}
 
