@@ -1,0 +1,160 @@
+{
+  "source_commit": "42a8a57aa2a6fee24d496a153734845140b1da70",
+  "measurement": "Final receipt usage only; cache modes added once per CLI call; never sum stream blocks or cumulative cost fields. Usage may be absent for historical protocol errors; that is not zero.",
+  "groups": {
+    "skill-search-native/results-a.json": {
+      "calls": 1,
+      "status": "STOPPED_TEST_ERROR",
+      "groups": {
+        "readiness/unpaired": {
+          "calls": 1,
+          "usage_present": 1,
+          "input_across_cache_modes": 3598,
+          "output_tokens": 4,
+          "reported_list_usd": "0.0174134"
+        }
+      }
+    },
+    "skill-search-native/results-b.json": {
+      "calls": 2,
+      "status": "STOPPED_TEST_ERROR",
+      "groups": {
+        "readiness/unpaired": {
+          "calls": 1,
+          "usage_present": 1,
+          "input_across_cache_modes": 3598,
+          "output_tokens": 4,
+          "reported_list_usd": "0.0088568"
+        },
+        "task/unpaired": {
+          "calls": 1,
+          "usage_present": 1,
+          "input_across_cache_modes": 25831,
+          "output_tokens": 883,
+          "reported_list_usd": "0.0947338"
+        }
+      }
+    },
+    "skill-search-native/results-c.json": {
+      "calls": 61,
+      "status": "COMPLETED",
+      "groups": {
+        "readiness/unpaired": {
+          "calls": 1,
+          "usage_present": 1,
+          "input_across_cache_modes": 3594,
+          "output_tokens": 4,
+          "reported_list_usd": "0.0173814"
+        },
+        "task/unpaired": {
+          "calls": 60,
+          "usage_present": 60,
+          "input_across_cache_modes": 573077,
+          "output_tokens": 39704,
+          "reported_list_usd": "2.3236762"
+        }
+      }
+    },
+    "paired-routing-1013/results-a.json": {
+      "calls": 4,
+      "status": "STOPPED_TEST_ERROR",
+      "groups": {
+        "readiness/current": {
+          "calls": 1,
+          "usage_present": 1,
+          "input_across_cache_modes": 1807,
+          "output_tokens": 4,
+          "reported_list_usd": "0.0103550"
+        },
+        "readiness/no-among": {
+          "calls": 1,
+          "usage_present": 1,
+          "input_across_cache_modes": 1887,
+          "output_tokens": 4,
+          "reported_list_usd": "0.0109950"
+        },
+        "task/current": {
+          "calls": 1,
+          "usage_present": 1,
+          "input_across_cache_modes": 6175,
+          "output_tokens": 230,
+          "reported_list_usd": "0.0440938"
+        },
+        "task/no-among": {
+          "calls": 1,
+          "usage_present": 1,
+          "input_across_cache_modes": 5505,
+          "output_tokens": 195,
+          "reported_list_usd": "0.0380338"
+        }
+      }
+    },
+    "paired-routing-1013/results-b.json": {
+      "calls": 17,
+      "status": "COMPLETED",
+      "groups": {
+        "task/no-among": {
+          "calls": 9,
+          "usage_present": 9,
+          "input_across_cache_modes": 49445,
+          "output_tokens": 971,
+          "reported_list_usd": "0.1767038"
+        },
+        "task/current": {
+          "calls": 8,
+          "usage_present": 8,
+          "input_across_cache_modes": 49383,
+          "output_tokens": 1067,
+          "reported_list_usd": "0.1612722"
+        }
+      }
+    },
+    "native-routing-v2/results-a.json": {
+      "calls": 8,
+      "status": "COMPLETED",
+      "groups": {
+        "readiness/concise": {
+          "calls": 1,
+          "usage_present": 1,
+          "input_across_cache_modes": 6069,
+          "output_tokens": 4,
+          "reported_list_usd": "0.0195144"
+        },
+        "readiness/full": {
+          "calls": 1,
+          "usage_present": 1,
+          "input_across_cache_modes": 7640,
+          "output_tokens": 4,
+          "reported_list_usd": "0.0235882"
+        },
+        "task/concise": {
+          "calls": 3,
+          "usage_present": 3,
+          "input_across_cache_modes": 121492,
+          "output_tokens": 6464,
+          "reported_list_usd": "0.3541368"
+        },
+        "task/full": {
+          "calls": 3,
+          "usage_present": 3,
+          "input_across_cache_modes": 127443,
+          "output_tokens": 6506,
+          "reported_list_usd": "0.3676956"
+        }
+      }
+    },
+    "native-routing-p2/results-a.json": {
+      "calls": 2,
+      "status": "COMPLETED",
+      "groups": {
+        "task/full": {
+          "calls": 2,
+          "usage_present": 2,
+          "input_across_cache_modes": 97041,
+          "output_tokens": 4484,
+          "reported_list_usd": "0.3005844"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "source_commit": "42a8a57aa2a6fee24d496a153734845140b1da70",
+  "sources": [
+    {
+      "path": "docs/evidence/completion-1013/skill-search-native/results-a.json",
+      "sha256": "ea6bdfe0276986275f5da774c90d95a4b76b438e662aec676ec85326fa2485f5"
+    },
+    {
+      "path": "docs/evidence/completion-1013/skill-search-native/results-b.json",
+      "sha256": "a837e392ee5b9bbaf5044254b1e3204f55abb7bebf009f36229d555ddfba744b"
+    },
+    {
+      "path": "docs/evidence/completion-1013/skill-search-native/results-c.json",
+      "sha256": "4390977ff6610d45b7c6d02f728448cef1335258db2483f47a1d0a45a14efe53"
+    },
+    {
+      "path": "docs/evidence/completion-1013/paired-routing-1013/results-a.json",
+      "sha256": "c32648b924ae5d7b98a44906803458eb5c888ada26bd102759a913ca263ec960"
+    },
+    {
+      "path": "docs/evidence/completion-1013/paired-routing-1013/results-b.json",
+      "sha256": "d5e6fde87b00a01661e0ac7a722f703f0b6d1c5ac486cf96ba2931ed02f5d420"
+    },
+    {
+      "path": "docs/evidence/completion-1013/native-routing-v2/results-a.json",
+      "sha256": "bf9c66f008a7cb033c9410d5326f72a4d8a74f4e6786d8d9dc799ddb8bc77cb9"
+    },
+    {
+      "path": "docs/evidence/completion-1013/native-routing-p2/results-a.json",
+      "sha256": "abaf5c71fe88c5c8ef6134adeb7cdfe9337da4601945e9eeaf5646296c23776d"
+    },
+    {
+      "path": "docs/evidence/completion-1013/skill-search-native/readout-c.json",
+      "sha256": "a820c64f120275cd0a227f7ebbb9dea73a4818b5a85cef69aa2364ff941a41fe"
+    },
+    {
+      "path": "docs/evidence/completion-1013/paired-routing-1013/readout.json",
+      "sha256": "10b6a5486902f2375910ae6e0571bfc3d2835f34d7ba8a180338a0db6eb67b43"
+    },
+    {
+      "path": "docs/evidence/completion-1013/native-routing-v2/readout.json",
+      "sha256": "131f1d2b202c5a05a1308238b45a335b8e573cc36f3653df9a77d8a83b262ffd"
+    },
+    {
+      "path": "docs/evidence/completion-1013/native-routing-p2/readout.json",
+      "sha256": "c287fc10a3147a79d72ed73e923882484b26f476b4abfb43aff10cfefb3bd0f8"
+    },
+    {
+      "path": "docs/evidence/completion-1013/native-routing-p2/artifact-review.json",
+      "sha256": "3171ef06914a2ee8b9beb1a5acd36fc6cde556d84e3e1418f1d56ba7af3c9c26"
+    },
+    {
+      "path": "docs/evidence/completion-1013/native-quality-v1/artifact-independent-review.json",
+      "sha256": "c9f929ed3ef6f71b1e95871b8e38fb7e161697634ca989415e1e4bc60fe9ffb7"
+    },
+    {
+      "path": "docs/evidence/completion-1013/native-quality-v1/observed-d-20261013.json",
+      "sha256": "7e2ea568feee8962fe5e62260e611748961c5d68531d14b72fe4fba904915bfe"
+    },
+    {
+      "path": "docs/evidence/completion-1013/native-quality-v1/observed-c-offline-diagnostic-v2.json",
+      "sha256": "3cab6ba30381134931c94ed01c1058054074307b7a298c52b2268cf78e0b8855"
+    },
+    {
+      "path": "docs/evidence/completion-1013/skill-search-native/README.md",
+      "sha256": "583a9eb8c3846d10f24d4df7a59380eae0c9370307d5a9ed9f5495ef6341d1cf"
+    },
+    {
+      "path": "docs/evidence/completion-1013/paired-routing-1013/README.md",
+      "sha256": "0d7eb1276702e6941aeaf5b289737af6c0cd2c2fead88dcbe1e76fd70c0ffe6c"
+    },
+    {
+      "path": "docs/evidence/completion-1013/native-quality-v1/README.md",
+      "sha256": "48c504c57d971d875b09ab039823ee95781e9248851c16be8ae43650ad7ef926"
+    },
+    {
+      "path": "docs/evidence/completion-1013/native-routing-v2/cases.json",
+      "sha256": "1af5649c559938ccbfb4232c2d390b2c8f7a10f922e57741b826bd9e99bc4f9b"
+    },
+    {
+      "path": "docs/reports/2026-10-13-native-skill-routing/README.md",
+      "sha256": "a7e61a6196f8d6e2a3839d5db3e5d35bbb18a879466363f7cc37b460992a3ad5"
+    }
+  ]
+}
