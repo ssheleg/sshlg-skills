@@ -150,6 +150,60 @@ it('what is stale can be reported without writing anything', () => {
   assert.ok(!fs.existsSync(path.join(rt, 'lib', 'injectors.js')));
 });
 
+// B-193: a module the package drops is retired only when the runtime's own manifest
+// proves the hub installed exactly those bytes; anything else stays where it is.
+it('a dropped module the hub installed is retired to .retired/, foreign or edited files stay', () => {
+  const pkg = seedPackage(tmp()), rt = tmp();
+  fs.writeFileSync(path.join(pkg, 'lib', 'dropped.js'), '// will be dropped\n');
+  assert.equal(R.sync(pkg, rt, { create: true }).ok, true);
+  assert.ok(fs.existsSync(path.join(rt, '.managed.json')), 'manifest written after sync');
+  fs.writeFileSync(path.join(rt, 'lib', 'foreign.js'), '// not ours\n');
+  fs.unlinkSync(path.join(pkg, 'lib', 'dropped.js'));
+  fs.writeFileSync(path.join(pkg, 'lib', 'guard.js'), '// v3\n');
+  const r = R.sync(pkg, rt);
+  assert.equal(r.ok, true, r.reason);
+  assert.deepEqual(r.retired, ['lib/dropped.js']);
+  assert.ok(!fs.existsSync(path.join(rt, 'lib', 'dropped.js')));
+  const kept = fs.readdirSync(path.join(rt, '.retired')).map(d => path.join(rt, '.retired', d, 'lib', 'dropped.js'));
+  assert.ok(kept.some(f => fs.existsSync(f) && fs.readFileSync(f, 'utf8') === '// will be dropped\n'), 'retired bytes kept');
+  assert.ok(fs.existsSync(path.join(rt, 'lib', 'foreign.js')), 'a file the manifest never named stays');
+});
+it('a dropped module edited after install is not retired', () => {
+  const pkg = seedPackage(tmp()), rt = tmp();
+  fs.writeFileSync(path.join(pkg, 'lib', 'dropped.js'), '// will be dropped\n');
+  R.sync(pkg, rt, { create: true });
+  fs.writeFileSync(path.join(rt, 'lib', 'dropped.js'), '// edited by hand\n');
+  fs.unlinkSync(path.join(pkg, 'lib', 'dropped.js'));
+  fs.writeFileSync(path.join(pkg, 'lib', 'guard.js'), '// v3\n');
+  const r = R.sync(pkg, rt);
+  assert.equal(r.ok, true); assert.deepEqual(r.retired, []);
+  assert.equal(fs.readFileSync(path.join(rt, 'lib', 'dropped.js'), 'utf8'), '// edited by hand\n');
+});
+it('a malformed manifest retires nothing and is replaced', () => {
+  const pkg = seedPackage(tmp()), rt = tmp();
+  R.sync(pkg, rt, { create: true });
+  fs.writeFileSync(path.join(rt, '.managed.json'), '{not json');
+  fs.writeFileSync(path.join(pkg, 'lib', 'guard.js'), '// v3\n');
+  const r = R.sync(pkg, rt);
+  assert.equal(r.ok, true); assert.deepEqual(r.retired, []);
+  assert.doesNotThrow(() => JSON.parse(fs.readFileSync(path.join(rt, '.managed.json'), 'utf8')));
+});
+
+it('retirement never follows a symlinked .retired and never retires a hook script', () => {
+  const pkg = seedPackage(tmp()), rt = tmp(), elsewhere = tmp();
+  fs.writeFileSync(path.join(pkg, 'lib', 'dropped.js'), '// will be dropped\n');
+  fs.writeFileSync(path.join(pkg, 'hooks', 'gone.js'), '// hook dropped\n');
+  R.sync(pkg, rt, { create: true });
+  fs.symlinkSync(elsewhere, path.join(rt, '.retired'));
+  fs.unlinkSync(path.join(pkg, 'lib', 'dropped.js')); fs.unlinkSync(path.join(pkg, 'hooks', 'gone.js'));
+  fs.writeFileSync(path.join(pkg, 'lib', 'guard.js'), '// v3\n');
+  const r = R.sync(pkg, rt);
+  assert.equal(r.ok, true); assert.deepEqual(r.retired, []); assert.match(r.ownedError || '', /unsafe directory/);
+  assert.ok(fs.existsSync(path.join(rt, 'lib', 'dropped.js')), 'nothing moved through the symlink');
+  assert.equal(fs.readdirSync(elsewhere).length, 0);
+  assert.ok(fs.existsSync(path.join(rt, 'hooks', 'gone.js')), 'a hook script may still be wired; it stays');
+});
+
 if (failures.length) {
   for (const f of failures) console.error(`FAIL: ${f}`);
   console.error(`\n${failures.length} of ${checks} failed`);

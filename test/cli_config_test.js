@@ -383,6 +383,25 @@ it('native update refuses an unavailable supported CLI before host writes', () =
   } finally {fs.rmSync(home,{recursive:true,force:true});fs.rmSync(emptyBin,{recursive:true,force:true});}
 });
 
+// B-192: a blocked member keeps its installed version, the run continues to the other
+// channels, and the result is partial (nonzero) rather than a stop.
+it('blocked Claude members make the update partial without stopping later channels', () => {
+  const home = fs.mkdtempSync(path.join(os.tmpdir(), 'sshlg-blocked-'));
+  try {
+    fs.mkdirSync(path.join(home, '.claude', 'plugins'), { recursive: true });
+    const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'skills.json'), 'utf8'));
+    const plugins = {};
+    for (const m of manifest.skills) plugins[m.pluginInstall] = [{ scope: 'project', projectPath: '/x', version: m.version, gitCommitSha: m.commit, installPath: path.join(home, '.claude', 'plugins', 'cache', 'x', m.name, m.version) }];
+    fs.writeFileSync(path.join(home, '.claude', 'plugins', 'installed_plugins.json'), JSON.stringify({ version: 2, plugins }));
+    fs.writeFileSync(path.join(home, '.claude', 'settings.json'), '{}\n');
+    const r = spawnSync(process.execPath, [BIN, 'update', '--claude-only'], { encoding: 'utf8', env: Object.assign({}, process.env, { HOME: home, CLAUDE_CONFIG_DIR: path.join(home, '.claude') }) });
+    const out = (r.stdout || '') + (r.stderr || '');
+    assert.strictEqual(r.status, 1, out);
+    assert.match(out, /blocked, left as installed/);
+    assert.match(out, /== Refreshing the routing block ==/, 'a blocked member stopped the later channels');
+  } finally { fs.rmSync(home, { recursive: true, force: true }); }
+});
+
 if (failures.length) {
   failures.forEach((f) => console.log('FAIL: ' + f));
   console.log(`${failures.length} failure(s) out of ${checks} checks`);
