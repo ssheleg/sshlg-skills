@@ -1,3 +1,17 @@
+## v1.63.1 — Claude update works on hosts with live sessions
+
+- `update` no longer refuses a Claude member whose installed payload already equals its
+  pin. Such a member (same version, a docs-only newer source commit, or extra
+  project/local scopes) is reported as payload-equivalent and left installed: no
+  uninstall or reinstall rewrites a payload directory that running sessions are using.
+  Members with different bytes keep the repair/update contract and its refusals.
+- Python bytecode caches (`__pycache__/*.pyc`) written beside hook scripts are runtime
+  artifacts, not payload; payload readback ignores them and still refuses any other
+  file in such a directory.
+- Found by the installed readback of 1.63.0 on a real profile: 1.63.0's preview
+  refused on agent-sync's bytecode cache, then on members installed in more than one
+  scope. No settings or payload were changed by those refused previews.
+
 ## v1.63.0 — native update safety and managed instruction previews
 
 - Claude Code installation now uses exact member commits through its native plugin
