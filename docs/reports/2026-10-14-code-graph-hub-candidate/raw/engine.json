@@ -1,0 +1,6 @@
+{
+ "distribution": "graphifyy",
+ "version": "0.9.44",
+ "extractor_module": "graphify/extract.py",
+ "sha256": "fe3ccfde5b3f9bd38204df002960e9abfd6d1b01d15cc2511bc9d53c3dc9353f"
+}

@@ -1,0 +1,18 @@
+{
+ "schema": "graph-build-receipt/1",
+ "source_commit": "b8656355f08bc6791b834b13ee51ceab3923e2d6",
+ "command": [
+  "<graphifyy0.9.44-python>",
+  "-I",
+  "docs/reports/2026-10-13-code-graph-finalization/build.py",
+  "--repo",
+  ".",
+  "--commit",
+  "b8656355f08bc6791b834b13ee51ceab3923e2d6",
+  "--output",
+  "docs/reports/2026-10-14-code-graph-hub-candidate/raw/final-b865635"
+ ],
+ "exit_code": 0,
+ "provider_calls": 0,
+ "output": "build.txt"
+}
