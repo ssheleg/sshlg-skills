@@ -1,3 +1,27 @@
+## Current — 2026-10-14, hub 1.63.0 release in progress
+
+Branch `waves/2026-10-13-finalization`, [PR219](https://github.com/ssheleg/sshlg-skills/pull/219).
+Done since the 2026-10-13 stop ([continuation log](CLAUDE-CONTINUE.md)):
+
+- B190 supported runtime recovery: two independent reviews, 41 controls, docs bridge
+  ([review](evidence/completion-1013/runtime-recovery/independent-review.md)).
+- IO09 scratch child lifetime: reviewed, fixed, published in task-pipeline **1.95.0**
+  ([receipt](evidence/completion-1013/tp-release-1950/README.md)); ported to
+  seo-aeo-audit (#41, `a6e471e`) and sheleg-dev (#29, `7ced39b`), owner gates green.
+- Pins: task-pipeline 1.95.0, seo-aeo-audit and sheleg-dev at their merged commits.
+  Full hub gate passes every suite ([bd3af81](evidence/completion-1013/hub-gate-bd3af81/README.md));
+  DOCMAP Ratchets 133/2270/11, description total 32498.
+- Static graph [refreshed](reports/2026-10-14-code-graph-hub-candidate/README.md);
+  [board cut](evidence/completion-1013/board-current-20261014-0519.json) (177 ids kept) and
+  [requirement cut](evidence/completion-1013/requirements-current-20261014-0530.json) (37 kept, 14 updated).
+
+**Next:** final hub gate on the exact head, PR219 ready → hosted checks → squash merge →
+annotated `v1.63.0` on main → release run → npm readback → `npx --yes sshlg-skills@latest update`
+and [installed readback](evidence/completion-1013/installed-1.63.0/README.md) → wiki index →
+independent final observer. Cross-project Fabric asks stay unsent (other project ids not
+visible through this door). Exposed Codex enrollment poll secrets: Observatory
+`mem:348bac6b964e4ce5`; the two pending requests need cancelling and re-issuing.
+
 ## Передача Claude — оператор остановил сессию 2026-10-13
 
 **Начать с [docs/CLAUDE-CONTINUE.md](CLAUDE-CONTINUE.md).** Там актуальные ветки,
