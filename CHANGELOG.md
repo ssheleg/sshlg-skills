@@ -35,8 +35,10 @@
   jobs and grants no additional action authority.
 - Scoped router migration now leaves unselected hosts alone. Working-rule writes
   refuse malformed ownership, changed consent and non-lossless UTF-8 input.
-- task-pipeline is pinned at 1.94.1 (`540679e`), the published release whose npm
-  payload was read back equal to its source; the Claude plugin pins follow it.
+- task-pipeline is pinned at 1.95.0 (`5a787b4`): default stages route to their own
+  procedure on entry, checkpoint recovery follows the project profile, owner releases
+  admit an exact local tag before the full suite, and the family scratch lock stays
+  held through writing plant children. The Claude plugin pins follow it.
 - seo-aeo-audit (`a6e471e`) and sheleg-dev (`7ced39b`) are pinned at their merged
   family scratch-lock change; only tests and evidence changed, so 0.26.6 and 0.13.4 stay.
 - Release-iteration requests route to task-pipeline. Member validation and collector
