@@ -408,7 +408,8 @@ function withClaudePlan(steps, f) {
       'native immutable source transaction; protected catalogs/settings, scoped repair, rollback on failure, payload readback',
       { fingerprint: native.fingerprint, profile: native.profile,
         members: native.jobs.map(j => `${j.pluginInstall}: ${j.action} @ ${j.row.commit}; ${j.row.files.length} files`)
-          .concat(native.equivalent.map(e => `${e.pluginInstall}: payload-equivalent, left installed (installed ${String(e.installed).slice(0, 7)}, pin ${e.pin.slice(0, 7)}; ${e.files} files equal)`)),
+          .concat(native.equivalent.map(e => `${e.pluginInstall}: payload-equivalent, left installed (installed ${String(e.installed).slice(0, 7)}, pin ${e.pin.slice(0, 7)}; ${e.files} files equal)`))
+          .concat(native.blocked.map(b => `${b.pluginInstall}: blocked, left as installed — ${b.reason}`)),
         journal: path.join(native.transactionRoot, 'latest.json') }));
   }
   const result = attachWaitPlan(steps, f);
@@ -422,14 +423,17 @@ function runClaudePlan(planned, f) {
     return true;
   }
   for (const e of saved.native.equivalent) log(`    ${e.member || e.name}: payload equals pin ${e.pin.slice(0, 7)} (${e.files} files); installed source ${String(e.installed).slice(0, 7)} kept and its marketplace source is unchanged, so a later native update follows that source, not the pin`);
+  for (const b of saved.native.blocked) log(`    ${b.name}: blocked, left as installed — ${b.reason}`);
+  const clean = !saved.native.blocked.length;
   if (!saved.native.jobs.length) {
     // Nothing is written; still describe the state at apply time, not at preview.
     let again;
     try { again = require('../lib/claude-pinned').prepare(SKILLS, saved.inventory, { home: os.homedir(), profileRoot: claudeRoot() }); }
     catch (e) { log(`  Claude native transaction refused before execution: ${e.message}`); return false; }
     if (again.fingerprint !== saved.native.fingerprint) { log('  Claude native state changed since the preview; run update again'); return false; }
-    log('  Claude native transaction: not needed — every member already carries its pinned payload');
-    return true;
+    log(clean ? '  Claude native transaction: not needed — every member already carries its pinned payload'
+      : '  Claude native transaction: nothing else to do; blocked members above keep their installed version (partial)');
+    return clean;
   }
   // Admission, version check and all backups happen before any other channel.
   let result;
@@ -438,7 +442,8 @@ function runClaudePlan(planned, f) {
   log(`  Claude native transaction: ${result.ok ? 'verified immutable payloads' : 'failed; inspect recovery receipt'} — ${result.receipt}`);
   for (const r of result.results) log(`    ${r.member}: ${r.status}${r.rollback ? '; rollback: ' + r.rollback : ''}`);
   if (result.error) log(`  ${result.error}`);
-  return result.ok;
+  if (!clean) log('  Claude: partial — blocked members above keep their installed version');
+  return result.ok && clean;
 }
 
 /** The same contract for `update` — every subprocess, prune, router and runtime action. */

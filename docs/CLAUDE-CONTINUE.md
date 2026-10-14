@@ -95,6 +95,24 @@ standalone-клон + `prepare` + `check`. Receipts попытки 1 в scratch 
   Агент выяснял слабость red-доказательства timeout-контроля. Довести: focused
   контроли, red-before, commit/push. Leases `FW07-CHILD-PORT-SEO/DEV` истекут по TTL.
 
+### Итерация 1.63.3 (2026-10-14 вечер) — в работе, ветка `fix/1.63.3-blocked-members`
+
+Сделано (focused-тесты зелёные, ещё НЕ review/gate/release):
+- B-192: законная конфигурация (только project/local scope, user+local с иными байтами,
+  сконфигурированный плагин) → член `blocked`, остальные обновляются, итог partial;
+  повреждённые записи (не массив/null/две user-записи) по-прежнему останавливают update.
+- B-193: runtime пишет `.managed.json` (байты, поставленные hub); файл, исключённый из
+  пакета и не изменённый, переносится в `.retired/<stamp>/`. Старый `lib/router-texts.js`
+  не совпадает ни с одной версией из истории hub — принадлежность не доказуема, остаётся.
+- B-194: единица отступа (таб) при вставке в непустой объект.
+
+Следующие шаги: B-191 — действие `rebind` для payload-equivalent членов (каталог hub +
+`marketplace add` + проверка: записи реестра не изменились и байты равны пину; без
+install/uninstall); затем CHANGELOG 1.63.3 + bump, полный `npm test` (Ratchets),
+независимый review, PR → CI → merge → `scripts/tag.sh v1.63.3 --push` → npm readback →
+`npx --yes sshlg-skills@latest update` + readback; затем финальный независимый наблюдатель
+(прошлый запуск прерван лимитом до первой записи; worktree `/_wt/hub-final-observer` пуст).
+
 ## Первый шаг
 
 Прочитать этот файл, `CLAUDE.md`, актуальную политику Observatory и [план волн](evidence/plans/2026-10-13-completion.md). Проверить [снимок веток](evidence/completion-1013/claude-handoff/branches.json) против remote, затем [снимок активных процессов](evidence/completion-1013/claude-handoff/active-processes.json). Получить собственный agent-sync lease перед общими реестрами. Не забирать старую идентичность сессии.
