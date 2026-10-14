@@ -26,6 +26,14 @@ t('near markers and invalid UTF8 are uncertain, not repaired',()=>{
  assert.throws(()=>b.decode(Buffer.from([0xff])),/UTF/);
 });
 t('large valid inventory retains exact line ranges without prefix rescans',()=>{const r=b.parse(Array.from({length:10000},(_,i)=>block('A:B'+i,'')).join(''));assert(r.ok);assert.strictEqual(r.blocks.length,10000);assert.deepStrictEqual(r.blocks[9999].range,{startLine:29998,endLine:30000});});
+t('markers inside a closed code fence are examples: alone, beside a real block, and an unterminated example comment',()=>{
+ const fence=(body)=>'```markdown\n'+body+'\n```\n';
+ let r=b.parse('# doc\n'+fence(block('OBSERVATORY:AGENT-UPDATES','example')));assert(r.ok);assert.strictEqual(r.blocks.length,0);
+ r=b.parse(fence(block('OBSERVATORY:AGENT-UPDATES','example'))+block('OBSERVATORY:AGENT-UPDATES','real'));assert(r.ok);assert.strictEqual(r.blocks.length,1);assert.strictEqual(r.blocks[0].range.startLine,7);
+ r=b.parse('~~~\n<!-- an example left open\n~~~\n'+block('A:B'));assert(r.ok,JSON.stringify(r.issues));assert.strictEqual(r.blocks.length,1);
+ r=b.parse('```\nnever closed\n'+block('A:B'));assert(r.ok);assert.strictEqual(r.blocks.length,1,'an unclosed fence fences nothing');
+ r=b.parse('```js `not a fence`\n'+block('A:B')+'```\n');assert.strictEqual(r.blocks.length,1,'a backtick info string is not a fence');
+});
 const tmp=fs.mkdtempSync(path.join(os.tmpdir(),'blocks-'));
 try{
  const home=path.join(tmp,'home');fs.mkdirSync(home);const cd=path.join(home,'.codex');fs.mkdirSync(cd);const file=path.join(cd,'AGENTS.md');fs.writeFileSync(file,block('SSHLG:ROUTERS')+block('OTHER:NOTES'));fs.chmodSync(file,0o640);
@@ -50,7 +58,7 @@ try{
  });
  t('invalid host and mutation flags are rejected',()=>{for(const args of [['--agent','unknown'],['--apply'],['--from','x'],['--agent'],['--json','--json']])assert.throws(()=>b.flags(args));});
  t('actual CLI metadata and malformed-file exit preserve all bytes',()=>{
-  const env={...process.env,HOME:home,CODEX_HOME:cd};const run=(a)=>spawnSync(process.execPath,[path.resolve('bin/sshlg-skills.js'),'blocks',...a],{env,encoding:'utf8'});
+  const env={...process.env,HOME:home,CODEX_HOME:cd};const run=(a)=>spawnSync(process.execPath,[path.join(__dirname,'..','bin','sshlg-skills.js'),'blocks',...a],{env,encoding:'utf8'});
   let before=snapshot();let r=run(['--agent','codex','--json']);assert.strictEqual(r.status,0,r.stderr+r.stdout);assert.strictEqual(JSON.parse(r.stdout).targets.length,1);assert(!r.stdout.includes('private-body'));assert.deepStrictEqual(snapshot(),before);
   fs.writeFileSync(file,'<!-- SSHLG:ROUTERS:BEGIN -->');before=snapshot();r=run(['--agent','codex','--json']);assert.strictEqual(r.status,1);assert.strictEqual(JSON.parse(r.stdout).targets[0].readState,'READ');assert.deepStrictEqual(snapshot(),before);
   for(const near of ['<!-- SSHLG:ROUTERS: BEGIN -->','<!-- SSHLG:ROUTERS : BEGIN -->']){fs.writeFileSync(file,near);r=run(['--agent','codex','--json']);assert.strictEqual(r.status,1);assert.strictEqual(JSON.parse(r.stdout).ok,false);}
@@ -65,13 +73,13 @@ try{
   // The block exactly as Observatory's agent_updates.py writes it into a host file (body synthetic).
   const h=path.join(tmp,'obs-home');fs.mkdirSync(path.join(h,'.claude'),{recursive:true});const f=path.join(h,'.claude','CLAUDE.md');
   fs.writeFileSync(f,'# rules\n\n'+block('SSHLG:ROUTERS')+block('SSHLG:REPOSITORY-HANDOFF')+'<!-- OBSERVATORY:AGENT-UPDATES:BEGIN -->\n## Important repository updates\nprivate-body\n<!-- OBSERVATORY:AGENT-UPDATES:END -->\n');
-  const r=spawnSync(process.execPath,[path.resolve('bin/sshlg-skills.js'),'blocks','--agent','claude','--json'],{env:{PATH:process.env.PATH,HOME:h},encoding:'utf8'});
+  const r=spawnSync(process.execPath,[path.join(__dirname,'..','bin','sshlg-skills.js'),'blocks','--agent','claude','--json'],{env:{PATH:process.env.PATH,HOME:h},encoding:'utf8'});
   assert.strictEqual(r.status,0,r.stderr+r.stdout);const blocks=JSON.parse(r.stdout).targets[0].blocks;
   const obs=blocks.find(x=>x.markerId==='OBSERVATORY:AGENT-UPDATES');assert(obs,'not listed');
   assert.strictEqual(obs.syntaxState,'PAIRED');assert.strictEqual(obs.claimedOwner,'OBSERVATORY');assert.strictEqual(obs.registered.owner,'project-observatory');
   assert.strictEqual(obs.writerAdmission,'REGISTERED_NOT_AUTHORIZED');assert(!r.stdout.includes('private-body'));
   const handoff=blocks.find(x=>x.markerId==='SSHLG:REPOSITORY-HANDOFF');assert.strictEqual(handoff.registered.owner,null);assert.strictEqual(handoff.writerAdmission,'OPERATOR_DECISION_REQUIRED');
-  const text=spawnSync(process.execPath,[path.resolve('bin/sshlg-skills.js'),'blocks','--agent','claude'],{env:{PATH:process.env.PATH,HOME:h},encoding:'utf8'});
+  const text=spawnSync(process.execPath,[path.join(__dirname,'..','bin','sshlg-skills.js'),'blocks','--agent','claude'],{env:{PATH:process.env.PATH,HOME:h},encoding:'utf8'});
   assert.match(text.stdout,/claude ~\/\.claude\/CLAUDE\.md: READ \(3 markers; syntax valid\)/);
  });
 }finally{fs.rmSync(tmp,{recursive:true,force:true});}

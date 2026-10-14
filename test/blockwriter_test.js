@@ -73,13 +73,13 @@ try {
     assert(!fs.existsSync(path.join(f.home, '.sshlg-skills')));
   });
 
-  t('install inserts after the last byte, preserving every byte before it; uninstall restores the file exactly', () => {
+  t('install appends the block on its own line, preserving every byte before it; uninstall restores the file exactly', () => {
     const original = PROSE + ROUTERS + '\n' + HANDOFF + '\n';
     const f = fixture(original);
     const r = W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home });
     assert.strictEqual(r.state, 'VERIFIED');
     const after = fs.readFileSync(f.file, 'utf8');
-    assert.strictEqual(after, original + '\n' + block(ID, 'notice v2') + '\n');
+    assert.strictEqual(after, original + block(ID, 'notice v2') + '\n');
     assert.strictEqual(fs.statSync(f.file).mode & 0o777, 0o640, 'mode preserved');
     const u = W.execute(W.plan(opts(f, { op: 'uninstall', from: undefined })), { home: f.home });
     assert.strictEqual(u.state, 'VERIFIED');
@@ -236,6 +236,236 @@ try {
     }
     assert.strictEqual(cli(f.home, ['install', ID, '--agent', 'claude', '--from', f.from, '--force']).status, 2);
     assert.strictEqual(cli(f.home, ['uninstall', ID, '--owner', 'OBSERVATORY', '--agent', 'claude', '--from', f.from]).status, 2);
+  });
+
+  t('an edit made between the backup and the rename is kept, not overwritten (pre-rename compare)', () => {
+    const f = fixture(PROSE);
+    const p = W.plan(opts(f, { op: 'install' }));
+    const write = fs.writeFileSync;
+    let fired = false;
+    // The temporary copy is written after the backup: edit the target at that moment.
+    fs.writeFileSync = (target, data, ...rest) => {
+      if (!fired && typeof target === 'number' && data === p.after.text) { fired = true; fs.appendFileSync(f.file, 'operator edit\n'); }
+      return write(target, data, ...rest);
+    };
+    try { assert.strictEqual(code(() => W.execute(p, { home: f.home })), 'TARGET_CHANGED'); }
+    finally { fs.writeFileSync = write; }
+    assert(fired, 'the edit was never made — the case proves nothing');
+    assert.strictEqual(fs.readFileSync(f.file, 'utf8'), PROSE + 'operator edit\n');
+    assert.strictEqual(W.readJournal(f.home).pop().state, 'REFUSED');
+    assert.deepStrictEqual(fs.readdirSync(path.dirname(f.file)), ['CLAUDE.md'], 'no temporary file left beside the target');
+  });
+
+  t('a backup that does not hold the previewed bytes cancels the write (backup-hash compare)', () => {
+    const f = fixture(PROSE);
+    const p = W.plan(opts(f, { op: 'install' }));
+    const A = require('../lib/apply.js');
+    const protect = A.protect;
+    // The file changes after the preview check and before the copy: the copy is of other bytes.
+    A.protect = (file, o) => { fs.appendFileSync(f.file, 'late edit\n'); return protect(file, o); };
+    try { assert.strictEqual(code(() => W.execute(p, { home: f.home })), 'BACKUP_FAILED'); }
+    finally { A.protect = protect; }
+    assert.strictEqual(fs.readFileSync(f.file, 'utf8'), PROSE + 'late edit\n');
+    assert.strictEqual(W.readJournal(f.home).pop().state, 'REFUSED');
+  });
+
+  t('the journal chain: an edited middle record that is still valid JSON is refused', () => {
+    const f = fixture(PROSE);
+    W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home });
+    const file = W.journalPath(f.home);
+    const lines = fs.readFileSync(file, 'utf8').split('\n').filter(Boolean);
+    const rec = JSON.parse(lines[1]);
+    rec.state = 'REFUSED'; // valid JSON, same count, last line untouched — only the chain sees it
+    lines[1] = JSON.stringify(rec);
+    fs.writeFileSync(file, lines.join('\n') + '\n');
+    assert.strictEqual(code(() => W.readJournal(f.home)), 'JOURNAL_DAMAGED');
+    assert.strictEqual(code(() => W.execute(W.plan(opts(f, { op: 'uninstall', from: undefined })), { home: f.home })), 'JOURNAL_DAMAGED');
+    assert(fs.readFileSync(f.file, 'utf8').includes('notice v2'));
+  });
+
+  t('the journal head: a whole trailing operation cut off, or a missing head, is refused; the crash window is not', () => {
+    const f = fixture(PROSE);
+    W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home });
+    W.execute(W.plan(opts(f, { op: 'uninstall', from: undefined })), { home: f.home });
+    const file = W.journalPath(f.home);
+    const full = fs.readFileSync(file, 'utf8');
+    const lines = full.split('\n').filter(Boolean);
+    assert.strictEqual(lines.length, 8);
+    fs.writeFileSync(file, lines.slice(0, 4).join('\n') + '\n'); // the chain of the first four is intact
+    assert.strictEqual(code(() => W.readJournal(f.home)), 'JOURNAL_DAMAGED');
+    fs.writeFileSync(file, full);
+    assert.strictEqual(fs.statSync(W.headPath(f.home)).mode & 0o777, 0o600);
+    const head = fs.readFileSync(W.headPath(f.home));
+    fs.unlinkSync(W.headPath(f.home));
+    assert.strictEqual(code(() => W.readJournal(f.home)), 'JOURNAL_DAMAGED');
+    // Crash between the journal append and the head update: one extra chained record.
+    fs.writeFileSync(W.headPath(f.home), JSON.stringify({ schema: 'managed-blocks-journal-head/1', count: 7, lastSha256: sha(lines[6]) }) + '\n');
+    assert.strictEqual(W.readJournal(f.home).length, 8);
+    fs.writeFileSync(W.headPath(f.home), head);
+  });
+
+  t('install then uninstall round-trips files ending in a newline exactly, blank trailing lines included', () => {
+    for (const original of ['abc\n\n', 'abc\n\n\n', '# x\n', '', PROSE + ROUTERS + '\n', 'a\r\nb\r\n\r\n']) {
+      const f = fixture(original);
+      W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home });
+      assert(fs.readFileSync(f.file, 'utf8').startsWith(original), 'install changed a byte before the block');
+      W.execute(W.plan(opts(f, { op: 'uninstall', from: undefined })), { home: f.home });
+      assert.strictEqual(fs.readFileSync(f.file, 'utf8'), original, JSON.stringify(original));
+    }
+    const g = fixture('# x'); // documented: a file without a final newline gains one
+    W.execute(W.plan(opts(g, { op: 'install' })), { home: g.home });
+    W.execute(W.plan(opts(g, { op: 'uninstall', from: undefined })), { home: g.home });
+    assert.strictEqual(fs.readFileSync(g.file, 'utf8'), '# x\n');
+  });
+
+  t('a symlinked host directory is written through, like blocks reads it; a dangling one is named', () => {
+    const f = fixture(null);
+    const real = path.join(f.home, 'dotfiles-claude');
+    fs.mkdirSync(real);
+    fs.writeFileSync(path.join(real, 'CLAUDE.md'), PROSE);
+    fs.rmdirSync(path.join(f.home, '.claude'));
+    fs.symlinkSync(real, path.join(f.home, '.claude'));
+    assert.strictEqual(W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home }).state, 'VERIFIED');
+    assert(fs.lstatSync(path.join(f.home, '.claude')).isSymbolicLink(), 'the link itself is kept');
+    assert(fs.readFileSync(path.join(real, 'CLAUDE.md'), 'utf8').includes('notice v2'));
+    const g = fixture(null);
+    fs.rmdirSync(path.join(g.home, '.claude'));
+    fs.symlinkSync(path.join(g.home, 'nowhere'), path.join(g.home, '.claude'));
+    assert.throws(() => W.plan(opts(g, { op: 'install' })), /HOST_ABSENT: ~\/\.claude is a link to nothing/);
+  });
+
+  t('an error under --apply answers in the JSON shape and names blocks resolve, without a stack trace', () => {
+    const f = fixture(PROSE);
+    const rename = fs.renameSync;
+    let said = '';
+    fs.renameSync = () => { throw Object.assign(new Error('simulated disk error'), { code: 'EIO' }); };
+    let status;
+    try { status = W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'claude', '--from', f.from, '--apply', '--json'], { home: f.home, env: {} }, (x) => { said += x; }); }
+    finally { fs.renameSync = rename; }
+    assert.strictEqual(status, 1);
+    const out = JSON.parse(said);
+    assert.strictEqual(out.state, 'RECOVERY_REQUIRED');
+    assert.strictEqual(out.code, 'EIO');
+    assert.match(out.resolve, /^npx sshlg-skills blocks resolve [a-f0-9]{32}$/);
+    assert(!said.includes('    at '), 'a stack trace reached the output');
+    said = '';
+    fs.renameSync = () => { throw Object.assign(new Error('simulated disk error'), { code: 'EIO' }); };
+    try { W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'claude', '--from', f.from, '--apply'], { home: f.home, env: {} }, (x) => { said += x; }); }
+    finally { fs.renameSync = rename; }
+    assert.match(said, /refused — RECOVERY_REQUIRED/, 'the next write names the open operation');
+  });
+
+  t('the journal head covers the last record: an edited or deleted last line is refused', () => {
+    const f = fixture(PROSE);
+    W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home });
+    const file = W.journalPath(f.home);
+    const full = fs.readFileSync(file, 'utf8');
+    const lines = full.split('\n').filter(Boolean);
+    const last = JSON.parse(lines[lines.length - 1]);
+    last.state = 'REFUSED';
+    fs.writeFileSync(file, lines.slice(0, -1).concat(JSON.stringify(last)).join('\n') + '\n');
+    assert.strictEqual(code(() => W.readJournal(f.home)), 'JOURNAL_DAMAGED');
+    fs.writeFileSync(file, lines.slice(0, -1).join('\n') + '\n');
+    assert.strictEqual(code(() => W.readJournal(f.home)), 'JOURNAL_DAMAGED');
+    fs.writeFileSync(file, full);
+    assert.strictEqual(W.readJournal(f.home).length, 4);
+    fs.writeFileSync(file, full + 'null\n');
+    assert.strictEqual(code(() => W.readJournal(f.home)), 'JOURNAL_DAMAGED');
+  });
+
+  t('an unexpected error answers as JSON ERROR, exit 1; retries reuse one backup; bad arguments answer JSON', () => {
+    const f = fixture(PROSE);
+    const open = fs.openSync;
+    fs.openSync = (p, ...rest) => {
+      if (String(p).includes('.sshlg-block-')) throw Object.assign(new Error('permission denied'), { code: 'EACCES' });
+      return open(p, ...rest);
+    };
+    const outs = [];
+    try {
+      for (let i = 0; i < 3; i++) {
+        let said = '';
+        const status = W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'claude', '--from', f.from, '--apply', '--json'], { home: f.home, env: {} }, (x) => { said += x; });
+        assert.strictEqual(status, 1);
+        outs.push(JSON.parse(said));
+      }
+    } finally { fs.openSync = open; }
+    assert(outs.every((o) => o.state === 'ERROR' && o.code === 'EACCES' && o.resolve === null));
+    assert.strictEqual(fs.readFileSync(f.file, 'utf8'), PROSE);
+    const backups = fs.readdirSync(path.join(f.home, '.sshlg-skills', 'backups')).filter((n) => n.startsWith('CLAUDE.md--v2-'));
+    assert.strictEqual(backups.length, 1, `three failed retries took ${backups.length} backups`);
+    assert.deepStrictEqual(W.readJournal(f.home).filter((r) => r.state === 'BACKUP_VERIFIED').map((r) => r.backup.state), ['saved', 'reused', 'reused']);
+    let said = '';
+    assert.strictEqual(W.cli(['install', ID, '--agent', 'claude', '--json', '--bogus'], { home: f.home, env: {} }, (x) => { said += x; }), 2);
+    assert.strictEqual(JSON.parse(said).code, 'BAD_ARGUMENTS');
+  });
+
+  t('a write whose result would not parse is refused: an unterminated <!-- would swallow the block', () => {
+    const f = fixture('# x\n<!-- a note never closed\n');
+    const before = tree(f.home);
+    assert.strictEqual(code(() => W.plan(opts(f, { op: 'install' }))), 'RESULT_WOULD_NOT_PARSE');
+    assert.deepStrictEqual(tree(f.home), before);
+  });
+
+  t('a fenced example of the block is neither replaced nor removed', () => {
+    const example = '```markdown\n' + block(ID, 'example') + '\n```\n';
+    const f = fixture(PROSE + example);
+    W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home });
+    assert.strictEqual(fs.readFileSync(f.file, 'utf8'), PROSE + example + block(ID, 'notice v2') + '\n');
+    fs.writeFileSync(f.from, block(ID, 'notice v3') + '\n');
+    W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home });
+    assert.strictEqual(fs.readFileSync(f.file, 'utf8'), PROSE + example + block(ID, 'notice v3') + '\n');
+    W.execute(W.plan(opts(f, { op: 'uninstall', from: undefined })), { home: f.home });
+    assert.strictEqual(fs.readFileSync(f.file, 'utf8'), PROSE + example);
+  });
+
+  t('a read-only file is refused, not replaced by a rename', () => {
+    const f = fixture(PROSE);
+    fs.chmodSync(f.file, 0o444);
+    assert.strictEqual(code(() => W.plan(opts(f, { op: 'install' }))), 'READ_ONLY');
+    assert.strictEqual(fs.statSync(f.file).mode & 0o777, 0o444);
+  });
+
+  t('CRLF files get the block in CRLF and keep every byte', () => {
+    const original = '# rules\r\n\r\nline\r\n';
+    const f = fixture(original);
+    W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home });
+    const after = fs.readFileSync(f.file, 'utf8');
+    assert.strictEqual(after, original + block(ID, 'notice v2').replace(/\n/g, '\r\n') + '\r\n');
+    assert(!/[^\r]\n/.test(after), 'a bare LF was written into a CRLF file');
+    W.execute(W.plan(opts(f, { op: 'uninstall', from: undefined })), { home: f.home });
+    assert.strictEqual(fs.readFileSync(f.file, 'utf8'), original);
+  });
+
+  t('resolve removes the writer\'s own leftover temporary files and nothing else', () => {
+    const f = fixture(PROSE);
+    const rename = fs.renameSync;
+    const unlink = fs.unlinkSync;
+    fs.renameSync = () => { throw Object.assign(new Error('simulated crash'), { code: 'EIO' }); };
+    fs.unlinkSync = (p) => { if (String(p).includes('.sshlg-block-')) return; return unlink(p); }; // the crash leaves the temporary file
+    try { code(() => W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home })); }
+    finally { fs.renameSync = rename; fs.unlinkSync = unlink; }
+    const dir = path.dirname(f.file);
+    fs.writeFileSync(path.join(dir, '.sshlg-block-notours.tmp'), 'someone else');
+    assert.strictEqual(fs.readdirSync(dir).filter((n) => /^\.sshlg-block-[a-f0-9]{24}\.tmp$/.test(n)).length, 1);
+    const r = W.resolve(f.home, W.readJournal(f.home).pop().operationId);
+    assert.strictEqual(r.state, 'RECOVERED_NO_WRITE');
+    assert.strictEqual(r.removedTemporaryFiles, 1);
+    assert.deepStrictEqual(fs.readdirSync(dir).sort(), ['.sshlg-block-notours.tmp', 'CLAUDE.md']);
+  });
+
+  t('replacing or removing an edited block warns that the edits are dropped and names the backup', () => {
+    const f = fixture(PROSE);
+    W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home });
+    assert.deepStrictEqual(W.plan(opts(f, { op: 'uninstall', from: undefined })).warnings, [], 'an unedited block warns');
+    fs.writeFileSync(f.file, fs.readFileSync(f.file, 'utf8').replace('notice v2', 'notice v2 plus my own line'));
+    const p = W.plan(opts(f, { op: 'uninstall', from: undefined }));
+    assert.strictEqual(p.warnings.length, 1);
+    assert.match(p.warnings[0], /edited since operation [a-f0-9]{32}; those in-block edits are dropped/);
+    let said = '';
+    W.cli(['uninstall', ID, '--owner', 'OBSERVATORY', '--agent', 'claude', '--apply'], { home: f.home, env: {} }, (x) => { said += x; });
+    assert.match(said, /Warning: .*edits are dropped.*\(CLAUDE\.md--v2-[a-f0-9]{64}\.\d{8}T\d{6}Z/);
+    const g = fixture(PROSE + block(ID, 'placed by hand') + '\n');
+    assert.match(W.plan(opts(g, { op: 'install' })).warnings[0], /not installed through this writer/);
   });
 } finally { fs.rmSync(root, { recursive: true, force: true }); }
 console.log(`PASS: blockwriter — ${n} cases`);

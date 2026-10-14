@@ -65,6 +65,18 @@ const CORPUS = {
   'curl-prints-headers': [`curl -v -H "Authorization: Bearer $${VAR}" https://example.com`],
 };
 
+/**
+ * The remedy part of a refusal: what follows the diagnosis, without the shared
+ * "if this text is QUOTED" tail. A multi-line refusal states its diagnosis on the first
+ * line; a one-line refusal in its first sentence. Matching the whole text let the
+ * diagnosis ("reads its CODE from stdin") stand in for a remedy that had been deleted.
+ */
+function remedyOf(why) {
+  const body = why.split('\nIf this text is QUOTED')[0];
+  if (body.includes('\n')) return body.slice(body.indexOf('\n') + 1);
+  const m = /(?<=\.)\s+(?=[A-Z`(])/.exec(body);
+  return m ? body.slice(m.index + m[0].length) : '';
+}
 /** Steps in reading order: lines, then sentences inside a line. */
 function steps(text) {
   return text.split('\n').flatMap((line) => line.split(/(?<=[.;])\s+(?=[A-Z`(])/));
@@ -76,7 +88,7 @@ function firstObservatoryStep(list) {
 function check(rule, why) {
   const owed = OWED[rule];
   assert.ok(owed, `refusal rule ${rule} has no Observatory-free step defined in this suite`);
-  const list = steps(why);
+  const list = steps(remedyOf(why));
   const free = list.findIndex((s) => owed.test(s) && !NEEDS_OBSERVATORY.test(s.replace(FREE_LABEL, '')));
   assert.ok(free !== -1, `${rule}: no step without Observatory matching ${owed} in:\n${why}`);
   const obs = firstObservatoryStep(list);
@@ -84,10 +96,41 @@ function check(rule, why) {
     `${rule}: the Observatory step comes first ("${list[obs]}") before the free one ("${list[free]}")`);
 }
 
-/** Every `rule: '…'` a guard module can return, read from its source. */
-function rulesIn(file) {
-  const src = fs.readFileSync(path.join(ROOT, 'lib', file), 'utf8');
-  return [...src.matchAll(/rule:\s*'([a-z-]+)'/g)].map((m) => m[1]);
+/** Code lines only: a `rule:` or `say(` inside a comment is not a refusal site. */
+function codeOf(src) {
+  return src.split('\n').filter((l) => !/^\s*(\/\/|\*|\/\*)/.test(l)).join('\n');
+}
+/**
+ * Every rule a guard module can return, read from its source in any quoting. A `rule:`
+ * the scan cannot read as a literal (a variable, a template with a substitution) fails,
+ * so a refusal cannot slip past by its spelling.
+ */
+function rulesIn(file, dir = path.join(ROOT, 'lib')) {
+  const src = codeOf(fs.readFileSync(path.join(dir, file), 'utf8'));
+  const sites = src.match(/\brule\s*:/g) || [];
+  const named = [...src.matchAll(/\brule\s*:\s*(['"`])([a-z-]+)\1/g)].map((m) => m[2]);
+  assert.strictEqual(named.length, sites.length, `${file}: a rule is spelled in a form this scan cannot read`);
+  return named;
+}
+/**
+ * Every `say('deny', …)` in the PreToolUse hook, by the expression that supplies its
+ * reason. A deny site this table does not name fails: it is either a credential refusal
+ * this suite must check, or it must be listed here as one that handles no credential.
+ */
+const HOOK_DENY_SITES = {
+  'leak.why': 'secrets.inspect — every rule in the corpus above',
+  "'This content read targets": 'content-read-tool — checked through the hook process below',
+  'hit.why': 'mcpsecrets.inspectTool — every registered tool above',
+  '`\\`${bare.verb}': 'not a credential refusal: the bare skills CLI would shadow a plugin',
+  '`${target} is an instruction file': 'not a credential refusal: a backup could not be taken',
+};
+function hookDenySites() {
+  const src = codeOf(fs.readFileSync(path.join(ROOT, 'hooks', 'pre-tool-use.js'), 'utf8'));
+  const calls = src.match(/\bsay\s*\(/g) || [];
+  const parsed = [...src.matchAll(/\bsay\s*\(\s*(['"`])(\w+)\1\s*,\s*([^\n]*)/g)];
+  // The definition `function say(decision, reason)` is a call-shaped site with no literal.
+  assert.strictEqual(parsed.length, calls.length - 1, 'a say() call passes its decision in a form this scan cannot read');
+  return parsed.filter((m) => m[2] === 'deny').map((m) => m[3].trim());
 }
 
 const seen = new Set();
@@ -124,6 +167,26 @@ it('the Read/Grep refusal printed by the hook process', () => {
   check('content-read-tool', out.permissionDecisionReason);
 });
 
+it('every deny site in the PreToolUse hook is in the table', () => {
+  const sites = hookDenySites();
+  const unknown = sites.filter((reason) => !Object.keys(HOOK_DENY_SITES).some((k) => reason.startsWith(k)));
+  assert.deepStrictEqual(unknown, [], 'a new deny site in hooks/pre-tool-use.js: check its remedy here or list it');
+  assert.strictEqual(sites.length, Object.keys(HOOK_DENY_SITES).length, 'a listed deny site is gone; update the table');
+});
+
+it('the rule scan reads every quoting and refuses what it cannot read', () => {
+  const tmp = fs.mkdtempSync(path.join(require('os').tmpdir(), 'remedies-'));
+  try {
+    const lib = path.join(tmp, 'lib');
+    fs.mkdirSync(lib);
+    fs.writeFileSync(path.join(lib, 'x.js'), "return { rule: 'a-b', why: 1 };\nreturn { rule: \"c-d\", why: 2 };\nreturn { rule: `e-f` };\n// rule: 'in-a-comment'\n");
+    const scan = (file) => rulesIn(file, lib);
+    assert.deepStrictEqual(scan('x.js'), ['a-b', 'c-d', 'e-f']);
+    fs.writeFileSync(path.join(lib, 'y.js'), 'return { rule: NAME, why: 1 };\n');
+    assert.throws(() => scan('y.js'), /cannot read/);
+  } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+});
+
 it('every refusal rule in the guard modules is reached by the corpus', () => {
   const declared = new Set([...rulesIn('secrets.js'), ...rulesIn('mcpsecrets.js')]);
   assert.ok(declared.size >= 7, `found only ${declared.size} rules — the source scan is broken`);
@@ -132,10 +195,19 @@ it('every refusal rule in the guard modules is reached by the corpus', () => {
 });
 
 it('the checker itself refuses an Observatory-only remedy and an Observatory-first one', () => {
-  assert.throws(() => check('literal-credential', 'Store it with `vault.py put P E N` on stdin.'), /no step without Observatory/);
+  assert.throws(() => check('literal-credential', 'Diagnosis.\nStore it with `vault.py put P E N` on stdin.'), /no step without Observatory/);
   assert.throws(() => check('mcp-credential-result',
-    'Pipe it to `vault.py put P E N` on stdin.\nWithout Observatory: write it to a file with mode 600.'), /comes first/);
-  check('mcp-credential-result', 'Write it to a file with mode 600.\nWith Observatory: `vault.py put` on stdin.');
+    'Diagnosis.\nPipe it to `vault.py put P E N` on stdin.\nWithout Observatory: write it to a file with mode 600.'), /comes first/);
+  check('mcp-credential-result', 'Diagnosis.\nWrite it to a file with mode 600.\nWith Observatory: `vault.py put` on stdin.');
+  check('content-read-tool', 'This read targets a secret. Use a presence, size or mode probe.');
+});
+
+it('a diagnosis that mentions stdin or mode 600 is not a remedy', () => {
+  assert.throws(() => check('secret-into-stdin-program',
+    'This program reads its CODE from stdin while a heredoc also feeds stdin.\nOr pipe it through `use_secret.py`.'),
+  /no step without Observatory/);
+  assert.throws(() => check('literal-credential', 'A file with mode 600 is safer than argv. Use `vault.py put`.'),
+    /no step without Observatory/);
 });
 
 if (failures.length) {
