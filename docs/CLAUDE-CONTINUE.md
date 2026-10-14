@@ -34,6 +34,20 @@
   Codex enrollment-запросов. Записано в Observatory `mem:348bac6b964e4ce5`; нужно
   отменить и перевыпустить эти два запроса (Fabric/оператор).
 
+### TP 1.95.0 опубликован (2026-10-14)
+
+- Попытка 2 тегированного gate: падал только `test:docs` — 5 backticked SHA в FW07
+  evidence стали недостижимы после squash #127. PR #128 превратил их в ссылки
+  (как #122), main `5a787b4`.
+- Попытка 3: `CHECK_PASSED` (3054s); `publish` helper отказал (нет run-context, ledger не
+  подделан); ручной push `ada20cbb` → v1.95.0 с проверками helper; release run
+  38499730163 release+publish success; npm 1.95.0 gitHead 5a787b4, 155 файлов = source.
+  Receipts → TP PR #129 (`docs/evidence/runs/2026-10-14-release-1950/`).
+- Hub перепинен на 1.95.0 (`a9b4ac9`), description-total 32498, ctx-04.06 перегенерирован
+  (`bd3af81`). Hub validate зелёный. Полный hub gate на bd3af81 запущен (SSHLG_RATCHETS_OUT).
+- Следующее: по результату gate обновить DOCMAP Ratchets marker+sentence, `--ratchets-from`,
+  граф, PR219 ready → CI → merge → release hub 1.63.0 → npm readback → `update` + installed readback.
+
 ### Блокер: диск машины (2026-10-14 ~01:20 Europe/Warsaw)
 
 Тегированный gate TP v1.95.0 (попытка 1, объект `303c1ff`, клон переименован в
