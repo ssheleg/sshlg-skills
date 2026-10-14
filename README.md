@@ -861,6 +861,17 @@ Credentials go through Project Observatory (`observatory_credentials`, `use_secr
 --vault-only`); the family's secret guard names an Observatory-free route in every refusal
 as well. Observatory: <https://github.com/passioncode-ai/project-observatory-dashboard>.
 
+### What every agent loads — `context`
+
+```bash
+npx sshlg-skills context          # per host: bytes, ~tokens, lines, hub-managed vs other text, caps
+npx sshlg-skills context --json
+```
+
+Read-only. Exits 1 when a host file is over a documented cap (Codex stops adding instruction
+files at `project_doc_max_bytes`, 32 KiB by default) and notes a `CLAUDE.md` above Claude Code's
+200-line target. The rules behind it: [context economy](docs/working-rules/context-economy.md).
+
 ## Other commands
 
 ```bash

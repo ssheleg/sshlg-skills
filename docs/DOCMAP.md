@@ -243,6 +243,14 @@ whole suites, which is the entire point of having one. The count above is
 `npm test` with its summary line excluded, since that line reports suites and
 would otherwise be counted as fixtures.
 
+<!-- routing-registry-total: 11902 -->
+**Routing text total (2026-10-15).** The characters of every string in `lib/routers-registry.js`
+(each router's text, answers, when and requires) — the source of the block the hub writes into
+every host's instruction file, which `npx sshlg-skills context` measured at about 20 KB per host.
+`test/context_test.js` computes the sum on every run and compares it with the marker above: it
+may fall and never rise without a recorded reason, so the always-loaded block cannot grow by
+accident. A cut still needs the paired routing evaluation before it ships.
+
 <!-- description-total: 32498 -->
 **Family description total (R32, 2026-10-12).** The characters of every family skill
 description — whitespace collapsed, the figure the 970 cap is quoted in — summed over the
