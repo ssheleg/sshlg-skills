@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 'use strict';
 /**
- * `PostToolUse` — the two things that can only be checked after the fact.
+ * `PostToolUse` — the things that can only be checked after the fact.
  *
+ * 0. **A credential in what came back** — from `Bash`, `Read` or `Grep`: one shaped like
+ *    a vendor's key (`secrets.scan`), or a generated-looking value printed under a label
+ *    that names a credential (`labelledsecrets.scanLabelled`: `x-api-key: …`,
+ *    `FOO_API_KEY=…`, `Authorization: Bearer …`). Both report the name, never the value.
  * 1. **Shadowing plain copies.** After any skills-CLI run, a plain
  *    `~/.claude/skills/<id>` beside a plugin that provides the same id serves the
  *    version it was copied from, forever. The machine's own notes carry this
@@ -70,22 +74,39 @@ process.stdin.on('end', () => {
     const data = raw.trim().startsWith('{') ? JSON.parse(raw) : {};
     const home = os.homedir();
     const command = (data.tool_input && data.tool_input.command) || '';
-    if (!command) return process.exit(0);
 
-    // 0. Did this command PRINT a credential? PreToolUse denies the shapes
+    // 0. Did this tool PRINT a credential? PreToolUse denies the shapes
     //    somebody thought of; a tool that prints its own configuration was not
     //    one of them. This cannot unprint — its value is the interval between
-    //    leaking and knowing, which on 2026-09-05 was hours.
-    try {
-      const secrets = require(path.join(LIB, 'secrets.js'));
+    //    leaking and knowing, which on 2026-09-05 was hours. Read and Grep reach
+    //    here too (the matcher in lib/hooks.js): a config file read whole prints
+    //    the same value a `cat` would. Each detector fails silent on its own, so
+    //    one that throws never costs the other its report — or the tool its turn.
+    let text = '';
+    try { text = require(path.join(LIB, 'labelledsecrets.js')).outputText(data.tool_response); }
+    catch (e) {
+      // The reader this hook had before the labelled detector, kept so a broken module
+      // costs the vendor scan nothing.
       const r = data.tool_response;
-      const text = typeof r === 'string' ? r
+      text = typeof r === 'string' ? r
         : r && typeof r === 'object'
           ? [r.stdout, r.stderr, r.output, r.content].filter((x) => typeof x === 'string').join('\n')
           : '';
-      const leak = secrets.scan(text);
+    }
+    try {
+      const leak = require(path.join(LIB, 'secrets.js')).scan(text);
       if (leak) notes.push('[sshlg-skills] CREDENTIAL IN OUTPUT — ' + leak.why);
     } catch (e) { /* fails silent, like everything else here */ }
+    try {
+      const L = require(path.join(LIB, 'labelledsecrets.js'));
+      const note = L.describe(L.scanLabelled(text), L.whereOf(data));
+      if (note) notes.push(note);
+    } catch (e) { /* fails silent, like everything else here */ }
+
+    if (!command) {
+      if (notes.length) say(notes.join('\n\n'));
+      return process.exit(0);
+    }
 
     const hygiene = require(path.join(LIB, 'hygiene.js'));
 

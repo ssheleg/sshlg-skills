@@ -168,7 +168,7 @@ it('no remedy hardcodes the Observatory path, and every use_secret.py is runtime
   const stdinProgram = ['cat x', "python3 - <<'PY'\nprint(1)\nPY"].join(' | ');
   texts.push(S.inspect(stdinProgram).why);
   // ...and every source file that can print a remedy
-  for (const f of ['secrets.js', 'hygiene.js', 'guard.js', 'mcpsecrets.js']) {
+  for (const f of ['secrets.js', 'hygiene.js', 'guard.js', 'mcpsecrets.js', 'labelledsecrets.js']) {
     texts.push(fs.readFileSync(path.join(__dirname, '..', 'lib', f), 'utf8')
       .split('\n').filter((l) => !/^\s*(\/?\*|\/\/)/.test(l)).join('\n'));
   }
@@ -203,6 +203,9 @@ it('a remedy naming use_secret.py says what to do when project-observatory is no
   const stdinProgram = ['cat x', "python3 - <<'PY'\nprint(1)\nPY"].join(' | ');
   const texts = [S.inspect(stdinProgram).why];
   for (const [, cmd] of DENIED) { const d = S.inspect(cmd); if (d) texts.push(d.why); }
+  // the labelled detector's note names the same script (I-6 remainder)
+  const L = require('../lib/labelledsecrets.js');
+  texts.push(L.describe({ found: [{ label: 'X-Api-Key', count: 1 }], partial: false }, { tool: 'Bash' }));
   const naming = texts.filter((t) => t.includes('use_secret.py'));
   assert.ok(naming.length >= 1, 'no remedy names use_secret.py — the fixture proves nothing');
   for (const t of naming) {

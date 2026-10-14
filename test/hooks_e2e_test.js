@@ -1378,6 +1378,108 @@ try {
       'the refusal names no escape — a refusal with no next step is how a hook is turned off');
   });
 
+  // ── I-6 remainder: a credential printed under its LABEL, reported by name only ──────
+  // Values generated at run time; nothing key-shaped is written into this file.
+  const genValue = () => {
+    for (;;) {
+      const v = crypto.randomBytes(24).toString('base64url');
+      if (/\d/.test(v) && /[A-Za-z]/.test(v)
+        && !require('../lib/labelledsecrets.js').isPlaceholder(v)) return v;
+    }
+  };
+
+  it('PostToolUse names an x-*-key a Bash command printed, and never the value (I-6)', () => {
+    const v = genValue();
+    const out = runHook('post-tool-use.js', {
+      hook_event_name: 'PostToolUse', tool_name: 'Bash',
+      tool_input: { command: 'curl -sv https://api.example.com/v1/models' },
+      tool_response: { stdout: '{"ok":true}', stderr: `> GET /v1/models\n> x-api-key: ${v}\n< HTTP/2 200` },
+    });
+    const text = out && out.hookSpecificOutput.additionalContext;
+    assert.ok(text && /LABELLED CREDENTIAL IN OUTPUT/.test(text), 'the labelled key was not reported');
+    assert.ok(/x-api-key/.test(text) && /Bash \(curl\)/.test(text), `label or source missing: ${text}`);
+    assert.ok(!text.includes(v) && !text.includes(v.slice(0, 8)), 'the report repeats the value');
+  });
+
+  it('PostToolUse reads a Read result: the label and the file, not the value (I-6)', () => {
+    const v = genValue();
+    const out = runHook('post-tool-use.js', {
+      hook_event_name: 'PostToolUse', tool_name: 'Read',
+      tool_input: { file_path: '/srv/app/config.yaml' },
+      tool_response: { type: 'text', file: { filePath: '/srv/app/config.yaml', content: `region: eu\nSERVICE_API_KEY: ${v}\n` } },
+    });
+    const text = out && out.hookSpecificOutput.additionalContext;
+    assert.ok(text && /SERVICE_API_KEY/.test(text) && /Read \(\/srv\/app\/config\.yaml\)/.test(text),
+      `the Read leak was not named with its file: ${text}`);
+    assert.ok(!text.includes(v), 'the report repeats the value');
+  });
+
+  it('PostToolUse reads a Grep result (I-6)', () => {
+    const v = genValue();
+    const out = runHook('post-tool-use.js', {
+      hook_event_name: 'PostToolUse', tool_name: 'Grep',
+      tool_input: { pattern: 'TOKEN', path: '/srv/app' },
+      tool_response: { mode: 'content', content: `deploy.env:4:DEPLOY_TOKEN=${v}`, numLines: 1 },
+    });
+    const text = out && out.hookSpecificOutput.additionalContext;
+    assert.ok(text && /DEPLOY_TOKEN/.test(text) && /Grep \(\/srv\/app\)/.test(text), `not named: ${text}`);
+  });
+
+  it('PostToolUse stays silent on hashes and ids under neutral names (I-6)', () => {
+    const hex = crypto.randomBytes(20).toString('hex');
+    const r = runHookRaw('post-tool-use.js', {
+      hook_event_name: 'PostToolUse', tool_name: 'Bash',
+      tool_input: { command: 'git log -1 --format=fuller' },
+      tool_response: { stdout: `commit ${hex}\nx-request-id: ${hex}\nkey_id: ${hex}\nfingerprint: ${hex}\n` },
+    });
+    assert.strictEqual(r.stdout.trim(), '', `a false positive reached the transcript: ${r.stdout}`);
+  });
+
+  it('PostToolUse on a non-Bash tool with no finding prints nothing and exits 0 (I-6)', () => {
+    const r = runHookRaw('post-tool-use.js', {
+      hook_event_name: 'PostToolUse', tool_name: 'Read',
+      tool_input: { file_path: '/srv/app/README.md' },
+      tool_response: { type: 'text', file: { content: '# Readme\nNothing to see.' } },
+    });
+    assert.strictEqual(r.stdout.trim(), '');
+  });
+
+  it('PostToolUse fails open on odd responses: a number, a deep nest, a huge string (I-6)', () => {
+    let deep = { s: 'leaf' };
+    for (let i = 0; i < 2000; i += 1) deep = { d: deep };
+    for (const resp of [42, null, deep, 'x'.repeat(3 << 20)]) {
+      const r = runHookRaw('post-tool-use.js', {
+        hook_event_name: 'PostToolUse', tool_name: 'Bash',
+        tool_input: { command: 'true' }, tool_response: resp,
+      });
+      assert.strictEqual(r.stdout.trim(), '');
+    }
+  });
+
+  it('a broken labelled detector costs neither the turn nor the vendor scan (I-6, fail open)', () => {
+    // A copy of the runtime with the new module replaced by one that throws on load —
+    // the hook must still exit 0, and secrets.scan must still see its vendor shape.
+    const dir = fs.mkdtempSync(path.join(HOME, 'broken-runtime-'));
+    try {
+      for (const d of ['hooks', 'lib']) fs.cpSync(path.join(ROOT, d), path.join(dir, d), { recursive: true });
+      fs.writeFileSync(path.join(dir, 'lib', 'labelledsecrets.js'), "throw new Error('broken on purpose');\n");
+      const vendor = 'sk-' + 'or-v1-' + crypto.randomBytes(32).toString('hex');
+      const r = spawnSync('node', [path.join(dir, 'hooks', 'post-tool-use.js')], {
+        input: JSON.stringify({
+          hook_event_name: 'PostToolUse', tool_name: 'Bash', tool_input: { command: 'printenv X' },
+          tool_response: { stdout: `x-api-key: ${genValue()}\n${vendor}` },
+        }),
+        encoding: 'utf8', env: ENV,
+      });
+      assert.strictEqual(r.status, 0, `a broken detector failed the turn: ${r.stderr}`);
+      const out = JSON.parse(r.stdout.trim()).hookSpecificOutput.additionalContext;
+      assert.ok(/CREDENTIAL IN OUTPUT — This command PRINTED/.test(out), 'the vendor scan was lost with the module');
+      assert.ok(!out.includes(vendor), 'the vendor report repeats the value');
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
   if (failures.length) {
     failures.forEach((f) => console.log('FAIL: ' + f));
     console.log(`${failures.length} failure(s) out of ${checks} checks`);

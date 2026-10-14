@@ -27,6 +27,21 @@ project); the exposed enrollment poll secrets (Observatory `mem:348bac6b964e4ce5
 operator to re-issue two Codex enrollment requests.
 **Next:** read the final observer report (`docs/reports/2026-10-15-final-observer/`, branch
 `audit/final-observer-20261015`) when it lands; take the highest-priority board row as a new iteration with its own finish line.
+## Current — 2026-10-15, I-6 remainder: the labelled-credential detector (branch, not merged)
+
+Branch `iter1/I-6-labelled-detector` from `e20190e` (release iteration 1, node I-6 of
+Observatory's `docs/runs/2026-10-12-release-iteration-1/workgraph.json`; closes OPS-002's last
+test, "PostToolUse reports a labelled x-*-key value by name only"). `lib/labelledsecrets.js`
+reads a generated-looking value under a credential label in what `Bash`, `Read` or `Grep`
+printed; `hooks/post-tool-use.js` names the label, tool and file or program, never the value.
+The `PostToolUse` matcher is now `Bash|Read|Grep`. Tests: `test/labelled_secrets_test.js`
+(76) and 7 new fixtures in `test/hooks_e2e_test.js`, three of them watched failing against the
+pre-change hook; full gate green at 134 suites / 2368 fixtures. False-positive measurement
+and the one residual class are in the CHANGELOG's Unreleased entry.
+
+**Open:** the B-row is filed by a parallel builder; cite it in the PR once it lands. Not
+released: the next hub release carries it, and `update` refreshes the matcher on machines that
+have the hook. **Next:** review the PR; on merge, the release that ships it.
 
 ## Current — 2026-10-14, release iteration 1 rows N-5 and N-9 (branch `iter1/N-5-N-9`)
 

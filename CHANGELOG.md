@@ -43,7 +43,31 @@
   before any Observatory step (USR-011); it reads only the remedy part of each refusal, every
   `rule` key, bare or quoted, refusing a spelling it cannot read (a variable, the
   `{ rule }` shorthand), and every deny site of the PreToolUse hook.
-
+- **A credential printed under its label is named in the same turn (I-6 remainder, OPS-002).**
+  `secrets.scan` knew vendor prefixes only, so a key with none — a 40-character hex token, a
+  webhook secret, a JWT — printed as `x-api-key: …`, `FOO_API_KEY=…`, `"apiKey": "…"` or
+  `Authorization: Bearer …` went unreported. `lib/labelledsecrets.js` reads the label and the
+  value's shape: the label's noun must name a credential (token, secret, password, or `key`
+  with a credential qualifier such as api, client or an `x-` header), and the value must look
+  generated (16–512 characters, a letter and a digit, at least 3 bits of entropy per
+  character, not a placeholder, path, URL, number, timestamp, snake_case name, sequential
+  example or code). The `PostToolUse` note names the label, the tool and the file or program —
+  never the value or any slice of it — and the remedy: rotate through the owner's door
+  (Observatory), and the step for a machine without Observatory.
+- `PostToolUse` now runs on `Read` and `Grep` as well as `Bash`, so a config file read whole
+  is scanned like `cat`. MCP results are not matched (every MCP call would pay a spawn);
+  `update` refreshes the matcher on a machine that already has the hook.
+- Measured before shipping on 29,121 files, 437 MB (this repository with its members,
+  Observatory's docs and tools, and eight other repositories on the operator's machine),
+  scanned in 9.7 s. The false-positive classes found are fixtures now: a registry's
+  `credential:<name>` ids, a vault slot name `project/env/NAME`, a publishable `pk_` key in
+  an image URL, a function name as a value. 18 files still report. One is a disclosed residual
+  class: a git SHA under a name ending in `_token` cannot be told from a hex token by its
+  shape. The other 17 hold a generated-looking value under a credential label: local
+  settings, configs, a session export, documentation examples and test sentinels. The
+  detector reads shape, not provenance, and its note says so. Bounded: at most 1 MiB of an
+  output is read, and the note says when a scan was partial. A detector that throws costs
+  neither the turn nor the vendor scan.
 ## v1.63.3 — pinned sources for every Claude member; blocked members no longer stop the run
 
 - A Claude member whose installed bytes already equal the pin is now rebound to the hub's
