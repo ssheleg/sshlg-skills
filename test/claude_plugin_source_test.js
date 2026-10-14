@@ -33,6 +33,9 @@ try {
  const pinnedTxt=new Set(['payload.txt']);assert.throws(()=>C.snapshotPayload(plugin,pinnedTxt),/bytecode-cache shape/);
  assert.ok(!C.snapshotPayload(plugin,new Set(['payload.py'])).some(f=>f.path.includes('__pycache__')));
  assert.throws(()=>C.verifyPayload(plugin,row),/bytecode-cache shape/,'orphan .pyc with no pinned source refuses');
+ fs.writeFileSync(path.join(plugin,'__pycache__/payload.cpython-314.opt-1.pyc'),'optimised');assert.ok(!C.snapshotPayload(plugin,new Set(['payload.py'])).some(f=>f.path.includes('__pycache__')),'optimised bytecode for a pinned source is ignored');
+ // A payload being replaced keeps caches for its own sources, not the new pin's.
+ assert.throws(()=>C.snapshotPayload(plugin,'present'),/bytecode-cache shape/);fs.writeFileSync(path.join(plugin,'payload.py'),'old source');assert.ok(C.snapshotPayload(plugin,'present').some(f=>f.path==='payload.py'));fs.unlinkSync(path.join(plugin,'payload.py'));
  fs.writeFileSync(path.join(plugin,'__pycache__/notes.txt'),'not bytecode');assert.throws(()=>C.snapshotPayload(plugin,new Set(['payload.py'])),/bytecode-cache shape/);fs.rmSync(path.join(plugin,'__pycache__'),{recursive:true});
  fs.writeFileSync(path.join(plugin,'unexpected.txt'),'extra');assert.throws(()=>C.verifyPayload(plugin,row),/inventory differs/);fs.unlinkSync(path.join(plugin,'unexpected.txt'));
  fs.writeFileSync(path.join(plugin,'payload.txt'),'drift');assert.throws(()=>C.verifyPayload(plugin,row),/bytes differ/);
@@ -40,5 +43,5 @@ try {
  assert.throws(()=>C.validate({...inventory,members:[row,row]},[member]),/duplicate/);
  assert.throws(()=>C.generate([{...member,version:'2.0.0'}],box),/identity\/version/);
  const invalid=JSON.parse(JSON.stringify(inventory));invalid.members[0].files[0].path='../escape';assert.throws(()=>C.validate(invalid,[member]),/payload inventory/);
- console.log('PASS: Claude source generation/readback — 15 controls');
+ console.log('PASS: Claude source generation/readback — 17 controls');
 } finally {fs.rmSync(box,{recursive:true,force:true});}
