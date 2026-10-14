@@ -17,6 +17,8 @@
   rolls back through the journal. Live, legacy and unprovable holders are refused.
   The [runtime recovery contract](docs/working-rules/state-json.md#the-runtime-lock-and-failed-refresh)
   names the boundary and its executable evidence.
+- Concurrent backups no longer fail when the retention lock is released between a
+  writer's exclusive-create refusal and its inspection of that lock; the writer retries.
 - `blocks` lists managed instruction markers across supported host files;
   `blocks diff` previews one selected local block. Both preserve the files and
   report malformed or unreadable input without granting write authority.
