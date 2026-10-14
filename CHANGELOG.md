@@ -1,3 +1,19 @@
+## Unreleased
+
+- **`blocks install` / `uninstall` / `resolve` — a writer other tools can call for their
+  own block (managed-blocks/1).** Preview by default; with `--apply` the host file is
+  copied to `~/.sshlg-skills/backups/`, only the named block changes, and every step is
+  journaled in `~/.sshlg-skills/managed-blocks/journal.jsonl` (hash-chained, no block
+  text). It refuses the hub's own blocks, `SSHLG:REPOSITORY-HANDOFF` (owner undecided,
+  B-174), other `SSHLG:` names and an `--owner` that differs from the marker's prefix.
+  The convention is `docs/working-rules/managed-blocks.md`. `blocks --json` now names each
+  block's registered owner and writer; `OBSERVATORY:AGENT-UPDATES` is registered as
+  Observatory's. `blocks --help` and `blocks <verb> --help` answer.
+- **The DigitalOcean credential refusal leads with the step that needs no Observatory**
+  (a file with mode 600), with the vault named as the alternative. A new suite,
+  `test/remedies_test.js`, holds every secret-guard refusal to an Observatory-free step
+  before any Observatory step (USR-011).
+
 ## v1.63.3 — pinned sources for every Claude member; blocked members no longer stop the run
 
 - A Claude member whose installed bytes already equal the pin is now rebound to the hub's

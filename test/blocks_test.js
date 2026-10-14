@@ -61,5 +61,18 @@ try{
   const before=snapshot();const r=b.localDiff({home,env:{},agents:['codex'],id:'SSHLG:ROUTERS',from:source});assert(r.includes('+replacement'));assert(!r.includes('OTHER:NOTES'));assert.deepStrictEqual(snapshot(),before);
   fs.writeFileSync(source,block('OTHER:NOTES'));assert.throws(()=>b.localDiff({home,env:{},agents:['codex'],id:'SSHLG:ROUTERS',from:source}));
  });
+ t('blocks lists OBSERVATORY:AGENT-UPDATES from a fixture as Observatory\'s registered block',()=>{
+  // The block exactly as Observatory's agent_updates.py writes it into a host file (body synthetic).
+  const h=path.join(tmp,'obs-home');fs.mkdirSync(path.join(h,'.claude'),{recursive:true});const f=path.join(h,'.claude','CLAUDE.md');
+  fs.writeFileSync(f,'# rules\n\n'+block('SSHLG:ROUTERS')+block('SSHLG:REPOSITORY-HANDOFF')+'<!-- OBSERVATORY:AGENT-UPDATES:BEGIN -->\n## Important repository updates\nprivate-body\n<!-- OBSERVATORY:AGENT-UPDATES:END -->\n');
+  const r=spawnSync(process.execPath,[path.resolve('bin/sshlg-skills.js'),'blocks','--agent','claude','--json'],{env:{PATH:process.env.PATH,HOME:h},encoding:'utf8'});
+  assert.strictEqual(r.status,0,r.stderr+r.stdout);const blocks=JSON.parse(r.stdout).targets[0].blocks;
+  const obs=blocks.find(x=>x.markerId==='OBSERVATORY:AGENT-UPDATES');assert(obs,'not listed');
+  assert.strictEqual(obs.syntaxState,'PAIRED');assert.strictEqual(obs.claimedOwner,'OBSERVATORY');assert.strictEqual(obs.registered.owner,'project-observatory');
+  assert.strictEqual(obs.writerAdmission,'REGISTERED_NOT_AUTHORIZED');assert(!r.stdout.includes('private-body'));
+  const handoff=blocks.find(x=>x.markerId==='SSHLG:REPOSITORY-HANDOFF');assert.strictEqual(handoff.registered.owner,null);assert.strictEqual(handoff.writerAdmission,'OPERATOR_DECISION_REQUIRED');
+  const text=spawnSync(process.execPath,[path.resolve('bin/sshlg-skills.js'),'blocks','--agent','claude'],{env:{PATH:process.env.PATH,HOME:h},encoding:'utf8'});
+  assert.match(text.stdout,/claude ~\/\.claude\/CLAUDE\.md: READ \(3 markers; syntax valid\)/);
+ });
 }finally{fs.rmSync(tmp,{recursive:true,force:true});}
 console.log(`PASS: blocks — ${n} cases`);
