@@ -1,3 +1,20 @@
+## Current — 2026-10-14, hub 1.63.2 published and installed
+
+Hub **1.63.2** is live (npm gitHead 0e5ed71) and installed here with readback:
+[installed-1.63.2](evidence/completion-1013/installed-1.63.2/README.md). The two
+interim releases each fixed what the real installed update found: 1.63.1 (payload-
+equivalent members, bytecode caches) and 1.63.2 (settings layout). task-pipeline
+**1.95.0**, seo-aeo-audit a6e471e and sheleg-dev 7ced39b are pinned and delivered.
+[Requirement cut](evidence/completion-1013/requirements-current-20261014-0720.json): 37 kept.
+
+Open, with owners: B-191 (equivalent members keep upstream marketplace source),
+B-192 (multi-scope member blocks its own version change), B-193 (runtime keeps dropped
+files), B-194 (tab-indented insertion). Codex: three members deferred, bounded watcher
+running. Fabric cross-project asks unsent (other project ids not visible). Exposed Codex
+enrollment poll secrets: Observatory `mem:348bac6b964e4ce5` — re-issue those requests.
+**Next:** independent final observer over the original objective; its findings become the
+next bounded wave.
+
 ## Current — 2026-10-14, hub 1.63.0 release in progress
 
 Branch `waves/2026-10-13-finalization`, [PR219](https://github.com/ssheleg/sshlg-skills/pull/219).

@@ -1,0 +1,28 @@
+{
+ "schema": "claude-pin-transaction/1",
+ "startedAt": "2026-10-14T07:02:02.767Z",
+ "status": "complete",
+ "results": [
+  {
+   "member": "task-pipeline",
+   "action": "verify",
+   "status": "verified",
+   "commit": "5a787b4cce4e53aaa76b0971cf9c0293e4dc126b",
+   "files": 132
+  },
+  {
+   "member": "seo-aeo-audit",
+   "action": "verify",
+   "status": "verified",
+   "commit": "a6e471ef1236fd31359cba727fc948dbd760e372",
+   "files": 36
+  },
+  {
+   "member": "agent-stack",
+   "action": "verify",
+   "status": "verified",
+   "commit": "fefece0267272e28a391d8ef9615f059ff84aed4",
+   "files": 38
+  }
+ ]
+}

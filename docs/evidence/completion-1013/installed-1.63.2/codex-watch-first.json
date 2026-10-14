@@ -1,0 +1,30 @@
+[
+ {
+  "schema": "sshlg.codex-deferred-observation/v1",
+  "observedAt": "2026-10-14T06:39:38.594Z",
+  "receiptSha256": "24d910c9ee28c5ee486b56cb486bd198f8d935f76eb3d1f6fdac6d2bf6428095",
+  "status": "deferred",
+  "mutationAllowed": false,
+  "threadLoadedVersion": "unknown",
+  "items": [
+   {
+    "pluginId": "task-pipeline@task-pipeline",
+    "desired": "1.95.0",
+    "observed": "1.93.3",
+    "matches": false
+   },
+   {
+    "pluginId": "seo-aeo-audit@seo-aeo-audit",
+    "desired": "0.26.6",
+    "observed": "0.26.5",
+    "matches": false
+   },
+   {
+    "pluginId": "agent-stack@agent-stack",
+    "desired": "0.28.2",
+    "observed": "0.27.1",
+    "matches": false
+   }
+  ]
+ }
+]
