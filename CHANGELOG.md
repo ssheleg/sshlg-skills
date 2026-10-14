@@ -8,6 +8,10 @@
 - Python bytecode caches (`__pycache__/*.pyc`) written beside hook scripts are runtime
   artifacts, not payload; payload readback ignores them and still refuses any other
   file in such a directory.
+- Known limits (B-191, B-192): a payload-equivalent member keeps its upstream marketplace
+  source, so a later native update follows upstream rather than the pin; and a member
+  installed in several scopes still blocks the Claude update once its version changes.
+  A `.pyc` is ignored only beside its pinned `.py`, and bytecode stays outside readback.
 - Found by the installed readback of 1.63.0 on a real profile: 1.63.0's preview
   refused on agent-sync's bytecode cache, then on members installed in more than one
   scope. No settings or payload were changed by those refused previews.

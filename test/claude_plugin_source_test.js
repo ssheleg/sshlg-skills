@@ -28,14 +28,17 @@ try {
  fs.mkdirSync(path.join(plugin,'.in_use'));fs.writeFileSync(path.join(plugin,'.in_use/1234'),'runtime');assert.equal(C.verifyPayload(plugin,row),2);
  fs.writeFileSync(path.join(plugin,'.in_use/extra'),'bad');assert.throws(()=>C.verifyPayload(plugin,row),/lease-marker/);fs.unlinkSync(path.join(plugin,'.in_use/extra'));
  // Python bytecode caches written by running hooks are runtime artifacts, not payload.
- fs.mkdirSync(path.join(plugin,'scripts/__pycache__'),{recursive:true});fs.writeFileSync(path.join(plugin,'scripts/__pycache__/x.cpython-314.pyc'),'bytecode');assert.equal(C.verifyPayload(plugin,row),2);
- assert.ok(!C.snapshotPayload(plugin).some(f=>f.path.includes('__pycache__')));
- fs.writeFileSync(path.join(plugin,'scripts/__pycache__/notes.txt'),'not bytecode');assert.throws(()=>C.verifyPayload(plugin,row),/bytecode-cache shape/);fs.rmSync(path.join(plugin,'scripts'),{recursive:true});
+ // A cache for a pinned source is ignored; an orphan or shadowing .pyc is not.
+ fs.mkdirSync(path.join(plugin,'__pycache__'),{recursive:true});fs.writeFileSync(path.join(plugin,'__pycache__/payload.cpython-314.pyc'),'bytecode');
+ const pinnedTxt=new Set(['payload.txt']);assert.throws(()=>C.snapshotPayload(plugin,pinnedTxt),/bytecode-cache shape/);
+ assert.ok(!C.snapshotPayload(plugin,new Set(['payload.py'])).some(f=>f.path.includes('__pycache__')));
+ assert.throws(()=>C.verifyPayload(plugin,row),/bytecode-cache shape/,'orphan .pyc with no pinned source refuses');
+ fs.writeFileSync(path.join(plugin,'__pycache__/notes.txt'),'not bytecode');assert.throws(()=>C.snapshotPayload(plugin,new Set(['payload.py'])),/bytecode-cache shape/);fs.rmSync(path.join(plugin,'__pycache__'),{recursive:true});
  fs.writeFileSync(path.join(plugin,'unexpected.txt'),'extra');assert.throws(()=>C.verifyPayload(plugin,row),/inventory differs/);fs.unlinkSync(path.join(plugin,'unexpected.txt'));
  fs.writeFileSync(path.join(plugin,'payload.txt'),'drift');assert.throws(()=>C.verifyPayload(plugin,row),/bytes differ/);
  assert.throws(()=>C.validate(inventory,[{...member,commit:'b'.repeat(40)}]),/differs/);
  assert.throws(()=>C.validate({...inventory,members:[row,row]},[member]),/duplicate/);
  assert.throws(()=>C.generate([{...member,version:'2.0.0'}],box),/identity\/version/);
  const invalid=JSON.parse(JSON.stringify(inventory));invalid.members[0].files[0].path='../escape';assert.throws(()=>C.validate(invalid,[member]),/payload inventory/);
- console.log('PASS: Claude source generation/readback — 14 controls');
+ console.log('PASS: Claude source generation/readback — 15 controls');
 } finally {fs.rmSync(box,{recursive:true,force:true});}
