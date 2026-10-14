@@ -1,3 +1,15 @@
+## v1.63.2 — the Claude transaction keeps settings in Claude Code's format
+
+- Replacing a marketplace source in `~/.claude/settings.json` wrote the new object on one
+  line inside a 2-space file. The same `update` then refused to wire hooks ("not in the
+  2-space JSON format Claude Code writes"). A replaced object or array now keeps the
+  layout of its line: pretty inside a multi-line object, compact inside a single-line one.
+  Inserting a source — no marketplace map yet, an empty map, a new member or an empty
+  member entry — writes the missing branch in the file's own layout too.
+- Found by the 1.63.1 installed update on a real profile: the native transaction verified
+  its three members, then hook wiring degraded. Running `update` again with 1.63.2
+  rewrites those sources in the file's own layout and wires hooks.
+
 ## v1.63.1 — Claude update works on hosts with live sessions
 
 - `update` no longer refuses a Claude member whose installed payload already equals its
