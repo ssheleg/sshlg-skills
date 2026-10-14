@@ -124,8 +124,9 @@ install/uninstall); затем CHANGELOG 1.63.3 + bump, полный `npm test` 
 В ветке `feat/1.64.0` (не выпущено): `sshlg-skills context`, ratchet `routing-registry-total`,
 однострочная заметка маршрутов, правило `docs/working-rules/context-economy.md`.
 
-Идёт: task-pipeline **1.96.0** finish-line (ветка `feat/finish-line`, worktree `/_wt/tp-finish-line`,
-draft PR) — исполнитель ждал полный `test:all`. Дальше:
+task-pipeline **1.96.0** finish-line: ветка `feat/finish-line`, head af8be9a, [draft PR #131](https://github.com/ssheleg/task-pipeline/pull/131);
+полный `test:all` exit0 за 1724s, guards 439→446 (FL-G1..G7). Отклонения от дизайна на review:
+`--rounds/--checks/--artefact`, поля `blast`/`rung`, exit5 шире. Дальше:
 1. Проверить результат gate TP; независимый review; PR ready → CI → squash merge; standalone
    клон → `release_candidate.py prepare/check` (tag gate) → ручной push тега `--no-follow-tags`
    (publish без контекста откажет) → release → npm readback.
