@@ -30,3 +30,24 @@ installation and the readback script, not installation of candidate1.63.0.
    Catalogue equality or timeout never authorizes deletion of active hook files.
 6. Independently reconcile the final original-requirement and board snapshots.
    Retain each unsupported native/provider/human gate explicitly.
+
+## Actual attempt after publication (2026-10-14)
+
+1.63.0 was published (release run 38518498679; npm gitHead b441550; all 94 package
+files equal to source). Before the update, hashes of eight operator instruction and
+settings files and 149 runtime files were recorded privately (not tracked).
+
+`npx --yes sshlg-skills@1.63.0 update --dry-run` exited2 before any write:
+`agent-sync: unknown same-version payload files; preserve before repair`. The only
+non-pinned file in that installed cache was `skills/agent-sync/scripts/__pycache__/
+agent_sync.cpython-314.pyc`, written by the running hook; `.in_use/<pid>` markers were
+already ignored. A fixed preview then refused `telegram-dev: native immutable repair
+supports one user-scope install only` — telegram-dev and xr-dev are installed at user
+scope plus local project scopes (R35's per-project enablement). Seven of eleven members'
+installed payloads were byte-equal to their pins; only the pin commit (docs-only) differed.
+Settings hashes were unchanged after both refusals.
+
+The correction is 1.63.1: payload-equivalent members get no native action, and bytecode
+caches are not payload. With it, the dry-run on this profile exits0 and plans native
+updates only for task-pipeline 1.95.0, seo-aeo-audit 0.26.6 and agent-stack 0.28.2.
+1.63.0 is not installed here; the installed readback moves to 1.63.1.
