@@ -1,0 +1,16 @@
+{
+  "node": "v26.10.0",
+  "platform": "darwin",
+  "arch": "arm64",
+  "declared_minimum_node": ">=16",
+  "fs_flock_api": "undefined",
+  "boot_identity_probe": {
+    "command": "/usr/sbin/sysctl -n kern.bootsessionuuid",
+    "exit_code": 0,
+    "error": null,
+    "uuid_shape": true,
+    "value_saved": false,
+    "stdout_bytes": 37
+  },
+  "scope": "Read-only capability probe, no real locks/settings/process signals. Availability is not an implemented identity adapter."
+}

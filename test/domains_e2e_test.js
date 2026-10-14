@@ -434,14 +434,18 @@ it('invalid or oversized manifests cannot become proof that a member is unnecess
   fs.rmSync(root4, { recursive: true, force: true });
 });
 
-it('install refreshes an installed domain plugin instead of re-enabling it', () => {
+it('install plans an immutable native update without re-enabling an installed domain plugin', () => {
   const registry = path.join(home, '.claude', 'plugins', 'installed_plugins.json');
-  w(registry, S({ plugins: { 'xr-dev@xr-dev': [{ installPath: path.join(home, 'cache', 'xr') }] } }));
+  const payload = path.join(home, '.claude', 'plugins', 'cache', 'xr-dev', 'xr-dev', '0.0.1');
+  w(path.join(payload, '.claude-plugin', 'plugin.json'), S({name:'xr-dev',version:'0.0.1'}));
+  w(registry, S({ plugins: { 'xr-dev@xr-dev': [{ scope:'user', version:'0.0.1', gitCommitSha:'a'.repeat(40), installPath:payload }] } }));
+  const before=fs.readFileSync(settings);
   const r = run('install', 'xr-dev', '--claude-only', '--dry-run');
   assert.strictEqual(r.status, 0, r.stdout + r.stderr);
-  assert.ok(/plugin update xr-dev@xr-dev/.test(r.stdout), r.stdout);
-  assert.ok(!/plugin install xr-dev@xr-dev/.test(r.stdout), r.stdout);
-  fs.rmSync(registry);
+  assert.ok(/xr-dev@xr-dev: update @ [a-f0-9]{40}/.test(r.stdout), r.stdout);
+  assert.ok(!/xr-dev@xr-dev: install @/.test(r.stdout), r.stdout);
+  assert.deepStrictEqual(fs.readFileSync(settings),before);
+  fs.rmSync(registry);fs.rmSync(payload,{recursive:true,force:true});
 });
 
 it('a failed ownership write prevents configuration mutation and leaves no unowned entry', () => {

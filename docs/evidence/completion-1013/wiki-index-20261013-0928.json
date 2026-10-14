@@ -1,0 +1,19 @@
+{
+  "candidate": "fad12d187122e12daa884a760b5d0eb771334b38",
+  "merge": "a6468483a08273da8489bfb4ba3b2408905cca32",
+  "url": "https://github.com/ssheleg/obsidian-memory-vault/pull/22",
+  "source_entry": "https://github.com/ssheleg/obsidian-memory-vault/blob/a6468483a08273da8489bfb4ba3b2408905cca32/docs/evidence/2026-10-13-report-index-conservation/README.md",
+  "root_review": [
+    "catalog sourcehash matches receipt",
+    "177original IDs preserved,181final,4added",
+    "inventory files unchanged",
+    "cleanreviewedtree",
+    "normalmerge exacthead;unprotectedbase hadno requiredchecks;no CIclaimed",
+    "mergedtreeequalsreviewedtree"
+  ],
+  "limits": [
+    "13headerproblemsremainvisible,oneadditionalforeignsourceproblem",
+    "explicitexternalrootneededfortemporarysource;defaultindexerfollowupopen",
+    "indexdoesnotverifyreportbusinessfacts"
+  ]
+}

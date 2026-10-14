@@ -1,0 +1,16 @@
+{
+  "records": [
+    {
+      "case": "unrelated unprotected writer refused by both existing guards",
+      "exit": 1,
+      "output": "FAIL: every write to a protected file goes through protect(): lib/__runtime_unguarded_plant.js:1 writes without a protect() above it \u2014 fs.writeFileSync(target, \"planted unsafe write\");\nFAIL: THE PROTECT EXEMPTIONS ARE EXACTLY THE MODULES THAT WRITE THE PACK'S OWN STATE: a module writes outside protect() and is not explicitly declared to write only the pack's own state \u2014 argue for it in the exemption list or route it through protect()\n+ actual - expected\n\n  [\n+   'lib/__runtime_unguarded_plant.js',\n    'lib/backup-retention.js',\n    'lib/backup.js',\n    'lib/codex-pending.js',\n    'lib/quarantine.js',\n    'lib/runtime.js',\n\n2 failure(s) out of 19 checks\n"
+    },
+    {
+      "case": "healthy restored source",
+      "exit": 0,
+      "output": "OK (19 checks)\n"
+    }
+  ],
+  "plant_removed": true,
+  "owned_temporary_directory_removed": true
+}

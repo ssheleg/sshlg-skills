@@ -1,0 +1,128 @@
+{
+  "schema": "native-hook-observation/1",
+  "observed_at": "2026-10-13T08:37:23.029176+00:00",
+  "runs": [
+    {
+      "id": "pre-tool-use:0:/Users/sshlg/.codex/hooks.json:exec-8d86285b-5369-43fc-a642-6c23282fcfd6",
+      "eventName": "preToolUse",
+      "handlerType": "command",
+      "executionMode": "sync",
+      "scope": "turn",
+      "sourcePath": "~/.codex/hooks.json",
+      "source": "user",
+      "displayOrder": 0,
+      "status": "completed",
+      "statusMessage": null,
+      "startedAt": 1791880453,
+      "completedAt": 1791880453,
+      "durationMs": 163,
+      "entries": []
+    },
+    {
+      "id": "pre-tool-use:10:/Users/sshlg/.codex/plugins/cache/agent-sync/agent-sync/1.22.1/hooks/hooks.json:exec-8d86285b-5369-43fc-a642-6c23282fcfd6",
+      "eventName": "preToolUse",
+      "handlerType": "command",
+      "executionMode": "sync",
+      "scope": "turn",
+      "sourcePath": "~/.codex/plugins/cache/agent-sync/agent-sync/1.22.1/hooks/hooks.json",
+      "source": "plugin",
+      "displayOrder": 10,
+      "status": "failed",
+      "statusMessage": null,
+      "startedAt": 1791880453,
+      "completedAt": 1791880453,
+      "durationMs": 92,
+      "entries": [
+        {
+          "kind": "error",
+          "text": "hook exited with code 127"
+        }
+      ]
+    },
+    {
+      "id": "pre-tool-use:21:/Users/sshlg/.codex/plugins/cache/sheleg-dev/sheleg-dev/0.13.3/hooks/hooks.json:exec-8d86285b-5369-43fc-a642-6c23282fcfd6",
+      "eventName": "preToolUse",
+      "handlerType": "command",
+      "executionMode": "sync",
+      "scope": "turn",
+      "sourcePath": "~/.codex/plugins/cache/sheleg-dev/sheleg-dev/0.13.3/hooks/hooks.json",
+      "source": "plugin",
+      "displayOrder": 21,
+      "status": "failed",
+      "statusMessage": "manual gate: money movement and live access",
+      "startedAt": 1791880453,
+      "completedAt": 1791880453,
+      "durationMs": 197,
+      "entries": [
+        {
+          "kind": "error",
+          "text": "hook exited with code 1"
+        }
+      ]
+    },
+    {
+      "id": "pre-tool-use:23:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-8d86285b-5369-43fc-a642-6c23282fcfd6",
+      "eventName": "preToolUse",
+      "handlerType": "command",
+      "executionMode": "sync",
+      "scope": "turn",
+      "sourcePath": "~/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json",
+      "source": "plugin",
+      "displayOrder": 23,
+      "status": "completed",
+      "statusMessage": "has the tests gate passed?",
+      "startedAt": 1791880453,
+      "completedAt": 1791880453,
+      "durationMs": 206,
+      "entries": []
+    },
+    {
+      "id": "post-tool-use:2:/Users/sshlg/.codex/hooks.json:exec-8d86285b-5369-43fc-a642-6c23282fcfd6",
+      "eventName": "postToolUse",
+      "handlerType": "command",
+      "executionMode": "sync",
+      "scope": "turn",
+      "sourcePath": "~/.codex/hooks.json",
+      "source": "user",
+      "displayOrder": 2,
+      "status": "completed",
+      "statusMessage": null,
+      "startedAt": 1791880454,
+      "completedAt": 1791880455,
+      "durationMs": 946,
+      "entries": []
+    },
+    {
+      "id": "post-tool-use:25:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-8d86285b-5369-43fc-a642-6c23282fcfd6",
+      "eventName": "postToolUse",
+      "handlerType": "command",
+      "executionMode": "sync",
+      "scope": "turn",
+      "sourcePath": "~/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json",
+      "source": "plugin",
+      "displayOrder": 25,
+      "status": "completed",
+      "statusMessage": null,
+      "startedAt": 1791880454,
+      "completedAt": 1791880455,
+      "durationMs": 924,
+      "entries": []
+    },
+    {
+      "id": "post-tool-use:26:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-8d86285b-5369-43fc-a642-6c23282fcfd6",
+      "eventName": "postToolUse",
+      "handlerType": "command",
+      "executionMode": "sync",
+      "scope": "turn",
+      "sourcePath": "~/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json",
+      "source": "plugin",
+      "displayOrder": 26,
+      "status": "completed",
+      "statusMessage": null,
+      "startedAt": 1791880454,
+      "completedAt": 1791880455,
+      "durationMs": 879,
+      "entries": []
+    }
+  ]
+}

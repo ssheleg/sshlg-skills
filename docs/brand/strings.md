@@ -22,3 +22,33 @@ This registry holds only family-level labels repeated across repositories.
 
 Retired label: “Where it stops” was proposed for member READMEs but has no
 current source occurrence. It is not a shipped shared label.
+
+## Working-rule CLI strings
+
+| Key | Text (primary) | Location | Scenario | Status |
+|---|---|---|---|---|
+| rules.policy | persistent instruction policy recorded. | bin/sshlg-skills.js | SCN-007 | proposed |
+| rules.preview | preview | bin/sshlg-skills.js | SCN-007 | proposed |
+| rules.apply | apply | bin/sshlg-skills.js | SCN-007 | proposed |
+| rules.refused | rules.wait: refused | bin/sshlg-skills.js | SCN-009 | proposed |
+
+## Wait recovery CLI
+
+| Key | Text (primary) | Location | Scenario | Status |
+|---|---|---|---|---|
+| rules.recovery.metadata | metadata only | lib/wait-recovery-cli.js | SCN-010 | proposed |
+| rules.recovery.finalize | Finalize metadata | lib/wait-recovery-cli.js | SCN-010 | proposed |
+| rules.recovery.preserve | Preserve the private wait-rule receipt and retained copies for audit. Locks are never cleared by this command. | lib/wait-recovery-cli.js | SCN-010 | proposed |
+| rules.recovery.boundary | Host instructions are not restored or rewritten by recovery. | lib/wait-recovery-cli.js | SCN-010 | proposed |
+| rules.recovery.evidence | source CLI; metadata only; no installed or native behavior claim | lib/wait-recovery-cli.js | SCN-010 | proposed |
+| rules.recovery.arguments | Use rules recovery inspect or finalize --operation <id> [--apply]. | lib/wait-recovery-cli.js | SCN-010 | proposed |
+
+## Runtime recovery CLI
+
+| Key | Text (primary) | Location | Scenario | Status |
+|---|---|---|---|---|
+| hooks.recovery.state | runtime recovery | bin/sshlg-skills.js | SCN-011 | proposed |
+| hooks.recovery.arguments | use recovery inspect, then recovery recover --expect <digest\|absent> | bin/sshlg-skills.js | SCN-011 | proposed |
+| hooks.recovery.changed | expected runtime lock changed; inspect again | lib/runtime-recovery.js | SCN-011 | proposed |
+| hooks.recovery.unknown | runtime holder is alive or unknown | lib/runtime-recovery.js | SCN-011 | proposed |
+| hooks.recovery.interrupted | recovery capability refused or interrupted; inspect again | lib/runtime-recovery.js | SCN-011 | proposed |

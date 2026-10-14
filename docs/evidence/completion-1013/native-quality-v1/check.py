@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import stat
+import sys
 import tempfile
 from types import SimpleNamespace
 from unittest.mock import patch
@@ -44,6 +45,7 @@ with tempfile.TemporaryDirectory(prefix='native-check-') as temp:
  assert parse([init,assistant,final])['evaluation_status']=='EXECUTED'
  # Several stream blocks may carry one API message ID and repeated input usage.
  chunks=[copy.deepcopy(assistant) for _ in range(8)]
+ for chunk in chunks[:-1]:chunk['message']['content']=[{'type':'thinking','thinking':'excluded'}]
  parsed=parse([init,*chunks,final]);assert parsed['evaluation_status']=='EXECUTED' and parsed['request_count']==1
  bad=copy.deepcopy(chunks);bad[-1]['message']['usage']['input_tokens']+=1
  assert parse([init,*bad,final])['error_class']=='conflicting_request_usage'
@@ -74,7 +76,15 @@ with tempfile.TemporaryDirectory(prefix='native-check-') as temp:
  response={'type':'user','message':{'content':[{'type':'tool_result','tool_use_id':'t1','content':'fixture source','is_error':False}]}}
  a=copy.deepcopy(assistant);a['message']['content']=[call]
  c=copy.deepcopy(final);c['result']='Audit findings with evidence.'
+ a['message']['content'].append({'type':'text','text':'Audit findings with evidence.'})
  assert parse([init,a,response,c],'task')['native']['read_files']==['app/client.py']
+ first=copy.deepcopy(assistant);first['message']['content']=[{'type':'thinking','thinking':'PRIVATE_THINKING'},{'type':'text','text':'First half.'}]
+ last=copy.deepcopy(assistant);last['message']['id']='second-request';last['message']['content']=[{'type':'text','text':'Second half.'}]
+ tail=copy.deepcopy(c);tail['result']='Second half.';tail['num_turns']=2
+ split=parse([init,first,last,tail],'task')
+ assert split['evaluation_status']=='EXECUTED' and split['artifact_sha256']==r.base.digest('First half.\n\nSecond half.')
+ assert split['final_result_sha256']==r.base.digest('Second half.') and len(split['artifact_text_blocks'])==2
+ assert split['artifact_text_blocks'][0]['request_id_sha256']!=split['artifact_text_blocks'][1]['request_id_sha256']
  for mode,error in [('outside','outside_workspace_read'),('bash','unallowed_tool'),('denied','tool_denied_or_error')]:
   b=copy.deepcopy(a);res=copy.deepcopy(response)
   if mode=='outside':b['message']['content'][0]['input']['file_path']=str(root/'not-workspace')
@@ -102,6 +112,7 @@ mode=os.environ.get('NATIVE_FAKE_MODE','ok');phase='readiness' if args[args.inde
 if phase=='task':
  assistant['message']['content']=[{'type':'tool_use','id':'s1','name':'Skill','input':{'skill':'sheleg-dev:google-auth'}},{'type':'tool_use','id':'r1','name':'Read','input':{'file_path':str(Path.cwd()/'app/client.py')}}]
  final['result']='Audit artifact PRIVATE_NATIVE_SENTINEL';final['num_turns']=2
+ assistant['message']['content'].append({'type':'text','text':final['result']})
 if mode=='contamination':init['skills'].append('foreign:secret')
 if mode=='unknown-cost':final.pop('total_cost_usd')
 if mode=='budget':final['total_cost_usd']=0.75
@@ -127,4 +138,39 @@ print(json.dumps(final));print('PRIVATE_NATIVE_SENTINEL',file=sys.stderr)
   assert 'PRIVATE_NATIVE_SENTINEL' not in args.output.read_text()
   assert stat.S_IMODE(args.private_dir.stat().st_mode)==0o700
   assert all(stat.S_IMODE(p.stat().st_mode)==(0o700 if p.is_dir() else 0o600) for p in args.private_dir.rglob('*'))
-print('PASS: source/body parity; native readiness and tool controls; six fake-process modes; no retries; private/public boundary; no provider calls')
+ # Separate continuation reuses only immutable clean C readiness, then three tasks.
+ with patch.dict(sys.modules,{'run':r}):
+  cs=importlib.util.spec_from_file_location('native_continuation',ROOT/'continue.py');continuation=importlib.util.module_from_spec(cs);cs.loader.exec_module(continuation)
+ for seed in (0,1):
+  try:continuation.configure(seed)
+  except ValueError:pass
+  else:raise AssertionError('changed continuation seed accepted')
+ old_read=Path.read_bytes
+ with patch.object(Path,'read_bytes',lambda p:b'changed' if p==ROOT/'observed-c-20261013.json' else old_read(p)):
+  try:continuation.configure(continuation.SEED)
+  except ValueError:pass
+  else:raise AssertionError('changed C receipt accepted')
+ for field in ('disableBundledSkills','disableAllHooks'):
+  with patch.dict(r.SETTINGS,{field:False}):
+   try:continuation.configure(continuation.SEED)
+   except AssertionError:pass
+   else:raise AssertionError('changed settings accepted')
+ for filename in ('source.json','materialize.py','tasks.json','rubric.json'):
+  with patch.object(Path,'read_bytes',lambda p:b'changed' if p==ROOT/filename else old_read(p)):
+   try:continuation.configure(continuation.SEED)
+   except AssertionError:pass
+   else:raise AssertionError('changed bound file accepted: '+filename)
+ for mode,status,n in [('ok','COMPLETED',3),('contamination','STOPPED_TEST_ERROR',1),('unknown-cost','STOPPED_TEST_ERROR',1),('overshoot','STOPPED_BUDGET_OVERSHOOT',1)]:
+  args=SimpleNamespace(output=root/('continue-'+mode+'.json'),private_dir=root/('continue-'+mode+'-raw'),source_repo=REPO,seed=10132027)
+  with patch.dict(os.environ,dict(env,NATIVE_FAKE_MODE=mode),clear=True):
+   code=continuation.execute(args);receipt=json.loads(args.output.read_text())
+  assert receipt['status']==status and len(receipt['calls'])==n,(mode,receipt)
+  assert receipt['prior_cli_invocations']==5 and receipt['max_calls']==3 and receipt['max_cumulative_cli_invocations']==8
+  assert receipt['max_model_turns_this_attempt']==18 and len(receipt['prior_receipt_sha256'])==3
+  assert abs(receipt['prior_reported_list_usd']-0.1834924)<1e-9
+  assert receipt['continuation_of_sha256']==continuation.C_HASH
+  assert [(x['arm'],x['case_id']) for x in receipt['calls']]==[('concise','a1'),('concise','a2'),('full','a2')][:n]
+  assert all(x['phase']=='task' for x in receipt['calls'])
+  assert 'PRIVATE_NATIVE_SENTINEL' not in args.output.read_text()
+  assert all(stat.S_IMODE(p.stat().st_mode)==(0o700 if p.is_dir() else 0o600) for p in args.private_dir.rglob('*'))
+print('PASS: source/body parity; native readiness and tool controls; six fake-process modes plus bound three-case continuation; no retries; private/public boundary; no provider calls')

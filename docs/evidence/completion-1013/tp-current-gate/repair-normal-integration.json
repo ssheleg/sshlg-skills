@@ -1,0 +1,930 @@
+{
+  "state": "MERGED",
+  "source": "192c49294ee90c576a8e7123fa2cb5edbe36e11c",
+  "pr": 126,
+  "updated_utc": "2026-10-13T11:19:27.071297+00:00",
+  "merge_commit": {
+    "oid": "540679ea7552f8a37e99560e287a69c23cbd3c4a"
+  },
+  "url": "https://github.com/ssheleg/task-pipeline/pull/126",
+  "run": {
+    "conclusion": "success",
+    "event": "pull_request",
+    "headSha": "192c49294ee90c576a8e7123fa2cb5edbe36e11c",
+    "jobs": [
+      {
+        "completedAt": "2026-10-13T11:11:53Z",
+        "conclusion": "success",
+        "databaseId": 115266215444,
+        "name": "House skill audit",
+        "startedAt": "2026-10-13T11:11:44Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:11:45Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:11:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:47Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:48Z",
+            "conclusion": "success",
+            "name": "Checkout the pinned family auditor",
+            "number": 3,
+            "startedAt": "2026-10-13T11:11:47Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:50Z",
+            "conclusion": "success",
+            "name": "Install a real tokenizer (the budget is MEASURED, never estimated)",
+            "number": 4,
+            "startedAt": "2026-10-13T11:11:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:51Z",
+            "conclusion": "success",
+            "name": "Audit every shipped Agent Skill",
+            "number": 5,
+            "startedAt": "2026-10-13T11:11:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:51Z",
+            "conclusion": "success",
+            "name": "Validate behavioral eval data and watch the guard fail",
+            "number": 6,
+            "startedAt": "2026-10-13T11:11:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:51Z",
+            "conclusion": "success",
+            "name": "Validate the committed social preview",
+            "number": 7,
+            "startedAt": "2026-10-13T11:11:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:51Z",
+            "conclusion": "success",
+            "name": "Post Checkout the pinned family auditor",
+            "number": 13,
+            "startedAt": "2026-10-13T11:11:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:51Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-10-13T11:11:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:51Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-10-13T11:11:51Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215444"
+      },
+      {
+        "completedAt": "2026-10-13T11:18:17Z",
+        "conclusion": "success",
+        "databaseId": 115266215792,
+        "name": "Negative self-tests (shard 3 of 8)",
+        "startedAt": "2026-10-13T11:11:45Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:11:46Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:11:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:48Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:11:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:49Z",
+            "conclusion": "success",
+            "name": "The refs the plants read (tags and origin/main, as the validate job fetches them)",
+            "number": 3,
+            "startedAt": "2026-10-13T11:11:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:50Z",
+            "conclusion": "success",
+            "name": "Dependencies the validator and the plants need",
+            "number": 4,
+            "startedAt": "2026-10-13T11:11:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:18:14Z",
+            "conclusion": "success",
+            "name": "Negative self-tests and property checks, one shard",
+            "number": 5,
+            "startedAt": "2026-10-13T11:11:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:18:14Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 10,
+            "startedAt": "2026-10-13T11:18:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:18:15Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 11,
+            "startedAt": "2026-10-13T11:18:14Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215792"
+      },
+      {
+        "completedAt": "2026-10-13T11:18:17Z",
+        "conclusion": "success",
+        "databaseId": 115266215834,
+        "name": "Negative self-tests (shard 2 of 8)",
+        "startedAt": "2026-10-13T11:11:44Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:11:46Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:48Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:11:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:49Z",
+            "conclusion": "success",
+            "name": "The refs the plants read (tags and origin/main, as the validate job fetches them)",
+            "number": 3,
+            "startedAt": "2026-10-13T11:11:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:52Z",
+            "conclusion": "success",
+            "name": "Dependencies the validator and the plants need",
+            "number": 4,
+            "startedAt": "2026-10-13T11:11:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:18:14Z",
+            "conclusion": "success",
+            "name": "Negative self-tests and property checks, one shard",
+            "number": 5,
+            "startedAt": "2026-10-13T11:11:52Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:18:14Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 10,
+            "startedAt": "2026-10-13T11:18:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:18:14Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 11,
+            "startedAt": "2026-10-13T11:18:14Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215834"
+      },
+      {
+        "completedAt": "2026-10-13T11:17:26Z",
+        "conclusion": "success",
+        "databaseId": 115266215857,
+        "name": "Negative self-tests (shard 6 of 8)",
+        "startedAt": "2026-10-13T11:11:44Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:11:47Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:49Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:11:47Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:50Z",
+            "conclusion": "success",
+            "name": "The refs the plants read (tags and origin/main, as the validate job fetches them)",
+            "number": 3,
+            "startedAt": "2026-10-13T11:11:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:51Z",
+            "conclusion": "success",
+            "name": "Dependencies the validator and the plants need",
+            "number": 4,
+            "startedAt": "2026-10-13T11:11:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:17:24Z",
+            "conclusion": "success",
+            "name": "Negative self-tests and property checks, one shard",
+            "number": 5,
+            "startedAt": "2026-10-13T11:11:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:17:24Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 10,
+            "startedAt": "2026-10-13T11:17:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:17:24Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 11,
+            "startedAt": "2026-10-13T11:17:24Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215857"
+      },
+      {
+        "completedAt": "2026-10-13T11:17:18Z",
+        "conclusion": "success",
+        "databaseId": 115266215885,
+        "name": "Negative self-tests (shard 5 of 8)",
+        "startedAt": "2026-10-13T11:11:44Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:11:45Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:47Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:48Z",
+            "conclusion": "success",
+            "name": "The refs the plants read (tags and origin/main, as the validate job fetches them)",
+            "number": 3,
+            "startedAt": "2026-10-13T11:11:47Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:49Z",
+            "conclusion": "success",
+            "name": "Dependencies the validator and the plants need",
+            "number": 4,
+            "startedAt": "2026-10-13T11:11:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:17:17Z",
+            "conclusion": "success",
+            "name": "Negative self-tests and property checks, one shard",
+            "number": 5,
+            "startedAt": "2026-10-13T11:11:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:17:17Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 10,
+            "startedAt": "2026-10-13T11:17:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:17:17Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 11,
+            "startedAt": "2026-10-13T11:17:17Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215885"
+      },
+      {
+        "completedAt": "2026-10-13T11:11:52Z",
+        "conclusion": "success",
+        "databaseId": 115266215900,
+        "name": "Official Claude Code conformance (strict)",
+        "startedAt": "2026-10-13T11:11:44Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:11:45Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:46Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:50Z",
+            "conclusion": "success",
+            "name": "Official Claude Code conformance (plugin + marketplace, strict)",
+            "number": 3,
+            "startedAt": "2026-10-13T11:11:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:50Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 6,
+            "startedAt": "2026-10-13T11:11:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:50Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 7,
+            "startedAt": "2026-10-13T11:11:50Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215900"
+      },
+      {
+        "completedAt": "2026-10-13T11:15:55Z",
+        "conclusion": "success",
+        "databaseId": 115266215908,
+        "name": "validate",
+        "startedAt": "2026-10-13T11:11:44Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:11:46Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:48Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:11:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:49Z",
+            "conclusion": "success",
+            "name": "Every v* tag must be contained in main",
+            "number": 3,
+            "startedAt": "2026-10-13T11:11:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:52Z",
+            "conclusion": "success",
+            "name": "Install jsonschema (enables full pipeline.example.json conformance pass)",
+            "number": 4,
+            "startedAt": "2026-10-13T11:11:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:12:16Z",
+            "conclusion": "success",
+            "name": "Structural validator",
+            "number": 5,
+            "startedAt": "2026-10-13T11:11:52Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:13:02Z",
+            "conclusion": "success",
+            "name": "The rest of the `npm test` equation (graph suite + shipped audit collector)",
+            "number": 6,
+            "startedAt": "2026-10-13T11:12:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:10Z",
+            "conclusion": "success",
+            "name": "Audit regressions (sherlock plan, one file per closed finding)",
+            "number": 7,
+            "startedAt": "2026-10-13T11:13:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:12Z",
+            "conclusion": "success",
+            "name": "Stage-7 release gate (the hook this skill ships)",
+            "number": 8,
+            "startedAt": "2026-10-13T11:15:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:12Z",
+            "conclusion": "success",
+            "name": "The artifact-root rule (two implementations, one table, compared)",
+            "number": 9,
+            "startedAt": "2026-10-13T11:15:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:13Z",
+            "conclusion": "success",
+            "name": "migrate-artifacts, proven at the layer that repeats (three real runs)",
+            "number": 10,
+            "startedAt": "2026-10-13T11:15:12Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:13Z",
+            "conclusion": "success",
+            "name": "install.sh syntax check",
+            "number": 11,
+            "startedAt": "2026-10-13T11:15:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:14Z",
+            "conclusion": "success",
+            "name": "Workflow YAML parses (validate + release)",
+            "number": 12,
+            "startedAt": "2026-10-13T11:15:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:14Z",
+            "conclusion": "success",
+            "name": "npm installer CLI check",
+            "number": 13,
+            "startedAt": "2026-10-13T11:15:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:17Z",
+            "conclusion": "success",
+            "name": "npm installer functional test (fresh / rerun-skip / --force)",
+            "number": 14,
+            "startedAt": "2026-10-13T11:15:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:34Z",
+            "conclusion": "success",
+            "name": "Positive control (claim registry \u2014 a QUOTED stale number is a citation, not a claim)",
+            "number": 15,
+            "startedAt": "2026-10-13T11:15:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:51Z",
+            "conclusion": "success",
+            "name": "Positive control (claim registry \u2014 a citation split by the repo's ~80-char wrap)",
+            "number": 16,
+            "startedAt": "2026-10-13T11:15:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:53Z",
+            "conclusion": "success",
+            "name": "Exposure suite (the measurement that must not become a score)",
+            "number": 17,
+            "startedAt": "2026-10-13T11:15:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:53Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 34,
+            "startedAt": "2026-10-13T11:15:53Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:53Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 35,
+            "startedAt": "2026-10-13T11:15:53Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215908"
+      },
+      {
+        "completedAt": "2026-10-13T11:17:09Z",
+        "conclusion": "success",
+        "databaseId": 115266215923,
+        "name": "Negative self-tests (shard 7 of 8)",
+        "startedAt": "2026-10-13T11:11:44Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:11:46Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:50Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:11:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:51Z",
+            "conclusion": "success",
+            "name": "The refs the plants read (tags and origin/main, as the validate job fetches them)",
+            "number": 3,
+            "startedAt": "2026-10-13T11:11:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:56Z",
+            "conclusion": "success",
+            "name": "Dependencies the validator and the plants need",
+            "number": 4,
+            "startedAt": "2026-10-13T11:11:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:17:07Z",
+            "conclusion": "success",
+            "name": "Negative self-tests and property checks, one shard",
+            "number": 5,
+            "startedAt": "2026-10-13T11:11:56Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:17:07Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 10,
+            "startedAt": "2026-10-13T11:17:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:17:07Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 11,
+            "startedAt": "2026-10-13T11:17:07Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215923"
+      },
+      {
+        "completedAt": "2026-10-13T11:18:59Z",
+        "conclusion": "success",
+        "databaseId": 115266215980,
+        "name": "Negative self-tests (shard 1 of 8)",
+        "startedAt": "2026-10-13T11:11:44Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:11:45Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:48Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:48Z",
+            "conclusion": "success",
+            "name": "The refs the plants read (tags and origin/main, as the validate job fetches them)",
+            "number": 3,
+            "startedAt": "2026-10-13T11:11:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:49Z",
+            "conclusion": "success",
+            "name": "Dependencies the validator and the plants need",
+            "number": 4,
+            "startedAt": "2026-10-13T11:11:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:18:57Z",
+            "conclusion": "success",
+            "name": "Negative self-tests and property checks, one shard",
+            "number": 5,
+            "startedAt": "2026-10-13T11:11:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:18:57Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 10,
+            "startedAt": "2026-10-13T11:18:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:18:57Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 11,
+            "startedAt": "2026-10-13T11:18:57Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215980"
+      },
+      {
+        "completedAt": "2026-10-13T11:16:54Z",
+        "conclusion": "success",
+        "databaseId": 115266216040,
+        "name": "Negative self-tests (shard 4 of 8)",
+        "startedAt": "2026-10-13T11:11:44Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:11:46Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:49Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:11:46Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:50Z",
+            "conclusion": "success",
+            "name": "The refs the plants read (tags and origin/main, as the validate job fetches them)",
+            "number": 3,
+            "startedAt": "2026-10-13T11:11:49Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:52Z",
+            "conclusion": "success",
+            "name": "Dependencies the validator and the plants need",
+            "number": 4,
+            "startedAt": "2026-10-13T11:11:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:16:51Z",
+            "conclusion": "success",
+            "name": "Negative self-tests and property checks, one shard",
+            "number": 5,
+            "startedAt": "2026-10-13T11:11:52Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:16:51Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 10,
+            "startedAt": "2026-10-13T11:16:51Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:16:51Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 11,
+            "startedAt": "2026-10-13T11:16:51Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266216040"
+      },
+      {
+        "completedAt": "2026-10-13T11:15:38Z",
+        "conclusion": "success",
+        "databaseId": 115266216136,
+        "name": "Negative self-tests (shard 8 of 8)",
+        "startedAt": "2026-10-13T11:11:44Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:11:45Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:47Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:11:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:48Z",
+            "conclusion": "success",
+            "name": "The refs the plants read (tags and origin/main, as the validate job fetches them)",
+            "number": 3,
+            "startedAt": "2026-10-13T11:11:47Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:11:50Z",
+            "conclusion": "success",
+            "name": "Dependencies the validator and the plants need",
+            "number": 4,
+            "startedAt": "2026-10-13T11:11:48Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:36Z",
+            "conclusion": "success",
+            "name": "Negative self-tests and property checks, one shard",
+            "number": 5,
+            "startedAt": "2026-10-13T11:11:50Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:37Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 10,
+            "startedAt": "2026-10-13T11:15:36Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:15:37Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 11,
+            "startedAt": "2026-10-13T11:15:37Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266216136"
+      },
+      {
+        "completedAt": "2026-10-13T11:19:05Z",
+        "conclusion": "success",
+        "databaseId": 115269029705,
+        "name": "Negative self-tests",
+        "startedAt": "2026-10-13T11:19:02Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:19:03Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:19:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:19:03Z",
+            "conclusion": "success",
+            "name": "Every shard passed",
+            "number": 2,
+            "startedAt": "2026-10-13T11:19:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:19:03Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 3,
+            "startedAt": "2026-10-13T11:19:03Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115269029705"
+      }
+    ],
+    "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188"
+  },
+  "required_checks": [
+    {
+      "bucket": "pass",
+      "link": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115269029705",
+      "name": "Negative self-tests"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215908",
+      "name": "validate"
+    },
+    {
+      "bucket": "pass",
+      "link": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215444",
+      "name": "House skill audit"
+    }
+  ],
+  "local_gate": {
+    "source": "192c49294ee90c576a8e7123fa2cb5edbe36e11c",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "exit_code": 0,
+    "disk_stopped": false,
+    "admission_free_bytes": 1146654720,
+    "minimum_free_bytes": 752541696,
+    "stop_floor_bytes": 419430400,
+    "elapsed_seconds": 180.391,
+    "source_unchanged": true,
+    "worktree_clean": true,
+    "log": "/tmp/tp126-npm-test.log",
+    "log_sha256": "661066d297c03eeb57a17d91d9b84301093fab20e9cca717ae8533b9123d5da9",
+    "full_test_all": "NOT_RUN",
+    "tag_push": "NOT_RUN"
+  }
+}

@@ -222,6 +222,20 @@ it('every route names a skill that exists', () => {
   assert.deepStrictEqual(absent, [], `routes pointing at no shipped skill: ${absent.join(', ')}`);
 });
 
+it('release iteration requests reach task-pipeline in both languages', () => {
+  for (const prompt of ['release iteration', 'итерация релиза',
+      'start a release iteration', 'запусти итерацию релиза']) {
+    assert.ok(T.match(prompt).includes('task-pipeline'), prompt);
+  }
+});
+
+it('release iteration questions and opt-outs retain silence', () => {
+  for (const prompt of ['what is a release iteration?', 'что такое итерация релиза?',
+      'release iteration, no pipeline', 'итерация релиза, без пайплайна']) {
+    assert.strictEqual(T.render(prompt), '', prompt);
+  }
+});
+
 // --- silence, for three different reasons ----------------------------------
 
 it('a question emits nothing, even when it carries a trigger word', () => {

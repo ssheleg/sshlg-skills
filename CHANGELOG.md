@@ -1,3 +1,54 @@
+## v1.63.0 — native update safety and managed instruction previews
+
+- Claude Code installation now uses exact member commits through its native plugin
+  source mechanism. Successful updates require installed source and payload
+  readback. Eligible same-version repairs preserve plugin data and disabled state;
+  ambiguous execution stops with a recovery receipt.
+- Codex native version changes now defer before installation can remove files used
+  by open sessions. Pending updates carry a private profile-bound record and a
+  bounded observer. A matching catalogue does not claim running threads reloaded.
+- Hook runtime failures now make `update` and `hooks install` exit unsuccessfully
+  instead of reporting a skipped or synchronized runtime. Hook settings are not
+  rewired after that failure. Caught switch errors restore and verify prior managed
+  files when possible; unresolved journals are preserved for inspection. A runtime
+  lock left by a hard stop is never retired automatically: `hooks recovery inspect`
+  reports whether its writer is provably dead on this boot, and `hooks recovery
+  recover --expect <digest>` retires only that lock under kernel exclusion, then
+  rolls back through the journal. Live, legacy and unprovable holders are refused.
+  The [runtime recovery contract](docs/working-rules/state-json.md#the-runtime-lock-and-failed-refresh)
+  names the boundary and its executable evidence.
+- Concurrent backups no longer fail when the retention lock is released between a
+  writer's exclusive-create refusal and its inspection of that lock; the writer retries.
+- `blocks` lists managed instruction markers across supported host files;
+  `blocks diff` previews one selected local block. Both preserve the files and
+  report malformed or unreadable input without granting write authority.
+- New backups bind to canonical target paths and publish without overwriting an
+  existing copy. Ambiguous legacy and unverified copies are preserved and refused
+  for automatic restoration. Backups referenced by an unfinished wait-rule operation
+  stay protected from routine pruning until its recorded outcome is verified.
+- `rules recovery inspect` shows the wait-rule recovery state. `rules recovery
+  finalize --operation <id>` previews whether the record can be completed; add
+  `--apply` to complete eligible metadata and release its backup retention. These
+  commands never restore host instructions or clear locks. An unresolved operation
+  remains open. This recovery path covers the wait rule, not every settings writer.
+- The optional wait rule has its own default-off setting, host scope and ownership
+  record. Preview shows the proposed text; apply preserves surrounding content.
+  Updates refresh only previously applied profiles. The rule creates no background
+  jobs and grants no additional action authority.
+- Scoped router migration now leaves unselected hosts alone. Working-rule writes
+  refuse malformed ownership, changed consent and non-lossless UTF-8 input.
+- task-pipeline is pinned at 1.95.0 (`5a787b4`): default stages route to their own
+  procedure on entry, checkpoint recovery follows the project profile, owner releases
+  admit an exact local tag before the full suite, and the family scratch lock stays
+  held through writing plant children. The Claude plugin pins follow it.
+- seo-aeo-audit (`a6e471e`) and sheleg-dev (`7ced39b`) are pinned at their merged
+  family scratch-lock change; only tests and evidence changed, so 0.26.6 and 0.13.4 stay.
+- Release-iteration requests route to task-pipeline. Member validation and collector
+  corrections carry source, publication and installed acceptance separately.
+- Native selection and artifact-quality experiments retain observed failures.
+  Installed skill descriptions are unchanged; no quality-preserving compression
+  claim follows from these diagnostics.
+
 ## v1.62.2 — pinned installs and source-preserving settings edits
 
 - Plain-host installation and updates now select the reviewed member commit from

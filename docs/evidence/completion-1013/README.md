@@ -2,15 +2,22 @@
 
 [Plan](../plans/2026-10-13-completion.md) · [research](../../reports/2026-10-13-skill-discovery-efficiency/README.md)
 
-## Current entry — 2026-10-13 04:15 UTC
+## Current entry — 2026-10-13 09:20 UTC
 
-Use [the live HANDOFF](../../HANDOFF.md), [run ledger](run.md) and
-[current board/requirement reconciliation](board-reconciliation.md#committed-cut-at-2026-10-13-0415-utc).
-The records below are dated evidence, not current next-task instructions. Hub1.62.1
-is published with runtime readback;1.62.2 remains a candidate. Native quality has
-no accepted result yet. Fabric project admission now succeeds, but this session
-still has no com.status/list/submit tools; the pending asks below remain unsent.
-
+Use [the live HANDOFF](../../HANDOFF.md) and [run ledger](run.md).
+Candidate1.63.0 composes source changes; published1.62.2 acceptance remains partial.
+The [hook recovery](hook-recovery/README.md) records the actual127/1 cause and nine
+completed native events after exact old payload restoration. The
+[permanent Codex safety correction](codex-cache-preservation.md) now defers unsafe
+version changes; [independent review](codex-cache-peer.json) distinguishes source
+acceptance from publication and actual watcher registration.
+[Blocks preview](blocks-preview/README.md) is independently checked and composed.
+[Latest member publication](member-publication-20261013-0917.json) binds accepted
+SEO0.26.6 and agent-stack0.28.2; TP1.94 exact-main gate is still running.
+[Combined quality results](../../reports/2026-10-13-skill-discovery-quality-results/README.md)
+retain NO_ADOPTION for compressed descriptions. Final aggregate, installation,
+board/requirement reconciliation and independent goal acceptance remain pending.
+The records below are dated evidence, not current release instructions.
 
 ## Search ranking
 
@@ -32,7 +39,7 @@ PR #215 integrated at 022356d3479d351ccdf39135a44914be6de73ad7 after its exact h
 
 ## Pending cross-project asks
 
-Initial Fabric admission returned `no-project`; admission later succeeded at03:12UTC, but com.status/list/submit remain unavailable. None of these were submitted in this session. Retry only through the authenticated Project board when its tools are available. Existing issues are evidence, not substitute sends.
+Initial Fabric admission returned `no-project`; admission later succeeded at03:12UTC, then returned no project again at05:51UTC; com.status/list/submit remain unavailable. None of these were submitted in this session. Retry only through the authenticated Project board when its tools are available. Existing issues are evidence, not substitute sends.
 
 | Idempotency key | Owner | Evidence and exact next task | Status |
 |---|---|---|---|

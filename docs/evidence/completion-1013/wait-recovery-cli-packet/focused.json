@@ -1,0 +1,65 @@
+{
+  "source": "8d5b63ab07c8bb1e450915d1c0c5d4950c74dfa7",
+  "sha256": {
+    "lib/wait-recovery-cli.js": "620b003015fb8cc9890f47b3c1eb2a26d8f4af644f3446325100bcfb27f521f2",
+    "lib/wait-rules.js": "88b1a19e58a48a4790e17445d125c0bc7f73f71be68df087d2e98b966ec8d81c",
+    "bin/sshlg-skills.js": "beeca4d2780ac6527a23d77dfa6850db1eed39a2e2c5e6a0fce0c30300891e95",
+    "test/wait_recovery_cli_test.js": "d0eaebe065cb01377506f000218440707173ad94f91248a551fc78669f3a20e8"
+  },
+  "checks": [
+    {
+      "argv": [
+        "node",
+        "test/wait_recovery_cli_test.js"
+      ],
+      "exit_code": 0,
+      "stdout": "ok empty inspect is a read-only structured success\nok inspect and preview pending before preserve exact tree\nok inspect and preview pending after preserve exact tree\nok actual finalize no-write and triple repeat never write host\nok actual finalize committed and triple repeat never write host\nok strict arguments finalize --apply --json\nok strict arguments finalize --operation bad --json\nok strict arguments inspect --receipt /outside --json\nok strict arguments inspect --home /outside --json\nok strict arguments inspect --target /outside --json\nok strict arguments inspect --agent codex --json\nok strict arguments inspect unexpected --json\nok strict arguments inspect --json --json\nok stale valid operation ID refuses unchanged\nok legacy pending never exposes its arbitrary fields\nok permissive directory is refused without chmod\nok permissive receipt is refused without chmod\nok unresolved owner-lock preserves all evidence\nok unresolved backup-lock preserves all evidence\nok unresolved policy preserves all evidence\nok unresolved profile preserves all evidence\nok unresolved foreign-target preserves all evidence\nok unresolved ownership preserves all evidence\nok unresolved invalid-json preserves all evidence\nok unresolved invalid-utf8 preserves all evidence\nok unresolved symlink preserves all evidence\nok human inspection output omits private text and raw paths\nok prepared backup reports unresolved phase without exposing data\nok unknown prior transition remains unresolved\nok arbitrary reference namespace is refused without exposing or reading text\nok terminal retention fault is inspectable and explicitly finalized\nok retired proof cannot be reassigned to another operation\nok changed receipt between preview and owner lock refuses exact request\n33 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "node",
+        "test/wait_recovery_test.js"
+      ],
+      "exit_code": 0,
+      "stdout": "ok before-write failure retains exact recovery bytes through 15 ordinary saves\nok post-write failure classifies committed without repeating a host write\nok absent original is distinct from an existing empty file\nok legacy pending remains unresolved and byte-identical\nok changed policy refuses metadata recovery and preserves pending\nok third-party content is never restored or adopted\nok receipt write boundary 1 fails without falsely completing\nok receipt write boundary 2 fails without falsely completing\nok receipt write boundary 3 fails without falsely completing\nok retirement link interruption retains and resumes exact reference\nok retirement unlink interruption retains and resumes exact reference\nok a committed target later reverted to original bytes is not classified as no-write\nok three repeated completed resolutions are byte-identical no-ops\nok actual case alias keeps canonical reference binding\nok malformed next ownership cannot be written during metadata resolution\nok foreign retirement destination is preserved and cannot free reference\nok relocated reference outside owner backup namespace is not silently adopted\nok recovery refuses ownership delta drop-sibling\nok recovery refuses ownership delta add-sibling\nok recovery refuses ownership delta edit-sibling\nok recovery refuses ownership delta target-root\nok recovery refuses ownership delta target-canonical-root\nok recovery refuses ownership delta target-agent\nok recovery refuses ownership delta target-prefix\nok recovery refuses ownership delta target-previous\nok recovery refuses ownership delta drop-target\nok post-write remove preserves sibling ownership and exact foreign text\nok operation without prior ownership proof remains unresolved without migration\nok no-write recovery retirement link interruption resumes without ownership adoption\nok no-write recovery retirement unlink interruption resumes without ownership adoption\n30 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "node",
+        "test/wait_recovery_crash_test.js"
+      ],
+      "exit_code": 0,
+      "stdout": "ok process crash prepared-before\nok process crash prepared-after\nok process crash intent-after\nok process crash host-before\nok process crash host-after\nok process crash terminal-after\nok process crash retired-link\n7 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "node",
+        "test/wait_rules_cli_test.js"
+      ],
+      "exit_code": 0,
+      "stdout": "ok config \u2192 preview \u2192 scoped apply \u2192 three repeated applies \u2192 off is exact\nok --apply --dry-run changes neither host bytes nor ownership receipt\nok member-only rule request is refused without host mutation\nok update plan lists only previously applied targets and dry-run mutates nothing\nok corrupt wait ownership fails update planning before any child\nok actual packaged update removes off-owned text and never adds a new host\nok member-only actual update leaves even malformed family rule state unread\nok actual packaged uninstall removes only selected owned wait text\nOK (8 checks; 0 failed)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "node",
+        "test/runtime_closure_test.js"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS: runtime closure \u2014 6 checks\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "node",
+        "test/operation-result_test.js"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS: operation plan/result contract \u2014 14 cases\n",
+      "stderr": ""
+    }
+  ]
+}

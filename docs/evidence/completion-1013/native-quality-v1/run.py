@@ -24,8 +24,8 @@ SKILLS={'sheleg-dev:'+x for x in ('ad-tracking','crypto-payments','error-trackin
 MAX_CALLS=6
 BUDGET=4.0
 RESERVE=0.50
-PRIOR_RECORDS=(('observed-20261013.json',0.0373944),('observed-b-20261013.json',0.011772000000000001))
-PRIOR_COST=sum(cost for _,cost in PRIOR_RECORDS)
+PRIOR_RECORDS=(('observed-20261013.json',0.0373944,1),('observed-b-20261013.json',0.011772000000000001,1))
+PRIOR_COST=sum(cost for _,cost,_ in PRIOR_RECORDS)
 PRIOR_CALLS=2
 MAX_CUMULATIVE_CALLS=8
 TIMEOUT=180
@@ -57,7 +57,20 @@ def command(workspace,phase):
 def number(value):
     return isinstance(value,(int,float)) and not isinstance(value,bool) and math.isfinite(value) and value>=0
 
-def inspect(raw,exit_code,workspace,phase):
+def visible_text(events):
+    blocks=[]
+    for event in events:
+        if event.get('type')!='assistant':continue
+        message=event['message']
+        for content in message['content']:
+            if content.get('type')=='text':
+                value=content.get('text')
+                if not isinstance(value,str):raise ValueError('invalid_text_block')
+                blocks.append({'message_id':message['id'],'text':value})
+    return blocks
+
+def inspect(raw,exit_code,workspace,phase,expected_inventory=None,reported_turn_limit=None):
+    inventory=SKILLS if expected_inventory is None else expected_inventory
     result={'evaluation_status':'TEST_ERROR','error_class':None,'cost_usd':None,'usage':None,'native':None,'artifact_sha256':None}
     try:
         events=[json.loads(line) for line in raw.splitlines() if line.strip()]
@@ -75,10 +88,11 @@ def inspect(raw,exit_code,workspace,phase):
     if init.get('model')!='claude-opus-5-5' or init.get('apiKeySource')!='none':result['error_class']='unexpected_auth_or_model';return result
     models=final.get('modelUsage')
     if not isinstance(models,dict) or set(models)!={'claude-opus-5-5'} or any(not isinstance(v,dict) or v.get('provider')!='firstParty' or v.get('costBasis')!='list' for v in models.values()):result['error_class']='unexpected_provider_or_cost';return result
-    if not isinstance(init.get('skills'),list) or not all(isinstance(x,str) for x in init['skills']) or set(init['skills'])!=SKILLS or len(init['skills'])!=len(SKILLS):result['error_class']='unexpected_skill_inventory';return result
+    if not isinstance(init.get('skills'),list) or not all(isinstance(x,str) for x in init['skills']) or set(init['skills'])!=inventory or len(init['skills'])!=len(inventory):result['error_class']='unexpected_skill_inventory';return result
     if not isinstance(init.get('tools'),list) or not all(isinstance(x,str) for x in init['tools']) or set(init['tools'])!=TOOLS or init.get('mcp_servers')!=[]:result['error_class']='unexpected_tools_or_mcp';return result
     turns=final.get('num_turns');max_turns=1 if phase=='readiness' else MAX_TURNS
-    if not isinstance(turns,int) or isinstance(turns,bool) or not 1<=turns<=max_turns:result['error_class']='turn_bound';return result
+    reported_limit=max_turns if reported_turn_limit is None or phase=='readiness' else reported_turn_limit
+    if not isinstance(turns,int) or isinstance(turns,bool) or not 1<=turns<=reported_limit:result['error_class']='turn_bound';return result
     server=usage.get('server_tool_use',{})
     if not isinstance(server,dict) or any(server.get(k,0)!=0 for k in ('web_search_requests','web_fetch_requests')):result['error_class']='network_tool_use';return result
     assistants=[x for x in events if x.get('type')=='assistant']
@@ -126,9 +140,14 @@ def inspect(raw,exit_code,workspace,phase):
     except (KeyError,TypeError,AttributeError,AssertionError,ValueError) as exc:
         known={'missing_request_id','conflicting_request_usage','unknown_request_usage','missing_request_usage','input_bound','aggregate_input_bound','unmatched_tool_result','unallowed_tool','tool_denied_or_error','unallowed_skill','invalid_read_path','outside_workspace_read','readiness_tool_use'}
         result['error_class']=str(exc) if str(exc) in known else 'invalid_tool_stream';return result
-    artifact=final.get('result')
-    if not isinstance(artifact,str) or not artifact.strip() or (phase=='readiness' and artifact.strip()!='READY'):result['error_class']='invalid_final_artifact';return result
-    result.update(evaluation_status='EXECUTED',native={'visible':sorted(SKILLS),'skill_loads':loads,'read_files':reads,'google_auth_loaded':'sheleg-dev:google-auth' in loads},artifact_sha256=base.digest(artifact),max_request_input=max(inputs),request_count=len(inputs),turns=turns)
+    final_artifact=final.get('result')
+    if not isinstance(final_artifact,str) or not final_artifact.strip():result['error_class']='invalid_final_artifact';return result
+    try:blocks=visible_text(events)
+    except (KeyError,TypeError,ValueError):result['error_class']='invalid_final_artifact';return result
+    artifact='\n\n'.join(block['text'] for block in blocks)
+    if not artifact.strip() or (phase=='readiness' and (artifact.strip()!='READY' or final_artifact.strip()!='READY')):result['error_class']='invalid_final_artifact';return result
+    result.update(final_result_sha256=base.digest(final_artifact),artifact_text_blocks=[{'index':i,'request_id_sha256':base.digest(block['message_id']),'text_sha256':base.digest(block['text']),'characters':len(block['text'])} for i,block in enumerate(blocks)],artifact_join='two newline characters between ordered assistant text blocks; thinking and tool outputs excluded')
+    result.update(evaluation_status='EXECUTED',native={'visible':sorted(inventory),'skill_loads':loads,'read_files':reads,'google_auth_loaded':'sheleg-dev:google-auth' in loads},artifact_sha256=base.digest(artifact),max_request_input=max(inputs),request_count=len(inputs),turns=turns)
     # Semantic scoring is deliberately absent. Native non-invocation remains observed.
     return result
 
@@ -143,20 +162,23 @@ def preflight(private):
     base.private_write(private/'version.stdout',version.stdout.decode(errors='replace'));base.private_write(private/'version.stderr',version.stderr.decode(errors='replace'))
     assert version.returncode==0 and version.stdout.decode().strip()=='2.1.296 (Claude Code)'
 
-def execute(args):
+def execute(args,metadata=None):
     prior_hashes={}
-    for name,cost in PRIOR_RECORDS:
+    for name,cost,count in PRIOR_RECORDS:
         data=(ROOT/name).read_bytes();prior=json.loads(data)
         assert prior['status']=='STOPPED_TEST_ERROR' and prior['cost_incomplete'] is False
-        assert prior['reported_list_usd']==cost and len(prior['calls'])==1 and prior['calls'][0]['cost_usd']==cost
+        assert prior['reported_list_usd']==cost and len(prior['calls'])==count
+        assert all(number(call.get('cost_usd')) for call in prior['calls'])
+        assert abs(sum(call['cost_usd'] for call in prior['calls'])-cost)<1e-9
         prior_hashes[name]=base.digest(data)
-    assert len(PRIOR_RECORDS)==PRIOR_CALLS and PRIOR_CALLS+MAX_CALLS==MAX_CUMULATIVE_CALLS
+    assert sum(count for _,_,count in PRIOR_RECORDS)==PRIOR_CALLS and PRIOR_CALLS+MAX_CALLS==MAX_CUMULATIVE_CALLS
     if args.output.exists() or args.output.with_name(args.output.name+'.pending').exists():raise ValueError('receipt_exists')
     private=args.private_dir
     if not private.is_absolute() or private.is_symlink() or private.exists():raise ValueError('private_directory_must_be_absolute_and_new')
     if subprocess.run(['git','rev-parse','--show-toplevel'],cwd=private.parent,capture_output=True).returncode==0:raise ValueError('raw_inside_git')
     private.mkdir(mode=0o700)
-    receipt={'schema':'native-quality-run/1','status':'PREFLIGHT','calls':[],'seed':args.seed,'reported_list_usd':0.0,'prior_reported_list_usd':PRIOR_COST,'combined_known_list_usd':PRIOR_COST,'prior_receipt_sha256':prior_hashes,'prior_cli_invocations':PRIOR_CALLS,'max_cumulative_cli_invocations':MAX_CUMULATIVE_CALLS,'max_model_turns_this_attempt':2+4*MAX_TURNS,'cost_incomplete':False,'source_sha':json.loads((ROOT/'source.json').read_text())['commit'],'runner_sha256':base.digest(Path(__file__).read_bytes()),'materializer_sha256':base.digest((ROOT/'materialize.py').read_bytes()),'source_manifest_sha256':base.digest((ROOT/'source.json').read_bytes()),'arms_fixture_sha256':base.digest((ROOT.parent/'description-screening-fixture-v2.json').read_bytes()),'tasks_sha256':base.digest((ROOT/'tasks.json').read_bytes()),'rubric_sha256':base.digest((ROOT/'rubric.json').read_bytes()),'budget':BUDGET,'max_calls':MAX_CALLS,'scope':'Restricted native fixture only; call counts mean CLI invocations, bounded model turns separately; CLI internal retries unmeasured. Artifact quality requires independent review; list metadata is not subscription billing.'}
+    receipt={'schema':'native-quality-run/1','status':'PREFLIGHT','calls':[],'seed':args.seed,'reported_list_usd':0.0,'prior_reported_list_usd':PRIOR_COST,'combined_known_list_usd':PRIOR_COST,'prior_receipt_sha256':prior_hashes,'prior_cli_invocations':PRIOR_CALLS,'max_cumulative_cli_invocations':MAX_CUMULATIVE_CALLS,'max_model_turns_this_attempt':sum(1 if item['phase']=='readiness' else MAX_TURNS for item in plan(args.seed)),'cost_incomplete':False,'source_sha':json.loads((ROOT/'source.json').read_text())['commit'],'runner_sha256':base.digest(Path(__file__).read_bytes()),'materializer_sha256':base.digest((ROOT/'materialize.py').read_bytes()),'source_manifest_sha256':base.digest((ROOT/'source.json').read_bytes()),'arms_fixture_sha256':base.digest((ROOT.parent/'description-screening-fixture-v2.json').read_bytes()),'tasks_sha256':base.digest((ROOT/'tasks.json').read_bytes()),'rubric_sha256':base.digest((ROOT/'rubric.json').read_bytes()),'budget':BUDGET,'max_calls':MAX_CALLS,'scope':'Restricted native fixture only; call counts mean CLI invocations, bounded model turns separately; CLI internal retries unmeasured. Artifact quality requires independent review; list metadata is not subscription billing.'}
+    if metadata:receipt.update(metadata)
     base.save_receipt(args.output,receipt)
     try:preflight(private)
     except Exception as exc:
@@ -177,6 +199,9 @@ def execute(args):
                     try:code=process.wait(timeout=TIMEOUT)
                     except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait();code='TIMEOUT'
                 raw=(folder/'stdout.jsonl').read_bytes();result=inspect(raw,code,workspace,item['phase']);m.verify(workspace,hashes)
+                if result['evaluation_status']=='EXECUTED':
+                    blocks=visible_text([json.loads(line) for line in raw.splitlines() if line.strip()])
+                    base.private_write(folder/'assistant-text.json',base.encode({'blocks':blocks,'text':'\n\n'.join(block['text'] for block in blocks)}))
                 record['workspace_manifest_sha256']=base.digest(base.encode(hashes))
         except Exception as exc:
             record.update(state='UNKNOWN_EFFECT',evaluation_status='TEST_ERROR',error_class='execution_or_workspace_integrity',exception_type=type(exc).__name__)
@@ -194,6 +219,7 @@ def execute(args):
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--execute',action='store_true');parser.add_argument('--seed',type=int,default=10132027);parser.add_argument('--source-repo',type=Path);parser.add_argument('--private-dir',type=Path);parser.add_argument('--output',type=Path);args=parser.parse_args()
     if not args.execute:print(json.dumps({'provider_calls':0,'plan':[{k:v for k,v in x.items() if k!='prompt'} for x in plan(args.seed)],'max_reported_list_usd':BUDGET,'prior_reported_list_usd':PRIOR_COST},indent=2));return 0
+    if (ROOT/'observed-c-20261013.json').exists():parser.error('attempt C is preserved; use only a separately reviewed continuation protocol')
     if any(x is None for x in (args.source_repo,args.private_dir,args.output)):parser.error('execution requires source-repo, private-dir and output')
     return execute(args)
 

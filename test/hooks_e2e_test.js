@@ -201,7 +201,7 @@ it('the wiki-config restore restores the keys, through a copy of its own (UM-06)
   assert.ok(after.includes('CLAUDE_HISTORY_PATH=/h'), 'the dropped key did not come back');
   assert.ok(after.includes('OBSIDIAN_VAULT_PATH=/new'), "setup's own value was reverted");
   const dir = path.join(HOME, '.sshlg-skills', 'backups');
-  const copies = fs.readdirSync(dir).filter((n) => n.startsWith('obsidian-wiki_config.')).sort();
+  const copies = fs.readdirSync(dir).filter((n) => n.startsWith(require('../lib/backup.js').keyFor(cfg,HOME)+'.')).sort();
   assert.strictEqual(copies.length, 2,
     `expected the pre-run snapshot plus the pre-write copy, got: ${copies.join(', ')}`);
   assert.strictEqual(fs.readFileSync(path.join(dir, copies[1]), 'utf8'), truncated,
@@ -503,7 +503,7 @@ function updateEnv() {
     write(path.join(stubs, name), '#!/bin/sh\nexit 0\n');
     fs.chmodSync(path.join(stubs, name), 0o755);
   }
-  return Object.assign({}, ENV, { PATH: `${stubs}:${process.env.PATH}` });
+  return Object.assign({}, ENV, { NODE_OPTIONS:'--require='+JSON.stringify(path.join(ROOT,'test/fixtures/native-transaction-boundary.cjs')), PATH: `${stubs}:${process.env.PATH}` });
 }
 function update(env) {
   const r = spawnSync('node', [path.join(ROOT, 'bin', 'sshlg-skills.js'), 'update'],
@@ -693,10 +693,8 @@ it('`update --agent codex` runs no Claude plugin step, in the run or its preview
   const env = updateEnv();
   saveSettings(staleInstall());
   const calls = path.join(HOME, 'claude-calls.log');
-  const stubDir = env.PATH.split(':')[0];
-  write(path.join(stubDir, 'claude'), `#!/bin/sh\necho "$@" >> "${calls}"\nexit 0\n`);
-  fs.chmodSync(path.join(stubDir, 'claude'), 0o755);
-  const count = () => { try { return fs.readFileSync(calls, 'utf8').split('\n').filter((l) => /^plugin /.test(l)).length; } catch (e) { return 0; } };
+  env.SSHLG_TEST_NATIVE_CALL_LOG=calls;
+  const count = () => {try{return fs.readFileSync(calls,'utf8').split('\n').filter(l=>l==='claude-pins').length;}catch(_){return 0;}};
   try { fs.unlinkSync(calls); } catch (e) { /* none yet */ }
   const r = updateWith(env, ['--agent', 'codex']);
   assert.strictEqual(count(), 0, `\`update --agent codex\` ran ${count()} claude plugin command(s):\n${r.out.slice(-600)}`);
@@ -705,7 +703,7 @@ it('`update --agent codex` runs no Claude plugin step, in the run or its preview
   assert.ok(!/claude plugin/.test(dry.out), `the preview of \`--agent codex\` lists a claude plugin step:\n${dry.out.slice(-900)}`);
   // the control: unscoped, the plugin step runs
   updateWith(env, []);
-  assert.ok(count() > 0, 'the control ran no claude plugin command — the fixture proves nothing');
+  assert.ok(count() > 0, 'the control ran no native transaction — the fixture proves nothing');
 });
 
 it('a foreign status line blocks nothing and is left byte-identical (risk d)', () => {

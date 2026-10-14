@@ -1,0 +1,12 @@
+{
+  "observed": "2026-10-13T14:25:46.546991+00:00",
+  "source": "500e2583a3a26af7fe666760d9057828cb6f4bbd",
+  "fresh_detached_checkout": true,
+  "handoff_sha256": "37e9594f0c45636bfd24fce0c5c512db3d72d1385ca747d26324923248ccb63c",
+  "local_targets": 25,
+  "all_local_targets_exist": true,
+  "entrypoint_from_HANDOFF": true,
+  "checkout_clean": true,
+  "scope": "Fresh isolated Git checkout of handoff commit; no project tests, install, release or member-submodule runtime claim.",
+  "owned_checkout_removed": true
+}

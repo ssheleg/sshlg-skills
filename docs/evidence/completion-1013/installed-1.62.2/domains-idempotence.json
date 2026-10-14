@@ -1,0 +1,31 @@
+{
+  "schema": "installed-domain-idempotence/1",
+  "command": "node bin/sshlg-skills.js domains --apply",
+  "source": "a17f829e8d652ce7f68423b67e0de00fb89b3693",
+  "runs": [
+    {
+      "run": 1,
+      "exit_code": 0,
+      "measured_files": 37,
+      "all_hashes_unchanged": true,
+      "changed_file_count": 0,
+      "log_sha256": "58755bbc9566cd030295955e8f15fcd5c70b93abe667a9c65b6ea9c397db8c24"
+    },
+    {
+      "run": 2,
+      "exit_code": 0,
+      "measured_files": 37,
+      "all_hashes_unchanged": true,
+      "changed_file_count": 0,
+      "log_sha256": "58755bbc9566cd030295955e8f15fcd5c70b93abe667a9c65b6ea9c397db8c24"
+    },
+    {
+      "run": 3,
+      "exit_code": 0,
+      "measured_files": 37,
+      "all_hashes_unchanged": true,
+      "changed_file_count": 0,
+      "log_sha256": "58755bbc9566cd030295955e8f15fcd5c70b93abe667a9c65b6ea9c397db8c24"
+    }
+  ]
+}

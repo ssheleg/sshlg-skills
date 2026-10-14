@@ -1,0 +1,140 @@
+[
+  {
+    "source": "d6c87c3109539ae81bf8f9a2879958eed0d5bd99",
+    "docs": "9519b3838aaa56afce8dbe553dda26d677a236b1",
+    "files": {
+      "test/negative_lock.py": {
+        "sha256": "8d847c6744490818da51b1e60d0b5c7bc9cacd093587de626282d2a13009d67f",
+        "relevant_lines": [
+          {
+            "line": 8,
+            "text": "def scratch_lock_path():"
+          },
+          {
+            "line": 9,
+            "text": "return os.path.join(os.path.realpath('/tmp'), 'sshlg-family-negatives.lock')"
+          },
+          {
+            "line": 19,
+            "text": "def acquire_scratch_lock():"
+          }
+        ]
+      },
+      "test/negatives.py": {
+        "sha256": "1d29bed8da2e42890a366df024bcd248dd6a89b7609edf76f7b228787f5adea2",
+        "relevant_lines": [
+          {
+            "line": 46,
+            "text": "from negative_lock import acquire_scratch_lock"
+          },
+          {
+            "line": 147,
+            "text": "_lock = acquire_scratch_lock()"
+          },
+          {
+            "line": 288,
+            "text": "r = subprocess.run([\"bash\", \"-c\", script], cwd=_base,"
+          },
+          {
+            "line": 334,
+            "text": "r = subprocess.run([\"bash\", \"-c\", script], cwd=_base, capture_output=True, text=True)"
+          }
+        ]
+      },
+      "test/audit_regressions/fw07_scratch_lock.py": {
+        "sha256": "248a4e4403ce2a4006065acd558dcab17025b14928c3f392bb929c877ca1fdc2",
+        "relevant_lines": [
+          {
+            "line": 48,
+            "text": "lockpath = shared / 'sshlg-family-negatives.lock'"
+          },
+          {
+            "line": 54,
+            "text": "try:held=m.acquire_scratch_lock()"
+          },
+          {
+            "line": 92,
+            "text": "m.scratch_lock_path = lambda: str(lockpath)"
+          },
+          {
+            "line": 93,
+            "text": "with m.acquire_scratch_lock(): pass"
+          },
+          {
+            "line": 96,
+            "text": "try: m.acquire_scratch_lock()"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "source": "366a2d3b3d95657e0d3fa64fe1b63cabe4017e87",
+    "docs": "2aa47aa6d0f38d98753b4d7f47f62bb4afc3c7ab",
+    "files": {
+      "test/negative_lock.py": {
+        "sha256": "8d847c6744490818da51b1e60d0b5c7bc9cacd093587de626282d2a13009d67f",
+        "relevant_lines": [
+          {
+            "line": 8,
+            "text": "def scratch_lock_path():"
+          },
+          {
+            "line": 9,
+            "text": "return os.path.join(os.path.realpath('/tmp'), 'sshlg-family-negatives.lock')"
+          },
+          {
+            "line": 19,
+            "text": "def acquire_scratch_lock():"
+          }
+        ]
+      },
+      "test/negatives.py": {
+        "sha256": "6eccee11b115e50e3e34e822465643b7de7d92dbdfae0f29ec826de9b64fd458",
+        "relevant_lines": [
+          {
+            "line": 47,
+            "text": "from negative_lock import acquire_scratch_lock"
+          },
+          {
+            "line": 233,
+            "text": "_lock = acquire_scratch_lock()"
+          },
+          {
+            "line": 380,
+            "text": "r = subprocess.run([\"bash\", \"-c\", script], cwd=_base,"
+          },
+          {
+            "line": 422,
+            "text": "r = subprocess.run([\"bash\", \"-c\", script], cwd=_base, capture_output=True, text=True)"
+          }
+        ]
+      },
+      "test/audit_regressions/fw07_scratch_lock.py": {
+        "sha256": "e4aea11e528f6051e2944721e3a7a295e922f2a0c1b594d5bd36efe40b3f3bc2",
+        "relevant_lines": [
+          {
+            "line": 33,
+            "text": "lockpath = shared / 'sshlg-family-negatives.lock'"
+          },
+          {
+            "line": 39,
+            "text": "try:held=m.acquire_scratch_lock()"
+          },
+          {
+            "line": 77,
+            "text": "m.scratch_lock_path = lambda: str(lockpath)"
+          },
+          {
+            "line": 78,
+            "text": "with m.acquire_scratch_lock(): pass"
+          },
+          {
+            "line": 81,
+            "text": "try: m.acquire_scratch_lock()"
+          }
+        ]
+      }
+    }
+  }
+]

@@ -1,0 +1,40 @@
+{
+  "schema": "paired-routing-cases/1",
+  "source": "test/evals/routing.json",
+  "cases": [
+    {
+      "id": "p01",
+      "prompt": "сделай форму логина на react",
+      "want": ""
+    },
+    {
+      "id": "p02",
+      "prompt": "настрой мониторинг и алерты",
+      "want": ""
+    },
+    {
+      "id": "p07",
+      "prompt": "заверни в плагин",
+      "want": "make-skill"
+    }
+  ],
+  "interpretation": {
+    "p01": {
+      "legacy_want": "",
+      "current_required": [
+        "super-ux"
+      ],
+      "reason": "The current operator router explicitly sends all product/interface work through super-ux, including any user and path. A React login form is inside that boundary. Legacy silence remains historical."
+    },
+    "p02": {
+      "legacy_want": "",
+      "scoring": "EXPLORATORY_NO_FIXED_PASS",
+      "reason": "Monitoring scope is underspecified. Compare observed route sets; do not label all nonempty routing erroneous."
+    },
+    "p07": {
+      "legacy_want": "make-skill",
+      "scoring": "LEGACY_TARGET_RECALL_ONLY",
+      "reason": "Plugin construction target is retained for comparison; other routing and artifact scope remain explicit, not full task acceptance."
+    }
+  }
+}

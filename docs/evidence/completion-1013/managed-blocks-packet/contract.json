@@ -1,0 +1,37 @@
+{
+  "schema": "managed-blocks/1-draft-contract",
+  "status": "PROPOSED_NOT_IMPLEMENTED",
+  "authority": "Marker recognition and a source hash never grant write permission. REPOSITORY-HANDOFF has no admitted writer.",
+  "inspection": {
+    "requiredFields": ["schema", "sourceCut", "observedAt", "targets"],
+    "targetRequiredFields": ["host", "pathAlias", "rootSource", "readState", "blocks"],
+    "readState": ["READ", "ABSENT", "UNKNOWN", "UNSUPPORTED", "CHANGED_DURING_READ"],
+    "blockRequiredFields": ["markerId", "range", "syntaxState", "claimedOwner", "writerAdmission", "lastJournalState"],
+    "syntaxState": ["PAIRED", "MALFORMED", "NESTED_SUBREGION", "AMBIGUOUS"],
+    "writerAdmission": ["REGISTERED_NOT_AUTHORIZED", "AUTHORIZED_BY_EXISTING_POLICY", "FOREIGN", "OPERATOR_DECISION_REQUIRED", "UNKNOWN"],
+    "privacy": "Metadata by default; explicit local diff only for a selected file-backed source. Never execute preview/undo marker text. Public receipts omit bodies, absolute paths and private journal entries."
+  },
+  "operation": {
+    "requiredFields": ["schema", "operationId", "sequence", "state", "at", "tool", "source", "target", "block", "consent", "before", "after", "backup", "previousRecordSha256"],
+    "source": ["owner", "revision", "sha256"],
+    "target": ["host", "lexicalPath", "canonicalParent", "basename", "profileIdentity"],
+    "block": ["markerId", "ownerAdapter", "priorSegmentSha256", "nextSegmentSha256"],
+    "consent": ["policyKind", "policyIdentity", "policySha256"],
+    "snapshot": ["exists", "sha256", "mode", "dev", "ino"],
+    "backup": ["state", "privatePath", "sha256", "retentionPin"],
+    "states": ["PREPARED", "BACKUP_VERIFIED", "WRITE_INTENT", "VERIFIED", "REFUSED", "RECOVERY_REQUIRED", "RECOVERED_NO_WRITE", "RECOVERED_COMMITTED"],
+    "transitions": {
+      "PREPARED": ["BACKUP_VERIFIED", "REFUSED", "RECOVERY_REQUIRED"],
+      "BACKUP_VERIFIED": ["WRITE_INTENT", "REFUSED", "RECOVERY_REQUIRED"],
+      "WRITE_INTENT": ["VERIFIED", "RECOVERY_REQUIRED"],
+      "RECOVERY_REQUIRED": ["RECOVERED_NO_WRITE", "RECOVERED_COMMITTED"]
+    },
+    "unknownRule": "After uncertain write intent, never infer that no write occurred. Explicit recovery may classify current bytes against recorded before/after only; other bytes remain unresolved.",
+    "restoreRule": "Restore is a NEW authorized operation with a verified backup of current bytes; no silent rollback and no overwrite of intervening edits.",
+    "retentionRule": "Keep at least the configured ordinary history plus every backup referenced by nonterminal or unresolved operations; no deletion of legacy backups during migration.",
+    "privacy": {"directoryMode": "0700", "journalMode": "0600", "backupMode": "0600"},
+    "concurrency": "Cooperative per-target lock plus journal append lock, lock ordering fixed. Compare snapshots before replace. This is not an OS compare-and-swap against uncooperative writers and not an atomic multi-file batch."
+  },
+  "excluded": ["B180/star policy", "REPOSITORY-HANDOFF ownership or rename", "new host installation", "automatic foreign writer adoption", "automatic deletion or migration of legacy machine instructions", "external project or machine mutation by this packet"],
+  "nextTask": "Implement metadata-only blocks inventory and local diff first in an isolated branch with synthetic fixtures. Keep mutation flags unavailable until journal/protect migration and independent review are complete."
+}

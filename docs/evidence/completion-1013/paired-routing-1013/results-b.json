@@ -1,0 +1,799 @@
+{
+  "schema": "paired-routing-reader-run/1",
+  "status": "COMPLETED",
+  "calls": [
+    {
+      "phase": "task",
+      "case_id": "p02",
+      "repetition": 1,
+      "arm": "no-among",
+      "index": 0,
+      "state": "FINISHED",
+      "prompt_sha256": "a0162af3de6c748ca9776607c65c5f5110dae9e122c72807a68c7eaa8d5397a4",
+      "started_at_utc": "2026-10-13T07:17:56Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0384936,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 4236,
+        "cache_read_input_tokens": 1188,
+        "output_tokens": 218
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "3752202688490256e91a8fa0ff1e1cdb4a3f5c4a22d89e6839adba44e487319f",
+      "final_result_sha256": "3752202688490256e91a8fa0ff1e1cdb4a3f5c4a22d89e6839adba44e487319f",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "e503bf2bf1b96952e056ee4a5d6ecac864b41e39ae7bfefa1f2a056ab093db0e",
+          "text_sha256": "3752202688490256e91a8fa0ff1e1cdb4a3f5c4a22d89e6839adba44e487319f",
+          "characters": 215
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 5426,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "task-pipeline",
+        "sheleg-dev"
+      ],
+      "stdout_sha256": "88cad4c74d1c05f681d715e29a6d8c708f1d446c6bbb2d58f20850e7ce220f5e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p01",
+      "repetition": 0,
+      "arm": "current",
+      "index": 1,
+      "state": "FINISHED",
+      "prompt_sha256": "d222779e1611afc7cb4893ec7b698fc591c97ea074247d97dad3708da6927658",
+      "started_at_utc": "2026-10-13T07:18:01Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0444458,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 4903,
+        "cache_read_input_tokens": 1269,
+        "output_tokens": 248
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "e900310d7738c608622d90bcd840d18885ede496f58910c1044ec253f06569e5",
+      "final_result_sha256": "e900310d7738c608622d90bcd840d18885ede496f58910c1044ec253f06569e5",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "6ca81bf7d686021faf81d3a07ab4779e2f3035f6521a0fe9e75493a2615bb2ed",
+          "text_sha256": "e900310d7738c608622d90bcd840d18885ede496f58910c1044ec253f06569e5",
+          "characters": 277
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 6174,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ],
+      "stdout_sha256": "c9302c75e68524d73348c9a836ae15583c26b8a4f58b5d356b1990a80166f241",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p01",
+      "repetition": 1,
+      "arm": "no-among",
+      "index": 2,
+      "state": "FINISHED",
+      "prompt_sha256": "034a2506b8a4d69b06da31c573e39d0659bd0c9f0d45ec29abadbd460427b748",
+      "started_at_utc": "2026-10-13T07:18:06Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.036629800000000004,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 4231,
+        "cache_read_input_tokens": 1269,
+        "output_tokens": 126
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "c44797f5a625ae311547ad9486e87375001cae1da4f7833a133485de612a1a5e",
+      "final_result_sha256": "c44797f5a625ae311547ad9486e87375001cae1da4f7833a133485de612a1a5e",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "9eb7d361d9340e070d87a972532ee56fe5ebcd54ef3ffdaccd8988d4a9504724",
+          "text_sha256": "c44797f5a625ae311547ad9486e87375001cae1da4f7833a133485de612a1a5e",
+          "characters": 323
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 5502,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ],
+      "stdout_sha256": "d5731e0c69eddf749f0da93d46afa45200606f1e46491e0dd156920dc6affd33",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p02",
+      "repetition": 0,
+      "arm": "no-among",
+      "index": 3,
+      "state": "FINISHED",
+      "prompt_sha256": "a0162af3de6c748ca9776607c65c5f5110dae9e122c72807a68c7eaa8d5397a4",
+      "started_at_utc": "2026-10-13T07:18:11Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.037877799999999996,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 4232,
+        "cache_read_input_tokens": 1269,
+        "output_tokens": 188
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "8686c88cec3d66b2ed685836441d2150672945298e8abea8b11d551e181e8ec7",
+      "final_result_sha256": "8686c88cec3d66b2ed685836441d2150672945298e8abea8b11d551e181e8ec7",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "7f62d8f0c2b42007261ca673e2111fa749ac6c3710f378a619239a6892dd9c70",
+          "text_sha256": "8686c88cec3d66b2ed685836441d2150672945298e8abea8b11d551e181e8ec7",
+          "characters": 211
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 5503,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "sheleg-dev",
+        "task-pipeline"
+      ],
+      "stdout_sha256": "9d45c62c42f29a0d2db8300d1e10f4a5854aed2a0b48d9be4ec313640921a4e0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p01",
+      "repetition": 2,
+      "arm": "current",
+      "index": 4,
+      "state": "FINISHED",
+      "prompt_sha256": "d222779e1611afc7cb4893ec7b698fc591c97ea074247d97dad3708da6927658",
+      "started_at_utc": "2026-10-13T07:18:17Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0060798,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 392,
+        "cache_read_input_tokens": 5779,
+        "output_tokens": 89
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "32e38baff727d6e9fb487aefaf357effc9dd645fbabdac07768a1d67c0600e47",
+      "final_result_sha256": "32e38baff727d6e9fb487aefaf357effc9dd645fbabdac07768a1d67c0600e47",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "1bb15590224edb5784bb0e43229051731565623b85f3d2d4cbce4016ed419f46",
+          "text_sha256": "32e38baff727d6e9fb487aefaf357effc9dd645fbabdac07768a1d67c0600e47",
+          "characters": 239
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 6173,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ],
+      "stdout_sha256": "8dd2c20c2f74736c38065de4cb4e013a1a894457658e09e4abfa76374e8aee44",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p01",
+      "repetition": 0,
+      "arm": "no-among",
+      "index": 5,
+      "state": "FINISHED",
+      "prompt_sha256": "034a2506b8a4d69b06da31c573e39d0659bd0c9f0d45ec29abadbd460427b748",
+      "started_at_utc": "2026-10-13T07:18:22Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0062138,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 393,
+        "cache_read_input_tokens": 5109,
+        "output_tokens": 102
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "f99508d3925d000008c3328f37663c63dcf92613ed14c9c434ddabe9ed0b7c9f",
+      "final_result_sha256": "f99508d3925d000008c3328f37663c63dcf92613ed14c9c434ddabe9ed0b7c9f",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "ec5ce7954895e2f119f2153f2a20e4a22aa675195e251141ac419b3715c4b3fb",
+          "text_sha256": "f99508d3925d000008c3328f37663c63dcf92613ed14c9c434ddabe9ed0b7c9f",
+          "characters": 233
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 5504,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ],
+      "stdout_sha256": "e47f117b5ad42689536503ad17f861c79d6e0714f016a6dcb700ee82400607a7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p07",
+      "repetition": 0,
+      "arm": "no-among",
+      "index": 6,
+      "state": "FINISHED",
+      "prompt_sha256": "794623fa40d3175efd999a043885f30e451b7c2e542390aefceb6f0ff806b4cf",
+      "started_at_utc": "2026-10-13T07:18:26Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0351418,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 4230,
+        "cache_read_input_tokens": 1269,
+        "output_tokens": 52
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "ed0263f4e58accd66d29906a90b03110c47f90e8922e0a1acd38202cfa27609f",
+      "final_result_sha256": "ed0263f4e58accd66d29906a90b03110c47f90e8922e0a1acd38202cfa27609f",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "3e5acbd41f63be94cd5778f175ca6bbe7abcc2fb80145250c898ba231ab73290",
+          "text_sha256": "ed0263f4e58accd66d29906a90b03110c47f90e8922e0a1acd38202cfa27609f",
+          "characters": 106
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 5501,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "make-skill"
+      ],
+      "stdout_sha256": "e11e26a92a5cef0fca1bdec267b3ce6461f246a4975c5c9cfde2f91b70721c81",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p01",
+      "repetition": 1,
+      "arm": "current",
+      "index": 7,
+      "state": "FINISHED",
+      "prompt_sha256": "d222779e1611afc7cb4893ec7b698fc591c97ea074247d97dad3708da6927658",
+      "started_at_utc": "2026-10-13T07:18:30Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0066278000000000005,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 393,
+        "cache_read_input_tokens": 5779,
+        "output_tokens": 116
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "f15b6052032be55c52c7569d0eb4a1b79318bd9ff2edf2b4ff4f2f61945d08d8",
+      "final_result_sha256": "f15b6052032be55c52c7569d0eb4a1b79318bd9ff2edf2b4ff4f2f61945d08d8",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "bbeed0f21d4bb69eec745516697cf7f8252e31b61832ae438e3d72fc972769b7",
+          "text_sha256": "f15b6052032be55c52c7569d0eb4a1b79318bd9ff2edf2b4ff4f2f61945d08d8",
+          "characters": 303
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 6174,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ],
+      "stdout_sha256": "114750ada87f51115274c137d965482bb168f79d1e50ca689cfbdc9f47c7023b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p01",
+      "repetition": 2,
+      "arm": "no-among",
+      "index": 8,
+      "state": "FINISHED",
+      "prompt_sha256": "034a2506b8a4d69b06da31c573e39d0659bd0c9f0d45ec29abadbd460427b748",
+      "started_at_utc": "2026-10-13T07:18:37Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.005945799999999999,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 392,
+        "cache_read_input_tokens": 5109,
+        "output_tokens": 89
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "91ac15daef24bf65bdb809ce945cf7906b41f05f3d951ca74b9515a2bf275d19",
+      "final_result_sha256": "91ac15daef24bf65bdb809ce945cf7906b41f05f3d951ca74b9515a2bf275d19",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "ca2ef83ecbf509e5c1392449c2055beca90eff30c276b75842e8025dc09d4b90",
+          "text_sha256": "91ac15daef24bf65bdb809ce945cf7906b41f05f3d951ca74b9515a2bf275d19",
+          "characters": 229
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 5503,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ],
+      "stdout_sha256": "82d680086344488fd53baf0f43d6417fde632d3216f950714b35d9ffec89587d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p07",
+      "repetition": 2,
+      "arm": "current",
+      "index": 9,
+      "state": "FINISHED",
+      "prompt_sha256": "2b240c5f1bc23845b95ff475497d792f2151432115986e5df5fff9a679ef6db3",
+      "started_at_utc": "2026-10-13T07:18:41Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0409258,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 4898,
+        "cache_read_input_tokens": 1269,
+        "output_tokens": 74
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "37bea7e4f35a59cf9c95c3836d0ba03b5d0aebd6f3499b8d415b825dce2748ef",
+      "final_result_sha256": "37bea7e4f35a59cf9c95c3836d0ba03b5d0aebd6f3499b8d415b825dce2748ef",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "7cdd517177cfbd5a23fe38b54e4433f4bb460e8ac7e165f4320c1edeb26b9eee",
+          "text_sha256": "37bea7e4f35a59cf9c95c3836d0ba03b5d0aebd6f3499b8d415b825dce2748ef",
+          "characters": 160
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 6169,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "make-skill",
+        "task-pipeline"
+      ],
+      "stdout_sha256": "7823bbc92667b1dc871bff13e0e80fa1fc4bd8678d53c0365fedfed0d8b77fae",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p07",
+      "repetition": 0,
+      "arm": "current",
+      "index": 10,
+      "state": "FINISHED",
+      "prompt_sha256": "2b240c5f1bc23845b95ff475497d792f2151432115986e5df5fff9a679ef6db3",
+      "started_at_utc": "2026-10-13T07:18:45Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.005403399999999999,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 390,
+        "cache_read_input_tokens": 5777,
+        "output_tokens": 56
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "623168e7cb19a0b26a3fb7b3553e5034eade6ef860d98a8bf26e64538395b78f",
+      "final_result_sha256": "623168e7cb19a0b26a3fb7b3553e5034eade6ef860d98a8bf26e64538395b78f",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "6fa5a1514a01824d22506a4feca46898e527ff3dbd854df043979ad33db1dbed",
+          "text_sha256": "623168e7cb19a0b26a3fb7b3553e5034eade6ef860d98a8bf26e64538395b78f",
+          "characters": 122
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 6169,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "make-skill"
+      ],
+      "stdout_sha256": "2ad184ea82a6e9311a150721c86061ebc08297ac08eaaeca33d4777038a8e0a1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p07",
+      "repetition": 2,
+      "arm": "no-among",
+      "index": 11,
+      "state": "FINISHED",
+      "prompt_sha256": "794623fa40d3175efd999a043885f30e451b7c2e542390aefceb6f0ff806b4cf",
+      "started_at_utc": "2026-10-13T07:18:49Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0053654,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 392,
+        "cache_read_input_tokens": 5107,
+        "output_tokens": 60
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "d63a3d833e45c40f414074b94edcae83a4cad55a131d55416f224795837bca1d",
+      "final_result_sha256": "d63a3d833e45c40f414074b94edcae83a4cad55a131d55416f224795837bca1d",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "c9bb84da83c9861477f0b805799a3aab99f4963802ac86a4a369f207b9e08e4e",
+          "text_sha256": "d63a3d833e45c40f414074b94edcae83a4cad55a131d55416f224795837bca1d",
+          "characters": 129
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 5501,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "make-skill"
+      ],
+      "stdout_sha256": "6f65d1723555f5075e963a0c78231024808eeed5cc1c00778dba03c2a4ab7b6c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p07",
+      "repetition": 1,
+      "arm": "current",
+      "index": 12,
+      "state": "FINISHED",
+      "prompt_sha256": "2b240c5f1bc23845b95ff475497d792f2151432115986e5df5fff9a679ef6db3",
+      "started_at_utc": "2026-10-13T07:18:53Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0055394,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 392,
+        "cache_read_input_tokens": 5777,
+        "output_tokens": 62
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "5c0913114845f0b94335e921c1e73e7b04da3d8976f3678c9c631bd6cfd3d431",
+      "final_result_sha256": "5c0913114845f0b94335e921c1e73e7b04da3d8976f3678c9c631bd6cfd3d431",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "056209a08e2d3f5083de945451280d0d47a01853ca10c36b72956380c1e77313",
+          "text_sha256": "5c0913114845f0b94335e921c1e73e7b04da3d8976f3678c9c631bd6cfd3d431",
+          "characters": 143
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 6171,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "make-skill"
+      ],
+      "stdout_sha256": "c881981e40b7b409f4665d5b675f539353a7fc494b5e06343c7cf44553e5f131",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p02",
+      "repetition": 1,
+      "arm": "current",
+      "index": 13,
+      "state": "FINISHED",
+      "prompt_sha256": "b30bf5c3fcb07bc2c568ed2c8e9458ad99519580061bac2285557ed87e469909",
+      "started_at_utc": "2026-10-13T07:18:58Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0432218,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 4905,
+        "cache_read_input_tokens": 1269,
+        "output_tokens": 186
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "61b4e89b858a2bb603527b01e6ef1545a8bc1b835a7144f51c8a8037bc16de6f",
+      "final_result_sha256": "61b4e89b858a2bb603527b01e6ef1545a8bc1b835a7144f51c8a8037bc16de6f",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "740ca2f952668f6112edb8bc22ef1013700dcf61a544249fad2d3106964c68d2",
+          "text_sha256": "61b4e89b858a2bb603527b01e6ef1545a8bc1b835a7144f51c8a8037bc16de6f",
+          "characters": 195
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 6176,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "task-pipeline",
+        "sheleg-dev"
+      ],
+      "stdout_sha256": "00164e18677485c310dc26385dccd1b4e28a6e4986953517447451a484c77003",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p02",
+      "repetition": 2,
+      "arm": "no-among",
+      "index": 14,
+      "state": "FINISHED",
+      "prompt_sha256": "a0162af3de6c748ca9776607c65c5f5110dae9e122c72807a68c7eaa8d5397a4",
+      "started_at_utc": "2026-10-13T07:19:02Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0056584,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 391,
+        "cache_read_input_tokens": 5112,
+        "output_tokens": 75
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "c4d23357dad27fc500f41c1913ddeb606d18e5e184847820e615df16887a390f",
+      "final_result_sha256": "c4d23357dad27fc500f41c1913ddeb606d18e5e184847820e615df16887a390f",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "2e0ec2c4804aaccf3dcf95b627d98e781a62c965f05c0d41a580d72f957b6d7f",
+          "text_sha256": "c4d23357dad27fc500f41c1913ddeb606d18e5e184847820e615df16887a390f",
+          "characters": 193
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 5505,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "task-pipeline"
+      ],
+      "stdout_sha256": "7263d7142ba10eb0f3d33a2f83887d22b1301ec26e9e59d5b8c4c8a73977c981",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p02",
+      "repetition": 0,
+      "arm": "current",
+      "index": 15,
+      "state": "FINISHED",
+      "prompt_sha256": "b30bf5c3fcb07bc2c568ed2c8e9458ad99519580061bac2285557ed87e469909",
+      "started_at_utc": "2026-10-13T07:19:06Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0090284,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 393,
+        "cache_read_input_tokens": 5782,
+        "output_tokens": 236
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "b57ef2fb83be80a2b74f2ecba031cf80a9ce158d47e5a28f9ae97a4ecc336ee4",
+      "final_result_sha256": "b57ef2fb83be80a2b74f2ecba031cf80a9ce158d47e5a28f9ae97a4ecc336ee4",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "7ac08f0839c75d603d1a74c158a3a9868d4b1b3f3508414ae01557f645b4190d",
+          "text_sha256": "b57ef2fb83be80a2b74f2ecba031cf80a9ce158d47e5a28f9ae97a4ecc336ee4",
+          "characters": 193
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 6177,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "task-pipeline",
+        "sheleg-dev"
+      ],
+      "stdout_sha256": "1a6f9df3857d894aed58e78fd16705d3f82b5b04c9e753f7baee6782a1615abb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "p07",
+      "repetition": 1,
+      "arm": "no-among",
+      "index": 16,
+      "state": "FINISHED",
+      "prompt_sha256": "794623fa40d3175efd999a043885f30e451b7c2e542390aefceb6f0ff806b4cf",
+      "started_at_utc": "2026-10-13T07:19:11Z",
+      "workspace_manifest_sha256": "359b63e250d639918b779f2624b335fe71e1a369167db7cbdec13789c25f8195",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.005377400000000001,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 391,
+        "cache_read_input_tokens": 5107,
+        "output_tokens": 61
+      },
+      "native": {
+        "visible": [],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "1bec8c9c9b7b2f8f1ae5adc2b3ffb70d666bfbc0011be2862157a64d8fa5a3b9",
+      "final_result_sha256": "1bec8c9c9b7b2f8f1ae5adc2b3ffb70d666bfbc0011be2862157a64d8fa5a3b9",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "3664d4df0692e31bb0495800883f148aa5b92001792a686079945f09486094ac",
+          "text_sha256": "1bec8c9c9b7b2f8f1ae5adc2b3ffb70d666bfbc0011be2862157a64d8fa5a3b9",
+          "characters": 139
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 5500,
+      "request_count": 1,
+      "turns": 1,
+      "route_names": [
+        "make-skill"
+      ],
+      "stdout_sha256": "d68273a2e43da349290b926d79c5ef515cdbd7424fbab92401018945c1d21901",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "reported_list_usd": 0.33797599999999994,
+  "cost_incomplete": false,
+  "max_calls": 17,
+  "budget_usd": 1.4344608,
+  "seed": 1013272,
+  "source_commit": "45ad0580f5db71132eaebd10cba4d4902bdeb080",
+  "runner_sha256": "8ef55b606650168a3e70dd074dec854d1553f425c8108ab8631420e35cf7b50c",
+  "source_manifest_sha256": "b37074ceb9202cf6f7c00fa60becb9676104c9969a37403aad2d40a1ef29555f",
+  "admission_sha256": "4522f448d65d46efc3eb691804ee527327a9103ddbe5dc5d373448dff4322c27",
+  "prior_known_pilots_list_usd": 2.1959482,
+  "prior_native_a_b_c_list_usd": 2.4620616,
+  "prior_native_cli_invocations": 64,
+  "protocol": "PAIRED_READER_B",
+  "prior_paired_a_list_usd": 0.1034776,
+  "prior_paired_a_cli_invocations": 4,
+  "max_cumulative_cli_invocations": 85,
+  "scope": "Paired reading of router text only; no native skill selection, task execution or adoption claim; list metadata is not subscription billing.",
+  "scores": {
+    "task_cells": 17,
+    "semantic_review": "PENDING_INDEPENDENT_ROUTE_SET_REVIEW"
+  },
+  "planned_not_started": 0
+}

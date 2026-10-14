@@ -1,0 +1,8 @@
+{
+  "source": "f665c532104a9ecfd1cb2a3e5831e98c3414a093",
+  "timeout": true,
+  "timeout_seconds": 2,
+  "stdout": "  Claude native transaction: verified immutable payloads \u2014 synthetic-native-boundary\nrules.wait: claude not-applied\n\n== Refreshing the routing block ==\nrouters: /var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/runtime-fifo-baseline-rq1zijt6/home/.claude/CLAUDE.md \u2014 absent\nrouters: fabric \u2014 not on this machine: Fabric is not installed on this machine (no services directory)\n",
+  "stderr": "",
+  "owned_child_killed_by_subprocess_run": true
+}

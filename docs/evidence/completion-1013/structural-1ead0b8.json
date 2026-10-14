@@ -1,0 +1,38 @@
+{
+  "source": "1ead0b86e9119539973f91e4604eb43c88df05e9",
+  "command": [
+    "python3",
+    "test/validate.py"
+  ],
+  "exit": 0,
+  "log_sha256": "018a6a6abf71938249daebf60243a73a6347fb88467635bd5e4144052ae1ab2f",
+  "scope": "Focused structural check after counter and report reconciliation; not aggregate or runtime acceptance.",
+  "unlooked": [
+    "unlooked: shared mechanism \u2014 plant_guard_test.py has 4 copies that share a name and 0.861 of their text, under the 0.9 floor. Reported rather than gated: a seam declaration for files this different would be a sentence nobody could write truthfully",
+    "unlooked: shared mechanism \u2014 social_preview.py has 11 copies that share a name and 0.828 of their text, under the 0.9 floor. Reported rather than gated: a seam declaration for files this different would be a sentence nobody could write truthfully",
+    "unlooked: copied mechanisms \u2014 5 file name(s) held above the 0.9 floor by exact similarity; the bound is a prefilter only, and everything it over-estimated is reported above rather than gated",
+    "unlooked: super-ux: graph built at 6348b641, which does not resolve here \u2014 a shallow clone or a rewritten history, and either way not a current graph",
+    "unlooked: super-ux: detached at a commit that IS on a branch, so whether it is pushed could not be read from here",
+    "unlooked: task-pipeline: detached at a commit that IS on a branch, so whether it is pushed could not be read from here",
+    "unlooked: agent-sync: detached at a commit that IS on a branch, so whether it is pushed could not be read from here",
+    "unlooked: make-skill: detached at a commit that IS on a branch, so whether it is pushed could not be read from here",
+    "unlooked: sheleg-design: detached at a commit that IS on a branch, so whether it is pushed could not be read from here",
+    "unlooked: seo-aeo-audit: detached at a commit that IS on a branch, so whether it is pushed could not be read from here",
+    "unlooked: sheleg-dev: detached at a commit that IS on a branch, so whether it is pushed could not be read from here",
+    "unlooked: agent-stack: detached at a commit that IS on a branch, so whether it is pushed could not be read from here",
+    "unlooked: telegram-dev: detached at a commit that IS on a branch, so whether it is pushed could not be read from here",
+    "unlooked: xr-dev: detached at a commit that IS on a branch, so whether it is pushed could not be read from here",
+    "unlooked: web3d-dev: detached at a commit that IS on a branch, so whether it is pushed could not be read from here",
+    "unlooked: super-ux: CHANGELOG documents 1 version(s) with no tag and no note saying they were not releases \u2014 0.47.0",
+    "unlooked: board rank \u2014 row B-187's Source names no date, so its age is unknown",
+    "unlooked: board \u2014 B-82 is waived, not done; its revisit condition is in the row",
+    "unlooked: board \u2014 B-07 is waived, not done; its revisit condition is in the row",
+    "unlooked: board \u2014 B-08 is waived, not done; its revisit condition is in the row",
+    "unlooked: bytecode packing \u2014 agent-stack's `files` could include `__pycache__`; its published tarball is clean only because the release runs from a fresh CI checkout",
+    "unlooked: bytecode packing \u2014 task-pipeline's `files` could include `__pycache__`; its published tarball is clean only because the release runs from a fresh CI checkout",
+    "unlooked: bytecode packing \u2014 telegram-dev's `files` could include `__pycache__`; its published tarball is clean only because the release runs from a fresh CI checkout",
+    "unlooked: description reserve \u2014 13 of 39 skills within 60 characters. What it costs routing is computed by `node test/route_coverage.js`, which prints the blocked/free split per miss; this guard states no split of its own",
+    "unlooked: description total -- 32501 characters over 39 skills, at the recorded ceiling",
+    "unlooked: claimed addresses -- not gated in the dated records, whose rows cite member repositories and past states on purpose (dead/total): docs/evidence/backlog.md 16/149; docs/evidence/verification.md 14/131; docs/evidence/retro.md 3/21; docs/evidence/retro/2026-Q3.md 3/23; docs/evidence/manifesto-conformance.md 16/56"
+  ]
+}

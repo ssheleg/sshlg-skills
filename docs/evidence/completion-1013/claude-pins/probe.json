@@ -1,0 +1,54 @@
+{
+  "a": "cfffcdff63c28e63ef22ef76e9eb4bd3e9aba23a",
+  "b": "16e5730d210daecdc1b3bd23fa7b12a67bf3cf88",
+  "rows": [
+    {
+      "label": "add-first",
+      "exit": 1,
+      "stdout": "Adding marketplace\u2026\n",
+      "stderr": "\u2718 Failed to add marketplace: Failed to clone marketplace repository: Cloning into '<sandbox>/home/.claude/plugins/marketplaces/temp_git_1791868802298_9q1j16..clone'...\nfatal: Remote branch cfffcdff63c28e63ef22ef76e9eb4bd3e9aba23a not found in upstream origin\n",
+      "installed": null,
+      "known": null
+    },
+    {
+      "label": "install-first",
+      "exit": 1,
+      "stdout": "Installing plugin \"probe@owned-pin-probe\"...\n",
+      "stderr": "\u2718 Failed to install plugin \"probe@owned-pin-probe\": Plugin \"probe\" not found in marketplace \"owned-pin-probe\". Your local copy may be out of date \u2014 try `claude plugin marketplace update owned-pin-probe`.\n",
+      "installed": null,
+      "known": null
+    },
+    {
+      "label": "add-second",
+      "exit": 1,
+      "stdout": "Adding marketplace\u2026\n",
+      "stderr": "\u2718 Failed to add marketplace: Failed to clone marketplace repository: Cloning into '<sandbox>/home/.claude/plugins/marketplaces/temp_git_1791868802557_6ptxfp..clone'...\nfatal: Remote branch 16e5730d210daecdc1b3bd23fa7b12a67bf3cf88 not found in upstream origin\n",
+      "installed": null,
+      "known": null
+    },
+    {
+      "label": "update-same-version",
+      "exit": 1,
+      "stdout": "Checking for updates for plugin \"probe@owned-pin-probe\"\u2026\n",
+      "stderr": "\u2718 Failed to update plugin \"probe@owned-pin-probe\": Plugin \"probe\" not found\n",
+      "installed": null,
+      "known": null
+    },
+    {
+      "label": "add-first-again",
+      "exit": 1,
+      "stdout": "Adding marketplace\u2026\n",
+      "stderr": "\u2718 Failed to add marketplace: Failed to clone marketplace repository: Cloning into '<sandbox>/home/.claude/plugins/marketplaces/temp_git_1791868802811_nhcww4..clone'...\nfatal: Remote branch cfffcdff63c28e63ef22ef76e9eb4bd3e9aba23a not found in upstream origin\n",
+      "installed": null,
+      "known": null
+    },
+    {
+      "label": "update-back",
+      "exit": 1,
+      "stdout": "Checking for updates for plugin \"probe@owned-pin-probe\"\u2026\n",
+      "stderr": "\u2718 Failed to update plugin \"probe@owned-pin-probe\": Plugin \"probe\" not found\n",
+      "installed": null,
+      "known": null
+    }
+  ]
+}

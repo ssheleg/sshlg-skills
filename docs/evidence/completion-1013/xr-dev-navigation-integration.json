@@ -1,0 +1,291 @@
+{
+  "repo": "ssheleg/xr-dev",
+  "source": "6e7e7ceaa92e48b2c66cd6d9dcb157a804aafd9d",
+  "pr": 9,
+  "run": {
+    "conclusion": "success",
+    "event": "pull_request",
+    "headSha": "6e7e7ceaa92e48b2c66cd6d9dcb157a804aafd9d",
+    "jobs": [
+      {
+        "completedAt": "2026-10-13T11:50:29Z",
+        "conclusion": "success",
+        "databaseId": 115280957881,
+        "name": "validate",
+        "startedAt": "2026-10-13T11:50:00Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:50:02Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:50:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:03Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:50:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:03Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-10-13T11:50:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:08Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-node@v4",
+            "number": 4,
+            "startedAt": "2026-10-13T11:50:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:08Z",
+            "conclusion": "success",
+            "name": "Tests \u2014 the same entry point a human uses",
+            "number": 5,
+            "startedAt": "2026-10-13T11:50:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:16Z",
+            "conclusion": "success",
+            "name": "Negative self-test \u2014 every guard watched refusing its own defect",
+            "number": 6,
+            "startedAt": "2026-10-13T11:50:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:16Z",
+            "conclusion": "success",
+            "name": "Every reference a skill body names is present in the payload",
+            "number": 7,
+            "startedAt": "2026-10-13T11:50:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:20Z",
+            "conclusion": "success",
+            "name": "Manifests \u2014 both strict validations",
+            "number": 8,
+            "startedAt": "2026-10-13T11:50:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:24Z",
+            "conclusion": "success",
+            "name": "The declared $schema addresses resolve, and the manifests validate against them",
+            "number": 9,
+            "startedAt": "2026-10-13T11:50:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:24Z",
+            "conclusion": "success",
+            "name": "The installer runs against a fresh HOME, and the rerun skips",
+            "number": 10,
+            "startedAt": "2026-10-13T11:50:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:24Z",
+            "conclusion": "success",
+            "name": "install.sh syntax check",
+            "number": 11,
+            "startedAt": "2026-10-13T11:50:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:24Z",
+            "conclusion": "success",
+            "name": "npm installer CLI check",
+            "number": 12,
+            "startedAt": "2026-10-13T11:50:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:25Z",
+            "conclusion": "success",
+            "name": "npm installer functional test (fresh / rerun-skip / --force / plugin-present refusal)",
+            "number": 13,
+            "startedAt": "2026-10-13T11:50:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:25Z",
+            "conclusion": "success",
+            "name": "What npm would publish",
+            "number": 14,
+            "startedAt": "2026-10-13T11:50:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:25Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-node@v4",
+            "number": 26,
+            "startedAt": "2026-10-13T11:50:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:25Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 27,
+            "startedAt": "2026-10-13T11:50:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:26Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 28,
+            "startedAt": "2026-10-13T11:50:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:26Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 29,
+            "startedAt": "2026-10-13T11:50:26Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/xr-dev/actions/runs/38392942300/job/115280957881"
+      },
+      {
+        "completedAt": "2026-10-13T11:50:11Z",
+        "conclusion": "success",
+        "databaseId": 115280958192,
+        "name": "House skill audit",
+        "startedAt": "2026-10-13T11:50:00Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T11:50:02Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T11:50:01Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:02Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T11:50:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:03Z",
+            "conclusion": "success",
+            "name": "Checkout the pinned family auditor",
+            "number": 3,
+            "startedAt": "2026-10-13T11:50:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:06Z",
+            "conclusion": "success",
+            "name": "Install a real tokenizer (the budget is MEASURED, never estimated)",
+            "number": 4,
+            "startedAt": "2026-10-13T11:50:03Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:08Z",
+            "conclusion": "success",
+            "name": "Audit every shipped Agent Skill",
+            "number": 5,
+            "startedAt": "2026-10-13T11:50:06Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:08Z",
+            "conclusion": "success",
+            "name": "Validate behavioral eval data and watch the guard fail",
+            "number": 6,
+            "startedAt": "2026-10-13T11:50:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:08Z",
+            "conclusion": "success",
+            "name": "Validate the committed social preview",
+            "number": 7,
+            "startedAt": "2026-10-13T11:50:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:08Z",
+            "conclusion": "success",
+            "name": "Post Checkout the pinned family auditor",
+            "number": 13,
+            "startedAt": "2026-10-13T11:50:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:08Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-10-13T11:50:08Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T11:50:08Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-10-13T11:50:08Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/xr-dev/actions/runs/38392942300/job/115280958192"
+      }
+    ],
+    "url": "https://github.com/ssheleg/xr-dev/actions/runs/38392942300"
+  },
+  "required_checks": "NOT_APPLICABLE: repository explicitly has no branch protection or rulesets; all genuine candidate jobs still required and passed.",
+  "policy": {
+    "observed_utc": "2026-10-13T11:54:32.981491+00:00",
+    "branch_url": "https://api.github.com/repos/ssheleg/xr-dev/branches/main",
+    "protected": false,
+    "protection": {
+      "enabled": false,
+      "required_status_checks": {
+        "enforcement_level": "off",
+        "contexts": [],
+        "checks": []
+      }
+    },
+    "branch_rules": [],
+    "rulesets": []
+  },
+  "local_gate_source": "712a221f479189b59c786fbd0379886001f87351",
+  "state": "MERGED",
+  "merge_exit": 0,
+  "merge_stdout": "",
+  "merge_stderr": "",
+  "final": {
+    "headRefOid": "6e7e7ceaa92e48b2c66cd6d9dcb157a804aafd9d",
+    "mergeCommit": {
+      "oid": "b4181b996ef54d29032735be45d7597e7fb18e64"
+    },
+    "state": "MERGED",
+    "url": "https://github.com/ssheleg/xr-dev/pull/9"
+  },
+  "candidate_tree": "074161efc17cf506c10432e18d3fd7b428e1d630",
+  "merge_tree": "074161efc17cf506c10432e18d3fd7b428e1d630",
+  "tree_equal": true
+}

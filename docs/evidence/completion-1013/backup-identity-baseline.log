@@ -1,0 +1,11 @@
+FAIL: different canonical profiles do not cross-prune or select restore bytes: other profile pruned the only recovery copy
+FAIL: legacy ambiguous candidates survive and cannot drive an automatic restore: Missing expected exception.
+FAIL: real restore hook reports legacy ambiguity and leaves current config untouched: 'OBSIDIAN_VAULT_PATH=/current\nCLAUDE_HISTORY_PATH=/foreign-history\n' == 'OBSIDIAN_VAULT_PATH=/current\n'
+FAIL: canonical alias uses same history but retarget cannot retrieve prior profile bytes: The "path" argument must be of type string or an instance of Buffer or URL. Received null
+FAIL: same-second copies are exclusive and latest orders the tenth suffix numerically: '8' == '11'
+FAIL: pre-existing same-second name cannot be overwritten even across a stale existence probe: '[OWNED_TMP]/sshlg-backup-identity-RkHcX3/exclusive/.sshlg-skills/backups/CLAUDE.md.20261013T000000Z' != '[OWNED_TMP]/sshlg-backup-identity-RkHcX3/exclusive/.sshlg-skills/backups/CLAUDE.md.20261013T000000Z'
+FAIL: retarget during publication refuses backup admission and preserves both profiles: 'saved' == 'backup-failed'
+FAIL: pending foreign and symlink entries are never pruned or followed: ENOENT: no such file or directory, lstat '[OWNED_TMP]/sshlg-backup-identity-RkHcX3/foreign/.sshlg-skills/backups/CLAUDE.md.20200101T000000Z'
+FAIL: failed exclusive publication cancels guard and cleans only its owned temporary copy: 'saved' == 'backup-failed'
+FAIL: real same-second concurrent processes: concurrent saves reused a path
+10 failures / 10

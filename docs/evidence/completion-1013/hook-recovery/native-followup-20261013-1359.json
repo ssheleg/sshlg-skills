@@ -1,0 +1,100 @@
+{
+  "schema": "native-hook-followup/1",
+  "thread": "01a132b5-0516-7c41-891d-4ce561a1dcaf",
+  "window_seconds": 50,
+  "method": "Read-only app-server hook/completed subscription after exact old payload recovery; no hook mutation.",
+  "observed": "2026-10-13T14:00:03.127876+00:00",
+  "events": [
+    {
+      "id": "pre-tool-use:0:/Users/sshlg/.codex/hooks.json:exec-2fed8e97-4537-4c6c-b294-39afe8223720",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791899951,
+      "completedAt": 1791899951,
+      "durationMs": 141
+    },
+    {
+      "id": "pre-tool-use:10:/Users/sshlg/.codex/plugins/cache/agent-sync/agent-sync/1.22.1/hooks/hooks.json:exec-2fed8e97-4537-4c6c-b294-39afe8223720",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791899951,
+      "completedAt": 1791899951,
+      "durationMs": 446
+    },
+    {
+      "id": "pre-tool-use:21:/Users/sshlg/.codex/plugins/cache/sheleg-dev/sheleg-dev/0.13.3/hooks/hooks.json:exec-2fed8e97-4537-4c6c-b294-39afe8223720",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791899951,
+      "completedAt": 1791899951,
+      "durationMs": 314
+    },
+    {
+      "id": "pre-tool-use:23:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-2fed8e97-4537-4c6c-b294-39afe8223720",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791899951,
+      "completedAt": 1791899951,
+      "durationMs": 227
+    },
+    {
+      "id": "pre-tool-use:0:/Users/sshlg/.codex/hooks.json:exec-507577c4-868a-4197-8db1-4c56be5271d2",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791899980,
+      "completedAt": 1791899981,
+      "durationMs": 264
+    },
+    {
+      "id": "pre-tool-use:10:/Users/sshlg/.codex/plugins/cache/agent-sync/agent-sync/1.22.1/hooks/hooks.json:exec-507577c4-868a-4197-8db1-4c56be5271d2",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791899980,
+      "completedAt": 1791899981,
+      "durationMs": 352
+    },
+    {
+      "id": "pre-tool-use:21:/Users/sshlg/.codex/plugins/cache/sheleg-dev/sheleg-dev/0.13.3/hooks/hooks.json:exec-507577c4-868a-4197-8db1-4c56be5271d2",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791899980,
+      "completedAt": 1791899981,
+      "durationMs": 463
+    },
+    {
+      "id": "pre-tool-use:23:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-507577c4-868a-4197-8db1-4c56be5271d2",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791899980,
+      "completedAt": 1791899981,
+      "durationMs": 409
+    },
+    {
+      "id": "post-tool-use:2:/Users/sshlg/.codex/hooks.json:exec-507577c4-868a-4197-8db1-4c56be5271d2",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791899981,
+      "completedAt": 1791899981,
+      "durationMs": 163
+    },
+    {
+      "id": "post-tool-use:25:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-507577c4-868a-4197-8db1-4c56be5271d2",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791899981,
+      "completedAt": 1791899982,
+      "durationMs": 349
+    },
+    {
+      "id": "post-tool-use:26:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-507577c4-868a-4197-8db1-4c56be5271d2",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791899981,
+      "completedAt": 1791899981,
+      "durationMs": 265
+    }
+  ],
+  "completed": 11,
+  "failed": 0,
+  "limits": "Only observed thread/window; no all-session or per-hook latency acceptance. No sum with earlier windows without event deduplication."
+}

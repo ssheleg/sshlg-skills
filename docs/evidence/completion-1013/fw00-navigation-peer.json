@@ -1,0 +1,49 @@
+{
+  "schema": "independent-document-peer/1",
+  "verdict": "ACCEPTED_BOUNDED_SOURCE",
+  "owners": [
+    {
+      "owner": "telegram-dev",
+      "head": "5d5ecbf4693bcb8c1fd279bb34d3e726127ecbcf",
+      "base": "4ffb10ce1b92a599c2214327ea4d878ab514ed6b",
+      "only_five_added_docs": true,
+      "published_files_byte_equal": 22,
+      "npm_path_set_equal": true,
+      "local_links_resolved": 14,
+      "actual_hub_reader": {
+        "disclosures": [],
+        "errors": []
+      },
+      "broad_owner_gate": "NOT_RUN"
+    },
+    {
+      "owner": "xr-dev",
+      "head": "712a221f479189b59c786fbd0379886001f87351",
+      "base": "6199f2af23d01d7ae3ce84ef9f3b3820f57356c0",
+      "only_five_added_docs": true,
+      "published_files_byte_equal": 39,
+      "npm_path_set_equal": true,
+      "local_links_resolved": 14,
+      "actual_hub_reader": {
+        "disclosures": [],
+        "errors": []
+      },
+      "broad_owner_gate": "NOT_RUN"
+    },
+    {
+      "owner": "web3d-dev",
+      "head": "c8047908c00cdcac4912d6e5b6a3d58ff33f8d4e",
+      "base": "ef6bc1acff0f1ee0258e66cc74828ebe14c170e2",
+      "only_five_added_docs": true,
+      "published_files_byte_equal": 20,
+      "npm_path_set_equal": true,
+      "local_links_resolved": 14,
+      "actual_hub_reader": {
+        "disclosures": [],
+        "errors": []
+      },
+      "broad_owner_gate": "NOT_RUN"
+    }
+  ],
+  "limits": "Independent source and package navigation review; full owner integration gates remain queued. No native/model claim."
+}

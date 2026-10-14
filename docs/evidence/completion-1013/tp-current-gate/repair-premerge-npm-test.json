@@ -1,0 +1,19 @@
+{
+  "source": "192c49294ee90c576a8e7123fa2cb5edbe36e11c",
+  "command": [
+    "npm",
+    "test"
+  ],
+  "exit_code": 0,
+  "disk_stopped": false,
+  "admission_free_bytes": 1146654720,
+  "minimum_free_bytes": 752541696,
+  "stop_floor_bytes": 419430400,
+  "elapsed_seconds": 180.391,
+  "source_unchanged": true,
+  "worktree_clean": true,
+  "log": "/tmp/tp126-npm-test.log",
+  "log_sha256": "661066d297c03eeb57a17d91d9b84301093fab20e9cca717ae8533b9123d5da9",
+  "full_test_all": "NOT_RUN",
+  "tag_push": "NOT_RUN"
+}

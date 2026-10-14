@@ -1,0 +1,189 @@
+{
+  "a": "5abe22085d0b3f2b59de5c95d0fd81e77ac8c3f0",
+  "b": "5c2ca63001f19edc057e3b3f0a5228c949598bab",
+  "rows": [
+    {
+      "label": "add-first",
+      "exit": 0,
+      "stdout": "Adding marketplace\u2026Refreshing marketplace cache (timeout: 120s)\u2026\nCloning repository (timeout: 120s): https://fixture.invalid/probe.git (ref: first)\nClone complete, validating marketplace\u2026\nCleaning up old marketplace cache\u2026\n\u2714 Successfully added marketplace: owned-pin-probe (declared in user settings)\n",
+      "stderr": "",
+      "installed": null,
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "git",
+            "url": "https://fixture.invalid/probe.git",
+            "ref": "first"
+          },
+          "installLocation": "<sandbox>/home/.claude/plugins/marketplaces/owned-pin-probe",
+          "lastUpdated": "2026-10-13T05:20:22.309Z"
+        }
+      }
+    },
+    {
+      "label": "install-first",
+      "exit": 0,
+      "stdout": "Installing plugin \"probe@owned-pin-probe\"...\u2714 Successfully installed plugin: probe@owned-pin-probe (scope: user)\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:20:22.448Z",
+              "lastUpdated": "2026-10-13T05:20:22.448Z",
+              "gitCommitSha": "5abe22085d0b3f2b59de5c95d0fd81e77ac8c3f0",
+              "observed_payload": "first"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "git",
+            "url": "https://fixture.invalid/probe.git",
+            "ref": "first"
+          },
+          "installLocation": "<sandbox>/home/.claude/plugins/marketplaces/owned-pin-probe",
+          "lastUpdated": "2026-10-13T05:20:22.309Z"
+        }
+      }
+    },
+    {
+      "label": "add-second",
+      "exit": 1,
+      "stdout": "Adding marketplace\u2026\n",
+      "stderr": "\u2718 Failed to add marketplace: Cannot add marketplace \"owned-pin-probe\": its source doesn't match its extraKnownMarketplaces entry in user or managed settings; add it from the source that entry lists, or change the entry.\n",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:20:22.448Z",
+              "lastUpdated": "2026-10-13T05:20:22.448Z",
+              "gitCommitSha": "5abe22085d0b3f2b59de5c95d0fd81e77ac8c3f0",
+              "observed_payload": "first"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "git",
+            "url": "https://fixture.invalid/probe.git",
+            "ref": "first"
+          },
+          "installLocation": "<sandbox>/home/.claude/plugins/marketplaces/owned-pin-probe",
+          "lastUpdated": "2026-10-13T05:20:22.309Z"
+        }
+      }
+    },
+    {
+      "label": "update-same-version",
+      "exit": 0,
+      "stdout": "Checking for updates for plugin \"probe@owned-pin-probe\"\u2026\n\u2714 probe is already at the latest version (1.0.0).\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:20:22.448Z",
+              "lastUpdated": "2026-10-13T05:20:22.448Z",
+              "gitCommitSha": "5abe22085d0b3f2b59de5c95d0fd81e77ac8c3f0",
+              "observed_payload": "first"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "git",
+            "url": "https://fixture.invalid/probe.git",
+            "ref": "first"
+          },
+          "installLocation": "<sandbox>/home/.claude/plugins/marketplaces/owned-pin-probe",
+          "lastUpdated": "2026-10-13T05:20:22.309Z"
+        }
+      }
+    },
+    {
+      "label": "add-first-again",
+      "exit": 0,
+      "stdout": "Adding marketplace\u2026\u2714 Marketplace 'owned-pin-probe' already on disk \u2014 declared in user settings\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:20:22.448Z",
+              "lastUpdated": "2026-10-13T05:20:22.448Z",
+              "gitCommitSha": "5abe22085d0b3f2b59de5c95d0fd81e77ac8c3f0",
+              "observed_payload": "first"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "git",
+            "url": "https://fixture.invalid/probe.git",
+            "ref": "first"
+          },
+          "installLocation": "<sandbox>/home/.claude/plugins/marketplaces/owned-pin-probe",
+          "lastUpdated": "2026-10-13T05:20:22.309Z"
+        }
+      }
+    },
+    {
+      "label": "update-back",
+      "exit": 0,
+      "stdout": "Checking for updates for plugin \"probe@owned-pin-probe\"\u2026\n\u2714 probe is already at the latest version (1.0.0).\n",
+      "stderr": "",
+      "installed": {
+        "version": 2,
+        "plugins": {
+          "probe@owned-pin-probe": [
+            {
+              "scope": "user",
+              "installPath": "<sandbox>/home/.claude/plugins/cache/owned-pin-probe/probe/1.0.0",
+              "version": "1.0.0",
+              "installedAt": "2026-10-13T05:20:22.448Z",
+              "lastUpdated": "2026-10-13T05:20:22.448Z",
+              "gitCommitSha": "5abe22085d0b3f2b59de5c95d0fd81e77ac8c3f0",
+              "observed_payload": "first"
+            }
+          ]
+        }
+      },
+      "known": {
+        "owned-pin-probe": {
+          "source": {
+            "source": "git",
+            "url": "https://fixture.invalid/probe.git",
+            "ref": "first"
+          },
+          "installLocation": "<sandbox>/home/.claude/plugins/marketplaces/owned-pin-probe",
+          "lastUpdated": "2026-10-13T05:20:22.309Z"
+        }
+      }
+    }
+  ]
+}

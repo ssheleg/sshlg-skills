@@ -1,0 +1,30 @@
+{
+  "schema": "independent-protocol-review/1",
+  "reviewer": "visibility_review",
+  "source_commit": "b1f66a1e0225c46bfef04ff282d4b18700a38da0",
+  "verdict": "PASS_BOUNDED",
+  "provider_calls_by_reviewer": 0,
+  "checks": [
+    {
+      "command": "python3 docs/evidence/completion-1013/paired-routing-1013/check-b.py",
+      "exit_code": 0,
+      "controls": 47
+    },
+    "Independent exact plan equals original A plan slice3: 17 tasks, no readiness repeat or first valid task repeat",
+    "A4 rawstdout/stderr/prompt hashes independently verified; clean readiness2, one valid task, original failed cell differs only accepted blank separator syntax",
+    "Four extra whitespace/nonempty-text syntax controls passed; observer guards unchanged",
+    "Fresh auth/version preflight; per-task empty inventory/tools; immutable A/corpus/arms/dependencies; durable unknown-cost stop and no retry read"
+  ],
+  "file_sha256": {
+    "run-b.py": "8ef55b606650168a3e70dd074dec854d1553f425c8108ab8631420e35cf7b50c",
+    "check-b.py": "81886f9f0cbfe7549ce37a7401e2d4dc1f38951215e6dce7a44a5c2ee0625f11",
+    "protocol-b.json": "292e83d5f91cdf506c2ffa9ad847aa10acfb2698abffc4902599df230840d697",
+    "results-a.json": "c32648b924ae5d7b98a44906803458eb5c888ada26bd102759a913ca263ec960",
+    "source.json": "b37074ceb9202cf6f7c00fa60becb9676104c9969a37403aad2d40a1ef29555f"
+  },
+  "limits": [
+    "Original A remains TEST_ERROR; no retroactive reclassification",
+    "B at most17 calls, A+B at most21, native plus reader at most85 under combined reported-list USD4 envelope",
+    "Only routing paragraph classification; no native loading, task quality or adoption claim"
+  ]
+}

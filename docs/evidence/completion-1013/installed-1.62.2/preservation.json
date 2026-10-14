@@ -1,0 +1,85 @@
+[
+  {
+    "path": ".claude/settings.json",
+    "before_sha256": "e2dd39393b5f0f3748a1426016bc627f13cdb9bc0a04a914f3422e1e6c5cff83",
+    "after_sha256": "e2dd39393b5f0f3748a1426016bc627f13cdb9bc0a04a914f3422e1e6c5cff83",
+    "bytes_unchanged": true
+  },
+  {
+    "path": ".claude/plugins/installed_plugins.json",
+    "before_sha256": "f634f9d6f311cd0199604f2bbcadd63453113679f257604a74bdac0b48c76d96",
+    "after_sha256": "2de6bc9ff2fc07a7c03e91b50adf12d07d02e45f44919a77cf5352f59a517af5",
+    "bytes_unchanged": false,
+    "nonfamily_entries_unchanged": true
+  },
+  {
+    "path": ".codex/config.toml",
+    "before_sha256": "7854a22914db6e2aa1cf864745a963d4e9855f27662e519bd816f720eef22e75",
+    "after_sha256": "4f7fb618475aa7fcd3d72b3722b80bcd760f0f6c325609aa263c4ebb78f0042a",
+    "bytes_unchanged": false
+  },
+  {
+    "path": ".gemini/settings.json",
+    "before_sha256": "52f48391d81b423d82b45492a34e769676bee0fdccbd72a1c7b76342ff493cfc",
+    "after_sha256": "52f48391d81b423d82b45492a34e769676bee0fdccbd72a1c7b76342ff493cfc",
+    "bytes_unchanged": true
+  },
+  {
+    "path": ".pi/agent/settings.json",
+    "before_sha256": "8b097ae0916491d8826ab08732b4c0673e713aaf2d8ac965ac43e0e089df2733",
+    "after_sha256": "8b097ae0916491d8826ab08732b4c0673e713aaf2d8ac965ac43e0e089df2733",
+    "bytes_unchanged": true
+  },
+  {
+    "path": ".config/opencode/opencode.json",
+    "before_sha256": "6cd706210ab5353770061b690fa3b89918a7664ff8b15003c6f1fb5b114f4362",
+    "after_sha256": "6cd706210ab5353770061b690fa3b89918a7664ff8b15003c6f1fb5b114f4362",
+    "bytes_unchanged": true
+  },
+  {
+    "path": ".hermes/config.yaml",
+    "before_sha256": "a575ab62f7720ca971f809990f1a9f752045e072923e91f4bb7f0b05e249a659",
+    "after_sha256": "a575ab62f7720ca971f809990f1a9f752045e072923e91f4bb7f0b05e249a659",
+    "bytes_unchanged": true
+  },
+  {
+    "path": ".sshlg-skills/state.json",
+    "before_sha256": "2ce0585c3509c7aee3ccfaf603c9624f6586802b307e69e2723a7cd1e58c322f",
+    "after_sha256": "2ce0585c3509c7aee3ccfaf603c9624f6586802b307e69e2723a7cd1e58c322f",
+    "bytes_unchanged": true
+  },
+  {
+    "path": ".sshlg-skills/pack-marks.json",
+    "before_sha256": "2cb9871f49ec64ca5af7a7db4cd19858227efba86d0ed1f7d6ca10e537c2f4d3",
+    "after_sha256": "2cb9871f49ec64ca5af7a7db4cd19858227efba86d0ed1f7d6ca10e537c2f4d3",
+    "bytes_unchanged": true
+  },
+  {
+    "path": ".claude/CLAUDE.md",
+    "before_sha256": "6ef428896b5ed22a211c95375386d04218c880ed059111f954f5c1d009f79b42",
+    "after_sha256": "6ef428896b5ed22a211c95375386d04218c880ed059111f954f5c1d009f79b42",
+    "bytes_unchanged": true,
+    "outside_router_unchanged": true
+  },
+  {
+    "path": ".codex/AGENTS.md",
+    "before_sha256": "bca80bfbbe3224c1c15f4451f0733f5f750d1a7922f71dc563a45d3803a2338f",
+    "after_sha256": "bca80bfbbe3224c1c15f4451f0733f5f750d1a7922f71dc563a45d3803a2338f",
+    "bytes_unchanged": true,
+    "outside_router_unchanged": true
+  },
+  {
+    "path": ".gemini/GEMINI.md",
+    "before_sha256": "3e9bb9a21c379d9d0c9f23e4dc4193366d1dfe03001b9697f4e3310f04e1a903",
+    "after_sha256": "3e9bb9a21c379d9d0c9f23e4dc4193366d1dfe03001b9697f4e3310f04e1a903",
+    "bytes_unchanged": true,
+    "outside_router_unchanged": true
+  },
+  {
+    "path": ".pi/agent/AGENTS.md",
+    "before_sha256": "389e9b9d938862071f01cab52495ffbce3520f3e2cc95fd17208c9a0b221f57b",
+    "after_sha256": "389e9b9d938862071f01cab52495ffbce3520f3e2cc95fd17208c9a0b221f57b",
+    "bytes_unchanged": true,
+    "outside_router_unchanged": true
+  }
+]

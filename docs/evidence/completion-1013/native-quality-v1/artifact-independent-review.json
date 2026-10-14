@@ -1,0 +1,97 @@
+{
+  "schema": "native-artifact-independent-review/1",
+  "reviewer": "root coordinator, independent of runner implementation and generated answers",
+  "method": "Read complete ordered assistant-text artifacts and frozen rubric; no regex-only scoring. Scored before receiving second review. No task reruns.",
+  "rubric_sha256": "d5420c69b4d56c9e304ec960a604504dd1f8588143ac6420caa48a15148db660",
+  "cells": [
+    {
+      "case_id": "a1",
+      "arm": "full",
+      "artifact_sha256": "0b1a2f6c9750f101547234a364e26e14cd7c9577a1d0b28e51dc9db967dadd1b",
+      "evidence_status": "OFFLINE_DIAGNOSTIC_OF_PRESERVED_TEST_ERROR",
+      "dimensions": {
+        "q1": "PASS",
+        "q2": "PASS",
+        "q3": "FAIL",
+        "q4": "FAIL"
+      },
+      "negative_controls": "PASS",
+      "native_loaded": "NOT_OBSERVED",
+      "rationale": {
+        "q1": "Correct env-file then local ADC then attached identity ordering; grounded in the declared valid mounted-file fixture and separately disclaims live identity verification.",
+        "q2": "Identifies token logging and removes credential values, allowing non-secret metadata only.",
+        "q3": "Finds the false attached-identity claim and proposes source/principal checks, but does not check required target-account API/IAM access before removing the override and mount.",
+        "q4": "English artifact has static/deployment checks but omits a unit regression; Russian artifact includes caplog/mock regression and bounded deployment checks. No claim of performed live Google verification."
+      }
+    },
+    {
+      "case_id": "a1",
+      "arm": "concise",
+      "artifact_sha256": "7da73ee69ddf7e6f9460daa7a4dbc3d97c08dd63802c2aa2aa17f0c443d3d92c",
+      "evidence_status": "EXECUTED",
+      "dimensions": {
+        "q1": "PASS",
+        "q2": "PASS",
+        "q3": "FAIL",
+        "q4": "FAIL"
+      },
+      "negative_controls": "PASS",
+      "native_loaded": "NOT_OBSERVED",
+      "rationale": {
+        "q1": "Correct env-file then local ADC then attached identity ordering; grounded in the declared valid mounted-file fixture and separately disclaims live identity verification.",
+        "q2": "Identifies token logging and removes credential values, allowing non-secret metadata only.",
+        "q3": "Finds the false attached-identity claim and proposes source/principal checks, but does not check required target-account API/IAM access before removing the override and mount.",
+        "q4": "English artifact has static/deployment checks but omits a unit regression; Russian artifact includes caplog/mock regression and bounded deployment checks. No claim of performed live Google verification."
+      }
+    },
+    {
+      "case_id": "a2",
+      "arm": "concise",
+      "artifact_sha256": "d977ff7f939133ca3ae267089caeda3748152b2d50315c00ec5050690527b34d",
+      "evidence_status": "EXECUTED",
+      "dimensions": {
+        "q1": "PASS",
+        "q2": "PASS",
+        "q3": "FAIL",
+        "q4": "PASS"
+      },
+      "negative_controls": "PASS",
+      "native_loaded": "NOT_OBSERVED",
+      "rationale": {
+        "q1": "Correct env-file then local ADC then attached identity ordering; grounded in the declared valid mounted-file fixture and separately disclaims live identity verification.",
+        "q2": "Identifies token logging and removes credential values, allowing non-secret metadata only.",
+        "q3": "Finds the false attached-identity claim and proposes source/principal checks, but does not check required target-account API/IAM access before removing the override and mount.",
+        "q4": "English artifact has static/deployment checks but omits a unit regression; Russian artifact includes caplog/mock regression and bounded deployment checks. No claim of performed live Google verification."
+      }
+    },
+    {
+      "case_id": "a2",
+      "arm": "full",
+      "artifact_sha256": "ac82405cfe75821b80d9391d3b3776c9fa39c113f0a6eb696633bc378dbbc5bb",
+      "evidence_status": "EXECUTED",
+      "dimensions": {
+        "q1": "PASS",
+        "q2": "PASS",
+        "q3": "FAIL",
+        "q4": "PASS"
+      },
+      "negative_controls": "PASS",
+      "native_loaded": "NOT_OBSERVED",
+      "rationale": {
+        "q1": "Correct env-file then local ADC then attached identity ordering; grounded in the declared valid mounted-file fixture and separately disclaims live identity verification.",
+        "q2": "Identifies token logging and removes credential values, allowing non-secret metadata only.",
+        "q3": "Finds the false attached-identity claim and proposes source/principal checks, but does not check required target-account API/IAM access before removing the override and mount.",
+        "q4": "English artifact has static/deployment checks but omits a unit regression; Russian artifact includes caplog/mock regression and bounded deployment checks. No claim of performed live Google verification."
+      }
+    }
+  ],
+  "decision": "NO_ADOPTION",
+  "bounds": [
+    "All four tasks observed zero Skill invocations; skill-body influence and native skill-loaded quality are unverified.",
+    "EN/RU are correlated translations of one fixture, not four independent task classes.",
+    "C full/a1 remains original TEST_ERROR; offline complete-artifact diagnostic does not rewrite that stop.",
+    "Extra artifact issue: three outputs suggest __name__ alone for source classification, which omits module provenance. This is not attributed to an unread skill body.",
+    "Reported list cost is not actual OAuth subscription billing.",
+    "No claim of quality equivalence, causal token savings, native search-first success or universal discovery."
+  ]
+}

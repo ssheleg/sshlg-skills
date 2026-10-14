@@ -1,0 +1,9 @@
+{
+  "schema": "report-header-correction/1",
+  "incorrect_source": "f4cde40",
+  "author": "root",
+  "finding": "The old graph header used an array for scalar superseded_by. reports.py check accepted it, but collect crashed with unhashable list before projection writes.",
+  "source_authority": "project-reports SKILL.md:67 defines superseded_by as one replacement ID",
+  "correction": "Use the one replacement ID string; retain original raw graph and findings.",
+  "owner_followup": "Wiki indexer author is preparing bounded validation of malformed reference shapes. No foreign report header was edited."
+}

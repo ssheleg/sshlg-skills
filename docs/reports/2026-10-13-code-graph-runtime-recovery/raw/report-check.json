@@ -1,0 +1,13 @@
+{
+  "command": "reports.py check <new README> <prior README>",
+  "exit_code": 0,
+  "reports": 2,
+  "errors": 0,
+  "relative_links": "all resolve",
+  "prior_raw_artifacts": "unchanged",
+  "new_domains": [
+    "ai-agent",
+    "automation"
+  ],
+  "superseded_by_type": "scalar string"
+}

@@ -1,3 +1,178 @@
+## Current — 2026-10-14, hub 1.63.0 release in progress
+
+Branch `waves/2026-10-13-finalization`, [PR219](https://github.com/ssheleg/sshlg-skills/pull/219).
+Done since the 2026-10-13 stop ([continuation log](CLAUDE-CONTINUE.md)):
+
+- B190 supported runtime recovery: two independent reviews, 41 controls, docs bridge
+  ([review](evidence/completion-1013/runtime-recovery/independent-review.md)).
+- IO09 scratch child lifetime: reviewed, fixed, published in task-pipeline **1.95.0**
+  ([receipt](evidence/completion-1013/tp-release-1950/README.md)); ported to
+  seo-aeo-audit (#41, `a6e471e`) and sheleg-dev (#29, `7ced39b`), owner gates green.
+- Pins: task-pipeline 1.95.0, seo-aeo-audit and sheleg-dev at their merged commits.
+  Full hub gate passes every suite ([bd3af81](evidence/completion-1013/hub-gate-bd3af81/README.md));
+  DOCMAP Ratchets 133/2270/11, description total 32498.
+- Static graph [refreshed](reports/2026-10-14-code-graph-hub-candidate/README.md);
+  [board cut](evidence/completion-1013/board-current-20261014-0519.json) (177 ids kept) and
+  [requirement cut](evidence/completion-1013/requirements-current-20261014-0530.json) (37 kept, 14 updated).
+
+**Next:** final hub gate on the exact head, PR219 ready → hosted checks → squash merge →
+annotated `v1.63.0` on main → release run → npm readback → `npx --yes sshlg-skills@latest update`
+and [installed readback](evidence/completion-1013/installed-1.63.0/README.md) → wiki index →
+independent final observer. Cross-project Fabric asks stay unsent (other project ids not
+visible through this door). Exposed Codex enrollment poll secrets: Observatory
+`mem:348bac6b964e4ce5`; the two pending requests need cancelling and re-issuing.
+
+## Передача Claude — оператор остановил сессию 2026-10-13
+
+**Начать с [docs/CLAUDE-CONTINUE.md](CLAUDE-CONTINUE.md).** Там актуальные ветки,
+проверенные результаты, незавершённые B190/IO09, активные watchers и точный порядок
+продолжения. Новые волны остановлены для передачи; система не объявлена завершённой.
+Исторические записи ниже сохраняются как evidence, но не задают следующий шаг.
+
+## Current continuation — 2026-10-13 13:54 UTC
+
+Hub candidate **1.63.0**, branch `waves/2026-10-13-finalization`, composes immutable
+Claude source updates, scoped default-off wait rules, release-iteration routing,
+read-only managed-block previews, the Codex active-generation deferral and bounded
+backup-identity correction. Latest published hub remains 1.62.2. Candidate aggregate,
+publication and actual installed acceptance are pending. The normal delivery
+candidate is [draft PR219](https://github.com/ssheleg/sshlg-skills/pull/219); it has
+not been promoted for final candidate checks.
+
+**New runner lifecycle finding:** [IO09](reports/2026-10-13-independent-observer-runtime-3898236/README.md#io-09-shared-scratch-lock-ends-before-orphan-plant-writers)
+shows the new shared scratch lock can release on runner SIGKILL while its plant
+child still writes. The owned-namespace reproduction touched no public scratch.
+The active TP875c6e6 full run remains frozen as pre-fix evidence; a separate
+correction branch must pass descendant-lifetime controls before TP/SEO/dev
+integration. A healthy full run alone does not resolve this interruption defect.
+
+**Current failed gate and next action:** the [first composed aggregate](evidence/completion-1013/hub-first-aggregate/README.md)
+ran132 suites and failed3: stale own-state expectations, staging pin receipt and
+old task-pipeline aliases. Narrow own-state corrections passed independent negative
+controls. [Summary-count correction](evidence/completion-1013/aggregate-counting/README.md)
+keeps actual cases visible without changing assertions. Runtime failure propagation
+and rollback are independently accepted; B190 supported crash-lock recovery remains
+in development under its [admission packet](reports/2026-10-13-runtime-recovery-admission/README.md).
+Next: finish that bounded source/review, pin the actually published TP1.94.1,
+regenerate the staging receipt, freeze source, refresh graph and rerun full hub gate.
+The [37-requirement cut](evidence/completion-1013/requirements-current-20261013-1354.json)
+retains original wording and current acceptance boundaries.
+
+**Hook recovery:** exact old payloads were restored after Codex native plugin
+updates pruned files still used by this session. [Native evidence](evidence/completion-1013/hook-recovery/README.md)
+records nine completed hooks after recovery and one later completed post-tool hook.
+A [second native observation](evidence/completion-1013/hook-recovery/native-followup-20261013-1048.json)
+captured35 completed pre/post hooks with no failed status in its50-second window.
+The [permanent guard peer](evidence/completion-1013/codex-cache-peer.json) is accepted
+and composed: native version transitions defer before mutation because no supported
+active-thread retirement/old-generation retention proof exists. Catalog convergence
+alone cannot establish retirement. Actual deferred receipt/watcher registration
+follows publication; no native version transition is authorized by a timeout.
+
+**Exact next sequence:** TP1.94.0 at78c42124 is NOT published. Its local full
+attempt stopped on disk guard; root's subsequent exact-tree admission was
+[incorrect](evidence/completion-1013/tp-current-gate/admission-correction.md).
+The premature public tag is preserved. Release38386280311 failed its tagged
+run-stamp guard and skipped publication; npm remains1.93.3. The separate owner
+1.94.1 repair passed local npm test and all genuine candidate checks; PR126
+[merged normally](evidence/completion-1013/tp-current-gate/repair-normal-integration.json)
+at540679ea7552f8a37e99560e287a69c23cbd3c4a. The exact accepted commit completed the full local `npm run test:all` with actual
+exit0 in5576.924seconds, unchanged source/tree/tag and clean state. The
+[admission](evidence/completion-1013/tp-current-gate/repair-exact-tagged-admission.md)
+records all disclosures, including the lessons redactor skip and synthetic
+Git-free fixtures. Two secondary test copies were proven owned and removed;
+their runner defect is corrected and independently checked in future1.95 candidate875c6e6, whose complete pre-integration gate is running. R07 is still bounded.
+The verified annotation89e4782133bcba4f9ea6e5d9d584dfab004b0ded was pushed with
+explicit --no-follow-tags; normal [release38404300140](https://github.com/ssheleg/task-pipeline/actions/runs/38404300140)
+is running. A background60-second read-only watcher will read all jobs and verify
+whole-package npm bytes on success. Publication and parent pin remain pending.
+Hub publication and actual installed acceptance remain pending.
+
+Accepted whole-source discovery corrections are now pinned: make-skill df53aaa,
+agent-stack fefece0 and SEO1e86edf, each normally merged after required checks.
+Their published payloads remain byte-equal. The [independent sibling controls](evidence/completion-1013/fw01-sibling-peer.json)
+and owner integration receipts retain the witnessed failures and corrections.
+AS B159's two named SEO source gaps are now fixed; its docs-only closure
+[PR55 merged](evidence/completion-1013/as-referral-closure-integration.json) atfefece0 after
+independent peer, final exact-head npm test and genuine checks. It is pinned;
+all29 primary rows,31 expanded IDs and44 packaged files are preserved.
+The original subset-count error and correction remain in history. No broader
+runtime claim is implied.
+UX PR47 at7267757 remains pinned. Three new owner verification indexes passed all local and genuine hosted gates,
+then normally merged and were pinned: Telegram8639e59, XRb4181b9, Web3Dc8478b4.
+The [bounded source peer](evidence/completion-1013/fw00-navigation-peer.json) and
+per-owner navigation-integration receipts preserve policy, exact heads and checks.
+All81 published files remain equal; no version/publication changes.
+
+**Next wave:** the [backup recovery packet](evidence/completion-1013/backup-recovery-packet/README.md)
+owns operation-referenced retention and the first wait-rule adapter, developed in
+an isolated branch after the accepted bounded identity fix. Its MB02b source ed02df7
+and peer-doc successor 8bb7f64 passed 30 recovery plus seven real crash controls;
+two root findings were corrected before acceptance. The MB02c inspection/finalization
+CLI e37df18 is [accepted as bounded source](evidence/completion-1013/wait-recovery-cli-peer.json)
+on `feat/wait-recovery-cli-1013`; composition is now at0c4c215; aggregate and installed acceptance remain pending.
+FW07 prerequisite corrections and lossless stage extraction are frozen in TP draft
+PR123 (3a8e4ac), including independently checked stage-3 prerequisite corrections;
+rebase on1.94.1, moved public plants and the full gate await their slot. A separately
+reproduced custom-profile checkpoint bug is corrected in draft PR124 (b4fed300);
+162 controls and seven independent seam checks pass after three peer findings
+were corrected. [Bounded peer](evidence/completion-1013/fw07-checkpoint-peer-final.json)
+is not a full gate or installed claim.
+These changes do not borrow acceptance from the immutable TP release run.
+The dry-only behavioral harness is now composed atf524d22 with an independent
+[68-control replay and source review](evidence/completion-1013/fw07-dry-peer.json).
+It has no live transport and cannot authorize or demonstrate model quality.
+A refreshed source cut and separate provider admission remain pending.
+
+[Native P2](evidence/completion-1013/native-routing-p2/readout.md) remains
+**NO_ADOPTION**: Google Auth still omits denied-before-switch testing. No installed
+description compression is accepted. The [combined evaluation](reports/2026-10-13-skill-discovery-quality-results/README.md)
+keeps protocol, cost and quality limits separate. The [current static graph](reports/2026-10-13-code-graph-recovery/README.md)
+is independently checked at 00a6b2c: 249 files, 2989 nodes, 4522 edges, 225 communities.
+Its peer reconciles raw/export endpoints explicitly; the prior cut remains intact.
+It is source navigation, not runtime proof. Wiki PR22 merged at a646848, retaining
+all 177 previous report IDs and adding four; source-scanner limitations remain.
+
+UX PR47 merged at7267757 after every genuine check passed and is pinned; it
+retains the missing two real board mutations. Its proposed additional
+parity defect was [retracted](evidence/completion-1013/r30-ux-gfm-interpretation-correction.json)
+after official GFM scanner and GitHub-rendering evidence; production parsing remains
+unchanged. The three source-discovery guards above are accepted and pinned. The proposed owner-only
+pretag helper has corrected the independently reproduced package-name, push-destination,
+unsolicited-tag and interruption defects. The composed9b3fa1a source passed58 independent
+focused controls from immutable Git blobs; its full gate and future owner release remain
+pending. A shared family scratch lock is being prepared because distinct TMPDIR locks
+did not protect fixed /tmp plants. The active1.94.1 release source remains frozen.
+
+[Preliminary observer](evidence/completion-1013/observer-pre-release.md) is
+PARTIAL_NOT_FINAL. Reconcile all 37 requirements and 177 original board IDs after
+final pins, preserving new defects separately. Fabric com.* remains unavailable;
+cross-project requests are unsent. Final acceptance requires published payload,
+actual host readback and independent comparison against the original objective.
+
+A fresh nonauthor observer is performing an interim source/evidence preflight from
+[the frozen task packet](evidence/completion-1013/final-observer-task/README.md).
+Final verdict still requires actual release/install receipts. It reproduced a
+[Codex receipt/visibility ordering defect](evidence/completion-1013/codex-visibility-order/README.md);
+root corrected it and the10 actual CLI fixture controls passed. An independent
+immutable-checkout replay also passed all10; a refreshed graph is in progress. Wiki PR23 normally merged2dd9e47 with
+181→182 IDs and zero loss; its source-header validator correction passed22
+independent controls. Next TP composition
+is a separate1.95.0 source candidate0cb1044; shared-lock SEOd6c87c3 and dev366a2d3
+ports have independent30-control replay each, with aggregate/integration pending.
+No next-wave gate substitutes for the active1.94.1 exact-tag run.
+
+A second [independent source review](reports/2026-10-13-independent-observer-runtime-3898236/README.md)
+found ignored runtime-copy failures in update/hooks-install and incomplete recovery
+after a partial switch, including newly introduced files. An isolated correction
+and focused failure controls are in progress; final graph and hub aggregate wait
+for its independent acceptance. No actual host failure is inferred from this
+source finding. Structural3898236 passed after refreshing two stale local remote
+refs; the initial failure and corrected read are retained in
+[evidence](evidence/completion-1013/structural-3898236/hub-3898236-structural-refreshed.json).
+
+The dated entries below retain previous states and are not current instructions.
+
 ## Installed follow-up and next wave — 2026-10-13
 
 Hub v1.62.1 is published from merge `ae1b415bc79a3d89ca97199299e0e00a2a5e7674`.
@@ -362,3 +537,10 @@ historical evidence, not operational instructions. It is a verbatim copy of
 Its old status claims and exact-next headings describe their own dates. The same
 directory depth preserves relative links; [archive metadata](evidence/context-research/navigation.json)
 records its source and hash. Earlier release and workstream links remain there.
+
+## Runtime transaction follow-up — 2026-10-13
+
+Bounded correction and next task: [runtime atomicity packet](evidence/completion-1013/runtime-atomic/README.md).
+Failure propagation, existence-aware rollback and admission are source-implemented;
+independent immutable review and full owner gate remain pending. A retained crash
+lock is explicit unresolved recovery, not an automatic recovery claim.

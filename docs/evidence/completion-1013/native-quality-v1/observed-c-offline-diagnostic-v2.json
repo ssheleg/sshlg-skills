@@ -1,0 +1,69 @@
+{
+  "schema": "native-stream-offline-replay/2",
+  "scope": "OFFLINE_DIAGNOSTIC_ONLY; original C TEST_ERROR unchanged; no new CLI or provider call; no semantic quality verdict",
+  "supersedes_diagnostic": "observed-c-offline-diagnostic.json",
+  "reason": "All ordered user-visible assistant text is the delivered artifact; final.result is only the last continuation tail. Prior tail hash remains historical, not the complete artifact.",
+  "original_stdout_sha256": "94ba6115fa39616dc7586960ee82f4142027a59e2deb8ea928f3883658434f02",
+  "original_receipt_sha256": "3be4c1c0ff3180e838585195c574cacd32b78a119e433b94eafa78ef67a156aa",
+  "corrected_runner_sha256": "2b7a08f368071a5353f98f7f7d24749b5f5192a728277c05a472eec6c889b300",
+  "path_replay": "Only original init.cwd prefixes in tool path/file_path were remapped into independently rematerialized exact source workspace; original raw bytes remain private and unchanged.",
+  "remapped_paths": 3,
+  "assistant_events": 8,
+  "unique_message_ids": 4,
+  "unique_request_input": [
+    7694,
+    7861,
+    8876,
+    10543
+  ],
+  "unique_input_sum": 34974,
+  "result": {
+    "evaluation_status": "EXECUTED",
+    "error_class": null,
+    "cost_usd": 0.099782,
+    "usage": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 6014,
+      "cache_read_input_tokens": 28950,
+      "output_tokens": 2292
+    },
+    "native": {
+      "visible": [
+        "sheleg-dev:ad-tracking",
+        "sheleg-dev:crypto-payments",
+        "sheleg-dev:error-tracking",
+        "sheleg-dev:frontend-performance",
+        "sheleg-dev:google-auth",
+        "sheleg-dev:google-signin",
+        "sheleg-dev:stripe-billing"
+      ],
+      "skill_loads": [],
+      "read_files": [
+        "app/OPERATIONS.md",
+        "app/client.py",
+        "app/deployment.env.example"
+      ],
+      "google_auth_loaded": false
+    },
+    "artifact_sha256": "0b1a2f6c9750f101547234a364e26e14cd7c9577a1d0b28e51dc9db967dadd1b",
+    "final_result_sha256": "aca3737529b93e8823e45418828096be4a5f4de27cbc6cf57f6b80b8e90a2591",
+    "artifact_text_blocks": [
+      {
+        "index": 0,
+        "request_id_sha256": "01de24a6ca0bdcd8621c7f497d784827f8b1e19639088effcecff02a4163dd60",
+        "text_sha256": "48f0c889c1b5f697298c4824988dca53022358947355d00ef8e3b44ed5cee073",
+        "characters": 3506
+      },
+      {
+        "index": 1,
+        "request_id_sha256": "ac498f383467bef67f97ea4d8f8574cc77a2b6a514656f6165c03242ee62d97e",
+        "text_sha256": "aca3737529b93e8823e45418828096be4a5f4de27cbc6cf57f6b80b8e90a2591",
+        "characters": 892
+      }
+    ],
+    "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+    "max_request_input": 10543,
+    "request_count": 4,
+    "turns": 6
+  }
+}

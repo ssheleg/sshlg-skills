@@ -1,0 +1,6 @@
+{
+  "source": "150f8691732c34cb1cb934889c41eedfb3959a12",
+  "command": "python3 test/validate.py",
+  "exit_code": 0,
+  "limits": "Focused structural only; all unlooked disclosures preserved in compressed log; owner publication/pins still pending."
+}

@@ -1,0 +1,173 @@
+{
+  "skill": "skill-search",
+  "note": "AUTHORED AND VALIDATED STRUCTURALLY ONLY — never run against a model (B-147 / R27: the model run is a separate packet). Run each 3x in a fresh session; pass threshold 0.5. See ../README.md for the run protocol.",
+  "split": {
+    "comment": "60/40, fixed across iterations; both classes and both languages on each side.",
+    "train": [
+      "s01",
+      "s02",
+      "s03",
+      "s09",
+      "s11",
+      "s12",
+      "s15",
+      "s16",
+      "s17",
+      "s19",
+      "s05",
+      "s10"
+    ],
+    "validation": [
+      "s04",
+      "s06",
+      "s07",
+      "s08",
+      "s13",
+      "s14",
+      "s18",
+      "s20"
+    ]
+  },
+  "queries": [
+    {
+      "id": "s01",
+      "lang": "en",
+      "query": "is there a skill that can extract tables from a PDF?",
+      "should_trigger": true,
+      "why": "explicit catalogue question — the description's own phrase 'is there a skill for'"
+    },
+    {
+      "id": "s02",
+      "lang": "ru",
+      "query": "найди скилл для работы с Telegram-ботами",
+      "should_trigger": true,
+      "why": "explicit «найди скилл» request in Russian"
+    },
+    {
+      "id": "s03",
+      "lang": "en",
+      "query": "which skill should I use to write release notes for this repo?",
+      "should_trigger": true,
+      "why": "'which skill' — asks the router question itself, names a domain not a skill"
+    },
+    {
+      "id": "s04",
+      "lang": "ru",
+      "query": "какой скилл подойдёт, чтобы сверстать лендинг со скролл-анимацией?",
+      "should_trigger": true,
+      "why": "«какой скилл» with a domain, hidden-from-listing skills are the likely answer"
+    },
+    {
+      "id": "s05",
+      "lang": "en",
+      "query": "find a skill for converting Figma designs into React components",
+      "should_trigger": true,
+      "why": "'find a skill' plus an artifact — concepts to extract: figma, design-to-code, react"
+    },
+    {
+      "id": "s06",
+      "lang": "ru",
+      "query": "есть ли скилл для подключения Stripe-платежей?",
+      "should_trigger": true,
+      "why": "«есть ли скилл» exact trigger phrase"
+    },
+    {
+      "id": "s07",
+      "lang": "en",
+      "query": "before you start, check whether any installed skill covers adding Sentry error tracking to our API",
+      "should_trigger": true,
+      "why": "explicit first-step instruction to search the catalogue before acting"
+    },
+    {
+      "id": "s08",
+      "lang": "ru",
+      "query": "первый шаг: посмотри, нет ли установленного скилла под миграцию базы данных, потом делай",
+      "should_trigger": true,
+      "why": "«первый шаг» trigger — search precedes the task"
+    },
+    {
+      "id": "s09",
+      "lang": "en",
+      "query": "add Stripe checkout with webhooks to our Node backend",
+      "should_trigger": true,
+      "why": "substantial integration task with no skill named — the skill's job is to run the catalogue search as step one (labelled from the description's 'when starting any task' clause and step 2's 'everything else continues' to the search, not from a catalogue question)"
+    },
+    {
+      "id": "s10",
+      "lang": "ru",
+      "query": "подключи вход через Google к нашему веб-приложению",
+      "should_trigger": true,
+      "why": "substantial task, no skill named — search the catalogue first (labelled from the description's 'when starting any task' clause and step 2's 'everything else continues' to the search, not from a catalogue question)"
+    },
+    {
+      "id": "s11",
+      "lang": "en",
+      "query": "create a new skill that audits our SQL migrations",
+      "should_trigger": false,
+      "why": "building a skill is make-skill, which the description names as the exclusion"
+    },
+    {
+      "id": "s12",
+      "lang": "ru",
+      "query": "сделай скилл для проверки договоров перед подписанием",
+      "should_trigger": false,
+      "why": "building a skill in Russian — make-skill, not a catalogue search"
+    },
+    {
+      "id": "s13",
+      "lang": "en",
+      "query": "audit my SKILL.md against the Agent Skills standard and fix the front matter",
+      "should_trigger": false,
+      "why": "auditing a skill is make-skill (skill-audit)"
+    },
+    {
+      "id": "s14",
+      "lang": "ru",
+      "query": "проверь, соответствует ли мой плагин стандарту, и опубликуй его",
+      "should_trigger": false,
+      "why": "plugin conformance and publication — make-skill"
+    },
+    {
+      "id": "s15",
+      "lang": "en",
+      "query": "explain what this function does and why it returns early",
+      "should_trigger": false,
+      "why": "pure explanation — step 2 says no skill, proceed"
+    },
+    {
+      "id": "s16",
+      "lang": "ru",
+      "query": "объясни, чем отличается async от threading в Python",
+      "should_trigger": false,
+      "why": "a question needing an answer, not a skill"
+    },
+    {
+      "id": "s17",
+      "lang": "en",
+      "query": "fix the typo in the README heading",
+      "should_trigger": false,
+      "why": "one-line edit — no skill could help"
+    },
+    {
+      "id": "s18",
+      "lang": "ru",
+      "query": "переименуй переменную tmp в buffer в этой функции",
+      "should_trigger": false,
+      "why": "one-line mechanical edit — no search"
+    },
+    {
+      "id": "s19",
+      "lang": "en",
+      "query": "rename the variable `cnt` to `count` on line 12 of utils.py",
+      "should_trigger": false,
+      "why": "a one-line edit — step 2 of the skill (SKILL.md:23-24) lets it continue without a catalogue search"
+    },
+    {
+      "id": "s20",
+      "lang": "ru",
+      "query": "что такое замыкание в JavaScript? ответь в двух предложениях",
+      "should_trigger": false,
+      "why": "plain question in Russian — answer directly"
+    }
+  ]
+}

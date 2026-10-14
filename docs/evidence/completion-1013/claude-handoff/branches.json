@@ -1,0 +1,70 @@
+{
+  "observed": "2026-10-13T14:20:54.087742+00:00",
+  "branches": [
+    {
+      "owner": "hub",
+      "worktree": "/Users/sshlg/DATA/_wt/hub-release-1.62.0",
+      "branch": "waves/2026-10-13-finalization",
+      "commit": "7762820b9fc852a185156250ed647f652d7b0322",
+      "remote": "git@github.com:ssheleg/sshlg-skills.git",
+      "remote_matches": true,
+      "dirty": [
+        "?? docs/evidence/completion-1013/claude-handoff/"
+      ]
+    },
+    {
+      "owner": "runtime-recovery",
+      "worktree": "/Users/sshlg/DATA/_wt/hub-graph-order",
+      "branch": "fix/runtime-recovery-1013",
+      "commit": "b7facb53a453389aaba8f283b21b8d1dc8fe11fc",
+      "remote": "git@github.com:ssheleg/sshlg-skills.git",
+      "remote_matches": true,
+      "dirty": []
+    },
+    {
+      "owner": "tp195-composed",
+      "worktree": "/Users/sshlg/DATA/_wt/tp-fw07-composed",
+      "branch": "compose/fw07-after-1941",
+      "commit": "875c6e6a9a02c5c18e77945fc4fa56a43588cb5c",
+      "remote": "git@github.com:ssheleg/task-pipeline.git",
+      "remote_matches": true,
+      "dirty": []
+    },
+    {
+      "owner": "tp195-child-lock",
+      "worktree": "/Users/sshlg/DATA/_wt/tp-fw07-child-lock",
+      "branch": "fix/fw07-scratch-child-lifetime",
+      "commit": "1be885aba69eaad70f411df10b316d3a81ea38c3",
+      "remote": "git@github.com:ssheleg/task-pipeline.git",
+      "remote_matches": true,
+      "dirty": []
+    },
+    {
+      "owner": "seo-lock",
+      "worktree": "/Users/sshlg/DATA/_wt/seo-fw07-scratch-lock",
+      "branch": "fix/fw07-shared-scratch-lock",
+      "commit": "78f2dd44ec477fc497bca9b3335ae61a7293a7ae",
+      "remote": "https://github.com/ssheleg/seo-aeo-audit.git",
+      "remote_matches": true,
+      "dirty": []
+    },
+    {
+      "owner": "dev-lock",
+      "worktree": "/Users/sshlg/DATA/_wt/sheleg-dev-fw07-scratch-lock",
+      "branch": "fix/fw07-shared-scratch-lock",
+      "commit": "4678ef44d925068a0ad9681c99daf2ee33153f04",
+      "remote": "git@github.com:ssheleg/sheleg-dev.git",
+      "remote_matches": true,
+      "dirty": []
+    },
+    {
+      "owner": "observer",
+      "worktree": "/Users/sshlg/DATA/_wt/hub-observer-f77a6c2",
+      "branch": "audit/nonauthor-preflight-f77a6c2",
+      "commit": "868c9d7b3bade59ab834abaeb0110d50fd948365",
+      "remote": "git@github.com:ssheleg/sshlg-skills.git",
+      "remote_matches": true,
+      "dirty": []
+    }
+  ]
+}

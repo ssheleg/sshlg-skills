@@ -1,0 +1,135 @@
+{
+  "conclusion": "",
+  "databaseId": 38404300140,
+  "headBranch": "v1.94.1",
+  "headSha": "540679ea7552f8a37e99560e287a69c23cbd3c4a",
+  "jobs": [
+    {
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "databaseId": 115319733294,
+      "name": "release",
+      "startedAt": "2026-10-13T13:21:32Z",
+      "status": "in_progress",
+      "steps": [
+        {
+          "completedAt": "2026-10-13T13:21:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-13T13:21:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T13:21:34Z",
+          "conclusion": "success",
+          "name": "Resolve the tag to release",
+          "number": 2,
+          "startedAt": "2026-10-13T13:21:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T13:21:36Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 3,
+          "startedAt": "2026-10-13T13:21:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T13:21:36Z",
+          "conclusion": "success",
+          "name": "The tag must be annotated (a lightweight tag hides the release)",
+          "number": 4,
+          "startedAt": "2026-10-13T13:21:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T13:21:39Z",
+          "conclusion": "success",
+          "name": "The tag must be reachable from the default branch",
+          "number": 5,
+          "startedAt": "2026-10-13T13:21:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T13:21:43Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v4",
+          "number": 6,
+          "startedAt": "2026-10-13T13:21:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-13T13:21:46Z",
+          "conclusion": "success",
+          "name": "Dependencies the validator needs",
+          "number": 7,
+          "startedAt": "2026-10-13T13:21:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "0001-01-01T00:00:00Z",
+          "conclusion": "",
+          "name": "The suite this release claims",
+          "number": 8,
+          "startedAt": "2026-10-13T13:21:46Z",
+          "status": "in_progress"
+        },
+        {
+          "completedAt": "0001-01-01T00:00:00Z",
+          "conclusion": "",
+          "name": "Tag must match the manifests (version sync)",
+          "number": 9,
+          "startedAt": "0001-01-01T00:00:00Z",
+          "status": "pending"
+        },
+        {
+          "completedAt": "0001-01-01T00:00:00Z",
+          "conclusion": "",
+          "name": "Extract this version's CHANGELOG section",
+          "number": 10,
+          "startedAt": "0001-01-01T00:00:00Z",
+          "status": "pending"
+        },
+        {
+          "completedAt": "0001-01-01T00:00:00Z",
+          "conclusion": "",
+          "name": "Create or refresh the GitHub release",
+          "number": 11,
+          "startedAt": "0001-01-01T00:00:00Z",
+          "status": "pending"
+        },
+        {
+          "completedAt": "0001-01-01T00:00:00Z",
+          "conclusion": "",
+          "name": "Post-release smoke test (npx from a clean cwd \u2014 the verify gate)",
+          "number": 12,
+          "startedAt": "0001-01-01T00:00:00Z",
+          "status": "pending"
+        },
+        {
+          "completedAt": "0001-01-01T00:00:00Z",
+          "conclusion": "",
+          "name": "Post Run actions/setup-node@v4",
+          "number": 23,
+          "startedAt": "0001-01-01T00:00:00Z",
+          "status": "pending"
+        },
+        {
+          "completedAt": "0001-01-01T00:00:00Z",
+          "conclusion": "",
+          "name": "Post Run actions/checkout@v4",
+          "number": 24,
+          "startedAt": "0001-01-01T00:00:00Z",
+          "status": "pending"
+        }
+      ],
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38404300140/job/115319733294"
+    }
+  ],
+  "status": "in_progress",
+  "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38404300140",
+  "observed": "2026-10-13T14:18:46.575555+00:00",
+  "watcher": "read-only hosted run and immutable registry verifier; no retry of publication"
+}

@@ -1,0 +1,41 @@
+{
+  "as_of": "2026-10-13",
+  "base_hub_commit": "6c9b06d0e7169aef53f0b9443620ff08e35457fa",
+  "commands": [
+    {
+      "command": "claude --version",
+      "exit_code": 0,
+      "output": "2.1.296 (Claude Code)"
+    },
+    {
+      "command": "claude plugin eval --help",
+      "exit_code": 0,
+      "observation": "Help exposes runs, ablation, max-cost-usd and no-publish. Help only; no eval run or init."
+    },
+    {
+      "command": "git -C <member> rev-parse origin/main",
+      "exit_code": 0,
+      "output": "8862fae9a826263f8109626ca257f81c7c43ac86",
+      "scope": "Local remote-tracking ref, not newly fetched in this research."
+    }
+  ],
+  "source_inspection": {
+    "binary": "Mach-O arm64; no auditable CLI implementation reviewed",
+    "contract_paths": "See native-routing-v2/source.json",
+    "frontmatter": "All three ordinary descriptions; no disable-model-invocation/user-invocable override in selected source headers."
+  },
+  "provider_calls": 0,
+  "installed_mutations": 0,
+  "root_cause": "UNKNOWN",
+  "packet_validation": {
+    "reports_check_exit": 0,
+    "diff_check_exit": 0,
+    "case_count": 3,
+    "required_outcomes": 12,
+    "forbidden_claims": 6,
+    "fixture_hashes_checked": 6,
+    "pinned_contract_hashes_checked": 3,
+    "markdown_links": "all new report and packet links resolve",
+    "provider_calls": 0
+  }
+}

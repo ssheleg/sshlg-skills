@@ -1,0 +1,16 @@
+{
+  "source": "bd3af81e920be2053347a9a3ba297c8f35cb8613",
+  "tree": "76dc23c220049f969ac9c0ff4430217d020ef4be",
+  "kind": "hub full gate (npm test) on the 1.63.0 candidate after member pins",
+  "command": [
+    "npm",
+    "test"
+  ],
+  "started": "2026-10-14T05:12:59Z",
+  "duration_seconds": 235,
+  "exit": 1,
+  "min_free_bytes": 5280382976,
+  "log_sha256": "eb8187e741eefa796001b2201ac5d62e1a2d2d0e2a2f380c62f002882c4a9699",
+  "log_bytes": 51425,
+  "status_after": ""
+}

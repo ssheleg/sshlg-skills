@@ -1,0 +1,1 @@
+{"pid": 92541, "sha": "875c6e6a9a02c5c18e77945fc4fa56a43588cb5c", "tree": "cc94775507fba027b42586f7ef539714d24e2b06", "tmp": "/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/tp-fw07-875c6e6-owned-x68oijvs", "started": "2026-10-13T13:50:26.626991+00:00", "command": ["npm", "run", "test:all"]}

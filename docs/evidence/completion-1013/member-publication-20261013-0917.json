@@ -1,0 +1,60 @@
+[
+  {
+    "repository": "ssheleg/agent-stack",
+    "version": "0.28.2",
+    "source": "2b3d769775e368d0a1e6d0f20ea095ae24fbbd54",
+    "url": "https://github.com/ssheleg/agent-stack/actions/runs/38374231314",
+    "jobs": [
+      {
+        "name": "validate / validate",
+        "conclusion": "success",
+        "url": "https://github.com/ssheleg/agent-stack/actions/runs/38374231314/job/115218463166"
+      },
+      {
+        "name": "validate / House skill audit",
+        "conclusion": "success",
+        "url": "https://github.com/ssheleg/agent-stack/actions/runs/38374231314/job/115218463583"
+      },
+      {
+        "name": "release",
+        "conclusion": "success",
+        "url": "https://github.com/ssheleg/agent-stack/actions/runs/38374231314/job/115218706425"
+      },
+      {
+        "name": "publish",
+        "conclusion": "success",
+        "url": "https://github.com/ssheleg/agent-stack/actions/runs/38374231314/job/115218821348"
+      }
+    ],
+    "scope": "Root live hosted readback; complete published-payload hashes remain in owner receipts; no installed claim."
+  },
+  {
+    "repository": "ssheleg/seo-aeo-audit",
+    "version": "0.26.6",
+    "source": "c5a32d23da41d7717942f33995228b36971d2657",
+    "url": "https://github.com/ssheleg/seo-aeo-audit/actions/runs/38372719449",
+    "jobs": [
+      {
+        "name": "validate / validate",
+        "conclusion": "success",
+        "url": "https://github.com/ssheleg/seo-aeo-audit/actions/runs/38372719449/job/115213416320"
+      },
+      {
+        "name": "validate / House skill audit",
+        "conclusion": "success",
+        "url": "https://github.com/ssheleg/seo-aeo-audit/actions/runs/38372719449/job/115213416615"
+      },
+      {
+        "name": "release",
+        "conclusion": "success",
+        "url": "https://github.com/ssheleg/seo-aeo-audit/actions/runs/38372719449/job/115215313161"
+      },
+      {
+        "name": "publish",
+        "conclusion": "success",
+        "url": "https://github.com/ssheleg/seo-aeo-audit/actions/runs/38372719449/job/115215417104"
+      }
+    ],
+    "scope": "Root live hosted readback; complete published-payload hashes remain in owner receipts; no installed claim."
+  }
+]

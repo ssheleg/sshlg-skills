@@ -1,0 +1,18 @@
+{
+  "status": "PASS_OFFLINE_PACKET",
+  "requirements": 37,
+  "original_unique_ids": 177,
+  "source_hashes_verified": 7,
+  "newer_evidence_paths_verified": [
+    "docs/evidence/completion-1013/fw07-dry-peer.json",
+    "docs/evidence/completion-1013/wait-recovery-cli-peer.json",
+    "docs/evidence/completion-1013/tp-current-gate/r08-candidate-duration.json",
+    "docs/evidence/completion-1013/gemini-auth-status-interface-20261013.json",
+    "docs/evidence/completion-1013/wiki-index-20261013-0928.json",
+    "docs/reports/2026-10-13-code-graph-recovery/README.md"
+  ],
+  "no_verdict": true,
+  "broad_runs": 0,
+  "model_calls": 0,
+  "cleanup_records": 3
+}

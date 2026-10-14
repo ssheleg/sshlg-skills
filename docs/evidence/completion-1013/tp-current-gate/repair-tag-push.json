@@ -1,0 +1,20 @@
+{
+  "as_of": "2026-10-13T13:21:26.363610+00:00",
+  "source": "540679ea7552f8a37e99560e287a69c23cbd3c4a",
+  "tag": "v1.94.1",
+  "tag_object": "89e4782133bcba4f9ea6e5d9d584dfab004b0ded",
+  "command": [
+    "git",
+    "push",
+    "--no-follow-tags",
+    "origin",
+    "refs/tags/v1.94.1:refs/tags/v1.94.1"
+  ],
+  "exit": 0,
+  "stdout": "",
+  "stderr": "To https://github.com/ssheleg/task-pipeline.git\n * [new tag]         v1.94.1 -> v1.94.1\n",
+  "fetch_destination": "https://github.com/ssheleg/task-pipeline.git",
+  "push_destination": "https://github.com/ssheleg/task-pipeline.git",
+  "gate_log_sha256": "9c783c22ae844c11fab34eaef449d1264d90fd2c548d032afb03d785469c7b38",
+  "remote": "89e4782133bcba4f9ea6e5d9d584dfab004b0ded\trefs/tags/v1.94.1\n540679ea7552f8a37e99560e287a69c23cbd3c4a\trefs/tags/v1.94.1^{}"
+}

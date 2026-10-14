@@ -1,0 +1,53 @@
+{
+  "schema": "bounded-independent-review/1",
+  "reviewer": "/root/visibility_review",
+  "author": "/root",
+  "reviewed_commit": "f261a233fcbf3de1879f9c31072d14d2bf37064b",
+  "as_of": "2026-10-13",
+  "verdict": "PASS_BOUNDED",
+  "provider_calls": 0,
+  "reviewed_scope": "Protocol B inventory/allowed-call separation and cumulative bounded retry revision; original A stop immutable",
+  "runner_sha256": "b10a3c95d0d4e7016cffd23a2560018f8eefe8a0ceeb58be6c7c7fa52ebbe0ca",
+  "offline_checks": [
+    {
+      "command": "python3 -B docs/evidence/completion-1013/skill-search-native/check.py",
+      "returncode": 0,
+      "controls": 42
+    },
+    {
+      "command": "python3 -B docs/evidence/completion-1013/native-quality-v1/check.py",
+      "returncode": 0,
+      "scope": "legacy observer default behavior and six fake modes plus three-case continuation"
+    }
+  ],
+  "independent_observation": {
+    "historical_a_raw_sha256": "ffc63b02cd5151025246d26961c09a206ff08b32c49d9842064dfdba748281b9",
+    "raw_hash_matches_original_receipt": true,
+    "offline_new_parser_status": "EXECUTED",
+    "original_receipt_status": "STOPPED_TEST_ERROR",
+    "visible": [
+      "make-skill:make-skill",
+      "make-skill:skill-search"
+    ],
+    "skill_loads": [],
+    "max_request_input": 3598,
+    "cost_usd": 0.0174134,
+    "runtime_reuse": "not admitted; B proposes fresh readiness"
+  },
+  "bounds": {
+    "prior_cli_calls": 1,
+    "new_max_cli_calls": 61,
+    "cumulative_a_b_max_cli_calls": 62,
+    "prior_cost_usd": 0.0174134,
+    "new_budget_usd": 3.9825866,
+    "combined_reported_list_budget_usd": 4,
+    "per_call_reserve_usd": 0.2
+  },
+  "notes": [
+    "Source-only three-name startup prediction was not confirmed; observed inventory is two names. Allowed Skill calls are a separate three-name set.",
+    "No new model calls by reviewer; this review does not itself run or admit B.",
+    "All original experiment source/plugin/corpus prompts remain frozen; only observation interpretation and bounded protocol revision changed.",
+    "Native loading remains separate from catalogue-search execution and task/artifact quality.",
+    "Original A receipt/admission/review remain archived without retroactive success."
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "source": "8d5b63ab07c8bb1e450915d1c0c5d4950c74dfa7",
+  "argv": [
+    "python3",
+    "installed-super-ux/scripts/ux_lint.py",
+    "docs/ux"
+  ],
+  "exit_code": 0,
+  "stdout": "warn:  [U050] screens.md: no **Web surfaces:** declaration \u2014 answer yes or no once (a public page a search or answer engine reads?). An unanswered question reads as no, and this one cannot be fixed after launch\n\n0 error(s), 1 warning(s)\n",
+  "stderr": ""
+}

@@ -1,0 +1,255 @@
+{
+  "source": "3ce4a330de16a3494a916760fbd3aea17414da78",
+  "rows": [
+    {
+      "file": "test/audit_regressions/ctx-04.01.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 0.395
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.02.py",
+      "exit": 0,
+      "counts": [
+        4
+      ],
+      "seconds": 0.141
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.03.py",
+      "exit": 0,
+      "counts": [
+        4
+      ],
+      "seconds": 0.131
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.04.py",
+      "exit": 0,
+      "counts": [
+        4
+      ],
+      "seconds": 0.072
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.05.py",
+      "exit": 0,
+      "counts": [
+        6
+      ],
+      "seconds": 0.029
+    },
+    {
+      "file": "test/audit_regressions/ctx-04.06.py",
+      "exit": 1,
+      "counts": [],
+      "seconds": 1.677
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-01.01.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 0.911
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-01.02.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 1.0
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-02.01.py",
+      "exit": 0,
+      "counts": [
+        4
+      ],
+      "seconds": 0.308
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-02.02.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 0.422
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-03.01.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 0.584
+    },
+    {
+      "file": "test/audit_regressions/fix-rt-04.01.py",
+      "exit": 0,
+      "counts": [
+        6
+      ],
+      "seconds": 0.436
+    },
+    {
+      "file": "test/audit_regressions/fix-ub-01.01.py",
+      "exit": 0,
+      "counts": [
+        4
+      ],
+      "seconds": 0.587
+    },
+    {
+      "file": "test/audit_regressions/fix-up-01.01.py",
+      "exit": 0,
+      "counts": [
+        6
+      ],
+      "seconds": 0.471
+    },
+    {
+      "file": "test/audit_regressions/fix-up-01.02.py",
+      "exit": 0,
+      "counts": [
+        6
+      ],
+      "seconds": 0.413
+    },
+    {
+      "file": "test/audit_regressions/fix-up-01.03.py",
+      "exit": 0,
+      "counts": [
+        4
+      ],
+      "seconds": 0.563
+    },
+    {
+      "file": "test/audit_regressions/fix-up-03.01.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 0.45
+    },
+    {
+      "file": "test/audit_regressions/fix-up-03.02.py",
+      "exit": 0,
+      "counts": [
+        3
+      ],
+      "seconds": 1.045
+    },
+    {
+      "file": "test/audit_regressions/fix-up-04.01.py",
+      "exit": 0,
+      "counts": [
+        7
+      ],
+      "seconds": 0.489
+    },
+    {
+      "file": "test/audit_regressions/fix-up-04.02.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 0.326
+    },
+    {
+      "file": "test/audit_regressions/fix-up-05.01.py",
+      "exit": 0,
+      "counts": [
+        4
+      ],
+      "seconds": 0.528
+    },
+    {
+      "file": "test/audit_regressions/fix-up-05.04.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 0.551
+    },
+    {
+      "file": "test/audit_regressions/fix-up-07.01.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 0.456
+    },
+    {
+      "file": "test/audit_regressions/fix-up-07.02.py",
+      "exit": 0,
+      "counts": [
+        6
+      ],
+      "seconds": 0.743
+    },
+    {
+      "file": "test/audit_regressions/fix-up-07.03.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 0.546
+    },
+    {
+      "file": "test/audit_regressions/fix-up-08.01.py",
+      "exit": 0,
+      "counts": [
+        7
+      ],
+      "seconds": 1.315
+    },
+    {
+      "file": "test/audit_regressions/fix-up-08.03.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 1.166
+    },
+    {
+      "file": "test/audit_regressions/fix-vd-03.03.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 0.785
+    },
+    {
+      "file": "test/audit_regressions/fix-vd-07.01.py",
+      "exit": 0,
+      "counts": [
+        5
+      ],
+      "seconds": 0.68
+    },
+    {
+      "file": "test/queue_test.py",
+      "exit": 0,
+      "counts": [
+        8
+      ],
+      "seconds": 0.16
+    },
+    {
+      "file": "test/mcpsecrets_test.js",
+      "exit": 0,
+      "counts": [
+        17
+      ],
+      "seconds": 0.316
+    }
+  ],
+  "log_sha256": "ee5814428c7aba50a1b9caaa1a84e16e37c06b2038b1751ac1815b1ba4abf152",
+  "expected_known_failure": "ctx-04.06.py stale current-pin staging until accepted member release",
+  "scratch": "/var/folders/3r/yrdx_c051cv22q3r3k0ylvdm0000gn/T/hub-summary-owned-7r3ohzod",
+  "owned_scratch_removed": true
+}

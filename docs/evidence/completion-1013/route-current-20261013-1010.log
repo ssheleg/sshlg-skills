@@ -1,0 +1,19 @@
+MISS   переделай дизайн                               got=—                        want=sheleg-design
+MISS   сделай темную тему                             got=—                        want=sheleg-design
+MISS   обнови токены темы                             got=—                        want=sheleg-design
+MISS   проверь доступность интерфейса                 got=—                        want=sheleg-design|task-pipeline
+MISS   контрастность текста слишком низкая            got=—                        want=sheleg-design
+MISS   почему пользователи отваливаются на втором шаге got=—                        want=super-ux
+MISS   сделай реферальную программу                   got=—                        want=super-ux
+MISS   a/b тест на лендинге                           got=—                        want=super-ux|sheleg-design
+MISS   настрой аналитику продукта                     got=—                        want=sheleg-dev
+MISS   добавь schema markup                           got=—                        want=seo-llmo
+MISS   страница не индексируется                      got=—                        want=seo-llmo
+MISS   напиши тесты для этого модуля                  got=—                        want=task-pipeline
+MISS   подними версию и зарелизь                      got=—                        want=task-pipeline
+MISS   удали мёртвый код                              got=—                        want=task-pipeline
+MISS   проверь скилл по стандарту                     got=—                        want=make-skill
+
+118 named an expected route · 15 reached nothing expected · 0 spoke where silence was right · 133 prompts
+
+reserve split — 15 of 15 misses are blocked; no expected route can SPEND 25 characters without dropping under the 60-character reserve the umbrella ratchets. 0 are not blocked

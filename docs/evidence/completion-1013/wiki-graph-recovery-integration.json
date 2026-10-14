@@ -1,0 +1,30 @@
+{
+  "verdict": "NORMAL_MERGE_VERIFIED",
+  "pr": {
+    "headRefOid": "28e62716ec52adbe637b1f394e10d8aadc5b8410",
+    "mergeCommit": {
+      "oid": "2dd9e4703d5685bbc13f4964e73cf950b6ba6f8d"
+    },
+    "mergedAt": "2026-10-13T12:48:48Z",
+    "state": "MERGED",
+    "url": "https://github.com/ssheleg/obsidian-memory-vault/pull/23"
+  },
+  "frozen_head": "28e62716ec52adbe637b1f394e10d8aadc5b8410",
+  "prior_base": "5ed47b5335188807186fcb79c341bcb1e1fd150b",
+  "source_tree": "ce7faa99aaf6a1ddb268d385250380d9f72c08ee",
+  "merge_tree": "ce7faa99aaf6a1ddb268d385250380d9f72c08ee",
+  "tree_equal": true,
+  "branch_policy": {
+    "protected": false,
+    "enforcement": "off",
+    "contexts": [],
+    "checks": [],
+    "rules_api": "HTTP403 plan feature unavailable; not a no-rules or passing-check claim"
+  },
+  "hosted_checks": {
+    "status": "NOT_APPLICABLE_NO_WORKFLOW",
+    "rollup": []
+  },
+  "mechanism": "ordinary gh pr merge --squash --match-head-commit; no admin/bypass/force",
+  "read_at": "2026-10-13T12:48:52.343582+00:00"
+}

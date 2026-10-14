@@ -293,6 +293,8 @@ Usage:
                                                       # Pi, OpenCode, Hermes; not Claude/Codex)
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
   npx sshlg-skills hooks   install [--force] [--dry-run]
+  npx sshlg-skills hooks   recovery inspect [--json]
+  npx sshlg-skills hooks   recovery recover --expect <digest|absent> [--json]
   npx sshlg-skills hooks   remove
   npx sshlg-skills hosts                              # hosts detected here; Pi visibility; Codex config
                                                       # duplicates; local MCP servers that do not answer
@@ -310,7 +312,7 @@ Usage:
   npx sshlg-skills visibility marks [--init --show <owner/repo,…> [--replace] [--apply]]
                                                       # this machine's pack marks
                                                       # (~/.sshlg-skills/pack-marks.json)
-  npx sshlg-skills domains [--apply | --revert] [--root <dir>] [--no-usage]
+  npx sshlg-skills blocks [--agent claude|codex|gemini|pi|cursor] [--json]\n  npx sshlg-skills blocks diff OWNER:NAME --from <local-file> --agent <host>\n                                                      # read-only markers and selected local diff\n  npx sshlg-skills rules [--apply] [--agent codex|gemini|pi|cursor] [--claude-only]\n                                                      # opt-in wait rule; preview unless --apply\n  npx sshlg-skills rules recovery inspect [--json]\n  npx sshlg-skills rules recovery finalize --operation <id> [--apply] [--json]\n                                                      # metadata only; never restores host instructions\n  npx sshlg-skills domains [--apply | --revert] [--root <dir>] [--no-usage]
   npx sshlg-skills domains --enable|--disable <member> [--project <dir>]
                                                       # xr-dev, web3d-dev, telegram-dev; hook-bearing members stay global
                                                       # load only in projects that call for them
@@ -385,37 +387,47 @@ function planInstall(f) {
       'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
       { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
   }
-  if (f.claude || f.claudeOnly) {
-    const installed = require(path.join(ROOT, 'lib', 'enablement.js')).installed(process.env.HOME || os.homedir());
-    for (const s of SKILLS) {
-      steps.push(opres.step('subprocess', 'home', `claude plugin marketplace add (${s.name})`,
-        { cmd: 'claude', args: ['plugin', 'marketplace', 'add', s.pluginMarketplace] }));
-      // Reinstalling enables an existing plugin; updating preserves project scoping.
-      const action = installed[s.pluginInstall] ? 'update' : 'install';
-      steps.push(opres.step('subprocess', 'home', `claude plugin ${action} ${s.pluginInstall}`,
-        { cmd: 'claude', args: ['plugin', action, s.pluginInstall] }));
-    }
-  }
   if (!f.member) {
     steps.push(opres.step('router-block', 'home',
       'refresh the managed routing block (its own consent and dry-run rules apply)',
       { mode: 'install' }));
   }
-  return opres.buildPlan(steps);
+  return withClaudePlan(steps, f);
 }
 
-/** Plugin registries as sets, or null when unreadable — the input `plan.pluginUpdatePlan` needs. */
-function pluginRegistries() {
-  const read = (file) => {
-    try { return JSON.parse(fs.readFileSync(path.join(claudeRoot(), 'plugins', file), 'utf8')); }
-    catch (_) { return null; }
-  };
-  const known = read('known_marketplaces.json');
-  const installed = read('installed_plugins.json');
-  return {
-    known: known && typeof known === 'object' ? new Set(Object.keys(known)) : null,
-    installed: installed && installed.plugins ? new Set(Object.keys(installed.plugins)) : null,
-  };
+// Private snapshots contain settings values and never enter printable effects.
+const claudePlans = new WeakMap();
+const frozenOperations = new WeakMap();
+function withClaudePlan(steps, f) {
+  let native = null, inventory = null;
+  if (claudeScope(f).inScope) {
+    inventory = JSON.parse(fs.readFileSync(path.join(ROOT, 'claude-plugin-pins.json'), 'utf8'));
+    native = require('../lib/claude-pinned').prepare(SKILLS, inventory,
+      { home: os.homedir(), profileRoot: claudeRoot() });
+    steps.unshift(opres.step('claude-pins', 'home',
+      'native immutable source transaction; protected catalogs/settings, scoped repair, rollback on failure, payload readback',
+      { fingerprint: native.fingerprint, profile: native.profile,
+        members: native.jobs.map(j => `${j.pluginInstall}: ${j.action} @ ${j.row.commit}; ${j.row.files.length} files`),
+        journal: path.join(native.transactionRoot, 'latest.json') }));
+  }
+  const result = attachWaitPlan(steps, f);
+  if (native) claudePlans.set(result, { native, inventory });
+  return result;
+}
+function runClaudePlan(planned, f) {
+  const saved = claudePlans.get(planned);
+  if (!saved) {
+    log(`\n== Updating Claude Code plugins ==\n  skipped: ${claudeScope(f).skippedBy} (the Claude host is outside this run's scope)`);
+    return true;
+  }
+  // Admission, version check and all backups happen before any other channel.
+  let result;
+  try { result = require('../lib/claude-pin-transaction').execute(saved.native, SKILLS, saved.inventory); }
+  catch(e) { log(`  Claude native transaction refused before execution: ${e.message}`); return false; }
+  log(`  Claude native transaction: ${result.ok ? 'verified immutable payloads' : 'failed; inspect recovery receipt'} — ${result.receipt}`);
+  for (const r of result.results) log(`    ${r.member}: ${r.status}${r.rollback ? '; rollback: ' + r.rollback : ''}`);
+  if (result.error) log(`  ${result.error}`);
+  return result.ok;
 }
 
 /** The same contract for `update` — every subprocess, prune, router and runtime action. */
@@ -436,14 +448,6 @@ function planUpdate(f) {
     steps.push(opres.step('prune', 'home',
       'remove plain Claude copies shadowing an installed plugin (re-computed after the CLI runs)',
       { paths: shadowCandidates().map(id => path.join(claudeRoot(), 'skills', id)) }));
-  }
-  // The Claude plugin step follows the Claude host's scope (final polish 8): an `--agent`
-  // list never selects Claude, so it no longer runs `claude plugin update` either.
-  if (claudeScope(f).inScope) {
-    const reg = pluginRegistries();
-    for (const args of plan.pluginUpdatePlan(SKILLS, reg.known, reg.installed)) {
-      steps.push(opres.step('subprocess', 'home', `claude ${args.join(' ')}`, { cmd: 'claude', args }));
-    }
   }
   if (!f.member) {
     steps.push(opres.step('router-block', 'home',
@@ -469,14 +473,14 @@ function planUpdate(f) {
       : 'domain members — `domains --apply` never ran here: one line if a project calls for one, nothing written',
     { file: rec }));
   }
-  return opres.buildPlan(steps);
+  return withClaudePlan(steps, f);
 }
 
 /** Dry-run IS the render: the complete receipt, a typed result, zero mutations. */
 function sourceContract(planned) {
   const selected = cmd => planned.steps.some(s => s.kind === 'subprocess' && s.effect.cmd === cmd);
   log(`  Plain-skills source contract: ${selected('npx') ? 'immutable commit selection; this is not installed-byte or native-runtime acceptance' : 'not selected'}.`);
-  log(`  Claude native source contract: ${selected('claude') ? 'version-following; immutable source NOT_VERIFIED' : 'not selected'}.`);
+  log(`  Claude native source contract: ${planned.steps.some(s => s.kind === 'claude-pins') ? 'immutable commit plus payload readback required; runtime/model acceptance separate' : 'not selected'}.`);
 }
 
 function renderDryRun(planned, mode) {
@@ -499,8 +503,9 @@ function renderDryRun(planned, mode) {
 }
 
 function cmdInstall(f) {
-  const planned = planInstall(f);
+  const planned = frozenOperations.get(f) || planInstall(f);
   if (f.dryRun) return renderDryRun(planned, 'install');
+  if (!runClaudePlan(planned, f)) return false;
   let ok = true;
   if (!f.claudeOnly) {
     const agents = skillsCliAgents(f);
@@ -513,14 +518,7 @@ function cmdInstall(f) {
     // decides nothing about the flag it was created under.
     pruneClaudeShadows();
   }
-  if (f.claude || f.claudeOnly) {
-    log(`\n== Installing Claude Code plugins ==`);
-    log('  Claude native channel: version-following; immutable source NOT_VERIFIED.');
-    for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'claude')) {
-      ok = run('claude', step.effect.args) && ok;
-    }
-    log('\n(restart Claude Code to apply the plugins)');
-  }
+  ok = executeWaitPlan(planned) && ok;
   ok = refreshBlock(f, 'install') && ok;
   printUpdateModel('install');
   sourceContract(planned);
@@ -579,8 +577,9 @@ function scopedRoutingTargets(f) {
 }
 
 function cmdUpdate(f) {
-  const planned = planUpdate(f);
+  const planned = frozenOperations.get(f) || planUpdate(f);
   if (f.dryRun) return renderDryRun(planned, 'update');
+  if (!runClaudePlan(planned, f)) return false;
   let ok = true;
   // Count and execute the subprocess entries from the same frozen plan.
   progress.total =
@@ -613,22 +612,9 @@ function cmdUpdate(f) {
     }
     pruneClaudeShadows();
   }
-  // Scoped like the routing block, the wiring and the runtime copy (final polish 8): an
-  // `--agent` list left the Claude host's files alone and still ran `claude plugin update`
-  // for every member. `claudeScope` is the one answer for all four.
-  const pluginScope = claudeScope(f);
-  if (!pluginScope.inScope) {
-    log(`\n== Updating Claude Code plugins ==\n  skipped: ${pluginScope.skippedBy} (the Claude host is outside this run's scope)`);
-  } else {
-    log(`\n== Updating Claude Code plugins ==`);
-    log('  Claude native channel: version-following; immutable source NOT_VERIFIED.');
-    for (const step of planned.steps.filter(s => s.kind === 'subprocess' && s.effect.cmd === 'claude')) {
-      ok = run('claude', step.effect.args) && ok;
-    }
-    log('\n(restart Claude Code to apply)');
-  }
   // `update`, never `install`: a machine that has no block has not consented
   // to one, and an update is not the moment to ask.
+  ok = executeWaitPlan(planned) && ok;
   ok = refreshBlock(f, 'update') && ok;
 
   // The wired copy the hooks actually EXECUTE. Until v0.47.0 this was the one thing
@@ -639,6 +625,7 @@ function cmdUpdate(f) {
   // point (`B-22`). Refresh only: `create` stays false, because a machine with no
   // runtime has not consented to hooks and an update is not the moment to ask. Scoped like
   // the wiring below (fix round 2, L): a run that leaves the Claude host alone leaves both.
+  let runtimeReady = true;
   const rtScope = claudeScope(f);
   if (!rtScope.inScope) {
     log(`\n== Wired hook runtime ==\n  skipped: ${rtScope.skippedBy} (the Claude host is outside this run's scope; `
@@ -649,6 +636,7 @@ function cmdUpdate(f) {
       const root = require('../lib/hooks.js').runtimeDir(os.homedir());
       const before = rt.stale(ROOT, root);
       const r = rt.sync(ROOT, root, { create: false });
+      if (r.ok === false) throw new Error(r.reason);
       if (r.reason) {
         log(`\n== Wired hook runtime ==\n  skipped: ${r.reason}`);
       } else {
@@ -662,8 +650,8 @@ function cmdUpdate(f) {
         for (const m of before.missing) log(`    + ${m}`);
       }
     } catch (e) {
-      // A runtime that cannot be refreshed must not fail the whole update — but it must
-      // say so, because silence here is what made B-22 invisible for five releases.
+      // Other update steps may finish, but failed runtime refresh makes the aggregate red.
+      runtimeReady = false;
       log(`\n== Wired hook runtime ==\n  NOT refreshed: ${e.message}`);
       ok = false;
     }
@@ -673,19 +661,16 @@ function cmdUpdate(f) {
   // PreToolUse matcher never reached a machine that had run `hooks install` before it.
   // A machine that has consented (one entry of ours in settings.json) is re-wired here;
   // one that has not is left alone — an update is not the moment to ask.
-  ok = rewireConsentedHooks(f) && ok;
-  // Native host lifecycle (FIX-UP-07.02, B-166). Codex loads the family's plugins
-  // from its OWN marketplace cache, not from the skills-CLI copies (those are
-  // excluded in its skills.config), so a re-pin reaches Codex only through Codex's
-  // own CLI: remove the marketplace, re-add it at the pin, add the plugin, and read
-  // the loaded version back. Only that readback says `current`. A Codex whose
-  // plugin CLI cannot be driven is still UNSUPPORTED_UPDATE, and nothing is touched.
-  ok = refreshCodexPlugins(f) && ok;
+  if (runtimeReady) ok = rewireConsentedHooks(f) && ok;
   // Skill visibility (B-143, wave L1). A machine whose record shows the operator ran
   // `visibility --apply` gets it again, with the same window and --keep, so skills the
   // refresh above just added are hidden by the same rule on every host. One with no
   // record has not consented — an update is not the moment to ask.
   ok = reapplyVisibility(f) && ok;
+  // Inspect native Codex AFTER our visibility writes so a deferred receipt binds
+  // the final profile bytes. Version replacement remains deferred: active threads
+  // may retain old payload paths; listing is not generation-retirement proof.
+  ok = refreshCodexPlugins(f) && ok;
   // Domain members per project (L5). Once `domains --apply` ran here, a project that gained a
   // domain dependency gets its member now; before that, one line says what `domains` would do.
   if (claudeScope(f).inScope) {
@@ -850,24 +835,11 @@ function codexPinRef(s, opts) {
  * read (`--version`, `plugin list`) is captured and stays quiet.
  */
 function codexRunner(cmd, args, opts) {
-  const read = opts && opts.read;
-  if (!read && progress.total) {
-    // `onItem` added this item's three steps to the total; a rollback's steps are only
-    // known once it starts, so they extend the total as they run.
-    progress.done++;
-    if (progress.done > progress.total) progress.total = progress.done;
-  }
-  if (!read) {
-    const at = progress.total ? `[${progress.done}/${progress.total}] ` : '';
-    log('  » ' + at + cmd + ' ' + args.join(' '));
-  }
+  if (!opts || !opts.read || !(args.length === 1 && args[0] === '--version'
+    || args[0] === 'plugin' && args[1] === 'list' && (args.length === 2 || args.length === 3 && args[2] === '--json'))) throw new Error('Codex native mutation is deferred');
   const r = spawnSync(cmd, args, { encoding: 'utf8', shell: process.platform === 'win32',
-    stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 32 * 1024 * 1024 });
-  if (!read) {
-    for (const line of `${r.stdout || ''}${r.stderr || ''}`.split(/\r?\n/).filter(Boolean)) log(`      ${line}`);
-    if ((r.error || r.status !== 0) && progress.total) progress.failed.push(`${cmd} ${args.join(' ')}`);
-  }
-  return { status: r.status, stdout: r.stdout || '', stderr: r.stderr || '', error: r.error };
+    stdio: ['ignore', 'pipe', 'pipe'], timeout: 30000, maxBuffer: 32 * 1024 * 1024 });
+  return { status: r.status, signal: r.signal, stdout: r.stdout || '', stderr: r.stderr || '', error: r.error };
 }
 
 /** The Codex half of `update` (B-166): read, refresh what is behind, read back. */
@@ -881,17 +853,17 @@ function refreshCodexPlugins(f) {
   const cp = require('../lib/codexplugins.js');
   const lc = require('../lib/lifecycle.js');
   let out;
+  let configBytes;
   try {
+    configBytes = fs.existsSync(codexConfigPath()) ? fs.readFileSync(codexConfigPath()) : null;
     out = cp.refreshAll({
       skills: SKILLS,
       only: f.member || null,
       runner: codexRunner,
-      readConfig: readCodexConfig,
+      readConfig: () => configBytes === null ? null : configBytes.toString('utf8'),
       configPath: codexConfigPath(),
       pinRef: (s) => codexPinRef(s),
-      onItem: (it) => (progress.total && (progress.total += cp.refreshCommands(it).length), log(`\n- ${it.pluginId}: Codex reports ${it.from}, the pin is ${it.pin} `
-        + `— re-adding ${it.marketplace} at ${it.ref} (${it.refKind === 'commit' ? 'the pin\'s commit' : 'the release tag'}; `
-        + `previous ${it.prev.ref || 'default branch'} recorded for rollback)`)),
+      onItem: (it) => log(`\n- ${it.pluginId}: native catalog ${it.from}; requested pin ${it.pin}; checking generation safety`),
       onResult: (res) => { for (const l of cp.resultLines(res)) log(l); },
     });
   } catch (e) {
@@ -912,6 +884,16 @@ function refreshCodexPlugins(f) {
   }
   for (const it of out.items) {
     if (it.action === 'skip') log(`  ${it.pluginId}: left alone — ${it.why}`);
+  }
+  if (out.results.some((r) => r.status === 'deferred')) {
+    try {
+      const file = require('../lib/codex-pending').save({ home: os.homedir(), configPath: codexConfigPath(),
+        configBytes, results: out.results, runtime: out.runtime });
+      log(`  Deferred update receipt: ${file}`);
+      const watcher = require('../lib/codex-pending').watcherCommand(path.join(ROOT, 'lib', 'codex-deferred-watch.js'), file);
+      log(watcher ? `  Native-host-read-only watcher (POSIX shell): ${watcher}`
+        : '  Watcher command display is POSIX-only; no runnable Windows shell command is emitted.');
+    } catch (e) { log(`  Pending receipt FAILED: ${e.message}`); return false; }
   }
   log(cp.summaryLine(out));
   if (out.results.some((r) => r.status === 'current')) log('  (start a new Codex session to load them)');
@@ -937,13 +919,9 @@ function planCodexSteps(f) {
     if (!mk || mk.source_type !== 'git' || mk.other.length
       || cp.normalizeSource(mk.source) !== cp.normalizeSource(cp.familyUrl(s))) continue;
     const pin = codexPinRef(s, { noGit: true });
-    const item = { marketplace: ids.marketplace, url: cp.familyUrl(s), ref: pin.ref, pluginId: s.pluginInstall };
-    for (const c of cp.refreshCommands(item)) {
-      steps.push(opres.step('subprocess', 'home',
-        `Codex ${s.pluginInstall} — ${c.step}, only if \`codex plugin list\` reports a version other than `
-          + `${s.version} (a checkout re-adds at the pin's commit; previous ref ${mk.ref || 'default branch'} kept for rollback)`,
-        { cmd: 'codex', args: c.args }));
-    }
+    steps.push(opres.step('codex-deferred', 'home',
+      `Codex ${s.pluginInstall}: inspect native catalog; defer a version change until generation retention is supported`,
+      { pluginId: s.pluginInstall, desired: s.version, ref: pin.ref, reason: cp.DEFER_REASON }));
   }
   return steps;
 }
@@ -1428,7 +1406,10 @@ function cmdRouters(f) {
   // its result is what gets written.
   const superseded = {};
   const sources = {};
-  for (const t of apply.TARGETS) {
+  // Migration reads and may rewrite instructions before the emitter runs.
+  // It must use the same selected hosts, not inspect every installed profile.
+  const scoped = scopedRoutingTargets(f);
+  for (const t of scoped.hostTargets) {
     const file = path.join(apply.hostRoot(t, home), t.file);   // honours CODEX_HOME & co. (B-165)
     if (!fs.existsSync(file)) continue;
     const src = fs.readFileSync(file, 'utf8');
@@ -1480,7 +1461,6 @@ function cmdRouters(f) {
     }
   }
 
-  const scoped = scopedRoutingTargets(f);
   const res = apply.apply({
     home, mode, consent: decision, routers: packaged,
     // Only the selected host files are written; the rest stay byte-identical.
@@ -1579,6 +1559,68 @@ function cmdRouters(f) {
  * Kept out of `parseFlags` on purpose: its arguments are positional, and that
  * parser exits on anything that is not a known flag.
  */
+const WAIT_PLANS = new WeakMap();
+function waitPlan(f, options = {}) {
+  const scoped = scopedRoutingTargets(f);
+  return require('../lib/wait-rules.js').plan(process.env.HOME || os.homedir(), {
+    hostTargets: scoped.hostTargets, cursor: scoped.includeCursor, ...options,
+  });
+}
+function attachWaitPlan(steps, f, options = {}) {
+  if (f.member) return opres.buildPlan(steps);
+  const pending = waitPlan(f, { automatic: true, ...options });
+  steps.push(opres.step('working-rule', 'home', 'refresh only previously applied wait-rule profiles', {
+    changes: pending.rows.map(r => `${r.agent}: ${r.action} (${r.file})`),
+  }));
+  const planned = opres.buildPlan(steps);
+  WAIT_PLANS.set(planned, pending);
+  return planned;
+}
+function executeWaitPlan(planned) {
+  const pending = WAIT_PLANS.get(planned);
+  if (!pending) return true;
+  const result = require('../lib/wait-rules.js').execute(pending);
+  for (const r of result.results) log(`rules.wait: ${r.agent} ${r.action}${r.error ? ': ' + r.error : ''}`);
+  return result.ok;
+}
+function parseRuleFlags(args) {
+  const f = { claude: true, agents: [] };
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    if (a === '--apply') f.apply = true;
+    else if (a === '--dry-run') f.dryRun = true;
+    else if (a === '--no-claude') f.claude = false;
+    else if (a === '--claude-only') f.claudeOnly = true;
+    else if (a === '--agent') {
+      const value = args[++i];
+      if (!value || value.startsWith('-')) throw Error('--agent needs codex, gemini, pi or cursor');
+      const names = value.split(',').map(s => s.trim());
+      if (names.some(n => !['codex', 'gemini', 'pi', 'cursor'].includes(n))) throw Error('unsupported wait-rule host; Claude Code uses --claude-only');
+      f.agents.push(...names);
+    } else throw Error(`unsupported rules argument: ${a}`);
+  }
+  if (f.claudeOnly && (!f.claude || f.agents.length)) throw Error('contradictory rules host scope');
+  return f;
+}
+function cmdRules(f) {
+  if (f.member) { log('rules: member-only scope cannot apply a family working rule'); return false; }
+  try {
+    const pending = waitPlan(f);
+    log(`rules.wait: ${pending.policy.enabled ? 'on' : 'off'}; ${f.apply && !f.dryRun ? 'apply' : 'preview'}`);
+    for (const r of pending.rows) {
+      log(`  ${r.agent}: ${r.action} — ${r.file}`);
+      if (['write', 'remove'].includes(r.action)) {
+        if (r.owned) log(r.owned.segment.split('\n').map(line => '- ' + line).join('\n'));
+        if (r.segment) log(r.segment.split('\n').map(line => '+ ' + line).join('\n'));
+      }
+    }
+    if (!f.apply || f.dryRun) return true;
+    const result = require('../lib/wait-rules.js').execute(pending);
+    for (const r of result.results) if (r.action === 'failed') log(`rules.wait: ${r.agent} refused: ${r.error}; inspect ${require('../lib/wait-rules.js').receiptPath(pending.home)}`);
+    return result.ok;
+  } catch (e) { log(`rules.wait: refused: ${e.message}`); return false; }
+}
+
 function cmdConfig(argv) {
   const registry = require('../lib/routers-registry.js');
   const configLib = require('../lib/config.js');
@@ -1592,6 +1634,8 @@ function cmdConfig(argv) {
       log(`  routers.${name.padEnd(16)} ${configLib.isEnabled(config, name) ? 'on' : 'off'}`);
     }
     log(`  update.auto${' '.repeat(11)} ${configLib.autoUpdateEnabled(config) ? 'on' : 'off'}`);
+    try { log(`  rules.wait             ${require('../lib/wait-rule-policy.js').read(home).enabled ? 'on' : 'off'}`); }
+    catch (e) { log(`  rules.wait             unknown — ${e.message}`); return 2; }
     const declared = configLib.externalGet(config);
     const names = Object.keys(declared).sort();
     log(names.length ? '\nОбъявленные маршруты (не участники семьи):' : '\nОбъявленных маршрутов нет.');
@@ -1607,6 +1651,7 @@ function cmdConfig(argv) {
     for (const p of packs.showPacks) log(`  visibility.pack.${p}  show`);
     log('\nПоменять:  npx sshlg-skills config set routers.<имя> on|off');
     log('           npx sshlg-skills config set update.auto on|off');
+    log('           npx sshlg-skills config set rules.wait on|off');
     log('           npx sshlg-skills config set routes.external.<имя>.triggers "слово, фраза, …"');
     log('           npx sshlg-skills config set routes.external.<имя>.skill <skill-id>');
     log('           npx sshlg-skills config set routes.external.<имя> off');
@@ -1617,6 +1662,19 @@ function cmdConfig(argv) {
   if (sub !== 'set') {
     log(`config: неизвестная подкоманда "${sub}" — есть list и set`);
     return 2;
+  }
+
+  if (key === 'rules.wait') {
+    if (argv.length !== 3 || !['on', 'off'].includes(value)) {
+      log('config set rules.wait: expected exactly on or off');
+      return 2;
+    }
+    try {
+      require('../lib/wait-rule-policy.js').set(home, value);
+      log(`rules.wait: ${value}; persistent instruction policy recorded.`);
+      log('Preview with `npx sshlg-skills rules`; apply with `rules --apply` and the desired host scope.');
+      return 0;
+    } catch (e) { log(`rules.wait: refused: ${e.message}`); return 2; }
   }
 
   if (key === 'update.auto') {
@@ -3156,6 +3214,30 @@ function cmdHooks(argv) {
   const pkgRoot = pathMod.resolve(__dirname, '..');
   const file = pathMod.join(home, '.claude', 'settings.json');
 
+  if (sub === 'recovery') {
+    const args = argv.slice(1), action = args.shift();
+    let json = false, expected;
+    // A usage error is exit 2, apart from a refusal (1); JSON only when asked for.
+    const invalid = reason => {
+      if (argv.includes('--json')) console.log(JSON.stringify({ ok: false, state: 'USAGE', reason }));
+      else log(`hooks recovery: ${reason}`);
+      return 2;
+    };
+    for (let i = 0; i < args.length; i++) {
+      if (args[i] === '--json' && !json) json = true;
+      else if (args[i] === '--expect' && expected === undefined && args[i + 1] && /^(absent|[a-f0-9]{64})$/.test(args[i + 1])) expected = args[++i];
+      else return invalid('unsupported recovery argument; use inspect, then recover --expect <digest|absent>');
+    }
+    if (!['inspect', 'recover'].includes(action) || (action === 'inspect' && expected !== undefined) || (action === 'recover' && expected === undefined)) {
+      return invalid('use recovery inspect, then recovery recover --expect <digest|absent>');
+    }
+    const recovery = require('../lib/runtime-recovery');
+    const result = action === 'inspect' ? recovery.inspect(root) : recovery.recover(root, expected);
+    if (json) console.log(JSON.stringify(result));
+    else log(`runtime recovery: ${result.state}${result.expected ? '; expected=' + result.expected : ''}${result.reason ? '; ' + result.reason : ''}`);
+    return result.ok && (action !== 'inspect' || result.state === 'NO_LOCK');
+  }
+
   /**
    * Refresh the wired copy from this package. Idempotent; called on install.
    *
@@ -3165,7 +3247,8 @@ function cmdHooks(argv) {
    * ran `hooks install` — `B-22`, found at stage 8 rather than by a gate.
    */
   function syncRuntime() {
-    require('../lib/runtime.js').sync(pkgRoot, root, { create: true });
+    const result = require('../lib/runtime.js').sync(pkgRoot, root, { create: true });
+    if (result.ok === false) throw new Error(result.reason);
     return root;
   }
 
@@ -3261,7 +3344,7 @@ function cmdHooks(argv) {
     syncRuntime();
     log(`hooks: скрипты синхронизированы в ${root}`);
   } catch (e) {
-    log(`hooks: не удалось скопировать скрипты в ${root} (${e.message}) — ничего не записано`);
+    log(`hooks: не удалось скопировать скрипты в ${root} (${e.message}) — настройки не изменены`);
     return false;
   }
   if (!changed.length) { log('hooks: настройки уже на месте'); return true; }
@@ -3371,7 +3454,7 @@ function planUninstall(f) {
   steps.push(opres.step('prune', 'home', 'remove the Cursor rules file (backup first)',
     { paths: [path.join(os.homedir(), '.cursor', 'rules', cursor.FILENAME)] }));
   steps.push(opres.step('runtime-sync', 'home', 'hooks remove (returns any displaced statusLine)', {}));
-  return opres.buildPlan(steps);
+  return attachWaitPlan(steps, f, { remove: true });
 }
 
 /**
@@ -3390,7 +3473,7 @@ function cmdUninstall(f) {
   const R = require('../lib/routers.js');
   const cursor = require('../lib/cursor.js');
   const home = os.homedir();
-  let ok = true;
+  let ok = executeWaitPlan(planned);
 
   const { removals, kept } = uninstallRemovals();
   log(`\n== Removing family skills from the agent channels ==`);
@@ -3652,8 +3735,17 @@ function main(argv) {
   // Before parseFlags: `config` takes positional arguments, and that parser
   // exits on any token it does not recognise as a flag.
   if (cmd === 'config') return cmdConfig(rest);
+  if (cmd === 'blocks') {
+    try { return require('../lib/blocks.js').cli(rest, {home:os.homedir(),env:process.env}, s=>process.stdout.write(s)); }
+    catch (e) { log(`blocks: ${e.message}`); return 2; }
+  }
+  if (cmd === 'rules') {
+    if (rest[0] === 'recovery') return require('../lib/wait-recovery-cli.js').cli(rest.slice(1), {home:process.env.HOME || os.homedir(),env:process.env});
+    try { return cmdRules(parseRuleFlags(rest)) ? 0 : 1; }
+    catch (e) { log(`rules: ${e.message}`); return 2; }
+  }
   // Also before parseFlags: `hooks` takes a positional subcommand.
-  if (cmd === 'hooks') return cmdHooks(rest) ? 0 : 1;
+  if (cmd === 'hooks') { const r = cmdHooks(rest); return typeof r === 'number' ? r : (r ? 0 : 1); }
   if (cmd === 'injectors') { cmdInjectors(); return 0; }
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
   if (cmd === 'toolkit') { return cmdToolkit(argv) || 0; }
@@ -3668,7 +3760,11 @@ function main(argv) {
   const f = parseFlags(rest);
   if (['install', 'i', 'update', 'up'].includes(cmd)) {
     // Fail before building/executing any operation, including plugin-only runs.
-    try { skillsCliAgents(f); plainSkillsPlan(f, cmd === 'update' || cmd === 'up'); }
+    try {
+      skillsCliAgents(f); plainSkillsPlan(f, cmd === 'update' || cmd === 'up');
+      const planned = cmd === 'update' || cmd === 'up' ? planUpdate(f) : planInstall(f);
+      frozenOperations.set(f, planned);
+    }
     catch (e) { log(e.message); return 2; }
     if (f.all && !f.claudeOnly) {
       const excluded = require('../lib/host-targets.js').excludedGlobal();

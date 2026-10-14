@@ -358,7 +358,7 @@ it('every write to a protected file goes through protect()', () => {
   }
   assert.ok(corpus.includes('hooks/post-tool-use.js'),
     'the discovery missed the file this guard exists for');
-  // Three exemptions, NAMED rather than regex-shaped, and the list is itself a ratchet:
+  // Exemptions are NAMED rather than regex-shaped; the list is itself a ratchet:
   // each of these writes the pack's OWN state, never a file the operator owns.
   //   backup.js    takes the copy — requiring protect() above it is circular
   //   store.js     the pack's JSON under ~/.sshlg-skills/, per its own header
@@ -367,14 +367,22 @@ it('every write to a protected file goes through protect()', () => {
   // (`writeFileSync(file, JSON.stringify(next))`), which is exactly why widening the
   // corpus surfaced all three at once — the discovery working, not failing.
   //
-  // Asserting the set means a FOURTH module that writes outside `protect()` fails here
+  // Asserting the set means any undeclared module writing outside `protect()` fails here
   // instead of being quietly waved through by a growing regex.
   //   quarantine.js the recoverable-prune store under ~/.claude/skills-quarantine/
   //                 and the pack's own managed skill copies it restores (FIX-UP-04.02)
   //   updatelock.js the single-instance lock `update` holds, `~/.sshlg-skills/update.lock`
   //                 (R05) — created exclusively, never a file the operator owns
+  //   backup-retention.js .retain-* sidecars in the backup directory; records refer
+  //                       to targets but never write those targets (reserve/releaseWait).
+  //   codex-pending.js ~/.sshlg-skills/codex-deferred receipts; configPath is READ
+  //                    for identity, never used as the write destination (save/immutable).
+  //   runtime.js       runtime-owned .sync.lock, journal and rollback code copies;
+  //                    sync/recover never write host settings or instruction files.
+  // These exact exceptions do not change the detection of protected user-file writes
+  // in other modules. Moving a config writer here requires re-review of this claim.
   const OWN_STATE = ['lib/backup.js', 'lib/store.js', 'lib/turnstate.js', 'lib/quarantine.js',
-    'lib/updatelock.js'];
+    'lib/updatelock.js', 'lib/backup-retention.js', 'lib/codex-pending.js', 'lib/runtime.js'];
   for (const rel of corpus.filter((f) => !OWN_STATE.includes(f))) {
     const src = fs.readFileSync(path.join(__dirname, '..', rel), 'utf8').split('\n');
     src.forEach((line, i) => {
@@ -409,8 +417,9 @@ it('THE PROTECT EXEMPTIONS ARE EXACTLY THE MODULES THAT WRITE THE PACK\'S OWN ST
     }
   }
   assert.deepStrictEqual([...new Set(unguarded)].sort(),
-    ['lib/backup.js', 'lib/quarantine.js', 'lib/store.js', 'lib/turnstate.js', 'lib/updatelock.js'],
-    'a module writes outside protect() and is not one of the three declared to write '
+    ['lib/backup-retention.js', 'lib/backup.js', 'lib/codex-pending.js', 'lib/quarantine.js',
+      'lib/runtime.js', 'lib/store.js', 'lib/turnstate.js', 'lib/updatelock.js'],
+    'a module writes outside protect() and is not explicitly declared to write '
     + 'only the pack\'s own state — argue for it in the exemption list or route it '
     + 'through protect()');
 });

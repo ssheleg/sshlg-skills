@@ -1,0 +1,583 @@
+{
+  "schema": "active-session-payload-recovery/1",
+  "config_unchanged": true,
+  "members": [
+    {
+      "member": "agent-sync",
+      "version": "1.22.1",
+      "source": "0e0143ae9f35c067424d22631ab5d3580a12d079",
+      "root": "~/.codex/plugins/cache/agent-sync/agent-sync/1.22.1",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "sha256": "367b6c4280d0c6dcc84c82ea154974a093debe78df0d11f9a74c9162629c697f",
+          "mode": "0o664"
+        },
+        {
+          "path": "commands/agent-sync.md",
+          "sha256": "f0d8a407d850eb09243a8f4bd9e627f73aca8de3884d9bfab35e3da6331aa47a",
+          "mode": "0o664"
+        },
+        {
+          "path": "hooks/_lib.sh",
+          "sha256": "9e0a0b1fd0c9a2d068ec59fd6bfecc2f97f8e7c04fe6640e89985e1e970b9b76",
+          "mode": "0o664"
+        },
+        {
+          "path": "hooks/guard.sh",
+          "sha256": "25971f7b051c8861a02f1807907baf8f1396efb8cc5b36b7db75c4a7fb93a652",
+          "mode": "0o775"
+        },
+        {
+          "path": "hooks/hooks.json",
+          "sha256": "bc52f071cd8f7f43161aacd2353f0dd0c94103edf98fb9654484b963d2e9f785",
+          "mode": "0o664"
+        },
+        {
+          "path": "hooks/renew.sh",
+          "sha256": "5ae649e97c0743d68e265d4545487320512eb747a5ec9dff4161dd1ba22abedf",
+          "mode": "0o775"
+        },
+        {
+          "path": "hooks/session-end.sh",
+          "sha256": "76ea37e69f8218a594cfb20daafa2ee191ddc4c381a1eb39b1c1f403774be4b8",
+          "mode": "0o775"
+        },
+        {
+          "path": "hooks/session-start.sh",
+          "sha256": "ddc6dfa92d7b0d17e3fcf94467c65c7ae76a60818598ddd82ed9f9836f4029a2",
+          "mode": "0o775"
+        },
+        {
+          "path": "skills/agent-sync/SKILL.md",
+          "sha256": "ea92d5426d7cbb66e694934234fcb3836cd7be4030c0374b3cade606e23eb89f",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/references/adapter-contract.md",
+          "sha256": "f68b308883bf132116e899d9836f318eb3ab87ba226dcc434242c8695449bd90",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/references/backend-fs.md",
+          "sha256": "47ac381dc93241da249e62b14d8d631306e4b21667e797b73ee4afc6ae4c22ed",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/references/backend-notion.md",
+          "sha256": "094452cb42ff904be486453f8aec43b01c299bb1c7c563d8e9f22674971c828e",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/references/backend-outline.md",
+          "sha256": "9baa5190519f7cf954e9abb5a53a321470804ccc51dde14b9b2ecfac8d2f0b7d",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/references/branching.md",
+          "sha256": "01969cf0f94d0ab80c4129db78ab7a8060c9d3854f2a9959d95992a7e505d881",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/references/earned-rules.md",
+          "sha256": "36456e5fa99dce799753552f7ea032275263ea46a65320c5369c8a48a896bd77",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/references/fabric-coordination.md",
+          "sha256": "504a75415103daac3a8bcaa15299a880980babe0a7df1f2e6eb5b692a7ea59b9",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/references/hooks.md",
+          "sha256": "aa689bd727d50451006ac09f2d2f1d1ef1996cf1732937a14c82473cd49a9f86",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/references/lease-protocol.md",
+          "sha256": "b37b5d684997632d5580e0c647e4bae7cc082d01da7afa830d1b56b83238be0a",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/references/pipeline-binding.md",
+          "sha256": "b9aba2046f818ae335cbe8adff20b52d23a4fcd97a22a553d32ba50c0ffb0b75",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/references/roadmap.md",
+          "sha256": "3218df2e60b7e2bdc73ad4ef5e17597a019149e4a23c0944acf00037490d5e80",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/references/two-sources.md",
+          "sha256": "73d60d8931dea93250c9fc9219ba40cb1be6df94518b7cedf6f55cd2d6708d7a",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/scripts/agent_sync.py",
+          "sha256": "455d99c97894e4b5033399fac3fc5c638375dffae531982f22a8bd6899e56302",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/agent-sync/scripts/bash_writes.py",
+          "sha256": "ec1f5158aceccfafaf3c80c5fc4b9421d030e3ce5630c3c3623f624378864afb",
+          "mode": "0o664"
+        }
+      ],
+      "purpose": "Restore exact previously trusted version payload for active sessions; not installed-current evidence."
+    },
+    {
+      "member": "sheleg-dev",
+      "version": "0.13.3",
+      "source": "59e64dc79ecf9d0c0bb9d501312ad5aaaa64cb79",
+      "root": "~/.codex/plugins/cache/sheleg-dev/sheleg-dev/0.13.3",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "sha256": "bfe6a09281e44f0f1b559ec89f378cc00a41e6e2f2f77f871332aa2049bc4a62",
+          "mode": "0o664"
+        },
+        {
+          "path": "hooks/hooks.json",
+          "sha256": "f328ffead67aa08012865ec0250c2f7c2e649b2df7b94c4de6a58daf2ae18452",
+          "mode": "0o664"
+        },
+        {
+          "path": "hooks/lib/moneygate.js",
+          "sha256": "d896fdf997c3d2b86dd8d7956c7bf21eb8acb9ff1f14597484d5832e59976689",
+          "mode": "0o664"
+        },
+        {
+          "path": "hooks/money-gate.js",
+          "sha256": "eb8c9f4f17a693c6569b74bc8e1bbf862b712c08b4e831e13bc1d4aab0d28380",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/SKILL.md",
+          "sha256": "b318f5fb61df5861a4f0dae7bca4a02c4014e602bdc17e58f25670913f1f2149",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/fixtures/README.md",
+          "sha256": "ff3bfac268df84e5968628984bf3d8246a96f72300cc83ec356a3259814dfd2b",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/fixtures/assert-dedup-contract.mjs",
+          "sha256": "15963bc146d622201be5e86d607f1fdec416c864aa269fe444733906f8a86b0f",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/fixtures/manifest.json",
+          "sha256": "f7c39f10e9a0083381f275d19e7c22dbe5cb5de66e38372a003dbf792d2292a2",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/fixtures/purchase-capi-from-thank-you-page.json",
+          "sha256": "d56dde7d295ede9c18c8175f51626bd59eb880774b97cce637eaa9d283973771",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/fixtures/purchase-capi-server.json",
+          "sha256": "812dc17f84e87d90410f30a289767b647ac12786f415903fe8bf70e83478cdc3",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/fixtures/purchase-pixel-browser.json",
+          "sha256": "f46b3f58d7ed366cbd6d8c9a98418ef43a49ca25679d32b665bcd3337c144348",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/fixtures/reference-emitter.mjs",
+          "sha256": "a0f68f94107cb9f36afe0a81e14de679782331d8540be3f615eceaf7bc93dbf4",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/references/consent-mode.md",
+          "sha256": "097ca44882b6e1996720876cc0b4c13d4d3f5f66342297940cbc4be3e0a5974c",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/references/event-tracking.md",
+          "sha256": "6da422ce4d2bdc13bd851be053194d9a54a280eb6f203a84249a3960826cc16b",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/references/gtag-api.md",
+          "sha256": "6a071e4fd9847edb14b909c84178d851c067a02a179469a609967259762b1410",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/references/meta-linkedin.md",
+          "sha256": "248d065d7f7370beeebf4bc7d718cbb7f9a23cd13fc8c1ded6d76d59bb10bc55",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/ad-tracking/references/performance-security.md",
+          "sha256": "19876b1abf39247e26a88b8089e82f391a32cf213b7fa43431b139bc3e854ff3",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/crypto-payments/SKILL.md",
+          "sha256": "84be59b3eac2b23dc21d5c9eb66d7dcc7cfe82500c5e6aa9ebf7eef3731da41d",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/crypto-payments/references/callback-route-hardening.md",
+          "sha256": "6645a1eadb1e0a5bd01d51034168c80e4e131b29ccef3469c06b0511b0f9173a",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/crypto-payments/references/heleket-provider.md",
+          "sha256": "c41ddfbddee75be2c2cfaacc65782092d4c88b01303088bba444085125e31224",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/crypto-payments/references/testing-and-local-dev.md",
+          "sha256": "13bbcc782d24b31ec931817450e8a5402f7b39c914fa63f21a9d45d54ac621b3",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/error-tracking/SKILL.md",
+          "sha256": "a490c6414c8b2c0dbf00961f6a7a00a771432788396dc074bb67cd54e9b6c219",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/error-tracking/references/releases.md",
+          "sha256": "b5f506275f8367110b3f599dc35871cf09db1fed792db9b4d941cd57991253ab",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/error-tracking/references/scrubbing.md",
+          "sha256": "c18eefd40492abbc939236c65173645179d140b4e13c558fe5a2c85dbce9a548",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/error-tracking/references/setup.md",
+          "sha256": "f8e1d7c44403c46d278ea158429bbac47516c72024c79ff5735b754c85a49611",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/frontend-performance/SKILL.md",
+          "sha256": "f4c3882395a2cdccf3ffb73338ece9e53bc388c2a0ef54556ba95869ee02d76b",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/frontend-performance/references/accessibility-perf.md",
+          "sha256": "e6ef05c5f701de8977523b7d999e65391bc3a88449497149e20716fa47ab0468",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/frontend-performance/references/css-performance.md",
+          "sha256": "7270ceb6aa9ac1363320e62f2d10282b035d5f2f293d21a3fd4161109bd9a3f8",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/frontend-performance/references/nextjs.md",
+          "sha256": "de4f76e69ad64c80fe63de332247c552a6a2afffb31e4f97de3f605a966be57c",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/google-auth/SKILL.md",
+          "sha256": "c0b971cea4955e0c338a425f7d0eb2f78ffa07347e2660f8fb5aec4c2a4e8a74",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/google-auth/references/adc-and-service-accounts.md",
+          "sha256": "a635d04ac2b1b8ebeea1abc76c2b29392e0a2bca8b4da3b63bf5e3255e8b686e",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/google-auth/references/oauth2-web-server.md",
+          "sha256": "f633274922bd53829845d6aecdb9de9fa11d90e8c1220e7f1905dc7f18656b7a",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/google-auth/references/sign-in-with-google.md",
+          "sha256": "116c41d7c5968d3ab6c818123bcec1f19d33073222b62a9ab7a25a648965599a",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/google-auth/references/workload-identity.md",
+          "sha256": "c826ddfafb0bfa28e003913213e7a6b9dcf548fcca14eeacb1d6c0f34b9a21fb",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/google-signin/SKILL.md",
+          "sha256": "011127664892aeac2b560fefd9de9460961ed20befb7270bd150fda6c508c686",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/google-signin/references/full-guide.md",
+          "sha256": "c05b8b5494c720adf99201abde2bb29bfaf07d7c9d3b9d0e9a6148f9b258123c",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/SKILL.md",
+          "sha256": "130b485502588d50b6896d6dfec54ce71337dda7c2215b337fb04771423e708b",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/README.md",
+          "sha256": "a41fc53965701613bdc6f770e1f245bfd3126d1d53ef00d2b36aceea55a81ad9",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/assert-money-invariants.mjs",
+          "sha256": "f1c66cef269fee60c7fe3dcf3f499966bc1f3bccaec0f585f5c4a40d738d9ded",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/charge-refunded-partial.json",
+          "sha256": "00d3d14cb13543c2778591793986c221392de82687994683b596c9860250944d",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/charge-refunded-remainder.json",
+          "sha256": "fad5af72fdb46bdb60570586339c2bbc043ef572a5f12489e6d1ed5b9c3d6bb6",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/checkout-session-async-payment-failed.json",
+          "sha256": "b78b32fce6e342e91abcbcef1b2f8fad8a14c83bfbe2d169009ce4d17665f2fb",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/checkout-session-completed-async-unpaid.json",
+          "sha256": "f610cfde62d0f1d8045a90b92bef1251bfb73abfd1a35223b18991761afd243b",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/checkout-session-completed-paid.json",
+          "sha256": "0a0714339ee382b50ff94d0598c83adac6973c0a6b01c86923e7345659744414",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/customer-discount-created-retention.json",
+          "sha256": "b4ceabb841a877724c0bee2b0956f4c618c772840a4bbfc882fe66ae58de85b4",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/customer-subscription-updated-cancel-classic.json",
+          "sha256": "372623c3df1a852616f3a9a87c0015b4352921e8b16a713f95ad23bc6d8354a1",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/customer-subscription-updated-cancel-flexible.json",
+          "sha256": "b932f3f81e45488731d200a6a7958006dfee7a978c1315bba6d2623ba1bd5a23",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/customer-subscription-updated-discount-consumed.json",
+          "sha256": "5a04d5482d6f8b3165ae20de4a614b9d250c914363e2633a094f25ca514ad2f1",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/invoice-paid-subscription-cycle-next-period.json",
+          "sha256": "6a873bfeaf858ffc6de88c5955e8cd06c36367e0aa4c3a687e501e0c081dc2fa",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/invoice-paid-subscription-cycle-redelivery.json",
+          "sha256": "26ece824b42410c64359ed61b032788dbb3dc896f0a681df3f2f043c520b5771",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/invoice-paid-subscription-cycle.json",
+          "sha256": "ec5dc01a7b803aca9ff921309dcef5f56f6121dc3512266af87875d27f997243",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/invoice-paid-subscription-update-proration.json",
+          "sha256": "38f509ace54a7d34155d4a2803213b97e56dcc89ee14192166729ee72f8096f0",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/manifest.json",
+          "sha256": "0ced0b0bb9c6eb4f6724bc43f855cde48ebfba53cdba81c3b2979c786f0e5ece",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/fixtures/reference-handler.mjs",
+          "sha256": "1100eff2221f15da22088b9a6ec9be9e95098c53cc260dcb8855ce0d6a26eff7",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/references/cancellation-and-retention.md",
+          "sha256": "d912bc206d61c10b36d9570a31136995f24e03d84b5f6f8e523f7412720388fd",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/references/price-integrity.md",
+          "sha256": "f5e436cd8ee0e0df6a91781f4869b69dd3ca5be22e1fc7aebe1c1d04d957770b",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/references/provider-concentration.md",
+          "sha256": "6e1e540d62d0948995f205d7e6969961a19e65dda476406889b99e12402ebe1b",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/references/stripe-agent-toolchain.md",
+          "sha256": "d281c4d98b5caca8706775ff073cf71ec6e7762a87e20e781416f69a91d3c8cd",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/references/subscription-lifecycle.md",
+          "sha256": "a4f98f45cd66cc5d61ab8eecbda8fa16e1e527b7cb95834d74ee1a3d1bd99c7b",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/references/testing-and-local-dev.md",
+          "sha256": "742b2f66bf290b0ea843d24b358274b3df55ce17d3e65a0e770bdf46867ea813",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/stripe-billing/references/webhook-events.md",
+          "sha256": "83dcb14d03e05ffc507881cbe9abafa1d48fbae00a8c4d424f51413fc3c1070b",
+          "mode": "0o664"
+        }
+      ],
+      "purpose": "Restore exact previously trusted version payload for active sessions; not installed-current evidence."
+    },
+    {
+      "member": "make-skill",
+      "version": "0.31.1",
+      "source": "b4418bc48e4654bf983db69705e6789d314ec431",
+      "root": "~/.codex/plugins/cache/make-skill/make-skill/0.31.1",
+      "files": [
+        {
+          "path": ".claude-plugin/plugin.json",
+          "sha256": "bfa726cd79d93a63147d397eb3e8883da673f8b65384ffdfb145dd1e78c81c37",
+          "mode": "0o664"
+        },
+        {
+          "path": "agents/skill-auditor.md",
+          "sha256": "41b99e5a68c1709665ff62d98fe83384dc52f787eee90b5a246eb81a3d432db1",
+          "mode": "0o664"
+        },
+        {
+          "path": "bin/make-skill-audit",
+          "sha256": "9c6139c593866dea2816b1f3f964e77383dcfa5f9ebd975e39c5ba45507f6a40",
+          "mode": "0o775"
+        },
+        {
+          "path": "commands/skill-audit.md",
+          "sha256": "df032409a485c9ce29537b037901c1cf54d904ed6d42e2ca817192e05dfe0255",
+          "mode": "0o664"
+        },
+        {
+          "path": "hooks/hooks.json",
+          "sha256": "292f4eeb4431899b68c12b11016e3c482a7736e40325ddc5e759ab5018015f87",
+          "mode": "0o664"
+        },
+        {
+          "path": "hooks/skill-md-audit.sh",
+          "sha256": "e4e13768851fecd9689d14775b1fb932258ce951c14fb75ba16a5ca9496c416a",
+          "mode": "0o775"
+        },
+        {
+          "path": "skills/make-skill/SKILL.md",
+          "sha256": "ca355c199bb8524291315dec29c6295431727c4968fce4ea6f932604e31b5847",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/assets/SKILL.template.md",
+          "sha256": "7dd2201324db8f79c61a651fe38066ee4e1e7306130fc7cd40c52578972f280a",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/assets/agent.template.md",
+          "sha256": "868b1e5715d4f9e83487b8380cd8c3111d18050fcdbdcf2fd3d0184073a0a7c9",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/assets/command.template.md",
+          "sha256": "d8a8cd470a111aa071ed7045b983815f859fad70e142df3e4d25a625fc04bf23",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/assets/hooks.template.json",
+          "sha256": "bb5f222f6bf7d9f92266eed0773585fa0711b1e57d8242698ac47180a9287129",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/assets/marketplace.template.json",
+          "sha256": "8bc0df702926fce4062832866514ba06d281e6c9c14d966052117bc8f123e924",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/assets/plugin.template.json",
+          "sha256": "c530969851183a1809193a541c9ca34e0f223e77956a34d960a056a7cf1bb23f",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/references/a2a.md",
+          "sha256": "727b4a0bf656d47fd3676d69b2fc77d3be535fde445c41d05cd7d06b389cc51c",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/references/agent-skills-spec.md",
+          "sha256": "36fd88531974e8ab66db82e61516bd257dd4462180ff096a947b5b2a35071d48",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/references/authoring.md",
+          "sha256": "0d683ed6fa867b69f22ad4b69599dfb651b859a519d3297118f064379df70430",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/references/claude-code-plugin.md",
+          "sha256": "d204a71fc8b768c7e41ee66cfe63cdb163c1147ae2ea78423197ae49c885b865",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/references/distribution.md",
+          "sha256": "e4f4975c3bde14980a1bd4b32a836004bed8bae6e25591d7c8d126897e05531b",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/references/enterprise.md",
+          "sha256": "7a9d6fd35f957a5641cc966d0621393f9bda20108a19ae3df42b2297897e15bf",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/references/host-capabilities.md",
+          "sha256": "4bc2dba0d116bb27e111c9c00d7cade44ab785057d9d6d0149c3a1afebf976de",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/references/mcp.md",
+          "sha256": "c17f2786ebabf3f21b5bf5403929acbc2654bb6943b5e2bfeaf7cd16f805091f",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/references/outcome-evaluation.md",
+          "sha256": "74e95948d069d5eee4f9c2c1674a7eb4cf9ffa3e372a4f8d69767b87b8522cea",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/references/retrofit.md",
+          "sha256": "a190ea697aceffe41f479623d8074e62a494e1543bdd9dd4e3a9ee8c8f9ecfaf",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/references/surfaces.md",
+          "sha256": "a0fb9137e4d9ffb842703e1bea3f63f29c4f8240f9683846b6d6648cd6233ca7",
+          "mode": "0o664"
+        },
+        {
+          "path": "skills/make-skill/scripts/audit_skill.py",
+          "sha256": "6f1367dca19331e465910fc8c4237be7386133759d8a24aaed6e9ede43e07304",
+          "mode": "0o775"
+        },
+        {
+          "path": "skills/skill-search/SKILL.md",
+          "sha256": "b509fe04bf915258d678e685848fb147782a6be88a197ff8ddcb8f0b092f4b9b",
+          "mode": "0o664"
+        }
+      ],
+      "purpose": "Restore exact previously trusted version payload for active sessions; not installed-current evidence."
+    }
+  ]
+}

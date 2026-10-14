@@ -1,0 +1,21 @@
+{
+  "schema": "bounded-source-peer/1",
+  "source_commit": "32e29af1f1f16576acd0bf0745d1a0386dac18fa",
+  "reviewer": "visibility_review",
+  "verdict": "PASS_BOUNDED",
+  "scope": "Follow-up runtime --version admission only over previously reviewed numeric/uncertainty core; no operator native mutation by reviewer",
+  "readback": [
+    "runtime child bounded to10seconds and65536bytes",
+    "compatible stdout alone cannot override error, signal or nonzero status",
+    "runtime refusal occurs before settings/catalog mutation"
+  ],
+  "check": {
+    "command": "node test/claude_pin_transaction_test.js",
+    "exit_code": 0,
+    "cases": 27
+  },
+  "file_sha256": {
+    "lib/claude-pin-transaction.js": "5f7c885cf58a9da33ac889de483d69173cae06989cfc9521252e3d998b24dca8",
+    "test/claude_pin_transaction_test.js": "a14239f875d77adfab9481159c12dc635f3506d419a9e4a5f0ef31b6398a2106"
+  }
+}

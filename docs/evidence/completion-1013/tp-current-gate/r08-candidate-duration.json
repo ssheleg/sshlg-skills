@@ -1,0 +1,98 @@
+{
+  "schema": "tp-r08-candidate-measurement/1",
+  "run_id": "38388533188",
+  "candidate_source": "192c49294ee90c576a8e7123fa2cb5edbe36e11c",
+  "accepted_source": "540679ea7552f8a37e99560e287a69c23cbd3c4a",
+  "validate_yaml_bytes": 12810,
+  "under_400000_bytes": true,
+  "jobs": [
+    {
+      "name": "House skill audit",
+      "conclusion": "success",
+      "duration_seconds": 9.0,
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215444"
+    },
+    {
+      "name": "Negative self-tests (shard 3 of 8)",
+      "conclusion": "success",
+      "duration_seconds": 392.0,
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215792"
+    },
+    {
+      "name": "Negative self-tests (shard 2 of 8)",
+      "conclusion": "success",
+      "duration_seconds": 393.0,
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215834"
+    },
+    {
+      "name": "Negative self-tests (shard 6 of 8)",
+      "conclusion": "success",
+      "duration_seconds": 342.0,
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215857"
+    },
+    {
+      "name": "Negative self-tests (shard 5 of 8)",
+      "conclusion": "success",
+      "duration_seconds": 334.0,
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215885"
+    },
+    {
+      "name": "Official Claude Code conformance (strict)",
+      "conclusion": "success",
+      "duration_seconds": 8.0,
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215900"
+    },
+    {
+      "name": "validate",
+      "conclusion": "success",
+      "duration_seconds": 251.0,
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215908"
+    },
+    {
+      "name": "Negative self-tests (shard 7 of 8)",
+      "conclusion": "success",
+      "duration_seconds": 325.0,
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215923"
+    },
+    {
+      "name": "Negative self-tests (shard 1 of 8)",
+      "conclusion": "success",
+      "duration_seconds": 435.0,
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266215980"
+    },
+    {
+      "name": "Negative self-tests (shard 4 of 8)",
+      "conclusion": "success",
+      "duration_seconds": 310.0,
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266216040"
+    },
+    {
+      "name": "Negative self-tests (shard 8 of 8)",
+      "conclusion": "success",
+      "duration_seconds": 234.0,
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115266216136"
+    },
+    {
+      "name": "Negative self-tests",
+      "conclusion": "success",
+      "duration_seconds": 3.0,
+      "url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188/job/115269029705"
+    }
+  ],
+  "all_jobs_under_45_minutes": true,
+  "limit": "Observed genuine candidate jobs; later tagged release run requires its own readback. Local full suite timing is separate.",
+  "run": {
+    "head_sha": "192c49294ee90c576a8e7123fa2cb5edbe36e11c",
+    "head_branch": "fix/release-1.94.1-1013",
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/ssheleg/task-pipeline/actions/runs/38388533188",
+    "run_started_at": "2026-10-13T11:11:41Z",
+    "updated_at": "2026-10-13T11:19:07Z"
+  },
+  "candidate_tree": "fce2054848e34e425c4c22a649e18948d15319d8",
+  "accepted_tree": "fce2054848e34e425c4c22a649e18948d15319d8",
+  "trees_equal": true,
+  "validate_job_seconds": 251.0
+}

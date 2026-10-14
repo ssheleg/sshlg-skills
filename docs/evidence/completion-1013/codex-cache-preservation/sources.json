@@ -1,0 +1,27 @@
+[
+  {
+    "url": "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/core-plugins/src/store.rs",
+    "sha256": "ee77430b5dfcf3aa4dea129c423e29a5685b975cad8eea6f54abcddd5ef4e609",
+    "retrieved": "2026-10-13"
+  },
+  {
+    "url": "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/core-plugins/src/manager.rs",
+    "sha256": "5d401e52976cd1d9dc84a65ea1d007bab13b2d3d4c8e8da96981f20b012c0343",
+    "retrieved": "2026-10-13"
+  },
+  {
+    "url": "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/core-plugins/src/marketplace_upgrade.rs",
+    "sha256": "3d2464effc8b79b1ef8c863e3f83508185896d8c527578eae76a6614b8d08859",
+    "retrieved": "2026-10-13"
+  },
+  {
+    "url": "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/core-plugins/src/marketplace_remove.rs",
+    "sha256": "ac8f7b7c0245f0386b3e900ce30df4b9a428c8e8b262422e4c47da3e1f2acec1",
+    "retrieved": "2026-10-13"
+  },
+  {
+    "url": "https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/cli/src/plugin_cmd.rs",
+    "sha256": "fdc060fde6e0dc675b0b20a79055264b47940b590468e95324e017a66c237866",
+    "retrieved": "2026-10-13"
+  }
+]

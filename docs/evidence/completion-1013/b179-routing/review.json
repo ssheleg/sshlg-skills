@@ -1,0 +1,41 @@
+{
+  "schema": "release-iteration-route/1",
+  "status": "IMPLEMENTED_PENDING_RELEASE_PIN_AND_PEER",
+  "source_contract": "https://github.com/ssheleg/task-pipeline/blob/377f2b20a92b028bcf9baa8f8e43a15279d2f1b4/plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+  "before": {
+    "triggers": "new request control fails",
+    "router_text": "new iteration control fails"
+  },
+  "after": {
+    "triggers": "69/70 pass; only advertised-description guard fails against intentionally unchanged1.93.3 pin",
+    "router_text": "96/96 pass"
+  },
+  "dependency": "Do not release this hub change before reviewed task-pipeline1.94.0 source/publication pin. Keep description guard unchanged.",
+  "logs": [
+    {
+      "phase": "before-triggers",
+      "log": "before-triggers.log.gz",
+      "sha256": "394370aa20a4d57bd79df220b83a7f693972aa057f7cf4e4bcc8898c163571ee"
+    },
+    {
+      "phase": "before-text",
+      "log": "before-text.log.gz",
+      "sha256": "650b54379b9caa070928d82ecf8b8a3c09d24fa9461592d200ca5214f94c08c2"
+    },
+    {
+      "phase": "after-triggers",
+      "log": "after-triggers.log.gz",
+      "sha256": "ed14e9ecd3061768cea17aa10acc343aa3ae3d522e79c9940ccc9ff5e6f9d56e"
+    },
+    {
+      "phase": "after-text",
+      "log": "after-text.log.gz",
+      "sha256": "3b4545e2544877a7a330787602b61b7375026bb31406438c79edf699f5d58026"
+    },
+    {
+      "phase": "after-coverage",
+      "log": "after-coverage.log.gz",
+      "sha256": "99769df2e753eab7e2c0ef6a8f5ac6f648db900890a53b74827c32c38560067a"
+    }
+  ]
+}

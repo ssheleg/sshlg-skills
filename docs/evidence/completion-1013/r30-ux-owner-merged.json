@@ -1,0 +1,262 @@
+{
+  "pr": {
+    "headRefOid": "11cf0611d763a9fb71c18a56b131ed10d456357e",
+    "mergeCommit": {
+      "oid": "7267757e152ce3b434e283596f219dca335b4ed0"
+    },
+    "state": "MERGED",
+    "url": "https://github.com/ssheleg/super-ux/pull/47"
+  },
+  "run": {
+    "conclusion": "success",
+    "event": "pull_request",
+    "headSha": "11cf0611d763a9fb71c18a56b131ed10d456357e",
+    "jobs": [
+      {
+        "completedAt": "2026-10-13T10:43:46Z",
+        "conclusion": "success",
+        "databaseId": 115255447822,
+        "name": "validate",
+        "startedAt": "2026-10-13T10:43:17Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T10:43:19Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T10:43:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:20Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T10:43:19Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:20Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 3,
+            "startedAt": "2026-10-13T10:43:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:25Z",
+            "conclusion": "success",
+            "name": "PyYAML for the front-matter guard",
+            "number": 4,
+            "startedAt": "2026-10-13T10:43:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:26Z",
+            "conclusion": "success",
+            "name": "Validate repo consistency",
+            "number": 5,
+            "startedAt": "2026-10-13T10:43:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:27Z",
+            "conclusion": "success",
+            "name": "Brand linter unit tests (fixture per check code)",
+            "number": 6,
+            "startedAt": "2026-10-13T10:43:26Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:28Z",
+            "conclusion": "success",
+            "name": "Display-copy semantic coverage regressions",
+            "number": 7,
+            "startedAt": "2026-10-13T10:43:27Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:28Z",
+            "conclusion": "success",
+            "name": "UX linter fixtures",
+            "number": 8,
+            "startedAt": "2026-10-13T10:43:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:40Z",
+            "conclusion": "success",
+            "name": "Audit regressions (sherlock plan, one file per closed finding)",
+            "number": 9,
+            "startedAt": "2026-10-13T10:43:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:40Z",
+            "conclusion": "success",
+            "name": "Dogfood the UX chain",
+            "number": 10,
+            "startedAt": "2026-10-13T10:43:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:40Z",
+            "conclusion": "success",
+            "name": "Dogfood the brand pack",
+            "number": 11,
+            "startedAt": "2026-10-13T10:43:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:41Z",
+            "conclusion": "success",
+            "name": "Installer functional tests (fake HOMEs, plugin-present refusal)",
+            "number": 12,
+            "startedAt": "2026-10-13T10:43:40Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:45Z",
+            "conclusion": "success",
+            "name": "Official Claude Code conformance (plugin + marketplace, strict)",
+            "number": 13,
+            "startedAt": "2026-10-13T10:43:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:45Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 25,
+            "startedAt": "2026-10-13T10:43:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:45Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 26,
+            "startedAt": "2026-10-13T10:43:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:45Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 27,
+            "startedAt": "2026-10-13T10:43:45Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/super-ux/actions/runs/38385290527/job/115255447822"
+      },
+      {
+        "completedAt": "2026-10-13T10:43:26Z",
+        "conclusion": "success",
+        "databaseId": 115255448270,
+        "name": "House skill audit",
+        "startedAt": "2026-10-13T10:43:17Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-13T10:43:18Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-13T10:43:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:20Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-10-13T10:43:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:20Z",
+            "conclusion": "success",
+            "name": "Checkout the pinned family auditor",
+            "number": 3,
+            "startedAt": "2026-10-13T10:43:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:22Z",
+            "conclusion": "success",
+            "name": "Install a real tokenizer (the budget is MEASURED, never estimated)",
+            "number": 4,
+            "startedAt": "2026-10-13T10:43:20Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:23Z",
+            "conclusion": "success",
+            "name": "Audit every shipped Agent Skill",
+            "number": 5,
+            "startedAt": "2026-10-13T10:43:22Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:23Z",
+            "conclusion": "success",
+            "name": "Validate behavioral eval data and watch the guard fail",
+            "number": 6,
+            "startedAt": "2026-10-13T10:43:23Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:23Z",
+            "conclusion": "success",
+            "name": "Validate the committed social preview",
+            "number": 7,
+            "startedAt": "2026-10-13T10:43:23Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:24Z",
+            "conclusion": "success",
+            "name": "Post Checkout the pinned family auditor",
+            "number": 13,
+            "startedAt": "2026-10-13T10:43:23Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:24Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-10-13T10:43:24Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-13T10:43:24Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-10-13T10:43:24Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/ssheleg/super-ux/actions/runs/38385290527/job/115255448270"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/ssheleg/super-ux/actions/runs/38385290527"
+  },
+  "required": [
+    {
+      "link": "https://github.com/ssheleg/super-ux/actions/runs/38385290527/job/115255447822",
+      "name": "validate",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/ssheleg/super-ux/actions/runs/38385290527/job/115255448270",
+      "name": "House skill audit",
+      "state": "SUCCESS"
+    }
+  ],
+  "limits": "Six retained actual owner-process controls and complete genuine hosted checks; packaged payload and production validator unchanged; not universal Markdown conformance."
+}

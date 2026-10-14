@@ -1,0 +1,13 @@
+{
+  "schema": "bounded-native-hook-observation/1",
+  "scope": "50-second same-thread follow-up; only emitted events recorded, absence of events is not proof about other hooks",
+  "events": [
+    {
+      "event": "postToolUse",
+      "status": "completed",
+      "source": "~/.codex/hooks.json"
+    }
+  ],
+  "all_observed_completed": true,
+  "raw_private_sha256": "5e7e6363730312e98beb0b5cfdccefba648febbb3612e7ee5d6d39dae99e1384"
+}

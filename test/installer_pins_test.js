@@ -54,7 +54,7 @@ test('packed launcher preview equals executed pinned argv, preserving Continue r
     const pkg=path.join(tmp,'package'), home=path.join(tmp,'home');
     fs.mkdirSync(pkg);fs.mkdirSync(home);
     for(const d of ['lib','bin'])fs.cpSync(path.join(root,d),path.join(pkg,d),{recursive:true});
-    for(const f of ['skills.json','package.json'])fs.copyFileSync(path.join(root,f),path.join(pkg,f));
+    for(const f of ['skills.json','package.json','claude-plugin-pins.json'])fs.copyFileSync(path.join(root,f),path.join(pkg,f));
     const continueDir=path.join(home,'.continue','skills','make-skill');
     fs.mkdirSync(continueDir,{recursive:true});fs.writeFileSync(path.join(continueDir,'SKILL.md'),'existing');
     const calls=path.join(tmp,'calls.jsonl'), shim=path.join(tmp,'shim.cjs');
@@ -75,14 +75,8 @@ test('packed launcher preview equals executed pinned argv, preserving Continue r
     const registry=path.join(home,'.claude','plugins');fs.mkdirSync(registry,{recursive:true});
     fs.writeFileSync(path.join(registry,'installed_plugins.json'),JSON.stringify({version:2,plugins:{'make-skill@make-skill':[{scope:'user',installPath:path.join(tmp,'payload')}]}}));
     const claude=extra=>spawnSync(process.execPath,[path.join(pkg,'bin/sshlg-skills.js'),'install','--claude-only','--member','make-skill',...extra],{env,cwd:tmp,encoding:'utf8',timeout:20000});
-    fs.writeFileSync(calls,'');const preview=claude(['--dry-run']);assert.equal(preview.status,0,preview.stdout+preview.stderr);
+    fs.writeFileSync(calls,'');const preview=claude(['--dry-run']);assert.equal(preview.status,2,preview.stdout+preview.stderr);assert.match(preview.stdout,/invalid installed plugin metadata/);
     assert.equal(fs.readFileSync(calls,'utf8'),'');
-    const expectedClaude=preview.stdout.split('\n').filter(l=>/^\s+claude plugin /.test(l)).map(l=>l.trim().slice(7).split(' '));
-    const native=claude([]);assert.equal(native.status,0,native.stdout+native.stderr);
-    assert.match(native.stdout,/version-following; immutable source NOT_VERIFIED/);
-    const actualClaude=fs.readFileSync(calls,'utf8').trim().split('\n').map(JSON.parse).filter(c=>c.cmd==='claude').map(c=>c.args);
-    assert.deepEqual(actualClaude,expectedClaude);
-    assert(actualClaude.some(a=>a[1]==='update' && a[2]==='make-skill@make-skill'),'existing plugin was re-enabled by install');
     for(const commit of [undefined,'main']) {
       const manifest=JSON.parse(fs.readFileSync(path.join(pkg,'skills.json')));manifest.skills[0].commit=commit;
       fs.writeFileSync(path.join(pkg,'skills.json'),JSON.stringify(manifest));

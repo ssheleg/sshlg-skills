@@ -1,0 +1,79 @@
+{
+  "schema": "bounded-independent-review/1",
+  "reviewer": "/root/visibility_review",
+  "author": "/root",
+  "reviewed_commit": "90497b3f856e2358b6d2400ad3f89df8c0ba9689",
+  "as_of": "2026-10-13",
+  "verdict": "PASS_BOUNDED",
+  "provider_calls": 0,
+  "reviewed_files": [
+    "README.md",
+    "run.py",
+    "check.py",
+    "cases.json",
+    "source.json"
+  ],
+  "runner_sha256": "83a85644ad1ea7f2b3df9f81679c6f7dfdb933ee36f99c866176c629c2166033",
+  "offline_replay": {
+    "command": "python3 -B docs/evidence/completion-1013/skill-search-native/check.py",
+    "returncode": 0,
+    "controls": 41
+  },
+  "independent_controls": [
+    "source fingerprint change mismatches frozen binding",
+    "case mutation refuses source hash",
+    "runner mutation changes binding",
+    "native observer dependency mutation refuses",
+    "materializer dependency mutation refuses",
+    "base runner dependency mutation refuses",
+    "audit command loading remains distinct from skill-search on negative case",
+    "incomplete triplets remain NOT_SCORED",
+    "command restricted to Skill / three turns / 0.20 USD reserve"
+  ],
+  "independent_controls_count": 9,
+  "resolved_findings": [
+    {
+      "finding": "mutable source/labels could regrade unchanged observations",
+      "baseline": "eeb4494 owned-temp replay changed s01 PASS to FAIL after coordinated source/cases mutation",
+      "resolution": "immutable initial fingerprints checked before/after every request and scoring; scoring uses frozen initial cases"
+    },
+    {
+      "finding": "legacy command absent from expected inventory",
+      "source": "78d6765 plugins/make-skill/commands/skill-audit.md plus official custom-command-as-skill behavior",
+      "resolution": "make-skill:skill-audit added as allowed distinct native name; no relabel as search"
+    },
+    {
+      "finding": "in-flight receipt declared complete cost",
+      "resolution": "STARTED is durable with cost_incomplete true; known result may clear it"
+    }
+  ],
+  "bounds": {
+    "max_cli_invocations": 61,
+    "max_task_turns": 3,
+    "max_readiness_turns": 1,
+    "timeout_seconds": 180,
+    "budget_reported_list_usd": 4,
+    "admission_reserve_usd": 0.2,
+    "retries": "none authored; internal CLI retries unmeasured"
+  },
+  "limitations": [
+    "Only source/protocol/offline fake-process evidence; no live model/native loading result yet.",
+    "Startup inventory is a user-invocable anomaly check, not a full model-context or permission attestation.",
+    "Successful Skill observation proves loading, not catalogue search execution or task/artifact quality.",
+    "Frozen owner labels and train/validation split were reviewed as the existing experiment contract, not newly validated universal doctrine.",
+    "Reported list cost is not subscription billing; preceding experiments remain separately disclosed.",
+    "Review is independent of runner author, not blinded to expected labels."
+  ],
+  "primary_sources": [
+    {
+      "url": "https://code.claude.com/docs/en/skills",
+      "read_on": "2026-10-13",
+      "scope": "custom commands are merged into skills; native invocation/visibility distinctions"
+    },
+    {
+      "url": "https://code.claude.com/docs/en/plugins-reference",
+      "read_on": "2026-10-13",
+      "scope": "plugin components and command discovery"
+    }
+  ]
+}

@@ -1,0 +1,1174 @@
+{
+  "schema": "b174-observation/1",
+  "asOf": "2026-10-13T08:31:33.523358+00:00",
+  "scope": "six named global instruction files only; lexical markers, no ownership certification",
+  "rows": [
+    {
+      "host": "claude",
+      "pathAlias": "~/.claude/CLAUDE.md",
+      "rootSource": "default",
+      "writeAuthorized": false,
+      "mode": "0o644",
+      "state": "READ",
+      "bytes": 40191,
+      "sha256": "6ef428896b5ed22a211c95375386d04218c880ed059111f954f5c1d009f79b42",
+      "markers": [
+        {
+          "id": "SSHLG:ROUTERS",
+          "BEGIN": [
+            225
+          ],
+          "END": [
+            568
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-surface-not-receipt"
+        },
+        {
+          "id": "SSHLG:ROUTERS:MAP",
+          "BEGIN": [
+            229
+          ],
+          "END": [
+            256
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTERS:PROTOCOL",
+          "BEGIN": [
+            258
+          ],
+          "END": [
+            293
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:super-ux",
+          "BEGIN": [
+            295
+          ],
+          "END": [
+            308
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:sheleg-design",
+          "BEGIN": [
+            310
+          ],
+          "END": [
+            326
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:copywriting",
+          "BEGIN": [
+            328
+          ],
+          "END": [
+            345
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:sheleg-dev",
+          "BEGIN": [
+            347
+          ],
+          "END": [
+            363
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:agent-stack",
+          "BEGIN": [
+            365
+          ],
+          "END": [
+            379
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:telegram-dev",
+          "BEGIN": [
+            381
+          ],
+          "END": [
+            395
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:xr-dev",
+          "BEGIN": [
+            397
+          ],
+          "END": [
+            411
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:web3d-dev",
+          "BEGIN": [
+            413
+          ],
+          "END": [
+            428
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:seo-llmo",
+          "BEGIN": [
+            430
+          ],
+          "END": [
+            443
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:evidence-docs",
+          "BEGIN": [
+            445
+          ],
+          "END": [
+            457
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:fabric",
+          "BEGIN": [
+            459
+          ],
+          "END": [
+            483
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:task-pipeline",
+          "BEGIN": [
+            485
+          ],
+          "END": [
+            500
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:project-audit",
+          "BEGIN": [
+            502
+          ],
+          "END": [
+            517
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:make-skill",
+          "BEGIN": [
+            519
+          ],
+          "END": [
+            532
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:agent-sync",
+          "BEGIN": [
+            534
+          ],
+          "END": [
+            547
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTERS:TABLE",
+          "BEGIN": [
+            549
+          ],
+          "END": [
+            567
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:REPOSITORY-HANDOFF",
+          "BEGIN": [
+            570
+          ],
+          "END": [
+            606
+          ],
+          "OPTOUT": [],
+          "classification": "operator-decision-pending-no-writer"
+        },
+        {
+          "id": "OBSERVATORY:AGENT-UPDATES",
+          "BEGIN": [
+            608
+          ],
+          "END": [
+            622
+          ],
+          "OPTOUT": [],
+          "classification": "foreign-or-unknown-no-write-authority"
+        }
+      ]
+    },
+    {
+      "host": "codex",
+      "pathAlias": "~/.codex/AGENTS.md",
+      "rootSource": "default",
+      "writeAuthorized": false,
+      "mode": "0o644",
+      "state": "READ",
+      "bytes": 33537,
+      "sha256": "bca80bfbbe3224c1c15f4451f0733f5f750d1a7922f71dc563a45d3803a2338f",
+      "markers": [
+        {
+          "id": "SSHLG:ROUTERS",
+          "BEGIN": [
+            1
+          ],
+          "END": [
+            344
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-surface-not-receipt"
+        },
+        {
+          "id": "SSHLG:ROUTERS:MAP",
+          "BEGIN": [
+            5
+          ],
+          "END": [
+            32
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTERS:PROTOCOL",
+          "BEGIN": [
+            34
+          ],
+          "END": [
+            69
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:super-ux",
+          "BEGIN": [
+            71
+          ],
+          "END": [
+            84
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:sheleg-design",
+          "BEGIN": [
+            86
+          ],
+          "END": [
+            102
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:copywriting",
+          "BEGIN": [
+            104
+          ],
+          "END": [
+            121
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:sheleg-dev",
+          "BEGIN": [
+            123
+          ],
+          "END": [
+            139
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:agent-stack",
+          "BEGIN": [
+            141
+          ],
+          "END": [
+            155
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:telegram-dev",
+          "BEGIN": [
+            157
+          ],
+          "END": [
+            171
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:xr-dev",
+          "BEGIN": [
+            173
+          ],
+          "END": [
+            187
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:web3d-dev",
+          "BEGIN": [
+            189
+          ],
+          "END": [
+            204
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:seo-llmo",
+          "BEGIN": [
+            206
+          ],
+          "END": [
+            219
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:evidence-docs",
+          "BEGIN": [
+            221
+          ],
+          "END": [
+            233
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:fabric",
+          "BEGIN": [
+            235
+          ],
+          "END": [
+            259
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:task-pipeline",
+          "BEGIN": [
+            261
+          ],
+          "END": [
+            276
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:project-audit",
+          "BEGIN": [
+            278
+          ],
+          "END": [
+            293
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:make-skill",
+          "BEGIN": [
+            295
+          ],
+          "END": [
+            308
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:agent-sync",
+          "BEGIN": [
+            310
+          ],
+          "END": [
+            323
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTERS:TABLE",
+          "BEGIN": [
+            325
+          ],
+          "END": [
+            343
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:REPOSITORY-HANDOFF",
+          "BEGIN": [
+            372
+          ],
+          "END": [
+            408
+          ],
+          "OPTOUT": [],
+          "classification": "operator-decision-pending-no-writer"
+        },
+        {
+          "id": "OBSERVATORY:AGENT-UPDATES",
+          "BEGIN": [
+            411
+          ],
+          "END": [
+            425
+          ],
+          "OPTOUT": [],
+          "classification": "foreign-or-unknown-no-write-authority"
+        }
+      ]
+    },
+    {
+      "host": "gemini",
+      "pathAlias": "~/.gemini/GEMINI.md",
+      "rootSource": "default",
+      "writeAuthorized": false,
+      "mode": "0o644",
+      "state": "READ",
+      "bytes": 26891,
+      "sha256": "3e9bb9a21c379d9d0c9f23e4dc4193366d1dfe03001b9697f4e3310f04e1a903",
+      "markers": [
+        {
+          "id": "SSHLG:ROUTERS",
+          "BEGIN": [
+            1
+          ],
+          "END": [
+            344
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-surface-not-receipt"
+        },
+        {
+          "id": "SSHLG:ROUTERS:MAP",
+          "BEGIN": [
+            5
+          ],
+          "END": [
+            32
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTERS:PROTOCOL",
+          "BEGIN": [
+            34
+          ],
+          "END": [
+            69
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:super-ux",
+          "BEGIN": [
+            71
+          ],
+          "END": [
+            84
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:sheleg-design",
+          "BEGIN": [
+            86
+          ],
+          "END": [
+            102
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:copywriting",
+          "BEGIN": [
+            104
+          ],
+          "END": [
+            121
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:sheleg-dev",
+          "BEGIN": [
+            123
+          ],
+          "END": [
+            139
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:agent-stack",
+          "BEGIN": [
+            141
+          ],
+          "END": [
+            155
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:telegram-dev",
+          "BEGIN": [
+            157
+          ],
+          "END": [
+            171
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:xr-dev",
+          "BEGIN": [
+            173
+          ],
+          "END": [
+            187
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:web3d-dev",
+          "BEGIN": [
+            189
+          ],
+          "END": [
+            204
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:seo-llmo",
+          "BEGIN": [
+            206
+          ],
+          "END": [
+            219
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:evidence-docs",
+          "BEGIN": [
+            221
+          ],
+          "END": [
+            233
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:fabric",
+          "BEGIN": [
+            235
+          ],
+          "END": [
+            259
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:task-pipeline",
+          "BEGIN": [
+            261
+          ],
+          "END": [
+            276
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:project-audit",
+          "BEGIN": [
+            278
+          ],
+          "END": [
+            293
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:make-skill",
+          "BEGIN": [
+            295
+          ],
+          "END": [
+            308
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:agent-sync",
+          "BEGIN": [
+            310
+          ],
+          "END": [
+            323
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTERS:TABLE",
+          "BEGIN": [
+            325
+          ],
+          "END": [
+            343
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:REPOSITORY-HANDOFF",
+          "BEGIN": [
+            346
+          ],
+          "END": [
+            382
+          ],
+          "OPTOUT": [],
+          "classification": "operator-decision-pending-no-writer"
+        }
+      ]
+    },
+    {
+      "host": "pi",
+      "pathAlias": "~/.pi/agent/AGENTS.md",
+      "rootSource": "default",
+      "writeAuthorized": false,
+      "mode": "0o644",
+      "state": "READ",
+      "bytes": 17820,
+      "sha256": "389e9b9d938862071f01cab52495ffbce3520f3e2cc95fd17208c9a0b221f57b",
+      "markers": [
+        {
+          "id": "SSHLG:ROUTERS",
+          "BEGIN": [
+            1
+          ],
+          "END": [
+            344
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-surface-not-receipt"
+        },
+        {
+          "id": "SSHLG:ROUTERS:MAP",
+          "BEGIN": [
+            5
+          ],
+          "END": [
+            32
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTERS:PROTOCOL",
+          "BEGIN": [
+            34
+          ],
+          "END": [
+            69
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:super-ux",
+          "BEGIN": [
+            71
+          ],
+          "END": [
+            84
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:sheleg-design",
+          "BEGIN": [
+            86
+          ],
+          "END": [
+            102
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:copywriting",
+          "BEGIN": [
+            104
+          ],
+          "END": [
+            121
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:sheleg-dev",
+          "BEGIN": [
+            123
+          ],
+          "END": [
+            139
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:agent-stack",
+          "BEGIN": [
+            141
+          ],
+          "END": [
+            155
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:telegram-dev",
+          "BEGIN": [
+            157
+          ],
+          "END": [
+            171
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:xr-dev",
+          "BEGIN": [
+            173
+          ],
+          "END": [
+            187
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:web3d-dev",
+          "BEGIN": [
+            189
+          ],
+          "END": [
+            204
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:seo-llmo",
+          "BEGIN": [
+            206
+          ],
+          "END": [
+            219
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:evidence-docs",
+          "BEGIN": [
+            221
+          ],
+          "END": [
+            233
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:fabric",
+          "BEGIN": [
+            235
+          ],
+          "END": [
+            259
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:task-pipeline",
+          "BEGIN": [
+            261
+          ],
+          "END": [
+            276
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:project-audit",
+          "BEGIN": [
+            278
+          ],
+          "END": [
+            293
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:make-skill",
+          "BEGIN": [
+            295
+          ],
+          "END": [
+            308
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:agent-sync",
+          "BEGIN": [
+            310
+          ],
+          "END": [
+            323
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTERS:TABLE",
+          "BEGIN": [
+            325
+          ],
+          "END": [
+            343
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        }
+      ]
+    },
+    {
+      "host": "cursor-routing",
+      "pathAlias": "~/.cursor/rules/sshlg-routing.mdc",
+      "rootSource": "default",
+      "writeAuthorized": false,
+      "mode": "0o644",
+      "state": "READ",
+      "bytes": 18001,
+      "sha256": "4310e0228bdb9e6427c357c0d694fc3d9b23ddba67052afbcefdf900c3633d78",
+      "markers": [
+        {
+          "id": "SSHLG:ROUTERS",
+          "BEGIN": [
+            6
+          ],
+          "END": [
+            349
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-surface-not-receipt"
+        },
+        {
+          "id": "SSHLG:ROUTERS:MAP",
+          "BEGIN": [
+            10
+          ],
+          "END": [
+            37
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTERS:PROTOCOL",
+          "BEGIN": [
+            39
+          ],
+          "END": [
+            74
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:super-ux",
+          "BEGIN": [
+            76
+          ],
+          "END": [
+            89
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:sheleg-design",
+          "BEGIN": [
+            91
+          ],
+          "END": [
+            107
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:copywriting",
+          "BEGIN": [
+            109
+          ],
+          "END": [
+            126
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:sheleg-dev",
+          "BEGIN": [
+            128
+          ],
+          "END": [
+            144
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:agent-stack",
+          "BEGIN": [
+            146
+          ],
+          "END": [
+            160
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:telegram-dev",
+          "BEGIN": [
+            162
+          ],
+          "END": [
+            176
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:xr-dev",
+          "BEGIN": [
+            178
+          ],
+          "END": [
+            192
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:web3d-dev",
+          "BEGIN": [
+            194
+          ],
+          "END": [
+            209
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:seo-llmo",
+          "BEGIN": [
+            211
+          ],
+          "END": [
+            224
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:evidence-docs",
+          "BEGIN": [
+            226
+          ],
+          "END": [
+            238
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:fabric",
+          "BEGIN": [
+            240
+          ],
+          "END": [
+            264
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:task-pipeline",
+          "BEGIN": [
+            266
+          ],
+          "END": [
+            281
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:project-audit",
+          "BEGIN": [
+            283
+          ],
+          "END": [
+            298
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:make-skill",
+          "BEGIN": [
+            300
+          ],
+          "END": [
+            313
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTER:agent-sync",
+          "BEGIN": [
+            315
+          ],
+          "END": [
+            328
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        },
+        {
+          "id": "SSHLG:ROUTERS:TABLE",
+          "BEGIN": [
+            330
+          ],
+          "END": [
+            348
+          ],
+          "OPTOUT": [],
+          "classification": "hub-router-subregion-not-independent-owner"
+        }
+      ]
+    },
+    {
+      "host": "cursor-wait",
+      "pathAlias": "~/.cursor/rules/sshlg-wait.mdc",
+      "rootSource": "default",
+      "writeAuthorized": false,
+      "state": "ABSENT"
+    }
+  ]
+}

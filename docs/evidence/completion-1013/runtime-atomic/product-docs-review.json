@@ -1,0 +1,78 @@
+{
+  "runtime_source": "bb724e5bef2c8af5a5959c3ba6676e81b3835190",
+  "scope": "Product documentation and exact own-state guard/suite-output reconciliation. No production code or runner change.",
+  "link_checks": [
+    {
+      "document": "README.md",
+      "target": "docs/working-rules/state-json.md",
+      "exists": true
+    },
+    {
+      "document": "CHANGELOG.md",
+      "target": "docs/working-rules/state-json.md",
+      "exists": true
+    },
+    {
+      "document": "docs/working-rules/state-json.md",
+      "target": "../../lib/runtime.js",
+      "exists": true
+    },
+    {
+      "document": "docs/working-rules/state-json.md",
+      "target": "../../bin/sshlg-skills.js",
+      "exists": true
+    },
+    {
+      "document": "docs/working-rules/state-json.md",
+      "target": "../../test/runtime_atomic_test.js",
+      "exists": true
+    },
+    {
+      "document": "docs/working-rules/state-json.md",
+      "target": "../evidence/completion-1013/runtime-atomic/README.md",
+      "exists": true
+    }
+  ],
+  "brand_lint": {
+    "command": "python3 /Users/sshlg/.codex/plugins/cache/super-ux/super-ux/0.59.3/scripts/brand_lint.py docs/brand --json --fail-on B063",
+    "exit": 2,
+    "status": "NOT_PASS",
+    "counts": {
+      "warn:B003": 1,
+      "error:B009": 1,
+      "warn:B022": 717,
+      "error:B023": 1,
+      "warn:B074": 1
+    },
+    "errors": [
+      {
+        "code": "B009",
+        "severity": "error",
+        "path": "README.md",
+        "line": 0,
+        "message": "Sources marketing: `_site/**/*.html` matches no files; correct the path or remove the source declaration. No copy was scanned"
+      },
+      {
+        "code": "B023",
+        "severity": "error",
+        "path": "skills/agent-stack/README.md",
+        "line": 0,
+        "message": "`family.verify` points at skills/agent-stack/README.md, which does not exist"
+      }
+    ],
+    "limitation": "Configured generated website and a submodule source are absent in this isolated worktree. No clean lint or baseline-comparison claim. Other warnings retained as counts; no unrelated sources or registry entries changed."
+  },
+  "manual_copy_review": {
+    "sources": [
+      "docs/brand/voice.md",
+      "docs/brand/terminology.md",
+      "docs/brand/channels.md",
+      "docs/brand/facts.md",
+      "lib/runtime.js",
+      "bin/sshlg-skills.js"
+    ],
+    "result": "Added prose states observed failure behavior, paths and unresolved retirement. No atomic whole-runtime, power-loss or automatic crash-recovery claim. Humanization on; manual pass."
+  },
+  "guard_scope": "Only backup-retention, codex-pending and runtime own-state modules added to both exact sets. Discovery, generic matchers and protect window unchanged. Independent module plant refused by both guards.",
+  "checks": "Focused 9 suites: 190 cases; summary formatting 14 controls; actual protect plant/refreshed-source 2 process controls. No aggregate run."
+}

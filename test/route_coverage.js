@@ -33,6 +33,12 @@ const T = require('../lib/triggers.js');
 const FABRIC_HERE = require('../lib/machine.js').probe({ env: { FABRIC_SERVICES_DIR: require('os').tmpdir() } });
 
 const CASES = [
+  ['release iteration', 'task-pipeline'],
+  ['итерация релиза', 'task-pipeline'],
+  ['what is a release iteration?', ''],
+  ['что такое итерация релиза?', ''],
+  ['release iteration, no pipeline', ''],
+  ['итерация релиза, без пайплайна', ''],
   // --- growth: funnels, activation, retention, paywalls -------------------
   // Every one of these is territory the super-ux router text claims in
   // `lib/routers-registry.js` ("product decisions, funnels, onboarding,

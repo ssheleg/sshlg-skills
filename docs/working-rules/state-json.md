@@ -65,6 +65,23 @@ consented Claude hooks in `~/.claude/settings.json` (one entry of ours present),
 That consumer is why the file carries `schemaVersion`. A key may be added without a bump; a
 key renamed, removed or re-typed bumps it, and this page changes in the same commit.
 
+## Deferred native Codex updates
+
+The hub's own `codex-deferred/` directory is separate from `state.json` and from
+other members' files. `lib/codex-pending.js` writes immutable JSON intent with schema
+`sshlg.codex-deferred/v1`: canonical/requested profile, config SHA256, sanitized CLI
+version, requested refs and observed catalog versions. Raw config and file bodies
+are excluded. The content hash names the file. The task directory is owner-only;
+existing unsafe permissions or ownership refuse without chmod or replacement.
+
+`lib/codex-deferred-watch.js` accepts that private, identity-bound receipt, reads
+only the native catalog and writes immutable observations beside it. Profile or
+config drift stops observation. Exhaustion preserves intent and records an explicit
+pending result. `catalog-matches-thread-generation-unknown` never grants mutation
+or proves thread retirement. The launcher exits partial/nonzero on deferred work;
+no reader may reinterpret the pending record as an install approval. Source and
+real isolated CLI evidence: [Codex cache correction](../evidence/completion-1013/codex-cache-preservation.md).
+
 ## Other members' files under `~/.sshlg-skills/`
 
 The directory is the family's; a member may keep its own data here when the family is
@@ -110,6 +127,77 @@ runtime copy and this file.
   by the rule above. Only a lock that is still ours is deleted.
 - `update --dry-run` writes nothing and takes no lock.
 - If the lock file cannot be created at all (read-only home), `update` runs without it and says so.
+
+## The runtime lock and failed refresh
+
+`~/.sshlg-skills/runtime/.sync.lock` protects the runtime file writer used by both
+`update` and `hooks install`. It is separate from `~/.sshlg-skills/update.lock`,
+which covers the wider update command. The runtime lock records its holder PID
+and a unique token. Every existing runtime lock is refused, including a stale or
+unreadable one; the update lock's takeover rules above do not apply to it.
+A runtime refusal fails the command; it is not the update lock's retry-later
+exit status.
+
+A runtime sync failure makes `update` skip hook rewiring and finish unsuccessfully;
+other update steps can still complete. `hooks install` refuses to write hook
+settings after the failure. If a caught error interrupts the file switch, the
+writer attempts immediate rollback and verifies the managed files' previous
+bytes, permissions and presence. Files introduced by that attempt are removed
+only when they still match its recorded content and permissions. Managed files
+changed outside the recorded transaction and malformed recovery records are left
+for inspection; unknown user files are preserved.
+
+The recovery journal is `runtime/.switch-journal.json`; prior managed files are
+kept in `runtime/.prev-generation`. These paths are relative to
+`~/.sshlg-skills/`. A journal that can be safely recovered is handled before a
+new sync, once writer admission is available. A hard stop can retain the runtime
+lock as well as the journal, so restart is not automatic recovery.
+
+For a retained lock, preserve the lock, journal and prior snapshot together.
+A PID or the lock's age alone never proves the holder dead, and retrying or
+borrowing the update lock's takeover rules does not retire it. The supported
+procedure is two commands:
+
+1. `npx sshlg-skills hooks recovery inspect --json` writes nothing and reports
+   the resolved runtime root, the lock's SHA-256 (`expected`) and one state:
+   `NO_LOCK`, `PENDING_JOURNAL` (no lock, a journal remains), `BUSY` (the holder
+   pid is alive), `DEAD`, `UNKNOWN` or `NOT_INSTALLED`, each with its reason.
+2. `npx sshlg-skills hooks recovery recover --expect <digest|absent> --json`
+   admits only `DEAD`, `NO_LOCK` or `PENDING_JOURNAL` whose lock still has the
+   inspected digest. It retires the dead lock, then the existing journal
+   verifier decides rollback.
+
+A lock is `DEAD` only when its record binds this boot, this user and the same
+runtime root (path, device and inode) and signalling its pid returns `ESRCH`.
+Locks from an older launcher, another boot, a copied root, a root writable by
+others, or a malformed, linked or changed file stay `UNKNOWN` and are never
+retired. A running writer releases its own lock; one left by a crashed older or
+unbound writer is not cleared by any supported command. Recovery workers exclude each other with
+a POSIX `flock` held on the inherited descriptor of
+`runtime/.recovery-coordinator` until the worker exits, including by SIGKILL.
+That needs `/usr/bin/python3` (on macOS, the Command Line Tools); without it,
+recovery refuses and changes nothing. A normal writer that takes the lock after
+retirement is never removed.
+
+`recover` reports `RECOVERED` (rollback verified), `NO_PENDING_JOURNAL` or
+`UNRESOLVED`, with `retired` saying whether the dead lock was removed, `null`
+when an interrupted worker did not report it. `NO_PENDING_JOURNAL` does not say
+how the interrupted transaction ended. Refusals exit 1, usage errors exit 2.
+Inspection does not verify every backup byte; that remains the journal
+verifier's job during `recover`.
+
+This contract covers caught filesystem errors and explicit refusal after an
+interrupted process. Running hook readers can still observe the per-file switch;
+it does not promise an atomic whole-runtime view or power-loss durability.
+Linux boot identity, other PID namespaces and network filesystems are not
+established by these controls. Source: [`lib/runtime.js`](../../lib/runtime.js),
+`sync`, `recover`, `withLock`; [`lib/runtime-recovery.js`](../../lib/runtime-recovery.js),
+`inspect`, `recover`;
+CLI failure propagation: [`bin/sshlg-skills.js`](../../bin/sshlg-skills.js),
+`cmdUpdate` and `cmdHooks`. The actual CLI and recovery controls are in
+[`test/runtime_atomic_test.js`](../../test/runtime_atomic_test.js) and
+[`test/runtime_recovery_test.js`](../../test/runtime_recovery_test.js), with
+[source-bound results](../evidence/completion-1013/runtime-atomic/README.md).
 
 ## Proof
 

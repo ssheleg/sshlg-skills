@@ -1,0 +1,52 @@
+{
+  "schema": "native-routing-source/2",
+  "member_commit": "8862fae9a826263f8109626ca257f81c7c43ac86",
+  "version": "0.13.4",
+  "relationship": "Same released body cut as native-quality-v1, not historical selection corpus.",
+  "contracts": [
+    {
+      "path": "plugins/sheleg-dev/skills/google-auth/SKILL.md",
+      "sha256": "75e3703d81df6f7413761292070ba54445990e951a641b5302914f176d79b30c",
+      "bytes": 11142,
+      "url": "https://github.com/ssheleg/sheleg-dev/blob/8862fae9a826263f8109626ca257f81c7c43ac86/plugins/sheleg-dev/skills/google-auth/SKILL.md"
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/stripe-billing/SKILL.md",
+      "sha256": "487bb5b38d26f0a3eb62b8107aef6359eb5d4e5bac8cd5ed271fb0a3fb2e0353",
+      "bytes": 21071,
+      "url": "https://github.com/ssheleg/sheleg-dev/blob/8862fae9a826263f8109626ca257f81c7c43ac86/plugins/sheleg-dev/skills/stripe-billing/SKILL.md"
+    },
+    {
+      "path": "plugins/sheleg-dev/skills/ad-tracking/SKILL.md",
+      "sha256": "b318f5fb61df5861a4f0dae7bca4a02c4014e602bdc17e58f25670913f1f2149",
+      "bytes": 20873,
+      "url": "https://github.com/ssheleg/sheleg-dev/blob/8862fae9a826263f8109626ca257f81c7c43ac86/plugins/sheleg-dev/skills/ad-tracking/SKILL.md"
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "fixtures/b7/OPERATIONS.md",
+      "sha256": "8ede382b4cb0724c98a816ec1f5b6e7a656259ec51454d26b2d3c7f6e5eba343"
+    },
+    {
+      "path": "fixtures/b7/service.py",
+      "sha256": "4d736ecb673b59f3a89577e22164e6f2a750e9e8b60363ff860c1ca28722f3b1"
+    },
+    {
+      "path": "fixtures/k2/OPERATIONS.md",
+      "sha256": "bc17f744b29b014727c3c23641f00b121511741994cf2e94e0b7941ea4fdb8ea"
+    },
+    {
+      "path": "fixtures/k2/handler.py",
+      "sha256": "43820ca4d51b4c75f11b9306021f2af92b2487d19e524b05d35975a7aa5a534f"
+    },
+    {
+      "path": "fixtures/m9/OPERATIONS.md",
+      "sha256": "66fdb5be2f54c1e051122652578ac2d8654432d2bac57a423523f10563aafeef"
+    },
+    {
+      "path": "fixtures/m9/events.js",
+      "sha256": "bad4e777526e518123624f7a90f3f1a3e44dc7c9941c70a379d52503fd6a7382"
+    }
+  ]
+}

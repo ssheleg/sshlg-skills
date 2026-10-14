@@ -1,0 +1,38 @@
+[
+  {
+    "command": [
+      "node",
+      "test/runtime_test.js"
+    ],
+    "exit": 0,
+    "stdout": "PASS: runtime \u2014 8 checks\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "node",
+      "test/runtime_closure_test.js"
+    ],
+    "exit": 0,
+    "stdout": "PASS: runtime closure \u2014 6 checks\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "python3",
+      "test/audit_regressions/fix-up-05.01.py"
+    ],
+    "exit": 0,
+    "stdout": "  ok  a clean run installs the verified new set\n  ok  a copy fault leaves the old install complete\n  ok  unknown user files are preserved\n  ok  the previous generation is kept recoverable\n\nall green\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "python3",
+      "test/audit_regressions/fix-up-05.04.py"
+    ],
+    "exit": 0,
+    "stdout": "  ok  recover rolls back a mid-switch crash to a coherent digest\n  ok  recover before the switch is coherent\n  ok  recover after a full switch (uncommitted) rolls back\n  ok  recover is a no-op without a journal\n  ok  sync recovers an admitted journal before installing\n\nall green\n",
+    "stderr": ""
+  }
+]

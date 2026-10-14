@@ -1,0 +1,22 @@
+{
+  "schema": "bounded-independent-review/1",
+  "reviewer": "/root/fresh_research",
+  "snapshot": "9f0c0dc6a2a0c3c97c569af58b19bdbd31c8a71f",
+  "verdict": "PASS_BOUNDED_AFTER_FACT_CORRECTION",
+  "build_script_sha256": "3580a9b413a980535cae8acd1ab3765e6328c08eeaf48e49c207d775ce30303c",
+  "checks": {
+    "immutable_files": 218,
+    "source_paths_and_locations": 5210,
+    "nodes": 2605,
+    "edges": 3949,
+    "communities": 193,
+    "raw_edges": 5086,
+    "dangling_endpoints": 664,
+    "self_loops": 1,
+    "same_endpoint_collapse_candidates": 489,
+    "both_decompressed_hashes_match": true
+  },
+  "finding": "README used prior trial206 communities; corrected to retained manifest193. Baseline is not final candidate and requires refresh after B187.",
+  "provider_calls": 0,
+  "scope": "Source/manifest/hash/diagnostic readback; no runtime or whole-family acceptance."
+}

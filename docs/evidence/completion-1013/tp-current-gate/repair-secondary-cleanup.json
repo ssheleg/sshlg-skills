@@ -1,0 +1,30 @@
+{
+  "observed_at": "2026-10-13T13:24:16.979815+00:00",
+  "scope": "Two explicit copies created by plants157/158 during this root run, exact unique accepted tag, expected planted diffs only, no handles. No other scratch touched. Future runner correction separate.",
+  "rows": [
+    {
+      "path": "/tmp/vh1b-copy",
+      "source": "540679ea7552f8a37e99560e287a69c23cbd3c4a",
+      "tag_object": "89e4782133bcba4f9ea6e5d9d584dfab004b0ded",
+      "expected_planted_status": "D docs/evidence/verification.md",
+      "ignored_bytecode_files": 9,
+      "owner_uid": 501,
+      "mtime": 1791894297.7214682,
+      "open_handles": 0,
+      "bytes": 12611144,
+      "removed": true
+    },
+    {
+      "path": "/tmp/gt1b-copy",
+      "source": "540679ea7552f8a37e99560e287a69c23cbd3c4a",
+      "tag_object": "89e4782133bcba4f9ea6e5d9d584dfab004b0ded",
+      "expected_planted_status": "M plugins/task-pipeline/skills/task-pipeline/SKILL.md",
+      "ignored_bytecode_files": 9,
+      "owner_uid": 501,
+      "mtime": 1791894300.7442327,
+      "open_handles": 0,
+      "bytes": 12688723,
+      "removed": true
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "old_source": "56ca9ea41e40efa0b2b6240411711c480f091e8e",
+  "observations": {
+    "accepted_before": {
+      "writer_exit": -9,
+      "state": "UNKNOWN"
+    },
+    "candidate": {
+      "writer_exit": -9,
+      "state": "DEAD"
+    }
+  },
+  "owned_temporary_removed": true
+}

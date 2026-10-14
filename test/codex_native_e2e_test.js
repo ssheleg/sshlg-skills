@@ -1,7 +1,7 @@
 'use strict';
 /**
- * B-166, end to end: `update` moves a family plugin that Codex holds at an old version
- * to the pin, through Codex's own CLI, and reads the loaded version back.
+ * Codex native safety, end to end: `update` defers a version change without deleting
+ * an old payload. Catalog state is separate from thread-loaded generations.
  *
  * The real launcher runs as a process. `npx`, `git` and `claude` are shims that log and
  * succeed — except `git ls-tree`, which reaches the real git so the pin's commit is read
@@ -100,6 +100,8 @@ function runUpdate(sb, args, env) {
     cwd: ROOT, encoding: 'utf8', timeout: 180000, stdin: 'ignore',
     env: Object.assign({
       HOME: sb.home, CODEX_HOME: sb.codexHome, FAKE_CODEX_STATE: sb.statePath, NO_COLOR: '1',
+      // Claude's source transaction is a separate boundary, not an exit-0 shell stub.
+      NODE_OPTIONS: '--require=' + path.join(__dirname, 'fixtures', 'native-transaction-boundary.cjs'),
       PATH: [sb.shims, path.dirname(process.execPath), '/usr/bin', '/bin'].join(path.delimiter),
     }, env || {}),
   });
@@ -109,28 +111,83 @@ function runUpdate(sb, args, env) {
 const state = (sb) => JSON.parse(fs.readFileSync(sb.statePath, 'utf8'));
 const mutating = (sb) => state(sb).calls.filter((c) => !/^(--version|plugin list)/.test(c));
 
-t('an old family plugin moves to the pin, and the readback is what says current', () => {
+t('an old family plugin is deferred; exact config and old hook payload survive repeated updates', () => {
   const sb = sandbox();
-  const r = runUpdate(sb, ['--agent', 'codex']);
-  assert.strictEqual(r.status, 0, r.out.slice(-1500));
-  const s = state(sb);
-  assert.strictEqual(s.cache['agent-sync@agent-sync'], PIN, 'Codex still holds the old version');
-  const ref = GITLINK || `v${PIN}`;
-  assert.deepStrictEqual(mutating(sb), [
-    'plugin marketplace remove agent-sync',
-    `plugin marketplace add https://github.com/ssheleg/agent-sync.git --ref ${ref}`,
-    'plugin add agent-sync@agent-sync',
-  ]);
-  assert.ok(new RegExp(`agent-sync@agent-sync: 1\\.21\\.7 → ${PIN.replace(/\./g, '\\.')} — current \\(read back`).test(r.out), r.out.slice(-1500));
-  const cfg = fs.readFileSync(path.join(sb.codexHome, 'config.toml'), 'utf8');
-  assert.ok(cfg.includes(`ref = "${ref}"`), 'config.toml does not record the pin ref');
+  const cfg = path.join(sb.codexHome, 'config.toml'); const before = fs.readFileSync(cfg);
+  const old = path.join(sb.codexHome, 'plugins/cache/agent-sync/agent-sync/1.21.7/probe.sh');
+  fs.mkdirSync(path.dirname(old), { recursive: true }); fs.writeFileSync(old, 'echo old-hook\n');
+  for (let n = 0; n < 3; n++) {
+    const r = runUpdate(sb, ['--agent', 'codex']);
+    assert.strictEqual(r.status, 1, r.out.slice(-1500));
+    assert.ok(r.out.includes('DEFERRED_ACTIVE_GENERATION_SAFETY'));
+    assert.deepStrictEqual(mutating(sb), []);
+    assert.ok(fs.readFileSync(cfg).equals(before));
+    assert.strictEqual(spawnSync('sh', [old], { encoding: 'utf8' }).stdout.trim(), 'old-hook');
+    assert.strictEqual(state(sb).cache['agent-sync@agent-sync'], '1.21.7');
+  }
+  const dir = path.join(sb.home, '.sshlg-skills/codex-deferred');
+  const files = fs.readdirSync(dir); assert.strictEqual(files.length, 1, 'identical retries duplicate pending receipt');
+  const receipt = JSON.parse(fs.readFileSync(path.join(dir, files[0])));
+  assert.strictEqual(receipt.items[0].ref, GITLINK || `v${PIN}`);
+  assert.strictEqual(receipt.threadLoadedVersion, 'unknown');
+  assert.strictEqual(fs.statSync(path.join(dir, files[0])).mode & 0o777, 0o600);
 });
 
-t('a checkout re-adds at the pin COMMIT, not at the tag', () => {
-  if (!GITLINK) { console.log('    (not a git checkout with gitlinks — the tag path is the one exercised)'); return; }
+t('deferred receipt binds the final config after consented visibility reapplication', () => {
   const sb = sandbox();
-  runUpdate(sb, ['--agent', 'codex']);
-  assert.ok(mutating(sb).includes(`plugin marketplace add https://github.com/ssheleg/agent-sync.git --ref ${GITLINK}`));
+  const cfg = path.join(sb.codexHome, 'config.toml');
+  const addSkill = (name) => {
+    const file = path.join(sb.home, '.agents', 'skills', name, 'SKILL.md');
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, `---\nname: ${name}\ndescription: Fixture unused skill.\n---\n# Fixture\n`);
+  };
+  addSkill('unused-before');
+  const consent = spawnSync(process.execPath, [BIN, 'visibility', '--apply'], {
+    cwd: ROOT, encoding: 'utf8', timeout: 180000, stdin: 'ignore',
+    env: { HOME: sb.home, CODEX_HOME: sb.codexHome, NO_COLOR: '1',
+      SSHLG_SKILLS_NO_UPDATE_CHECK: '1',
+      PATH: [sb.shims, path.dirname(process.execPath), '/usr/bin', '/bin'].join(path.delimiter) },
+  });
+  assert.strictEqual(consent.status, 0, consent.stdout + consent.stderr);
+  const before = fs.readFileSync(cfg);
+  addSkill('unused-after');
+  const pending = require('../lib/codex-pending');
+  const sha = (bytes) => require('crypto').createHash('sha256').update(bytes).digest('hex');
+  let finalBytes;
+  for (let i = 0; i < 3; i++) {
+    const result = runUpdate(sb, ['--agent', 'codex']);
+    assert.strictEqual(result.status, 1, result.out.slice(-2000));
+    const after = fs.readFileSync(cfg);
+    assert.ok(!after.equals(before), 'fixture never changed visibility config');
+    assert.ok(after.toString().includes('unused-after'), 'new skill was not hidden');
+    const folder = path.join(sb.home, '.sshlg-skills', 'codex-deferred');
+    const names = fs.readdirSync(folder);
+    assert.strictEqual(names.length, 1, 'same final config produced distinct receipts');
+    const receipt = pending.read(path.join(folder, names[0]));
+    assert.strictEqual(receipt.configSha256, sha(after), 'deferred receipt predates own visibility write');
+    let calls = 0;
+    const observation = pending.observe(receipt, () => {
+      calls++;
+      return { status: 0, stdout: JSON.stringify({ installed: [
+        { pluginId: 'agent-sync@agent-sync', version: '1.21.7', installed: true, enabled: true },
+      ] }) };
+    });
+    assert.strictEqual(observation.status, 'deferred');
+    assert.strictEqual(observation.mutationAllowed, false);
+    assert.strictEqual(calls, 1, 'fresh receipt refused its own final profile');
+    assert.deepStrictEqual(mutating(sb), []);
+    if (finalBytes) assert.ok(after.equals(finalBytes), 'repeated update changed final config');
+    finalBytes = after;
+  }
+});
+
+t('already-current native catalog stays current without claiming a loaded-thread generation', () => {
+  const sb = sandbox({ edit: (s) => { s.cache['agent-sync@agent-sync'] = PIN; } });
+  const r = runUpdate(sb, ['--agent', 'codex']);
+  assert.strictEqual(r.status, 0, r.out.slice(-1500));
+  assert.deepStrictEqual(mutating(sb), []);
+  assert.ok(r.out.includes('thread-loaded generations unknown'));
+  assert.ok(!fs.existsSync(path.join(sb.home, '.sshlg-skills/codex-deferred')));
 });
 
 t('a non-family marketplace, a plugin already at the pin and one not installed are left alone', () => {
@@ -142,31 +199,6 @@ t('a non-family marketplace, a plugin already at the pin and one not installed a
   assert.ok(!calls.some((c) => c.includes('make-skill')), `installed make-skill into Codex: ${calls}`);
   assert.strictEqual(state(sb).cache['foo@other-mk'], '9.0.0');
   assert.ok(fs.readFileSync(path.join(sb.codexHome, 'config.toml'), 'utf8').includes('[marketplaces.other-mk]'));
-});
-
-t('a failure in step 3 rolls the marketplace back to the ref recorded before the removal', () => {
-  const sb = sandbox();
-  const r = runUpdate(sb, ['--agent', 'codex'], { FAKE_CODEX_FAIL: 'plugin add agent-sync@agent-sync' });
-  assert.strictEqual(r.status, 1, 'a failed Codex step must fail the run');
-  assert.ok(/agent-sync@agent-sync: FAILED plugin add — /.test(r.out), r.out.slice(-1500));
-  assert.ok(/rollback: marketplace agent-sync restored at v1\.21\.7/.test(r.out), r.out.slice(-1500));
-  const s = state(sb);
-  assert.deepStrictEqual(s.marketplaces['agent-sync'],
-    { source: 'https://github.com/ssheleg/agent-sync.git', ref: 'v1.21.7' });
-  assert.strictEqual(s.cache['agent-sync@agent-sync'], '1.21.7');
-  assert.ok(/FAILED \d+ of \d+ steps[\s\S]*codex plugin add agent-sync@agent-sync/.test(r.out),
-    'the closing summary does not name the failed Codex command');
-});
-
-t('a rollback that fails too prints the exact commands that restore the marketplace', () => {
-  const sb = sandbox();
-  const r = runUpdate(sb, ['--agent', 'codex'],
-    { FAKE_CODEX_FAIL: 'plugin marketplace add', FAKE_CODEX_FAIL_TIMES: '2' });
-  assert.strictEqual(r.status, 1);
-  assert.ok(/agent-sync@agent-sync: FAILED marketplace add — /.test(r.out), r.out.slice(-1500));
-  assert.ok(/rollback FAILED rollback marketplace add/.test(r.out), r.out.slice(-1500));
-  assert.ok(r.out.includes('codex plugin marketplace add https://github.com/ssheleg/agent-sync.git --ref v1.21.7'));
-  assert.ok(r.out.includes('codex plugin add agent-sync@agent-sync'));
 });
 
 t('a family-named marketplace from another source is not touched', () => {
@@ -207,15 +239,17 @@ t('--claude-only and an --agent list without codex leave Codex out of scope', ()
   }
 });
 
-t('--dry-run lists the Codex commands and runs none of them', () => {
+t('--dry-run declares deferral without destructive commands or receipt writes', () => {
   const sb = sandbox();
   const r = runUpdate(sb, ['--agent', 'codex', '--dry-run']);
   assert.strictEqual(r.status, 0, r.out.slice(-1500));
   assert.deepStrictEqual(state(sb).calls, [], 'dry-run called codex');
   assert.ok(!fs.existsSync(sb.log) || !fs.readFileSync(sb.log, 'utf8').trim(), 'dry-run ran a subprocess');
-  assert.ok(r.out.includes(`codex plugin marketplace add https://github.com/ssheleg/agent-sync.git --ref v${PIN}`), r.out.slice(-2500));
-  assert.ok(r.out.includes('codex plugin marketplace remove agent-sync'));
-  assert.ok(!r.out.includes('remove other-mk'));
+  assert.ok(r.out.includes('codex-deferred'));
+  assert.ok(r.out.includes(`v${PIN}`));
+  assert.ok(!r.out.includes('codex plugin marketplace remove'));
+  assert.ok(!r.out.includes('codex plugin add'));
+  assert.ok(!fs.existsSync(path.join(sb.home, '.sshlg-skills/codex-deferred')));
 });
 
 for (const d of tmp) fs.rmSync(d, { recursive: true, force: true });

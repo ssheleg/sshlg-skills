@@ -1,0 +1,225 @@
+{
+  "schema": "paired-reader-readout/1",
+  "source_commit": "45ad0580f5db71132eaebd10cba4d4902bdeb080",
+  "source_receipts": {
+    "results-a.json": "c32648b924ae5d7b98a44906803458eb5c888ada26bd102759a913ca263ec960",
+    "results-b.json": "d5e6fde87b00a01661e0ac7a722f703f0b6d1c5ac486cf96ba2931ed02f5d420"
+  },
+  "valid_cells": [
+    {
+      "protocol": "A",
+      "index": 2,
+      "case_id": "p02",
+      "arm": "current",
+      "repetition": 2,
+      "route_names": [
+        "sheleg-dev",
+        "task-pipeline"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 0,
+      "case_id": "p02",
+      "arm": "no-among",
+      "repetition": 1,
+      "route_names": [
+        "task-pipeline",
+        "sheleg-dev"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 1,
+      "case_id": "p01",
+      "arm": "current",
+      "repetition": 0,
+      "route_names": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 2,
+      "case_id": "p01",
+      "arm": "no-among",
+      "repetition": 1,
+      "route_names": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 3,
+      "case_id": "p02",
+      "arm": "no-among",
+      "repetition": 0,
+      "route_names": [
+        "sheleg-dev",
+        "task-pipeline"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 4,
+      "case_id": "p01",
+      "arm": "current",
+      "repetition": 2,
+      "route_names": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 5,
+      "case_id": "p01",
+      "arm": "no-among",
+      "repetition": 0,
+      "route_names": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 6,
+      "case_id": "p07",
+      "arm": "no-among",
+      "repetition": 0,
+      "route_names": [
+        "make-skill"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 7,
+      "case_id": "p01",
+      "arm": "current",
+      "repetition": 1,
+      "route_names": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 8,
+      "case_id": "p01",
+      "arm": "no-among",
+      "repetition": 2,
+      "route_names": [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 9,
+      "case_id": "p07",
+      "arm": "current",
+      "repetition": 2,
+      "route_names": [
+        "make-skill",
+        "task-pipeline"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 10,
+      "case_id": "p07",
+      "arm": "current",
+      "repetition": 0,
+      "route_names": [
+        "make-skill"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 11,
+      "case_id": "p07",
+      "arm": "no-among",
+      "repetition": 2,
+      "route_names": [
+        "make-skill"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 12,
+      "case_id": "p07",
+      "arm": "current",
+      "repetition": 1,
+      "route_names": [
+        "make-skill"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 13,
+      "case_id": "p02",
+      "arm": "current",
+      "repetition": 1,
+      "route_names": [
+        "task-pipeline",
+        "sheleg-dev"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 14,
+      "case_id": "p02",
+      "arm": "no-among",
+      "repetition": 2,
+      "route_names": [
+        "task-pipeline"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 15,
+      "case_id": "p02",
+      "arm": "current",
+      "repetition": 0,
+      "route_names": [
+        "task-pipeline",
+        "sheleg-dev"
+      ]
+    },
+    {
+      "protocol": "B",
+      "index": 16,
+      "case_id": "p07",
+      "arm": "no-among",
+      "repetition": 1,
+      "route_names": [
+        "make-skill"
+      ]
+    }
+  ],
+  "distinct_queries": 3,
+  "valid_cells_count": 18,
+  "original_a_stop": "TEST_ERROR retained; not retroactively scored",
+  "reader_cli_calls": 21,
+  "reader_reported_list_usd": 0.4414536,
+  "combined_r27_cli_calls": 85,
+  "combined_r27_reported_list_usd": 2.9035152,
+  "pairs_equal": 7,
+  "pairs": 9,
+  "decision": "NO_ADOPTION",
+  "interpretation": "Routing paragraph reader only. p01 requires UX under current doctrine; p02 exploratory with no fixed correct set; p07 make-skill recall only. Repetitions are correlated, and sources A/B are explicit."
+}

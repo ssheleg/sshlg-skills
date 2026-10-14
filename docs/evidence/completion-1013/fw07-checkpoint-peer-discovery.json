@@ -1,0 +1,74 @@
+{
+  "source": "db6b24797c5dcbddc7189ef373a619e6a3e7c0d9",
+  "cases": [
+    {
+      "case": "dangling memory state",
+      "exit": 0,
+      "payload_emitted": true,
+      "missing_target_created": true,
+      "stderr": ""
+    },
+    {
+      "case": "same ledger file alias emit-record-emit",
+      "first_emit_exit": 0,
+      "record_exit": 0,
+      "second_emit_exit": 0,
+      "second_emits_workflowId": null,
+      "second_emits_projectId": "project:peer",
+      "real_state": {
+        "constraints": [],
+        "credentials": [],
+        "profile": {
+          "root": "$OWNED_FIXTURE/alias",
+          "source": "pipeline.json",
+          "digest": "9105330ecf5fe58e53114a5f18353d2fd2da264be26538343a10543fe75f10eb",
+          "run": "7878d559d1f34d10"
+        }
+      },
+      "alias_state": {
+        "workflowId": "workflow:peer",
+        "leaseId": "lease-fixture"
+      }
+    }
+  ],
+  "verdict": "FINDINGS_REQUIRE_CORRECTION",
+  "existing_focused_replay": {
+    "command": "python3 -B test/audit_regressions/fw07_checkpoint_profile.py",
+    "exit_code": 0,
+    "reported_controls": 120
+  },
+  "source_url": "https://github.com/ssheleg/task-pipeline/commit/db6b24797c5dcbddc7189ef373a619e6a3e7c0d9",
+  "source_script": "plugins/task-pipeline/skills/task-pipeline/scripts/stage_checkpoint.py",
+  "source_script_sha256": "18dfc42fb17bfedd1a4190a5f047087c4b1d479d34f9f52d49be1786718d6e7a",
+  "method": "Actual shipped CLI subprocesses, synthetic one-stage custom profile and fixture-only tool answer. No Observatory/model/provider call. Owned temporary trees removed in finally. Absolute fixture root replaced with $OWNED_FIXTURE; token strings are synthetic.",
+  "findings": [
+    {
+      "id": "CP-PEER-01",
+      "location": "_load_state FileNotFoundError branch",
+      "problem": "Existing dangling memory.json symlink is silently treated as absent; emit creates its missing target and outputs a new payload.",
+      "expected": "Distinguish genuine missing state from existing unreadable/dangling state and refuse before mutation/output."
+    },
+    {
+      "id": "CP-PEER-02",
+      "location": "emit ledger.resolve versus record/_state_path lexical ledger",
+      "problem": "Same ledger file used through symlink resolves to two state locations across emit/record; successful record is absent from next emit, which emits projectId instead of saved workflow/lease.",
+      "expected": "One coherent state identity or explicit safe refusal for ambiguous aliases; preserve existing legacy/foreign receipts rather than silently migrate."
+    },
+    {
+      "id": "CP-PEER-03",
+      "location": "_profile selected path read_text without source-kind admission",
+      "problem": "Existing selected pipeline.json FIFO without writer does not return before2s owned CLI timeout.",
+      "expected": "Refuse unsupported nonregular profile input before a potentially blocking read; preserve state and emit no payload.",
+      "bound": "One deterministic source-kind control; no claim about arbitrary filesystem races."
+    }
+  ],
+  "next": "Author adds red CLI controls and bounded fixes, then exact-source independent replay. No broad duplication.",
+  "supplemental_source_kind_control": {
+    "timed_out": true,
+    "timeout_seconds": 2,
+    "owned_process_killed_by_subprocess_run": true,
+    "source": "db6b24797c5dcbddc7189ef373a619e6a3e7c0d9",
+    "case": "selected pipeline.json FIFO without writer",
+    "memory_created": false
+  }
+}

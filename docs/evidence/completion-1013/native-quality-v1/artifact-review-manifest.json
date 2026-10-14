@@ -1,0 +1,131 @@
+{
+  "schema": "native-artifact-review-manifest/1",
+  "source_sha": "8862fae9a826263f8109626ca257f81c7c43ac86",
+  "scope": "Four full delivered fixture-audit artifacts; English/Russian are correlated translations. One cell is offline diagnostic of preserved C TEST_ERROR. No Skill invocation observed, so specialist body influence was not tested. Independent artifact scoring pending.",
+  "cumulative_cli_invocations": 8,
+  "cumulative_known_list_usd": 0.4536322,
+  "cost_incomplete": false,
+  "source_receipts_sha256": {
+    "observed-c-20261013.json": "3be4c1c0ff3180e838585195c574cacd32b78a119e433b94eafa78ef67a156aa",
+    "observed-c-offline-diagnostic-v2.json": "3cab6ba30381134931c94ed01c1058054074307b7a298c52b2268cf78e0b8855",
+    "observed-d-20261013.json": "7e2ea568feee8962fe5e62260e611748961c5d68531d14b72fe4fba904915bfe"
+  },
+  "cells": [
+    {
+      "case_id": "a1",
+      "arm": "full",
+      "evidence_receipt": "observed-c-offline-diagnostic-v2.json",
+      "private_call_index": 2,
+      "evidence_status": "OFFLINE_DIAGNOSTIC_OF_PRESERVED_TEST_ERROR",
+      "artifact_sha256": "0b1a2f6c9750f101547234a364e26e14cd7c9577a1d0b28e51dc9db967dadd1b",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "01de24a6ca0bdcd8621c7f497d784827f8b1e19639088effcecff02a4163dd60",
+          "text_sha256": "48f0c889c1b5f697298c4824988dca53022358947355d00ef8e3b44ed5cee073",
+          "characters": 3506
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "ac498f383467bef67f97ea4d8f8574cc77a2b6a514656f6165c03242ee62d97e",
+          "text_sha256": "aca3737529b93e8823e45418828096be4a5f4de27cbc6cf57f6b80b8e90a2591",
+          "characters": 892
+        }
+      ],
+      "final_result_sha256": "aca3737529b93e8823e45418828096be4a5f4de27cbc6cf57f6b80b8e90a2591",
+      "skill_loads": [],
+      "input_tokens_all_cache_modes": 34974,
+      "output_tokens": 2292,
+      "request_count": 4,
+      "cost_usd": 0.099782,
+      "semantic_quality": "NOT_SCORED"
+    },
+    {
+      "case_id": "a1",
+      "arm": "concise",
+      "evidence_receipt": "observed-d-20261013.json",
+      "private_call_index": 0,
+      "evidence_status": "EXECUTED",
+      "artifact_sha256": "7da73ee69ddf7e6f9460daa7a4dbc3d97c08dd63802c2aa2aa17f0c443d3d92c",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "7de4f09e4aabb54f4407002bfbc38838145b40dd128df618ba018f8e16f3cf49",
+          "text_sha256": "4acdd53fc655bfd5556de4beb6df52f4509eb3edcb6d611971d2a426b0fc442c",
+          "characters": 3478
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "d91fedec5180859e7cf02dee57a9080706412938ae38c1e37916036fc0e5adaf",
+          "text_sha256": "262719f760656bae05625b5af11d351a75495938127885a9afcec649d654711e",
+          "characters": 772
+        }
+      ],
+      "final_result_sha256": "262719f760656bae05625b5af11d351a75495938127885a9afcec649d654711e",
+      "skill_loads": [],
+      "input_tokens_all_cache_modes": 28372,
+      "output_tokens": 2107,
+      "request_count": 4,
+      "cost_usd": 0.0784908,
+      "semantic_quality": "NOT_SCORED"
+    },
+    {
+      "case_id": "a2",
+      "arm": "concise",
+      "evidence_receipt": "observed-d-20261013.json",
+      "private_call_index": 1,
+      "evidence_status": "EXECUTED",
+      "artifact_sha256": "d977ff7f939133ca3ae267089caeda3748152b2d50315c00ec5050690527b34d",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "cc58d0eb56e24d0b6f10ce392c0e924c30861a3a5b3393eac23aaa3919ba7bc8",
+          "text_sha256": "5976d37b09586bec2b20505be82e31656ea04407262407a548cbd0429849669d",
+          "characters": 3129
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "1f8a96e778a28060736c1a27dda23ced5e0bb17daea0e833fd70280062e37cfd",
+          "text_sha256": "d6c98a9a5cd2e6f5d6d4a5fc130a5c5937b006d5f2200f2786bd6589a23a4ce2",
+          "characters": 1315
+        }
+      ],
+      "final_result_sha256": "d6c98a9a5cd2e6f5d6d4a5fc130a5c5937b006d5f2200f2786bd6589a23a4ce2",
+      "skill_loads": [],
+      "input_tokens_all_cache_modes": 28851,
+      "output_tokens": 2578,
+      "request_count": 4,
+      "cost_usd": 0.0923668,
+      "semantic_quality": "NOT_SCORED"
+    },
+    {
+      "case_id": "a2",
+      "arm": "full",
+      "evidence_receipt": "observed-d-20261013.json",
+      "private_call_index": 2,
+      "evidence_status": "EXECUTED",
+      "artifact_sha256": "ac82405cfe75821b80d9391d3b3776c9fa39c113f0a6eb696633bc378dbbc5bb",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "1d138cada9290780e33ec9e1e5ea8c9f7c956f926e2036947f1ba67632259580",
+          "text_sha256": "1b713aa8f9788c55450f5321f2bf83b9515c2c6880778e936abf116cf199359e",
+          "characters": 3063
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "729320bed9c89ae7ce3806e7f81826e66632a3e21ef89d153a153a1bcc203a22",
+          "text_sha256": "732efe4ef96d9540a00726aa2cf2536a85c49dd5a040d11f5f3812f8ddc6085d",
+          "characters": 939
+        }
+      ],
+      "final_result_sha256": "732efe4ef96d9540a00726aa2cf2536a85c49dd5a040d11f5f3812f8ddc6085d",
+      "skill_loads": [],
+      "input_tokens_all_cache_modes": 35130,
+      "output_tokens": 2400,
+      "request_count": 4,
+      "cost_usd": 0.0992822,
+      "semantic_quality": "NOT_SCORED"
+    }
+  ]
+}

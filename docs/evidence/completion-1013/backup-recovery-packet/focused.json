@@ -1,0 +1,95 @@
+{
+  "schema": "mb02b-focused/1",
+  "scope": "synthetic fixtures only; no aggregate or operator apply",
+  "sourceSha256": {
+    "lib/backup.js": "91eacbee2d738a8c598bbb7ef7de484647844501303a72d6e45367148f1f2037",
+    "lib/backup-retention.js": "d22c78a76167cad40007a1bec6a9e0770228043cb398233e700dcba47c4abfe0",
+    "lib/apply.js": "3f4a2051df97a644e75510a47f5e80692e74bf84728536d05414e8dc56314db0",
+    "lib/wait-rules.js": "7800b318dcafe172dcb6576d35767bfb454f0bb013d9de7283a6ba6e8c54d82f",
+    "lib/wait-recovery.js": "c293da69a85269475762c0f12dbc6c16be821d1f1ba7e4dc9c08df1ea733463a"
+  },
+  "continuation": "Core unchanged from first run; only crash fixture corrected to acknowledge held backup lock. Previous 5 successes retained, affected test and remaining consumers replayed.",
+  "results": [
+    {
+      "command": [
+        "node",
+        "test/backup_retention_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok a referenced copy survives ordinary history pruning\nok a provisional orphan reference is retained after publication failure\nok a malformed retention reference refuses pruning without deleting evidence\nok invalid owner metadata refuses before creating backup storage\nok existing permissive reference storage refuses without chmod\nok another process cannot prune a retained backup\n6 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/backup_retention_process_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "OK (1 real-process reservation/pruning race)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/backup_identity_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "OK (17 checks)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/backup_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "OK (21 checks)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/wait_recovery_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok before-write failure retains exact recovery bytes through 15 ordinary saves\nok post-write failure classifies committed without repeating a host write\nok absent original is distinct from an existing empty file\nok legacy pending remains unresolved and byte-identical\nok changed policy refuses metadata recovery and preserves pending\nok third-party content is never restored or adopted\nok receipt write boundary 1 fails without falsely completing\nok receipt write boundary 2 fails without falsely completing\nok receipt write boundary 3 fails without falsely completing\nok retirement link interruption retains and resumes exact reference\nok retirement unlink interruption retains and resumes exact reference\nok a committed target later reverted to original bytes is not classified as no-write\nok three repeated completed resolutions are byte-identical no-ops\nok actual case alias keeps canonical reference binding\n14 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/wait_recovery_crash_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok process crash prepared-before\nok process crash prepared-after\nok process crash intent-after\nok process crash host-before\nok process crash host-after\nok process crash terminal-after\nok process crash retired-link\n7 passed; 0 failed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/wait_rules_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok default-off and old consent do not add rules\nok five hosts carry the right variant; third application is byte-identical\nok Cursor off removes only its dedicated owned file and can be enabled again\nok selected host only; absent roots are not created\nok off removes owned segment and preserves appended foreign bytes\nok automatic update touches only previously applied profiles\nok custom root with spaces works without default profile writes\nok retargeted root alias refuses and preserves new target\nok unknown or malformed markers refuse before write\nok unknown or malformed markers refuse before write\nok unknown or malformed markers refuse before write\nok edited owned region refuses even off\nok foreign Cursor filename refuses\nok changed target between preview and execute refuses before target write\nok failed target backup leaves pending recovery and no target write\nok invalid UTF-8 instruction refuses with exact bytes and no new files\nok invalid UTF-8 receipt refuses with exact bytes and no new files\nok policy off after first target prevents the second target and retains first ownership\nok policy off during target backup refuses before writing that target\nok unknown source revision refuses despite a matching segment hash\nok receipt cannot extend its segment over foreign text even with a recomputed hash\nOK (21 checks; 0 failed)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/wait_rule_policy_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok absent policy is off without creating files\nok router consent does not enable wait\nok explicit on persists and explicit off remains explicit\nok foreign lexemes and whitespace survive both state edits\nok same setting is a byte-identical no-op\nok unknown/corrupt policy refuses reads and writes: {oops\nok unknown/corrupt policy refuses reads and writes: []\nok unknown/corrupt policy refuses reads and writes: null\nok unknown/corrupt policy refuses reads and writes: {\"rules\":[]}\nok unknown/corrupt policy refuses reads and writes: {\"rules\":{\"wait\":true}}\nok unknown/corrupt policy refuses reads and writes: {\"rules\":{\"wait\":\"ON\"}}\nok unknown/corrupt policy refuses reads and writes: {\"rules\":{},\"ru\\u006ces\":{}}\nok invalid UTF-8 policy refuses before lock, backup or replacement\nok leaf symlink policy is refused without touching its target\nok held policy lock refuses rather than overwrites\nok backup failure prevents policy mutation\nok successful change preserves mode and makes exact backup\nok short temporary write refuses without replacing current policy\nok rename failure refuses and cleans only its temporary file and lock\nok foreign edit after backup is preserved instead of overwritten\nok canonical CLI records opt-in without applying host text\nok malformed CLI refuses without writes: rules.wait on\nok malformed CLI refuses without writes: set rules.wait\nok malformed CLI refuses without writes: set rules.wait yes\nok malformed CLI refuses without writes: set rules.wait on extra\nOK (25 checks; 0 failed)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "test/claude_pin_transaction_test.js"
+      ],
+      "exitCode": 0,
+      "stdout": "ok same-version repair verifies exact payload and restores raw round-trip-safe numbers + disabled state\nok failure after uninstall rolls back through native CLI and permits safe retry\nok catalog failure before payload changes does not uninstall or pretend rollback\nok changed frozen settings refuse before even checking runtime\nok unsupported native runtime refuses with no settings or catalog writes\nok unreadable backup is a failure before native child mutation\nok foreign setting changed by concurrent writer is retained and blocks continuation\nok saved configuration arriving during catalog action is never uninstalled\nok pending transaction and existing lock refuse before mutation\nok failed rollback stays explicit and never writes cache directly\nok configured target entry and nested manifest surfaces are detected\nok verify-only action performs no uninstall/install/update of plugin\nok foreign installed mutation is never a successful native transaction\nok foreign marketplaces mutation is never a successful native transaction\nok requested profile alias retarget refuses instead of writing either profile\nok settings leaf symlink is refused before native mutation\nok atomic journal short-write failure leaves settings intact and prevents native actions\nok atomic journal rename failure leaves settings intact and prevents native actions\nok atomic settings replacement preserves regular-file permissions\nok timeout uncertainty never starts rollback and blocks another native attempt\nok unknown native outcome leaves partially written settings untouched until recovery\nok destructive repair requires a prior immutable rollback identity\nok ambiguous numeric metadata refuses before any native command or write\nok precise foreign numeric changes cannot collide in settings restore or registry checks\nok safe decimal and exponent spellings retain exact mathematical values\nok runtime version child has bounded timeout and output before any mutation\nok runtime refuses error signal and unsuccessful status despite compatible stdout\nPASS: Claude native transaction \u2014 27 cases\n",
+      "stderr": ""
+    }
+  ]
+}

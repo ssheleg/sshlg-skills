@@ -1,0 +1,35 @@
+[
+  {
+    "path": "/Users/sshlg/DATA/_wt/hub-claude-local-enable",
+    "branch": "plan/wait-rule-1013",
+    "head": "fd4eb1e621afe85ecbed8732d94099dfd93c63fb",
+    "remote_exact": true,
+    "clean": true,
+    "ignored_files": 0,
+    "size_kib": 48000,
+    "branch_preserved": true,
+    "state": "REMOVED"
+  },
+  {
+    "path": "/Users/sshlg/DATA/_wt/hub-domains-profile",
+    "branch": "fix/domains-profile-1013",
+    "head": "b50b7e9a2ba8df96626cf121682e94b10e6dce79",
+    "remote_exact": true,
+    "clean": true,
+    "ignored_files": 0,
+    "size_kib": 45564,
+    "branch_preserved": true,
+    "state": "REMOVED"
+  },
+  {
+    "path": "/Users/sshlg/DATA/_wt/hub-domains-read",
+    "branch": "fix/domain-settings-read-1013",
+    "head": "6bfaeae2e19fdc80588396ef5208e77d87e99622",
+    "remote_exact": true,
+    "clean": true,
+    "ignored_files": 0,
+    "size_kib": 46112,
+    "branch_preserved": true,
+    "state": "REMOVED"
+  }
+]

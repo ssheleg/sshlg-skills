@@ -1,0 +1,55 @@
+{
+  "as_of": "2026-10-13",
+  "sources": [
+    {
+      "id": "node-process",
+      "url": "https://nodejs.org/api/process.html#processkillpid-signal",
+      "read_at": "2026-10-13",
+      "claim": "Signal zero tests process existence; it is not documented as a stable identity handle.",
+      "role": "primary documentation; not implementation verification"
+    },
+    {
+      "id": "node-fs",
+      "url": "https://nodejs.org/api/fs.html#file-system-flags",
+      "read_at": "2026-10-13",
+      "claim": "wx refuses existing names; exclusive flags may not work on network filesystems. Separate pre-checks introduce races.",
+      "role": "primary documentation; not implementation verification"
+    },
+    {
+      "id": "linux-proc",
+      "url": "https://man7.org/linux/man-pages/man5/proc_pid_stat.5.html",
+      "read_at": "2026-10-13",
+      "claim": "Field22 starttime records process start after boot in clock ticks.",
+      "role": "primary documentation; not implementation verification"
+    },
+    {
+      "id": "linux-pidfd",
+      "url": "https://man7.org/linux/man-pages/man2/pidfd_open.2.html",
+      "read_at": "2026-10-13",
+      "claim": "Linux-specific process descriptor mechanism; not assumed available in Node16 core.",
+      "role": "primary documentation; not implementation verification"
+    },
+    {
+      "id": "apple-boot",
+      "url": "https://github.com/apple-oss-distributions/xnu/blob/main/bsd/kern/kern_sysctl.c",
+      "read_at": "2026-10-13",
+      "claim": "Kernel exports read-only kern.bootsessionuuid; current local read-only command succeeded without retaining identifier.",
+      "role": "primary documentation; not implementation verification"
+    },
+    {
+      "id": "apple-start",
+      "url": "https://github.com/apple/darwin-xnu/blob/main/bsd/sys/proc_info.h",
+      "read_at": "2026-10-13",
+      "claim": "proc_bsdinfo declares process-start seconds/useconds fields; no native Node adapter implemented here.",
+      "role": "primary documentation; not implementation verification"
+    },
+    {
+      "id": "apple-flock",
+      "url": "https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/flock.2.html",
+      "read_at": "2026-10-13",
+      "claim": "Advisory exclusive locking coordinates participating processes; it is not mandatory exclusion against all writers.",
+      "role": "primary documentation; not implementation verification"
+    }
+  ],
+  "design_status": "PROPOSED; no production code changes"
+}

@@ -1,0 +1,1467 @@
+{
+  "schema": 1,
+  "as_of": "2026-10-13T10:17:42.968266+00:00",
+  "method": "Read immutable Git objects, actual caller/control sources and retained receipts; no validator/test/provider/release execution in this audit. Full receipt passes belong to their recorded source, not automatically the selected later head.",
+  "members": [
+    {
+      "member": "super-ux",
+      "selected_source": "f974e7f212ddf2482569ab8399091f5d8336c31c",
+      "version": "0.59.3",
+      "source_url": "https://github.com/ssheleg/super-ux/commit/f974e7f212ddf2482569ab8399091f5d8336c31c",
+      "files": [
+        {
+          "path": "test/validate.py",
+          "sha256": "a7b70e1544d903673a18775703c72e4ce35e78eb4031744cdd6722cea58a251c",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/test/validate.py",
+          "python_ast_sha256": "7467ed4767dbba020a5c06b9660e45bb39d5a708d039c75b5d7900090a2690d2"
+        },
+        {
+          "path": "package.json",
+          "sha256": "2ca885f411cdce6caa4cb396c235aedcdd161b1a35b017c5b4339d52482b9777",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/package.json"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "sha256": "b78c5f5f15026119e27438cb4dff23aa06f44c561843650815fe56fe4e6bf5f5",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/.github/workflows/release.yml"
+        },
+        {
+          "path": ".github/workflows/validate.yml",
+          "sha256": "a425def0eafd8e4f75dacf87d3427a7ed4deedaac9844e9843a91ca32305cae5",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/.github/workflows/validate.yml"
+        },
+        {
+          "path": "docs/evidence/backlog.md",
+          "sha256": "0337673f5605d52f73e99a9d62bd96260cb1a33514aa18bc0013faa75a0f4567",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/docs/evidence/backlog.md"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_process.py",
+          "sha256": "2162cae04275c97aacec199b69aa3d76073fec952c8949b4d965c6dd532ec84e",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/test/audit_regressions/r30_owner_process.py",
+          "python_ast_sha256": "b235abe5d298ae0be2a42ec82d1c2d08efb12acd5da088357d9013e2f5f7ed0d"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_release.py",
+          "sha256": "a36eddc0ac900f4ce1c0f2de1bcd1b131a8880bea098c70da5bb3bf8371a9ccd",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/test/audit_regressions/r30_owner_release.py",
+          "python_ast_sha256": "c0bca035d596b226901203248155601a9c8833ddd6f16270d992a1e92d2375c5"
+        },
+        {
+          "path": "test/owner_release.py",
+          "sha256": "4a0a4b5e7f757c00eec245b8f8165c87a10007e356311d1123b87c0a753202c3",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/test/owner_release.py",
+          "python_ast_sha256": "24f2a957f18364412624418dc9a89e946feda580b6475bbda5ee25813354c34b"
+        }
+      ],
+      "recorded_receipts": [
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/README.md",
+          "sha256": "07a42b517c19e4678de7efce4422eb9365c20612b614cfb59b28ce3586640191",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/docs/evidence/runs/2026-10-13-r30-owner-gates/README.md"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-process.json",
+          "sha256": "5a7e15ce22cbdfab3a134bdb75676a5eeb65a78e3c57003d0234c2f8ab615e6b",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-process.json"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/final-structural.json",
+          "sha256": "6df5ae45e87b47a8ca08cdf4e595eb32179e4797476807b17748337b0aea24be",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/docs/evidence/runs/2026-10-13-r30-owner-gates/final-structural.json",
+          "source": null,
+          "command": "python3 test/validate.py",
+          "returncode": 0
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/focused-process.json",
+          "sha256": "79e912c5d85e03a605abd2796f1069c2fd96ada5a0c4149e0214ab91d2bcd7e5",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/docs/evidence/runs/2026-10-13-r30-owner-gates/focused-process.json",
+          "source": null,
+          "cases": [
+            {
+              "case": "healthy",
+              "returncode": 0,
+              "expected_diagnostic": null,
+              "accepted": true
+            },
+            {
+              "case": "ancestry removed",
+              "returncode": 1,
+              "expected_diagnostic": "release ancestry guard",
+              "accepted": true
+            },
+            {
+              "case": "shallow",
+              "returncode": 1,
+              "expected_diagnostic": "release full-history checkout",
+              "accepted": true
+            },
+            {
+              "case": "quoted full depth",
+              "returncode": 0,
+              "expected_diagnostic": null,
+              "accepted": true
+            }
+          ]
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/full.json",
+          "sha256": "edbac976afa767fd69c92550732d150b6bbb9067cf61c6a6995cb4e692d3b160",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/docs/evidence/runs/2026-10-13-r30-owner-gates/full.json",
+          "source": "66abd28aa57cf870e711940456aae13728fc826e",
+          "command": "npm test",
+          "returncode": 0,
+          "owned_temporary_removed": true,
+          "current_helper_ast_matches_full_source": {
+            "test/owner_release.py": true
+          }
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/payload-parity.json",
+          "sha256": "cab27e08025ab48c67c2d70f4db2533f14254bfb59112a10fd530c596685c427",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/docs/evidence/runs/2026-10-13-r30-owner-gates/payload-parity.json",
+          "source": null,
+          "command": "npm pack --dry-run --json --ignore-scripts"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers-local.json",
+          "sha256": "a05f24f08b41418b54479776e684272edf68127a44dbfdf88770b2bd18bd1006",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers-local.json",
+          "source": null,
+          "scope": "comments and excluded evidence only; no local broad rerun"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers.json",
+          "sha256": "0d62ac289f77e992034bbd37bf328df6043c769a3557f93d8e56ecf2bbac9e00",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers.json",
+          "source": null,
+          "scope": "nine comment-only declarations in five owner repos; extracted exact hub guard replay on synthetic copies"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/source-hashes.json",
+          "sha256": "e59be245315c0cb0ddaf461d28f670d0805c0142a4dd51411a6e7e0fdd6c3851",
+          "url": "https://github.com/ssheleg/super-ux/blob/f974e7f212ddf2482569ab8399091f5d8336c31c/docs/evidence/runs/2026-10-13-r30-owner-gates/source-hashes.json",
+          "source": null
+        }
+      ],
+      "board_functions_equal_actual_prior_process_cut": {
+        "validate_board_ids": true,
+        "validate_ledger_table_shape": true
+      },
+      "board_retained_regression": "Central earlier real-process receipt only; no owner-owned duplicate/width regression found in selected test tree."
+    },
+    {
+      "member": "task-pipeline",
+      "selected_source": "78c42124db910c56e74c8fbd524bdc9a4f8fb6c9",
+      "version": "1.94.0",
+      "source_url": "https://github.com/ssheleg/task-pipeline/commit/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9",
+      "files": [
+        {
+          "path": "test/validate.py",
+          "sha256": "da315ad1bbd86e12192b42761514c49f67d0eb6987940eefe762834e34d734bf",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/test/validate.py",
+          "python_ast_sha256": "92a23bb55118258db1e7f0d7471940557329ca34fde3f6eb3b2d2431c6f83717"
+        },
+        {
+          "path": "package.json",
+          "sha256": "83e14941dcc41e67a6c28782432fb27ec4c18cf6589117d36a2a5b86fe6b7299",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/package.json"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "sha256": "1983002a019cef3d59bb4f0fd1dd38379098445b94888ca5391567a333cb8acf",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/.github/workflows/release.yml"
+        },
+        {
+          "path": ".github/workflows/validate.yml",
+          "sha256": "8e4bf61ad8c2e026db669906f5353aa7cd9a126de0822feb84caad6a86099d51",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/.github/workflows/validate.yml"
+        },
+        {
+          "path": "docs/evidence/backlog.md",
+          "sha256": "c73758ec3b5f413e498a9e3f994d687e56afcc12e893f0016b5ddf3461545072",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/backlog.md"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_board.py",
+          "sha256": "4f1e5f2a6ed725101183a848fdf9bcf24eae810a538b2f888c61e50a81358249",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/test/audit_regressions/r30_owner_board.py",
+          "python_ast_sha256": "e60b17bb7884d5c49c7a045020e256f3762d420e4befb53fabf75be1b2a8a696"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_process.py",
+          "sha256": "9a66be66e6cbda273f8a7e37b8a5c6bc5bc8be3bd4dd938e3926453a18f54606",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/test/audit_regressions/r30_owner_process.py",
+          "python_ast_sha256": "8056e72de9883766e053184414feedb1a44226c929695225d279c1f6ed0c8ef2"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_release.py",
+          "sha256": "a36eddc0ac900f4ce1c0f2de1bcd1b131a8880bea098c70da5bb3bf8371a9ccd",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/test/audit_regressions/r30_owner_release.py",
+          "python_ast_sha256": "c0bca035d596b226901203248155601a9c8833ddd6f16270d992a1e92d2375c5"
+        },
+        {
+          "path": "test/owner_board.py",
+          "sha256": "131f6e1cc6e762cfd26aceddcbbe6284db00fda8f0a4dc8772573c1fb3274079",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/test/owner_board.py",
+          "python_ast_sha256": "c534616b1a6d9c335c53cad061189ccdd325f210ed3f3687e4abc0d4858c7f87"
+        },
+        {
+          "path": "test/owner_release.py",
+          "sha256": "1a79a87a5344d0755f885e48c1c828aadfdab0c53d64afbdad89667c641d4305",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/test/owner_release.py",
+          "python_ast_sha256": "24f2a957f18364412624418dc9a89e946feda580b6475bbda5ee25813354c34b"
+        }
+      ],
+      "recorded_receipts": [
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/README.md",
+          "sha256": "4f03341c02f3751ad14ba17bfb6a2b0a08663f047b2b225c5d9ce3f473878a88",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/runs/2026-10-13-r30-owner-gates/README.md"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/aborted-full.json",
+          "sha256": "f464dd22ab7ed9ed74054bb647d61b2f8423b123d9c4c83838052a2b1602b8f3",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/runs/2026-10-13-r30-owner-gates/aborted-full.json",
+          "source": "c229d7ffc3230ebccb21d77375dbf7c0f575fbb6",
+          "command": "npm run test:all",
+          "returncode": -15,
+          "owned_temporary_removed": true,
+          "status": "ABORTED_KNOWN_DOCGATE_DEFECT",
+          "current_helper_ast_matches_full_source": {
+            "test/owner_board.py": true,
+            "test/owner_release.py": true
+          }
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-process.json",
+          "sha256": "455cfb3b21d3ff5f0f9c2aa5e23dc3cb1c48e80a1919ad1a7e2a3f3766477dd2",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-process.json"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/failed-full.json",
+          "sha256": "cab9696ef45e123dd277cd71f8bfcc939951132ee2e0565a0314a719743e74fa",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/runs/2026-10-13-r30-owner-gates/failed-full.json",
+          "source": "b86478c12faf445c01b5f4f3ac1ea99ec78be52b",
+          "command": "npm run test:all",
+          "returncode": 1,
+          "owned_temporary_removed": true,
+          "current_helper_ast_matches_full_source": {
+            "test/owner_board.py": true,
+            "test/owner_release.py": true
+          }
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/final-focused.json",
+          "sha256": "f166595b7bd15386e6e02f126bbe1f068447c5c5d656090a3e298916b1fca57d",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/runs/2026-10-13-r30-owner-gates/final-focused.json",
+          "source": "956f80baecf22445d1ded17c65486370aa32814d"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/final-structural.json",
+          "sha256": "b30e8d3e2df25839a3b78fd2844469b0a6e27e48e2cf8e61c3d58deec2b3cb4a",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/runs/2026-10-13-r30-owner-gates/final-structural.json",
+          "source": null,
+          "command": "python3 test/validate.py",
+          "returncode": 0
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/focused-process.json",
+          "sha256": "f8046dac077ba7f1a06e421c4a739a218dd4decb2186db37b1342a9c42a9b30a",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/runs/2026-10-13-r30-owner-gates/focused-process.json",
+          "source": null,
+          "cases": [
+            {
+              "case": "healthy",
+              "returncode": 0,
+              "expected_diagnostic": null,
+              "accepted": true
+            },
+            {
+              "case": "duplicate",
+              "returncode": 1,
+              "expected_diagnostic": "board duplicate ID",
+              "accepted": true
+            },
+            {
+              "case": "width",
+              "returncode": 1,
+              "expected_diagnostic": "row width",
+              "accepted": true
+            },
+            {
+              "case": "ancestry removed",
+              "returncode": 1,
+              "expected_diagnostic": "release ancestry guard",
+              "accepted": true
+            },
+            {
+              "case": "shallow",
+              "returncode": 1,
+              "expected_diagnostic": "release full-history checkout",
+              "accepted": true
+            },
+            {
+              "case": "escaped pipe",
+              "returncode": 0,
+              "expected_diagnostic": null,
+              "accepted": true
+            }
+          ]
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/payload-parity.json",
+          "sha256": "65c7b345b1b38b7ef6358fe196a1010b7de7c5e441271c3b760ebe3ceaa6de28",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/runs/2026-10-13-r30-owner-gates/payload-parity.json",
+          "source": null,
+          "command": "npm pack --dry-run --json --ignore-scripts"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/property-170.json",
+          "sha256": "410d1e7086e4c8725d90a8e07f384568a575b95c099a541c5530a638beda8f41",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/runs/2026-10-13-r30-owner-gates/property-170.json",
+          "source": null,
+          "command": "python3 test/negatives.py -k 'DATED row'",
+          "exit_code": 0,
+          "scope": "corrected positive fixture only; no full final-source pass"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/source-hashes.json",
+          "sha256": "7b87fc905895709452ada0aae46216bab30018c2e159e335f843aae5a8b2bb34",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/runs/2026-10-13-r30-owner-gates/source-hashes.json",
+          "source": null
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/split-validation.json",
+          "sha256": "624da1051ce1ba5f9757b0fc6df448701884f84e1a77da0c4cb1ad820c648e84",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/runs/2026-10-13-r30-owner-gates/split-validation.json",
+          "source": null,
+          "scope": "No single final-SHA full run is claimed. Retained failed original run plus corrected positive fixture, unreached suffix, reviewed accepted feature test change and final structural/docs. Hosted exact candidate remains required.",
+          "status": "COMPONENTS_PASS_NOT_SINGLE_FULL_RUN"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/suffix.json",
+          "sha256": "68307c4cbcac4ab1c3c08c24bdb0f644c86d754580998a5900d437db3bc5234a",
+          "url": "https://github.com/ssheleg/task-pipeline/blob/78c42124db910c56e74c8fbd524bdc9a4f8fb6c9/docs/evidence/runs/2026-10-13-r30-owner-gates/suffix.json",
+          "source": "0a7aa591ba82603aac1b0d765cc8cdb8d98b5378",
+          "scope": "previously unreached suffix only; not single full run"
+        }
+      ]
+    },
+    {
+      "member": "agent-sync",
+      "selected_source": "5bd8becb6455f69fca9beb76e96f334bc28a2063",
+      "version": "1.22.2",
+      "source_url": "https://github.com/ssheleg/agent-sync/commit/5bd8becb6455f69fca9beb76e96f334bc28a2063",
+      "files": [
+        {
+          "path": "test/validate.py",
+          "sha256": "6d9a23872a811081c6d03b3804e46b420d7eedebf815501942511a85a6142981",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/test/validate.py",
+          "python_ast_sha256": "8cbb8b2acb44777bd3633d5510101534286a8eab80a8a4e15e34d50b8c954897"
+        },
+        {
+          "path": "package.json",
+          "sha256": "2769d7b85ebc10e3cac5375ad2183f84d8a5819c4a88ead7105bf1c5dcd68460",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/package.json"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "sha256": "5bb5decaf7d337ebdf60f13b24c29195c87229b96e69b1371273e397d7725d75",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/.github/workflows/release.yml"
+        },
+        {
+          "path": ".github/workflows/validate.yml",
+          "sha256": "e4b2925b236d02157073279458466310807d19e0a220cdbc678128f1e5470d39",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/.github/workflows/validate.yml"
+        },
+        {
+          "path": "docs/evidence/backlog.md",
+          "sha256": "766889156431458484823da50ceb16bad43eee6a0ae413381eeeece65f33bdfa",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/docs/evidence/backlog.md"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_board.py",
+          "sha256": "28e4dfa8d92f43b3538c7e6abfffbe6b40d0c7de751c97ac16d28cbaa04e978e",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/test/audit_regressions/r30_owner_board.py",
+          "python_ast_sha256": "fdd009b603d969fe7bfce2b654262e6768aa8a03059adafbe70b5d9937625c75"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_release.py",
+          "sha256": "a36eddc0ac900f4ce1c0f2de1bcd1b131a8880bea098c70da5bb3bf8371a9ccd",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/test/audit_regressions/r30_owner_release.py",
+          "python_ast_sha256": "c0bca035d596b226901203248155601a9c8833ddd6f16270d992a1e92d2375c5"
+        },
+        {
+          "path": "test/owner_board.py",
+          "sha256": "c1d74c5dcd17f39b620bb5779693f9c1d061d5a46fb4afacaf45f9f3e8c4a52f",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/test/owner_board.py",
+          "python_ast_sha256": "c534616b1a6d9c335c53cad061189ccdd325f210ed3f3687e4abc0d4858c7f87"
+        },
+        {
+          "path": "test/owner_release.py",
+          "sha256": "4a0a4b5e7f757c00eec245b8f8165c87a10007e356311d1123b87c0a753202c3",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/test/owner_release.py",
+          "python_ast_sha256": "24f2a957f18364412624418dc9a89e946feda580b6475bbda5ee25813354c34b"
+        }
+      ],
+      "recorded_receipts": [
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-board-guard/README.md",
+          "sha256": "14d8c4169a9e2f7b2ae9f82a0f58e631be1b3d082160ef0923634b3517b49aa8",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/docs/evidence/runs/2026-10-13-r30-board-guard/README.md"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-board-guard/process.json",
+          "sha256": "52e032918f2eadce4706e3ad27e2c235316b226e68d35280cd318a4e2d6046e8",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/docs/evidence/runs/2026-10-13-r30-board-guard/process.json",
+          "source": null,
+          "scope": "real validator, not full owner suite"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/README.md",
+          "sha256": "63f318ba70b2521723f34bd20b71d324e18f48d55dcafb12cbfa3a8c62fd691d",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/docs/evidence/runs/2026-10-13-r30-owner-gates/README.md"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-board.json",
+          "sha256": "4f31513b01224e8545e8369fbbeac23af164e3d76965fe28c08412ec7d6f4b49",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-board.json",
+          "source": null,
+          "cases": [
+            {
+              "kind": "baseline",
+              "exit_code": 0,
+              "elapsed_seconds": 60.643
+            },
+            {
+              "kind": "duplicate",
+              "exit_code": 0,
+              "elapsed_seconds": 58.591
+            },
+            {
+              "kind": "width",
+              "exit_code": 0,
+              "elapsed_seconds": 61.402,
+              "board_sha256": "93b655f578fc12fe1a6f668bdeeb547475805bd1a2d94afc48d5963e4b9e87ac",
+              "other_tracked_changes": false
+            }
+          ]
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-release.json",
+          "sha256": "6c6809c848b485559bf0388be753893f306f85a7f4ddf5cd2154b3dc2f015b34",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-release.json"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/full.json",
+          "sha256": "3f89ecd33f5bd87b2f696d149245bb65a2d8215a305a4c2af7809555bc7bc3ee",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/docs/evidence/runs/2026-10-13-r30-owner-gates/full.json",
+          "source": "cb4f9cea2e6ade637090bbde1afdb969dda4f459",
+          "command": "npm test",
+          "returncode": 0,
+          "scope": "npm test as declared by owner; CI-only checks and live/provider acceptance are separate",
+          "owned_temporary_removed": true,
+          "current_helper_ast_matches_full_source": {
+            "test/owner_board.py": true,
+            "test/owner_release.py": true
+          },
+          "retained_log_sha256": "fc0fa75d3853af384cac6f775f763c8b18d97776944b154a1b7a2e1422d8c3fd",
+          "retained_log_hash_match": true
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/payload-parity.json",
+          "sha256": "3261b059bfd10a635095bca8f3145fa77b23713bf4b9cfda90dd7b6c144d231e",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/docs/evidence/runs/2026-10-13-r30-owner-gates/payload-parity.json",
+          "source": null,
+          "command": "npm pack --dry-run --json --ignore-scripts"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers-local.json",
+          "sha256": "258d06bd338846d622086ecf6020b71f0d5013d00b513f1140f51a996562f95f",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers-local.json",
+          "source": null,
+          "scope": "comments and excluded evidence only; no local broad rerun"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers.json",
+          "sha256": "0d62ac289f77e992034bbd37bf328df6043c769a3557f93d8e56ecf2bbac9e00",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers.json",
+          "source": null,
+          "scope": "nine comment-only declarations in five owner repos; extracted exact hub guard replay on synthetic copies"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/source-hashes.json",
+          "sha256": "917277d45ea9b44f4a6f2dde0fe2b589a7d20a3cda034a05a2c36232c2028fad",
+          "url": "https://github.com/ssheleg/agent-sync/blob/5bd8becb6455f69fca9beb76e96f334bc28a2063/docs/evidence/runs/2026-10-13-r30-owner-gates/source-hashes.json",
+          "source": null
+        }
+      ]
+    },
+    {
+      "member": "make-skill",
+      "selected_source": "c6b047057559f8dd2fe12dec59e4a4bee374fac2",
+      "version": "0.31.2",
+      "source_url": "https://github.com/ssheleg/make-skill/commit/c6b047057559f8dd2fe12dec59e4a4bee374fac2",
+      "files": [
+        {
+          "path": "test/validate.py",
+          "sha256": "6069ab3cdc11041ea961b6a2a1ebc8787d71b4132272fe79d8550ec7fdea2fb8",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/test/validate.py",
+          "python_ast_sha256": "01aa83108ec20f729065e131dd966a6e29133c217899408fd614ed28bd628e1b"
+        },
+        {
+          "path": "package.json",
+          "sha256": "0d630abc42fc1012a2cecbe5307ca24c413feacfc98db6f40670af08634bfb56",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/package.json"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "sha256": "82971ebd9dd667bb76129ef870561e7dd38897dea030e28383f42abfa2013803",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/.github/workflows/release.yml"
+        },
+        {
+          "path": ".github/workflows/validate.yml",
+          "sha256": "5fec848ce38ea26bd80d76468c1f018e68e6798ea432a82f06239d27281dbe92",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/.github/workflows/validate.yml"
+        },
+        {
+          "path": "docs/evidence/backlog.md",
+          "sha256": "ddebf0da995b4be6a32d48f264778396f693d554c18c5164bdf579072facf51a",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/docs/evidence/backlog.md"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_board.py",
+          "sha256": "2770db4580be499493c430bef422446c50e7b854bc8bf5807d1bd92a0c8d612e",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/test/audit_regressions/r30_owner_board.py",
+          "python_ast_sha256": "60b057a1c62e02f3a88a156ae2a66ca6d1890c4a058d4570b264bcb0703a8176"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_process.py",
+          "sha256": "14b40e43ad6a060086d06882d9ac9cd2cb24a6e786275dad86c72929cddd00de",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/test/audit_regressions/r30_owner_process.py",
+          "python_ast_sha256": "bf4a7a13ea5244d5986a301e7078d63f308febbb63d7c63729083fc54874960e"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_release.py",
+          "sha256": "58562a6972cfb45c2332b7d8fcea06041673f703d38811beff8c62a712b63795",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/test/audit_regressions/r30_owner_release.py",
+          "python_ast_sha256": "14cc4227d098166ed833ed12080e0a6cf12592cdc3143a6bb141b1ac73f8d770"
+        },
+        {
+          "path": "test/owner_board.py",
+          "sha256": "c1d74c5dcd17f39b620bb5779693f9c1d061d5a46fb4afacaf45f9f3e8c4a52f",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/test/owner_board.py",
+          "python_ast_sha256": "c534616b1a6d9c335c53cad061189ccdd325f210ed3f3687e4abc0d4858c7f87"
+        },
+        {
+          "path": "test/owner_release.py",
+          "sha256": "4a0a4b5e7f757c00eec245b8f8165c87a10007e356311d1123b87c0a753202c3",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/test/owner_release.py",
+          "python_ast_sha256": "24f2a957f18364412624418dc9a89e946feda580b6475bbda5ee25813354c34b"
+        }
+      ],
+      "recorded_receipts": [
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/README.md",
+          "sha256": "393c3151cd5fc563c46d719f3fc789f362d306b00366d8bbad247ad2decfa36c",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/docs/evidence/runs/2026-10-13-r30-owner-gates/README.md"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-board.json",
+          "sha256": "9568a2f3a0b9fd7986ab4d95977f4ad945bdcf5d7cb5b8d7343c1975c6e4ad4e",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-board.json",
+          "source": null,
+          "cases": [
+            {
+              "kind": "baseline",
+              "exit_code": 0,
+              "elapsed_seconds": 0.141,
+              "board_sha256": "ddebf0da995b4be6a32d48f264778396f693d554c18c5164bdf579072facf51a",
+              "other_tracked_changes": false
+            },
+            {
+              "kind": "duplicate",
+              "exit_code": 0,
+              "elapsed_seconds": 0.118,
+              "board_sha256": "3c45c999732f451f22fc3d00103c11f21f0d23f905fb78e5ca9db223d1fa35d1",
+              "other_tracked_changes": false
+            },
+            {
+              "kind": "width",
+              "exit_code": 0,
+              "elapsed_seconds": 0.11,
+              "board_sha256": "1caf23577337e82b55e79cba8d56ad52c6065788012e352c29602d1ef9b99a29",
+              "other_tracked_changes": false
+            }
+          ]
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-release.json",
+          "sha256": "b2fcd6a324c1fc1eeef8ceef6c73c0f94d86e130106e0317ba889e8d34a5a86a",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-release.json"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/full.json",
+          "sha256": "f6dea5458fbca03a0cb9305c8568d53e9e36208be4a7d7f310366f10c56ff7c1",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/docs/evidence/runs/2026-10-13-r30-owner-gates/full.json",
+          "source": "2785f6c253374f81165fff880abfcc4dd2221d96",
+          "command": "npm test",
+          "returncode": 0,
+          "scope": "npm test as declared by owner; CI-only checks and live/provider acceptance are separate",
+          "owned_temporary_removed": true,
+          "current_helper_ast_matches_full_source": {
+            "test/owner_board.py": true,
+            "test/owner_release.py": true
+          },
+          "retained_log_sha256": "491480ff567ccdaffe5c39ee0fa2e4bef95854c71e04aeec6df01332d31ce15d",
+          "retained_log_hash_match": true
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/payload-parity.json",
+          "sha256": "1164feda68b6879997f9c41276ede0e406fc6df427f0c1bbf0502a2e1e8e5e32",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/docs/evidence/runs/2026-10-13-r30-owner-gates/payload-parity.json",
+          "source": null,
+          "command": "npm pack --dry-run --json --ignore-scripts"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/process.json",
+          "sha256": "3ee4923411a8a04115a93a2c146e6a52a02d90687c8b9c11b4ce84cf5e3eecb3",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/docs/evidence/runs/2026-10-13-r30-owner-gates/process.json",
+          "source": null,
+          "cases": [
+            {
+              "case": "healthy",
+              "returncode": 0,
+              "expected_diagnostic": null,
+              "accepted": true
+            },
+            {
+              "case": "duplicate",
+              "returncode": 1,
+              "expected_diagnostic": "board duplicate ID",
+              "accepted": true
+            },
+            {
+              "case": "width",
+              "returncode": 1,
+              "expected_diagnostic": "row width",
+              "accepted": true
+            },
+            {
+              "case": "ancestry removed",
+              "returncode": 1,
+              "expected_diagnostic": "release ancestry guard",
+              "accepted": true
+            },
+            {
+              "case": "shallow",
+              "returncode": 1,
+              "expected_diagnostic": "release full-history checkout",
+              "accepted": true
+            },
+            {
+              "case": "escaped pipe",
+              "returncode": 0,
+              "expected_diagnostic": null,
+              "accepted": true
+            }
+          ]
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers-local.json",
+          "sha256": "3c09c887c35beb6c92baf7ec9ce909eb9b4db9cb661c1204ffebf61a8000d374",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers-local.json",
+          "source": null,
+          "scope": "comments and excluded evidence only; no local broad rerun"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers.json",
+          "sha256": "0d62ac289f77e992034bbd37bf328df6043c769a3557f93d8e56ecf2bbac9e00",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers.json",
+          "source": null,
+          "scope": "nine comment-only declarations in five owner repos; extracted exact hub guard replay on synthetic copies"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/source-hashes.json",
+          "sha256": "9aa74f5b430cded3acc3a8c9943c69fd6e7a8a3ab9588407ca9f9d7b5a1e5429",
+          "url": "https://github.com/ssheleg/make-skill/blob/c6b047057559f8dd2fe12dec59e4a4bee374fac2/docs/evidence/runs/2026-10-13-r30-owner-gates/source-hashes.json",
+          "source": null
+        }
+      ]
+    },
+    {
+      "member": "sheleg-design",
+      "selected_source": "d113f43df6e7dc7e5befef492ccc8964d49a7fa4",
+      "version": "1.64.2",
+      "source_url": "https://github.com/ssheleg/sheleg-design-skill/commit/d113f43df6e7dc7e5befef492ccc8964d49a7fa4",
+      "files": [
+        {
+          "path": "test/validate.py",
+          "sha256": "7f5eb3e5bb185054723b3dc4c7aea28f5040c14013fdfb2a43e784ea33fe3909",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/test/validate.py",
+          "python_ast_sha256": "4003c1c455a78d071cbd1ff84ebc5b15b5a132e0de0b8a39fc0e4e193d497464"
+        },
+        {
+          "path": "package.json",
+          "sha256": "8a7dc9d15ab5a4f47f2c7a9695fc2b35aaa05bad66bf864ab8e8314afe8a5567",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/package.json"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "sha256": "6ebe77e7fc7d5cedaf25fc288d5f6121dca691faa3c2d905fb0daea4e2398b7f",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/.github/workflows/release.yml"
+        },
+        {
+          "path": ".github/workflows/validate.yml",
+          "sha256": "97fe8f9a0c1b48932dc5f88de41d77cd99ee6d5601959f89f479bf6429440366",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/.github/workflows/validate.yml"
+        },
+        {
+          "path": "docs/evidence/backlog.md",
+          "sha256": "ebd8d2bef22758bfb1944bb50b334e6dcb45bc1ab59f9d8968d91dce9d907e22",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/docs/evidence/backlog.md"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_board.py",
+          "sha256": "4f1e5f2a6ed725101183a848fdf9bcf24eae810a538b2f888c61e50a81358249",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/test/audit_regressions/r30_owner_board.py",
+          "python_ast_sha256": "e60b17bb7884d5c49c7a045020e256f3762d420e4befb53fabf75be1b2a8a696"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_process.py",
+          "sha256": "9a66be66e6cbda273f8a7e37b8a5c6bc5bc8be3bd4dd938e3926453a18f54606",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/test/audit_regressions/r30_owner_process.py",
+          "python_ast_sha256": "8056e72de9883766e053184414feedb1a44226c929695225d279c1f6ed0c8ef2"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_release.py",
+          "sha256": "a36eddc0ac900f4ce1c0f2de1bcd1b131a8880bea098c70da5bb3bf8371a9ccd",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/test/audit_regressions/r30_owner_release.py",
+          "python_ast_sha256": "c0bca035d596b226901203248155601a9c8833ddd6f16270d992a1e92d2375c5"
+        },
+        {
+          "path": "test/owner_board.py",
+          "sha256": "c1d74c5dcd17f39b620bb5779693f9c1d061d5a46fb4afacaf45f9f3e8c4a52f",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/test/owner_board.py",
+          "python_ast_sha256": "c534616b1a6d9c335c53cad061189ccdd325f210ed3f3687e4abc0d4858c7f87"
+        },
+        {
+          "path": "test/owner_release.py",
+          "sha256": "4a0a4b5e7f757c00eec245b8f8165c87a10007e356311d1123b87c0a753202c3",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/test/owner_release.py",
+          "python_ast_sha256": "24f2a957f18364412624418dc9a89e946feda580b6475bbda5ee25813354c34b"
+        }
+      ],
+      "recorded_receipts": [
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/README.md",
+          "sha256": "74c45ecec17036b9aa753cc14092784883dfa72abec72c79c94541177acbe397",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/docs/evidence/runs/2026-10-13-r30-owner-gates/README.md"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-board.json",
+          "sha256": "5dc061adc19f2a9c71d158ca8be50d8d7b8b2e7ed672631de75d9e751c1b7ca7",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-board.json",
+          "source": null,
+          "cases": [
+            {
+              "kind": "baseline",
+              "exit_code": 0,
+              "elapsed_seconds": 1.09,
+              "board_sha256": "ebd8d2bef22758bfb1944bb50b334e6dcb45bc1ab59f9d8968d91dce9d907e22",
+              "other_tracked_changes": false
+            },
+            {
+              "kind": "duplicate",
+              "exit_code": 0,
+              "elapsed_seconds": 1.539,
+              "board_sha256": "4d9b0d33ecba9f9c39f57ccf42e49055b486a2b825417293b9fdc9455e19d212",
+              "other_tracked_changes": false
+            },
+            {
+              "kind": "width",
+              "exit_code": 1,
+              "elapsed_seconds": 1.25,
+              "board_sha256": "a0a660f1698ffb660f39af13c78dc289828df08d6320abc076838b19171ae1c1",
+              "other_tracked_changes": false
+            }
+          ]
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-release.json",
+          "sha256": "8b954e24dc7897c26c73eccb712dd854f603fe8a8dcc0ff1640691956ebe3369",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-release.json"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/full.json",
+          "sha256": "b12a9e2a63f4720294b8dc35f7d9ce3a6f1b380d624d5b720645e278b8cab108",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/docs/evidence/runs/2026-10-13-r30-owner-gates/full.json",
+          "source": "b6494458f4621d187319290950c77414bfa94ba4",
+          "command": "npm test",
+          "returncode": 0,
+          "scope": "npm test as declared by owner; CI-only checks and live/provider acceptance are separate",
+          "owned_temporary_removed": true,
+          "current_helper_ast_matches_full_source": {
+            "test/owner_board.py": true,
+            "test/owner_release.py": true
+          },
+          "retained_log_sha256": "38db855d81ca08599664486654c6965ef6bb9e18e1fa631a223a2f5cbdb6cb09",
+          "retained_log_hash_match": true
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/payload-parity.json",
+          "sha256": "1663e0157a7d8c0ba374b890f8f9ee860ae5ad3e568b490b4117df02004306d1",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/docs/evidence/runs/2026-10-13-r30-owner-gates/payload-parity.json",
+          "source": null,
+          "command": "npm pack --dry-run --json --ignore-scripts"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/process.json",
+          "sha256": "f5dfef700adf3526c4b4d0204da3304725dbe683723618e1517ad23e14c6ffe2",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/docs/evidence/runs/2026-10-13-r30-owner-gates/process.json",
+          "source": null,
+          "cases": [
+            {
+              "case": "healthy",
+              "returncode": 0,
+              "expected_diagnostic": null,
+              "accepted": true
+            },
+            {
+              "case": "duplicate",
+              "returncode": 1,
+              "expected_diagnostic": "board duplicate ID",
+              "accepted": true
+            },
+            {
+              "case": "width",
+              "returncode": 1,
+              "expected_diagnostic": "row width",
+              "accepted": true
+            },
+            {
+              "case": "ancestry removed",
+              "returncode": 1,
+              "expected_diagnostic": "release ancestry guard",
+              "accepted": true
+            },
+            {
+              "case": "shallow",
+              "returncode": 1,
+              "expected_diagnostic": "release full-history checkout",
+              "accepted": true
+            },
+            {
+              "case": "escaped pipe",
+              "returncode": 0,
+              "expected_diagnostic": null,
+              "accepted": true
+            }
+          ]
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers-local.json",
+          "sha256": "84469e631a065e71afb5fa55f82e939f93ab712bad7c6bd53b9c753ac2f07566",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers-local.json",
+          "source": null,
+          "scope": "comments and excluded evidence only; no local broad rerun"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers.json",
+          "sha256": "0d62ac289f77e992034bbd37bf328df6043c769a3557f93d8e56ecf2bbac9e00",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers.json",
+          "source": null,
+          "scope": "nine comment-only declarations in five owner repos; extracted exact hub guard replay on synthetic copies"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/source-hashes.json",
+          "sha256": "a3e8eb7d25a1c4645f53dca32915511da7da5e5b0238cc2778defa3dbbe30b4a",
+          "url": "https://github.com/ssheleg/sheleg-design-skill/blob/d113f43df6e7dc7e5befef492ccc8964d49a7fa4/docs/evidence/runs/2026-10-13-r30-owner-gates/source-hashes.json",
+          "source": null
+        }
+      ]
+    },
+    {
+      "member": "seo-aeo-audit",
+      "selected_source": "00601e620f7d273893b6a97566a26abd9e9b520e",
+      "version": "0.26.6",
+      "source_url": "https://github.com/ssheleg/seo-aeo-audit/commit/00601e620f7d273893b6a97566a26abd9e9b520e",
+      "files": [
+        {
+          "path": "test/validate.py",
+          "sha256": "150674d6fca09e834ba22dc1cfdd36ae7c46e9e191ecfbb30c93a9dbd398aaf3",
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/00601e620f7d273893b6a97566a26abd9e9b520e/test/validate.py",
+          "python_ast_sha256": "8ed8cf75ab475f4a671a5f2cefbf9005a77d89f01190b92daa80c7bfd35d3285"
+        },
+        {
+          "path": "package.json",
+          "sha256": "7be4ee00de5f9ae06ec861ef9f5af30cdda24c346b229e53d838ff386ca89b0c",
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/00601e620f7d273893b6a97566a26abd9e9b520e/package.json"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "sha256": "d12cd54c77573c604680938f1f24ed309e695387a0f18f3d7e12365ab1279a0b",
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/00601e620f7d273893b6a97566a26abd9e9b520e/.github/workflows/release.yml"
+        },
+        {
+          "path": ".github/workflows/validate.yml",
+          "sha256": "64c6cc2b057d0e2554d9c6ebe3a8f955621a50b900d928b62b1e3e6180fd405c",
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/00601e620f7d273893b6a97566a26abd9e9b520e/.github/workflows/validate.yml"
+        },
+        {
+          "path": "docs/evidence/backlog.md",
+          "sha256": "b1c486d0343957d0a3c8eaf36c528e051a02f6f5286f16f7116544971465c854",
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/00601e620f7d273893b6a97566a26abd9e9b520e/docs/evidence/backlog.md"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_release.py",
+          "sha256": "58562a6972cfb45c2332b7d8fcea06041673f703d38811beff8c62a712b63795",
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/00601e620f7d273893b6a97566a26abd9e9b520e/test/audit_regressions/r30_owner_release.py",
+          "python_ast_sha256": "14cc4227d098166ed833ed12080e0a6cf12592cdc3143a6bb141b1ac73f8d770"
+        },
+        {
+          "path": "test/owner_board.py",
+          "sha256": "5d46d60dbd9da19d3f45de08a9a0bd76efa13bc4879e45d0951ec445d709b1ae",
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/00601e620f7d273893b6a97566a26abd9e9b520e/test/owner_board.py",
+          "python_ast_sha256": "c534616b1a6d9c335c53cad061189ccdd325f210ed3f3687e4abc0d4858c7f87"
+        },
+        {
+          "path": "test/owner_board_contract.py",
+          "sha256": "156df44a8b91b694b864a702cadfd4b7d4d66481d611680495005d1bdefdda0a",
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/00601e620f7d273893b6a97566a26abd9e9b520e/test/owner_board_contract.py",
+          "python_ast_sha256": "cfa47e764a2717e9d70dc1e4e6f33a53a69e7f9014ed4880271daf7670ff0e3d"
+        },
+        {
+          "path": "test/owner_release.py",
+          "sha256": "af1f692b6540b95f36932c35063bfb6d5cda2336825d25f3ca7d9899b1e09f28",
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/00601e620f7d273893b6a97566a26abd9e9b520e/test/owner_release.py",
+          "python_ast_sha256": "24f2a957f18364412624418dc9a89e946feda580b6475bbda5ee25813354c34b"
+        }
+      ],
+      "recorded_receipts": [
+        {
+          "path": "docs/evidence/plans/2026-10-13-r30-owner-gates.md",
+          "sha256": "0f47fca7f97356ab3a52db577ec829dd2ebf431bfed6218045400c08c8154ca7",
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/00601e620f7d273893b6a97566a26abd9e9b520e/docs/evidence/plans/2026-10-13-r30-owner-gates.md"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates.md",
+          "sha256": "1e08b3881e8a4b083649ecac22a74785af09888731f508cd927df89a5c3d2571",
+          "url": "https://github.com/ssheleg/seo-aeo-audit/blob/00601e620f7d273893b6a97566a26abd9e9b520e/docs/evidence/runs/2026-10-13-r30-owner-gates.md"
+        }
+      ]
+    },
+    {
+      "member": "sheleg-dev",
+      "selected_source": "21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369",
+      "version": "0.13.4",
+      "source_url": "https://github.com/ssheleg/sheleg-dev/commit/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369",
+      "files": [
+        {
+          "path": "test/validate.py",
+          "sha256": "e10bf137b90f04a908030f02a5e356379d8a8af16b562859eea46b72bfdff035",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/test/validate.py",
+          "python_ast_sha256": "137b11fa7c5e69f391086d939b0afad1560f6a74a91d53ce95334dbdd273f24e"
+        },
+        {
+          "path": "package.json",
+          "sha256": "afd21bea5f2c0e2ee0193ca26725f010a4866cec932f6b55dc4aa60f94a77fdc",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/package.json"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "sha256": "97d7708721da54676c8c0ef6ea660c5c7c0d7b3cd2f8c5f0361b8c14c2b2097e",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/.github/workflows/release.yml"
+        },
+        {
+          "path": ".github/workflows/validate.yml",
+          "sha256": "c03c2475ea48cce795ee8f12f9c38d534b86c0a6f94b948da6796e53fac99c9a",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/.github/workflows/validate.yml"
+        },
+        {
+          "path": "docs/evidence/backlog.md",
+          "sha256": "a58575fc5ca4ee26e56a261ee7a4ddd3462f0fd084f2e7d66900cdeee46c7b5b",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/docs/evidence/backlog.md"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_board.py",
+          "sha256": "4f1e5f2a6ed725101183a848fdf9bcf24eae810a538b2f888c61e50a81358249",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/test/audit_regressions/r30_owner_board.py",
+          "python_ast_sha256": "e60b17bb7884d5c49c7a045020e256f3762d420e4befb53fabf75be1b2a8a696"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_process.py",
+          "sha256": "9a66be66e6cbda273f8a7e37b8a5c6bc5bc8be3bd4dd938e3926453a18f54606",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/test/audit_regressions/r30_owner_process.py",
+          "python_ast_sha256": "8056e72de9883766e053184414feedb1a44226c929695225d279c1f6ed0c8ef2"
+        },
+        {
+          "path": "test/audit_regressions/r30_owner_release.py",
+          "sha256": "a36eddc0ac900f4ce1c0f2de1bcd1b131a8880bea098c70da5bb3bf8371a9ccd",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/test/audit_regressions/r30_owner_release.py",
+          "python_ast_sha256": "c0bca035d596b226901203248155601a9c8833ddd6f16270d992a1e92d2375c5"
+        },
+        {
+          "path": "test/owner_board.py",
+          "sha256": "c1d74c5dcd17f39b620bb5779693f9c1d061d5a46fb4afacaf45f9f3e8c4a52f",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/test/owner_board.py",
+          "python_ast_sha256": "c534616b1a6d9c335c53cad061189ccdd325f210ed3f3687e4abc0d4858c7f87"
+        },
+        {
+          "path": "test/owner_release.py",
+          "sha256": "4a0a4b5e7f757c00eec245b8f8165c87a10007e356311d1123b87c0a753202c3",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/test/owner_release.py",
+          "python_ast_sha256": "24f2a957f18364412624418dc9a89e946feda580b6475bbda5ee25813354c34b"
+        }
+      ],
+      "recorded_receipts": [
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/README.md",
+          "sha256": "9108760a19647c9ff691fd020cc49af1139269c7c957f6e968e2c1357871fca3",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/docs/evidence/runs/2026-10-13-r30-owner-gates/README.md"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-board.json",
+          "sha256": "141206b7c3b344e49431935f982d20ed897fd5505e8cbcd75ffc03bfc6b863c5",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-board.json",
+          "source": null,
+          "cases": [
+            {
+              "kind": "baseline",
+              "exit_code": 0,
+              "elapsed_seconds": 0.305,
+              "board_sha256": "d7520390891bc6206009b4fb022251eb455b69a26f5a5c6d14b82856fab832c8",
+              "other_tracked_changes": false
+            },
+            {
+              "kind": "duplicate",
+              "exit_code": 0,
+              "elapsed_seconds": 0.234,
+              "board_sha256": "50ca785f731d99b01e6e0769850b224e4910b5d05ab70ed8ae5a1d482a2256d1",
+              "other_tracked_changes": false
+            },
+            {
+              "kind": "width",
+              "exit_code": 0,
+              "elapsed_seconds": 0.243,
+              "board_sha256": "3c5bc30bff7dddc5b9f6f3b81bb062997d0b4dfe6d54f7a79e8164c244ebfb9e",
+              "other_tracked_changes": false
+            }
+          ]
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-release.json",
+          "sha256": "bdf98fac8fe267f4a447c583feb74a58f84679028a0bffd80e21a8af8f7efaf8",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/docs/evidence/runs/2026-10-13-r30-owner-gates/baseline-release.json"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/final-process.json",
+          "sha256": "f165b799ee7b10ba80b54e0f551f4efb14e8fe25a138591cacf0caa77caf4e3d",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/docs/evidence/runs/2026-10-13-r30-owner-gates/final-process.json",
+          "source": null,
+          "cases": [
+            {
+              "case": "healthy",
+              "returncode": 0,
+              "expected_diagnostic": null,
+              "accepted": true
+            },
+            {
+              "case": "duplicate",
+              "returncode": 1,
+              "expected_diagnostic": "board duplicate ID",
+              "accepted": true
+            },
+            {
+              "case": "width",
+              "returncode": 1,
+              "expected_diagnostic": "row width",
+              "accepted": true
+            },
+            {
+              "case": "ancestry removed",
+              "returncode": 1,
+              "expected_diagnostic": "release ancestry guard",
+              "accepted": true
+            },
+            {
+              "case": "shallow",
+              "returncode": 1,
+              "expected_diagnostic": "release full-history checkout",
+              "accepted": true
+            },
+            {
+              "case": "escaped pipe",
+              "returncode": 0,
+              "expected_diagnostic": null,
+              "accepted": true
+            }
+          ]
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/full.json",
+          "sha256": "8d0209021b2792d132960a30fc89f37741e60cf753f0145fb6034d3881518f63",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/docs/evidence/runs/2026-10-13-r30-owner-gates/full.json",
+          "source": "6786774567bb8c3a295730cd1225b99e96471225",
+          "command": "npm test",
+          "returncode": 0,
+          "scope": "npm test as declared by owner; CI-only checks and live/provider acceptance are separate",
+          "owned_temporary_removed": true,
+          "current_helper_ast_matches_full_source": {
+            "test/owner_board.py": true,
+            "test/owner_release.py": true
+          },
+          "retained_log_sha256": "bf36112f5834b98abadefac5cedbc282ef68847baa3f98cbd3f194b66d774b7d",
+          "retained_log_hash_match": true
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/payload-parity.json",
+          "sha256": "80ed9dca4a35f39131bf9334d073cf04314eb9ca9058b7026f4d1747f44e9979",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/docs/evidence/runs/2026-10-13-r30-owner-gates/payload-parity.json",
+          "source": null,
+          "command": "npm pack --dry-run --json --ignore-scripts"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/process.json",
+          "sha256": "91e1098602d0021f0fc329586afec3fb052ee9c5696911c28c088d8a1ef7fc7b",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/docs/evidence/runs/2026-10-13-r30-owner-gates/process.json",
+          "source": null,
+          "cases": [
+            {
+              "case": "healthy",
+              "returncode": 0,
+              "expected_diagnostic": null,
+              "accepted": true
+            },
+            {
+              "case": "duplicate",
+              "returncode": 1,
+              "expected_diagnostic": "board duplicate ID",
+              "accepted": true
+            },
+            {
+              "case": "width",
+              "returncode": 1,
+              "expected_diagnostic": "row width",
+              "accepted": true
+            },
+            {
+              "case": "ancestry removed",
+              "returncode": 1,
+              "expected_diagnostic": "release ancestry guard",
+              "accepted": true
+            },
+            {
+              "case": "shallow",
+              "returncode": 1,
+              "expected_diagnostic": "release full-history checkout",
+              "accepted": true
+            },
+            {
+              "case": "escaped pipe",
+              "returncode": 0,
+              "expected_diagnostic": null,
+              "accepted": true
+            }
+          ]
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers-local.json",
+          "sha256": "760dbaafdb1fcb18d49999ed651a52a228078ad86e3e4788eaf7c3bb052b51b3",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers-local.json",
+          "source": null,
+          "scope": "comments and excluded evidence only; no local broad rerun"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers.json",
+          "sha256": "0d62ac289f77e992034bbd37bf328df6043c769a3557f93d8e56ecf2bbac9e00",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/docs/evidence/runs/2026-10-13-r30-owner-gates/shared-headers.json",
+          "source": null,
+          "scope": "nine comment-only declarations in five owner repos; extracted exact hub guard replay on synthetic copies"
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates/source-hashes.json",
+          "sha256": "3cd76215a4f3110903ff929defdba6703322bf7cf5d262c8857bdbe318e45ad0",
+          "url": "https://github.com/ssheleg/sheleg-dev/blob/21e0c531a0fdd306aa8a8e408f5b8d34d9f9b369/docs/evidence/runs/2026-10-13-r30-owner-gates/source-hashes.json",
+          "source": null
+        }
+      ]
+    },
+    {
+      "member": "agent-stack",
+      "selected_source": "63e155d9c1ca9df789535926acc3546f33954e3b",
+      "version": "0.28.2",
+      "source_url": "https://github.com/ssheleg/agent-stack/commit/63e155d9c1ca9df789535926acc3546f33954e3b",
+      "files": [
+        {
+          "path": "test/validate.py",
+          "sha256": "33174da157b1d714187c795175b073cae9ed553c96e04d030b9950971f955f02",
+          "url": "https://github.com/ssheleg/agent-stack/blob/63e155d9c1ca9df789535926acc3546f33954e3b/test/validate.py",
+          "python_ast_sha256": "a16850f3063b3d5de27a5d2c99cb3c6bd5a09ed15c85d0d4e49546f3828a584b"
+        },
+        {
+          "path": "package.json",
+          "sha256": "42cbab0ed2a00d1bc950ada5688221b8d291bf82f1a681df6e3994935066ceed",
+          "url": "https://github.com/ssheleg/agent-stack/blob/63e155d9c1ca9df789535926acc3546f33954e3b/package.json"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "sha256": "0c6551055019402ad00f2bbc39966ade27b1a29f745f238e7c166b81751ceb9c",
+          "url": "https://github.com/ssheleg/agent-stack/blob/63e155d9c1ca9df789535926acc3546f33954e3b/.github/workflows/release.yml"
+        },
+        {
+          "path": ".github/workflows/validate.yml",
+          "sha256": "a7bd9f9533c6713f168acefbd98d35ee9aa2f6eb7cb44d66d07dbf1b562e0743",
+          "url": "https://github.com/ssheleg/agent-stack/blob/63e155d9c1ca9df789535926acc3546f33954e3b/.github/workflows/validate.yml"
+        },
+        {
+          "path": "docs/evidence/backlog.md",
+          "sha256": "21f541c40d3af953d7f9d1350e84fad4a46ab737eed7a233d1ade41a951ebafe",
+          "url": "https://github.com/ssheleg/agent-stack/blob/63e155d9c1ca9df789535926acc3546f33954e3b/docs/evidence/backlog.md"
+        },
+        {
+          "path": "test/member_gates.py",
+          "sha256": "e3fbcb6cf18edcc978f5de79b4125610d109d963592e45030f02212c4e36d0dd",
+          "url": "https://github.com/ssheleg/agent-stack/blob/63e155d9c1ca9df789535926acc3546f33954e3b/test/member_gates.py",
+          "python_ast_sha256": "d1dffdec0063b9d4685cbc7f6545c54e7c0ddb19b5519462638a2e814047beb4"
+        },
+        {
+          "path": "test/member_owner_gates_test.py",
+          "sha256": "83fa9b446a2088cdcbff455fa589c168a091b8fb898e560a5c6d7729a68da6c3",
+          "url": "https://github.com/ssheleg/agent-stack/blob/63e155d9c1ca9df789535926acc3546f33954e3b/test/member_owner_gates_test.py",
+          "python_ast_sha256": "2005b2b58689342c3d575ef3aca5ebddf70d925f163ccfaafdae51ded9448a4b"
+        }
+      ],
+      "recorded_receipts": [
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-full.json",
+          "sha256": "66fdd3cac986bc508b9be36778009e39bfe9dd6589b8465ccb453e0fd8b4b2e7",
+          "url": "https://github.com/ssheleg/agent-stack/blob/63e155d9c1ca9df789535926acc3546f33954e3b/docs/evidence/runs/2026-10-13-r30-owner-full.json",
+          "source": "7aa4dd36518bc853013aed775ccfe18dcec98a85",
+          "command": "npm test",
+          "exit_code": 0,
+          "scope": "Local source validation; hosted integration and publication separate",
+          "current_helper_ast_matches_full_source": {
+            "test/member_gates.py": true
+          },
+          "retained_log_sha256": "85d0cf29551ffe86b373c5a69c7a2131dcfff51ad64a1c48259b0342138faec9",
+          "retained_log_hash_match": true
+        },
+        {
+          "path": "docs/evidence/runs/2026-10-13-r30-owner-gates.md",
+          "sha256": "5835926315b9d3c64c7f4e40aa291639b08bf90600e916fd0e21e123845f1dcb",
+          "url": "https://github.com/ssheleg/agent-stack/blob/63e155d9c1ca9df789535926acc3546f33954e3b/docs/evidence/runs/2026-10-13-r30-owner-gates.md"
+        }
+      ]
+    },
+    {
+      "member": "telegram-dev",
+      "selected_source": "4ffb10ce1b92a599c2214327ea4d878ab514ed6b",
+      "version": "0.2.4",
+      "source_url": "https://github.com/ssheleg/telegram-dev/commit/4ffb10ce1b92a599c2214327ea4d878ab514ed6b",
+      "files": [
+        {
+          "path": "test/validate.py",
+          "sha256": "d520db2d26f085ea0d801eb46c6104498d015c89bda769b78e6af9995cc88a06",
+          "url": "https://github.com/ssheleg/telegram-dev/blob/4ffb10ce1b92a599c2214327ea4d878ab514ed6b/test/validate.py",
+          "python_ast_sha256": "42159068a5993f52fa9c8a2e4203dad4e5f8a9a6d85f3f188eab465e7ecbc002"
+        },
+        {
+          "path": "package.json",
+          "sha256": "71a6d15754c8ca33f36f95876db68c9db9d42f89e4313f4ca692a4c3380e9fae",
+          "url": "https://github.com/ssheleg/telegram-dev/blob/4ffb10ce1b92a599c2214327ea4d878ab514ed6b/package.json"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "sha256": "e23dc13b8a3d29bdc0b561c5ec3da932c608892bbd531f88e5bbd10016e3c000",
+          "url": "https://github.com/ssheleg/telegram-dev/blob/4ffb10ce1b92a599c2214327ea4d878ab514ed6b/.github/workflows/release.yml"
+        },
+        {
+          "path": ".github/workflows/validate.yml",
+          "sha256": "f4b4eb16beb66d0fa7481a34e1b39e11dd585c8ad1c8c3da2517624b1b5d43ef",
+          "url": "https://github.com/ssheleg/telegram-dev/blob/4ffb10ce1b92a599c2214327ea4d878ab514ed6b/.github/workflows/validate.yml"
+        },
+        {
+          "path": "docs/evidence/backlog.md",
+          "sha256": "1addff0883d298a8076ab01e0f0bc2c54379d0ac8c9508abefc8d9c70a0ab53f",
+          "url": "https://github.com/ssheleg/telegram-dev/blob/4ffb10ce1b92a599c2214327ea4d878ab514ed6b/docs/evidence/backlog.md"
+        },
+        {
+          "path": "test/member_gates.py",
+          "sha256": "e3fbcb6cf18edcc978f5de79b4125610d109d963592e45030f02212c4e36d0dd",
+          "url": "https://github.com/ssheleg/telegram-dev/blob/4ffb10ce1b92a599c2214327ea4d878ab514ed6b/test/member_gates.py",
+          "python_ast_sha256": "d1dffdec0063b9d4685cbc7f6545c54e7c0ddb19b5519462638a2e814047beb4"
+        },
+        {
+          "path": "test/member_gates_test.py",
+          "sha256": "924a6cdac2055b0aa29a49351e797adddc4cee153b385b29ab93a6fddd0aa75a",
+          "url": "https://github.com/ssheleg/telegram-dev/blob/4ffb10ce1b92a599c2214327ea4d878ab514ed6b/test/member_gates_test.py",
+          "python_ast_sha256": "9e438c499e8444392be8ee20aeb46069e3ec96e3e9549bc6f48768003f4492df"
+        }
+      ],
+      "recorded_receipts": [
+        {
+          "path": "docs/evidence/member-gates-20261013/README.md",
+          "sha256": "0978501a6bf99ee8e6bc46b6dc6e0bb5cb7c3e546f9314ea7a4f3f2983b76271",
+          "url": "https://github.com/ssheleg/telegram-dev/blob/4ffb10ce1b92a599c2214327ea4d878ab514ed6b/docs/evidence/member-gates-20261013/README.md"
+        },
+        {
+          "path": "docs/evidence/member-gates-headers-20261013.md",
+          "sha256": "c355cf134e4bec6c1d22b93ec303a611d6c1a6925487160a6df411358e47a146",
+          "url": "https://github.com/ssheleg/telegram-dev/blob/4ffb10ce1b92a599c2214327ea4d878ab514ed6b/docs/evidence/member-gates-headers-20261013.md"
+        },
+        {
+          "path": "docs/evidence/releases/2026-10-13-member-gates/README.md",
+          "sha256": "ebdd359bdac6024a55fddb0e856d7d651933308be65c1548e6cc42e54f64f442",
+          "url": "https://github.com/ssheleg/telegram-dev/blob/4ffb10ce1b92a599c2214327ea4d878ab514ed6b/docs/evidence/releases/2026-10-13-member-gates/README.md"
+        },
+        {
+          "path": "docs/evidence/releases/2026-10-13-member-gates/published-readback.json",
+          "sha256": "dee7c4d96d27a0303d127090dc27b2eeb67f1c5096991ee7dcd9f38aaaf748c7",
+          "url": "https://github.com/ssheleg/telegram-dev/blob/4ffb10ce1b92a599c2214327ea4d878ab514ed6b/docs/evidence/releases/2026-10-13-member-gates/published-readback.json",
+          "source": null
+        }
+      ]
+    },
+    {
+      "member": "xr-dev",
+      "selected_source": "6199f2af23d01d7ae3ce84ef9f3b3820f57356c0",
+      "version": "0.3.4",
+      "source_url": "https://github.com/ssheleg/xr-dev/commit/6199f2af23d01d7ae3ce84ef9f3b3820f57356c0",
+      "files": [
+        {
+          "path": "test/validate.py",
+          "sha256": "c7929840fe0851845173b28615e906d04b8fc673f0982748195e2c500ab9a108",
+          "url": "https://github.com/ssheleg/xr-dev/blob/6199f2af23d01d7ae3ce84ef9f3b3820f57356c0/test/validate.py",
+          "python_ast_sha256": "8dce1783a255d95bb24a2731ed741664976b6055877651581e722a180736bbb2"
+        },
+        {
+          "path": "package.json",
+          "sha256": "3257b406e0774b5237edfdf726c73dcc660a06b3c2f7895f4f905925f1b176f1",
+          "url": "https://github.com/ssheleg/xr-dev/blob/6199f2af23d01d7ae3ce84ef9f3b3820f57356c0/package.json"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "sha256": "3e46aed804741a38173a4f67d420608146dd32f351e1eb62f7ab1fd3d867fcdb",
+          "url": "https://github.com/ssheleg/xr-dev/blob/6199f2af23d01d7ae3ce84ef9f3b3820f57356c0/.github/workflows/release.yml"
+        },
+        {
+          "path": ".github/workflows/validate.yml",
+          "sha256": "76cc5b58992d8a22e059d0cc2f43aeeca46a8a046ff9540a202b36c88f9759d9",
+          "url": "https://github.com/ssheleg/xr-dev/blob/6199f2af23d01d7ae3ce84ef9f3b3820f57356c0/.github/workflows/validate.yml"
+        },
+        {
+          "path": "docs/evidence/backlog.md",
+          "sha256": "598ae1e94ad19fe30b83b96d8747a0b0b33b0cbbb7b9bce6a8ad0d9831b7a322",
+          "url": "https://github.com/ssheleg/xr-dev/blob/6199f2af23d01d7ae3ce84ef9f3b3820f57356c0/docs/evidence/backlog.md"
+        },
+        {
+          "path": "test/member_gates.py",
+          "sha256": "e3fbcb6cf18edcc978f5de79b4125610d109d963592e45030f02212c4e36d0dd",
+          "url": "https://github.com/ssheleg/xr-dev/blob/6199f2af23d01d7ae3ce84ef9f3b3820f57356c0/test/member_gates.py",
+          "python_ast_sha256": "d1dffdec0063b9d4685cbc7f6545c54e7c0ddb19b5519462638a2e814047beb4"
+        },
+        {
+          "path": "test/member_gates_test.py",
+          "sha256": "924a6cdac2055b0aa29a49351e797adddc4cee153b385b29ab93a6fddd0aa75a",
+          "url": "https://github.com/ssheleg/xr-dev/blob/6199f2af23d01d7ae3ce84ef9f3b3820f57356c0/test/member_gates_test.py",
+          "python_ast_sha256": "9e438c499e8444392be8ee20aeb46069e3ec96e3e9549bc6f48768003f4492df"
+        }
+      ],
+      "recorded_receipts": [
+        {
+          "path": "docs/evidence/member-gates-20261013/README.md",
+          "sha256": "ca128bdd5841ce8c391498204ba429c37f08dd5077b332de3c23e1f3b73b7166",
+          "url": "https://github.com/ssheleg/xr-dev/blob/6199f2af23d01d7ae3ce84ef9f3b3820f57356c0/docs/evidence/member-gates-20261013/README.md"
+        },
+        {
+          "path": "docs/evidence/member-gates-headers-20261013.md",
+          "sha256": "505b3b5546582e3812196552e78050931da3e3a6b0e0c6f73211e91fa785a236",
+          "url": "https://github.com/ssheleg/xr-dev/blob/6199f2af23d01d7ae3ce84ef9f3b3820f57356c0/docs/evidence/member-gates-headers-20261013.md"
+        },
+        {
+          "path": "docs/evidence/releases/2026-10-13-member-gates/README.md",
+          "sha256": "bcf12c77f8e1b36318aff272f7f4af418f39a07ce49a3860650a6529a9106018",
+          "url": "https://github.com/ssheleg/xr-dev/blob/6199f2af23d01d7ae3ce84ef9f3b3820f57356c0/docs/evidence/releases/2026-10-13-member-gates/README.md"
+        },
+        {
+          "path": "docs/evidence/releases/2026-10-13-member-gates/published-readback.json",
+          "sha256": "628da4094782aa0c6e77a474cfcb3f5e0441c7cb5b93c64e4c9aab494d7a0c31",
+          "url": "https://github.com/ssheleg/xr-dev/blob/6199f2af23d01d7ae3ce84ef9f3b3820f57356c0/docs/evidence/releases/2026-10-13-member-gates/published-readback.json",
+          "source": null
+        }
+      ]
+    },
+    {
+      "member": "web3d-dev",
+      "selected_source": "ef6bc1acff0f1ee0258e66cc74828ebe14c170e2",
+      "version": "0.1.4",
+      "source_url": "https://github.com/ssheleg/web3d-dev/commit/ef6bc1acff0f1ee0258e66cc74828ebe14c170e2",
+      "files": [
+        {
+          "path": "test/validate.py",
+          "sha256": "31dd7c357936fb006380920a954cb83045c2c7a6f9994ae5bdfcc9373071b07c",
+          "url": "https://github.com/ssheleg/web3d-dev/blob/ef6bc1acff0f1ee0258e66cc74828ebe14c170e2/test/validate.py",
+          "python_ast_sha256": "fe2f4955215f8781ce956b3af80c7de99a8e408483e045c7b40e4188432afe46"
+        },
+        {
+          "path": "package.json",
+          "sha256": "a1595ec69eb7d5cc14eb515889a59c87aeebc8537e901b244fb37865ce6224f7",
+          "url": "https://github.com/ssheleg/web3d-dev/blob/ef6bc1acff0f1ee0258e66cc74828ebe14c170e2/package.json"
+        },
+        {
+          "path": ".github/workflows/release.yml",
+          "sha256": "cf13422633f8be83d314ddef505e222817f1b8d8d202bce945fbf825056d675b",
+          "url": "https://github.com/ssheleg/web3d-dev/blob/ef6bc1acff0f1ee0258e66cc74828ebe14c170e2/.github/workflows/release.yml"
+        },
+        {
+          "path": ".github/workflows/validate.yml",
+          "sha256": "5761dfca9b38e64b7736e3c5b624d7a4b107e0ea10ded86db35ff61590829862",
+          "url": "https://github.com/ssheleg/web3d-dev/blob/ef6bc1acff0f1ee0258e66cc74828ebe14c170e2/.github/workflows/validate.yml"
+        },
+        {
+          "path": "docs/evidence/backlog.md",
+          "sha256": "ed2b91004203d2668e3edd22752235a62bb0b223d7ab187a408e62deb31b4cf4",
+          "url": "https://github.com/ssheleg/web3d-dev/blob/ef6bc1acff0f1ee0258e66cc74828ebe14c170e2/docs/evidence/backlog.md"
+        },
+        {
+          "path": "test/member_gates.py",
+          "sha256": "e3fbcb6cf18edcc978f5de79b4125610d109d963592e45030f02212c4e36d0dd",
+          "url": "https://github.com/ssheleg/web3d-dev/blob/ef6bc1acff0f1ee0258e66cc74828ebe14c170e2/test/member_gates.py",
+          "python_ast_sha256": "d1dffdec0063b9d4685cbc7f6545c54e7c0ddb19b5519462638a2e814047beb4"
+        },
+        {
+          "path": "test/member_gates_test.py",
+          "sha256": "924a6cdac2055b0aa29a49351e797adddc4cee153b385b29ab93a6fddd0aa75a",
+          "url": "https://github.com/ssheleg/web3d-dev/blob/ef6bc1acff0f1ee0258e66cc74828ebe14c170e2/test/member_gates_test.py",
+          "python_ast_sha256": "9e438c499e8444392be8ee20aeb46069e3ec96e3e9549bc6f48768003f4492df"
+        }
+      ],
+      "recorded_receipts": [
+        {
+          "path": "docs/evidence/member-gates-20261013/README.md",
+          "sha256": "9f71108ebe18dc274abf32fd7daea07d4d66f1cee70275f0196bd183b01d26f6",
+          "url": "https://github.com/ssheleg/web3d-dev/blob/ef6bc1acff0f1ee0258e66cc74828ebe14c170e2/docs/evidence/member-gates-20261013/README.md"
+        },
+        {
+          "path": "docs/evidence/member-gates-headers-20261013.md",
+          "sha256": "fa746a772557b6202bebba8d4c443b7a292223b5a6a92870ff41787ebbf9c3e1",
+          "url": "https://github.com/ssheleg/web3d-dev/blob/ef6bc1acff0f1ee0258e66cc74828ebe14c170e2/docs/evidence/member-gates-headers-20261013.md"
+        },
+        {
+          "path": "docs/evidence/releases/2026-10-13-member-gates/README.md",
+          "sha256": "fb72ed793cd9062ecc406b5b36a7fb4b6c4bbe96d2cee7e7ed8167b77319b1e8",
+          "url": "https://github.com/ssheleg/web3d-dev/blob/ef6bc1acff0f1ee0258e66cc74828ebe14c170e2/docs/evidence/releases/2026-10-13-member-gates/README.md"
+        },
+        {
+          "path": "docs/evidence/releases/2026-10-13-member-gates/published-readback.json",
+          "sha256": "80f889d1ad629605a5f6886c29bfbc364c702a4e62ad12bbeaf4da0e1ad29fdf",
+          "url": "https://github.com/ssheleg/web3d-dev/blob/ef6bc1acff0f1ee0258e66cc74828ebe14c170e2/docs/evidence/releases/2026-10-13-member-gates/published-readback.json",
+          "source": null
+        }
+      ]
+    }
+  ]
+}

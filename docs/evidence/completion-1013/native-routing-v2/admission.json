@@ -1,0 +1,14 @@
+{
+  "status": "ADMITTED",
+  "admitted_at_utc": "2026-10-13T07:20:05.054507+00:00",
+  "runner_sha256": "6728bb8151381b2dbe2f0fe9809aa86e9a60088aed71f5b42c46c1b572565635",
+  "source_sha256": "c45f42de4f4c5c8f60ac7f11200e4d09bf62c27ccbe25ff6c262d2da519adcf1",
+  "peer_sha256": "10f8ffcaf1ff552810e1079560dfa7f0e4060aac3a0c854576f3a0fd54ed4b26",
+  "max_calls": 8,
+  "budget_usd": 3.5463678,
+  "independent_review": "PASS",
+  "authority": "Operator autonomous family completion and normal Claude subscription diagnostics; native quality USD4 list-estimate envelope after v1 A-D USD0.4536322. R27 is a separate envelope.",
+  "protocol_commit": "91ae11176cbd8061783b61bfda353b7d9d365f31",
+  "max_cumulative_cli": 16,
+  "scope": "P1 passive only, no directed follow-up, automatic retry, installation or description adoption."
+}

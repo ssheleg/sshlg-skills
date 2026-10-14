@@ -1,0 +1,31 @@
+{
+  "before_free": 566546432,
+  "worktrees": [
+    {
+      "path": "/Users/sshlg/DATA/_wt/as-fw00-closure",
+      "branch": "docs/fw00-referral-status-1013",
+      "head": "3f7ea829f71b50a9bb2bd894bd03f71931dc5071",
+      "remote": "3f7ea829f71b50a9bb2bd894bd03f71931dc5071",
+      "clean": true,
+      "owned": "root-created FW00/R30 isolated worktrees; merged owner corrections; leases released"
+    },
+    {
+      "path": "/Users/sshlg/DATA/_wt/ux-fw00-closure",
+      "branch": "docs/fw00-published-status-1013",
+      "head": "3ebecd785cacad496c5eb9727bd58bbcf22f7c54",
+      "remote": "3ebecd785cacad496c5eb9727bd58bbcf22f7c54",
+      "clean": true,
+      "owned": "root-created FW00/R30 isolated worktrees; merged owner corrections; leases released"
+    },
+    {
+      "path": "/Users/sshlg/DATA/_wt/ux-r30-board-controls",
+      "branch": "test/r30-ux-board-controls",
+      "head": "11cf0611d763a9fb71c18a56b131ed10d456357e",
+      "remote": "11cf0611d763a9fb71c18a56b131ed10d456357e",
+      "clean": true,
+      "owned": "root-created FW00/R30 isolated worktrees; merged owner corrections; leases released"
+    }
+  ],
+  "after_free": 584499200,
+  "outcome": "removed disposable clean pushed checkouts; retained all branches and commits"
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "native-probe-admission/1",
+  "status": "ADMITTED",
+  "protocol": "C",
+  "runner_sha256": "41cf841c5af1607769886a8f73837b11649e1a09cead8a9cbebd465241917b5e",
+  "source_sha256": "c5bceee2ca514dad2da292a58853587e39c637f73f86352e3704544f48ce4b4a",
+  "cases_sha256": "60bb503edc49063cfb897ff371f021ed017def5fb3be4c14c9b413545975d06a",
+  "peer_review_sha256": "dc7a97136cbfbce6d2a02eb4f47052ad7a4b1bca9577abd7714258156fd1769c",
+  "independent_review": "PASS",
+  "reviewed_commit": "8bb0b83547fe4c64342bd750e65fc1c59ec50d16",
+  "max_calls": 61,
+  "budget_usd": 3.878996,
+  "cumulative_max_calls": 64,
+  "cumulative_a_b_c_budget_usd": 4.0,
+  "prior_protocol_list_usd": 0.121004,
+  "prior_protocol_cli_invocations": 3,
+  "authority": "Standing operator autonomous evaluation on Claude Code subscription; docs/evidence/briefs/2026-10-11-integration-waves.md, Decisions resolved from sources, Spend on eval round; current operator continue to end without questions.",
+  "scope": "One frozen native-loading-only round; no retries, description adoption, provider-key use, external effects or invoice claim.",
+  "created_at_utc": "2026-10-13T06:19:04.643728+00:00"
+}

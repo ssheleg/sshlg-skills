@@ -1,0 +1,40 @@
+--- a/harness.py
++++ b/harness.py
+@@ -157,7 +157,9 @@
+                 'mcp':{'mcpServers':{}}, 'session_persistence':False, 'mode':'FAKE_ONLY'}
+ 
+ def number(v, integer=False):
+-    return isinstance(v,(int,float)) and not isinstance(v,bool) and math.isfinite(v) and v>=0 and (not integer or int(v)==v)
++    if not isinstance(v,(int,float)) or isinstance(v,bool):return False
++    try:return math.isfinite(v) and v>=0 and (not integer or int(v)==v)
++    except (OverflowError,ValueError):return False
+ 
+ def safe_path(ctx, value):
+     need(isinstance(value,str) and value, 'tool_path')
+@@ -166,7 +168,7 @@
+     resolved = raw.resolve()
+     need(any(resolved.is_relative_to(ctx[k]) for k in ('project','plugin')), 'outside_read')
+     # Symlinks, including internal aliases, are outside the declared fixture grammar.
+-    need(raw.absolute() == resolved, 'tool_path_alias')
++    need(Path(os.path.abspath(raw)) == resolved, 'tool_path_alias')
+     return resolved
+ 
+ def inspect(events, ctx, item, protocol):
+@@ -322,7 +324,7 @@
+                 payload={k:(str(ctx[k]) if isinstance(ctx[k],Path) else ctx[k]) for k in ('prompt','project','plugin','settings','tools','mcp','mode','session_persistence')}
+                 private_write(folder/'payload.json',encoded(payload))
+                 rec.update(state='STARTED',started_monotonic=start,prompt_sha256=digest(ctx['prompt'].encode()),workspace_sha256=digest(encoded(ctx['manifest'])))
+-                self.state['cells'].append(rec);self.state['not_started_indices'].remove(index);self.journal.save(self.state)
++                self.state['cost_unknown']=True;self.state['cells'].append(rec);self.state['not_started_indices'].remove(index);self.journal.save(self.state)
+                 with os.fdopen(os.open(folder/'raw.jsonl',os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600),'wb') as raw:
+                     size=0
+                     for event in adapter.stream(payload):
+@@ -338,7 +340,7 @@
+                 version=json.loads((ctx['plugin']/'.claude-plugin/plugin.json').read_bytes()).get('version')
+                 private_write(folder/'masked.json',encoded(mask(result['artifact'],ctx,version)))
+                 rec.update(state='FINISHED',synthetic_cost=float(cost),trace_status=result['status'],artifact_sha256=result['artifact_sha256'])
+-                self.state['known_synthetic_cost']=float(spent)
++                self.state['known_synthetic_cost']=float(spent);self.state['cost_unknown']=False
+                 if spent>self.budget or cost>reserve:self.state['status']='STOPPED_BUDGET_OVERSHOOT';break
+             except BaseException as exc:
+                 if isinstance(exc,(SystemExit,KeyboardInterrupt)) or isinstance(exc,Exception):

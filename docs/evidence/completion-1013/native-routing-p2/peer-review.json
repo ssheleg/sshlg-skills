@@ -1,0 +1,22 @@
+{
+  "schema": "native-directed-independent-review/1",
+  "reviewer": "root",
+  "author": "visibility_review",
+  "reviewed_runner_source": "09c05f2378a1b575d1f8468e800def9d99dbd1db",
+  "verdict": "PASS_BOUNDED",
+  "offline_controls": 60,
+  "provider_calls": 0,
+  "runner_sha256": "a0ee026e96cf75c2898246d802b8f54c1e1fec8b34d68f88dcbce496c058feaa",
+  "protocol_sha256": "a319e168724b65071b1ee9503d562abc9858ee31e6d21a8c49be2c33ef13b9ec",
+  "checks": [
+    "Full source and transitive P1 reuse reviewed; original fixtures/rubric/bodies unchanged.",
+    "Independent60 offline controls passed, including actual fake-child limits/order/budget/errors.",
+    "Explicit two-full-arm-only directed intervention; passive failures not relabeled.",
+    "Documentation corrected to once-per-run auth/version preflight plus per-task exact init.",
+    "Negative admission control isolated from real approval state."
+  ],
+  "limits": [
+    "No passive selection or compression adoption.",
+    "Temporal and complete artifact quality require separate independent review."
+  ]
+}

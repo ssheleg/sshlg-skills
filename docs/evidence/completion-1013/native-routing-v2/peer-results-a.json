@@ -1,0 +1,94 @@
+{
+  "schema": "independent-native-result-review/2",
+  "reviewer": "visibility_review",
+  "source_commit": "fba5554e1263a12418ed902acd27485dc4c91d02",
+  "verdict": "PASS_BOUNDED_READBACK_NOT_ADOPTION",
+  "provider_calls_by_reviewer": 0,
+  "observed_cli_calls": 8,
+  "reported_list_usd": 0.764935,
+  "native_program_combined_list_usd": 1.2185672,
+  "native_program_cli_calls": 16,
+  "artifact_review_frozen_sha256": "e5f3401524d251af81bcee801372ae2cca563b9bea7cf3a4b36f3783df876090",
+  "cells": [
+    {
+      "index": 2,
+      "case_id": "k2",
+      "arm": "concise",
+      "artifact": "artifact-5.md",
+      "artifact_quality": "PASS_FROZEN_CASE_RUBRIC",
+      "skill_loads": [],
+      "load_before_delivered_audit": "NOT_LOADED"
+    },
+    {
+      "index": 3,
+      "case_id": "k2",
+      "arm": "full",
+      "artifact": "artifact-4.md",
+      "artifact_quality": "PASS_FROZEN_CASE_RUBRIC",
+      "skill_loads": [],
+      "load_before_delivered_audit": "NOT_LOADED"
+    },
+    {
+      "index": 4,
+      "case_id": "b7",
+      "arm": "concise",
+      "artifact": "artifact-3.md",
+      "artifact_quality": "FAIL_FROZEN_CASE_RUBRIC",
+      "skill_loads": [],
+      "load_before_delivered_audit": "NOT_LOADED"
+    },
+    {
+      "index": 5,
+      "case_id": "b7",
+      "arm": "full",
+      "artifact": "artifact-6.md",
+      "artifact_quality": "FAIL_FROZEN_CASE_RUBRIC",
+      "skill_loads": [],
+      "load_before_delivered_audit": "NOT_LOADED"
+    },
+    {
+      "index": 6,
+      "case_id": "m9",
+      "arm": "full",
+      "artifact": "artifact-1.md",
+      "artifact_quality": "PASS_FROZEN_CASE_RUBRIC",
+      "skill_loads": [
+        "sheleg-dev:ad-tracking"
+      ],
+      "load_before_delivered_audit": "PASS_LOAD_BEFORE_DELIVERED_AUDIT"
+    },
+    {
+      "index": 7,
+      "case_id": "m9",
+      "arm": "concise",
+      "artifact": "artifact-2.md",
+      "artifact_quality": "PASS_FROZEN_CASE_RUBRIC",
+      "skill_loads": [
+        "sheleg-dev:ad-tracking"
+      ],
+      "load_before_delivered_audit": "PASS_LOAD_BEFORE_DELIVERED_AUDIT"
+    }
+  ],
+  "readback": [
+    "All8 raw stdout/stderr/prompt hashes and0600 modes verified; private parent0700",
+    "Every prompt equals frozen plan; rematerialized8 owned workspaces match recorded manifests",
+    "Original raw tool paths independently checked under observed init cwd before translating to owned hash-equal replay root; every public observer field matches",
+    "All8 unique-request input sums equal final usage; full visible text equals private artifact and withheld-label review files",
+    "Both m9 expected Skill results precede every visible audit text; b7/k2 have zero Skill",
+    "Artifact judgments frozen before private mapping/raw results unmasked and remain unchanged"
+  ],
+  "raw_manifest_sha256": "604f4c4555811de8f1bd4dab9aa3e9ea6a1008502ee11f04e459699d70660262",
+  "public_hashes": {
+    "results-a.json": "bf9c66f008a7cb033c9410d5326f72a4d8a74f4e6786d8d9dc799ddb8bc77cb9",
+    "run.py": "6728bb8151381b2dbe2f0fe9809aa86e9a60088aed71f5b42c46c1b572565635",
+    "protocol.json": "ec7b003953f780a9dc9c1ae5f4ac4f0dc0b1028d3b42fc47a7919c1b3484fe42",
+    "source.json": "c45f42de4f4c5c8f60ac7f11200e4d09bf62c27ccbe25ff6c262d2da519adcf1",
+    "cases.json": "1af5649c559938ccbfb4232c2d390b2c8f7a10f922e57741b826bd9e99bc4f9b",
+    "artifact-review.json": "e5f3401524d251af81bcee801372ae2cca563b9bea7cf3a4b36f3783df876090"
+  },
+  "limits": [
+    "Two native loads out of six tasks; four zero-load cells fail passive native selection",
+    "Four artifacts meet frozen case rubric, both b7 fail complete fourth criterion; additional implementation caveats remain",
+    "Exploratory3 tasks only; no causal incremental-body quality, installed changes, whole-family acceptance or compression adoption"
+  ]
+}

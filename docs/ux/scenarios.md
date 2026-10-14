@@ -2,7 +2,7 @@
 
 <!-- Managed with super-ux (ux-contract v4). -->
 
-Scope: the public Skills website, its separate Harness section and member relationships. Existing launcher behavior is unchanged. Approved for autonomous implementation by the operator's 2026-09-21 request; product outcomes remain unobserved.
+Scope: the public Skills website, its separate Harness section and member relationships. The bounded wait-rule CLI below is covered separately; other launcher behavior is outside this scenario addition. Approved for autonomous implementation by the operator's 2026-09-21 request; product outcomes remain unobserved.
 
 ## Index
 
@@ -13,6 +13,12 @@ Scope: the public Skills website, its separate Harness section and member relati
 | SCN-003 | Choose Observatory separately | Harness page | maintainer | — | validated | 2026-09-21: browser + site suite |
 | SCN-004 | Understand Foundry availability | Harness page | builder | — | validated | 2026-09-21: browser + site suite |
 | SCN-005 | Find the Quest lifecycle workflow | XR member page | builder | — | validated | 2026-09-21: desktop/mobile browser + site suite |
+| SCN-006 | Start a domain project before dependencies exist | domains CLI and skill search | builder and coding agent | — | implemented | 2026-10-13: domain focused checks |
+| SCN-007 | Opt into a scoped wait rule | Working-rule CLI | maintainer | — | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
+| SCN-008 | Refresh or remove owned wait text | Working-rule CLI | maintainer | — | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
+| SCN-009 | Recover a refused instruction write | Working-rule CLI | maintainer | — | validated | 2026-10-13: accepted W175 packet; focused CLI5 |
+| SCN-010 | Inspect and finalize recovery metadata | Working-rule CLI | maintainer | — | implemented | 2026-10-13: MB02c focused CLI; independent peer pending |
+| SCN-011 | Recover an interrupted hook-runtime write | Hooks recovery CLI | maintainer | — | implemented | 2026-10-13: B190 isolated implementation |
 
 ## Personas
 
@@ -20,6 +26,23 @@ Scope: the public Skills website, its separate Harness section and member relati
 - **maintainer:** manages several repositories and needs project observations without publishing project data or credentials.
 
 ## Public website
+
+### SCN-011: Recover an interrupted hook-runtime write
+- **Persona:** maintainer
+- **Feature:** Hooks recovery CLI
+- **Entry point:** `npx sshlg-skills hooks recovery inspect --json`
+- **Preconditions:** an existing runtime in the current home; no host settings edit requested.
+- **Steps:**
+  1. Inspect -> see only runtime identity, lock fingerprint and a NO_LOCK, PENDING_JOURNAL, BUSY (with the holder pid), DEAD, UNKNOWN or NOT_INSTALLED state with its reason; inspection writes nothing. A home reached through a symlink inspects the same runtime its writers bound.
+  2. Supply the observed fingerprint to `hooks recovery recover --expect <digest> --json` -> same-boot dead holder may be retired under kernel exclusion, then the existing runtime journal decides rollback.
+  3. Inspect again after refusal or interruption -> live/unknown/changed holders remain untouched; a dead recovery worker can be recovered by the same supported command.
+- **Expected result:** verified rollback or explicit unresolved state; no inference that a missing journal proves the interrupted transaction succeeded. Every recover result says whether the dead lock was retired (`retired`), `null` when an interrupted worker did not report it.
+- **UI elements:** JSON state, expected fingerprint, failure reason, process exit code
+- **States covered:** success, error, empty
+- **Errors & recovery:** each refusal names its next step — a live holder (wait for that pid), a stale fingerprint (inspect again), a root writable by others (`chmod go-w`), no runtime (`hooks install`), missing `/usr/bin/python3` or only the Command Line Tools stub (`xcode-select --install`). A worker refusal after it retired the dead lock keeps the worker's own reason. Refusals exit 1, usage errors exit 2 and print JSON only with `--json`; legacy locks remain UNKNOWN. The command never takes a user-supplied runtime path or rewires host settings.
+- **Status:** implemented
+- **Coverage:** test/runtime_recovery_test.js
+- **Product:** unobserved
 
 ### SCN-001: Find skills, then understand the harness
 - **Persona:** builder
@@ -152,4 +175,82 @@ The existing no-JS, standalone installation and private-data boundaries hold.
 - **Errors & recovery:** missing root or unignored settings refuse writes; incomplete evidence keeps global coverage; hook-bearing plugins stay global.
 - **Status:** implemented
 - **Coverage:** test/domains_e2e_test.js; test/domains_test.js; test/toolkit_test.js; test/hooks_e2e_test.js
+- **Product:** unobserved
+
+## Working-rule CLI
+
+These scenarios restate the accepted B175 packet and current standing operator
+scope. They do not assert that an installed agent follows the text or that any
+watcher has been started. The existing maintainer persona applies to host settings.
+
+### SCN-007: Opt into a scoped wait rule
+- **Persona:** maintainer
+- **Feature:** Working-rule CLI
+- **Entry point:** `npx sshlg-skills config set rules.wait on`
+- **Preconditions:** existing supported host profile; no prior wait-rule opt-in required
+- **Steps:**
+  1. List settings -> absent wait policy displays off; unknown policy is reported as unknown.
+  2. Set rules.wait on -> record policy without editing host instructions or launching jobs.
+  3. Run rules with a host scope -> preview target paths and added/removed owned text, with no writes.
+  4. Run rules --apply with that scope -> back up and write only the selected existing profiles; report each result.
+  5. Repeat the same apply -> report unchanged and retain exact bytes.
+- **Expected result:** the maintainer can deliberately install the correct host variant without changing foreign text or unrelated profiles.
+- **UI elements:** config state, host scope flags, preview, apply result
+- **States covered:** empty, success, error
+- **Errors & recovery:** unknown arguments or hosts refuse before writes; absent host profiles are skipped; no invented installation or watcher.
+- **Status:** validated
+- **Coverage:** test/wait_rule_policy_test.js; test/wait_rules_cli_test.js
+- **Product:** unobserved
+
+### SCN-008: Refresh or remove owned wait text
+- **Persona:** maintainer
+- **Feature:** Working-rule CLI
+- **Entry point:** `npx sshlg-skills rules`
+- **Preconditions:** an ownership receipt from a successful explicit apply
+- **Steps:**
+  1. Update the family -> refresh only already-applied profiles selected by the run; new profiles remain untouched.
+  2. Set rules.wait off -> record intent; host instructions remain unchanged until apply or update.
+  3. Preview and apply -> remove only the known owned segment, preserving surrounding text and backing up each changed target.
+  4. Uninstall the family -> remove selected owned wait text; member-only installation never applies the family rule.
+- **Expected result:** repeated maintenance does not broaden opt-in, and disabling the rule preserves the maintainer's own instructions.
+- **UI elements:** policy state, update plan, removal preview, ownership receipt
+- **States covered:** success, empty, error
+- **Errors & recovery:** a retargeted profile or edited region refuses; restore the original binding or review ownership before retrying.
+- **Status:** validated
+- **Coverage:** test/wait_rules_test.js; test/wait_rules_cli_test.js
+- **Product:** unobserved
+
+### SCN-009: Recover a refused instruction write
+- **Persona:** maintainer
+- **Feature:** Working-rule CLI
+- **Entry point:** `npx sshlg-skills rules --apply`
+- **Preconditions:** malformed policy, unknown/edited markers, foreign Cursor file, failed backup, concurrent change or an unfinished receipt
+- **Steps:**
+  1. Preview or apply -> receive a specific refusal instead of replacement of ambiguous input.
+  2. Inspect the named receipt and backups -> identify the last attempted target and expected before/after hashes.
+  3. Resolve the observed condition -> retry only after ownership and current bytes are known; no automatic destructive recovery.
+- **Expected result:** uncertain or partial work remains explicit, with earlier successful targets distinguished from the failed one.
+- **UI elements:** refusal diagnostic, per-host action, recovery receipt
+- **States covered:** error, partial
+- **Errors & recovery:** backup failure leaves the target untouched; an unfinished operation blocks blind replay; independently completed targets remain reported.
+- **Status:** validated
+- **Coverage:** test/wait_rules_test.js
+- **Product:** unobserved
+
+### SCN-010: Inspect and finalize recovery metadata
+- **Persona:** maintainer
+- **Feature:** Working-rule CLI
+- **Entry point:** `npx sshlg-skills rules recovery inspect --json`
+- **Preconditions:** none for inspection; an admitted wait-owner operation for finalization
+- **Steps:**
+  1. Inspect recovery -> see empty, pending, terminal or unresolved state without writes or private file contents.
+  2. Preview finalize with the reported operation identifier -> see whether metadata can be finalized under current evidence.
+  3. Add --apply -> finalize only ownership/retention metadata; host instructions remain unchanged.
+  4. Repeat the completed request -> report already finalized without changing any bytes.
+- **Expected result:** the maintainer can distinguish an observed file state from admitted metadata completion and avoid guessing recovery actions.
+- **UI elements:** inspect/finalize commands, operation identifier, JSON result, fixed reason and next-step messages
+- **States covered:** empty, success, error
+- **Errors & recovery:** stale identifier, legacy or malformed evidence, changed profile/policy, unknown target bytes or held locks refuse with nonzero status; preserve the receipt and retained copies for review. No command clears locks or restores host files.
+- **Status:** implemented
+- **Coverage:** test/wait_recovery_cli_test.js; test/wait_recovery_test.js
 - **Product:** unobserved

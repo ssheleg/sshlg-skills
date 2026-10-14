@@ -1,0 +1,120 @@
+{
+  "schema": "independent-paired-result-review/1",
+  "reviewer": "visibility_review",
+  "source_commit": "03ba163e7e43d6d605a81becf49f0c0b43d992a2",
+  "verdict": "PASS_BOUNDED_READBACK",
+  "provider_calls_by_reviewer": 0,
+  "observed_cli_calls": 21,
+  "valid_semantic_cells": 18,
+  "paired_reported_list_usd": 0.4414536,
+  "r27_combined_reported_list_usd": 2.9035152,
+  "cumulative_native_and_reader_cli_calls": 85,
+  "route_sets_by_repetition": {
+    "p01/current": [
+      [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ],
+      [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ],
+      [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ]
+    ],
+    "p01/no-among": [
+      [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ],
+      [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ],
+      [
+        "super-ux",
+        "sheleg-design",
+        "copywriting",
+        "task-pipeline"
+      ]
+    ],
+    "p02/current": [
+      [
+        "task-pipeline",
+        "sheleg-dev"
+      ],
+      [
+        "task-pipeline",
+        "sheleg-dev"
+      ],
+      [
+        "sheleg-dev",
+        "task-pipeline"
+      ]
+    ],
+    "p02/no-among": [
+      [
+        "sheleg-dev",
+        "task-pipeline"
+      ],
+      [
+        "task-pipeline",
+        "sheleg-dev"
+      ],
+      [
+        "task-pipeline"
+      ]
+    ],
+    "p07/current": [
+      [
+        "make-skill"
+      ],
+      [
+        "make-skill"
+      ],
+      [
+        "make-skill",
+        "task-pipeline"
+      ]
+    ],
+    "p07/no-among": [
+      [
+        "make-skill"
+      ],
+      [
+        "make-skill"
+      ],
+      [
+        "make-skill"
+      ]
+    ]
+  },
+  "readback": [
+    "All21 raw stdout/stderr/prompt hashes and0600 modes verified; raw parent0700",
+    "Every prompt exactly equals frozen plan; every observer result field independently rederived",
+    "Unique-request inputs exactly sum to final usage for all21calls",
+    "A original TEST_ERROR unchanged; only its one valid task plus B17 form18 semantic cells"
+  ],
+  "public_hashes": {
+    "results-a.json": "c32648b924ae5d7b98a44906803458eb5c888ada26bd102759a913ca263ec960",
+    "results-b.json": "d5e6fde87b00a01661e0ac7a722f703f0b6d1c5ac486cf96ba2931ed02f5d420",
+    "source.json": "b37074ceb9202cf6f7c00fa60becb9676104c9969a37403aad2d40a1ef29555f",
+    "run.py": "066fae7ccf74fec2e26d9ac3c28e29ec9594fc6bb1b52fff63bd4f366f0649d7",
+    "run-b.py": "8ef55b606650168a3e70dd074dec854d1553f425c8108ab8631420e35cf7b50c",
+    "protocol-b.json": "292e83d5f91cdf506c2ffa9ad847aa10acfb2698abffc4902599df230840d697"
+  },
+  "raw_manifest_sha256": "10c206a50f7a3d9a07dd186602bb2ffe6ff22e0633d6e61a29c1690ec0837cd4",
+  "scope": "Three exploratory intents, explicit router text only; no native skill loading, executed catalogue search, task quality, compression adoption or family-wide acceptance."
+}

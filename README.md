@@ -44,13 +44,13 @@ scripts. No services, no telemetry, no API keys.
 | Skill | Version | What it does |
 |---|---|---|
 | **[super-ux](https://github.com/ssheleg/super-ux)** | 0.59.3 | Scenario-driven UI development. A versioned design chain in `docs/ux/` — the product vision → personas and jobs → user flows → a screens-and-states map with Figma frames → traced scenarios → evidence-backed audits → fix plans, plus `docs/brand/` for how the product speaks. One `/ux` entry point that reaches every skill, two doc-drift linters and a contract doctor. |
-| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.93.3 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project — discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
+| **[task-pipeline](https://github.com/ssheleg/task-pipeline)** | 1.95.0 | Full-cycle delivery orchestrator. An intake grill interrogates the request into a complete brief, then **ten gated stages** carry it — docs, brainstorm and decompose, spec, plan, build, tests, deploy, post-deploy, wiki, acceptance — refusing to advance until each gate passes. Documentation is a deliverable with its own portable gate, and the retrospective it leaves behind is traceable to the commit that earned each lesson. Ships `project-audit`: a cold-start audit of a whole project — discovery, probes whose unmet needs read `blind` rather than clean, production evidence including one artefact served under two channels, and an HTML report beside a JSON sidecar that says what moved. |
 | **[agent-sync](https://github.com/ssheleg/agent-sync)** | 1.22.2 | Several agents, one repository, no collisions. Leases with a TTL so two agents cannot claim the same work, race-free id reservation, a run journal and a generated board — over a pluggable knowledge cloud. The answer to "two sessions just committed over each other". |
 | **[make-skill](https://github.com/ssheleg/make-skill)** | 0.31.2 | A skill that builds skills. Create, retrofit, audit and publish agent skills and Claude Code plugins: conformance to the [Agent Skills](https://agentskills.io/specification) open standard, [Anthropic's platform rules](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) (per-surface runtime limits, the Skills API, evals) and the [Claude Code plugin reference](https://code.claude.com/docs/en/plugins-reference), marketplace layout, version sync, validator + CI, every distribution channel, the review checklist for third-party skills, and what a *skill author* must know about MCP and A2A — the protocols themselves live in `agent-stack`. |
 | **[sheleg-design](https://github.com/ssheleg/sheleg-design-skill)** | 1.64.2 | The taste layer. Cinematic scroll-driven landing pages — one scroll clock, motion that degrades to calm, WebGL particle formations — plus product-UI style packs each shipping a ready token layer, and the Figma border: tokens as variables, design to code without hand-copied values. |
-| **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.26.5 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan plus a link-building brief — not a score. |
+| **[seo-aeo-audit](https://github.com/ssheleg/seo-aeo-audit)** | 0.26.6 | Evidence-first website audit for search **and** answer engines. Ten tracks from crawl access to AI citation mechanics; every finding carries an observation, every recommendation an evidence tier, and the output is a prioritized change plan plus a link-building brief — not a score. |
 | **[sheleg-dev](https://github.com/ssheleg/sheleg-dev)** | 0.13.4 | The integration layer a product reaches once it has users: **money in, tracking, sign-in, speed**. Stripe subscription billing reconciled into your own database — webhook idempotency, renewals, seats and proration, refunds, price drift, and the coupon offered at the cancel step, where a `duration=once` discount leaves `subscription.discounts` the moment its invoice finalizes and the offer can be taken every cycle; crypto payments that survive under-payment, duplicate webhooks and rate drift; GA4, Google Ads, Meta and LinkedIn under Consent Mode v2; Google sign-in with the account pre-hijacking guard, and the server-side auth surface behind it; Core Web Vitals work that moves the score rather than the report; and Sentry error tracking wired so it does not forward your own credentials to a third party and so a stack trace names the commit that caused it. |
-| **[agent-stack](https://github.com/ssheleg/agent-stack)** | 0.27.1 | Production patterns for agent systems, in four skills. **The orchestrator** — tool-calling loops that survive their own context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, memory architecture — form, function and dynamics, the four-stage retrieval pipeline, and what a layer table alone cannot say, and **the shape of the work decided before the work**: an edge that carries no data is no edge, a plan that declares its dependencies is executed in layers rather than in list order, and a parallel layer gets a checker before the node that consumes it. **The harness** — what the agent is *told*: system prompts at the right altitude, tool descriptions the model can act on, technique choice with a verdict each, workflow versus agent and static versus dynamic, plus a seven-track audit of an agent somebody else built and a scanner for the defects that are mechanically visible. **The evals** — suites that measure whether it actually works: judging trajectories, regression fixtures grown from production, judges calibrated before they are trusted. **The interop layer** — MCP at revision 2026-07-28 and the four features it deprecated, running many servers at once, the registry, A2A 1.0, and the gateway, every reference carrying the spec revision it was read against. Plus the wallet side of reselling LLM access: tiered balances, one markup boundary, two-phase commit against a provider API. |
+| **[agent-stack](https://github.com/ssheleg/agent-stack)** | 0.28.2 | Production patterns for agent systems, in four skills. **The orchestrator** — tool-calling loops that survive their own context pressure, pipelines with human checkpoints and resume, provider routing with fallback and health checks, memory architecture — form, function and dynamics, the four-stage retrieval pipeline, and what a layer table alone cannot say, and **the shape of the work decided before the work**: an edge that carries no data is no edge, a plan that declares its dependencies is executed in layers rather than in list order, and a parallel layer gets a checker before the node that consumes it. **The harness** — what the agent is *told*: system prompts at the right altitude, tool descriptions the model can act on, technique choice with a verdict each, workflow versus agent and static versus dynamic, plus a seven-track audit of an agent somebody else built and a scanner for the defects that are mechanically visible. **The evals** — suites that measure whether it actually works: judging trajectories, regression fixtures grown from production, judges calibrated before they are trusted. **The interop layer** — MCP at revision 2026-07-28 and the four features it deprecated, running many servers at once, the registry, A2A 1.0, and the gateway, every reference carrying the spec revision it was read against. Plus the wallet side of reselling LLM access: tiered balances, one markup boundary, two-phase commit against a provider API. |
 | **[telegram-dev](https://github.com/ssheleg/telegram-dev)** | 0.2.4 | Telegram, split by the API each surface actually speaks. **`telegram-bots`** — the official HTTP Bot API: `update_id` as the only idempotency key an update carries, the `allowed_updates` default that subscribes you to everything *except* `chat_member` and the two reaction types while answering `ok: true`, the webhook secret header that is the real check, rate limits as a design constraint (1/sec per chat, 20/min per group, ~30/sec bulk), and Telegram Stars with a **ten-second** pre-checkout window and a grant that belongs to `successful_payment`. **`telegram-userbots`** — MTProto and Telethon: the session file as a credential equal to the password, `FloodWaitError` as the API telling you exactly how long to wait, pinning across minor releases that move session and entity-cache behaviour, and the account-ban risk a bot token does not carry — the skill opens with whether a user account is needed at all. **`telegram-miniapps`** — the web layer, whose entire security model is one signed query string: verifying `initData` server-side, the `auth_date` window, the Ed25519 path for a third party, and the SDK package whose name moved while the organisation's own page still fronts the old one. Both the verifier and the delivery invariants ship as runnable fixtures with their mutants. |
 | **[xr-dev](https://github.com/ssheleg/xr-dev)** | 0.3.4 | **`quest-lifecycle`** maps the product from platform choice through design, build, testing, Store, monetization, launch and operation. The existing owners cover native OpenXR, Kotlin Spatial/hybrid apps, measured rendering optimization, current-source/tool discovery, commercial and asset readiness, and WebXR/PWA. Every stage names evidence and a next action; Meta engine companions and official Godot XR documentation supply implementation detail. |
 | **[web3d-dev](https://github.com/ssheleg/web3d-dev)** | 0.1.4 | Realtime 3D on the web with three.js and React Three Fiber, split by the question. **`web3d-runtime`** — how the scene runs: WebGPURenderer and its WebGL2 fallback, TSL and compute, post-processing, device loss and profiling, led by the failures r186 keeps silent: `render()` before `init()` throws, `positionNode` collapses every instance to a point, `computeAsync` does not wait for the GPU, and about twenty drei components do not run on WebGPU. **`web3d-assets`** — the glTF pipeline from a source to the frame within a written budget: gltf-transform and gltfpack, KTX2 and meshopt, the loader that reads the result, sourcing and the four licence questions; it delegates orders to Asset Foundry when a machine runs it and works by the same principles when not. **`web3d-animation`** — a two-sided animation protocol with a shared clip canon: rig, clips, blending, retargeting, root motion, crowds and vertex-animation textures. Every fact is pinned to three@0.186.1, and the gate checks each code block against that release's exports. |
@@ -241,19 +241,26 @@ Updates every skills-CLI install and every Claude Code plugin, and materializes
 the pinned submodules in a checkout **without moving the pins**. Restart Claude
 Code afterwards.
 
-**Codex's native plugins move through Codex's own CLI.** Codex loads the family from
-its own marketplace cache, not from the skills-CLI copies, so for every family plugin
-that is installed and enabled in Codex, has the family repository as its marketplace
-source in `config.toml`, and reports a version other than the pin in `codex plugin list`,
-`update` runs `codex plugin marketplace remove <m>` → `codex plugin marketplace add
-https://github.com/<repo>.git --ref <pin>` → `codex plugin add <plugin>@<m>`, then reads
-the version back. Only that readback counts as current. The pin is the submodule commit
-when run from a checkout, or the release tag `v<version>` from npm. A failure after the
-removal re-adds the previous ref, which is read from `config.toml` first. The hub reads
-that file and never writes it. Nothing else in Codex is touched: other marketplaces,
-plugins you disabled or never installed, and family names pointing at another source
-all stay as they are. `--claude-only`, or an `--agent` list without `codex`, skips this
-step. Start a new Codex session afterwards.
+**Codex native version changes are deferred to preserve running sessions.**
+Codex 0.162.1 plugin replacement deletes older cache generations that an open thread
+may still use for hooks. `update` inspects installed, enabled family plugins through
+`codex plugin list`; a version different from the requested pin returns
+`DEFERRED_ACTIVE_GENERATION_SAFETY` before any native removal or installation.
+The overall update is partial and exits nonzero while such transitions remain.
+A matching catalog version is a catalog observation; the generations loaded by
+running threads remain unknown. There is no verified safe retention/retirement
+adapter yet. A timer, process count or starting another session does not authorize
+this launcher to replace native payloads.
+
+The hub records immutable private pending intent under
+`~/.sshlg-skills/codex-deferred/`, bound to the canonical profile, config fingerprint
+and desired source. It prints a safely quoted POSIX watcher command. The observer
+reads native state and records private observations, with a two-minute cadence,
+60-observation limit and two-hour deadline; it never installs or stops Codex.
+Catalog agreement ends observation without claiming old threads reloaded. Other
+marketplaces, disabled/absent plugins and foreign family-named sources stay outside
+the native update scope. `--claude-only`, or an `--agent` list without `codex`, skips
+this inspection. See [the native reproduction and acceptance boundaries](docs/evidence/completion-1013/codex-cache-preservation.md).
 
 **Plain skills are reconciled at the release's immutable commits.** Both `install`
 and `update` use the member `commit` fields shipped in `skills.json`, through
@@ -264,17 +271,23 @@ replaces existing bytes as well as installing missing skills, so no floating
 `--copy`, including previously installed copies outside the selected default set.
 The selected agent list and shared-store effects still apply.
 
-Claude's native plugin channel follows its marketplace/version lifecycle; immutable
-source selection is **NOT_VERIFIED** for that channel. The launcher states this
-separately from plain-skill commit selection. Neither an immutable argument nor a
-reported version proves installed bytes, native activation or task quality.
+**Claude Code plugins use exact member sources through the native CLI.** The shipped
+`claude-plugin-pins.json` records each plugin's commit, relative source and file
+hashes. The launcher prepares the full plan, uses owned catalogues with native
+`git-subdir.sha` sources, then checks installed scope, source and every payload file.
+Same-version repair is limited to supported user-scope, unconfigured plugins with
+a verified prior source; it keeps plugin data and restores disabled state. Other
+repair shapes are refused. Interrupted or uncertain execution leaves a recovery
+receipt and blocks blind retry. Native activation and task quality require their
+own observations even after installed bytes match.
 
 Flags: `--no-claude`, `--claude-only`, `--agent a,b`, `--all`, and
 `--bump-pins` — off by default so a checkout stays reproducible; pass it when
 you deliberately want the submodules fast-forwarded to their upstream tips.
 That run still installs the published commit inventory. For the next release, stage
-the reviewed gitlinks and run `node scripts/sync-member-pins.js --write`; the gate
-checks those commit fields against the staged gitlinks.
+the reviewed gitlinks, run `node scripts/sync-member-pins.js --write`, then
+`node scripts/sync-claude-pins.js --write`. The gates compare both inventories with
+the staged member sources.
 The scope flags scope the Claude host's files too: under `--no-claude`, or any
 `--agent` list, neither the routing block in `CLAUDE.md`, nor the hook wiring in
 `settings.json`, nor the runtime copy those hooks execute
@@ -289,6 +302,19 @@ removed stays removed, and an event a later release introduces is wired only by
 `npx sshlg-skills hooks install` — `update` and its preview name each family event
 not wired here, with that command. `hooks install` re-adds every removed family
 entry, not only the new ones, so skip it if you removed an entry on purpose.
+
+If the hook runtime cannot be refreshed, `update` exits with a failure and skips
+hook rewiring; other update steps may already have completed. `hooks install`
+also exits with a failure and leaves hook settings unchanged. A caught switch
+error rolls managed files back when possible and verifies their previous bytes,
+permissions and presence. Unresolved journals are preserved for inspection.
+
+A hard stop can leave `~/.sshlg-skills/runtime/.sync.lock` and recovery records.
+The next attempt names the paths to inspect and refuses to replace that lock
+automatically. Do not delete it by hand. `npx sshlg-skills hooks recovery inspect`
+shows whether its writer is provably dead; `hooks recovery recover --expect
+<digest>` then retires a dead writer's lock and rolls back through the journal.
+Live and unprovable holders are left alone. See the [runtime recovery contract](docs/working-rules/state-json.md#the-runtime-lock-and-failed-refresh).
 
 **Exit codes of `update`:** 0 done, 1 a step failed, **2 a usage error** (an unknown
 flag, a flag without its value, contradictory flags), **75 another `update` holds
@@ -502,6 +528,45 @@ wording of yours that migration had moved in. Settings live in
 `~/.sshlg-skills/config.json` (mode 0600) and store deviations only, so a
 router added in a later release arrives switched on rather than silently off.
 
+### Continue work while dependencies wait
+
+The wait rule is separate from routers and is off by default. Record the choice,
+preview the selected host, then apply it:
+
+```bash
+npx sshlg-skills config set rules.wait on
+npx sshlg-skills rules --agent codex
+npx sshlg-skills rules --apply --agent codex
+```
+
+Supported destinations are existing Claude Code, Codex, Gemini, Pi and Cursor
+instruction roots. Use `--claude-only` for Claude Code; `--agent` selects other
+hosts. A later `update` refreshes only profiles with a prior ownership receipt.
+Set `rules.wait off` and apply the same scope to remove its owned text. Surrounding
+content is preserved; malformed, edited or retargeted state stops for recovery.
+The rule describes continuation and durable handoff. It creates no watcher or job,
+and sign-ins, consent, payment and action-specific authority keep their own gates.
+
+### Inspect an interrupted wait-rule change
+
+A backup referenced by an unfinished wait-rule operation stays protected from
+routine pruning. Inspect the local recovery record, then use the operation ID
+shown by the command to preview finalization:
+
+```bash
+npx sshlg-skills rules recovery inspect --json
+npx sshlg-skills rules recovery finalize --operation <id> --json
+```
+
+If the preview says `canFinalize: true`, add `--apply` to the second command to
+complete the eligible ownership record and release that operation's backup
+retention. The copy then becomes eligible for normal pruning; finalization does
+not delete it immediately. Unresolved evidence or a held lock stops finalization.
+
+Recovery changes metadata only. It never restores or rewrites host instructions,
+clears locks, or recovers other settings writers. A `complete` record describes
+that operation's recorded outcome; it does not certify the host's current settings.
+
 ### Routes you declare — skills outside the family
 
 The family cannot know what your machine uses for media, data or anything else it
@@ -621,6 +686,8 @@ npx sshlg-skills hooks                    # what would be wired, and what holds 
 npx sshlg-skills hooks install            # wire it (refuses to take someone else's status line)
 npx sshlg-skills hooks install --force    # take it anyway, parking what it displaced
 npx sshlg-skills hooks remove             # unwire, and give the displaced one back
+npx sshlg-skills hooks recovery inspect --json                 # after a hard stop: is the runtime writer provably dead?
+npx sshlg-skills hooks recovery recover --expect <digest> --json  # retire only that dead lock, then roll back
 # `npx sshlg-skills update` re-wires a machine that already has one of these entries (since v1.56.0), through the
 # same backup; with none it writes nothing. It refreshes only entries of ours that are present (one you removed stays
 # removed; a NEW event a later release adds arrives only through `hooks install`, and `update` names it), and leaves a
@@ -861,7 +928,7 @@ lib/routers.js               block parsing and rendering; touches no file, by co
 lib/drift.js                 your wording vs the packaged one; pure, like routers.js
 lib/plan.js                  shared skills-CLI argv and Continue copy grouping
 lib/installer-pins.js        production immutable member admission and pinned add plan
-lib/codexplugins.js          Codex's native plugins, moved through Codex's own CLI and read back
+lib/codexplugins.js          native Codex catalog inspection and unsafe transition deferral
 lib/inventory.js             the family's map — entry points, not a catalogue
 lib/conflicts.js             installed skills on a router's ground — candidates, not offenders
 lib/packs.js                 curated recommendations by lane — what is missing, and the exact command
@@ -945,3 +1012,19 @@ Built by ssheleg — [sshlg.me](https://sshlg.me)
 ## License
 
 MIT © 2026 ssheleg.
+
+### Inspect instruction blocks
+
+`npx sshlg-skills blocks --agent codex --json` reads marker metadata from the
+selected global instruction file. Supported hosts are `claude`, `codex`, `gemini`,
+`pi` and `cursor`; without a host it inspects six named files. Existing profile
+overrides are honored. Missing files remain absent. Unreadable, malformed, oversized
+or concurrently changed files make the result partial and exit1. No file, backup,
+policy or journal is written, and a marker never grants write permission.
+
+For an explicit local comparison, run
+`npx sshlg-skills blocks diff SSHLG:ROUTERS --from ./proposed-block.md --agent codex`.
+The source must contain one complete matching outer block. Output contains only
+the selected block's before/after text, so treat that output as local material.
+The command does not apply the diff. Unknown/foreign blocks remain inspectable;
+REPOSITORY-HANDOFF ownership is still a separate operator decision.

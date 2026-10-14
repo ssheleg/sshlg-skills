@@ -1,8 +1,15 @@
 # Native skill loading and audit quality: bounded preparation
 
-Status: first readiness STOPPED_TEST_ERROR; zero audit task calls. The first
-runner passed independent review before execution. A revised isolation attempt
-requires a new review and will not overwrite or reinterpret the first receipt.
+Current result: **NO_ADOPTION**. Eight CLI invocations are complete; four audit
+artifacts were read against the frozen rubric. All four omitted required
+pre-switch access checks and none invoked Skill. The
+[independent review](artifact-independent-review.json) and explicitly nonblind
+[second review](artifact-second-review.json) agree on the bounded failures.
+Reported list usage totals USD0.4536322; subscription billing is not measured.
+Original A/B/C stops are immutable. The protocol is closed to further calls.
+
+The sections below retain the preparation and successive dated observations;
+use the final executed-continuation and review sections for current acceptance.
 
 ## Objective and intervention
 
@@ -238,3 +245,120 @@ private and unscored here. This replay is not a completed paired task experiment
 Next task: independent review of the ID-based parser correction and raw-stream
 diagnosis; coordinator decides whether a newly budgeted protocol is warranted.
 The runner is not authorized for another call by this evidence entry.
+
+
+## Explicit three-cell continuation prepared
+
+The coordinator independently confirmed the corrected request counting and
+authorized preparation of a separate continuation, with independent runner
+review before execution. `continue.py` binds C's immutable receipt hash and both
+clean readiness calls, the exact source/materializer/tasks/rubric/catalogue hashes,
+unchanged settings and command template. It runs fresh OAuth/version preflight
+and rechecks exact native inventory, source parity and tool confinement on each
+new task. It never repeats readiness or full/a1, and never changes C's verdict.
+
+Only concise/a1, concise/a2, full/a2 remain, in that fixed original order and
+seed. Accounting includes all five A/B/C CLI invocations and USD0.1834924 known
+reported list cost. Maximum three new CLI invocations gives eight cumulative;
+18 new model turns maximum; the overall reported-list ceiling remains USD4 with
+USD0.50 reservation before each call. No transport/schema/unknown-cost retry.
+The continuation identity and prior hashes are persisted before any new call.
+
+Offline checks cover the three-cell plan and four fake-process modes, changed
+receipt/settings/source/task/rubric rejection, no readiness/task repetition,
+private retention and combined counters. No new provider call occurred while
+preparing this protocol. Next: independent review, then explicit execution only
+under the coordinator's approved bounded continuation.
+
+## Delivered-artifact correction before continuation
+
+Independent review found the full/a1 answer was delivered in two visible text
+blocks: 3,506 characters followed by 892 characters after an output-limit
+continuation. `result.result` held only that last tail. The earlier diagnostic's
+artifact hash therefore identified a tail, not the entire delivered audit.
+Its historical record stays unchanged; the [v2 offline diagnostic](observed-c-offline-diagnostic-v2.json)
+supersedes that artifact interpretation and still does not alter C's TEST_ERROR.
+
+The parser now preserves every assistant text block in stream order with request
+provenance, excludes thinking and tool-result content, and hashes the joined text
+separately from `final.result`. Public receipts contain only block hashes,
+character counts and hashed request IDs. Successful calls also save the ordered
+text and exact message IDs privately in `assistant-text.json` (0600), alongside
+raw streams. For C, private `assistant-text-offline-v2.json` contains the complete
+replayed artifact; no new model call was needed. Two newline characters delimit
+blocks in the joined view; original block boundaries remain available.
+
+The offline split-final control proves that the full artifact includes both
+requests, that the final-result hash still identifies the tail, and that thinking
+is excluded. All original and continuation fake-process controls passed again.
+No prompt, rubric, model, source, limit or cost policy changed. The corrected
+continuation remains NOT_RUN pending independent final review.
+
+## Executed continuation and artifact handoff
+
+After independent review of `98a3df5cc4f6d8cfaac796e3497239ad0ceb214a`,
+[continuation D](observed-d-20261013.json) completed exactly the three remaining
+cells. No readiness or stopped task was repeated. All new task inits contained
+exactly the seven expected skills, four allowed tools and no MCP servers.
+The total is now **eight CLI invocations**, with **USD0.4536322** cumulative known
+reported list metadata; no unknown cost and no retry. This is not subscription
+billing. A/B/C immutable stops remain unchanged.
+
+| Artifact | Evidence status | Input across cache modes | Output tokens | Unique API message IDs | Reported list USD |
+|---|---|---|---|---|---|
+| English/full | C offline diagnostic, original TEST_ERROR | 34974 | 2292 | 4 | 0.099782 |
+| English/concise | D EXECUTED | 28372 | 2107 | 4 | 0.0784908 |
+| Russian/concise | D EXECUTED | 28851 | 2578 | 4 | 0.0923668 |
+| Russian/full | D EXECUTED | 35130 | 2400 | 4 | 0.0992822 |
+
+All four artifacts observed fixture Reads and **zero Skill invocations**. Thus
+this experiment has native catalogue visibility and delivered audit artifacts,
+but does not establish specialist-body use or unchanged quality after loading.
+English/Russian are correlated translations, not independent task categories.
+No installed configuration or skill was changed.
+
+The [review manifest](artifact-review-manifest.json) freezes complete visible-text
+hashes, ordered block/request-provenance hashes and separate final-tail hashes.
+Private text files were verified against those hashes; raw and artifact files
+remain 0600 in private 0700 directories outside Git. The coordinator received
+exact private paths for independent rubric scoring. Semantic quality is
+**NOT_SCORED** in this handoff; neither visibility nor successful execution is a
+quality verdict. Next: independent artifact scoring against unchanged rubric,
+then decide whether any broader adoption evidence is justified. No further
+provider/model call is authorized by this completed bounded protocol.
+
+## Second artifact review: no adoption
+
+The runner author separately read all four complete private artifacts against
+the unchanged rubric after receiving the coordinator's preliminary findings.
+This is a second grounded review, **not blind independent replication**. The
+[dimension record](artifact-second-review.json) binds rubric/manifest/artifact
+hashes and preserves the preliminary coordinator result separately from this
+reviewer's judgments; the coordinator owns its final scoring packet.
+
+Both reviews agree so far: q1 (ADC precedence) and q2 (token-log removal) pass
+all four artifacts. **q3 fails all four**: removing the legacy override/mount is
+recommended without first checking required API/IAM access for the intended
+attached identity. q4 fails the English pair because no explicit unit/regression
+check is supplied; the Russian pair includes mocked ADC/caplog tests and passes
+that dimension. All four negative controls pass. Three outputs also propose
+`type(credentials).__name__` where a module-qualified source classification is
+needed; the English concise artifact supplies both module and name.
+
+No artifact satisfies every required dimension. Skill loading was observed in
+none, so these results cannot establish native specialist use or quality after
+body loading. **Do not adopt concise descriptions from this experiment.** The
+next research task is source-only analysis of native invocation conditions and
+the discovery contract, followed by a separately preregistered loaded-skill
+quality protocol if justified. Keep spontaneous selection and explicit loading
+as different experiments. No more model/provider calls belong to this protocol;
+no rubric/prompt change, original-stop relabelling or installed change was made.
+
+The root coordinator is the independent artifact reviewer; this branch author
+is the explicitly nonblind second reviewer. Missing pre-switch access checks
+and class-name ambiguity are findings in these outputs only. Because Skill was
+never invoked, they do not establish defects in the specialist skill body.
+
+## 2026-10-13 readiness interpretation correction
+
+Fresh [official SDK skills documentation](https://code.claude.com/docs/en/agent-sdk/skills#confirm-skills-loaded) states that `init.skills` lists user-invocable skills with description metadata; model-only skills can be absent, and the list does not change with the invocation allowlist. Thus our exact-seven readiness result is the **observed user-invocable inventory**, not all model-visible content or permissions. The [skills contract](https://code.claude.com/docs/en/skills#skill-descriptions-are-cut-short) also permits names to remain while descriptions are omitted by budget. We did not measure exact rendered descriptions. This narrows the interpretation of registration; it does not change raw receipts, hashes, original TEST_ERROR stops, zero observed Skill calls, artifact scores or the no-adoption decision. See the [new research snapshot](../../../reports/2026-10-13-native-skill-routing/README.md).

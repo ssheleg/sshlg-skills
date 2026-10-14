@@ -1,0 +1,14 @@
+{
+  "status": "ADMITTED",
+  "admitted_at_utc": "2026-10-13T07:17:41.960410+00:00",
+  "runner_sha256": "8ef55b606650168a3e70dd074dec854d1553f425c8108ab8631420e35cf7b50c",
+  "source_sha256": "b37074ceb9202cf6f7c00fa60becb9676104c9969a37403aad2d40a1ef29555f",
+  "peer_sha256": "dd108e3b6751e3a6a6e8cfec414b8f9ae78a34fcc1fb867ff2c0a374f6a886c0",
+  "max_calls": 17,
+  "budget_usd": 1.4344608,
+  "independent_review": "PASS",
+  "authority": "Existing operator autonomous completion and normal Claude subscription diagnostics; same R27 USD4 envelope after native ABC2.4620616 and paired A0.1034776.",
+  "protocol_commit": "b1f66a1",
+  "max_cumulative_cli": 85,
+  "scope": "One explicitly reviewed repeat under blank-separator protocol plus16 unstarted tasks; no automatic retry/P2/adoption. Original A stays TEST_ERROR."
+}

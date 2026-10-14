@@ -1,0 +1,2941 @@
+{
+  "schema": "skill-search-native-run/1",
+  "status": "COMPLETED",
+  "calls": [
+    {
+      "phase": "readiness",
+      "index": 0,
+      "state": "FINISHED",
+      "prompt_sha256": "cda53799c658c0b2956e4c2c4c3e3e45c8f9c4da960ae5888ae210c64a208863",
+      "started_at_utc": "2026-10-13T06:19:14Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0173814,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 2125,
+        "cache_read_input_tokens": 1467,
+        "output_tokens": 4
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+      "final_result_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "cf6a9a71e95c50f9c11e515ebb7ec2dc0a889d1390beea815335cc64313519e3",
+          "text_sha256": "c2e3ac47f4a325469c1a2d5f117e463ec943c721986d5d9f09ac4540b7d80526",
+          "characters": 5
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3594,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "ddd74e0c297ddf294954df489126aabe6ee74f4a8079ef7de344f7fc1d30d21d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s14",
+      "repetition": 2,
+      "index": 1,
+      "state": "FINISHED",
+      "prompt_sha256": "6163834a16a631e19e793420dccd88e3778ee927e092db37488eac65f1f5a00e",
+      "started_at_utc": "2026-10-13T06:19:18Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0838332,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 8509,
+        "cache_read_input_tokens": 5826,
+        "output_tokens": 729
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:make-skill"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "9c9da9d9c813ea9871717bf92e73e6edefa98db5913ae11c09b647cfcc8f821d",
+      "final_result_sha256": "9c9da9d9c813ea9871717bf92e73e6edefa98db5913ae11c09b647cfcc8f821d",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "ee0ac00057094dcd8b8e169a29b29a12777f0b258c081443813c13ec699f1d4b",
+          "text_sha256": "9c9da9d9c813ea9871717bf92e73e6edefa98db5913ae11c09b647cfcc8f821d",
+          "characters": 1353
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 10771,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "79d06af33329d44ce87b9fa335651ca9fa730894ed2b57f89c19d7b14261a12e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s12",
+      "repetition": 0,
+      "index": 2,
+      "state": "FINISHED",
+      "prompt_sha256": "b67bf9c8b4422a2b143d969d285636c36d31459ba3eda64eab01a3cd1a23be39",
+      "started_at_utc": "2026-10-13T06:19:29Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.11417859999999999,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 9459,
+        "cache_read_input_tokens": 16573,
+        "output_tokens": 1758
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:make-skill"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "86631cb7bd5356718f3cb6633cc1e8e21d0c1d83cd66a645e8e3f959fd40569c",
+      "final_result_sha256": "6bf9cb0851f688e65de7efc7c0c0209a93e9b4b00c15cc9ea19cda7cbdf47eb7",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "4173599c63ad654f1fa8e678dd5496bcbc0a26fee63d149e80c2eab73e0c2cb5",
+          "text_sha256": "3afea49891733b0f7e61c9dc3612c3918aa784dff824486bcb4c2e86a966e511",
+          "characters": 2157
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "9d2de4a5b74c3098de08975306ff2672016d8e7e226dcf19c389150c996bcdbe",
+          "text_sha256": "6bf9cb0851f688e65de7efc7c0c0209a93e9b4b00c15cc9ea19cda7cbdf47eb7",
+          "characters": 2052
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 11723,
+      "request_count": 3,
+      "turns": 4,
+      "stdout_sha256": "060082955c7d6df59bc97e8df46bb4ffdc5e9d6992c5ed98c0a5420876b73c1a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s19",
+      "repetition": 2,
+      "index": 3,
+      "state": "FINISHED",
+      "prompt_sha256": "ea41a524d7a380ca6f0afffb377350737347e656557018c70ee1243381cd6395",
+      "started_at_utc": "2026-10-13T06:19:53Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.016612000000000002,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1304,
+        "cache_read_input_tokens": 2260,
+        "output_tokens": 286
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "35a60e26c2985fd481d19e56959f6da0da302c2150790731285fb30122882365",
+      "final_result_sha256": "35a60e26c2985fd481d19e56959f6da0da302c2150790731285fb30122882365",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "ba6f75edcae12188e910f10d9a22cbee44e9563887945921f19bd4eaeb2f1639",
+          "text_sha256": "35a60e26c2985fd481d19e56959f6da0da302c2150790731285fb30122882365",
+          "characters": 620
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3566,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "42eafc3eee2b6c7b87cb8bf7ef223038e49828d58a6d0751809d89fd288f7541",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s08",
+      "repetition": 2,
+      "index": 4,
+      "state": "FINISHED",
+      "prompt_sha256": "fdb28b12e62ce89dea2064d7d99d742edb8ed90b81354541bbde8ad7c4ebe4a3",
+      "started_at_utc": "2026-10-13T06:20:00Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.032683000000000004,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2495,
+        "cache_read_input_tokens": 5835,
+        "output_tokens": 577
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "7de6a2dd997828d21a93055b8da1972e4efa59c416e3a1725b00a2fd9972f088",
+      "final_result_sha256": "7de6a2dd997828d21a93055b8da1972e4efa59c416e3a1725b00a2fd9972f088",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "af19336dd2225e5d0c2539a7b68534aba5b2515b5b3557e2ea2295794e677a2b",
+          "text_sha256": "7de6a2dd997828d21a93055b8da1972e4efa59c416e3a1725b00a2fd9972f088",
+          "characters": 953
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4757,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "0031df7fa6a796edcf41eee6ad8f41fa1325fd6220cb668e6a7040645069af6f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s13",
+      "repetition": 2,
+      "index": 5,
+      "state": "FINISHED",
+      "prompt_sha256": "9f51196c6d7d0232e30cd13117d7e6abc9fe95d40b4b6dd1078958540b1c1081",
+      "started_at_utc": "2026-10-13T06:20:09Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0271134,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 1904,
+        "cache_read_input_tokens": 5827,
+        "output_tokens": 535
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-audit"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "c31be5d493c92755ca4843ee5ace112f6195162bcbdd31e984ab82bb37f2dec7",
+      "final_result_sha256": "c31be5d493c92755ca4843ee5ace112f6195162bcbdd31e984ab82bb37f2dec7",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "d78d0190061013852d6ef5fe54919e7c4ff76d2a13b2acb4a1599bd29fa12dab",
+          "text_sha256": "c31be5d493c92755ca4843ee5ace112f6195162bcbdd31e984ab82bb37f2dec7",
+          "characters": 1082
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4166,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "eec242654411f28b7a10c8c4281f23575c7edc9a0dc75233b21b619e53842fc0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s03",
+      "repetition": 1,
+      "index": 6,
+      "state": "FINISHED",
+      "prompt_sha256": "2a84b1a347f16f4b535f1bbcb798febb764ebc3999a96a8c2bc047275fbc8037",
+      "started_at_utc": "2026-10-13T06:20:19Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.032391,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2504,
+        "cache_read_input_tokens": 5815,
+        "output_tokens": 559
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "eecda97c86184d5c0cfe523ee50bc6db6dd948bd90aceebbba1953ff780dbbe8",
+      "final_result_sha256": "eecda97c86184d5c0cfe523ee50bc6db6dd948bd90aceebbba1953ff780dbbe8",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "b8956738132b6af13b579ac5ed75f0a542116e59d6489f00a8f734227db49d64",
+          "text_sha256": "eecda97c86184d5c0cfe523ee50bc6db6dd948bd90aceebbba1953ff780dbbe8",
+          "characters": 1090
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4766,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "cd10861d0566a803cbf232e65a2f78e832963e68231145fca746b8a758666b9f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s12",
+      "repetition": 1,
+      "index": 7,
+      "state": "FINISHED",
+      "prompt_sha256": "b67bf9c8b4422a2b143d969d285636c36d31459ba3eda64eab01a3cd1a23be39",
+      "started_at_utc": "2026-10-13T06:20:29Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.11181660000000002,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 9197,
+        "cache_read_input_tokens": 16843,
+        "output_tokens": 1742
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:make-skill"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "4787a6d264d5fc3cf6e59963d528cb8a50ef595ceaf93f37134e97740ba069c4",
+      "final_result_sha256": "f32fed8bc96de74991c7ae7462855a60dceb6577361b4b1dc6a33240d944eac3",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "d1da33df539c7c3f1e27a85e94343cc5a630c141ce6eea12a590577f832fc2f3",
+          "text_sha256": "cf673bdf9517c90df6ece4efcaef70f3ed495390bb58c3a2c17a0d1126c30fc6",
+          "characters": 2324
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "bca2cc8ca976c47a28ab70af728fa7523322e368df57531ffc8e9d6f4daea671",
+          "text_sha256": "f32fed8bc96de74991c7ae7462855a60dceb6577361b4b1dc6a33240d944eac3",
+          "characters": 1984
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 11727,
+      "request_count": 3,
+      "turns": 4,
+      "stdout_sha256": "278267e9067577ae350e7296afc249a639df3bc0007d435c5386cede4fe1b038",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s13",
+      "repetition": 0,
+      "index": 8,
+      "state": "FINISHED",
+      "prompt_sha256": "9f51196c6d7d0232e30cd13117d7e6abc9fe95d40b4b6dd1078958540b1c1081",
+      "started_at_utc": "2026-10-13T06:20:54Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.024703799999999998,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 1631,
+        "cache_read_input_tokens": 6099,
+        "output_tokens": 521
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-audit"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "deab00082b4ed51d5fe6b5e5f0c2d3f81702ca94ac1c8844fbb73117dc1e8eb6",
+      "final_result_sha256": "deab00082b4ed51d5fe6b5e5f0c2d3f81702ca94ac1c8844fbb73117dc1e8eb6",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "82c83e63d1f88a39c8dedd93046477442bf406eedfa7a6f8f68c859fe2f8efb5",
+          "text_sha256": "deab00082b4ed51d5fe6b5e5f0c2d3f81702ca94ac1c8844fbb73117dc1e8eb6",
+          "characters": 1091
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4166,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "41ad2c040870e6789219adb478d430f79321011bde0c032faa5e48a52a3c69cf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s18",
+      "repetition": 0,
+      "index": 9,
+      "state": "FINISHED",
+      "prompt_sha256": "ed430c9f132495f791784578a49a6820d96a8221a2f8218b70c7ff250515382d",
+      "started_at_utc": "2026-10-13T06:21:03Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.01312,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1300,
+        "cache_read_input_tokens": 2260,
+        "output_tokens": 113
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "253d4282bd0e2b99d052d0e06bf124f3b26554026b4eb272bb8ee059a3074a72",
+      "final_result_sha256": "253d4282bd0e2b99d052d0e06bf124f3b26554026b4eb272bb8ee059a3074a72",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "39f8a62b75c8c689ed8cd7d21973ab05de1fb88e39f514ae7439c8f6c87e407c",
+          "text_sha256": "253d4282bd0e2b99d052d0e06bf124f3b26554026b4eb272bb8ee059a3074a72",
+          "characters": 161
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3562,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "3e7da5df9b5b6e99b17fc03984dff01e3ae62860cb5e23cba1a53f37b4e07c33",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s14",
+      "repetition": 1,
+      "index": 10,
+      "state": "FINISHED",
+      "prompt_sha256": "6163834a16a631e19e793420dccd88e3778ee927e092db37488eac65f1f5a00e",
+      "started_at_utc": "2026-10-13T06:21:08Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.09955860000000001,
+      "usage": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 9155,
+        "cache_read_input_tokens": 16873,
+        "output_tokens": 1146
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:make-skill",
+          "make-skill:skill-audit"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "fe7651fa9ced54c2a6b4726cc62466e1710e026bbf7cfd5ae45cc0a8f5c95440",
+      "final_result_sha256": "fe7651fa9ced54c2a6b4726cc62466e1710e026bbf7cfd5ae45cc0a8f5c95440",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "352528f705b4d6d5c6f3bedad33eddeed89b88846662a98733518f12f424e273",
+          "text_sha256": "fe7651fa9ced54c2a6b4726cc62466e1710e026bbf7cfd5ae45cc0a8f5c95440",
+          "characters": 1616
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 11691,
+      "request_count": 3,
+      "turns": 5,
+      "stdout_sha256": "52c638b89f4cfc1dc9c0470b7090b65f445a00ac9b8933890083a10268fa93f2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s18",
+      "repetition": 2,
+      "index": 11,
+      "state": "FINISHED",
+      "prompt_sha256": "ed430c9f132495f791784578a49a6820d96a8221a2f8218b70c7ff250515382d",
+      "started_at_utc": "2026-10-13T06:21:25Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.012229199999999999,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1032,
+        "cache_read_input_tokens": 2526,
+        "output_tokens": 173
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "f038e7bef7a86ee25c3cf237ee4d42a47385e61e28b5ca1f8ed072fdaa6be0c9",
+      "final_result_sha256": "f038e7bef7a86ee25c3cf237ee4d42a47385e61e28b5ca1f8ed072fdaa6be0c9",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "6077957b9c8b8a8d0242877b5a3f00c29ea0d568e8b2e2b745313d4471bc2746",
+          "text_sha256": "f038e7bef7a86ee25c3cf237ee4d42a47385e61e28b5ca1f8ed072fdaa6be0c9",
+          "characters": 320
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3560,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "a4630b2ab6238619e5b7c42a3823145605e663206b32db3401549724cde38865",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s03",
+      "repetition": 0,
+      "index": 12,
+      "state": "FINISHED",
+      "prompt_sha256": "2a84b1a347f16f4b535f1bbcb798febb764ebc3999a96a8c2bc047275fbc8037",
+      "started_at_utc": "2026-10-13T06:21:30Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0297076,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2232,
+        "cache_read_input_tokens": 6078,
+        "output_tokens": 531
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "131fa1a2dd4995d7cc5168ad065200ef8a803c074aac270997a27770faadf971",
+      "final_result_sha256": "eb4e614b5d15204cdc85a9473f7272ad8954f622b56687b3e2b1e547aba13d0d",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "7f7ed20d9aea796ce51cafc61b8ee4503d9bbf62e593b850fb5f811dad53e7ba",
+          "text_sha256": "34c86d5da0b1991b9a9222cc3d1d0f649b4f69b70d37ee134c8079346cc8ff87",
+          "characters": 55
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "9de7bdedfe384853a49c5dc7ba19d121192fb38c1c4c07ef6419959691832c8c",
+          "text_sha256": "eb4e614b5d15204cdc85a9473f7272ad8954f622b56687b3e2b1e547aba13d0d",
+          "characters": 1118
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4757,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "ba82df4c89a0f991d235180b35c2d70274edce0a547562c6c920cd59add9505b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s15",
+      "repetition": 2,
+      "index": 13,
+      "state": "FINISHED",
+      "prompt_sha256": "ec00728cc5125ded42b17bc4b802f17a53382cea94cff723a0ed1e06cb5605f6",
+      "started_at_utc": "2026-10-13T06:21:40Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.014096000000000001,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1292,
+        "cache_read_input_tokens": 2260,
+        "output_tokens": 165
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "8fe1c6b8da64c599b6827129ce47560059760e0790116e58f6955617146236a9",
+      "final_result_sha256": "8fe1c6b8da64c599b6827129ce47560059760e0790116e58f6955617146236a9",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "91c9fc3741df9da2215da18a4dccdb8f51e6f145691276ff099fc24efeda382a",
+          "text_sha256": "8fe1c6b8da64c599b6827129ce47560059760e0790116e58f6955617146236a9",
+          "characters": 399
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3554,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "8f31c9bd15ad40e03cb0d3d699fa0af26d78af72fd63f67e0ab6f51573bbfa93",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s07",
+      "repetition": 0,
+      "index": 14,
+      "state": "FINISHED",
+      "prompt_sha256": "6ae5f24c2c67762f9ef7991f4601e092542c381674d8f5e203fc88cbf131f6f2",
+      "started_at_utc": "2026-10-13T06:21:45Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0344852,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2538,
+        "cache_read_input_tokens": 5826,
+        "output_tokens": 650
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "bca031dbca4958c5602844379748c18ba2a1c7c7dd86f8d6c84badb8f80ebb9a",
+      "final_result_sha256": "bca031dbca4958c5602844379748c18ba2a1c7c7dd86f8d6c84badb8f80ebb9a",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "9199b393b1f16cbee98f1d2e14d719b63423bf05fd1bbdc3cca77b18cebed642",
+          "text_sha256": "bca031dbca4958c5602844379748c18ba2a1c7c7dd86f8d6c84badb8f80ebb9a",
+          "characters": 1326
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4800,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "1d5820e240f4fc1ef38e04affe17e438ba913959b4451ebb92c892c5b6e21c80",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s13",
+      "repetition": 1,
+      "index": 15,
+      "state": "FINISHED",
+      "prompt_sha256": "9f51196c6d7d0232e30cd13117d7e6abc9fe95d40b4b6dd1078958540b1c1081",
+      "started_at_utc": "2026-10-13T06:21:55Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0258154,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 1630,
+        "cache_read_input_tokens": 6097,
+        "output_tokens": 577
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-audit"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "e906a639cef6cce49bd33e48416555671d78a8ca9aed58f2fe0bd79a51518523",
+      "final_result_sha256": "e906a639cef6cce49bd33e48416555671d78a8ca9aed58f2fe0bd79a51518523",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "c7a49e807a86669c34f2b804a86e4b61d6e5785301137e018eadc8f5b043c760",
+          "text_sha256": "e906a639cef6cce49bd33e48416555671d78a8ca9aed58f2fe0bd79a51518523",
+          "characters": 1182
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4165,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "7e3f83027f9777d3e54f70656c769b4d4c20428b422b671d72d7e8dcf93e903b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s19",
+      "repetition": 0,
+      "index": 16,
+      "state": "FINISHED",
+      "prompt_sha256": "ea41a524d7a380ca6f0afffb377350737347e656557018c70ee1243381cd6395",
+      "started_at_utc": "2026-10-13T06:22:06Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.016558200000000002,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1033,
+        "cache_read_input_tokens": 2531,
+        "output_tokens": 389
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "8748fa36442767226224d3b7931f34ddf4a4e8a8a1a59ef90f8a910dfee44a49",
+      "final_result_sha256": "8748fa36442767226224d3b7931f34ddf4a4e8a8a1a59ef90f8a910dfee44a49",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "c94ca85d012c14a99c231ef84697d44e3906a414aefbf7247f052774ebd2aeb4",
+          "text_sha256": "8748fa36442767226224d3b7931f34ddf4a4e8a8a1a59ef90f8a910dfee44a49",
+          "characters": 834
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3566,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "6ed1fcadfc89797a3cedabbb36661f22144db65a869ca8cd96d609628bc74bb2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s10",
+      "repetition": 1,
+      "index": 17,
+      "state": "FINISHED",
+      "prompt_sha256": "0247c4f78e813c0dec3f4c99f0e05c19e3a612c601ec232a1512cbf190439856",
+      "started_at_utc": "2026-10-13T06:22:14Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0349358,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2552,
+        "cache_read_input_tokens": 5819,
+        "output_tokens": 667
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "98f0684b16be08c7426e100bc493e65934149906ec9516bfea3c6c2e1693550a",
+      "final_result_sha256": "98f0684b16be08c7426e100bc493e65934149906ec9516bfea3c6c2e1693550a",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "69010679934549a2fcb1b37e1f1588a7345ca0fe35db046157d0e14de260531a",
+          "text_sha256": "98f0684b16be08c7426e100bc493e65934149906ec9516bfea3c6c2e1693550a",
+          "characters": 1127
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4814,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "48b88d22c8130fc14c04aeea8e1539e64cbcca0b5e19eb811ea227314116b30e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s09",
+      "repetition": 1,
+      "index": 18,
+      "state": "FINISHED",
+      "prompt_sha256": "2c0587a2d8646e0ccd55e3bc6ac1991a05876b950211508dcaeb32ca3258b54c",
+      "started_at_utc": "2026-10-13T06:22:25Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0590746,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 3578,
+        "cache_read_input_tokens": 10693,
+        "output_tokens": 1414
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "55543bb088de6406e4a2fdbbcc3d5bf4f3f8757c7d20dc477614068120ceccdd",
+      "final_result_sha256": "79071c11b158dd6653838e02ad13e9923267cf3911181181737d3f6888c09908",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "67a0340a399040ed35dd60aa29371e8ef656d6a46d7acadda21094bbb38b72b0",
+          "text_sha256": "3edb6ac394f301a7e6d0df198f213d6dc707c7a226b8148a7e35bb4bbca8a3d9",
+          "characters": 2214
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "d45a158806e5ba83aa9370b354f0d4761ebb036c78d8be284a3beed4ece5b643",
+          "text_sha256": "79071c11b158dd6653838e02ad13e9923267cf3911181181737d3f6888c09908",
+          "characters": 794
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 5842,
+      "request_count": 3,
+      "turns": 4,
+      "stdout_sha256": "6b13b6be078deb46c99315e5cb36f17237f3683f5ca1ba68360910e9f2a687df",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s06",
+      "repetition": 2,
+      "index": 19,
+      "state": "FINISHED",
+      "prompt_sha256": "b6ec6a73fe6309e0ed0848ffc08a5cd8828f93e3052b81a39cc698b69b71c5f7",
+      "started_at_utc": "2026-10-13T06:22:42Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0323762,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2502,
+        "cache_read_input_tokens": 5821,
+        "output_tokens": 559
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "0fa64bce65317d4f4aa59a4f7237a75c4e1b5fc11b50ec3217c94fbc1f851d1d",
+      "final_result_sha256": "0fa64bce65317d4f4aa59a4f7237a75c4e1b5fc11b50ec3217c94fbc1f851d1d",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "ea3478751ae830897ef3af5f2519c0e3fa62b902a0a68a2a0cffac722a29f0d1",
+          "text_sha256": "0fa64bce65317d4f4aa59a4f7237a75c4e1b5fc11b50ec3217c94fbc1f851d1d",
+          "characters": 912
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4764,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "4757b6e2787c248475ddcceb0b9bee2a8c1ba86edfef3431fd6ef27c704d87c0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s04",
+      "repetition": 1,
+      "index": 20,
+      "state": "FINISHED",
+      "prompt_sha256": "51952ad16950145c3a579eb339e33044c1179188a00a77479868c1f2bdfbab7c",
+      "started_at_utc": "2026-10-13T06:22:51Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0327864,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2523,
+        "cache_read_input_tokens": 5832,
+        "output_tokens": 571
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "50547848f7ac607a928c30c42b0b75f7716d2bbc45de6151526eaa3a7a21741b",
+      "final_result_sha256": "50547848f7ac607a928c30c42b0b75f7716d2bbc45de6151526eaa3a7a21741b",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "cd1e3134fce851f35bcae695c1070e6ecde8ff11c3377c3bd3caa3244dbba1c1",
+          "text_sha256": "50547848f7ac607a928c30c42b0b75f7716d2bbc45de6151526eaa3a7a21741b",
+          "characters": 980
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4785,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "880d9cc74faa880a7255b1f0e5d93164c8f3d2f5b1d3c7b02df55c867d8542ef",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s02",
+      "repetition": 0,
+      "index": 21,
+      "state": "FINISHED",
+      "prompt_sha256": "54d678a4507be94be8fbb2815dae4b6938e4fbfe4c77b3b714ba2d1e290b3491",
+      "started_at_utc": "2026-10-13T06:23:04Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.03298720000000001,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2491,
+        "cache_read_input_tokens": 5816,
+        "output_tokens": 594
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "cdd4b357d0200e19efbf3572b4f0b19ba8d1d1967a1520cf616102e9c09eed2f",
+      "final_result_sha256": "cdd4b357d0200e19efbf3572b4f0b19ba8d1d1967a1520cf616102e9c09eed2f",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "84135a5c6f61ee05ed45aa83469f564897771847698b0130cfb50fb779aaff67",
+          "text_sha256": "cdd4b357d0200e19efbf3572b4f0b19ba8d1d1967a1520cf616102e9c09eed2f",
+          "characters": 1027
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4753,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "dc0560f1ee6cd56dafaa5878a65c0be8da177cd96ec5330f5bb8c92807570e86",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s15",
+      "repetition": 0,
+      "index": 22,
+      "state": "FINISHED",
+      "prompt_sha256": "ec00728cc5125ded42b17bc4b802f17a53382cea94cff723a0ed1e06cb5605f6",
+      "started_at_utc": "2026-10-13T06:23:15Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0098958,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1033,
+        "cache_read_input_tokens": 2519,
+        "output_tokens": 56
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "51a1971b67ea7496e3ed6c8da15fbb19d1c827a9abec1d6dedecdd122b490705",
+      "final_result_sha256": "51a1971b67ea7496e3ed6c8da15fbb19d1c827a9abec1d6dedecdd122b490705",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "46c2ab0bcc9ca2815c246885b2796aaa1d6cf46ccdfca3d7222183287f7ce95e",
+          "text_sha256": "51a1971b67ea7496e3ed6c8da15fbb19d1c827a9abec1d6dedecdd122b490705",
+          "characters": 200
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3554,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "e6ca083665d12c933d90cb83089222d7effbd905803fbaa4934d6129a5be2e77",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s07",
+      "repetition": 2,
+      "index": 23,
+      "state": "FINISHED",
+      "prompt_sha256": "6ae5f24c2c67762f9ef7991f4601e092542c381674d8f5e203fc88cbf131f6f2",
+      "started_at_utc": "2026-10-13T06:23:20Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0319362,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2285,
+        "cache_read_input_tokens": 6101,
+        "output_tokens": 621
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "6d2495c8a6f77cb8c6f7b989749b8963f3abcdc4140303f63df17d69c9afca48",
+      "final_result_sha256": "6d2495c8a6f77cb8c6f7b989749b8963f3abcdc4140303f63df17d69c9afca48",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "606c11e2d829474418cf3d25d44496683020e6ecd5b26c1dc85cc80c7757e3b0",
+          "text_sha256": "6d2495c8a6f77cb8c6f7b989749b8963f3abcdc4140303f63df17d69c9afca48",
+          "characters": 1195
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4821,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "0540ce209aea77ef481d147ebfa35aafa25f63760b2f0f87d1ac7899a272ba64",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s09",
+      "repetition": 0,
+      "index": 24,
+      "state": "FINISHED",
+      "prompt_sha256": "2c0587a2d8646e0ccd55e3bc6ac1991a05876b950211508dcaeb32ca3258b54c",
+      "started_at_utc": "2026-10-13T06:23:30Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.047965,
+      "usage": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 1998,
+        "cache_read_input_tokens": 6085,
+        "output_tokens": 1537
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "fd52b802de1a4ba9a17e4da8a73f4cc5fe6723d35d9fb248e2e31b29913bb886",
+      "final_result_sha256": "3f0007efd705d38a39fed8d1c5029d1cefefb96ad13ae15560b426f01fca6834",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "cf15f752c107d9bdb91a6b4e41a4c4acc1a84b875f05554e0d0fdbdfa102d9da",
+          "text_sha256": "898ea5dc2bfdaba03c61e3ec2852b230412fee22f5cefbff89685e5f23aae57c",
+          "characters": 1889
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "cd102a2463dd19b15ebbdc0ce0896c9205506977b38054ad93ed08d283198d0b",
+          "text_sha256": "3f0007efd705d38a39fed8d1c5029d1cefefb96ad13ae15560b426f01fca6834",
+          "characters": 1731
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4528,
+      "request_count": 2,
+      "turns": 2,
+      "stdout_sha256": "cfb8e2e8ab17f0bccbce0e12c3d03e557e20d53436d4f243cc165149cf6b1bb3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s05",
+      "repetition": 1,
+      "index": 25,
+      "state": "FINISHED",
+      "prompt_sha256": "5b35b67035804e152960e4e5be06e1fb0a56e9a9c4139136c6c2be520178c517",
+      "started_at_utc": "2026-10-13T06:23:47Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0311788,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2475,
+        "cache_read_input_tokens": 5814,
+        "output_tokens": 510
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "64f1a62ec1f9d6819ceb9f75b80ad6fec8e2f5ddbf9f5c4dcc87fdf12a7e8fd0",
+      "final_result_sha256": "64f1a62ec1f9d6819ceb9f75b80ad6fec8e2f5ddbf9f5c4dcc87fdf12a7e8fd0",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "2b5da1f7c34f4ead3db59e57181fff36a23f276ed8de0d1d302fca5dd0e8392f",
+          "text_sha256": "64f1a62ec1f9d6819ceb9f75b80ad6fec8e2f5ddbf9f5c4dcc87fdf12a7e8fd0",
+          "characters": 1056
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4737,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "a5c8d67721b4d111b3c9a518b89b419778f0e1888d423d1fd2e54ac5d5d234fc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s05",
+      "repetition": 0,
+      "index": 26,
+      "state": "FINISHED",
+      "prompt_sha256": "5b35b67035804e152960e4e5be06e1fb0a56e9a9c4139136c6c2be520178c517",
+      "started_at_utc": "2026-10-13T06:23:56Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.030539199999999996,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2211,
+        "cache_read_input_tokens": 6076,
+        "output_tokens": 581
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "2c2bfb4237a8adcc8a957cb2780c1b679e3759c616225b7c2654bae4cce4bf5b",
+      "final_result_sha256": "2c2bfb4237a8adcc8a957cb2780c1b679e3759c616225b7c2654bae4cce4bf5b",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "cfefdc957205ad0b203823f412582e1afb8a1a09787b233baa5204f94b324eda",
+          "text_sha256": "2c2bfb4237a8adcc8a957cb2780c1b679e3759c616225b7c2654bae4cce4bf5b",
+          "characters": 1184
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4735,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "80df8179af48117857ac6ea90aa3221fcf06fde26e4755a77c03c64f8e4d645c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s11",
+      "repetition": 1,
+      "index": 27,
+      "state": "FINISHED",
+      "prompt_sha256": "f1448eb61cd914dc2f6a89ac5d5e9ed07ed94e5bcb5b3b26c7a886d2b58cca06",
+      "started_at_utc": "2026-10-13T06:24:07Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0859186,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 8475,
+        "cache_read_input_tokens": 5813,
+        "output_tokens": 847
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:make-skill"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "0156d69c490d5f87477d37c0fab1d6599eb2e8c2d108eed685ed6d88b6bd9f93",
+      "final_result_sha256": "0156d69c490d5f87477d37c0fab1d6599eb2e8c2d108eed685ed6d88b6bd9f93",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "c9e45c31086f81eca0f96ec0992d8e26ea6584068ab86e3f56e396dbe7ec4b51",
+          "text_sha256": "0156d69c490d5f87477d37c0fab1d6599eb2e8c2d108eed685ed6d88b6bd9f93",
+          "characters": 1883
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 10737,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "e2036844ee8df9c1e23fdd9df891b9c37c01206ced6ab2e345cfe64ed18152a4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s02",
+      "repetition": 1,
+      "index": 28,
+      "state": "FINISHED",
+      "prompt_sha256": "54d678a4507be94be8fbb2815dae4b6938e4fbfe4c77b3b714ba2d1e290b3491",
+      "started_at_utc": "2026-10-13T06:24:21Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.030048200000000004,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2227,
+        "cache_read_input_tokens": 6081,
+        "output_tokens": 550
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "7046ac513f32b51fa3617f6f16b0161d1bc8fdcc042f120edba7c3c6868242d4",
+      "final_result_sha256": "7046ac513f32b51fa3617f6f16b0161d1bc8fdcc042f120edba7c3c6868242d4",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "6068004a4c5cdf858633327727145b49833a6e074b488ac06167e1a7ddee51d4",
+          "text_sha256": "7046ac513f32b51fa3617f6f16b0161d1bc8fdcc042f120edba7c3c6868242d4",
+          "characters": 879
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4753,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "4d5182624ed8da5832cd7c7864f4e4e29abc282f42f555dcb2b9066c72972eb4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s01",
+      "repetition": 1,
+      "index": 29,
+      "state": "FINISHED",
+      "prompt_sha256": "23bf0d4cd201ebce4b644f6d99c3c1fc29361429f3680d59bf304ca69cbff5ac",
+      "started_at_utc": "2026-10-13T06:24:31Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.033059599999999995,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2510,
+        "cache_read_input_tokens": 5818,
+        "output_tokens": 590
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "01d702d7f237d190c087ad517bc9acb0da1033a9b2085d0a687f88a2f3376961",
+      "final_result_sha256": "01d702d7f237d190c087ad517bc9acb0da1033a9b2085d0a687f88a2f3376961",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "26149806f3defe9f86b49d7af19d2184199e385ddd6b56e75db5bd60d86611e7",
+          "text_sha256": "01d702d7f237d190c087ad517bc9acb0da1033a9b2085d0a687f88a2f3376961",
+          "characters": 1115
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4772,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "acfc317f1b770ec78da60f63551ed377951ec3e3be8d1d6f455b52e83db85186",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s03",
+      "repetition": 2,
+      "index": 30,
+      "state": "FINISHED",
+      "prompt_sha256": "2a84b1a347f16f4b535f1bbcb798febb764ebc3999a96a8c2bc047275fbc8037",
+      "started_at_utc": "2026-10-13T06:24:41Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.029796,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2238,
+        "cache_read_input_tokens": 6080,
+        "output_tokens": 533
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "2263f3d8816a0ff8117f2aff8edf7549e365d2900dabd7775f5c1404920512b9",
+      "final_result_sha256": "2263f3d8816a0ff8117f2aff8edf7549e365d2900dabd7775f5c1404920512b9",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "bdabe306b54fb54c826b8539e0b37b97ce697ecbea613f87e143b1fe876614c4",
+          "text_sha256": "2263f3d8816a0ff8117f2aff8edf7549e365d2900dabd7775f5c1404920512b9",
+          "characters": 998
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4763,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "59350667f476ea3c5f50d2b577c887a9af7ef98c823df10fb2326d490d2464f0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s01",
+      "repetition": 0,
+      "index": 31,
+      "state": "FINISHED",
+      "prompt_sha256": "23bf0d4cd201ebce4b644f6d99c3c1fc29361429f3680d59bf304ca69cbff5ac",
+      "started_at_utc": "2026-10-13T06:24:50Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.031175999999999995,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2238,
+        "cache_read_input_tokens": 6080,
+        "output_tokens": 602
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "98e1b1e2220102f62ba7b0ff37020f8fe0df48f1138267cff6bb2ea9f5957c6a",
+      "final_result_sha256": "98e1b1e2220102f62ba7b0ff37020f8fe0df48f1138267cff6bb2ea9f5957c6a",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "d4dae9ec12a9183d696fb3c7993cbcd87431651782e59edc87873f0b9e9cb5bb",
+          "text_sha256": "98e1b1e2220102f62ba7b0ff37020f8fe0df48f1138267cff6bb2ea9f5957c6a",
+          "characters": 1153
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4764,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "e5395853044bd8133a505f506d58a1b96dd71e4148a83a1ebbc20787252de056",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s16",
+      "repetition": 0,
+      "index": 32,
+      "state": "FINISHED",
+      "prompt_sha256": "dc69210a5e6eb478965fa5bba7827b0aa2fe1a2d6504826d27f97c45fd6db028",
+      "started_at_utc": "2026-10-13T06:25:00Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0438552,
+      "usage": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 2261,
+        "cache_read_input_tokens": 5816,
+        "output_tokens": 1229
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "ddb67a5f52620449b92adc694f17753e9fe86d09180f3104468ef2eb751b6466",
+      "final_result_sha256": "f21bcccfcdfaa5be3950c5dfe2df5f938dd2e882539f395d56c0755e4c2987c2",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "f69aa143bd2c578ebdb8dceb27caecf42c31f0017f9a0e600a469b1794190011",
+          "text_sha256": "a7baf52036804cef6f873d815815a03f51ac80cd4b7493c845073f24878f9482",
+          "characters": 1926
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "7d0505f9a68f59a0c1927ad25eade25a4b245697ee9f7acd53eb32a5684a5ff6",
+          "text_sha256": "f21bcccfcdfaa5be3950c5dfe2df5f938dd2e882539f395d56c0755e4c2987c2",
+          "characters": 764
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4525,
+      "request_count": 2,
+      "turns": 2,
+      "stdout_sha256": "ea167f4155bca668f41799ba0d0a8ba91f7862de4bca15d760620465aa965a75",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s12",
+      "repetition": 2,
+      "index": 33,
+      "state": "FINISHED",
+      "prompt_sha256": "b67bf9c8b4422a2b143d969d285636c36d31459ba3eda64eab01a3cd1a23be39",
+      "started_at_utc": "2026-10-13T06:25:16Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.11070739999999998,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 9191,
+        "cache_read_input_tokens": 16837,
+        "output_tokens": 1689
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:make-skill"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "6b0ce12e18bbce5a12d6297490306bbe3bde564ec8f0ab5b65ef733952c98397",
+      "final_result_sha256": "aeb69ec27c63dcc54716bfa858aea45c71b486643403e0a27309e259d1d7ac9a",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "d4e7d0fae07f306a4468a00ee541624e8a55735cbfbe053e6642e44cdee4160f",
+          "text_sha256": "400b79c4ea9f8d0cb0eb3bf3daa63ac9a4809646c9049ddb1ec09180c1974260",
+          "characters": 2090
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "1ee9b85488c0fbc4ba11d9b803d190d5213c1d388717b4b1fa55c59e9713cde3",
+          "text_sha256": "aeb69ec27c63dcc54716bfa858aea45c71b486643403e0a27309e259d1d7ac9a",
+          "characters": 1723
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 11721,
+      "request_count": 3,
+      "turns": 4,
+      "stdout_sha256": "71b240da0a633a62397ae4d3b87ebbe5ffd0a041fb652964879a36e294d78f51",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s09",
+      "repetition": 2,
+      "index": 34,
+      "state": "FINISHED",
+      "prompt_sha256": "2c0587a2d8646e0ccd55e3bc6ac1991a05876b950211508dcaeb32ca3258b54c",
+      "started_at_utc": "2026-10-13T06:25:40Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0658884,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 3274,
+        "cache_read_input_tokens": 10922,
+        "output_tokens": 1874
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "d961fd0e46a2a3c1478104ec0f9cd138414fbf34ce358b96c3076ca2437a79c0",
+      "final_result_sha256": "afe8d5734e9fb8e0ccef6d7ebeb0271363280e66d018b75bd2f2f7733d1d3cfb",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "fbdf94febf32f4e8cd0684f27f98320714cb4ef14e4f88b59115fdd976d63a7a",
+          "text_sha256": "f4af6f6deda9114c5ed69d484d4e2deaaeaaf882adfa665a93b1dbbe06fd654a",
+          "characters": 2015
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "ae51ca36980e1318a97da658adf4bd55d80d20157f1699e5a61cecb6e3ab30b7",
+          "text_sha256": "afe8d5734e9fb8e0ccef6d7ebeb0271363280e66d018b75bd2f2f7733d1d3cfb",
+          "characters": 2292
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 5804,
+      "request_count": 3,
+      "turns": 4,
+      "stdout_sha256": "4b11150748f74084eab6ca160760bb96d681b33cb1b571fceb7fcbb41ec06f81",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s10",
+      "repetition": 2,
+      "index": 35,
+      "state": "FINISHED",
+      "prompt_sha256": "0247c4f78e813c0dec3f4c99f0e05c19e3a612c601ec232a1512cbf190439856",
+      "started_at_utc": "2026-10-13T06:26:01Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0327484,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2262,
+        "cache_read_input_tokens": 6082,
+        "output_tokens": 671
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "cb563a07bc2eee69894279811f4e2eab986b75d19423041148934dcd0bbfe527",
+      "final_result_sha256": "cb563a07bc2eee69894279811f4e2eab986b75d19423041148934dcd0bbfe527",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "649b1ace4df995b0d47a33a66d1d2281f5a81a28c0e39213e299076f91d32681",
+          "text_sha256": "cb563a07bc2eee69894279811f4e2eab986b75d19423041148934dcd0bbfe527",
+          "characters": 1188
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4789,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "a37f819edbe827af3f550de1870f4d3b0d8b0d17e9ec3836ae59a5774b3d9de0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s17",
+      "repetition": 1,
+      "index": 36,
+      "state": "FINISHED",
+      "prompt_sha256": "d2c461d44b5b0bda8471c420193a072bccccc015bca6774bb9c3d572ccb03a34",
+      "started_at_utc": "2026-10-13T06:26:12Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.014608,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1291,
+        "cache_read_input_tokens": 2260,
+        "output_tokens": 191
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "d3a01613730a4a03f331bb0d21ad0a862c4a101734da537320dfc5c9cefc08aa",
+      "final_result_sha256": "d3a01613730a4a03f331bb0d21ad0a862c4a101734da537320dfc5c9cefc08aa",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "b8bd9ec4a8edd67bd2d7c284ebfbbb87cb311f7c5c90dbcfe5e1a4b34cd58184",
+          "text_sha256": "d3a01613730a4a03f331bb0d21ad0a862c4a101734da537320dfc5c9cefc08aa",
+          "characters": 354
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3553,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "f02b425361a5c440671ae14061cf40c38d9a4ed631186ace49514e792f23eba2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s16",
+      "repetition": 1,
+      "index": 37,
+      "state": "FINISHED",
+      "prompt_sha256": "dc69210a5e6eb478965fa5bba7827b0aa2fe1a2d6504826d27f97c45fd6db028",
+      "started_at_utc": "2026-10-13T06:26:18Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.039003800000000005,
+      "usage": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 1998,
+        "cache_read_input_tokens": 6079,
+        "output_tokens": 1089
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "b1b5d813bf7941307b9855875fb09ebc78d0b32772ed520d12f143d189dd5c46",
+      "final_result_sha256": "9d23697ef365794a4243ac9118963a03aa89b26f6efdc41475d89d5e4236069c",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "37e9c4f033571e9772a8475409458e6477c936a71d82a96828b0a8cab39f187b",
+          "text_sha256": "1cd22d7f7269bed49a13891f46769a5ff47f66b0afac2e2a857f5b6a686d48dc",
+          "characters": 2004
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "17df0575dcf2349c40cdcbb5cf61eac7e7923a831c322e0a84e2ee322edfd47f",
+          "text_sha256": "9d23697ef365794a4243ac9118963a03aa89b26f6efdc41475d89d5e4236069c",
+          "characters": 448
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4525,
+      "request_count": 2,
+      "turns": 2,
+      "stdout_sha256": "91893363c166cf67d6481435e48f5f950ded4f1f2f0aea564ee5dae3b5db52a0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s14",
+      "repetition": 0,
+      "index": 38,
+      "state": "FINISHED",
+      "prompt_sha256": "6163834a16a631e19e793420dccd88e3778ee927e092db37488eac65f1f5a00e",
+      "started_at_utc": "2026-10-13T06:26:33Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0942862,
+      "usage": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 8976,
+        "cache_read_input_tokens": 16871,
+        "output_tokens": 954
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:make-skill",
+          "make-skill:skill-audit"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "113eabd0e906a15fbb31abee15a5c4784a8971212ce3ef04314728beb6cb4d7b",
+      "final_result_sha256": "113eabd0e906a15fbb31abee15a5c4784a8971212ce3ef04314728beb6cb4d7b",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "00496c329e41721b3cd8bba4b9978980fd17b351fe7f9012a8579663ad965b15",
+          "text_sha256": "113eabd0e906a15fbb31abee15a5c4784a8971212ce3ef04314728beb6cb4d7b",
+          "characters": 1419
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 11512,
+      "request_count": 3,
+      "turns": 5,
+      "stdout_sha256": "5b6b46a1bf3a0c4b40c77bfbbb854a694b12bd3c5b6339a4e059417e5ae4af79",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s10",
+      "repetition": 0,
+      "index": 39,
+      "state": "FINISHED",
+      "prompt_sha256": "0247c4f78e813c0dec3f4c99f0e05c19e3a612c601ec232a1512cbf190439856",
+      "started_at_utc": "2026-10-13T06:26:47Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0349086,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2277,
+        "cache_read_input_tokens": 6083,
+        "output_tokens": 773
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "ae86890925df17d82f002e3bfd47b73fb247214d218dac6c397e504a0f510598",
+      "final_result_sha256": "ae86890925df17d82f002e3bfd47b73fb247214d218dac6c397e504a0f510598",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "88a0b7a73e195fdc43064c8d7411c5d09d80c09b0e119fc3741e03734692f9f0",
+          "text_sha256": "ae86890925df17d82f002e3bfd47b73fb247214d218dac6c397e504a0f510598",
+          "characters": 1306
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4804,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "b25c09b32e7fd049f763583840489256cf81c08a9c1cf86e5974e610b1319988",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s16",
+      "repetition": 2,
+      "index": 40,
+      "state": "FINISHED",
+      "prompt_sha256": "dc69210a5e6eb478965fa5bba7827b0aa2fe1a2d6504826d27f97c45fd6db028",
+      "started_at_utc": "2026-10-13T06:26:58Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.040092,
+      "usage": {
+        "input_tokens": 6,
+        "cache_creation_input_tokens": 1999,
+        "cache_read_input_tokens": 6080,
+        "output_tokens": 1143
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "b0ef5ad6ad27a94db27291217887ba56ec40f19149d1264a9a7ca5cbf497bf83",
+      "final_result_sha256": "7f80c544ef816046b68e7e2c32587e4a7faa298bf4737c187a29e602a59db043",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "5dce28823b280e5199716cef957c4887530009949b5792270f2e8c63790035d4",
+          "text_sha256": "9648af937ddc71dfb3abdae71ae0bad097d57f1d20618213ff60d34739e445e0",
+          "characters": 1896
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "4ecc44bfe9d0005bd0724ccd3ea28404933aeed941df9bdf5fc93458eaf88e9f",
+          "text_sha256": "7f80c544ef816046b68e7e2c32587e4a7faa298bf4737c187a29e602a59db043",
+          "characters": 570
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4526,
+      "request_count": 2,
+      "turns": 2,
+      "stdout_sha256": "3d357ca5b4fec4f9fcee7029d416407f62650e8fe2e759d9d43361607b51e33f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s20",
+      "repetition": 0,
+      "index": 41,
+      "state": "FINISHED",
+      "prompt_sha256": "1e5774f24d498141ea8436cc9c8a36421f80173aefcfb98dd7808a8aa426600c",
+      "started_at_utc": "2026-10-13T06:27:14Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.012464,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1303,
+        "cache_read_input_tokens": 2260,
+        "output_tokens": 79
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "1a43e280a50a3e0859fd918611b28b5460f86437f8013b6b026c1f1e7b510183",
+      "final_result_sha256": "1a43e280a50a3e0859fd918611b28b5460f86437f8013b6b026c1f1e7b510183",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "4a620fac3e25fad4a37c0627fc4df961c85c6a8d58eaba3b5b9c461c34638550",
+          "text_sha256": "1a43e280a50a3e0859fd918611b28b5460f86437f8013b6b026c1f1e7b510183",
+          "characters": 223
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3565,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "15e8ec0656741d5efa0367e80b74350486ccb8746a428e610b7a0a3f3175ee2e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s02",
+      "repetition": 2,
+      "index": 42,
+      "state": "FINISHED",
+      "prompt_sha256": "54d678a4507be94be8fbb2815dae4b6938e4fbfe4c77b3b714ba2d1e290b3491",
+      "started_at_utc": "2026-10-13T06:27:19Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.030419999999999996,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2231,
+        "cache_read_input_tokens": 6080,
+        "output_tokens": 567
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "ea4b89c66d7f0f82e48bf732c4b4accf4805e45c666bd8e16f85f75267278c90",
+      "final_result_sha256": "ea4b89c66d7f0f82e48bf732c4b4accf4805e45c666bd8e16f85f75267278c90",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "ac4c0af43a5981639174aa106a4ea6878f8655d48214bf54c928d041693fd606",
+          "text_sha256": "ea4b89c66d7f0f82e48bf732c4b4accf4805e45c666bd8e16f85f75267278c90",
+          "characters": 961
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4757,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "de979b1d06e4005b54cb606e9313fd8fb63f4c64f2382a1343a12fa662153d43",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s04",
+      "repetition": 2,
+      "index": 43,
+      "state": "FINISHED",
+      "prompt_sha256": "51952ad16950145c3a579eb339e33044c1179188a00a77479868c1f2bdfbab7c",
+      "started_at_utc": "2026-10-13T06:27:29Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0300344,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2227,
+        "cache_read_input_tokens": 6112,
+        "output_tokens": 549
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "22a1cfd6599303c76e5e6ff9c3e24df58e55e2cbacf73014e9b827a773e2b12f",
+      "final_result_sha256": "22a1cfd6599303c76e5e6ff9c3e24df58e55e2cbacf73014e9b827a773e2b12f",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "aff6a088aff42cda06ceedfb86270845492373c495a00071bd6f5dd5d7546ce1",
+          "text_sha256": "22a1cfd6599303c76e5e6ff9c3e24df58e55e2cbacf73014e9b827a773e2b12f",
+          "characters": 972
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4769,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "804d6901aaae94921eb6f7681ea706d4064dcad16ff1bce9a2c65e7d1d82c6ec",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s20",
+      "repetition": 2,
+      "index": 44,
+      "state": "FINISHED",
+      "prompt_sha256": "1e5774f24d498141ea8436cc9c8a36421f80173aefcfb98dd7808a8aa426600c",
+      "started_at_utc": "2026-10-13T06:27:38Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.010278200000000001,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1033,
+        "cache_read_input_tokens": 2531,
+        "output_tokens": 75
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "e6ce9bec24fb76a3cf30dc4b6466cbd689128342e042531d732648d5149a6720",
+      "final_result_sha256": "e6ce9bec24fb76a3cf30dc4b6466cbd689128342e042531d732648d5149a6720",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "4556e1076571d30e08320c3c11ca0ea346b86646d71ca8f655c6ec02df3f1925",
+          "text_sha256": "e6ce9bec24fb76a3cf30dc4b6466cbd689128342e042531d732648d5149a6720",
+          "characters": 206
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3566,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "07e4038f71a64f4481b3c5c880620c9808517dd325b8ff1055a55d2df06d7fc5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s20",
+      "repetition": 1,
+      "index": 45,
+      "state": "FINISHED",
+      "prompt_sha256": "1e5774f24d498141ea8436cc9c8a36421f80173aefcfb98dd7808a8aa426600c",
+      "started_at_utc": "2026-10-13T06:27:44Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.010158200000000001,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1033,
+        "cache_read_input_tokens": 2531,
+        "output_tokens": 69
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "84838c18db3e1b86b28d7aa37b4fe00ead916c8fe3c41466930cdfb7cfd7f7e8",
+      "final_result_sha256": "84838c18db3e1b86b28d7aa37b4fe00ead916c8fe3c41466930cdfb7cfd7f7e8",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "31af11a3995c85b5af1f336ea3de870c6ebd9f9758a9a5090556f59bf646e528",
+          "text_sha256": "84838c18db3e1b86b28d7aa37b4fe00ead916c8fe3c41466930cdfb7cfd7f7e8",
+          "characters": 188
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3566,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "c2fdba0d349aba83c24f8a64d89c9a4c1581403a746da8db2c9c581bd5268928",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s04",
+      "repetition": 0,
+      "index": 46,
+      "state": "FINISHED",
+      "prompt_sha256": "51952ad16950145c3a579eb339e33044c1179188a00a77479868c1f2bdfbab7c",
+      "started_at_utc": "2026-10-13T06:27:48Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0318906,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2229,
+        "cache_read_input_tokens": 6113,
+        "output_tokens": 641
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "7d1a4aa468276006c9abe7dcc0eee26cfdbd68f3da8a8772510343b7d0a64d02",
+      "final_result_sha256": "7d1a4aa468276006c9abe7dcc0eee26cfdbd68f3da8a8772510343b7d0a64d02",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "dcb4194ecf909446e9016d2a59ef5f37baf658ee71e2af11a4bd174637b3a527",
+          "text_sha256": "7d1a4aa468276006c9abe7dcc0eee26cfdbd68f3da8a8772510343b7d0a64d02",
+          "characters": 1073
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4771,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "5834ed608842ff13be628edee27cb970ff16015c4c684e463f3cd38a36aa4878",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s19",
+      "repetition": 1,
+      "index": 47,
+      "state": "FINISHED",
+      "prompt_sha256": "ea41a524d7a380ca6f0afffb377350737347e656557018c70ee1243381cd6395",
+      "started_at_utc": "2026-10-13T06:27:59Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0165982,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1033,
+        "cache_read_input_tokens": 2531,
+        "output_tokens": 391
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "5621dfe8a130e5846fb452bef3cb29f5d4c95e8564fbb758cc185b94ce2a96c6",
+      "final_result_sha256": "5621dfe8a130e5846fb452bef3cb29f5d4c95e8564fbb758cc185b94ce2a96c6",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "eeff7fe50429e062aab30280f620e18ad849219ddb111e2d688f728f08d9d543",
+          "text_sha256": "5621dfe8a130e5846fb452bef3cb29f5d4c95e8564fbb758cc185b94ce2a96c6",
+          "characters": 940
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3566,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "fd66f8ff1c1e430691ad8d4801154d5dbb7f95e7c22fc81801296718427e655e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s07",
+      "repetition": 1,
+      "index": 48,
+      "state": "FINISHED",
+      "prompt_sha256": "6ae5f24c2c67762f9ef7991f4601e092542c381674d8f5e203fc88cbf131f6f2",
+      "started_at_utc": "2026-10-13T06:28:07Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0294284,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2264,
+        "cache_read_input_tokens": 6102,
+        "output_tokens": 504
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "b81c9c8f9bff5b8edb66cd23d9087615020c6b5867d736949416b91045a12407",
+      "final_result_sha256": "b81c9c8f9bff5b8edb66cd23d9087615020c6b5867d736949416b91045a12407",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "be72115512725c6af339cae555c97bb12bb190e3d3f000c9a017c5175064da4d",
+          "text_sha256": "b81c9c8f9bff5b8edb66cd23d9087615020c6b5867d736949416b91045a12407",
+          "characters": 964
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4800,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "5d1d8a2fcb03e9d35d65931c152f399b9d97f35e021dc1b70be07a748aee9536",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s11",
+      "repetition": 0,
+      "index": 49,
+      "state": "FINISHED",
+      "prompt_sha256": "f1448eb61cd914dc2f6a89ac5d5e9ed07ed94e5bcb5b3b26c7a886d2b58cca06",
+      "started_at_utc": "2026-10-13T06:28:16Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0999548,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 9180,
+        "cache_read_input_tokens": 16814,
+        "output_tokens": 1156
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:make-skill"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "5a0a31b1fbf712dfaa1b01342b0888118348d1694b3fc8481787674ff4efa1d3",
+      "final_result_sha256": "ea08f322fc38b21c140d5956ef26e1a87a4291204b8d8d9fab3f150fea8c3cd1",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "ccd503279d766c43a2c217fbc668f0dff5d97f8c22e2ea74511bccbefa61cfda",
+          "text_sha256": "4232f2d9c0d8114ea63b062a9901966040a216c6c0b193dfc0b16df52c362529",
+          "characters": 2082
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "29fd879a3f1e69860d12fb95ade82350aba2179a3c6d958e974bf2585cc8dff6",
+          "text_sha256": "ea08f322fc38b21c140d5956ef26e1a87a4291204b8d8d9fab3f150fea8c3cd1",
+          "characters": 502
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 11706,
+      "request_count": 3,
+      "turns": 4,
+      "stdout_sha256": "7e8b145779919be5fcc62d3c1c95a863d530d89968de8a1a4ca986015bb1e63f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s08",
+      "repetition": 0,
+      "index": 50,
+      "state": "FINISHED",
+      "prompt_sha256": "fdb28b12e62ce89dea2064d7d99d742edb8ed90b81354541bbde8ad7c4ebe4a3",
+      "started_at_utc": "2026-10-13T06:28:33Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0309796,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2220,
+        "cache_read_input_tokens": 6118,
+        "output_tokens": 599
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "16dbe7e2b05598a80743dcee89ad98941688fcc4e688523754d5ff4b48feab63",
+      "final_result_sha256": "16dbe7e2b05598a80743dcee89ad98941688fcc4e688523754d5ff4b48feab63",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "04a83c524486dbe0011108e3ee1dab76236a3cd6d4d8fb70a4565f3ce20477e3",
+          "text_sha256": "16dbe7e2b05598a80743dcee89ad98941688fcc4e688523754d5ff4b48feab63",
+          "characters": 988
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4764,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "4495aa84373c5be97ce955436ecba5167d42da55cba61cd2a319b72312b0efb8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s17",
+      "repetition": 0,
+      "index": 51,
+      "state": "FINISHED",
+      "prompt_sha256": "d2c461d44b5b0bda8471c420193a072bccccc015bca6774bb9c3d572ccb03a34",
+      "started_at_utc": "2026-10-13T06:28:45Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0125754,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1033,
+        "cache_read_input_tokens": 2517,
+        "output_tokens": 190
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "a570c4c903ea39b02b79b31d74e5cb4e25c59e788175ef712646c3d204b52f75",
+      "final_result_sha256": "a570c4c903ea39b02b79b31d74e5cb4e25c59e788175ef712646c3d204b52f75",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "7dbd2573726e15c9b437a94511e19f6b253f18a4cf37dd73578151b7affd9c7c",
+          "text_sha256": "a570c4c903ea39b02b79b31d74e5cb4e25c59e788175ef712646c3d204b52f75",
+          "characters": 426
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3552,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "e593cfd234ed13c87e58e56fe44936caf44c1d9d7c7a7cdbde5d57672d6bb10f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s11",
+      "repetition": 2,
+      "index": 52,
+      "state": "FINISHED",
+      "prompt_sha256": "f1448eb61cd914dc2f6a89ac5d5e9ed07ed94e5bcb5b3b26c7a886d2b58cca06",
+      "started_at_utc": "2026-10-13T06:28:51Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.1004948,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 9180,
+        "cache_read_input_tokens": 16814,
+        "output_tokens": 1183
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:make-skill"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "566318f4d46610f85bac20ccb4c680b692ee9dcbe3387a3b47bd1cd1b457ee8c",
+      "final_result_sha256": "89b82aaf5d67d639302182aef5b840756caf12ff7f0c4b9f8dbc14ba19e651c9",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "77b2f797438e82ba883864616341fd42347ff4c4166a81723d3089e6ddeabec9",
+          "text_sha256": "2c18f95495b9fac7893f58b85bad414ff6ef62c777dcf493f412f57c5fccebde",
+          "characters": 2029
+        },
+        {
+          "index": 1,
+          "request_id_sha256": "65f47967a61ee239b96a16e83cdeee9508c27500d8b1383742afa578ca8ce9da",
+          "text_sha256": "89b82aaf5d67d639302182aef5b840756caf12ff7f0c4b9f8dbc14ba19e651c9",
+          "characters": 538
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 11706,
+      "request_count": 3,
+      "turns": 4,
+      "stdout_sha256": "3dc2aaeb3ebc107c6a0eb758b892cc84423ce7710d2ffb96743bfd08092841b7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s18",
+      "repetition": 1,
+      "index": 53,
+      "state": "FINISHED",
+      "prompt_sha256": "ed430c9f132495f791784578a49a6820d96a8221a2f8218b70c7ff250515382d",
+      "started_at_utc": "2026-10-13T06:29:08Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.013445200000000001,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1034,
+        "cache_read_input_tokens": 2526,
+        "output_tokens": 233
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "4290d5b3a86cdf5a01a68267c3ccf31b41560aa9219f7523cd28d8e83998775a",
+      "final_result_sha256": "4290d5b3a86cdf5a01a68267c3ccf31b41560aa9219f7523cd28d8e83998775a",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "b2e020bbe980c9222bb2ca9894470db39d3d825d2b2f54ae4ad2399498a2b51f",
+          "text_sha256": "4290d5b3a86cdf5a01a68267c3ccf31b41560aa9219f7523cd28d8e83998775a",
+          "characters": 431
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3562,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "fb2abb091282ab10706877727a50b8668aae0649df4714130e6587b49760e220",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s06",
+      "repetition": 0,
+      "index": 54,
+      "state": "FINISHED",
+      "prompt_sha256": "b6ec6a73fe6309e0ed0848ffc08a5cd8828f93e3052b81a39cc698b69b71c5f7",
+      "started_at_utc": "2026-10-13T06:29:14Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0285016,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2236,
+        "cache_read_input_tokens": 6088,
+        "output_tokens": 469
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "1865c533fe082328696537f262a37b7bee3707d95e1d53b07686f495c37648e9",
+      "final_result_sha256": "1865c533fe082328696537f262a37b7bee3707d95e1d53b07686f495c37648e9",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "77fec646392c6bae1873a8f0b7e2aa6cac3c6c975a4b3fcacca45dbcf6eac93f",
+          "text_sha256": "1865c533fe082328696537f262a37b7bee3707d95e1d53b07686f495c37648e9",
+          "characters": 782
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4765,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "ca16be06a80d2bc5872b3cd36b621d56a2d88b30cbf52f804cd56c099e4bde73",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s08",
+      "repetition": 1,
+      "index": 55,
+      "state": "FINISHED",
+      "prompt_sha256": "fdb28b12e62ce89dea2064d7d99d742edb8ed90b81354541bbde8ad7c4ebe4a3",
+      "started_at_utc": "2026-10-13T06:29:23Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0300156,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2212,
+        "cache_read_input_tokens": 6118,
+        "output_tokens": 554
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "c571a6db67ff0f4917d9adf072f77be9e7ea8d7423e2348811bcb4026245fc03",
+      "final_result_sha256": "c571a6db67ff0f4917d9adf072f77be9e7ea8d7423e2348811bcb4026245fc03",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "246ca542f94a75a4d0553424b1599b46193b02c2c760fbdf0825aa6f7eab7180",
+          "text_sha256": "c571a6db67ff0f4917d9adf072f77be9e7ea8d7423e2348811bcb4026245fc03",
+          "characters": 984
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4756,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "75544751f10f02dee967e878d356dbfcc36b26c41fa735b76a1e672f7ec72084",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s15",
+      "repetition": 1,
+      "index": 56,
+      "state": "FINISHED",
+      "prompt_sha256": "ec00728cc5125ded42b17bc4b802f17a53382cea94cff723a0ed1e06cb5605f6",
+      "started_at_utc": "2026-10-13T06:29:34Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0124878,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1032,
+        "cache_read_input_tokens": 2519,
+        "output_tokens": 186
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "9dee8c9afec47b90fb04ff04de328b82814710a8015085189bbabee67ec5b28d",
+      "final_result_sha256": "9dee8c9afec47b90fb04ff04de328b82814710a8015085189bbabee67ec5b28d",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "c2bf1b33bae57def9962090cec1e4228a0f378c9da2034b3f9ce787deeb5b60b",
+          "text_sha256": "9dee8c9afec47b90fb04ff04de328b82814710a8015085189bbabee67ec5b28d",
+          "characters": 417
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3553,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "0d29c66801c2bebdf55eac71b6dfa520becdb48c5e1c6b8b7217ca67fcb76bdb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s06",
+      "repetition": 1,
+      "index": 57,
+      "state": "FINISHED",
+      "prompt_sha256": "b6ec6a73fe6309e0ed0848ffc08a5cd8828f93e3052b81a39cc698b69b71c5f7",
+      "started_at_utc": "2026-10-13T06:29:39Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0314132,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2235,
+        "cache_read_input_tokens": 6086,
+        "output_tokens": 615
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "f1d0fd74040701e495be5540c58343572eaab6422a3f24621d72bf78bf49dc6e",
+      "final_result_sha256": "f1d0fd74040701e495be5540c58343572eaab6422a3f24621d72bf78bf49dc6e",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "aa7714bc4dee04b57480b22ed45519d253d4c4837c7c457935eb4625d6385f2a",
+          "text_sha256": "f1d0fd74040701e495be5540c58343572eaab6422a3f24621d72bf78bf49dc6e",
+          "characters": 1054
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4764,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "33f72bdf541bf895c2e0eff4cc3ff5fa4d7258b62a6cfe6dece008b2797c457c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s05",
+      "repetition": 2,
+      "index": 58,
+      "state": "FINISHED",
+      "prompt_sha256": "5b35b67035804e152960e4e5be06e1fb0a56e9a9c4139136c6c2be520178c517",
+      "started_at_utc": "2026-10-13T06:29:50Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0294634,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2219,
+        "cache_read_input_tokens": 6077,
+        "output_tokens": 524
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "082650300a27a136c00885c97d5cbe70df6c71bb561b3c1f3de645970d8661d2",
+      "final_result_sha256": "082650300a27a136c00885c97d5cbe70df6c71bb561b3c1f3de645970d8661d2",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "943ae9ebdddd78e88833eaceeb5a1391de78433d2db57f8b04e1950944862d06",
+          "text_sha256": "082650300a27a136c00885c97d5cbe70df6c71bb561b3c1f3de645970d8661d2",
+          "characters": 1067
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4743,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "8494cc11b5705a71bc3ebd946dedf11189b0b6ae5c7b190ddf67ff0f32b783c2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s01",
+      "repetition": 2,
+      "index": 59,
+      "state": "FINISHED",
+      "prompt_sha256": "23bf0d4cd201ebce4b644f6d99c3c1fc29361429f3680d59bf304ca69cbff5ac",
+      "started_at_utc": "2026-10-13T06:29:59Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.031516,
+      "usage": {
+        "input_tokens": 4,
+        "cache_creation_input_tokens": 2238,
+        "cache_read_input_tokens": 6080,
+        "output_tokens": 619
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [
+          "make-skill:skill-search"
+        ],
+        "read_files": []
+      },
+      "artifact_sha256": "58cc372356e460ff21b219c6088f900851f77b719176be66ba5e6e665f247a1b",
+      "final_result_sha256": "58cc372356e460ff21b219c6088f900851f77b719176be66ba5e6e665f247a1b",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "a0e575ba004f21b4dbe68ef4dca3f2593f7bd23226c3d6a95989018122ced4d9",
+          "text_sha256": "58cc372356e460ff21b219c6088f900851f77b719176be66ba5e6e665f247a1b",
+          "characters": 1142
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 4764,
+      "request_count": 2,
+      "turns": 3,
+      "stdout_sha256": "36a164b300da883706608c436737cedd0ed0cfe44b65177338d537eb676b46d7",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "phase": "task",
+      "case_id": "s17",
+      "repetition": 2,
+      "index": 60,
+      "state": "FINISHED",
+      "prompt_sha256": "d2c461d44b5b0bda8471c420193a072bccccc015bca6774bb9c3d572ccb03a34",
+      "started_at_utc": "2026-10-13T06:30:10Z",
+      "workspace_manifest_sha256": "7e95c318b56ae498b131b569b4f18a0112bcfff71066989fa44aed1183db4acb",
+      "evaluation_status": "EXECUTED",
+      "error_class": null,
+      "cost_usd": 0.0128834,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1034,
+        "cache_read_input_tokens": 2517,
+        "output_tokens": 205
+      },
+      "native": {
+        "visible": [
+          "make-skill:make-skill",
+          "make-skill:skill-search"
+        ],
+        "skill_loads": [],
+        "read_files": []
+      },
+      "artifact_sha256": "d509e0e132db0cb61a65114ad32d3d7ffa7afbab2ec764e6ef9ed50a29601f0e",
+      "final_result_sha256": "d509e0e132db0cb61a65114ad32d3d7ffa7afbab2ec764e6ef9ed50a29601f0e",
+      "artifact_text_blocks": [
+        {
+          "index": 0,
+          "request_id_sha256": "18e22c70d7d9882c93d5587583a6f03b7d11662157cf64bb4879218a2610a4db",
+          "text_sha256": "d509e0e132db0cb61a65114ad32d3d7ffa7afbab2ec764e6ef9ed50a29601f0e",
+          "characters": 435
+        }
+      ],
+      "artifact_join": "two newline characters between ordered assistant text blocks; thinking and tool outputs excluded",
+      "max_request_input": 3553,
+      "request_count": 1,
+      "turns": 1,
+      "stdout_sha256": "d61f7b0da29e45bfdc0cf8122a75d458ad9c5bb6d617b394d10d8653eee26391",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "reported_list_usd": 2.3410575999999996,
+  "cost_incomplete": false,
+  "max_calls": 61,
+  "budget_usd": 3.878996,
+  "seed": 101327,
+  "source_commit": "78d67651611f50e2af531ab04916e680c2a2680d",
+  "runner_sha256": "41cf841c5af1607769886a8f73837b11649e1a09cead8a9cbebd465241917b5e",
+  "source_manifest_sha256": "c5bceee2ca514dad2da292a58853587e39c637f73f86352e3704544f48ce4b4a",
+  "admission_sha256": "ef3960f74a1d7fb41ec02b9fb12602eaf3eece37ada0a2d736a959c5a8f61752",
+  "prior_known_pilots_list_usd": 2.1959482,
+  "prior_protocol_a_list_usd": 0.0174134,
+  "prior_protocol_b_list_usd": 0.1035906,
+  "protocol": "C",
+  "max_cumulative_cli_invocations": 64,
+  "scope": "Restricted native loading only; no executed catalogue search or artifact-quality claim; list estimate is not subscription billing.",
+  "scores": [
+    {
+      "case_id": "s01",
+      "expected": true,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s02",
+      "expected": true,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s03",
+      "expected": true,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s04",
+      "expected": true,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s05",
+      "expected": true,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s06",
+      "expected": true,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s07",
+      "expected": true,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s08",
+      "expected": true,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s09",
+      "expected": true,
+      "valid_repetitions": 3,
+      "matching_repetitions": 2,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s10",
+      "expected": true,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s11",
+      "expected": false,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s12",
+      "expected": false,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s13",
+      "expected": false,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s14",
+      "expected": false,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s15",
+      "expected": false,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s16",
+      "expected": false,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s17",
+      "expected": false,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s18",
+      "expected": false,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s19",
+      "expected": false,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    },
+    {
+      "case_id": "s20",
+      "expected": false,
+      "valid_repetitions": 3,
+      "matching_repetitions": 3,
+      "verdict": "PASS"
+    }
+  ],
+  "planned_not_started": 0
+}

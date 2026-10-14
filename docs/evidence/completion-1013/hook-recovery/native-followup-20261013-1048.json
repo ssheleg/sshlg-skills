@@ -1,0 +1,295 @@
+{
+  "schema": "sanitized-hook-observer/1",
+  "observed_at": "2026-10-13T10:47:28.618286+00:00",
+  "duration_seconds": 50,
+  "thread": "01a132b5-0516-7c41-891d-4ce561a1dcaf",
+  "raw_sha256": "8533cf81c09c9bef6ef6d2fec81d3448f81ac79ff65a3db67bd34616f055115b",
+  "raw_private_local_only": true,
+  "counts": {
+    "preToolUse:completed": 20,
+    "postToolUse:completed": 15
+  },
+  "runs": [
+    {
+      "id": "pre-tool-use:0:/Users/sshlg/.codex/hooks.json:exec-71778364-a9e0-4137-9a28-74fabb93c8e8",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888359,
+      "completedAt": 1791888360,
+      "durationMs": 413
+    },
+    {
+      "id": "pre-tool-use:10:/Users/sshlg/.codex/plugins/cache/agent-sync/agent-sync/1.22.1/hooks/hooks.json:exec-71778364-a9e0-4137-9a28-74fabb93c8e8",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888359,
+      "completedAt": 1791888359,
+      "durationMs": 189
+    },
+    {
+      "id": "pre-tool-use:21:/Users/sshlg/.codex/plugins/cache/sheleg-dev/sheleg-dev/0.13.3/hooks/hooks.json:exec-71778364-a9e0-4137-9a28-74fabb93c8e8",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888359,
+      "completedAt": 1791888360,
+      "durationMs": 609
+    },
+    {
+      "id": "pre-tool-use:23:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-71778364-a9e0-4137-9a28-74fabb93c8e8",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888359,
+      "completedAt": 1791888360,
+      "durationMs": 682
+    },
+    {
+      "id": "post-tool-use:2:/Users/sshlg/.codex/hooks.json:exec-71778364-a9e0-4137-9a28-74fabb93c8e8",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888360,
+      "completedAt": 1791888360,
+      "durationMs": 119
+    },
+    {
+      "id": "post-tool-use:25:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-71778364-a9e0-4137-9a28-74fabb93c8e8",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888360,
+      "completedAt": 1791888361,
+      "durationMs": 429
+    },
+    {
+      "id": "post-tool-use:26:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-71778364-a9e0-4137-9a28-74fabb93c8e8",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888360,
+      "completedAt": 1791888360,
+      "durationMs": 156
+    },
+    {
+      "id": "post-tool-use:2:/Users/sshlg/.codex/hooks.json:exec-f62b51c8-68ed-4959-a3ff-b5fcd4f09259",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888361,
+      "completedAt": 1791888363,
+      "durationMs": 1901
+    },
+    {
+      "id": "post-tool-use:25:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-f62b51c8-68ed-4959-a3ff-b5fcd4f09259",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888361,
+      "completedAt": 1791888363,
+      "durationMs": 1955
+    },
+    {
+      "id": "post-tool-use:26:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-f62b51c8-68ed-4959-a3ff-b5fcd4f09259",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888361,
+      "completedAt": 1791888363,
+      "durationMs": 1893
+    },
+    {
+      "id": "pre-tool-use:0:/Users/sshlg/.codex/hooks.json:exec-759c594a-a4c0-444e-aced-3d4cdd4e95ca",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888371,
+      "completedAt": 1791888371,
+      "durationMs": 84
+    },
+    {
+      "id": "pre-tool-use:10:/Users/sshlg/.codex/plugins/cache/agent-sync/agent-sync/1.22.1/hooks/hooks.json:exec-759c594a-a4c0-444e-aced-3d4cdd4e95ca",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888371,
+      "completedAt": 1791888371,
+      "durationMs": 61
+    },
+    {
+      "id": "pre-tool-use:21:/Users/sshlg/.codex/plugins/cache/sheleg-dev/sheleg-dev/0.13.3/hooks/hooks.json:exec-759c594a-a4c0-444e-aced-3d4cdd4e95ca",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888371,
+      "completedAt": 1791888371,
+      "durationMs": 132
+    },
+    {
+      "id": "pre-tool-use:23:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-759c594a-a4c0-444e-aced-3d4cdd4e95ca",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888371,
+      "completedAt": 1791888371,
+      "durationMs": 186
+    },
+    {
+      "id": "pre-tool-use:0:/Users/sshlg/.codex/hooks.json:exec-37cd8829-5368-4a0b-848f-97482c023246",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888372,
+      "completedAt": 1791888372,
+      "durationMs": 142
+    },
+    {
+      "id": "pre-tool-use:10:/Users/sshlg/.codex/plugins/cache/agent-sync/agent-sync/1.22.1/hooks/hooks.json:exec-37cd8829-5368-4a0b-848f-97482c023246",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888372,
+      "completedAt": 1791888372,
+      "durationMs": 97
+    },
+    {
+      "id": "pre-tool-use:21:/Users/sshlg/.codex/plugins/cache/sheleg-dev/sheleg-dev/0.13.3/hooks/hooks.json:exec-37cd8829-5368-4a0b-848f-97482c023246",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888372,
+      "completedAt": 1791888372,
+      "durationMs": 183
+    },
+    {
+      "id": "pre-tool-use:23:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-37cd8829-5368-4a0b-848f-97482c023246",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888372,
+      "completedAt": 1791888372,
+      "durationMs": 164
+    },
+    {
+      "id": "post-tool-use:2:/Users/sshlg/.codex/hooks.json:exec-37cd8829-5368-4a0b-848f-97482c023246",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888373,
+      "completedAt": 1791888373,
+      "durationMs": 93
+    },
+    {
+      "id": "post-tool-use:25:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-37cd8829-5368-4a0b-848f-97482c023246",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888373,
+      "completedAt": 1791888373,
+      "durationMs": 110
+    },
+    {
+      "id": "post-tool-use:26:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-37cd8829-5368-4a0b-848f-97482c023246",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888373,
+      "completedAt": 1791888373,
+      "durationMs": 114
+    },
+    {
+      "id": "pre-tool-use:0:/Users/sshlg/.codex/hooks.json:exec-b2b2fba7-1c5d-4051-9edc-041a9e68449c",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888390,
+      "completedAt": 1791888391,
+      "durationMs": 145
+    },
+    {
+      "id": "pre-tool-use:10:/Users/sshlg/.codex/plugins/cache/agent-sync/agent-sync/1.22.1/hooks/hooks.json:exec-b2b2fba7-1c5d-4051-9edc-041a9e68449c",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888390,
+      "completedAt": 1791888391,
+      "durationMs": 161
+    },
+    {
+      "id": "pre-tool-use:21:/Users/sshlg/.codex/plugins/cache/sheleg-dev/sheleg-dev/0.13.3/hooks/hooks.json:exec-b2b2fba7-1c5d-4051-9edc-041a9e68449c",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888390,
+      "completedAt": 1791888391,
+      "durationMs": 197
+    },
+    {
+      "id": "pre-tool-use:23:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-b2b2fba7-1c5d-4051-9edc-041a9e68449c",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888390,
+      "completedAt": 1791888391,
+      "durationMs": 181
+    },
+    {
+      "id": "post-tool-use:2:/Users/sshlg/.codex/hooks.json:exec-759c594a-a4c0-444e-aced-3d4cdd4e95ca",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888392,
+      "completedAt": 1791888392,
+      "durationMs": 88
+    },
+    {
+      "id": "post-tool-use:25:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-759c594a-a4c0-444e-aced-3d4cdd4e95ca",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888392,
+      "completedAt": 1791888392,
+      "durationMs": 140
+    },
+    {
+      "id": "post-tool-use:26:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-759c594a-a4c0-444e-aced-3d4cdd4e95ca",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888392,
+      "completedAt": 1791888392,
+      "durationMs": 151
+    },
+    {
+      "id": "pre-tool-use:0:/Users/sshlg/.codex/hooks.json:exec-33819977-58a6-40d5-b3f4-95b2831b4852",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888392,
+      "completedAt": 1791888392,
+      "durationMs": 215
+    },
+    {
+      "id": "pre-tool-use:10:/Users/sshlg/.codex/plugins/cache/agent-sync/agent-sync/1.22.1/hooks/hooks.json:exec-33819977-58a6-40d5-b3f4-95b2831b4852",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888392,
+      "completedAt": 1791888392,
+      "durationMs": 458
+    },
+    {
+      "id": "pre-tool-use:21:/Users/sshlg/.codex/plugins/cache/sheleg-dev/sheleg-dev/0.13.3/hooks/hooks.json:exec-33819977-58a6-40d5-b3f4-95b2831b4852",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888392,
+      "completedAt": 1791888392,
+      "durationMs": 203
+    },
+    {
+      "id": "pre-tool-use:23:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-33819977-58a6-40d5-b3f4-95b2831b4852",
+      "eventName": "preToolUse",
+      "status": "completed",
+      "startedAt": 1791888392,
+      "completedAt": 1791888392,
+      "durationMs": 264
+    },
+    {
+      "id": "post-tool-use:2:/Users/sshlg/.codex/hooks.json:exec-33819977-58a6-40d5-b3f4-95b2831b4852",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888393,
+      "completedAt": 1791888393,
+      "durationMs": 92
+    },
+    {
+      "id": "post-tool-use:25:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-33819977-58a6-40d5-b3f4-95b2831b4852",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888393,
+      "completedAt": 1791888393,
+      "durationMs": 113
+    },
+    {
+      "id": "post-tool-use:26:/Users/sshlg/.codex/plugins/cache/task-pipeline/task-pipeline/1.93.3/hooks/hooks.json:exec-33819977-58a6-40d5-b3f4-95b2831b4852",
+      "eventName": "postToolUse",
+      "status": "completed",
+      "startedAt": 1791888393,
+      "completedAt": 1791888393,
+      "durationMs": 110
+    }
+  ],
+  "limits": "Observed this subscribed native thread in one50-second window; no all-session guarantee and no new plugin-version transition."
+}

@@ -1,0 +1,310 @@
+[
+  {
+    "repo": "ssheleg/make-skill",
+    "candidate": "03278042f3ad8ddb298c8f758163cc1b7c355ea9",
+    "merge": "6d99cacc9eb21d6542919e399ab295957826fd4c",
+    "tree": "1eca5251c6d459a3011c13a16eb3da178e35c418",
+    "entire_tree_equal_to_reviewed_candidate": true,
+    "payload_files_equal": 34,
+    "pr": "https://github.com/ssheleg/make-skill/pull/37",
+    "run_url": "https://github.com/ssheleg/make-skill/actions/runs/38354923054",
+    "run_event": "pull_request",
+    "run_head": "03278042f3ad8ddb298c8f758163cc1b7c355ea9",
+    "run_conclusion": "success",
+    "jobs": [
+      {
+        "name": "claude-plugin-validate",
+        "conclusion": "success"
+      },
+      {
+        "name": "skills-cli-discovery",
+        "conclusion": "success"
+      },
+      {
+        "name": "House skill audit",
+        "conclusion": "success"
+      },
+      {
+        "name": "validate",
+        "conclusion": "success"
+      }
+    ],
+    "required": [
+      {
+        "link": "https://github.com/ssheleg/make-skill/actions/runs/38354923054/job/115155459314",
+        "name": "validate",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/ssheleg/make-skill/actions/runs/38354923054/job/115155459118",
+        "name": "House skill audit",
+        "state": "SUCCESS"
+      }
+    ]
+  },
+  {
+    "repo": "ssheleg/sheleg-dev",
+    "candidate": "0c4df3fc83de1ca2fbf071b37cac202c6fa56b4c",
+    "merge": "02655faeb525e5b65b628f65671a5b047eff5d0d",
+    "tree": "3f3fc93857dc58635d08759a312e517496786055",
+    "entire_tree_equal_to_reviewed_candidate": true,
+    "payload_files_equal": 68,
+    "pr": "https://github.com/ssheleg/sheleg-dev/pull/27",
+    "run_url": "https://github.com/ssheleg/sheleg-dev/actions/runs/38354927807",
+    "run_event": "pull_request",
+    "run_head": "0c4df3fc83de1ca2fbf071b37cac202c6fa56b4c",
+    "run_conclusion": "success",
+    "jobs": [
+      {
+        "name": "House skill audit",
+        "conclusion": "success"
+      },
+      {
+        "name": "validate",
+        "conclusion": "success"
+      }
+    ],
+    "required": [
+      {
+        "link": "https://github.com/ssheleg/sheleg-dev/actions/runs/38354927807/job/115155475257",
+        "name": "validate",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/ssheleg/sheleg-dev/actions/runs/38354927807/job/115155475066",
+        "name": "House skill audit",
+        "state": "SUCCESS"
+      }
+    ]
+  },
+  {
+    "repo": "ssheleg/sheleg-design-skill",
+    "candidate": "040bec6dc88bc103d9a37c1f21633e372de1acbc",
+    "merge": "b017f5143284538d2670d22aab1f1403da459d87",
+    "tree": "bb8eebc80db7b89c09ea4f25475c00041e96fe31",
+    "entire_tree_equal_to_reviewed_candidate": true,
+    "payload_files_equal": 1238,
+    "pr": "https://github.com/ssheleg/sheleg-design-skill/pull/46",
+    "run_url": "https://github.com/ssheleg/sheleg-design-skill/actions/runs/38354932430",
+    "run_event": "pull_request",
+    "run_head": "040bec6dc88bc103d9a37c1f21633e372de1acbc",
+    "run_conclusion": "success",
+    "jobs": [
+      {
+        "name": "validate",
+        "conclusion": "success"
+      },
+      {
+        "name": "discover-kits",
+        "conclusion": "success"
+      },
+      {
+        "name": "House skill audit",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (briefing-room)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (atrium)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (editorial-luxury)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (instrument-console)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (cyclorama)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (maquette)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (daylight)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (almanac)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (bulletin)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (manpage)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (datasheet)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (notation)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (patchbay)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (ledger)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (blueprint)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (nameplate)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (deskmate)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (field-notes)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (babylove)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (ora)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (awning)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (vitrine)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (onionskin)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (orchard)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (test-drive)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (outrank)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (paperclip)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (workbench)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (showroom)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (router)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (prism)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (proscenium)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (pigeonhole)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (rimlight)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (surveyor)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (roster)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (tenor)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (scoreboard)",
+        "conclusion": "success"
+      },
+      {
+        "name": "kits (chorus)",
+        "conclusion": "success"
+      }
+    ],
+    "required": [
+      {
+        "link": "https://github.com/ssheleg/sheleg-design-skill/actions/runs/38354932430/job/115155488450",
+        "name": "House skill audit",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/ssheleg/sheleg-design-skill/actions/runs/38354932430/job/115155488319",
+        "name": "validate",
+        "state": "SUCCESS"
+      }
+    ]
+  },
+  {
+    "repo": "ssheleg/agent-sync",
+    "candidate": "259b5cfbadd7711e355eec5bd8811b14af595871",
+    "merge": "7a1dbe7dcdaff1786fad38dbd2ee742266d1a39a",
+    "tree": "221c2b2cd4f12b11e457da7e416a000e235d7e09",
+    "entire_tree_equal_to_reviewed_candidate": true,
+    "payload_files_equal": 30,
+    "pr": "https://github.com/ssheleg/agent-sync/pull/37",
+    "run_url": "https://github.com/ssheleg/agent-sync/actions/runs/38354919691",
+    "run_event": "pull_request",
+    "run_head": "259b5cfbadd7711e355eec5bd8811b14af595871",
+    "run_conclusion": "success",
+    "jobs": [
+      {
+        "name": "validate",
+        "conclusion": "success"
+      },
+      {
+        "name": "House skill audit",
+        "conclusion": "success"
+      }
+    ],
+    "required": [
+      {
+        "link": "https://github.com/ssheleg/agent-sync/actions/runs/38354919691/job/115155448051",
+        "name": "validate",
+        "state": "SUCCESS"
+      },
+      {
+        "link": "https://github.com/ssheleg/agent-sync/actions/runs/38354919691/job/115155448345",
+        "name": "House skill audit",
+        "state": "SUCCESS"
+      }
+    ]
+  }
+]

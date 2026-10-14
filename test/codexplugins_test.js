@@ -166,65 +166,24 @@ const ITEM = { member: 'agent-sync', pluginId: 'agent-sync@agent-sync', marketpl
   from: '1.21.7', url: 'https://github.com/ssheleg/agent-sync.git', ref: 'v1.22.0', refKind: 'tag',
   prev: { source: 'https://github.com/ssheleg/agent-sync.git', ref: 'v1.21.7' }, action: 'refresh' };
 
-t('refresh: four steps in order, and the readback is the only thing that says current', () => {
+t('refresh: native mutation is deferred with no commands or false current claim', () => {
   const s = scripted('1.22.0');
   const r = cp.refreshOne(ITEM, s.runner);
-  assert.deepStrictEqual(s.calls, [
-    'plugin marketplace remove agent-sync',
-    'plugin marketplace add https://github.com/ssheleg/agent-sync.git --ref v1.22.0',
-    'plugin add agent-sync@agent-sync',
-    'plugin list --json',
-  ]);
-  assert.strictEqual(r.status, 'current');
-  assert.deepStrictEqual(r.receipt, { host: 'Codex', status: 'current', digest: '1.22.0' });
+  assert.strictEqual(r.status, 'deferred');
+  assert.strictEqual(r.code, 'DEFERRED_ACTIVE_GENERATION_SAFETY');
+  assert.strictEqual(r.catalogVersion, '1.21.7');
+  assert.strictEqual(r.threadLoadedVersion, 'unknown');
+  assert.deepStrictEqual(s.calls, []);
+  assert.deepStrictEqual(cp.refreshCommands(ITEM), []);
+  assert.ok(cp.resultLines(r).join('\n').includes(r.code));
 });
 
-t('refresh: a readback that disagrees with the pin is FAILED readback, stale, and not rolled back', () => {
-  const s = scripted('1.21.9');
-  const r = cp.refreshOne(ITEM, s.runner);
-  assert.strictEqual(r.status, 'FAILED');
-  assert.strictEqual(r.step, 'readback');
-  assert.strictEqual(r.receipt.status, 'stale');
-  assert.ok(!r.rollback);
-  assert.ok(/Codex reports 1\.21\.9, the pin is 1\.22\.0/.test(cp.resultLines(r)[0]));
-});
-
-t('refresh: a readback that cannot see the plugin is unverified, never current', () => {
-  const s = scripted('1.22.0');
-  const runner = (cmd, args) => (args.join(' ').startsWith('plugin list')
-    ? { status: 0, stdout: JSON.stringify({ installed: [] }) } : s.runner(cmd, args));
-  const r = cp.refreshOne(ITEM, runner);
-  assert.strictEqual(r.status, 'FAILED');
-  assert.strictEqual(r.receipt.status, 'unverified');
-});
-
-t('refresh: a failed remove stops there and rolls nothing back (nothing was removed)', () => {
-  const s = scripted('1.22.0', (l) => l.startsWith('plugin marketplace remove'));
-  const r = cp.refreshOne(ITEM, s.runner);
-  assert.strictEqual(r.step, 'marketplace remove');
-  assert.ok(!r.rollback);
-  assert.strictEqual(s.calls.length, 1);
-});
-
-t('refresh: a failed add re-adds the previous ref without removing what never landed', () => {
-  const s = scripted('1.22.0', (l) => l.includes('--ref v1.22.0'));
-  const r = cp.refreshOne(ITEM, s.runner);
-  assert.strictEqual(r.step, 'marketplace add');
-  assert.strictEqual(r.rollback.status, 'restored');
-  assert.deepStrictEqual(s.calls.slice(2), [
-    'plugin marketplace add https://github.com/ssheleg/agent-sync.git --ref v1.21.7',
-    'plugin add agent-sync@agent-sync',
-    'plugin list --json',
-  ]);
-});
-
-t('refresh: a marketplace that had no ref is restored with no ref', () => {
-  const item = Object.assign({}, ITEM, { prev: { source: 'https://github.com/ssheleg/agent-sync.git', ref: null } });
-  const s = scripted('1.22.0', (l, calls) => l.startsWith('plugin add') && calls.filter((c) => c.startsWith('plugin add')).length === 1);
-  const r = cp.refreshOne(item, s.runner);
-  assert.strictEqual(r.step, 'plugin add');
-  assert.ok(s.calls.includes('plugin marketplace add https://github.com/ssheleg/agent-sync.git'), s.calls.join('\n'));
-  assert.ok(/restored at its default branch/.test(cp.resultLines(r)[1]));
+t('refresh: injected unsupported capability or active-process assertion cannot bypass admission', () => {
+  for (const extra of [{ activeSessions: 0 }, { force: true }, { runtime: 'codex-cli 999.0.0' }, { safe: true }]) {
+    const s = scripted('1.22.0');
+    assert.strictEqual(cp.refreshOne({ ...ITEM, ...extra }, s.runner).status, 'deferred');
+    assert.deepStrictEqual(s.calls, []);
+  }
 });
 
 t('refreshAll: no config → skipped without spawning anything', () => {
@@ -251,6 +210,14 @@ t('refreshAll: a Codex that cannot load its config is unread; one without the CL
     runner: (c, a) => (a[0] === '--version' ? { status: 0, stdout: 'codex-cli 0.40.0' }
       : { status: 2, stdout: '', stderr: "error: unrecognized subcommand 'plugin'" }) });
   assert.strictEqual(old.status, 'unsupported');
+});
+
+t('refreshAll: a signalled version read is not accepted from spoofed stdout', () => {
+  const calls = [];
+  const out = cp.refreshAll({ skills: SKILLS, readConfig: () => CONFIG, pinRef,
+    runner: (c, a) => { calls.push(a); return { status: 0, signal: 'SIGTERM', stdout: 'codex-cli 0.162.1' }; } });
+  assert.strictEqual(out.status, 'skipped');
+  assert.deepStrictEqual(calls, [['--version']]);
 });
 
 t('refreshAll: the table form is read when --json is refused', () => {

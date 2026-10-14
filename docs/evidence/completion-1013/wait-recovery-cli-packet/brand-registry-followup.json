@@ -1,0 +1,33 @@
+{
+  "source": "8d5b63ab07c8bb1e450915d1c0c5d4950c74dfa7 plus registry-only followup",
+  "exit_code": 2,
+  "counts": {
+    "warn": 718,
+    "error": 2
+  },
+  "errors": [
+    {
+      "code": "B009",
+      "severity": "error",
+      "path": "README.md",
+      "line": 0,
+      "message": "Sources marketing: `_site/**/*.html` matches no files; correct the path or remove the source declaration. No copy was scanned"
+    },
+    {
+      "code": "B023",
+      "severity": "error",
+      "path": "skills/agent-stack/README.md",
+      "line": 0,
+      "message": "`family.verify` points at skills/agent-stack/README.md, which does not exist"
+    }
+  ],
+  "touched_module_warnings": [
+    {
+      "code": "B022",
+      "severity": "warn",
+      "path": "lib/wait-recovery-cli.js",
+      "line": 73,
+      "message": "\"  Host instructions are not restored or rewritten by recovery.\\n\" is in the code with no registry row -- agree it or retire it"
+    }
+  ]
+}

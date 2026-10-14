@@ -1,0 +1,50 @@
+{
+  "schema": "independent-directed-readback/1",
+  "reviewer": "root",
+  "runner_author": "visibility_review",
+  "verdict": "PASS_BOUNDED_RAW_READBACK",
+  "provider_calls_by_review": 0,
+  "observed_cli_calls": 2,
+  "reported_list_usd": 0.30058440000000003,
+  "native_program_cli_calls": 18,
+  "native_program_list_usd": 1.5191516,
+  "cells": [
+    {
+      "index": 0,
+      "case_id": "b7",
+      "skill_loads": [
+        "sheleg-dev:google-auth"
+      ],
+      "artifact_quality": "PENDING_SEPARATE_REVIEW",
+      "ordered_visible_text_after_load": true
+    },
+    {
+      "index": 1,
+      "case_id": "k2",
+      "skill_loads": [
+        "sheleg-dev:stripe-billing"
+      ],
+      "artifact_quality": "PENDING_SEPARATE_REVIEW",
+      "ordered_visible_text_after_load": true
+    }
+  ],
+  "checks": [
+    "Every raw stdout/stderr/prompt hash and private mode verified.",
+    "Two workspace manifests rematerialized exactly; original paths confined before translated replay.",
+    "All observer fields reproduce; exact frozen prompt suffix and directed intervention match.",
+    "Unique request input usage sums match final usage; complete visible artifacts match private copies.",
+    "Both expected Skill calls are first tools, successful results precede all visible audit text."
+  ],
+  "public_hashes": {
+    "results-a.json": "abaf5c71fe88c5c8ef6134adeb7cdfe9337da4601945e9eeaf5646296c23776d",
+    "run.py": "a0ee026e96cf75c2898246d802b8f54c1e1fec8b34d68f88dcbce496c058feaa",
+    "protocol.json": "a319e168724b65071b1ee9503d562abc9858ee31e6d21a8c49be2c33ef13b9ec",
+    "admission.json": "7f53ab89b33bbee3c16198dfd8339dd43c77d1de0661e9060fab723d8c0d696e"
+  },
+  "raw_manifest_sha256": "249dcfad83e2557fef9c1496a85266c457ea21447ba491edac5752f915ec2be0",
+  "limits": [
+    "Directed access observations only; passive failures and no-adoption decision unchanged.",
+    "Artifact criteria are independently reviewed separately.",
+    "List estimates are not invoices."
+  ]
+}

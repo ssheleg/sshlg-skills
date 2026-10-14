@@ -1,0 +1,20 @@
+{
+  "source": "8d5b63ab07c8bb1e450915d1c0c5d4950c74dfa7",
+  "documentation_successor": "e37df18d914a08a73f15df747021ce8dbd7e9245",
+  "independent_replay": {
+    "cli": {
+      "sha256": "e525547667fced0e5f92b468af1b8e6ba0f2226e28b09ccd0b63a1fa3c128b83",
+      "result": "33 passed; 0 failed"
+    },
+    "recovery": {
+      "sha256": "29b6b5dfb6b1b7995e045283dc95f6614c81b5dc61882260767309cbe062ac06",
+      "result": "30 passed; 0 failed"
+    },
+    "crash": {
+      "sha256": "0593316346584bcd85a6a9f7f09a23040205aec19e710a78e27164de8263c58e",
+      "result": "7 passed; 0 failed"
+    }
+  },
+  "verdict": "ACCEPTED_BOUNDED_SOURCE",
+  "limits": "Metadata-only CLI, actual isolated process/crash fixtures; not composed, published or installed acceptance."
+}

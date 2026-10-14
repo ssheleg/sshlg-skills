@@ -1,0 +1,16 @@
+{
+  "schema": "paired-routing-source/1",
+  "commit": "45ad0580f5db71132eaebd10cba4d4902bdeb080",
+  "source_files": {
+    "test/routing_eval.js": "a52d1f039f5314f59fc2680d0d5d9b9e6dbd748c25c526dfdd94db48fff8ca7b",
+    "lib/routers-registry.js": "11607cc8076887acbe55af67081edc6887ddbeb94d41156d707a505274a28bb0",
+    "test/evals/routing.json": "8e92e27a54d65548ce1c0f6fb17d2ca4dc8f9c4c14297fa2688352a3b866e5aa"
+  },
+  "cases_sha256": "3b4a85368500e1cb049561c71f168536c93d8b9f7a0b0bb5735a7f6270771145",
+  "arms_sha256": "d83ac4fc8be2fd1a1cf8981864521a95266579b9acb224ce3e80a216563d141a",
+  "dependency_hashes": {
+    "native-quality-v1/run.py": "cc30796cb866ef59d32a1261331245060e6ef02c370c5ddc71e8e2818209c745",
+    "native-quality-v1/materialize.py": "f52a4b1ec1988d084354707ff12a267410020ed9c966863038ebe6458683bbb3",
+    "run-description-screening-v2.py": "e10dfc7df74924d834cfdaa5564df4be6df4881ac8a6eadccf9b7a3b2f72e5c7"
+  }
+}
