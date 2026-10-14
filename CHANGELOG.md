@@ -1,3 +1,18 @@
+## v1.63.3 — pinned sources for every Claude member; blocked members no longer stop the run
+
+- A Claude member whose installed bytes already equal the pin is now rebound to the hub's
+  pinned catalog: its marketplace source moves to the pin, with no install or uninstall, and
+  the run verifies that its install records did not change and its bytes still equal the pin.
+  A later native update therefore follows the pin, not upstream (B-191).
+- A member the native contract cannot change — installed only at project or local scope,
+  in user plus other scopes with different bytes, or a configured plugin — is reported as
+  blocked and keeps its installed version, while the other members proceed; the result is
+  partial. Malformed install records still stop the whole run (B-192).
+- The hook runtime records which bytes the hub installed (`.managed.json`). A module a later
+  package drops is moved to `.retired/<stamp>/` only while it still has those bytes; edited,
+  foreign or older unrecorded files stay where they are (B-193).
+- Inserting into a non-empty object of a tab-indented JSON file keeps tabs (B-194).
+
 ## v1.63.2 — the Claude transaction keeps settings in Claude Code's format
 
 - Replacing a marketplace source in `~/.claude/settings.json` wrote the new object on one
