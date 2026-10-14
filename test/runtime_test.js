@@ -189,6 +189,21 @@ it('a malformed manifest retires nothing and is replaced', () => {
   assert.doesNotThrow(() => JSON.parse(fs.readFileSync(path.join(rt, '.managed.json'), 'utf8')));
 });
 
+it('retirement never follows a symlinked .retired and never retires a hook script', () => {
+  const pkg = seedPackage(tmp()), rt = tmp(), elsewhere = tmp();
+  fs.writeFileSync(path.join(pkg, 'lib', 'dropped.js'), '// will be dropped\n');
+  fs.writeFileSync(path.join(pkg, 'hooks', 'gone.js'), '// hook dropped\n');
+  R.sync(pkg, rt, { create: true });
+  fs.symlinkSync(elsewhere, path.join(rt, '.retired'));
+  fs.unlinkSync(path.join(pkg, 'lib', 'dropped.js')); fs.unlinkSync(path.join(pkg, 'hooks', 'gone.js'));
+  fs.writeFileSync(path.join(pkg, 'lib', 'guard.js'), '// v3\n');
+  const r = R.sync(pkg, rt);
+  assert.equal(r.ok, true); assert.deepEqual(r.retired, []); assert.match(r.ownedError || '', /unsafe directory/);
+  assert.ok(fs.existsSync(path.join(rt, 'lib', 'dropped.js')), 'nothing moved through the symlink');
+  assert.equal(fs.readdirSync(elsewhere).length, 0);
+  assert.ok(fs.existsSync(path.join(rt, 'hooks', 'gone.js')), 'a hook script may still be wired; it stays');
+});
+
 if (failures.length) {
   for (const f of failures) console.error(`FAIL: ${f}`);
   console.error(`\n${failures.length} of ${checks} failed`);

@@ -420,7 +420,7 @@ function runClaudePlan(planned, f) {
   const saved = claudePlans.get(planned);
   if (!saved) {
     log(`\n== Updating Claude Code plugins ==\n  skipped: ${claudeScope(f).skippedBy} (the Claude host is outside this run's scope)`);
-    return true;
+    return { ok: true, partial: false };
   }
   for (const e of saved.native.equivalent) log(`    ${e.member || e.name}: payload equals pin ${e.pin.slice(0, 7)} (${e.files} files); no reinstall — only its marketplace source moves to the pin catalog`);
   for (const b of saved.native.blocked) log(`    ${b.name}: blocked, left as installed — ${b.reason}`);
@@ -429,21 +429,22 @@ function runClaudePlan(planned, f) {
     // Nothing is written; still describe the state at apply time, not at preview.
     let again;
     try { again = require('../lib/claude-pinned').prepare(SKILLS, saved.inventory, { home: os.homedir(), profileRoot: claudeRoot() }); }
-    catch (e) { log(`  Claude native transaction refused before execution: ${e.message}`); return false; }
-    if (again.fingerprint !== saved.native.fingerprint) { log('  Claude native state changed since the preview; run update again'); return false; }
+    catch (e) { log(`  Claude native transaction refused before execution: ${e.message}`); return { ok: false, partial: false }; }
+    if (again.fingerprint !== saved.native.fingerprint) { log('  Claude native state changed since the preview; run update again'); return { ok: false, partial: false }; }
     log(clean ? '  Claude native transaction: not needed — every member already carries its pinned payload'
       : '  Claude native transaction: nothing else to do; blocked members above keep their installed version (partial)');
-    return clean;
+    return { ok: true, partial: !clean };
   }
   // Admission, version check and all backups happen before any other channel.
   let result;
   try { result = require('../lib/claude-pin-transaction').execute(saved.native, SKILLS, saved.inventory); }
-  catch(e) { log(`  Claude native transaction refused before execution: ${e.message}`); return false; }
+  catch(e) { log(`  Claude native transaction refused before execution: ${e.message}`); return { ok: false, partial: false }; }
   log(`  Claude native transaction: ${result.ok ? 'verified immutable payloads' : 'failed; inspect recovery receipt'} — ${result.receipt}`);
   for (const r of result.results) log(`    ${r.member}: ${r.status}${r.rollback ? '; rollback: ' + r.rollback : ''}`);
   if (result.error) log(`  ${result.error}`);
   if (!clean) log('  Claude: partial — blocked members above keep their installed version');
-  return result.ok && clean;
+  // A blocked member makes the result partial; the other channels still run.
+  return { ok: result.ok, partial: !clean };
 }
 
 /** The same contract for `update` — every subprocess, prune, router and runtime action. */
@@ -521,8 +522,9 @@ function renderDryRun(planned, mode) {
 function cmdInstall(f) {
   const planned = frozenOperations.get(f) || planInstall(f);
   if (f.dryRun) return renderDryRun(planned, 'install');
-  if (!runClaudePlan(planned, f)) return false;
-  let ok = true;
+  const claude = runClaudePlan(planned, f);
+  if (!claude.ok) return false;
+  let ok = !claude.partial;
   if (!f.claudeOnly) {
     const agents = skillsCliAgents(f);
     log(`\n== Installing to agents via skills CLI: ${agents.join(', ')} ==`);
@@ -595,8 +597,9 @@ function scopedRoutingTargets(f) {
 function cmdUpdate(f) {
   const planned = frozenOperations.get(f) || planUpdate(f);
   if (f.dryRun) return renderDryRun(planned, 'update');
-  if (!runClaudePlan(planned, f)) return false;
-  let ok = true;
+  const claude = runClaudePlan(planned, f);
+  if (!claude.ok) return false;
+  let ok = !claude.partial;
   // Count and execute the subprocess entries from the same frozen plan.
   progress.total =
     (!f.claudeOnly && fs.existsSync(path.join(ROOT, '.gitmodules')) ? 1 : 0)
@@ -664,6 +667,8 @@ function cmdUpdate(f) {
             + `${before.differing.length} changed`
           : '  already level with this package');
         for (const m of before.missing) log(`    + ${m}`);
+        if (r.retired && r.retired.length) log(`  retired ${r.retired.length} file(s) this package dropped (kept under ${root}/.retired/): ${r.retired.join(', ')}`);
+        if (r.ownedError) log(`  warning: ${r.ownedError}`);
       }
     } catch (e) {
       // Other update steps may finish, but failed runtime refresh makes the aggregate red.
@@ -3265,6 +3270,8 @@ function cmdHooks(argv) {
   function syncRuntime() {
     const result = require('../lib/runtime.js').sync(pkgRoot, root, { create: true });
     if (result.ok === false) throw new Error(result.reason);
+    if (result.retired && result.retired.length) log(`  runtime: retired ${result.retired.length} dropped file(s) to ${root}/.retired/: ${result.retired.join(', ')}`);
+    if (result.ownedError) log(`  runtime warning: ${result.ownedError}`);
     return root;
   }
 

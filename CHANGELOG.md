@@ -6,11 +6,13 @@
   A later native update therefore follows the pin, not upstream (B-191).
 - A member the native contract cannot change — installed only at project or local scope,
   in user plus other scopes with different bytes, or a configured plugin — is reported as
-  blocked and keeps its installed version, while the other members proceed; the result is
-  partial. Malformed install records still stop the whole run (B-192).
-- The hook runtime records which bytes the hub installed (`.managed.json`). A module a later
-  package drops is moved to `.retired/<stamp>/` only while it still has those bytes; edited,
-  foreign or older unrecorded files stay where they are (B-193).
+  blocked and keeps its installed version, while the other members and every later channel
+  (plain skills, runtime, hooks, Codex) proceed; the result is partial and exits nonzero.
+  Malformed install records still stop the whole run (B-192).
+- The hook runtime records which bytes the hub installed (`.managed.json`). A library module a
+  later package drops is moved to `.retired/<stamp>/` only while it still has those bytes, and
+  `update`/`hooks install` print what moved; hook scripts, edited, foreign or older unrecorded
+  files stay where they are (B-193).
 - Inserting into a non-empty object of a tab-indented JSON file keeps tabs (B-194).
 
 ## v1.63.2 — the Claude transaction keeps settings in Claude Code's format
