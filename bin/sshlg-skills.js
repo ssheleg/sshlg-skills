@@ -407,7 +407,8 @@ function withClaudePlan(steps, f) {
     steps.unshift(opres.step('claude-pins', 'home',
       'native immutable source transaction; protected catalogs/settings, scoped repair, rollback on failure, payload readback',
       { fingerprint: native.fingerprint, profile: native.profile,
-        members: native.jobs.map(j => `${j.pluginInstall}: ${j.action} @ ${j.row.commit}; ${j.row.files.length} files`),
+        members: native.jobs.map(j => `${j.pluginInstall}: ${j.action} @ ${j.row.commit}; ${j.row.files.length} files`)
+          .concat(native.equivalent.map(e => `${e.pluginInstall}: payload-equivalent, left installed (installed ${String(e.installed).slice(0, 7)}, pin ${e.pin.slice(0, 7)}; ${e.files} files equal)`)),
         journal: path.join(native.transactionRoot, 'latest.json') }));
   }
   const result = attachWaitPlan(steps, f);
@@ -418,6 +419,16 @@ function runClaudePlan(planned, f) {
   const saved = claudePlans.get(planned);
   if (!saved) {
     log(`\n== Updating Claude Code plugins ==\n  skipped: ${claudeScope(f).skippedBy} (the Claude host is outside this run's scope)`);
+    return true;
+  }
+  for (const e of saved.native.equivalent) log(`    ${e.member || e.name}: payload equals pin ${e.pin.slice(0, 7)} (${e.files} files); installed source ${String(e.installed).slice(0, 7)} kept and its marketplace source is unchanged, so a later native update follows that source, not the pin`);
+  if (!saved.native.jobs.length) {
+    // Nothing is written; still describe the state at apply time, not at preview.
+    let again;
+    try { again = require('../lib/claude-pinned').prepare(SKILLS, saved.inventory, { home: os.homedir(), profileRoot: claudeRoot() }); }
+    catch (e) { log(`  Claude native transaction refused before execution: ${e.message}`); return false; }
+    if (again.fingerprint !== saved.native.fingerprint) { log('  Claude native state changed since the preview; run update again'); return false; }
+    log('  Claude native transaction: not needed — every member already carries its pinned payload');
     return true;
   }
   // Admission, version check and all backups happen before any other channel.
