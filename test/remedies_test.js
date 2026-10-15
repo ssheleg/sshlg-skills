@@ -107,9 +107,13 @@ function codeOf(src) {
  */
 function rulesIn(file, dir = path.join(ROOT, 'lib')) {
   const src = codeOf(fs.readFileSync(path.join(dir, file), 'utf8'));
-  const sites = src.match(/\brule\s*:/g) || [];
-  const named = [...src.matchAll(/\brule\s*:\s*(['"`])([a-z-]+)\1/g)].map((m) => m[2]);
-  assert.strictEqual(named.length, sites.length, `${file}: a rule is spelled in a form this scan cannot read`);
+  // A `rule` key, bare or quoted ('rule', "rule", `rule`), followed by a colon.
+  const KEY = String.raw`(?:['"\`]rule['"\`]|\brule)\s*:`;
+  const sites = src.match(new RegExp(KEY, 'g')) || [];
+  const named = [...src.matchAll(new RegExp(KEY + String.raw`\s*(['"\`])([a-z-]+)\1`, 'g'))].map((m) => m[2]);
+  // Shorthand `{ rule, why }` names no literal: unreadable, so refused like a variable.
+  const shorthand = src.match(/[{,]\s*rule\s*(?=[,}])/g) || [];
+  assert.ok(named.length === sites.length && !shorthand.length, `${file}: a rule is spelled in a form this scan cannot read`);
   return named;
 }
 /**
@@ -182,6 +186,12 @@ it('the rule scan reads every quoting and refuses what it cannot read', () => {
     fs.writeFileSync(path.join(lib, 'x.js'), "return { rule: 'a-b', why: 1 };\nreturn { rule: \"c-d\", why: 2 };\nreturn { rule: `e-f` };\n// rule: 'in-a-comment'\n");
     const scan = (file) => rulesIn(file, lib);
     assert.deepStrictEqual(scan('x.js'), ['a-b', 'c-d', 'e-f']);
+    fs.writeFileSync(path.join(lib, 'q.js'), "return { 'rule': 'g-h', why: 1 };\nreturn { \"rule\": \"i-j\" };\n");
+    assert.deepStrictEqual(scan('q.js'), ['g-h', 'i-j']);
+    fs.writeFileSync(path.join(lib, 'z.js'), "const rule = 'k-l';\nreturn { rule, why: 1 };\n");
+    assert.throws(() => scan('z.js'), /cannot read/);
+    fs.writeFileSync(path.join(lib, 'w.js'), "return { why: 1, rule };\n");
+    assert.throws(() => scan('w.js'), /cannot read/);
     fs.writeFileSync(path.join(lib, 'y.js'), 'return { rule: NAME, why: 1 };\n');
     assert.throws(() => scan('y.js'), /cannot read/);
   } finally { fs.rmSync(tmp, { recursive: true, force: true }); }

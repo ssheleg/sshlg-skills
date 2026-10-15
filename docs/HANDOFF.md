@@ -18,7 +18,9 @@ Not released: the family release follows after every iteration row lands.
   error shape; each fails with its guard planted out.
   Round 3 (adversarial): exact round trip without a separator, CRLF, fenced examples,
   result-parse check, read-only refusal, backup reuse on retry, resolve sweeps temp files,
-  edited-block warnings; remedies reads every `rule:` spelling and the hook's deny sites.
+  edited-block warnings; remedies reads quoted `rule` keys, refuses shorthand, and checks the
+  hook's deny sites. Cycle 2: a crash before the first journal.head is recoverable; stray
+  fences around the selected block warn with the line; mid-file uninstall pinned.
 - **Board:** B-175, B-179, B-181 closed with evidence; filed B-195 (I-6 labelled-value
   detector, another builder), B-196/B-197 (wait block content, M-10), B-198 (`--help`
   for every subcommand; `blocks` answers now), B-199 (journal-named backups not pinned).

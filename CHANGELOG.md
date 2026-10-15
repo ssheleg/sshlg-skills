@@ -20,7 +20,8 @@
   (a file with mode 600), with the vault named as the alternative. A new suite,
   `test/remedies_test.js`, holds every secret-guard refusal to an Observatory-free step
   before any Observatory step (USR-011); it reads only the remedy part of each refusal, every
-  spelling of `rule:`, and every deny site of the PreToolUse hook.
+  `rule` key, bare or quoted, refusing a spelling it cannot read (a variable, the
+  `{ rule }` shorthand), and every deny site of the PreToolUse hook.
 
 ## v1.63.3 — pinned sources for every Claude member; blocked members no longer stop the run
 

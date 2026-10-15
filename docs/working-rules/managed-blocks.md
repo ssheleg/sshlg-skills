@@ -41,7 +41,9 @@ link to nothing is refused as `HOST_ABSENT` and says so.
 - A marker inside a closed Markdown code fence (```` ``` ```` or `~~~`, up to three
   spaces of indent) is an example, not a block: it is not listed and never written. An
   unclosed fence fences nothing, so it cannot hide a real block's `END`; a comment
-  opened inside a fence ends with the fence.
+  opened inside a fence ends with the fence. Stray, unbalanced fences around a real block
+  make it read as an example; the writer's preview then warns, naming the line of every
+  `BEGIN` of the selected id that sits inside a fence.
 - A duplicate, crossed, unclosed or stray marker, a near-miss spelling (spaces around
   a colon, lower-case `begin`), or invalid UTF-8 makes the whole file malformed. Readers
   report it; writers refuse the file until a person fixes it. Nothing is repaired
@@ -148,7 +150,9 @@ the hash of the previous line, so an edited or removed record in the middle brea
 chain. Beside it, `journal.head` (0600) holds the record count and the last line's hash
 and is rewritten after every append, so an edited or deleted last record, and whole
 trailing records cut off, are detected too. One extra, correctly chained record beyond the head is accepted: that is a crash
-between the append and the head update. Deleting the journal and its head together is
+between the append and the head update. A missing head counts as zero records, so the
+very first record without a head is that same crash window and is accepted; the next
+append writes the head. Two or more records without a head means the head was removed. Deleting the journal and its head together is
 not detected. No record carries block text or file content.
 
 One operation moves through `PREPARED → BACKUP_VERIFIED → WRITE_INTENT → VERIFIED`.

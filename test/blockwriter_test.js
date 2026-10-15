@@ -283,7 +283,7 @@ try {
     assert(fs.readFileSync(f.file, 'utf8').includes('notice v2'));
   });
 
-  t('the journal head: a whole trailing operation cut off, or a missing head, is refused; the crash window is not', () => {
+  t('the journal head: a whole trailing operation cut off, or a head missing beside two or more records, is refused; the crash window is not', () => {
     const f = fixture(PROSE);
     W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home });
     W.execute(W.plan(opts(f, { op: 'uninstall', from: undefined })), { home: f.home });
@@ -466,6 +466,50 @@ try {
     assert.match(said, /Warning: .*edits are dropped.*\(CLAUDE\.md--v2-[a-f0-9]{64}\.\d{8}T\d{6}Z/);
     const g = fixture(PROSE + block(ID, 'placed by hand') + '\n');
     assert.match(W.plan(opts(g, { op: 'install' })).warnings[0], /not installed through this writer/);
+  });
+
+  t('a crash writing the first journal.head is recoverable: resolve and the next write succeed, and the head is rebuilt', () => {
+    const f = fixture(PROSE);
+    const open = fs.openSync;
+    let failed = false;
+    fs.openSync = (p, ...rest) => {
+      if (!failed && path.basename(String(p)).startsWith('journal.head.')) { failed = true; throw Object.assign(new Error('simulated I/O error'), { code: 'EIO' }); }
+      return open(p, ...rest);
+    };
+    try { assert.strictEqual(code(() => W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home })), 'EIO'); }
+    finally { fs.openSync = open; }
+    assert(failed, 'the head write was never attempted — the case proves nothing');
+    assert(!fs.existsSync(W.headPath(f.home)));
+    const recs = W.readJournal(f.home);
+    assert.strictEqual(recs.length, 1);
+    assert.strictEqual(recs[0].state, 'PREPARED');
+    assert.strictEqual(code(() => W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home })), 'RECOVERY_REQUIRED');
+    assert.strictEqual(W.resolve(f.home, recs[0].operationId).state, 'RECOVERED_NO_WRITE');
+    assert(fs.existsSync(W.headPath(f.home)), 'the head was not rebuilt');
+    assert.strictEqual(W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home }).state, 'VERIFIED');
+    assert.strictEqual(W.readJournal(f.home).length, 6);
+    // Two or more records without a head is still a removed head.
+    fs.unlinkSync(W.headPath(f.home));
+    assert.strictEqual(code(() => W.readJournal(f.home)), 'JOURNAL_DAMAGED');
+  });
+
+  t('uninstall in the middle of a file removes exactly the block and one line ending', () => {
+    const f = fixture('# a\n\n' + block(ID, 'notice v1') + '\n\n# b\n');
+    W.execute(W.plan(opts(f, { op: 'uninstall', from: undefined })), { home: f.home });
+    assert.strictEqual(fs.readFileSync(f.file, 'utf8'), '# a\n\n\n# b\n');
+  });
+
+  t('a real block between stray fences reads as an example, and plan warns naming its line', () => {
+    const f = fixture('```bash\nls\n' + block(ID, 'real') + '\n```python\nx\n```\n');
+    const p = W.plan(opts(f, { op: 'install' }));
+    assert.strictEqual(p.action, 'insert');
+    assert.strictEqual(p.warnings.length, 1);
+    assert.match(p.warnings[0], /^line 3 holds OBSERVATORY:AGENT-UPDATES:BEGIN inside a code fence.*adds a second copy/);
+    let said = '';
+    W.cli(['install', ID, '--owner', 'OBSERVATORY', '--agent', 'claude', '--from', f.from], { home: f.home, env: {} }, (x) => { said += x; });
+    assert.match(said, /Warning: line 3 holds/);
+    const g = fixture(PROSE + block(ID, 'real') + '\n');
+    assert.deepStrictEqual(W.plan(opts(g, { op: 'install' })).warnings.filter((w) => /code fence/.test(w)), [], 'a real block warns as fenced');
   });
 } finally { fs.rmSync(root, { recursive: true, force: true }); }
 console.log(`PASS: blockwriter — ${n} cases`);
