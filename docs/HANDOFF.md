@@ -36,7 +36,7 @@ reads a generated-looking value under a credential label in what `Bash`, `Read` 
 printed; `hooks/post-tool-use.js` names the label, tool and file or program, never the value.
 The `PostToolUse` matcher is now `Bash|Read|Grep`. Tests: `test/labelled_secrets_test.js`
 (76) and 7 new fixtures in `test/hooks_e2e_test.js`, three of them watched failing against the
-pre-change hook; full gate green at 134 suites / 2368 fixtures on `e20190e`; 2408 after fix cycle 1, rebased on `a9080b8` (1.63.3); 2478 after fix cycle 2. False-positive measurement
+pre-change hook; full gate green at 134 suites / 2368 fixtures on `e20190e`; 2408 after fix cycle 1, rebased on `a9080b8` (1.63.3); 2478 after fix cycle 2; 136 / 2543 rebased on `e53abbd` (#223). False-positive measurement
 and the one residual class are in the CHANGELOG's Unreleased entry.
 
 Fix cycle 1 (round-1 adversarial review, 2 MEDIUM + 4 LOW): Switchboard proxy tokens
@@ -53,7 +53,12 @@ Groq and Stripe keys. Identifier skip needs a case transition (property tests ov
 lower alnum, word-digit-word); k8s slugs are names; userinfo label checked; atomic labels;
 digit-free keys read; PARTIAL names its cause.
 
-**Open:** the B-row is B-195, filed in #223 (open). Not
+Rebased on `e53abbd` (#223 merged): B-195 closed by this branch; `test/remedies_test.js`
+now also checks the PostToolUse note (free step before the Observatory step, through the real
+hook process) and that the PostToolUse hook and `lib/labelledsecrets.js` deny nothing and
+declare no `rule:` — the PreToolUse deny-site table is unchanged and complete.
+
+**Open:** none on this branch beyond review. Not
 released: the next hub release carries it, and `update` refreshes the matcher on machines that
 have the hook. **Next:** review the PR; on merge, the release that ships it.
 

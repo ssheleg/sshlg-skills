@@ -94,6 +94,8 @@
   its shape. The other 12 hold a generated-looking value under a credential label: configs,
   documentation examples and test sentinels. The detector reads shape, not provenance, and
   its note says so.
+- The note leads with the step that needs no Observatory, as `test/remedies_test.js` holds
+  every refusal to; that suite now reads this note through the real hook process too (B-195).
 - **Bounded, and the vendor scan unchanged.** `secrets.scan` reads every byte of every string
   of the response, as before; only the labelled detector windows each string (1 MiB whole,
   else its first 768 KiB and last 256 KiB; 4 MiB in all), and its note says when a scan was
