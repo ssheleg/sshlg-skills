@@ -36,7 +36,7 @@ reads a generated-looking value under a credential label in what `Bash`, `Read` 
 printed; `hooks/post-tool-use.js` names the label, tool and file or program, never the value.
 The `PostToolUse` matcher is now `Bash|Read|Grep`. Tests: `test/labelled_secrets_test.js`
 (76) and 7 new fixtures in `test/hooks_e2e_test.js`, three of them watched failing against the
-pre-change hook; full gate green at 134 suites / 2368 fixtures on `e20190e`; 2408 after fix cycle 1, rebased on `a9080b8` (1.63.3); 2478 after fix cycle 2; 136 / 2543 rebased on `e53abbd` (#223); 138 / 2555 rebased on `07de79f` (1.64.0, #228). False-positive measurement
+pre-change hook; full gate green at 134 suites / 2368 fixtures on `e20190e`; 2408 after fix cycle 1, rebased on `a9080b8` (1.63.3); 2478 after fix cycle 2; 136 / 2543 rebased on `e53abbd` (#223); 138 / 2555 rebased on `07de79f` (1.64.0, #228); 138 / 2585 after fix cycle 3. False-positive measurement
 and the one residual class are in the CHANGELOG's Unreleased entry.
 
 Fix cycle 1 (round-1 adversarial review, 2 MEDIUM + 4 LOW): Switchboard proxy tokens
@@ -57,6 +57,13 @@ Rebased on `e53abbd` (#223 merged): B-195 closed by this branch; `test/remedies_
 now also checks the PostToolUse note (free step before the Observatory step, through the real
 hook process) and that the PostToolUse hook and `lib/labelledsecrets.js` deny nothing and
 declare no `rule:` — the PreToolUse deny-site table is unchanged and complete.
+
+Fix cycle 3 (round 3: 3 MEDIUM, 5 LOW, 1 INFO): a commented key always reports and every
+key line counts; values to 4,096 characters (long JWTs, session tokens); the file-scope
+reader is linear and the labelled scan has a time budget (the vendor note survives);
+quote-aware base URL reading; 20-line proximity, `grep --heading` and heredoc scopes; label
+segments echoed only from known vocabulary; `ENV_VAR_NAME_2` is a name; surviving mutants
+pinned (fixed UUID, atomic-label source check plus a linear-baseline timing, long JWTs).
 
 **Open:** none on this branch beyond review. Not
 released: the next hub release carries it, and `update` refreshes the matcher on machines that

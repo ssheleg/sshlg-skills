@@ -105,7 +105,11 @@ process.stdin.on('end', () => {
     } catch (e) { /* fails silent, like everything else here */ }
     try {
       const L = require(path.join(LIB, 'labelledsecrets.js'));
-      const note = L.describe(L.scanLabelled(parts || [text]), L.whereOf(data));
+      // A time budget well inside the host's hook timeout: if the labelled scan cannot
+      // finish, its note says PARTIAL and the vendor note above still reaches the turn.
+      // SSHLG_LABELLED_BUDGET_MS exists for the e2e fixture that proves the budget is honoured.
+      const timeBudgetMs = Number(process.env.SSHLG_LABELLED_BUDGET_MS) || 5000;
+      const note = L.describe(L.scanLabelled(parts || [text], { timeBudgetMs }), L.whereOf(data));
       if (note) notes.push(note);
     } catch (e) { /* fails silent, like everything else here */ }
 

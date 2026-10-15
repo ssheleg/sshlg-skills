@@ -1476,6 +1476,37 @@ try {
     assert.ok(!text.includes(vendor), 'the report repeats the value');
   });
 
+  it('a _BASE_URL beside a MiB of slash-dense output keeps the vendor note, and fast (fix 3, M3)', () => {
+    // Round 3: the file-scope reader backtracked on a colon-free line dense with `/`; at
+    // 1 MiB the hook ran past the host's 60 s timeout and the vendor note was lost. Now the
+    // reader is linear and the labelled scan has a time budget of its own.
+    const vendor = 'gh' + 'p_' + crypto.randomBytes(18).toString('hex');
+    const t0 = Date.now();
+    const out = runHook('post-tool-use.js', {
+      hook_event_name: 'PostToolUse', tool_name: 'Bash', tool_input: { command: 'cat dump.txt' },
+      tool_response: { stdout: `X_BASE_URL=http://localhost:4000\nX_API_KEY=x\n${vendor}\n` + 'a/'.repeat(512 * 1024), stderr: '' },
+    });
+    const ms = Date.now() - t0;
+    const text = out && out.hookSpecificOutput.additionalContext;
+    assert.ok(text && /CREDENTIAL IN OUTPUT — This command PRINTED/.test(text), 'the vendor note was lost');
+    assert.ok(!text.includes(vendor), 'the report repeats the value');
+    assert.ok(ms < 15000, `the hook took ${ms} ms`);
+  });
+
+  it('the hook gives the labelled scan a time budget, and its note says so while the vendor note stays (fix 3, M3)', () => {
+    const vendor = 'gh' + 'p_' + crypto.randomBytes(18).toString('hex');
+    const part = 'token ' + 'a '.repeat(500 * 1024);
+    const r = spawnSync('node', [path.join(ROOT, 'hooks', 'post-tool-use.js')], {
+      input: JSON.stringify({ hook_event_name: 'PostToolUse', tool_name: 'Bash', tool_input: { command: 'make' },
+        tool_response: { stdout: `${vendor}\n${part}`, stderr: part, output: part, content: part } }),
+      encoding: 'utf8', env: Object.assign({}, ENV, { SSHLG_LABELLED_BUDGET_MS: '1' }),
+    });
+    assert.strictEqual(r.status, 0, r.stderr);
+    const text = JSON.parse(r.stdout.trim()).hookSpecificOutput.additionalContext;
+    assert.ok(/CREDENTIAL IN OUTPUT — This command PRINTED/.test(text), 'the vendor note was lost');
+    assert.ok(/scan PARTIAL/.test(text) && /time budget/.test(text), `no time-budget note: ${text.slice(0, 200)}`);
+  });
+
   it('a Switchboard proxy token read from settings.local.json is not reported (fix 1, M1)', () => {
     const r = runHookRaw('post-tool-use.js', {
       hook_event_name: 'PostToolUse', tool_name: 'Read',

@@ -374,6 +374,162 @@ it('the PARTIAL note names the cause: a long field, or the 4 MiB budget across f
   assert.ok(!/its middle/.test(note), 'the budget case is worded as a long field');
 });
 
+// ── Fix cycle 3 (round-3 adversarial review of #224 at 4535829) ──────────────
+const b64u = (n) => crypto.randomBytes(n).toString('base64url');
+/** An RS256-shaped JWT of exactly `len` characters (header.payload.signature). */
+const jwtOf = (len) => {
+  const head = 'eyJ' + b64u(27);
+  const sig = b64u(256).slice(0, 342);
+  const bodyLen = len - head.length - sig.length - 2;
+  let body = 'eyJ';
+  while (body.length < bodyLen) body += b64u(64);
+  return `${head}.${body.slice(0, bodyLen)}.${sig}`;
+};
+const OPENAI_LOCAL = 'OPENAI_BASE_URL=http://localhost:4000';
+const realKey = () => drawKey(REMOTE_KEYS['legacy sk-']);
+
+// M1: a commented key is never a proxy's, and every key line counts.
+for (const [name, make] of [
+  ['loopback + local key + commented real key', () => `${OPENAI_LOCAL}\nOPENAI_API_KEY=${realKey()}\n# OPENAI_API_KEY=${realKey()}`],
+  ['loopback + commented key alone', () => `${OPENAI_LOCAL}\n# OPENAI_API_KEY=${realKey()}`],
+  ['loopback + // commented key alone', () => `${OPENAI_LOCAL}\n// OPENAI_API_KEY=${realKey()}`],
+]) {
+  it(`reports (fix 3, M1): ${name}`, () => {
+    const r = L.scanLabelled(make());
+    assert.ok(r && labels(r).includes('OPENAI_API_KEY'), 'a commented key was hidden by the loopback skip');
+  });
+}
+it('every key line counts, commented ones too: two keys beside one loopback both report (fix 3, M1)', () => {
+  const r = L.scanLabelled(`${OPENAI_LOCAL}\nOPENAI_API_KEY=${realKey()}\n# OPENAI_API_KEY=${realKey()}`);
+  assert.strictEqual(r.found.find((f) => f.label === 'OPENAI_API_KEY').count, 2);
+});
+
+// M2: long bearer tokens, id_tokens and session tokens.
+it('the value limit is long enough for an RS256 id_token (fix 3, M2)', () => {
+  assert.ok(L.MAX_LEN >= 2500, `MAX_LEN ${L.MAX_LEN}`);
+});
+for (const len of [600, 1500]) {
+  it(`reports (fix 3, M2): an RS256 JWT of ${len} characters as Authorization: Bearer`, () => {
+    const t = jwtOf(len);
+    assert.strictEqual(t.length, len);
+    assert.deepStrictEqual(labels(L.scanLabelled(`> Authorization: Bearer ${t}\n> Accept: */*`)), ['Authorization']);
+  });
+  it(`reports (fix 3, M2): an RS256 JWT of ${len} characters as a JSON id_token`, () => {
+    assert.deepStrictEqual(labels(L.scanLabelled(`{"access_type":"x","id_token": "${jwtOf(len)}"}`)), ['id_token']);
+  });
+}
+it('reports (fix 3, M2): an 800-character aws_session_token', () => {
+  let t = 'IQoJb3JpZ2luX2VjE';
+  while (t.length < 800) t += crypto.randomBytes(48).toString('base64');
+  t = t.slice(0, 800);
+  assert.deepStrictEqual(labels(L.scanLabelled(`aws_session_token = ${t}`)), ['aws_session_token']);
+});
+
+// M3: the file-scope reader is linear; the hook keeps its vendor note (e2e, hooks_e2e_test).
+it('a colon-free 1 MiB line dense with `/` beside a _BASE_URL stays fast (fix 3, M3)', () => {
+  for (const s of ['X_BASE_URL=http://localhost:4000\nX_API_KEY=x\n' + 'a/'.repeat(512 * 1024),
+                   'X_BASE_URL=x token\n.' + 'a.b/'.repeat(256 * 1024)]) {
+    const t0 = Date.now();
+    L.scanLabelled(s);
+    const ms = Date.now() - t0;
+    assert.ok(ms < 1000, `took ${ms} ms`);
+  }
+  const t1 = Date.now();
+  assert.strictEqual(L.grepPrefix('a/'.repeat(512 * 1024)), null);
+  assert.ok(Date.now() - t1 < 100, 'grepPrefix is not linear');
+  assert.deepStrictEqual(L.grepPrefix('apps/x/.env:12:K=v'), { path: 'apps/x/.env', length: 15 });
+});
+it('a scan out of its time budget says PARTIAL (time), not silence (fix 3, M3)', () => {
+  const part = 'token ' + 'a '.repeat(500 * 1024);
+  const r = L.scanLabelled([part, part, part, part], { timeBudgetMs: 1 });
+  assert.ok(r && r.partial && r.why === 'time', JSON.stringify(r));
+  assert.match(L.describe(r, {}), /time budget/);
+});
+
+// L1: a base URL is read to its end, and anything after the host but a clean path is not loopback.
+for (const url of ['http://localhost"@evil.com"', "'http://localhost'@evil.com", 'http://localhost,@evil.com',
+                   'http://localhost}@evil.com', 'http://localhost\\@evil.com', 'http://localhost:4000/v1@evil.com']) {
+  it(`reports (fix 3, L1, M4): base URL ${url}`, () => {
+    const r = L.scanLabelled(`OPENAI_BASE_URL=${url}\nOPENAI_API_KEY=${realKey()}`);
+    assert.ok(r && labels(r).includes('OPENAI_API_KEY'), 'a non-loopback host was read as loopback');
+  });
+}
+it('silent (fix 3, L1): one-line JSON and a YAML comment still close a loopback URL cleanly', () => {
+  assert.strictEqual(L.scanLabelled(`{"env":{"ANTHROPIC_BASE_URL":"http://127.0.0.1:47219","ANTHROPIC_AUTH_TOKEN":"${V()}"}}`), null);
+  assert.strictEqual(L.scanLabelled(`{"env": {"ANTHROPIC_BASE_URL": "http://127.0.0.1:47219"}, "x": {"ANTHROPIC_AUTH_TOKEN": "${V()}"}}`), null);
+  assert.strictEqual(L.scanLabelled(`OPENAI_BASE_URL: http://localhost:4000/v1 # local proxy\nOPENAI_API_KEY: ${V()}`), null);
+});
+
+// L2: concatenated output — distance, grep --heading, compose services, a heredoc.
+const FILLER = Array.from({ length: 30 }, (_, i) => `SETTING_${i}=on`).join('\n');
+for (const [name, make] of [
+  ['a key 30 lines away from the loopback base', () => `${OPENAI_LOCAL}\n${FILLER}\nOPENAI_API_KEY=${realKey()}`],
+  ['grep --heading from two files', () => `apps/dev/.env\n1:${OPENAI_LOCAL}\n\napps/prod/.env\n3:OPENAI_API_KEY=${realKey()}`],
+  ['compose: a dev service on loopback, a prod service without a base', () => `services:\n  dev:\n    environment:\n      OPENAI_BASE_URL: http://localhost:4000\n      OPENAI_API_KEY: ${V()}\n  prod:\n    environment:\n      OPENAI_API_KEY: ${realKey()}`],
+  ['a heredoc dev.env, then an export', () => `cat > dev.env <<EOF\n${OPENAI_LOCAL}\nEOF\nexport OPENAI_API_KEY=${realKey()}`],
+]) {
+  it(`reports (fix 3, L2): ${name}`, () => {
+    const r = L.scanLabelled(make());
+    assert.ok(r && labels(r).includes('OPENAI_API_KEY'), 'a key from another place was hidden');
+  });
+}
+
+// L3: nothing value-shaped is echoed through a label or a scheme.
+it('property (fix 3, L3): a label or scheme glued to a value never echoes 8 characters of it', () => {
+  const alphabets = ['ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', '0123456789abcdef',
+    'abcdefghijklmnopqrstuvwxyz0123456789', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+  const draw = (n, a) => Array.from(crypto.randomBytes(n), (b) => a[b % a.length]).join('');
+  const shapes = [
+    (v) => `${v}_token: ${V()}`, (v) => `${v}_URL=postgres://u:${V()}@h.internal`,
+    (v) => `${v.replace(/^\d/, 'a').slice(0, 20)}://u:${V()}@h.internal`, (v) => `x-${v}-key: ${V()}`,
+  ];
+  let reported = 0;
+  for (let i = 0; i < 1500; i += 1) {
+    const a = alphabets[i % alphabets.length];
+    const v = draw(10 + (i % 30), a);
+    for (const sh of shapes) {
+      const r = L.scanLabelled(sh(v));
+      if (!r || !r.found.length) continue;
+      reported += 1;
+      const note = L.describe(r, { tool: 'Bash', where: 'cat' }).toLowerCase();
+      for (let j = 0; j + 8 <= v.length; j += 1) {
+        assert.ok(!note.includes(v.slice(j, j + 8).toLowerCase()), `echoed a slice of a ${v.length}-char value`);
+      }
+    }
+  }
+  assert.ok(reported > 1000, `only ${reported} reports: the property proves little`);
+});
+it('ordinary labels are echoed whole (fix 3, L3)', () => {
+  for (const l of ['OPENROUTER_API_KEY', 'secretAccessKey', 'x-goog-api-key', 'NICEGRAM_INTERNAL_SECRET', 'aws_session_token', 'STRIPE_WEBHOOK_SECRET', 'applicationSecret']) {
+    assert.strictEqual(L.safeLabel(l), l);
+  }
+  assert.deepStrictEqual(labels(L.scanLabelled(`motd=xyz123://a:${V()}@db.internal/x`)), ['url-password']);
+});
+
+// L4: an ENV_VAR_NAME is a name.
+it('silent (fix 3, L4): UPPER_SNAKE env-var names with digits are names', () => {
+  assert.strictEqual(L.scanLabelled('credentials: MINIFLARE_R2_S3_CREDENTIALS\napi_key_env=CLOUDFLARE_R2_TOKEN_2'), null);
+});
+
+// L5: mutants that survived round 3, pinned deterministically.
+it('fixed letter-leading UUIDs under API_KEY are values, not slugs (fix 3, L5/M10)', () => {
+  // The second has four digits, so only the all-hex rule — not the digit cap — keeps it a value.
+  for (const u of ['fa3c9e1b-7d24-4c8a-b5e6-0f9d2a7c41e8', 'fa3cbe1d-cafe-4bed-acde-fedcba7cdbef']) {
+    assert.ok(!L.looksLikeSlug(u), u);
+    assert.deepStrictEqual(labels(L.scanLabelled(`API_KEY=${u}`)), ['API_KEY'], u);
+  }
+});
+it('labels are captured atomically, and a label run costs what a linear baseline does (fix 3, L5/M13)', () => {
+  for (const [name, rx] of Object.entries(L.PATTERNS)) {
+    assert.ok(/\(\?=\(\[A-Za-z_\]\[A-Za-z0-9_\.-\]\{0,63\}\)\)\\\d/.test(rx.source), `${name}: the label is not captured atomically`);
+  }
+  const MiB = 1024 * 1024;
+  const best = (s) => { let b = Infinity; for (let i = 0; i < 3; i += 1) { const t = process.hrtime.bigint(); L.scanLabelled(s); b = Math.min(b, Number(process.hrtime.bigint() - t) / 1e6); } return b; };
+  const base = best('token\n' + 'a '.repeat(MiB / 2));
+  const dash = best('token\n' + '-a'.repeat(MiB / 2));
+  assert.ok(dash <= Math.max(4 * base, 40), `-a-a… ${dash.toFixed(1)} ms vs linear baseline ${base.toFixed(1)} ms`);
+});
+
 // ── Values the detector must NOT report ─────────────────────────────────────
 // Hashes, ids and public fingerprints under neutral names; code; placeholders; the
 // shapes this repository's own guard recommends.

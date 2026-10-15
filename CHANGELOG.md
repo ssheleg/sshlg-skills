@@ -6,7 +6,7 @@
   `Authorization: Bearer …` went unreported. `lib/labelledsecrets.js` reads the label and the
   value's shape: the label's noun must name a credential (token, secret, password, or `key`
   with a credential qualifier such as api, client or an `x-` header), and the value must look
-  generated (16–512 characters, a letter and a digit, at least 3 bits of entropy per
+  generated (16–4,096 characters, a letter and a digit, at least 3 bits of entropy per
   character, not a placeholder, path, URL, number, timestamp, snake_case name, sequential
   example or code). The `PostToolUse` note names the label, the tool and the file or program —
   never the value or any slice of it — and the remedy: rotate through the owner's door
@@ -22,15 +22,19 @@
 - **A local proxy's token is not a vendor key.** Switchboard's managed sessions (SB-118) put
   `ANTHROPIC_AUTH_TOKEN` beside `ANTHROPIC_BASE_URL=http://127.0.0.1:…` in every project's
   `.claude/settings.local.json` (93 of the 150 such files under the operator's projects). A
-  `<P>_AUTH_TOKEN` or `<P>_API_KEY` is not reported only when, in the same file (a Grep
-  `path:line:` prefix or a `==> path <==` header starts another), an active line — not one
-  starting with `#` or `//` — sets `<P>_BASE_URL` to 127.x, `localhost` or `[::1]` with an
-  optional port and nothing after the host but a path (never `@`: `http://localhost@evil.com`
-  is a userinfo whose host is `evil.com`), no other `<P>_BASE_URL` of that prefix appears at
-  all, and there are no more such keys than loopback base URLs. A commented loopback, an
-  override, two concatenated `.env` files, Grep lines from two files and `@` hosts all report
-  (round 2: they hid legacy `sk-`, DeepSeek, Groq and Stripe keys that `secrets.scan` has no
-  literal for).
+  `<P>_AUTH_TOKEN` or `<P>_API_KEY` on an active line is not reported only when, in the same
+  file (a Grep `path:line:` prefix, a `grep --heading` path line, a `==> path <==` header or a
+  heredoc body starts another), an active line within 20 lines sets `<P>_BASE_URL` to 127.x,
+  `localhost` or `[::1]` with an optional port and a path free of `@`, `\`, quotes, `,` and
+  `}` (a quoted URL ends at its quote, and what follows the quote must close the value), no
+  other `<P>_BASE_URL` of that prefix appears at all, and there are no more such key lines,
+  commented ones included, than loopback base URLs. A commented key always reports. A
+  commented loopback, an override, concatenated `.env` files, Grep lines from two files, a
+  key 30 lines away, a heredoc then an export, and `@`-, quote- and brace-tailed hosts all
+  report (rounds 2 and 3: they hid legacy `sk-`, DeepSeek, Groq and Stripe keys that
+  `secrets.scan` has no literal for). Disclosed limit: output that concatenates files with no
+  marker between them is one file to this rule; the count and distance rules keep a second
+  file's key reported there.
 - Round 2 also: the one-identifier skip needs a real case transition (`nM` in
   `AuthenticationMD5Password`), so base32, lower-case alphanumerics and word-digit-word
   passwords are never skipped, and a quoted flag value is never skipped. Helm/Kubernetes
@@ -41,9 +45,9 @@
   filler 174 → 60 ms a MiB. A push registration token (`deviceToken`) is not reported; a
   session's `resumeToken` is; a URL password under 12 characters (`p4ssw0rd` in docs) is not.
   The PARTIAL note names its cause: a field over 1 MiB, or the 4 MiB budget across fields.
-- Measured before shipping on 29,765 files, 440 MB (this repository with its members,
+- Measured before shipping on 29,827 files, 440 MB (this repository with its members,
   Observatory's docs and tools, and eight other repositories on the operator's machine),
-  scanned in 15 s. The false-positive classes found are fixtures now: a registry's
+  scanned in 17 s. The false-positive classes found are fixtures now: a registry's
   `credential:<name>` ids, a vault slot name `project/env/NAME`, a publishable `pk_` key in
   an image URL, a function name or a one-identifier value (`AuthenticationMD5Password`) as a
   value, a URL whose user and host say it is fake, a k8s object name. 13 files still report. One is a disclosed
@@ -51,13 +55,21 @@
   its shape. The other 12 hold a generated-looking value under a credential label: configs,
   documentation examples and test sentinels. The detector reads shape, not provenance, and
   its note says so.
+- Round 3 also: values up to 4,096 characters (RS256 bearers and `id_token`s of 600–2,500,
+  an 800-character `aws_session_token`); an `ENV_VAR_NAME_2` is a name; a label segment of
+  eight or more characters is printed whole only when every word in it is known label
+  vocabulary, otherwise as its first three characters and `*` (a label can be glued to its
+  value), and a URL password's scheme only from a list of known schemes.
 - The note leads with the step that needs no Observatory, as `test/remedies_test.js` holds
   every refusal to; that suite now reads this note through the real hook process too (B-195).
 - **Bounded, and the vendor scan unchanged.** `secrets.scan` reads every byte of every string
   of the response, as before; only the labelled detector windows each string (1 MiB whole,
   else its first 768 KiB and last 256 KiB; 4 MiB in all), and its note says when a scan was
-  partial, also when it found nothing. Values are captured without backtracking: a MiB of
-  `token … =a=a…` takes 13 ms (2.4 s in the first cut). The note names the program by argv[0]
+  partial, also when it found nothing, or when its 5 s time budget in the hook ran out — the
+  vendor note is never lost to it. Values and labels are captured without backtracking: a MiB
+  of `token … =a=a…` takes 13 ms (2.4 s in the first cut). The file-scope reader is linear:
+  a `_BASE_URL` beside a MiB of colon-free, slash-dense output took 101 s in round 3 (past the
+  host's 60 s hook timeout, losing the vendor note) and now takes milliseconds. The note names the program by argv[0]
   only, so a second word of the command (which can be a short secret) is never repeated. A
   detector that throws costs neither the turn nor the vendor scan.
 
