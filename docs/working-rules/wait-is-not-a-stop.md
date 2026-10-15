@@ -17,6 +17,13 @@ session needs an existing durable trigger, or a new one installed within the
 current authority. At compaction, persist the current unit, evidence, pending
 waits and exact next task so another context can resume.
 
+Continuing is not polishing. A unit of work ends at its finish line: its exit checks are
+green on the artefact the operator uses, and two consecutive verification rounds found
+nothing that blocks its objective. A finding that blocks nothing — no exit check red, no
+outage, data loss, leaked credential or open security hole, nothing that worked at the start
+now broken, no shipped claim made false — becomes a board row with its evidence, not more
+work in this unit. Then take the next task by priority as a new unit.
+
 The rule grants no authority for an outward action. A watcher may merge, publish,
 spend, send, change access, reset or force-push only under an act-specific grant
 and the repository's applicable checks. Green CI, generic "continue", or enabling
