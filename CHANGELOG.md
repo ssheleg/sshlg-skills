@@ -13,6 +13,9 @@
   a crash left by a wait-v1 launcher still recovers. A record from a newer launcher names
   `npx --yes sshlg-skills@latest` as the remedy. Launchers up to 1.63.3 cannot read a wait-v2
   receipt; update with `@latest`.
+- task-pipeline is pinned at 1.96.0 (`2674147`): an iteration fixes its finish line at intake,
+  triages every finding as blocking, deferred or noise, and stops after two rounds with nothing
+  blocking or when its round and release budget is spent; `waves.py finish` computes the verdict.
 - New working rule: [context economy](docs/working-rules/context-economy.md) — what belongs in
   always-loaded instructions, one home per rule, host caps, and stopping by contract.
 
