@@ -38,6 +38,11 @@ it('wait-rule and lower-case block ids count as hub-managed; unreadable files ar
   assert.equal(r.rows[0].error, 'EACCES'); assert.equal(r.findings[0].severity, 'error');
   assert.deepEqual(C.host('x', '/nonexistent/dir/file').text, null);
 });
+it('an unreadable config.toml and a shadowed AGENTS.md never raise a false error', () => {
+  const big = 'x'.repeat(40000);
+  assert.ok(C.report([{ agent: 'codex', file: 'AGENTS.md', text: big }], { error: 'EACCES' }).findings.every(f => f.severity === 'note'));
+  assert.equal(C.report([{ agent: 'codex', file: 'AGENTS.md', text: big, shadowed: true }], null).findings.length, 0);
+});
 it('the routing registry total only falls (DOCMAP ratchet)', () => {
   const fs = require('fs'), path = require('path');
   const R = require('../lib/routers-registry.js');

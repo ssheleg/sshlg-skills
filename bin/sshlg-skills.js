@@ -3227,15 +3227,15 @@ function cmdContext(argv) {
   const codex = A.TARGETS.find(t => t.agent === 'codex'), codexRoot = A.hostRoot(codex, home);
   // Codex reads AGENTS.override.md in place of AGENTS.md when it exists.
   const override = C.host('codex', pathMod.join(codexRoot, 'AGENTS.override.md'));
-  if (override.text != null || override.error) hosts.push(override);
+  if (override.text != null || override.error) { const main = hosts.find(h => h.agent === 'codex'); if (main && override.text != null) main.shadowed = true; hosts.push(override); }
   for (const name of ['sshlg-routing.mdc', 'sshlg-wait.mdc']) hosts.push(C.host('cursor', pathMod.join(home, '.cursor', 'rules', name)));
   const config = C.read(pathMod.join(codexRoot, 'config.toml'));
-  const r = C.report(hosts, typeof config === 'string' ? config : null);
+  const r = C.report(hosts, config);
   if (json) { console.log(JSON.stringify(r)); return r.findings.some(f => f.severity === 'error') ? 1 : 0; }
   log('Always-loaded instruction files (' + r.estimate + '):');
   for (const row of r.rows) {
     if (!row.present) { log(`  ${row.agent.padEnd(7)} ${row.error ? 'unreadable (' + row.error + ')' : 'absent'}  ${row.file}`); continue; }
-    log(`  ${row.agent.padEnd(7)} ${String(row.bytes).padStart(7)} B  ~${String(row.approxTokens).padStart(6)} tok  ${String(row.lines).padStart(5)} lines  hub ${row.managedBytes} B · other ${row.operatorBytes} B${row.cap ? `  cap ${row.cap} (${row.capSource})` : ''}`);
+    log(`  ${row.agent.padEnd(7)} ${String(row.bytes).padStart(7)} B  ~${String(row.approxTokens).padStart(6)} tok  ${String(row.lines).padStart(5)} lines  hub ${row.managedBytes} B · other ${row.operatorBytes} B${row.shadowed ? '  (shadowed by AGENTS.override.md)' : row.cap ? `  cap ${row.cap} (${row.capSource})` : ''}`);
   }
   for (const f of r.findings) log(`  ${f.severity}: ${f.message}`);
   if (!r.findings.length) log('  no host is over a documented cap');
