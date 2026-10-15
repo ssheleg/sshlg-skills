@@ -17,6 +17,16 @@ test('off removes owned segment and preserves appended foreign bytes',h=>{const 
 test('automatic update touches only previously applied profiles',h=>{const f=host(h,'codex');P.set(h,'on');apply(h);const g=host(h,'gemini');apply(h,{automatic:true});assert.equal(fs.readFileSync(g,'utf8'),'FOREIGN\n');assert(fs.readFileSync(f,'utf8').includes(T.BEGIN));});
 test('custom root with spaces works without default profile writes',h=>{const f=host(h,'codex');const root=path.join(h,'custom codex');fs.mkdirSync(root);P.set(h,'on');apply(h,{roots:{codex:root}});assert(fs.readFileSync(path.join(root,'AGENTS.md'),'utf8').includes(T.BEGIN));assert.equal(fs.readFileSync(f,'utf8'),'FOREIGN\n');});
 test('retargeted root alias refuses and preserves new target',h=>{const a=path.join(h,'a'),b=path.join(h,'b'),alias=path.join(h,'profile');fs.mkdirSync(a);fs.mkdirSync(b);fs.symlinkSync(a,alias);P.set(h,'on');const o={roots:{codex:alias},hostTargets:A.TARGETS.filter(t=>t.agent==='codex')};apply(h,o);fs.unlinkSync(alias);fs.symlinkSync(b,alias);assert.throws(()=>W.plan(h,{...opts,...o}),/binding changed/);assert.deepEqual(fs.readdirSync(b),[]);});
+test('an applied wait-v1 rule upgrades in place to the current revision',h=>{
+ const crypto=require('crypto'),dg=s=>crypto.createHash('sha256').update(s).digest('hex');
+ const f=host(h,'codex');P.set(h,'on');apply(h);
+ const rec=W.receipt(h),r=Object.values(rec.data.records)[0],v1=r.segment.replace(T.render('codex'),T.render('codex',T.PREVIOUS['wait-v1']));
+ fs.writeFileSync(f,fs.readFileSync(f,'utf8').replace(r.segment,v1));Object.assign(r,{segment:v1,sourceRevision:'wait-v1',sourceHash:dg(v1)});fs.writeFileSync(rec.file,JSON.stringify(rec.data));
+ const p=apply(h,{automatic:true});assert.equal(p.rows.find(x=>x.agent==='codex').action,'write');
+ const text=fs.readFileSync(f,'utf8');assert(text.includes('Continuing is not polishing'));assert(text.startsWith('FOREIGN\n'));assert.equal(text.split(T.BEGIN).length,2);
+ assert.equal(Object.values(W.receipt(h).data.records)[0].sourceRevision,T.REVISION);
+ const again=fs.readFileSync(f);apply(h,{automatic:true});assert(fs.readFileSync(f).equals(again),'a second update changes nothing');
+});
 for(const raw of [T.BEGIN+'\n',T.BEGIN+'\n'+T.END+'\n',T.BEGIN+T.END+T.BEGIN+T.END])test('unknown or malformed markers refuse before write',h=>{const f=host(h,'codex',raw);P.set(h,'on');assert.throws(()=>W.plan(h,opts));assert.equal(fs.readFileSync(f,'utf8'),raw);});
 test('edited owned region refuses even off',h=>{const f=host(h,'codex');P.set(h,'on');apply(h);fs.writeFileSync(f,fs.readFileSync(f,'utf8').replace('Finish a unit','CUSTOM unit'));const before=fs.readFileSync(f,'utf8');P.set(h,'off');assert.throws(()=>W.plan(h,opts));assert.equal(fs.readFileSync(f,'utf8'),before);});
 test('foreign Cursor filename refuses',h=>{const d=path.join(h,'.cursor','rules');fs.mkdirSync(d,{recursive:true});fs.writeFileSync(path.join(d,'sshlg-wait.mdc'),'foreign');P.set(h,'on');assert.throws(()=>W.plan(h,{...opts,cursor:true}),/foreign Cursor/);});

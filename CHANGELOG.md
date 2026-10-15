@@ -1,5 +1,26 @@
-## Unreleased
+## v1.64.0 — fewer tokens before the first word; work stops at its finish line
 
+- `npx sshlg-skills context` measures what every host loads before the first user word:
+  bytes, approximate tokens and lines per instruction file, the hub's blocks against other
+  text, and documented caps. It reports a Codex instruction chain over `project_doc_max_bytes`
+  (Codex stops adding instruction files there; the default is 32 KiB) as an error and a
+  `CLAUDE.md` over Claude Code's 200-line target as a note. Read-only; prints sizes, never text.
+- The routing text may fall and never grow by accident: `routing-registry-total` in DOCMAP is
+  checked on every run. The per-prompt routing note is one header line shorter.
+- The wait rule gains the finish line (revision wait-v2): continuing is not polishing — a unit
+  ends when its exit checks are green and two rounds found nothing blocking; a finding that
+  blocks nothing becomes a board row. It also says a board row addressed to you is a next
+  task, never to end a turn on "shall I continue?", to release a lease as soon as the wait
+  clears, and lists spend above the limit and the operator's recorded decisions as human gates
+  (B-196, B-197). Profiles that applied wait-v1 are upgraded in place, and
+  a crash left by a wait-v1 launcher still recovers. A record from a newer launcher names
+  `npx --yes sshlg-skills@latest` as the remedy. Launchers up to 1.63.3 cannot read a wait-v2
+  receipt; update with `@latest`.
+- task-pipeline is pinned at 1.96.0 (`2674147`): an iteration fixes its finish line at intake,
+  triages every finding as blocking, deferred or noise, and stops after two rounds with nothing
+  blocking or when its round and release budget is spent; `waves.py finish` computes the verdict.
+- New working rule: [context economy](docs/working-rules/context-economy.md) — what belongs in
+  always-loaded instructions, one home per rule, host caps, and stopping by contract.
 - **`blocks install` / `uninstall` / `resolve` — a writer other tools can call for their
   own block (managed-blocks/1).** Preview by default; with `--apply` the host file is
   copied to `~/.sshlg-skills/backups/`, only the named block changes, and every step is

@@ -293,6 +293,7 @@ Usage:
                                                       # Pi, OpenCode, Hermes; not Claude/Codex)
   npx sshlg-skills hooks   [status]                   # what is wired, and what holds it
   npx sshlg-skills hooks   install [--force] [--dry-run]
+  npx sshlg-skills context [--json]                    # what each host loads before the first word; caps
   npx sshlg-skills hooks   recovery inspect [--json]
   npx sshlg-skills hooks   recovery recover --expect <digest|absent> [--json]
   npx sshlg-skills hooks   remove
@@ -3217,6 +3218,30 @@ function cmdMaterialised(argv) {
   return rows.some((r) => !r.satisfied) ? 2 : 0;
 }
 
+/** Read-only: sizes of the instruction files each host loads, and documented caps. */
+function cmdContext(argv) {
+  const json = argv.includes('--json');
+  if (argv.some(a => a !== '--json')) { log('usage: npx sshlg-skills context [--json]'); return 2; }
+  const pathMod = require('path'), C = require('../lib/context.js'), A = require('../lib/apply.js'), home = os.homedir();
+  const hosts = A.TARGETS.map(t => C.host(t.agent, pathMod.join(A.hostRoot(t, home), t.file)));
+  const codex = A.TARGETS.find(t => t.agent === 'codex'), codexRoot = A.hostRoot(codex, home);
+  // Codex reads AGENTS.override.md in place of AGENTS.md when it exists.
+  const override = C.host('codex', pathMod.join(codexRoot, 'AGENTS.override.md'));
+  if (override.text != null || override.error) { const main = hosts.find(h => h.agent === 'codex'); if (main && override.text != null) main.shadowed = true; hosts.push(override); }
+  for (const name of ['sshlg-routing.mdc', 'sshlg-wait.mdc']) hosts.push(C.host('cursor', pathMod.join(home, '.cursor', 'rules', name)));
+  const config = C.read(pathMod.join(codexRoot, 'config.toml'));
+  const r = C.report(hosts, config);
+  if (json) { console.log(JSON.stringify(r)); return r.findings.some(f => f.severity === 'error') ? 1 : 0; }
+  log('Always-loaded instruction files (' + r.estimate + '):');
+  for (const row of r.rows) {
+    if (!row.present) { log(`  ${row.agent.padEnd(7)} ${row.error ? 'unreadable (' + row.error + ')' : 'absent'}  ${row.file}`); continue; }
+    log(`  ${row.agent.padEnd(7)} ${String(row.bytes).padStart(7)} B  ~${String(row.approxTokens).padStart(6)} tok  ${String(row.lines).padStart(5)} lines  hub ${row.managedBytes} B · other ${row.operatorBytes} B${row.shadowed ? '  (shadowed by AGENTS.override.md)' : row.cap ? `  cap ${row.cap} (${row.capSource})` : ''}`);
+  }
+  for (const f of r.findings) log(`  ${f.severity}: ${f.message}`);
+  if (!r.findings.length) log('  no host is over a documented cap');
+  return r.findings.some(f => f.severity === 'error') ? 1 : 0;
+}
+
 function cmdHooks(argv) {
   const fs = require('fs');
   const pathMod = require('path');
@@ -3770,6 +3795,7 @@ function main(argv) {
   // Also before parseFlags: `hooks` takes a positional subcommand.
   if (cmd === 'hooks') { const r = cmdHooks(rest); return typeof r === 'number' ? r : (r ? 0 : 1); }
   if (cmd === 'injectors') { cmdInjectors(); return 0; }
+  if (cmd === 'context') return cmdContext(rest);
   if (cmd === 'conflicts') { cmdConflicts(); return 0; }
   if (cmd === 'toolkit') { return cmdToolkit(argv) || 0; }
   if (cmd === 'visibility') return cmdVisibility(argv);

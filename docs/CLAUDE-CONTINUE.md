@@ -113,6 +113,29 @@ install/uninstall); затем CHANGELOG 1.63.3 + bump, полный `npm test` 
 `npx --yes sshlg-skills@latest update` + readback; затем финальный независимый наблюдатель
 (прошлый запуск прерван лимитом до первой записи; worktree `/_wt/hub-final-observer` пуст).
 
+### Состояние 2026-10-15 (ветка `feat/1.64.0`) — точный следующий шаг
+
+Готово: hub **1.63.3** опубликован (a9080b8, npm 94/94) и установлен: update 22/22, все 11 Claude
+членов verified (3 verify + 8 rebind), источники 11/11 на каталогах пина, B-191…B-194 закрыты,
+сайт показывает 1.63.3. Компактизация файлов оператора (CLAUDE.md −5.7 КБ, Codex и Gemini −4.6 КБ,
+процедуры → `global-17…22.md`), Codex `project_doc_max_bytes = 65536` — evidence
+`docs/evidence/context-economy-20261015/`.
+
+В ветке `feat/1.64.0` (не выпущено): `sshlg-skills context`, ratchet `routing-registry-total`,
+однострочная заметка маршрутов, правило `docs/working-rules/context-economy.md`.
+
+task-pipeline **1.96.0** finish-line: ветка `feat/finish-line`, head af8be9a, [draft PR #131](https://github.com/ssheleg/task-pipeline/pull/131);
+полный `test:all` exit0 за 1724s, guards 439→446 (FL-G1..G7). Отклонения от дизайна на review:
+`--rounds/--checks/--artefact`, поля `blast`/`rung`, exit5 шире. Дальше:
+1. Проверить результат gate TP; независимый review; PR ready → CI → squash merge; standalone
+   клон → `release_candidate.py prepare/check` (tag gate) → ручной push тега `--no-follow-tags`
+   (publish без контекста откажет) → release → npm readback.
+2. hub 1.64.0: пин TP 1.96.0 (staged gitlink → sync-member-pins/sync-claude-pins), CHANGELOG +
+   версия, полный `npm test` (Ratchets), review, PR → CI → merge → `scripts/tag.sh v1.64.0 --push`
+   → npm readback → `npx --yes sshlg-skills@latest update` + readback; сайт.
+3. Финальный независимый наблюдатель (worktree `/_wt/hub-final-observer` пуст), wiki index,
+   HANDOFF, итоговое резюме. Применить к себе finish-line: бюджет 3 раунда.
+
 ## Первый шаг
 
 Прочитать этот файл, `CLAUDE.md`, актуальную политику Observatory и [план волн](evidence/plans/2026-10-13-completion.md). Проверить [снимок веток](evidence/completion-1013/claude-handoff/branches.json) против remote, затем [снимок активных процессов](evidence/completion-1013/claude-handoff/active-processes.json). Получить собственный agent-sync lease перед общими реестрами. Не забирать старую идентичность сессии.

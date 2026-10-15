@@ -321,6 +321,7 @@ it('matching is case-insensitive', () => {
 it('the injected note points at the block rather than quoting it', () => {
   const out = T.render('внедрить новую интеграцию');
   assert.ok(/routing block/i.test(out), 'the note does not point at the block');
+  assert.ok(/refusal phrase/i.test(out), 'the note no longer says how a route is declined');
   assert.ok(!out.includes('SSHLG:ROUTER'),
     'the note carries block sentinels — it is copying the single home, not citing it');
   assert.ok(!/Refusal phrase:/.test(out),
