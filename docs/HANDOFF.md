@@ -36,7 +36,7 @@ reads a generated-looking value under a credential label in what `Bash`, `Read` 
 printed; `hooks/post-tool-use.js` names the label, tool and file or program, never the value.
 The `PostToolUse` matcher is now `Bash|Read|Grep`. Tests: `test/labelled_secrets_test.js`
 (76) and 7 new fixtures in `test/hooks_e2e_test.js`, three of them watched failing against the
-pre-change hook; full gate green at 134 suites / 2368 fixtures on `e20190e`; 2408 after fix cycle 1, rebased on `a9080b8` (1.63.3). False-positive measurement
+pre-change hook; full gate green at 134 suites / 2368 fixtures on `e20190e`; 2408 after fix cycle 1, rebased on `a9080b8` (1.63.3); 2478 after fix cycle 2. False-positive measurement
 and the one residual class are in the CHANGELOG's Unreleased entry.
 
 Fix cycle 1 (round-1 adversarial review, 2 MEDIUM + 4 LOW): Switchboard proxy tokens
@@ -45,6 +45,13 @@ vendor key in `stderr` behind 1.1 MiB of `stdout` — missed at `be8182f`, repor
 `be8182f~1` and now); values captured without backtracking; `.netrc`, URL userinfo,
 escaped-quote JSON, `_`-labels, `/`-base64 and `APP_KEY=base64:` read; one-identifier values
 silent; the program printed as argv[0] only. Suites now 106 unit / 79 e2e.
+
+Fix cycle 2 (round 2: 1 MEDIUM + 5 LOW/INFO): the loopback skip is scoped (active line, host
+ends at loopback, no other base URL of the prefix, keys ≤ loopbacks, per file); commented,
+overridden, concatenated, Grep two-file and `@`-host shapes report for legacy `sk-`, DeepSeek,
+Groq and Stripe keys. Identifier skip needs a case transition (property tests over base32,
+lower alnum, word-digit-word); k8s slugs are names; userinfo label checked; atomic labels;
+digit-free keys read; PARTIAL names its cause.
 
 **Open:** the B-row is B-195, filed in #223 (open). Not
 released: the next hub release carries it, and `update` refreshes the matcher on machines that

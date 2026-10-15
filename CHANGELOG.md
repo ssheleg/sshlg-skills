@@ -65,17 +65,33 @@
 - **A local proxy's token is not a vendor key.** Switchboard's managed sessions (SB-118) put
   `ANTHROPIC_AUTH_TOKEN` beside `ANTHROPIC_BASE_URL=http://127.0.0.1:…` in every project's
   `.claude/settings.local.json` (93 of the 150 such files under the operator's projects). A
-  `<P>_AUTH_TOKEN` or `<P>_API_KEY` beside a loopback `<P>_BASE_URL` (same prefix; 127.x,
-  `localhost`, `[::1]`) is not reported; beside a remote one it is, and a vendor-shaped key
-  there is still reported by `secrets.scan`.
-- Measured before shipping on 29,053 files, 436 MB (this repository with its members,
+  `<P>_AUTH_TOKEN` or `<P>_API_KEY` is not reported only when, in the same file (a Grep
+  `path:line:` prefix or a `==> path <==` header starts another), an active line — not one
+  starting with `#` or `//` — sets `<P>_BASE_URL` to 127.x, `localhost` or `[::1]` with an
+  optional port and nothing after the host but a path (never `@`: `http://localhost@evil.com`
+  is a userinfo whose host is `evil.com`), no other `<P>_BASE_URL` of that prefix appears at
+  all, and there are no more such keys than loopback base URLs. A commented loopback, an
+  override, two concatenated `.env` files, Grep lines from two files and `@` hosts all report
+  (round 2: they hid legacy `sk-`, DeepSeek, Groq and Stripe keys that `secrets.scan` has no
+  literal for).
+- Round 2 also: the one-identifier skip needs a real case transition (`nM` in
+  `AuthenticationMD5Password`), so base32, lower-case alphanumerics and word-digit-word
+  passwords are never skipped, and a quoted flag value is never skipped. Helm/Kubernetes
+  object names (`s3-backup-credentials-prod`) are names. A URL password is reported under
+  the assignment's name only when it names a credential or a connection (`*_URL`, `*_URI`,
+  `*_DSN`), else as `<scheme>-url-password`. A long key with no digit (about one Stripe key in
+  70) is read when it breaks into short case runs. Labels are captured atomically: `-a-a…`
+  filler 174 → 60 ms a MiB. A push registration token (`deviceToken`) is not reported; a
+  session's `resumeToken` is; a URL password under 12 characters (`p4ssw0rd` in docs) is not.
+  The PARTIAL note names its cause: a field over 1 MiB, or the 4 MiB budget across fields.
+- Measured before shipping on 29,765 files, 440 MB (this repository with its members,
   Observatory's docs and tools, and eight other repositories on the operator's machine),
-  scanned in 17 s. The false-positive classes found are fixtures now: a registry's
+  scanned in 15 s. The false-positive classes found are fixtures now: a registry's
   `credential:<name>` ids, a vault slot name `project/env/NAME`, a publishable `pk_` key in
   an image URL, a function name or a one-identifier value (`AuthenticationMD5Password`) as a
-  value, a URL whose user and host say it is fake. 14 files still report. One is a disclosed
+  value, a URL whose user and host say it is fake, a k8s object name. 13 files still report. One is a disclosed
   residual class: a git SHA under a name ending in `_token` cannot be told from a hex token by
-  its shape. The other 13 hold a generated-looking value under a credential label: configs,
+  its shape. The other 12 hold a generated-looking value under a credential label: configs,
   documentation examples and test sentinels. The detector reads shape, not provenance, and
   its note says so.
 - **Bounded, and the vendor scan unchanged.** `secrets.scan` reads every byte of every string

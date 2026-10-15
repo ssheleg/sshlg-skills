@@ -192,7 +192,7 @@ it('outputText keeps every byte for secrets.scan; scanLabelled windows each part
 
 it('a partial scan that found nothing still says so (L2)', () => {
   const r = L.scanLabelled('y'.repeat(2 * 1024 * 1024));
-  assert.deepStrictEqual(r, { found: [], partial: true });
+  assert.deepStrictEqual(r, { found: [], partial: true, why: 'field' });
   assert.match(L.describe(r, { tool: 'Bash', where: 'cat' }), /PARTIAL/);
   assert.strictEqual(L.describe(null, { tool: 'Bash' }), '');
 });
@@ -226,6 +226,152 @@ it('the program name is argv[0] only — a second word can be a secret (L4)', ()
   const w = L.whereOf({ tool_name: 'Bash', tool_input: { command: `mysql -u root -p${short}` } });
   assert.strictEqual(w.where, 'mysql');
   assert.ok(!JSON.stringify(w).includes(short));
+});
+
+// ── Fix cycle 2 (round-2 adversarial review of #224 at 6fb3fc2) ──────────────
+// MEDIUM: the loopback skip must never hide a remote key. These key shapes have no entry in
+// secrets.LITERALS, so if the labelled detector is silent, nothing reports them.
+const alnum = (n) => { let o = ''; while (o.length < n) o += crypto.randomBytes(n).toString('base64').replace(/[^A-Za-z0-9]/g, ''); return o.slice(0, n); };
+const REMOTE_KEYS = {
+  'legacy sk-': () => 's' + 'k-' + alnum(48),
+  'DeepSeek sk-<hex>': () => 's' + 'k-' + crypto.randomBytes(16).toString('hex'),
+  'Groq gsk_': () => 'g' + 'sk_' + alnum(52),
+  'Stripe sk_live_': () => 's' + 'k_' + 'live_' + alnum(24),
+};
+const LOOP = 'OPENAI_BASE_URL=http://localhost:11434/v1';
+const REMOTE = 'OPENAI_BASE_URL=https://api.openai.com/v1';
+const LOOPBACK_MISSES = [
+  ['a commented loopback, then an active remote', (k) => `# ${LOOP}\n${REMOTE}\nOPENAI_API_KEY=${k}`],
+  ['a // commented loopback', (k) => `// ${LOOP}\nOPENAI_API_KEY=${k}`],
+  ['an active loopback overridden by a remote', (k) => `${LOOP}\n${REMOTE}\nOPENAI_API_KEY=${k}`],
+  ['.env.development then .env.production, concatenated', (k) => `${LOOP}\nOPENAI_API_KEY=${V()}\n\nOPENAI_API_KEY=${k}`],
+  ['concatenated, the production half with its own remote base', (k) => `${LOOP}\nOPENAI_API_KEY=${V()}\n${REMOTE}\nOPENAI_API_KEY=${k}`],
+  ['Grep lines from two files', (k) => `apps/dev/.env:1:${LOOP}\napps/prod/.env:3:OPENAI_API_KEY=${k}`],
+  ['head of two files', (k) => `==> .env.development <==\n${LOOP}\n\n==> .env.production <==\nOPENAI_API_KEY=${k}`],
+  ['userinfo host: localhost@evil.com', (k) => `OPENAI_BASE_URL=http://localhost@evil.com\nOPENAI_API_KEY=${k}`],
+  ['userinfo host: [::1]@evil', (k) => `OPENAI_BASE_URL=http://[::1]@evil\nOPENAI_API_KEY=${k}`],
+  ['userinfo host: 127.0.0.1:443@api.evil.com', (k) => `OPENAI_BASE_URL=https://127.0.0.1:443@api.evil.com\nOPENAI_API_KEY=${k}`],
+  ['a loopback-looking host name', (k) => `OPENAI_BASE_URL=http://localhost.evil.com/v1\nOPENAI_API_KEY=${k}`],
+];
+// Whether each vendor shape LOOKS generated is measured once, below, as a rate; the scoping
+// fixtures draw a key that does, so a rare shape miss is not read as a scoping miss.
+const drawKey = (gen) => { for (;;) { const k = gen(); if (L.valueLooksSecret(k)) return k; } };
+for (const [kind, gen] of Object.entries(REMOTE_KEYS)) {
+  it(`vendor shape ${kind} reads as generated in at least 99.5% of draws (fix 2)`, () => {
+    let miss = 0;
+    for (let i = 0; i < 5000; i += 1) if (!L.valueLooksSecret(gen())) miss += 1;
+    assert.ok(miss <= 25, `${miss} of 5000 ${kind} keys did not read as generated`);
+  });
+}
+for (const [shape, make] of LOOPBACK_MISSES) {
+  for (const [kind, key] of Object.entries(REMOTE_KEYS)) {
+    it(`reports (fix 2, M): ${shape} — ${kind}`, () => {
+      const text = make(drawKey(key));
+      const r = L.scanLabelled(text);
+      assert.ok(r && labels(r).includes('OPENAI_API_KEY'), 'a remote key was hidden by the loopback skip');
+      // and nothing else would have said it: the vendor scan has no literal for this shape
+      assert.strictEqual(require('../lib/secrets.js').scan(text), null);
+    });
+  }
+}
+const LOOPBACK_KEPT = [
+  ['the Switchboard settings shape, multi-line', () => `{\n  "env": {\n    "ANTHROPIC_BASE_URL": "http://127.0.0.1:47219",\n    "ANTHROPIC_AUTH_TOKEN": "${V()}"\n  }\n}`],
+  ['a loopback with a path', () => `${LOOP}\nOPENAI_API_KEY=${V()}`],
+  ['Grep lines from ONE file', () => `p/.claude/settings.local.json:3:  "ANTHROPIC_BASE_URL": "http://127.0.0.1:47219",\np/.claude/settings.local.json:4:  "ANTHROPIC_AUTH_TOKEN": "${V()}"`],
+  ['two files, each with its own loopback', () => `==> a/.env <==\n${LOOP}\nOPENAI_API_KEY=${V()}\n==> b/.env <==\n${LOOP}\nOPENAI_API_KEY=${V()}`],
+];
+for (const [name, make] of LOOPBACK_KEPT) {
+  it(`silent (fix 2, M): ${name}`, () => {
+    const r = L.scanLabelled(make());
+    assert.strictEqual(r, null, `reported ${JSON.stringify(labels(r))}`);
+  });
+}
+
+// LOW: the identifier skip needs a real case transition. Property tests over generated values.
+const B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+const base32 = (n) => Array.from(crypto.randomBytes(n), (b) => B32[b & 31]).join('');
+const lowerAlnum = (n) => Array.from(crypto.randomBytes(n), (b) => 'abcdefghijklmnopqrstuvwxyz0123456789'[b % 36]).join('');
+const WORDS = ['sunshine', 'butterfly', 'mountain', 'harbor', 'violet', 'thunder', 'garden', 'silver', 'rocket', 'meadow', 'falcon', 'winter'];
+const pick = () => WORDS[crypto.randomBytes(1)[0] % WORDS.length];
+const cap = (w) => (crypto.randomBytes(1)[0] & 1 ? w[0].toUpperCase() + w.slice(1) : w);
+const wordDigitWord = () => `${cap(pick())}${crypto.randomBytes(1)[0] % 10}${cap(pick())}${crypto.randomBytes(1)[0] % 100}`;
+const d1 = () => crypto.randomBytes(1)[0] % 10;
+const wordDigitWord3 = () => `${cap(pick())}${d1()}${cap(pick())}${d1()}${cap(pick())}`;
+for (const [name, gen] of [
+  ['base32 ×16', () => base32(16)], ['base32 ×32', () => base32(32)],
+  ['lower alnum ×20', () => lowerAlnum(20)], ['lower alnum ×24', () => lowerAlnum(24)],
+  ['word-digit-word', wordDigitWord], ['word-digit-word-digit-word', wordDigitWord3],
+]) {
+  it(`property (fix 2): ${name} is never skipped as an identifier, and is reported when it looks generated`, () => {
+    for (let i = 0; i < 2000; i += 1) {
+      const v = gen();
+      assert.ok(!L.looksLikeIdentifier(v), `skipped as an identifier: shape ${v.replace(/[a-z]/g, 'a').replace(/[A-Z]/g, 'A').replace(/\d/g, '9')}`);
+      if (L.valueLooksSecret(v)) assert.ok(L.scanLabelled(`DB_PASSWORD=${v}`), 'a generated value under a label was not reported');
+    }
+  });
+}
+it('the identifier skip still holds for camelCase and TitleCase words (fix 2)', () => {
+  for (const v of ['AuthenticationMD5Password', 'experimentalS3Credentials', 'clientCredentialsFlowEnabled']) {
+    assert.ok(L.looksLikeIdentifier(v), v);
+  }
+});
+it('a quoted FLAG value is a value, even when it reads like words (fix 2)', () => {
+  // composed at run time, so this file itself reads silent to the detector it tests
+  const id = ['Authentication', 'MD5', 'Password'].join('');
+  assert.ok(L.scanLabelled(`deploy --password "${id}"`));
+  assert.strictEqual(L.scanLabelled(`deploy --password ${id}`), null);
+});
+
+// LOW: Helm / Kubernetes object names are names.
+for (const slug of ['s3-backup-credentials-prod', 'postgresql-k8s-auth', 'oauth2-proxy-cookie-secret', 'grafana-admin-credentials']) {
+  it(`silent (fix 2): a k8s object name ${slug}`, () => {
+    assert.strictEqual(L.scanLabelled(`existingSecret: ${slug}\nsecretName: ${slug}\nCLIENT_SECRET=${slug}`), null);
+  });
+}
+it('a UUID under a secret label is still reported — it is all hex, not a name (fix 2)', () => {
+  assert.ok(L.scanLabelled(`API_KEY=${crypto.randomUUID()}`));
+});
+
+// LOW: the userinfo label is echoed only when it names a credential or a connection.
+it('userinfo: a connection or credential label is kept, anything else falls back (fix 2)', () => {
+  const pw = V();
+  assert.deepStrictEqual(labels(L.scanLabelled(`REDIS_URI=redis://default:${pw}@cache.internal:6379`)), ['REDIS_URI']);
+  assert.deepStrictEqual(labels(L.scanLabelled(`DB_PASSWORD_URL=postgres://a:${pw}@db.internal/x`)), ['DB_PASSWORD_URL']);
+  assert.deepStrictEqual(labels(L.scanLabelled(`motd=postgres://a:${pw}@db.internal/x`)), ['postgres-url-password']);
+  assert.deepStrictEqual(labels(L.scanLabelled(`"note": "see https://a:${pw}@db.internal/x"`)), ['https-url-password']);
+});
+
+// LOW: the linear slow path.
+it('no slow path on label-shaped filler: `-a-a-a…`, per line and in one line (fix 2)', () => {
+  const MiB = 1024 * 1024;
+  for (const s of ['token\n' + '-a'.repeat(MiB / 2), ('token ' + '-a'.repeat(200) + '\n').repeat(2600),
+                   'x a-a-a-a=' + '-a'.repeat(MiB / 2) + ' token']) {
+    const t0 = Date.now();
+    L.scanLabelled(s);
+    const ms = Date.now() - t0;
+    assert.ok(ms < 1000, `took ${ms} ms`);
+  }
+});
+
+// INFO: choices, held by fixtures.
+it('a push registration token is not reported; a session resume token is (fix 2, documented)', () => {
+  assert.strictEqual(L.scanLabelled(`deviceToken=${HEX()}${HEX()}`), null);
+  assert.strictEqual(L.scanLabelled(`"registration_token": "${V()}"`), null);
+  assert.deepStrictEqual(labels(L.scanLabelled(`resumeToken=${V()}`)), ['resumeToken']);
+});
+it('a short doc password in a URL is not reported (under 12 characters; documented)', () => {
+  assert.strictEqual(L.scanLabelled('DATABASE_URL=postgres://admin:p4ssw0rd@db.internal:5432/app'), null);
+});
+it('the PARTIAL note names the cause: a long field, or the 4 MiB budget across fields (fix 2)', () => {
+  const field = L.scanLabelled('y'.repeat(2 * 1024 * 1024));
+  assert.strictEqual(field.why, 'field');
+  assert.match(L.describe(field, {}), /its middle/);
+  const parts = Array.from({ length: 5 }, () => 'z'.repeat(1024 * 1024));
+  const budget = L.scanLabelled(parts);
+  assert.strictEqual(budget.why, 'budget');
+  const note = L.describe(budget, {});
+  assert.match(note, /4 MiB is read across all fields/);
+  assert.ok(!/its middle/.test(note), 'the budget case is worded as a long field');
 });
 
 // ── Values the detector must NOT report ─────────────────────────────────────
