@@ -511,5 +511,14 @@ try {
     const g = fixture(PROSE + block(ID, 'real') + '\n');
     assert.deepStrictEqual(W.plan(opts(g, { op: 'install' })).warnings.filter((w) => /code fence/.test(w)), [], 'a real block warns as fenced');
   });
+
+  t('exactly two chained records and no journal.head is a removed head, not the crash window', () => {
+    const f = fixture(PROSE);
+    W.execute(W.plan(opts(f, { op: 'install' })), { home: f.home });
+    const lines = fs.readFileSync(W.journalPath(f.home), 'utf8').split('\n').filter(Boolean);
+    fs.writeFileSync(W.journalPath(f.home), lines.slice(0, 2).join('\n') + '\n'); // chain intact
+    fs.unlinkSync(W.headPath(f.home));
+    assert.strictEqual(code(() => W.readJournal(f.home)), 'JOURNAL_DAMAGED');
+  });
 } finally { fs.rmSync(root, { recursive: true, force: true }); }
 console.log(`PASS: blockwriter — ${n} cases`);
