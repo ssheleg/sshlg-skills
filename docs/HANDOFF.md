@@ -1,3 +1,33 @@
+## Current — 2026-10-15, hub 1.64.0 and task-pipeline 1.96.0 published and installed
+
+**Big goal.** The ssheleg family (hub + 11 members) is coherent, published, installed on the
+operator machine with readback, independently reviewed, and documented so the next agent starts
+from this file, not from chat.
+
+**Where we are.** Hub **1.64.0** (fc11487) and task-pipeline **1.96.0** (2674147) are live and
+installed: [readback](evidence/completion-1013/installed-1.64.0/README.md). This iteration shipped
+hub 1.63.0→1.64.0 (five releases, each fixing what the real installed update found) and
+task-pipeline 1.95.0→1.96.0, plus seo-aeo-audit and sheleg-dev lock ports.
+
+- **Finish line.** task-pipeline 1.96.0 adds `references/finish-line.md` and `waves.py finish`:
+  an iteration fixes objective, exit checks, scope, budget (3 rounds, 2 releases) and base at
+  intake; every finding is triaged blocking / deferred / noise; it stops after two rounds with
+  nothing blocking or when the budget is spent. The family wait rule (wait-v2) carries the same
+  "continuing is not polishing" rule to every host.
+- **Token economy.** Operator instruction files compacted (~3.7k tokens per session across
+  Claude, Codex, Gemini; procedures moved verbatim to on-demand references), Codex instruction
+  cap raised, `npx sshlg-skills context` measures every always-loaded file, the routing text has
+  a ratchet. Evidence: [context economy](evidence/context-economy-20261015/README.md).
+
+**Open (deferred, with owners).** Hub board B-29, B-84, B-108, B-109, B-146, B-162, B-174,
+B-180, B-184, B-185, B-187, B-188, B-189, B-190, B-195, B-198, B-199; task-pipeline B-136…B-140;
+Codex: three members deferred until sessions holding the old generations end (next `update`
+installs them); Fabric cross-project asks unsent (other projects' ids are not visible from this
+project); the exposed enrollment poll secrets (Observatory `mem:348bac6b964e4ce5`) need the
+operator to re-issue two Codex enrollment requests.
+**Next:** read the final observer report (`docs/reports/2026-10-15-final-observer/`, branch
+`audit/final-observer-20261015`) when it lands; take the highest-priority board row as a new iteration with its own finish line.
+
 ## Current — 2026-10-14, release iteration 1 rows N-5 and N-9 (branch `iter1/N-5-N-9`)
 
 Not released: the family release follows after every iteration row lands.
