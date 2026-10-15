@@ -3223,15 +3223,18 @@ function cmdContext(argv) {
   const json = argv.includes('--json');
   if (argv.some(a => a !== '--json')) { log('usage: npx sshlg-skills context [--json]'); return 2; }
   const pathMod = require('path'), C = require('../lib/context.js'), A = require('../lib/apply.js'), home = os.homedir();
-  const hosts = A.TARGETS.map(t => { const file = pathMod.join(A.hostRoot(t, home), t.file); return { agent: t.agent, file, text: C.read(file) }; });
-  const cursor = pathMod.join(home, '.cursor', 'rules', 'sshlg-routing.mdc');
-  hosts.push({ agent: 'cursor', file: cursor, text: C.read(cursor) });
-  const codex = A.TARGETS.find(t => t.agent === 'codex');
-  const r = C.report(hosts, C.read(pathMod.join(A.hostRoot(codex, home), 'config.toml')));
+  const hosts = A.TARGETS.map(t => C.host(t.agent, pathMod.join(A.hostRoot(t, home), t.file)));
+  const codex = A.TARGETS.find(t => t.agent === 'codex'), codexRoot = A.hostRoot(codex, home);
+  // Codex reads AGENTS.override.md in place of AGENTS.md when it exists.
+  const override = C.host('codex', pathMod.join(codexRoot, 'AGENTS.override.md'));
+  if (override.text != null || override.error) hosts.push(override);
+  for (const name of ['sshlg-routing.mdc', 'sshlg-wait.mdc']) hosts.push(C.host('cursor', pathMod.join(home, '.cursor', 'rules', name)));
+  const config = C.read(pathMod.join(codexRoot, 'config.toml'));
+  const r = C.report(hosts, typeof config === 'string' ? config : null);
   if (json) { console.log(JSON.stringify(r)); return r.findings.some(f => f.severity === 'error') ? 1 : 0; }
   log('Always-loaded instruction files (' + r.estimate + '):');
   for (const row of r.rows) {
-    if (!row.present) { log(`  ${row.agent.padEnd(7)} absent  ${row.file}`); continue; }
+    if (!row.present) { log(`  ${row.agent.padEnd(7)} ${row.error ? 'unreadable (' + row.error + ')' : 'absent'}  ${row.file}`); continue; }
     log(`  ${row.agent.padEnd(7)} ${String(row.bytes).padStart(7)} B  ~${String(row.approxTokens).padStart(6)} tok  ${String(row.lines).padStart(5)} lines  hub ${row.managedBytes} B · other ${row.operatorBytes} B${row.cap ? `  cap ${row.cap} (${row.capSource})` : ''}`);
   }
   for (const f of r.findings) log(`  ${f.severity}: ${f.message}`);

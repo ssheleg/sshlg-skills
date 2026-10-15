@@ -23,6 +23,21 @@ it('a long CLAUDE.md is a note, an absent host is reported absent', () => {
   const r = C.report([{ agent: 'claude', file: 'CLAUDE.md', text: 'l\n'.repeat(300) }, { agent: 'gemini', file: 'GEMINI.md', text: null }], null);
   assert.equal(r.findings[0].severity, 'note'); assert.equal(r.rows[1].present, false);
 });
+it('cap parsing accepts comments, underscores and quoted keys; an unreadable cap is a note', () => {
+  assert.equal(C.codexCap('project_doc_max_bytes = 65536 # raised\n').cap, 65536);
+  assert.equal(C.codexCap('project_doc_max_bytes=65_536\n[t]\n').cap, 65536);
+  assert.equal(C.codexCap('"project_doc_max_bytes" = 65536\n').cap, 65536);
+  assert.equal(C.codexCap('project_doc_max_bytes = "lots"\n').source, 'unparsed');
+  const r = C.report([{ agent: 'codex', file: 'AGENTS.md', text: 'x'.repeat(40000) }], 'project_doc_max_bytes = "lots"\n');
+  assert.ok(r.findings.every(f => f.severity === 'note'));
+});
+it('wait-rule and lower-case block ids count as hub-managed; unreadable files are reported, not thrown', () => {
+  const t = '<!-- SSHLG:RULE:wait-is-not-a-stop:BEGIN -->\nw\n<!-- SSHLG:RULE:wait-is-not-a-stop:END -->';
+  assert.equal(C.measure(t).managedBytes, Buffer.byteLength(t));
+  const r = C.report([{ agent: 'gemini', file: 'G.md', text: null, error: 'EACCES' }], null);
+  assert.equal(r.rows[0].error, 'EACCES'); assert.equal(r.findings[0].severity, 'error');
+  assert.deepEqual(C.host('x', '/nonexistent/dir/file').text, null);
+});
 it('the routing registry total only falls (DOCMAP ratchet)', () => {
   const fs = require('fs'), path = require('path');
   const R = require('../lib/routers-registry.js');

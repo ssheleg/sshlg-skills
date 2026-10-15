@@ -3,8 +3,8 @@
 Measured on the operator machine 2026-10-15 (research by a non-author reviewer; tiktoken o200k,
 Claude counts within ±15%). Before the first user word a Claude Code session here loaded about
 37k tokens: the global `CLAUDE.md` (~10k, 689 lines), the skill listing (~8k), deferred tool names
-(~4.5k), MCP server instructions (~4.9k), SessionStart output (~0.75k). The hub's routing block
-is about 20 KB in each of five host files. Measure your own machine with
+(~4.5k), MCP server instructions (~4.9k), SessionStart output (~0.75k). The hub's blocks are
+18–22 KB in each of five host files. Measure your own machine with
 `npx sshlg-skills context`.
 
 ## Rules for instruction files (all hosts)
@@ -21,8 +21,8 @@ is about 20 KB in each of five host files. Measure your own machine with
    aggressive wording makes models over-apply a rule.
 4. **Respect host caps.** Codex stops adding instruction files once the combined size reaches
    `project_doc_max_bytes` (32 KiB by default); `context` reports it as an error.
-5. **Keep the prefix stable.** Editing a loaded instruction file mid-session re-injects the whole
-   file into running sessions; batch edits.
+5. **Keep the prefix stable.** In the measured transcripts, an instruction file edited mid-session
+   reached running sessions again as a whole file (one re-injection of 41k characters); batch edits.
 
 ## Rules for work
 
