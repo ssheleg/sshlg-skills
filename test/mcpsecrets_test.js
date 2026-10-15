@@ -43,9 +43,9 @@ for (const tool of DENIED) {
     const hit = M.inspectTool(tool);
     assert.ok(hit, 'expected a refusal');
     assert.strictEqual(hit.rule, 'mcp-credential-result');
-    assert.match(hit.why, /vault\.py put/, 'the refusal names the safe route');
-    // USR-011: a skills-only user has no vault.py; the refusal must name a route they can run.
-    assert.match(hit.why, /Without Observatory: .*mode 600/, 'no route for a user without Observatory');
+    // USR-011: a skills-only user has no vault.py; the route they can run comes first,
+    // and the vault stays named as the alternative (ordering: test/remedies_test.js).
+    assert.match(hit.why, /mode 600[\s\S]*vault\.py put/, 'the free route is missing or not first');
   });
 }
 for (const tool of PASSED) {

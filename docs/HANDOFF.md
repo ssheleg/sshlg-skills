@@ -1,3 +1,33 @@
+## Current — 2026-10-14, release iteration 1 rows N-5 and N-9 (branch `iter1/N-5-N-9`)
+
+Not released: the family release follows after every iteration row lands.
+
+- **N-5 done:** [`test/remedies_test.js`](../test/remedies_test.js) holds every secret-guard
+  refusal (`lib/secrets.js`, `lib/mcpsecrets.js`, the hook's Read/Grep refusal) to an
+  Observatory-free step before any Observatory step; a rule without a corpus case fails.
+  It failed on main for the 13 DigitalOcean refusals; their remedy now leads with the
+  mode-600 file. A planted Observatory-only remedy fails it. Round 2: only the remedy
+  part (after the diagnosis) counts, so deleting the stdin-program free step fails it.
+- **N-9 done:** [managed-blocks/1](working-rules/managed-blocks.md) and its writer
+  `lib/blockwriter.js` (`blocks install|uninstall|resolve`, preview unless `--apply`,
+  backup through `protect()`, hash-chained journal); `blocks` registers
+  `OBSERVATORY:AGENT-UPDATES` (fixture in `test/blocks_test.js`). `SSHLG:REPOSITORY-HANDOFF`
+  stays without a writer: B-174 is the operator's.
+  Round 2 added tests for the pre-rename compare, backup-hash compare, journal chain,
+  a new `journal.head` (cut-off records), exact round trip, symlinked host dirs and the
+  error shape; each fails with its guard planted out.
+  Round 3 (adversarial): exact round trip without a separator, CRLF, fenced examples,
+  result-parse check, read-only refusal, backup reuse on retry, resolve sweeps temp files,
+  edited-block warnings; remedies reads quoted `rule` keys, refuses shorthand, and checks the
+  hook's deny sites. Cycle 2: a crash before the first journal.head is recoverable; stray
+  fences around the selected block warn with the line; mid-file uninstall pinned.
+- **Board:** B-175, B-179, B-181 closed with evidence; filed B-195 (I-6 labelled-value
+  detector, another builder), B-196/B-197 (wait block content, M-10), B-198 (`--help`
+  for every subcommand; `blocks` answers now), B-199 (journal-named backups not pinned).
+
+**Next:** B-196/B-197 in `lib/wait-rule-text.js`, then B-198 for `rules`. Observatory decides
+whether `agent_updates.py` adopts `blocks install --owner OBSERVATORY`.
+
 ## Current — 2026-10-14, hub 1.63.2 published and installed
 
 Hub **1.63.2** is live (npm gitHead 0e5ed71) and installed here with readback:
