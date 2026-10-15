@@ -6,7 +6,8 @@ report:
   project: sshlg-skills
   domains: [ai-agent, automation]
   as_of: 2026-10-13
-  status: active
+  status: superseded
+  superseded_by: ["sshlg-skills/2026-10-15-final-observer"]
   valid_until: 2026-10-14
   summary: >-
     Source review found two uncovered hook runtime failure mechanisms.

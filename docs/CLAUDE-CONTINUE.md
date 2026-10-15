@@ -136,6 +136,13 @@ task-pipeline **1.96.0** finish-line: ветка `feat/finish-line`, head af8be9
 3. Финальный независимый наблюдатель (worktree `/_wt/hub-final-observer` пуст), wiki index,
    HANDOFF, итоговое резюме. Применить к себе finish-line: бюджет 3 раунда.
 
+### Итог итерации (2026-10-15) — ВЫПУЩЕНО
+
+Hub **1.64.0** (fc11487) и task-pipeline **1.96.0** (2674147) опубликованы и установлены; текущее
+состояние и следующий шаг — в `docs/HANDOFF.md` (раздел «Current — 2026-10-15»). Финальный
+независимый наблюдатель: `docs/reports/2026-10-15-final-observer/` — 0 блокирующих находок.
+Разделы ниже — история продолжений, не следующий шаг.
+
 ## Первый шаг
 
 Прочитать этот файл, `CLAUDE.md`, актуальную политику Observatory и [план волн](evidence/plans/2026-10-13-completion.md). Проверить [снимок веток](evidence/completion-1013/claude-handoff/branches.json) против remote, затем [снимок активных процессов](evidence/completion-1013/claude-handoff/active-processes.json). Получить собственный agent-sync lease перед общими реестрами. Не забирать старую идентичность сессии.
