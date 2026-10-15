@@ -1028,3 +1028,23 @@ The source must contain one complete matching outer block. Output contains only
 the selected block's before/after text, so treat that output as local material.
 The command does not apply the diff. Unknown/foreign blocks remain inspectable;
 REPOSITORY-HANDOFF ownership is still a separate operator decision.
+
+### Write another tool's block (managed-blocks/1)
+
+A tool that keeps its own block in a host instruction file — Observatory's
+`OBSERVATORY:AGENT-UPDATES`, for one — can let the hub write it:
+
+```bash
+npx sshlg-skills blocks install OBSERVATORY:AGENT-UPDATES --owner OBSERVATORY --agent claude --from ./block.md
+npx sshlg-skills blocks install OBSERVATORY:AGENT-UPDATES --owner OBSERVATORY --agent claude --from ./block.md --apply
+npx sshlg-skills blocks uninstall OBSERVATORY:AGENT-UPDATES --owner OBSERVATORY --agent claude --apply
+```
+
+Without `--apply` it previews and writes nothing. With it, the file is copied to
+`~/.sshlg-skills/backups/` first, only the named block changes, and each step is
+recorded in `~/.sshlg-skills/managed-blocks/journal.jsonl`. It writes `claude`,
+`codex`, `gemini` and `pi` files, never installs a host, and refuses the hub's own
+blocks (they have their own writers), `SSHLG:REPOSITORY-HANDOFF` (no owner decided)
+and any block whose owner prefix differs from `--owner`. An interrupted write is
+classified with `npx sshlg-skills blocks resolve <operation-id>`. The convention:
+[docs/working-rules/managed-blocks.md](docs/working-rules/managed-blocks.md).
