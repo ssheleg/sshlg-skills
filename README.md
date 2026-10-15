@@ -1012,18 +1012,6 @@ GitHub release from the matching changelog section.
 Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). To report a
 vulnerability, see [SECURITY.md](SECURITY.md).
 
-## Author
-
-Built by ssheleg — [sshlg.me](https://sshlg.me)
-
-- X / Twitter — [@sshlg93](https://x.com/sshlg93) ·
-  [follow in one click](https://x.com/intent/follow?screen_name=sshlg93)
-- Telegram — [@sshlg](https://t.me/sshlg)
-
-## License
-
-MIT © 2026 ssheleg.
-
 ### Inspect instruction blocks
 
 `npx sshlg-skills blocks --agent codex --json` reads marker metadata from the
@@ -1059,3 +1047,15 @@ blocks (they have their own writers), `SSHLG:REPOSITORY-HANDOFF` (no owner decid
 and any block whose owner prefix differs from `--owner`. An interrupted write is
 classified with `npx sshlg-skills blocks resolve <operation-id>`. The convention:
 [docs/working-rules/managed-blocks.md](docs/working-rules/managed-blocks.md).
+
+## Author
+
+Built by ssheleg — [sshlg.me](https://sshlg.me)
+
+- X / Twitter — [@sshlg93](https://x.com/sshlg93) ·
+  [follow in one click](https://x.com/intent/follow?screen_name=sshlg93)
+- Telegram — [@sshlg](https://t.me/sshlg)
+
+## License
+
+MIT © 2026 ssheleg.
