@@ -82,9 +82,15 @@ process.stdin.on('end', () => {
     //    here too (the matcher in lib/hooks.js): a config file read whole prints
     //    the same value a `cat` would. Each detector fails silent on its own, so
     //    one that throws never costs the other its report — or the tool its turn.
+    // The vendor scan reads EVERY byte of every string, as it did before the labelled
+    // detector existed; only the labelled detector windows its input (per string). A
+    // cap on the joined text once hid a vendor key in `stderr` behind a MiB of `stdout`.
+    let parts = null;
+    try { parts = require(path.join(LIB, 'labelledsecrets.js')).outputParts(data.tool_response); }
+    catch (e) { /* the reader below stands in */ }
     let text = '';
-    try { text = require(path.join(LIB, 'labelledsecrets.js')).outputText(data.tool_response); }
-    catch (e) {
+    if (parts) text = parts.join('\n');
+    else {
       // The reader this hook had before the labelled detector, kept so a broken module
       // costs the vendor scan nothing.
       const r = data.tool_response;
@@ -99,7 +105,7 @@ process.stdin.on('end', () => {
     } catch (e) { /* fails silent, like everything else here */ }
     try {
       const L = require(path.join(LIB, 'labelledsecrets.js'));
-      const note = L.describe(L.scanLabelled(text), L.whereOf(data));
+      const note = L.describe(L.scanLabelled(parts || [text]), L.whereOf(data));
       if (note) notes.push(note);
     } catch (e) { /* fails silent, like everything else here */ }
 

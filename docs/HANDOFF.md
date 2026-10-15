@@ -36,10 +36,17 @@ reads a generated-looking value under a credential label in what `Bash`, `Read` 
 printed; `hooks/post-tool-use.js` names the label, tool and file or program, never the value.
 The `PostToolUse` matcher is now `Bash|Read|Grep`. Tests: `test/labelled_secrets_test.js`
 (76) and 7 new fixtures in `test/hooks_e2e_test.js`, three of them watched failing against the
-pre-change hook; full gate green at 134 suites / 2368 fixtures. False-positive measurement
+pre-change hook; full gate green at 134 suites / 2368 fixtures (2400 after fix cycle 1). False-positive measurement
 and the one residual class are in the CHANGELOG's Unreleased entry.
 
-**Open:** the B-row is filed by a parallel builder; cite it in the PR once it lands. Not
+Fix cycle 1 (round-1 adversarial review, 2 MEDIUM + 4 LOW): Switchboard proxy tokens
+beside a loopback `*_BASE_URL` are not reported; `secrets.scan` reads every byte again (a
+vendor key in `stderr` behind 1.1 MiB of `stdout` — missed at `be8182f`, reported at
+`be8182f~1` and now); values captured without backtracking; `.netrc`, URL userinfo,
+escaped-quote JSON, `_`-labels, `/`-base64 and `APP_KEY=base64:` read; one-identifier values
+silent; the program printed as argv[0] only. Suites now 106 unit / 79 e2e.
+
+**Open:** the B-row is B-195, filed in #223 (open). Not
 released: the next hub release carries it, and `update` refreshes the matcher on machines that
 have the hook. **Next:** review the PR; on merge, the release that ships it.
 

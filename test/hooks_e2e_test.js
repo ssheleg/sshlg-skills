@@ -1447,13 +1447,43 @@ try {
   it('PostToolUse fails open on odd responses: a number, a deep nest, a huge string (I-6)', () => {
     let deep = { s: 'leaf' };
     for (let i = 0; i < 2000; i += 1) deep = { d: deep };
-    for (const resp of [42, null, deep, 'x'.repeat(3 << 20)]) {
+    for (const resp of [42, null, deep]) {
       const r = runHookRaw('post-tool-use.js', {
         hook_event_name: 'PostToolUse', tool_name: 'Bash',
         tool_input: { command: 'true' }, tool_response: resp,
       });
       assert.strictEqual(r.stdout.trim(), '');
     }
+    // A huge string is read in part, and the note says so even when it found nothing.
+    const big = runHook('post-tool-use.js', {
+      hook_event_name: 'PostToolUse', tool_name: 'Bash',
+      tool_input: { command: 'true' }, tool_response: 'x'.repeat(3 << 20),
+    });
+    const said = big && big.hookSpecificOutput.additionalContext;
+    assert.ok(/scan PARTIAL/.test(said) && !/LABELLED CREDENTIAL IN OUTPUT/.test(said), `partial note: ${said}`);
+  });
+
+  it('a vendor key in stderr after 1.1 MiB of stdout is still reported (fix 1, M2)', () => {
+    // The first cut capped the joined text at 1 MiB and fed the vendor scan from it, so a key
+    // in `stderr` behind a long `stdout` vanished; `be8182f~1` reported it.
+    const vendor = 'gh' + 'p_' + crypto.randomBytes(20).toString('hex');
+    const out = runHook('post-tool-use.js', {
+      hook_event_name: 'PostToolUse', tool_name: 'Bash', tool_input: { command: 'make' },
+      tool_response: { stdout: 'y'.repeat(Math.ceil(1.1 * 1024 * 1024)), stderr: `fatal: ${vendor}` },
+    });
+    const text = out && out.hookSpecificOutput.additionalContext;
+    assert.ok(text && /CREDENTIAL IN OUTPUT — This command PRINTED/.test(text), 'the vendor key was lost');
+    assert.ok(!text.includes(vendor), 'the report repeats the value');
+  });
+
+  it('a Switchboard proxy token read from settings.local.json is not reported (fix 1, M1)', () => {
+    const r = runHookRaw('post-tool-use.js', {
+      hook_event_name: 'PostToolUse', tool_name: 'Read',
+      tool_input: { file_path: '/p/.claude/settings.local.json' },
+      tool_response: { type: 'text', file: { content:
+        `{"env": {"ANTHROPIC_BASE_URL": "http://127.0.0.1:47219", "ANTHROPIC_AUTH_TOKEN": "${genValue()}"}}` } },
+    });
+    assert.strictEqual(r.stdout.trim(), '', `a local proxy token was reported: ${r.stdout}`);
   });
 
   it('a broken labelled detector costs neither the turn nor the vendor scan (I-6, fail open)', () => {

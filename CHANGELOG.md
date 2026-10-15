@@ -57,17 +57,35 @@
 - `PostToolUse` now runs on `Read` and `Grep` as well as `Bash`, so a config file read whole
   is scanned like `cat`. MCP results are not matched (every MCP call would pay a spawn);
   `update` refreshes the matcher on a machine that already has the hook.
-- Measured before shipping on 29,121 files, 437 MB (this repository with its members,
+- Also read: escaped-quote JSON in a string (an `aws secretsmanager` SecretString),
+  `.netrc`, URL userinfo (`scheme://user:PASSWORD@host`, `DATABASE_URL=…`), labels starting
+  with `_` (`.npmrc` `:_authToken=`), base64 values starting with `/`, and Laravel's
+  `APP_KEY=base64:…`. Left out on purpose: a short password with symbols under a label (the
+  token alphabet stops at a symbol; widening it reads prose and code as values).
+- **A local proxy's token is not a vendor key.** Switchboard's managed sessions (SB-118) put
+  `ANTHROPIC_AUTH_TOKEN` beside `ANTHROPIC_BASE_URL=http://127.0.0.1:…` in every project's
+  `.claude/settings.local.json` (93 of the 150 such files under the operator's projects). A
+  `<P>_AUTH_TOKEN` or `<P>_API_KEY` beside a loopback `<P>_BASE_URL` (same prefix; 127.x,
+  `localhost`, `[::1]`) is not reported; beside a remote one it is, and a vendor-shaped key
+  there is still reported by `secrets.scan`.
+- Measured before shipping on 29,053 files, 436 MB (this repository with its members,
   Observatory's docs and tools, and eight other repositories on the operator's machine),
-  scanned in 9.7 s. The false-positive classes found are fixtures now: a registry's
+  scanned in 17 s. The false-positive classes found are fixtures now: a registry's
   `credential:<name>` ids, a vault slot name `project/env/NAME`, a publishable `pk_` key in
-  an image URL, a function name as a value. 18 files still report. One is a disclosed residual
-  class: a git SHA under a name ending in `_token` cannot be told from a hex token by its
-  shape. The other 17 hold a generated-looking value under a credential label: local
-  settings, configs, a session export, documentation examples and test sentinels. The
-  detector reads shape, not provenance, and its note says so. Bounded: at most 1 MiB of an
-  output is read, and the note says when a scan was partial. A detector that throws costs
-  neither the turn nor the vendor scan.
+  an image URL, a function name or a one-identifier value (`AuthenticationMD5Password`) as a
+  value, a URL whose user and host say it is fake. 14 files still report. One is a disclosed
+  residual class: a git SHA under a name ending in `_token` cannot be told from a hex token by
+  its shape. The other 13 hold a generated-looking value under a credential label: configs,
+  documentation examples and test sentinels. The detector reads shape, not provenance, and
+  its note says so.
+- **Bounded, and the vendor scan unchanged.** `secrets.scan` reads every byte of every string
+  of the response, as before; only the labelled detector windows each string (1 MiB whole,
+  else its first 768 KiB and last 256 KiB; 4 MiB in all), and its note says when a scan was
+  partial, also when it found nothing. Values are captured without backtracking: a MiB of
+  `token … =a=a…` takes 13 ms (2.4 s in the first cut). The note names the program by argv[0]
+  only, so a second word of the command (which can be a short secret) is never repeated. A
+  detector that throws costs neither the turn nor the vendor scan.
+
 ## v1.63.3 — pinned sources for every Claude member; blocked members no longer stop the run
 
 - A Claude member whose installed bytes already equal the pin is now rebound to the hub's

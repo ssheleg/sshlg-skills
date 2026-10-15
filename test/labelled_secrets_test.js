@@ -103,9 +103,129 @@ it('the note names the label, the tool and where, and gives the remedy with the 
   assert.match(note, /rotate/i);
   assert.ok(note.includes(S.USE_SECRET) || /observatory_credentials/.test(note),
     'the remedy does not name the owner\'s door');
-  assert.match(note, /[Ww]ithout Observatory/, 'no step for a machine without Observatory');
+  const free = note.search(/mode 600/);
+  const obs = note.search(/vault\.py|use_secret\.py|project-observatory|observatory_credentials/);
+  assert.ok(free !== -1, 'no step for a machine without Observatory');
+  assert.ok(free < obs, 'the Observatory step comes before the step that needs nothing (N-5)');
   assert.ok(note.includes(S.NOT_ON_PATH), 'names use_secret.py without the not-on-PATH sentence');
   assert.match(note, /not repeated/i, 'the note does not say the value is withheld');
+});
+
+// ── Fix cycle 1 (round-1 adversarial review of #224) ─────────────────────────
+// L2: shapes the first cut missed.
+const B64SLASH = () => {
+  for (;;) {
+    const v = '/' + crypto.randomBytes(30).toString('base64').slice(1);
+    if (/\d/.test(v) && /[+=]|^\/[^/]*$/.test(v) && !L.isPlaceholder(v)) return v;
+  }
+};
+const REPORTED_2 = [
+  ['escaped-quote JSON (a SecretString)', () => `"SecretString": "{\\"username\\":\\"svc\\",\\"password\\":\\"${V()}\\"}"`, ['password']],
+  ['.netrc on one line', () => `machine api.example.com login svc password ${V()}`, ['password']],
+  ['.netrc one field per line', () => `machine api.example.com\n  login svc\n  password ${V()}\n`, ['password']],
+  ['URL userinfo under DATABASE_URL', () => `DATABASE_URL=postgres://app_user:${V()}@db.internal:5432/app`, ['DATABASE_URL']],
+  ['URL userinfo with no label', () => `cloning https://x-access-token:${V()}@github.com/org/repo.git`, ['https-url-password']],
+  ['npmrc _authToken', () => `//registry.npmjs.org/:_authToken=${V()}`, ['_authToken']],
+  ['a label starting with _', () => `_SECRET_TOKEN=${V()}`, ['_SECRET_TOKEN']],
+  ['a base64 value starting with /', () => `CLIENT_SECRET=${B64SLASH()}`, ['CLIENT_SECRET']],
+  ['Laravel APP_KEY=base64:', () => {
+    // a value with no digit is not reported (a word-only value is not a key); 1 in 1,500
+    // random 32-byte keys has none, so the fixture draws one that does
+    for (;;) { const b = crypto.randomBytes(32).toString('base64'); if (/\d/.test(b)) return `APP_KEY=base64:${b}`; }
+  }, ['APP_KEY']],
+  // M1's other half: a token beside a REMOTE base URL is still a credential.
+  ['an AUTH_TOKEN beside a remote BASE_URL', () => `ANTHROPIC_BASE_URL=https://gateway.example.com\nANTHROPIC_AUTH_TOKEN=${V()}`, ['ANTHROPIC_AUTH_TOKEN']],
+  ['a loopback BASE_URL silences only its own prefix', () => `OTHER_BASE_URL=http://127.0.0.1:8080\nANTHROPIC_AUTH_TOKEN=${V()}`, ['ANTHROPIC_AUTH_TOKEN']],
+];
+for (const [name, make, want] of REPORTED_2) {
+  it(`reports (fix 1): ${name}`, () => {
+    const r = L.scanLabelled(make());
+    assert.ok(r && r.found.length, 'a labelled credential was not noticed');
+    assert.deepStrictEqual(labels(r), want);
+  });
+}
+const SILENT_2 = [
+  // M1: Switchboard's managed sessions (SB-118) — a local proxy's token, not a vendor key.
+  ['a Switchboard proxy token in settings.local.json',
+   () => `{\n  "env": {\n    "ANTHROPIC_BASE_URL": "http://127.0.0.1:47219",\n    "ANTHROPIC_AUTH_TOKEN": "${V()}"\n  }\n}`],
+  ['the same from env | grep ANTHROPIC',
+   () => `ANTHROPIC_AUTH_TOKEN=${V()}\nANTHROPIC_BASE_URL=http://localhost:47219/`],
+  ['an API_KEY beside a [::1] base URL', () => `OPENAI_BASE_URL=http://[::1]:9000/v1\nOPENAI_API_KEY=${V()}`],
+  // L2 negatives
+  ['a URL with a placeholder password', () => 'postgres://user:password@localhost:5432/db'],
+  ['a URL with an expansion for a password', () => 'DATABASE_URL=postgres://app:${DB_PASSWORD}@db:5432/app'],
+  ['a URL with a user and no password', () => 'https://someone@example.com/path'],
+  ['an ssh remote', () => 'git@github.com:org/repo.git'],
+  // measured in a member's verification record (fix 1 corpus rerun)
+  ['a URL whose user and host say it is fake', () => `postgresql://fakeuser:${V()}@fake.rds.amazonaws.com/fakedb`],
+  ['a URL password made of words', () => 'postgresql://app:SENTINEL_PASSWORD_2026@db.internal/app'],
+  ['prose: password changed', () => 'password changed successfully for user svc-2026'],
+  ['a netrc password that is a word', () => 'machine h login u password hunter2'],
+  ['a rooted path under a secret name', () => 'CLIENT_SECRET_FILE=/var/run/secrets/app-2026/token'],
+  // L3: one identifier made of words
+  ['an identifier: AuthenticationMD5Password', () => 'password: AuthenticationMD5Password'],
+  ['an identifier: experimentalS3Credentials', () => 'credentials=experimentalS3Credentials'],
+];
+for (const [name, make] of SILENT_2) {
+  it(`silent (fix 1): ${name}`, () => {
+    const r = L.scanLabelled(make());
+    assert.strictEqual(r, null, `false positive on ${JSON.stringify(labels(r))}`);
+  });
+}
+
+it('a real vendor key beside a loopback BASE_URL is still secrets.scan\'s to report (M1)', () => {
+  const vendor = 'sk-' + 'ant-' + randomValue('b64', 30);
+  const text = `ANTHROPIC_BASE_URL=http://127.0.0.1:47219\nANTHROPIC_AUTH_TOKEN=${vendor}`;
+  assert.strictEqual(L.scanLabelled(text), null);
+  assert.ok(require('../lib/secrets.js').scan(text), 'secrets.scan lost the vendor key');
+});
+
+it('outputText keeps every byte for secrets.scan; scanLabelled windows each part (M2)', () => {
+  const stdout = 'x'.repeat(Math.ceil(1.1 * 1024 * 1024));
+  const vendor = 'gh' + 'p_' + randomValue('hex', 20);
+  const text = L.outputText({ stdout, stderr: `fatal: ${vendor}` });
+  assert.ok(text.includes(vendor), 'stderr after 1.1 MiB of stdout was dropped');
+  assert.ok(require('../lib/secrets.js').scan(text), 'secrets.scan does not see it');
+  const r = L.scanLabelled(L.outputParts({ stdout, stderr: `DEPLOY_TOKEN=${V()}` }));
+  assert.ok(r && labels(r).includes('DEPLOY_TOKEN'), 'a short stderr beside a long stdout was not scanned');
+});
+
+it('a partial scan that found nothing still says so (L2)', () => {
+  const r = L.scanLabelled('y'.repeat(2 * 1024 * 1024));
+  assert.deepStrictEqual(r, { found: [], partial: true });
+  assert.match(L.describe(r, { tool: 'Bash', where: 'cat' }), /PARTIAL/);
+  assert.strictEqual(L.describe(null, { tool: 'Bash' }), '');
+});
+
+it('no backtracking blow-up: a MiB of `=a=a…` and other runs stay fast (L1)', () => {
+  const MiB = 1024 * 1024;
+  const inputs = [
+    // the pre-filter must pass, or the regexes never run: be8182f took 2.4 s on these two
+    'token\n' + '=a'.repeat(MiB / 2),
+    'api_key' + '=a'.repeat(MiB / 2),
+    'x-api-key: ' + 'a'.repeat(MiB),
+    'Authorization: Bearer ' + 'b='.repeat(MiB / 2),
+    ('password ' + 'c1'.repeat(40) + '\n').repeat(10000),
+    'https://' + 'u:'.repeat(MiB / 2),
+    '--token ' + 'd'.repeat(MiB),
+  ];
+  for (const s of inputs) {
+    const t0 = Date.now();
+    L.scanLabelled(s);
+    const ms = Date.now() - t0;
+    assert.ok(ms < 1000, `${JSON.stringify(s.slice(0, 20))}… took ${ms} ms`);
+  }
+});
+
+it('the program name is argv[0] only — a second word can be a secret (L4)', () => {
+  const short = 's3cR' + randomValue('b64', 6).slice(0, 6);
+  assert.strictEqual(L.programOf(`login ${short} --x`), 'login');
+  assert.strictEqual(L.programOf('/usr/bin/curl -sS https://x'), 'curl');
+  assert.strictEqual(L.programOf(`API_KEY=${short} curl https://x`), '');
+  assert.strictEqual(L.programOf('"quoted" thing'), '');
+  const w = L.whereOf({ tool_name: 'Bash', tool_input: { command: `mysql -u root -p${short}` } });
+  assert.strictEqual(w.where, 'mysql');
+  assert.ok(!JSON.stringify(w).includes(short));
 });
 
 // ── Values the detector must NOT report ─────────────────────────────────────
