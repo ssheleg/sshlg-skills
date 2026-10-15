@@ -36,7 +36,7 @@ reads a generated-looking value under a credential label in what `Bash`, `Read` 
 printed; `hooks/post-tool-use.js` names the label, tool and file or program, never the value.
 The `PostToolUse` matcher is now `Bash|Read|Grep`. Tests: `test/labelled_secrets_test.js`
 (76) and 7 new fixtures in `test/hooks_e2e_test.js`, three of them watched failing against the
-pre-change hook; full gate green at 134 suites / 2368 fixtures on `e20190e`; 2408 after fix cycle 1, rebased on `a9080b8` (1.63.3); 2478 after fix cycle 2; 136 / 2543 rebased on `e53abbd` (#223). False-positive measurement
+pre-change hook; full gate green at 134 suites / 2368 fixtures on `e20190e`; 2408 after fix cycle 1, rebased on `a9080b8` (1.63.3); 2478 after fix cycle 2; 136 / 2543 rebased on `e53abbd` (#223); 138 / 2555 rebased on `07de79f` (1.64.0, #228). False-positive measurement
 and the one residual class are in the CHANGELOG's Unreleased entry.
 
 Fix cycle 1 (round-1 adversarial review, 2 MEDIUM + 4 LOW): Switchboard proxy tokens
