@@ -48,6 +48,47 @@ project). The exposed enrollment poll secrets (Observatory `mem:348bac6b964e4ce5
 re-issued as `4666e66a` and allowed; both were binding-asked, so a poll secret never carried a credential.
 **Next:** read the final observer report (`docs/reports/2026-10-15-final-observer/`, branch
 `audit/final-observer-20261015`) when it lands; take the highest-priority board row as a new iteration with its own finish line.
+## Current — 2026-10-15, I-6 remainder: the labelled-credential detector (branch, not merged)
+
+Branch `iter1/I-6-labelled-detector` from `e20190e` (release iteration 1, node I-6 of
+Observatory's `docs/runs/2026-10-12-release-iteration-1/workgraph.json`; closes OPS-002's last
+test, "PostToolUse reports a labelled x-*-key value by name only"). `lib/labelledsecrets.js`
+reads a generated-looking value under a credential label in what `Bash`, `Read` or `Grep`
+printed; `hooks/post-tool-use.js` names the label, tool and file or program, never the value.
+The `PostToolUse` matcher is now `Bash|Read|Grep`. Tests: `test/labelled_secrets_test.js`
+(76) and 7 new fixtures in `test/hooks_e2e_test.js`, three of them watched failing against the
+pre-change hook; full gate green at 134 suites / 2368 fixtures on `e20190e`; 2408 after fix cycle 1, rebased on `a9080b8` (1.63.3); 2478 after fix cycle 2; 136 / 2543 rebased on `e53abbd` (#223); 138 / 2555 rebased on `07de79f` (1.64.0, #228); 138 / 2585 after fix cycle 3. False-positive measurement
+and the one residual class are in the CHANGELOG's Unreleased entry.
+
+Fix cycle 1 (round-1 adversarial review, 2 MEDIUM + 4 LOW): Switchboard proxy tokens
+beside a loopback `*_BASE_URL` are not reported; `secrets.scan` reads every byte again (a
+vendor key in `stderr` behind 1.1 MiB of `stdout` — missed at `be8182f`, reported at
+`be8182f~1` and now); values captured without backtracking; `.netrc`, URL userinfo,
+escaped-quote JSON, `_`-labels, `/`-base64 and `APP_KEY=base64:` read; one-identifier values
+silent; the program printed as argv[0] only. Suites now 106 unit / 79 e2e.
+
+Fix cycle 2 (round 2: 1 MEDIUM + 5 LOW/INFO): the loopback skip is scoped (active line, host
+ends at loopback, no other base URL of the prefix, keys ≤ loopbacks, per file); commented,
+overridden, concatenated, Grep two-file and `@`-host shapes report for legacy `sk-`, DeepSeek,
+Groq and Stripe keys. Identifier skip needs a case transition (property tests over base32,
+lower alnum, word-digit-word); k8s slugs are names; userinfo label checked; atomic labels;
+digit-free keys read; PARTIAL names its cause.
+
+Rebased on `e53abbd` (#223 merged): B-195 closed by this branch; `test/remedies_test.js`
+now also checks the PostToolUse note (free step before the Observatory step, through the real
+hook process) and that the PostToolUse hook and `lib/labelledsecrets.js` deny nothing and
+declare no `rule:` — the PreToolUse deny-site table is unchanged and complete.
+
+Fix cycle 3 (round 3: 3 MEDIUM, 5 LOW, 1 INFO): a commented key always reports and every
+key line counts; values to 4,096 characters (long JWTs, session tokens); the file-scope
+reader is linear and the labelled scan has a time budget (the vendor note survives);
+quote-aware base URL reading; 20-line proximity, `grep --heading` and heredoc scopes; label
+segments echoed only from known vocabulary; `ENV_VAR_NAME_2` is a name; surviving mutants
+pinned (fixed UUID, atomic-label source check plus a linear-baseline timing, long JWTs).
+
+**Open:** none on this branch beyond review. Not
+released: the next hub release carries it, and `update` refreshes the matcher on machines that
+have the hook. **Next:** review the PR; on merge, the release that ships it.
 
 ## Current — 2026-10-14, release iteration 1 rows N-5 and N-9 (branch `iter1/N-5-N-9`)
 

@@ -178,6 +178,26 @@ it('every deny site in the PreToolUse hook is in the table', () => {
   assert.strictEqual(sites.length, Object.keys(HOOK_DENY_SITES).length, 'a listed deny site is gone; update the table');
 });
 
+// The PostToolUse labelled-credential note (I-6, B-195) is not a refusal: it denies nothing
+// and has no `rule:`. It still offers its reader a way forward, and holds to the same order.
+OWED['labelled-credential-note'] = KEEP_VALUE;
+it('the labelled-credential note printed by the PostToolUse hook process', () => {
+  const crypto = require('crypto');
+  const v = crypto.randomBytes(24).toString('base64url') + '7Q';
+  const r = spawnSync(process.execPath, [path.join(ROOT, 'hooks', 'post-tool-use.js')], {
+    input: JSON.stringify({ tool_name: 'Read', tool_input: { file_path: '/tmp/app.yaml' },
+      tool_response: { file: { content: `SERVICE_API_KEY: ${v}` } } }), encoding: 'utf8',
+  });
+  const note = JSON.parse(r.stdout.trim()).hookSpecificOutput.additionalContext;
+  assert.ok(/LABELLED CREDENTIAL IN OUTPUT/.test(note) && !note.includes(v), 'the note did not print, or quoted the value');
+  check('labelled-credential-note', note);
+});
+it('the PostToolUse hook and the labelled detector deny nothing and declare no rule', () => {
+  const post = codeOf(fs.readFileSync(path.join(ROOT, 'hooks', 'post-tool-use.js'), 'utf8'));
+  assert.ok(!/permissionDecision|['"`]deny['"`]/.test(post), 'hooks/post-tool-use.js now denies: list its site in HOOK_DENY_SITES and check its remedy');
+  assert.deepStrictEqual(rulesIn('labelledsecrets.js'), [], 'lib/labelledsecrets.js declares a refusal rule: add it to the corpus');
+});
+
 it('the rule scan reads every quoting and refuses what it cannot read', () => {
   const tmp = fs.mkdtempSync(path.join(require('os').tmpdir(), 'remedies-'));
   try {
