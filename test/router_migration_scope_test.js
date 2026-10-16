@@ -8,7 +8,7 @@ let cases=0,failed=0;
 function fixture(fn){const home=fs.mkdtempSync(path.join(os.tmpdir(),'owned-router-migration-'));try{
  const files={},before={};for(const [host,[dir,name]] of Object.entries(hosts)){const file=path.join(home,dir,name);fs.mkdirSync(path.dirname(file),{recursive:true});files[host]=file;before[host]=`<!-- FOREIGN:${host}:BEGIN -->\n## UX scenarios\n${host} AUTHORED WORDING\n\n## Other\n${host} KEEP\n<!-- FOREIGN:${host}:END -->\n`;fs.writeFileSync(file,before[host]);}
  fs.mkdirSync(path.join(home,'.sshlg-skills'));fs.writeFileSync(path.join(home,'.sshlg-skills/state.json'),'{"routers":"yes"}');
- const env={...process.env,HOME:home};for(const key of ['CLAUDE_CONFIG_DIR','CODEX_HOME','GEMINI_CONFIG_DIR','PI_CODING_AGENT_DIR','NODE_OPTIONS'])delete env[key];
+ const env={...process.env,HOME:home};for(const key of ['CLAUDE_CONFIG_DIR','CODEX_HOME','GEMINI_CLI_HOME','PI_CODING_AGENT_DIR','NODE_OPTIONS'])delete env[key];
  function run(args,extra={}){return spawnSync(process.execPath,[BIN,'routers','--update',...args],{cwd:ROOT,env:{...env,...extra},encoding:'utf8',timeout:30000});}
  fn({home,files,before,run});
  }finally{fs.rmSync(home,{recursive:true,force:true});}}

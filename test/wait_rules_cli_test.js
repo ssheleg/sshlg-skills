@@ -3,7 +3,7 @@ const assert=require('assert'),fs=require('fs'),os=require('os'),path=require('p
 const BIN=path.resolve(__dirname,'../bin/sshlg-skills.js');
 let n=0,failed=0;
 function test(name,fn){const home=fs.mkdtempSync(path.join(os.tmpdir(),'sshlg-wait-cli-'));try{
- const env={...process.env,HOME:home};for(const k of ['CLAUDE_CONFIG_DIR','CODEX_HOME','GEMINI_CONFIG_DIR','PI_CODING_AGENT_DIR','NODE_OPTIONS'])delete env[k];
+ const env={...process.env,HOME:home};for(const k of ['CLAUDE_CONFIG_DIR','CODEX_HOME','GEMINI_CLI_HOME','PI_CODING_AGENT_DIR','NODE_OPTIONS'])delete env[k];
  const run=args=>cp.spawnSync(process.execPath,[BIN,...args],{env,encoding:'utf8',timeout:30000});
  fn(home,run,env);n++;console.log('ok '+name);
 }catch(e){failed++;console.error('FAIL '+name+': '+e.message);}finally{fs.rmSync(home,{recursive:true,force:true});}}

@@ -375,7 +375,7 @@ function plainSkillsPlan(f, update = false) {
   if (f.claudeOnly) return [];
   if (cliSpec() !== 'skills@1.7.2') throw new Error('immutable source contract requires verified skills@1.7.2');
   return require('../lib/installer-pins').build(SKILLS, skillsCliAgents(f),
-    { continueCopies: update && continueHasFamilyCopies() });
+    { continueCopies: update && continueRestoreWanted(f) });
 }
 
 function planInstall(f) {
@@ -2037,6 +2037,36 @@ function cmdToolkit(argv) {
   const protect = toolkit.advertisedWords(triggers.ROUTES);
 
   log(toolkit.report(skills, family, { for: forQuery, expand, limit, seeds, protect }));
+}
+
+/**
+ * Should `update` add the Continue `--copy` restore pass (B-213)? Only when the run's
+ * scope includes Continue (no --agent filter, or --agent names it), Continue itself is
+ * installed, and its directory holds family copies to keep current. Copies alone are
+ * not a host: a leftover ~/.continue/skills on a machine without Continue gets nothing.
+ */
+function continueRestoreWanted(f) {
+  if (f.agents && f.agents.length && !f.agents.includes('continue')) return false;
+  return continueInstalled() && continueHasFamilyCopies();
+}
+
+/** Continue is installed: its `cn` CLI is on PATH, or ~/.continue holds a config.* file. */
+function continueInstalled() {
+  const home = process.env.HOME || os.homedir();
+  try {
+    if (fs.readdirSync(path.join(home, '.continue')).some((n) => /^config\.[A-Za-z0-9]+$/.test(n))) return true;
+  } catch (e) { /* no ~/.continue: decided by PATH alone */ }
+  const names = process.platform === 'win32' ? ['cn.cmd', 'cn.exe', 'cn'] : ['cn'];
+  for (const dir of (process.env.PATH || '').split(path.delimiter)) {
+    if (!dir) continue;
+    for (const n of names) {
+      try {
+        const file = path.join(dir, n);
+        if (fs.statSync(file).isFile()) { fs.accessSync(file, fs.constants.X_OK); return true; }
+      } catch (e) { /* not here */ }
+    }
+  }
+  return false;
 }
 
 /**
