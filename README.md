@@ -514,6 +514,19 @@ back the wrong text. Your word still wins; silence stops being the decision.
 out and which survives a reinstall and a restored dotfile. Everything outside
 the sentinels is preserved byte for byte.
 
+**Text you put inside the block is kept, not refreshed away.** Each write records
+a hash of every section and of the map, protocol and table regions it wrote, in
+`~/.sshlg-skills/routers-rendered.json`. A later refresh that finds a section or
+region matching neither that record nor the new text, and that would drop a
+non-blank line, leaves it as it stands and names `file:line` in the preview and
+the run. A kept **section** becomes your authored text for that router, so
+`routers --diff <name>` and `--adopt <name>` apply to it. A kept **region** is a
+refused refresh: the run exits 1 until you move those lines outside the block.
+Without a record (a block an older release wrote), any section or region that
+would lose a line is kept the same way, so an older packaged wording can stay
+until you adopt the current one. `npx sshlg-skills blocks` reports such text as
+`FOREIGN_TEXT_INSIDE` with its line range, without printing it.
+
 ### Turning routers off
 
 ```bash
@@ -542,8 +555,17 @@ npx sshlg-skills rules --apply --agent codex
 Supported destinations are existing Claude Code, Codex, Gemini, Pi and Cursor
 instruction roots. Use `--claude-only` for Claude Code; `--agent` selects other
 hosts. A later `update` refreshes only profiles with a prior ownership receipt.
+It does not extend the rule to a host added later: with `rules.wait` on, `update`
+names each such host's instruction file and the command that applies it there
+(`npx sshlg-skills rules --apply --agent pi`; `--claude-only` for Claude Code).
+That stays a named gap rather than an automatic write because consent to the rule
+is recorded per host, and an update never creates it for a new one.
 Set `rules.wait off` and apply the same scope to remove its owned text. Surrounding
 content is preserved; malformed, edited or retargeted state stops for recovery.
+Text placed inside an applied block refuses that block on that host only:
+`install`, `update` and `uninstall` name `file:line` and the remedy (move the text
+outside the markers), run every other step and exit 1. An explicit `rules --apply`
+still refuses as a whole and writes nothing.
 The rule describes continuation and durable handoff. It creates no watcher or job,
 and sign-ins, consent, payment and action-specific authority keep their own gates.
 

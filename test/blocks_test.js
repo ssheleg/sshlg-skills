@@ -82,5 +82,23 @@ try{
   const text=spawnSync(process.execPath,[path.join(__dirname,'..','bin','sshlg-skills.js'),'blocks','--agent','claude'],{env:{PATH:process.env.PATH,HOME:h},encoding:'utf8'});
   assert.match(text.stdout,/claude ~\/\.claude\/CLAUDE\.md: READ \(3 markers; syntax valid\)/);
  });
+ // INST-3: markers alone read "syntax valid" while a line the pack never wrote sat inside its block.
+ t('blocks names foreign lines inside an owned wait block and router section, by line, without printing them',()=>{
+  const h=path.join(tmp,'foreign-home');fs.mkdirSync(path.join(h,'.codex'),{recursive:true});fs.mkdirSync(path.join(h,'.sshlg-skills'),{recursive:true});
+  const f=path.join(h,'.codex','AGENTS.md');fs.writeFileSync(f,'# mine\n');fs.writeFileSync(path.join(h,'.sshlg-skills','state.json'),'{"routers":"yes"}\n');
+  const env={PATH:process.env.PATH,HOME:h};const cli=(a)=>spawnSync(process.execPath,[path.join(__dirname,'..','bin','sshlg-skills.js'),...a],{env,encoding:'utf8'});
+  for(const a of [['config','set','rules.wait','on'],['rules','--apply','--agent','codex'],['routers','--agent','codex']]){const r=cli(a);assert.strictEqual(r.status,0,a.join(' ')+': '+r.stdout+r.stderr);}
+  let r=cli(['blocks','--agent','codex','--json']);assert.strictEqual(r.status,0,r.stdout+r.stderr);
+  for(const x of JSON.parse(r.stdout).targets[0].blocks.filter(x=>x.markerId.startsWith('SSHLG:')&&x.markerId!=='SSHLG:ROUTERS'))assert.strictEqual(x.content&&x.content.state,'AS_WRITTEN',x.markerId+' '+JSON.stringify(x.content));
+  const W='<!-- SSHLG:RULE:wait-is-not-a-stop:BEGIN -->\n',S='<!-- SSHLG:ROUTER:task-pipeline:BEGIN -->\n';
+  const text=fs.readFileSync(f,'utf8').replace(W,W+'SECRET-ISH OPERATOR WAIT\n').replace(S,S+'SECRET-ISH OPERATOR ROUTE\n');fs.writeFileSync(f,text);
+  const lines=text.split('\n'),wl=lines.indexOf('SECRET-ISH OPERATOR WAIT')+1,rl=lines.indexOf('SECRET-ISH OPERATOR ROUTE')+1;
+  const before=fs.readFileSync(f);r=cli(['blocks','--agent','codex','--json']);assert.strictEqual(r.status,1,r.stdout+r.stderr);assert(!r.stdout.includes('SECRET-ISH'));
+  const got=JSON.parse(r.stdout).targets[0].blocks;const wait=got.find(x=>x.markerId==='SSHLG:RULE:wait-is-not-a-stop'),route=got.find(x=>x.markerId==='SSHLG:ROUTER:task-pipeline');
+  assert.deepStrictEqual(wait.content,{state:'FOREIGN_TEXT_INSIDE',startLine:wl,endLine:wl});
+  assert.strictEqual(route.content.state,'FOREIGN_TEXT_INSIDE');assert(route.content.startLine<=rl&&rl<=route.content.endLine,JSON.stringify(route.content)+' '+rl);
+  const plain=cli(['blocks','--agent','codex']);assert.strictEqual(plain.status,1);assert(plain.stdout.includes(`FOREIGN_TEXT_INSIDE SSHLG:RULE:wait-is-not-a-stop lines ${wl}`),plain.stdout);assert(!plain.stdout.includes('SECRET-ISH'));
+  assert(fs.readFileSync(f).equals(before),'blocks wrote to the file');
+ });
 }finally{fs.rmSync(tmp,{recursive:true,force:true});}
 console.log(`PASS: blocks — ${n} cases`);

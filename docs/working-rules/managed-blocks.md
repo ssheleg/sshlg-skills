@@ -72,6 +72,15 @@ only: no block text is printed, and nothing is created — no directory, lock, b
 journal. Missing files are `ABSENT`; unreadable, oversized, symlinked or concurrently
 changed files are reported as such and make the exit code 1.
 
+Each block the hub writes also gets a `content` state, compared with the hub's own
+record of what it wrote: the wait rule against `~/.sshlg-skills/wait-rules.json`,
+router sections and the map, protocol and table regions against the hashes in
+`~/.sshlg-skills/routers-rendered.json`. `AS_WRITTEN` matches; `NO_RECORD` and
+`RECORD_UNREADABLE` say there is nothing to compare with; `FOREIGN_TEXT_INSIDE`
+carries a line range and makes the exit code 1. The wait rule's range is the exact
+changed lines; a router section's or region's is its inner lines, since only hashes
+are recorded. The text itself is never printed.
+
 `npx sshlg-skills blocks diff OWNER:NAME --from FILE --agent HOST` prints the selected
 block's current and proposed text. It writes nothing.
 
