@@ -599,10 +599,10 @@ it('legacy non-Claude ownership without a provable profile refuses rather than g
   assert.strictEqual(m.run('visibility','--apply').status,0);
   const bound = m.rec(), legacy = m.rec(); delete legacy.files.gemini;
   m.w('.sshlg-skills/visibility.json', JSON.stringify(legacy));
-  const other = m.w('other-gemini/settings.json',JSON.stringify({skills:{disabled:['dcf','operator']}},null,2)+'\n');
+  const other = m.w('other-home/.gemini/settings.json',JSON.stringify({skills:{disabled:['dcf','operator']}},null,2)+'\n');
   const files = [other,path.join(m.home,'.gemini/settings.json'),path.join(m.home,'.sshlg-skills/visibility.json')];
   const before = files.map(sha);
-  for (const env of [{GEMINI_CONFIG_DIR:path.dirname(other)},{}]) {
+  for (const env of [{GEMINI_CLI_HOME:path.join(m.home,'other-home')},{}]) {
     const r = m.runWithEnv(env,'visibility','--revert');
     assert.strictEqual(r.status,1,r.out);
     assert.ok(/not bound|profile.*unknown/.test(r.out),r.out);

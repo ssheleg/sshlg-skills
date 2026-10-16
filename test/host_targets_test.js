@@ -57,9 +57,10 @@ it('unrecognized source bytes cannot verify', () => {
 // All real child execution is replaced with a logging stub. CLI still parses
 // flags and builds/executes its real plans, in a disposable HOME/cwd. This proves
 // the argv reached spawnSync without invoking npx, git or Claude globally.
-function cli(args) {
+function cli(args, opts = {}) {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'hc3-targets-'));
   const taskHome = path.join(tmp, 'home'); fs.mkdirSync(taskHome);
+  if (opts.setup) opts.setup(taskHome, tmp);
   const calls = path.join(tmp, 'calls.jsonl');
   const preload = path.join(tmp, 'preload.cjs');
   fs.writeFileSync(preload, `require(${JSON.stringify(path.join(ROOT,'test/fixtures/native-transaction-boundary.cjs'))});const fs=require('fs');require('child_process').spawnSync=(cmd,args)=>{fs.appendFileSync(${JSON.stringify(calls)},JSON.stringify({cmd,args})+'\\n');return {status:0,stdout:'',stderr:''};};`);
@@ -68,7 +69,7 @@ function cli(args) {
       cwd:tmp, encoding:'utf8', timeout:10000,
       env:{...process.env,HOME:taskHome,USERPROFILE:taskHome,CLAUDE_CONFIG_DIR:path.join(taskHome,'.claude'),
         CODEX_HOME:path.join(taskHome,'.codex'),GEMINI_CLI_HOME:taskHome,XDG_CONFIG_HOME:path.join(taskHome,'.config'),
-        NODE_OPTIONS:'',SSHLG_CONFIG_DIR:path.join(taskHome,'.sshlg')},
+        NODE_OPTIONS:'',SSHLG_CONFIG_DIR:path.join(taskHome,'.sshlg'),...(opts.env||{})},
     });
     return {...result, calls:fs.existsSync(calls)?fs.readFileSync(calls,'utf8').trim().split('\n').map(JSON.parse):[], homeFiles:fs.readdirSync(taskHome)};
   } finally { fs.rmSync(tmp,{recursive:true,force:true}); }
@@ -133,6 +134,55 @@ it('repeated --agent flags accumulate and reach the child process as separate fl
   assert.strictEqual(r.status,0,r.stdout+r.stderr);
   const adds=r.calls.filter(c=>c.cmd==='npx'&&c.args[2]==='add'); assert.ok(adds.length);
   for(const c of adds) assert.deepStrictEqual(targets(c.args),['codex','zed','cursor']);
+});
+// B-219: OpenClaw is opt-in. Its detection is a folder (~/.openclaw), and its prompt caps
+// (150 skills / 18,000 chars, 300 candidates and 200 loaded per root) would show a
+// fraction of the family, so a default run never targets it; an explicit --agent does.
+it('openclaw is not a default target and stays reachable with --agent openclaw', () => {
+  assert.ok(!defaults.includes('openclaw'), 'skills.json defaultAgents still lists openclaw');
+  assert.ok(H.snapshot.agents.some(row => row.id === 'openclaw' && row.global));
+  const plain = cli(['install','--no-claude','--member','make-skill']);
+  assert.strictEqual(plain.status,0,plain.stdout+plain.stderr);
+  const adds = plain.calls.filter(c=>c.cmd==='npx'&&c.args[2]==='add'); assert.ok(adds.length);
+  for (const c of adds) assert.ok(!targets(c.args).includes('openclaw'), c.args.join(' '));
+  const opted = cli(['install','--no-claude','--member','make-skill','--agent','openclaw']);
+  assert.strictEqual(opted.status,0,opted.stdout+opted.stderr);
+  const optAdds = opted.calls.filter(c=>c.cmd==='npx'&&c.args[2]==='add'); assert.ok(optAdds.length);
+  for (const c of optAdds) assert.deepStrictEqual(targets(c.args),['openclaw']);
+});
+
+// B-213: the Continue `--copy` restore pass joins `update` only when Continue is
+// installed (`cn` on PATH, or ~/.continue/config.*) AND the run's scope includes it.
+const BASE_PATH = [path.dirname(process.execPath), '/usr/bin', '/bin'].join(path.delimiter);
+function continueCopies(home, withConfig) {
+  fs.mkdirSync(path.join(home, '.continue', 'skills', 'make-skill'), { recursive: true });
+  if (withConfig) fs.writeFileSync(path.join(home, '.continue', withConfig), '');
+}
+const continueSteps = r => (r.stdout.match(/--agent continue --global --yes --copy/g) || []).length;
+it('update --dry-run --agent codex plans no Continue step even with Continue installed', () => {
+  const r = cli(['update','--dry-run','--agent','codex'], { setup: h => continueCopies(h, 'config.yaml'), env: { PATH: BASE_PATH } });
+  assert.strictEqual(r.status,0,r.stdout+r.stderr);
+  assert.match(r.stdout, /--agent codex --global --yes/);
+  assert.strictEqual(continueSteps(r), 0, r.stdout);
+});
+it('unscoped update plans no Continue step when Continue is not installed (copies alone are not a host)', () => {
+  const r = cli(['update','--dry-run','--no-claude'], { setup: h => continueCopies(h, null), env: { PATH: BASE_PATH } });
+  assert.strictEqual(r.status,0,r.stdout+r.stderr);
+  assert.strictEqual(continueSteps(r), 0, r.stdout);
+});
+it('unscoped update restores Continue copies when ~/.continue/config.* or `cn` proves the host', () => {
+  for (const config of ['config.yaml', 'config.json']) {
+    const r = cli(['update','--dry-run','--no-claude'], { setup: h => continueCopies(h, config), env: { PATH: BASE_PATH } });
+    assert.strictEqual(r.status,0,r.stdout+r.stderr);
+    assert.ok(continueSteps(r) > 0, config + ': ' + r.stdout);
+  }
+  const shim = fs.mkdtempSync(path.join(os.tmpdir(), 'hc3-cn-'));
+  try {
+    fs.writeFileSync(path.join(shim, 'cn'), '#!/bin/sh\nexit 0\n', { mode: 0o755 });
+    const r = cli(['update','--dry-run','--no-claude'], { setup: h => continueCopies(h, null), env: { PATH: shim + path.delimiter + BASE_PATH } });
+    assert.strictEqual(r.status,0,r.stdout+r.stderr);
+    assert.ok(continueSteps(r) > 0, 'cn on PATH: ' + r.stdout);
+  } finally { fs.rmSync(shim, { recursive: true, force: true }); }
 });
 if(failures.length){for(const f of failures) console.log('FAIL: '+f);process.exit(1);}
 console.log(`OK (${checks} checks)`);

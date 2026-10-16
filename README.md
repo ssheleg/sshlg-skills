@@ -20,10 +20,13 @@ every routing rule verbatim, and [`llms.txt`](https://skills.sshlg.me/llms.txt)
 for the machines. · **[Follow @sshlg93 on X](https://x.com/intent/follow?screen_name=sshlg93)**
 
 Works with **Claude Code** (as plugins) and **DeepSeek Harness** (`dsh`), plus
-Cursor, OpenCode, Codex, Kilo, Kimi, Hermes, OpenClaw, Gemini CLI, Windsurf, Zed
+Cursor, OpenCode, Codex, Kilo, Kimi, Hermes, Gemini CLI, Windsurf, Zed
 and other targets among the 79+ agents the vercel `skills` CLI supports.
-The pinned snapshot has 77 global targets; native extension support is checked
-separately in the [compatibility report](docs/reports/2026-10-09-coding-agent-compatibility/README.md).
+Kimi gets the skills only: the hub has no instruction target for it, so the
+routing block reaches it only through a file you keep yourself
+([which](#routing--making-the-family-engage-by-default)). OpenClaw is opt-in (`--agent openclaw`,
+[why](#install)). The pinned snapshot has 77 global targets; native extension
+support is checked separately in the [compatibility report](docs/reports/2026-10-16-coding-agent-compatibility/README.md).
 
 ---
 
@@ -132,14 +135,24 @@ Flags: `--agent a,b` picks valid global targets, `--all` selects the pinned CLI�
 77 globally supported targets (76 while Claude uses plugins),
 `--no-claude` skips the plugin step, `--claude-only` does nothing else.
 
+**OpenClaw is opt-in:** `--agent openclaw` (or `--all`) installs for it; a plain
+`install` or `update` does not. The skills CLI counts OpenClaw as present whenever
+a `~/.openclaw` folder exists, so a leftover folder kept a dead host in every run.
+And OpenClaw's caps would show only part of the family even where it runs: at most
+150 skills and 18,000 characters in the prompt, and 300 candidates and 200 loaded
+skills per root. Raise its `skills.limits.*` before you opt in.
+
 ### What `install` actually does
 
 - **Claude Code** → each skill as a **plugin** (`claude plugin marketplace add` +
   `claude plugin install`), never as a plain `~/.claude/skills/` copy.
 - **Other installer targets** → the vercel
-  [`skills`](https://github.com/vercel-labs/skills) CLI, using shared storage and
-  each adapter’s global destination, with repeated `--agent` flags. Hermes and
-  Kiro use native roots; shared `~/.agents/skills` loading is host-specific.
+  [`skills`](https://github.com/vercel-labs/skills) CLI, using shared storage, with
+  repeated `--agent` flags. A *universal* adapter (Cursor, Gemini CLI, OpenCode,
+  Kilo, GitHub Copilot, Droid and the like) installs into `~/.agents/skills` only,
+  never into its own declared global folder (skills@1.7.2 `dist/cli.mjs:2337-2341`),
+  so such a host sees the family only if it reads `~/.agents/skills`. Other adapters
+  get their own global destination; Hermes and Kiro use native roots.
 - **Unsupported global targets** → Eve and PromptScript are excluded from
   `--all`; explicit unknown or project-only names fail before installation.
   The [dated compatibility report](docs/reports/2026-10-09-coding-agent-compatibility/README.md)
@@ -439,10 +452,15 @@ Five channels get it, and each only where that agent is actually installed:
 | Agent | Where |
 |---|---|
 | Claude Code | `~/.claude/CLAUDE.md` |
-| Codex | `~/.codex/AGENTS.md` |
-| Gemini CLI | `~/.gemini/GEMINI.md` |
+| Codex | `~/.codex/AGENTS.md` (Codex invokes a skill as `$name`; the block's `/name` is Claude's syntax) |
+| Gemini CLI | `~/.gemini/GEMINI.md` (or `$GEMINI_CLI_HOME/.gemini/GEMINI.md`) |
 | Pi | `~/.pi/agent/AGENTS.md` (or `$PI_CODING_AGENT_DIR/AGENTS.md` — the writer, `uninstall` and the write guard all follow it) |
-| Cursor | `~/.cursor/rules/sshlg-routing.mdc` — one file per rule, `alwaysApply: true` |
+| Cursor | `~/.cursor/rules/sshlg-routing.mdc` — one file per rule, `alwaysApply: true`. Cursor finds it by walking up from the workspace, so it loads only for workspaces under `$HOME` |
+
+Other hosts read these files without the hub writing for them. OpenCode and VS Code
+Copilot read `~/.claude/CLAUDE.md` as a fallback; OpenCode stops as soon as a
+`~/.config/opencode/AGENTS.md` exists. `~/.agents/AGENTS.md` is read by Kimi, Goose,
+Warp and Droid; the hub does not write it, so today it holds what you put there.
 
 **Pi** (`@earendil-works/pi-coding-agent`, command `pi`) reads skills from `~/.pi/agent/skills`,
 `~/.agents/skills` and, per project, `.pi/skills` and `.agents/skills` up to the repository root;
@@ -614,7 +632,9 @@ hides every other installed pack; an existing file is replaced only with `--repl
 
 **Which switch each host gets, and what decides it:**
 
-- **Claude Code and Codex** hide every skill outside the usage core, as since v1.55.0.
+- **Claude Code and Codex** hide every skill outside the usage core, as since v1.55.0,
+  with one exception on Claude Code: `skillOverrides` does not apply to plugin skills,
+  so a plugin's skills stay listed (switch a foreign plugin off with `enabledPlugins`).
   The pack marks and the overrides below do not change them; `--keep <skill>` keeps a
   skill listed there.
 - **Gemini, Pi, OpenCode and Hermes** hide the skills of marked packs, except the usage
@@ -634,7 +654,7 @@ npx sshlg-skills visibility --revert   # remove exactly what --apply wrote; with
 
 | Host | The switch `visibility` writes | Source | A hidden skill can still |
 |---|---|---|---|
-| Claude Code | `skillOverrides: "user-invocable-only"` in `~/.claude/settings.json` | since v1.55.0 | be run from the `/` menu by a person |
+| Claude Code | `skillOverrides: "user-invocable-only"` in `~/.claude/settings.json`; plugin skills are out of its reach | since v1.55.0; Claude Code settings reference: overrides do not apply to plugin skills | be run from the `/` menu by a person |
 | Codex | `enabled = false` entries in `~/.codex/config.toml` `[skills] config` | since v1.55.0 | be read from its SKILL.md path when asked |
 | Gemini CLI 0.63.0 | `skills.disabled` in `~/.gemini/settings.json`, the list `gemini skills disable <name> --scope user` writes; read back with `gemini skills list` (`[Disabled]`) | `packages/cli/src/utils/skillSettings.ts`; `SkillManager.getSkills()` drops disabled skills | come back with `gemini skills enable <name>` |
 | Pi 1.1.0 | `-<path>` exact exclusions in the `skills` array of `~/.pi/agent/settings.json`, one per folder holding the skill (`~/.agents/skills`, `~/.pi/agent/skills`); the file is created if absent and removed again by `--revert` | Pi's own docs, settings → Resources; `isEnabledByOverrides` in its `dist/core/package-manager.js` | be loaded for one session with `pi --skill <path>` |
@@ -643,9 +663,10 @@ npx sshlg-skills visibility --revert   # remove exactly what --apply wrote; with
 | Cursor agent CLI 2026.09.02 | **cannot hide on cursor**: no setting switches a skill off. The only model-side filter is the skill's own `disable-model-invocation` front matter, and editing a third-party SKILL.md is ruled out | the bundled `index.js` (`filterModelDisabledSkills`, `disable-model-invocation`) | (not hidden) |
 | Kimi 2.1.1 | **cannot hide on kimi**: `[[permission.rules]] decision = "deny"`, `pattern = "Skill(<name>)"` in `~/.kimi-code/config.toml` refuses the call, but the listing keeps the skill, so it is not applied as hiding | the `kimi` 2.1.1 bundle (`features/skill/catalog` filters built-in skills only) | (not hidden) |
 
-Visibility follows the active host directories, including `CLAUDE_CONFIG_DIR` and
-`CODEX_HOME`. New ownership records bind to the canonical settings files; changing a
-profile or retargeting its symlink refuses apply/revert until the original target is
+Visibility follows the active host directories, including `CLAUDE_CONFIG_DIR`,
+`CODEX_HOME` and `GEMINI_CLI_HOME` (Gemini's HOME replacement: its files sit under
+`$GEMINI_CLI_HOME/.gemini`). New ownership records bind to the canonical settings
+files; changing a profile or retargeting its symlink refuses apply/revert until the original target is
 restored. Malformed or unreadable policy and incomplete skill inventories refuse apply
 before writing an ownership journal. Revert can still restore owned settings without a
 working discovery inventory. Legacy records without file bindings are accepted only
@@ -679,7 +700,12 @@ never extended: `update` prints one line asking for one `visibility --apply [--k
 
 The routing block loads in every session and is still routed around, because
 prose in a long file loses to whatever spoke last. Hooks are what speak first —
-and, since v0.42.0, what **holds**:
+and, since v0.42.0, what **holds**.
+
+The hub wires hooks into one target: Claude Code's `~/.claude/settings.json`. Two
+other hosts can import them from that file: Cursor (its third-party hooks import,
+on by default) and the Continue CLI. Neither is tested here, so the family claims
+nothing about how its hooks behave there:
 
 ```bash
 npx sshlg-skills hooks                    # what would be wired, and what holds it now

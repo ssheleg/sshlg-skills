@@ -13,7 +13,7 @@ is `lib/blocks.js` (reading) and `lib/blockwriter.js` (writing); the tests are
 |---|---|
 | `claude` | `~/.claude/CLAUDE.md` (`CLAUDE_CONFIG_DIR`) |
 | `codex` | `~/.codex/AGENTS.md` (`CODEX_HOME`) |
-| `gemini` | `~/.gemini/GEMINI.md` (`GEMINI_CONFIG_DIR`) |
+| `gemini` | `~/.gemini/GEMINI.md` (`GEMINI_CLI_HOME`, a HOME replacement: the file is `$GEMINI_CLI_HOME/.gemini/GEMINI.md`) |
 | `pi` | `~/.pi/agent/AGENTS.md` (`PI_CODING_AGENT_DIR`) |
 | `cursor` | `~/.cursor/rules/sshlg-routing.mdc`, `~/.cursor/rules/sshlg-wait.mdc` |
 
