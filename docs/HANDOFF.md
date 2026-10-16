@@ -1,3 +1,23 @@
+## Current — 2026-10-17, release 1.65.0 from the host validation (ITER-1016)
+
+**Objective.** Ship the hub fixes found by the 2026-10-16 host validation and the operator's Safari
+rule in the members, then install and read back. Brief:
+[2026-10-16-host-validation-release](evidence/briefs/2026-10-16-host-validation-release.md).
+
+**Done.** Members released (annotated tags, release runs selected by tag, registry read): task-pipeline
+1.97.1, sheleg-design 1.65.0, seo-aeo-audit 0.27.0, sheleg-dev 0.14.0, super-ux 0.60.0 — WebKit (Safari)
+first in every browser check (task-pipeline v1.97.0 failed its immutable tag — retro declaration missing — and shipped as 1.97.1). Hub 1.65.0: B-201 (foreign text in a managed block refuses that host only),
+B-202 (edited router sections kept), B-203 (Claude 2.2+), B-204 (`GEMINI_CLI_HOME`), B-208 (named wait-rule
+gap), B-213 (Continue only when present), B-215 (README), B-219 (OpenClaw opt-in), B-220 (no stray
+`~/.claude/.claude.json`), B-195 (#224, labelled-secret detector). Board: Open 27.
+
+**Open.** B-221 (Pi precedence in `lib/pi.js`), B-205/B-206/B-207/B-209 and the rest of the 2026-10-16
+rows; inline MCP tokens wait for the operator's one-time `vault.py bind` (operator dossier, local).
+Noise seen twice under load, passing alone: `test/runtime_recovery_test.js` (hub),
+`test/audit_regressions/fw07_child_lifetime.py` (task-pipeline).
+**Next:** after the hub tag, `npx --yes sshlg-skills@latest update` and the installed readback
+(plugins = pins, `hooks status`, `blocks`, wait rule on Pi); then the highest-priority open row.
+
 ## Current — 2026-10-16, host-compatibility validation (gates, rules, installer) — lease `HOSTCOMPAT-1016`
 
 **Objective.** The operator asked to validate that the family and every rule work in each installed

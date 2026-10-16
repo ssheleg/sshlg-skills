@@ -3,6 +3,11 @@
 From the 2026-10-16 host validation ([report](docs/reports/2026-10-16-coding-agent-compatibility/README.md),
 brief `docs/evidence/briefs/2026-10-16-host-validation-release.md`).
 
+- **Members — WebKit (Safari) first in every browser check.** task-pipeline 1.97.1 (`references/browser.md`
+  § Engine order, `companion-skills.md`, DEC-0007), sheleg-design 1.65.0 (visual review, capture record `engine`),
+  seo-aeo-audit 0.27.0 (Lighthouse/PSI/CrUX stated as Chrome-only measurement; its validator reads number words
+  past forty), sheleg-dev 0.14.0 (frontend-performance), super-ux 0.60.0 (ux-audit `references/browser-engine.md`).
+  Chromium stays a stated exception; an own Chrome runs on a temporary profile and is closed when done.
 - **Operator text inside a managed block no longer stops the whole run (B-201).** Text placed inside
   the `wait-is-not-a-stop` block made `update`/`install` exit 2 on every host and name no file.
   Now that one host is refused, its file is left untouched, the message names `file:line` and the

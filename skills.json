@@ -76,13 +76,13 @@
         "evidence-docs",
         "project-audit"
       ],
-      "version": "1.96.0",
+      "version": "1.97.1",
       "entry": "/task-pipeline",
       "role": "how a change reaches the repository",
       "npm": "task-pipeline-skill",
       "shape": "static",
       "shapeWhy": "The stage list is decided before the run and stays decided, because stage 10 has to account for what ran. THREE places discover structure, and they do not land the same way: the module map and the carry-over ledger are committed artifacts, and since v1.69.0 the work graph is a third — `.task-pipeline/graph.json`, mutated mid-run by `graph.py add` and deliberately NOT committed. Every mutation records why it happened, which is what keeps a run from explaining its completion by a plan that existed only at the end; that the graph itself does not survive the run is an open row rather than a settled decision.",
-      "commit": "2674147ccfc5eab19aab8f9d7334909cc22f64b2"
+      "commit": "67715b0bf741f45a5040a581afee08d115bac580"
     },
     {
       "name": "agent-sync",
