@@ -23,8 +23,9 @@ task-pipeline 1.95.0→1.96.0, plus seo-aeo-audit and sheleg-dev lock ports.
 B-180, B-184, B-185, B-187, B-188, B-189, B-190, B-195, B-198, B-199; task-pipeline B-136…B-140;
 Codex: three members deferred until sessions holding the old generations end (next `update`
 installs them); Fabric cross-project asks unsent (other projects' ids are not visible from this
-project); the exposed enrollment poll secrets (Observatory `mem:348bac6b964e4ce5`) need the
-operator to re-issue two Codex enrollment requests.
+project). The exposed enrollment poll secrets (Observatory `mem:348bac6b964e4ce5`) are settled
+(2026-10-16, `mem:10a60af195a442d2`): one request was already allowed, the expired one was
+re-issued as `4666e66a` and allowed; both were binding-asked, so a poll secret never carried a credential.
 **Next:** read the final observer report (`docs/reports/2026-10-15-final-observer/`, branch
 `audit/final-observer-20261015`) when it lands; take the highest-priority board row as a new iteration with its own finish line.
 
